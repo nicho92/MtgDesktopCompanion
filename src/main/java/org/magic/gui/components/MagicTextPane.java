@@ -35,7 +35,7 @@ public class MagicTextPane extends JTextPane {
 		enableTranslate(true);
 	}
 	
-	public MagicTextPane(Boolean enable) {
+	public MagicTextPane(boolean enable) {
 		init();
 		enableTranslate(enable);
 	}

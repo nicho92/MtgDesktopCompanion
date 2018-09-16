@@ -1,7 +1,5 @@
 package unit.providers;
 
-import java.net.MalformedURLException;
-
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,11 +7,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.indexer.impl.LuceneIndexer;
 import org.magic.api.interfaces.MTGCardsIndexer;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.providers.impl.MagicTheGatheringIOProvider;
-import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.api.providers.impl.PrivateMTGSetProvider;
-import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGLogger;
 
 public class IndexerTests {

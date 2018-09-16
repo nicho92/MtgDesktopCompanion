@@ -1,6 +1,8 @@
 package org.magic.gui.components.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,6 +28,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -48,9 +51,6 @@ import org.magic.tools.URLTools;
 
 public class MagicCardEditorPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mbindingGroup;
 	private MagicCard magicCard = new MagicCard();
@@ -91,17 +91,19 @@ public class MagicCardEditorPanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 
-	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
+	public MagicCardEditorPanel(MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
 	}
+	
+	
+	
 
 	public MagicCardEditorPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-				1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
 		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + ":");
@@ -265,7 +267,7 @@ public class MagicCardEditorPanel extends JPanel {
 		labelgbc14.gridy = 1;
 		add(rarityLabel, labelgbc14);
 
-		rarityJComboBox = new JComboBox();
+		rarityJComboBox = new JComboBox<>();
 		rarityJComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "Common", "Uncommon", "Rare", "Mythic Rare", "Special" }));
 		GridBagConstraints componentgbc14 = new GridBagConstraints();
@@ -357,7 +359,10 @@ public class MagicCardEditorPanel extends JPanel {
 		labelgbc16.gridx = 0;
 		labelgbc16.gridy = 4;
 		add(textLabel, labelgbc16);
-
+		JPanel panelEditor = new JPanel();
+		panelEditor.setLayout(new BorderLayout());
+		
+		
 		textJEditorPane = new MagicTextPane(false);
 		GridBagConstraints componentgbc16 = new GridBagConstraints();
 		componentgbc16.gridwidth = 3;
@@ -366,7 +371,12 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc16.fill = GridBagConstraints.BOTH;
 		componentgbc16.gridx = 1;
 		componentgbc16.gridy = 4;
-		add(textJEditorPane, componentgbc16);
+		
+		panelEditor.add(textJEditorPane,BorderLayout.CENTER);
+		panelEditor.add(new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getTextGenerator())),BorderLayout.SOUTH);
+		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
+		
+		add(panelEditor, componentgbc16);
 
 		JLabel flavorLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLAVOR") + ":");
 		GridBagConstraints labelgbc3 = new GridBagConstraints();
@@ -541,8 +551,10 @@ public class MagicCardEditorPanel extends JPanel {
 			JFileChooser choose = new JFileChooser();
 			choose.showOpenDialog(null);
 			File pics = choose.getSelectedFile();
+			if(pics!=null) {
 			magicCard.setImageName(pics.getAbsolutePath());
 			showCrop();
+			}
 		});
 		GridBagConstraints gbcbtnImage = new GridBagConstraints();
 		gbcbtnImage.fill = GridBagConstraints.HORIZONTAL;
@@ -647,7 +659,7 @@ public class MagicCardEditorPanel extends JPanel {
 	public void setMagicCard(MagicCard newMagicCard) {
 		setMagicCard(newMagicCard, true);
 	}
-
+	
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
 		cboSuperType.unselectAll();
@@ -674,6 +686,18 @@ public class MagicCardEditorPanel extends JPanel {
 	public JCheckBox getColorIndicatorJCheckBox() {
 		return chkColorIndicator;
 	}
+	
+	public JSpinner getSizeSpinner() {
+		return spinner;
+	}
+	public JComboBox getCboColorAccent() {
+		return cboColorAccent;
+	}
+	public CropImagePanel getImagePanel() {
+		return imagePanel;
+	}
+	
+	
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
@@ -765,14 +789,7 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding20);
 		return bindingGroup;
 	}
-	public JSpinner getSizeSpinner() {
-		return spinner;
-	}
-	public JComboBox getCboColorAccent() {
-		return cboColorAccent;
-	}
-	public CropImagePanel getImagePanel() {
-		return imagePanel;
-	}
+	
+
 	
 }

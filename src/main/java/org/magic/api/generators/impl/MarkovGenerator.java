@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -19,18 +18,6 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	private RiMarkov rs;
 	private File cache;
 	
-	
-	public static void main(String[] args) {
-		MTGTextGenerator gen = new MarkovGenerator();
-		gen.init();
-		System.out.println(gen.generateText());
-		System.out.println(gen.generateText());
-		System.out.println(gen.generateText());
-		System.out.println(gen.generateText());
-		System.out.println(gen.generateText());
-		System.out.println(gen.generateText());
-		
-	}
 	
 	@Override
 	public String generateText()
@@ -59,6 +46,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 				  if(!mc.getCurrentSet().getType().toLowerCase().startsWith("un") && (mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
 						  String r = mc.getText().replaceAll(CardsPatterns.REMINDER.getPattern(), "")
 								  				 .replaceAll("\n", " ")
+								  				 .replaceAll(mc.getName(), getString("TAG_NAME"))
 								  				 .trim();
 						  build.append(r).append("\n");
 				  }
@@ -112,6 +100,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	public void initDefault() {
 		setProperty("CACHE_FILE", new File(confdir,"markov.gen").getAbsolutePath());
 		setProperty("NGEN", "5");
+		setProperty("TAG_NAME","CARD_NAME");
 	}
 	
 }

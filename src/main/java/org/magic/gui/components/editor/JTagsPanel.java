@@ -68,7 +68,7 @@ public class JTagsPanel extends JPanel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent ae) {
 				JTextField field = new JTextField(10);
 				panelTags.add(field);
 				field.requestFocus();
@@ -212,6 +212,17 @@ class TagLabel extends JLabel {
 		setBounds(new Rectangle(0, 0, 7, 2));
 		setBorder(new CompoundBorder(new LineBorder(f, 1, true), new EmptyBorder(5, 5, 5, 5)));
 	}
+	
+	public TagLabel(String t) {
+		super(t);
+		setToolTipText(t);
+		setForeground(Color.BLACK);
+		setBackground(Color.WHITE);
+		setOpaque(true);
+		setBounds(new Rectangle(0, 0, 7, 2));
+		setBorder(new CompoundBorder(new LineBorder(Color.BLACK, 1, true), new EmptyBorder(5, 5, 5, 5)));
+	}
+	
 
 	@Override
 	public int hashCode() {

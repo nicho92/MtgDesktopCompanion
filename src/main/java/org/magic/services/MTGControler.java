@@ -21,6 +21,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
+import org.magic.api.generators.impl.MarkovGenerator;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -36,6 +37,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -55,10 +57,24 @@ public class MTGControler {
 	private CurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private MTGTextGenerator generator;
 	
 	
 	
-	
+	public MTGTextGenerator getTextGenerator()
+	{
+		if(generator==null)
+		{
+			generator = new MarkovGenerator();
+			ThreadManager.getInstance().execute(()->{
+					generator.init();
+					
+			}, "Init Text generator");
+			
+		}
+		
+		return generator;
+	}
 	
 	
 	

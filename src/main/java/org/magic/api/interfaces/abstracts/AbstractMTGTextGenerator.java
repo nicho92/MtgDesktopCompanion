@@ -1,10 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 
