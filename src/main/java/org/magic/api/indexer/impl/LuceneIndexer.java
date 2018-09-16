@@ -49,11 +49,11 @@ import com.google.common.collect.Iterators;
 
 public class LuceneIndexer extends AbstractCardsIndexer {
 
+	private static final String DIRECTORY = "DIRECTORY";
 	private static final String BOOST = "boost";
 	private static final String MIN_TERM_FREQ = "minTermFreq";
 	private static final String MAX_RESULTS = "maxResults";
 	private static final String FIELDS = "fields";
-	private static final String DIRNAME="luceneIndex";
 	private Directory dir;
 	private Analyzer analyzer ;
 	private JsonExport serializer;
@@ -64,6 +64,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		setProperty(MIN_TERM_FREQ, "1");
 		setProperty(FIELDS,"cost,text,color,type,cmc");
 		setProperty(MAX_RESULTS,"20");
+		setProperty(DIRECTORY,new File(confdir,"luceneIndex").getAbsolutePath());
 	}
 	
 	public LuceneIndexer() {
@@ -226,7 +227,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public boolean open(){
 	    try 
         {
-	    	dir = FSDirectory.open(Paths.get(confdir.getAbsolutePath(),DIRNAME));
+	    	dir = FSDirectory.open(getFile(DIRECTORY).toPath());
             return true;
         } 
 	    catch (Exception e) {
@@ -280,7 +281,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public long size() {
-		return FileUtils.sizeOfDirectory(new File(confdir,DIRNAME));
+		return FileUtils.sizeOfDirectory(getFile(DIRECTORY));
 	}
 
 

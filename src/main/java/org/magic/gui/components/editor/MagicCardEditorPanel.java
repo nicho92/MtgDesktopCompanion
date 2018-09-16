@@ -33,6 +33,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
+import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 import org.japura.gui.model.DefaultListCheckModel;
@@ -348,7 +349,14 @@ public class MagicCardEditorPanel extends JPanel {
 			btnG.setForeground(btnG.getBackground());
 
 			btnG.addActionListener(
-					e -> textJEditorPane.setText(textJEditorPane.getText() + " {" + btnG.getToolTipText() + "}"));
+					e -> {
+						try {
+							textJEditorPane.getDocument().insertString(textJEditorPane.getCaretPosition(), " {" + btnG.getToolTipText() + "}", null);
+						} catch (BadLocationException e1) {
+							textJEditorPane.setText(textJEditorPane.getText()+" {" + btnG.getToolTipText() + "}");
+							logger.error(e1);
+						}
+					});
 
 			panelButton.add(btnG);
 
@@ -636,13 +644,15 @@ public class MagicCardEditorPanel extends JPanel {
 			else
 				buff = ImageIO.read(new File(magicCard.getImageName()));
 			
-			Image i = new ImageIcon(buff).getImage();
-			imagePanel.setImage(i.getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH));
-			imagePanel.revalidate();
-			imagePanel.repaint();
+			if(buff!=null) {
+				Image i = new ImageIcon(buff).getImage();
+				imagePanel.setImage(i.getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH));
+				imagePanel.revalidate();
+				imagePanel.repaint();
+			}
 			
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error cropping",e);
 		}
 		
 	}

@@ -13,6 +13,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.services.MTGConstants;
 
 public class JSuggestedPanel extends JPanel {
 	
@@ -23,8 +24,8 @@ public class JSuggestedPanel extends JPanel {
 		JPanel suggestions = new JPanel();
 		suggestions.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JButton btn = new JButton("Generate");
-		
+		JButton btn = new JButton(MTGConstants.ICON_TAB_SUGGESTION);
+		btn.setToolTipText("text generator");
 		btn.addActionListener(al->jTextPane.setText(gen.generateText()));
 		
 		add(btn);
