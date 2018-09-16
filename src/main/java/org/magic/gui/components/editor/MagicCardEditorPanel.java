@@ -103,7 +103,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
 		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + ":");
@@ -373,7 +373,9 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc16.gridy = 4;
 		
 		panelEditor.add(textJEditorPane,BorderLayout.CENTER);
-		panelEditor.add(new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getTextGenerator())),BorderLayout.SOUTH);
+		JScrollPane scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getTextGenerator()));
+		scrollPane.setPreferredSize(new Dimension(1155, 60));
+		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
 		
 		add(panelEditor, componentgbc16);

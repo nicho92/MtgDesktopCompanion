@@ -23,13 +23,11 @@ public class JSuggestedPanel extends JPanel {
 		JPanel suggestions = new JPanel();
 		suggestions.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		
 		JButton btn = new JButton("Generate");
 		
 		btn.addActionListener(al->jTextPane.setText(gen.generateText()));
 		
 		add(btn);
-		
 		add(suggestions);
 		
 		jTextPane.getDocument().addDocumentListener(new DocumentListener() {
