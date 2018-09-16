@@ -12,6 +12,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
 import rita.RiMarkov;
+import rita.RiTa;
 
 public class MarkovGenerator extends AbstractMTGTextGenerator {
 
@@ -42,14 +43,13 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		  rs = new RiMarkov(getInt("NGEN"),true,false);	
 		  cache = getFile("CACHE_FILE");
 		  
-		  
 		  if(!cache.exists())
 		  {
 			  logger.debug("Init MarkovGenerator");
 			  StringBuilder build = new StringBuilder();
 			  for(MagicCard mc : MTGControler.getInstance().getEnabledCardIndexer().search("*:*"))
 			  {
-				  if(!mc.getCurrentSet().getType().toLowerCase().startsWith("un") && (mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
+				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
 						  String r = mc.getText().replaceAll(CardsPatterns.REMINDER.getPattern(), "")
 								  				 .replaceAll("\n", " ")
 								  				 .replaceAll(mc.getName(), getString("TAG_NAME"))
