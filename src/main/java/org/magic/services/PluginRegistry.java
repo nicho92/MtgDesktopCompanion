@@ -26,6 +26,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -99,6 +100,7 @@ public class PluginRegistry {
 		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet"));
 		registry.put(MTGPictureEditor.class, new PluginEntry<MTGPictureEditor>(false,"/editors", "/editor", "org.magic.api.pictureseditor.impl"));
 		registry.put(MTGCardsIndexer.class, new PluginEntry<MTGCardsIndexer>(false, "/indexers", "/index", "org.magic.api.indexer.impl"));
+		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl"));
 	}
 	
 	private <T> T loadItem(String classname) {

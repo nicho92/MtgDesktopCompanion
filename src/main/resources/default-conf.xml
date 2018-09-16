@@ -95,6 +95,12 @@
             <enable>true</enable>
         </index>
     </indexers>
+    <textGenerators>
+        <textGenerator>
+            <class>org.magic.api.generators.impl.MarkovGenerator</class>
+            <enable>true</enable>
+        </textGenerator>
+    </textGenerators>
     <caches>
         <cache>
             <class>org.magic.api.cache.impl.FileCache</class>

@@ -1,6 +1,6 @@
 package org.magic.api.interfaces;
 
-public interface MTGTextGenerator {
+public interface MTGTextGenerator extends MTGPlugin{
 
 	public String generateText();
 

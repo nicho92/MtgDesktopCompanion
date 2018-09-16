@@ -22,12 +22,18 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	@Override
 	public String generateText()
 	{
+		if(rs==null)
+			init();
+		
 		return rs.generateSentence();
 	}
 	
 	@Override
 	public String[] suggestWords(String[] start)
 	{
+		if(rs==null)
+			init();
+		
 		return rs.getCompletions(start);
 	}
 

@@ -60,24 +60,6 @@ public class MTGControler {
 	private MTGTextGenerator generator;
 	
 	
-	
-	public MTGTextGenerator getTextGenerator()
-	{
-		if(generator==null)
-		{
-			generator = new MarkovGenerator();
-			ThreadManager.getInstance().execute(()->{
-					generator.init();
-					
-			}, "Init Text generator");
-			
-		}
-		
-		return generator;
-	}
-	
-	
-	
 	public LookAndFeelProvider getLafService() {
 		if (lafService != null) {
 			return lafService;
@@ -266,6 +248,20 @@ public class MTGControler {
 
 		return null;
 	}
+	
+	public MTGTextGenerator getEnabledTextGenerator() {
+		for (MTGTextGenerator p : getTextsGenerator())
+			if (p.isEnable())
+				return p;
+
+		return null;
+	}
+	
+	public List<MTGTextGenerator> getTextsGenerator() {
+		return PluginRegistry.inst().listPlugins(MTGTextGenerator.class);
+	}
+
+	
 	
 	public MTGCardsIndexer getEnabledCardIndexer() {
 		for (MTGCardsIndexer p : getCardsIndexers())
