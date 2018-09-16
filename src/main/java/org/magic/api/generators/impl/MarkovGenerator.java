@@ -12,7 +12,6 @@ import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
 import rita.RiMarkov;
-import rita.RiTa;
 
 public class MarkovGenerator extends AbstractMTGTextGenerator {
 
@@ -47,7 +46,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		  {
 			  logger.debug("Init MarkovGenerator");
 			  StringBuilder build = new StringBuilder();
-			  for(MagicCard mc : MTGControler.getInstance().getEnabledCardIndexer().search("*:*"))
+			  for(MagicCard mc : MTGControler.getInstance().getEnabledCardIndexer().listCards())
 			  {
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
 						  String r = mc.getText().replaceAll(CardsPatterns.REMINDER.getPattern(), "")
