@@ -34,6 +34,7 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -54,6 +55,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private ListenerAdapter listener;
 	private List<MagicCard> liste;
 	
+	
+	@Override
+	public String getVersion() {
+		return JDAInfo.VERSION;
+	}
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;

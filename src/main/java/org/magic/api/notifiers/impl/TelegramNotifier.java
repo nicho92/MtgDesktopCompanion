@@ -14,6 +14,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
+
 public class TelegramNotifier extends AbstractMTGNotifier {
 
 	@Override
@@ -70,8 +71,6 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	public void initDefault() {
 		setProperty("TOKEN", "");
 		setProperty("CHANNEL","");
-
 	}
-
 
 }

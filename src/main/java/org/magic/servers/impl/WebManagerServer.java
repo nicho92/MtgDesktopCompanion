@@ -11,6 +11,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.Jetty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 
@@ -44,6 +45,12 @@ public class WebManagerServer extends AbstractMTGServer {
 		server.setHandler(ctx);
 	}
 
+	@Override
+	public String getVersion() {
+		return Jetty.VERSION;
+	}
+	
+	
 	@Override
 	public void start() throws IOException {
 		URL u = null;

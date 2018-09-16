@@ -448,6 +448,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.add(PLUGINS.NOTIFIER.name(), convert(MTGControler.getInstance().getNotifierProviders()));
 			obj.add(PLUGINS.EDITOR.name(), convert(MTGControler.getInstance().getPicturesEditors()));
 			obj.add(PLUGINS.INDEXER.name(), convert(MTGControler.getInstance().getCardsIndexers()));
+			obj.add(PLUGINS.GENERATOR.name(), convert(MTGControler.getInstance().getTextsGenerator()));
 			
 			return obj;
 		}, transformer);

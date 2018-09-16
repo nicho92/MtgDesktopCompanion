@@ -11,6 +11,7 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
+import org.magic.game.network.MinaClient;
 import org.magic.services.MTGConstants;
 
 public class ConsoleServer extends AbstractMTGServer {
@@ -78,8 +79,4 @@ public class ConsoleServer extends AbstractMTGServer {
 
 	}
 
-	@Override
-	public String getVersion() {
-		return "0.5";
-	}
 }

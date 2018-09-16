@@ -3,6 +3,7 @@ package org.magic.api.notifiers.impl;
 import java.io.IOException;
 
 import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.magic.api.beans.MTGNotification;
@@ -62,6 +63,6 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		}
 		
 	}
-	
+
 	
 }

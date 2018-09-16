@@ -12,6 +12,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
 import rita.RiMarkov;
+import rita.RiTa;
 
 public class MarkovGenerator extends AbstractMTGTextGenerator {
 
@@ -106,6 +107,11 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		setProperty("CACHE_FILE", new File(confdir,"markov.gen").getAbsolutePath());
 		setProperty("NGEN", "5");
 		setProperty("TAG_NAME","CARD_NAME");
+	}
+	
+	@Override
+	public String getVersion() {
+		return RiTa.VERSION;
 	}
 	
 }

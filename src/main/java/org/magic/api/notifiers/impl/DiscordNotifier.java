@@ -11,6 +11,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 public class DiscordNotifier extends AbstractMTGNotifier {
@@ -83,6 +84,11 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	public void initDefault() {
 		setProperty("TOKEN","");
 		setProperty("CHANNELID", "");
+	}
+	
+	@Override
+	public String getVersion() {
+		return JDAInfo.VERSION;
 	}
 
 }
