@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>1.94</version>
+	<version>1.95</version>
 	<packaging>jar</packaging>
 	<scm>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
@@ -103,7 +103,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>3.7.1_421</version>
+			  <version>3.7.1_422</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
