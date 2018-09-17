@@ -40,6 +40,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
@@ -57,7 +58,6 @@ public class MTGControler {
 	private CurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private MTGTextGenerator generator;
 	
 	
 	public LookAndFeelProvider getLafService() {
@@ -100,7 +100,7 @@ public class MTGControler {
 			logger.debug("add module " + path + " " + classname.getName());
 			setProperty(classname.getDeclaredConstructor().newInstance(), false);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error inserting " ,e);
 		}
 	}
 

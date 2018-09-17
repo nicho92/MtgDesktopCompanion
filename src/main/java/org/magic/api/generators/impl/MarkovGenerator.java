@@ -43,7 +43,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		  rs = new RiMarkov(getInt("NGEN"),true,false);	
 		  cache = getFile("CACHE_FILE");
 		  
-		  if(!cache.exists())
+		  if(!cache.exists() || cache.length()==0)
 		  {
 			  logger.debug("Init MarkovGenerator");
 			  StringBuilder build = new StringBuilder();
@@ -95,9 +95,8 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		super.setProperty(k, value);
 		
 		if(k.equals("NGEN")&& rs!=null)
-		{
 			rs.N=getInt(k);
-		}
+		
 	}
 	
 	
