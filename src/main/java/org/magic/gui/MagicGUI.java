@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;

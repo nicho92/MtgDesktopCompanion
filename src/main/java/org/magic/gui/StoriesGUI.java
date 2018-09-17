@@ -18,15 +18,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGStory;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.StoryProvider;
 

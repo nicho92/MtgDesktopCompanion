@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.models.conf.PluginTreeTableModel;

@@ -36,7 +36,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
@@ -45,6 +44,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -56,7 +56,6 @@ import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageUtils;
 

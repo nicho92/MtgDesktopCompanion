@@ -27,6 +27,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

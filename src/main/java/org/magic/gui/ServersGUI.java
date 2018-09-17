@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 
 import org.magic.api.interfaces.MTGServer;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

@@ -20,18 +20,17 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class RssGUI extends MTGUIPanel {

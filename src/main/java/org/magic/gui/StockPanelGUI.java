@@ -33,7 +33,6 @@ import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MTGNotification;
@@ -43,6 +42,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -57,7 +57,6 @@ import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;

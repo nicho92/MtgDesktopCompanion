@@ -3,9 +3,9 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.ConstructPanel;
 import org.magic.gui.components.SealedPanel;
 import org.magic.services.MTGConstants;

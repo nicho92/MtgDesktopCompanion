@@ -19,14 +19,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;

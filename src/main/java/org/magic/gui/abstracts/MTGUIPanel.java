@@ -1,4 +1,4 @@
-package org.magic.gui;
+package org.magic.gui.abstracts;
 
 import java.awt.BorderLayout;
 

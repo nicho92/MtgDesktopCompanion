@@ -41,6 +41,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
