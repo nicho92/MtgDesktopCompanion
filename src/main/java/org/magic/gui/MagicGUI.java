@@ -68,8 +68,8 @@ public class MagicGUI extends JFrame {
 			logger.error("Error init GUI", e);
 			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 		}
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"),
-				MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
+		
+		addTab(new ConfigurationPanelGUI());
 
 		logger.info("construction of GUI : done");
 	}
@@ -78,7 +78,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane.setSelectedIndex(id);
 	}
 
-	public void initGUI() throws ClassNotFoundException, IOException, SQLException {
+	private void initGUI() throws ClassNotFoundException, IOException, SQLException {
 		JMenuBar mtgMnuBar;
 		JMenu mnFile;
 		JMenu mnuAbout;
@@ -218,56 +218,48 @@ public class MagicGUI extends JFrame {
 
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 
+		
+		
+		
+		
 		if (MTGControler.getInstance().get("modules/search").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"),
-					MTGConstants.ICON_SEARCH_24, CardSearchPanel.getInstance(), null);
+			addTab(CardSearchPanel.getInstance()); 
 
 		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"),
-					MTGConstants.ICON_DECK, new DeckBuilderGUI(), null);
+			addTab(new DeckBuilderGUI()); 
 
 		if (MTGControler.getInstance().get("modules/game").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"),
-					MTGConstants.ICON_GAME, new GameGUI(), null);
+			addTab(new GameGUI()); 
 
 		if (MTGControler.getInstance().get("modules/collection").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_MODULE"),
-					MTGConstants.ICON_COLLECTION, new CollectionPanelGUI(), null);
+			addTab(new CollectionPanelGUI()); 
 
 		if (MTGControler.getInstance().get("modules/stock").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"),
-					MTGConstants.ICON_STOCK, new StockPanelGUI(), null);
+			addTab(new StockPanelGUI()); 
 
 		if (MTGControler.getInstance().get("modules/dashboard").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"),
-					MTGConstants.ICON_DASHBOARD, new DashBoardGUI2(), null);
+			addTab(new DashBoardGUI2());
 
 		if (MTGControler.getInstance().get("modules/shopper").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING_MODULE"),
-					MTGConstants.ICON_SHOP, new ShopperGUI(), null);
+			addTab(new ShopperGUI());
 
 		if (MTGControler.getInstance().get("modules/alarm").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ALERT_MODULE"),
-					MTGConstants.ICON_ALERT, new AlarmGUI(), null);
+			addTab(new AlarmGUI());
 
 		if (MTGControler.getInstance().get("modules/cardbuilder").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"),
-					MTGConstants.ICON_BUILDER, new CardBuilder2GUI(), null);
+			addTab(new CardBuilder2GUI());
 
 		if (MTGControler.getInstance().get("modules/rss").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"),
-					MTGConstants.ICON_NEWS, new RssGUI(), null);
+			addTab(new RssGUI());
 
 		if (MTGControler.getInstance().get("modules/history").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"),
-					MTGConstants.ICON_STORY, new StoriesGUI(), null);
+			addTab(new StoriesGUI());
 
 		if (MTGControler.getInstance().get("modules/wallpaper").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"),
-					MTGConstants.ICON_WALLPAPER, new WallpaperGUI(), null);
+			addTab(new WallpaperGUI());
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
-			tabbedPane.addTab("MKM", MTGConstants.ICON_SHOP, new MkmPanel(), null);
+			addTab(MTGUIPanel.build(new MkmPanel(), "MKM", MTGConstants.ICON_SHOP));
 
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
@@ -313,6 +305,11 @@ public class MagicGUI extends JFrame {
 
 			}, "launch tooltip");
 		}
+
+	private void addTab(MTGUIPanel instance) {
+		tabbedPane.addTab(instance.getTitle(),instance.getIcon(), instance, null);
+		
+	}
 	
 
 }

@@ -32,7 +32,7 @@ import org.magic.services.ThreadManager;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-public class ShopperGUI extends JPanel {
+public class ShopperGUI extends MTGUIPanel {
 	/**
 	 * 
 	 */
@@ -47,11 +47,20 @@ public class ShopperGUI extends JPanel {
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
 	private TableFilterHeader filterHeader;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_SHOP;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("SHOPPING_MODULE");
+	}
+	
+	
+	
 	public ShopperGUI() {
-
-		logger.info("init shopper GUI");
 		setLayout(new BorderLayout(0, 0));
 
 		add(panel, BorderLayout.NORTH);

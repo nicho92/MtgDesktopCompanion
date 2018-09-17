@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import java.awt.BorderLayout;
 import java.awt.SystemColor;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -14,40 +16,44 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
-public class DashBoardGUI2 extends JDesktopPane {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+public class DashBoardGUI2 extends MTGUIPanel {
 
 	private JMenuItem mntmSaveDisplay;
+	JDesktopPane desktop;
+	
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_DASHBOARD;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE");
+	}
+	
+	
 	
 	public DashBoardGUI2() {
-		logger.info("init Dashboard GUI");
-
+		desktop = new JDesktopPane();
+		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
 
-		setBackground(SystemColor.activeCaption);
+		desktop.setBackground(SystemColor.activeCaption);
 		menuBar.setBounds(0, 0, 100, 21);
 		menuBar.add(mnNewMenu);
 		menuBar.add(mnWindow);
-
-		
 		mnWindow.add(mntmSaveDisplay);
-		add(menuBar);
+		desktop.add(menuBar);
 		
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getDashlets()) {
@@ -81,6 +87,10 @@ public class DashBoardGUI2 extends JDesktopPane {
 			}
 		}
 		
+		setLayout(new BorderLayout());
+		add(desktop,BorderLayout.CENTER);
+		
+		
 		initActions();
 
 	}
@@ -96,7 +106,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 			}
 
 			
-			for (JInternalFrame jif : getAllFrames()) {
+			for (JInternalFrame jif : desktop.getAllFrames()) {
 				i++;
 				AbstractJDashlet dash = (AbstractJDashlet) jif;
 				dash.setProperty("x", String.valueOf(dash.getBounds().getX()));
@@ -125,7 +135,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 		try {
 			dash.initGUI();
 			dash.init();
-			add(dash);
+			desktop.add(dash);
 		} catch (Exception e) {
 			MTGControler.getInstance().notify(MTGNotification.newInstance(e));
 		} 

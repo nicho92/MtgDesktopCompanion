@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JList;
@@ -23,12 +24,13 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGStory;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.renderer.MTGStoryListRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.StoryProvider;
 
-public class StoriesGUI extends JPanel {
+public class StoriesGUI extends MTGUIPanel {
 
 	/**
 	 * 
@@ -39,8 +41,18 @@ public class StoriesGUI extends JPanel {
 	private JList<MTGStory> listResult;
 	private DefaultListModel<MTGStory> resultListModel;
 	private JEditorPane editorPane;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_STORY;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE");
+	}
+	
+	
 	public StoriesGUI() {
 		provider = new StoryProvider(MTGControler.getInstance().getLocale());
 

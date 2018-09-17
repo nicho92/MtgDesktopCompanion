@@ -78,14 +78,8 @@ import org.utils.patterns.observer.Observable;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-public class CollectionPanelGUI extends JPanel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+public class CollectionPanelGUI extends MTGUIPanel {
+	
 	private JXTable tableEditions;
 	private transient MTGCardsProvider provider;
 	private transient MTGDao dao;
@@ -118,6 +112,19 @@ public class CollectionPanelGUI extends JPanel {
 	
 	private PricesTablePanel pricePanel;
 	
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_COLLECTION;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_MODULE");
+	}
+	
+	
+	
 	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
 		this.provider = MTGControler.getInstance().getEnabledCardsProviders();
 		this.dao = MTGControler.getInstance().getEnabledDAO();
@@ -125,8 +132,6 @@ public class CollectionPanelGUI extends JPanel {
 	}
 
 	public void initGUI() throws IOException, SQLException, ClassNotFoundException {
-		logger.info("init collection GUI");
-
 		
 		JTabbedPane tabbedPane;
 		JPanel panneauHaut;

@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,13 +22,24 @@ import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class ConfigurationPanelGUI extends JPanel {
+public class ConfigurationPanelGUI extends MTGUIPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane subTabbedProviders ;
+	
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_CONFIG;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION");
+	}
+	
+	
+	
 	
 	public ConfigurationPanelGUI() {
 

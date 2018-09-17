@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -59,7 +60,7 @@ import org.magic.services.MTGLogger;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageUtils;
 
-public class CardBuilder2GUI extends JPanel {
+public class CardBuilder2GUI extends MTGUIPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable editionsTable;
@@ -73,7 +74,6 @@ public class CardBuilder2GUI extends JPanel {
 	private MagicCardTableModel cardsModel;
 	private JSONPanel jsonPanel;
 	private JTabbedPane tabbedPane;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JSpinner spinCommon;
 	private JSpinner spinRare;
 	private JSpinner spinUnco;
@@ -84,11 +84,20 @@ public class CardBuilder2GUI extends JPanel {
 	private JTable listNames;
 	private MagicCardNamesTableModel namesModel;
 
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_BUILDER;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE");
+	}
+	
+	
 	public CardBuilder2GUI() {
 		try {
-
-			logger.info("init Builder GUI");
-
 			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
 			JPanel panelEditionHaut = new JPanel();
 			JPanel panelSets = new JPanel();

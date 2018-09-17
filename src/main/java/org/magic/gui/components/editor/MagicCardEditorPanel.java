@@ -102,9 +102,9 @@ public class MagicCardEditorPanel extends JPanel {
 	public MagicCardEditorPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
 		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + ":");
@@ -374,15 +374,15 @@ public class MagicCardEditorPanel extends JPanel {
 		textJEditorPane = new MagicTextPane(false);
 		GridBagConstraints componentgbc16 = new GridBagConstraints();
 		componentgbc16.gridwidth = 3;
-		componentgbc16.gridheight = 2;
+		componentgbc16.gridheight = 3;
 		componentgbc16.insets = new Insets(5, 0, 5, 0);
 		componentgbc16.fill = GridBagConstraints.BOTH;
 		componentgbc16.gridx = 1;
 		componentgbc16.gridy = 4;
 		
-		panelEditor.add(textJEditorPane,BorderLayout.CENTER);
+		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
 		JScrollPane scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getEnabledTextGenerator()));
-		scrollPane.setPreferredSize(new Dimension(1155, 60));
+		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
 		
@@ -392,7 +392,7 @@ public class MagicCardEditorPanel extends JPanel {
 		GridBagConstraints labelgbc3 = new GridBagConstraints();
 		labelgbc3.insets = new Insets(5, 5, 5, 5);
 		labelgbc3.gridx = 0;
-		labelgbc3.gridy = 6;
+		labelgbc3.gridy = 7;
 		add(flavorLabel, labelgbc3);
 
 		flavorJTextField = new JTextField();
@@ -401,14 +401,14 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc3.insets = new Insets(5, 0, 5, 0);
 		componentgbc3.fill = GridBagConstraints.HORIZONTAL;
 		componentgbc3.gridx = 1;
-		componentgbc3.gridy = 6;
+		componentgbc3.gridy = 7;
 		add(flavorJTextField, componentgbc3);
 
 		JLabel layoutLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LAYOUT") + ":");
 		GridBagConstraints labelgbc6 = new GridBagConstraints();
 		labelgbc6.insets = new Insets(5, 5, 5, 5);
 		labelgbc6.gridx = 0;
-		labelgbc6.gridy = 7;
+		labelgbc6.gridy = 8;
 		add(layoutLabel, labelgbc6);
 
 		layoutJComboBox = new JComboBox();
@@ -419,7 +419,7 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc6.insets = new Insets(5, 0, 5, 5);
 		componentgbc6.fill = GridBagConstraints.HORIZONTAL;
 		componentgbc6.gridx = 1;
-		componentgbc6.gridy = 7;
+		componentgbc6.gridy = 8;
 		add(layoutJComboBox, componentgbc6);
 
 		JLabel powerLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER") + "/"
@@ -427,7 +427,7 @@ public class MagicCardEditorPanel extends JPanel {
 		GridBagConstraints labelgbc13 = new GridBagConstraints();
 		labelgbc13.insets = new Insets(5, 5, 5, 5);
 		labelgbc13.gridx = 2;
-		labelgbc13.gridy = 7;
+		labelgbc13.gridy = 8;
 		add(powerLabel, labelgbc13);
 
 		panelPT = new JPanel();
@@ -435,7 +435,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcpanelPT.insets = new Insets(0, 0, 5, 0);
 		gbcpanelPT.fill = GridBagConstraints.BOTH;
 		gbcpanelPT.gridx = 3;
-		gbcpanelPT.gridy = 7;
+		gbcpanelPT.gridy = 8;
 		add(panelPT, gbcpanelPT);
 
 		powerJTextField = new JTextField();
@@ -454,7 +454,7 @@ public class MagicCardEditorPanel extends JPanel {
 		GridBagConstraints labelgbc19 = new GridBagConstraints();
 		labelgbc19.insets = new Insets(5, 5, 5, 5);
 		labelgbc19.gridx = 0;
-		labelgbc19.gridy = 8;
+		labelgbc19.gridy = 9;
 		add(watermarksLabel, labelgbc19);
 
 		watermarksJTextField = new JTextField();
@@ -462,14 +462,14 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc19.insets = new Insets(5, 0, 5, 5);
 		componentgbc19.fill = GridBagConstraints.HORIZONTAL;
 		componentgbc19.gridx = 1;
-		componentgbc19.gridy = 8;
+		componentgbc19.gridy = 9;
 		add(watermarksJTextField, componentgbc19);
 
 		JLabel loyaltyLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY"));
 		GridBagConstraints labelgbc7 = new GridBagConstraints();
 		labelgbc7.insets = new Insets(5, 5, 5, 5);
 		labelgbc7.gridx = 2;
-		labelgbc7.gridy = 8;
+		labelgbc7.gridy = 9;
 		add(loyaltyLabel, labelgbc7);
 
 		loyaltyJTextField = new JTextField();
@@ -477,14 +477,14 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc7.insets = new Insets(5, 0, 5, 0);
 		componentgbc7.fill = GridBagConstraints.HORIZONTAL;
 		componentgbc7.gridx = 3;
-		componentgbc7.gridy = 8;
+		componentgbc7.gridy = 9;
 		add(loyaltyJTextField, componentgbc7);
 
 		JLabel numberLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"));
 		GridBagConstraints labelgbc11 = new GridBagConstraints();
 		labelgbc11.insets = new Insets(5, 5, 5, 5);
 		labelgbc11.gridx = 0;
-		labelgbc11.gridy = 9;
+		labelgbc11.gridy = 10;
 		add(numberLabel, labelgbc11);
 
 		numberJTextField = new JTextField();
@@ -492,7 +492,7 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc11.insets = new Insets(5, 0, 5, 5);
 		componentgbc11.fill = GridBagConstraints.HORIZONTAL;
 		componentgbc11.gridx = 1;
-		componentgbc11.gridy = 9;
+		componentgbc11.gridy = 10;
 		add(numberJTextField, componentgbc11);
 		
 				JLabel lblFoil = new JLabel(
@@ -500,21 +500,21 @@ public class MagicCardEditorPanel extends JPanel {
 				GridBagConstraints gbclblFoil = new GridBagConstraints();
 				gbclblFoil.insets = new Insets(5, 5, 5, 5);
 				gbclblFoil.gridx = 2;
-				gbclblFoil.gridy = 9;
+				gbclblFoil.gridy = 10;
 				add(lblFoil, gbclblFoil);
 		
 				chboxFoil = new JCheckBox();
 				GridBagConstraints gbcchboxFoil = new GridBagConstraints();
 				gbcchboxFoil.insets = new Insets(5, 0, 5, 0);
 				gbcchboxFoil.gridx = 3;
-				gbcchboxFoil.gridy = 9;
+				gbcchboxFoil.gridy = 10;
 				add(chboxFoil, gbcchboxFoil);
 		
 				JLabel gathererCodeLabel = new JLabel("Gatherer ID:");
 				GridBagConstraints labelgbc5 = new GridBagConstraints();
 				labelgbc5.insets = new Insets(5, 5, 5, 5);
 				labelgbc5.gridx = 0;
-				labelgbc5.gridy = 10;
+				labelgbc5.gridy = 11;
 				add(gathererCodeLabel, labelgbc5);
 		
 				gathererCodeJTextField = new JTextField();
@@ -522,14 +522,14 @@ public class MagicCardEditorPanel extends JPanel {
 				componentgbc5.insets = new Insets(5, 0, 5, 5);
 				componentgbc5.fill = GridBagConstraints.HORIZONTAL;
 				componentgbc5.gridx = 1;
-				componentgbc5.gridy = 10;
+				componentgbc5.gridy = 11;
 				add(gathererCodeJTextField, componentgbc5);
 		
 		lblTxtSize = new JLabel("Text Size :");
 		GridBagConstraints gbclblTxtSize = new GridBagConstraints();
 		gbclblTxtSize.insets = new Insets(0, 0, 5, 5);
 		gbclblTxtSize.gridx = 2;
-		gbclblTxtSize.gridy = 10;
+		gbclblTxtSize.gridy = 11;
 		add(lblTxtSize, gbclblTxtSize);
 		
 		spinner = new JSpinner();
@@ -537,7 +537,7 @@ public class MagicCardEditorPanel extends JPanel {
 		GridBagConstraints gbcspinner = new GridBagConstraints();
 		gbcspinner.insets = new Insets(0, 0, 5, 0);
 		gbcspinner.gridx = 3;
-		gbcspinner.gridy = 10;
+		gbcspinner.gridy = 11;
 		add(spinner, gbcspinner);
 		
 		panelImageButtons = new JPanel();
@@ -546,7 +546,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcpanelImageButtons.insets = new Insets(0, 0, 0, 5);
 		gbcpanelImageButtons.fill = GridBagConstraints.BOTH;
 		gbcpanelImageButtons.gridx = 0;
-		gbcpanelImageButtons.gridy = 11;
+		gbcpanelImageButtons.gridy = 12;
 		add(panelImageButtons, gbcpanelImageButtons);
 		GridBagLayout gblpanelImageButtons = new GridBagLayout();
 		gblpanelImageButtons.columnWidths = new int[]{63, 0};
@@ -591,24 +591,24 @@ public class MagicCardEditorPanel extends JPanel {
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
 		GridBagConstraints gbcimagePanel = new GridBagConstraints();
 		gbcimagePanel.gridheight = 3;
-		gbcimagePanel.insets = new Insets(0, 0, 5, 5);
+		gbcimagePanel.insets = new Insets(0, 0, 0, 5);
 		gbcimagePanel.fill = GridBagConstraints.BOTH;
 		gbcimagePanel.gridx = 1;
-		gbcimagePanel.gridy = 11;
+		gbcimagePanel.gridy = 12;
 		add(imagePanel, gbcimagePanel);
 		
 		lblColorIndicator = new JLabel("Color Indicator");
 		GridBagConstraints gbclblColorIndicator = new GridBagConstraints();
 		gbclblColorIndicator.insets = new Insets(0, 0, 5, 5);
 		gbclblColorIndicator.gridx = 2;
-		gbclblColorIndicator.gridy = 11;
+		gbclblColorIndicator.gridy = 12;
 		add(lblColorIndicator, gbclblColorIndicator);
 		
 		chkColorIndicator = new JCheckBox("");
 		GridBagConstraints gbcchkColorIndicator = new GridBagConstraints();
 		gbcchkColorIndicator.insets = new Insets(0, 0, 5, 0);
 		gbcchkColorIndicator.gridx = 3;
-		gbcchkColorIndicator.gridy = 11;
+		gbcchkColorIndicator.gridy = 12;
 		add(chkColorIndicator, gbcchkColorIndicator);
 		
 		lblColorOrientation = new JLabel("Color Orientation :");
@@ -616,7 +616,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbclblColorOrientation.anchor = GridBagConstraints.NORTH;
 		gbclblColorOrientation.insets = new Insets(0, 0, 5, 5);
 		gbclblColorOrientation.gridx = 2;
-		gbclblColorOrientation.gridy = 12;
+		gbclblColorOrientation.gridy = 13;
 		add(lblColorOrientation, gbclblColorOrientation);
 		
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<String>(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
@@ -626,7 +626,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbccomboBox.insets = new Insets(0, 0, 5, 0);
 		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbccomboBox.gridx = 3;
-		gbccomboBox.gridy = 12;
+		gbccomboBox.gridy = 13;
 		add(cboColorAccent, gbccomboBox);
 
 		if (magicCard != null) {

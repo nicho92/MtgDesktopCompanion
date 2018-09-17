@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -32,7 +33,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -55,7 +55,6 @@ import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
 import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
@@ -63,11 +62,8 @@ import org.magic.tools.IDGenerator;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-public class AlarmGUI extends JPanel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class AlarmGUI extends MTGUIPanel {
+	
 	private JTable table;
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel;
@@ -77,7 +73,6 @@ public class AlarmGUI extends JPanel {
 	private JButton btnRefresh;
 	private JButton btnDelete;
 	private HistoryPricesPanel variationPanel;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 	private JButton btnImport;
 	private JBuzyLabel lblLoading;
@@ -86,8 +81,24 @@ public class AlarmGUI extends JPanel {
 	private JButton btnSuggestPrice;
 	
 	public AlarmGUI() {
+		initGUI();
+		initActions();
+	}
+	
 
-		logger.info("init Alarm GUI");
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_ALERT;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("ALERT_MODULE");
+	}
+	
+	
+
+	public void initGUI() {
 		JSplitPane splitPanel = new JSplitPane();
 		JScrollPane scrollTable = new JScrollPane();
 		table = new JTable();
@@ -161,8 +172,11 @@ public class AlarmGUI extends JPanel {
 
 		});
 		
-		initActions();
+		
 	}
+
+
+
 
 	private void initActions() {
 		

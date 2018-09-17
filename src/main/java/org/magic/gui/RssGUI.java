@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,7 +34,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
-public class RssGUI extends JPanel {
+public class RssGUI extends MTGUIPanel {
 	/**
 	 * 
 	 */
@@ -42,7 +43,6 @@ public class RssGUI extends JPanel {
 	private MagicNewsTableModel model;
 	private BrowserPane editorPane;
 	private DefaultMutableTreeNode curr;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private NewsEditorPanel newsPanel;
 	private DefaultMutableTreeNode rootNode;
 	private JTree tree;
@@ -51,9 +51,17 @@ public class RssGUI extends JPanel {
 	private JButton btnSave;
 	private JButton btnDelete;
 	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_NEWS;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE");
+	}
 	
 	public RssGUI() {
-		logger.info("init RSS GUI");
 		
 		JScrollPane scrollTable = new JScrollPane();
 		model = new MagicNewsTableModel();

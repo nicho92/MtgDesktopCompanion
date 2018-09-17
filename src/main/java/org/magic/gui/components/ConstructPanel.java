@@ -111,7 +111,6 @@ public class ConstructPanel extends JPanel {
 	}
 
 	public ConstructPanel() {
-		logger.info("init DeckBuilder GUI");
 		deck = new MagicDeck();
 		deckManager = new MTGDeckManager();
 		initGUI();

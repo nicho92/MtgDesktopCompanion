@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -62,7 +63,7 @@ import org.magic.services.ThreadManager;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-public class StockPanelGUI extends JPanel {
+public class StockPanelGUI extends MTGUIPanel {
 	/**
 	 * 
 	 */
@@ -78,7 +79,6 @@ public class StockPanelGUI extends JPanel {
 	private PricesTablePanel pricePanel;
 	private JSONPanel jsonPanel;
 	private JButton btnReload;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JBuzyLabel lblLoading;
 	private JPanel rightPanel;
 	private JSpinner spinner;
@@ -102,10 +102,20 @@ public class StockPanelGUI extends JPanel {
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED") };
 	private File fileImport;
 	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_STOCK;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE");
+	}
+	
+	
 
 	public StockPanelGUI() {
-		logger.info("init StockManagment GUI");
-
+	
 		initGUI();
 
 		btnSave.addActionListener(e ->

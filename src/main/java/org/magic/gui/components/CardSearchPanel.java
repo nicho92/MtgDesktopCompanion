@@ -60,6 +60,7 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
+import org.magic.gui.MTGUIPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -80,14 +81,7 @@ import org.utils.patterns.observer.Observer;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-public class CardSearchPanel extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+public class CardSearchPanel extends MTGUIPanel {
 
 	public static final int INDEX_THUMB = 1;
 
@@ -120,6 +114,16 @@ public class CardSearchPanel extends JPanel {
 
 	private JBuzyLabel lblLoading;
 
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_SEARCH_24;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE");
+	}
+	
 	public static CardSearchPanel getInstance() {
 		if (inst == null)
 			inst = new CardSearchPanel();
@@ -180,8 +184,7 @@ public class CardSearchPanel extends JPanel {
 		popupMenu.add(menuItemAdd);
 	}
 
-	private void initGUI() {
-		logger.info("init search GUI");
+	public void initGUI() {
 		cardsModeltable = new MagicCardTableModel();
 		JPanel panelResultsCards;
 		JPanel panelFilters;

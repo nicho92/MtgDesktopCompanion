@@ -33,7 +33,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
-public class WallpaperGUI extends JPanel {
+public class WallpaperGUI extends MTGUIPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;
@@ -46,6 +46,19 @@ public class WallpaperGUI extends JPanel {
 	private int index = 0;
 	private int val = 4;
 
+
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_WALLPAPER;
+	}
+	
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER");
+	}
+	
+	
+	
 	public void addComponent(JWallThumb i) {
 		if (index >= val) {
 			c.gridy = c.gridy + 1;
