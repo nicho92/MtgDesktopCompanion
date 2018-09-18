@@ -54,8 +54,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 		logger.trace("Connexion to " + url + "/" + getString(DB_NAME) + getString(PARAMS));
 		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),getString(LOGIN), getString(PASS));
 		createDB();
-		logger.info("init " + getName() + " done");
-
 	}
 
 	public boolean createDB() {

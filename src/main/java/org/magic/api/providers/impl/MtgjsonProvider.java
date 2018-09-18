@@ -109,23 +109,23 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				temp = br.readLine();
 			}
 
-			logger.info("check new version of " + toString() + " (" + temp + ")");
+			logger.debug("check new version of " + toString() + " (" + temp + ")");
 
 			InputStreamReader fr = new InputStreamReader(URLTools.openConnection(getURL(URL_VERSION)).getInputStream());
 			BufferedReader br = new BufferedReader(fr);
 			version = br.readLine();
-
+			fr.close();
 			br.close();
 			if (!version.equals(temp)) {
 				logger.info("new version datafile exist (" + version + "). Downloading it");
 				return true;
 			}
 
-			logger.info("check new version of " + this + ": up to date");
+			logger.debug("check new version of " + this + ": up to date");
 			return false;
 		} catch (Exception e) {
 			version = temp;
-			logger.error("Error getting last version " + e);
+			logger.error("Error getting last version ",e);
 			return false;
 		}
 

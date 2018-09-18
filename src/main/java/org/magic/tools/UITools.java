@@ -9,6 +9,9 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class UITools {
 
+	private UITools() {}
+	
+	
 	public static void initTableFilter(JTable table)
 	{
 		TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);

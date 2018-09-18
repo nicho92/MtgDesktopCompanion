@@ -72,7 +72,7 @@ public class MagicGUI extends JFrame {
 		
 		addTab(new ConfigurationPanelGUI());
 
-		logger.info("construction of GUI : done");
+		logger.debug("construction of GUI : done");
 	}
 
 	public void setSelectedTab(int id) {
@@ -201,8 +201,10 @@ public class MagicGUI extends JFrame {
 				}
 			}
 		});
+		
+		boolean update=serviceUpdate.hasNewVersion();
 
-		if (serviceUpdate.hasNewVersion()) 
+		if (update) 
 		{
 			JMenuItem newversion = new JMenuItem(
 					MTGControler.getInstance().getLangService().getCapitalize("DOWNLOAD_LAST_VERSION") + " : "
@@ -288,7 +290,7 @@ public class MagicGUI extends JFrame {
 				osNotifier.getTrayNotifier().setPopupMenu(menuTray);
 				osNotifier.getTrayNotifier().setToolTip("MTG Desktop Companion");
 		
-				if (serviceUpdate.hasNewVersion())
+				if (update)
 				{
 					String msg=(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
 									+ serviceUpdate.getOnlineVersion() + " "

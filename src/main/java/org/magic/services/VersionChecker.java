@@ -64,10 +64,9 @@ public class VersionChecker {
 
 	public boolean hasNewVersion() {
 		try {
-			logger.info("check new version of app " + actualVersion);
 			boolean res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
-			logger.info("check new version of app online " + res + "(" + onlineVersion + ")");
-
+			logger.info("check update:" + actualVersion + " found:" + onlineVersion);
+			
 			return res;
 		} catch (Exception e) {
 			logger.error(e.getMessage());

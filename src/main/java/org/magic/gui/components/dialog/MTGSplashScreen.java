@@ -52,9 +52,8 @@ public class MTGSplashScreen extends JWindow implements Observer {
 		getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblIcons = new JLabel("");
+		JLabel lblIcons = new JLabel(MTGConstants.ICON_SPLASHSCREEN);
 		panel.add(lblIcons, BorderLayout.CENTER);
-		lblIcons.setIcon(MTGConstants.ICON_SPLASHSCREEN);
 		lblIcons.setOpaque(false);
 
 		progressBar = new JProgressBar();
@@ -74,7 +73,6 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	@Override
 	public void update(Observable o, Object msg) {
 		progressBar.setString(String.valueOf(msg));
-
 	}
 
 }

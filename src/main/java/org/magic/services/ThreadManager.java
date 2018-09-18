@@ -2,12 +2,9 @@ package org.magic.services;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.SwingUtilities;
-
-import org.apache.log4j.Logger;
 
 public class ThreadManager {
 
@@ -57,13 +54,4 @@ public class ThreadManager {
 		return executor;
 	}
 
-}
-
-class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
-
-	Logger logger = MTGLogger.getLogger(this.getClass());
-
-	public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-		logger.error(r.toString() + " is rejected");
-	}
 }

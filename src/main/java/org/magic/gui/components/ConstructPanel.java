@@ -203,7 +203,6 @@ public class ConstructPanel extends JPanel {
 					deckSidemodel.init(deck);
 					setDeck(deck);
 					updatePanels();
-
 				}
 			} catch (Exception ex) {
 				logger.error(ex);
@@ -625,9 +624,6 @@ public class ConstructPanel extends JPanel {
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		
-		
-		
-		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
@@ -686,7 +682,6 @@ public class ConstructPanel extends JPanel {
 		
 		table.getModel().addTableModelListener(e -> updatePanels());
 
-
 		table.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
 
 			@Override
@@ -701,7 +696,6 @@ public class ConstructPanel extends JPanel {
 
 			}
 		});
-		
 	}
 
 	public Map<MagicCard, Integer> getSelectedMap() {
