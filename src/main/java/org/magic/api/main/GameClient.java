@@ -14,7 +14,7 @@ public class GameClient {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		ThreadManager.getInstance().runInEdt(() -> {
-			JFrame f = new JFrame();
+			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"));
 			f.setIconImage(MTGConstants.ICON_GAME.getImage());
 			f.getContentPane().add(new GameGUI());
 			f.setVisible(true);
