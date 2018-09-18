@@ -546,8 +546,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLook.gridy = 9;
 		panelConfig.add(lblLook, gbclblLook);
 
-		JComboBox<LookAndFeelInfo> cboLook = new JComboBox<>(
-				new DefaultComboBoxModel<>(MTGControler.getInstance().getLafService().getAllLookAndFeel()));
+		JComboBox<LookAndFeelInfo> cboLook = new JComboBox<>();
 		cboLook.setRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -555,6 +554,10 @@ public class ConfigurationPanel extends JPanel {
 				return new JLabel(((LookAndFeelInfo) value).getName());
 			}
 		});
+		
+		ThreadManager.getInstance().execute(()->cboLook.setModel(new DefaultComboBoxModel<>(MTGControler.getInstance().getLafService().getAllLookAndFeel())), "getLookAndFeel");
+		
+		
 
 		GridBagConstraints gbccomboBox = new GridBagConstraints();
 		gbccomboBox.gridwidth = 3;

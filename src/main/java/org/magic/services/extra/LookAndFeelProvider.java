@@ -14,6 +14,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.Chrono;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.reflections.Reflections;
 
@@ -57,7 +58,6 @@ public class LookAndFeelProvider {
 	}
 
 	public LookAndFeelInfo[] getAllLookAndFeel() {
-
 		return ArrayUtils.addAll(UIManager.getInstalledLookAndFeels(), getExtraLookAndFeel());
 	}
 
