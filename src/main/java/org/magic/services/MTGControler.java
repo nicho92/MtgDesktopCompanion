@@ -89,19 +89,18 @@ public class MTGControler {
 		return new Dimension(w, h);
 	}
 
-	public void addProperty(String path, Class classname) {
+	public <T extends MTGPlugin> void addProperty(String path, Class<T> classname) {
 		String[] k = path.split("/");
 
 		String root = k[1];
 		String elem = k[2];
 		try {
-			
-			if(!config.containsKey(path))
+			/*if(config.containsKey("/"+root))
 			{
 				config.addProperty(root+"/"+elem+"/class",classname.getName());
 				config.addProperty(root+"/"+elem+"/enable",true);
 			}
-			else {
+			else*/ {
 				config.addProperty("/" + root + " " + elem + "/class", classname.getName());
 				setProperty(classname.getDeclaredConstructor().newInstance(), false);
 			}
