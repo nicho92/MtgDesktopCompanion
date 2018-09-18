@@ -3,6 +3,7 @@ package org.magic.services;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -94,11 +95,25 @@ public class MTGControler {
 		String root = k[1];
 		String elem = k[2];
 		try {
-			config.addProperty("/" + root + " " + elem + "/class", classname.getName());
+			
+			if(!config.containsKey(path))
+			{
+				config.addProperty(root+"/"+elem+"/class",classname.getName());
+				config.addProperty(root+"/"+elem+"/enable",true);
+			}
+			else {
+				config.addProperty("/" + root + " " + elem + "/class", classname.getName());
+				setProperty(classname.getDeclaredConstructor().newInstance(), false);
+			}
 			logger.debug("add module " + path + " " + classname.getName());
-			setProperty(classname.getDeclaredConstructor().newInstance(), false);
-		} catch (Exception e) {
-			logger.error("Error inserting " ,e);
+
+				
+		} catch (IllegalArgumentException e ) {
+			logger.error("Error inserting : " + path + " for " + classname ,e);
+		}
+		catch( InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e)
+		{
+			logger.error("Error loading :"+ classname ,e);
 		}
 	}
 

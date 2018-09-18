@@ -107,7 +107,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		while (count < totalcount) {
 			url = getString(JSON_URL) + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING) + "&page=" + page++;
-			logger.debug(url);
+			logger.trace(url);
 			JsonArray jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
 			for (int i = 0; i < jsonList.size(); i++) {
 				lists.add(generateCard(jsonList.get(i).getAsJsonObject()));
