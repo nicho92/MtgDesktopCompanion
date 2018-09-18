@@ -1,6 +1,5 @@
 package org.magic.gui.components.editor;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

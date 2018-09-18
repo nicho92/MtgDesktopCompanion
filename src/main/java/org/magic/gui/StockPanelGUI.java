@@ -58,9 +58,7 @@ import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
+import org.magic.tools.UITools;
 
 public class StockPanelGUI extends MTGUIPanel {
 	/**
@@ -539,7 +537,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxRenderer());
 
 		table.packAll();
-		new TableFilterHeader(table, AutoChoices.ENABLED);
+		UITools.initTableFilter(table);
 		scrollTable.setViewportView(table);
 
 		magicCardDetailPanel.enableThumbnail(true);

@@ -72,10 +72,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CollectionPanelGUI extends MTGUIPanel {
 	
@@ -181,7 +179,9 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		DefaultRowSorter<DefaultTableModel, Integer> sorterEditions = new TableRowSorter<>(model);
 		model.init(provider.loadEditions());
 		tableEditions.setModel(model);
-		new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
+		
+		UITools.initTableFilter(tableEditions);
+		
 
 		///////// CONFIGURE COMPONENTS
 		splitListPanel.setDividerLocation(0.5);

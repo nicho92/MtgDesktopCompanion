@@ -27,9 +27,7 @@ import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
+import org.magic.tools.UITools;
 
 public class ShopperGUI extends MTGUIPanel {
 	/**
@@ -45,7 +43,6 @@ public class ShopperGUI extends MTGUIPanel {
 	private final JPanel panneauCentral = new JPanel();
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
-	private TableFilterHeader filterHeader;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -82,9 +79,7 @@ public class ShopperGUI extends MTGUIPanel {
 		add(panneauCentral, BorderLayout.CENTER);
 		tableItemShop = new JXTable(mod);
 		tableItemShop.setRowSorter(sorter);
-		filterHeader = new TableFilterHeader(tableItemShop, AutoChoices.ENABLED);
-
-		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+		UITools.initTableFilter(tableItemShop);
 		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
 
 			/**

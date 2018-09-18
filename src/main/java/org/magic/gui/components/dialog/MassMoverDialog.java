@@ -1,7 +1,6 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.sql.SQLException;
 
@@ -25,9 +24,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
+import org.magic.tools.UITools;
 
 public class MassMoverDialog extends JDialog {
 	/**
@@ -94,8 +91,7 @@ public class MassMoverDialog extends JDialog {
 
 		scrollPane.setViewportView(tableCards);
 
-		TableFilterHeader filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
-		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+		UITools.initTableFilter(tableCards);
 
 		btnMove.addActionListener(e -> {
 			lblWaiting.buzy(true);

@@ -59,9 +59,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
+import org.magic.tools.UITools;
 
 public class AlarmGUI extends MTGUIPanel {
 	
@@ -120,7 +118,7 @@ public class AlarmGUI extends MTGUIPanel {
 		JPanel serversPanel = new JPanel();
 		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
 		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
-		new TableFilterHeader(table, AutoChoices.ENABLED);
+		UITools.initTableFilter(table);
 
 		
 ///////CONFIG		

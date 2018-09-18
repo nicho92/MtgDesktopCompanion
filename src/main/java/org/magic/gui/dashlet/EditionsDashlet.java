@@ -23,9 +23,7 @@ import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
+import org.magic.tools.UITools;
 
 public class EditionsDashlet extends AbstractJDashlet {
 
@@ -103,8 +101,8 @@ public class EditionsDashlet extends AbstractJDashlet {
 		} catch (Exception e) {
 			// do nothing
 		}
-
-		new TableFilterHeader(table, AutoChoices.ENABLED);
+		
+		UITools.initTableFilter(table);
 
 	}
 

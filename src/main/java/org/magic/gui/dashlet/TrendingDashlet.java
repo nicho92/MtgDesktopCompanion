@@ -26,9 +26,7 @@ import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
+import org.magic.tools.UITools;
 
 public class TrendingDashlet extends AbstractJDashlet {
 	/**
@@ -86,7 +84,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 
-		new TableFilterHeader(table, AutoChoices.ENABLED);
+		UITools.initTableFilter(table);
 
 		initToolTip(table, 0, 1);
 

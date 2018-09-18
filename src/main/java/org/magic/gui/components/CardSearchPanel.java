@@ -73,11 +73,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
+import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CardSearchPanel extends MTGUIPanel {
 
@@ -193,7 +191,6 @@ public class CardSearchPanel extends MTGUIPanel {
 		JPanel panneauStat;
 		JTextField txtFilter;
 		JComboBox<MagicEdition> cboEdition;
-		TableFilterHeader filterHeader;
 		JButton btnClear;
 		JButton btnFilter;
 		
@@ -280,7 +277,7 @@ public class CardSearchPanel extends MTGUIPanel {
 		
 		txtFilter = new JTextField();
 
-		filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
+		UITools.initTableFilter(tableCards);
 		
 		cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 
@@ -301,7 +298,6 @@ public class CardSearchPanel extends MTGUIPanel {
 		btnFilter.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("FILTER"));
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_RESULTS"));
 		btnExport.setEnabled(false);
-		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		cboQuereableItems.addItem("collections");
 		listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		thumbnailPanel.enableDragging(false);
@@ -310,7 +306,9 @@ public class CardSearchPanel extends MTGUIPanel {
 		panneauCentral.setLeftComponent(tabbedCardsView);
 		tableCards.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableCards.setRowSorter(sorterCards);
-
+		panneauCentral.setDividerLocation(0.5);
+		panneauCentral.setResizeWeight(0.5);
+		
 		/////// LAYOUT
 		setLayout(new BorderLayout());
 		panneauStat.setLayout(new GridLayout(2, 2, 0, 0));
@@ -338,7 +336,6 @@ public class CardSearchPanel extends MTGUIPanel {
 
 		/////// VISIBILITY
 		tableCards.setColumnControlVisible(true);
-		filterHeader.setVisible(false);
 		panelFilters.setVisible(false);
 		lblLoading.setVisible(false);
 		cboCollections.setVisible(false);
@@ -432,6 +429,9 @@ public class CardSearchPanel extends MTGUIPanel {
 			@Override
 		    public void componentShown(ComponentEvent componentEvent){
 		        txtSearch.requestFocus();
+				panneauCentral.setDividerLocation(.45);
+				
+				removeComponentListener(this);
 		    }
 		}); 
 		
@@ -470,10 +470,8 @@ public class CardSearchPanel extends MTGUIPanel {
 		btnFilter.addActionListener(ae -> {
 			if (panelFilters.isVisible()) {
 				panelFilters.setVisible(false);
-				filterHeader.setVisible(false);
 			} else {
 				panelFilters.setVisible(true);
-				filterHeader.setVisible(true);
 			}
 		});
 
