@@ -179,6 +179,12 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			{
 				
 				List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
+				if(abs.size()>3)
+				{
+					logger.error(getName() + " can't generate 4 abitilities planeswalker. removing last ability");
+					abs.remove(abs.size()-1);
+				}
+				
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 				for(int i=0;i<abs.size();i++)
 					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
