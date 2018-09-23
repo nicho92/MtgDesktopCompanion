@@ -304,6 +304,10 @@
         	<class>org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider</class>
         	<enable>false</enable>
         </editor>
+         <editor>
+            <class>org.magic.api.pictureseditor.impl.FunCardMakerPicturesProvider</class>
+            <enable>false</enable>
+        </editor>
     </editors>
     <shoppers>
         <shopper>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -51,6 +52,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 		}
 		logger.debug(getName() + " found " + ret.size() + " items");
 		
+		Collections.sort(ret);
 		
 		return ret;
 		

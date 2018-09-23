@@ -28,6 +28,7 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class PricesTablePanel extends JPanel {
 	
@@ -47,9 +48,9 @@ public class PricesTablePanel extends JPanel {
 		lblLoading = new JBuzyLabel();
 		
 		panel.setPreferredSize(new Dimension(0,lblLoading.getIcon().getIconHeight()));
-		JScrollPane scrollPane = new JScrollPane();
 		model = new CardsPriceTableModel();
 		tablePrices = new JXTable(model);
+		UITools.initTableFilter(tablePrices);
 		sorterPrice = new TableRowSorter<>(model);
 		
 		sortKeys = new ArrayList<>();
@@ -66,8 +67,7 @@ public class PricesTablePanel extends JPanel {
 		
 		
 		panel.add(lblLoading);
-		add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setViewportView(tablePrices);
+		add(new JScrollPane(tablePrices), BorderLayout.CENTER);
 		
 		tablePrices.addMouseListener(new MouseAdapter() {
 			@Override
