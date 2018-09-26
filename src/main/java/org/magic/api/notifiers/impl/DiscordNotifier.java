@@ -19,16 +19,21 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	public static final int MAXSIZE=2000;
 	
 	
+	public static void main(String[] args) throws IOException {
+		DiscordNotifier notif = new DiscordNotifier();
+		notif.notify("title", "hello");
+	}
+	
+	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		 
 		JDA jda=null;
 		try {
 			
-			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).build();
+			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).build().awaitReady();
 			TextChannel chan = jda.getTextChannelById(getLong("CHANNELID"));
-			notification.setSender(jda.getSelfUser().getName());
-			
+			notification.setSender(String.valueOf(jda.getSelfUser()));
 			StringBuilder msg = new StringBuilder();
 			
 			String emoji="";
@@ -52,8 +57,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			}
 			
 			logger.debug("send " + message);
-			
-			
+	
 			if(notification.getFile()==null)
 				chan.sendMessage(message).queue();
 			else
@@ -62,6 +66,8 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			
 		} catch (LoginException e) {
 			logger.error("couldn't init login",e);
+		} catch (InterruptedException e) {
+			logger.error("error await",e);
 		} 
 		finally {
 			if(jda!=null)

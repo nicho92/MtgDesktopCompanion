@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.services.MTGConstants;
 
@@ -28,6 +29,7 @@ public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements M
 		MTGNotification notif = new MTGNotification();
 		notif.setMessage(msg);
 		notif.setTitle(title);
+		notif.setType(MESSAGE_TYPE.NONE);
 		send(notif);
 	}
 	
