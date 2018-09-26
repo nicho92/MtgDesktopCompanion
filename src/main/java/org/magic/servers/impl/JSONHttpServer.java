@@ -50,6 +50,7 @@ import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
 import spark.Spark;
+import spark.utils.SparkUtils;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
@@ -96,6 +97,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		initRoutes();
 		Spark.init();
 		running = true;
+		logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
 	}
 
 	private void initVars() {
@@ -506,7 +508,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return "2.8.0";
 	}
 
 	// TODO filter allowed header

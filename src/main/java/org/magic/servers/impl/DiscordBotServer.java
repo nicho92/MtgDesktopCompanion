@@ -227,7 +227,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		} catch (LoginException e) {
 			throw new IOException(e);
 		}
-		
+		logger.info("Server " + getName() +" started");
+
 	}
 
 	@Override

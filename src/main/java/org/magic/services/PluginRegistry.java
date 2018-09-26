@@ -185,6 +185,7 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
+		logger.debug("searching for " + name +" plugin");
 		for(MTGPlugin s : listPlugins(type)) {
 			if(s.getName().equalsIgnoreCase(name))
 				return (T) s;

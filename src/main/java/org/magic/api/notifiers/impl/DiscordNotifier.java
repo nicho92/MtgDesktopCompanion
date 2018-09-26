@@ -18,13 +18,6 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 
 	public static final int MAXSIZE=2000;
 	
-	
-	public static void main(String[] args) throws IOException {
-		DiscordNotifier notif = new DiscordNotifier();
-		notif.notify("title", "hello");
-	}
-	
-	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		 

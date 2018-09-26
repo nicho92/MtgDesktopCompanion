@@ -17,7 +17,6 @@ public class ServerLauncher {
 			System.out.println("Usage : ServerLauncher <server name>");
 			System.exit(-1);
 		}
-		
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		MTGControler.getInstance().getEnabledDAO().init();
 		MTGControler.getInstance().getPlugin(args[0], MTGServer.class).start();
