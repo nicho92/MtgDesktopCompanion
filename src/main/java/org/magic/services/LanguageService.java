@@ -58,7 +58,12 @@ public class LanguageService {
 	}
 
 	public String get(String key) {
+		try {
 		return rbundle.getString(key);
+		}catch(Exception e)
+		{
+			return key;
+		}
 	}
 
 	public String getCapitalize(String key) {

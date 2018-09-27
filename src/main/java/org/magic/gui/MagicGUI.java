@@ -30,6 +30,7 @@ import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.BinderTagsEditorDialog;
+import org.magic.gui.components.dialog.ChromeDownloader;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -107,11 +108,13 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
 		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 		JMenuItem mntmFileTagEditor = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"));
+		JMenuItem mntmFileChromePlugin = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("CHROME_PLUGIN"));
 		
 		
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileOpen);
 		mnFile.add(mntmFileTagEditor);
+		mnFile.add(mntmFileChromePlugin);
 		mnFile.add(mntmExit);
 		mtgMnuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
@@ -119,6 +122,12 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmHelp);
 		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
+		
+		
+		mntmFileChromePlugin.addActionListener(ae->{
+			ChromeDownloader dow = new ChromeDownloader();
+			dow.setVisible(true);
+		});
 		
 		
 		mntmFileTagEditor.addActionListener(ae->{
