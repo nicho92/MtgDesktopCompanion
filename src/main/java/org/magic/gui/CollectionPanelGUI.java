@@ -738,6 +738,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			adds.addActionListener(e -> {
 
 				final String destinationCollection = ((JMenuItem) e.getSource()).getText();
+				progressBar.setValue(0);
+				progressBar.setVisible(true);
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
@@ -752,9 +754,14 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
 						sets.removeAll(list);
+						progressBar.setMaximum(sets.size());
+						
 
 						for (MagicCard m : sets)
+						{
 							dao.saveCard(m, col);
+							progressBar.setValue(progressBar.getValue()+1);
+						}
 
 						tree.refresh(node);
 					} catch (Exception e1) {
