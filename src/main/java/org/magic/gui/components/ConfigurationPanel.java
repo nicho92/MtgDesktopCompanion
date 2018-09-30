@@ -123,7 +123,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gblpanelDAO = new GridBagLayout();
 		gblpanelDAO.columnWidths = new int[] { 0, 0, 130, 0, 0 };
 		gblpanelDAO.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gblpanelDAO.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelDAO.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gblpanelDAO.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelDAO.setLayout(gblpanelDAO);
 
@@ -216,9 +216,7 @@ public class ConfigurationPanel extends JPanel {
 		btnIndexation = new JButton("Reindexation");
 		
 		GridBagConstraints gbcbtnIndexation = new GridBagConstraints();
-		gbcbtnIndexation.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnIndexation.insets = new Insets(0, 0, 0, 5);
-		gbcbtnIndexation.gridx = 2;
+		gbcbtnIndexation.gridx = 3;
 		gbcbtnIndexation.gridy = 4;
 		panelDAO.add(btnIndexation, gbcbtnIndexation);
 		
