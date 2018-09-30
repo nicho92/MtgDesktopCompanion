@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -62,11 +63,11 @@ public class MTGODeckExport extends AbstractCardExport {
 						sep = line.indexOf(' ');
 						name = line.substring(sep, line.length()).trim();
 						qte = line.substring(0, sep).trim();
-						List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders()
+						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( name, null, true);
 						deck.getMapSideBoard().put(list.get(0), Integer.parseInt(qte));
 					} else {
-						List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders()
+						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( name, null, true);
 						deck.getMap().put(list.get(0), Integer.parseInt(qte));
 					}

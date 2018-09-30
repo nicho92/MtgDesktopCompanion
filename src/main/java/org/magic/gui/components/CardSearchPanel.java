@@ -56,6 +56,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
@@ -149,7 +151,7 @@ public class CardSearchPanel extends MTGUIPanel {
 	public void initPopupCollection() throws SQLException {
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 
-		for (MagicCollection mc : MTGControler.getInstance().getEnabledDAO().getCollections()) {
+		for (MagicCollection mc : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()) {
 
 			JMenuItem adds = new JMenuItem(mc.getName());
 			adds.addActionListener(addEvent -> {
@@ -164,8 +166,8 @@ public class CardSearchPanel extends MTGUIPanel {
 
 					MagicCard mcCard = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
 					try {
-						MTGControler.getInstance().getEnabledDAO().saveCard(mcCard,
-								MTGControler.getInstance().getEnabledDAO().getCollection(collec));
+						MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(mcCard,
+								MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec));
 					} catch (SQLException e1) {
 						logger.error(e1);
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
@@ -212,7 +214,7 @@ public class CardSearchPanel extends MTGUIPanel {
 
 		List<MagicEdition> li = new ArrayList<>();
 		try {
-			li = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 			Collections.sort(li);
 		} catch (Exception e2) {
 			logger.error("error no edition loaded", e2);
@@ -252,11 +254,11 @@ public class CardSearchPanel extends MTGUIPanel {
 		
 		
 		cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(
-				MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
+				MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()));
 		try {
 			cboCollections = new JComboBox<>(new DefaultComboBoxModel<MagicCollection>(
-					MTGControler.getInstance().getEnabledDAO().getCollections().toArray(
-							new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
+					MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().toArray(
+							new MagicCollection[MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().size()])));
 		} catch (SQLException e2) {
 			logger.error("could not load collections combobox", e2);
 		}
@@ -522,13 +524,13 @@ public class CardSearchPanel extends MTGUIPanel {
 					String searchName = txtSearch.getText().trim();
 					
 						List<MagicCard> cards = null;
-						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
+						MTGControler.getInstance().getEnabled(MTGCardsProvider.class).addObserver(ob);
 
 						try {
 						if (cboCollections.isVisible())
-							cards = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
+							cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
 						else
-							cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
+							cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
 						}
 						catch(IOException e)
 						{
@@ -555,7 +557,7 @@ public class CardSearchPanel extends MTGUIPanel {
 					loading(false, "");
 					cardsModeltable.fireTableDataChanged();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-					MTGControler.getInstance().getEnabledCardsProviders().removeObserver(ob);
+					MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(ob);
 
 				}
 			}.execute();
@@ -592,7 +594,7 @@ public class CardSearchPanel extends MTGUIPanel {
 				ThreadManager.getInstance().execute(() -> {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 					try {
-						selectedCard = MTGControler.getInstance().getEnabledCardsProviders()
+						selectedCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
 						detailCardPanel.setMagicCard(selectedCard);
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);

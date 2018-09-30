@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -149,16 +150,16 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			if (idSet == null) {
 				if (MagicCard.isBasicLand(cardName)) {
 					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed,
+					ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed,
 							true);
 				} else {
-					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, null,
+					ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, null,
 							true);
 				}
 
 			} else {
 				MagicEdition ed = new MagicEdition(idSet);
-				ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed, true);
+				ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
 			}
 
 			if (!ret.isEmpty()) {

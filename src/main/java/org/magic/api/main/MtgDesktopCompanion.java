@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.components.dialog.MTGSplashScreen;
@@ -42,8 +44,8 @@ public class MtgDesktopCompanion {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize("NEW"), MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
 			
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
-			MTGControler.getInstance().getEnabledCardsProviders().init();
-			MTGControler.getInstance().getEnabledDAO().init();
+			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+			MTGControler.getInstance().getEnabled(MTGDao.class).init();
 
 			logger.info("Init MTG Desktop Companion GUI");
 		} catch (Exception e) {
@@ -59,7 +61,7 @@ public class MtgDesktopCompanion {
 			gui.setVisible(true);
 			launch.stop();
 
-			for (MTGServer serv : MTGControler.getInstance().getEnabledServers())
+			for (MTGServer serv : MTGControler.getInstance().listEnabled(MTGServer.class))
 				if (serv.isAutostart())
 					try {
 						serv.start();

@@ -24,6 +24,7 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
@@ -94,7 +95,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 
-				d.getMap().put(MTGControler.getInstance().getEnabledCardsProviders()
+				d.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( p.getEnName().trim(), null, true).get(0), w.getCount());
 			} catch (Exception e) {
 				logger.error("could not import " + w);
@@ -254,7 +255,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setSigned(a.isSigned());
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 					.searchCardByName( a.getProduct().getEnName(), null, true).get(0);
 			MagicCardMarketPricer2.selectEditionCard(mc, a.getProduct().getExpansionName());
 

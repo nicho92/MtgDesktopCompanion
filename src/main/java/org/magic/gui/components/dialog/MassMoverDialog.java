@@ -50,7 +50,7 @@ public class MassMoverDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);
 
-		dao = MTGControler.getInstance().getEnabledDAO();
+		dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		this.toSaveCol = col;
 		this.toSaveEd = ed;
 

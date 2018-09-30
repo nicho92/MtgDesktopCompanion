@@ -17,8 +17,6 @@ import javax.swing.JMenuItem;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDashlet;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.services.MTGConstants;

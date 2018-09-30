@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JMenuItem;
 
 import org.apache.log4j.Logger;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
@@ -37,7 +38,7 @@ public class LibraryPanel extends DraggablePanel {
 		menu.add(new JMenuItem(new MoveGraveyardActions()));
 
 		try {
-			i = MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(
+			i = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture().getScaledInstance(
 					(int) MTGControler.getInstance().getCardsGameDimension().getWidth(),
 					(int) MTGControler.getInstance().getCardsGameDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));

@@ -22,6 +22,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -234,7 +235,7 @@ public class MagicEditionDetailPanel extends JPanel {
 			btnOpenBooster.addActionListener(ae -> {
 				try {
 					CardSearchPanel.getInstance().thumbnail(
-							MTGControler.getInstance().getEnabledCardsProviders().generateBooster(magicEdition).getCards());
+							MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster(magicEdition).getCards());
 				} catch (Exception e) {
 					logger.error("Error loading booster for " + magicEdition, e);
 				}

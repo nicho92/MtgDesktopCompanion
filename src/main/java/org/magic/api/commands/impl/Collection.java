@@ -10,6 +10,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.CommandResponse;
 import org.magic.gui.models.MagicEditionsTableModel;
@@ -38,14 +40,14 @@ public class Collection extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
 			try {
-				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
+				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()));
 			} catch (SQLException e) {
 				return null;
 			}
 		}
 		
 		if (cl.hasOption("s")) {
-			List<MagicEdition> eds = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			List<MagicEdition> eds = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 			MagicEditionsTableModel model = new MagicEditionsTableModel();
 			model.init(eds);
 			double pc=0;
@@ -71,7 +73,7 @@ public class Collection extends AbstractCommand {
 		
 		if (cl.hasOption("l")) {
 			try {
-				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
+				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()));
 			} catch (SQLException e) {
 				return null;
 			}

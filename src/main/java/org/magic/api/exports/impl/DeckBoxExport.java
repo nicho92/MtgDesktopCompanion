@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -147,11 +148,11 @@ public class DeckBoxExport extends AbstractCardExport {
 					name=line.substring(0, line.indexOf(','));
 					line=line.substring(line.indexOf(',')+1,line.length());
 				}
-				MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetByName(line.substring(0, line.indexOf(',')));
+				MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(line.substring(0, line.indexOf(',')));
 				line=line.substring(line.indexOf(',')+1,line.length());
 				line=line.substring(line.indexOf(',')+1,line.length()); //don't care of number
 				
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, ed, true).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 				mcs.setMagicCard(mc);
 				
 		

@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.MTGFormat;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -29,7 +30,7 @@ public class CardDominanceTableModel extends DefaultTableModel {
 
 	public void init(MTGFormat f, String filter) {
 		try {
-			list = MTGControler.getInstance().getEnabledDashBoard().getBestCards(f, filter);
+			list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getBestCards(f, filter);
 		} catch (IOException e) {
 			logger.error(e);
 		}

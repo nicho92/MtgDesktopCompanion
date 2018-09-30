@@ -29,6 +29,7 @@ import javax.swing.JSpinner;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.BinderTagsManager;
 import org.magic.services.MTGConstants;
@@ -99,7 +100,7 @@ public class BinderTagsEditorDialog extends JFrame {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		try {
-			for(MagicEdition ed : MTGControler.getInstance().getEnabledCardsProviders().loadEditions())
+			for(MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions())
 				model.addElement(ed);
 				
 		} catch (IOException e2) {

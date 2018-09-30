@@ -11,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -76,8 +77,8 @@ public class MTGStockExport extends AbstractCardExport {
 				
 				line = line.substring(index+1);
 				int qty = Integer.parseInt(line.substring(0, line.indexOf(',')));
-				MagicEdition edition = MTGControler.getInstance().getEnabledCardsProviders().getSetByName(ed);
-				MagicCard card = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, edition, true).get(0);
+				MagicEdition edition = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(ed);
+				MagicCard card = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, edition, true).get(0);
 				deck.getMap().put(card, qty);
 				setChanged();
 				notifyObservers(val++);

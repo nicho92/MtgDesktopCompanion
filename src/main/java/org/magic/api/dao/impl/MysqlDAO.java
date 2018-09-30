@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -96,7 +97,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, serialiser.toJsonTree(mc).toString());
 			pst.setString(3, mc.getCurrentSet().getId());
-			pst.setString(4, MTGControler.getInstance().getEnabledCardsProviders().toString());
+			pst.setString(4, MTGControler.getInstance().getEnabled(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
 			pst.executeUpdate();
 		}

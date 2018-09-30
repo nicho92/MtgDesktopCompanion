@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.ScryFallProvider;
@@ -46,7 +47,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
 
 		if (scryfallProvider == null)
-			scryfallProvider = MTGControler.getInstance().getEnabledCardsProviders() instanceof ScryFallProvider;
+			scryfallProvider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class) instanceof ScryFallProvider;
 
 		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
 

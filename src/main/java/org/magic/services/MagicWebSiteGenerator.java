@@ -19,6 +19,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.utils.patterns.observer.Observable;
 
@@ -61,7 +62,7 @@ public class MagicWebSiteGenerator extends Observable {
 		try (Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile())) {
 			Map<String, List<MagicCard>> root = new HashMap<>();
 			for (MagicCollection col : cols)
-				root.put(col.getName(), MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col));
+				root.put(col.getName(), MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col));
 
 			generatedTemplate.process(root, out);
 			generateCollectionsTemplate();
@@ -77,7 +78,7 @@ public class MagicWebSiteGenerator extends Observable {
 			rootEd.put("cols", cols);
 			rootEd.put("colName", col.getName());
 			Set<MagicEdition> eds = new HashSet<>();
-			for (MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col)) {
+			for (MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col)) {
 				eds.add(mc.getCurrentSet());
 				generateCardsTemplate(mc);
 			}
@@ -101,7 +102,7 @@ public class MagicWebSiteGenerator extends Observable {
 		rootEd.put("col", col);
 		rootEd.put("colName", col.getName());
 		for (MagicEdition ed : eds) {
-			rootEd.put("cards", MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed));
+			rootEd.put("cards", MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, ed));
 			rootEd.put("edition", ed);
 			FileWriter out = new FileWriter(
 					Paths.get(dest, "page-ed-" + col.getName() + "-" + ed.getId() + ".htm").toFile());

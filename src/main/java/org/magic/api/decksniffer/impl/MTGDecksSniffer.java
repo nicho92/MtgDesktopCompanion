@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
@@ -72,7 +73,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				if (name.contains("/"))
 					name = name.substring(0, name.indexOf('/')).trim();
 
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, null, true).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				if (!isSideboard)
 					deck.getMap().put(mc, Integer.parseInt(qte));

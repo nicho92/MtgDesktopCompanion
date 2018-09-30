@@ -24,6 +24,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -312,7 +313,7 @@ public class DeckDetailsPanel extends JPanel {
 				for (int i = 0; i < 4; i++) {
 					JLabel lab = new JLabel();
 					MagicCard mc = (MagicCard) magicDeck.getMap().keySet().toArray()[i];
-					lab.setIcon(new ImageIcon(ImageUtils.resize(MTGControler.getInstance().getEnabledPicturesProvider().extractPicture(mc), 150, 220)));
+					lab.setIcon(new ImageIcon(ImageUtils.resize(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).extractPicture(mc), 150, 220)));
 					lab.setToolTipText(mc.getName());
 					panel.add(lab);
 				}

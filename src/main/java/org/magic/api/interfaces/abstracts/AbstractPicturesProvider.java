@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageUtils;

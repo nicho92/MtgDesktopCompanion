@@ -123,8 +123,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	
 	
 	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
-		this.provider = MTGControler.getInstance().getEnabledCardsProviders();
-		this.dao = MTGControler.getInstance().getEnabledDAO();
+		this.provider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
+		this.dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		initGUI();
 	}
 
@@ -574,7 +574,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	    btnAddAllSet.addActionListener(ae ->{
 			JPopupMenu popupMenu = new JPopupMenu("Title");
 			try {
-					for(MagicCollection c : MTGControler.getInstance().getEnabledDAO().getCollections())
+					for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections())
 					{
 						JMenuItem cutMenuItem = new JMenuItem(c.getName());
 						initAddAllSet(cutMenuItem);
@@ -780,7 +780,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			try {
 				CardSearchPanel.getInstance()
-						.open(MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, edition));
+						.open(MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition));
 			} catch (SQLException e1) {
 				logger.error(e1);
 			}
@@ -807,12 +807,12 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			
 			try {
-				for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, edition))
+				for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition))
 				{
 					MagicCardAlert alert = new MagicCardAlert();
 					alert.setCard(mc);
 					alert.setPrice(0.0);
-					MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
+					MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert);
 				}
 			} catch (SQLException e1) {
 				logger.error(e1);

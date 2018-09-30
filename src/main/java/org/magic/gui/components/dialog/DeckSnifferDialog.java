@@ -63,13 +63,13 @@ public class DeckSnifferDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		cboSniffers = new JComboBox(MTGControler.getInstance().getEnabledDeckSniffer().toArray());
+		cboSniffers = new JComboBox(MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).toArray());
 
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
 
-		selectedSniffer = MTGControler.getInstance().getEnabledDeckSniffer().get(0);
+		selectedSniffer = MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).get(0);
 		panel.add(cboSniffers);
-
+		
 		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
 		btnConnect.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 			try {

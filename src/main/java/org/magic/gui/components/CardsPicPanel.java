@@ -25,6 +25,8 @@ import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -71,11 +73,11 @@ public class CardsPicPanel extends JXPanel {
 		this.card = mc;
 
 		if (!mc.isTranformable()) {
-			back = MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
+			back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		} else {
 			try {
-				MagicCard flipC = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( card.getRotatedCardName(), card.getCurrentSet(), true).get(0);
-				back = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(flipC, null);
+				MagicCard flipC = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( card.getRotatedCardName(), card.getCurrentSet(), true).get(0);
+				back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(flipC, null);
 			} catch (Exception e) {
 				logger.error(e);
 
@@ -86,10 +88,10 @@ public class CardsPicPanel extends JXPanel {
 
 				if (edition == null)
 					imgFront = renderer.appendReflection(
-							MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card, null));
+							MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card, null));
 				else
 					imgFront = renderer.appendReflection(
-							MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card, edition));
+							MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card, edition));
 
 				back = mirroring(back);
 				back = renderer.appendReflection(back);

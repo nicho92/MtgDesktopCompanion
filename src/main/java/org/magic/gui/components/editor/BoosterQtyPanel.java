@@ -13,6 +13,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -43,7 +44,7 @@ public class BoosterQtyPanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		List<MagicEdition> li = new ArrayList<>();
 		try {
-			li = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 		} catch (IOException e1) {
 			logger.error(e1);
 		}

@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsIndexer;
-import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -55,7 +56,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 			logger.trace("search in cache : " + mc + " " + ed);
 
-			File save = new File(dir, MTGControler.getInstance().getEnabledPicturesProvider().getName());
+			File save = new File(dir, MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getName());
 			if (!save.exists())
 				save.mkdir();
 
@@ -77,7 +78,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 		logger.debug("save in cache : " + mc + " " + ed);
 
-		File f = new File(dir, MTGControler.getInstance().getEnabledPicturesProvider().getName());
+		File f = new File(dir, MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getName());
 		if (!f.exists())
 			f.mkdir();
 

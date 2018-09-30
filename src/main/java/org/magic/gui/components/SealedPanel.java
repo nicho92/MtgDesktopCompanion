@@ -33,6 +33,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGComparator;
 import org.magic.game.gui.components.BoosterPanel;
 import org.magic.game.gui.components.DisplayableCard;
@@ -114,7 +115,7 @@ public class SealedPanel extends JPanel {
 
 		List<MagicEdition> li;
 		try {
-			li = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 		} catch (IOException e1) {
 			li = new ArrayList<>();
 			logger.error(e1);
@@ -324,7 +325,7 @@ public class SealedPanel extends JPanel {
 
 		MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 		try {
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( land, ed, true)
+			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( land, ed, true)
 					.get(0);
 
 			for (int i = 0; i < qte; i++) {
@@ -369,7 +370,7 @@ public class SealedPanel extends JPanel {
 				try {
 					for (int i = 0; i < ed.getValue(); i++) {
 
-						Booster b = MTGControler.getInstance().getEnabledCardsProviders().generateBooster(ed.getKey());
+						Booster b = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster(ed.getKey());
 						column++;
 						for (MagicCard mc : b.getCards()) {
 							list.add(mc);

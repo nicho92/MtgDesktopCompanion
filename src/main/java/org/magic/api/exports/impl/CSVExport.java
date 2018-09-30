@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
@@ -37,7 +38,7 @@ public class CSVExport extends AbstractCardExport {
 			while (line != null) {
 				String[] part = line.split(";");
 				MagicCardStock mcs = new MagicCardStock();
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( part[1], null, true).get(0);
 
 				for (MagicEdition ed : mc.getEditions())
@@ -198,7 +199,7 @@ public class CSVExport extends AbstractCardExport {
 				String set = part[2];
 
 				MagicEdition ed = new MagicEdition(set);
-				List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(
+				List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
 						name, ed, true);
 
 				deck.getMap().put(list.get(0), Integer.parseInt(qte));

@@ -39,6 +39,8 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIPanel;
@@ -228,7 +230,7 @@ public class AlarmGUI extends MTGUIPanel {
 					{	
 						List<MagicPrice> prices=new ArrayList<>();
 						loading(true, MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE") + ":" + alert.toString());
-						MTGControler.getInstance().getEnabledPricers().forEach(p->{
+						MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(p->{
 							try {
 								prices.addAll(p.getPrice(alert.getCard().getCurrentSet(), alert.getCard()));
 							} catch (IOException e1) {
@@ -240,7 +242,7 @@ public class AlarmGUI extends MTGUIPanel {
 						if(!prices.isEmpty())
 						{
 							alert.setPrice(prices.get(0).getValue());
-							MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
+							MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
 						}
 
 					}
@@ -269,7 +271,7 @@ public class AlarmGUI extends MTGUIPanel {
 						loading(true,"");
 						List<MagicCardAlert> alerts = extract(selected);
 						for (MagicCardAlert alert : alerts)
-							MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+							MTGControler.getInstance().getEnabled(MTGDao.class).deleteAlert(alert);
 
 						model.fireTableDataChanged();
 					} catch (Exception e) {
@@ -385,7 +387,7 @@ public class AlarmGUI extends MTGUIPanel {
 		alert.setPrice(1.0);
 		alert.setId(IDGenerator.generate(mc));
 		try {
-			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
+			MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert);
 		} catch (SQLException e) {
 			logger.error(e);
 		}

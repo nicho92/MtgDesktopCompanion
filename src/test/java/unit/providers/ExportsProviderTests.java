@@ -29,6 +29,7 @@ import org.magic.api.exports.impl.OCTGNDeckExport;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.exports.impl.XMageDeckExport;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -77,7 +78,7 @@ public class ExportsProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
 		
 		testExports(new Apprentice2DeckExport());

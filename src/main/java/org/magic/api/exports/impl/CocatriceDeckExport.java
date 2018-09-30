@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -86,7 +87,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders()
+				deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0), qte);
 				setChanged();
 				notifyObservers(c++);
@@ -96,7 +97,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( name, null, true).get(0), qte);
+				deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true).get(0), qte);
 				setChanged();
 				notifyObservers(c++);
 			}

@@ -52,6 +52,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
@@ -146,7 +147,7 @@ public class ConstructPanel extends JPanel {
 		panelBottom = new JPanel();
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
-		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));	
+		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()));	
 		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		lblCards = new JLabel();
 		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);
@@ -223,7 +224,7 @@ public class ConstructPanel extends JPanel {
 			loading(true, "");
 			for (MagicCard mc : deck.getMap().keySet()) {
 				try {
-					updateM.put(MTGControler.getInstance().getEnabledCardsProviders().getCardById(mc.getId()),
+					updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(mc.getId()),
 							deck.getMap().get(mc));
 				} catch (Exception e) {
 					logger.error(e);
@@ -233,7 +234,7 @@ public class ConstructPanel extends JPanel {
 			}
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 				try {
-					updateS.put(MTGControler.getInstance().getEnabledCardsProviders().getCardById(mc.getId()),
+					updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(mc.getId()),
 							deck.getMapSideBoard().get(mc));
 				} catch (Exception e) {
 					btnUpdate.setEnabled(true);
@@ -588,7 +589,7 @@ public class ConstructPanel extends JPanel {
 			ThreadManager.getInstance().execute(() -> {
 				try {
 					String searchName = txtSearch.getText();
-					List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders()
+					List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null, false);
 					MagicFormat form = new MagicFormat();
 

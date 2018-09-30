@@ -40,6 +40,7 @@ import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGControler;
 
@@ -219,7 +220,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		  				   iwc.setOpenMode(OpenMode.CREATE);
 	    IndexWriter indexWriter = new IndexWriter(dir, iwc);
 	    
-		for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByName("", null, false))
+		for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName("", null, false))
 		{
 			indexWriter.addDocument(toDocuments(mc));
 		}

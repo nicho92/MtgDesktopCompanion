@@ -23,6 +23,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -85,7 +86,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 				int qte = Integer.parseInt(e.text().substring(0, e.text().indexOf(' ')));
 				String name = e.select("span.L14").text();
 				if (!name.equals("")) {
-					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName( name, null, true).get(0);
 					if (!side)
 						d.getMap().put(mc, qte);

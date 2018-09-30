@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
@@ -81,7 +82,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 						ecart = 1;
 					}
 					String name = elements[2 - ecart].replaceAll("\"", "");
-					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName( name, ed, true).get(0);
 					Integer qte = Integer.parseInt(elements[1 - ecart]);
 

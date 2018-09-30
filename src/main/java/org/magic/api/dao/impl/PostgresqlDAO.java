@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -122,7 +123,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setString(2, mc.getName());
 			pst.setObject(3, convertObject(mc));
 			pst.setString(4, mc.getCurrentSet().getId());
-			pst.setString(5, MTGControler.getInstance().getEnabledCardsProviders().toString());
+			pst.setString(5, MTGControler.getInstance().getEnabled(MTGCardsProvider.class).toString());
 			pst.setString(6, collection.getName());
 			pst.executeUpdate();
 		}

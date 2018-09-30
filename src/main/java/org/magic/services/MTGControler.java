@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,24 +22,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
-import org.magic.api.interfaces.MTGPictureEditor;
-import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.MTGShopper;
-import org.magic.api.interfaces.MTGTextGenerator;
-import org.magic.api.interfaces.MTGTokensProvider;
-import org.magic.api.interfaces.MTGWallpaperProvider;
-import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
@@ -189,7 +174,7 @@ public class MTGControler {
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return getEnabledCardsProviders().searchCardByName(mc.getName(), ed, true).get(0);
+			return getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, true).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;
@@ -238,7 +223,7 @@ public class MTGControler {
 
 
 	public boolean isRunning(MTGServer server) {
-		for (MTGServer serv : getEnabledServers())
+		for (MTGServer serv : listEnabled(MTGServer.class))
 			if (serv.getName().equals(server.getName()))
 				return serv.isAlive();
 
@@ -302,45 +287,5 @@ public class MTGControler {
 		return PluginRegistry.inst().listEnabledPlugins(t);
 	}
 	
-	
-	@Deprecated
-	public List<MTGNotifier> getEnabledNotifiers() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGNotifier.class);
-	}
-	@Deprecated
-	public List<MTGPricesProvider> getEnabledPricers() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGPricesProvider.class);
-	}
-	@Deprecated
-	public MTGCardsProvider getEnabledCardsProviders() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGCardsProvider.class);
-	}
-	@Deprecated
-	public MTGPictureProvider getEnabledPicturesProvider() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGPictureProvider.class);
-
-	}
-	@Deprecated
-	public MTGDao getEnabledDAO() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGDao.class);
-	}
-	@Deprecated
-	public List<MTGDeckSniffer> getEnabledDeckSniffer() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGDeckSniffer.class);
-	}
-
-	@Deprecated
-	public List<MTGShopper> getEnabledShoppers() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGShopper.class);
-	}
-	@Deprecated
-	public MTGDashBoard getEnabledDashBoard() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGDashBoard.class);
-	}
-	@Deprecated
-	public List<MTGServer> getEnabledServers() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGServer.class);
-	}
-
 
 }

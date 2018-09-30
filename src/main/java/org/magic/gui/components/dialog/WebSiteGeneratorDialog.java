@@ -115,8 +115,8 @@ public class WebSiteGeneratorDialog extends JDialog {
 		gbcscrollPane.gridy = 1;
 		panneaucentral.add(scrollPane, gbcscrollPane);
 		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
-		lstProviders = new JList<>(MTGControler.getInstance().getEnabledPricers()
-				.toArray(new MTGPricesProvider[MTGControler.getInstance().getEnabledPricers().size()]));
+		lstProviders = new JList<>(MTGControler.getInstance().listEnabled(MTGPricesProvider.class)
+				.toArray(new MTGPricesProvider[MTGControler.getInstance().listEnabled(MTGPricesProvider.class).size()]));
 
 		scrollPane.setViewportView(list);
 

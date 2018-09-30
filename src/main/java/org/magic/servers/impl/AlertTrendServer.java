@@ -13,6 +13,8 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -50,10 +52,10 @@ public class AlertTrendServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			public void run() {
 				List<CardShake> ret=new ArrayList<>();
-				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
-					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
+				if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
+					for (MagicCardAlert alert : MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts()) {
 						try {
-							CardPriceVariations cpv= MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
+							CardPriceVariations cpv= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
 							if(cpv!=null)
 							{
 								CardShake cs = cpv.toCardShake();

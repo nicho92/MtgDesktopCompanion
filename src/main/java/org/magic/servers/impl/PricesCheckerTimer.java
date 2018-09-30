@@ -12,6 +12,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -41,10 +42,10 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		running = true;
 		tache = new TimerTask() {
 			public void run() {
-				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
-					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
+				if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
+					for (MagicCardAlert alert : MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
-						for (MTGPricesProvider prov : MTGControler.getInstance().getEnabledPricers()) 
+						for (MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class)) 
 						{
 							List<MagicPrice> okz = new ArrayList<>();
 							try {
@@ -72,7 +73,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						try {
 										
 							MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
-							notif.setMessage(notifFormater.generate(notifier.getFormat(), MTGControler.getInstance().getEnabledDAO().listAlerts(), MagicCardAlert.class));
+							notif.setMessage(notifFormater.generate(notifier.getFormat(), MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts(), MagicCardAlert.class));
 							notifier.send(notif);
 						} catch (IOException e) {
 							logger.error(e);

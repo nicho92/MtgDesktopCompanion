@@ -26,6 +26,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -63,7 +65,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		List<MagicEdition> list = new ArrayList<>();
 		try {
-			list = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 		} catch (IOException e2) {
 			logger.error(e2);
 		}
@@ -71,7 +73,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		cboEditions.setRenderer(new MagicEditionIconListRenderer());
 		panelCollectionInput.add(cboEditions);
 
-		List<MagicCollection> lc = MTGControler.getInstance().getEnabledDAO().getCollections();
+		List<MagicCollection> lc = MTGControler.getInstance().getEnabled(MTGDao.class).getCollections();
 
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
@@ -133,15 +135,15 @@ public class MassCollectionImporterDialog extends JDialog {
 						MagicCard mc = null;
 
 						if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
-							mc = MTGControler.getInstance().getEnabledCardsProviders().getCardByNumber(id, ed);
+							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(id, ed);
 						else
-							mc = MTGControler.getInstance().getEnabledCardsProviders()
+							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 									.searchCardByName( id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
 											(MagicEdition) cboEditions.getSelectedItem(), true)
 									.get(0);
 
 						deck.add(mc);
-						MTGControler.getInstance().getEnabledDAO().saveCard(mc, col);
+						MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(mc, col);
 						progressBar.setValue(i++);
 					} catch (Exception e1) {
 						logger.error(e1);

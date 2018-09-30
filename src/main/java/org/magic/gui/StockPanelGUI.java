@@ -41,6 +41,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
@@ -122,7 +124,7 @@ public class StockPanelGUI extends MTGUIPanel {
 				if (ms.isUpdate())
 					try {
 						lblLoading.buzy(true);
-						MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(ms);
+						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
 						ms.setUpdate(false);
 						lblLoading.buzy(false);
 					} catch (SQLException e1) {
@@ -347,7 +349,7 @@ public class StockPanelGUI extends MTGUIPanel {
 				Collection<Double> prices;
 				Double price = 0.0;
 				try {
-					prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(s.getMagicCard(), null).values();
+					prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(s.getMagicCard(), null).values();
 					if (!prices.isEmpty())
 						price = (Double) prices.toArray()[prices.size() - 1];
 					else
@@ -710,7 +712,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		DefaultComboBoxModel<MagicCollection> cModel = new DefaultComboBoxModel<>();
 		cModel.addElement(null);
 		try {
-			for (MagicCollection l : MTGControler.getInstance().getEnabledDAO().getCollections())
+			for (MagicCollection l : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections())
 				cModel.addElement(l);
 		} catch (SQLException e1) {
 			logger.error(e1);

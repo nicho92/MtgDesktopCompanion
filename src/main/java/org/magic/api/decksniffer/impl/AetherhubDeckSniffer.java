@@ -18,6 +18,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -87,9 +88,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 				String cardName = line.substring(line.indexOf(' '), line.length()).trim();
 				
 				if(sideboard)
-					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cardName, null, true).get(0), qte);
+					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0), qte);
 				else
-					deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cardName, null, true).get(0), qte);
+					deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0), qte);
 			}
 		}
 		return deck;

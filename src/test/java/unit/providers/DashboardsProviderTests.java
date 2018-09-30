@@ -11,6 +11,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.dashboard.impl.MTGPriceDashBoard;
 import org.magic.api.dashboard.impl.MTGStockDashBoard;
 import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -60,7 +61,7 @@ public class DashboardsProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
 		
 		test(new MTGoldFishDashBoard());

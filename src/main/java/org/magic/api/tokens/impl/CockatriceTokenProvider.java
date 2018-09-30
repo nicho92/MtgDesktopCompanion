@@ -19,6 +19,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
@@ -130,7 +132,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				String idSet = sets.item(s).getTextContent();
 
 				if (idSet.equals(mc.getCurrentSet().getId())) {
-					MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(idSet);
+					MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(idSet);
 					tok.getEditions().add(ed);
 				}
 
@@ -229,7 +231,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			return ImageIO.read(connection.getInputStream());
 		} catch (Exception e) {
 			logger.error("error pics reading for " + tok, e);
-			return MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
+			return MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		}
 	}
 

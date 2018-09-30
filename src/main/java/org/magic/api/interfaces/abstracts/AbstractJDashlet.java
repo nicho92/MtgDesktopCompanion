@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGConstants;
@@ -124,7 +125,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 					}
 
 					try {
-						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed, true).get(0);
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
 						popUp.setBorder(new LineBorder(Color.black));
 						popUp.setVisible(false);

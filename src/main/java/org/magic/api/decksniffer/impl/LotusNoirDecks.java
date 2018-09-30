@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -54,7 +55,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				if (cardName.contains("//")) // for transformatble cards
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName(cardName, null, true).get(0);
 				if (!sideboard)
 					deck.getMap().put(mc, qte);

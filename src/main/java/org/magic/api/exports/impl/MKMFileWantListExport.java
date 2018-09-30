@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
@@ -31,7 +32,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 				int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 				String name = line.substring(line.indexOf(' '), line.indexOf('('));
 
-				deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders()
+				deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( name.trim(), null, true).get(0), qte);
 				line = read.readLine();
 			}

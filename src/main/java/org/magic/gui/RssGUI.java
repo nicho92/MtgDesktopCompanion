@@ -24,6 +24,7 @@ import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.NewsEditorPanel;
@@ -124,7 +125,7 @@ public class RssGUI extends MTGUIPanel {
 
 		btnSave.addActionListener(ae -> {
 			try {
-				MTGControler.getInstance().getEnabledDAO().saveOrUpdateNews(newsPanel.getMagicNews());
+				MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateNews(newsPanel.getMagicNews());
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error saving news", ex);
@@ -135,7 +136,7 @@ public class RssGUI extends MTGUIPanel {
 		
 		btnDelete.addActionListener(ae -> {
 			try {
-				MTGControler.getInstance().getEnabledDAO().deleteNews(newsPanel.getMagicNews());
+				MTGControler.getInstance().getEnabled(MTGDao.class).deleteNews(newsPanel.getMagicNews());
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error delete news", ex);
@@ -199,7 +200,7 @@ public class RssGUI extends MTGUIPanel {
 
 	private void initTree() {
 		rootNode.removeAllChildren();
-		for (MagicNews cat : MTGControler.getInstance().getEnabledDAO().listNews())
+		for (MagicNews cat : MTGControler.getInstance().getEnabled(MTGDao.class).listNews())
 			add(cat.getCategorie(), cat);
 
 		((DefaultTreeModel) tree.getModel()).reload();

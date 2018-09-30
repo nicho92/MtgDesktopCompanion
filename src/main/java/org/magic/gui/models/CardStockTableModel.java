@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 
 public class CardStockTableModel extends DefaultTableModel {
@@ -49,14 +50,14 @@ public class CardStockTableModel extends DefaultTableModel {
 			}
 		}
 		if (!stocks.isEmpty())
-			MTGControler.getInstance().getEnabledDAO().deleteStock(stocks);
+			MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(stocks);
 
 		fireTableDataChanged();
 	}
 
 	public void init() throws SQLException {
 		list.clear();
-		list.addAll(MTGControler.getInstance().getEnabledDAO().listStocks());
+		list.addAll(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
 		fireTableDataChanged();
 	}
 

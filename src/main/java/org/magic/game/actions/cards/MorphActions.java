@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -76,14 +78,14 @@ public class MorphActions extends AbstractAction {
 			card.showPT(true);
 			card.initActions();
 			try {
-				card.setImage(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture()
+				card.setImage(new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture()
 						.getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
 		} else {
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
 						card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
 						.get(0);
 				card.setMagicCard(mc);

@@ -17,6 +17,7 @@ import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
 import org.magic.api.decksniffer.impl.MTGoldFishDeck;
 import org.magic.api.decksniffer.impl.MagicCorporationDecks;
 import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -66,7 +67,7 @@ public class DeckSnifferProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		test(new DeckstatsDeckSniffer());
 		test(new LotusNoirDecks());
 		test(new MagicCorporationDecks());

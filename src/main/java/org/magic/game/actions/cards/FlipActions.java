@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
@@ -39,7 +40,7 @@ public class FlipActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			MagicCard mc = MTGControler
-					.getInstance().getEnabledCardsProviders().searchCardByName(
+					.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
 							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
 					.get(0);
 			card.setMagicCard(mc);

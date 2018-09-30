@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -51,7 +52,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 
 	public void init(MagicEdition ed) {
 		try {
-			list = MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
+			list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(ed);
 		} catch (IOException e) {
 			logger.error(e);
 		}

@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
@@ -90,7 +91,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					if (MagicCard.isBasicLand(cardName)) {
 						ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 					}
-					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName( cardName, ed, true).get(0);
 					if (!sideboard) {
 						deck.getMap().put(mc, qte);

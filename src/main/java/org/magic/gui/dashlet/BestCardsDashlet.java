@@ -12,6 +12,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGFormat;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.CardDominanceTableModel;
@@ -54,7 +55,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 		cboFilter = new JComboBox<>();
 		cboFilter.setModel(
-				new DefaultComboBoxModel<>(MTGControler.getInstance().getEnabledDashBoard().getDominanceFilters()));
+				new DefaultComboBoxModel<>(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getDominanceFilters()));
 		panneauHaut.add(cboFilter);
 
 		lblLoading = new JBuzyLabel();

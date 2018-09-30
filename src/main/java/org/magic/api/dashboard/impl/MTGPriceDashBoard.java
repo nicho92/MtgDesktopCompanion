@@ -18,6 +18,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -105,7 +106,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private String getCodeForExt(String name) {
 		try {
-			for (MagicEdition ed : MTGControler.getInstance().getEnabledCardsProviders().loadEditions())
+			for (MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions())
 				if (ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
 		} catch (Exception e) {

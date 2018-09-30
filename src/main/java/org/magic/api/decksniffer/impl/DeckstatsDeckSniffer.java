@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
@@ -109,10 +110,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 				if (MagicCard.isBasicLand(cardName)) {
 					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-					mc = MTGControler.getInstance().getEnabledCardsProviders()
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName(cardName, ed, true).get(0);
 				} else {
-					mc = MTGControler.getInstance().getEnabledCardsProviders()
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName(cardName, null, true).get(0);
 				}
 

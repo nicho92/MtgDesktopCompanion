@@ -4,7 +4,9 @@ import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGCommand;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.console.CommandResponse;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
@@ -15,9 +17,9 @@ public class CommandsTests {
 	@Before
 	public void initProviders()
 	{
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		try {
-			MTGControler.getInstance().getEnabledDAO().init();
+			MTGControler.getInstance().getEnabled(MTGDao.class).init();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} 

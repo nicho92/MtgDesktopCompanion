@@ -19,6 +19,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGFormat;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.CardsShakerTableModel;
@@ -112,9 +113,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 			lblLoading.buzy(false);
 			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 
-			lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : "
+			lblInfoUpdate.setText(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName() + "(updated : "
 					+ new SimpleDateFormat("dd/MM/yyyy HH:mm")
-							.format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())
+							.format(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getUpdatedDate())
 					+ ")");
 
 			List<SortKey> keys = new ArrayList<>();

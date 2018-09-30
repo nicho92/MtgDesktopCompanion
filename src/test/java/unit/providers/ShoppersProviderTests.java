@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.shopping.impl.EbayShopper;
 import org.magic.api.shopping.impl.LeboncoinShopper;
@@ -57,7 +58,7 @@ public class ShoppersProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
 		
 		test(new EbayShopper());

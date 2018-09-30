@@ -24,6 +24,9 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGControler;
@@ -98,7 +101,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			MessageChannel channel = event.getChannel();
 				channel.sendTyping().queue();
 				try {
-					liste = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, ed, false);
+					liste = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, false);
 				}
 				catch(Exception e)
 				{
@@ -188,7 +191,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			temp.append(":no_entry_sign:  \n");
 		
 		try {
-			temp.append("**Collections:** "+MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc).toString());
+			temp.append("**Collections:** "+MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(mc).toString());
 		} catch (SQLException e) {
 			logger.error(e);
 		}
@@ -200,7 +203,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			eb.setImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
 		
 		if(getBoolean(SHOWPRICE))
-			MTGControler.getInstance().getEnabledPricers().forEach(prov->{
+			MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(prov->{
 					try {
 						List<MagicPrice> prices = prov.getPrice(null, mc);
 						Collections.sort(prices, new MagicPricesComparator());

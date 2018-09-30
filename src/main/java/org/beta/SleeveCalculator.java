@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.sorters.CardsEditionSorter;
@@ -22,10 +23,10 @@ public class SleeveCalculator {
 	
 	public static void main(String[] args) throws IOException {
 	
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
 		MagicEdition ed = new MagicEdition("M19");
-		List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByEdition(ed);
+		List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(ed);
 		Collections.sort(cards, new CardsEditionSorter());
 		
 		int l = 3;

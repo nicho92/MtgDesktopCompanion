@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -30,8 +31,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 	@Override
 	public int getRowCount() {
 		try {
-			if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
-				return MTGControler.getInstance().getEnabledDAO().listAlerts().size();
+			if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
+				return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().size();
 
 		} catch (Exception e) {
 			logger.error(e);
@@ -77,19 +78,19 @@ public class CardAlertTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row);
 		case 1:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getCard().getEditions();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getCard().getEditions();
 		case 2:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getPrice();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getPrice();
 		case 3:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getOffers().size();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getOffers().size();
 		case 4:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPriceDayChange();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceDayChange();
 		case 5:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPriceWeekChange();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceWeekChange();
 		case 6:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPercentDayChange();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPercentDayChange();
 		default:
 			return "";
 		}
@@ -98,19 +99,19 @@ public class CardAlertTableModel extends DefaultTableModel {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MagicCardAlert alert = MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
+		MagicCardAlert alert = MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row);
 		if (column == 1) 
 		{
 			MagicEdition ed = (MagicEdition) aValue;
 			try {
 				if(!ed.equals(alert.getCard().getCurrentSet())) 
 				{
-					MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+					MTGControler.getInstance().getEnabled(MTGDao.class).deleteAlert(alert);
 					MagicCard mc = MTGControler.getInstance().switchEditions(alert.getCard(), ed);
 					MagicCardAlert alert2 = new MagicCardAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
-					MTGControler.getInstance().getEnabledDAO().saveAlert(alert2);
+					MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert2);
 					
 				}
 			} catch (Exception e) {
@@ -122,7 +123,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 		{
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
-				MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
+				MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
 				logger.error("error set value " + aValue, e);
 			}

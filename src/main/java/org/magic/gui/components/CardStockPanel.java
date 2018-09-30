@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.components.editor.CardStockLinePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -60,7 +61,7 @@ public class CardStockPanel extends JPanel {
 		content.removeAll();
 		content.setLayout(layout);
 		try {
-			for (MagicCardStock stat : MTGControler.getInstance().getEnabledDAO().listStocks(mc, col)) {
+			for (MagicCardStock stat : MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, col)) {
 				CardStockLinePanel pane = new CardStockLinePanel(mc, col);
 				pane.setMagicCardState(stat);
 				content.add(pane);

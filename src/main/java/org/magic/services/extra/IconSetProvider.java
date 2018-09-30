@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.FileCache;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -145,7 +146,7 @@ public class IconSetProvider {
 	}
 
 	private void initCache() throws IOException {
-		for (MagicEdition e : MTGControler.getInstance().getEnabledCardsProviders().loadEditions()) {
+		for (MagicEdition e : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) {
 			BufferedImage im = extract(e.getId().toUpperCase());
 			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 			cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));

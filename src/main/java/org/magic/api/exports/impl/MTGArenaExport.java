@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -120,13 +121,13 @@ public class MTGArenaExport extends AbstractCardExport {
 					int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 					String name = line.substring(line.indexOf(' '), line.indexOf('('));
 					String ed =  reverse(line.substring( line.indexOf('(')+1,line.indexOf(')')));
-					MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
+					MagicEdition me = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ed);
 				
 					
 					if(!side)
-						deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( name.trim(), me, true).get(0), qte);
+						deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
 					else
-						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( name.trim(), me, true).get(0), qte);
+						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
 					
 				}
 				

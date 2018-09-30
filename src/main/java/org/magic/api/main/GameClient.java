@@ -2,6 +2,7 @@ package org.magic.api.main;
 
 import javax.swing.JFrame;
 
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.GameGUI;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -11,7 +12,7 @@ public class GameClient {
 
 	public static void main(String[] args) {
 		
-		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
 		ThreadManager.getInstance().runInEdt(() -> {
 			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"));

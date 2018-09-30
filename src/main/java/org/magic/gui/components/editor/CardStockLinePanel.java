@@ -24,6 +24,8 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -64,7 +66,7 @@ public class CardStockLinePanel extends JPanel {
 		cboState = new JComboBox(EnumCondition.values());
 		add(cboState);
 
-		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabledCardsProviders().getLanguages());
+		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
 		add(cboLanguage);
 
 		JLabel lblComment = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") + " :");
@@ -99,7 +101,7 @@ public class CardStockLinePanel extends JPanel {
 
 			try {
 				generateState();
-				MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
+				MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(state);
 			} catch (SQLException e) {
 				logger.error(e);
 			}
@@ -127,7 +129,7 @@ public class CardStockLinePanel extends JPanel {
 		try {
 			List<MagicCardStock> l = new ArrayList<>();
 			l.add(state);
-			MTGControler.getInstance().getEnabledDAO().deleteStock(l);
+			MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(l);
 		} catch (SQLException e1) {
 			logger.error(e1);
 		}

@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
@@ -61,7 +62,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						ed.setId(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
 						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
-						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( cardName, ed, true).get(0);
 						deck.getMap().put(mc, qte);
 
@@ -71,7 +72,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						ed.setId(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
 						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
-						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( cardName, ed, true).get(0);
 						deck.getMap().put(mc, qte);
 					}

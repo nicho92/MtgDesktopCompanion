@@ -33,7 +33,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 
 	public void init(String search) {
 		items.clear();
-		for (MTGShopper prov : MTGControler.getInstance().getEnabledShoppers()) {
+		for (MTGShopper prov : MTGControler.getInstance().listEnabled(MTGShopper.class)) {
 			try {
 				items.addAll(prov.search(search));
 				fireTableDataChanged();

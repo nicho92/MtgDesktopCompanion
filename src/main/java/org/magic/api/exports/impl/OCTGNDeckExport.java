@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -70,7 +71,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 				Node it = result.item(i);
 				String name = it.getTextContent();
 				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
 				deck.getMap().put(mc, Integer.parseInt(qte));
@@ -82,7 +83,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 				Node it = result.item(i);
 				String name = it.getTextContent();
 				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
 				deck.getMapSideBoard().put(mc, Integer.parseInt(qte));

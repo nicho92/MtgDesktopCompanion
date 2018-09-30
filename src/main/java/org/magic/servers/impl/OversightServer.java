@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -41,7 +42,7 @@ public class OversightServer extends AbstractMTGServer {
 			public void run() {
 					List<CardShake> ret=null;
 					try {
-						ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
+						ret = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null);
 						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
 						Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
 					} catch (IOException e1) {

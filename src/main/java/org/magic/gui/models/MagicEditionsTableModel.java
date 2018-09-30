@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
@@ -62,7 +63,7 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		Map<String, Integer> temp;
 		try {
-			temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
+			temp = MTGControler.getInstance().getEnabled(MTGDao.class).getCardsCountGlobal(mc);
 		
 		countDefaultLibrary = 0;
 		countTotal = 0;

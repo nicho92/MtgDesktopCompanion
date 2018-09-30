@@ -15,6 +15,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.EditionsShakerTableModel;
@@ -51,7 +52,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		List<MagicEdition> eds = new ArrayList<>();
 
 		try {
-			eds.addAll(MTGControler.getInstance().getEnabledCardsProviders().loadEditions());
+			eds.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions());
 			Collections.sort(eds);
 			eds.add(0, null);
 		} catch (Exception e) {
@@ -87,7 +88,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 			MagicEdition ed;
 			try {
-				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(getString("EDITION"));
+				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(getString("EDITION"));
 				cboEditions.setSelectedItem(ed);
 			} catch (Exception e) {
 				logger.error("Error retrieve editions", e);

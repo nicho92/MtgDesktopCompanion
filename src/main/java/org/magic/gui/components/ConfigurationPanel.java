@@ -40,6 +40,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
@@ -104,7 +105,7 @@ public class ConfigurationPanel extends JPanel {
 		setLayout(gridBagLayout);
 
 		for (MTGDao daos : MTGControler.getInstance().getPlugins(MTGDao.class))
-			if (!daos.getName().equals(MTGControler.getInstance().getEnabledDAO().getName())) {
+			if (!daos.getName().equals(MTGControler.getInstance().getEnabled(MTGDao.class).getName())) {
 
 				cboTargetDAO.addItem(daos);
 			}
@@ -152,7 +153,7 @@ public class ConfigurationPanel extends JPanel {
 		panelDAO.add(btnBackup, gbcbtnBackup);
 
 		JLabel lblDuplicateDb = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",
-				MTGControler.getInstance().getEnabledDAO()));
+				MTGControler.getInstance().getEnabled(MTGDao.class)));
 		GridBagConstraints gbclblDuplicateDb = new GridBagConstraints();
 		gbclblDuplicateDb.insets = new Insets(0, 0, 5, 5);
 		gbclblDuplicateDb.gridx = 0;
@@ -181,7 +182,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLocation.gridy = 2;
 		panelDAO.add(lblLocation, gbclblLocation);
 
-		JLabel lblLocationValue = new JLabel(MTGControler.getInstance().getEnabledDAO().getDBLocation());
+		JLabel lblLocationValue = new JLabel(MTGControler.getInstance().getEnabled(MTGDao.class).getDBLocation());
 		GridBagConstraints gbclblLocationValue = new GridBagConstraints();
 		gbclblLocationValue.gridwidth = 2;
 		gbclblLocationValue.insets = new Insets(0, 0, 5, 5);
@@ -197,7 +198,7 @@ public class ConfigurationPanel extends JPanel {
 		panelDAO.add(lblSize, gbclblSize);
 
 		JLabel lblSizeValue = new JLabel(
-				String.valueOf(MTGControler.getInstance().getEnabledDAO().getDBSize() / 1024 / 1024) + "MB");
+				String.valueOf(MTGControler.getInstance().getEnabled(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
 		GridBagConstraints gbclblSizeValue = new GridBagConstraints();
 		gbclblSizeValue.gridwidth = 2;
 		gbclblSizeValue.insets = new Insets(0, 0, 5, 5);
@@ -245,11 +246,11 @@ public class ConfigurationPanel extends JPanel {
 			try {
 				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
 				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",
-						MTGControler.getInstance().getEnabledDAO()) + " " + dao);
+						MTGControler.getInstance().getEnabled(MTGDao.class)) + " " + dao);
 
 				dao.init();
-				for (MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollections())
-					for (MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col)) {
+				for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections())
+					for (MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col)) {
 						dao.saveCard(mc, col);
 					}
 
@@ -258,21 +259,21 @@ public class ConfigurationPanel extends JPanel {
 				loading(false, "");
 				logger.error(e);
 			}
-		}, "duplicate " + MTGControler.getInstance().getEnabledDAO() + " to " + cboTargetDAO.getSelectedItem())
+		}, "duplicate " + MTGControler.getInstance().getEnabled(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem())
 
 		);
 		btnBackup.addActionListener(ae ->
 
 		ThreadManager.getInstance().execute(() -> {
 			try {
-				loading(true, "backup db " + MTGControler.getInstance().getEnabledDAO() + " database");
-				MTGControler.getInstance().getEnabledDAO().backup(new File(textField.getText()));
+				loading(true, "backup db " + MTGControler.getInstance().getEnabled(MTGDao.class) + " database");
+				MTGControler.getInstance().getEnabled(MTGDao.class).backup(new File(textField.getText()));
 				loading(false,"");
 
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
-		}, "backup " + MTGControler.getInstance().getEnabledDAO() + " database"));
+		}, "backup " + MTGControler.getInstance().getEnabled(MTGDao.class) + " database"));
 
 		JPanel panelConfig = new JPanel();
 		panelConfig.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
@@ -444,7 +445,7 @@ public class ConfigurationPanel extends JPanel {
 
 		final JComboBox<String> cboLanguages = new JComboBox<>();
 
-		for (String s : MTGControler.getInstance().getEnabledCardsProviders().getLanguages()) {
+		for (String s : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages()) {
 			cboLanguages.addItem(s);
 			if (MTGControler.getInstance().get("langage").equals(s))
 				cboLanguages.setSelectedItem(s);
@@ -592,7 +593,7 @@ public class ConfigurationPanel extends JPanel {
 				MTGControler.getInstance().setProperty("/card-pictures-dimension/width", (int)resizerPanel.getDimension().getWidth());
 				MTGControler.getInstance().setProperty("/card-pictures-dimension/height", (int)resizerPanel.getDimension().getHeight());
 				resizerPanel.setValue(0);
-				MTGControler.getInstance().getEnabledPicturesProvider().setSize(resizerPanel.getDimension());
+				MTGControler.getInstance().getEnabled(MTGPictureProvider.class).setSize(resizerPanel.getDimension());
 		});
 		GridBagConstraints gbcbtnSavePicSize = new GridBagConstraints();
 		gbcbtnSavePicSize.gridx = 4;
@@ -621,7 +622,7 @@ public class ConfigurationPanel extends JPanel {
 		});
 
 		try {
-			for (MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollections()) {
+			for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()) {
 				cboCollections.addItem(col);
 				if (col.getName().equalsIgnoreCase(MTGControler.getInstance().get("default-library"))) {
 					cboCollections.setSelectedItem(col);
@@ -1059,7 +1060,7 @@ public class ConfigurationPanel extends JPanel {
 
 		}
 		try {
-			for (MagicEdition col : MTGControler.getInstance().getEnabledCardsProviders().loadEditions()) {
+			for (MagicEdition col : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) {
 				cboEditionLands.addItem(col);
 				if (col.getId().equalsIgnoreCase(MTGControler.getInstance().get("default-land-deck"))) {
 					cboEditionLands.setSelectedItem(col);

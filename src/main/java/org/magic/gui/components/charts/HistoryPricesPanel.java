@@ -27,6 +27,7 @@ import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -107,7 +108,7 @@ public class HistoryPricesPanel extends JPanel {
 		
 		if(isVisible()) {
 			try {
-				this.cpVariations = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card, me);
+				this.cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(card, me);
 				refresh();
 			} catch (IOException e) {
 				logger.error("error init " + card, e);
@@ -153,7 +154,7 @@ public class HistoryPricesPanel extends JPanel {
 
 		if (showEdition)
 			try {
-				for (MagicEdition edition : MTGControler.getInstance().getEnabledCardsProviders().loadEditions()) {
+				for (MagicEdition edition : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) {
 					Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 					TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 
