@@ -281,6 +281,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return "Treasure+Chest";
 		case "Modern+Masters+2015+Edition":
 			return "Modern+Masters+2015";
+		case "Guru":
+			return "Guru+Lands";
 		default:
 			return editionName;
 		}
@@ -316,6 +318,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		mapConcordance.put("pGPX", "PRM-GPP");
 		mapConcordance.put("pFNM", "PRM-FNM");
 		mapConcordance.put("pARL", "PRM-ARN");
+		mapConcordance.put("pGRU", "PRM-GUR");
 		// p15A
 
 	}

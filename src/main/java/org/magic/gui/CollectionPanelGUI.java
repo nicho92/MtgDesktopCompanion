@@ -571,29 +571,30 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 		}, "btnGenerateWebSite generate website"));
 
-		btnAddAllSet.addActionListener(evt -> {
-			MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
-
-			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize(
-					"CONFIRM_COLLECTION_ITEM_ADDITION", ed, MTGControler.getInstance().get("default-library")));
-
-			if (res == JOptionPane.YES_OPTION)
-				try {
-					List<MagicCard> list = provider.searchCardByEdition(ed);
-					logger.debug("save " + list.size() + " cards from " + ed.getId());
-					for (MagicCard mc : list) {
-						MagicCollection col = new MagicCollection();
-						col.setName(MTGControler.getInstance().get("default-library"));
-						dao.saveCard(mc, col);
+	    btnAddAllSet.addActionListener(ae ->{
+			JPopupMenu popupMenu = new JPopupMenu("Title");
+			try {
+					for(MagicCollection c : MTGControler.getInstance().getEnabledDAO().getCollections())
+					{
+						JMenuItem cutMenuItem = new JMenuItem(c.getName());
+						initAddAllSet(cutMenuItem);
+						popupMenu.add(cutMenuItem);
 					}
-					model.calculate();
-					model.fireTableDataChanged();
-				} catch (Exception e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-					logger.error(e);
-				}
-		});
-
+				} catch (Exception e1) {
+					logger.error(e1);
+			}
+			btnAddAllSet.setComponentPopupMenu(popupMenu);
+	    	Component b=(Component)ae.getSource();
+	    	Point p=b.getLocationOnScreen();
+	    	popupMenu.show(this,0,0);
+	    	popupMenu.setLocation(p.x,p.y+b.getHeight());
+	    });
+	    
+	    
+	    
+	    
+	    
+	   
 		btnRemove.addActionListener(evt -> {
 
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
@@ -653,6 +654,34 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		});
 	}
 	
+	
+	
+	public void initAddAllSet(JMenuItem it)
+	{
+		 
+		it.addActionListener(evt -> {
+			MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
+
+			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize(
+					"CONFIRM_COLLECTION_ITEM_ADDITION", ed, it.getText()));
+
+			if (res == JOptionPane.YES_OPTION)
+				try {
+					List<MagicCard> list = provider.searchCardByEdition(ed);
+					logger.debug("save " + list.size() + " cards from " + ed.getId());
+					for (MagicCard mc : list) {
+						MagicCollection col = new MagicCollection(it.getText());
+						dao.saveCard(mc, col);
+					}
+					model.calculate();
+					model.fireTableDataChanged();
+				} catch (Exception e) {
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					logger.error(e);
+				}
+		});
+
+	}
 	
 
 	public void initPopupCollection() throws SQLException {
