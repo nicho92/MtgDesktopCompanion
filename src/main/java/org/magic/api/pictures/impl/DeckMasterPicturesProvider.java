@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
@@ -94,15 +95,15 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			}
 		}
 
-		if (MTGControler.getInstance().getEnabledCache().getPic(mc, selected) != null) {
+		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected) != null) {
 
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc, selected), newW, newH);
+			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected), newW, newH);
 		}
 
 		BufferedImage im = getPicture(selected.getMultiverseid());
 
 		if (im != null)
-			MTGControler.getInstance().getEnabledCache().put(im, mc, ed);
+			MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(im, mc, ed);
 
 		return resizeCard(im, newW, newH);
 	}

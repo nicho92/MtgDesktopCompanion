@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
@@ -595,7 +596,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 					n.setName(rs.getString("name"));
 					n.setUrl(rs.getString("url"));
 					n.setId(rs.getInt("id"));
-					n.setProvider(MTGControler.getInstance().getNewsProvider(rs.getString("typeNews")));
+					n.setProvider(MTGControler.getInstance().getPlugin(rs.getString("typeNews"),MTGNewsProvider.class));
 					news.add(n);
 				}
 				return news;

@@ -213,7 +213,7 @@ public class StockPanelGUI extends MTGUIPanel {
 			});
 			menu.add(mnuImportSearch);
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					JMenuItem it = new JMenuItem();
@@ -286,7 +286,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		btnExport.addActionListener(event -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
 
 					JMenuItem it = new JMenuItem();

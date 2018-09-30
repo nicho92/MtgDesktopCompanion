@@ -300,7 +300,7 @@ public class AlarmGUI extends MTGUIPanel {
 			});
 			menu.add(mnuImportSearch);
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					JMenuItem it = new JMenuItem();

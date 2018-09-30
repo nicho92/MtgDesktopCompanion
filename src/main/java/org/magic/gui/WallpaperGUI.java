@@ -94,7 +94,7 @@ public class WallpaperGUI extends MTGUIPanel {
 
 		cboWallpapersProv = new JComboBox<>();
 
-		for (MTGWallpaperProvider prov : MTGControler.getInstance().getEnabledWallpaper())
+		for (MTGWallpaperProvider prov : MTGControler.getInstance().listEnabled(MTGWallpaperProvider.class))
 			cboWallpapersProv.addItem(prov);
 
 		selectedProvider = cboWallpapersProv.getItemAt(0);

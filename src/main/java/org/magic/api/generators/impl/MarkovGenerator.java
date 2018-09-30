@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGCardsIndexer;
+import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -47,7 +49,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		  {
 			  logger.debug("Init MarkovGenerator");
 			  StringBuilder build = new StringBuilder();
-			  for(MagicCard mc : MTGControler.getInstance().getEnabledCardIndexer().listCards())
+			  for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).listCards())
 			  {
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
 						  String r = mc.getText().replaceAll(CardsPatterns.REMINDER.getPattern(), "")

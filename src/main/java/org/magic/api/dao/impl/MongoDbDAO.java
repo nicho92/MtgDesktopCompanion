@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
@@ -420,7 +421,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{ 
 			MagicNews mn = deserialize(result.get(dbNewsField).toString(), MagicNews.class);
 			try{
-				mn.setProvider(MTGControler.getInstance().getNewsProvider(result.get(dbTypeNewsField).toString()));
+				mn.setProvider(MTGControler.getInstance().getPlugin(result.get(dbTypeNewsField).toString(),MTGNewsProvider.class));
 			}catch(Exception e)
 			{
 				logger.error("error get typeNews provider "+result,e);

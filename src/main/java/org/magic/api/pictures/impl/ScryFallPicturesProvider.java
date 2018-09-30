@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
@@ -72,9 +73,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if (ed == null)
 			selected = mc.getCurrentSet();
 
-		if (MTGControler.getInstance().getEnabledCache().getPic(mc, selected) != null) {
+		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected) != null) {
 			logger.trace("cached " + mc + "(" + selected + ") found");
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc, selected), newW, newH);
+			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected), newW, newH);
 		}
 
 		URL url = generateLink(mc, selected, false);
@@ -87,7 +88,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
 
 			if (bufferedImage != null)
-				MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc, selected);
+				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, selected);
 			
 			return resizeCard(bufferedImage, newW, newH);
 		} catch (Exception e) {

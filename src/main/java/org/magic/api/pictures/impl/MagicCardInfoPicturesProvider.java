@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
@@ -45,8 +46,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
 
-		if (MTGControler.getInstance().getEnabledCache().getPic(mc, ed) != null) {
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc, ed), newW, newH);
+		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed) != null) {
+			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed), newW, newH);
 		}
 
 		if (ed == null)
@@ -87,7 +88,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		g.drawImage(img, 0, 0, null);
 		g.dispose();
 
-		MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc, ed);
+		MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, ed);
 
 		return resizeCard(bufferedImage, newW, newH);
 	}

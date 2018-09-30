@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
@@ -28,9 +29,9 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		if (me == null)
 			edition = mc.getCurrentSet();
 
-		if (MTGControler.getInstance().getEnabledCache().getPic(mc, edition) != null) {
+		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, edition) != null) {
 			logger.trace("cached " + mc + "(" + edition + ") found");
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc, edition), newW, newH);
+			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, edition), newW, newH);
 		}
 
 		String cardSet = edition.getId();
@@ -53,7 +54,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
 			if (bufferedImage != null)
-				MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc, edition);
+				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, edition);
 			return resizeCard(bufferedImage, newW, newH);
 		} catch (Exception e) {
 			logger.error(e);

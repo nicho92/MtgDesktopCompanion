@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
@@ -551,7 +552,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 					n.setCategorie(rs.getString("categorie"));
 					n.setName(rs.getString("name"));
 					n.setUrl(rs.getString("url"));
-					n.setProvider(MTGControler.getInstance().getNewsProvider(rs.getString("typeNews")));
+					n.setProvider(MTGControler.getInstance().getPlugin(rs.getString("typeNews"),MTGNewsProvider.class));
 					n.setId(rs.getInt("id"));
 					news.add(n);
 				}

@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
@@ -31,7 +32,7 @@ public class CreateActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard tok = MTGControler.getInstance().getEnabledTokensProvider().generateTokenFor(card.getMagicCard());
+			MagicCard tok = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
 			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);

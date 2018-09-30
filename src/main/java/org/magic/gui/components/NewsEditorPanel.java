@@ -45,7 +45,7 @@ public class NewsEditorPanel extends JPanel {
 		gbclblType.gridy = 0;
 		add(lblType, gbclblType);
 
-		List<MTGNewsProvider> provs = MTGControler.getInstance().getEnabledNewsProviders();
+		List<MTGNewsProvider> provs = MTGControler.getInstance().listEnabled(MTGNewsProvider.class);
 		cboType = new JComboBox<>(
 				new DefaultComboBoxModel<MTGNewsProvider>(provs.toArray(new MTGNewsProvider[provs.size()])));
 

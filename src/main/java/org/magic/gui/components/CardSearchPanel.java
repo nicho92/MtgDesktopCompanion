@@ -630,7 +630,7 @@ public class CardSearchPanel extends MTGUIPanel {
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());

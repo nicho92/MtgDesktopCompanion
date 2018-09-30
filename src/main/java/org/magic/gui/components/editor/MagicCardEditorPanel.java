@@ -43,6 +43,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGPictureEditor;
+import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
@@ -381,7 +383,7 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc16.gridy = 4;
 		
 		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
-		JScrollPane scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getEnabledTextGenerator()));
+		JScrollPane scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getEnabled(MTGTextGenerator.class)));
 		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));

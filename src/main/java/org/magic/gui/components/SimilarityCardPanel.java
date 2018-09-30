@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.models.SimilarityCardsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -49,7 +50,7 @@ public class SimilarityCardPanel extends JPanel {
 		
 		if(isVisible()) {
 		try {
-			model.init(MTGControler.getInstance().getEnabledCardIndexer().similarity(mc));
+			model.init(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).similarity(mc));
 		} catch (IOException e) {
 			logger.error(e);
 		}

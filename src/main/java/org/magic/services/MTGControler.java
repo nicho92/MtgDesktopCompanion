@@ -189,7 +189,7 @@ public class MTGControler {
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(mc.getName(), ed, true).get(0);
+			return getEnabledCardsProviders().searchCardByName(mc.getName(), ed, true).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;
@@ -292,42 +292,17 @@ public class MTGControler {
 		return PluginRegistry.inst().listPlugins(t);
 	}
 	
-	@Deprecated
-	public List<MTGNewsProvider> getEnabledNewsProviders() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGNewsProvider.class);
+	public <T extends MTGPlugin> T getEnabled(Class<T> t)
+	{
+		return PluginRegistry.inst().getEnabledPlugins(t);
 	}
 	
-	@Deprecated
-	public List<MTGWallpaperProvider> getEnabledWallpaper() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGWallpaperProvider.class);
+	public <T extends MTGPlugin> List<T> listEnabled(Class<T> t)
+	{
+		return PluginRegistry.inst().listEnabledPlugins(t);
 	}
 	
-	@Deprecated
-	public MTGNewsProvider getNewsProvider(String s) {
-		return getPlugin(s,MTGNewsProvider.class);
-			
-	}
-
-	@Deprecated
-	public MTGPicturesCache getEnabledCache() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGPicturesCache.class);
-	}
-	@Deprecated
-	public MTGTokensProvider getEnabledTokensProvider() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGTokensProvider.class);
-	}
-	@Deprecated
-	public MTGPictureEditor getEnabledPictureEditor() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGPictureEditor.class);
-	}
-	@Deprecated
-	public MTGTextGenerator getEnabledTextGenerator() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGTextGenerator.class);
-	}
-	@Deprecated
-	public MTGCardsIndexer getEnabledCardIndexer() {
-		return PluginRegistry.inst().getEnabledPlugins(MTGCardsIndexer.class);
-	}
+	
 	@Deprecated
 	public List<MTGNotifier> getEnabledNotifiers() {
 		return PluginRegistry.inst().listEnabledPlugins(MTGNotifier.class);
@@ -367,9 +342,5 @@ public class MTGControler {
 		return PluginRegistry.inst().listEnabledPlugins(MTGServer.class);
 	}
 
-	@Deprecated
-	public List<MTGCardsExport> getEnabledDeckExports() {
-		return PluginRegistry.inst().listEnabledPlugins(MTGCardsExport.class);
-	}
 
 }

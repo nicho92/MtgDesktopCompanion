@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageUtils;
@@ -16,7 +17,8 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	protected int newW=MTGConstants.DEFAULT_PIC_HEIGHT;
 	protected int newH=MTGConstants.DEFAULT_PIC_WIDTH;
-
+	
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PICTURES;
@@ -42,7 +44,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		{
 			logger.error("couldn't set size");
 		}
-		
 	}
 
 	@Override

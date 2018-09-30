@@ -37,8 +37,10 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -226,7 +228,7 @@ public class ConfigurationPanel extends JPanel {
 					try {
 						loading(true, "Indexation");
 						btnIndexation.setEnabled(false);
-						MTGControler.getInstance().getEnabledCardIndexer().initIndex();
+						MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).initIndex();
 					} catch (Exception e) {
 						logger.error("error indexation",e);
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
@@ -508,7 +510,7 @@ public class ConfigurationPanel extends JPanel {
 			try {
 				loading(true, MTGControler.getInstance().getLangService().getCapitalize("CLEAN"));
 				IconSetProvider.getInstance().clean();
-				MTGControler.getInstance().getEnabledCache().clear();
+				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).clear();
 				loading(false, "");
 			} catch (Exception e) {
 				logger.error(e);

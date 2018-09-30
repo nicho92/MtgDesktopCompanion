@@ -51,6 +51,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
@@ -280,7 +281,7 @@ public class ConstructPanel extends JPanel {
 
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					JMenuItem it = new JMenuItem();
@@ -364,7 +365,7 @@ public class ConstructPanel extends JPanel {
 		btnExports.addActionListener(exportsAction -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -645,7 +646,7 @@ public class ConstructPanel extends JPanel {
 						
 						
 						try {
-							for(MagicCard card : MTGControler.getInstance().getEnabledCardIndexer().similarity(mc).keySet())
+							for(MagicCard card : MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).similarity(mc).keySet())
 								resultListModel.addElement(card);
 						
 							lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));

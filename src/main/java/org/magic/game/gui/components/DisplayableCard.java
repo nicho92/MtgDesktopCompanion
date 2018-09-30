@@ -36,6 +36,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.cards.AbilitiesActions;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
@@ -423,11 +424,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 			}
 
 			menu.add(sep);
-			if (MTGControler.getInstance().getEnabledTokensProvider().isTokenizer(magicCard)) {
+			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isTokenizer(magicCard)) {
 				menu.add(new JMenuItem(new CreateActions(this)));
 			}
 
-			if (MTGControler.getInstance().getEnabledTokensProvider().isEmblemizer(magicCard))
+			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isEmblemizer(magicCard))
 				menu.add(new JMenuItem(new EmblemActions(this)));
 
 			setComponentPopupMenu(menu);
@@ -484,7 +485,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 		try {
 			if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
-				fullResPics = MTGControler.getInstance().getEnabledTokensProvider().getPictures(mc);
+				fullResPics = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
 			} else {
 				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 
