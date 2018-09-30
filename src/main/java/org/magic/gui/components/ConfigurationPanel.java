@@ -706,9 +706,9 @@ public class ConfigurationPanel extends JPanel {
 		gbcpanelProfil.gridy = 2;
 		add(panelProfil, gbcpanelProfil);
 		GridBagLayout gblpanelProfil = new GridBagLayout();
-		gblpanelProfil.columnWidths = new int[] { 0, 71, 0, 0, 0, 0 };
+		gblpanelProfil.columnWidths = new int[] { 0, 71, 0, 0, 0 };
 		gblpanelProfil.rowHeights = new int[] { 0, 0, 29, 0, 0 };
-		gblpanelProfil.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gblpanelProfil.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gblpanelProfil.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelProfil.setLayout(gblpanelProfil);
 
@@ -723,7 +723,7 @@ public class ConfigurationPanel extends JPanel {
 		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"));
 		GridBagConstraints gbctxtName = new GridBagConstraints();
 		gbctxtName.gridwidth = 3;
-		gbctxtName.insets = new Insets(0, 0, 5, 5);
+		gbctxtName.insets = new Insets(0, 0, 5, 0);
 		gbctxtName.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtName.gridx = 1;
 		gbctxtName.gridy = 0;
@@ -767,7 +767,7 @@ public class ConfigurationPanel extends JPanel {
 		JPanel panelSubGame = new JPanel();
 		GridBagConstraints gbcpanelSubGame = new GridBagConstraints();
 		gbcpanelSubGame.gridheight = 2;
-		gbcpanelSubGame.insets = new Insets(0, 0, 5, 5);
+		gbcpanelSubGame.insets = new Insets(0, 0, 5, 0);
 		gbcpanelSubGame.fill = GridBagConstraints.BOTH;
 		gbcpanelSubGame.gridx = 3;
 		gbcpanelSubGame.gridy = 1;
@@ -789,7 +789,6 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 		GridBagConstraints gbcbtnSave2 = new GridBagConstraints();
-		gbcbtnSave2.insets = new Insets(0, 0, 0, 5);
 		gbcbtnSave2.gridx = 3;
 		gbcbtnSave2.gridy = 3;
 		panelProfil.add(btnSave2, gbcbtnSave2);
