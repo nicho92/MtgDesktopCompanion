@@ -14,7 +14,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.tools.Chrono;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.reflections.Reflections;
 
@@ -36,10 +35,7 @@ public class LookAndFeelProvider {
 	public void setLookAndFeel(Container container, LookAndFeelInfo lookAndFeel) {
 		setLookAndFeel(container, lookAndFeel.getClassName());
 	}
-
-	public void cleanExtra() {
-		list.clear();
-	}
+ 
 
 	public void setLookAndFeel(Component ui, String lookAndFeel) {
 		try {

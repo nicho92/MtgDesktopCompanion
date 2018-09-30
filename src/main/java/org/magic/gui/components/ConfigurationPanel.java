@@ -37,6 +37,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
@@ -100,7 +101,7 @@ public class ConfigurationPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		for (MTGDao daos : MTGControler.getInstance().getDaoProviders())
+		for (MTGDao daos : MTGControler.getInstance().getPlugins(MTGDao.class))
 			if (!daos.getName().equals(MTGControler.getInstance().getEnabledDAO().getName())) {
 
 				cboTargetDAO.addItem(daos);

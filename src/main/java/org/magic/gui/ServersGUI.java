@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
 
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.ServerStatePanel;
@@ -25,7 +26,7 @@ public class ServersGUI extends MTGUIPanel {
 	
 	public ServersGUI() {
 		setLayout(new GridLayout(10, 1, 0, 0));
-		for (MTGServer s : MTGControler.getInstance().getServers()) {
+		for (MTGServer s : MTGControler.getInstance().getPlugins(MTGServer.class)) {
 			add(new ServerStatePanel(s));
 		}
 	}

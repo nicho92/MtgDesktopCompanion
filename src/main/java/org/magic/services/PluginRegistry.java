@@ -194,6 +194,23 @@ public class PluginRegistry {
 		logger.error(name + " doesn't exist or is not enabled");
 		return null;
 	}
+
+	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
+		List<T> enable = new ArrayList<>();
+		for (T p : listPlugins(t))
+			if (p.isEnable())
+				enable.add(p);
+
+		return enable;
+	}
+	
+	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
+		for (T p : listPlugins(t))
+			if (p.isEnable())
+				return p;
+
+		return null;
+	}
 	
 }
 

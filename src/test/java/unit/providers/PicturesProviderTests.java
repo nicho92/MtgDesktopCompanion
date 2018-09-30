@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.NoCache;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
@@ -29,13 +30,13 @@ public class PicturesProviderTests {
 	{
 		MTGLogger.changeLevel(Level.ERROR);
 		
-		List<MTGPicturesCache> caches = MTGControler.getInstance().getCachesProviders();
-		MTGControler.getInstance().getCachesProviders().removeAll(caches);
+		List<MTGPicturesCache> caches = MTGControler.getInstance().getPlugins(MTGPicturesCache.class);
+		MTGControler.getInstance().getPlugins(MTGPicturesCache.class).removeAll(caches);
 		
 		MTGPicturesCache cache = new NoCache();
 		cache.enable(true);
 		
-		MTGControler.getInstance().getCachesProviders().add(cache);
+		MTGControler.getInstance().getPlugins(MTGPicturesCache.class).add(cache);
 	}
 
 	

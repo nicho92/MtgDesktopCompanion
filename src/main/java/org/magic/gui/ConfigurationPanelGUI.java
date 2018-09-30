@@ -14,7 +14,23 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.jdesktop.swingx.JXTreeTable;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsIndexer;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.api.interfaces.MTGNotifier;
+import org.magic.api.interfaces.MTGPictureEditor;
+import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
@@ -58,22 +74,22 @@ public class ConfigurationPanelGUI extends MTGUIPanel {
 		providerConfigPanel.add(subTabbedProviders);
 
 		
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_BACK, false,MTGControler.getInstance().getCardsProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, false,MTGControler.getInstance().getPicturesProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), MTGConstants.ICON_TAB_PRICES, true,MTGControler.getInstance().getPricerProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), MTGConstants.ICON_TAB_DAO, false, MTGControler.getInstance().getDaoProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPERS"), MTGConstants.ICON_TAB_SHOP, true, MTGControler.getInstance().getShoppersProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS_IMPORT_EXPORT"), MTGConstants.ICON_TAB_IMPORT_EXPORT, true, MTGControler.getInstance().getImportExportProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"), MTGConstants.ICON_TAB_DECK, true, MTGControler.getInstance().getDeckSnifferProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"), MTGConstants.ICON_TAB_VARIATIONS, false, MTGControler.getInstance().getDashboardsProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("SERVERS"), MTGConstants.ICON_TAB_SERVER, true, MTGControler.getInstance().getServers());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("NOTIFICATION"), MTGConstants.ICON_TAB_NOTIFICATION, true, MTGControler.getInstance().getNotifierProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("CACHES"), MTGConstants.ICON_TAB_CACHE,false, MTGControler.getInstance().getCachesProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), MTGConstants.ICON_TAB_NEWS, true, MTGControler.getInstance().getNewsProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), MTGConstants.ICON_TAB_WALLPAPER, true, MTGControler.getInstance().getWallpaperProviders());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"), MTGConstants.ICON_TAB_CONSTRUCT, false, MTGControler.getInstance().getPicturesEditors());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("INDEXER"), MTGConstants.ICON_TAB_SIMILARITY, false, MTGControler.getInstance().getCardsIndexers());
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("SUGGESTION"), MTGConstants.ICON_TAB_SUGGESTION, false, MTGControler.getInstance().getTextsGenerator());
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_BACK, false,MTGControler.getInstance().getPlugins(MTGCardsProvider.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, false,MTGControler.getInstance().getPlugins(MTGPictureProvider.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), MTGConstants.ICON_TAB_PRICES, true,MTGControler.getInstance().getPlugins(MTGPricesProvider.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), MTGConstants.ICON_TAB_DAO, false, MTGControler.getInstance().getPlugins(MTGDao.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPERS"), MTGConstants.ICON_TAB_SHOP, true, MTGControler.getInstance().getPlugins(MTGShopper.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS_IMPORT_EXPORT"), MTGConstants.ICON_TAB_IMPORT_EXPORT, true, MTGControler.getInstance().getPlugins(MTGCardsExport.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"), MTGConstants.ICON_TAB_DECK, true, MTGControler.getInstance().getPlugins(MTGDeckSniffer.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"), MTGConstants.ICON_TAB_VARIATIONS, false, MTGControler.getInstance().getPlugins(MTGDashBoard.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("SERVERS"), MTGConstants.ICON_TAB_SERVER, true, MTGControler.getInstance().getPlugins(MTGServer.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("NOTIFICATION"), MTGConstants.ICON_TAB_NOTIFICATION, true, MTGControler.getInstance().getPlugins(MTGNotifier.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("CACHES"), MTGConstants.ICON_TAB_CACHE,false, MTGControler.getInstance().getPlugins(MTGPicturesCache.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), MTGConstants.ICON_TAB_NEWS, true, MTGControler.getInstance().getPlugins(MTGNewsProvider.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), MTGConstants.ICON_TAB_WALLPAPER, true, MTGControler.getInstance().getPlugins(MTGWallpaperProvider.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"), MTGConstants.ICON_TAB_CONSTRUCT, false, MTGControler.getInstance().getPlugins(MTGPictureEditor.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("INDEXER"), MTGConstants.ICON_TAB_SIMILARITY, false, MTGControler.getInstance().getPlugins(MTGCardsIndexer.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("SUGGESTION"), MTGConstants.ICON_TAB_SUGGESTION, false, MTGControler.getInstance().getPlugins(MTGTextGenerator.class));
 
 
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new ConfigurationPanel(), null);

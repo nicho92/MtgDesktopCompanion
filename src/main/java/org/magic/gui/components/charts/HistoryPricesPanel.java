@@ -122,7 +122,7 @@ public class HistoryPricesPanel extends JPanel {
 		TimeSeries series1 = new TimeSeries(title);
 		if (showAll) 
 		{
-			for (MTGDashBoard d : MTGControler.getInstance().getDashboardsProviders()) 
+			for (MTGDashBoard d : MTGControler.getInstance().getPlugins(MTGDashBoard.class)) 
 			{
 				TimeSeries series = new TimeSeries(d.getName());
 				CardPriceVariations mapTime;

@@ -57,7 +57,49 @@ public class MTGControler {
 	private CurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private MTGNotifier notifier;
+
+	private MTGControler() {
+		
+		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
+		if (!conf.exists())
+			try {
+				logger.info(conf+" file doesn't exist. creating one from default file");
+				FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"),conf);
+				logger.info("conf file created");
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+
+		Parameters params = new Parameters();
+		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class).configure(params.xml()
+				.setFile(conf).setSchemaValidation(false)
+				.setValidating(false).setEncoding(MTGConstants.DEFAULT_ENCODING).setExpressionEngine(new XPathExpressionEngine()));
+
+		try {
+			config = builder.getConfiguration();
+			
+			PluginRegistry.inst().setConfig(config);
+			
+			keyWordManager = new KeyWordProvider();
+			langService = new LanguageService();
+			langService.changeLocal(getLocale());
+			currencyService = new CurrencyConverter(get("currencylayer-access-api"));
+			
+		} catch (Exception e) {
+			logger.error("error init", e);
+		}
+	}
 	
+	
+
+	public CurrencyConverter getCurrencyService() {
+		return currencyService;
+	}
+
+	public KeyWordProvider getKeyWordManager() {
+		return keyWordManager;
+	}
 	
 	public LookAndFeelProvider getLafService() {
 		if (lafService != null) {
@@ -100,12 +142,11 @@ public class MTGControler {
 				config.addProperty(root+"/"+elem+"/class",classname.getName());
 				config.addProperty(root+"/"+elem+"/enable",true);
 			}
-			else*/ {
+			else*/ 
 				config.addProperty("/" + root + " " + elem + "/class", classname.getName());
 				setProperty(classname.getDeclaredConstructor().newInstance(), false);
-			}
+			
 			logger.debug("add module " + path + " " + classname.getName());
-
 				
 		} catch (IllegalArgumentException e ) {
 			logger.error("Error inserting : " + path + " for " + classname ,e);
@@ -115,6 +156,8 @@ public class MTGControler {
 			logger.error("Error loading :"+ classname ,e);
 		}
 	}
+	
+	
 
 	public Dimension getPictureProviderDimension() {
 		int w = Integer.parseInt(get("/card-pictures-dimension/width"));
@@ -142,6 +185,7 @@ public class MTGControler {
 		}
 	}
 	
+	
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
@@ -162,12 +206,15 @@ public class MTGControler {
 		}
 	}
 
+	
+	
 	public String get(String prop, String defaut) {
 		return config.getString(prop, defaut);
 	}
 
+
 	public String get(String prop) {
-		return config.getString(prop, "");
+		return get(prop, "");
 	}
 
 	public Player getProfilPlayer() {
@@ -178,250 +225,17 @@ public class MTGControler {
 		try {
 			p.setIcon(ImageIO.read(new File(url)));
 		} catch (Exception e) {
-			logger.error("error loading player " + p + " "+e);
+			logger.error("error loading icon player " + p + " "+e);
 		}
 		return p;
 	}
 
-	private MTGControler() {
-		
-		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
-		if (!conf.exists())
-			try {
-				logger.info(conf+" file doesn't exist. creating one from default file");
-				FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"),
-						new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME));
-				logger.info("conf file created");
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
-
-		Parameters params = new Parameters();
-		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class).configure(params.xml()
-				.setFile(new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME)).setSchemaValidation(false)
-				.setValidating(false).setEncoding(MTGConstants.DEFAULT_ENCODING).setExpressionEngine(new XPathExpressionEngine()));
-
-		try {
-			config = builder.getConfiguration();
-			
-			PluginRegistry.inst().setConfig(config);
-			
-			keyWordManager = new KeyWordProvider();
-			langService = new LanguageService();
-			langService.changeLocal(getLocale());
-			currencyService = new CurrencyConverter(get("currencylayer-access-api"));
-			
-		} catch (Exception e) {
-			logger.error("error init", e);
-		}
-	}
-	
-	public CurrencyConverter getCurrencyService() {
-		return currencyService;
-	}
-
-	public List<AbstractJDashlet> getDashlets() {
-		return PluginRegistry.inst().listPlugins(AbstractJDashlet.class);
-	}
-	
-	public List<MTGTokensProvider> getTokens() {
-		return PluginRegistry.inst().listPlugins(MTGTokensProvider.class);
-	}
-	
-
-	public KeyWordProvider getKeyWordManager() {
-		return keyWordManager;
-	}
 
 	public boolean updateConfigMods() {
 		return PluginRegistry.inst().updateConfigWithNewModule();
 	}
-
-	public MTGPicturesCache getEnabledCache() {
-		for (MTGPicturesCache p : getCachesProviders())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-	
-	public MTGTokensProvider getEnabledTokensProvider() {
-		for (MTGTokensProvider p : getTokens())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-	
-	public MTGPictureEditor getEnabledPictureEditor() {
-		for (MTGPictureEditor p : getPicturesEditors())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-	
-	public MTGTextGenerator getEnabledTextGenerator() {
-		for (MTGTextGenerator p : getTextsGenerator())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-	
-	public List<MTGTextGenerator> getTextsGenerator() {
-		return PluginRegistry.inst().listPlugins(MTGTextGenerator.class);
-	}
-
-	
-	
-	public MTGCardsIndexer getEnabledCardIndexer() {
-		for (MTGCardsIndexer p : getCardsIndexers())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-	
-	public List<MTGCardsIndexer> getCardsIndexers() {
-		return PluginRegistry.inst().listPlugins(MTGCardsIndexer.class);
-	}
-
-	public List<MTGNotifier> getNotifierProviders(){
-		return PluginRegistry.inst().listPlugins(MTGNotifier.class);
-	}
-	
-	public List<MTGNotifier> getEnabledNotifiers() {
-		List<MTGNotifier> notifierE = new ArrayList<>();
-
-		for (MTGNotifier p : getNotifierProviders())
-			if (p.isEnable())
-				notifierE.add(p);
-
-		return notifierE;
-	}
 	
 
-	public List<MTGPicturesCache> getCachesProviders() {
-		return PluginRegistry.inst().listPlugins(MTGPicturesCache.class);
-	}
-
-	public List<MTGCardsProvider> getCardsProviders() {
-		return PluginRegistry.inst().listPlugins(MTGCardsProvider.class);
-	}
-
-	public List<MTGDao> getDaoProviders() {
-		return PluginRegistry.inst().listPlugins(MTGDao.class);
-	}
-
-	public List<MTGPictureProvider> getPicturesProviders() {
-		return PluginRegistry.inst().listPlugins(MTGPictureProvider.class);
-	}
-
-	public List<MTGPricesProvider> getPricerProviders() {
-		return PluginRegistry.inst().listPlugins(MTGPricesProvider.class);
-	}
-	
-	public List<MTGPictureEditor> getPicturesEditors() {
-		return PluginRegistry.inst().listPlugins(MTGPictureEditor.class);
-	}
-
-	public List<MTGPricesProvider> getEnabledPricers() {
-		List<MTGPricesProvider> pricersE = new ArrayList<>();
-
-		for (MTGPricesProvider p : getPricerProviders())
-			if (p.isEnable())
-				pricersE.add(p);
-
-		return pricersE;
-	}
-
-	public MTGCardsProvider getEnabledCardsProviders() {
-		for (MTGCardsProvider p : getCardsProviders())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-
-	public MTGPictureProvider getEnabledPicturesProvider() {
-		for (MTGPictureProvider p : getPicturesProviders())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-
-	public MTGDao getEnabledDAO() {
-		for (MTGDao p : getDaoProviders())
-			if (p.isEnable())
-				return p;
-		return null;
-	}
-
-	public List<MTGDeckSniffer> getEnabledDeckSniffer() {
-		List<MTGDeckSniffer> prov = new ArrayList<>();
-
-		for (MTGDeckSniffer p : getDeckSnifferProviders())
-			if (p.isEnable())
-				prov.add(p);
-
-		return prov;
-	}
-
-	public List<MTGDeckSniffer> getDeckSnifferProviders() {
-		return PluginRegistry.inst().listPlugins(MTGDeckSniffer.class);
-	}
-
-	public List<MTGShopper> getShoppersProviders() {
-		return PluginRegistry.inst().listPlugins(MTGShopper.class);
-	}
-
-	public List<MTGShopper> getEnabledShoppers() {
-		List<MTGShopper> enable = new ArrayList<>();
-		for (MTGShopper p : getShoppersProviders())
-			if (p.isEnable())
-				enable.add(p);
-
-		return enable;
-	}
-
-	public MTGDashBoard getEnabledDashBoard() {
-		for (MTGDashBoard p : getDashboardsProviders())
-			if (p.isEnable())
-				return p;
-
-		return null;
-	}
-
-	public List<MTGDashBoard> getDashboardsProviders() {
-		return  PluginRegistry.inst().listPlugins(MTGDashBoard.class);
-	}
-
-	public List<MTGServer> getServers() {
-		return PluginRegistry.inst().listPlugins(MTGServer.class);
-	}
-
-	public List<MTGServer> getEnabledServers() {
-		List<MTGServer> enable = new ArrayList<>();
-		for (MTGServer p : getServers())
-			if (p.isEnable())
-				enable.add(p);
-		return enable;
-	}
-
-	public List<MTGCardsExport> getImportExportProviders() {
-		return PluginRegistry.inst().listPlugins(MTGCardsExport.class);
-	}
-
-	public List<MTGCardsExport> getEnabledDeckExports() {
-		List<MTGCardsExport> enable = new ArrayList<>();
-		for (MTGCardsExport p : getImportExportProviders())
-			if (p.isEnable())
-				enable.add(p);
-
-		return enable;
-	}
 
 	public boolean isRunning(MTGServer server) {
 		for (MTGServer serv : getEnabledServers())
@@ -431,37 +245,18 @@ public class MTGControler {
 		return false;
 	}
 
+	
 	public MTGCardsExport getAbstractExporterFromExt(File f) {
 		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
 
-		for (MTGCardsExport ace : getImportExportProviders()) {
+		for (MTGCardsExport ace : getPlugins(MTGCardsExport.class)) {
 			if (ace.getFileExtension().endsWith(ext))
 				return ace;
 		}
 		return null;
 	}
 
-	public List<MTGNewsProvider> getEnabledNewsProviders() {
-		List<MTGNewsProvider> enable = new ArrayList<>();
-		for (MTGNewsProvider p : getNewsProviders())
-			if (p.isEnable())
-				enable.add(p);
-
-		return enable;
-	}
-
-	public List<MTGNewsProvider> getNewsProviders() {
-		return PluginRegistry.inst().listPlugins(MTGNewsProvider.class);
-	}
-
-	public MTGNewsProvider getNewsProvider(String string) {
-		for (MTGNewsProvider p : getNewsProviders())
-			if (p.getName().equalsIgnoreCase(string))
-				return p;
-
-		return null;
-	}
-
+	
 	public void saveWallpaper(Wallpaper p) throws IOException {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
@@ -470,19 +265,7 @@ public class MTGControler {
 				new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, p.getName() + "." + p.getFormat()), p.getFormat());
 
 	}
-
-	public List<MTGWallpaperProvider> getWallpaperProviders() {
-		return PluginRegistry.inst().listPlugins(MTGWallpaperProvider.class);
-	}
-
-	public List<MTGWallpaperProvider> getEnabledWallpaper() {
-		List<MTGWallpaperProvider> enable = new ArrayList<>();
-		for (MTGWallpaperProvider p : getWallpaperProviders())
-			if (p.isEnable())
-				enable.add(p);
-
-		return enable;
-	}
+	
 
 	@SuppressWarnings("unchecked")
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
@@ -490,7 +273,6 @@ public class MTGControler {
 	}
 	
 	
-	private MTGNotifier notifier;
 	public void notify(MTGNotification notif)
 	{
 		try {
@@ -503,4 +285,91 @@ public class MTGControler {
 		}
 	}
 	
+
+	
+	public <T extends MTGPlugin> List<T> getPlugins(Class<T> t)
+	{
+		return PluginRegistry.inst().listPlugins(t);
+	}
+	
+	@Deprecated
+	public List<MTGNewsProvider> getEnabledNewsProviders() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGNewsProvider.class);
+	}
+	
+	@Deprecated
+	public List<MTGWallpaperProvider> getEnabledWallpaper() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGWallpaperProvider.class);
+	}
+	
+	@Deprecated
+	public MTGNewsProvider getNewsProvider(String s) {
+		return getPlugin(s,MTGNewsProvider.class);
+			
+	}
+
+	@Deprecated
+	public MTGPicturesCache getEnabledCache() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGPicturesCache.class);
+	}
+	@Deprecated
+	public MTGTokensProvider getEnabledTokensProvider() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGTokensProvider.class);
+	}
+	@Deprecated
+	public MTGPictureEditor getEnabledPictureEditor() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGPictureEditor.class);
+	}
+	@Deprecated
+	public MTGTextGenerator getEnabledTextGenerator() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGTextGenerator.class);
+	}
+	@Deprecated
+	public MTGCardsIndexer getEnabledCardIndexer() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGCardsIndexer.class);
+	}
+	@Deprecated
+	public List<MTGNotifier> getEnabledNotifiers() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGNotifier.class);
+	}
+	@Deprecated
+	public List<MTGPricesProvider> getEnabledPricers() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGPricesProvider.class);
+	}
+	@Deprecated
+	public MTGCardsProvider getEnabledCardsProviders() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGCardsProvider.class);
+	}
+	@Deprecated
+	public MTGPictureProvider getEnabledPicturesProvider() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGPictureProvider.class);
+
+	}
+	@Deprecated
+	public MTGDao getEnabledDAO() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGDao.class);
+	}
+	@Deprecated
+	public List<MTGDeckSniffer> getEnabledDeckSniffer() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGDeckSniffer.class);
+	}
+
+	@Deprecated
+	public List<MTGShopper> getEnabledShoppers() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGShopper.class);
+	}
+	@Deprecated
+	public MTGDashBoard getEnabledDashBoard() {
+		return PluginRegistry.inst().getEnabledPlugins(MTGDashBoard.class);
+	}
+	@Deprecated
+	public List<MTGServer> getEnabledServers() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGServer.class);
+	}
+
+	@Deprecated
+	public List<MTGCardsExport> getEnabledDeckExports() {
+		return PluginRegistry.inst().listEnabledPlugins(MTGCardsExport.class);
+	}
+
 }

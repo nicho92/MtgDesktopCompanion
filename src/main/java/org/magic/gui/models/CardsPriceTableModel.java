@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -63,9 +64,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	}
 
 	public CardsPriceTableModel() {
-		providers = new ArrayList<>();
 		prices = new ArrayList<>();
-		providers = MTGControler.getInstance().getPricerProviders();
+		providers = MTGControler.getInstance().getPlugins(MTGPricesProvider.class);
 	}
 
 	public List<MTGPricesProvider> getProviders() {
