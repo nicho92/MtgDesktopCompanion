@@ -666,19 +666,36 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					"CONFIRM_COLLECTION_ITEM_ADDITION", ed, it.getText()));
 
 			if (res == JOptionPane.YES_OPTION)
+			{	
 				try {
-					List<MagicCard> list = provider.searchCardByEdition(ed);
-					logger.debug("save " + list.size() + " cards from " + ed.getId());
-					for (MagicCard mc : list) {
-						MagicCollection col = new MagicCollection(it.getText());
-						dao.saveCard(mc, col);
+						progressBar.setVisible(true);
+						List<MagicCard> list = provider.searchCardByEdition(ed);
+						progressBar.setMaximum(list.size());
+						progressBar.setValue(0);
+						logger.debug("save " + list.size() + " cards from " + ed.getId());
+						
+						ThreadManager.getInstance().execute(()->{
+								for (MagicCard mc : list) {
+									MagicCollection col = new MagicCollection(it.getText());
+									try {
+										dao.saveCard(mc, col);
+										progressBar.setValue(progressBar.getValue()+1);
+									} catch (SQLException e) {
+										logger.error(e);
+									}
+								}
+								model.calculate();
+								model.fireTableDataChanged();
+								progressBar.setVisible(false);
+							
+						}, "insert sets");
+					} catch (Exception e) {
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						logger.error(e);
 					}
-					model.calculate();
-					model.fireTableDataChanged();
-				} catch (Exception e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-					logger.error(e);
-				}
+					
+			}		
+			
 		});
 
 	}

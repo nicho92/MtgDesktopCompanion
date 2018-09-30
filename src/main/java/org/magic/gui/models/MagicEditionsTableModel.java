@@ -57,10 +57,13 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 
 	}
 
-	public void calculate() throws SQLException {
+	public void calculate() {
 
 		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
-		Map<String, Integer> temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
+		Map<String, Integer> temp;
+		try {
+			temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
+		
 		countDefaultLibrary = 0;
 		countTotal = 0;
 		for (MagicEdition me : list) {
@@ -70,7 +73,10 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 
 		for (MagicEdition me : list)
 			countTotal += me.getCardCount();
-
+		
+		} catch (SQLException e) {
+			logger.error("error in calculation",e);
+		}
 	}
 
 	public Map<MagicEdition, Integer> getMapCount() {
