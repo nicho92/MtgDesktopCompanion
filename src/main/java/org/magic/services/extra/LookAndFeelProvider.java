@@ -36,9 +36,11 @@ public class LookAndFeelProvider {
 		setLookAndFeel(container, lookAndFeel.getClassName());
 	}
  
-
 	public void setLookAndFeel(Component ui, String lookAndFeel) {
 		try {
+			if(lookAndFeel==null || lookAndFeel.isEmpty())
+				lookAndFeel=UIManager.getSystemLookAndFeelClassName();	
+				
 			UIManager.setLookAndFeel(lookAndFeel);
 			MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
