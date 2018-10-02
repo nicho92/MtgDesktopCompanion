@@ -5,7 +5,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
 [![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
-[![GitHub stars](https://img.shields.io/badge/Download-1.93-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/tree/master/dist)
+[![GitHub stars](https://img.shields.io/badge/Download-1.94-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 [Give me a tips !](https://www.paypal.me/nicolaspihen)
 
 
@@ -71,7 +71,6 @@ Use "MoreLikeThis" Functionnality :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png)
 
 
-
 lookup for cards in auction website :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png)
 
@@ -97,7 +96,6 @@ get your companion in discord's channels :
 
 get your companion in chrome :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png)
-
 
 
 Generate Website of your collections :
