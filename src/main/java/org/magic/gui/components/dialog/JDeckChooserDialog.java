@@ -123,8 +123,9 @@ public class JDeckChooserDialog extends JDialog {
 				selectedDeck = null;
 			}
 		});
-
-		table = new JXTable(new DeckSelectionTableModel());
+		DeckSelectionTableModel decksModel = new DeckSelectionTableModel();
+		decksModel.init();
+		table = new JXTable(decksModel);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.addMouseListener(new MouseAdapter() {

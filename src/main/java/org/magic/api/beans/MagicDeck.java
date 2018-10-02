@@ -70,7 +70,12 @@ public class MagicDeck implements Serializable {
 	}
 
 	public boolean hasCard(MagicCard mc) {
-		return mapDeck.containsKey(mc);
+		
+		for(MagicCard k : mapDeck.keySet())
+			if(k.getName().equalsIgnoreCase(mc.getName()))
+				return true;
+		
+		return false;
 	}
 
 	public Set<MagicFormat> getLegality() {

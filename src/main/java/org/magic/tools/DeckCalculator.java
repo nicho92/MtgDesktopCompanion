@@ -16,6 +16,9 @@ public class DeckCalculator {
 	private MagicDeck deck;
 	private DecimalFormat format;
 
+	
+	
+	
 	public DeckCalculator(MagicDeck d) {
 		setDeck(d);
 		format = new DecimalFormat("#0.0");

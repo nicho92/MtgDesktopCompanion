@@ -30,9 +30,12 @@ public class DeckSelectionTableModel extends DefaultTableModel {
 				decks.add((MagicDeck) obj);
 				fireTableDataChanged();
 		});
-		
+	}
+	
+	
+	public void init()
+	{
 		ThreadManager.getInstance().execute(() -> manager.listDecks(), "ListDecks");
-
 	}
 
 	@Override
@@ -108,6 +111,12 @@ public class DeckSelectionTableModel extends DefaultTableModel {
 		decks.remove(selectedDeck);
 		fireTableDataChanged();
 
+	}
+
+	public void init(List<MagicDeck> listDecksWith) {
+		decks = listDecksWith;
+		fireTableDataChanged();
+		
 	}
 
 }

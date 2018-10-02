@@ -53,6 +53,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
+import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -96,7 +97,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private CardStockPanel statsPanel;
 	private JLabel lblTotal;
-
+	private CardsDeckCheckerPanel deckPanel;
+	
 	private JButton btnRefresh;
 	private JButton btnRemove;
 	private JButton btnAddAllSet;
@@ -151,6 +153,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
 		btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
 		
+		deckPanel = new CardsDeckCheckerPanel();
 		splitListPanel = new JSplitPane();
 		splitPane = new JSplitPane();
 		panneauGauche = new JPanel();
@@ -255,7 +258,9 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
-
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
+		
+		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedPane.addTab("Json", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
@@ -464,6 +469,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				btnExport.setEnabled(false);
 				magicCardDetailPanel.setMagicCard((MagicCard) curr.getUserObject());
 				magicEditionDetailPanel.setMagicEdition(card.getCurrentSet());
+				deckPanel.init((MagicCard) curr.getUserObject());
 				magicCardDetailPanel.enableThumbnail(true);
 				jsonPanel.show(curr.getUserObject());
 

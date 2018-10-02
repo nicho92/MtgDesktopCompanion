@@ -45,6 +45,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -88,7 +89,8 @@ public class StockPanelGUI extends MTGUIPanel {
 	private JComboBox<Boolean> cboAltered;
 	private JButton btnshowMassPanel;
 	private JButton btnApplyModification;
-
+	private CardsDeckCheckerPanel deckPanel;
+	
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
 	private JButton btnImport;
@@ -430,6 +432,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		historyPricePanel.init(selectedStock.getMagicCard(), null, selectedStock.getMagicCard().getName());
 		pricePanel.init(selectedStock.getMagicCard(), selectedStock.getMagicCard().getCurrentSet());
 		jsonPanel.show(selectedStock);
+		deckPanel.init(selectedStock.getMagicCard());
 	}
 
 	public void addStock(MagicCardStock mcs) {
@@ -473,6 +476,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		JTabbedPane tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
 
+		deckPanel = new CardsDeckCheckerPanel();
 		model = new CardStockTableModel();
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		historyPricePanel = new HistoryPricesPanel();
@@ -558,6 +562,8 @@ public class StockPanelGUI extends MTGUIPanel {
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("DETAILS"),MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICES"),MTGConstants.ICON_TAB_PRICES, pricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
+		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
+
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabPanel.addTab("Json", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 

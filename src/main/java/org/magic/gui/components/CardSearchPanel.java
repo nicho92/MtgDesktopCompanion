@@ -109,6 +109,7 @@ public class CardSearchPanel extends MTGUIPanel {
 	private JXTable tableCards;
 	private JButton btnExport;
 	private JList<MagicEdition> listEdition;
+	private CardsDeckCheckerPanel deckPanel;
 
 	private JBuzyLabel lblLoading;
 
@@ -283,6 +284,8 @@ public class CardSearchPanel extends MTGUIPanel {
 		
 		cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 
+		deckPanel = new CardsDeckCheckerPanel();
+		
 		//////// MODELS
 		listEdition.setModel(new DefaultListModel<MagicEdition>());
 		tableCards.setModel(cardsModeltable);
@@ -400,6 +403,9 @@ public class CardSearchPanel extends MTGUIPanel {
 				historyChartPanel, null);
 
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
+
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
+		
 		
 		
 		
@@ -752,7 +758,7 @@ public class CardSearchPanel extends MTGUIPanel {
 			priceTablePanel.init(selectedCard,selectedEdition);
 			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
-
+			deckPanel.init(selectedCard);
 			ThreadManager.getInstance().execute(
 					() -> historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName()),
 					"load history for " + selectedEdition);
