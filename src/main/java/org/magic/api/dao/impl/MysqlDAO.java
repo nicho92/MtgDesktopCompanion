@@ -125,8 +125,18 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setString(2, IDGenerator.generate(mc));
 			pst.setString(3, from.getName());
 			pst.executeUpdate();
-		
 		}
+		
+		listStocks(mc, from).forEach(cs->{
+			
+			try {
+				cs.setMagicCollection(to);
+				saveOrUpdateStock(cs);
+			} catch (SQLException e) {
+				logger.error("Error saving stock for" + mc + " from " + from + " to " + to);
+			}
+		});
+		
 	}
 	
 

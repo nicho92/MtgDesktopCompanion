@@ -474,8 +474,17 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				jsonPanel.show(curr.getUserObject());
 
 				ThreadManager.getInstance().execute(() -> {
+					
+					try {
 					statsPanel.initMagicCardStock(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 					statsPanel.enabledAdd(true);
+					}
+					catch(NullPointerException e)
+					{
+						//do nothing
+					}
+					
+				
 				}, "Update Collection");
 
 				pricePanel.init(card,null);

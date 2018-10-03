@@ -40,6 +40,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		removeCard(mc, from);
 		saveCard(mc, to);
 		
+		listStocks(mc, from).forEach(cs->{
+		
+			try {
+				cs.setMagicCollection(to);
+				saveOrUpdateStock(cs);
+			} catch (SQLException e) {
+				logger.error("Error saving stock for" + mc + " from " + from + " to " + to);
+			}
+		});
+		
+		
 	}
 	
 }
