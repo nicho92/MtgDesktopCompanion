@@ -3,6 +3,7 @@ package org.magic.api.interfaces;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,8 @@ public interface MTGDao extends MTGPlugin {
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
 
 	public void deleteStock(List<MagicCardStock> state) throws SQLException;
+	
+	public void deleteStock(MagicCardStock state) throws SQLException;
 
 	public List<MagicCardStock> listStocks() throws SQLException;
 

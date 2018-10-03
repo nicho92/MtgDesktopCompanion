@@ -33,6 +33,19 @@
          <width>336</width>
          <height>468</height>
     </card-pictures-dimension>
+    <collections>
+        <stockAutoAdd>false</stockAutoAdd>
+        <stockAutoDelete>true</stockAutoDelete>
+        <defaultStock>
+        	<signed>false</signed>
+        	<altered>false</altered>
+        	<foil>false</foil>
+        	<oversized>false</oversized>
+        	<language>English</language>
+        	<condition>NEAR_MINT</condition>
+        	<qty>1</qty>
+        </defaultStock>
+    </collections>
     <game>
         <cards>
             <card-width>154</card-width>

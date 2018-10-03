@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,12 +18,16 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGServer;
@@ -76,7 +81,49 @@ public class MTGControler {
 		}
 	}
 	
+	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException
+	{
+		MTGControler.getInstance().getEnabled(MTGDao.class).removeCard(mc, collection);
+		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
+		{ 
+			MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, collection).forEach(st->{
+				try{
+					MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(st);	
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+			});
+		}
+		
+	}
 	
+	public void saveCard(MagicCard mc , MagicCollection collection) throws SQLException
+	{
+		MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(mc, collection);
+		if(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"))
+		{ 
+			MagicCardStock st = getDefaultStock();
+			st.setMagicCard(mc);
+			st.setMagicCollection(collection);
+			MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(st);
+		}
+	}
+	
+
+	private MagicCardStock getDefaultStock() {
+		String defaultBool = "false";
+		MagicCardStock st = new MagicCardStock();
+					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",defaultBool)));
+					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",defaultBool)));
+					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",defaultBool)));
+					   st.setOversize(Boolean.parseBoolean(get("collections/defaultStock/oversized",defaultBool)));
+					   st.setLanguage(get("collections/defaultStock/language","English"));
+					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
+					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));
+		return st;
+	}
 
 	public CurrencyConverter getCurrencyService() {
 		return currencyService;

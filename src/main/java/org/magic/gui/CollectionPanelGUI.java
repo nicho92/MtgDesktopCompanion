@@ -623,7 +623,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
 							.getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
-						dao.removeCard(card, col);
+						MTGControler.getInstance().removeCard(card, col);
 						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
@@ -693,7 +693,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 								for (MagicCard mc : list) {
 									MagicCollection col = new MagicCollection(it.getText());
 									try {
-										dao.saveCard(mc, col);
+										MTGControler.getInstance().saveCard(mc, col);
 										progressBar.setValue(progressBar.getValue()+1);
 									} catch (SQLException e) {
 										logger.error(e);
@@ -774,7 +774,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 						for (MagicCard m : sets)
 						{
-							dao.saveCard(m, col);
+							MTGControler.getInstance().saveCard(m, col);
 							progressBar.setValue(progressBar.getValue()+1);
 						}
 

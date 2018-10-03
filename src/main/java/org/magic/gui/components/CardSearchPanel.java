@@ -52,6 +52,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
@@ -167,8 +168,7 @@ public class CardSearchPanel extends MTGUIPanel {
 
 					MagicCard mcCard = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
 					try {
-						MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(mcCard,
-								MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec));
+						MTGControler.getInstance().saveCard(mcCard, MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec));
 					} catch (SQLException e1) {
 						logger.error(e1);
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));

@@ -5,16 +5,16 @@ public class MagicCardStock {
 	private int idstock;
 	private MagicCard magicCard;
 	private MagicCollection magicCollection;
-	private int qte;
-	private String language;
-	private EnumCondition condition;
+	private int qte=1;
+	private String language="English";
+	private EnumCondition condition = EnumCondition.NEAR_MINT;
 	private String comment;
-	private boolean foil;
-	private boolean signed;
-	private boolean altered;
+	private boolean foil=false;
+	private boolean signed=false;
+	private boolean altered=false;
 	private boolean update;
-	private double price;
-	private boolean oversize;
+	private double price=0.0;
+	private boolean oversize=false;
 	
 	public double getPrice() {
 		return price;

@@ -101,7 +101,7 @@ public class DeckSnifferDialog extends JDialog {
 			} catch (Exception e1) {
 				lblLoad.buzy(false);
 				logger.error("error change cboFormat", e1);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+				//MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}
 		});
 		panel.add(cboFormats);
