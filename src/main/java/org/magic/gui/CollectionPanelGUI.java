@@ -620,8 +620,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 
 				try {
-					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
-							.getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
+					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
 						MTGControler.getInstance().removeCard(card, col);
 						curr.removeFromParent();
