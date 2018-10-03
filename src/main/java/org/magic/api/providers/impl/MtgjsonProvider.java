@@ -377,9 +377,9 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 						break;
 					}
 				}
-
+				
 				/* get other sets */
-				if (!me.getRarity().equals("Basic Land") && map.get("printings") != null)// too much elements, so,remove all re-printings information for basic lands
+				if (!mc.isBasicLand() && map.get("printings") != null)// too much elements, so,remove all re-printings information for basic lands
 				{
 					for (String print : (List<String>) map.get("printings")) {
 						if (!print.equalsIgnoreCase(codeEd)) {
@@ -388,7 +388,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 								meO.setMultiverseid(String.valueOf(0));
 
 							initOtherEditionCardsVar(mc, meO);
-
+							System.out.println("add" + meO + " for " + mc);
 							mc.getEditions().add(meO);
 						}
 					}

@@ -127,7 +127,7 @@ public class MTGControler {
 				config.addProperty(root+"/"+elem+"/class",classname.getName());
 				config.addProperty(root+"/"+elem+"/enable",true);
 			}
-			else*/ 
+			else*/
 				config.addProperty("/" + root + " " + elem + "/class", classname.getName());
 				setProperty(classname.getDeclaredConstructor().newInstance(), false);
 			

@@ -1,0 +1,1 @@
+moved to https://github.com/nicho92/MtgDesktopCompanion/releases
