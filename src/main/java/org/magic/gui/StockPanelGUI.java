@@ -442,7 +442,7 @@ public class StockPanelGUI extends MTGUIPanel {
 	}
 
 	public void addCard(MagicCard mc) {
-		MagicCardStock ms = new MagicCardStock();
+		MagicCardStock ms = MTGControler.getInstance().getDefaultStock();
 		ms.setIdstock(-1);
 		ms.setUpdate(true);
 		ms.setMagicCard(mc);

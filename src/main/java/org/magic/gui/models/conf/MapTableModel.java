@@ -1,5 +1,6 @@
 package org.magic.gui.models.conf;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	private String[] columnsName =new String[] {"ID","VALUE"};
 	
 	public MapTableModel() {
+		this.keys = new ArrayList<>();
 	}
 	
 	public MapTableModel(Map<K,V> map2)
@@ -39,6 +41,15 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		this.keys = new ArrayList<>(map.entrySet());
 		fireTableDataChanged();
 	}
+	
+	public void addRow(K key, V value)
+	{
+		
+		keys.add(new AbstractMap.SimpleEntry<K, V>(key,value));
+		fireTableDataChanged();
+			
+	}
+	
 	
 	@Override
 	public int getRowCount() {
@@ -82,6 +93,12 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 			return keys.get(row).getKey();
 		else
 			return keys.get(row).getValue();
+	}
+
+	public void removeAll() {
+		keys.clear();
+		fireTableDataChanged();
+		
 	}
 	
 	

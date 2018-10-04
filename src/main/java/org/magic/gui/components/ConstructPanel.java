@@ -106,6 +106,7 @@ public class ConstructPanel extends JPanel {
 	private File f;
 	private Player p;
 	private JLabel lblCards;
+	private DeckStockComparatorPanel stockPanel;
 	
 	public void loading(boolean show, String text) {
 		lblExport.setText(text);
@@ -124,6 +125,7 @@ public class ConstructPanel extends JPanel {
 		deckDetailsPanel.setMagicDeck(deck);
 		deckDetailsPanel.updatePicture();
 		deckmodel.init(deck);
+		stockPanel.setCurrentDeck(deck);
 		p = new Player(deck);
 	}
 
@@ -156,7 +158,7 @@ public class ConstructPanel extends JPanel {
 		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
 		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnExports = new JButton();
-
+		stockPanel = new DeckStockComparatorPanel();
 		
 		
 		
@@ -477,14 +479,15 @@ public class ConstructPanel extends JPanel {
 		statPanel.add(rarityRepartitionPanel);
 		statPanel.add(cmcChartPanel);
 		statPanel.add(drawProbabilityPanel);
-
+		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"),
 				MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
 
 		deckPricePanel = new DeckPricePanel();
 		statPanel.add(deckPricePanel);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"),
-				MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
+		
 
 		JPanel panel = new JPanel();
 		randomHandPanel.add(panel, BorderLayout.NORTH);

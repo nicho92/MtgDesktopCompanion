@@ -32,4 +32,19 @@ public class MagicCollection implements Serializable {
 		return name;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj==null)
+			return false;
+		
+		if(!(obj instanceof MagicCollection))
+			return false;
+		
+		return ((MagicCollection)obj).getName().equalsIgnoreCase(getName());
+		
+		
+		
+	}
+	
 }
