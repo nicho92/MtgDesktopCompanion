@@ -253,7 +253,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	@Override
 	public void saveCollection(MagicCollection c) throws SQLException {
 		try (PreparedStatement pst = con.prepareStatement("insert into collections values (?)")) {
-			pst.setString(1, c.getName());
+			pst.setString(1, c.getName().replaceAll("'", "\'"));
 			pst.executeUpdate();
 		}
 	}

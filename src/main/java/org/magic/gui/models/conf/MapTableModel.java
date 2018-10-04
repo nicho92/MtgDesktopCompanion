@@ -20,6 +20,11 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		this.keys = new ArrayList<>();
 	}
 	
+	public List<Entry<K, V>> getValues()
+	{
+		return keys;
+	}
+	
 	public MapTableModel(Map<K,V> map2)
 	{
 		init(map2);

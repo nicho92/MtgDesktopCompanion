@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,8 +13,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGDao;
@@ -23,6 +26,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DeckStockComparatorPanel extends JPanel {
 	
@@ -36,11 +41,9 @@ public class DeckStockComparatorPanel extends JPanel {
 	
 	public void setCurrentDeck(MagicDeck c) {
 		this.currentDeck = c;
-		logger.debug("set deck " + currentDeck);
-		
 	}
 	
-	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
 
 		JFrame f = new JFrame();
@@ -63,28 +66,50 @@ public class DeckStockComparatorPanel extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauBas = new JPanel();
 		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
-		
 		colMod = new DefaultComboBoxModel<>();
 		cboCollections = new JComboBox<>(colMod);
 		buzyLabel = new JBuzyLabel();
 		model = new MapTableModel<>();
+		table = new JTable(model);
+		
+		model.setColumnNames("CARD", "NEEDED QTY");
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(btnCompare);
 		add(panneauBas, BorderLayout.SOUTH);
 		panneauBas.add(btnExport);
 		panneauBas.add(buzyLabel);
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
+		add(new JScrollPane(table), BorderLayout.CENTER);
 		
-		table = new JTable(model);
-		scrollPane.setViewportView(table);
 		
 		try {
 			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(collection->colMod.addElement(collection));
 		} catch (SQLException e) {
 			logger.error("Error retrieving collections",e);
 		}
+		
+		btnExport.addActionListener(ae-> {
+			try {
+				MagicCollection c = new MagicCollection(currentDeck.getName());
+				MTGControler.getInstance().getEnabled(MTGDao.class).saveCollection(c);
+				
+				 model.getValues().forEach(entry->{
+					 try {
+						 if(entry.getValue()>0)
+							 MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(entry.getKey(), c);
+						
+					} catch (SQLException e) {
+						logger.error("erreur insert " + entry.getKey(),e);
+					}
+				 });
+				
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+			
+			
+		});
+		
 		
 		btnCompare.addActionListener(ae-> {
 			model.removeAll();
@@ -94,26 +119,29 @@ public class DeckStockComparatorPanel extends JPanel {
 				currentDeck.getMap().entrySet().forEach(entry->{
 					try {
 						boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
+						List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col);
+						int neededQty = currentDeck.getMap().get(entry.getKey());
 						
-						
-						
-						
-						model.addRow(entry.getKey(), 1);
-						if(has)
-						  System.out.println("found " + entry.getKey() + " in "+ col);
-						
-						MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col).forEach(st->{
-									System.out.println(st.getQte() + " "+  st.getCondition());
-						});	
-						
+						if(has && stocks.isEmpty())
+						{
+							model.addRow(entry.getKey(), neededQty-1);
+						}
+						else if (!stocks.isEmpty())
+						{
+							int count =0;
+							for(MagicCardStock st : stocks)
+								count +=st.getQte();
+							
+							model.addRow(entry.getKey(), neededQty-count);
+						}
+						else
+						{
+							model.addRow(entry.getKey(), neededQty);
+						}
 					} catch (SQLException e) {
 						logger.error(e);
 					}
-					
-					
 				});
-				
-			
 			}
 		});
 
