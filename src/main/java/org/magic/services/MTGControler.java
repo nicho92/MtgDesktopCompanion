@@ -111,8 +111,18 @@ public class MTGControler {
 		}
 	}
 	
+	public void setDefaultStock(MagicCardStock st) {
+		System.out.println(st.isAltered());
+			setProperty("collections/defaultStock/signed",st.isSigned());
+			setProperty("collections/defaultStock/altered",st.isAltered());
+			setProperty("collections/defaultStock/foil",st.isFoil());
+			setProperty("collections/defaultStock/oversized",st.isOversize());
+			setProperty("collections/defaultStock/language",st.getLanguage());
+			setProperty("collections/defaultStock/condition",st.getCondition().name());
+			setProperty("collections/defaultStock/qty",st.getQte());
+	}
 
-	private MagicCardStock getDefaultStock() {
+	public MagicCardStock getDefaultStock() {
 		String defaultBool = "false";
 		MagicCardStock st = new MagicCardStock();
 					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",defaultBool)));

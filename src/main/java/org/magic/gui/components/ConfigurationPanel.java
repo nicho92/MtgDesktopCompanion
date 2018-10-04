@@ -43,6 +43,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -635,6 +636,18 @@ public class ConfigurationPanel extends JPanel {
 		chkboxAutoDelete.addActionListener(e->MTGControler.getInstance().setProperty("collections/stockAutoDelete",String.valueOf(chkboxAutoDelete.isSelected())));
 		
 		panelAutoStock.add(chkboxAutoDelete);
+		
+		JButton btnDefaultStock = new JButton("Default Stock");
+		btnDefaultStock.addActionListener(ae-> {
+			DefaultStockEditorDialog diag = new DefaultStockEditorDialog();
+			diag.setMagicCardStock(MTGControler.getInstance().getDefaultStock());
+			diag.setVisible(true);
+			
+		});
+		GridBagConstraints gbcbtnDefaultStock = new GridBagConstraints();
+		gbcbtnDefaultStock.gridx = 4;
+		gbcbtnDefaultStock.gridy = 11;
+		panelConfig.add(btnDefaultStock, gbcbtnDefaultStock);
 		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
 				SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem()));
 
