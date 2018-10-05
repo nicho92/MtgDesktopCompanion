@@ -12,9 +12,9 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient List<Entry<K, V>> keys;
+	protected transient List<Entry<K, V>> keys;
 	
-	private String[] columnsName =new String[] {"ID","VALUE"};
+	protected String[] columnsName =new String[] {"ID","VALUE"};
 	
 	public MapTableModel() {
 		this.keys = new ArrayList<>();
@@ -39,6 +39,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	{
 		columnsName[0]=c1;
 		columnsName[1]=c2;
+		fireTableStructureChanged();
 	}
 	
 	public void init(Map<K, V> map)
