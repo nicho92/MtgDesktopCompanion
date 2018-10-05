@@ -44,6 +44,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -723,6 +724,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD_MISSING_CARDS_IN"));
 		JMenu menuItemMove = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MOVE_CARD_TO"));
 		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"));
+		JMenuItem menuItemStocks = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_STOCKS"));
 		
 		for (MagicCollection mc : dao.getCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName());
@@ -831,13 +833,29 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			} catch (SQLException e1) {
 				logger.error(e1);
 			}
-				
-			
 		});
 		
+		menuItemStocks.addActionListener(e ->{
+			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			
+			try {
+				for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition))
+				{
+					MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+					st.setMagicCard(mc);
+					st.setMagicCollection(col);
+					
+					MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(st);
+				}
+			} catch (SQLException e1) {
+				logger.error(e1);
+			}
+		});
 		
 		popupMenuEdition.add(it);
 		popupMenuEdition.add(menuItemAlerts);
+		popupMenuEdition.add(menuItemStocks);
 		popupMenuEdition.add(menuItemAdd);
 		popupMenuCards.add(menuItemMove);
 	}
