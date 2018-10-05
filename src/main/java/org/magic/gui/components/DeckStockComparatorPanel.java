@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,11 +10,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -92,11 +93,36 @@ public class DeckStockComparatorPanel extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
 		
+		table.setDefaultRenderer(Integer.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+				Integer val = (Integer)value;
+				if(column==4)
+				{
+					JLabel c = new JLabel(value.toString());
+					c.setOpaque(true);
+					if(val==0)
+						c.setBackground(Color.GREEN);
+					else
+						c.setBackground(Color.RED);
+						
+					return c;
+					
+				}
+				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
+				
+			}
+		});
+		
+		
 		try {
 			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(collection->colMod.addElement(collection));
 		} catch (SQLException e) {
 			logger.error("Error retrieving collections",e);
 		}
+		
+		table.packAll();
 		
 	}
 

@@ -14,7 +14,7 @@ public class DeckStockComparisonModel extends DefaultTableModel {
 	private transient String[] columnsName = new String[] { 
 			"CARD",
 			"NEEDED",
-			"STOCK",
+			"STOCK_MODULE",
 			"COLLECTION",
 			"NEEDED_QTY",
 			};
