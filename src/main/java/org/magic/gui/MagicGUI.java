@@ -227,8 +227,20 @@ public class MagicGUI extends JFrame {
 			});
 			mnuAbout.add(newversion);
 		}
+		
+		
+		String pos = MTGControler.getInstance().get("ui/moduleTabPosition");
+		int position=0;
+		switch(pos)
+		{
+		case "TOP": position = JTabbedPane.TOP;break;
+		case "LEFT": position = JTabbedPane.LEFT;break;
+		case "RIGHT": position = JTabbedPane.RIGHT;break;
+		case "BOTTOM": position = JTabbedPane.BOTTOM;break;
+		default : position=JTabbedPane.LEFT;break;
+		}
 
-		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
+		tabbedPane = new JTabbedPane(position);
 
 		
 		

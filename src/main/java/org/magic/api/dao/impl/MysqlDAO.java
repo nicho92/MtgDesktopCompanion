@@ -386,7 +386,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 					state.setPrice(rs.getDouble("price"));
 					colls.add(state);
 				}
-				logger.debug("load " + colls.size() + " item from stock for " + mc);
+				logger.trace("load " + colls.size() + " item from stock for " + mc);
 				return colls;
 			}
 

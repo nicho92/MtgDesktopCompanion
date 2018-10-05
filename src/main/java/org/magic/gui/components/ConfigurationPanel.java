@@ -2,10 +2,12 @@ package org.magic.gui.components;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -50,9 +52,6 @@ import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
-import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ConfigurationPanel extends JPanel {
 
@@ -856,9 +855,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelModule, gbcpanelModule);
 		GridBagLayout gblPanelModule = new GridBagLayout();
 		gblPanelModule.columnWidths = new int[] { 0, 0, 0, 103, 0, 121, 0, 0 };
-		gblPanelModule.rowHeights = new int[] { 0, 0, 0, 0 };
-		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gblPanelModule.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblPanelModule.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
+		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblPanelModule.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelModule.setLayout(gblPanelModule);
 
 		chckbxSearch = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
@@ -960,7 +959,7 @@ public class ConfigurationPanel extends JPanel {
 						panelModule.add(chckbxWallpaper, gbcchckbxWallpaper);
 		GridBagConstraints gbcchckbxDeckBuilder = new GridBagConstraints();
 		gbcchckbxDeckBuilder.anchor = GridBagConstraints.WEST;
-		gbcchckbxDeckBuilder.insets = new Insets(0, 0, 0, 5);
+		gbcchckbxDeckBuilder.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxDeckBuilder.gridx = 1;
 		gbcchckbxDeckBuilder.gridy = 2;
 		panelModule.add(chckbxDeckBuilder, gbcchckbxDeckBuilder);
@@ -971,7 +970,7 @@ public class ConfigurationPanel extends JPanel {
 				ie -> MTGControler.getInstance().setProperty("modules/shopper", chckbxShopper.isSelected()));
 		GridBagConstraints gbcchckbxShopper = new GridBagConstraints();
 		gbcchckbxShopper.anchor = GridBagConstraints.WEST;
-		gbcchckbxShopper.insets = new Insets(0, 0, 0, 5);
+		gbcchckbxShopper.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxShopper.gridx = 3;
 		gbcchckbxShopper.gridy = 2;
 		panelModule.add(chckbxShopper, gbcchckbxShopper);
@@ -983,7 +982,7 @@ public class ConfigurationPanel extends JPanel {
 								ie -> MTGControler.getInstance().setProperty("modules/history", chckbxHistory.isSelected()));
 						GridBagConstraints gbcchckbxHistory = new GridBagConstraints();
 						gbcchckbxHistory.anchor = GridBagConstraints.WEST;
-						gbcchckbxHistory.insets = new Insets(0, 0, 0, 5);
+						gbcchckbxHistory.insets = new Insets(0, 0, 5, 5);
 						gbcchckbxHistory.gridx = 5;
 						gbcchckbxHistory.gridy = 2;
 						panelModule.add(chckbxHistory, gbcchckbxHistory);
@@ -993,10 +992,33 @@ public class ConfigurationPanel extends JPanel {
 						chckbxCardBuilder.addItemListener(
 								ie -> MTGControler.getInstance().setProperty("modules/cardbuilder", chckbxCardBuilder.isSelected()));
 						GridBagConstraints gbcchckbxCardBuilder = new GridBagConstraints();
+						gbcchckbxCardBuilder.insets = new Insets(0, 0, 5, 0);
 						gbcchckbxCardBuilder.anchor = GridBagConstraints.WEST;
 						gbcchckbxCardBuilder.gridx = 6;
 						gbcchckbxCardBuilder.gridy = 2;
 						panelModule.add(chckbxCardBuilder, gbcchckbxCardBuilder);
+						
+						JLabel lblToolPosition = new JLabel("Position :");
+						GridBagConstraints gbclblToolPosition = new GridBagConstraints();
+						gbclblToolPosition.insets = new Insets(0, 0, 0, 5);
+						gbclblToolPosition.gridx = 1;
+						gbclblToolPosition.gridy = 4;
+						panelModule.add(lblToolPosition, gbclblToolPosition);
+						
+						JComboBox<String> cboToolPosition = new JComboBox<>(new DefaultComboBoxModel<String>(new String[] {"TOP", "LEFT", "RIGHT", "BOTTOM"}));
+						cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition","LEFT"));
+						cboToolPosition.addItemListener(ie->
+						{
+							if(ie.getStateChange()==ItemEvent.SELECTED)
+								MTGControler.getInstance().setProperty("ui/moduleTabPosition", cboToolPosition.getSelectedItem().toString());
+									
+						});
+						GridBagConstraints gbccboToolPosition = new GridBagConstraints();
+						gbccboToolPosition.insets = new Insets(0, 0, 0, 5);
+						gbccboToolPosition.fill = GridBagConstraints.HORIZONTAL;
+						gbccboToolPosition.gridx = 3;
+						gbccboToolPosition.gridy = 4;
+						panelModule.add(cboToolPosition, gbccboToolPosition);
 
 		GridBagConstraints gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridwidth = 2;
