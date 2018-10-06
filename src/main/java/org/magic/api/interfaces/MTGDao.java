@@ -48,7 +48,7 @@ public interface MTGDao extends MTGPlugin {
 
 	public List<MagicCollection> getCollections() throws SQLException;
 
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException;
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException;
 
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
 

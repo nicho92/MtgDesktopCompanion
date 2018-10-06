@@ -62,7 +62,7 @@ public class CardStockPanel extends JPanel {
 		content.removeAll();
 		content.setLayout(layout);
 		try {
-			for (MagicCardStock stat : MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, col)) {
+			for (MagicCardStock stat : MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, col,true)) {
 				CardStockLinePanel pane = new CardStockLinePanel(mc, col);
 				pane.setMagicCardState(stat);
 				content.add(pane);

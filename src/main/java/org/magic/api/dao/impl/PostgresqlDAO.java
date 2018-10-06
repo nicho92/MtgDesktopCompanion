@@ -370,9 +370,19 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		try (PreparedStatement pst = con.prepareStatement("select * from stocks where idmc=? and collection=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
+		
+		String sql = "SELECT * FROM  stocks WHERE mcard->>'name' = ? and collection = ?";
+		
+		if(editionStrict)
+			sql="select * from stocks where idmc=? and collection=?";
+		
+		try (PreparedStatement pst = con.prepareStatement(sql)) {
+			if(editionStrict)
+				pst.setString(1, IDGenerator.generate(mc));
+			else
+				pst.setString(1, mc.getName());
+			
 			pst.setString(2, col.getName());
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCardStock> colls = new ArrayList<>();

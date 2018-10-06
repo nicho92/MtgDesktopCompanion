@@ -124,7 +124,9 @@ public class DAOProviderTests {
 			}
 			
 			
-			System.out.println("Get stocks " + p.listStocks(mc, col));
+			System.out.println("Get stocks strict " + p.listStocks(mc, col,true));
+			System.out.println("Get stocks nstrict " + p.listStocks(mc, col,false));
+			
 			
 			List<MagicCardStock> stocks = new ArrayList<>();
 			stocks.add(stock);

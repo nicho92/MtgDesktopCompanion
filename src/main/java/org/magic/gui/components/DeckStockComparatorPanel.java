@@ -142,7 +142,7 @@ public class DeckStockComparatorPanel extends JPanel {
 				currentDeck.getMap().entrySet().forEach(entry->{
 					try {
 						boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
-						List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col);
+						List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
 						int qty = currentDeck.getMap().get(entry.getKey());
 						model.addRow(entry.getKey(),qty,has, stocks);
 					} catch (SQLException e) {

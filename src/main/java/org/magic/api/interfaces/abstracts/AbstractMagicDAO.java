@@ -42,7 +42,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		removeCard(mc, from);
 		saveCard(mc, to);
 		
-		listStocks(mc, from).forEach(cs->{
+		listStocks(mc, from,true).forEach(cs->{
 		
 			try {
 				cs.setMagicCollection(to);

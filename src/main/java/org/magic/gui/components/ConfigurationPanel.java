@@ -856,7 +856,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gblPanelModule = new GridBagLayout();
 		gblPanelModule.columnWidths = new int[] { 0, 0, 0, 103, 0, 121, 0, 0 };
 		gblPanelModule.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gblPanelModule.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelModule.setLayout(gblPanelModule);
 

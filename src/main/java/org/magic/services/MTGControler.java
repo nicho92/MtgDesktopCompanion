@@ -86,7 +86,7 @@ public class MTGControler {
 		MTGControler.getInstance().getEnabled(MTGDao.class).removeCard(mc, collection);
 		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
 		{ 
-			MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, collection).forEach(st->{
+			MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
 				try{
 					MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(st);	
 				}

@@ -235,11 +235,11 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		List<MagicCardStock> st = new ArrayList<>();
 		File f = new File(directory, STOCKDIR);
-		for (File fstock : FileUtils.listFiles(f, new WildcardFileFilter("*" + IDGenerator.generate(mc)),
-				TrueFileFilter.INSTANCE)) {
+		//TODO manage editionStrict value
+		for (File fstock : FileUtils.listFiles(f, new WildcardFileFilter("*" + IDGenerator.generate(mc)),TrueFileFilter.INSTANCE)) {
 			try {
 				MagicCardStock s = read(MagicCardStock.class, fstock);
 				if (s.getMagicCollection().getName().equals(col.getName()))

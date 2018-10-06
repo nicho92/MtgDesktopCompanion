@@ -90,7 +90,11 @@ public class DeckStockComparisonModel extends DefaultTableModel {
 			for(MagicCardStock st : line.getStocks())
 				count +=st.getQte();
 			
-			return line.getNeeded()-count;
+			count =  line.getNeeded()-count;
+			
+			if(count<0)
+				count=0;
+			return count;
 		}
 		else
 		{

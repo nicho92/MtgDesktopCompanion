@@ -24,7 +24,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -128,7 +127,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.executeUpdate();
 		}
 		
-		listStocks(mc, from).forEach(cs->{
+		listStocks(mc, from,true).forEach(cs->{
 			
 			try {
 				cs.setMagicCollection(to);
@@ -328,6 +327,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
+		
 		try (PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?")) {
 			String id = IDGenerator.generate(mc);
 			
@@ -364,10 +364,23 @@ public class MysqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		try (PreparedStatement pst = con.prepareStatement("select * from stocks where idmc=? and collection=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
-			pst.setString(2, col.getName());
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
+		
+		String sql ="select * from stocks where collection=? and idmc=?";
+		
+		if(!editionStrict)
+			sql ="select * from stocks where collection=? and mcard like {\"name\":?,%";
+		
+		
+		try (PreparedStatement pst = con.prepareStatement(sql)) {
+			pst.setString(1, col.getName());
+			
+			if(editionStrict)
+				pst.setString(2, IDGenerator.generate(mc));
+			else
+				pst.setString(2, mc.getName());
+			
+		
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCardStock> colls = new ArrayList<>();
 				while (rs.next()) {

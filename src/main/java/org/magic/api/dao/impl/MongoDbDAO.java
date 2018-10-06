@@ -294,8 +294,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		ArrayList<MagicCardStock> ret = new ArrayList<>();
+		//TODO manage editionStrict value
 
 		BasicDBObject filter = new BasicDBObject(dbCardIDField, IDGenerator.generate(mc));
 		filter.put("stockItem.magicCollection.name", col.getName());
