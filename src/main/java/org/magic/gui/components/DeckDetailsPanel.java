@@ -303,9 +303,8 @@ public class DeckDetailsPanel extends JPanel {
 
 	public void updatePicture() {
 		
-		
-		if(magicDeck.getMap().isEmpty())
-			return;
+		if(magicDeck==null || magicDeck.getMap().isEmpty())
+				return;
 		
 		ThreadManager.getInstance().execute(() -> {
 			try {
