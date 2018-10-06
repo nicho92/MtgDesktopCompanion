@@ -116,7 +116,22 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public void remove(MagicDeck selectedDeck) throws IOException {
-		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, selectedDeck.getName() + serialis.getFileExtension());
+		
+		String name = selectedDeck.getName();
+		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
+		
+		if(!f.exists())
+			f = new File(MTGConstants.MTG_DECK_DIRECTORY, "" + serialis.getFileExtension());
+		
+		if(!f.exists())
+			f = new File(MTGConstants.MTG_DECK_DIRECTORY, "null" + serialis.getFileExtension());
+		
+		if(!f.exists())
+		{
+			logger.debug("error"+f.getAbsolutePath()+ "doesn't exist");
+			return;
+		}
+		
 		logger.debug("remove "+selectedDeck +":"+f.getAbsolutePath());
 		FileUtils.forceDelete(f);
 	}
