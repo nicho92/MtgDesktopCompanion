@@ -388,7 +388,6 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 								meO.setMultiverseid(String.valueOf(0));
 
 							initOtherEditionCardsVar(mc, meO);
-							System.out.println("add" + meO + " for " + mc);
 							mc.getEditions().add(meO);
 						}
 					}

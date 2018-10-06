@@ -17,6 +17,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.apache.commons.io.FileUtils;
 import org.hsqldb.jdbc.JDBCDriver;
 import org.magic.api.beans.EnumCondition;
@@ -31,7 +34,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
-public class HsqlDAO extends AbstractMagicDAO {
+public class HsqlDAO2 extends AbstractMagicDAO {
 
 	private String cardField = "mcard";
 	private Connection con;
@@ -57,18 +60,18 @@ public class HsqlDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			stat.executeUpdate(
-					"create table cards (ID varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+					"create table cards (ID varchar(250), name varchar(250), mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Cards");
-			stat.executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
+			stat.executeUpdate("create table decks (name varchar(45),mcard TEXT)");
 			logger.debug("Create table decks");
 			stat.executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 			logger.debug("Create table collections");
 			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table shop");
 			stat.executeUpdate(
-					"create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard OBJECT,altered boolean,price double)");
+					"create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard TEXT,altered boolean,price double)");
 			logger.debug("Create table stocks");
-			stat.executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250),mcard TEXT, amount DECIMAL)");
 			logger.debug("Create table Alerts");
 			stat.executeUpdate(
 					"CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
@@ -95,7 +98,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getName());
-			pst.setObject(3, mc);
+			pst.setString(3, serialiser.toJsonTree(mc).toString());
 			pst.setString(4, mc.getCurrentSet().getId());
 			pst.setString(5, "");
 			pst.setString(6, collection.getName());
@@ -139,9 +142,10 @@ public class HsqlDAO extends AbstractMagicDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCard> retour = new ArrayList<>();
+				
 				while (rs.next()) {
 					try {
-						retour.add((MagicCard) rs.getObject(cardField));
+						retour.add(serialiser.fromJson( rs.getObject(cardField).toString(), MagicCard.class));
 					} catch (Exception e) {
 						throw new SQLException("ERROR ", e);
 					}
@@ -299,7 +303,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
 					try {
-						ret.add((MagicCard) rs.getObject(cardField));
+						ret.add(serialiser.fromJson( rs.getObject(cardField).toString(), MagicCard.class));
 					} catch (Exception e) {
 						throw new SQLException("ERROR", e);
 					}
@@ -311,7 +315,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 	}
 
 	public String getName() {
-		return "hSQLdb";
+		return "hSQLdb2";
 	}
 
 	@Override
@@ -361,11 +365,19 @@ public class HsqlDAO extends AbstractMagicDAO {
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		logger.debug("load stock for " + mc + " in " + col);
 		
-		//TODO manage editionStrict value
-
-		try (PreparedStatement pst = con.prepareStatement("select * from stocks where idmc=? and collection=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
-			pst.setString(2, col.getName());
+		
+		String sql = "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replaceAll("'", "\\\\'")+"\"%'";
+		
+		if(editionStrict)
+			sql ="select * from stocks where collection=? and idmc=?";
+		
+		try (PreparedStatement pst = con.prepareStatement(sql)) {
+			pst.setString(1, col.getName());
+			
+			if(editionStrict)
+				pst.setString(2, IDGenerator.generate(mc));
+			
+			
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCardStock> colls = new ArrayList<>();
 				while (rs.next()) {
@@ -410,7 +422,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 				pst.setString(8, state.getMagicCollection().getName());
 				pst.setBoolean(9, state.isAltered());
 				pst.setDouble(10, state.getPrice());
-				pst.setObject(11, state.getMagicCard());
+				pst.setString(11, serialiser.toJsonTree(state.getMagicCard()).toString());
 				state.setIdstock(pst.executeUpdate());
 			}
 		} else {
@@ -444,7 +456,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
-					alert.setCard((MagicCard) rs.getObject(cardField));
+					alert.setCard(serialiser.fromJson(rs.getString(cardField), MagicCard.class));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 					list.add(alert);
@@ -462,7 +474,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 		logger.debug(alert);
 		try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			pst.setObject(2, alert.getCard());
+			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
 			list.add(alert);
 			pst.executeUpdate();
@@ -513,7 +525,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard((MagicCard) rs.getObject(cardField));
+				state.setMagicCard(serialiser.fromJson( rs.getObject(cardField).toString(), MagicCard.class));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
 				state.setFoil(rs.getBoolean("foil"));
@@ -611,7 +623,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 	public void initDefault() {
 		setProperty(KEYS.DRIVER.name(), "org.hsqldb.jdbc.JDBCDriver");
 		setProperty(KEYS.URL.name(), confdir.getAbsolutePath() + "/hsqldao");
-		setProperty(KEYS.DBNAME.name(), "magicDB");
+		setProperty(KEYS.DBNAME.name(), "magicjDB");
 		setProperty(KEYS.LOGIN.name(), "SA");
 		setProperty(KEYS.PASS.name(), "");
 	}
@@ -624,7 +636,12 @@ public class HsqlDAO extends AbstractMagicDAO {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEPRECATED;
+		return STATUT.STABLE;
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(getClass().getResource("/icons/plugins/hsqldb.png"));
 	}
 	
 }

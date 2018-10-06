@@ -112,7 +112,7 @@ public class MTGControler {
 	}
 	
 	public void setDefaultStock(MagicCardStock st) {
-		System.out.println(st.isAltered());
+		
 			setProperty("collections/defaultStock/signed",st.isSigned());
 			setProperty("collections/defaultStock/altered",st.isAltered());
 			setProperty("collections/defaultStock/foil",st.isFoil());

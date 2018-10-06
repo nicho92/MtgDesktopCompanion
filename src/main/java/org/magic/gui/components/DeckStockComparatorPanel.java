@@ -44,31 +44,9 @@ public class DeckStockComparatorPanel extends JPanel {
 		this.currentDeck = c;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-
-		JFrame f = new JFrame();
-		JDeckChooserDialog diag = new JDeckChooserDialog();
-		diag.setVisible(true);
-		MagicDeck d = diag.getSelectedDeck();
-		DeckStockComparatorPanel pane = new DeckStockComparatorPanel();
-		pane.setCurrentDeck(d);
-		f.getContentPane().add(pane);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
-		f.setVisible(true);
-		
-	}
-	
-	
 	public DeckStockComparatorPanel() {
-		
 		initGUI();
-		
 		initActions();
-
-		
-		
 	}
 
 	private void initGUI() {

@@ -23,7 +23,11 @@ public class DeckStockComparisonModel extends DefaultTableModel {
 	
 	public DeckStockComparisonModel() {
 		list=new ArrayList<>();
-		
+	}
+	
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return false;
 	}
 	
 	@Override
@@ -101,8 +105,6 @@ public class DeckStockComparisonModel extends DefaultTableModel {
 			return line.getNeeded();
 		}
 	}
-
-	
 }
 
 
@@ -127,7 +129,7 @@ class Line
 	
 	public Integer getResult() {
 		return result;
-	};
+	}
 
 	public MagicCard getMc() {
 		return mc;

@@ -259,6 +259,10 @@
     <daos>
         <dao>
             <class>org.magic.api.dao.impl.HsqlDAO</class>
+            <enable>false</enable>
+        </dao>
+        <dao>
+            <class>org.magic.api.dao.impl.HsqlDAO2</class>
             <enable>true</enable>
         </dao>
         <dao>
