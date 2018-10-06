@@ -360,9 +360,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		logger.debug("load stock for " + mc + " in " + col);
-		
-		//TODO manage editionStrict value
-
+	
 		try (PreparedStatement pst = con.prepareStatement("select * from stocks where idmc=? and collection=?")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, col.getName());
