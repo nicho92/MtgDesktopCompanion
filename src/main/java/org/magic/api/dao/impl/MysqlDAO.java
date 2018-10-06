@@ -366,19 +366,17 @@ public class MysqlDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		
-		String sql ="select * from stocks where collection=? and idmc=?";
+		String sql = "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replaceAll("'", "\\'")+"\"%'";
 		
-		if(!editionStrict)
-			sql ="select * from stocks where collection=? and mcard like {\"name\":?,%";
+		if(editionStrict)
+			sql ="select * from stocks where collection=? and idmc=?";
 		
-		
+		logger.debug("sql="+sql);
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, col.getName());
 			
 			if(editionStrict)
 				pst.setString(2, IDGenerator.generate(mc));
-			else
-				pst.setString(2, mc.getName());
 			
 		
 			try (ResultSet rs = pst.executeQuery()) {
