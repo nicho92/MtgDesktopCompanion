@@ -60,18 +60,18 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			stat.executeUpdate(
-					"create table cards (ID varchar(250), name varchar(250), mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+					"create table cards (ID varchar(250), name varchar(250), mcard LONGVARCHAR, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Cards");
-			stat.executeUpdate("create table decks (name varchar(45),mcard TEXT)");
+			stat.executeUpdate("create table decks (name varchar(45),mcard LONGVARCHAR)");
 			logger.debug("Create table decks");
 			stat.executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 			logger.debug("Create table collections");
 			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table shop");
 			stat.executeUpdate(
-					"create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard TEXT,altered boolean,price double)");
+					"create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard LONGVARCHAR,altered boolean,price double)");
 			logger.debug("Create table stocks");
-			stat.executeUpdate("create table alerts (id varchar(250),mcard TEXT, amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250),mcard LONGVARCHAR, amount DECIMAL)");
 			logger.debug("Create table Alerts");
 			stat.executeUpdate(
 					"CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
@@ -84,7 +84,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 			logger.debug("populate collections");
 			return true;
 		} catch (SQLException e) {
-			logger.debug(getName() + ": Base already exist");
+			logger.debug(getName() + ": Base already exist",e);
 			return false;
 		}
 

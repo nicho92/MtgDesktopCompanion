@@ -251,14 +251,13 @@ public class ConfigurationPanel extends JPanel {
 		btnDuplicate.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
 			try {
 				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
-				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",
-						MTGControler.getInstance().getEnabled(MTGDao.class)) + " " + dao);
-
 				dao.init();
-				for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections())
-					for (MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col)) {
-						dao.saveCard(mc, col);
-					}
+				
+				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO", MTGControler.getInstance().getEnabled(MTGDao.class)) + " " + dao);
+
+				MTGControler.getInstance().getEnabled(MTGDao.class).duplicateTo(dao);
+				
+				
 
 				loading(false, "");
 			} catch (Exception e) {

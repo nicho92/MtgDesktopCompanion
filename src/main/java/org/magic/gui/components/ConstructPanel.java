@@ -268,10 +268,13 @@ public class ConstructPanel extends JPanel {
 
 		btnSave.addActionListener(e -> {
 			try {
-				String name = JOptionPane.showInputDialog(
-						MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " ?", deck.getName());
-				deck.setName(name);
-				deckManager.saveDeck(deck);
+				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " ?", deck.getName());
+				
+				if(name!=null && !name.isEmpty())
+				{
+					deck.setName(name);
+					deckManager.saveDeck(deck);
+				}
 			} catch (Exception ex) {
 				logger.error("error saving", ex);
 				MTGControler.getInstance()

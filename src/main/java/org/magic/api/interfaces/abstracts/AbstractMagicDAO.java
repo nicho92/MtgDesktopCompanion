@@ -2,13 +2,18 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
 
@@ -61,7 +66,40 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		deleteStock(stock);
 	}
 	
-	
+	@Override
+	public void duplicateTo(MTGDao dao) throws SQLException {
+		
+		
+		logger.debug("duplicate collection");
+		for (MagicCollection col : getCollections())
+		{
+			try {
+				dao.saveCollection(col);
+			}catch(SQLIntegrityConstraintViolationException e)
+			{
+				logger.error(col +" already exist");
+			}
+			
+			for (MagicCard mc : listCardsFromCollection(col)) {
+				dao.saveCard(mc, col);
+			}
+		}
+		
+		logger.debug("duplicate stock");
+		for(MagicCardStock stock : listStocks())
+			dao.saveOrUpdateStock(stock);
+			
+		logger.debug("duplicate alerts");
+		for(MagicCardAlert alert : listAlerts())
+			dao.saveAlert(alert);
+		
+		logger.debug("duplicate news");
+		for(MagicNews news : listNews())
+			dao.saveOrUpdateNews(news);
+		
+
+		
+	}
 
 	
 }
