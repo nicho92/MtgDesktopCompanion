@@ -68,7 +68,8 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 
 			String line = read.readLine();
 			int ecart = 0;
-
+			
+			int count=0;
 			while (line != null) {
 				line = line.trim();
 				if (!line.startsWith("//")) {
@@ -90,6 +91,8 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 						deck.getMapSideBoard().put(mc, qte);
 					else
 						deck.getMap().put(mc, qte);
+					
+					notify(count++);
 
 				}
 				line = read.readLine();

@@ -27,7 +27,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -55,6 +54,7 @@ import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
+import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -91,7 +91,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	private JPopupMenu popupMenuEdition;
 	private JPopupMenu popupMenuCards;
 	private MagicEditionsTableModel model;
-	private JProgressBar progressBar;
+	private JBuzyProgress progressBar;
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
@@ -164,7 +164,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		render = new MagicCollectionTableCellRenderer();
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		progressBar = new JProgressBar();
+		progressBar = new JBuzyProgress();
 		lblTotal = new JLabel();
 		magicEditionDetailPanel = new MagicEditionDetailPanel(true, false);
 		magicCardDetailPanel = new MagicCardDetailPanel();
@@ -366,16 +366,15 @@ public class CollectionPanelGUI extends MTGUIPanel {
 							int result = jf.showSaveDialog(null);
 							File f = jf.getSelectedFile();
 
-							exp.addObserver((Observable o, Object arg) -> progressBar.setValue((int) arg));
-
+							progressBar.start();
+							exp.addObserver(progressBar);
 							if (result == JFileChooser.APPROVE_OPTION) {
-								progressBar.setVisible(true);
 								if (ed == null)
 									exp.export(dao.listCardsFromCollection(mc), f);
 								else
 									exp.export(dao.listCardsFromCollection(mc, ed), f);
 
-								progressBar.setVisible(false);
+								progressBar.end();
 								
 								MTGControler.getInstance().notify(new MTGNotification(
 										MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
@@ -386,8 +385,12 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 						} catch (Exception e) {
 							logger.error("error in export",e);
-							progressBar.setVisible(false);
+							progressBar.end();
 							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						}
+						finally
+						{
+							exp.removeObserver(progressBar);
 						}
 					}, "export collection with " + exp));
 
@@ -555,20 +558,15 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
 				diag.setVisible(true);
 				if (diag.value()) {
-					progressBar.setVisible(true);
-					progressBar.setStringPainted(true);
-					progressBar.setMinimum(0);
-
+				
 					int max = 0;
 					for (MagicCollection col : diag.getSelectedCollections())
 						max += dao.getCardsCount(col, null);
 
-					progressBar.setMaximum(max);
-					progressBar.setValue(0);
-
+					progressBar.start(max);
 					MagicWebSiteGenerator gen = new MagicWebSiteGenerator(diag.getTemplate(),diag.getDest().getAbsolutePath());
 
-					gen.addObserver((Observable o, Object arg) -> progressBar.setValue((int) arg));
+					gen.addObserver(progressBar);
 					gen.generate(diag.getSelectedCollections(), diag.getPriceProviders());
 
 					int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
@@ -577,12 +575,12 @@ public class CollectionPanelGUI extends MTGUIPanel {
 						Path p = Paths.get(diag.getDest().getAbsolutePath() + "/index.htm");
 						Desktop.getDesktop().browse(p.toUri());
 					}
-					progressBar.setVisible(false);
+					progressBar.end();
 				}
 
 			} catch (Exception e) {
 				logger.error("error generating website", e);
-				progressBar.setVisible(false);
+				progressBar.end();
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 		}, "btnGenerateWebSite generate website"));
@@ -683,10 +681,9 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			if (res == JOptionPane.YES_OPTION)
 			{	
 				try {
-						progressBar.setVisible(true);
+						
 						List<MagicCard> list = provider.searchCardByEdition(ed);
-						progressBar.setMaximum(list.size());
-						progressBar.setValue(0);
+						progressBar.start(list.size());
 						logger.debug("save " + list.size() + " cards from " + ed.getId());
 						
 						ThreadManager.getInstance().execute(()->{
@@ -694,19 +691,20 @@ public class CollectionPanelGUI extends MTGUIPanel {
 									MagicCollection col = new MagicCollection(it.getText());
 									try {
 										MTGControler.getInstance().saveCard(mc, col);
-										progressBar.setValue(progressBar.getValue()+1);
+										progressBar.progress();
 									} catch (SQLException e) {
 										logger.error(e);
 									}
 								}
 								model.calculate();
 								model.fireTableDataChanged();
-								progressBar.setVisible(false);
+								progressBar.end();
 							
 						}, "insert sets");
 					} catch (Exception e) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						logger.error(e);
+						progressBar.end();
 					}
 					
 			}		
@@ -765,23 +763,22 @@ public class CollectionPanelGUI extends MTGUIPanel {
 						col.setName(destinationCollection);
 						List<MagicCard> sets = provider.searchCardByEdition(me);
 
-						MagicCollection sourceCol = new MagicCollection();
-						sourceCol.setName(node.getPath()[1].toString());
-
+						MagicCollection sourceCol = new MagicCollection(node.getPath()[1].toString());
 						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
 						sets.removeAll(list);
-						progressBar.setMaximum(sets.size());
+						progressBar.start(sets.size());
 						
 
 						for (MagicCard m : sets)
 						{
 							MTGControler.getInstance().saveCard(m, col);
-							progressBar.setValue(progressBar.getValue()+1);
+							progressBar.progress();
 						}
 
 						tree.refresh(node);
 					} catch (Exception e1) {
 						logger.error(e1);
+						progressBar.end();
 					}
 				}, "btnAdds addCardsCollection");
 			});

@@ -321,8 +321,7 @@ public class ConstructPanel extends JPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",
-											f.getName(), exp));
+									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
 									
 									exp.addObserver(buzyLabel);
 									

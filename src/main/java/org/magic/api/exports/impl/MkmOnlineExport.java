@@ -158,8 +158,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 						logger.debug("could not find product for " + mc);
 					}
 				
-				setChanged();
-				notifyObservers(c++);
+				notify(c++);
 			}
 			catch(MkmNetworkException ex)
 			{

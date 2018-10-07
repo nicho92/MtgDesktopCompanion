@@ -15,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
@@ -28,6 +27,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -89,8 +89,8 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
-		final JProgressBar progressBar = new JProgressBar();
-		progressBar.setStringPainted(true);
+		JBuzyProgress progressBar = new JBuzyProgress();
+		
 
 		final JCheckBox checkNewOne = new JCheckBox(
 				MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
@@ -144,7 +144,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 						deck.add(mc);
 						MTGControler.getInstance().saveCard(mc,col);
-						progressBar.setValue(i++);
+						progressBar.progress();
 					} catch (Exception e1) {
 						logger.error(e1);
 					}

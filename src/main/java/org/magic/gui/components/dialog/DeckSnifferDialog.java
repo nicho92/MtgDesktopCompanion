@@ -40,6 +40,7 @@ public class DeckSnifferDialog extends JDialog {
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private JPanel panelChoose;
 
 	public DeckSnifferDialog() {
 
@@ -63,58 +64,62 @@ public class DeckSnifferDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		cboSniffers = new JComboBox(MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).toArray());
-
-		cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
-
 		selectedSniffer = MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).get(0);
-		panel.add(cboSniffers);
-		
-		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
-		btnConnect.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
-			try {
-				lblLoad.buzy(true);
-				selectedSniffer.connect();
-				cboFormats.removeAllItems();
-
-				for (String s : selectedSniffer.listFilter())
-					cboFormats.addItem(s);
-
-				
-				lblLoad.buzy(false);
-
-			} catch (Exception e1) {
-				lblLoad.buzy(false);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-			}
-		}, "Connection to " + selectedSniffer));
-		panel.add(btnConnect);
-
-		cboFormats = new JComboBox<>();
-		cboFormats.addActionListener(e -> {
-			try {
-				lblLoad.buzy(true);
-				selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
-				model.init(selectedSniffer);
-				model.fireTableDataChanged();
-				lblLoad.buzy(false);
-			} catch (Exception e1) {
-				lblLoad.buzy(false);
-				logger.error("error change cboFormat", e1);
-				//MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-			}
-		});
-		panel.add(cboFormats);
+		panel.setLayout(new BorderLayout(0, 0));
 
 		lblLoad = new JBuzyLabel();
-		panel.add(lblLoad);
+		panel.add(lblLoad, BorderLayout.EAST);
+		
+		panelChoose = new JPanel();
+		panel.add(panelChoose);
+		
+				cboSniffers = new JComboBox(MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).toArray());
+				panelChoose.add(cboSniffers);
+				
+				btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
+				panelChoose.add(btnConnect);
+				
+						cboFormats = new JComboBox<>();
+						panelChoose.add(cboFormats);
+						cboFormats.addActionListener(e -> {
+							try {
+								lblLoad.buzy(true);
+								selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
+								model.init(selectedSniffer);
+								model.fireTableDataChanged();
+								lblLoad.buzy(false);
+							} catch (Exception e1) {
+								lblLoad.buzy(false);
+								logger.error("error change cboFormat", e1);
+								//MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+							}
+						});
+				btnConnect.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
+					try {
+						lblLoad.buzy(true);
+						selectedSniffer.connect();
+						cboFormats.removeAllItems();
+
+						for (String s : selectedSniffer.listFilter())
+							cboFormats.addItem(s);
+
+						
+						lblLoad.buzy(false);
+
+					} catch (Exception e1) {
+						lblLoad.buzy(false);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+					}
+				}, "Connection to " + selectedSniffer));
+				
+						cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
 	
-		JPanel panel1 = new JPanel();
-		getContentPane().add(panel1, BorderLayout.SOUTH);
+		JPanel panelButton = new JPanel();
+		getContentPane().add(panelButton, BorderLayout.SOUTH);
 
 		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnClose.addActionListener(e -> dispose());
-		panel1.add(btnClose);
+		panelButton.add(btnClose);
 
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
@@ -139,7 +144,7 @@ public class DeckSnifferDialog extends JDialog {
 			}
 		}, "Import deck"));
 
-		panel1.add(btnImport);
+		panelButton.add(btnImport);
 		setLocationRelativeTo(null);
 
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());

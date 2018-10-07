@@ -238,7 +238,7 @@ public class SealedPanel extends JPanel {
 		groupAnalyser.add(rdioDeckAnalyse);
 
 		progressBar = new JProgressBar();
-		progressBar.setMaximum(40);
+		progressBar.setMaximum(MTGConstants.SEALED_SIZE);
 		progressBar.setStringPainted(true);
 		panelSorters.add(progressBar);
 
