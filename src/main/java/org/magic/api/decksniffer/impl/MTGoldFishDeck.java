@@ -73,13 +73,16 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-						.searchCardByName( cardName, ed, true).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+				
+					
 				if (!sideboard) {
 					deck.getMap().put(mc, qte);
 				} else {
 					deck.getMapSideBoard().put(mc, qte);
 				}
+				notify(mc);
+				
 			}
 
 		}

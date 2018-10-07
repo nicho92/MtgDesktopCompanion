@@ -105,7 +105,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-
+				
 				MagicCard mc = null;
 
 				if (MagicCard.isBasicLand(cardName)) {
@@ -122,6 +122,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				else
 					deck.getMap().put(mc, qte);
 
+				notify(cardName);
+				
 			}
 
 		}
@@ -131,6 +133,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		return deck;
 	}
+
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {

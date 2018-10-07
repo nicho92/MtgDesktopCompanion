@@ -96,7 +96,7 @@ public class ConstructPanel extends JPanel {
 	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 	private JList<MagicCard> listResult;
-	private JBuzyLabel lblExport;
+	private JBuzyLabel buzyLabel;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
@@ -109,8 +109,8 @@ public class ConstructPanel extends JPanel {
 	private DeckStockComparatorPanel stockPanel;
 	
 	public void loading(boolean show, String text) {
-		lblExport.setText(text);
-		lblExport.setVisible(show);
+		buzyLabel.setText(text);
+		buzyLabel.setVisible(show);
 	}
 
 	public ConstructPanel() {
@@ -142,7 +142,7 @@ public class ConstructPanel extends JPanel {
 		JComboBox<String> cboAttributs;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
-		lblExport = new JBuzyLabel();
+		buzyLabel = new JBuzyLabel();
 		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
 		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
@@ -323,7 +323,9 @@ public class ConstructPanel extends JPanel {
 								try {
 									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",
 											f.getName(), exp));
-
+									
+									exp.addObserver(buzyLabel);
+									
 									deck = exp.importDeck(f);
 
 									MTGControler.getInstance()
@@ -344,6 +346,9 @@ public class ConstructPanel extends JPanel {
 									loading(false, "");
 									MTGControler.getInstance().notify(new MTGNotification(
 											MTGControler.getInstance().getLangService().getError(), e));
+								}
+								finally {
+									exp.removeObserver(buzyLabel);
 								}
 
 							}, "import " + exp);
@@ -384,6 +389,7 @@ public class ConstructPanel extends JPanel {
 						ThreadManager.getInstance().execute(() -> {
 							try {
 								loading(true, MTGControler.getInstance().getLangService().get("EXPORT_TO", deck, exp));
+								exp.addObserver(buzyLabel);
 								exp.export(deck, exportedFile);
 								MTGControler.getInstance()
 										.notify(new MTGNotification(
@@ -399,6 +405,10 @@ public class ConstructPanel extends JPanel {
 								MTGControler.getInstance().notify(
 										new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
 							}
+							finally
+							{
+								exp.removeObserver(buzyLabel);
+							}
 						}, "Export " + deck + " to " + exp.getName());
 					});
 					menu.add(it);
@@ -413,7 +423,7 @@ public class ConstructPanel extends JPanel {
 		});
 		panneauHaut.add(btnExports);
 
-		panneauHaut.add(lblExport);
+		panneauHaut.add(buzyLabel);
 
 		JPanel panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);

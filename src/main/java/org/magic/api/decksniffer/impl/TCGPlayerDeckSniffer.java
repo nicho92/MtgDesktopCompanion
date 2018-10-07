@@ -65,6 +65,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 			deck.getMap().put(mc, qte);
 
+			notify(mc);
 		}
 
 		if (main.size() > 1) {

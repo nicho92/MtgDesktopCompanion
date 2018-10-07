@@ -31,5 +31,8 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 		// do nothing by default
 		
 	}
+	
+
+	
 
 }

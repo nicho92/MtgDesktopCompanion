@@ -92,6 +92,8 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 						d.getMap().put(mc, qte);
 					else
 						d.getMapSideBoard().put(mc, qte);
+					
+					notify(mc);
 				}
 			}
 

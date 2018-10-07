@@ -87,6 +87,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 				Integer qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 				String cardName = line.substring(line.indexOf(' '), line.length()).trim();
 				
+				notify(cardName);
 				if(sideboard)
 					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0), qte);
 				else

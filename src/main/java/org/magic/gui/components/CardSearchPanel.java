@@ -653,7 +653,7 @@ public class CardSearchPanel extends MTGUIPanel {
 							ThreadManager.getInstance().execute(() -> {
 								try {
 									loading(true, "export " + exp);
-
+									exp.addObserver(lblLoading);
 									List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel())
 											.getListCards();
 									exp.export(export, f);
@@ -667,6 +667,9 @@ public class CardSearchPanel extends MTGUIPanel {
 									logger.error(e);
 									loading(false, "");
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+								}
+								finally {
+									exp.removeObserver(lblLoading);
 								}
 							}, "export search " + exp);
 					});

@@ -27,6 +27,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		this.props = props;
 	}
 	
+
+	public void notify(Object cardName) {
+		setChanged();
+		notifyObservers(cardName);
+	}
+	
 	@Override
 	public String getVersion() {
 		return "1.0";

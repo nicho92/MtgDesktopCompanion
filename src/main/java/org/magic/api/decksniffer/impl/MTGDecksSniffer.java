@@ -75,6 +75,8 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
+				notify(mc);
+				
 				if (!isSideboard)
 					deck.getMap().put(mc, Integer.parseInt(qte));
 				else

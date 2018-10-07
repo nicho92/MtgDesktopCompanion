@@ -3,8 +3,10 @@ package org.magic.gui.components;
 import javax.swing.JLabel;
 
 import org.magic.services.MTGConstants;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
-public class JBuzyLabel extends JLabel {
+public class JBuzyLabel extends JLabel implements Observer {
 	
 	/**
 	 * 
@@ -30,5 +32,12 @@ public class JBuzyLabel extends JLabel {
 	{
 		setText(text);
 		setVisible(visible);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(arg!=null)
+			setText(String.valueOf(arg));
+		
 	}
 }

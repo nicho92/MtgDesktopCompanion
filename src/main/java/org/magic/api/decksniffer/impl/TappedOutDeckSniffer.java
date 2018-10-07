@@ -163,8 +163,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			}
 
 			if (!ret.isEmpty()) {
-				setChanged();
-				notifyObservers(deck.getMap());
+				//setChanged();
+				//notifyObservers(deck.getMap());
+				notify(ret.get(0));
 
 				if (position.equalsIgnoreCase("main"))
 					deck.getMap().put(ret.get(0), qte);

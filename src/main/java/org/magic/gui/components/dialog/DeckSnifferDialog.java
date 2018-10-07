@@ -120,6 +120,7 @@ public class DeckSnifferDialog extends JDialog {
 		btnImport.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 			try {
 				lblLoad.buzy(true);
+				selectedSniffer.addObserver(lblLoad);
 				btnImport.setEnabled(false);
 				importedDeck = selectedSniffer.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0)); 
 				lblLoad.buzy(false);
@@ -131,6 +132,10 @@ public class DeckSnifferDialog extends JDialog {
 				importedDeck = null;
 				lblLoad.buzy(false);
 				btnImport.setEnabled(true);
+			}
+			finally
+			{
+				selectedSniffer.removeObserver(lblLoad);
 			}
 		}, "Import deck"));
 

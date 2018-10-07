@@ -98,6 +98,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					} else {
 						deck.getMapSideBoard().put(mc, qte);
 					}
+					notify(mc);
 
 				} catch (Exception e) {
 					logger.error(e);
