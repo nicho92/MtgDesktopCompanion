@@ -652,8 +652,7 @@ public class CardSearchPanel extends MTGUIPanel {
 								try {
 									loading(true, "export " + exp);
 									exp.addObserver(lblLoading);
-									List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel())
-											.getListCards();
+									List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getListCards();
 									exp.export(export, f);
 									loading(false, "");
 									MTGControler.getInstance().notify(new MTGNotification(

@@ -24,9 +24,19 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 	@Override
 	public void update(Observable o, Object obj) {
 		if(obj instanceof Integer)
+		{
 			setValue((Integer)obj);
+		}
 		else
-			setToolTipText(String.valueOf(obj));
+		{
+			setString(String.valueOf(obj));
+			progress();
+		}
+	}
+	
+	public void setText(String s)
+	{
+		setString(s);
 	}
 
 
