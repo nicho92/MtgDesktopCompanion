@@ -87,7 +87,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		UITools.initTableFilter(table);
 
-		initToolTip(table, 0, 1);
+		UITools.initToolTip(table, 0, 1);
 
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);

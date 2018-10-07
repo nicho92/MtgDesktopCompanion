@@ -71,7 +71,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		table = new JXTable(modEdition);
-		initToolTip(table, 0, 1);
+		UITools.initToolTip(table, 0, 1);
 
 		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());

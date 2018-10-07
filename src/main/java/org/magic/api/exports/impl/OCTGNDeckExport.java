@@ -36,15 +36,19 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");
 		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
 		temp.append("<section name='Main' shared='" + getString(SHARED) + "'>");
+		int count=0;
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("<card qty='").append(deck.getMap().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
+			
+			notify(count++);
 		}
 		temp.append("</section>");
 		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("<card qty='").append(deck.getMapSideBoard().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
+			notify(count++);
 		}
 		temp.append("</section>");
 

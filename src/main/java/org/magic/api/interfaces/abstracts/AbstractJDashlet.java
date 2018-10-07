@@ -33,7 +33,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public static final File confdir= new File(MTGConstants.CONF_DIR, "dashboards/dashlets");
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private MagicCardDetailPanel pane;
+	
 
 	
 	public AbstractJDashlet() {
@@ -100,49 +100,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return props;
 	}
 
-	protected void initToolTip(final JTable table, final Integer cardPos, final Integer edPos) {
-		pane = new MagicCardDetailPanel();
-		pane.enableThumbnail(true);
-		final JPopupMenu popUp = new JPopupMenu();
-
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row = table.rowAtPoint(e.getPoint());
-
-				if (row > -1) {
-					table.setRowSelectionInterval(row, row);
-					String cardName = table.getValueAt(row, cardPos.intValue()).toString();
-
-					if (cardName.indexOf('(') >= 0)
-						cardName = cardName.substring(0, cardName.indexOf('(')).trim();
-
-					MagicEdition ed = null;
-					if (edPos != null) {
-						String edID = table.getValueAt(row, edPos).toString();
-						ed = new MagicEdition();
-						ed.setId(edID);
-					}
-
-					try {
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
-						pane.setMagicCard(mc);
-						popUp.setBorder(new LineBorder(Color.black));
-						popUp.setVisible(false);
-						popUp.removeAll();
-						popUp.setLayout(new BorderLayout());
-						popUp.add(pane, BorderLayout.CENTER);
-						popUp.show(table, e.getX(), e.getY());
-						popUp.setVisible(true);
-
-					} catch (Exception ex) {
-						logger.error("Error on " + cardName, ex);
-					}
-
-				}
-			}
-		});
-	}
+	
 
 	@Override
 	public String toString() {

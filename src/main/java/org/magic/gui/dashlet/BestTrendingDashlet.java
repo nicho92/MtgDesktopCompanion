@@ -31,6 +31,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CardsShakeSorter;
 import org.magic.sorters.CardsShakeSorter.SORT;
+import org.magic.tools.UITools;
 
 public class BestTrendingDashlet extends AbstractJDashlet {
 
@@ -164,7 +165,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable(modStandard);
 		scrollPane.setViewportView(table);
-		initToolTip(table, 0, 1);
+		UITools.initToolTip(table, 0, 1);
 
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),

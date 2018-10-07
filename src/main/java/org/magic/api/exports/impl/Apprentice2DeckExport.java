@@ -41,8 +41,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
-			setChanged();
-			notifyObservers(c++);
+			notify(c++);
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB,");
@@ -50,8 +49,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
-			setChanged();
-			notifyObservers(c++);
+			notify(c++);
 		}
 
 		try (FileWriter out = new FileWriter(dest)) {

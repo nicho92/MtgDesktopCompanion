@@ -521,8 +521,6 @@ public class CardSearchPanel extends MTGUIPanel {
 			if (txtSearch.getText().equals("") && !cboCollections.isVisible())
 				return;
 			
-			
-			
 			cardsModeltable.clear();
 			new SwingWorker<Object, Object>() {
 				protected Void doInBackground() {

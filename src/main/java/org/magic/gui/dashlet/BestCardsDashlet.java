@@ -19,6 +19,7 @@ import org.magic.gui.models.CardDominanceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class BestCardsDashlet extends AbstractJDashlet {
 
@@ -66,7 +67,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		models = new CardDominanceTableModel();
 		table = new JXTable(models);
 		scrollPane.setViewportView(table);
-		initToolTip(table, 0, null);
+		UITools.initToolTip(table, 0, null);
 
 		cboFormat.addActionListener(ae -> init());
 
