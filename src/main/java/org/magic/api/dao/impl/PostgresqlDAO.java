@@ -64,11 +64,9 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			logger.debug("Create table Cards");
-			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard json, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
-			logger.debug("Create table Shop");
-			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
+			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard json, edition varchar(20), cardprovider varchar(50),collection varchar(250), PRIMARY KEY(ID, edition,collection))");
 			logger.debug("Create table collections");
-			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
+			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250)  PRIMARY KEY)");
 			logger.debug("Create table stocks");
 			stat.executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard json,altered boolean,price decimal)");
 			logger.debug("Create table Alerts");

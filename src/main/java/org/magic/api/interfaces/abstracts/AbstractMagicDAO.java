@@ -75,13 +75,18 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		{
 			try {
 				dao.saveCollection(col);
-			}catch(SQLIntegrityConstraintViolationException e)
+			}catch(Exception e)
 			{
 				logger.error(col +" already exist");
 			}
 			
 			for (MagicCard mc : listCardsFromCollection(col)) {
-				dao.saveCard(mc, col);
+				try {
+					dao.saveCard(mc, col);
+				}catch(Exception e)
+				{
+					logger.error("error saving " + mc + " in "+ col + " :",e);
+				}
 			}
 		}
 		
