@@ -38,7 +38,7 @@ public class DeckStockComparatorPanel extends JPanel {
 	private DeckStockComparisonModel model;
 	private JXTable table;
 	private JButton btnCompare;
-	private JButton btnExport;
+	//private JButton btnExport;
 	
 	public void setCurrentDeck(MagicDeck c) {
 		this.currentDeck = c;
@@ -54,7 +54,7 @@ public class DeckStockComparatorPanel extends JPanel {
 		btnCompare = new JButton("Compare");
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauBas = new JPanel();
-		btnExport = new JButton(MTGConstants.ICON_EXPORT);
+	//	btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		colMod = new DefaultComboBoxModel<>();
 		cboCollections = new JComboBox<>(colMod);
 		buzyLabel = new JBuzyLabel();
@@ -66,7 +66,7 @@ public class DeckStockComparatorPanel extends JPanel {
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(btnCompare);
 		add(panneauBas, BorderLayout.SOUTH);
-		panneauBas.add(btnExport);
+	//	panneauBas.add(btnExport);
 		panneauBas.add(buzyLabel);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
@@ -96,6 +96,7 @@ public class DeckStockComparatorPanel extends JPanel {
 		
 		try {
 			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(collection->colMod.addElement(collection));
+			colMod.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
 		} catch (SQLException e) {
 			logger.error("Error retrieving collections",e);
 		}
@@ -106,10 +107,7 @@ public class DeckStockComparatorPanel extends JPanel {
 
 	private void initActions() {
 		
-		btnExport.addActionListener(ae-> {
-			
-			
-		});
+	
 		
 		
 		btnCompare.addActionListener(ae-> {

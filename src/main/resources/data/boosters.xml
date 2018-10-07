@@ -1059,6 +1059,8 @@
 	<booster id='AER'>
 		<packs lang='en'>
 			<pack num='1' url="http://media.wizards.com/2016/images/daily/pIFZeAMYk1.png"/>
+			<pack num='2' url="http://media.wizards.com/2016/images/daily/aUQRoBKJIc.png"/>
+			<pack num='3' url="http://media.wizards.com/2016/images/daily/hxdj3Ajs1E.png"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/aer/images/logo-word.png"/>
 	</booster>

@@ -767,6 +767,7 @@ public class StockPanelGUI extends MTGUIPanel {
 			try {
 				lblLoading.buzy(true);
 				model.init();
+				table.packAll();
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}

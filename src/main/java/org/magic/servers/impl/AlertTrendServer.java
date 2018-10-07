@@ -87,6 +87,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 					
 					for(String not : getString(NOTIFIER).split(","))
 					{
+						logger.debug("notify with " + not);
 						MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 						try {

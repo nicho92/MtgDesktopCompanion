@@ -51,7 +51,7 @@ public class CardStockLinePanel extends JPanel {
 		setBorder(new LineBorder(Color.BLACK, 1, true));
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-		state = new MagicCardStock();
+		state = MTGControler.getInstance().getDefaultStock();
 		state.setMagicCard(selectedCard);
 		state.setMagicCollection(selectedCol);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -60,13 +60,15 @@ public class CardStockLinePanel extends JPanel {
 		add(lblQuantity);
 
 		txtQte = new JSpinner();
-		txtQte.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		txtQte.setModel(new SpinnerNumberModel(state.getQte(), 0, null, 1));
 		add(txtQte);
 
 		cboState = new JComboBox(EnumCondition.values());
+		cboState.setSelectedItem(state.getCondition());
 		add(cboState);
 
 		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
+		cboLanguage.setSelectedItem(state.getLanguage());
 		add(cboLanguage);
 
 		JLabel lblComment = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") + " :");
@@ -77,9 +79,11 @@ public class CardStockLinePanel extends JPanel {
 		txtComment.setColumns(20);
 
 		cboFoil = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FOIL"));
+		cboFoil.setSelected(state.isFoil());
 		add(cboFoil);
 
 		cboSigned = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SIGNED"));
+		cboSigned.setSelected(state.isSigned());
 		add(cboSigned);
 
 		JButton btnNewButton = new JButton("");
@@ -108,6 +112,7 @@ public class CardStockLinePanel extends JPanel {
 		});
 
 		cboAltered = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ALTERED"));
+		cboAltered.setSelected(state.isAltered());
 		add(cboAltered);
 		add(btnSave);
 		add(btnNewButton);
@@ -127,9 +132,7 @@ public class CardStockLinePanel extends JPanel {
 
 		generateState();
 		try {
-			List<MagicCardStock> l = new ArrayList<>();
-			l.add(state);
-			MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(l);
+			MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(state);
 		} catch (SQLException e1) {
 			logger.error(e1);
 		}
@@ -139,9 +142,10 @@ public class CardStockLinePanel extends JPanel {
 			getParent().revalidate();
 			getParent().repaint();
 		} catch (NullPointerException e) {
-			logger.error(e);
+			logger.error(getParent() + " remove " + this + " error : " + e);
 		}
 
+		
 	}
 
 	public void setMagicCardState(MagicCardStock state) {
