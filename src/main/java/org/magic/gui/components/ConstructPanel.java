@@ -218,7 +218,7 @@ public class ConstructPanel extends JPanel {
 			Map<MagicCard, Integer> updateS = new HashMap<>();
 
 			btnUpdate.setEnabled(false);
-			buzyLabel.start(deck.getAsList().size());
+			buzyLabel.start(deck.getMap().size() + deck.getMapSideBoard().size());
 			for (MagicCard mc : deck.getMap().keySet()) {
 				try {
 					updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(mc.getId()),deck.getMap().get(mc));

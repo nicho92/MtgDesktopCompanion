@@ -42,12 +42,11 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 
 
 	public void start(int max) {
+		setText(null);
 		setValue(0);
 		setMaximum(max);
 		setIndeterminate(false);
 		setVisible(true);
-		setText(null);
-		
 	}
 	
 	public void start() {

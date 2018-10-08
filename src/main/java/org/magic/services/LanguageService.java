@@ -13,6 +13,7 @@ public class LanguageService {
 	
 	public String get(String k, Object... values) {
 		String t = get(k);
+		
 		for (int i = 0; i < values.length; i++) {
 			t = t.replaceFirst("%" + (i + 1), String.valueOf(values[i]));
 		}
