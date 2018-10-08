@@ -139,10 +139,6 @@ public class MTGArenaExport extends AbstractCardExport {
 		}
 	}
 
-	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		return new ArrayList<>();
-	}
 
 	@Override
 	public String getName() {

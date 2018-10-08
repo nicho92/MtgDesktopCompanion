@@ -60,12 +60,8 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
-			notify(mcs);
 		}
-
 		export(d, f);
-
-
 	}
 
 	@Override

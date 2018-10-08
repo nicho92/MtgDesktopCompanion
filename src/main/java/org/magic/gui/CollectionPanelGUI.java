@@ -75,7 +75,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import org.utils.patterns.observer.Observable;
 
 public class CollectionPanelGUI extends MTGUIPanel {
 	
@@ -191,7 +190,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
 
-		progressBar.setVisible(false);
 		btnRemove.setEnabled(true);
 		btnExport.setEnabled(false);
 
@@ -324,7 +322,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		btnRefresh.addActionListener(e ->
 
 		ThreadManager.getInstance().execute(() -> {
-			progressBar.setVisible(true);
+			progressBar.start();
 			tree.refresh();
 			try {
 				model.calculate();
@@ -333,7 +331,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				logger.error(ex);
 			}
 			model.fireTableDataChanged();
-			progressBar.setVisible(false);
+			progressBar.end();
 		}, "update Tree"));
 		
 		
@@ -366,13 +364,19 @@ public class CollectionPanelGUI extends MTGUIPanel {
 							int result = jf.showSaveDialog(null);
 							File f = jf.getSelectedFile();
 
-							progressBar.start();
+							
 							exp.addObserver(progressBar);
 							if (result == JFileChooser.APPROVE_OPTION) {
+								
+								List<MagicCard> list=null;
 								if (ed == null)
-									exp.export(dao.listCardsFromCollection(mc), f);
+									list=dao.listCardsFromCollection(mc);
 								else
-									exp.export(dao.listCardsFromCollection(mc, ed), f);
+									list=dao.listCardsFromCollection(mc, ed);
+								
+								progressBar.start(list.size());
+								
+								exp.export(list, f);
 
 								progressBar.end();
 								
@@ -752,8 +756,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			adds.addActionListener(e -> {
 
 				final String destinationCollection = ((JMenuItem) e.getSource()).getText();
-				progressBar.setValue(0);
-				progressBar.setVisible(true);
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));

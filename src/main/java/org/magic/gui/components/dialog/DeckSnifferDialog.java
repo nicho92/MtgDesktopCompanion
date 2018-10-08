@@ -23,6 +23,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import javax.swing.SwingConstants;
 
 public class DeckSnifferDialog extends JDialog {
 
@@ -68,10 +69,11 @@ public class DeckSnifferDialog extends JDialog {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		lblLoad = new JBuzyLabel();
-		panel.add(lblLoad, BorderLayout.EAST);
+		lblLoad.setHorizontalAlignment(SwingConstants.LEFT);
+		panel.add(lblLoad, BorderLayout.CENTER);
 		
 		panelChoose = new JPanel();
-		panel.add(panelChoose);
+		panel.add(panelChoose, BorderLayout.WEST);
 		
 				cboSniffers = new JComboBox(MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).toArray());
 				panelChoose.add(cboSniffers);

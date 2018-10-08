@@ -46,7 +46,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
-import org.magic.gui.components.JBuzyLabel;
+import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
@@ -79,7 +79,7 @@ public class StockPanelGUI extends MTGUIPanel {
 	private PricesTablePanel pricePanel;
 	private JSONPanel jsonPanel;
 	private JButton btnReload;
-	private JBuzyLabel lblLoading;
+	private JBuzyProgress lblLoading;
 	private JPanel rightPanel;
 	private JSpinner spinner;
 	private JComboBox<String> cboLanguages;
@@ -122,16 +122,17 @@ public class StockPanelGUI extends MTGUIPanel {
 		btnSave.addActionListener(e ->
 
 		ThreadManager.getInstance().execute(() -> {
+			lblLoading.start(model.getList().size());
 			for (MagicCardStock ms : model.getList())
 				if (ms.isUpdate())
 					try {
-						lblLoading.buzy(true);
 						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
+						lblLoading.progress();
 						ms.setUpdate(false);
-						lblLoading.buzy(false);
+						lblLoading.end();
 					} catch (SQLException e1) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-						lblLoading.buzy(false);
+						lblLoading.end();
 					}
 
 			model.fireTableDataChanged();
@@ -160,15 +161,15 @@ public class StockPanelGUI extends MTGUIPanel {
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						int[] selected = table.getSelectedRows();
-						lblLoading.buzy(true);
+						lblLoading.start();
 						List<MagicCardStock> stocks = extract(selected);
 						model.removeRows(stocks);
 						updateCount();
 					} catch (Exception e) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-						lblLoading.buzy(false);
+						lblLoading.end();
 					}
-					lblLoading.buzy(false);
+					lblLoading.end();
 					updateCount();
 
 				}, "delete stock");
@@ -185,12 +186,12 @@ public class StockPanelGUI extends MTGUIPanel {
 				logger.debug("reload collection");
 				ThreadManager.getInstance().execute(() -> {
 					try {
-						lblLoading.buzy(true);
+						lblLoading.start();
 						model.init();
 					} catch (SQLException e1) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 					}
-					lblLoading.buzy(false);
+					lblLoading.end();
 					updateCount();
 				}, "reload stock");
 
@@ -253,14 +254,16 @@ public class StockPanelGUI extends MTGUIPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									lblLoading.buzy(true);
+									
 									List<MagicCardStock> list = exp.importStock(fileImport);
+									lblLoading.start(list.size());
 									for (MagicCardStock mc : list) {
 										addStock(mc);
+										lblLoading.progress();
 									}
 									model.fireTableDataChanged();
 									updateCount();
-									lblLoading.buzy(false);
+									lblLoading.end();
 									
 									MTGControler.getInstance().notify(new MTGNotification(
 											MTGControler.getInstance().getLangService().combine("IMPORT", FINISHED),
@@ -270,7 +273,7 @@ public class StockPanelGUI extends MTGUIPanel {
 
 								} catch (Exception e) {
 									logger.error("ERROR", e);
-									lblLoading.buzy(false);
+									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 
@@ -316,18 +319,16 @@ public class StockPanelGUI extends MTGUIPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									lblLoading.buzy(true);
-
+									lblLoading.start(model.getList().size());
+									exp.addObserver(lblLoading);
 									exp.exportStock(model.getList(), fileExport);
-
-									lblLoading.buzy(false);
-									
+									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),exp.getName() + " "
 											+ MTGControler.getInstance().getLangService()
 											.getCapitalize(FINISHED),MESSAGE_TYPE.INFO));
 								} catch (Exception e) {
 									logger.error(e);
-									lblLoading.buzy(false);
+									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 							}, "export " + exp);
@@ -345,7 +346,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		});
 
 		btnGeneratePrice.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
-			lblLoading.buzy(true);
+			lblLoading.start(table.getSelectedRows().length);
 			for (int i : table.getSelectedRows()) {
 				MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
 				Collection<Double> prices;
@@ -356,6 +357,8 @@ public class StockPanelGUI extends MTGUIPanel {
 						price = (Double) prices.toArray()[prices.size() - 1];
 					else
 						price = 0.0;
+					
+					
 				} catch (IOException e) {
 					price = 0.0;
 				}
@@ -363,10 +366,11 @@ public class StockPanelGUI extends MTGUIPanel {
 				s.setPrice(price);
 				if (old != s.getPrice())
 					s.setUpdate(true);
-
+				
+				lblLoading.progress();
 				model.fireTableDataChanged();
 			}
-			lblLoading.buzy(false);
+			lblLoading.end();
 
 		}, "generate prices for stock"));
 
@@ -501,7 +505,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
 		actionPanel.add(btnReload);
 
-		lblLoading = new JBuzyLabel();
+		lblLoading = new JBuzyProgress();
 
 		btnshowMassPanel = new JButton("");
 
@@ -765,13 +769,13 @@ public class StockPanelGUI extends MTGUIPanel {
 
 		ThreadManager.getInstance().execute(() -> {
 			try {
-				lblLoading.buzy(true);
+				lblLoading.start();
 				model.init();
 				table.packAll();
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}
-			lblLoading.buzy(false);
+			lblLoading.end();
 			updateCount();
 
 		}, "init stock");

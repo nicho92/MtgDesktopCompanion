@@ -28,9 +28,9 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 	
 
-	public void notify(Object cardName) {
+	public void notify(Object obj) {
 		setChanged();
-		notifyObservers(cardName);
+		notifyObservers(obj);
 	}
 	
 	@Override

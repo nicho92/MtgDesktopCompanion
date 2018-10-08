@@ -173,20 +173,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		MagicDeck d = new MagicDeck();
-		d.setName(f.getName());
-
-		for (MagicCardStock mcs : stock) {
-			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
-			notify(mcs);
-		}
-
-		export(d, f);
-
-	}
-
-	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		throw new NotImplementedException("Can't import stock from DCI Sheet");
 	}
