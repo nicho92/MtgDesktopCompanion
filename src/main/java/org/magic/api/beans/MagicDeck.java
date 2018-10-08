@@ -175,7 +175,7 @@ public class MagicDeck implements Serializable {
 	public int getNbCards() {
 		return getAsList().size();
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 

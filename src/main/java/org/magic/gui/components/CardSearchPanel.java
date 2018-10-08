@@ -602,8 +602,7 @@ public class CardSearchPanel extends MTGUIPanel {
 					lblLoading.start();
 					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 					try {
-						selectedCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-								.searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
+						selectedCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
 						detailCardPanel.setMagicCard(selectedCard);
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
 

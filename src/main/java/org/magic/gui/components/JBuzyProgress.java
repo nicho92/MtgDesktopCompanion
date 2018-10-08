@@ -29,14 +29,15 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 		}
 		else
 		{
-			//setString(String.valueOf(obj));
+			setText(String.valueOf(obj));
 			progress();
 		}
 	}
 	
 	public void setText(String s)
 	{
-		setString(s);
+		if(isIndeterminate())
+			setString(s);
 	}
 
 
