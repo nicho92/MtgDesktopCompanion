@@ -50,7 +50,7 @@ public class PDFExport extends AbstractCardExport {
 		PdfPCell cell = new PdfPCell(image1, false);
 		cell.setBorder(0);
 		cell.setPadding(5);
-
+	
 		return cell;
 	}
 
@@ -73,11 +73,9 @@ public class PDFExport extends AbstractCardExport {
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
 			document.open();
-			int i = 0;
 			for (MagicCard card : deck.getAsList()) {
 				table.addCell(getCells(card));
-				notify(i++);
-
+				notify(card);
 			}
 			document.add(table);
 			document.close();
@@ -105,6 +103,7 @@ public class PDFExport extends AbstractCardExport {
 
 		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+			notify(mcs);
 		}
 
 		export(d, f);

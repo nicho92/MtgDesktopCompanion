@@ -48,14 +48,14 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("<card number='").append(deck.getMap().get(mc))
 					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
-			setChanged();
-			notifyObservers(c++);
+			notify(mc);
 		}
 		temp.append(endZoneTag);
 		temp.append("<zone name='side'>");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("<card number='").append(deck.getMapSideBoard().get(mc))
 					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
+			notify(mc);
 		}
 		temp.append(endZoneTag);
 		temp.append("</cockatrice_deck>");
@@ -87,17 +87,18 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-						.searchCardByName( name, null, true).get(0), qte);
-				notify(c++);
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+				deck.getMap().put(mc, qte);
+				notify(mc);
 			}
 			expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
 			result = ((NodeList) expr.evaluate(d, XPathConstants.NODESET));
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true).get(0), qte);
-				notify(c++);
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+				deck.getMapSideBoard().put(mc, qte);
+				notify(mc);
 			}
 		} catch (Exception e) {
 			throw new IOException(e);

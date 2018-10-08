@@ -35,10 +35,12 @@ public class MTGODeckExport extends AbstractCardExport {
 		temp.append("\n//MAIN\n");
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append("\n");
+			notify(mc);
 		}
 		temp.append("\n//Sideboard\n");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
+			notify(mc);
 		}
 
 		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
@@ -63,13 +65,14 @@ public class MTGODeckExport extends AbstractCardExport {
 						sep = line.indexOf(' ');
 						name = line.substring(sep, line.length()).trim();
 						qte = line.substring(0, sep).trim();
-						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-								.searchCardByName( name, null, true);
+						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true);
 						deck.getMapSideBoard().put(list.get(0), Integer.parseInt(qte));
+						notify(list.get(0));
 					} else {
 						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( name, null, true);
 						deck.getMap().put(list.get(0), Integer.parseInt(qte));
+						notify(list.get(0));
 					}
 				}
 				line = read.readLine();

@@ -45,15 +45,11 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
-
 		MagicDeck d = new MagicDeck();
 		d.setName("export " + getName() + " cards");
 		d.setDescription(getName() + " export to " + f.getName());
-		int i = 0;
 		for (MagicCard mc : cards) {
 			d.add(mc);
-			setChanged();
-			notifyObservers(i++);
 		}
 		export(d, f);
 	}
@@ -64,6 +60,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+			notify(mcs);
 		}
 
 		export(d, f);
@@ -87,6 +84,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 			stock.setIdstock(-1);
 			stock.setUpdate(true);
 			mcs.add(stock);
+			notify(stock);
 		}
 		return mcs;
 	}

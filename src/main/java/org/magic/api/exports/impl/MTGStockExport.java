@@ -31,9 +31,6 @@ public class MTGStockExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		
-		int val=0;
-		
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			String name=mc.getName();
@@ -42,8 +39,7 @@ public class MTGStockExport extends AbstractCardExport {
 			
 			String line= name+","+mc.getCurrentSet().getId()+"\n";
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
-			setChanged();
-			notifyObservers(val++);
+			notify(mc);
 		}
 		
 	}
@@ -80,8 +76,7 @@ public class MTGStockExport extends AbstractCardExport {
 				MagicEdition edition = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(ed);
 				MagicCard card = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, edition, true).get(0);
 				deck.getMap().put(card, qty);
-				setChanged();
-				notifyObservers(val++);
+				notify(card);
 				}
 				catch(Exception e)
 				{

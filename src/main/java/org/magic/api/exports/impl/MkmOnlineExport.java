@@ -94,9 +94,9 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
-
-				d.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-						.searchCardByName( p.getEnName().trim(), null, true).get(0), w.getCount());
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true).get(0);
+				d.getMap().put(mc, w.getCount());
+				notify(mc);
 			} catch (Exception e) {
 				logger.error("could not import " + w);
 			}
@@ -115,7 +115,10 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		MagicDeck d = new MagicDeck();
 		for (MagicCard mc : cards)
+		{
 			d.getMap().put(mc, Integer.parseInt(getString(DEFAULT_QTE)));
+			notify(mc);
+		}
 
 		d.setName(f.getName());
 
@@ -136,7 +139,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 		WantsService wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
-		int c = 0;
 		for (MagicCard mc : deck.getMap().keySet()) {
 			Product p;
 			try {
@@ -158,7 +160,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 						logger.debug("could not find product for " + mc);
 					}
 				
-				notify(c++);
+					notify(mc);
 			}
 			catch(MkmNetworkException ex)
 			{
@@ -227,6 +229,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				a.setProduct(p);
 				a.setIdProduct(p.getIdProduct());
 				list.add(a);
+				notify(mcs);
 			}
 			serv.addArticles(list);
 		}
@@ -261,6 +264,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
 			stock.add(mcs);
+			notify(mcs);
 
 		}
 		return stock;

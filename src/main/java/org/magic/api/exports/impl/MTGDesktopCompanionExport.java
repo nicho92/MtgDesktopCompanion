@@ -34,7 +34,6 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 		try (ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 			oos.writeObject(deck);
 			oos.flush();
-
 		}
 	}
 

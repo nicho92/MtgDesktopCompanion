@@ -194,11 +194,12 @@ public class MagicGUI extends JFrame {
 										MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",
 												MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 
-							CardSearchPanel.getInstance().loading(true, MTGControler.getInstance().getLangService()
-									.getCapitalize("LOADING_FILE", f.getName(), exp));
+							exp.addObserver(CardSearchPanel.getInstance().getLblLoading());
+							CardSearchPanel.getInstance().getLblLoading().setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE", f.getName(), exp));
+							CardSearchPanel.getInstance().getLblLoading().start();
 							MagicDeck d = exp.importDeck(f);
 							CardSearchPanel.getInstance().open(d.getAsList());
-							CardSearchPanel.getInstance().loading(false, "");
+							CardSearchPanel.getInstance().getLblLoading().end();
 							tabbedPane.setSelectedIndex(0);
 						} catch (Exception e) {
 							logger.error(e);

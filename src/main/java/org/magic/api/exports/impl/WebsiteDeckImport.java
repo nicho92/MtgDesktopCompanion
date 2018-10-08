@@ -64,6 +64,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 			stock.setUpdate(true);
 			stock.setIdstock(-1);
 			ret.add(stock);
+			notify(stock);
 		}
 		return ret;
 	}

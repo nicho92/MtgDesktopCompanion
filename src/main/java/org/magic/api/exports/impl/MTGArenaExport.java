@@ -53,6 +53,7 @@ public class MTGArenaExport extends AbstractCardExport {
 				.append(" ")
 				.append(entry.getKey().getCurrentSet().getNumber())
 				.append("\r\n");
+			notify(entry.getKey());
 			
 		}
 		
@@ -68,7 +69,7 @@ public class MTGArenaExport extends AbstractCardExport {
 					.append(")")
 					.append(" ")
 					.append(entry.getKey().getCurrentSet().getNumber());
-				
+				notify(entry.getKey());
 			}
 
 		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
@@ -123,9 +124,10 @@ public class MTGArenaExport extends AbstractCardExport {
 					String ed =  reverse(line.substring( line.indexOf('(')+1,line.indexOf(')')));
 					MagicEdition me = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ed);
 				
-					
+					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
+					notify(mc);
 					if(!side)
-						deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
+						deck.getMap().put(mc, qte);
 					else
 						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
 					

@@ -35,11 +35,13 @@ public class XMageDeckExport extends AbstractCardExport {
 			temp.append(deck.getMap().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
 					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
+			notify(mc);
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append("[")
 					.append(mc.getCurrentSet().getId()).append(":").append(mc.getCurrentSet().getNumber())
 					.append("]").append(" ").append(mc.getName()).append("\n");
+			notify(mc);
 		}
 
 		try (FileWriter out = new FileWriter(dest)) {
@@ -64,6 +66,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( cardName, ed, true).get(0);
+						notify(mc);
 						deck.getMap().put(mc, qte);
 
 					} else {
@@ -74,6 +77,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( cardName, ed, true).get(0);
+						notify(mc);
 						deck.getMap().put(mc, qte);
 					}
 				} else {

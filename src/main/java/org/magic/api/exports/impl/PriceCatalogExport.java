@@ -63,7 +63,8 @@ public class PriceCatalogExport extends AbstractCardExport {
 			{	
 				MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
 			
-					for (MagicCard mc : deck.getMap().keySet()) {
+					for (MagicCard mc : deck.getMap().keySet()) 
+					{
 						for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
 							for (String k : exportedCardsProperties) {
 								String val;
@@ -91,8 +92,7 @@ public class PriceCatalogExport extends AbstractCardExport {
 							}
 							bw.write("\n");
 						}
-						setChanged();
-						notifyObservers(i++);
+						notify(mc);
 					}
 			}
 		}

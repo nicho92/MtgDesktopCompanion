@@ -113,6 +113,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			cb.setTextMatrix(page.getWidth() / 6.4f, page.getHeight() - 185 - count);
 			cb.showText(deck.getMap().get(mc) + space + mc.getName());
 			count += 18;
+			notify(mc);
 		}
 		// CONTINUED and BASIC LAND
 		if (getString(FILL_CONTINUED_LANDS).equalsIgnoreCase("true")) {
@@ -123,13 +124,16 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 					cb.showText(deck.getMap().get(mc) + space + mc.getName());
 					count += 18;
 				}
+				notify(mc);
 			}
+			
 		}
 		// SIDEBOARD
 		count = 0;
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			cb.setTextMatrix(page.getWidth() / 1.7f, page.getHeight() - 418 - count);
 			cb.showText(deck.getMapSideBoard().get(mc) + space + mc.getName());
+			notify(mc);
 			count += 18;
 		}
 
@@ -175,6 +179,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+			notify(mcs);
 		}
 
 		export(d, f);

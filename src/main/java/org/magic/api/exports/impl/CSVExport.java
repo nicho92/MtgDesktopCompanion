@@ -93,6 +93,7 @@ public class CSVExport extends AbstractCardExport {
 				bw.write(mcs.getPrice() + ";");
 				bw.write(mcs.getComment() + ";");
 				bw.write("\n");
+				notify(mcs);
 			}
 		}
 
@@ -117,6 +118,7 @@ public class CSVExport extends AbstractCardExport {
 					bw.write(val.replaceAll("\n", "") + ";");
 				}
 				bw.write("\n");
+				notify(mc);
 			}
 		} catch (Exception e) {
 			throw new IOException(e);
@@ -152,6 +154,7 @@ public class CSVExport extends AbstractCardExport {
 					bw.write(val.replaceAll("\n", "") + ";");
 				}
 				bw.write("\n");
+				notify(mc);
 			}
 
 			bw.write("SideBoard\n");
@@ -174,6 +177,7 @@ public class CSVExport extends AbstractCardExport {
 					bw.write(val.replaceAll("\n", "") + ";");
 				}
 				bw.write("\n");
+				notify(mc);
 			}
 
 		}
@@ -199,9 +203,8 @@ public class CSVExport extends AbstractCardExport {
 				String set = part[2];
 
 				MagicEdition ed = new MagicEdition(set);
-				List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
-						name, ed, true);
-
+				List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true);
+				notify(list.get(0));
 				deck.getMap().put(list.get(0), Integer.parseInt(qte));
 				line = read.readLine();
 			}

@@ -76,6 +76,7 @@ public class JsonExport extends AbstractCardExport {
 			JsonObject line = main.get(i).getAsJsonObject();
 			int qte = line.get("qty").getAsInt();
 			MagicCard mc = new Gson().fromJson(line.get("card"), MagicCard.class);
+			notify(mc);
 			deck.getMap().put(mc, qte);
 		}
 
@@ -85,6 +86,7 @@ public class JsonExport extends AbstractCardExport {
 			JsonObject line = side.get(i).getAsJsonObject();
 			int qte = line.get("qty").getAsInt();
 			MagicCard mc = new Gson().fromJson(line.get("card"), MagicCard.class);
+			notify(mc);
 			deck.getMapSideBoard().put(mc, qte);
 
 		}
@@ -152,6 +154,7 @@ public class JsonExport extends AbstractCardExport {
 
 		for (MagicCardStock mc : stock) {
 			jsonparams.add(new Gson().toJsonTree(mc));
+			notify(mc);
 		}
 		try (FileWriter out = new FileWriter(f)) {
 			out.write(jsonparams.toString());
@@ -166,6 +169,7 @@ public class JsonExport extends AbstractCardExport {
 		for (int i = 0; i < root.size(); i++) {
 			JsonObject line = root.get(i).getAsJsonObject();
 			MagicCardStock mc = new Gson().fromJson(line, MagicCardStock.class);
+			notify(mc);
 			list.add(mc);
 		}
 

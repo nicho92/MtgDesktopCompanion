@@ -112,8 +112,13 @@ public class CardSearchPanel extends MTGUIPanel {
 	private JList<MagicEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
 
-	private JBuzyLabel lblLoading;
+	private JBuzyProgress lblLoading;
 
+	
+	public JBuzyProgress getLblLoading() {
+		return lblLoading;
+	}
+	
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_SEARCH_24;
@@ -129,10 +134,6 @@ public class CardSearchPanel extends MTGUIPanel {
 			inst = new CardSearchPanel();
 
 		return inst;
-	}
-
-	public void loading(boolean show, String text) {
-		lblLoading.buzy(show,text);
 	}
 
 	public List<MagicCard> getMultiSelection() {
@@ -159,7 +160,8 @@ public class CardSearchPanel extends MTGUIPanel {
 			adds.addActionListener(addEvent -> {
 
 				String collec = ((JMenuItem) addEvent.getSource()).getText();
-				loading(true, MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_TO") + " " + collec);
+				lblLoading.start();
+				lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_TO") + " " + collec);
 
 				for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
 
@@ -175,7 +177,7 @@ public class CardSearchPanel extends MTGUIPanel {
 					}
 
 				}
-				loading(false, "");
+				lblLoading.end();
 			});
 			menuItemAdd.add(adds);
 		}
@@ -267,7 +269,7 @@ public class CardSearchPanel extends MTGUIPanel {
 
 		tableCards = new JXTable();
 		
-		lblLoading = new JBuzyLabel();
+		lblLoading = new JBuzyProgress();
 		JLabel lblFilter = new JLabel();
 
 		listEdition = new JList<>();
@@ -524,7 +526,8 @@ public class CardSearchPanel extends MTGUIPanel {
 			cardsModeltable.clear();
 			new SwingWorker<Object, Object>() {
 				protected Void doInBackground() {
-					loading(true, MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
+					lblLoading.start();
+					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 					String searchName = txtSearch.getText().trim();
 					
 						List<MagicCard> cards = null;
@@ -558,7 +561,7 @@ public class CardSearchPanel extends MTGUIPanel {
 				@Override
 				protected void done() {
 					super.done();
-					loading(false, "");
+					lblLoading.end();
 					cardsModeltable.fireTableDataChanged();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
 					MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(ob);
@@ -596,7 +599,8 @@ public class CardSearchPanel extends MTGUIPanel {
 			public void mouseClicked(MouseEvent mev) {
 				selectedEdition = listEdition.getSelectedValue();
 				ThreadManager.getInstance().execute(() -> {
-					loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
+					lblLoading.start();
+					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 					try {
 						selectedCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 								.searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
@@ -610,7 +614,7 @@ public class CardSearchPanel extends MTGUIPanel {
 					historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 					priceTablePanel.init(selectedCard,selectedEdition);
 
-					loading(false, "");
+					lblLoading.end();
 				}, "changeEdition");
 			}
 		});
@@ -646,15 +650,16 @@ public class CardSearchPanel extends MTGUIPanel {
 						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
 						int result = jf.showSaveDialog(null);
 						final File f = jf.getSelectedFile();
-
+						List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getListCards();
+						lblLoading.start(export.size()); 
+						exp.addObserver(lblLoading);
+						
 						if (result == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									loading(true, "export " + exp);
-									exp.addObserver(lblLoading);
-									List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getListCards();
+									//lblLoading.setText("export " + exp);
 									exp.export(export, f);
-									loading(false, "");
+									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(
 											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
 											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
@@ -662,7 +667,7 @@ public class CardSearchPanel extends MTGUIPanel {
 											));
 								} catch (Exception e) {
 									logger.error(e);
-									loading(false, "");
+									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 								finally {

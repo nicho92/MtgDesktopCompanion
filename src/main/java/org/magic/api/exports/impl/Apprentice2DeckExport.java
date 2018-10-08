@@ -41,7 +41,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
-			notify(c++);
+			notify(c);
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB,");
@@ -49,7 +49,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
-			notify(c++);
+			notify(c);
 		}
 
 		try (FileWriter out = new FileWriter(dest)) {
@@ -83,7 +83,8 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 					String name = elements[2 - ecart].replaceAll("\"", "");
 					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, ed, true).get(0);
 					Integer qte = Integer.parseInt(elements[1 - ecart]);
-
+					notify(mc);
+					
 					if (line.startsWith("SB"))
 						deck.getMapSideBoard().put(mc, qte);
 					else

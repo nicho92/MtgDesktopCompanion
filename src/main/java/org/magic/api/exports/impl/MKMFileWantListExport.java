@@ -32,8 +32,9 @@ public class MKMFileWantListExport extends AbstractCardExport {
 				int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 				String name = line.substring(line.indexOf(' '), line.indexOf('('));
 
-				deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-						.searchCardByName( name.trim(), null, true).get(0), qte);
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), null, true).get(0);
+				notify(mc);
+				deck.getMap().put(mc, qte);
 				line = read.readLine();
 			}
 			return deck;
@@ -55,6 +56,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 				temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (")
 						.append(mc.getCurrentSet().getSet()).append(")");
 				bw.write(temp.toString() + "\n");
+				notify(mc);
 			}
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 				StringBuilder temp = new StringBuilder();
@@ -67,6 +69,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 							.append(mc.getCurrentSet().getSet()).append(")");
 
 				bw.write(temp.toString() + "\n");
+				notify(mc);
 			}
 		}
 	}

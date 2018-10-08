@@ -28,6 +28,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			temp.append("[").append(mc.getCurrentSet().getId().toUpperCase()).append("]");
 			temp.append(mc.getName());
 			temp.append("\n");
+			notify(mc);
 		}
 		temp.append("// Sideboard\n");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
@@ -37,6 +38,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			temp.append("[").append(mc.getCurrentSet().getId()).append("]");
 			temp.append(mc.getName());
 			temp.append("\n");
+			notify(mc);
 		}
 
 		try (FileWriter out = new FileWriter(dest)) {
@@ -58,6 +60,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 				if (!line.startsWith("//")) {
 					int qte = 0;
 					MagicCard mc = null;
+					notify(mc);
 					// TODO line parse
 
 					if (line.startsWith("SB"))

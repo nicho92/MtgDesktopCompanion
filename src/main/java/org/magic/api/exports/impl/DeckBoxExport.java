@@ -84,15 +84,13 @@ public class DeckBoxExport extends AbstractCardExport {
 			line.append(",");
 			line.append(mc.getPrice()).append("\n");
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
-			setChanged();
-			notifyObservers(val++);
+			notify(mc);
 		}
 	}
 	
 	
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		int val=0;
 		
 		String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
@@ -112,8 +110,7 @@ public class DeckBoxExport extends AbstractCardExport {
 			line.append("Near Mint,,,,,,,,,0\n");
 			
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
-			setChanged();
-			notifyObservers(val++);
+			notify(mc);
 		}
 
 	}

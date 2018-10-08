@@ -10,8 +10,8 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 	
 	public JBuzyProgress() {
 		setMinimum(0);
-		setStringPainted(true);
 		setVisible(false);
+		setStringPainted(true);
 	}
 	
 	
@@ -29,7 +29,7 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 		}
 		else
 		{
-			setString(String.valueOf(obj));
+			//setString(String.valueOf(obj));
 			progress();
 		}
 	}
@@ -45,12 +45,15 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 		setMaximum(max);
 		setIndeterminate(false);
 		setVisible(true);
+		setText(null);
+		
 	}
 	
 	public void start() {
 		setValue(0);
 		setIndeterminate(true);
 		setVisible(true);
+		setText(null);
 	}
 
 
