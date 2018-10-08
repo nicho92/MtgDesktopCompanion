@@ -1,23 +1,31 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class JBuzyProgress extends JProgressBar implements Observer{
+public class JBuzyProgress extends JPanel implements Observer{
 
+	private JProgressBar progress;
 	
 	public JBuzyProgress() {
-		setMinimum(0);
+		progress = new JProgressBar();
+		progress.setMinimum(0);
+		progress.setStringPainted(true);
+		setLayout(new BorderLayout());
+		add(progress,BorderLayout.CENTER);
+		
 		setVisible(false);
-		setStringPainted(true);
 	}
 	
 	
 	public void progress()
 	{
-		setValue(getValue()+1);
+		progress.setValue(progress.getValue()+1);
 	}
 	
 	
@@ -25,7 +33,7 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 	public void update(Observable o, Object obj) {
 		if(obj instanceof Integer)
 		{
-			setValue((Integer)obj);
+			progress.setValue((Integer)obj);
 		}
 		else
 		{
@@ -36,29 +44,29 @@ public class JBuzyProgress extends JProgressBar implements Observer{
 	
 	public void setText(String s)
 	{
-		if(isIndeterminate())
-			setString(s);
+		if(progress.isIndeterminate())
+			progress.setString(s);
 	}
 
 
 	public void start(int max) {
 		setText(null);
-		setValue(0);
-		setMaximum(max);
-		setIndeterminate(false);
+		progress.setValue(0);
+		progress.setMaximum(max);
+		progress.setIndeterminate(false);
 		setVisible(true);
 	}
 	
 	public void start() {
-		setValue(0);
-		setIndeterminate(true);
+		progress.setValue(0);
+		progress.setIndeterminate(true);
 		setVisible(true);
 		setText(null);
 	}
 
 
 	public void end() {
-		setValue(0);
+		progress.setValue(0);
 		setVisible(false);
 		
 	}

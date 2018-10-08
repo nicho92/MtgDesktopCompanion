@@ -126,10 +126,9 @@ public class MassCollectionImporterDialog extends JDialog {
 				ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
 			else
 				ids = txtNumbersInput.getText().split("\n");
-			progressBar.setMaximum(ids.length);
-
+		
+			progressBar.start(ids.length);
 			ThreadManager.getInstance().execute(() -> {
-				int i = 1;
 				for (String id : ids) {
 					try {
 						MagicCard mc = null;
@@ -157,7 +156,7 @@ public class MassCollectionImporterDialog extends JDialog {
 						));
 				if (!checkNewOne.isSelected()) {
 					setVisible(false);
-					progressBar.setValue(0);
+					progressBar.end();
 				}
 			}, "btnImport importCards");
 		});

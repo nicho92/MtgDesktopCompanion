@@ -44,7 +44,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIPanel;
-import org.magic.gui.components.JBuzyLabel;
+import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.ServerStatePanel;
@@ -76,7 +76,7 @@ public class AlarmGUI extends MTGUIPanel {
 	private HistoryPricesPanel variationPanel;
 	private JTabbedPane tabbedPane;
 	private JButton btnImport;
-	private JBuzyLabel lblLoading;
+	private JBuzyProgress lblLoading;
 	private File f;
 	private PricesTablePanel pricesTablePanel;
 	private JButton btnSuggestPrice;
@@ -116,7 +116,7 @@ public class AlarmGUI extends MTGUIPanel {
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnSuggestPrice = new JButton(MTGConstants.ICON_EURO);
-		lblLoading = new JBuzyLabel();
+		lblLoading = new JBuzyProgress();
 		JPanel serversPanel = new JPanel();
 		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
 		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
@@ -224,12 +224,11 @@ public class AlarmGUI extends MTGUIPanel {
 			ThreadManager.getInstance().execute(() -> {
 				try {
 					int[] selected = table.getSelectedRows();
-					loading(true, "");
+					lblLoading.start(selected.length);
 					List<MagicCardAlert> alerts = extract(selected);
 					for (MagicCardAlert alert : alerts)
 					{	
 						List<MagicPrice> prices=new ArrayList<>();
-						loading(true, MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE") + ":" + alert.toString());
 						MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(p->{
 							try {
 								prices.addAll(p.getPrice(alert.getCard().getCurrentSet(), alert.getCard()));
@@ -244,14 +243,14 @@ public class AlarmGUI extends MTGUIPanel {
 							alert.setPrice(prices.get(0).getValue());
 							MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
 						}
-
+						lblLoading.progress();
 					}
 					model.fireTableDataChanged();
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-					loading(false,"");
+					lblLoading.end();
 				}
-				loading(false, "");
+				lblLoading.end();
 				
 			}, "suggest prices");
 			
@@ -268,17 +267,20 @@ public class AlarmGUI extends MTGUIPanel {
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						int[] selected = table.getSelectedRows();
-						loading(true,"");
+						lblLoading.start(selected.length);
 						List<MagicCardAlert> alerts = extract(selected);
 						for (MagicCardAlert alert : alerts)
+						{
 							MTGControler.getInstance().getEnabled(MTGDao.class).deleteAlert(alert);
+							lblLoading.progress();
+						}
 
 						model.fireTableDataChanged();
 					} catch (Exception e) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-						loading(false,"");
+						lblLoading.end();
 					}
-					loading(false,"");
+					lblLoading.end();
 
 				}, "delete alerts");
 
@@ -335,17 +337,16 @@ public class AlarmGUI extends MTGUIPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",
-											f.getName(), exp));
+									lblLoading.start();
 									MagicDeck deck = exp.importDeck(f);
 
 									for (MagicCard mc : deck.getMap().keySet())
 										addCard(mc);
 
-									loading(false, "");
+									lblLoading.end();
 								} catch (Exception e) {
 									logger.error("error import", e);
-									loading(false, "");
+									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 
@@ -395,10 +396,6 @@ public class AlarmGUI extends MTGUIPanel {
 
 	}
 
-	private void loading(boolean b, String string) {
-		lblLoading.buzy(b,string);
-
-	}
 
 	private List<MagicCardAlert> extract(int[] ids) {
 		List<MagicCardAlert> select = new ArrayList<>();

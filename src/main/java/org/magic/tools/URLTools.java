@@ -39,11 +39,19 @@ public class URLTools {
 	}
 	
 	public static HttpURLConnection getConnection(URL url) throws IOException {
-		logger.trace("get stream from " + url);
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.setInstanceFollowRedirects(true);
-		return connection;
+		try{
+			HttpURLConnection.setFollowRedirects(true);
+			logger.trace("get stream from " + url);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+			logger.debug(connection.getResponseCode() +" " + url);
+			return connection;
+		}
+		catch(Exception e)
+		{
+			logger.error(e + " "+ url + " ");
+			return null;
+		}
 	}
 	
 	

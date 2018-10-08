@@ -24,7 +24,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEPRECATED;
 	}
 
 
@@ -76,13 +76,10 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		}
 		logger.debug("Get card pic from " + url);
 
-		URLConnection connection = URLTools.openConnection(url);
-
 		Image img = null;
 
-		img = ImageIO.read(connection.getInputStream()).getScaledInstance(newW, newH, BufferedImage.SCALE_SMOOTH);
-		BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),
-				BufferedImage.TYPE_INT_RGB);
+		img = URLTools.extractImage(url).getScaledInstance(newW, newH, BufferedImage.SCALE_SMOOTH);
+		BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),BufferedImage.TYPE_INT_RGB);
 
 		Graphics g = bufferedImage.createGraphics();
 		g.drawImage(img, 0, 0, null);
