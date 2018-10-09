@@ -40,20 +40,17 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	private void addPrice(MagicCard mc, MagicEdition me) {
 		for (MTGPricesProvider prov : providers) {
 			try {
-				if (prov.isEnable()) {
 					List<MagicPrice> list = prov.getPrice(me, mc);
 
 					if (list != null && !list.isEmpty())
 						prices.addAll(list);
 
 					fireTableDataChanged();
-				}
 			} catch (Exception e) {
 				logger.error("Error", e);
 
 			}
 		}
-		fireTableDataChanged();
 	}
 
 	public void init(MagicCard mc, MagicEdition me) {
@@ -64,7 +61,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	public CardsPriceTableModel() {
 		prices = new ArrayList<>();
-		providers = MTGControler.getInstance().getPlugins(MTGPricesProvider.class);
+		providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
 	}
 
 	public List<MTGPricesProvider> getProviders() {

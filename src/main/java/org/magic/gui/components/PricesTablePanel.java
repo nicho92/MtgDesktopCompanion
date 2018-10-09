@@ -48,7 +48,7 @@ public class PricesTablePanel extends JPanel {
 		JPanel panel = new JPanel();
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
-		panel.setPreferredSize(new Dimension(0,lblLoading.getBuzyComponent().getHeight()));
+		panel.setPreferredSize(new Dimension(0,32));
 		model = new CardsPriceTableModel();
 		tablePrices = new JXTable(model);
 		UITools.initTableFilter(tablePrices);

@@ -63,7 +63,7 @@ public class DeckPricePanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 
 		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().listEnabled(MTGPricesProvider.class).toArray()));
-		cboPricers.addItemListener(ie -> {
+		cboPricers.addItemListener(ie -> {//TODO reforge this function
 			if (ie.getStateChange() == ItemEvent.SELECTED) {
 				model.setProvider((MTGPricesProvider) cboPricers.getSelectedItem());
 			}
