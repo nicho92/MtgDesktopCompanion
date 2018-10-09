@@ -16,14 +16,13 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.gui.components.JBuzyLabel;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import javax.swing.SwingConstants;
 
 public class DeckSnifferDialog extends JDialog {
 
@@ -36,7 +35,7 @@ public class DeckSnifferDialog extends JDialog {
 	private JComboBox<String> cboFormats;
 	private DeckSnifferTableModel model;
 	private MagicDeck importedDeck;
-	private JBuzyLabel lblLoad;
+	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private JButton btnImport;
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
@@ -68,8 +67,7 @@ public class DeckSnifferDialog extends JDialog {
 		selectedSniffer = MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).get(0);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		lblLoad = new JBuzyLabel();
-		lblLoad.setHorizontalAlignment(SwingConstants.LEFT);
+		
 		panel.add(lblLoad, BorderLayout.CENTER);
 		
 		panelChoose = new JPanel();
@@ -85,20 +83,20 @@ public class DeckSnifferDialog extends JDialog {
 						panelChoose.add(cboFormats);
 						cboFormats.addActionListener(e -> {
 							try {
-								lblLoad.buzy(true);
+								lblLoad.start();
 								selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
 								model.init(selectedSniffer);
 								model.fireTableDataChanged();
-								lblLoad.buzy(false);
+								lblLoad.end();
 							} catch (Exception e1) {
-								lblLoad.buzy(false);
+								lblLoad.end();
 								logger.error("error change cboFormat", e1);
 								//MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 							}
 						});
 				btnConnect.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 					try {
-						lblLoad.buzy(true);
+						lblLoad.start();
 						selectedSniffer.connect();
 						cboFormats.removeAllItems();
 
@@ -106,10 +104,10 @@ public class DeckSnifferDialog extends JDialog {
 							cboFormats.addItem(s);
 
 						
-						lblLoad.buzy(false);
+						lblLoad.end();
 
 					} catch (Exception e1) {
-						lblLoad.buzy(false);
+						lblLoad.end();
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 					}
 				}, "Connection to " + selectedSniffer));
@@ -126,18 +124,18 @@ public class DeckSnifferDialog extends JDialog {
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 			try {
-				lblLoad.buzy(true);
+				lblLoad.start();
 				selectedSniffer.addObserver(lblLoad);
 				btnImport.setEnabled(false);
 				importedDeck = selectedSniffer.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0)); 
-				lblLoad.buzy(false);
+				lblLoad.end();
 				btnImport.setEnabled(true);
 				dispose();
 			} catch (Exception e1) {
 				logger.error("Error snif",e1);
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				importedDeck = null;
-				lblLoad.buzy(false);
+				lblLoad.end();
 				btnImport.setEnabled(true);
 			}
 			finally

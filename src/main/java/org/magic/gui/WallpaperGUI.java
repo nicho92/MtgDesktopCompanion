@@ -27,8 +27,8 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
-import org.magic.gui.components.JBuzyLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -39,7 +39,7 @@ public class WallpaperGUI extends MTGUIPanel {
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;
 	private transient MTGWallpaperProvider selectedProvider;
-	private JBuzyLabel lblLoad;
+	private AbstractBuzyIndicatorComponent lblLoad;
 	private JPanel panelThumnail;
 	private JXSearchField txtSearch;
 	private JButton btnImport;
@@ -117,7 +117,7 @@ public class WallpaperGUI extends MTGUIPanel {
 				c.weighty = 1;
 				c.gridx = 0;
 				c.gridy = 0;
-				lblLoad.buzy(true);
+				lblLoad.start();
 				List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
 
 				for (Wallpaper w : list) {
@@ -134,15 +134,15 @@ public class WallpaperGUI extends MTGUIPanel {
 
 				}
 
-				lblLoad.buzy(false);
+				lblLoad.end();
 
 			} catch (Exception e1) {
-				lblLoad.buzy(false);
+				lblLoad.end();
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}
 		}, "search " + selectedProvider));
 
-		lblLoad = new JBuzyLabel();
+		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoad);
 
 		JPanel panel1 = new JPanel();

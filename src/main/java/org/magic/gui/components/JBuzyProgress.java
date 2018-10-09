@@ -2,45 +2,36 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 
-public class JBuzyProgress extends JPanel implements Observer{
+public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 
 	private JProgressBar progress;
 	
 	public JBuzyProgress() {
+		super();
 		progress = new JProgressBar();
 		progress.setMinimum(0);
 		progress.setStringPainted(true);
-		setLayout(new BorderLayout());
 		add(progress,BorderLayout.CENTER);
 		
-		setVisible(false);
 	}
-	
-	
-	public void progress()
-	{
-		progress.setValue(progress.getValue()+1);
-	}
-	
 	
 	@Override
-	public void update(Observable o, Object obj) {
-		if(obj instanceof Integer)
-		{
-			progress.setValue((Integer)obj);
-		}
-		else
-		{
-			setText(String.valueOf(obj));
-			progress();
-		}
+	public JComponent getBuzyComponent() {
+		return progress;
 	}
+	
+	@Override
+	public void progress()
+	{
+		setValue(progress.getValue()+1);
+	}
+	
+
 	
 	public void setText(String s)
 	{
@@ -70,7 +61,17 @@ public class JBuzyProgress extends JPanel implements Observer{
 		setVisible(false);
 		
 	}
-	
-	
+
+	@Override
+	public void setValue(int i) {
+		progress.setValue(i);
+		
+	}
+
+	@Override
+	public int getValue() {
+		return progress.getValue();
+	}
+
 
 }

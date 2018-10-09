@@ -1,5 +1,6 @@
 package org.magic.gui.components.dialog;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,11 +9,13 @@ import java.awt.event.ItemEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -21,8 +24,6 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import java.awt.Dimension;
-import javax.swing.JComboBox;
 
 public class DefaultStockEditorDialog extends JDialog {
 

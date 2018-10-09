@@ -39,6 +39,7 @@ import org.magic.game.gui.components.BoosterPanel;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GraveyardPanel;
 import org.magic.game.model.ZoneEnum;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -60,7 +61,7 @@ public class SealedPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JBuzyLabel lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private SealedPackTableModel model;
 	private BoosterPanel panelOpenedBooster;
 	private JComboBox<MagicEdition> cboEditions;
@@ -175,7 +176,7 @@ public class SealedPanel extends JPanel {
 		gbcbtnSaveDeck.gridy = 1;
 		panel.add(btnSaveDeck, gbcbtnSaveDeck);
 
-		lblLoading = new JBuzyLabel();
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		GridBagConstraints gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;
@@ -364,7 +365,7 @@ public class SealedPanel extends JPanel {
 		ThreadManager.getInstance().execute(() -> {
 			int column = 0;
 			list = new ArrayList<>();
-			lblLoading.buzy(true);
+			lblLoading.start();
 			for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
 
 				try {
@@ -382,13 +383,13 @@ public class SealedPanel extends JPanel {
 					}
 				} catch (IOException e) {
 					logger.error(e);
-					lblLoading.buzy(false);
+					lblLoading.end();
 				}
 
 			}
 			panelOpenedBooster.setList(list);
 			refreshStats();
-			lblLoading.buzy(false);
+			lblLoading.end();
 		}, "Opening Sealed Booster");
 	}
 

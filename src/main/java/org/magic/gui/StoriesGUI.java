@@ -21,8 +21,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.jsoup.Jsoup;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGStory;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
-import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -35,7 +35,7 @@ public class StoriesGUI extends MTGUIPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JBuzyLabel lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient StoryProvider provider;
 	private JList<MTGStory> listResult;
 	private DefaultListModel<MTGStory> resultListModel;
@@ -76,7 +76,7 @@ public class StoriesGUI extends MTGUIPanel {
 					evt.consume();
 
 					ThreadManager.getInstance().execute(() -> {
-						lblLoading.buzy(true);
+						lblLoading.start();
 						try {
 							editorPane.setText(Jsoup.connect(listResult.getSelectedValue().getUrl().toString()).get()
 									.select("div#content-detail-page-of-an-article").html());
@@ -84,7 +84,7 @@ public class StoriesGUI extends MTGUIPanel {
 						} catch (Exception e) {
 							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						}
-						lblLoading.buzy(false);
+						lblLoading.end();
 					}, "Load story");
 				} else {
 					try {
@@ -105,7 +105,7 @@ public class StoriesGUI extends MTGUIPanel {
 		btnLoadNext.addActionListener(ae -> initStories());
 		panel.add(btnLoadNext);
 
-		lblLoading = new JBuzyLabel();
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
 
 		editorPane = new JEditorPane();
@@ -126,7 +126,7 @@ public class StoriesGUI extends MTGUIPanel {
 
 	public void initStories() {
 		ThreadManager.getInstance().execute(() -> {
-			lblLoading.buzy(true);
+			lblLoading.start();
 
 			try {
 				for (MTGStory story : provider.next())
@@ -134,7 +134,7 @@ public class StoriesGUI extends MTGUIPanel {
 			} catch (IOException e) {
 				logger.error(e);
 			} finally {
-				lblLoading.buzy(false);
+				lblLoading.end();
 			}
 		}, "loading stories");
 	}

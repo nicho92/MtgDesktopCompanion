@@ -24,6 +24,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -36,7 +37,7 @@ public class PricesTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private CardsPriceTableModel model;
 	private JXTable tablePrices;
-	private JBuzyLabel lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
 	
@@ -45,9 +46,9 @@ public class PricesTablePanel extends JPanel {
 	
 	public PricesTablePanel() {
 		JPanel panel = new JPanel();
-		lblLoading = new JBuzyLabel();
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
-		panel.setPreferredSize(new Dimension(0,lblLoading.getIcon().getIconHeight()));
+		panel.setPreferredSize(new Dimension(0,lblLoading.getBuzyComponent().getHeight()));
 		model = new CardsPriceTableModel();
 		tablePrices = new JXTable(model);
 		UITools.initTableFilter(tablePrices);
@@ -125,7 +126,15 @@ public class PricesTablePanel extends JPanel {
 	}
 
 	private void loading(boolean b, String s) {
-		lblLoading.buzy(b,s);
+		if(b)
+		{
+			lblLoading.start();
+			lblLoading.setText(s);
+		}
+		else
+		{
+			lblLoading.end();
+		}
 	}
 	
 	

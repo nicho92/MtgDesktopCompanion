@@ -1,29 +1,17 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.Properties;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JPopupMenu;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashlet;
-import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observer;
 

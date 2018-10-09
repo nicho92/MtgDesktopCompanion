@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;

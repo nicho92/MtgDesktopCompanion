@@ -27,7 +27,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.gui.components.JBuzyProgress;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -89,7 +89,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
-		JBuzyProgress progressBar = new JBuzyProgress();
+		AbstractBuzyIndicatorComponent progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 
 		final JCheckBox checkNewOne = new JCheckBox(

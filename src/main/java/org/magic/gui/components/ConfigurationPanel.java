@@ -36,7 +36,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -45,6 +44,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -70,7 +70,7 @@ public class ConfigurationPanel extends JPanel {
 	private JComboBox<String> cbojsonView;
 	private JTextField txtWebSiteCertificate;
 	private JCheckBox chkToolTip;
-	private JBuzyLabel lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private JTextField txtName;
 	private JLabel lblIconAvatar;
 	private JCheckBox chckbxIconset;
@@ -91,14 +91,22 @@ public class ConfigurationPanel extends JPanel {
 	private JTextField txtCurrencyFieldApiCode;
 
 	public void loading(boolean show, String text) {
-		lblLoading.buzy(show,text);
+		if(show)
+		{
+			lblLoading.start();
+			lblLoading.setText(text);
+		}
+		else
+		{
+			lblLoading.end();
+		}
 	}
 
 	public ConfigurationPanel() {
 		cboTargetDAO = new JComboBox<>();
 		cboCollections = new JComboBox<>();
 		cboEditionLands = new JComboBox<>();
-		lblLoading = new JBuzyLabel();
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 396, 212, 0 };

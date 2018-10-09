@@ -52,7 +52,6 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
@@ -62,6 +61,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -112,10 +112,10 @@ public class CardSearchPanel extends MTGUIPanel {
 	private JList<MagicEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
 
-	private JBuzyProgress lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 
 	
-	public JBuzyProgress getLblLoading() {
+	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
 	}
 	
@@ -269,7 +269,7 @@ public class CardSearchPanel extends MTGUIPanel {
 
 		tableCards = new JXTable();
 		
-		lblLoading = new JBuzyProgress();
+		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
 
 		listEdition = new JList<>();

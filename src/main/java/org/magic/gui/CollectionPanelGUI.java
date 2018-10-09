@@ -50,11 +50,11 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
-import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -90,7 +90,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	private JPopupMenu popupMenuEdition;
 	private JPopupMenu popupMenuCards;
 	private MagicEditionsTableModel model;
-	private JBuzyProgress progressBar;
+	private AbstractBuzyIndicatorComponent progressBar;
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
@@ -163,7 +163,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		render = new MagicCollectionTableCellRenderer();
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		progressBar = new JBuzyProgress();
+		progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		lblTotal = new JLabel();
 		magicEditionDetailPanel = new MagicEditionDetailPanel(true, false);
 		magicCardDetailPanel = new MagicCardDetailPanel();

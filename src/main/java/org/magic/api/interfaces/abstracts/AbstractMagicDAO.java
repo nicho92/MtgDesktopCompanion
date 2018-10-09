@@ -2,7 +2,6 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import org.magic.api.beans.MagicCard;
@@ -10,10 +9,8 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
 

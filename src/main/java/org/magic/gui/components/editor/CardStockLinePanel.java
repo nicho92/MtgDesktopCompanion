@@ -5,8 +5,6 @@ import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

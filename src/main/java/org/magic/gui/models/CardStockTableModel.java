@@ -14,7 +14,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
-import org.utils.patterns.observer.Observer;
 
 public class CardStockTableModel extends DefaultTableModel {
 

@@ -43,8 +43,8 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
-import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.ServerStatePanel;
@@ -76,7 +76,7 @@ public class AlarmGUI extends MTGUIPanel {
 	private HistoryPricesPanel variationPanel;
 	private JTabbedPane tabbedPane;
 	private JButton btnImport;
-	private JBuzyProgress lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private File f;
 	private PricesTablePanel pricesTablePanel;
 	private JButton btnSuggestPrice;
@@ -116,7 +116,7 @@ public class AlarmGUI extends MTGUIPanel {
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnSuggestPrice = new JButton(MTGConstants.ICON_EURO);
-		lblLoading = new JBuzyProgress();
+		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JPanel serversPanel = new JPanel();
 		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
 		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));

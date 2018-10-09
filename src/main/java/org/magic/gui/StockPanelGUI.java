@@ -44,9 +44,9 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
-import org.magic.gui.components.JBuzyProgress;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
@@ -79,7 +79,7 @@ public class StockPanelGUI extends MTGUIPanel {
 	private PricesTablePanel pricePanel;
 	private JSONPanel jsonPanel;
 	private JButton btnReload;
-	private JBuzyProgress lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private JPanel rightPanel;
 	private JSpinner spinner;
 	private JComboBox<String> cboLanguages;
@@ -505,7 +505,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
 		actionPanel.add(btnReload);
 
-		lblLoading = new JBuzyProgress();
+		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		btnshowMassPanel = new JButton("");
 

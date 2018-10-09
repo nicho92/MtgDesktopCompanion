@@ -17,7 +17,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.gui.components.JBuzyLabel;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -38,7 +38,7 @@ public class MassMoverDialog extends JDialog {
 	private MagicEdition toSaveEd;
 	private boolean change = false;
 	private JComboBox<MagicCollection> cboCollections;
-	private JBuzyLabel lblWaiting;
+	private AbstractBuzyIndicatorComponent lblWaiting = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private JButton btnMove;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -69,8 +69,6 @@ public class MassMoverDialog extends JDialog {
 			logger.error(e);
 		}
 		panel.add(cboCollections);
-
-		lblWaiting = new JBuzyLabel();
 		panel.add(lblWaiting);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -94,10 +92,10 @@ public class MassMoverDialog extends JDialog {
 		UITools.initTableFilter(tableCards);
 
 		btnMove.addActionListener(e -> {
-			lblWaiting.buzy(true);
 			btnMove.setEnabled(false);
 
 			if (tableCards.getSelectedRowCount() > 0) {
+				lblWaiting.start(tableCards.getSelectedRowCount());
 				ThreadManager.getInstance().execute(() -> {
 
 					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
@@ -107,21 +105,22 @@ public class MassMoverDialog extends JDialog {
 						try {
 							
 							dao.moveCard(mc, toSaveCol, (MagicCollection) cboCollections.getSelectedItem());
-							
 							logger.info("moving " + mc + " to " + cboCollections.getSelectedItem());
 							change = true;
-							lblWaiting.buzy(true,"moving " + mc);
+							lblWaiting.setText("moving " + mc);
+							lblWaiting.progress();
 						} catch (SQLException e1) {
 							logger.error(e1);
 							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-							lblWaiting.buzy(false);
+							lblWaiting.end();
 							btnMove.setEnabled(true);
 
 						}
 					}
 
 					try {
-						lblWaiting.buzy(true,MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
+						lblWaiting.start();
+						lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
 						if (toSaveEd == null)
 							model.init(dao.listCardsFromCollection(toSaveCol));
 						else
@@ -132,7 +131,7 @@ public class MassMoverDialog extends JDialog {
 					}
 
 					model.fireTableDataChanged();
-					lblWaiting.buzy(false);
+					lblWaiting.end();
 					btnMove.setEnabled(true);
 
 				}, "mass movement");

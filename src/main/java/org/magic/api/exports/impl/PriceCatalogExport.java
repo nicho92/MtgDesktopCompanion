@@ -5,14 +5,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.Icon;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;

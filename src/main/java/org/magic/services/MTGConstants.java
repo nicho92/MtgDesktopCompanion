@@ -9,7 +9,6 @@ import java.io.File;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.magic.api.exports.impl.JsonExport;

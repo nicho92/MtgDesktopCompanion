@@ -25,8 +25,8 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIPanel;
-import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
@@ -46,7 +46,7 @@ public class RssGUI extends MTGUIPanel {
 	private NewsEditorPanel newsPanel;
 	private DefaultMutableTreeNode rootNode;
 	private JTree tree;
-	private JBuzyLabel lblLoading;
+	private AbstractBuzyIndicatorComponent lblLoading;
 	private JButton btnNewButton;
 	private JButton btnSave;
 	private JButton btnDelete;
@@ -78,7 +78,7 @@ public class RssGUI extends MTGUIPanel {
 		btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		btnSave = new JButton(MTGConstants.ICON_SAVE);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-		lblLoading = new JBuzyLabel();
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		newsPanel = new NewsEditorPanel();
 		
 		setLayout(new BorderLayout(0, 0));
@@ -156,14 +156,14 @@ public class RssGUI extends MTGUIPanel {
 			if (curr.getUserObject() instanceof MagicNews)
 				ThreadManager.getInstance().execute(() -> {
 					try {
-						lblLoading.buzy(true);
+						lblLoading.start();
 						newsPanel.setMagicNews((MagicNews) curr.getUserObject());
 						model.init((MagicNews) curr.getUserObject());
 					} catch (Exception e) {
 						logger.error("error reading rss", e);
 					}
 					model.fireTableDataChanged();
-					lblLoading.buzy(false);
+					lblLoading.end();
 				}, "load RSS " + curr.getUserObject());
 		});
 
@@ -180,15 +180,15 @@ public class RssGUI extends MTGUIPanel {
 					}
 				} else {
 					ThreadManager.getInstance().execute(() -> {
-						lblLoading.buzy(true);
+						lblLoading.start();
 						try {
 							logger.debug("loading " + sel.getLink());
 							editorPane.setPage(sel.getLink());
 							editorPane.setCaretPosition(0);
-							lblLoading.buzy(false);
+							lblLoading.end();
 						} catch (IOException e) {
 							logger.error("Error reading " + sel.getLink(), e);
-							lblLoading.buzy(false);
+							lblLoading.end();
 						}
 
 					}, "reading news "+sel.getLink());

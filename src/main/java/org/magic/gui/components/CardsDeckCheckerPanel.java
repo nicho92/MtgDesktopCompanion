@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGDeckManager;
@@ -17,7 +18,7 @@ import org.magic.services.ThreadManager;
 public class CardsDeckCheckerPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private JBuzyLabel buzyLabel;
+	private AbstractBuzyIndicatorComponent buzyLabel;
 	private JXTable table;
 	private DeckSelectionTableModel model;
 	private MagicCard selectedCard;
@@ -25,7 +26,7 @@ public class CardsDeckCheckerPanel extends JPanel {
 	
 	public CardsDeckCheckerPanel() {
 		setLayout(new BorderLayout(0, 0));
-		buzyLabel = new JBuzyLabel();
+		buzyLabel = AbstractBuzyIndicatorComponent.createLabelComponent();
 		JPanel panel = new JPanel();
 		model = new DeckSelectionTableModel();
 		table = new JXTable(model);
@@ -57,9 +58,10 @@ public class CardsDeckCheckerPanel extends JPanel {
 		if(isVisible() && selectedCard!=null)
 		{
 			ThreadManager.getInstance().execute(()->{
-					buzyLabel.buzy(true, "looking for " + selectedCard);
+					buzyLabel.start();
+					buzyLabel.setText("looking for " + selectedCard);
 					model.init(manager.listDecksWith(selectedCard));
-					buzyLabel.buzy(false);
+					buzyLabel.end();
 			}, "search " + selectedCard +" in decks");
 			
 		}

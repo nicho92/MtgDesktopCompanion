@@ -56,6 +56,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -96,7 +97,7 @@ public class ConstructPanel extends JPanel {
 	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 	private JList<MagicCard> listResult;
-	private JBuzyProgress buzyLabel;
+	private AbstractBuzyIndicatorComponent buzyLabel;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
@@ -137,7 +138,7 @@ public class ConstructPanel extends JPanel {
 		JComboBox<String> cboAttributs;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
-		buzyLabel = new JBuzyProgress();
+		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
 		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
