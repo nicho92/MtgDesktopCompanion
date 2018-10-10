@@ -9,16 +9,15 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
-
-	private MagicCardInfoPicturesProvider mciProv;
-
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
@@ -35,10 +34,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 		for (String k : getArray("CALL_MCI_FOR")) {
 			if (selected.getId().startsWith(k)) {
-				if (mciProv == null)
-					mciProv = new MagicCardInfoPicturesProvider();
-
-				return mciProv.getPicture(mc, selected);
+				return MTGControler.getInstance().getPlugin(getString("SECOND_PROVIDER"), MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
 
@@ -72,6 +68,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public void initDefault() {
 		super.initDefault();
+		setProperty("SECOND_PROVIDER", "ScryFall");
 		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 		setProperty("SET_SIZE", "medium");
 	}

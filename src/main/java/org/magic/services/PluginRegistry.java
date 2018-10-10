@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.configuration2.FileBasedConfiguration;
@@ -115,6 +116,30 @@ public class PluginRegistry {
 			return null;
 		}
 	}
+	
+	
+	public void initAttribute(String k,String val)
+	{
+
+		registry.entrySet().forEach(entry->{
+			listPlugins(entry.getKey()).forEach(plug->{
+				
+				if(plug!=null)
+				{
+					Properties p = ((MTGPlugin) plug).getProperties();
+				p.keySet().forEach(e->{
+					
+					if(e.toString().equalsIgnoreCase(k))
+					{
+						((MTGPlugin) plug).setProperty(k, val);
+					}
+					
+					});
+				}
+			});
+		});
+	}
+	
 	
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{

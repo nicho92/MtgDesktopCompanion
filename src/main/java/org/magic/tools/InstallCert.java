@@ -98,7 +98,7 @@ public class InstallCert {
 				socket.setSoTimeout(10000);
 				logger.debug("Starting SSL handshake...");
 				socket.startHandshake();
-				logger.debug("No errors, certificate is already trusted");
+				logger.debug("No errors, " + website +" is already trusted");
 				return;
 			} catch (SSLException e) {
 				logger.error(e);

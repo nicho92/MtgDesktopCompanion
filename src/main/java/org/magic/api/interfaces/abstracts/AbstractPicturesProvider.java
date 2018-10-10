@@ -41,7 +41,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 		catch(Exception e)
 		{
-			logger.error("couldn't set size");
+			logger.error("couldn't set size",e);
 		}
 	}
 
@@ -66,6 +66,8 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 
 	public BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
+		if(img==null)
+			return null;
 		return ImageUtils.resize(img, newH, newW);
 	}
 

@@ -41,10 +41,9 @@ public class URLTools {
 	public static HttpURLConnection getConnection(URL url) throws IOException {
 		try{
 			HttpURLConnection.setFollowRedirects(true);
-			logger.trace("get stream from " + url);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-			logger.debug(connection.getResponseCode() +" " + url);
+			logger.trace("get stream from " + url + " " + connection.getResponseCode());
 			return connection;
 		}
 		catch(Exception e)
@@ -57,7 +56,10 @@ public class URLTools {
 	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
 		HttpURLConnection con = getConnection(url);
-		con.connect();
+		if(con==null)
+			throw new IOException("con is null for "+ url);
+			
+			con.connect();
 		return con;
 	}
 	
