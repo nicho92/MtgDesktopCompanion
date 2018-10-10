@@ -81,12 +81,10 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		URL url = generateLink(mc, selected, false);
 
-		HttpURLConnection connection = URLTools.openConnection(url);
-	
-		logger.debug("load pics " + connection.getURL().toString());
+		logger.debug("load pics " + url);
 
 		try {
-			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
+			BufferedImage bufferedImage = URLTools.extractImage(url);
 
 			if (bufferedImage != null)
 				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, selected);
