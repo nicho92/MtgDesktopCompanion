@@ -61,6 +61,8 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			logger.error("couldn't init login",e);
 		} catch (InterruptedException e) {
 			logger.error("error await",e);
+			 Thread.currentThread().interrupt();
+
 		} 
 		finally {
 			if(jda!=null)

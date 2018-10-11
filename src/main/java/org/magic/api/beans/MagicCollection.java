@@ -32,6 +32,12 @@ public class MagicCollection implements Serializable {
 		return name;
 	}
 
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		

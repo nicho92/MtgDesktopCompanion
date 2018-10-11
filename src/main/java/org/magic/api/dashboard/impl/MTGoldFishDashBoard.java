@@ -318,7 +318,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		mapConcordance.put("pGPX", "PRM-GPP");
 		mapConcordance.put("pFNM", "PRM-FNM");
 		mapConcordance.put("pARL", "PRM-ARN");
-		mapConcordance.put("pGRU", "PRM-GUR");
 		// p15A
 
 	}
