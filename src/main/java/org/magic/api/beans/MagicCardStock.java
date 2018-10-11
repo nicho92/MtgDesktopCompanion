@@ -1,6 +1,8 @@
 package org.magic.api.beans;
 
-public class MagicCardStock {
+import java.io.Serializable;
+
+public class MagicCardStock implements Serializable{
 
 	private int idstock;
 	private MagicCard magicCard;

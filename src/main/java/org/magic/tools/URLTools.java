@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.net.ssl.SSLHandshakeException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -39,27 +40,25 @@ public class URLTools {
 	}
 	
 	public static HttpURLConnection getConnection(URL url) throws IOException {
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try{
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			
 			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 			connection.setInstanceFollowRedirects(true);
 			logger.trace("get stream from " + url + " " + connection.getResponseCode());
 			return connection;
 		}
-		catch(Exception e)
+		catch(SSLHandshakeException e)
 		{
-			logger.error(e + " "+ url + " ");
-			return null;
+			logger.error(url,e);
+			return connection;
 		}
 	}
 	
 	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
 		HttpURLConnection con = getConnection(url);
-		if(con==null)
-			throw new IOException("con is null for "+ url);
-			
-			con.connect();
+		con.connect();
 		return con;
 	}
 	

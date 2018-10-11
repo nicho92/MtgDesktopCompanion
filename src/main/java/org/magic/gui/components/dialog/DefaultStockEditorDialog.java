@@ -27,7 +27,7 @@ import org.magic.services.MTGControler;
 
 public class DefaultStockEditorDialog extends JDialog {
 
-	private BindingGroup mbindingGroup;
+	private transient BindingGroup mbindingGroup;
 	private JPanel mcontentPane;
 	private MagicCardStock magicCardStock = new MagicCardStock();
 	private JCheckBox alteredJCheckBox;
