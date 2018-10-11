@@ -190,7 +190,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
 
-		btnRemove.setEnabled(true);
+		btnRemove.setEnabled(false);
 		btnExport.setEnabled(false);
 
 		splitPane.setResizeWeight(0.5);
@@ -210,7 +210,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		
 		tableEditions.setRowHeight(25);
 		tableEditions.setRowSorter(sorterEditions);
-
+		
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -290,6 +290,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				magicEditionDetailPanel.setMagicEdition(ed);
 				historyPricesPanel.init(null, ed, ed.getSet());
 				jsonPanel.show(ed);
+				btnRemove.setEnabled(false);
 			}
 		});
 
@@ -423,6 +424,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tree.addTreeSelectionListener(tse -> {
 			path = tse.getPath();
 
+			btnRemove.setEnabled(true);
+			
 			final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof String) {
@@ -511,6 +514,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				if (SwingUtilities.isRightMouseButton(e)) {
 					int row = tree.getClosestRowForLocation(e.getX(), e.getY());
 					tree.setSelectionRow(row);
