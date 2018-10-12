@@ -31,6 +31,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	public void setEdition(MagicEdition ed) {
 		removeAll();
 		revalidate();
+		
 		if(ed!=null)
 			ThreadManager.getInstance().execute(() -> adds(ed,provider.getBoostersUrl(ed)),"load booster pic for " + ed);
 	}

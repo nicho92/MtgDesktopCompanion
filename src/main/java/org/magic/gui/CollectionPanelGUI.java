@@ -30,6 +30,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
@@ -100,7 +102,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	private JLabel lblTotal;
 	private CardsDeckCheckerPanel deckPanel;
 	private CardsEditionTablePanel cardsSetPanel;
-	
+	private JTabbedPane panneauTreeTable;
 	private JButton btnAdd;
 	private JButton btnRefresh;
 	private JButton btnRemove;
@@ -163,7 +165,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		panelTotal = new JPanel();
 		panneauDroite = new JPanel();
 		render = new MagicCollectionTableCellRenderer();
-
+		panneauTreeTable = new JTabbedPane();
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		lblTotal = new JLabel();
@@ -210,7 +212,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tableEditions.setDefaultRenderer(double.class, render);
 		tableEditions.setDefaultRenderer(Boolean.class, render);
 		tableEditions.setDefaultRenderer(ImageIcon.class, render);
-		
 		tableEditions.setRowHeight(25);
 		tableEditions.setRowSorter(sorterEditions);
 		
@@ -244,7 +245,12 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		add(splitListPanel, BorderLayout.CENTER);
 		splitListPanel.setRightComponent(panneauDroite);
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
-		splitPane.setLeftComponent(new JScrollPane(tree));
+		splitPane.setLeftComponent(panneauTreeTable);
+		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION"), MTGConstants.ICON_BACK,new JScrollPane(tree), null);
+		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
+		
+		
+		
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(scrollPane);
@@ -261,7 +267,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
 		
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
@@ -293,6 +298,27 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 	}
 	
+	
+	public void initCardSelectionGui(MagicCard mc)
+	{
+		magicCardDetailPanel.setMagicCard(mc);
+		deckPanel.init(mc);
+		pricePanel.init(mc, mc.getCurrentSet());
+		jsonPanel.show(mc);
+		pricePanel.init(mc,mc.getCurrentSet());
+		btnExport.setEnabled(false);
+		
+		ThreadManager.getInstance().execute(() -> {
+			try {
+				historyPricesPanel.init(mc, null, mc.getName());
+			} catch (Exception e) {
+				logger.error("error history",e);
+			}
+		}, "update history");
+		
+		
+	
+	}
 	
 	private void initActions()
 	{
@@ -453,13 +479,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			if (curr.getUserObject() instanceof MagicCard) {
 				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-				btnExport.setEnabled(false);
-				magicCardDetailPanel.setMagicCard((MagicCard) curr.getUserObject());
-				magicEditionDetailPanel.setMagicEdition(card.getCurrentSet());
-				deckPanel.init((MagicCard) curr.getUserObject());
-				magicCardDetailPanel.enableThumbnail(true);
-				jsonPanel.show(curr.getUserObject());
-
+				initCardSelectionGui(card);
 				ThreadManager.getInstance().execute(() -> {
 					
 					try {
@@ -474,17 +494,16 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				
 				}, "Update Collection");
 
-				pricePanel.init(card,null);
-
-				ThreadManager.getInstance().execute(() -> {
-					try {
-						historyPricesPanel.init(card, null, card.getName());
-					} catch (Exception e) {
-						logger.error("error history",e);
-					}
-				}, "update history");
 			}
 
+		});
+		
+		cardsSetPanel.getTable().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent me) {
+				if(cardsSetPanel.getSelectedCard()!=null)
+				initCardSelectionGui(cardsSetPanel.getSelectedCard());
+			}
 		});
 
 		tree.addMouseListener(new MouseAdapter() {
@@ -590,7 +609,20 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	    
 	    
 	    
-	    
+		tableEditions.getSelectionModel().addListSelectionListener(me-> {
+			if(!me.getValueIsAdjusting()) {
+		    	  int row = tableEditions.getSelectedRow();
+					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
+					magicEditionDetailPanel.setMagicEdition(ed);
+					historyPricesPanel.init(null, ed, ed.getSet());
+					jsonPanel.show(ed);
+					btnRemove.setEnabled(false);
+					btnAddAllSet.setEnabled(true);
+					btnExport.setEnabled(false);
+					cardsSetPanel.init(ed);
+					panneauTreeTable.setSelectedIndex(1);
+			}
+		});
 	    
 	   
 		btnRemove.addActionListener(evt -> {
@@ -733,21 +765,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			});
 
-			tableEditions.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					int row = tableEditions.getSelectedRow();
-					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
-					magicEditionDetailPanel.setMagicEdition(ed);
-					historyPricesPanel.init(null, ed, ed.getSet());
-					jsonPanel.show(ed);
-					btnRemove.setEnabled(false);
-					btnAddAllSet.setEnabled(true);
-					btnExport.setEnabled(false);
-					cardsSetPanel.init(ed);
-					
-				}
-			});
+			
 
 			btnAdd.addActionListener(e -> {
 				String name = JOptionPane

@@ -60,6 +60,18 @@ public class CardsEditionTablePanel extends JPanel {
 		});
 	}
 	
+	public MagicCard getSelectedCard()
+	{
+		if(table.getSelectedRow()>-1)
+			return (MagicCard) table.getValueAt(table.getSelectedRow(), 0);
+		
+		return null;
+	}
+	
+	public JXTable getTable() {
+		return table;
+	}
+	
 	public void init(MagicEdition ed)
 	{
 		this.currentEdition=ed;
@@ -69,10 +81,15 @@ public class CardsEditionTablePanel extends JPanel {
 	
 	private void refresh()
 	{
+		if(currentEdition==null)
+			return;
+		
+		
 		ThreadManager.getInstance().execute(()->{
 				buzy.start(currentEdition.getCardCount());
 				try {
 					model.clear();
+					MTGControler.getInstance().getEnabled(MTGCardsProvider.class).addObserver(buzy);
 					List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(list, new CardsEditionSorter() );
 					for(MagicCard mc : list )
@@ -85,6 +102,7 @@ public class CardsEditionTablePanel extends JPanel {
 					logger.error(e);
 				}
 				buzy.end();
+				MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(buzy);
 		}, "loading cards from " + currentEdition);
 		
 		
