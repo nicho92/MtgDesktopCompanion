@@ -10,17 +10,17 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 
-public class MagicEditionsComboBoxRenderer implements TableCellRenderer {
+public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 	
 	private static final long serialVersionUID = 1L;
 	private boolean enable;
 	
 	
-	public MagicEditionsComboBoxRenderer() {
+	public MagicEditionsComboBoxCellRenderer() {
 		enable=true;
 	}
 	
-	public MagicEditionsComboBoxRenderer(boolean enabled) {
+	public MagicEditionsComboBoxCellRenderer(boolean enabled) {
 		enable=enabled;
 	}
 	

@@ -55,8 +55,9 @@ import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
-import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
-import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
+import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -100,7 +101,7 @@ public class StockPanelGUI extends MTGUIPanel {
 	private JLabel lblCount;
 
 	private JComboBox<String> cboSelections;
-	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED") };
+	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
 	private File fileImport;
 	
 	@Override
@@ -380,7 +381,6 @@ public class StockPanelGUI extends MTGUIPanel {
 				table.clearSelection();
 
 				for (int i = 0; i < table.getRowCount(); i++) {
-
 					if (table.getValueAt(i, 0).toString().equals("-1")) {
 						table.addRowSelectionInterval(i, i);
 					}
@@ -393,6 +393,10 @@ public class StockPanelGUI extends MTGUIPanel {
 					if (((MagicCardStock) table.getValueAt(i, 0)).isUpdate())
 						table.addRowSelectionInterval(i, i);
 				}
+			}
+			else if (String.valueOf(cboSelections.getSelectedItem()).equals(selections[3])) {
+				table.clearSelection();
+				table.addRowSelectionInterval(0, table.getRowCount()-1);
 			}
 			multiselection = false;
 		});
@@ -541,10 +545,11 @@ public class StockPanelGUI extends MTGUIPanel {
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 
+
+
 		
-		
-		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxEditor());
-		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxRenderer());
+		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
+		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 
 		table.packAll();
 		UITools.initTableFilter(table);
@@ -767,6 +772,9 @@ public class StockPanelGUI extends MTGUIPanel {
 		lblCount = new JLabel();
 		bottomPanel.add(lblCount);
 
+		cboCollection.setRenderer(new MagicCollectionIconListRenderer());
+		
+		
 		ThreadManager.getInstance().execute(() -> {
 			try {
 				lblLoading.start();

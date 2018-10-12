@@ -10,7 +10,7 @@ import javax.swing.JTable;
 
 import org.magic.api.beans.MagicEdition;
 
-public class MagicEditionsComboBoxEditor extends DefaultCellEditor {
+public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class MagicEditionsComboBoxEditor extends DefaultCellEditor {
 	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<MagicEdition> model;
 	
-	public MagicEditionsComboBoxEditor() {
+	public MagicEditionsComboBoxCellEditor() {
 		super(new JComboBox<MagicEdition>());
 		model = (DefaultComboBoxModel<MagicEdition>) ((JComboBox<MagicEdition>) getComponent()).getModel();
 	}

@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -97,6 +98,8 @@ public class DeckStockComparatorPanel extends JPanel {
 		try {
 			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(collection->colMod.addElement(collection));
 			colMod.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			cboCollections.setRenderer(new MagicCollectionIconListRenderer());
+
 		} catch (SQLException e) {
 			logger.error("Error retrieving collections",e);
 		}

@@ -66,8 +66,8 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.models.DeckCardsTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicCardListRenderer;
-import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
-import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
+import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -634,8 +634,8 @@ public class ConstructPanel extends JPanel {
 		table.setRowSorter(new TableRowSorter<DefaultTableModel>(model));
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxRenderer());
-		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
+		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
+		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		
 		table.addMouseListener(new MouseAdapter() {

@@ -69,6 +69,7 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -266,7 +267,6 @@ public class CardSearchPanel extends MTGUIPanel {
 			logger.error("could not load collections combobox", e2);
 		}
 		cboLanguages = new JComboBox<>();
-
 		tableCards = new JXTable();
 		
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -297,7 +297,8 @@ public class CardSearchPanel extends MTGUIPanel {
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		cboEdition.setRenderer(new MagicEditionIconListRenderer());
 		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
-
+		cboCollections.setRenderer(new MagicCollectionIconListRenderer());
+		
 		///////// CONFIGURE COMPONENTS
 		txtRulesArea.setLineWrap(true);
 		txtRulesArea.setWrapStyleWord(true);

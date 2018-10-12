@@ -14,9 +14,7 @@ import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionsJLabelRenderer extends DefaultTableCellRenderer {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	public MagicEditionsJLabelRenderer() {
