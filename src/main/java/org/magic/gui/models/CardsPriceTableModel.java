@@ -19,10 +19,11 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private transient List<MTGPricesProvider> providers;
 	private transient List<MagicPrice> prices;
 	public static final int ROW_URL = 7;
 
+	
+	
 	String[] columns = new String[] { "WEBSITE",
 			"PRICE",
 			"CURRENCY",
@@ -37,8 +38,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		fireTableDataChanged();
 	}
 
-	private void addPrice(MagicCard mc, MagicEdition me) {
-		for (MTGPricesProvider prov : providers) {
+	public void addPrice(MTGPricesProvider prov, MagicCard mc, MagicEdition me) {
 			try {
 					List<MagicPrice> list = prov.getPrice(me, mc);
 
@@ -50,28 +50,19 @@ public class CardsPriceTableModel extends DefaultTableModel {
 				logger.error("Error", e);
 
 			}
-		}
+		
 	}
 
-	public void init(MagicCard mc, MagicEdition me) {
+	public void init(MTGPricesProvider prov, MagicCard mc, MagicEdition me) {
 		prices.clear();
-		addPrice(mc, me);
+		addPrice(prov,mc, me);
 
 	}
 
 	public CardsPriceTableModel() {
 		prices = new ArrayList<>();
-		providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
 	}
 
-	public List<MTGPricesProvider> getProviders() {
-		return providers;
-	}
-
-	public void setProvider(MTGPricesProvider provider) {
-		providers.clear();
-		providers.add(provider);
-	}
 
 	@Override
 	public String getColumnName(int column) {

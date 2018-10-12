@@ -54,9 +54,9 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	@Override
 	public BufferedImage getBackPicture() {
 		try {
-			return ImageIO.read(AbstractPicturesProvider.class.getResource("/icons/back.jpg"));
+			return ImageIO.read(MTGConstants.DEFAULT_BACK_CARD);
 		} catch (IOException e) {
-			logger.error("Error reading back picture ", e);
+			logger.error(e);
 			return null;
 		}
 	}

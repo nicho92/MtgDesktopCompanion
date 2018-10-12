@@ -24,6 +24,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGControler;
@@ -46,7 +47,7 @@ public class PricesTablePanel extends JPanel {
 	
 	public PricesTablePanel() {
 		JPanel panel = new JPanel();
-		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
+		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 		panel.setPreferredSize(new Dimension(0,32));
 		model = new CardsPriceTableModel();
@@ -112,10 +113,16 @@ public class PricesTablePanel extends JPanel {
 		{
 				ThreadManager.getInstance().execute(() -> {
 					try {
-						loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
-						model.init(currentCard, currentEd);
-						model.fireTableDataChanged();
-						loading(false, "");
+						List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
+						lblLoading.start(providers.size());
+						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
+						model.clear();
+						for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
+						{
+							model.addPrice(prov,currentCard, currentEd);
+							lblLoading.progress();
+						}
+						lblLoading.end();
 						
 					} catch (Exception e) {
 						logger.error(e);
@@ -124,19 +131,6 @@ public class PricesTablePanel extends JPanel {
 		}
 		
 	}
-
-	private void loading(boolean b, String s) {
-		if(b)
-		{
-			lblLoading.start();
-			lblLoading.setText(s);
-		}
-		else
-		{
-			lblLoading.end();
-		}
-	}
-	
 	
 	public List<MagicPrice> getPrices()
 	{

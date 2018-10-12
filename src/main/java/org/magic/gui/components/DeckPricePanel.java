@@ -63,12 +63,7 @@ public class DeckPricePanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 
 		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().listEnabled(MTGPricesProvider.class).toArray()));
-		cboPricers.addItemListener(ie -> {//TODO reforge this function
-			if (ie.getStateChange() == ItemEvent.SELECTED) {
-				model.setProvider((MTGPricesProvider) cboPricers.getSelectedItem());
-			}
-
-		});
+	
 		panel.add(cboPricers);
 
 
@@ -80,7 +75,7 @@ public class DeckPricePanel extends JPanel {
 
 				for (MagicCard c : deck.getMap().keySet()) {
 					try {
-						List<MagicPrice> prices = model.getProviders().get(0).getPrice(c.getCurrentSet(), c);
+						List<MagicPrice> prices = ((MTGPricesProvider)cboPricers.getSelectedItem()).getPrice(c.getCurrentSet(), c);
 						MagicPrice p = null;
 						if (!prices.isEmpty()) {
 							Collections.sort(prices, new MagicPricesComparator());

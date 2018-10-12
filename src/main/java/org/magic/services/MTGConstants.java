@@ -8,11 +8,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -84,7 +86,6 @@ public class MTGConstants {
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
 	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
-	public static final ImageIcon ICON_BACK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/bottom.png"));
 
 
 
@@ -102,6 +103,7 @@ public class MTGConstants {
 	
 	private static String iconPack="flat";
 
+	
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/hand.png"));
 	public static final ImageIcon ICON_GAME_LIBRARY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/librarysize.png"));
 	public static final ImageIcon ICON_GAME_PLANESWALKER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/planeswalker.png"));
@@ -190,7 +192,13 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_WALLPAPER = new ImageIcon(ICON_WALLPAPER.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	
+	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+						//new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/bottom.png"));
+
+	
 	public static final int SEALED_SIZE = 40;
+	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	
 		
 
