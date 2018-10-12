@@ -130,6 +130,8 @@ public class MagicCardTableModel extends DefaultTableModel {
 
 	}
 
+	
+	
 	public void init(List<MagicCard> cards2) {
 		this.cards = cards2;
 		fireTableDataChanged();

@@ -55,6 +55,7 @@ import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
+import org.magic.gui.components.CardsEditionTablePanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -98,6 +99,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	private CardStockPanel statsPanel;
 	private JLabel lblTotal;
 	private CardsDeckCheckerPanel deckPanel;
+	private CardsEditionTablePanel cardsSetPanel;
 	
 	private JButton btnAdd;
 	private JButton btnRefresh;
@@ -152,7 +154,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
 		btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
-		
+		cardsSetPanel = new CardsEditionTablePanel();
 		deckPanel = new CardsDeckCheckerPanel();
 		splitListPanel = new JSplitPane();
 		splitPane = new JSplitPane();
@@ -259,6 +261,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
 		
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
@@ -741,6 +744,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					btnRemove.setEnabled(false);
 					btnAddAllSet.setEnabled(true);
 					btnExport.setEnabled(false);
+					cardsSetPanel.init(ed);
 					
 				}
 			});
