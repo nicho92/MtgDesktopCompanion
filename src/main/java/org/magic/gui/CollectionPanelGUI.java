@@ -99,6 +99,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	private JLabel lblTotal;
 	private CardsDeckCheckerPanel deckPanel;
 	
+	private JButton btnAdd;
 	private JButton btnRefresh;
 	private JButton btnRemove;
 	private JButton btnAddAllSet;
@@ -134,7 +135,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		
 		JTabbedPane tabbedPane;
 		JPanel panneauHaut;
-		JButton btnAdd;
 		
 		JPanel panneauGauche;
 		JScrollPane scrollPane;
@@ -191,6 +191,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		splitListPanel.setResizeWeight(0.5);
 
 		btnRemove.setEnabled(false);
+		btnAddAllSet.setEnabled(false);
 		btnExport.setEnabled(false);
 
 		splitPane.setResizeWeight(0.5);
@@ -282,34 +283,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 		initPopupCollection();
 
-		tableEditions.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int row = tableEditions.getSelectedRow();
-				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
-				magicEditionDetailPanel.setMagicEdition(ed);
-				historyPricesPanel.init(null, ed, ed.getSet());
-				jsonPanel.show(ed);
-				btnRemove.setEnabled(false);
-			}
-		});
-
-		btnAdd.addActionListener(e -> {
-			String name = JOptionPane
-					.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
-			MagicCollection collectionAdd = new MagicCollection();
-			collectionAdd.setName(name);
-			try {
-				dao.saveCollection(collectionAdd);
-				((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
-				getJTree().refresh();
-				initPopupCollection();
-			} catch (Exception ex) {
-				logger.error(ex);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
-			}
-		});
-
+		
 		
 
 		initActions();
@@ -425,7 +399,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			path = tse.getPath();
 
 			btnRemove.setEnabled(true);
-			
+			btnAddAllSet.setEnabled(false);
+			btnExport.setEnabled(true);
 			final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof String) {
@@ -434,10 +409,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 
 			if (curr.getUserObject() instanceof MagicCollection) {
-				btnExport.setEnabled(true);
 				selectedcol = (MagicCollection) curr.getUserObject();
 				statsPanel.enabledAdd(false);
-				btnExport.setEnabled(true);
 				ThreadManager.getInstance().execute(() -> {
 					try {
 
@@ -456,7 +429,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			if (curr.getUserObject() instanceof MagicEdition) {
 				magicEditionDetailPanel.setMagicEdition((MagicEdition) curr.getUserObject());
-				btnExport.setEnabled(true);
+				
 				statsPanel.enabledAdd(false);
 				ThreadManager.getInstance().execute(() -> {
 					try {
@@ -757,6 +730,38 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			});
 
+			tableEditions.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					int row = tableEditions.getSelectedRow();
+					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
+					magicEditionDetailPanel.setMagicEdition(ed);
+					historyPricesPanel.init(null, ed, ed.getSet());
+					jsonPanel.show(ed);
+					btnRemove.setEnabled(false);
+					btnAddAllSet.setEnabled(true);
+					btnExport.setEnabled(false);
+					
+				}
+			});
+
+			btnAdd.addActionListener(e -> {
+				String name = JOptionPane
+						.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
+				MagicCollection collectionAdd = new MagicCollection();
+				collectionAdd.setName(name);
+				try {
+					dao.saveCollection(collectionAdd);
+					((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
+					getJTree().refresh();
+					initPopupCollection();
+				} catch (Exception ex) {
+					logger.error(ex);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+				}
+			});
+
+			
 			adds.addActionListener(e -> {
 
 				final String destinationCollection = ((JMenuItem) e.getSource()).getText();
