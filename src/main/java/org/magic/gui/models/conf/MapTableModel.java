@@ -67,9 +67,9 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if(keys==null || keys.get(0)==null)
+		if(keys==null || keys.isEmpty())
 			return super.getColumnClass(columnIndex);
-		
+
 		if(columnIndex==0)
 			return keys.get(0).getKey().getClass();
 		else
