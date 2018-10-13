@@ -193,7 +193,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_WALLPAPER = new ImageIcon(ICON_WALLPAPER.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	
+	public static final ImageIcon ICON_TAB_MASS_IMPORT = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 						//new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/bottom.png"));
 

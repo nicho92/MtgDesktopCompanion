@@ -316,7 +316,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 		}, "update history");
 		
-			ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().execute(() -> {
 			
 			try {
 				if(col==null)
@@ -509,8 +509,10 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			public void mouseClicked(MouseEvent me) {
 				if(cardsSetPanel.getSelectedCard()!=null)
 				{
+					cardsSetPanel.enabledImport(true);
 					initCardSelectionGui(cardsSetPanel.getSelectedCard(),null);
 				}
+				
 			}
 		});
 
@@ -619,7 +621,8 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	    
 		tableEditions.getSelectionModel().addListSelectionListener(me-> {
 			if(!me.getValueIsAdjusting()) {
-		    	  int row = tableEditions.getSelectedRow();
+		    	  try {  
+		    		  int row = tableEditions.getSelectedRow();
 					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
 					magicEditionDetailPanel.setMagicEdition(ed);
 					historyPricesPanel.init(null, ed, ed.getSet());
@@ -628,7 +631,14 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					btnAddAllSet.setEnabled(true);
 					btnExport.setEnabled(false);
 					cardsSetPanel.init(ed);
+					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
+		    	  }
+		    	  catch(Exception e)
+		    	  {
+		    		  progressBar.end();
+		    		  logger.error(e);
+		    	  }
 			}
 		});
 	    
