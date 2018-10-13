@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
+import org.magic.tools.UITools;
 
 import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
@@ -45,7 +47,12 @@ public class CardsEditionTablePanel extends JPanel {
 		
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
-
+		table.setColumnControlVisible(true);
+		table.getColumnExt(model.getColumnName(1)).setVisible(false);
+		table.getColumnExt(model.getColumnName(6)).setVisible(false);
+		table.getColumnExt(model.getColumnName(8)).setVisible(false);
+		table.getColumnExt(model.getColumnName(9)).setVisible(false);
+		UITools.initTableFilter(table);
 		
 		haut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -58,6 +65,7 @@ public class CardsEditionTablePanel extends JPanel {
 			}
 
 		});
+				
 	}
 	
 	public MagicCard getSelectedCard()
@@ -67,6 +75,12 @@ public class CardsEditionTablePanel extends JPanel {
 		
 		return null;
 	}
+	
+	public List<MagicCard> getSelectedCards()
+	{
+		return UITools.getSelects(table);
+	}
+	
 	
 	public JXTable getTable() {
 		return table;
@@ -95,9 +109,7 @@ public class CardsEditionTablePanel extends JPanel {
 					for(MagicCard mc : list )
 					{
 						model.addCard(mc);
-						buzy.progress();
 					}
-					
 				} catch (IOException e) {
 					logger.error(e);
 				}

@@ -1,5 +1,6 @@
 package org.magic.sorters;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGComparator;
 
@@ -7,8 +8,16 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
-
-		if (o1.getCurrentSet().getNumber() != null && o2.getCurrentSet().getNumber() != null && (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
+		
+		
+		boolean o1NullNumber=StringUtils.isEmpty(o1.getCurrentSet().getNumber());
+		boolean o2NullNumber=StringUtils.isEmpty(o2.getCurrentSet().getNumber());
+		
+		
+		
+		
+		
+		if (!o1NullNumber && !o2NullNumber && (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
 			int n1 = calculate(o1.getCurrentSet().getNumber());
 			int n2 = calculate(o2.getCurrentSet().getNumber());
 			return n1 - n2;

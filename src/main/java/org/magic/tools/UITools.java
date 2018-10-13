@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -74,6 +77,17 @@ public class UITools {
 				}
 			}
 		});
+	}
+
+	public static <T>  List<T> getSelects(JXTable tableCards) {
+		int[] viewRow = tableCards.getSelectedRows();
+		List<T> listCards = new ArrayList<>();
+		for (int i : viewRow) {
+			int modelRow = tableCards.convertRowIndexToModel(i);
+			T mc = (T) tableCards.getModel().getValueAt(modelRow, 0);
+			listCards.add(mc);
+		}
+		return listCards;
 	}
 	
 }

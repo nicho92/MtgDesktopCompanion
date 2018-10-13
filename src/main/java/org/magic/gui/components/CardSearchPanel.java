@@ -138,14 +138,7 @@ public class CardSearchPanel extends MTGUIPanel {
 	}
 
 	public List<MagicCard> getMultiSelection() {
-		int[] viewRow = tableCards.getSelectedRows();
-		List<MagicCard> listCards = new ArrayList<>();
-		for (int i : viewRow) {
-			int modelRow = tableCards.convertRowIndexToModel(i);
-			MagicCard mc = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
-			listCards.add(mc);
-		}
-		return listCards;
+		return UITools.getSelects(tableCards);
 	}
 
 	public MagicCard getSelected() {
@@ -314,6 +307,8 @@ public class CardSearchPanel extends MTGUIPanel {
 		panneauCentral.setLeftComponent(tabbedCardsView);
 		tableCards.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableCards.setRowSorter(sorterCards);
+		tableCards.getColumnExt(cardsModeltable.getColumnName(8)).setVisible(false);
+		tableCards.getColumnExt(cardsModeltable.getColumnName(9)).setVisible(false);
 		panneauCentral.setDividerLocation(0.5);
 		panneauCentral.setResizeWeight(0.5);
 		

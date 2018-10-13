@@ -162,7 +162,7 @@ public class LazyLoadingTree extends JTree {
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
 					} catch (Exception e) {
-						logger.error(e);
+						logger.error("error loading tree",e);
 					}
 					super.done();
 				}
