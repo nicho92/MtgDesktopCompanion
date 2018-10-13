@@ -277,8 +277,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 				mc.getForeignNames().add(mcn);
 			}
 		}
-		setChanged();
-		notifyObservers(mc);
+		notify(mc);
 
 		cacheCards.put(mc.getId(), mc);
 		

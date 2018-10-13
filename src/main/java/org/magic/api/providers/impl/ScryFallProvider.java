@@ -123,7 +123,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING));
 			con = URLTools.openConnection(url.toString());
 
-			if (!isCorrectConnection(con))
+			if (!URLTools.isCorrectConnection(con))
 				return list;
 
 			try {
@@ -138,6 +138,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					for (int i = 0; i < jsonList.size(); i++) {
 						MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject(), exact, crit);
 						list.add(mc);
+						
 					}
 					hasMore = el.getAsJsonObject().get("has_more").getAsBoolean();
 
@@ -145,6 +146,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 						url = new StringBuilder(el.getAsJsonObject().get("next_page").getAsString());
 
 					Thread.sleep(50);
+					
 				}
 			} catch (Exception e) {
 				logger.error("erreur", e);
@@ -154,9 +156,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return list;
 	}
 
-	private boolean isCorrectConnection(HttpURLConnection connection) throws IOException {
-		return (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300);
-	}
+
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
@@ -229,7 +229,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		List<MagicCard> rare = new ArrayList<>();
 
 		if (cacheBoosterCards.get(me.getId()) == null)
-			cacheBoosterCards.put(me.getId(), searchCardByCriteria("set", me.getId(), null, true));
+			cacheBoosterCards.put(me.getId(), searchCardByEdition(me));
 
 		for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
 			if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))
@@ -412,8 +412,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					.getAsString());
 			mc.setRotatedCardName(
 					obj.get(CARD_FACES).getAsJsonArray().get(1).getAsJsonObject().get(NAME).getAsString());
-			mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id")
-					.getAsString());
+			
+			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id")!=null)
+				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id").getAsString());
 
 			generateTypes(mc, obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TYPE_LINE)
 					.getAsString());
@@ -493,8 +494,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}, "other editions").start();
 
-		setChanged();
-		notifyObservers(mc);
+		notify(mc);
 		cacheCards.put(mc.getId(), mc);
 
 		return mc;

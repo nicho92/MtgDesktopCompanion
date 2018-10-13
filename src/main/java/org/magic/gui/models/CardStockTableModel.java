@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -14,11 +15,13 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class CardStockTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	private transient List<MagicCardStock> list;
 
 	static final String[] columns = new String[] { "ID",
@@ -107,7 +110,6 @@ public class CardStockTableModel extends DefaultTableModel {
 		default:
 			return super.getColumnClass(columnIndex);
 		}
-
 	}
 
 	@Override
@@ -195,15 +197,22 @@ public class CardStockTableModel extends DefaultTableModel {
 
 	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
 		
-		if(!magicCardStock.getMagicCard().getCurrentSet().equals(aValue))
-		{
-			
-			MagicEdition ed = aValue;
-			magicCardStock.setMagicCard(MTGControler.getInstance().switchEditions(magicCardStock.getMagicCard(), ed));
-			magicCardStock.getMagicCard().getEditions().remove(ed);
-			magicCardStock.getMagicCard().getEditions().add(0, (MagicEdition) aValue);
-			
-		}
+		try {
+			if(!magicCardStock.getMagicCard().getCurrentSet().equals(aValue))
+			{
+				MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(magicCardStock);
+				magicCardStock.setMagicCard(MTGControler.getInstance().switchEditions(magicCardStock.getMagicCard(), aValue));
+				magicCardStock.setIdstock(-1);
+				
+				MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(magicCardStock);
+				
+				
+			}
+			}
+			catch(Exception e)
+			{
+				logger.error("Error update edition for " + magicCardStock,e);
+			}
 
 	}
 

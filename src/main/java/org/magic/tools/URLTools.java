@@ -101,6 +101,15 @@ public class URLTools {
 		return ImageIO.read(openConnection(url).getInputStream()); 
 		//return ImageIO.read(url);
 	}
+
+	public static boolean isCorrectConnection(HttpURLConnection connection) {
+			try {
+				return (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300);
+			} catch (IOException e) {
+				logger.error(e);
+				return false;
+			}
+	}
 	
 	
 }

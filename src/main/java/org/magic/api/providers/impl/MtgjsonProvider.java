@@ -429,17 +429,13 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld"))
 					mc.setTranformable(true);
 
-			setChanged();
-			notifyObservers(mc);
+			notify(mc);
 
 			listCards.add(mc);
 			cacheCards.put(mc.getId(), mc);
 
 		}
 		currentSet.clear();
-
-		if (att.equalsIgnoreCase("set"))
-			cacheBoosterCards.put(crit, listCards);
 
 		return listCards;
 
@@ -618,7 +614,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 		try {
 			if (cacheBoosterCards.get(me.getId()) == null)
-				cacheBoosterCards.put(me.getId(), searchCardByCriteria("set", me.getId(), null, true));
+				cacheBoosterCards.put(me.getId(), searchCardByEdition(me));
 
 			for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
 				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))

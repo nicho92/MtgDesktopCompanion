@@ -180,7 +180,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		if (me != null)
 			sql += " and LOWER('edition') = '" + me.getId().toLowerCase() + "'";
 
-		logger.debug(sql);
+		logger.trace(sql);
 
 		try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql);) {
 			rs.next();

@@ -316,6 +316,19 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 		}, "update history");
 		
+		ThreadManager.getInstance().execute(() -> {
+			
+			try {
+			statsPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
+			statsPanel.enabledAdd(true);
+			}
+			catch(NullPointerException e)
+			{
+				//do nothing
+			}
+			
+		
+		}, "Update Collection");
 		
 	
 	}
@@ -480,19 +493,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			if (curr.getUserObject() instanceof MagicCard) {
 				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 				initCardSelectionGui(card);
-				ThreadManager.getInstance().execute(() -> {
-					
-					try {
-					statsPanel.initMagicCardStock(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
-					statsPanel.enabledAdd(true);
-					}
-					catch(NullPointerException e)
-					{
-						//do nothing
-					}
-					
 				
-				}, "Update Collection");
 
 			}
 

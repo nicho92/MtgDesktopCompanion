@@ -91,6 +91,8 @@ public class IconSetProvider {
 	private String getEquiv(String set) {
 
 		switch (set) {
+		case "NEM" :
+			return "NMS";
 		case "PI13":
 			return "PIDW";
 		case "PI14":
