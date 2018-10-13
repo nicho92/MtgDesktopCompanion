@@ -642,6 +642,22 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 		});
 	    
+		btnAdd.addActionListener(e -> {
+			String name = JOptionPane
+					.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
+			MagicCollection collectionAdd = new MagicCollection();
+			collectionAdd.setName(name);
+			try {
+				dao.saveCollection(collectionAdd);
+				((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
+				getJTree().refresh();
+				initPopupCollection();
+			} catch (Exception ex) {
+				logger.error(ex);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+			}
+		});
+		
 	   
 		btnRemove.addActionListener(evt -> {
 
@@ -785,21 +801,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			
 
-			btnAdd.addActionListener(e -> {
-				String name = JOptionPane
-						.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
-				MagicCollection collectionAdd = new MagicCollection();
-				collectionAdd.setName(name);
-				try {
-					dao.saveCollection(collectionAdd);
-					((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
-					getJTree().refresh();
-					initPopupCollection();
-				} catch (Exception ex) {
-					logger.error(ex);
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
-				}
-			});
+			
 
 			
 			adds.addActionListener(e -> {

@@ -21,6 +21,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -84,8 +85,8 @@ public class CardsEditionTablePanel extends JPanel {
 			logger.error(e1);
 		}
 		
-		
 		cboCollection =  new JComboBox<>(modelCol);
+		cboCollection.setRenderer(new MagicCollectionIconListRenderer());
 		panneauBas.add(cboCollection);
 		
 		btnImport = new JButton(MTGConstants.ICON_TAB_MASS_IMPORT);
