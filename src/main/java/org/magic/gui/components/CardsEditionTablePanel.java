@@ -110,20 +110,15 @@ public class CardsEditionTablePanel extends JPanel {
 				ThreadManager.getInstance().execute(()->{
 					for(MagicCard mc : list)
 						try {
-							MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(mc, (MagicCollection)cboCollection.getSelectedItem());
+							MTGControler.getInstance().saveCard(mc, (MagicCollection)cboCollection.getSelectedItem());
 							buzy.progress();
 						} catch (SQLException e) {
 							logger.error("couln't save " + mc,e);
 						}
 					buzy.end();
-				}, "import cards in stock");
+				}, "import cards in "+cboCollection.getSelectedItem());
 			}
-			
-			
-			
 		});
-		
-				
 	}
 	
 	public MagicCard getSelectedCard()
