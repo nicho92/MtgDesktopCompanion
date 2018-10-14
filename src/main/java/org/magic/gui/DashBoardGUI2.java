@@ -136,6 +136,7 @@ public class DashBoardGUI2 extends MTGUIPanel {
 		try {
 			dash.initGUI();
 			dash.init();
+			dash.setVisible(true);
 			desktop.add(dash);
 		} catch (Exception e) {
 			logger.error("error adding " + dash,e);
