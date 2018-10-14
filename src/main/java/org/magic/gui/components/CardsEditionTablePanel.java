@@ -89,7 +89,7 @@ public class CardsEditionTablePanel extends JPanel {
 		cboCollection.setRenderer(new MagicCollectionIconListRenderer());
 		panneauBas.add(cboCollection);
 		
-		btnImport = new JButton(MTGConstants.ICON_TAB_MASS_IMPORT);
+		btnImport = new JButton(MTGConstants.ICON_MASS_IMPORT_SMALL);
 		btnImport.setEnabled(false);
 		panneauBas.add(btnImport);
 		

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -19,6 +20,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -61,14 +63,17 @@ public class MassMoverDialog extends JDialog {
 
 		panel.add(btnMove);
 
-		cboCollections = null;
+		DefaultComboBoxModel<MagicCollection> colMod = new DefaultComboBoxModel<>();
+		
 		try {
-			cboCollections = new JComboBox<>(
-					dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
-		} catch (SQLException e) {
-			logger.error(e);
+			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(c->colMod.addElement(c));
+		} catch (SQLException e2) {
+			logger.error(e2);
 		}
-		panel.add(cboCollections);
+		
+		cboCollections = new JComboBox<>(colMod);
+		cboCollections.setRenderer(new MagicCollectionIconListRenderer());
+			panel.add(cboCollections);
 		panel.add(lblWaiting);
 
 		JScrollPane scrollPane = new JScrollPane();

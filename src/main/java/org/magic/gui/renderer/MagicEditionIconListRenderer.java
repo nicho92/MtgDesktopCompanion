@@ -34,7 +34,8 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,boolean isSelected, boolean cellHasFocus) {
 
-		if (value != null) {
+		if (value != null) 
+		{
 			ImageIcon ic;
 			if(size==SIZE.SMALL)
 				ic = IconSetProvider.getInstance().get16(value.getId());

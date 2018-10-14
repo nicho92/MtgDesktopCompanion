@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -42,7 +43,8 @@ public class MassCollectionImporterDialog extends JDialog {
 	private JTextPane txtNumbersInput;
 	private MagicDeck deck;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private DefaultComboBoxModel<MagicEdition> modEditions;
+	
 	public MassCollectionImporterDialog() {
 		setSize(new Dimension(646, 290));
 		setIconImage(MTGConstants.ICON_MASS_IMPORT.getImage());
@@ -62,19 +64,20 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
-
-		List<MagicEdition> list = new ArrayList<>();
+		modEditions=new DefaultComboBoxModel<>();
+		DefaultComboBoxModel<MagicCollection> modCollections=new DefaultComboBoxModel<>();
+		
 		try {
-			list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
-		} catch (IOException e2) {
+			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(e->modEditions.addElement(e));
+			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(c->modCollections.addElement(c));
+		} catch (Exception e2) {
 			logger.error(e2);
 		}
-		final JComboBox cboEditions = new JComboBox(list.toArray());
+		
+		JComboBox<MagicEdition> cboEditions = new JComboBox<>(modEditions);
 		cboEditions.setRenderer(new MagicEditionIconListRenderer());
 		panelCollectionInput.add(cboEditions);
-
-		List<MagicCollection> lc = MTGControler.getInstance().getEnabled(MTGDao.class).getCollections();
-
+		
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 
@@ -84,7 +87,9 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		JLabel lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
-		final JComboBox cboCollections = new JComboBox(lc.toArray());
+		
+		JComboBox<MagicCollection> cboCollections = new JComboBox<>(modCollections);
+		cboCollections.setRenderer(new MagicCollectionIconListRenderer());
 		panelCollectionInput.add(cboCollections);
 
 		JPanel panneauBas = new JPanel();
@@ -117,7 +122,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		panneauBas.add(checkNewOne);
 
-		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
 		btnImport.addActionListener(e -> {
 			final MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
@@ -177,6 +182,11 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	public MagicDeck getAsDeck() {
 		return deck;
+	}
+
+	public void setDefaultEdition(MagicEdition magicEdition) {
+		modEditions.setSelectedItem(magicEdition);
+		
 	}
 
 }

@@ -504,15 +504,11 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 		});
 		
-		cardsSetPanel.getTable().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent me) {
-				if(cardsSetPanel.getSelectedCard()!=null)
-				{
+		cardsSetPanel.getTable().getSelectionModel().addListSelectionListener(me-> {
+			
+			if(!me.getValueIsAdjusting() && cardsSetPanel.getSelectedCard()!=null) {
 					cardsSetPanel.enabledImport(true);
 					initCardSelectionGui(cardsSetPanel.getSelectedCard(),null);
-				}
-				
 			}
 		});
 
@@ -555,6 +551,10 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 		btnMassCollection.addActionListener(ae -> {
 			MassCollectionImporterDialog diag = new MassCollectionImporterDialog();
+	
+			if(magicEditionDetailPanel.getMagicEdition().getId()!=null)
+				diag.setDefaultEdition(magicEditionDetailPanel.getMagicEdition());
+			
 			diag.setVisible(true);
 			try {
 				model.calculate();
