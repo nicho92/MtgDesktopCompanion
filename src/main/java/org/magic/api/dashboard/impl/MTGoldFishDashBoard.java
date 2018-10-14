@@ -200,7 +200,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				CardShake cs = new CardShake();
 
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setImg(new URL("http://" + e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("data-full-image")));
+				cs.setImg(new URL(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("data-full-image")));
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
@@ -290,7 +290,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	private void initConcordance() {
 		mapConcordance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
+		mapConcordance.put("HOP", "PC1");
 		mapConcordance.put("TMP", "TE");
 		mapConcordance.put("STH", "ST");
 		mapConcordance.put("PCY", "PR");

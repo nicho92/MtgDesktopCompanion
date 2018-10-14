@@ -16,16 +16,16 @@ public class MagicCardTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<MagicCard> cards;
-	private String[] columns = new String[] { "NAME",
-			"CARD_LANGUAGE",
-			"CARD_MANA",
-			"CARD_TYPES",
-			"CARD_POWER",
-			"CARD_RARITY",
-			"CARD_EDITIONS",
-			"CARD_NUMBER",
-			"CARD_COLOR",
-			"RL"};
+	protected String[] columns = new String[] { "NAME",
+												"CARD_LANGUAGE",
+												"CARD_MANA",
+												"CARD_TYPES",
+												"CARD_POWER",
+												"CARD_RARITY",
+												"CARD_EDITIONS",
+												"CARD_NUMBER",
+												"CARD_COLOR",
+												"RL"};
 
 	public MagicCardTableModel() {
 		cards = new ArrayList<>();
@@ -61,11 +61,16 @@ public class MagicCardTableModel extends DefaultTableModel {
 	}
 
 	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-		if(!cards.isEmpty())
-			return cards.get(0).getClass();
-		else
-			return Object.class;
+	public Class<?> getColumnClass(int columnIndex)
+	{
+		switch(columnIndex)
+		{
+			case 0: return MagicCard.class;
+			case 6: return List.class;
+			case 8: return List.class;
+			case 9: return Boolean.class;
+			default:return String.class;
+		}
 	}
 	
 	@Override

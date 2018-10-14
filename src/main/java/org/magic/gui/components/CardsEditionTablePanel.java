@@ -5,10 +5,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -30,17 +33,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
 
 
 public class CardsEditionTablePanel extends JPanel {

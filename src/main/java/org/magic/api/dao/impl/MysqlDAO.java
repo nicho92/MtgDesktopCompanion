@@ -195,12 +195,13 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		logger.debug("getCardsFromCollection " + collection + " " + me);
-
+		
 		String sql = "select * from cards where collection= ?";
 
 		if (me != null)
 			sql = "select * from cards where collection= ? and edition = ?";
+
+		logger.trace(sql +" " + collection +" " + me);
 
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
