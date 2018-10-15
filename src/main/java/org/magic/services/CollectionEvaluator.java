@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class CollectionEvaluator
 	private JsonExport serialiser;
 	private Map<MagicEdition,Map<MagicCard,CardShake>> cache;
 	
+	
 	public CollectionEvaluator() throws IOException {
 		init();
 	}
@@ -63,7 +65,7 @@ public class CollectionEvaluator
 	}
 	
 	
-	public void initCache() throws IOException
+	private void initCache() throws IOException
 	{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(ed->{
 			try {
@@ -74,10 +76,15 @@ public class CollectionEvaluator
 		});
 	}
 	
+	public void clearUICache()
+	{
+		cache.clear();
+	}
 	
 	
 	
-	public void initCache(MagicEdition edition) throws IOException
+	
+	private void initCache(MagicEdition edition) throws IOException
 	{
 			try {
 				List<CardShake> ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(edition);
@@ -100,7 +107,6 @@ public class CollectionEvaluator
 					logger.error("error get edition " + key,e);
 				}});
 		} catch (SQLException e) {
-			
 			logger.error("error sql get editions ",e);
 		}
 		return eds;
@@ -110,12 +116,11 @@ public class CollectionEvaluator
 	public Map<MagicCard,CardShake> prices() throws SQLException
 	{
 		Map<MagicCard,CardShake> ret = new HashMap<>();
-		getEditions().forEach(ed->{
-			prices(ed).entrySet().forEach(entry->{
-				ret.put(entry.getKey(), entry.getValue());
-			});
-			
-		});
+		getEditions().forEach(ed->
+			prices(ed).entrySet().forEach(entry->
+					ret.put(entry.getKey(), entry.getValue())
+					)
+		);
 		return ret;
 	}
 	
@@ -132,7 +137,7 @@ public class CollectionEvaluator
 	}
 	
 	
-	public Map<MagicCard,CardShake> prices(MagicEdition ed)
+	public synchronized Map<MagicCard,CardShake> prices(MagicEdition ed)
 	{
 		
 		if(cache.get(ed)!=null)
@@ -149,8 +154,7 @@ public class CollectionEvaluator
 			else
 			{
 				logger.error(fich + " is not found for " + ed.getId() +" : " + ed.getSet());
-				list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(ed);
-				initCache(ed);
+				list=new ArrayList<>();
 			}	
 			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MagicCard mc : cards) 
@@ -170,32 +174,32 @@ public class CollectionEvaluator
 						
 						ret.put(mc, csn);
 					}
-				}
+			}
 			
 			cache.put(ed, ret);
 			
-		} catch (IOException|SQLException e) {
+		} catch (SQLException e) {
 			logger.error(e);
 		}
 		return ret;
 	}
 	
+//	
+//	private CardShake loadFromCache(MagicCard mc) throws IOException {
+//		List<CardShake> list = new ArrayList<>();
+//		JsonArray json= serialiser.fromJson(JsonArray.class, FileUtils.readFileToString(new File(directory,mc.getCurrentSet().getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING));
+//		json.forEach(el->list.add(serialiser.fromJson(CardShake.class,el.toString())));
+//		
+//		Optional<CardShake> o = list.stream().filter(cs->cs.getName().equalsIgnoreCase(mc.getName())).findFirst();
+//		
+//		if(o.isPresent())
+//			return o.get();
+//		else
+//			return null;
+//	}
+//	
 	
-	public CardShake loadFromCache(MagicCard mc) throws IOException {
-		List<CardShake> list = new ArrayList<>();
-		JsonArray json= serialiser.fromJson(JsonArray.class, FileUtils.readFileToString(new File(directory,mc.getCurrentSet().getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING));
-		json.forEach(el->list.add(serialiser.fromJson(CardShake.class,el.toString())));
-		
-		Optional<CardShake> o = list.stream().filter(cs->cs.getName().equalsIgnoreCase(mc.getName())).findFirst();
-		
-		if(o.isPresent())
-			return o.get();
-		else
-			return null;
-	}
-	
-	
-	public List<CardShake> loadFromCache(MagicEdition ed) {
+	private List<CardShake> loadFromCache(MagicEdition ed) {
 		
 		List<CardShake> list = new ArrayList<>();
 		try {
@@ -231,15 +235,20 @@ public class CollectionEvaluator
 		}
 	}
 	
-	Double price;
-	public Double total(MagicEdition node) {
-		price=0.0;
-			loadFromCache(node).forEach(cs->price=price+cs.getPrice());
+	
+	public Double total(MagicEdition ed) {
+		Double price=0.0;
+		for(CardShake cs : prices(ed).values())
+			price=price+cs.getPrice();
 		
 		return price;
 	}
 
-	
-	
-	
+	public Double total() {
+		Double total=0.0;
+		for(MagicEdition ed : getEditions())
+			total=total+total(ed);
+		
+		return total;
+	}
 }

@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.Currency;
 import java.util.Date;
 
-public class CardShake {
+public class CardShake implements Comparable<CardShake>  {
 
 	private String name;
 	private URL img;
@@ -127,6 +127,14 @@ public class CardShake {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+
+
+
+	@Override
+	public int compareTo(CardShake cs) {
+		return getPrice()>cs.getPrice()?1:-1;
 	}
 
 }

@@ -23,7 +23,7 @@ import org.magic.services.MTGLogger;
 
 public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
-	private static final String[] columnsNames = { "Element","Value" };
+	private static final String[] columnsNames = { "EDITION","PRICE" };
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private CollectionEvaluator evaluator;
 	private List<MagicEdition> editions;
@@ -42,7 +42,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		return columnsNames[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columnsNames[column]);
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		{
 			switch (column) 
 			{
-				case 0:return node;
+				case 0:return ((CardShake) node);
 				case 1: return ((CardShake)node).getPrice();
 				default : return "";
 			}
@@ -76,7 +76,8 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	@Override
 	public Object getChild(Object parent, int i) {
 		if (parent instanceof MagicEdition) {
-			return new ArrayList<CardShake>(evaluator.prices((MagicEdition)parent).values()).get(i);
+			List<CardShake> l = new ArrayList<>(evaluator.prices((MagicEdition)parent).values());
+			return l.get(i);
 		}
 		return editions.get(i);
 	}
@@ -90,14 +91,11 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		return getPosition((CardShake) child, evaluator.loadFromCache((MagicEdition) parent));
+		logger.debug("getIndexOfChild("+parent+","+child+")");
+		return 0;
 	}
 	
-	private int getPosition(CardShake k, List<CardShake> list) {
-		System.out.println("getPosition");
-		return 1;
-	}
-
+	
 	@Override
 	public boolean isLeaf(Object node) {
 		
@@ -105,13 +103,17 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 			return false;
 		
 		return !(node instanceof MagicEdition);
-		//	return false;
-		
 	}
 	
 	@Override
 	public boolean isCellEditable(Object node, int column) {
 		return false;
+	}
+	
+	public double getTotalPrice()
+	{
+		
+		return evaluator.total();
 	}
 	
 	
