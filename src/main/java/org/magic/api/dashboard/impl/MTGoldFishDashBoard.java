@@ -176,13 +176,19 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
 
+		List<CardShake> list = new ArrayList<>();
+
+		if(edition==null)
+			return list;
+		
+		
+		
 		if(cacheEditions.get(edition.getId())!=null)
 			return cacheEditions.get(edition.getId());
 		
 		String oldID = edition.getId();
 		String urlEditionChecker = "";
-		List<CardShake> list = new ArrayList<>();
-
+		
 		if (edition.isOnlineOnly())
 			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#online";
 		else

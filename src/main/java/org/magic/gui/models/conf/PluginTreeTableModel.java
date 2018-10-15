@@ -45,14 +45,11 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 		if (parent instanceof MTGPlugin) {
 			T dept = (T) parent;
 			
-			return getPropByIndex(dept, index);
+			return (Map.Entry<String, Object>) dept.getProperties().entrySet().toArray()[index];
 		}
 		return new ArrayList<T>(listElements).get(index);
 	}
 
-	protected Entry<String, Object> getPropByIndex(MTGPlugin dept, int index) {
-		return (Map.Entry<String, Object>) dept.getProperties().entrySet().toArray()[index];
-	}
 
 	@Override
 	public int getChildCount(Object parent) {
