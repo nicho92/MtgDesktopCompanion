@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.magic.api.beans.MagicEdition;
+
 public class MapTableModel<K,V> extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -103,6 +105,12 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 
 	public void removeAll() {
 		keys.clear();
+		fireTableDataChanged();
+		
+	}
+
+	public void removeRow(K ed) {
+		keys.remove(new AbstractMap.SimpleEntry<K, V>(ed,null));
 		fireTableDataChanged();
 		
 	}

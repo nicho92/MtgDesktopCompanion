@@ -66,7 +66,7 @@ public class CollectionEvaluator
 	}
 	
 	
-	private void initCache() throws IOException
+	public void initCache() throws IOException
 	{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(ed->{
 			try {
@@ -85,14 +85,16 @@ public class CollectionEvaluator
 	
 	
 	
-	private void initCache(MagicEdition edition) throws IOException
+	public List<CardShake> initCache(MagicEdition edition) throws IOException
 	{
+		List<CardShake> ret = new ArrayList<>();
 			try {
-				List<CardShake> ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(edition);
+				ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(edition);
 				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING);
 			} catch (IOException e) {
 				logger.error(edition.getId() + " is not found",e);
 			}
+			return ret;
 	}
 	
 	public List<MagicEdition> getEditions()
@@ -183,20 +185,6 @@ public class CollectionEvaluator
 		}
 		return ret;
 	}
-	
-//	
-//	private CardShake loadFromCache(MagicCard mc) throws IOException {
-//		List<CardShake> list = new ArrayList<>();
-//		JsonArray json= serialiser.fromJson(JsonArray.class, FileUtils.readFileToString(new File(directory,mc.getCurrentSet().getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING));
-//		json.forEach(el->list.add(serialiser.fromJson(CardShake.class,el.toString())));
-//		
-//		Optional<CardShake> o = list.stream().filter(cs->cs.getName().equalsIgnoreCase(mc.getName())).findFirst();
-//		
-//		if(o.isPresent())
-//			return o.get();
-//		else
-//			return null;
-//	}
 	
 	private List<CardShake> loadFromCache(MagicEdition ed) {
 		

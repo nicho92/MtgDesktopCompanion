@@ -86,12 +86,12 @@ public class UITools {
 		});
 	}
 
-	public static <T>  List<T> getSelects(JXTable tableCards) {
+	public static <T>  List<T> getSelects(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
 		for (int i : viewRow) {
 			int modelRow = tableCards.convertRowIndexToModel(i);
-			T mc = (T) tableCards.getModel().getValueAt(modelRow, 0);
+			T mc = (T) tableCards.getModel().getValueAt(modelRow, columnID);
 			listCards.add(mc);
 		}
 		return listCards;

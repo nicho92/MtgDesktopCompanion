@@ -40,6 +40,15 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		}
 	}
 	
+	public CollectionEvaluator getEvaluator() {
+		return evaluator;
+	}
+	
+	
+	public List<MagicEdition> getEditions() {
+		return editions;
+	}
+	
 	@Override
 	public String getColumnName(int column) {
 		return MTGControler.getInstance().getLangService().getCapitalize(columnsNames[column]);

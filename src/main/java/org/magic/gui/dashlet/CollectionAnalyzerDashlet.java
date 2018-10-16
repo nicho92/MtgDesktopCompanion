@@ -4,28 +4,34 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTreeTable;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
+import org.magic.gui.models.conf.MapTableModel;
 import org.magic.gui.renderer.CardShakeTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	
@@ -61,8 +67,11 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private AbstractBuzyIndicatorComponent buzy;
 	private JTabbedPane tabbedPane;
 	private JPanel panelCacheDetail;
-	private JScrollPane scrollPane;
-	private JTable table;
+	private JTable tableCache;
+	private MapTableModel<MagicEdition, Date> modelCache;
+	private JPanel panel;
+	private JButton btnUpdateCache;
+	
 	
 	public CollectionAnalyzerDashlet() {
 		super();
@@ -72,6 +81,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		modelCache = new MapTableModel<>();
+		tableCache = new JTable(modelCache);
 		
 		JPanel panelHaut = new JPanel();
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
@@ -92,11 +103,15 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
 		
-		scrollPane = new JScrollPane();
-		panelCacheDetail.add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		panelCacheDetail.add(new JScrollPane(tableCache));
+		
+		panel = new JPanel();
+		panelCacheDetail.add(panel, BorderLayout.NORTH);
+		
+		btnUpdateCache = new JButton("Update selected Cache");
+		
+		panel.add(btnUpdateCache);
 		
 
 		if (getProperties().size() > 0) {
@@ -105,6 +120,32 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
 		}
+		
+		
+		
+		
+		
+		btnUpdateCache.addActionListener(ae->
+		{
+			
+			ThreadManager.getInstance().execute(()->{
+				List<MagicEdition> ret = UITools.getSelects(tableCache,0);
+				buzy.start(ret.size());
+				for(MagicEdition ed : ret)
+					try {
+						List<CardShake> css = model.getEvaluator().initCache(ed);
+						modelCache.removeRow(ed);
+						if(!css.isEmpty())
+							modelCache.addRow(ed, css.get(0).getDateUpdate());
+						buzy.progress();
+					} catch (Exception e) {
+						logger.error(e);
+					}
+		
+			}, "Loading treeCardShake");
+			buzy.end();
+		
+		});
 		
 	}
 
@@ -115,8 +156,22 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			model = new CollectionAnalyzerTreeTableModel(new MagicCollection("Library"));
 			treeTable.setTreeTableModel(model);
 			lblPrice.setText("Value : " + UITools.formatDouble(model.getTotalPrice()));
+			
+			model.getEditions().forEach(ed->modelCache.addRow(ed, model.getEvaluator().getCacheDate(ed)));
+			
+			
 			buzy.end();
+			
 		}, "Loading treeCardShake");
+		
+		
+		
+		
+
+		
+		
+		
+		
 	}
 
 	@Override
