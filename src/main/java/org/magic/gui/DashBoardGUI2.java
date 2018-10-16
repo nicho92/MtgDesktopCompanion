@@ -135,9 +135,10 @@ public class DashBoardGUI2 extends MTGUIPanel {
 		
 		try {
 			dash.initGUI();
+			desktop.add(dash);
 			dash.init();
 			dash.setVisible(true);
-			desktop.add(dash);
+			
 		} catch (Exception e) {
 			logger.error("error adding " + dash,e);
 			MTGControler.getInstance().notify(MTGNotification.newInstance(e));

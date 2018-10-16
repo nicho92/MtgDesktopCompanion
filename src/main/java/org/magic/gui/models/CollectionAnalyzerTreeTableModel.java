@@ -1,4 +1,4 @@
-package org.magic.gui.models.conf;
+package org.magic.gui.models;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	
 	public CollectionAnalyzerTreeTableModel(MagicCollection c) {
-		super(new String(""));
+		super(new String("T"));
 		try {
 			evaluator = new CollectionEvaluator(c);
 			editions = evaluator.getEditions();
@@ -65,7 +65,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		{
 			switch (column) 
 			{
-				case 0:return ((CardShake) node);
+				case 0:return node;
 				case 1: return ((CardShake)node).getPrice();
 				default : return "";
 			}

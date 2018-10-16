@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,12 @@ public class UITools {
 
 	private UITools() {}
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
+	
+	
+	public static String formatDouble(Double f)
+	{
+		return new DecimalFormat("#0.##").format(f);
+	}
 	
 	
 	public static void initTableFilter(JTable table)

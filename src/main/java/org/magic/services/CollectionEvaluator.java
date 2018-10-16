@@ -51,6 +51,7 @@ public class CollectionEvaluator
 	
 	public void setCollection(MagicCollection collection) {
 		this.collection = collection;
+		cache.clear();
 
 	}
 	
@@ -159,7 +160,7 @@ public class CollectionEvaluator
 			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MagicCard mc : cards) 
 			{
-					Optional<CardShake> cs = list.stream().filter(sk->sk.getName().startsWith(mc.getName())).findFirst();
+					Optional<CardShake> cs = list.stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
 					{
 						cs.get().setCard(mc);
@@ -171,7 +172,6 @@ public class CollectionEvaluator
 						csn.setName(mc.getName());
 						csn.setCard(mc);
 						csn.setPrice(0.0);
-						
 						ret.put(mc, csn);
 					}
 			}
@@ -197,7 +197,6 @@ public class CollectionEvaluator
 //		else
 //			return null;
 //	}
-//	
 	
 	private List<CardShake> loadFromCache(MagicEdition ed) {
 		
