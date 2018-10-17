@@ -45,7 +45,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 		if (parent instanceof MTGPlugin) {
 			T dept = (T) parent;
 			
-			return (Map.Entry<String, Object>) dept.getProperties().entrySet().toArray()[index];
+			return dept.getProperties().entrySet().toArray()[index];
 		}
 		return new ArrayList<T>(listElements).get(index);
 	}

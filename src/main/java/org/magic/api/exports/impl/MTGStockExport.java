@@ -54,7 +54,6 @@ public class MTGStockExport extends AbstractCardExport {
 			String line = read.readLine(); //skip first line
 			
 			line=read.readLine();
-			int val=0;
 			while (line != null) {
 				line = line.trim();
 				try {

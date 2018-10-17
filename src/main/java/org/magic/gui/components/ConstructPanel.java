@@ -97,7 +97,6 @@ public class ConstructPanel extends JPanel {
 	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 	private JList<MagicCard> listResult;
-	private AbstractBuzyIndicatorComponent buzyLabel;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
@@ -138,7 +137,7 @@ public class ConstructPanel extends JPanel {
 		JComboBox<String> cboAttributs;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
-		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
+		AbstractBuzyIndicatorComponent buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
 		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();

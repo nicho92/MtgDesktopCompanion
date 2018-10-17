@@ -11,7 +11,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

@@ -1,19 +1,11 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-import java.awt.Font;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JTree;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.tree.DefaultTreeCellRenderer;
 
-import org.magic.api.interfaces.MTGPlugin;
-import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
 public class CardShakeTreeCellRenderer extends DefaultTableCellRenderer{

@@ -1,6 +1,7 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
@@ -62,16 +63,10 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	
 	
 	private JXTreeTable treeTable;
-	private CollectionAnalyzerTreeTableModel model;
+	private transient CollectionAnalyzerTreeTableModel model;
 	private JLabel lblPrice;
 	private AbstractBuzyIndicatorComponent buzy;
-	private JTabbedPane tabbedPane;
-	private JPanel panelCacheDetail;
-	private JTable tableCache;
 	private MapTableModel<MagicEdition, Date> modelCache;
-	private JPanel panel;
-	private JButton btnUpdateCache;
-	
 	
 	public CollectionAnalyzerDashlet() {
 		super();
@@ -82,34 +77,46 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		modelCache = new MapTableModel<>();
-		tableCache = new JTable(modelCache);
+		JTable tableCache = new JTable(modelCache);
 		
 		JPanel panelHaut = new JPanel();
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		lblPrice = new JLabel("");
+		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
 		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		JPanel panneauColl = new JPanel();
+		tabbedPane.addTab("Collection", null, panneauColl, null);
 		
 		treeTable = new JXTreeTable();
 		treeTable.setDefaultRenderer(Object.class, new CardShakeTreeCellRenderer());
-		tabbedPane.addTab("Evaluation", null, new JScrollPane(treeTable), null);
+		panneauColl.setLayout(new BorderLayout(0, 0));
+		panneauColl.add(new JScrollPane(treeTable));
 		
-		panelCacheDetail = new JPanel();
+		JPanel panneauh = new JPanel();
+		panneauColl.add(panneauh, BorderLayout.NORTH);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		
+		panneauh.add(btnRefresh);
+		
+		JPanel panelCacheDetail = new JPanel();
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
 		
 		
 		panelCacheDetail.add(new JScrollPane(tableCache));
 		
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		panelCacheDetail.add(panel, BorderLayout.NORTH);
 		
-		btnUpdateCache = new JButton("Update selected Cache");
+		JButton btnUpdateCache = new JButton("Update selected Cache");
 		
 		panel.add(btnUpdateCache);
 		
@@ -121,31 +128,32 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 		
-		
-		
-		
-		
 		btnUpdateCache.addActionListener(ae->
 		{
-			
+			List<MagicEdition> ret = UITools.getSelects(tableCache,0);
+			logger.debug("updating " + ret);
+			buzy.start(ret.size());
 			ThreadManager.getInstance().execute(()->{
-				List<MagicEdition> ret = UITools.getSelects(tableCache,0);
-				buzy.start(ret.size());
-				for(MagicEdition ed : ret)
+				for(MagicEdition ed : ret) {
+					modelCache.removeRow(ed);
 					try {
 						List<CardShake> css = model.getEvaluator().initCache(ed);
-						modelCache.removeRow(ed);
+						
 						if(!css.isEmpty())
 							modelCache.addRow(ed, css.get(0).getDateUpdate());
+						
 						buzy.progress();
 					} catch (Exception e) {
 						logger.error(e);
 					}
+				}
 		
 			}, "Loading treeCardShake");
 			buzy.end();
 		
 		});
+		
+		btnRefresh.addActionListener(ae-> init());
 		
 	}
 
@@ -156,10 +164,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			model = new CollectionAnalyzerTreeTableModel(new MagicCollection("Library"));
 			treeTable.setTreeTableModel(model);
 			lblPrice.setText("Value : " + UITools.formatDouble(model.getTotalPrice()));
-			
 			model.getEditions().forEach(ed->modelCache.addRow(ed, model.getEvaluator().getCacheDate(ed)));
-			
-			
 			buzy.end();
 			
 		}, "Loading treeCardShake");

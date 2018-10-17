@@ -121,7 +121,7 @@ public class PluginRegistry {
 	public void initAttribute(String k,String val)
 	{
 
-		registry.entrySet().forEach(entry->{
+		registry.entrySet().forEach(entry->
 			listPlugins(entry.getKey()).forEach(plug->{
 				
 				if(plug!=null)
@@ -136,8 +136,8 @@ public class PluginRegistry {
 					
 					});
 				}
-			});
-		});
+			})
+		);
 	}
 	
 	

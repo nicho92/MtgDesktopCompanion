@@ -51,7 +51,6 @@ public class DeckStockComparatorPanel extends JPanel {
 		btnCompare = new JButton("Compare");
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauBas = new JPanel();
-	//	btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		DefaultComboBoxModel<MagicCollection> colMod = new DefaultComboBoxModel<>();
 		cboCollections = new JComboBox<>(colMod);
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -67,7 +66,6 @@ public class DeckStockComparatorPanel extends JPanel {
 		panneauHaut.add(btnCompare);
 		panneauHaut.add(buzyLabel);
 		add(panneauBas, BorderLayout.SOUTH);
-	//	panneauBas.add(btnExport);
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		

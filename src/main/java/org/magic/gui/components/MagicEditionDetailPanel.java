@@ -9,11 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -26,7 +23,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
 
 public class MagicEditionDetailPanel extends JPanel {
 
@@ -45,45 +41,35 @@ public class MagicEditionDetailPanel extends JPanel {
 	private JTextField blockJTextField;
 	private JTextField idJtextField;
 	private EditionsShakerTableModel mod;
-//	private boolean showPrices;
 	private JCheckBox chkOnline;
 	private BoosterPicsPanel lblBoosterPic;
 	private boolean openBooster;
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public MagicEditionDetailPanel(boolean showTablePrice, boolean openBooster) {
-	//	this.showPrices = showTablePrice;
+	public MagicEditionDetailPanel(boolean openBooster) {
 		this.openBooster = openBooster;
 
 		initGUI();
 	}
 
 	public MagicEditionDetailPanel() {
-	//	showPrices = true;
 		openBooster = true;
 		initGUI();
 	}
 
 	public void initGUI() {
-
-		//JSplitPane splitPane = new JSplitPane();
 		JPanel panneauBooster;
 		JButton btnOpenBooster;
 		JLabel lblOnlineSet;
 		JPanel panneauHaut;
 		JLabel lblBlock;
 		JLabel lblId;
-		JTable table;
 		panneauHaut = new JPanel();
 
 		
 		setLayout(new BorderLayout(0, 0));
 
-		
-	//	splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-
-	//	this.add(splitPane);
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
@@ -206,7 +192,6 @@ public class MagicEditionDetailPanel extends JPanel {
 		panneauHaut.add(idJtextField, gbctxtID);
 		idJtextField.setColumns(10);
 
-		//splitPane.setLeftComponent(panneauHaut);
 		add(panneauHaut,BorderLayout.CENTER);
 
 		lblOnlineSet = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE") + " :");
@@ -245,15 +230,6 @@ public class MagicEditionDetailPanel extends JPanel {
 
 		lblBoosterPic = new BoosterPicsPanel();
 		panneauBooster.add(lblBoosterPic);
-
-//		if (showPrices) {
-//			mod = new EditionsShakerTableModel();
-//			table = new JTable(mod);
-//			table.setRowSorter(new TableRowSorter(mod));
-//			splitPane.setRightComponent(new JScrollPane(table));
-//		} else {
-//			splitPane.setRightComponent(null);
-//		}
 
 		if (magicEdition != null) {
 			mBindingGroup = initDataBindings();

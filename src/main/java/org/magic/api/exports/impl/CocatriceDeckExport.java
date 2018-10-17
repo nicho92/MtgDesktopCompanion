@@ -37,7 +37,6 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
-		int c = 0;
 		String endZoneTag = "</zone>";
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("'?>");
@@ -83,7 +82,6 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 			expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
 			result = ((NodeList) expr.evaluate(d, XPathConstants.NODESET));
-			int c = 0;
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());

@@ -652,7 +652,6 @@ public class CardSearchPanel extends MTGUIPanel {
 						if (result == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									//lblLoading.setText("export " + exp);
 									exp.export(export, f);
 									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(

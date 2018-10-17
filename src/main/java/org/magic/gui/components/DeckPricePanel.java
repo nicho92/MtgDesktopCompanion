@@ -3,7 +3,6 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Font;
-import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;

@@ -13,7 +13,6 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,9 +22,6 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
 
@@ -90,7 +86,7 @@ public class CollectionEvaluator
 		List<CardShake> ret = new ArrayList<>();
 			try {
 				ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(edition);
-				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING);
+				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
 			} catch (IOException e) {
 				logger.error(edition.getId() + " is not found",e);
 			}

@@ -50,7 +50,6 @@ public class PriceCatalogExport extends AbstractCardExport {
 				bw.write(k + ";");
 
 			bw.write("\n");
-			int i = 0;
 			
 			if(getString(PRICER).isEmpty())
 				throw new IOException("PRICER parameter must be set");

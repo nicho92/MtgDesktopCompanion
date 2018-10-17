@@ -169,7 +169,7 @@ public class CardBuilder2GUI extends MTGUIPanel {
 			foreignNamesEditorPanel = new JPanel();
 			listNames = new JTable();
 			magicCardEditorPanel = new MagicCardEditorPanel();
-			magicEditionDetailPanel = new MagicEditionDetailPanel(false, false);
+			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 
 			//////////////////////////////////////////////////// MODELS INIT
 			editionsTable.setModel(editionModel);

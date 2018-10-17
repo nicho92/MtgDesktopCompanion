@@ -8,14 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -196,7 +193,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
 
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-						//new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/bottom.png"));
+
 
 	
 	public static final int SEALED_SIZE = 40;

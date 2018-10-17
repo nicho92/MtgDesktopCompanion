@@ -167,7 +167,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		lblTotal = new JLabel();
-		magicEditionDetailPanel = new MagicEditionDetailPanel(true, false);
+		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
 		manaRepartitionPanel = new ManaRepartitionPanel();

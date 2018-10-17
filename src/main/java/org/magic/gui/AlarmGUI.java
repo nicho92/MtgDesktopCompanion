@@ -70,11 +70,9 @@ public class AlarmGUI extends MTGUIPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DefaultListModel<MagicPrice> resultListModel;
 	private JList<MagicPrice> list;
-	private JPanel panel;
 	private JButton btnRefresh;
 	private JButton btnDelete;
 	private HistoryPricesPanel variationPanel;
-	private JTabbedPane tabbedPane;
 	private JButton btnImport;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private File f;
@@ -104,14 +102,14 @@ public class AlarmGUI extends MTGUIPanel {
 		JScrollPane scrollTable = new JScrollPane();
 		table = new JTable();
 		model = new CardAlertTableModel();
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel();
 		JScrollPane scrollListOffers = new JScrollPane();
 		JPanel panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
 		list = new JList<>(resultListModel);
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);

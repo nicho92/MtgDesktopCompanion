@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;

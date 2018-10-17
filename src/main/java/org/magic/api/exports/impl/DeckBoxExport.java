@@ -60,7 +60,6 @@ public class DeckBoxExport extends AbstractCardExport {
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
 		String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
-		int val=0;
 		for(MagicCardStock mc : stock)
 		{
 			String name=mc.getMagicCard().getName();
