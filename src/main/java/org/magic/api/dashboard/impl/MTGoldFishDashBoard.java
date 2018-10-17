@@ -159,7 +159,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text()));
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
-				
+				cs.setProviderName(getName());
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("img").get(0)
 						.attr("alt");
 				cs.setEd(replace(set, true));
@@ -214,6 +214,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPercentWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
 				cs.setEd(oldID);
 				cs.setDateUpdate(new Date());
+				cs.setProviderName(getName());
 
 				list.add(cs);
 			}

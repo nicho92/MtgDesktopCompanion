@@ -17,6 +17,7 @@ public class CardShake implements Comparable<CardShake>  {
 	private String ed;
 	private Date dateUpdate;
 	private Currency currency;
+	private String providerName;
 
 	public CardShake() {
 		price = 0.0;
@@ -25,6 +26,7 @@ public class CardShake implements Comparable<CardShake>  {
 		priceWeekChange = 0;
 		percentWeekChange = 0;
 		currency=Currency.getInstance("USD");
+		dateUpdate=new Date();
 	}
 	
 	
@@ -135,6 +137,16 @@ public class CardShake implements Comparable<CardShake>  {
 	@Override
 	public int compareTo(CardShake cs) {
 		return getPrice()>cs.getPrice()?1:-1;
+	}
+
+
+	public String getProviderName() {
+		return providerName;
+	}
+
+	public void setProviderName(String name2) {
+		this.providerName=name2;
+		
 	}
 
 }

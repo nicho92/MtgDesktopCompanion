@@ -75,7 +75,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-
+				cs.setProviderName(getName());
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				set = set.replaceAll("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
@@ -88,7 +88,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-
+				cs.setProviderName(getName());
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				set = set.replaceAll("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
@@ -136,7 +136,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		for (int i = 0; i < arr.size(); i++) {
 			JsonObject card = arr.get(i).getAsJsonObject();
 			CardShake shake = new CardShake();
-
+			shake.setProviderName(getName());
 			shake.setName(card.get("name").getAsString());
 			shake.setEd(edition.getId());
 			shake.setPrice(card.get("fair_price").getAsDouble());
@@ -152,7 +152,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			}
 			shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
 			shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
-
 			list.add(shake);
 		}
 

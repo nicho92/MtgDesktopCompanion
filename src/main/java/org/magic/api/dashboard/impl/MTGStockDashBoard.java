@@ -34,7 +34,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private static final String MTGSTOCK_API_URI = "https://api.mtgstocks.com";
 	private boolean connected;
 	private Map<String, Integer> correspondance;
-	private JsonParser parser;
 	private JsonObject interests;
 
 	@Override
@@ -46,7 +45,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		super();
 		connected = false;
 		correspondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		parser = new JsonParser();
 	}
 
 	private void connect() throws IOException {
@@ -85,6 +83,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()- el.getAsJsonObject().get("past_price").getAsDouble());
 		cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
 		cs.setCurrency(Currency.getInstance("USD"));
+		cs.setProviderName(getName());
 		correspondance.forEach((key, value) -> {
 			if (value == el.getAsJsonObject().get(PRINT).getAsJsonObject().get("set_id").getAsInt()) {
 				cs.setEd(key);
@@ -104,8 +103,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(edition.getId());
 		logger.debug("loading edition cardshake from " + url);
-		HttpURLConnection con = URLTools.openConnection(url);
-		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
+		JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
 
 		JsonArray arr = obj.get("prints").getAsJsonArray();
 
@@ -114,6 +112,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			cs.setName(el.getAsJsonObject().get("name").getAsString());
 			cs.setEd(edition.getId());
 			cs.setCurrency(Currency.getInstance("USD"));
+			cs.setProviderName(getName());
 			try{
 				cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
 			}
@@ -124,7 +123,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			list.add(cs);
 		}
 		cacheEditions.put(edition.getId(), list);
-		con.disconnect();
 		return list;
 	}
 
@@ -151,27 +149,15 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		logger.debug("get prices to " + url);
 		
-		HttpURLConnection con = URLTools.openConnection(url);
-
-		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
+		JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
 		int id = arr.get(0).getAsJsonObject().get("id").getAsInt();
 
 		logger.trace("found " + id + " for " + mc.getName());
 
-		String urlC = MTGSTOCK_API_URI + "/prints/" + id;
-		con = URLTools.openConnection(urlC);
+		id = searchId(id, setId,URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id).getAsJsonObject());
 
-		id = searchId(id, setId,
-				parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
-
-		// get prices
-		String urlP = MTGSTOCK_API_URI + "/prints/" + id + "/prices";
-		con = URLTools.openConnection(urlP);
-
-		CardPriceVariations ret = extractPrice(parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject(), mc);
-		con.disconnect();
-	
-		return ret;
+		return extractPrice(URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id + "/prices").getAsJsonObject(), mc);
+		
 	}
 
 	private CardPriceVariations extractPrice(JsonObject obj,MagicCard mc) {
@@ -210,9 +196,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private void initInterests() throws IOException {
 
 		if (interests == null) {
-			HttpURLConnection con = URLTools.openConnection(MTGSTOCK_API_URI + "/interests");
-			interests = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
-			con.disconnect();
+			interests = URLTools.extractJson(MTGSTOCK_API_URI + "/interests").getAsJsonObject();
 		}
 	}
 
@@ -220,15 +204,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		if(correspondance.isEmpty()) 
 		{
-			HttpURLConnection con = URLTools.openConnection(MTGSTOCK_API_URI + "/card_sets");
-			JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
+			JsonArray arr = URLTools.extractJson(MTGSTOCK_API_URI + "/card_sets").getAsJsonArray();
 			arr.forEach(el->{
 				if (!el.getAsJsonObject().get("abbreviation").isJsonNull())
-					correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(),
-							el.getAsJsonObject().get("id").getAsInt());
+					correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(),el.getAsJsonObject().get("id").getAsInt());
 				else
 					logger.trace("no id for" + el.getAsJsonObject().get("name"));
-				con.disconnect();	
 			});
 			logger.debug("init editions id done: " + correspondance.size() + " items");
 			
@@ -275,8 +256,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			break;
 		}
 		String url = MTGSTOCK_API_URI + "/analytics/mostplayed/" + id;
-		HttpURLConnection con =  URLTools.openConnection(url);
-		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
+		JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
 		JsonArray arr = obj.get("mostplayed").getAsJsonArray();
 		int i = 1;
 		for (JsonElement el : arr) {
