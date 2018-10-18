@@ -405,8 +405,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			MagicEdition me = getSetById(codeEd);
 						 me.setRarity(mc.getRarity());
 						 me.setNumber(mc.getNumber());
-						 me.setMultiverseid(String.valueOf(mc.getMultiverseid()));
 						 me.setFlavor(mc.getFlavor());
+						 if(mc.getMultiverseid()!=null)
+							 me.setMultiverseid(String.valueOf(mc.getMultiverseid()));
+						
 			mc.getEditions().add(me);
 			
 			if (!mc.isBasicLand() && map.get("printings") != null)
@@ -497,9 +499,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	}
 
 	public MagicEdition getSetById(String id) {
-		
-		if(id.equals("CON"))
-			id="CON_";
 		
 		if(id.startsWith("p"))
 			id=id.toUpperCase();

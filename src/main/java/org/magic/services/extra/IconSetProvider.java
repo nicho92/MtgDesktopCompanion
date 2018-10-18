@@ -65,7 +65,8 @@ public class IconSetProvider {
 		if (iconFile.exists()) {
 			logger.trace("load from cache " + iconFile);
 			return ImageIO.read(iconFile);
-		} else {
+		} 
+		else {
 			BufferedImage im = null;
 			logger.trace("load from jar " + id);
 
@@ -74,12 +75,13 @@ public class IconSetProvider {
 				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + set + EXT));
 
 				if (!set.equals(id)) {
-					FileUtils.moveFile(iconFile, new File(localDirectory, set + EXT));
+					//FileUtils.moveFile(iconFile, new File(localDirectory, set + EXT));
+					ImageIO.write(im, "png", new File(localDirectory, id + EXT));
 				}
 
 				ImageIO.write(im, "png", iconFile);
 			} catch (Exception ex) {
-				logger.trace("couldnt load " + id);
+				logger.trace("couldnt load " + id +" " + getEquiv(id),ex);
 				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 
 			}
@@ -91,8 +93,8 @@ public class IconSetProvider {
 	private String getEquiv(String set) {
 
 		switch (set) {
-		case "NEM" :
-			return "NMS";
+		case "NMS" :
+			return "NEM";
 		case "PI13":
 			return "PIDW";
 		case "PI14":
@@ -141,6 +143,8 @@ public class IconSetProvider {
 			return "P02";
 		case "PARL":
 			return "PARL2";
+		case "CON_":
+			return "CON";
 		default:
 			return set;
 		}
