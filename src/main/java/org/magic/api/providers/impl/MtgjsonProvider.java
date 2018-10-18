@@ -682,7 +682,10 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		setProperty(URL_SET_JSON_ZIP, "http://mtgjson.com/json/AllSets-x.json.zip");
 		setProperty(URL_VERSION, "http://mtgjson.com/json/version.json");
 		setProperty("LRU_CACHE", "400");
-		
-
+	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
 	}
 }

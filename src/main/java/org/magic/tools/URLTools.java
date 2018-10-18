@@ -73,10 +73,15 @@ public class URLTools {
 	}
 	
 	
+	public static Document extractHtml(URL url) throws IOException
+	{
+		return toHtml(extractAsString(url));
+	}
+	
 	
 	public static Document extractHtml(String url) throws IOException
 	{
-		return toHtml(extractAsString(url));
+		return extractHtml(new URL(url));
 	}
 	
 	public static JsonElement extractJson(String url) throws IOException
@@ -87,9 +92,13 @@ public class URLTools {
 	
 	public static String extractAsString(String url) throws IOException
 	{
-		return IOUtils.toString(openConnection(url).getInputStream(), MTGConstants.DEFAULT_ENCODING); 
+		return extractAsString(new URL(url)); 
 	}
 	
+	public static String extractAsString(URL url) throws IOException
+	{
+		return IOUtils.toString(openConnection(url).getInputStream(), MTGConstants.DEFAULT_ENCODING); 
+	}
 
 	public static BufferedImage extractImage(String url) throws IOException
 	{

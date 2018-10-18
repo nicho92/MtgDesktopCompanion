@@ -45,9 +45,17 @@ public class MagicCard implements Serializable {
 	private boolean flippable = false;
 	private boolean tranformable = false;
 	private boolean reserved;
+	private String frameVersion;
 	
 	
-	
+
+	public String getFrameVersion() {
+		return frameVersion;
+	}
+
+	public void setFrameVersion(String frameVersion) {
+		this.frameVersion = frameVersion;
+	}
 
 	public MagicCard getRotatedCard() {
 		return rotatedCard;
