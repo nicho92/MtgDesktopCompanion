@@ -137,8 +137,8 @@ public class IconSetProvider {
 			return "PFNM";
 		case "F18":
 			return "PFNM";
-		case "P02":
-			return "PO2";
+		case "PO2":
+			return "P02";
 		case "PARL":
 			return "PARL2";
 		default:
