@@ -2,11 +2,14 @@ package org.magic.gui.models.conf;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
+
+import org.magic.api.beans.MagicEdition;
 
 public class MapTableModel<K,V> extends DefaultTableModel {
 
@@ -126,6 +129,18 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 			return b;
 		}
 		return false;
+		
+	}
+
+	public void updateRow(K k, V v) {
+		getValues().forEach(entry->{
+			if(entry.getKey()==k)
+			{	
+				entry.setValue(v);
+				fireTableDataChanged();
+				return;
+			}
+		});
 		
 	}
 	

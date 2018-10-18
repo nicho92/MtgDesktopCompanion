@@ -35,6 +35,10 @@ public class CollectionEvaluator
 	private Map<MagicEdition,Map<MagicCard,CardShake>> cache;
 	
 	
+	public File getDirectory() {
+		return directory;
+	}
+	
 	public CollectionEvaluator() throws IOException {
 		init();
 	}
@@ -85,6 +89,7 @@ public class CollectionEvaluator
 	{
 		List<CardShake> ret = new ArrayList<>();
 			try {
+				logger.debug("init cache for " + edition);
 				ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(edition);
 				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
 			} catch (IOException e) {

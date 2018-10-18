@@ -38,40 +38,11 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		
-	
-		JFrame f = new JFrame();
-		f.getContentPane().setLayout(new BorderLayout());
-		JDesktopPane jif = new JDesktopPane();
-		CollectionAnalyzerDashlet dash = new CollectionAnalyzerDashlet();
-		dash.init();
-		dash.setVisible(true);
-		jif.add(dash);
-		
-		f.getContentPane().add(jif, BorderLayout.CENTER);
-		f.setSize(640, 480);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-		
-		
-	}
-	
-	
 	private JXTreeTable treeTable;
 	private transient CollectionAnalyzerTreeTableModel model;
 	private JLabel lblPrice;
 	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
-	
-	public CollectionAnalyzerDashlet() {
-		super();
-		initGUI();
-	}
 
 	@Override
 	public void initGUI() {
@@ -135,21 +106,21 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			buzy.start(ret.size());
 			ThreadManager.getInstance().execute(()->{
 				for(MagicEdition ed : ret) {
-					modelCache.removeRow(ed);
 					try {
 						List<CardShake> css = model.getEvaluator().initCache(ed);
 						
 						if(!css.isEmpty())
-							modelCache.addRow(ed, css.get(0).getDateUpdate());
-						
-						buzy.progress();
+						{	
+							modelCache.updateRow(ed, css.get(0).getDateUpdate());
+						 	buzy.progress();
+						}
 					} catch (Exception e) {
 						logger.error(e);
 					}
 				}
-		
+				buzy.end();
 			}, "Loading treeCardShake");
-			buzy.end();
+			
 		
 		});
 		
