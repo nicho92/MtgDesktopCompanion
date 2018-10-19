@@ -70,12 +70,9 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 	public MtgjsonProvider() {
 		super();
-		try {
-		CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
-		}catch(Exception e)
-		{
-			logger.error(e);
-		}
+		
+		if(CacheProvider.getCache()==null)
+			CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
 	}
 
 	private void unZipIt() {

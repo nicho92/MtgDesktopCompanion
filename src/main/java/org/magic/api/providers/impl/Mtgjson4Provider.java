@@ -38,6 +38,7 @@ import org.magic.tools.Chrono;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 
+import com.google.common.cache.Cache;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
@@ -86,13 +87,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public Mtgjson4Provider() {
 		super();
 		currentSet = new ArrayList<>();
-		try {
+		if(CacheProvider.getCache()==null)
 			CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-		}
 		
 	}
 
@@ -502,6 +498,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 		if(id.startsWith("p"))
 			id=id.toUpperCase();
+		
+		if(id.equals("CON"))
+			id="CON_";
 		
 		MagicEdition ed = new MagicEdition(id);
 		String base = "$." + id.toUpperCase();

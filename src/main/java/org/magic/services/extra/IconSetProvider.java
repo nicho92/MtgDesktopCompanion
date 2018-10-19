@@ -71,17 +71,11 @@ public class IconSetProvider {
 			logger.trace("load from jar " + id);
 
 			try {
-				String set = getEquiv(id);
-				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + set + EXT));
-
-				if (!set.equals(id)) {
-					//FileUtils.moveFile(iconFile, new File(localDirectory, set + EXT));
-					ImageIO.write(im, "png", new File(localDirectory, id + EXT));
-				}
-
+				String equivSet = getEquiv(id);
+				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageIO.write(im, "png", iconFile);
 			} catch (Exception ex) {
-				logger.trace("couldnt load " + id +" " + getEquiv(id),ex);
+				logger.trace("couldnt load icons for " + id +"=" + getEquiv(id));
 				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 
 			}
@@ -93,6 +87,8 @@ public class IconSetProvider {
 	private String getEquiv(String set) {
 
 		switch (set) {
+		case "RIN" :
+			return "REN";
 		case "NMS" :
 			return "NEM";
 		case "PI13":
@@ -141,10 +137,31 @@ public class IconSetProvider {
 			return "PFNM";
 		case "PO2":
 			return "P02";
-		case "PARL":
-			return "PARL2";
 		case "CON_":
 			return "CON";
+		case "PAL01":
+			return "PARL";	
+		case "PAL02":
+			return "PARL";
+		case "PAL03":
+			return "PARL";
+		case "PAL04":
+			return "PARL";
+		case "PAL05":
+			return "PARL";
+		case "PAL06":
+			return "PARL";
+		case "PAL99":
+			return "PARL";
+		case "PAL00":
+			return "PARL";	
+		case "PHPR":
+			return "PBOOK";
+		case "PDTP":
+			return "PXBOX";
+		case "PSAL":
+			return "PHUK";
+			
 		default:
 			return set;
 		}
