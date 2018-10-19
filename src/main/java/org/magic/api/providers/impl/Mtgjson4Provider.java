@@ -561,6 +561,17 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		{	ed.setSet(id);}
 		
 		
+		
+		try{
+			ed.setOnlineOnly(ctx.read(base + ".isOnlineOnly", Boolean.class));
+			}
+			catch(PathNotFoundException pnfe)
+			{ 
+				//do nothing
+			}
+			
+		
+		
 		try{
 		ed.setReleaseDate(ctx.read(base + ".releaseDate", String.class));
 		}
@@ -589,6 +600,14 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		{ 
 			//do nothing
 		}
+		
+		try{
+			ed.setGathererCode(ctx.read(base + ".cards[0].mtgoCode", String.class));
+		}catch(PathNotFoundException pnfe)
+		{ 
+			//do nothing
+		}
+		
 		
 		if (ed.getCardCount() == 0)
 			try{	
@@ -648,7 +667,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	@Override

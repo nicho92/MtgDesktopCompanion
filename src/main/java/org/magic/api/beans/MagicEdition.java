@@ -30,7 +30,7 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String mkm_name;
 	private String gathererCode;
 	private boolean foilOnly;
-
+	
 	
 	
 	public boolean isFoilOnly() {
