@@ -635,9 +635,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	}
 
 	
-
+	//TODO waiting for 4.1
 	public Booster generateBooster(MagicEdition me) {
-		return null;
+		return new Booster();
 	
 	}
 	

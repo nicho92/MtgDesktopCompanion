@@ -61,11 +61,11 @@ public class CardStockLinePanel extends JPanel {
 		txtQte.setModel(new SpinnerNumberModel(state.getQte(), 0, null, 1));
 		add(txtQte);
 
-		cboState = new JComboBox(EnumCondition.values());
+		cboState = new JComboBox<>(EnumCondition.values());
 		cboState.setSelectedItem(state.getCondition());
 		add(cboState);
 
-		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
+		cboLanguage = new JComboBox<>(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
 		cboLanguage.setSelectedItem(state.getLanguage());
 		add(cboLanguage);
 
