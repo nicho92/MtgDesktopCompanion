@@ -621,7 +621,7 @@ public class CardSearchPanel extends MTGUIPanel {
 
 				if (e.getStateChange() == ItemEvent.SELECTED && selLang != null) {
 					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
-					ed.setMultiverseid("" + selLang.getGathererId());
+								 ed.setMultiverseid("" + selLang.getGathererId());
 
 					logger.trace("change lang to " + selLang + " for " + ed);
 					cardsPicPanel.showPhoto(selectedCard, ed);

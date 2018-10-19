@@ -84,8 +84,9 @@ public class IconSetProvider {
 
 	}
 
-	private String getEquiv(String set) {
-
+	private String getEquiv(String set) 
+	{
+		
 		switch (set) {
 		case "RIN" :
 			return "REN";
@@ -161,9 +162,89 @@ public class IconSetProvider {
 			return "PXBOX";
 		case "PSAL":
 			return "PHUK";
-			
-		default:
-			return set;
+		case "PMPS06":
+			return "PMPS";
+		case "PMPS07":
+			return "PMPS";
+		case "PMPS08":
+			return "PMPS";	
+		case "PMPS09":
+			return "PMPS";	
+		case "PMPS10":
+			return "PMPS";	
+		case "PMPS11":
+			return "PMPS";	
+		case "G99": 
+			return "PDCI";
+		case "G00": 
+			return "PDCI";
+		case "G01": 
+			return "PDCI";
+		case "JGP":
+			return "PDCI";
+		case "G02": 
+			return "PDCI";
+		case "G03": 
+			return "PDCI";
+		case "G04": 
+			return "PDCI";
+		case "G05": 
+			return "PDCI";
+		case "G06": 
+			return "PDCI";
+		case "G07": 
+			return "PDCI";
+		case "G08": 
+			return "PDCI";
+		case "G09": 
+			return "PDCI";
+		case "G10": 
+			return "PDCI";
+		case "G11": 
+			return "PDCI";
+		case "PGTW":
+			return "PDCI";
+		case "PJJT":
+			return "PDCI";
+		case "PJAS":
+			return "PDCI";
+		case "PURL":
+			return "PMEI";
+		case "PLNY":
+			return "PMEI";
+		case "J12": 
+			return "PMEI";	
+		case "J13": 
+			return "PMEI";	
+		case "J14": 
+			return "PMEI";		
+		case "J15": 
+			return "PMEI";	
+		case "J16": 
+			return "PMEI";		
+		case "J17": 
+			return "PMEI";	
+		case "J18": 
+			return "PMEI";	
+		case "J19": 
+			return "PMEI";	
+		case "FBB": 
+			return "3ED";
+		case "OC13":
+			return "C13";
+		case "OC14":
+			return "C14";	
+		case "OC15":
+			return "C15";
+		case "OC16":
+			return "C16";
+		case "OC17":
+			return "C17";
+		case "OC18":
+			return "C18";
+		case "OCMD":
+			return "CMD";
+		default:return set;
 		}
 
 	}

@@ -433,7 +433,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		if( map.get(NAMES) !=null)
 		{
 			List<String> names = ((List<String>)map.get(NAMES));
-			mc.setRotatedCardName(names.get(1));
+			mc.setRotatedCardName(names.get(0));
 			mc.setTranformable(true);
 		}
 		

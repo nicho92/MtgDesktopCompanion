@@ -95,6 +95,10 @@
             <class>org.magic.gui.dashlet.IndexationDashlet</class>
              <enable>true</enable>
         </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.CollectionAnalyzerDashlet</class>
+             <enable>true</enable>
+        </dashlet>
     </dashlets>
     <tokens>
         <token>
@@ -159,6 +163,10 @@
         </server>
         <server>
             <class>org.magic.servers.impl.DiscordBotServer</class>
+            <enable>true</enable>
+        </server>
+         <server>
+            <class>org.magic.servers.impl.CardShakeDashBoardServer</class>
             <enable>true</enable>
         </server>
     </servers>
@@ -239,9 +247,13 @@
         </pricer>
     </pricers>
     <providers>
+     	<provider>
+            <class>org.magic.api.providers.impl.Mtgjson4Provider</class>
+            <enable>true</enable>
+        </provider>
         <provider>
             <class>org.magic.api.providers.impl.MtgjsonProvider</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </provider>
         <provider>
             <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
