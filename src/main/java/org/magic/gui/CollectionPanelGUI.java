@@ -502,7 +502,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)
 				{
-					logger.error("error updating " + card + " in " + curr.getParent().getParent() );
+					logger.error("error updating " + card + " in " + curr.getParent() );
 				}
 			}
 		});

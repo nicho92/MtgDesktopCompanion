@@ -132,22 +132,13 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	public void init() {
 		ThreadManager.getInstance().execute(()->{
 			buzy.start();
-			model = new CollectionAnalyzerTreeTableModel(new MagicCollection("Library"));
+			model = new CollectionAnalyzerTreeTableModel(new MagicCollection(MTGControler.getInstance().get("default-library")));
 			treeTable.setTreeTableModel(model);
 			lblPrice.setText("Value : " + UITools.formatDouble(model.getTotalPrice()));
 			model.getEditions().forEach(ed->modelCache.addRow(ed, model.getEvaluator().getCacheDate(ed)));
 			buzy.end();
 			
 		}, "Loading treeCardShake");
-		
-		
-		
-		
-
-		
-		
-		
-		
 	}
 
 	@Override

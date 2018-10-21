@@ -143,9 +143,11 @@ public class CollectionEvaluator
 	
 	public synchronized Map<MagicCard,CardShake> prices(MagicEdition ed)
 	{
-		
 		if(cache.get(ed)!=null)
 			return cache.get(ed);
+		
+		logger.trace("caculate prices for" + ed);
+		
 		
 		Map<MagicCard,CardShake> ret = new HashMap<>();
 		try {
