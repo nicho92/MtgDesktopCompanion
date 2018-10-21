@@ -28,65 +28,64 @@ public class UpdateDBCards {
 		Connection con = dao.getCon();
 		
 		//NEED TO DO : alert and stock
+	
+		for(String ed : new String[] {"FBB"})
+			updateCards(ed,con,provider,dao,exp);
 		
-		
-		//for(String ed : dao.getEditionsIDFromCollection(new MagicCollection("Library")))
-		{
+	}
+
+	private static void updateCards(String ed,Connection con, Mtgjson4Provider provider, MysqlDAO dao, JsonExport exp) throws SQLException {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * from cards where edition=? and cardprovider != ?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE)) {
+			pst.setString(1, ed);
+			pst.setString(2, provider.getName());
+			ResultSet rs = pst.executeQuery();
 			
-			String ed="C14";
-			
-			try (PreparedStatement pst = con.prepareStatement("SELECT * from cards where edition=? and cardprovider != ?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE)) {
-				pst.setString(1, ed);
-				pst.setString(2, provider.getName());
-				ResultSet rs = pst.executeQuery();
-				
-				while(rs.next())
-				{
-					System.out.println("==============");
-					MagicCard mc = exp.fromJson(MagicCard.class, rs.getString("mcard"));
-					try {
-						List<MagicCard> ret = provider.searchCardByCriteria("multiverseId", mc.getCurrentSet().getMultiverseid(), new MagicEdition(ed), true);
-						if(ret.isEmpty())
+			while(rs.next())
+			{
+				System.out.println("==============");
+				MagicCard mc = exp.fromJson(MagicCard.class, rs.getString("mcard"));
+				try {
+					List<MagicCard> ret = provider.searchCardByCriteria("multiverseId", mc.getCurrentSet().getMultiverseid(), new MagicEdition(ed), true);
+					if(ret.isEmpty())
+					{
+						System.out.println("NOT FOUND:" + mc + ":" + mc.getCurrentSet() + ":"+ mc.getCurrentSet().getNumber() +":"+mc.getCurrentSet().getMultiverseid() );
+						
+					}
+					else if(ret.size()==1)
+					{
+						MagicCard founded = ret.get(0);
+						System.out.println("    FOUND:" + founded + ":" + founded.getCurrentSet() + ":"+ founded.getCurrentSet().getNumber() +":"+founded.getCurrentSet().getMultiverseid() );
+						rs.updateString("ID", IDGenerator.generate(founded));
+						rs.updateString("cardprovider",provider.getName());
+						rs.updateString("mcard",exp.toJsonElement(founded).toString());
+						rs.updateString("edition",ed);
+						rs.updateRow();
+					}
+					else if(ret.size()>1)
+					{
+						for(MagicCard founds : ret)
 						{
-							System.out.println("NOT FOUND:" + mc + ":" + mc.getCurrentSet() + ":"+ mc.getCurrentSet().getNumber() +":"+mc.getCurrentSet().getMultiverseid() );
+							System.out.println("FOUND X:" + founds + ":"+mc.getCurrentSet().getNumber()+ ":" + founds.getCurrentSet() +":"+founds.getMultiverseid() + ":"+IDGenerator.generate(founds));
 							
-						}
-						else if(ret.size()==1)
-						{
-							MagicCard founded = ret.get(0);
-							System.out.println("    FOUND:" + founded + ":" + founded.getCurrentSet() + ":"+ founded.getCurrentSet().getNumber() +":"+founded.getCurrentSet().getMultiverseid() );
-							rs.updateString("ID", IDGenerator.generate(founded));
+							rs.updateString("ID", IDGenerator.generate(founds));
 							rs.updateString("cardprovider",provider.getName());
-							rs.updateString("mcard",exp.toJsonElement(founded).toString());
-							//rs.updateString("edition",ed);
+							rs.updateString("mcard",exp.toJsonElement(founds).toString());
 							rs.updateRow();
 						}
-						else if(ret.size()>1)
-						{
-							for(MagicCard founds : ret)
-							{
-								System.out.println("FOUND X:" + founds + ":"+mc.getCurrentSet().getNumber()+ ":" + founds.getCurrentSet() +":"+founds.getMultiverseid() + ":"+IDGenerator.generate(founds));
-								//System.out.println(exp.toJson(founds));
-								/*rs.updateString("ID", IDGenerator.generate(founds));
-								rs.updateString("cardprovider",provider.getName());
-								rs.updateString("mcard",exp.toJsonElement(founds).toString());
-								rs.updateRow();*/
-							}
-						}
-						
-						
-						
-					} catch (IOException e) {
-						
-						e.printStackTrace();
 					}
 					
 					
 					
+				} catch (IOException e) {
+					
+					e.printStackTrace();
 				}
+				
+				
+				
 			}
 		}
-
+		
 	}
 
-}
+	}

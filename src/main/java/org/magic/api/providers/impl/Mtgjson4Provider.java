@@ -613,15 +613,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return new String[] { "English","French","Italian","German","Portuguese (Brazil)"  };
 	}
 
-	
-	//TODO waiting for 4.1
-	public Booster generateBooster(MagicEdition me) {
-		return new Booster();
-	
-	}
-	
-	
-	
 
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
 			return null;

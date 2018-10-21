@@ -603,56 +603,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			}
 	}
 
-	public Booster generateBooster(MagicEdition me) {
 
-		logger.debug("opening booster for " + me);
-		List<MagicCard> common = new ArrayList<>();
-		List<MagicCard> uncommon = new ArrayList<>();
-		List<MagicCard> rare = new ArrayList<>();
-		List<MagicCard> lands = new ArrayList<>();
-
-		Booster b = new Booster();
-
-		try {
-			if (cacheBoosterCards.get(me.getId()) == null)
-				cacheBoosterCards.put(me.getId(), searchCardByEdition(me));
-
-			for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
-				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))
-					common.add(mc);
-
-				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("uncommon"))
-					uncommon.add(mc);
-
-				if (mc.getCurrentSet().getRarity().toLowerCase().contains("rare"))
-					rare.add(mc);
-
-				if (mc.getSupertypes().toString().toLowerCase().contains("basic")
-						&& mc.getTypes().toString().toLowerCase().contains("land"))
-					lands.add(mc);
-
-			}
-			Collections.shuffle(lands);
-			Collections.shuffle(common);
-			Collections.shuffle(uncommon);
-			Collections.shuffle(rare);
-		} catch (Exception e) {
-			logger.error("Error opening booster", e);
-		}
-
-		List<MagicCard> resList = new ArrayList<>();
-		resList.addAll(common.subList(0, 11));
-		resList.addAll(uncommon.subList(0, 3));
-		resList.add(rare.get(0));
-
-		if (!lands.isEmpty())
-			resList.addAll(lands.subList(0, 1));
-
-		b.setCards(resList);
-		b.setEdition(me);
-
-		return b;
-	}
 
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
 		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";

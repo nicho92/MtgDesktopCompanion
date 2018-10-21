@@ -220,43 +220,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return new String[] { NAME, "custom", "type", COLOR, "oracle", "mana", "cmc", POWER, TOUGHNESS,LOYALTY, "is", RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, "frame", "set" };
 	}
 
-	@Override
-	public Booster generateBooster(MagicEdition me) throws IOException {
-
-		List<MagicCard> ret = new ArrayList<>();
-		List<MagicCard> common = new ArrayList<>();
-		List<MagicCard> uncommon = new ArrayList<>();
-		List<MagicCard> rare = new ArrayList<>();
-
-		if (cacheBoosterCards.get(me.getId()) == null)
-			cacheBoosterCards.put(me.getId(), searchCardByEdition(me));
-
-		for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
-			if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))
-				common.add(mc);
-
-			if (mc.getCurrentSet().getRarity().equalsIgnoreCase("uncommon"))
-				uncommon.add(mc);
-
-			if (mc.getCurrentSet().getRarity().toLowerCase().contains("rare"))
-				rare.add(mc);
-
-		}
-
-		Collections.shuffle(common);
-		Collections.shuffle(uncommon);
-		Collections.shuffle(rare);
-
-		ret.addAll(common.subList(0, 11));
-		ret.addAll(uncommon.subList(0, 3));
-		ret.add(rare.get(0));
-
-		Booster b = new Booster();
-		b.setEdition(me);
-		b.setCards(ret);
-
-		return b;
-	}
 
 	@Override
 	public String getVersion() {

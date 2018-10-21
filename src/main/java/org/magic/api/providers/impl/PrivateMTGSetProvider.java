@@ -253,11 +253,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public Booster generateBooster(MagicEdition me) throws IOException {
-		return null;
-	}
-
-	@Override
 	public String getVersion() {
 		return "0.1";
 	}

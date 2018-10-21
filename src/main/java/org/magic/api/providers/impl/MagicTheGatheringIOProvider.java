@@ -398,11 +398,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public Booster generateBooster(MagicEdition me) throws IOException {
-		return null;
-	}
-
-	@Override
 	public String getVersion() {
 		return "v1";
 	}
