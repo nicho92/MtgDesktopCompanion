@@ -221,7 +221,7 @@ public class ConstructPanel extends JPanel {
 			buzyLabel.start(deck.getMap().size() + deck.getMapSideBoard().size());
 			for (MagicCard mc : deck.getMap().keySet()) {
 				try {
-					updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(mc.getId()),deck.getMap().get(mc));
+					updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMap().get(mc));
 					buzyLabel.progress();
 				} catch (Exception e) {
 					logger.error(e);
@@ -231,7 +231,7 @@ public class ConstructPanel extends JPanel {
 			}
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 				try {
-					updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(mc.getId()),deck.getMapSideBoard().get(mc));
+					updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMapSideBoard().get(mc));
 					buzyLabel.progress();
 				} catch (Exception e) {
 					btnUpdate.setEnabled(true);
