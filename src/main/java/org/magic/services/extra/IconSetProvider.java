@@ -244,6 +244,8 @@ public class IconSetProvider {
 			return "C18";
 		case "OCMD":
 			return "CMD";
+		case "SUM":	
+			return "PSUM";
 		default:return set;
 		}
 

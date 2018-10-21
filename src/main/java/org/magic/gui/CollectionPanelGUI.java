@@ -305,7 +305,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		jsonPanel.show(mc);
 		pricePanel.init(mc,mc.getCurrentSet());
 		btnExport.setEnabled(false);
-		
+		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
 		ThreadManager.getInstance().execute(() -> {
 			try {
 				historyPricesPanel.init(mc, null, mc.getName());
@@ -498,7 +498,12 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			if (curr.getUserObject() instanceof MagicCard) {
 				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-				initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
+				try {
+					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
+				}catch(Exception e)
+				{
+					logger.error("error updating " + card + " in " + curr.getParent().getParent() );
+				}
 			}
 		});
 		
@@ -710,7 +715,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
 				tree.refresh(curr);
-
+				
 			}
 		});
 	}
@@ -796,11 +801,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 				}
 
 			});
-
-			
-
-			
-
 			
 			adds.addActionListener(e -> {
 
@@ -816,7 +816,13 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 						MagicCollection sourceCol = new MagicCollection(node.getPath()[1].toString());
 						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
+						
+						logger.trace(list.size() + " items in " + sourceCol +"/"+me);
 						sets.removeAll(list);
+						logger.trace(sets.size() + " items to insert int " + col +"/"+me);
+						
+						
+						
 						progressBar.start(sets.size());
 						
 
@@ -827,6 +833,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 						}
 
 						tree.refresh(node);
+						progressBar.end();
 					} catch (Exception e1) {
 						logger.error(e1);
 						progressBar.end();

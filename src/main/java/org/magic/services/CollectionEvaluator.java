@@ -157,7 +157,7 @@ public class CollectionEvaluator
 			}
 			else
 			{
-				logger.error(fich + " is not found for " + ed.getId() +" : " + ed.getSet());
+				logger.trace(fich + " is not found for " + ed.getId() +" : " + ed.getSet());
 				list=new ArrayList<>();
 			}	
 			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(collection, ed);

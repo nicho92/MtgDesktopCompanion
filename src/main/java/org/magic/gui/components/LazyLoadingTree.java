@@ -13,6 +13,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
@@ -141,8 +142,7 @@ public class LazyLoadingTree extends JTree {
 
 					List<MyNode> children = new ArrayList<>();
 					try {
-						List<MagicCard> res = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col,
-								ed);
+						List<MagicCard> res = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col,ed);
 						Collections.sort(res, new CardsEditionSorter());
 
 						for (MagicCard card : res) {
@@ -227,7 +227,8 @@ public class LazyLoadingTree extends JTree {
 
 	}
 
-	public void refresh(DefaultMutableTreeNode curr) {
+	public void refresh(TreeNode curr) {
+		
 		model.reload(curr);
 		
 	}

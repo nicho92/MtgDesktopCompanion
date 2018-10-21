@@ -49,6 +49,10 @@ public class MysqlDAO extends AbstractMagicDAO {
 		super();
 		list = new ArrayList<>();
 	}
+	
+	 public Connection getCon() {
+		return con;
+	}
 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.magic.tools.IDGenerator;
+
 public class MagicCard implements Serializable {
 	public enum LAYOUT {
 		NORMAL, TOKEN, EMBLEM
@@ -433,7 +435,7 @@ public class MagicCard implements Serializable {
 		if (this.getClass() != obj.getClass())
 			return false;
 
-		return ((MagicCard) obj).getId().equals(this.getId());
+		return IDGenerator.generate(((MagicCard) obj)).equals(IDGenerator.generate(this));
 	}
 
 	public void setLayout(String layout) {
