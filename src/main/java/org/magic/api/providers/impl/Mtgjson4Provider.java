@@ -648,6 +648,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/MTGJson.png"));
+		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/mtgjson.png"));
 	}
 }
