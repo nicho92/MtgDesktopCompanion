@@ -73,8 +73,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		List<MagicCard> uncommon = new ArrayList<>();
 		List<MagicCard> rare = new ArrayList<>();
 		List<MagicCard> lands = new ArrayList<>();
-
 		Booster b = new Booster();
+		
+		
+		
 
 		try {
 			if (cacheBoosterCards.get(me.getId()) == null)
@@ -89,7 +91,11 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 				if (mc.getCurrentSet().getRarity().toLowerCase().contains("rare"))
 					rare.add(mc);
-
+				
+				if (mc.getCurrentSet().getRarity().toLowerCase().contains("mythic"))
+					rare.add(mc);
+				
+				
 				if (mc.getSupertypes().toString().toLowerCase().contains("basic")
 						&& mc.getTypes().toString().toLowerCase().contains("land"))
 					lands.add(mc);

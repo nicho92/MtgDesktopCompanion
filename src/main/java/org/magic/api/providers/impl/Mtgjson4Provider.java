@@ -217,11 +217,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}
 	}
 
+	@Override
 	public MagicCard getCardById(String id) throws IOException {
 		return searchCardByCriteria("uuid", id, null, true).get(0);
 	}
 	
-
+	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
 		
 		String filterEdition = ".";
@@ -499,7 +500,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			}
 	}
 
-
+	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 		String jsquery = "$.*";
 
@@ -524,6 +525,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return new ArrayList<>(cacheEditions.values());
 	}
 
+	@Override
 	public MagicEdition getSetById(String id) {
 		
 		if(id.startsWith("p"))
@@ -601,23 +603,27 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	}
 
+	@Override
 	public String[] getQueryableAttributs() {
 		return new String[] { NAME,"set",ARTIST,TEXT,CONVERTED_MANA_COST,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","collection" };
 	}
 
+	@Override
 	public String getName() {
 		return "MTGJson4";
 	}
 
+	@Override
 	public String[] getLanguages() {
 		return new String[] { "English","French","Italian","German","Portuguese (Brazil)"  };
 	}
 
-
+	@Override
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
 			return null;
 	}
-
+	
+	@Override
 	public String getVersion() {
 		return version;
 	}
