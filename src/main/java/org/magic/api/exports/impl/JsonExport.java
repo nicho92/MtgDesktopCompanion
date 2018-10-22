@@ -46,7 +46,7 @@ public class JsonExport extends AbstractCardExport {
 		return gson.toJsonTree(o);
 	}
 	
-	public <T> T fromJson(Class<T> classe, String s)
+	public <T> T fromJson(String s,Class<T> classe)
 	{
 		return gson.fromJson(s, classe);
 	}

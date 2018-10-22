@@ -3,15 +3,11 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,8 +18,6 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
@@ -134,7 +128,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			buzy.start();
 			model = new CollectionAnalyzerTreeTableModel(new MagicCollection(MTGControler.getInstance().get("default-library")));
 			treeTable.setTreeTableModel(model);
-			lblPrice.setText("Value : " + UITools.formatDouble(model.getTotalPrice()));
+			lblPrice.setText("Value : " + UITools.formatDouble(model.getEvaluator().total()));
 			model.getEditions().forEach(ed->modelCache.addRow(ed, model.getEvaluator().getCacheDate(ed)));
 			buzy.end();
 			

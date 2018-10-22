@@ -98,7 +98,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getName());
-			pst.setString(3, serialiser.toJsonTree(mc).toString());
+			pst.setString(3, serialiser.toJsonElement(mc).toString());
 			pst.setString(4, mc.getCurrentSet().getId());
 			pst.setString(5, "");
 			pst.setString(6, collection.getName());
@@ -422,7 +422,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 				pst.setString(8, state.getMagicCollection().getName());
 				pst.setBoolean(9, state.isAltered());
 				pst.setDouble(10, state.getPrice());
-				pst.setString(11, serialiser.toJsonTree(state.getMagicCard()).toString());
+				pst.setString(11, serialiser.toJsonElement(state.getMagicCard()).toString());
 				state.setIdstock(pst.executeUpdate());
 			}
 		} else {
@@ -474,7 +474,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 		logger.debug(alert);
 		try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
+			pst.setString(2, serialiser.toJsonElement(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
 			list.add(alert);
 			pst.executeUpdate();

@@ -3,29 +3,17 @@ package org.magic.servers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.Icon;
 
 import org.apache.commons.io.FileUtils;
-import org.magic.api.beans.CardPriceVariations;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 public class CardShakeDashBoardServer extends AbstractMTGServer {
 

@@ -104,7 +104,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		PGobject jsonObject = new PGobject();
 		jsonObject.setType("json");
 		try {
-			jsonObject.setValue(serialiser.toJsonTree(c).toString());
+			jsonObject.setValue(serialiser.toJsonElement(c).toString());
 		} catch (SQLException e) {
 			logger.error("error convert " + c,e);
 		}

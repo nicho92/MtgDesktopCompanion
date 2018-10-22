@@ -1,8 +1,6 @@
 package org.magic.api.dashboard.impl;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -25,8 +23,6 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 	private static final String PRINT = "print";

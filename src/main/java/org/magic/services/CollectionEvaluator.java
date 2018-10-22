@@ -180,12 +180,10 @@ public class CollectionEvaluator
 						ret.put(mc, csn);
 					}
 			}
-			
-			cache.put(ed, ret);
-			
 		} catch (SQLException e) {
 			logger.error(e);
 		}
+		cache.put(ed, ret);
 		return ret;
 	}
 	
@@ -194,8 +192,8 @@ public class CollectionEvaluator
 		List<CardShake> list = new ArrayList<>();
 		try {
 			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {	
-				JsonArray json= serialiser.fromJson(JsonArray.class, FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING));
-				json.forEach(el->list.add(serialiser.fromJson(CardShake.class,el.toString())));
+				JsonArray json= serialiser.fromJson(FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),JsonArray.class);
+				json.forEach(el->list.add(serialiser.fromJson(el.toString(),CardShake.class)));
 			}
 		}
 		catch(Exception e)

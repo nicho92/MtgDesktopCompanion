@@ -112,11 +112,5 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		return false;
 	}
 	
-	public double getTotalPrice()
-	{
-		
-		return evaluator.total();
-	}
-	
 	
 }

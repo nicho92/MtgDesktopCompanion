@@ -9,14 +9,13 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
 
-import com.google.gson.Gson;
-
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
 
-	protected Gson serialiser;
+	protected JsonExport serialiser;
 	
 	
 	@Override
@@ -36,7 +35,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			save();
 		}
 		
-		serialiser=new Gson();
+		serialiser=new JsonExport();
 	}
 	
 	@Override

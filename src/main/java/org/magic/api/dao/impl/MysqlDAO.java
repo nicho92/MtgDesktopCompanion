@@ -27,6 +27,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
+import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
 public class MysqlDAO extends AbstractMagicDAO {
@@ -100,7 +101,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
-			pst.setString(2, serialiser.toJsonTree(mc).toString());
+			pst.setString(2, serialiser.toJsonElement(mc).toString());
 			pst.setString(3, mc.getCurrentSet().getId());
 			pst.setString(4, MTGControler.getInstance().getEnabled(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
@@ -200,12 +201,14 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
+		Chrono c = new Chrono();
 		
 		String sql = "select * from cards where collection= ?";
 
 		if (me != null)
 			sql = "select * from cards where collection= ? and edition = ?";
 
+		c.start();
 		logger.trace(sql +" " + collection +" " + me);
 
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
@@ -218,6 +221,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					ret.add(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
 				}
+				logger.trace(sql +" query done in " + c.stop() +"s");
 				return ret;
 			}
 		}
@@ -226,7 +230,8 @@ public class MysqlDAO extends AbstractMagicDAO {
 	@Override
 	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		String sql = "select distinct(edition) from cards where collection=?";
-
+		Chrono c = new Chrono();
+		c.start();
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
 			try (ResultSet rs = pst.executeQuery()) {
@@ -234,6 +239,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					retour.add(rs.getString("edition"));
 				}
+				logger.trace(sql +" query done in " + c.stop() + " sec");
 				return retour;
 			}
 		}
@@ -468,7 +474,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 				pst.setString(6, state.getComment());
 				pst.setString(7, IDGenerator.generate(state.getMagicCard()));
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
-				pst.setString(9, serialiser.toJsonTree(state.getMagicCard()).toString());
+				pst.setString(9, serialiser.toJsonElement(state.getMagicCard()).toString());
 				pst.setBoolean(10, state.isAltered());
 				pst.setDouble(11, state.getPrice());
 				pst.executeUpdate();
@@ -576,7 +582,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			alert.setId(IDGenerator.generate(alert.getCard()));
 			
 			pst.setString(1, alert.getId());
-			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
+			pst.setString(2, serialiser.toJsonElement(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			logger.debug("save alert for " + alert.getCard()+ " ("+alert.getCard().getCurrentSet()+")");
@@ -589,7 +595,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		logger.debug("update " + alert);
 		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=?,mcard=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
-			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
+			pst.setString(2, serialiser.toJsonElement(alert.getCard()).toString());
 			pst.setString(3, alert.getId());
 			pst.executeUpdate();
 		}

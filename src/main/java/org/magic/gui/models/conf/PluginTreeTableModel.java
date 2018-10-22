@@ -2,7 +2,6 @@ package org.magic.gui.models.conf;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 

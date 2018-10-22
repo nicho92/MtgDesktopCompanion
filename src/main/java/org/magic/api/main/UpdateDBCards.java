@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.exports.impl.JsonExport;
@@ -43,7 +42,7 @@ public class UpdateDBCards {
 			while(rs.next())
 			{
 				System.out.println("==============");
-				MagicCard mc = exp.fromJson(MagicCard.class, rs.getString("mcard"));
+				MagicCard mc = exp.fromJson(rs.getString("mcard"),MagicCard.class);
 				try {
 					List<MagicCard> ret = provider.searchCardByCriteria("multiverseId", mc.getCurrentSet().getMultiverseid(), new MagicEdition(ed), true);
 					if(ret.isEmpty())

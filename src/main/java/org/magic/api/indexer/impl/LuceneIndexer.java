@@ -112,7 +112,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 TopDocs top= searcher.search(query, Math.max(1, collector.getTotalHits()));
 			 
 			 for(int i =0;i<top.totalHits;i++)
-				 ret.add(serializer.fromJson(MagicCard.class, searcher.doc(top.scoreDocs[i].doc).get("data")));
+				 ret.add(serializer.fromJson(searcher.doc(top.scoreDocs[i].doc).get("data"),MagicCard.class));
 			 
 			 
 		} catch (Exception e) {
@@ -192,7 +192,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 TopDocs likes = searcher.search(like,getInt(MAX_RESULTS));
 			 
 			 for(ScoreDoc l : likes.scoreDocs)
-				 ret.put(serializer.fromJson(MagicCard.class, searcher.doc(l.doc).get("data")),l.score);
+				 ret.put(serializer.fromJson(searcher.doc(l.doc).get("data"),MagicCard.class),l.score);
 
 			 logger.debug("found " + likes.scoreDocs.length + " results");
 			 close();
