@@ -203,10 +203,10 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
 		Chrono c = new Chrono();
 		
-		String sql = "select * from cards where collection= ?";
+		String sql = "select "+MCARD+" from cards where collection= ?";
 
 		if (me != null)
-			sql = "select * from cards where collection= ? and edition = ?";
+			sql = "select "+MCARD+" from cards where collection= ? and edition = ?";
 
 		c.start();
 		logger.trace(sql +" " + collection +" " + me);
@@ -215,11 +215,13 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setString(1, collection.getName());
 			if (me != null)
 				pst.setString(2, me.getId());
-
+			logger.trace(sql +" begin query");
 			try (ResultSet rs = pst.executeQuery()) {
+				logger.trace(sql +" resultSet done");
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
-					ret.add(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
+					MagicCard mc = serialiser.fromJson(rs.getString(MCARD),MagicCard.class);
+					ret.add(mc);
 				}
 				logger.trace(sql +" query done in " + c.stop() +"s");
 				return ret;
@@ -232,6 +234,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		String sql = "select distinct(edition) from cards where collection=?";
 		Chrono c = new Chrono();
 		c.start();
+		logger.trace(sql + " begin query " + collection);
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
 			try (ResultSet rs = pst.executeQuery()) {
@@ -252,9 +255,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setString(1, name);
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					MagicCollection mc = new MagicCollection();
-					mc.setName(rs.getString("name"));
-					return mc;
+					return new MagicCollection(rs.getString("name"));
 				}
 				return null;
 			}
