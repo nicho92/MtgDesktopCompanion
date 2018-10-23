@@ -445,7 +445,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 		tree.addTreeSelectionListener(tse -> {
 			path = tse.getPath();
-
 			btnRemove.setEnabled(true);
 			btnAddAllSet.setEnabled(false);
 			btnExport.setEnabled(true);
@@ -675,7 +674,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
 						MTGControler.getInstance().removeCard(card, col);
-						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
@@ -689,7 +687,6 @@ public class CollectionPanelGUI extends MTGUIPanel {
 							.getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", me, col));
 					if (res == JOptionPane.YES_OPTION) {
 						dao.removeEdition(me, col);
-						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
@@ -697,11 +694,9 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			}
 			if (curr.getUserObject() instanceof MagicCollection) {
 				try {
-					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
-							.getCapitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCount(col, null)));
+					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCount(col, null)));
 					if (res == JOptionPane.YES_OPTION) {
 						dao.removeCollection(col);
-						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
@@ -710,11 +705,10 @@ public class CollectionPanelGUI extends MTGUIPanel {
 
 			if (res == JOptionPane.YES_OPTION) {
 				try {
-					model.calculate();
+					tree.removeNodeFromParent(curr);
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
-				tree.refresh(curr);
 				
 			}
 		});

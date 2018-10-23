@@ -230,4 +230,10 @@ public class LazyLoadingTree extends JTree {
 		
 	}
 
+	public void removeNodeFromParent(DefaultMutableTreeNode curr) {
+				
+		model.removeNodeFromParent(curr);
+		
+	}
+
 }
