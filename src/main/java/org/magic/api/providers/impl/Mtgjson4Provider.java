@@ -246,11 +246,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}
-		
 		return search(jsquery, att, crit);
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<MagicCard> search(String jsquery, String att, String crit) {
 		
 		List<String> currentSet = new ArrayList<>();
@@ -262,187 +262,182 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			return null;
 		}).read(jsquery, List.class);
 		
-		logger.debug("parsing " + jsquery + " " + currentSet);
+		logger.debug("parsing " + jsquery);
 		
 		int indexSet = 0;
-		for (Map<String, Object> map : cardsElement) {
-			MagicCard mc = new MagicCard();
-			  mc.setFlippable(false);
-			  mc.setTranformable(false);
-			  mc.setId(String.valueOf(map.get("uuid").toString()));
-			  mc.setText(String.valueOf(map.get(TEXT)));
-			  
-	if (map.get(NAME) != null)
-		mc.setName(String.valueOf(map.get(NAME)));
-			  
-	if (map.get(MANA_COST) != null)
-		mc.setCost(String.valueOf(map.get(MANA_COST)));
-	else
-		mc.setCost("");
-	
-	if (map.get(MULTIVERSE_ID) != null)
-		mc.setMultiverseid((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
-	
-	if (map.get(RARITY) != null)
-		mc.setRarity(String.valueOf(map.get(RARITY)));
-	
-	if (map.get(NUMBER) != null)
-		mc.setNumber(String.valueOf(map.get(NUMBER)));
-
-	if (map.get(TEXT) != null)
-		mc.setText(String.valueOf(map.get(TEXT)));
-	
-	if (map.get(CONVERTED_MANA_COST) != null)
-		mc.setCmc((int)Double.parseDouble(map.get(CONVERTED_MANA_COST).toString()));
-	
-	if (map.get(FRAME_VERSION) != null)
-		mc.setFrameVersion(String.valueOf(map.get(FRAME_VERSION)));
-	
-	if (map.get(ARTIST) != null)
-		mc.setArtist(String.valueOf(map.get(ARTIST)));
-
-	if (map.get(IS_RESERVED) != null)
-		mc.setReserved(Boolean.valueOf(String.valueOf(map.get(IS_RESERVED))));
-
-	if (map.get(LAYOUT) != null)
-		mc.setLayout(String.valueOf(map.get(LAYOUT)));
-	
-	if (map.get(FLAVOR_TEXT) != null)
-		mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
-	
-	if (map.get(ORIGINAL_TEXT) != null)
-		mc.setOriginalText(String.valueOf(map.get(ORIGINAL_TEXT)));
-	
-	if (map.get(ORIGINAL_TYPE) != null)
-		mc.setOriginalType(String.valueOf(map.get(ORIGINAL_TYPE)));
-	
-	if (map.get(SUPERTYPES) != null)
-		mc.getSupertypes().addAll((List<String>) map.get(SUPERTYPES));
-
-	if (map.get(TYPES) != null)
-		mc.getTypes().addAll((List<String>) map.get(TYPES));
-
-	if (map.get(SUBTYPES) != null)
-		mc.getSubtypes().addAll((List<String>) map.get(SUBTYPES));
-
-	if (map.get(POWER) != null)
-		mc.setPower(String.valueOf(map.get(POWER)));
-	
-	if (map.get(TOUGHNESS) != null)
-		mc.setToughness(String.valueOf(map.get(TOUGHNESS)));
-	
-	if (map.get(COLORS) != null)
-		((List<String>) map.get(COLORS)).forEach(s->mc.getColors().add(ColorParser.getNameByCode(s)));
-
-	if (map.get(COLOR_IDENTITY) != null)
-		mc.getColorIdentity().addAll((List<String>) map.get(COLOR_IDENTITY));
-	
-	
-	if (map.get(LOYALTY) != null) {
-		try {
-			mc.setLoyalty((int) Double.parseDouble(map.get(LOYALTY).toString()));
-		} catch (Exception e) {
-			mc.setLoyalty(0);
-		}
-	}
-	
-	if (map.get(LEGALITIES) != null) {
-		
-		for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {
-			MagicFormat mf = new MagicFormat();
-			mf.setFormat(String.valueOf(mapFormats.getKey()));
-			mf.setLegality(String.valueOf(mapFormats.getValue()));
-			mc.getLegalities().add(mf);
-		}
-	}
-	
-	if (map.get(RULINGS) != null) {
-		for (Map<String, Object> mapRules : (List<Map>) map.get(RULINGS)) {
-			MagicRuling mr = new MagicRuling();
-			mr.setDate(String.valueOf(mapRules.get("date")));
-			mr.setText(String.valueOf(mapRules.get(TEXT)));
-			mc.getRulings().add(mr);
-		}
-	}
-	
-	if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld"))
-		mc.setTranformable(true);
-
-
-	MagicCardNames defnames = new MagicCardNames();
-	defnames.setLanguage("English");
-	defnames.setName(mc.getName());
-	defnames.setText(mc.getText());
-	defnames.setType(mc.getFullType());
-	if (mc.getMultiverseid() != null)
-		defnames.setGathererId(mc.getMultiverseid());
-
-	mc.getForeignNames().add(defnames);
-	
-	if (map.get(FOREIGN_DATA) != null) {
-		for (Map<String, Object> mapNames : (List<Map>) map.get(FOREIGN_DATA)) {
-			MagicCardNames fnames = new MagicCardNames();
-						   fnames.setLanguage(String.valueOf(mapNames.get("language")));
-						   fnames.setName(String.valueOf(mapNames.get(NAME)));
-						   
-						   if (mapNames.get(TEXT) != null)
-							   fnames.setText(String.valueOf(mapNames.get(TEXT)));
-						   
-						   if (mapNames.get(TYPE) != null)
-							   fnames.setType(String.valueOf(mapNames.get(TYPE)));
-						   
-
-			if (mapNames.get(MULTIVERSE_ID) != null)
-				fnames.setGathererId((int) (double) mapNames.get(MULTIVERSE_ID));
-
-			mc.getForeignNames().add(fnames);
-		}
-	}
-	
-	
-	String codeEd;
-	if (currentSet.size() <= 1)
-		codeEd = currentSet.get(0);
-	else
-		codeEd = currentSet.get(indexSet++);
-
-	MagicEdition me = getSetById(codeEd);
-				 me.setRarity(mc.getRarity());
-				 me.setNumber(mc.getNumber());
-				 me.setFlavor(mc.getFlavor());
-				 if(mc.getMultiverseid()!=null)
-					 me.setMultiverseid(String.valueOf(mc.getMultiverseid()));
+		for (Map<String, Object> map : cardsElement) 
+		{
+						MagicCard mc = new MagicCard();
+						  mc.setFlippable(false);
+						  mc.setTranformable(false);
+						  mc.setId(String.valueOf(map.get("uuid").toString()));
+						  mc.setText(String.valueOf(map.get(TEXT)));
+						  
+				if (map.get(NAME) != null)
+					mc.setName(String.valueOf(map.get(NAME)));
+						  
+				if (map.get(MANA_COST) != null)
+					mc.setCost(String.valueOf(map.get(MANA_COST)));
+				else
+					mc.setCost("");
 				
-	mc.getEditions().add(me);
-	
-	if (!mc.isBasicLand() && map.get(PRINTINGS) != null)
-	{
-		for (String print : (List<String>) map.get(PRINTINGS)) {
-			if (!print.equalsIgnoreCase(codeEd)) {
-				MagicEdition meO = getSetById(print);
-				initOtherEditionCardsVar(mc, meO);
-				mc.getEditions().add(meO);
-			}
-		}
-
-	}
-	
-	
-	if( map.get(NAMES) !=null)
-	{
-		List<String> names = ((List<String>)map.get(NAMES));
-		mc.setRotatedCardName(names.get(0));
-		mc.setTranformable(true);
-	}
-	
-	if (mc.getLayout().equals("flip"))
-		mc.setFlippable(true);
-	
+				if (map.get(MULTIVERSE_ID) != null)
+					mc.setMultiverseid((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
+				
+				if (map.get(RARITY) != null)
+					mc.setRarity(String.valueOf(map.get(RARITY)));
+				
+				if (map.get(NUMBER) != null)
+					mc.setNumber(String.valueOf(map.get(NUMBER)));
+			
+				if (map.get(TEXT) != null)
+					mc.setText(String.valueOf(map.get(TEXT)));
+				
+				if (map.get(CONVERTED_MANA_COST) != null)
+					mc.setCmc((int)Double.parseDouble(map.get(CONVERTED_MANA_COST).toString()));
+				
+				if (map.get(FRAME_VERSION) != null)
+					mc.setFrameVersion(String.valueOf(map.get(FRAME_VERSION)));
+				
+				if (map.get(ARTIST) != null)
+					mc.setArtist(String.valueOf(map.get(ARTIST)));
+			
+				if (map.get(IS_RESERVED) != null)
+					mc.setReserved(Boolean.valueOf(String.valueOf(map.get(IS_RESERVED))));
+			
+				if (map.get(LAYOUT) != null)
+					mc.setLayout(String.valueOf(map.get(LAYOUT)));
+				
+				if (map.get(FLAVOR_TEXT) != null)
+					mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
+				
+				if (map.get(ORIGINAL_TEXT) != null)
+					mc.setOriginalText(String.valueOf(map.get(ORIGINAL_TEXT)));
+				
+				if (map.get(ORIGINAL_TYPE) != null)
+					mc.setOriginalType(String.valueOf(map.get(ORIGINAL_TYPE)));
+				
+				if (map.get(SUPERTYPES) != null)
+					mc.getSupertypes().addAll((List<String>) map.get(SUPERTYPES));
+			
+				if (map.get(TYPES) != null)
+					mc.getTypes().addAll((List<String>) map.get(TYPES));
+			
+				if (map.get(SUBTYPES) != null)
+					mc.getSubtypes().addAll((List<String>) map.get(SUBTYPES));
+			
+				if (map.get(POWER) != null)
+					mc.setPower(String.valueOf(map.get(POWER)));
+				
+				if (map.get(TOUGHNESS) != null)
+					mc.setToughness(String.valueOf(map.get(TOUGHNESS)));
+				
+				if (map.get(COLORS) != null)
+					((List<String>) map.get(COLORS)).forEach(s->mc.getColors().add(ColorParser.getNameByCode(s)));
+			
+				if (map.get(COLOR_IDENTITY) != null)
+					mc.getColorIdentity().addAll((List<String>) map.get(COLOR_IDENTITY));
+				
+				
+				if (map.get(LOYALTY) != null) {
+					try {
+						mc.setLoyalty((int) Double.parseDouble(map.get(LOYALTY).toString()));
+					} catch (Exception e) {
+						mc.setLoyalty(0);
+					}
+				}
+				
+				if (map.get(LEGALITIES) != null) {
+					
+					for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {
+						MagicFormat mf = new MagicFormat();
+						mf.setFormat(String.valueOf(mapFormats.getKey()));
+						mf.setLegality(String.valueOf(mapFormats.getValue()));
+						mc.getLegalities().add(mf);
+					}
+				}
+				
+				if (map.get(RULINGS) != null) {
+					for (Map<String, Object> mapRules : (List<Map>) map.get(RULINGS)) {
+						MagicRuling mr = new MagicRuling();
+						mr.setDate(String.valueOf(mapRules.get("date")));
+						mr.setText(String.valueOf(mapRules.get(TEXT)));
+						mc.getRulings().add(mr);
+					}
+				}
+				
+				MagicCardNames defnames = new MagicCardNames();
+							   if (mc.getMultiverseid() != null)
+								   defnames.setGathererId(mc.getMultiverseid());			 
+							   defnames.setLanguage("English");
+							   defnames.setName(mc.getName());
+							   defnames.setText(mc.getText());
+							   defnames.setType(mc.getFullType());
+			
+				mc.getForeignNames().add(defnames);
+				
+				if (map.get(FOREIGN_DATA) != null) {
+					for (Map<String, Object> mapNames : (List<Map>) map.get(FOREIGN_DATA)) {
+						MagicCardNames fnames = new MagicCardNames();
+									   fnames.setLanguage(String.valueOf(mapNames.get("language")));
+									   fnames.setName(String.valueOf(mapNames.get(NAME)));
+									   
+									   if (mapNames.get(TEXT) != null)
+										   fnames.setText(String.valueOf(mapNames.get(TEXT)));
+									   
+									   if (mapNames.get(TYPE) != null)
+										   fnames.setType(String.valueOf(mapNames.get(TYPE)));
+									   
+									   if (mapNames.get(MULTIVERSE_ID) != null)
+										   fnames.setGathererId((int) (double) mapNames.get(MULTIVERSE_ID));
+			
+						mc.getForeignNames().add(fnames);
+					}
+				}
+				
+				
+				String codeEd;
+				if (currentSet.size() <= 1)
+					codeEd = currentSet.get(0);
+				else
+					codeEd = currentSet.get(indexSet++);
+			
+				MagicEdition me = getSetById(codeEd);
+							 me.setRarity(mc.getRarity());
+							 me.setNumber(mc.getNumber());
+							 me.setFlavor(mc.getFlavor());
+							 if(mc.getMultiverseid()!=null)
+								 me.setMultiverseid(String.valueOf(mc.getMultiverseid()));
+							
+				mc.getEditions().add(me);
+				
+				if (!mc.isBasicLand() && map.get(PRINTINGS) != null)
+				{
+					for (String print : (List<String>) map.get(PRINTINGS)) {
+						if (!print.equalsIgnoreCase(codeEd)) {
+							MagicEdition meO = getSetById(print);
+							initOtherEditionCardsVar(mc, meO);
+							mc.getEditions().add(meO);
+						}
+					}
+			
+				}
+				
+				if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld"))
+					mc.setTranformable(true);
+			
+				if (mc.getLayout().equals("flip"))
+					mc.setFlippable(true);
+				
+				if( map.get(NAMES) !=null)//TODO usage of names is not yet correct (sometimes token, // names, etc...)
+				{
+					List<String> names = ((List<String>)map.get(NAMES));
+					mc.setRotatedCardName(names.get(0));
+				}
+			
 		notify(mc);
 		ret.add(mc);
-		}
-		
-		
+	}
 		return ret;
 	}
 	
@@ -536,10 +531,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		String base = "$." + id.toUpperCase();
 		try{
 		ed.setSet(ctx.read(base + ".name", String.class));
-		}catch(PathNotFoundException pnfe)
-		{	ed.setSet(id);}
-		
-		
+		}
+		catch(PathNotFoundException pnfe)
+		{	
+			ed.setSet(id);
+		}
 		
 		try{
 			ed.setOnlineOnly(ctx.read(base + ".isOnlineOnly", Boolean.class));
@@ -594,7 +590,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				ed.setCardCount(i);
 			}
 			catch(Exception e)
-			{	logger.error("error " + id);		}
+			{
+				ed.setCardCount(0);		
+			}
 		
 		
 		return ed;

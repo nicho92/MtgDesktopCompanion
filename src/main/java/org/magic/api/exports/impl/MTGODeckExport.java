@@ -53,24 +53,38 @@ public class MTGODeckExport extends AbstractCardExport {
 			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
 
 			String line = read.readLine();
-
+			boolean side=false;
 			while (line != null) {
 				if (!line.startsWith("//") && line.length() > 0) {
 					int sep = line.indexOf(' ');
-					String name = line.substring(sep, line.length()).trim();
-					String qte = line.substring(0, sep).trim();
-
-					if (line.startsWith("SB: ")) {
+					if (line.toLowerCase().startsWith("sideboard"))
+					{
+						side=true;
+					}
+					else if (line.startsWith("SB: ") || side) {
+						String name = line.substring(sep, line.length()).trim();
+						String qte = line.substring(0, sep).trim();
+						
+						if(name.indexOf("//")>-1)
+							name=name.substring(0, name.indexOf("//")).trim();
+						
+						
 						line = line.replaceAll("SB: ", "");
 						sep = line.indexOf(' ');
 						name = line.substring(sep, line.length()).trim();
 						qte = line.substring(0, sep).trim();
-						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true);
+						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, (name.indexOf("//")==-1));
 						deck.getMapSideBoard().put(list.get(0), Integer.parseInt(qte));
 						notify(list.get(0));
 					} else {
+						String name = line.substring(sep, line.length()).trim().trim();
+						String qte = line.substring(0, sep).trim();
+						if(name.indexOf("//")>-1)
+							name=name.substring(0, name.indexOf("//"));
+						
+						
 						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-								.searchCardByName( name, null, true);
+								.searchCardByName( name, null, (name.indexOf("//")==-1));
 						deck.getMap().put(list.get(0), Integer.parseInt(qte));
 						notify(list.get(0));
 					}

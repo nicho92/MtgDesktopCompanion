@@ -18,7 +18,7 @@ import com.google.gson.JsonParser;
 
 
 public class CurrencyConverter {
-	private Logger logger = MTGLogger.getLogger(CurrencyConverter.class);
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HashMap<String, Double> map;
 	private File cache;
 	private String token;
