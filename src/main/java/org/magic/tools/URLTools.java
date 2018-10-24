@@ -108,7 +108,6 @@ public class URLTools {
 	public static BufferedImage extractImage(URL url) throws IOException
 	{
 		return ImageIO.read(openConnection(url).getInputStream()); 
-		//return ImageIO.read(url);
 	}
 
 	public static boolean isCorrectConnection(HttpURLConnection connection) {

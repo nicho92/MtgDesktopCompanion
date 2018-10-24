@@ -17,7 +17,7 @@ public class RulesParser {
 		{
 			if(!StringUtils.isAllBlank(line))
 			{
-				System.out.print(line);
+				//do parsing
 			}
 			
 		}

@@ -19,7 +19,7 @@ public class MySQLLogger implements Log {
     private static final int DEBUG = 4;
     private static final int TRACE = 5;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private static StringBuffer bufferedLog = null;
+	private static StringBuilder bufferedLog = null;
 
     private boolean logLocationInfo = true;
 
@@ -44,7 +44,7 @@ public class MySQLLogger implements Log {
     }
 
     public static void startLoggingToBuffer() {
-        bufferedLog = new StringBuffer();
+        bufferedLog = new StringBuilder();
     }
 
     public static void dropBuffer() {
@@ -213,12 +213,11 @@ public class MySQLLogger implements Log {
 
     protected void logInternal(int level, Object msg, Throwable exception) {
         StringBuilder msgBuf = new StringBuilder();
+        
+        if(exception!=null)
+        	msgBuf.append(exception.getMessage());
+        
    
-//        if (msg instanceof ProfilerEvent) {
-//            msgBuf.append(LogUtils.expandProfilerEventIfNecessary(msg));
-//
-//        } else 
-        {
             if (this.logLocationInfo && level != TRACE) {
                 Throwable locationException = new Throwable();
                 msgBuf.append(LogUtils.findCallingClassAndMethod(locationException));
@@ -228,8 +227,7 @@ public class MySQLLogger implements Log {
             if (msg != null) {
                 msgBuf.append(String.valueOf(msg));
             }
-        }
-
+        
         String messageAsString = msgBuf.toString();
         
         if(level==INFO)

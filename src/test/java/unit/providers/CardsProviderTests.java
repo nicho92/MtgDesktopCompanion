@@ -35,9 +35,8 @@ public class CardsProviderTests {
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
 		mc.setNumber("232");
-		mc.setMciNumber("232");
 					 ed = new MagicEdition();
-					 ed.setId("lea");
+					 ed.setId("LEA");
 					 ed.setSet("Limited Edition Alpha");
 					 ed.setBorder("Black");
 					 ed.setRarity("Rare");
@@ -51,10 +50,10 @@ public class CardsProviderTests {
 	@Test
 	public void initTests()
 	{
-	//	testProviders(new ScryFallProvider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
-	//	testProviders(new MagicTheGatheringIOProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
-	//	testProviders(new MtgjsonProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
-	//	testProviders(new PrivateMTGSetProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
+		testProviders(new ScryFallProvider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
+		testProviders(new MagicTheGatheringIOProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
+		testProviders(new MtgjsonProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
+		testProviders(new PrivateMTGSetProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new Mtgjson4Provider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
 	}
 	

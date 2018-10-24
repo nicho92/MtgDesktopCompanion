@@ -246,12 +246,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}
-		return search(jsquery, att, crit);
+		return search(jsquery);
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<MagicCard> search(String jsquery, String att, String crit) {
+	private List<MagicCard> search(String jsquery) {
 		
 		List<String> currentSet = new ArrayList<>();
 		ArrayList<MagicCard> ret = new ArrayList<>();

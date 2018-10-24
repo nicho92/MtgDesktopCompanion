@@ -386,8 +386,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 				JMenu mnuModifier = new JMenu("Loyalty");
 				
 				AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
-				
-				//CountersFactory.getInstance().createLoyaltyCounter(getMagicCard()).forEach(lc->mnuModifier.add(new LoyaltyActions(this, lc)));
 				menu.add(mnuModifier);
 			}
 
@@ -397,9 +395,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 			
-//			if (magicCard.getLayout().equalsIgnoreCase("aftermath"))
-//				l.add(MTGControler.getInstance().getKeyWordManager().generateFromKeyString("Aftermath"));
-
 			if (!l.isEmpty()) {
 				JMenu actions = new JMenu("Actions");
 

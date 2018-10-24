@@ -16,9 +16,7 @@ public class TokensMtgOnl extends AbstractTokensProvider {
 	
 	
 	public static void main(String[] args) throws IOException {
-		System.out.println(URLTools.extractJson(jsonStandard));
-		System.out.println(URLTools.extractJson(jsonAllToken));
-		System.out.println(URLTools.extractJson(jsonAlternative));
+		
 	}
 	
 	

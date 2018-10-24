@@ -23,7 +23,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	
 	public CollectionAnalyzerTreeTableModel(MagicCollection c) {
-		super(new String("T"));
+		super("T");
 		try {
 			evaluator = new CollectionEvaluator(c);
 			editions = evaluator.getEditions();

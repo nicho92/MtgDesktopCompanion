@@ -39,7 +39,6 @@ public class MagicEditionDetailPanel extends JPanel {
 
 	private JTextField blockJTextField;
 	private JTextField idJtextField;
-	private EditionsShakerTableModel mod;
 	private JCheckBox chkOnline;
 	private BoosterPicsPanel lblBoosterPic;
 	private boolean openBooster;
@@ -267,14 +266,6 @@ public class MagicEditionDetailPanel extends JPanel {
 				mBindingGroup = initDataBindings();
 			}
 		}
-
-//		if (showPrices) {
-//			ThreadManager.getInstance().execute(() -> {
-//				mod.init(magicEdition);
-//				mod.fireTableDataChanged();
-//			}, "load prices for" + magicEdition);
-//		}
-
 		lblBoosterPic.setEdition(magicEdition);
 
 	}

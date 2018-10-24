@@ -218,10 +218,10 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}
 		
-		return search(jsquery, att, crit);
+		return search(jsquery);
 	}
 
-	private List<MagicCard> search(String jsquery, String att, String crit) {
+	private List<MagicCard> search(String jsquery) {
 
 		List<String> currentSet = new ArrayList<>();
 		List<MagicCard> listCards = new ArrayList<>();
@@ -607,7 +607,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
 		logger.debug("search " + jsquery);
 		try {
-			MagicCard mc = search(jsquery, NUMBER, num).get(0);
+			MagicCard mc = search(jsquery).get(0);
 			mc.getEditions().add(me);
 			return mc;
 		} catch (Exception e) {

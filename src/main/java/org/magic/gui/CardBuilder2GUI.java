@@ -537,7 +537,6 @@ public class CardBuilder2GUI extends MTGUIPanel {
 			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());
 			panelPictures.repaint();
 		} catch (Exception e) {
-			//btnRefresh.doClick();
 			logger.error(e);
 		}
 	}
