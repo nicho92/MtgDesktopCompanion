@@ -246,6 +246,23 @@ public class IconSetProvider {
 			return "CMD";
 		case "SUM":	
 			return "PSUM";
+		case "CP1":	
+			return "PMEI";
+		case "CP2":	
+			return "PMEI";	
+		case "CP3":	
+			return "PMEI";
+		case "DVD":
+			return "DDC";
+		case "EVG":
+			return "DD1";
+		case "GVL":
+			return "DDD";
+		case "JVC":
+			return "DD2";
+		case "HHO":
+			return "PMEI";
+			
 		default:return set;
 		}
 

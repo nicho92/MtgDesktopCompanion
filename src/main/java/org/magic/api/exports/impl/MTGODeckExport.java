@@ -37,9 +37,9 @@ public class MTGODeckExport extends AbstractCardExport {
 			temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		temp.append("\n//Sideboard\n");
+		temp.append("\nSideboard\n");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
+			temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
 
@@ -61,15 +61,13 @@ public class MTGODeckExport extends AbstractCardExport {
 					{
 						side=true;
 					}
-					else if (line.startsWith("SB: ") || side) {
+					else if (side) {
 						String name = line.substring(sep, line.length()).trim();
 						String qte = line.substring(0, sep).trim();
 						
 						if(name.indexOf("//")>-1)
 							name=name.substring(0, name.indexOf("//")).trim();
 						
-						
-						line = line.replaceAll("SB: ", "");
 						sep = line.indexOf(' ');
 						name = line.substring(sep, line.length()).trim();
 						qte = line.substring(0, sep).trim();
@@ -83,8 +81,7 @@ public class MTGODeckExport extends AbstractCardExport {
 							name=name.substring(0, name.indexOf("//"));
 						
 						
-						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-								.searchCardByName( name, null, (name.indexOf("//")==-1));
+						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, (name.indexOf("//")==-1));
 						deck.getMap().put(list.get(0), Integer.parseInt(qte));
 						notify(list.get(0));
 					}

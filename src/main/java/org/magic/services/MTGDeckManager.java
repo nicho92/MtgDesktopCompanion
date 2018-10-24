@@ -10,17 +10,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.FileFileFilter;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.exports.impl.MTGODeckExport;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.DeckCalculator;
 import org.utils.patterns.observer.Observable;
 
@@ -211,41 +206,4 @@ public class MTGDeckManager extends Observable {
 		return rarity;
 
 	}
-	
-	public static void main(String[] args) {
-		MTGODeckExport importer = new MTGODeckExport();
-		MTGDeckManager manager = new MTGDeckManager();
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		FileUtils.listFiles(new File("D:\\Desktop\\data"), FileFileFilter.FILE, DirectoryFileFilter.DIRECTORY).forEach(f->{
-
-			
-			
-			
-			System.out.println("Parsing " + f);
-			String tag2= f.getParentFile().getName();
-			String tag1= f.getParentFile().getParentFile().getName();
-			String name=f.getName().substring(0, f.getName().indexOf('.'));
-			
-			
-			MagicDeck d = new MagicDeck();
-			try {
-				d = importer.importDeck(f);
-			} catch (IOException e) {
-				System.err.println("erreur import " + f + " " + e);
-			}
-			
-			d.setName(name);
-			d.getTags().add(tag1);
-			d.getTags().add(tag2);
-			
-			try {
-				manager.saveDeck(d);
-			} catch (IOException e) {
-				System.err.println("can't save " + d);
-			}
-			
-			
-		});
-	}
-
 }
