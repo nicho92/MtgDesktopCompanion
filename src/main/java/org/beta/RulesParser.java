@@ -2,6 +2,7 @@ package org.beta;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.tools.URLTools;
 
 public class RulesParser {
@@ -10,8 +11,15 @@ public class RulesParser {
 		String s = URLTools.extractAsString("http://media.wizards.com/2018/downloads/MagicCompRules%2020181005.txt");
 
 		
-		System.out.println(s);
+		String[] split = s.split("\n");
 		
+		for(String line : split)
+		{
+			if(!StringUtils.isAllBlank(line))
+			{
+				System.out.print(line);
+			}
+			
+		}
 	}
-
 }

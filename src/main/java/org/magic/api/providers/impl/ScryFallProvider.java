@@ -33,6 +33,8 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String ILLUSTRATION_ID = "illustration_id";
+	private static final String FRAME = "frame";
 	private static final String SEARCH_Q = "search?q=";
 	private static final String COLOR = "color";
 	private static final String WATERMARK = "watermark";
@@ -215,7 +217,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { NAME, "custom", "type", COLOR, "oracle", "mana", "cmc", POWER, TOUGHNESS,LOYALTY, "is", RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, "frame", "set" };
+		return new String[] { NAME, "custom", "type", COLOR, "oracle", "mana", "cmc", POWER, TOUGHNESS,LOYALTY, "is", RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME, "set" };
 	}
 
 
@@ -322,7 +324,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.trace("watermark not found");
 		}
 		try {
-			mc.setImageName(obj.get("illustration_id").getAsString());
+			mc.setFrameVersion(obj.get(FRAME).getAsString());
+		} catch (NullPointerException e) {
+			logger.trace("frame not found");
+		}
+		
+		try {
+			mc.setImageName(obj.get(ILLUSTRATION_ID).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("illustration_id not found");
 		}
@@ -374,8 +382,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			mc.setRotatedCardName(
 					obj.get(CARD_FACES).getAsJsonArray().get(1).getAsJsonObject().get(NAME).getAsString());
 			
-			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id")!=null)
-				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id").getAsString());
+			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID)!=null)
+				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID).getAsString());
 
 			generateTypes(mc, obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TYPE_LINE)
 					.getAsString());

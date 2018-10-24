@@ -8,6 +8,7 @@ public class MagicRuling implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	String chapter;
 	String date;
 	String text;
 
@@ -27,6 +28,14 @@ public class MagicRuling implements Serializable {
 		this.text = text;
 	}
 
+	public String getChapter() {
+		return chapter;
+	}
+	
+	public void setChapter(String chapter) {
+		this.chapter = chapter;
+	}
+	
 	@Override
 	public String toString() {
 		return date + " :" + text + "\n";
