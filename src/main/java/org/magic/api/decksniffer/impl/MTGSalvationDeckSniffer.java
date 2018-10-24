@@ -111,15 +111,14 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String url = getString("URL") + "/decks?filter-format=" + getFormatCode(getString("FORMAT"))
-				+ "&filter-deck-time-frame=" + getString("FILTER");
+		String url = getString("URL") + "/decks?filter-format=" + getFormatCode(getString("FORMAT"))+ "&filter-deck-time-frame=" + getString("FILTER");
 
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		int nbPage = 1;
-		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
+		
 
-		for (int i = 1; i <= maxPage; i++) {
+		for (int i = 1; i <= getInt("MAX_PAGE"); i++) {
 			String link = url + "&page=" + nbPage;
 			logger.debug("sniff url : " + link);
 
@@ -193,7 +192,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public void initDefault() {
 		
-		setProperty("URL", "http://www.mtgsalvation.com/");
+		setProperty("URL", "https://www.mtgsalvation.com/");
 		setProperty("MAX_PAGE", "2");
 		setProperty("FORMAT", "Modern");
 		setProperty("FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
