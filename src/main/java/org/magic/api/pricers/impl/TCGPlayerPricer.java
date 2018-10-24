@@ -81,8 +81,8 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 			list.add(mp);
 			logger.info(getName() + " found " + list.size() + " item(s)");
-			if (list.size() > Integer.parseInt(getString("MAX")) && Integer.parseInt(getString("MAX")) > -1)
-				return list.subList(0, Integer.parseInt(getString("MAX")));
+			if (list.size() > getInt("MAX") && getInt("MAX") > -1)
+				return list.subList(0, getInt("MAX"));
 
 		} catch (Exception e) {
 			logger.error(e);

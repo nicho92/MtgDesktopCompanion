@@ -138,7 +138,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		int nbPage = Integer.parseInt(getString(MAX_PAGE));
+		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {

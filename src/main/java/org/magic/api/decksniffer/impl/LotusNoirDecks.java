@@ -75,7 +75,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		logger.debug("snif decks : " + decksUrl);
 
-		int nbPage = Integer.parseInt(getString(MAX_PAGE));
+		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {

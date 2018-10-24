@@ -49,7 +49,7 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 
 		private void join(IoSession session, JoinAction ja) {
 			if (!getString(MAX_CLIENT).equals("0")
-					&& acceptor.getManagedSessions().size() >= Integer.parseInt(getString(MAX_CLIENT))) {
+					&& acceptor.getManagedSessions().size() >= getInt(MAX_CLIENT)) {
 				session.write(new SpeakAction(null, "Number of users reached (" + getString(MAX_CLIENT) + ")"));
 				session.closeOnFlush();
 				return;
@@ -160,13 +160,13 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		acceptor = new NioSocketAcceptor();
 		acceptor.setHandler(adapter);
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
-		acceptor.getSessionConfig().setReadBufferSize(Integer.parseInt(getString("BUFFER-SIZE")));
-		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, Integer.parseInt(getString("IDLE-TIME")));
+		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
+		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE,getInt("IDLE-TIME"));
 	}
 
 	@Override
 	public void start() throws IOException {
-		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString(SERVER_PORT))));
+		acceptor.bind(new InetSocketAddress(getInt(SERVER_PORT)));
 		logger.info("Server started on port " + getString(SERVER_PORT) + " ...");
 	}
 

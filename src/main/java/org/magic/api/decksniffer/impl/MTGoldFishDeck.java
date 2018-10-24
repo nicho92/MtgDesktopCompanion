@@ -95,7 +95,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage = 1;
-		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
+		int maxPage = getInt("MAX_PAGE");
 
 		if (metagames)
 			maxPage = 1;

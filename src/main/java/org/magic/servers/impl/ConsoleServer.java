@@ -34,10 +34,10 @@ public class ConsoleServer extends AbstractMTGServer {
 		acceptor = new NioSocketAcceptor();
 		acceptor.getFilterChain().addLast("codec",
 				new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName(MTGConstants.DEFAULT_ENCODING))));
-		acceptor.getSessionConfig().setReadBufferSize(Integer.parseInt(getString("BUFFER-SIZE")));
-		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, Integer.parseInt(getString("IDLE-TIME")));
+		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
+		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, getInt("IDLE-TIME"));
 		acceptor.setHandler(new MTGConsoleHandler());
-		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString(SERVER_PORT))));
+		acceptor.bind(new InetSocketAddress(getInt(SERVER_PORT)));
 		logger.info("Server started on port " + getString(SERVER_PORT));
 	}
 

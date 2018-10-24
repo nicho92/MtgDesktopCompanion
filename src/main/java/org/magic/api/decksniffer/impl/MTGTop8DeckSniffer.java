@@ -107,7 +107,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 
 		StringBuilder res = new StringBuilder();
-		for (int i = 0; i < Integer.parseInt(getString("MAX_PAGE")); i++) {
+		for (int i = 0; i < getInt("MAX_PAGE"); i++) {
 			HttpPost reqSearch = new HttpPost(getString("URL") + "/search");
 			List<NameValuePair> nvps = new ArrayList<>();
 			nvps.add(new BasicNameValuePair("current_page", String.valueOf(i + 1)));

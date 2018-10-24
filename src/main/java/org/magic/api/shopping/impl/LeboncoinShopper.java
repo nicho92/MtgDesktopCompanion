@@ -56,7 +56,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 
 		List<ShopItem> list = new ArrayList<>();
 		String html = "";
-		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
+		int maxPage = getInt("MAX_PAGE");
 
 		for (int p = 1; p <= maxPage; p++) {
 			html = getString("URL").replaceAll("%SEARCH%", search).replaceAll("%PAGE%", String.valueOf(p));
@@ -116,8 +116,8 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 			}
 		}
 
-		if (list.size() > Integer.parseInt(getString(MAX_RESULT)) && (Integer.parseInt(getString(MAX_RESULT)) > -1))
-			return list.subList(0, Integer.parseInt(getString(MAX_RESULT)));
+		if (list.size() > getInt(MAX_RESULT) && getInt(MAX_RESULT) > -1)
+			return list.subList(0, getInt(MAX_RESULT));
 
 		return list;
 	}

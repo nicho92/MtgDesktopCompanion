@@ -116,7 +116,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		MagicDeck d = new MagicDeck();
 		for (MagicCard mc : cards)
 		{
-			d.getMap().put(mc, Integer.parseInt(getString(DEFAULT_QTE)));
+			d.getMap().put(mc, getInt(DEFAULT_QTE));
 			notify(mc);
 		}
 
@@ -169,7 +169,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		}
 
-		int max = Integer.parseInt(getString(MAX_WANTLIST_SIZE));
+		int max = getInt(MAX_WANTLIST_SIZE);
 		if (wants.size() <= max) {
 			Wantslist l = wlService.createWantList(deck.getName());
 			logger.debug("Create " + l + " list with " + wants.size() + " items");
