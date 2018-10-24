@@ -3,6 +3,7 @@ package org.magic.gui.components.dialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -19,6 +20,7 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -31,7 +33,7 @@ public class DeckSnifferDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private JComboBox<AbstractDeckSniffer> cboSniffers;
+	private JComboBox<MTGDeckSniffer> cboSniffers;
 	private JComboBox<String> cboFormats;
 	private DeckSnifferTableModel model;
 	private MagicDeck importedDeck;
@@ -72,8 +74,13 @@ public class DeckSnifferDialog extends JDialog {
 		
 		panelChoose = new JPanel();
 		panel.add(panelChoose, BorderLayout.WEST);
-		
-				cboSniffers = new JComboBox(MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).toArray());
+				DefaultComboBoxModel<MTGDeckSniffer> models = new DefaultComboBoxModel<>();
+				
+				MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).forEach(s->models.addElement(s));
+				
+				cboSniffers = new JComboBox<>(models);
+				
+				cboSniffers.setRenderer(new PluginIconListRenderer());
 				panelChoose.add(cboSniffers);
 				
 				btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
