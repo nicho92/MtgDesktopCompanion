@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -248,8 +247,7 @@ public class CardSearchPanel extends MTGUIPanel {
 		similarityPanel = new SimilarityCardPanel();
 		
 		
-		cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(
-				MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()));
+		cboQuereableItems = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
 	
 		cboCollections = UITools.createComboboxCollection();
 		

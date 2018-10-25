@@ -19,7 +19,6 @@ import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -74,6 +73,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class ConstructPanel extends JPanel {
 
@@ -144,7 +144,7 @@ public class ConstructPanel extends JPanel {
 		panelBottom = new JPanel();
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
-		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()));	
+		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
 		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		lblCards = new JLabel();
 		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);

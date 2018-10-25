@@ -27,6 +27,7 @@ import org.magic.services.MTGControler;
 
 public class DefaultStockEditorDialog extends JDialog {
 
+	private static final String CHECKBOX_PROPERTIES = "selected";
 	private transient BindingGroup mbindingGroup;
 	private JPanel mcontentPane;
 	private MagicCardStock magicCardStock = new MagicCardStock();
@@ -221,14 +222,14 @@ public class DefaultStockEditorDialog extends JDialog {
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCardStock, Boolean> alteredProperty = BeanProperty
 				.create("altered");
-		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create("selected");
+		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create(CHECKBOX_PROPERTIES);
 		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, alteredProperty, alteredJCheckBox,
 						selectedProperty);
 		autoBinding.bind();
 		//
 		BeanProperty<MagicCardStock, Boolean> foilProperty = BeanProperty.create("foil");
-		BeanProperty<JCheckBox, Boolean> selectedProperty1 = BeanProperty.create("selected");
+		BeanProperty<JCheckBox, Boolean> selectedProperty1 = BeanProperty.create(CHECKBOX_PROPERTIES);
 		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding1 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, foilProperty, foilJCheckBox,
 						selectedProperty1);
@@ -244,7 +245,7 @@ public class DefaultStockEditorDialog extends JDialog {
 		//
 		BeanProperty<MagicCardStock, Boolean> oversizeProperty = BeanProperty
 				.create("oversize");
-		BeanProperty<JCheckBox, Boolean> selectedProperty2 = BeanProperty.create("selected");
+		BeanProperty<JCheckBox, Boolean> selectedProperty2 = BeanProperty.create(CHECKBOX_PROPERTIES);
 		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding3 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, oversizeProperty,
 						oversizeJCheckBox, selectedProperty2);
@@ -259,7 +260,7 @@ public class DefaultStockEditorDialog extends JDialog {
 		//
 		BeanProperty<MagicCardStock, Boolean> signedProperty = BeanProperty
 				.create("signed");
-		BeanProperty<JCheckBox, Boolean> selectedProperty3 = BeanProperty.create("selected");
+		BeanProperty<JCheckBox, Boolean> selectedProperty3 = BeanProperty.create(CHECKBOX_PROPERTIES);
 		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding5 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, signedProperty,
 						signedJCheckBox, selectedProperty3);

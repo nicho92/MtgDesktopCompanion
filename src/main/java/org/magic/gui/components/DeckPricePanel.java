@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,7 +30,7 @@ import org.magic.services.ThreadManager;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.UITools;
 
-public class DeckPricePanel extends JPanel {
+public class DeckPricePanel extends JComponent {
 
 	/**
 	 * 

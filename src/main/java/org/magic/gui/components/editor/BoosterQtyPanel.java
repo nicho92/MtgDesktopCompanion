@@ -1,30 +1,20 @@
 package org.magic.gui.components.editor;
 
 import java.awt.FlowLayout;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.gui.renderer.MagicEditionIconListRenderer;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
 
-public class BoosterQtyPanel extends JPanel {
+public class BoosterQtyPanel extends JComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicEdition> cboEditions;
 	private JSpinner spinner;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public BoosterQtyPanel() {
 		initGUI();

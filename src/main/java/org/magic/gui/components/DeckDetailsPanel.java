@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.text.DateFormat;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -31,7 +32,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.ImageUtils;
 
-public class DeckDetailsPanel extends JPanel {
+public class DeckDetailsPanel extends JComponent {
 	/**
 	 * 
 	 */

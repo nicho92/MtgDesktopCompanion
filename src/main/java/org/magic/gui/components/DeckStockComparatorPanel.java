@@ -6,9 +6,9 @@ import java.awt.Component;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,13 +23,12 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class DeckStockComparatorPanel extends JPanel {
+public class DeckStockComparatorPanel extends JComponent {
 	
 	private JComboBox<MagicCollection> cboCollections;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());

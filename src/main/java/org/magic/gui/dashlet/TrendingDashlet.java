@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,9 +29,7 @@ import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
 public class TrendingDashlet extends AbstractJDashlet {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
@@ -51,7 +48,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboFormats = new JComboBox<>(new DefaultComboBoxModel<MTGFormat>(MTGFormat.values()));
+		cboFormats = UITools.createCombobox(MTGFormat.values());
 		cboFormats.addItemListener(ie -> init());
 		panneauHaut.add(cboFormats);
 
@@ -87,7 +84,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		UITools.initTableFilter(table);
 
-		UITools.initToolTip(table, 0, 1);
+		UITools.initCardToolTipTable(table, 0, 1);
 
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);

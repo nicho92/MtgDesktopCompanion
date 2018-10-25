@@ -133,7 +133,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 			}
 		};
 		
-		cboSorter = new JComboBox<>(CardsShakeSorter.SORT.values());
+		cboSorter = UITools.createCombobox(CardsShakeSorter.SORT.values());
 		
 		boxS = new JCheckBox();
 		boxS.setAction(a);
@@ -165,7 +165,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable(modStandard);
 		scrollPane.setViewportView(table);
-		UITools.initToolTip(table, 0, 1);
+		UITools.initCardToolTipTable(table, 0, 1);
 
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),

@@ -4,12 +4,11 @@ import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 
-public abstract class MTGUIPanel extends JPanel {
+public abstract class MTGUIPanel extends JComponent {
 
 	protected static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());

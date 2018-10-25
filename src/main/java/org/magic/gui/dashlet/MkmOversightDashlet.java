@@ -52,12 +52,11 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		JComboBox<String> comboBox = new JComboBox<>();
 		panneauHaut.add(comboBox);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		JXTable table = new JXTable(model);
-		scrollPane.setViewportView(table);
-
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		
 		setVisible(true);
 	}
 

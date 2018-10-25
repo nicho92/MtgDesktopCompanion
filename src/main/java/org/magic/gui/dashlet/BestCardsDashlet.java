@@ -3,7 +3,6 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -49,25 +48,20 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboFormat = new JComboBox<>();
-		cboFormat.setModel(new DefaultComboBoxModel<>(MTGFormat.values()));
-
+		cboFormat = UITools.createCombobox(MTGFormat.values());
+		
 		panneauHaut.add(cboFormat);
 
-		cboFilter = new JComboBox<>();
-		cboFilter.setModel(
-				new DefaultComboBoxModel<>(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getDominanceFilters()));
+		cboFilter = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getDominanceFilters());
 		panneauHaut.add(cboFilter);
 
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panneauHaut.add(lblLoading);
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		models = new CardDominanceTableModel();
 		table = new JXTable(models);
-		scrollPane.setViewportView(table);
-		UITools.initToolTip(table, 0, null);
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+		UITools.initCardToolTipTable(table, 0, null);
 
 		cboFormat.addActionListener(ae -> init());
 

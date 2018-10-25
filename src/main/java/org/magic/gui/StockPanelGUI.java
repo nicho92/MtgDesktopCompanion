@@ -55,7 +55,6 @@ import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
@@ -597,9 +596,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		gbclblSelect.gridy = 1;
 		rightPanel.add(lblSelect, gbclblSelect);
 
-		cboSelections = new JComboBox<>();
-
-		cboSelections.setModel(new DefaultComboBoxModel<String>(selections));
+		cboSelections = UITools.createCombobox(selections);
 		GridBagConstraints gbccomboBox = new GridBagConstraints();
 		gbccomboBox.anchor = GridBagConstraints.NORTH;
 		gbccomboBox.insets = new Insets(0, 0, 5, 0);
@@ -654,7 +651,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		gbclblFoil.gridy = 4;
 		rightPanel.add(lblFoil, gbclblFoil);
 
-		cboFoil = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
+		cboFoil = UITools.createCombobox(values);
 		GridBagConstraints gbccboFoil = new GridBagConstraints();
 		gbccboFoil.insets = new Insets(0, 0, 5, 0);
 		gbccboFoil.fill = GridBagConstraints.HORIZONTAL;
@@ -670,7 +667,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		gbclblSigned.gridy = 5;
 		rightPanel.add(lblSigned, gbclblSigned);
 
-		cboSigned = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
+		cboSigned = UITools.createCombobox(values);
 		GridBagConstraints gbccboSigned = new GridBagConstraints();
 		gbccboSigned.insets = new Insets(0, 0, 5, 0);
 		gbccboSigned.fill = GridBagConstraints.HORIZONTAL;
@@ -686,7 +683,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		gbclblAltered.gridy = 6;
 		rightPanel.add(lblAltered, gbclblAltered);
 
-		cboAltered = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
+		cboAltered = UITools.createCombobox(values);
 		GridBagConstraints gbccboAltered = new GridBagConstraints();
 		gbccboAltered.insets = new Insets(0, 0, 5, 0);
 		gbccboAltered.fill = GridBagConstraints.HORIZONTAL;
@@ -702,13 +699,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		gbclblQuality.gridy = 7;
 		rightPanel.add(lblQuality, gbclblQuality);
 
-		DefaultComboBoxModel<EnumCondition> qModel = new DefaultComboBoxModel<>();
-		qModel.addElement(null);
-		for (EnumCondition l : EnumCondition.values())
-			qModel.addElement(l);
-
-		cboQuality = new JComboBox<>(qModel);
-
+		cboQuality = UITools.createCombobox(EnumCondition.values());
 		GridBagConstraints gbccboQuality = new GridBagConstraints();
 		gbccboQuality.insets = new Insets(0, 0, 5, 0);
 		gbccboQuality.fill = GridBagConstraints.HORIZONTAL;
@@ -724,16 +715,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		gbclblCollection.gridy = 8;
 		rightPanel.add(lblCollection, gbclblCollection);
 
-		DefaultComboBoxModel<MagicCollection> cModel = new DefaultComboBoxModel<>();
-		cModel.addElement(null);
-		try {
-			for (MagicCollection l : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections())
-				cModel.addElement(l);
-		} catch (SQLException e1) {
-			logger.error(e1);
-		}
-
-		cboCollection = new JComboBox<>(cModel);
+		cboCollection = UITools.createComboboxCollection();
 		GridBagConstraints gbccboCollection = new GridBagConstraints();
 		gbccboCollection.insets = new Insets(0, 0, 5, 0);
 		gbccboCollection.fill = GridBagConstraints.HORIZONTAL;
@@ -772,7 +754,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		lblCount = new JLabel();
 		bottomPanel.add(lblCount);
 
-		cboCollection.setRenderer(new MagicCollectionIconListRenderer());
+		
 		
 		
 		ThreadManager.getInstance().execute(() -> {

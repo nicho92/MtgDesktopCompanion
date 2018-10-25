@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -16,6 +15,7 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class IndexationDashlet extends AbstractJDashlet {
 	/**
@@ -36,7 +36,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboField = new JComboBox<>(new DefaultComboBoxModel<>(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).listFields()));
+		cboField = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).listFields());
 		panneauHaut.add(cboField);
 
 		

@@ -3,14 +3,13 @@ package org.magic.gui.abstracts;
 import java.awt.BorderLayout;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.JBuzyProgress;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public abstract class AbstractBuzyIndicatorComponent extends JPanel implements Observer {
+public abstract class AbstractBuzyIndicatorComponent extends JComponent implements Observer {
 
 	public abstract void setText(String s);
 	public abstract void setValue(int i) ;

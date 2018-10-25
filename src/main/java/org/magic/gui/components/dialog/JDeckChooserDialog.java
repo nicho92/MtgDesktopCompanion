@@ -108,8 +108,6 @@ public class JDeckChooserDialog extends JDialog {
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		
 		setSize(828, 500);
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new DefaultTreeModel(root);
 
 		addWindowListener(new WindowAdapter() {
@@ -127,7 +125,7 @@ public class JDeckChooserDialog extends JDialog {
 		decksModel.init();
 		table = new JXTable(decksModel);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
@@ -147,7 +145,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		});
 
-		scrollPane.setViewportView(table);
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 		JPanel panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);

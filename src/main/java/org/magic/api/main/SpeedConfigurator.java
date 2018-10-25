@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -24,9 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 public class SpeedConfigurator extends JFrame {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGDao> cboDAOs;
 	private JComboBox<MTGPictureProvider> cboPictures;

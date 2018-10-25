@@ -2,18 +2,23 @@ package org.magic.tools;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
@@ -27,6 +32,7 @@ import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -70,6 +76,54 @@ public class UITools {
 
 	}
 	
+	public static <T> JComboBox<T> createCombobox(T[] items)
+	{
+		return createCombobox(Arrays.asList(items));
+	}
+	
+	
+	public static <T> JComboBox<T> createCombobox(List<T> items)
+	{
+		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
+		JComboBox<T> combo = new JComboBox<>(model);
+			items.forEach(s->model.addElement(s));
+			
+			combo.setRenderer(new ListCellRenderer<T>() {
+				@Override
+				public Component getListCellRendererComponent(JList<? extends T> list, T value, int index,boolean isSelected, boolean cellHasFocus) {
+					
+					JLabel l ;
+					if(value==null)
+					{
+						l= new JLabel();
+					}
+					else
+					{
+						l=new JLabel(value.toString());
+						l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
+					}
+					
+					
+					
+					l.setOpaque(true);
+					if (isSelected) {
+						l.setBackground(list.getSelectionBackground());
+						l.setForeground(list.getSelectionForeground());
+					} else {
+						l.setBackground(list.getBackground());
+						l.setForeground(list.getForeground());
+					}
+					
+					return l;
+				}
+			});
+			
+			
+		return combo;
+	}
+	
+	
+	
 	public static JComboBox<MagicCollection> createComboboxCollection()
 	{
 		DefaultComboBoxModel<MagicCollection> model = new DefaultComboBoxModel<>();
@@ -99,7 +153,7 @@ public class UITools {
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 	}
 	
-	public static void initToolTip(final JTable table, final Integer cardPos, final Integer edPos) {
+	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {
 		MagicCardDetailPanel pane = new MagicCardDetailPanel();
 		pane.enableThumbnail(true);
 		final JPopupMenu popUp = new JPopupMenu();

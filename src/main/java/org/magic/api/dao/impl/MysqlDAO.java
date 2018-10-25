@@ -123,7 +123,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
-		logger.debug("move " + mc + " from " + from + " to " + to);
+		logger.debug("move " + mc+ " s=" + from + "d=" + to);
 		
 		try (PreparedStatement pst = con.prepareStatement("update cards set collection= ? where id=? and collection=?")) 
 		{
