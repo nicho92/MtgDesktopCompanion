@@ -3,8 +3,11 @@ package org.magic.tools;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -13,28 +16,39 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
+import org.utils.patterns.observer.Observer;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -194,7 +208,7 @@ public class UITools {
 		});
 	}
 
-	public static <T>  List<T> getSelects(JTable tableCards,int columnID) {
+	public static <T> List<T> getSelects(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
 		for (int i : viewRow) {
@@ -204,5 +218,63 @@ public class UITools {
 		}
 		return listCards;
 	}
+	
+	public static JButton createExportButton(AbstractBuzyIndicatorComponent obs,List<MagicCard> export)
+	{
+		JButton b = new JButton(MTGConstants.ICON_EXPORT);
+		b.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_RESULTS"));
+		b.addActionListener(ae -> {
+			JPopupMenu menu = new JPopupMenu();
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(exportEvent -> {
+						JFileChooser jf = new JFileChooser(".");
+						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
+						int result = jf.showSaveDialog(null);
+						final File f = jf.getSelectedFile();
+						obs.start(export.size()); 
+						exp.addObserver(obs);
+						
+						if (result == JFileChooser.APPROVE_OPTION)
+							ThreadManager.getInstance().execute(() -> {
+								try {
+									exp.export(export, f);
+									obs.end();
+									MTGControler.getInstance().notify(new MTGNotification(
+											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
+											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+											MESSAGE_TYPE.INFO
+											));
+								} catch (Exception e) {
+									logger.error(e);
+									obs.end();
+									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+								}
+								finally {
+									exp.removeObserver(obs);
+								}
+							}, "export search " + exp);
+					});
+					menu.add(it);
+				}
+				
+			}
+			
+			Component c = (Component) ae.getSource();
+			Point p = c.getLocationOnScreen();
+			menu.show(c, 0, 0);
+			menu.setLocation(p.x, p.y + c.getHeight());
+		});
+		
+		
+		return b;
+		
+	}
+	
+	
+	
 	
 }

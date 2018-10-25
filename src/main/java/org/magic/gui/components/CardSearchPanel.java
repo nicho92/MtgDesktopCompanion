@@ -151,7 +151,7 @@ public class CardSearchPanel extends MTGUIPanel {
 			adds.addActionListener(addEvent -> {
 
 				String collec = ((JMenuItem) addEvent.getSource()).getText();
-				lblLoading.start();
+				lblLoading.start(tableCards.getSelectedRowCount());
 				lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_TO") + " " + collec);
 
 				for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
