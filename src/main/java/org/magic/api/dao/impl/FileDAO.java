@@ -172,7 +172,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<String> getEditionsIDFromCollection(MagicCollection c) throws SQLException {
+	public List<String> listEditionsIDFromCollection(MagicCollection c) throws SQLException {
 		File col = new File(new File(directory, CARDSDIR), c.getName());
 		List<String> ret = new ArrayList<>();
 
@@ -210,7 +210,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCollection> getCollections() throws SQLException {
+	public List<MagicCollection> listCollections() throws SQLException {
 
 		ArrayList<MagicCollection> ret = new ArrayList<>();
 

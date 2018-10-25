@@ -674,7 +674,7 @@ public class ConfigurationPanel extends JPanel {
 		});
 
 		try {
-			for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()) {
+			for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()) {
 				if (col.getName().equalsIgnoreCase(MTGControler.getInstance().get("default-library"))) {
 					cboCollections.setSelectedItem(col);
 				}

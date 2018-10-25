@@ -90,9 +90,9 @@ public class DAOProviderTests {
 			System.out.println(p.listCardsFromCollection(col));
 			System.out.println(p.listCardsFromCollection(col, ed));
 			System.out.println(p.listCardsFromCollection(col, null));
-			System.out.println(p.getEditionsIDFromCollection(col));
+			System.out.println(p.listEditionsIDFromCollection(col));
 			System.out.println("global" + p.getCardsCountGlobal(col));
-			System.out.println("cols: " + p.getCollections());
+			System.out.println("cols: " + p.listCollections());
 			System.out.println("test: " + p.getCollection("TEST"));
 			System.out.println("cols: " + p.listCollectionFromCards(mc));
 			

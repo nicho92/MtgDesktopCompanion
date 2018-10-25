@@ -40,7 +40,7 @@ public class Collection extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
 			try {
-				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()));
+				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}
@@ -73,7 +73,7 @@ public class Collection extends AbstractCommand {
 		
 		if (cl.hasOption("l")) {
 			try {
-				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()));
+				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}

@@ -108,7 +108,7 @@ public class LazyLoadingTree extends JTree {
 				protected List<MyNode> doInBackground() throws Exception {
 
 					List<MyNode> children = new ArrayList<>();
-					for (MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()) {
+					for (MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()) {
 						MyNode n = new MyNode(c);
 						children.add(n);
 					}
@@ -175,7 +175,7 @@ public class LazyLoadingTree extends JTree {
 				protected List<MyNode> doInBackground() throws Exception {
 					logger.debug("loading editions from " + c);
 					List<MyNode> children = new ArrayList<>();
-					for (String ed : MTGControler.getInstance().getEnabled(MTGDao.class).getEditionsIDFromCollection(c)) {
+					for (String ed : MTGControler.getInstance().getEnabled(MTGDao.class).listEditionsIDFromCollection(c)) {
 						MyNode n = new MyNode(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ed));
 						children.add(n);
 					}

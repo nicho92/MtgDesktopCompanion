@@ -67,7 +67,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		
 		logger.debug("duplicate collection");
-		for (MagicCollection col : getCollections())
+		for (MagicCollection col : listCollections())
 		{
 			try {
 				dao.saveCollection(col);

@@ -65,7 +65,7 @@ public class MassMoverDialog extends JDialog {
 		DefaultComboBoxModel<MagicCollection> colMod = new DefaultComboBoxModel<>();
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(c->colMod.addElement(c));
+			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().forEach(c->colMod.addElement(c));
 		} catch (SQLException e2) {
 			logger.error(e2);
 		}

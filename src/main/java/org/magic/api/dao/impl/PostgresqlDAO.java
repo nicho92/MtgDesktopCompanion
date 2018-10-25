@@ -220,7 +220,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
+	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		String sql = "select distinct(edition) from cards where collection=?";
 
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
@@ -279,7 +279,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCollection> getCollections() throws SQLException {
+	public List<MagicCollection> listCollections() throws SQLException {
 		try (PreparedStatement pst = con.prepareStatement("select * from collections");
 				ResultSet rs = pst.executeQuery()) {
 			List<MagicCollection> colls = new ArrayList<>();

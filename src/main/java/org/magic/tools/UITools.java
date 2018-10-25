@@ -127,7 +127,7 @@ public class UITools {
 		JComboBox<MagicCollection> combo = new JComboBox<>(model);
 	
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(s->model.addElement(s));
+			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().forEach(s->model.addElement(s));
 			combo.setRenderer(new MagicCollectionIconListRenderer());
 		return combo;
 		} catch (Exception e) {

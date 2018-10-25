@@ -65,7 +65,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		DefaultComboBoxModel<MagicCollection> modCollections=new DefaultComboBoxModel<>();
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(c->modCollections.addElement(c));
+			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().forEach(c->modCollections.addElement(c));
 		} catch (Exception e2) {
 			logger.error(e2);
 		}

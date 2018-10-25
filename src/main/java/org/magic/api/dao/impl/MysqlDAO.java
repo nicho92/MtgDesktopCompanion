@@ -230,7 +230,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
+	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		String sql = "select distinct(edition) from cards where collection=?";
 		Chrono c = new Chrono();
 		c.start();
@@ -289,7 +289,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCollection> getCollections() throws SQLException {
+	public List<MagicCollection> listCollections() throws SQLException {
 		try (PreparedStatement pst = con.prepareStatement("select * from collections")) {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> colls = new ArrayList<>();

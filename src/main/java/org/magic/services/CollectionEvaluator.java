@@ -102,7 +102,7 @@ public class CollectionEvaluator
 	{
 		List<MagicEdition> eds = new ArrayList<>();
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).getEditionsIDFromCollection(collection).forEach(key->{
+			MTGControler.getInstance().getEnabled(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
 				try {
 					MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(key);
 					eds.add(ed);

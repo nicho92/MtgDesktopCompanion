@@ -35,7 +35,7 @@ public interface MTGDao extends MTGPlugin {
 
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException;
 
-	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException;
+	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException;
 
 	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException;
 
@@ -45,7 +45,7 @@ public interface MTGDao extends MTGPlugin {
 
 	public void removeCollection(MagicCollection c) throws SQLException;
 
-	public List<MagicCollection> getCollections() throws SQLException;
+	public List<MagicCollection> listCollections() throws SQLException;
 
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException;
 

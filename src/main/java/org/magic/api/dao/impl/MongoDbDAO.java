@@ -207,7 +207,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
+	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		List<String> ret = new ArrayList<>();
 		BasicDBObject query = new BasicDBObject();
 		query.put(dbColIDField, collection.getName());
@@ -239,7 +239,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCollection> getCollections() throws SQLException {
+	public List<MagicCollection> listCollections() throws SQLException {
 		MongoCollection<MagicCollection> collection = db.getCollection(colCollects, MagicCollection.class);
 		List<MagicCollection> cols = new ArrayList<>();
 		collection.find().into(cols);

@@ -83,12 +83,12 @@ public class MTGControler {
 	
 	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException
 	{
-		MTGControler.getInstance().getEnabled(MTGDao.class).removeCard(mc, collection);
+		getEnabled(MTGDao.class).removeCard(mc, collection);
 		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
 		{ 
-			MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
+			getEnabled(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
 				try{
-					MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(st);	
+					getEnabled(MTGDao.class).deleteStock(st);	
 				}
 				catch(Exception e)
 				{
@@ -101,13 +101,13 @@ public class MTGControler {
 	
 	public void saveCard(MagicCard mc , MagicCollection collection) throws SQLException
 	{
-		MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(mc, collection);
-		if(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"))
+		getEnabled(MTGDao.class).saveCard(mc, collection);
+		if(get("collections/stockAutoAdd").equals("true"))
 		{ 
 			MagicCardStock st = getDefaultStock();
 			st.setMagicCard(mc);
 			st.setMagicCollection(collection);
-			MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(st);
+			getEnabled(MTGDao.class).saveOrUpdateStock(st);
 		}
 	}
 	
@@ -167,6 +167,15 @@ public class MTGControler {
 		return inst;
 	}
 
+	
+
+	public Dimension getPictureProviderDimension() {
+		int w = Integer.parseInt(get("/card-pictures-dimension/width"));
+		int h = Integer.parseInt(get("/card-pictures-dimension/height"));
+		return new Dimension(w, h);
+	}
+
+	
 	public Dimension getCardsGameDimension() {
 		int w = Integer.parseInt(get("/game/cards/card-width"));
 		int h = Integer.parseInt(get("/game/cards/card-height"));
@@ -199,13 +208,6 @@ public class MTGControler {
 		}
 	}
 	
-	
-
-	public Dimension getPictureProviderDimension() {
-		int w = Integer.parseInt(get("/card-pictures-dimension/width"));
-		int h = Integer.parseInt(get("/card-pictures-dimension/height"));
-		return new Dimension(w, h);
-	}
 
 	public void setProperty(Object k, Object c) {
 		try {

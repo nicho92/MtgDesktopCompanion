@@ -45,7 +45,7 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("col")) {
 			List<MagicCollection> list;
 			try {
-				list = MTGControler.getInstance().getEnabled(MTGDao.class).getCollections();
+				list = MTGControler.getInstance().getEnabled(MTGDao.class).listCollections();
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}

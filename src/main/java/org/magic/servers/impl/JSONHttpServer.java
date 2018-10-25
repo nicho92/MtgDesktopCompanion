@@ -249,7 +249,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				.getEnabled(MTGDao.class).getCardsCountGlobal(new MagicCollection(request.params(NAME))), transformer);
 
 		get("/collections/list", getString(MIME),
-				(request, response) -> MTGControler.getInstance().getEnabled(MTGDao.class).getCollections(), transformer);
+				(request, response) -> MTGControler.getInstance().getEnabled(MTGDao.class).listCollections(), transformer);
 
 		get("/collections/cards/:idcards", getString(MIME), (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(request.params(":idcards"));
@@ -273,7 +273,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/editions/list/:colName", getString(MIME), (request, response) -> {
 			List<MagicEdition> eds = new ArrayList<>();
 			List<String> list = MTGControler.getInstance().getEnabled(MTGDao.class)
-					.getEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
+					.listEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
 			for (String s : list)
 				eds.add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(s));
 

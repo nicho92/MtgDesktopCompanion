@@ -145,7 +145,7 @@ public class CardSearchPanel extends MTGUIPanel {
 	public void initPopupCollection() throws SQLException {
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 
-		for (MagicCollection mc : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()) {
+		for (MagicCollection mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()) {
 
 			JMenuItem adds = new JMenuItem(mc.getName());
 			adds.addActionListener(addEvent -> {

@@ -570,7 +570,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
 			try {
 
-				WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
+				WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.listCollections());
 				diag.setVisible(true);
 				if (diag.value()) {
 				
@@ -603,7 +603,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 	    btnAddAllSet.addActionListener(ae ->{
 			JPopupMenu popupMenu = new JPopupMenu("Title");
 			try {
-					for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections())
+					for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections())
 					{
 						JMenuItem cutMenuItem = new JMenuItem(c.getName());
 						initAddAllSet(cutMenuItem);
@@ -771,7 +771,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"));
 		JMenuItem menuItemStocks = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_STOCKS"));
 		
-		for (MagicCollection mc : dao.getCollections()) {
+		for (MagicCollection mc : dao.listCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName());
 			JMenuItem movs = new JMenuItem(mc.getName());
 
