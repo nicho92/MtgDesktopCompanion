@@ -69,8 +69,6 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
-import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -252,13 +250,9 @@ public class CardSearchPanel extends MTGUIPanel {
 		
 		cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(
 				MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()));
-		try {
-			cboCollections = new JComboBox<>(new DefaultComboBoxModel<MagicCollection>(
-					MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().toArray(
-							new MagicCollection[MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().size()])));
-		} catch (SQLException e2) {
-			logger.error("could not load collections combobox", e2);
-		}
+	
+		cboCollections = UITools.createComboboxCollection();
+		
 		cboLanguages = new JComboBox<>();
 		tableCards = new JXTable();
 		
@@ -277,7 +271,7 @@ public class CardSearchPanel extends MTGUIPanel {
 
 		UITools.initTableFilter(tableCards);
 		
-		cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
+		cboEdition = UITools.createComboboxEditions();
 
 		deckPanel = new CardsDeckCheckerPanel();
 		
@@ -288,9 +282,7 @@ public class CardSearchPanel extends MTGUIPanel {
 		//////// RENDERER
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
-		cboEdition.setRenderer(new MagicEditionIconListRenderer());
-		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
-		cboCollections.setRenderer(new MagicCollectionIconListRenderer());
+		
 		
 		///////// CONFIGURE COMPONENTS
 		txtRulesArea.setLineWrap(true);

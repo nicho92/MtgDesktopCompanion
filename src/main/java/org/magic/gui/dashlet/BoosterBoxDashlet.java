@@ -38,6 +38,7 @@ import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class BoosterBoxDashlet extends AbstractJDashlet {
 
@@ -74,20 +75,8 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		JTextPane txtDetailBox;
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
-
-		List<MagicEdition> eds = new ArrayList<>();
-		try {
-			eds.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions());
-			Collections.sort(eds);
-			eds.add(0, null);
-		} catch (Exception e) {
-			logger.error(e);
-		}
-
-		JComboBox<MagicEdition> cboEditions = new JComboBox<>(
-				new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
-		cboEditions.setRenderer(new MagicEditionIconListRenderer());
-
+		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
+		cboEditions.insertItemAt(null, 0);
 		panneauHaut.add(cboEditions);
 
 		JLabel lblBoxSize = new JLabel("Box size: ");

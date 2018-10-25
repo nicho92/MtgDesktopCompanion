@@ -32,7 +32,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "backup prices for editions";
+		return "backup prices editions";
 	}
 
 	public CardShakeDashBoardServer() {
@@ -50,11 +50,13 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 					CollectionEvaluator evaluator = new CollectionEvaluator(new MagicCollection(getString(COLLECTION)));
 					logger.debug("backuping files");
 					File dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
-					for(File f : evaluator.getDirectory().listFiles())
-						FileUtils.moveFileToDirectory(f, dest, true);	
+					for(File f : evaluator.getDirectory().listFiles(pathname->{return !pathname.isDirectory();})){
+								FileUtils.moveFileToDirectory(f, dest, true);	
+					}
 					
 					logger.debug("updating cache");
 					evaluator.initCache();
+					logger.info("cache update done");
 					
 				} catch (IOException e) {
 					logger.error(e);

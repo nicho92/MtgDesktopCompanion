@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.UITools;
 
 public class BoosterQtyPanel extends JPanel {
 	
@@ -42,14 +43,7 @@ public class BoosterQtyPanel extends JPanel {
 
 	private void initGUI() {
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		List<MagicEdition> li = new ArrayList<>();
-		try {
-			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
-		} catch (IOException e1) {
-			logger.error(e1);
-		}
-		cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
-		cboEditions.setRenderer(new MagicEditionIconListRenderer());
+		cboEditions = UITools.createComboboxEditions();
 		add(cboEditions);
 
 		spinner = new JSpinner();

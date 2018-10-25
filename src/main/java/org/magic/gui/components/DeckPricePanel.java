@@ -9,7 +9,6 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,12 +22,12 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.models.CardsPriceTableModel;
-import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.MagicPricesComparator;
+import org.magic.tools.UITools;
 
 public class DeckPricePanel extends JPanel {
 
@@ -62,8 +61,7 @@ public class DeckPricePanel extends JPanel {
 		
 		add(panel, BorderLayout.NORTH);
 
-		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().listEnabled(MTGPricesProvider.class).toArray()));
-		cboPricers.setRenderer(new PluginIconListRenderer());
+		cboPricers = UITools.createCombobox(MTGPricesProvider.class,false);
 		panel.add(cboPricers);
 
 

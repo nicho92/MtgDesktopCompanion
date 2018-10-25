@@ -16,15 +16,14 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class DeckSnifferDialog extends JDialog {
 
@@ -76,11 +75,8 @@ public class DeckSnifferDialog extends JDialog {
 		panel.add(panelChoose, BorderLayout.WEST);
 				DefaultComboBoxModel<MTGDeckSniffer> models = new DefaultComboBoxModel<>();
 				
-				MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).forEach(s->models.addElement(s));
+				cboSniffers =UITools.createCombobox(MTGDeckSniffer.class,false);
 				
-				cboSniffers = new JComboBox<>(models);
-				
-				cboSniffers.setRenderer(new PluginIconListRenderer());
 				panelChoose.add(cboSniffers);
 				
 				btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
@@ -123,11 +119,14 @@ public class DeckSnifferDialog extends JDialog {
 		JPanel panelButton = new JPanel();
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
 
-		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		JButton btnClose = new JButton(MTGConstants.ICON_CANCEL);
+		btnClose.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		
 		btnClose.addActionListener(e -> dispose());
 		panelButton.add(btnClose);
 
-		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 			try {
 				lblLoad.start();

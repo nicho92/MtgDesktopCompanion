@@ -27,12 +27,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
-import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class MassCollectionImporterDialog extends JDialog {
 
@@ -42,7 +41,7 @@ public class MassCollectionImporterDialog extends JDialog {
 	private JTextPane txtNumbersInput;
 	private MagicDeck deck;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private DefaultComboBoxModel<MagicEdition> modEditions;
+	private JComboBox<MagicEdition> cboEditions;
 	
 	public MassCollectionImporterDialog() {
 		setSize(new Dimension(646, 290));
@@ -63,18 +62,15 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
-		modEditions=new DefaultComboBoxModel<>();
 		DefaultComboBoxModel<MagicCollection> modCollections=new DefaultComboBoxModel<>();
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(e->modEditions.addElement(e));
 			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(c->modCollections.addElement(c));
 		} catch (Exception e2) {
 			logger.error(e2);
 		}
 		
-		JComboBox<MagicEdition> cboEditions = new JComboBox<>(modEditions);
-		cboEditions.setRenderer(new MagicEditionIconListRenderer());
+		cboEditions =UITools.createComboboxEditions();
 		panelCollectionInput.add(cboEditions);
 		
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
@@ -87,8 +83,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		JLabel lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
 		
-		JComboBox<MagicCollection> cboCollections = new JComboBox<>(modCollections);
-		cboCollections.setRenderer(new MagicCollectionIconListRenderer());
+		JComboBox<MagicCollection> cboCollections = UITools.createComboboxCollection();
 		panelCollectionInput.add(cboCollections);
 
 		JPanel panneauBas = new JPanel();
@@ -184,7 +179,7 @@ public class MassCollectionImporterDialog extends JDialog {
 	}
 
 	public void setDefaultEdition(MagicEdition magicEdition) {
-		modEditions.setSelectedItem(magicEdition);
+		cboEditions.setSelectedItem(magicEdition);
 		
 	}
 

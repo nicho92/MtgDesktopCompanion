@@ -27,6 +27,7 @@ import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class DeckStockComparatorPanel extends JPanel {
 	
@@ -51,8 +52,7 @@ public class DeckStockComparatorPanel extends JPanel {
 		btnCompare = new JButton("Compare");
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauBas = new JPanel();
-		DefaultComboBoxModel<MagicCollection> colMod = new DefaultComboBoxModel<>();
-		cboCollections = new JComboBox<>(colMod);
+		cboCollections = UITools.createComboboxCollection();
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
 		JXTable table = new JXTable();
@@ -94,11 +94,8 @@ public class DeckStockComparatorPanel extends JPanel {
 		
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(collection->colMod.addElement(collection));
-			colMod.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
-			cboCollections.setRenderer(new MagicCollectionIconListRenderer());
-
-		} catch (SQLException e) {
+			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
+		} catch (Exception e) {
 			logger.error("Error retrieving collections",e);
 		}
 		

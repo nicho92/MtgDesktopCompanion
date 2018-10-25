@@ -21,6 +21,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class SpeedConfigurator extends JFrame {
 	/**
@@ -74,7 +75,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblProvider.gridy = 0;
 		panneau1.add(lblProvider, gbclblProvider);
 
-		cboProvider = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getPlugins(MTGCardsProvider.class).toArray()));
+		cboProvider = UITools.createCombobox(MTGCardsProvider.class, true);
 		GridBagConstraints gbccboProvider = new GridBagConstraints();
 		gbccboProvider.fill = GridBagConstraints.HORIZONTAL;
 		gbccboProvider.insets = new Insets(0, 0, 5, 0);
@@ -90,7 +91,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblDatasource.gridy = 1;
 		panneau1.add(lblDatasource, gbclblDatasource);
 
-		cboDAOs = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getPlugins(MTGDao.class).toArray()));
+		cboDAOs = UITools.createCombobox(MTGDao.class, true);
 		GridBagConstraints gbccboDAOs = new GridBagConstraints();
 		gbccboDAOs.fill = GridBagConstraints.HORIZONTAL;
 		gbccboDAOs.insets = new Insets(0, 0, 5, 0);
@@ -106,7 +107,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblPictures.gridy = 2;
 		panneau1.add(lblPictures, gbclblPictures);
 
-		cboPictures = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getPlugins(MTGPictureProvider.class).toArray()));
+		cboPictures = UITools.createCombobox(MTGPictureProvider.class, true);
 		GridBagConstraints gbccboPictures = new GridBagConstraints();
 		gbccboPictures.fill = GridBagConstraints.HORIZONTAL;
 		gbccboPictures.insets = new Insets(0, 0, 5, 0);
@@ -122,8 +123,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblDashboard.gridy = 3;
 		panneau1.add(lblDashboard, gbclblDashboard);
 
-		cboDashboard = new JComboBox(
-				new DefaultComboBoxModel(MTGControler.getInstance().getPlugins(MTGDashBoard.class).toArray()));
+		cboDashboard = UITools.createCombobox(MTGDashBoard.class, true);
 		GridBagConstraints gbccboDashboard = new GridBagConstraints();
 		gbccboDashboard.fill = GridBagConstraints.HORIZONTAL;
 		gbccboDashboard.insets = new Insets(0, 0, 5, 0);
@@ -139,7 +139,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblCaches.gridy = 4;
 		panneau1.add(lblCaches, gbclblCaches);
 
-		cboCaches = new JComboBox(new DefaultComboBoxModel(MTGControler.getInstance().getPlugins(MTGPicturesCache.class).toArray()));
+		cboCaches = UITools.createCombobox(MTGPicturesCache.class, true);
 		GridBagConstraints gbccboCaches = new GridBagConstraints();
 		gbccboCaches.fill = GridBagConstraints.HORIZONTAL;
 		gbccboCaches.insets = new Insets(0, 0, 5, 0);

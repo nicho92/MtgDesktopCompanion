@@ -52,6 +52,7 @@ import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
+import org.magic.tools.UITools;
 
 public class ConfigurationPanel extends JPanel {
 
@@ -103,9 +104,9 @@ public class ConfigurationPanel extends JPanel {
 	}
 
 	public ConfigurationPanel() {
-		cboTargetDAO = new JComboBox<>();
-		cboCollections = new JComboBox<>();
-		cboEditionLands = new JComboBox<>();
+		cboTargetDAO = UITools.createCombobox(MTGDao.class,true);
+		cboCollections = UITools.createComboboxCollection();
+		cboEditionLands = UITools.createComboboxEditions();
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -115,11 +116,7 @@ public class ConfigurationPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		for (MTGDao daos : MTGControler.getInstance().getPlugins(MTGDao.class))
-			if (!daos.getName().equals(MTGControler.getInstance().getEnabled(MTGDao.class).getName())) {
-
-				cboTargetDAO.addItem(daos);
-			}
+		cboTargetDAO.removeItem(MTGControler.getInstance().getEnabled(MTGDao.class));
 
 		JPanel panelDAO = new JPanel();
 		panelDAO.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
@@ -678,7 +675,6 @@ public class ConfigurationPanel extends JPanel {
 
 		try {
 			for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).getCollections()) {
-				cboCollections.addItem(col);
 				if (col.getName().equalsIgnoreCase(MTGControler.getInstance().get("default-library"))) {
 					cboCollections.setSelectedItem(col);
 				}
@@ -1138,7 +1134,6 @@ public class ConfigurationPanel extends JPanel {
 		}
 		try {
 			for (MagicEdition col : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) {
-				cboEditionLands.addItem(col);
 				if (col.getId().equalsIgnoreCase(MTGControler.getInstance().get("default-land-deck"))) {
 					cboEditionLands.setSelectedItem(col);
 				}

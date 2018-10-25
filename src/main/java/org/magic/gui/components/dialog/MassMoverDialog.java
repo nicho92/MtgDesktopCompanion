@@ -20,7 +20,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -71,8 +70,7 @@ public class MassMoverDialog extends JDialog {
 			logger.error(e2);
 		}
 		
-		cboCollections = new JComboBox<>(colMod);
-		cboCollections.setRenderer(new MagicCollectionIconListRenderer());
+		cboCollections = UITools.createComboboxCollection();
 			panel.add(cboCollections);
 		panel.add(lblWaiting);
 

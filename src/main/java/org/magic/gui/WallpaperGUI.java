@@ -33,6 +33,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class WallpaperGUI extends MTGUIPanel {
 
@@ -92,10 +93,7 @@ public class WallpaperGUI extends MTGUIPanel {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
-		cboWallpapersProv = new JComboBox<>();
-
-		for (MTGWallpaperProvider prov : MTGControler.getInstance().listEnabled(MTGWallpaperProvider.class))
-			cboWallpapersProv.addItem(prov);
+		cboWallpapersProv = UITools.createCombobox(MTGWallpaperProvider.class, false);
 
 		selectedProvider = cboWallpapersProv.getItemAt(0);
 		cboWallpapersProv

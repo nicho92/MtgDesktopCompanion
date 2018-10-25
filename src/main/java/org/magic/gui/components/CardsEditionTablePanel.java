@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -21,10 +20,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -43,14 +40,12 @@ public class CardsEditionTablePanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnImport;
 	private JComboBox<MagicCollection> cboCollection;
-	private DefaultComboBoxModel<MagicCollection> modelCol;
 	
 	public CardsEditionTablePanel() {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
-		modelCol= new DefaultComboBoxModel<>();
 		
 		table = new JXTable(model);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -71,14 +66,7 @@ public class CardsEditionTablePanel extends JPanel {
 		JPanel panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
 		
-		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(collection->modelCol.addElement(collection));
-		} catch (SQLException e1) {
-			logger.error(e1);
-		}
-		
-		cboCollection =  new JComboBox<>(modelCol);
-		cboCollection.setRenderer(new MagicCollectionIconListRenderer());
+		cboCollection =  UITools.createComboboxCollection();
 		panneauBas.add(cboCollection);
 		
 		btnImport = new JButton(MTGConstants.ICON_MASS_IMPORT_SMALL);

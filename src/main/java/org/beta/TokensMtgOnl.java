@@ -15,10 +15,6 @@ public class TokensMtgOnl extends AbstractTokensProvider {
 	static String jsonAlternative="http://alternative.mtg.onl/data/AlternativeTokens.json?v=0.8";
 	
 	
-	public static void main(String[] args) throws IOException {
-		
-	}
-	
 	
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {

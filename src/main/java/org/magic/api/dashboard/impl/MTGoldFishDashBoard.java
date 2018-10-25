@@ -309,6 +309,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		mapConcordance.put("WTH", "WL");
 		mapConcordance.put("ODY", "OD");
 		mapConcordance.put("EXO", "EX");
+		mapConcordance.put("CON_", "CON");
 		mapConcordance.put("APC", "AP");
 		mapConcordance.put("PLS", "PS");
 		mapConcordance.put("INV", "IN");
@@ -325,6 +326,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		mapConcordance.put("pGPX", "PRM-GPP");
 		mapConcordance.put("pFNM", "PRM-FNM");
 		mapConcordance.put("pARL", "PRM-ARN");
+		mapConcordance.put("PGPX", "PRM-GPP");
 		// p15A
 
 	}

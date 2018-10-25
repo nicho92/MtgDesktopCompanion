@@ -45,7 +45,6 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.SealedPackTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
-import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -54,6 +53,7 @@ import org.magic.services.ThreadManager;
 import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
+import org.magic.tools.UITools;
 
 public class SealedPanel extends JPanel {
 	private static final String SORT_BY = "SORT_BY";
@@ -114,13 +114,6 @@ public class SealedPanel extends JPanel {
 		panelDetail.enableThumbnail(true);
 		panelDetail.enableCollectionLookup(false);
 
-		List<MagicEdition> li;
-		try {
-			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
-		} catch (IOException e1) {
-			li = new ArrayList<>();
-			logger.error(e1);
-		}
 		panelWest = new JPanel();
 		panelWest.setPreferredSize(new Dimension(300, 10));
 
@@ -141,7 +134,7 @@ public class SealedPanel extends JPanel {
 		gblpanel.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gblpanel);
-		cboEditions = new JComboBox<>();
+		cboEditions = UITools.createComboboxEditions();
 		GridBagConstraints gbccboEditions = new GridBagConstraints();
 		gbccboEditions.fill = GridBagConstraints.HORIZONTAL;
 		gbccboEditions.gridwidth = 4;
@@ -149,9 +142,7 @@ public class SealedPanel extends JPanel {
 		gbccboEditions.gridx = 0;
 		gbccboEditions.gridy = 0;
 		panel.add(cboEditions, gbccboEditions);
-		cboEditions.setRenderer(new MagicEditionIconListRenderer());
-		cboEditions.setModel(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
-
+	
 		btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
 		GridBagConstraints gbcbtnAddBoosters = new GridBagConstraints();
 		gbcbtnAddBoosters.anchor = GridBagConstraints.NORTH;

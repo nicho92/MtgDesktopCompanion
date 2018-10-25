@@ -42,11 +42,13 @@ public class ManualImportDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(e -> dispose());
 		panel.add(btnImport);
 
-		JButton btnCancel = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		btnCancel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnCancel.addActionListener(e -> {
 			editorPane.setText("");
 			dispose();

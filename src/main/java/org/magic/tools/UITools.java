@@ -4,19 +4,29 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
+import org.magic.gui.renderer.MagicEditionIconListRenderer;
+import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -26,15 +36,63 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class UITools {
 
 	private UITools() {}
+	
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
+	
+	
+	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)
+	{
+		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
+		JComboBox<T> combo = new JComboBox<>(model);
+		if(all)
+			MTGControler.getInstance().getPlugins(classe).forEach(s->model.addElement(s));
+		else
+			MTGControler.getInstance().listEnabled(classe).forEach(s->model.addElement(s));
+		combo.setRenderer(new PluginIconListRenderer());
+		return combo;
+	}
+	
+	public static JComboBox<MagicEdition> createComboboxEditions()
+	{
+		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();
+		JComboBox<MagicEdition> combo = new JComboBox<>(model);
+	
+		try {
+			List<MagicEdition> ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			Collections.sort(ed);
+			ed.forEach(s->model.addElement(s));
+			combo.setRenderer(new MagicEditionIconListRenderer());
+		return combo;
+		} catch (IOException e) {
+			logger.error(e);
+			return combo;
+		}
+
+	}
+	
+	public static JComboBox<MagicCollection> createComboboxCollection()
+	{
+		DefaultComboBoxModel<MagicCollection> model = new DefaultComboBoxModel<>();
+		JComboBox<MagicCollection> combo = new JComboBox<>(model);
+	
+		try {
+			MTGControler.getInstance().getEnabled(MTGDao.class).getCollections().forEach(s->model.addElement(s));
+			combo.setRenderer(new MagicCollectionIconListRenderer());
+		return combo;
+		} catch (Exception e) {
+			logger.error(e);
+			return combo;
+		}
+
+	}
+	
 	
 	
 	public static String formatDouble(Double f)
 	{
 		return new DecimalFormat("#0.##").format(f);
 	}
-	
-	
+
 	public static void initTableFilter(JTable table)
 	{
 		TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);

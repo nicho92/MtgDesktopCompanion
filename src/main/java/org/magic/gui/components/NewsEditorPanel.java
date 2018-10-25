@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class NewsEditorPanel extends JPanel {
 
@@ -45,9 +46,7 @@ public class NewsEditorPanel extends JPanel {
 		gbclblType.gridy = 0;
 		add(lblType, gbclblType);
 
-		List<MTGNewsProvider> provs = MTGControler.getInstance().listEnabled(MTGNewsProvider.class);
-		cboType = new JComboBox<>(
-				new DefaultComboBoxModel<MTGNewsProvider>(provs.toArray(new MTGNewsProvider[provs.size()])));
+		cboType = UITools.createCombobox(MTGNewsProvider.class, false);
 
 		GridBagConstraints gbccboType = new GridBagConstraints();
 		gbccboType.insets = new Insets(0, 0, 5, 0);

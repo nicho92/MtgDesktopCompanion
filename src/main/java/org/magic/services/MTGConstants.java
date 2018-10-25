@@ -120,6 +120,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SEARCH = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/search.png"));
 	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
 
+	public static final ImageIcon ICON_CANCEL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/back.png"));
 	public static final ImageIcon ICON_BINDERS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/binders.png"));
 	public static final ImageIcon ICON_COLLECTION = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/collection.png"));
 	public static final ImageIcon ICON_GAME = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/game.png"));
