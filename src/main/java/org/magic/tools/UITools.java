@@ -91,7 +91,6 @@ public class UITools {
 			combo.setRenderer(new ListCellRenderer<T>() {
 				@Override
 				public Component getListCellRendererComponent(JList<? extends T> list, T value, int index,boolean isSelected, boolean cellHasFocus) {
-					
 					JLabel l ;
 					if(value==null)
 					{
@@ -102,8 +101,6 @@ public class UITools {
 						l=new JLabel(value.toString());
 						l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 					}
-					
-					
 					
 					l.setOpaque(true);
 					if (isSelected) {

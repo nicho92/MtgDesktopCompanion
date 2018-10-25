@@ -146,7 +146,8 @@ public class WallpaperGUI extends MTGUIPanel {
 		JPanel panel1 = new JPanel();
 		add(panel1, BorderLayout.SOUTH);
 
-		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		panel1.add(btnImport);
 
 		btnImport.addActionListener(ae -> {

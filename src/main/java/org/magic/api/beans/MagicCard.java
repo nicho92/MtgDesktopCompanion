@@ -40,9 +40,9 @@ public class MagicCard implements Serializable {
 	private List<MagicFormat> legalities;
 	private String rarity="";
 	private String gathererCode;
-	@Deprecated private String mciNumber;
+	private String mciNumber;
 	private String imageName;
-	@Deprecated private String rotatedCardName;
+	private String rotatedCardName;
 	private MagicCard rotatedCard;
 	private boolean flippable = false;
 	private boolean tranformable = false;
@@ -131,6 +131,7 @@ public class MagicCard implements Serializable {
 	public String getMciNumber() {
 		return mciNumber;
 	}
+	
 	@Deprecated 
 	public void setMciNumber(String mciNumber) {
 		this.mciNumber = mciNumber;

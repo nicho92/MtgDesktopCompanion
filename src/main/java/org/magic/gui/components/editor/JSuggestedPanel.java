@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +15,7 @@ import javax.swing.text.BadLocationException;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 
-public class JSuggestedPanel extends JPanel {
+public class JSuggestedPanel extends JComponent {
 	
 	private static final long serialVersionUID = 1L;
 	public JSuggestedPanel(JTextPane jTextPane,MTGTextGenerator gen) {
