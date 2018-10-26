@@ -467,13 +467,7 @@ public class CardSearchPanel extends MTGUIPanel {
 			sorterCards.setRowFilter(null);
 		});
 
-		btnFilter.addActionListener(ae -> {
-			if (panelFilters.isVisible()) {
-				panelFilters.setVisible(false);
-			} else {
-				panelFilters.setVisible(true);
-			}
-		});
+		btnFilter.addActionListener(ae -> panelFilters.setVisible(!panelFilters.isVisible()));
 
 		cboQuereableItems.addActionListener(e -> {
 			if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("set")) {

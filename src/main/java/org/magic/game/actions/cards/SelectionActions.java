@@ -24,12 +24,7 @@ public class SelectionActions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (card.isSelected()) {
-			card.setSelected(false);
-		} else {
-			card.setSelected(true);
-		}
-
+		card.setSelected(!card.isSelected());
 		card.repaint();
 	}
 
