@@ -59,6 +59,7 @@ public class DashBoardGUI2 extends MTGUIPanel {
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getPlugins(AbstractJDashlet.class)) {
 				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
+				mntmNewMenuItem.setIcon(dash.getIcon());
 				mntmNewMenuItem.addActionListener(e -> {
 					try {
 						addDash(PluginRegistry.inst().newInstance(dash.getClass()));

@@ -135,7 +135,7 @@ public class CardSearchPanel extends MTGUIPanel {
 	}
 
 	public List<MagicCard> getMultiSelection() {
-		return UITools.getSelects(tableCards,0);
+		return UITools.getTableSelection(tableCards,0);
 	}
 
 	public MagicCard getSelected() {
@@ -363,6 +363,10 @@ public class CardSearchPanel extends MTGUIPanel {
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(lblLoading);
+		
+		JExportButton expButton = new JExportButton();
+		panneauHaut.add(expButton);
+		
 
 		panneauCard.add(cboLanguages, BorderLayout.NORTH);
 		panneauCard.add(scrollEditions, BorderLayout.SOUTH);

@@ -189,7 +189,7 @@ public class UITools {
 					}
 
 					try {
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
 						popUp.setBorder(new LineBorder(Color.black));
 						popUp.setVisible(false);
@@ -202,13 +202,13 @@ public class UITools {
 					} catch (Exception ex) {
 						logger.error("Error on " + cardName, ex);
 					}
-
 				}
 			}
 		});
 	}
 
-	public static <T> List<T> getSelects(JTable tableCards,int columnID) {
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> getTableSelection(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
 		for (int i : viewRow) {
@@ -218,63 +218,4 @@ public class UITools {
 		}
 		return listCards;
 	}
-	
-	public static JButton createExportButton(AbstractBuzyIndicatorComponent obs,List<MagicCard> export)
-	{
-		JButton b = new JButton(MTGConstants.ICON_EXPORT);
-		b.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_RESULTS"));
-		b.addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
-					it.addActionListener(exportEvent -> {
-						JFileChooser jf = new JFileChooser(".");
-						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
-						int result = jf.showSaveDialog(null);
-						final File f = jf.getSelectedFile();
-						obs.start(export.size()); 
-						exp.addObserver(obs);
-						
-						if (result == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(() -> {
-								try {
-									exp.export(export, f);
-									obs.end();
-									MTGControler.getInstance().notify(new MTGNotification(
-											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
-											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-											MESSAGE_TYPE.INFO
-											));
-								} catch (Exception e) {
-									logger.error(e);
-									obs.end();
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-								}
-								finally {
-									exp.removeObserver(obs);
-								}
-							}, "export search " + exp);
-					});
-					menu.add(it);
-				}
-				
-			}
-			
-			Component c = (Component) ae.getSource();
-			Point p = c.getLocationOnScreen();
-			menu.show(c, 0, 0);
-			menu.setLocation(p.x, p.y + c.getHeight());
-		});
-		
-		
-		return b;
-		
-	}
-	
-	
-	
-	
 }

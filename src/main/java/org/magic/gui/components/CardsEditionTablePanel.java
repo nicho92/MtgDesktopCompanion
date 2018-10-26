@@ -112,7 +112,7 @@ public class CardsEditionTablePanel extends JPanel {
 	
 	public List<MagicCard> getSelectedCards()
 	{
-		return UITools.getSelects(table,0);
+		return UITools.getTableSelection(table,0);
 	}
 	
 	

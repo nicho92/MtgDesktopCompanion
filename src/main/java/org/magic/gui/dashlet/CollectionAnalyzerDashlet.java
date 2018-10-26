@@ -93,7 +93,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		
 		btnUpdateCache.addActionListener(ae->
 		{
-			List<MagicEdition> ret = UITools.getSelects(tableCache,0);
+			List<MagicEdition> ret = UITools.getTableSelection(tableCache,0);
 			logger.debug("updating " + ret);
 			buzy.start(ret.size());
 			ThreadManager.getInstance().execute(()->{
