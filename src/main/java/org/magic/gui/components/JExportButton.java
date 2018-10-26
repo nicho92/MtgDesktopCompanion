@@ -1,23 +1,17 @@
 package org.magic.gui.components;
 
 import java.awt.Component;
-import java.awt.Event;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.JXButton;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -29,7 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
-public class JExportButton extends JXButton {
+public class JExportButton extends JButton {
 
 	private transient MTGCardsExport exp;
 	protected transient Logger logger = MTGLogger.getLogger(JExportButton.class);

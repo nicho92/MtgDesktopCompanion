@@ -135,7 +135,6 @@ public class MagicGUI extends JFrame {
 			diag.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			diag.setVisible(true);
 		});
-		
 
 		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
 			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
@@ -291,12 +290,7 @@ public class MagicGUI extends JFrame {
 		
 			if(osNotifier!=null)
 			{	
-				osNotifier.getTrayNotifier().addActionListener(e -> {
-					if (!isVisible())
-						setVisible(true);
-					else
-						setVisible(false);
-				});
+				osNotifier.getTrayNotifier().addActionListener(e -> setVisible(!isVisible()));
 			
 				PopupMenu menuTray = new PopupMenu();
 				for (int index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
@@ -310,7 +304,7 @@ public class MagicGUI extends JFrame {
 				}
 	
 				osNotifier.getTrayNotifier().setPopupMenu(menuTray);
-				osNotifier.getTrayNotifier().setToolTip("MTG Desktop Companion");
+				osNotifier.getTrayNotifier().setToolTip(MTGConstants.MTG_APP_NAME);
 		
 				if (update)
 				{
