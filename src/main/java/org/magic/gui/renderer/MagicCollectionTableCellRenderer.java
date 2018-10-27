@@ -55,12 +55,6 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		pane.setBackground(c);
 		
 		double val = (double) table.getValueAt(row, 4);
-		
-		
-		if (val * 100 < 5) {
-			pane.setBackground(Color.WHITE);
-			pane.setForeground(Color.BLACK);
-		}
 
 		if (val * 100 >= 5 && val * 100 < 50) {
 			pane.setBackground(MTGConstants.COLLECTION_5PC);

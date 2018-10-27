@@ -86,7 +86,7 @@ public class IconSetProvider {
 
 	private String getEquiv(String set) 
 	{
-		
+
 		switch (set) {
 		case "RIN" :
 			return "REN";
@@ -206,9 +206,16 @@ public class IconSetProvider {
 			return "PDCI";
 		case "PJJT":
 			return "PDCI";
+		case "PSUS":
+			return "PDCI";
+		
 		case "PJAS":
 			return "PDCI";
+		case "PJSE":
+			return "PDCI";
 		case "PURL":
+			return "PMEI";
+		case "PWCQ":
 			return "PMEI";
 		case "PLNY":
 			return "PMEI";

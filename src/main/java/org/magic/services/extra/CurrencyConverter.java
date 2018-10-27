@@ -3,6 +3,7 @@ package org.magic.services.extra;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.Currency;
 import java.util.HashMap;
 
@@ -26,7 +27,7 @@ public class CurrencyConverter {
 	public CurrencyConverter(String token) {
 		this.token=token;
 		map = new HashMap<>();
-		cache=new File(MTGConstants.CONF_DIR,"conversionData.json");
+		cache=Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(),"caches","conversionData.json").toFile();
 		init();
 	}
 	

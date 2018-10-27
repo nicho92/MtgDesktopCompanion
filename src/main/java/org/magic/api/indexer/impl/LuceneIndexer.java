@@ -2,6 +2,7 @@ package org.magic.api.indexer.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -42,6 +43,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 import com.google.common.collect.Iterators;
@@ -64,7 +66,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		setProperty(MIN_TERM_FREQ, "1");
 		setProperty(FIELDS,"cost,text,color,type,cmc");
 		setProperty(MAX_RESULTS,"20");
-		setProperty(DIRECTORY,new File(confdir,"luceneIndex").getAbsolutePath());
+		setProperty(DIRECTORY,Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(), "caches","luceneIndex").toFile().getAbsolutePath());
 	}
 	
 	public LuceneIndexer() {
