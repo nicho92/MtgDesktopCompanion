@@ -57,7 +57,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			stat.executeUpdate(
-					"create table cards (ID varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+					"create table cards (ID varchar(250), name varchar(250), "+cardField+" OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
 			logger.debug("Create table decks");

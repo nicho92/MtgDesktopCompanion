@@ -19,7 +19,7 @@ import org.utils.patterns.observer.Observable;
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;
-	private Properties props;
+	protected Properties props;
 	protected File confdir;
 	protected File confFile;
 

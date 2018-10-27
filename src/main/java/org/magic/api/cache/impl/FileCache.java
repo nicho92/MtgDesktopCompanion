@@ -10,13 +10,13 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
+import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageUtils;
 
-public class FileCache extends AbstractMTGPicturesCache {
+public class FileCache extends AbstractCacheProvider {
 
 	private static final String DIRECTORY = "DIRECTORY";
 	private static final String FORMAT = "FORMAT";
@@ -29,10 +29,6 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 
 	
-
-	private String generateIdIndex(MagicCard mc, MagicEdition ed) {
-		return IDGenerator.generate(mc, ed);
-	}
 
 	public FileCache() {
 		super();

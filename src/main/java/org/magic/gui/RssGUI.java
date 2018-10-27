@@ -35,9 +35,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class RssGUI extends MTGUIPanel {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private MagicNewsTableModel model;

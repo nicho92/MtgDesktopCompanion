@@ -131,6 +131,10 @@
             <class>org.magic.api.cache.impl.NoCache</class>
             <enable>false</enable>
         </cache>
+        <cache>
+            <class>org.magic.api.cache.impl.JCSCache</class>
+            <enable>false</enable>
+        </cache>
     </caches>
     <servers>
         <server>
