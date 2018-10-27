@@ -19,6 +19,7 @@ import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
@@ -99,6 +100,10 @@ public class UITools {
 					else
 					{
 						l=new JLabel(value.toString());
+						if(value instanceof LookAndFeelInfo)
+						{
+							l=new JLabel(((LookAndFeelInfo)value).getName());
+						}
 						l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 					}
 					

@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,7 +16,6 @@ import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -318,6 +316,11 @@ public class ConfigurationPanel extends JPanel {
 		gbccboCollections.gridx = 1;
 		gbccboCollections.gridy = 0;
 		panelConfig.add(cboCollections, gbccboCollections);
+		
+		if(MTGControler.getInstance().get("default-library")!=null)
+		{
+			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
+		}
 
 		JButton btnSaveDefaultLib = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSave = new GridBagConstraints();
@@ -356,8 +359,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLogLevel.gridy = 2;
 		panelConfig.add(lblLogLevel, gbclblLogLevel);
 
-		cboLogLevels = new JComboBox<>(
-				new DefaultComboBoxModel<>(new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE }));
+		cboLogLevels = UITools.createCombobox(new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
 		GridBagConstraints gbccboLogLevels = new GridBagConstraints();
 		gbccboLogLevels.fill = GridBagConstraints.HORIZONTAL;
 		gbccboLogLevels.gridwidth = 3;
@@ -381,7 +383,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblShowJsonPanel.gridy = 3;
 		panelConfig.add(lblShowJsonPanel, gbclblShowJsonPanel);
 
-		cbojsonView = new JComboBox<>();
+		cbojsonView = UITools.createCombobox(new String[] { "true", "false" });
 		GridBagConstraints gbccbojsonView = new GridBagConstraints();
 		gbccbojsonView.fill = GridBagConstraints.HORIZONTAL;
 		gbccbojsonView.gridwidth = 3;
@@ -389,7 +391,6 @@ public class ConfigurationPanel extends JPanel {
 		gbccbojsonView.gridx = 1;
 		gbccbojsonView.gridy = 3;
 		panelConfig.add(cbojsonView, gbccbojsonView);
-		cbojsonView.setModel(new DefaultComboBoxModel<String>(new String[] { "true", "false" }));
 		cbojsonView.setSelectedItem(MTGControler.getInstance().get("debug-json-panel"));
 
 		JButton btnSaveJson = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
@@ -453,12 +454,11 @@ public class ConfigurationPanel extends JPanel {
 		gbclblCardsLanguage.gridy = 6;
 		panelConfig.add(lblCardsLanguage, gbclblCardsLanguage);
 
-		final JComboBox<String> cboLanguages = new JComboBox<>();
-
-		for (String s : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages()) {
-			cboLanguages.addItem(s);
-			if (MTGControler.getInstance().get("langage").equals(s))
-				cboLanguages.setSelectedItem(s);
+		JComboBox<String> cboLanguages =UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
+		
+		if(MTGControler.getInstance().get("langage")!=null)
+		{
+			cboLanguages.setSelectedItem(MTGControler.getInstance().get("langage"));
 		}
 
 		GridBagConstraints gbccboLanguages = new GridBagConstraints();
@@ -487,8 +487,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblGuiLocal.gridy = 7;
 		panelConfig.add(lblGuiLocal, gbclblGuiLocal);
 
-		JComboBox<Locale> cboLocales = new JComboBox<>(
-				new DefaultComboBoxModel<Locale>(MTGControler.getInstance().getLangService().getAvailableLocale()));
+		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 		GridBagConstraints gbccboLocales = new GridBagConstraints();
 		gbccboLocales.gridwidth = 3;
 		gbccboLocales.insets = new Insets(0, 0, 5, 5);
@@ -496,7 +495,6 @@ public class ConfigurationPanel extends JPanel {
 		gbccboLocales.gridx = 1;
 		gbccboLocales.gridy = 7;
 		panelConfig.add(cboLocales, gbccboLocales);
-
 		cboLocales.setSelectedItem(MTGControler.getInstance().getLocale());
 		JButton btnSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		btnSave.addActionListener(ae -> MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem()));
@@ -560,19 +558,9 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLook.gridy = 9;
 		panelConfig.add(lblLook, gbclblLook);
 
-		JComboBox<LookAndFeelInfo> cboLook = new JComboBox<>();
-		cboLook.setRenderer(new DefaultListCellRenderer() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index,boolean isSelected, boolean cellHasFocus) {
-				return new JLabel(((LookAndFeelInfo) value).getName());
-			}
-		});
+		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
 		
-		ThreadManager.getInstance().execute(()->cboLook.setModel(new DefaultComboBoxModel<>(MTGControler.getInstance().getLafService().getAllLookAndFeel())), "getLookAndFeel");
-		
-		
-
+	
 		GridBagConstraints gbccomboBox = new GridBagConstraints();
 		gbccomboBox.gridwidth = 3;
 		gbccomboBox.insets = new Insets(0, 0, 5, 5);
@@ -661,8 +649,10 @@ public class ConfigurationPanel extends JPanel {
 		});
 
 		cboLogLevels.addActionListener(ae -> MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem()));
+		
 		btnSaveDefaultLandDeck.addActionListener(ae -> MTGControler.getInstance().setProperty("default-land-deck",
 				((MagicEdition) cboEditionLands.getSelectedItem()).getId()));
+		
 		btnSaveDefaultLib.addActionListener(ae -> {
 			try {
 
@@ -673,15 +663,7 @@ public class ConfigurationPanel extends JPanel {
 			}
 		});
 
-		try {
-			for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()) {
-				if (col.getName().equalsIgnoreCase(MTGControler.getInstance().get("default-library"))) {
-					cboCollections.setSelectedItem(col);
-				}
-			}
-		} catch (Exception e1) {
-			logger.error(e1);
-		}
+		
 
 		JPanel panelWebSite = new JPanel();
 		panelWebSite.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true),
