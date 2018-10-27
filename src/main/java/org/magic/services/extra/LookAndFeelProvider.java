@@ -28,23 +28,23 @@ public class LookAndFeelProvider {
 		list = new ArrayList<>();
 	}
 
-	public void setComponentLookAndFeel(Component ui, LookAndFeelInfo lookAndFeel) {
-		setLookAndFeel(ui, lookAndFeel.getClassName());
+	public void setLookAndFeel(Component ui, LookAndFeelInfo lookAndFeel,boolean saving) {
+		setLookAndFeel(ui, lookAndFeel.getClassName(),saving);
 	}
-
-	public void setLookAndFeel(Container container, LookAndFeelInfo lookAndFeel) {
-		setLookAndFeel(container, lookAndFeel.getClassName());
-	}
- 
-	public void setLookAndFeel(Component ui, String lookAndFeel) {
+	
+	
+	public void setLookAndFeel(Component ui, String lookAndFeel,boolean saving) {
 		try {
 			if(lookAndFeel==null || lookAndFeel.isEmpty())
 				lookAndFeel=UIManager.getSystemLookAndFeelClassName();	
-				
+			
 			UIManager.setLookAndFeel(lookAndFeel);
-			MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
 
+			
+			if(saving)
+				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
+			
 		} catch (Exception e) {
 			logger.error("error setLookAndFeel",e);
 		}

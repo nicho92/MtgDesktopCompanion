@@ -19,6 +19,7 @@ import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 
@@ -52,9 +53,9 @@ public class UITools {
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
 		if(all)
-			MTGControler.getInstance().getPlugins(classe).forEach(s->model.addElement(s));
+			MTGControler.getInstance().getPlugins(classe).stream().forEach(model::addElement);
 		else
-			MTGControler.getInstance().listEnabled(classe).forEach(s->model.addElement(s));
+			MTGControler.getInstance().listEnabled(classe).stream().forEach(model::addElement);
 		combo.setRenderer(new PluginIconListRenderer());
 		return combo;
 	}
@@ -67,7 +68,7 @@ public class UITools {
 		try {
 			List<MagicEdition> ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 			Collections.sort(ed);
-			ed.forEach(s->model.addElement(s));
+			ed.stream().forEach(model::addElement);
 			combo.setRenderer(new MagicEditionIconListRenderer());
 		return combo;
 		} catch (IOException e) {
@@ -87,7 +88,7 @@ public class UITools {
 	{
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
-			items.forEach(s->model.addElement(s));
+			items.stream().forEach(model::addElement);
 			
 			combo.setRenderer(new ListCellRenderer<T>() {
 				@Override
@@ -132,7 +133,7 @@ public class UITools {
 		JComboBox<MagicCollection> combo = new JComboBox<>(model);
 	
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().forEach(s->model.addElement(s));
+			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().stream().forEach(model::addElement);
 			combo.setRenderer(new MagicCollectionIconListRenderer());
 		return combo;
 		} catch (Exception e) {
@@ -157,6 +158,7 @@ public class UITools {
 	
 	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {
 		MagicCardDetailPanel pane = new MagicCardDetailPanel();
+		MTGControler.getInstance().getLafService().setLookAndFeel(pane,MTGControler.getInstance().get("lookAndFeel"),true);
 		pane.enableThumbnail(true);
 		final JPopupMenu popUp = new JPopupMenu();
 
@@ -182,6 +184,7 @@ public class UITools {
 					try {
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
+						
 						popUp.setBorder(new LineBorder(Color.black));
 						popUp.setVisible(false);
 						popUp.removeAll();

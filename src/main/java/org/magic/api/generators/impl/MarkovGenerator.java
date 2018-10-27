@@ -111,7 +111,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	
 	@Override
 	public String getVersion() {
-		return RiTa.VERSION;
+		return "1.0.92-SNAPSHOT";
 	}
 	
 }

@@ -11,6 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -632,9 +634,8 @@ public class ConfigurationPanel extends JPanel {
 		GridBagConstraints gbcbtnDefaultStock = new GridBagConstraints();
 		gbcbtnDefaultStock.gridx = 4;
 		gbcbtnDefaultStock.gridy = 11;
-		panelConfig.add(btnDefaultStock, gbcbtnDefaultStock);
-		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
-				SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem()));
+		panelConfig.add(btnDefaultStock, gbcbtnDefaultStock); 
+		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem(),true));
 
 		
 		
@@ -998,7 +999,7 @@ public class ConfigurationPanel extends JPanel {
 						gbclblToolPosition.gridy = 4;
 						panelModule.add(lblToolPosition, gbclblToolPosition);
 						
-						JComboBox<String> cboToolPosition = new JComboBox<>(new DefaultComboBoxModel<String>(new String[] {"TOP", "LEFT", "RIGHT", "BOTTOM"}));
+						JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] {"TOP", "LEFT", "RIGHT", "BOTTOM"});
 						cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition","LEFT"));
 						cboToolPosition.addItemListener(ie->
 						{
@@ -1042,7 +1043,7 @@ public class ConfigurationPanel extends JPanel {
 			gbclblCurrency.gridy = 0;
 			panelCurrency.add(lblCurrency, gbclblCurrency);
 		
-		JComboBox<Currency> cboCurrency = new JComboBox<>(new DefaultComboBoxModel<>(Currency.getAvailableCurrencies().toArray(new Currency[Currency.getAvailableCurrencies().size()])));
+		JComboBox<Currency> cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
 		GridBagConstraints gbccboCurrency = new GridBagConstraints();
 		gbccboCurrency.fill = GridBagConstraints.HORIZONTAL;
 		gbccboCurrency.insets = new Insets(0, 0, 5, 5);

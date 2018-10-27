@@ -31,11 +31,7 @@ public class SearchCardFrame extends JDialog {
 		setIconImage(MTGConstants.ICON_SEARCH.getImage());
 		scPane = new JScrollPane();
 		pane = new HandPanel() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			public ZoneEnum getOrigine() {
 				return source;

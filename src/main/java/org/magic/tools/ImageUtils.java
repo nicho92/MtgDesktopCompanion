@@ -38,7 +38,7 @@ public class ImageUtils {
             BufferedImage image = o;
             ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
             try {
-                ImageIO.write(image, "jpeg", baos);
+                ImageIO.write(image, "png", baos);
             } catch (IOException e) {
                 throw new IllegalStateException(e.toString());
             }
@@ -50,8 +50,7 @@ public class ImageUtils {
 	public static BufferedImage fromByteArray(byte[] imagebytes) {
         try {
             if (imagebytes != null && (imagebytes.length > 0)) {
-                BufferedImage im = ImageIO.read(new ByteArrayInputStream(imagebytes));
-                return im;
+                return ImageIO.read(new ByteArrayInputStream(imagebytes));
             }
             return null;
         } catch (IOException e) {
