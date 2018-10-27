@@ -7,7 +7,6 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
-import org.magic.tools.IDGenerator;
 
 public class MemoryCache extends AbstractCacheProvider {
 

@@ -317,10 +317,7 @@ public class ConfigurationPanel extends JPanel {
 		gbccboCollections.gridy = 0;
 		panelConfig.add(cboCollections, gbccboCollections);
 		
-		if(MTGControler.getInstance().get("default-library")!=null)
-		{
-			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
-		}
+	
 
 		JButton btnSaveDefaultLib = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSave = new GridBagConstraints();
@@ -456,10 +453,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JComboBox<String> cboLanguages =UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
 		
-		if(MTGControler.getInstance().get("langage")!=null)
-		{
-			cboLanguages.setSelectedItem(MTGControler.getInstance().get("langage"));
-		}
+
 
 		GridBagConstraints gbccboLanguages = new GridBagConstraints();
 		gbccboLanguages.gridwidth = 3;
@@ -642,6 +636,18 @@ public class ConfigurationPanel extends JPanel {
 		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
 				SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem()));
 
+		
+		
+		if(MTGControler.getInstance().get("langage")!=null)
+		{
+			cboLanguages.setSelectedItem(MTGControler.getInstance().get("langage"));
+		}
+		if(MTGControler.getInstance().get("default-library")!=null)
+		{
+			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
+		}
+		
+		
 		btnSaveLoglevel.addActionListener(ae -> {
 			if (chckbxIconset.isSelected())
 				MTGControler.getInstance().setProperty("loglevel", (Level) cboLogLevels.getSelectedItem());
@@ -649,6 +655,8 @@ public class ConfigurationPanel extends JPanel {
 		});
 
 		cboLogLevels.addActionListener(ae -> MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem()));
+		
+		
 		
 		btnSaveDefaultLandDeck.addActionListener(ae -> MTGControler.getInstance().setProperty("default-land-deck",
 				((MagicEdition) cboEditionLands.getSelectedItem()).getId()));
@@ -1128,8 +1136,7 @@ public class ConfigurationPanel extends JPanel {
 
 	private void loadIcon() {
 		try {
-			lblIconAvatar.setIcon(new ImageIcon(ImageUtils.resize(
-					ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
+			lblIconAvatar.setIcon(new ImageIcon(ImageUtils.resize(ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
 
 		} catch (Exception e) {
 			lblIconAvatar.setIcon(null);

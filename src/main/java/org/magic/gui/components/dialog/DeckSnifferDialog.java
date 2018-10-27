@@ -3,7 +3,6 @@ package org.magic.gui.components.dialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -73,10 +72,7 @@ public class DeckSnifferDialog extends JDialog {
 		
 		panelChoose = new JPanel();
 		panel.add(panelChoose, BorderLayout.WEST);
-				DefaultComboBoxModel<MTGDeckSniffer> models = new DefaultComboBoxModel<>();
-				
 				cboSniffers =UITools.createCombobox(MTGDeckSniffer.class,false);
-				
 				panelChoose.add(cboSniffers);
 				
 				btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));

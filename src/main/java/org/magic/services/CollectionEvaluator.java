@@ -117,7 +117,7 @@ public class CollectionEvaluator
 		}
 	
 	
-	public Map<MagicCard,CardShake> prices() throws SQLException
+	public Map<MagicCard,CardShake> prices()
 	{
 		Map<MagicCard,CardShake> ret = new HashMap<>();
 		getEditions().forEach(ed->
@@ -207,7 +207,7 @@ public class CollectionEvaluator
 		return list;
 	}
 
-	public void export(File f) throws IOException, ClassNotFoundException, SQLException {
+	public void export(File f) throws IOException{
 		
 		FileUtils.write(f, "EDITION;CARDNAME;PRICE\n",MTGConstants.DEFAULT_ENCODING, true);
 		for(Entry<MagicCard, CardShake> e : prices().entrySet())

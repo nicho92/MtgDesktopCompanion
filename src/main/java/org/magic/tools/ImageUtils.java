@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,6 +32,33 @@ public class ImageUtils {
 
 	private ImageUtils() {
 	}
+	
+	public static byte[] toByteArray(BufferedImage o) {
+        if(o != null) {
+            BufferedImage image = o;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
+            try {
+                ImageIO.write(image, "jpeg", baos);
+            } catch (IOException e) {
+                throw new IllegalStateException(e.toString());
+            }
+            return baos.toByteArray();
+        }
+        return new byte[0];
+	}
+	
+	public static BufferedImage fromByteArray(byte[] imagebytes) {
+        try {
+            if (imagebytes != null && (imagebytes.length > 0)) {
+                BufferedImage im = ImageIO.read(new ByteArrayInputStream(imagebytes));
+                return im;
+            }
+            return null;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e.toString());
+        }
+    }
+	
 
 	public static void saveImage(BufferedImage img, File f, String format) throws IOException {
 		ImageIO.write(img, format, f);

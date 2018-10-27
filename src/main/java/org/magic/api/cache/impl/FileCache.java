@@ -13,7 +13,6 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageUtils;
 
 public class FileCache extends AbstractCacheProvider {

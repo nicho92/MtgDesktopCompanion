@@ -46,7 +46,11 @@ public class URLTools {
 			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 			connection.setInstanceFollowRedirects(true);
 			logger.trace("get stream from " + url + " " + connection.getResponseCode());
+			
+			isCorrectConnection(connection);
+			
 			return connection;
+		
 		}
 		catch(SSLHandshakeException e)
 		{
@@ -112,7 +116,19 @@ public class URLTools {
 
 	public static boolean isCorrectConnection(HttpURLConnection connection) {
 			try {
-				return (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300);
+				
+				int resp=connection.getResponseCode();
+				if(resp >= 200 && resp < 300)
+				{
+					return true;
+				}
+				else
+				{
+					logger.trace(IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+					return false;
+				}
+					
+					
 			} catch (IOException e) {
 				logger.error(e);
 				return false;

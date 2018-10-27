@@ -6,9 +6,11 @@ import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.FileCache;
+import org.magic.api.cache.impl.JCSCache;
 import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.MTGLogger;
 
 public class CacheProviderTests {
@@ -60,6 +62,7 @@ public class CacheProviderTests {
 		test(new NoCache());
 		test(new MemoryCache());
 		test(new FileCache());
+		test(new JCSCache());
 		
 	}
 	
@@ -73,6 +76,17 @@ public class CacheProviderTests {
 		System.out.println("VERS "+p.getVersion());
 		
 		try {
+			p.put(new ScryFallPicturesProvider().getPicture(mc, ed), mc, ed);
+			System.out.println("putPictures OK" );
+		}
+		catch(Exception e)
+		{
+			System.out.println("putPictures ERROR "+e );
+		}
+		
+		
+		try {
+			
 			p.getPic(mc, ed);
 			System.out.println("getPictures OK" );
 		} catch (Exception e) {

@@ -2,7 +2,6 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,14 +12,16 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
+import org.magic.services.MTGConstants;
+import org.magic.tools.ImageUtils;
 
 public class JCSCache extends AbstractCacheProvider {
 	
 	
-	private CacheAccess<String,BufferedImage> cache;
+	private CacheAccess<String, byte[]> cache;
 	
 	public JCSCache() {
-		
+		super();
 		JCS.setConfigProperties(props);
 		cache = JCS.getInstance("default");
 	}
@@ -43,24 +44,37 @@ public class JCSCache extends AbstractCacheProvider {
 		setProperty("jcs.default.elementattributes.IsSpool","true");
 		setProperty("jcs.default.elementattributes.IsRemote","true");
 		setProperty("jcs.default.elementattributes.IsLateral","true");
-	
+		setProperty("jcs.default.outputCache.cacheattributes.DiskUsagePatternName","UPDATE");
+		setProperty("jcs.auxiliary.DC","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory");
+		setProperty("jcs.auxiliary.DC.attributes","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes");
+		setProperty("jcs.auxiliary.DC.attributes.DiskPath",MTGConstants.CONF_DIR + "/caches/jcsCache");
+		setProperty("jcs.auxiliary.DC.attributes.MaxPurgatorySize","10000000");
+		setProperty("jcs.auxiliary.DC.attributes.MaxKeySize","1000000");
+		setProperty("jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount","300000");
+		setProperty("jcs.auxiliary.DC.attributes.ShutdownSpoolTimeLimit","60");
 	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 	
 	@Override
 	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
 		if (ed == null)
 			ed = mc.getCurrentSet();
 
-		return cache.get(generateIdIndex(mc, ed));
+		return ImageUtils.fromByteArray(cache.get(generateIdIndex(mc, ed)));
 	}
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
 		logger.debug("put " + mc + " in cache");
 		if (ed == null)
-			cache.put(generateIdIndex(mc, mc.getCurrentSet()), im);
+			cache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageUtils.toByteArray(im));
 		else
-			cache.put(generateIdIndex(mc, ed), im);
+			cache.put(generateIdIndex(mc, ed), ImageUtils.toByteArray(im));
 
 	}
 	
@@ -81,5 +95,9 @@ public class JCSCache extends AbstractCacheProvider {
 	public String getName() {
 		return "JCS";
 	}
+	
+	
+	
 
 }
+
