@@ -1,5 +1,7 @@
 package org.magic.api.main;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -61,13 +63,13 @@ public class MtgDesktopCompanion {
 			gui.setVisible(true);
 			launch.stop();
 
-			for (MTGServer serv : MTGControler.getInstance().listEnabled(MTGServer.class))
-				if (serv.isAutostart())
-					try {
-						serv.start();
-					} catch (Exception e) {
-						logger.error(e);
-					}
+			MTGControler.getInstance().listEnabled(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s->{
+				try {
+					s.start();
+				} catch (IOException e) {
+					logger.error(e);
+				}
+			});
 
 			long time = chrono.stop();
 			logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");

@@ -76,8 +76,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 
-		final JComboBox<String> cboByType = new JComboBox<>();
-		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] { NUMBER, "name" }));
+		JComboBox<String> cboByType = UITools.createCombobox(new String[] { NUMBER, "name" });
 		panelCollectionInput.add(cboByType);
 
 		JLabel lblIn = new JLabel("in");

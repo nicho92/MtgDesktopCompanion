@@ -158,7 +158,7 @@ public class UITools {
 	
 	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {
 		MagicCardDetailPanel pane = new MagicCardDetailPanel();
-		MTGControler.getInstance().getLafService().setLookAndFeel(pane,MTGControler.getInstance().get("lookAndFeel"),true);
+		MTGControler.getInstance().getLafService().setLookAndFeel(pane,MTGControler.getInstance().get("lookAndFeel"),false);
 		pane.enableThumbnail(true);
 		final JPopupMenu popUp = new JPopupMenu();
 

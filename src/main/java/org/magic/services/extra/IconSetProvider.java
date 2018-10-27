@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -28,6 +29,8 @@ public class IconSetProvider {
 	private File localDirectory;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final String EXT = "_set.png";
+	private Map<String,String> equiv;
+	
 	
 	public void clean() throws IOException {
 		FileUtils.cleanDirectory(localDirectory);
@@ -37,8 +40,11 @@ public class IconSetProvider {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		Chrono chrono = new Chrono();
+		
 		localDirectory = new File(new FileCache().getConfdir(), "sets_icons");
-
+		
+		initEquiv();
+		
 		if (!localDirectory.exists())
 			localDirectory.mkdir();
 
@@ -84,195 +90,115 @@ public class IconSetProvider {
 
 	}
 
+	private void initEquiv()
+	{
+		equiv = new HashMap<>();
+		
+		equiv.put("NMS", "NEM");
+		equiv.put("PI13", "PIDW");
+		equiv.put("PI14", "PIDW");
+		equiv.put("PSOI", "SOI");
+		equiv.put("FNM", "PFNM");
+		equiv.put("F01", "PFNM");
+		equiv.put("F02", "PFNM");
+		equiv.put("F03", "PFNM");
+		equiv.put("F04", "PFNM");
+		equiv.put("F05", "PFNM");
+		equiv.put("F06", "PFNM");
+		equiv.put("F07", "PFNM");
+		equiv.put("F08", "PFNM");
+		equiv.put("F09", "PFNM");
+		equiv.put("F10", "PFNM");
+		equiv.put("F11", "PFNM");
+		equiv.put("F12", "PFNM");
+		equiv.put("F13", "PFNM");
+		equiv.put("F14", "PFNM");
+		equiv.put("F15", "PFNM");
+		equiv.put("F16", "PFNM");
+		equiv.put("F17", "PFNM");
+		equiv.put("F18", "PFNM");
+		equiv.put("PO2", "P02");
+		equiv.put("CON_", "CON");
+		equiv.put("PAL01", "PARL");
+		equiv.put("PAL02", "PARL");
+		equiv.put("PAL03", "PARL");
+		equiv.put("PAL04", "PARL");
+		equiv.put("PAL05", "PARL");
+		equiv.put("PAL06", "PARL");
+		equiv.put("PAL99", "PARL");
+		equiv.put("PAL00", "PARL");
+		equiv.put("PHPR", "PBOOK");
+		equiv.put("PDTP", "PXBOX");
+		equiv.put("PSAL", "PHUK");
+		equiv.put("PMPS06", "PMPS");
+		equiv.put("PMPS07", "PMPS");
+		equiv.put("PMPS08", "PMPS");
+		equiv.put("PMPS09", "PMPS");
+		equiv.put("PMPS10", "PMPS");
+		equiv.put("PMPS11", "PMPS");
+		equiv.put("G99", "PDCI");
+		equiv.put("G00", "PDCI");
+		equiv.put("G01", "PDCI");
+		equiv.put("JGP", "PDCI");
+		equiv.put("G02", "PDCI");
+		equiv.put("G03", "PDCI");
+		equiv.put("G04", "PDCI");
+		equiv.put("G05", "PDCI");
+		equiv.put("G06", "PDCI");
+		equiv.put("G07", "PDCI");
+		equiv.put("G08", "PDCI");
+		equiv.put("G09", "PDCI");
+		equiv.put("G10", "PDCI");
+		equiv.put("G11", "PDCI");
+		equiv.put("PGTW", "PDCI");
+		equiv.put("PJJT", "PDCI");
+		equiv.put("PSUS", "PDCI");
+		equiv.put("PJAS", "PDCI");
+		equiv.put("PJSE", "PDCI");
+		equiv.put("PWP09", "PDCI");
+		equiv.put("PWP08", "PDCI");
+		equiv.put("FBB", "3ED");
+		equiv.put("OC13", "C13");
+		equiv.put("OC14", "C14");
+		equiv.put("OC15", "C15");
+		equiv.put("OC16", "C16");
+		equiv.put("OC17", "C17");
+		equiv.put("OC18", "C18");
+		equiv.put("OCMD", "CMD");
+		equiv.put("SUM", "PSUM");
+		equiv.put("CP1", "PMEI");
+		equiv.put("CP2", "PMEI");
+		equiv.put("CP3", "PMEI");
+		equiv.put("PWCQ", "PMEI");
+		equiv.put("PLNY", "PMEI");
+		equiv.put("J12", "PMEI");
+		equiv.put("J13", "PMEI");
+		equiv.put("J14", "PMEI");
+		equiv.put("J15", "PMEI");
+		equiv.put("J16", "PMEI");
+		equiv.put("J17", "PMEI");
+		equiv.put("J18", "PMEI");
+		equiv.put("J19", "PMEI");
+		equiv.put("HHO", "PMEI");
+		equiv.put("PURL", "PMEI");
+		equiv.put("PWP10", "PMEI");
+		equiv.put("PWP11", "PMEI");
+		equiv.put("PWP12", "PMEI");
+		equiv.put("DVD", "DDC");
+		equiv.put("EVG", "DD1");
+		equiv.put("GVL", "DDD");
+		equiv.put("JVC", "DD2");
+		
+		
+	}
+	
 	private String getEquiv(String set) 
 	{
 
-		switch (set) {
-		case "RIN" :
-			return "REN";
-		case "NMS" :
-			return "NEM";
-		case "PI13":
-			return "PIDW";
-		case "PI14":
-			return "PIDW";
-		case "PSOI":
-			return "SOI";
-		case "FNM":
-			return "PFNM";
-		case "F01":
-			return "PFNM";
-		case "F02":
-			return "PFNM";
-		case "F03":
-			return "PFNM";
-		case "F04":
-			return "PFNM";
-		case "F05":
-			return "PFNM";
-		case "F06":
-			return "PFNM";
-		case "F07":
-			return "PFNM";
-		case "F08":
-			return "PFNM";
-		case "F09":
-			return "PFNM";
-		case "F10":
-			return "PFNM";
-		case "F11":
-			return "PFNM";
-		case "F12":
-			return "PFNM";
-		case "F13":
-			return "PFNM";
-		case "F14":
-			return "PFNM";
-		case "F15":
-			return "PFNM";
-		case "F16":
-			return "PFNM";
-		case "F17":
-			return "PFNM";
-		case "F18":
-			return "PFNM";
-		case "PO2":
-			return "P02";
-		case "CON_":
-			return "CON";
-		case "PAL01":
-			return "PARL";	
-		case "PAL02":
-			return "PARL";
-		case "PAL03":
-			return "PARL";
-		case "PAL04":
-			return "PARL";
-		case "PAL05":
-			return "PARL";
-		case "PAL06":
-			return "PARL";
-		case "PAL99":
-			return "PARL";
-		case "PAL00":
-			return "PARL";	
-		case "PHPR":
-			return "PBOOK";
-		case "PDTP":
-			return "PXBOX";
-		case "PSAL":
-			return "PHUK";
-		case "PMPS06":
-			return "PMPS";
-		case "PMPS07":
-			return "PMPS";
-		case "PMPS08":
-			return "PMPS";	
-		case "PMPS09":
-			return "PMPS";	
-		case "PMPS10":
-			return "PMPS";	
-		case "PMPS11":
-			return "PMPS";	
-		case "G99": 
-			return "PDCI";
-		case "G00": 
-			return "PDCI";
-		case "G01": 
-			return "PDCI";
-		case "JGP":
-			return "PDCI";
-		case "G02": 
-			return "PDCI";
-		case "G03": 
-			return "PDCI";
-		case "G04": 
-			return "PDCI";
-		case "G05": 
-			return "PDCI";
-		case "G06": 
-			return "PDCI";
-		case "G07": 
-			return "PDCI";
-		case "G08": 
-			return "PDCI";
-		case "G09": 
-			return "PDCI";
-		case "G10": 
-			return "PDCI";
-		case "G11": 
-			return "PDCI";
-		case "PGTW":
-			return "PDCI";
-		case "PJJT":
-			return "PDCI";
-		case "PSUS":
-			return "PDCI";
+		if(equiv.get(set)!=null)
+			return equiv.get(set);
 		
-		case "PJAS":
-			return "PDCI";
-		case "PJSE":
-			return "PDCI";
-		case "PURL":
-			return "PMEI";
-		case "PWCQ":
-			return "PMEI";
-		case "PLNY":
-			return "PMEI";
-		case "J12": 
-			return "PMEI";	
-		case "J13": 
-			return "PMEI";	
-		case "J14": 
-			return "PMEI";		
-		case "J15": 
-			return "PMEI";	
-		case "J16": 
-			return "PMEI";		
-		case "J17": 
-			return "PMEI";	
-		case "J18": 
-			return "PMEI";	
-		case "J19": 
-			return "PMEI";	
-		case "FBB": 
-			return "3ED";
-		case "OC13":
-			return "C13";
-		case "OC14":
-			return "C14";	
-		case "OC15":
-			return "C15";
-		case "OC16":
-			return "C16";
-		case "OC17":
-			return "C17";
-		case "OC18":
-			return "C18";
-		case "OCMD":
-			return "CMD";
-		case "SUM":	
-			return "PSUM";
-		case "CP1":	
-			return "PMEI";
-		case "CP2":	
-			return "PMEI";	
-		case "CP3":	
-			return "PMEI";
-		case "DVD":
-			return "DDC";
-		case "EVG":
-			return "DD1";
-		case "GVL":
-			return "DDD";
-		case "JVC":
-			return "DD2";
-		case "HHO":
-			return "PMEI";
-			
-		default:return set;
-		}
-
+		return set;
 	}
 
 	private void initCache() throws IOException {

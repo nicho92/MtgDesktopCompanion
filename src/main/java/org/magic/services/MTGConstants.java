@@ -63,7 +63,7 @@ public class MTGConstants {
 	public static final Color COLLECTION_100PC = Color.GREEN;
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;
-	public static final Color COLLECTION_5PC = Color.YELLOW;
+	public static final Color COLLECTION_1PC = Color.YELLOW;
 
 	public static final String KEYSTORE_NAME = "jssecacerts";
 	public static final String KEYSTORE_PASS = "changeit";
