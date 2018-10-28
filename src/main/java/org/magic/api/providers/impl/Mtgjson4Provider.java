@@ -226,7 +226,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		String filterEdition = ".";
 
 		if (ed != null)
-			filterEdition = filterEdition + ed.getId();
+			filterEdition = filterEdition + ed.getId().toUpperCase();
 
 		String jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
 
