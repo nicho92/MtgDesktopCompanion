@@ -40,7 +40,7 @@ public class MTGDeckManager extends Observable {
 		this.serialis = serialis;
 	}
 	
-	public boolean isLegal(MagicDeck magicDeck, String format) {
+	public static boolean isLegal(MagicDeck magicDeck, String format) {
 		MagicFormat mf = new MagicFormat();
 		mf.setFormat(format);
 		return magicDeck.isCompatibleFormat(mf);

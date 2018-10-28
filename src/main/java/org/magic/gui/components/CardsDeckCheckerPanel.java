@@ -28,10 +28,10 @@ public class CardsDeckCheckerPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		buzyLabel = AbstractBuzyIndicatorComponent.createLabelComponent();
 		JPanel panel = new JPanel();
+		manager = new MTGDeckManager();
 		model = new DeckSelectionTableModel();
 		table = new JXTable(model);
-		manager = new MTGDeckManager();
-	
+		
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 
