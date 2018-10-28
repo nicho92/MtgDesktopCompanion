@@ -200,6 +200,7 @@ public class UITools {
 			}
 		});
 	}
+	
 
 	public static <T> List<T> getTableSelection(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();

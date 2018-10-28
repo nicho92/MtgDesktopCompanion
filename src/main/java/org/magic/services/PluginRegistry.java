@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 
@@ -116,29 +119,7 @@ public class PluginRegistry {
 			return null;
 		}
 	}
-	
-	
-	public void initAttribute(String k,String val)
-	{
 
-		registry.entrySet().forEach(entry->
-			listPlugins(entry.getKey()).forEach(plug->{
-				
-				if(plug!=null)
-				{
-					Properties p = ((MTGPlugin) plug).getProperties();
-				p.keySet().forEach(e->{
-					
-					if(e.toString().equalsIgnoreCase(k))
-					{
-						((MTGPlugin) plug).setProperty(k, val);
-					}
-					
-					});
-				}
-			})
-		);
-	}
 	
 	
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
@@ -211,30 +192,27 @@ public class PluginRegistry {
 
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		logger.trace("searching for " + name +" plugin");
-		for(MTGPlugin s : listPlugins(type)) {
-			if(s.getName().equalsIgnoreCase(name))
-				return (T) s;
+		Optional<T> r = listPlugins(type).stream().filter(s->s.getName().equalsIgnoreCase(name)).findFirst();
 		
-		}
+		if(r.isPresent())
+			return r.get();
+		
 		logger.error(name + " doesn't exist or is not enabled");
 		return null;
 	}
 
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
-		List<T> enable = new ArrayList<>();
-		for (T p : listPlugins(t))
-			if (p.isEnable())
-				enable.add(p);
-
-		return enable;
+		return listPlugins(t).stream().filter(MTGPlugin::isEnable).collect(Collectors.toList());
 	}
 	
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
-		for (T p : listPlugins(t))
-			if (p.isEnable())
-				return p;
-
-		return null;
+		
+		Optional<T> r = listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst();
+		
+		if(r.isPresent())
+			return r.get();
+		else
+			return null;
 	}
 	
 }

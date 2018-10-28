@@ -641,7 +641,8 @@ public class ConstructPanel extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
-				MagicCard mc = (MagicCard) table.getValueAt(table.getSelectedRow(), 0);
+				
+				MagicCard mc = (MagicCard) UITools.getTableSelection(table, 0).get(0);
 				magicCardDetailPanel.setMagicCard(mc);
 				
 				if(f==MAIN)
