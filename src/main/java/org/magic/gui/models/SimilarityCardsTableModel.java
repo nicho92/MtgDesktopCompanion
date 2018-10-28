@@ -7,17 +7,15 @@ import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
-public class SimilarityCardsTableModel extends DefaultTableModel {
+public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private transient Map<MagicCard,Float> map;
-	private static final String[] COLUMNS = { "CARD","CARD_EDITIONS","%" };
-
+	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -44,34 +42,14 @@ public class SimilarityCardsTableModel extends DefaultTableModel {
 		}
 	}
 
-
-	@Override
-	public String getColumnName(int column) {
-		try {
-			return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
-		}
-		catch(Exception e){
-			return COLUMNS[column];
-		}
-	}
-
 	public SimilarityCardsTableModel() {
 		map = new HashMap<>();
+		columns = new String[]{ "CARD","CARD_EDITIONS","%" };
 	}
 
 	public void init(Map<MagicCard,Float> lines) {
 		this.map = lines;
 		fireTableDataChanged();
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return COLUMNS.length;
 	}
 
 	@Override

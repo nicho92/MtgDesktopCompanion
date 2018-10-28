@@ -12,38 +12,21 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class CardsPriceTableModel extends DefaultTableModel {
+public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private transient List<MagicPrice> prices;
 	public static final int ROW_URL = 7;
-
-	
-	
-	String[] columns = new String[] { "WEBSITE",
-			"PRICE",
-			"CURRENCY",
-			"SELLER",
-			"QUALITY",
-			"CARD_LANGUAGE",
-			"COUNTRY",
-			"URL"};
-
-	public void addPrice(MagicPrice p) {
-		prices.add(p);
-		fireTableDataChanged();
-	}
 
 	public void addPrice(MTGPricesProvider prov, MagicCard mc, MagicEdition me) {
 			try {
 					List<MagicPrice> list = prov.getPrice(me, mc);
 
 					if (list != null && !list.isEmpty())
-						prices.addAll(list);
+						items.addAll(list);
 
 					fireTableDataChanged();
 			} catch (Exception e) {
@@ -54,32 +37,21 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	}
 
 	public void init(MTGPricesProvider prov, MagicCard mc, MagicEdition me) {
-		prices.clear();
+		items.clear();
 		addPrice(prov,mc, me);
 
 	}
 
 	public CardsPriceTableModel() {
-		prices = new ArrayList<>();
-	}
+		columns=new String[] { "WEBSITE",
+				"PRICE",
+				"CURRENCY",
+				"SELLER",
+				"QUALITY",
+				"CARD_LANGUAGE",
+				"COUNTRY",
+				"URL"};
 
-
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
-
-	@Override
-	public int getRowCount() {
-		if (prices != null)
-			return prices.size();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
 	}
 
 	@Override
@@ -108,7 +80,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		try {
 
-			MagicPrice mp = prices.get(row);
+			MagicPrice mp = items.get(row);
 
 			switch (column) {
 			case 0:
@@ -135,19 +107,4 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		}
 	}
 
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	public void clear() {
-		prices.clear();
-		fireTableDataChanged();
-
-	}
-
-	
-	public List<MagicPrice> getPrices() {
-		return prices;
-	}
 }

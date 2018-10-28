@@ -10,60 +10,25 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class ShopItemTableModel extends DefaultTableModel {
+public class ShopItemTableModel extends GenericTableModel<ShopItem> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	private String[] columns = new String[] { "WEBSITE",
-			"SHOP_NAME",
-			"PRICE",
-			"SHOP_DATE",
-			"SHOP_TYPE",
-			"URL" };
-
-	private transient List<ShopItem> items;
-
-	public void init(String search) {
-		items.clear();
-		for (MTGShopper prov : MTGControler.getInstance().listEnabled(MTGShopper.class)) {
-			try {
-				items.addAll(prov.search(search));
-				fireTableDataChanged();
-			} catch (Exception e) {
-				logger.error("error in init " + search, e);
-			}
-		}
-	}
+	
 
 	public ShopItemTableModel() {
-		items = new ArrayList<>();
+		 columns = new String[] { "WEBSITE",
+					"SHOP_NAME",
+					"PRICE",
+					"SHOP_DATE",
+					"SHOP_TYPE",
+					"URL" };
 	}
 
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
-
-	@Override
-	public int getRowCount() {
-		if (items != null)
-			return items.size();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {

@@ -2,6 +2,8 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JComboBox;
@@ -10,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -88,13 +91,22 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	public void init() {
 		ThreadManager.getInstance().execute(() -> {
 			lblLoading.start();
-			models.init((MTGFormat) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
-			models.fireTableDataChanged();
-			table.packAll();
-			table.setRowSorter(new TableRowSorter(models));
-			setProperty("FORMAT", cboFormat.getSelectedItem().toString());
-			setProperty("FILTER", cboFilter.getSelectedItem().toString());
+			
+			List<CardDominance> list;
+			try {
+				list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getBestCards((MTGFormat) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
+				models.init(list);
+				models.fireTableDataChanged();
+				table.packAll();
+				table.setRowSorter(new TableRowSorter(models));
+				setProperty("FORMAT", cboFormat.getSelectedItem().toString());
+				setProperty("FILTER", cboFilter.getSelectedItem().toString());
+			} catch (IOException e) {
+				logger.error(e);
+			}
 			lblLoading.end();
+			
+			
 		}, "init BestCardsDashlet");
 	}
 

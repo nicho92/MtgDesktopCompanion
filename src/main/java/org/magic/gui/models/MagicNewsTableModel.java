@@ -1,69 +1,31 @@
 package org.magic.gui.models;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
-import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
-import org.magic.services.MTGControler;
+import org.magic.gui.abstracts.GenericTableModel;
 
-public class MagicNewsTableModel extends DefaultTableModel {
+public class MagicNewsTableModel extends GenericTableModel<MagicNewsContent> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private static final String[] COLUMNS = { "RSS_TITLE",
-			"RSS_DATE",
-			"RSS_AUTHOR" };
-	private transient List<MagicNewsContent> ret;
-
-	@Override
-	public int getRowCount() {
-		if (ret == null)
-			return 0;
-
-		return ret.size();
-
+	
+	
+	public MagicNewsTableModel() {
+		columns=new String[]{ "RSS_TITLE",
+				"RSS_DATE",
+				"RSS_AUTHOR" };
 	}
-
-	@Override
-	public int getColumnCount() {
-		return COLUMNS.length;
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
+	
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return ret.get(row).getTitle();
+			return items.get(row).getTitle();
 		case 1:
-			return ret.get(row).getDate();
+			return items.get(row).getDate();
 		case 2:
-			return ret.get(row).getAuthor();
+			return items.get(row).getAuthor();
 		default:
 			return "";
 		}
-	}
-
-	public MagicNewsContent getEntryAt(int row) {
-		return ret.get(row);
-	}
-
-	public void init(MagicNews rssBean) throws IOException {
-		ret = rssBean.getProvider().listNews(rssBean);
 	}
 
 }

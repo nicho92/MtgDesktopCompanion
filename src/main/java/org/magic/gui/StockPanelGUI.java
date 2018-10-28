@@ -122,8 +122,8 @@ public class StockPanelGUI extends MTGUIPanel {
 		btnSave.addActionListener(e ->
 
 		ThreadManager.getInstance().execute(() -> {
-			lblLoading.start(model.getList().size());
-			for (MagicCardStock ms : model.getList())
+			lblLoading.start(model.getItems().size());
+			for (MagicCardStock ms : model.getItems())
 				if (ms.isUpdate())
 					try {
 						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
@@ -160,10 +160,15 @@ public class StockPanelGUI extends MTGUIPanel {
 			if (res == JOptionPane.YES_OPTION) {
 				ThreadManager.getInstance().execute(() -> {
 					try {
-						int[] selected = table.getSelectedRows();
 						lblLoading.start();
-						List<MagicCardStock> stocks = extract(selected);
-						model.removeRows(stocks);
+						List<MagicCardStock> stocks = UITools.getTableSelection(table, 0);
+						model.removeItem(stocks);
+						stocks.removeIf(st->st.getIdstock()==-1);
+						
+						if(!stocks.isEmpty())
+						MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(stocks);
+						
+						
 						updateCount();
 					} catch (Exception e) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
@@ -179,15 +184,13 @@ public class StockPanelGUI extends MTGUIPanel {
 
 		btnReload.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),
-					JOptionPane.YES_NO_OPTION);
+					MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				logger.debug("reload collection");
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						lblLoading.start();
-						model.init();
+						model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
 					} catch (SQLException e1) {
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 					}
@@ -319,9 +322,9 @@ public class StockPanelGUI extends MTGUIPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									lblLoading.start(model.getList().size());
+									lblLoading.start(model.getItems().size());
 									exp.addObserver(lblLoading);
-									exp.exportStock(model.getList(), fileExport);
+									exp.exportStock(model.getItems(), fileExport);
 									lblLoading.end();
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),exp.getName() + " "
 											+ MTGControler.getInstance().getLangService()
@@ -407,8 +410,10 @@ public class StockPanelGUI extends MTGUIPanel {
 					MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION"),
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
-				for (int i : table.getSelectedRows()) {
-					MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
+				
+				List<MagicCardStock> list = UITools.getTableSelection(table,0);
+				
+				for (MagicCardStock  s : list) {
 					s.setUpdate(true);
 					if (((Integer) spinner.getValue()).intValue() > 0)
 						s.setQte((Integer) spinner.getValue());
@@ -445,7 +450,7 @@ public class StockPanelGUI extends MTGUIPanel {
 	public void addStock(MagicCardStock mcs) {
 		mcs.setIdstock(-1);
 		mcs.setUpdate(true);
-		model.add(mcs);
+		model.addItem(mcs);
 	}
 
 	public void addCard(MagicCard mc) {
@@ -453,19 +458,10 @@ public class StockPanelGUI extends MTGUIPanel {
 		ms.setIdstock(-1);
 		ms.setUpdate(true);
 		ms.setMagicCard(mc);
-		model.add(ms);
+		model.addItem(ms);
 
 	}
 
-	private List<MagicCardStock> extract(int[] ids) {
-		List<MagicCardStock> select = new ArrayList<>();
-
-		for (int l : ids) {
-			select.add(((MagicCardStock) table.getValueAt(l, 0)));
-		}
-		return select;
-
-	}
 
 	private void initGUI() {
 
@@ -759,7 +755,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		ThreadManager.getInstance().execute(() -> {
 			try {
 				lblLoading.start();
-				model.init();
+				model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
 				table.packAll();
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));

@@ -1,35 +1,19 @@
 package org.magic.gui.models;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
-import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.gui.abstracts.GenericTableModel;
 
-public class CardsShakerTableModel extends DefaultTableModel {
+public class CardsShakerTableModel extends GenericTableModel<CardShake> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private transient List<CardShake> list;
-
-	String[] columns = new String[] { "CARD",
-			"EDITION",
-			"PRICE",
-			"DAILY",
-			"PC_DAILY" };
+	
 
 	public CardsShakerTableModel() {
-		list = new ArrayList<>();
+		columns = new String[] { "CARD",
+				"EDITION",
+				"PRICE",
+				"DAILY",
+				"PC_DAILY" };
 	}
 
 	@Override
@@ -48,43 +32,12 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		}
 	}
 
-	public void init(List<CardShake> l) {
-		this.list = l;
-
-	}
-
-	public void init(MTGFormat f) {
-		try {
-			list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(f);
-
-		} catch (IOException e) {
-			logger.error(e);
-		}
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
-
-	@Override
-	public int getRowCount() {
-		if (list != null)
-			return list.size();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
 
-			CardShake mp = list.get(row);
+			CardShake mp = items.get(row);
 			switch (column) {
 			case 0:
 				return mp;
@@ -105,11 +58,6 @@ public class CardsShakerTableModel extends DefaultTableModel {
 			logger.error(ioob);
 			return null;
 		}
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
 	}
 
 }

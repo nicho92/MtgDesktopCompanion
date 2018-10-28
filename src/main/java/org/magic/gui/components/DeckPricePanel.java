@@ -89,7 +89,7 @@ public class DeckPricePanel extends JComponent {
 							p.setCurrency("");
 						}
 
-						model.addPrice(p);
+						model.addItem(p);
 						total += p.getValue();
 
 						lblPrice.setText(String.valueOf(total) + " " + p.getCurrency());

@@ -7,47 +7,26 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 
-public class MagicEditionsTableModel extends DefaultTableModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	String[] columns = new String[] { "EDITION_CODE",
-			"EDITION",
-			"EDITION_SIZE",
-			"DATE_RELEASE",
-			"PC_COMPLETE",
-			"QTY",
-			"EDITION_TYPE",
-			"EDITION_BLOCK",
-			"EDITION_ONLINE" };
-
-	private List<MagicEdition> list;
-
+public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
+	
 	private Map<MagicEdition, Integer> mapCount;
 
 	int countTotal = 0;
 	int countDefaultLibrary = 0;
-
-	public List<MagicEdition> getEditions() {
-		return list;
-	}
+	
 
 	public void init(List<MagicEdition> editions) {
-		this.list = editions;
+		this.items = editions;
 		mapCount = new TreeMap<>();
 
 		try {
@@ -67,12 +46,12 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 		
 		countDefaultLibrary = 0;
 		countTotal = 0;
-		for (MagicEdition me : list) {
+		for (MagicEdition me : items) {
 			mapCount.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
 			countDefaultLibrary += mapCount.get(me);
 		}
 
-		for (MagicEdition me : list)
+		for (MagicEdition me : items)
 			countTotal += me.getCardCount();
 		
 		} catch (SQLException e) {
@@ -101,26 +80,21 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 	}
 
 	public MagicEditionsTableModel() {
-		list = new ArrayList<>();
+		columns=new String[] { "EDITION_CODE",
+				"EDITION",
+				"EDITION_SIZE",
+				"DATE_RELEASE",
+				"PC_COMPLETE",
+				"QTY",
+				"EDITION_TYPE",
+				"EDITION_BLOCK",
+				"EDITION_ONLINE" };
 
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
-
-	@Override
-	public int getRowCount() {
-		if (list == null)
-			return 0;
-
-		return list.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		MagicEdition e = list.get(row);
+		MagicEdition e = items.get(row);
 		if (column == 0)
 			return IconSetProvider.getInstance().get24(e.getId());
 
@@ -179,14 +153,5 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 		}
 	}
 
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
 
 }

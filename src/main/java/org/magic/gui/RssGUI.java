@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +34,7 @@ import org.magic.gui.renderer.NewsTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class RssGUI extends MTGUIPanel {
 	
@@ -156,7 +158,10 @@ public class RssGUI extends MTGUIPanel {
 					try {
 						lblLoading.start();
 						newsPanel.setMagicNews((MagicNews) curr.getUserObject());
-						model.init((MagicNews) curr.getUserObject());
+						
+						MagicNews n = (MagicNews) curr.getUserObject();
+						
+						model.init(n.getProvider().listNews(n));
 					} catch (Exception e) {
 						logger.error("error reading rss", e);
 					}
@@ -168,8 +173,8 @@ public class RssGUI extends MTGUIPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				MagicNewsContent sel = model.getEntryAt(table.getSelectedRow());
-
+				List<MagicNewsContent> sels = UITools.getTableSelection(table, 0);
+				MagicNewsContent sel = sels.get(0);
 				if (me.getClickCount() == 2) {
 					try {
 						Desktop.getDesktop().browse(sel.getLink().toURI());

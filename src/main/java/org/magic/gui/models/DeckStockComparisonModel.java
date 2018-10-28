@@ -1,28 +1,24 @@
 package org.magic.gui.models;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.services.MTGControler;
+import org.magic.gui.abstracts.GenericTableModel;
 
-public class DeckStockComparisonModel extends DefaultTableModel {
+public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
-	private transient String[] columnsName = new String[] { 
-			"CARD",
-			"QTY",
-			"STOCK_MODULE",
-			"COLLECTION",
-			"NEEDED_QTY",
-			};
-	
-	private transient List<Line> list;
 	
 	public DeckStockComparisonModel() {
-		list=new ArrayList<>();
+		
+		columns = new String[] { 
+				"CARD",
+				"QTY",
+				"STOCK_MODULE",
+				"COLLECTION",
+				"NEEDED_QTY",
+				};
+		
 	}
 	
 	@Override
@@ -30,38 +26,16 @@ public class DeckStockComparisonModel extends DefaultTableModel {
 		return false;
 	}
 	
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columnsName[column]);
-	}
 	
-	@Override
-	public int getColumnCount() {
-		return columnsName.length;
-	}
-	
-	@Override
-	public int getRowCount() {
-		if(list==null)
-			return 0;
-		
-		return list.size();
-	}
-	
-	public void addRow(MagicCard mc, Integer qty, boolean has, List<MagicCardStock> stocks)
+	public void addItem(MagicCard mc, Integer qty, boolean has, List<MagicCardStock> stocks)
 	{
 		Line l = new Line(mc, qty, has, stocks);
 		l.setResult(calculate(l));
 		
-		list.add(l);
-		fireTableDataChanged();
+		addItem(l);
+		
 	}
 
-	public void removeAll() {
-		list.clear();
-		fireTableDataChanged();
-	}
-	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if (columnIndex==0)
@@ -73,11 +47,11 @@ public class DeckStockComparisonModel extends DefaultTableModel {
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column) {
-		case 0:return list.get(row).getMc();
-		case 1:return list.get(row).getNeeded();
-		case 2:return list.get(row).getStocks().size();
-		case 3: return list.get(row).getHas() ? 1: 0;
-		case 4:return list.get(row).getResult();
+		case 0:return items.get(row).getMc();
+		case 1:return items.get(row).getNeeded();
+		case 2:return items.get(row).getStocks().size();
+		case 3: return items.get(row).getHas() ? 1: 0;
+		case 4:return items.get(row).getResult();
 		
 		default:return "";
 		}

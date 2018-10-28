@@ -10,42 +10,20 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class CardDominanceTableModel extends DefaultTableModel {
+public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 
-	static final String[] columns = new String[] { "CARD",
-			"POSITION",
-			"PC_DOMINANCE",
-			"PC_DECKS",
-			"PLAYERS" };
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private transient List<CardDominance> list;
-
+	
 	public CardDominanceTableModel() {
-		list = new ArrayList<>();
-	}
-
-	public void init(MTGFormat f, String filter) {
-		try {
-			list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getBestCards(f, filter);
-		} catch (IOException e) {
-			logger.error(e);
-		}
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (list != null)
-			return list.size();
-		return 0;
+		columns=new String[] { "CARD",
+				"POSITION",
+				"PC_DOMINANCE",
+				"PC_DECKS",
+				"PLAYERS" };
 	}
 
 	@Override
@@ -68,29 +46,19 @@ public class CardDominanceTableModel extends DefaultTableModel {
 	}
 
 	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
-
-	@Override
 	public Object getValueAt(int row, int column) {
 
 		switch (column) {
 		case 0:
-			return list.get(row);
+			return items.get(row);
 		case 1:
-			return list.get(row).getPosition();
+			return items.get(row).getPosition();
 		case 2:
-			return list.get(row).getDominance();
+			return items.get(row).getDominance();
 		case 3:
-			return list.get(row).getDecksPercent();
+			return items.get(row).getDecksPercent();
 		case 4:
-			return list.get(row).getPlayers();
+			return items.get(row).getPlayers();
 		default:
 			return "";
 		}

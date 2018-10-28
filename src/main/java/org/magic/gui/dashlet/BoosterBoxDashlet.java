@@ -143,7 +143,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 									priceRarity.put(rarity, cs.getPrice());
 							}
 					}
-					boostersModel.addLine(booster);
+					boostersModel.addItem(booster);
 					total = total + booster.getPrice();
 
 					StringBuilder temp = new StringBuilder();

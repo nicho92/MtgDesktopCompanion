@@ -84,7 +84,7 @@ public class DeckSnifferDialog extends JDialog {
 							try {
 								lblLoad.start();
 								selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
-								model.init(selectedSniffer);
+								model.init(selectedSniffer.getDeckList());
 								model.fireTableDataChanged();
 								lblLoad.end();
 							} catch (Exception e1) {

@@ -177,7 +177,7 @@ public class JDeckChooserDialog extends JDialog {
 
 			if (res == JOptionPane.YES_OPTION) {
 				try {
-					((DeckSelectionTableModel) table.getModel()).remove(selectedDeck);
+					((DeckSelectionTableModel) table.getModel()).removeItem(selectedDeck);
 				} catch (IOException e1) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				}

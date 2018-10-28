@@ -17,6 +17,7 @@ import javax.swing.SortOrder;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -99,9 +100,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 	public void init() {
 		ThreadManager.getInstance().execute(() -> {
 			lblLoading.start();
-			modStandard.init((MTGFormat) cboFormats.getSelectedItem());
-
 			try {
+				List<CardShake> l = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor((MTGFormat) cboFormats.getSelectedItem());
+				modStandard.init(l);
 				table.setModel(modStandard);
 			} catch (Exception e) {
 				logger.error(e);

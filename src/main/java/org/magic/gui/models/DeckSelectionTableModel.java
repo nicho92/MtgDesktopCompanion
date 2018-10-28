@@ -1,33 +1,24 @@
 package org.magic.gui.models;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.services.MTGControler;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 
-public class DeckSelectionTableModel extends DefaultTableModel {
+public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private final String[] columns = { MTGControler.getInstance().getLangService().getCapitalize("DECK"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"), "Standard", "Modern", "Legacy","Vintage", MTGControler.getInstance().getLangService().getCapitalize("CARDS") };
-	private List<MagicDeck> decks;
 	private transient MTGDeckManager manager;
 
 	public DeckSelectionTableModel() {
-		decks = new ArrayList<>();
+		columns=new String[] {"DECK","CARD_COLOR","Standard","Modern","Legacy","Vintage","CARDS"};
+		
 		manager = new MTGDeckManager();
 		manager.addObserver((Observable o, Object obj)->{
-				decks.add((MagicDeck) obj);
+				items.add((MagicDeck) obj);
 				fireTableDataChanged();
 		});
 	}
@@ -36,29 +27,6 @@ public class DeckSelectionTableModel extends DefaultTableModel {
 	public void init()
 	{
 		ThreadManager.getInstance().execute(() -> manager.listDecks(), "ListDecks");
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return columns[column];
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (decks != null)
-			return decks.size();
-
-		return 0;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
 	}
 
 	@Override
@@ -87,36 +55,32 @@ public class DeckSelectionTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return decks.get(row);
+			return items.get(row);
 		case 1:
-			return decks.get(row).getColors();
+			return items.get(row).getColors();
 		case 2:
-			return manager.isLegal(decks.get(row), columns[column]);
+			return manager.isLegal(items.get(row), columns[column]);
 		case 3:
-			return manager.isLegal(decks.get(row), columns[column]);
+			return manager.isLegal(items.get(row), columns[column]);
 		case 4:
-			return manager.isLegal(decks.get(row), columns[column]);
+			return manager.isLegal(items.get(row), columns[column]);
 		case 5:
-			return manager.isLegal(decks.get(row), columns[column]);
+			return manager.isLegal(items.get(row), columns[column]);
 		case 6:
-			return decks.get(row).getAsList().size();
+			return items.get(row).getAsList().size();
 
 		default:
 			return "";
 		}
 	}
 
-	public void remove(MagicDeck selectedDeck) throws IOException {
-		manager.remove(selectedDeck);
-		decks.remove(selectedDeck);
-		fireTableDataChanged();
-
+	@Override
+	public void removeItem(MagicDeck selectedDeck) throws IOException {
+			manager.remove(selectedDeck);
+			items.remove(selectedDeck);
+			fireTableDataChanged();
 	}
 
-	public void init(List<MagicDeck> listDecksWith) {
-		decks = listDecksWith;
-		fireTableDataChanged();
-		
-	}
+	
 
 }

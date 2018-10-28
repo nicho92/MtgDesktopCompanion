@@ -105,7 +105,7 @@ public class DeckStockComparatorPanel extends JComponent {
 	private void initActions() {
 		
 		btnCompare.addActionListener(ae-> {
-			model.removeAll();
+			model.clear();
 			if(currentDeck!=null)
 			{
 				MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
@@ -119,7 +119,7 @@ public class DeckStockComparatorPanel extends JComponent {
 								boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
 								List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
 								int qty = currentDeck.getMap().get(entry.getKey());
-								model.addRow(entry.getKey(),qty,has, stocks);
+								model.addItem(entry.getKey(),qty,has, stocks);
 								buzyLabel.progress();
 							} catch (SQLException e) {
 								logger.error(e);

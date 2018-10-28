@@ -22,6 +22,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
+import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.MTGConstants;
@@ -67,7 +68,10 @@ public class ShopperGUI extends MTGUIPanel {
 		txtSearch.setBackground(Color.WHITE);
 		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		txtSearch.setColumns(35);
-		txtSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> mod.init(txtSearch.getText()), "Search Shop Item"));
+		txtSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() ->
+				MTGControler.getInstance().listEnabled(MTGShopper.class).forEach(prov->mod.init(prov.search(txtSearch.getText()))) 
+			, "Search Shop Item")
+		);
 
 		
 		panel.add(txtSearch);

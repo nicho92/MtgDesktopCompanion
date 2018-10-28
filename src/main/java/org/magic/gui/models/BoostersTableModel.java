@@ -1,22 +1,12 @@
 package org.magic.gui.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
 import org.magic.api.beans.Booster;
-import org.magic.services.MTGControler;
+import org.magic.gui.abstracts.GenericTableModel;
 
-public class BoostersTableModel extends DefaultTableModel {
+public class BoostersTableModel extends GenericTableModel<Booster> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private transient List<Booster> boosters;
-	private static final String[] COLUMNS = { "CARD_NUMBER","PRICE" };
-
+	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -34,59 +24,20 @@ public class BoostersTableModel extends DefaultTableModel {
 
 		switch (column) {
 		case 0:
-			return boosters.get(row);
+			return items.get(row);
 		case 1:
-			return boosters.get(row).getPrice();
+			return items.get(row).getPrice();
 		default:
 			return "";
 		}
 	}
 
-	public void clear() {
-		boosters.clear();
 
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		try {
-			return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
-		}
-		catch(Exception e){
-			return COLUMNS[column];
-		}
-	}
-
-	public void addLine(Booster bl) {
-		boosters.add(bl);
-		fireTableDataChanged();
-	}
 
 	public BoostersTableModel() {
-		boosters = new ArrayList<>();
+		columns=new String[]{ "CARD_NUMBER","PRICE" };
 	}
-
-	public void init(List<Booster> lines) {
-		this.boosters = lines;
-		fireTableDataChanged();
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return COLUMNS.length;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (boosters == null)
-			return 0;
-		else
-			return boosters.size();
-	}
+	
+	
 
 }

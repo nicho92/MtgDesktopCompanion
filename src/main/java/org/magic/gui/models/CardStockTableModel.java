@@ -1,82 +1,33 @@
 package org.magic.gui.models;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
-public class CardStockTableModel extends DefaultTableModel {
-
+public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
+	
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	private transient List<MagicCardStock> list;
-
-	static final String[] columns = new String[] { "ID",
-			"CARD",
-			"EDITION",
-			"COLLECTION",
-			"QUALITY",
-			"QTY",
-			"CARD_LANGUAGE",
-			"FOIL",
-			"SIGNED",
-			"ALTERED",
-			"PRICE",
-			"COMMENTS" };
-
-	public List<MagicCardStock> getList() {
-		return list;
-	}
-
-	public void removeRows(List<MagicCardStock> stocks) throws SQLException {
-		list.removeAll(stocks);
-		for (Iterator<MagicCardStock> iter = stocks.listIterator(); iter.hasNext();) {
-			MagicCardStock a = iter.next();
-			if (a.getIdstock() == -1) {
-				iter.remove();
-			}
-		}
-		if (!stocks.isEmpty())
-			MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(stocks);
-
-		fireTableDataChanged();
-	}
-
-	public void init() throws SQLException {
-		list.clear();
-		list.addAll(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
-		fireTableDataChanged();
-	}
 
 	public CardStockTableModel() {
-		list = new ArrayList<>();
-
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (list != null)
-			return list.size();
-
-		return 0;
+		columns = new String[] { "ID",
+				"CARD",
+				"EDITION",
+				"COLLECTION",
+				"QUALITY",
+				"QTY",
+				"CARD_LANGUAGE",
+				"FOIL",
+				"SIGNED",
+				"ALTERED",
+				"PRICE",
+				"COMMENTS" };
 	}
 
 	@Override
@@ -118,38 +69,33 @@ public class CardStockTableModel extends DefaultTableModel {
 	}
 
 	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
-
-	@Override
 	public Object getValueAt(int row, int column) {
 
 		switch (column) {
 		case 0:
-			return list.get(row);
+			return items.get(row);
 		case 1:
-			return list.get(row).getMagicCard();
+			return items.get(row).getMagicCard();
 		case 2:
-			return list.get(row).getMagicCard().getEditions();
+			return items.get(row).getMagicCard().getEditions();
 		case 3:
-			return list.get(row).getMagicCollection();
+			return items.get(row).getMagicCollection();
 		case 4:
-			return list.get(row).getCondition();
+			return items.get(row).getCondition();
 		case 5:
-			return list.get(row).getQte();
+			return items.get(row).getQte();
 		case 6:
-			return list.get(row).getLanguage();
+			return items.get(row).getLanguage();
 		case 7:
-			return list.get(row).isFoil();
+			return items.get(row).isFoil();
 		case 8:
-			return list.get(row).isSigned();
+			return items.get(row).isSigned();
 		case 9:
-			return list.get(row).isAltered();
+			return items.get(row).isAltered();
 		case 10:
-			return list.get(row).getPrice();
+			return items.get(row).getPrice();
 		case 11:
-			return list.get(row).getComment();
+			return items.get(row).getComment();
 
 		default:
 			return "";
@@ -160,39 +106,39 @@ public class CardStockTableModel extends DefaultTableModel {
 	public void setValueAt(Object aValue, int row, int column) {
 		switch (column) {
 		case 2:
-			updateEdition(list.get(row), (MagicEdition) aValue);
+			updateEdition(items.get(row), (MagicEdition) aValue);
 			break;
 		case 3:
-			list.get(row).setMagicCollection(new MagicCollection(aValue.toString()));
+			items.get(row).setMagicCollection(new MagicCollection(aValue.toString()));
 			break;
 		case 4:
-			list.get(row).setCondition((EnumCondition) aValue);
+			items.get(row).setCondition((EnumCondition) aValue);
 			break;
 		case 5:
-			list.get(row).setQte((Integer) aValue);
+			items.get(row).setQte((Integer) aValue);
 			break;
 		case 6:
-			list.get(row).setLanguage(String.valueOf(aValue));
+			items.get(row).setLanguage(String.valueOf(aValue));
 			break;
 		case 7:
-			list.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));
+			items.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 8:
-			list.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
+			items.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 9:
-			list.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
+			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 10:
-			list.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
+			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
 			break;
 		case 11:
-			list.get(row).setComment(String.valueOf(aValue));
+			items.get(row).setComment(String.valueOf(aValue));
 			break;
 		default:
 			break;
 		}
-		list.get(row).setUpdate(true);
+		items.get(row).setUpdate(true);
 	}
 
 	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
@@ -216,10 +162,5 @@ public class CardStockTableModel extends DefaultTableModel {
 
 	}
 
-	public void add(MagicCardStock selected) {
-		list.add(selected);
-		fireTableDataChanged();
-
-	}
 
 }

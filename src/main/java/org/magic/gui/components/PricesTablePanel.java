@@ -134,7 +134,7 @@ public class PricesTablePanel extends JPanel {
 	
 	public List<MagicPrice> getPrices()
 	{
-		return model.getPrices();
+		return model.getItems();
 	}
 	
 	

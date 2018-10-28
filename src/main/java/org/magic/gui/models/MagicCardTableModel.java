@@ -7,57 +7,25 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
-public class MagicCardTableModel extends DefaultTableModel {
+public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private List<MagicCard> cards;
-	protected String[] columns = new String[] { "NAME",
-												"CARD_LANGUAGE",
-												"CARD_MANA",
-												"CARD_TYPES",
-												"CARD_POWER",
-												"CARD_RARITY",
-												"CARD_EDITIONS",
-												"CARD_NUMBER",
-												"CARD_COLOR",
-												"RL"};
-
+	
 	public MagicCardTableModel() {
-		cards = new ArrayList<>();
+		columns=new String[] { "NAME",
+				"CARD_LANGUAGE",
+				"CARD_MANA",
+				"CARD_TYPES",
+				"CARD_POWER",
+				"CARD_RARITY",
+				"CARD_EDITIONS",
+				"CARD_NUMBER",
+				"CARD_COLOR",
+				"RL"};
 
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (cards == null)
-			return 0;
-
-		return cards.size();
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		try {
-			return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-		}
-		catch(Exception e){
-			return columns[column];
-		}
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
 	}
 
 	@Override
@@ -76,7 +44,7 @@ public class MagicCardTableModel extends DefaultTableModel {
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
-			MagicCard mc = cards.get(row);
+			MagicCard mc = items.get(row);
 
 			switch (column) {
 			case 0:
@@ -136,25 +104,4 @@ public class MagicCardTableModel extends DefaultTableModel {
 	}
 
 	
-	
-	public void init(List<MagicCard> cards2) {
-		this.cards = cards2;
-		fireTableDataChanged();
-	}
-
-	public List<MagicCard> getListCards() {
-		return cards;
-	}
-
-	public void addCard(MagicCard arg) {
-		cards.add(arg);
-		fireTableDataChanged();
-
-	}
-
-	public void clear() {
-		cards.clear();
-		fireTableDataChanged();
-
-	}
 }

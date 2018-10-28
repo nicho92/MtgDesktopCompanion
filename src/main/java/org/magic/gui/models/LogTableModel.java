@@ -2,22 +2,19 @@ package org.magic.gui.models;
 
 import java.util.Date;
 
-import javax.swing.table.DefaultTableModel;
-
+import org.apache.log4j.spi.LoggingEvent;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGAppender;
 import org.magic.services.MTGLogger;
 
-public class LogTableModel extends DefaultTableModel {
+public class LogTableModel extends GenericTableModel<LoggingEvent> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private transient MTGAppender app;
-	private static final String[] COLUMNS = { "LEVEL", "TIME", "CLASS", "MESSAGE" };
-
+	
 	public LogTableModel() {
 		app = (MTGAppender) MTGLogger.getAppender("APPS");
+		columns=new String[]{ "LEVEL", "TIME", "CLASS", "MESSAGE" };
 	}
 
 	@Override
@@ -35,21 +32,6 @@ public class LogTableModel extends DefaultTableModel {
 			return app.getEvents().get(row).getMessage();
 
 		return "";
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return COLUMNS[column];
-	}
-
-	@Override
-	public int getColumnCount() {
-		return COLUMNS.length;
 	}
 
 	@Override

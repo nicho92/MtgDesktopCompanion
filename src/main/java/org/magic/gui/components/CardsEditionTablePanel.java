@@ -147,7 +147,7 @@ public class CardsEditionTablePanel extends JPanel {
 					Collections.sort(list, new CardsEditionSorter() );
 					for(MagicCard mc : list )
 					{
-						model.addCard(mc);
+						model.addItem(mc);
 					}
 				} catch (IOException e) {
 					logger.error(e);

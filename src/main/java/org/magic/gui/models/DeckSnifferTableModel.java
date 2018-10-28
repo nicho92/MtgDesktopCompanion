@@ -1,54 +1,17 @@
 package org.magic.gui.models;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.services.MTGControler;
+import org.magic.gui.abstracts.GenericTableModel;
 
-public class DeckSnifferTableModel extends DefaultTableModel {
+public class DeckSnifferTableModel extends GenericTableModel<RetrievableDeck> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	private static final String[] columns = new String[] { "NAME",
-			"CARD_COLOR",
-			"AUTHOR",
-			"DESCRIPTION"
-	};
-
-	private transient List<RetrievableDeck> decks;
-
 	public DeckSnifferTableModel() {
-		decks = new ArrayList<>();
-	}
-
-	public void init(MTGDeckSniffer sniff) throws IOException {
-		decks = sniff.getDeckList();
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (decks != null)
-			return decks.size();
-		else
-			return 0;
+		columns=new String[] { "NAME",
+				"CARD_COLOR",
+				"AUTHOR",
+				"DESCRIPTION"
+		};
 	}
 
 	@Override
@@ -56,22 +19,18 @@ public class DeckSnifferTableModel extends DefaultTableModel {
 
 		switch (column) {
 		case 0:
-			return decks.get(row);
+			return items.get(row);
 		case 1:
-			return decks.get(row).getColor();
+			return items.get(row).getColor();
 		case 2:
-			return decks.get(row).getAuthor();
+			return items.get(row).getAuthor();
 		case 3:
-			return decks.get(row).getDescription();
+			return items.get(row).getDescription();
 		default:
 			return null;
 		}
 
 	}
 
-	@Override
-	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
-	}
 
 }

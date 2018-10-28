@@ -364,11 +364,6 @@ public class CardSearchPanel extends MTGUIPanel {
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(lblLoading);
-		
-		JExportButton expButton = new JExportButton();
-		panneauHaut.add(expButton);
-		
-
 		panneauCard.add(cboLanguages, BorderLayout.NORTH);
 		panneauCard.add(scrollEditions, BorderLayout.SOUTH);
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
@@ -499,7 +494,7 @@ public class CardSearchPanel extends MTGUIPanel {
 			Observer ob = new Observer() {
 				@Override
 				public void update(Observable o, Object arg) {
-					cardsModeltable.addCard((MagicCard) arg);
+					cardsModeltable.addItem((MagicCard) arg);
 				}
 			};
 			
@@ -634,7 +629,7 @@ public class CardSearchPanel extends MTGUIPanel {
 						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
 						int result = jf.showSaveDialog(null);
 						final File f = jf.getSelectedFile();
-						List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getListCards();
+						List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
 						lblLoading.start(export.size()); 
 						exp.addObserver(lblLoading);
 						

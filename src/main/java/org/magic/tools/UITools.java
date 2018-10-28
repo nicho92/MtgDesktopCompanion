@@ -201,7 +201,6 @@ public class UITools {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <T> List<T> getTableSelection(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
