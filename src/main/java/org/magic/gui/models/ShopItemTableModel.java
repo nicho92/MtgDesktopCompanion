@@ -1,18 +1,10 @@
 package org.magic.gui.models;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class ShopItemTableModel extends GenericTableModel<ShopItem> {
 

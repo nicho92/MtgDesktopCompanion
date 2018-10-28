@@ -74,8 +74,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 		}
 	}
 
-	@Override
-	public void removeItem(MagicDeck selectedDeck) throws IOException {
+	public void removeDeck(MagicDeck selectedDeck) throws IOException {
 			manager.remove(selectedDeck);
 			items.remove(selectedDeck);
 			fireTableDataChanged();

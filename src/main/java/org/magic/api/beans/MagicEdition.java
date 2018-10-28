@@ -26,8 +26,8 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private Map<String, String> translations;
 	private boolean onlineOnly;
 	private String magicCardsInfoCode;
-	private Integer mkm_id;
-	private String mkm_name;
+	private Integer mkmid;
+	private String mkmname;
 	private String gathererCode;
 	private boolean foilOnly;
 	
@@ -50,19 +50,19 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	}
 	
 	public Integer getMkmid() {
-		return mkm_id;
+		return mkmid;
 	}
 
 	public void setMkmid(Integer mkmid) {
-		this.mkm_id = mkmid;
+		this.mkmid = mkmid;
 	}
 
 	public String getMkmName() {
-		return mkm_name;
+		return mkmname;
 	}
 
 	public void setMkmName(String mkmname) {
-		this.mkm_name = mkmname;
+		this.mkmname = mkmname;
 	}
 
 	public String getMagicCardsInfoCode() {

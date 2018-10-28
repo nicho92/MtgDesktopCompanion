@@ -13,7 +13,6 @@ import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
 import rita.RiMarkov;
-import rita.RiTa;
 
 public class MarkovGenerator extends AbstractMTGTextGenerator {
 

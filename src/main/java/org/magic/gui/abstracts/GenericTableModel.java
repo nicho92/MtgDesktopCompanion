@@ -60,7 +60,7 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 		fireTableDataChanged();
 	}
 	
-	public void removeItem(T t) throws IOException
+	public void removeItem(T t)
 	{
 		items.remove(t);
 		fireTableDataChanged();

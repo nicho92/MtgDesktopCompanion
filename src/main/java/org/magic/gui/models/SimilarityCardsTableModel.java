@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.table.DefaultTableModel;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.MTGControler;
 
 public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
 

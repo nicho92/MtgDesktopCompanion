@@ -1,42 +1,34 @@
 package org.magic.gui.models;
 
-import javax.swing.table.DefaultTableModel;
-
 import org.magic.api.beans.MagicCard;
-import org.magic.services.MTGControler;
+import org.magic.api.beans.MagicCardNames;
+import org.magic.gui.abstracts.GenericTableModel;
 
-public class MagicCardNamesTableModel extends DefaultTableModel {
+public class MagicCardNamesTableModel extends GenericTableModel<MagicCardNames> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private MagicCard mc;
-	private static final String[] COLUMN = new String[] {
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
-			MTGControler.getInstance().getLangService().getCapitalize("NAME"), "Gatherer ID" };
+	
+	
+	public MagicCardNamesTableModel() {
+		columns= new String[] {
+				"CARD_LANGUAGE",
+				"NAME", 
+				"Gatherer ID" };
+	}
+	
 
 	public void init(MagicCard mc) {
-		this.mc = mc;
+		items=mc.getForeignNames();
 		fireTableDataChanged();
 	}
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return true;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return 3;
-	}
-
-	@Override
-	public int getRowCount() {
-		if (mc != null)
-			return mc.getForeignNames().size();
-
-		return 0;
 	}
 
 	@Override
@@ -69,11 +61,6 @@ public class MagicCardNamesTableModel extends DefaultTableModel {
 			break;
 
 		}
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return COLUMN[column];
 	}
 
 	@Override

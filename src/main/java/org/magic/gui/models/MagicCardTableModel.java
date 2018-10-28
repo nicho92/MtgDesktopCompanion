@@ -1,9 +1,6 @@
 package org.magic.gui.models;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;

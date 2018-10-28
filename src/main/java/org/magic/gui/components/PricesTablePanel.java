@@ -77,7 +77,7 @@ public class PricesTablePanel extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.ROW_URL).toString();
+						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.COLUMUM_URL).toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
 						logger.error(e);
@@ -119,7 +119,7 @@ public class PricesTablePanel extends JPanel {
 						model.clear();
 						for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
 						{
-							model.addPrice(prov,currentCard, currentEd);
+							model.addItems(prov.getPrice(currentEd,currentCard));
 							lblLoading.progress();
 						}
 						lblLoading.end();

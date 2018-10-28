@@ -1,20 +1,17 @@
 package org.magic.gui.models;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
@@ -24,7 +21,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	int countTotal = 0;
 	int countDefaultLibrary = 0;
 	
-
+	@Override
 	public void init(List<MagicEdition> editions) {
 		this.items = editions;
 		mapCount = new TreeMap<>();

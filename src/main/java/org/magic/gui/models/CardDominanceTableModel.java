@@ -1,18 +1,7 @@
 package org.magic.gui.models;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.log4j.Logger;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.MTGFormat;
-import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 

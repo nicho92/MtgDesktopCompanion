@@ -119,7 +119,7 @@ public class DeckPricePanel extends JComponent {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.ROW_URL)
+						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.COLUMUM_URL)
 								.toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {

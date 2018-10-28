@@ -12,7 +12,6 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private boolean foil;
 	private String language;
 	private String quality;
-
 	private Object shopItem;
 	private String country;
 

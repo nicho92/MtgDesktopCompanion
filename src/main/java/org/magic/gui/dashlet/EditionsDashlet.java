@@ -15,6 +15,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.EditionsShakerTableModel;
@@ -116,9 +117,9 @@ public class EditionsDashlet extends AbstractJDashlet {
 			ThreadManager.getInstance().execute(() -> {
 				lblLoading.start();
 				MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
-				modEdition.init(ed);
 				try {
-					modEdition.fireTableDataChanged();
+					modEdition.init(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(ed));
+					
 					table.packAll();
 					table.setRowSorter(new TableRowSorter(modEdition));
 				} catch (Exception e) {

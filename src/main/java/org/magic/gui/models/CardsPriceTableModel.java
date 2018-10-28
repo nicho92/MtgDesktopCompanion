@@ -1,46 +1,17 @@
 package org.magic.gui.models;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Currency;
-import java.util.List;
 
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
 	private static final long serialVersionUID = 1L;
-	public static final int ROW_URL = 7;
+	public static final int COLUMUM_URL = 7;
 
-	public void addPrice(MTGPricesProvider prov, MagicCard mc, MagicEdition me) {
-			try {
-					List<MagicPrice> list = prov.getPrice(me, mc);
 
-					if (list != null && !list.isEmpty())
-						items.addAll(list);
-
-					fireTableDataChanged();
-			} catch (Exception e) {
-				logger.error("Error", e);
-
-			}
-		
-	}
-
-	public void init(MTGPricesProvider prov, MagicCard mc, MagicEdition me) {
-		items.clear();
-		addPrice(prov,mc, me);
-
-	}
 
 	public CardsPriceTableModel() {
 		columns=new String[] { "WEBSITE",
