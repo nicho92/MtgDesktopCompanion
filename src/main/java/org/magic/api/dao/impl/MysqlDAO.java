@@ -44,13 +44,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	
 	
 	private Connection con;
-	private List<MagicCardAlert> list;
 
-	public MysqlDAO() throws ClassNotFoundException, SQLException {
-		super();
-		list = new ArrayList<>();
-	}
-	
 	 public Connection getCon() {
 		return con;
 	}
@@ -541,13 +535,9 @@ public class MysqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardAlert> listAlerts() {
-
-		if (!list.isEmpty())
-			return list;
+	public void initAlerts() {
 
 		try (PreparedStatement pst = con.prepareStatement("select * from alerts")) {
-			list = new ArrayList<>();
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
@@ -555,28 +545,14 @@ public class MysqlDAO extends AbstractMagicDAO {
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 
-					list.add(alert);
+					listAlerts.add(alert);
 				}
-				return list;
 			}
 		} catch (Exception e) {
 			logger.error("error get alert",e);
-			return new ArrayList<>();
 		}
 	}
 
-	@Override
-	public boolean hasAlert(MagicCard mc) {
-		try (PreparedStatement pst = con.prepareStatement("select * from alerts where id=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
-			try (ResultSet rs = pst.executeQuery()) {
-				return rs.next();
-			}
-		} catch (Exception e) {
-			return false;
-		}
-
-	}
 
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
@@ -590,7 +566,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			logger.debug("save alert for " + alert.getCard()+ " ("+alert.getCard().getCurrentSet()+")");
-			list.add(alert);
+			listAlerts.add(alert);
 		}
 	}
 
@@ -616,9 +592,9 @@ public class MysqlDAO extends AbstractMagicDAO {
 			logger.debug("delete alert " + alert + " ("+alert.getCard().getCurrentSet()+")="+res);
 		}
 
-		if (list != null)
+		if (listAlerts != null)
 		{
-			boolean res = list.remove(alert);
+			boolean res = listAlerts.remove(alert);
 			logger.debug("delete alert from list " + res);
 		}
 

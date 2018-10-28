@@ -52,9 +52,6 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 				getString(KEYS.LOGIN.name()), getString(KEYS.PASS.name()));
 
 		createDB();
-
-		list = new ArrayList<>();
-
 	}
 
 	public boolean createDB() {
@@ -443,28 +440,24 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 		}
 	}
 
-	List<MagicCardAlert> list;
-
 	@Override
-	public List<MagicCardAlert> listAlerts() {
+	public void initAlerts() {
 
 		try {
 
 			try (PreparedStatement pst = con.prepareStatement("select * from alerts");
 					ResultSet rs = pst.executeQuery();) {
-				list = new ArrayList<>();
-
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
 					alert.setCard(serialiser.fromJson(rs.getString(cardField), MagicCard.class));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
-					list.add(alert);
+					listAlerts.add(alert);
 				}
-				return list;
+				
 			}
 		} catch (Exception e) {
-			return new ArrayList<>();
+			logger.error(e);
 		}
 
 	}
@@ -476,7 +469,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.setString(2, serialiser.toJsonElement(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
-			list.add(alert);
+			listAlerts.add(alert);
 			pst.executeUpdate();
 		}
 	}
@@ -486,7 +479,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 		logger.debug("delete " + alert);
 		try (PreparedStatement pst = con.prepareStatement("delete from alerts where id=?")) {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			list.remove(alert);
+			listAlerts.remove(alert);
 			pst.executeUpdate();
 
 		}
@@ -498,24 +491,11 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 			pst.setDouble(1, alert.getPrice());
 			pst.setString(2, alert.getId());
 			pst.executeUpdate();
-			list.remove(alert);
-			list.add(alert);
+			listAlerts.remove(alert);
+			listAlerts.add(alert);
 		}
 	}
 
-	@Override
-	public boolean hasAlert(MagicCard mc) {
-
-		try (PreparedStatement pst = con.prepareStatement("select * from alerts where id=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
-			try (ResultSet rs = pst.executeQuery()) {
-				return rs.next();
-			}
-		} catch (Exception e) {
-			logger.error(e);
-			return false;
-		}
-	}
 
 	public List<MagicCardStock> listStocks() throws SQLException {
 		try (PreparedStatement pst = con.prepareStatement("select * from stocks"); ResultSet rs = pst.executeQuery()) {

@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -13,10 +14,14 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
 
+
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
 
 	protected JsonExport serialiser;
-	
+	protected List<MagicCardAlert> listAlerts;
+
+	protected abstract void initAlerts();
+
 	
 	@Override
 	public PLUGINS getType() {
@@ -34,8 +39,9 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			initDefault();
 			save();
 		}
-		
+		listAlerts = new ArrayList<>();
 		serialiser=new JsonExport();
+	
 	}
 	
 	@Override
@@ -62,6 +68,21 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		deleteStock(stock);
 	}
 	
+	@Override
+	public boolean hasAlert(MagicCard mc) {
+		return listAlerts().stream().anyMatch(a->a.getCard().equals(mc));
+	}
+	
+	@Override
+	public List<MagicCardAlert> listAlerts() {
+		if (listAlerts.isEmpty())
+			initAlerts();
+		
+		return listAlerts;
+	}
+	
+	
+
 	@Override
 	public void duplicateTo(MTGDao dao) throws SQLException {
 		

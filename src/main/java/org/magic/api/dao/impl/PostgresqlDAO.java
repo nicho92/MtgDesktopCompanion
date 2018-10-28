@@ -33,7 +33,6 @@ import org.postgresql.util.PGobject;
 public class PostgresqlDAO extends AbstractMagicDAO {
 
 	private Connection con;
-	private List<MagicCardAlert> list;
 	private String mcardField = "mcard";
 
 	private enum KEYS {
@@ -44,11 +43,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
-	}
-
-	public PostgresqlDAO() {
-		super();
-		list = new ArrayList<>();
 	}
 
 	@Override
@@ -471,13 +465,9 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardAlert> listAlerts() {
+	public void initAlerts() {
 
 		try (PreparedStatement pst = con.prepareStatement("select * from alerts"); ResultSet rs = pst.executeQuery();) {
-
-			if (!list.isEmpty())
-				return list;
-
 			while (rs.next()) {
 
 				MagicCardAlert alert = new MagicCardAlert();
@@ -485,13 +475,10 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				alert.setId(rs.getString("id"));
 				alert.setPrice(rs.getDouble("amount"));
 
-				list.add(alert);
+				listAlerts.add(alert);
 			}
-			return list;
-
 		} catch (Exception e) {
 			logger.error(e);
-			return new ArrayList<>();
 		}
 	}
 
@@ -505,18 +492,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 	}
 
-	@Override
-	public boolean hasAlert(MagicCard mc) {
-		try (PreparedStatement pst = con.prepareStatement("select * from alerts where id=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
-			try (ResultSet rs = pst.executeQuery()) {
-				return rs.next();
-			}
-		} catch (Exception e) {
-			return false;
-		}
-
-	}
 
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
@@ -526,7 +501,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setObject(2, convertObject(alert.getCard()));
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
-			list.add(alert);
+			listAlerts.add(alert);
 		}
 	}
 
@@ -536,7 +511,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("delete from alerts where id=?")) {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.executeUpdate();
-			list.remove(alert);
+			listAlerts.remove(alert);
 		}
 	}
 

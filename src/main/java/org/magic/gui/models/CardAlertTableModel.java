@@ -43,7 +43,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		switch (columnIndex) {
+		switch (columnIndex) { 
 		case 0:
 			return MagicCardAlert.class;
 		case 1:
@@ -132,5 +132,6 @@ public class CardAlertTableModel extends DefaultTableModel {
 		fireTableDataChanged();
 		
 	}
+
 
 }

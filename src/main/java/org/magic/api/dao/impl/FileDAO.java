@@ -296,17 +296,14 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardAlert> listAlerts() {
-		List<MagicCardAlert> ret = new ArrayList<>();
-
+	public void initAlerts() {
 		for (File f : FileUtils.listFiles(new File(directory, ALERTSDIR), null, false)) {
 			try {
-				ret.add(read(MagicCardAlert.class, f));
+				listAlerts.add(read(MagicCardAlert.class, f));
 			} catch (Exception e) {
 				logger.error("Error reading alert", e);
 			}
 		}
-		return ret;
 	}
 
 	@Override

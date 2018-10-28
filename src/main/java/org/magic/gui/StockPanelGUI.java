@@ -503,8 +503,7 @@ public class StockPanelGUI extends MTGUIPanel {
 		btnSave.setIcon(MTGConstants.ICON_SAVE);
 		actionPanel.add(btnSave);
 
-		btnReload = new JButton("");
-		btnReload.setIcon(MTGConstants.ICON_REFRESH);
+		btnReload = new JButton(MTGConstants.ICON_REFRESH);
 		btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
 		actionPanel.add(btnReload);
 

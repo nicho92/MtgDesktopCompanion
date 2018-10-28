@@ -349,18 +349,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardAlert> listAlerts() {
-		ArrayList<MagicCardAlert> ret = new ArrayList<>();
-		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> ret
+	public void initAlerts() {
+		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> listAlerts
 				.add(deserialize(result.get(dbAlertField).toString(), MagicCardAlert.class)));
-		return ret;
 	}
 
-	@Override
-	public boolean hasAlert(MagicCard mc) {
-		return db.getCollection(colAlerts, BasicDBObject.class)
-				.find(new BasicDBObject(dbIDField, IDGenerator.generate(mc))).limit(1).iterator().hasNext();
-	}
 
 	@Override
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
