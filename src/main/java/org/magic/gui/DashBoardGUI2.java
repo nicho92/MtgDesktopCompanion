@@ -22,6 +22,7 @@ import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.services.ThreadManager;
 
 public class DashBoardGUI2 extends MTGUIPanel {
 
@@ -74,6 +75,9 @@ public class DashBoardGUI2 extends MTGUIPanel {
 			logger.error("Error", e);
 		}
 	
+		
+		
+		
 		for (File f : AbstractJDashlet.confdir.listFiles()) {
 			try {
 				Properties p = new Properties();
@@ -133,18 +137,16 @@ public class DashBoardGUI2 extends MTGUIPanel {
 	}
 
 	public void addDash(AbstractJDashlet dash) {
-		
-		try {
-			dash.initGUI();
-			desktop.add(dash);
-			dash.init();
-			dash.setVisible(true);
-			
-		} catch (Exception e) {
-			logger.error("error adding " + dash,e);
-			MTGControler.getInstance().notify(MTGNotification.newInstance(e));
-		} 
-		
+				try {
+					dash.initGUI();
+					desktop.add(dash);
+					dash.init();
+					dash.setVisible(true);
+					
+				} catch (Exception e) {
+					logger.error("error adding " + dash,e);
+					MTGControler.getInstance().notify(MTGNotification.newInstance(e));
+				} 
 	}
 
 }

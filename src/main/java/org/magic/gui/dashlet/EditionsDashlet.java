@@ -47,34 +47,21 @@ public class EditionsDashlet extends AbstractJDashlet {
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		modEdition = new EditionsShakerTableModel();
-
-		List<MagicEdition> eds = new ArrayList<>();
-
-		try {
-			eds.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions());
-			Collections.sort(eds);
-			eds.add(0, null);
-		} catch (Exception e) {
-			logger.error(e);
-		}
-
 		cboEditions = UITools.createComboboxEditions();
-
 		panel.add(cboEditions);
-
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
-
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		table = new JXTable(modEdition);
+		scrollPane.setViewportView(table);
 		UITools.initCardToolTipTable(table, 0, 1);
 
 		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 
-		scrollPane.setViewportView(table);
+		
 		setVisible(true);
 
 		cboEditions.addActionListener(ae -> init());
