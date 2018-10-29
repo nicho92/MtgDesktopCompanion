@@ -105,10 +105,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		thumbnail = val;
 	}
 
-	public MagicCardDetailPanel(MagicCard newMagicCard) {
-		this();
-		setMagicCard(newMagicCard);
-	}
+
 
 	public MagicCardDetailPanel() {
 

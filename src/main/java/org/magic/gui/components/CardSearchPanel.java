@@ -234,7 +234,7 @@ public class CardSearchPanel extends MTGUIPanel {
 		cardsPicPanel = new CardsPicPanel();
 		priceTablePanel = new PricesTablePanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
-		detailCardPanel = new MagicCardDetailPanel(new MagicCard());
+		detailCardPanel = new MagicCardDetailPanel();
 		panelmana = new JPanel();
 		panelFilters = new JPanel();
 		ManaPanel pan = new ManaPanel();
