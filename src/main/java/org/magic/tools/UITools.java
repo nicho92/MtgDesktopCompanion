@@ -33,6 +33,7 @@ import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -145,8 +146,11 @@ public class UITools {
 
 	public static void initTableFilter(JTable table)
 	{
-		TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
-		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+		ThreadManager.getInstance().runInEdt(()->{
+			TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
+			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);	
+		});
+		
 	}
 	
 	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {
