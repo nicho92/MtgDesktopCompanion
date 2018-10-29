@@ -32,7 +32,7 @@ public class PluginIconListRenderer extends JLabel implements ListCellRenderer<M
 			l.setIcon(value.getIcon());
 			return l;
 		}
-		return new JLabel();
+		return new JLabel(String.valueOf(value));
 
 	}
 

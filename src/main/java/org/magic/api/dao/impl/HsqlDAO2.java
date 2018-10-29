@@ -618,10 +618,5 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(getClass().getResource("/icons/plugins/hsqldb.png"));
-	}
-	
+
 }

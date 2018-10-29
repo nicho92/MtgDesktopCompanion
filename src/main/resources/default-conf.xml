@@ -256,10 +256,6 @@
             <enable>true</enable>
         </provider>
         <provider>
-            <class>org.magic.api.providers.impl.MtgjsonProvider</class>
-            <enable>false</enable>
-        </provider>
-        <provider>
             <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
             <enable>false</enable>
         </provider>
@@ -273,10 +269,6 @@
         </provider>
     </providers>
     <daos>
-        <dao>
-            <class>org.magic.api.dao.impl.HsqlDAO</class>
-            <enable>false</enable>
-        </dao>
         <dao>
             <class>org.magic.api.dao.impl.HsqlDAO2</class>
             <enable>true</enable>

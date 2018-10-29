@@ -642,8 +642,5 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return STATUT.BETA;
 	}
 	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/mtgjson.png"));
-	}
+
 }

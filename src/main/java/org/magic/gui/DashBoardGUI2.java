@@ -22,7 +22,6 @@ import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
-import org.magic.services.ThreadManager;
 
 public class DashBoardGUI2 extends MTGUIPanel {
 

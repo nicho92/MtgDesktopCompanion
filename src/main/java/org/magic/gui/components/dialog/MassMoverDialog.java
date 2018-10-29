@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -51,7 +50,10 @@ public class MassMoverDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);
 
+		cboCollections = UITools.createComboboxCollection();
 		dao = MTGControler.getInstance().getEnabled(MTGDao.class);
+		
+		
 		this.toSaveCol = col;
 		this.toSaveEd = ed;
 
@@ -61,17 +63,7 @@ public class MassMoverDialog extends JDialog {
 		btnMove = new JButton(MTGControler.getInstance().getLangService().getCapitalize("MOVE_TO"));
 
 		panel.add(btnMove);
-
-		DefaultComboBoxModel<MagicCollection> colMod = new DefaultComboBoxModel<>();
-		
-		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().forEach(c->colMod.addElement(c));
-		} catch (SQLException e2) {
-			logger.error(e2);
-		}
-		
-		cboCollections = UITools.createComboboxCollection();
-			panel.add(cboCollections);
+		panel.add(cboCollections);
 		panel.add(lblWaiting);
 
 		JScrollPane scrollPane = new JScrollPane();

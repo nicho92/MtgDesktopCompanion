@@ -27,7 +27,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionTableModel;
@@ -37,8 +36,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class JDeckChooserDialog extends JDialog {
 

@@ -81,7 +81,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private JButton btnAlert;
 	private JCheckBox chckbxReserved;
 	private boolean enableCollectionLookup = true;
-
+	private DefaultListModel<MagicCollection> listModelCollection;
+	
+	
 	public void setEditable(boolean b) {
 		txtWatermark.setEditable(b);
 		txtArtist.setEditable(b);
@@ -114,7 +116,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 0, 77, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
 		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
@@ -413,7 +415,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gbcscrollCollections.gridy = 8;
 		add(scrollCollections, gbcscrollCollections);
 
-		listCollection = new JList<>(new DefaultListModel<MagicCollection>());
+		listModelCollection = new DefaultListModel<>();
+		
+		listCollection = new JList<>(listModelCollection);
 		scrollCollections.setViewportView(listCollection);
 
 		if (magicCard != null) {
@@ -562,9 +566,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty())
 			ThreadManager.getInstance().execute(() -> {
 				try {
-					((DefaultListModel) listCollection.getModel()).removeAllElements();
-					for (MagicCollection col : MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(magicCard))
-						((DefaultListModel) listCollection.getModel()).addElement(col);
+					listModelCollection.removeAllElements();
+					MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(magicCard).forEach(col->listModelCollection.addElement(col));
+					
 				} catch (Exception e) {
 					logger.error(e);
 				}

@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.providers.impl.MagicTheGatheringIOProvider;
 import org.magic.api.providers.impl.Mtgjson4Provider;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGLogger;
@@ -52,7 +51,6 @@ public class CardsProviderTests {
 	{
 		testProviders(new ScryFallProvider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
 		testProviders(new MagicTheGatheringIOProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
-		testProviders(new MtgjsonProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new PrivateMTGSetProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new Mtgjson4Provider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
 	}
