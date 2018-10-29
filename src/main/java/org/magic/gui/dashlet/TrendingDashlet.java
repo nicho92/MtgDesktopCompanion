@@ -66,7 +66,10 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		modStandard = new CardShakerTableModel();
 		table = new JXTable();
-
+		table.setModel(modStandard);
+		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
+		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
+	
 		scrollPane.setViewportView(table);
 
 		if (getProperties().size() > 0) {

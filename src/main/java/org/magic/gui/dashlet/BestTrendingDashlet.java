@@ -160,11 +160,15 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(boxL);
 		panneauHaut.add(boxV);
 		panneauHaut.add(cboSorter);
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
 		modStandard = new CardShakerTableModel();
 		table = new JXTable(modStandard);
-		scrollPane.setViewportView(table);
+				
+		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
+		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		
 		UITools.initCardToolTipTable(table, 0, 1);
 
 		if (getProperties().size() > 0) {
