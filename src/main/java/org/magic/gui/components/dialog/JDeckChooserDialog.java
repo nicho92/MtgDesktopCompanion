@@ -119,13 +119,7 @@ public class JDeckChooserDialog extends JDialog {
 		model = new DefaultTreeModel(root);
 		manager = new MTGDeckManager();
 		DeckSelectionTableModel decksModel = new DeckSelectionTableModel();
-		manager.addObserver(new Observer() {
-			
-			@Override
-			public void update(Observable o, Object d) {
-				decksModel.addItem((MagicDeck)d);
-			}
-		});
+		manager.addObserver((o,d)->decksModel.addItem((MagicDeck)d));
 		
 		
 		addWindowListener(new WindowAdapter() {

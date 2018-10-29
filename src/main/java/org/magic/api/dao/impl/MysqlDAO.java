@@ -373,8 +373,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		
-	//	String sql = "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replaceAll("'", "\\\\'")+"\"%'";
-
 		String sql = "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
 		if(editionStrict)
 			sql ="select * from stocks where collection=? and idmc=?";

@@ -89,9 +89,7 @@ public class UITools {
 		JComboBox<T> combo = new JComboBox<>(model);
 			items.stream().forEach(model::addElement);
 			
-			combo.setRenderer(new ListCellRenderer<T>() {
-				@Override
-				public Component getListCellRendererComponent(JList<? extends T> list, T value, int index,boolean isSelected, boolean cellHasFocus) {
+			combo.setRenderer((list,value, index,isSelected,cellHasFocus)->{
 					JLabel l ;
 					if(value==null)
 					{
@@ -117,7 +115,6 @@ public class UITools {
 					}
 					
 					return l;
-				}
 			});
 			
 			
@@ -156,16 +153,14 @@ public class UITools {
 	}
 	
 	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {
-		MagicCardDetailPanel pane = new MagicCardDetailPanel();
-		MTGControler.getInstance().getLafService().setLookAndFeel(pane,MTGControler.getInstance().get("lookAndFeel"),false);
-		pane.enableThumbnail(true);
 		final JPopupMenu popUp = new JPopupMenu();
-
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.rowAtPoint(e.getPoint());
-
+				MagicCardDetailPanel pane = new MagicCardDetailPanel();
+				MTGControler.getInstance().getLafService().setLookAndFeel(pane,MTGControler.getInstance().get("lookAndFeel"),false);
+				pane.enableThumbnail(true);
 				if (row > -1) {
 					table.setRowSelectionInterval(row, row);
 					String cardName = table.getValueAt(row, cardPos.intValue()).toString();

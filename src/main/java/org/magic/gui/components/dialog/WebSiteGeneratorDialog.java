@@ -21,8 +21,11 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.gui.renderer.MagicCollectionIconListRenderer;
+import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class WebSiteGeneratorDialog extends JDialog {
 	/**
@@ -33,7 +36,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	private JTextField txtDest;
 
 	private boolean value = false;
-	private JComboBox cboTemplates;
+	private JComboBox<String> cboTemplates;
 	private JList<MagicCollection> list;
 	private JList<MTGPricesProvider> lstProviders;
 
@@ -62,7 +65,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		for (File temp : f.listFiles())
 			arrayTemplates.add(temp.getName());
 
-		cboTemplates = new JComboBox<>(arrayTemplates.toArray());
+		cboTemplates = UITools.createCombobox(arrayTemplates);
 
 		panel.add(cboTemplates);
 
@@ -115,9 +118,10 @@ public class WebSiteGeneratorDialog extends JDialog {
 		gbcscrollPane.gridy = 1;
 		panneaucentral.add(scrollPane, gbcscrollPane);
 		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
+		list.setCellRenderer(new MagicCollectionIconListRenderer());
 		lstProviders = new JList<>(MTGControler.getInstance().listEnabled(MTGPricesProvider.class)
 				.toArray(new MTGPricesProvider[MTGControler.getInstance().listEnabled(MTGPricesProvider.class).size()]));
-
+		lstProviders.setCellRenderer(new PluginIconListRenderer());
 		scrollPane.setViewportView(list);
 
 		JScrollPane scrollProviders = new JScrollPane();

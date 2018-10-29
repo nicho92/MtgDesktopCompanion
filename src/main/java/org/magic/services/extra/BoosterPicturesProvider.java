@@ -38,7 +38,6 @@ public class BoosterPicturesProvider {
 		try {
 			builder = builderFactory.newDocumentBuilder();
 			logger.debug("Loading booster pics");
-		//	document = builder.parse(URLTools.openConnection(MTGConstants.MTG_BOOSTERS_URI).getInputStream());
 			document = builder.parse(MTGConstants.MTG_BOOSTERS_LOCAL_URI.openStream());
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();

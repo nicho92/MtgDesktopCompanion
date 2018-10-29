@@ -54,6 +54,8 @@ import org.magic.tools.UITools;
 
 public class ConfigurationPanel extends JPanel {
 
+	private static final String LANGAGE = "langage";
+	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String CURRENCY = "currency";
 	/**
 	 * 
@@ -465,7 +467,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JButton btnSavelang = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		btnSavelang.addActionListener(
-				ae -> MTGControler.getInstance().setProperty("langage", cboLanguages.getSelectedItem().toString()));
+				ae -> MTGControler.getInstance().setProperty(LANGAGE, cboLanguages.getSelectedItem().toString()));
 
 		GridBagConstraints gbcbtnSavelang = new GridBagConstraints();
 		gbcbtnSavelang.insets = new Insets(0, 0, 5, 0);
@@ -637,13 +639,13 @@ public class ConfigurationPanel extends JPanel {
 
 		
 		
-		if(MTGControler.getInstance().get("langage")!=null)
+		if(MTGControler.getInstance().get(LANGAGE)!=null)
 		{
-			cboLanguages.setSelectedItem(MTGControler.getInstance().get("langage"));
+			cboLanguages.setSelectedItem(MTGControler.getInstance().get(LANGAGE));
 		}
-		if(MTGControler.getInstance().get("default-library")!=null)
+		if(MTGControler.getInstance().get(DEFAULT_LIBRARY)!=null)
 		{
-			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY)));
 		}
 		
 		
@@ -663,7 +665,7 @@ public class ConfigurationPanel extends JPanel {
 		btnSaveDefaultLib.addActionListener(ae -> {
 			try {
 
-				MTGControler.getInstance().setProperty("default-library",
+				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,
 						(MagicCollection) cboCollections.getSelectedItem());
 			} catch (Exception e) {
 				logger.error(e);
