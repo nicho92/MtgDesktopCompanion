@@ -22,7 +22,7 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.models.CardsShakerTableModel;
+import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -33,7 +33,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private CardsShakerTableModel modStandard;
+	private EditionsShakerTableModel modStandard;
 	private JComboBox<MTGFormat> cboFormats;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private JLabel lblInfoUpdate;
@@ -64,7 +64,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		modStandard = new CardsShakerTableModel();
+		modStandard = new EditionsShakerTableModel();
 		table = new JXTable();
 
 		scrollPane.setViewportView(table);
