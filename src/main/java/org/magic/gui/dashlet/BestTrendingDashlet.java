@@ -24,7 +24,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.models.EditionsShakerTableModel;
+import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -42,7 +42,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private EditionsShakerTableModel modStandard;
+	private CardShakerTableModel modStandard;
 	private JSpinner spinner;
 
 	private JCheckBox boxS;
@@ -162,7 +162,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(cboSorter);
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		modStandard = new EditionsShakerTableModel();
+		modStandard = new CardShakerTableModel();
 		table = new JXTable(modStandard);
 		scrollPane.setViewportView(table);
 		UITools.initCardToolTipTable(table, 0, 1);

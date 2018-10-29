@@ -3,11 +3,11 @@ package org.magic.gui.models;
 import org.magic.api.beans.CardShake;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class EditionsShakerTableModel extends GenericTableModel<CardShake> {
+public class CardShakerTableModel extends GenericTableModel<CardShake> {
 
 	private static final long serialVersionUID = 1L;
 
-	public EditionsShakerTableModel() {
+	public CardShakerTableModel() {
 		columns = new String[] { "CARD",
 				"EDITION",
 				"PRICE",

@@ -15,7 +15,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.models.EditionsShakerTableModel;
+import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -31,7 +31,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private JComboBox<MagicEdition> cboEditions;
-	private EditionsShakerTableModel modEdition;
+	private CardShakerTableModel modEdition;
 
 	@Override
 	public Icon getIcon() {
@@ -43,7 +43,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		modEdition = new EditionsShakerTableModel();
+		modEdition = new CardShakerTableModel();
 		cboEditions = UITools.createComboboxEditions();
 		panel.add(cboEditions);
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
