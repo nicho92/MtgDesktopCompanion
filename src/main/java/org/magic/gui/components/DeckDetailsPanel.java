@@ -30,7 +30,7 @@ import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public class DeckDetailsPanel extends JComponent {
 	/**
@@ -313,7 +313,7 @@ public class DeckDetailsPanel extends JComponent {
 				for (int i = 0; i < 4; i++) {
 					JLabel lab = new JLabel();
 					MagicCard mc = (MagicCard) magicDeck.getMap().keySet().toArray()[i];
-					lab.setIcon(new ImageIcon(ImageUtils.resize(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).extractPicture(mc), 150, 220)));
+					lab.setIcon(new ImageIcon(ImageTools.resize(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).extractPicture(mc), 150, 220)));
 					lab.setToolTipText(mc.getName());
 					panel.add(lab);
 				}

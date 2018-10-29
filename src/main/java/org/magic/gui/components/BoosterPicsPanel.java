@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.BoosterPicturesProvider;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 import org.w3c.dom.NodeList;
 
 public class BoosterPicsPanel extends JTabbedPane {
@@ -49,7 +49,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	}
 
 	private Image resizeBooster(BufferedImage boosterFor) {
-		return ImageUtils.resize(ImageUtils.trimAlpha(boosterFor), 450, 254);
+		return ImageTools.resize(ImageTools.trimAlpha(boosterFor), 450, 254);
 		
 	}
 

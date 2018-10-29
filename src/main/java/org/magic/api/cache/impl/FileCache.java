@@ -13,7 +13,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public class FileCache extends AbstractCacheProvider {
 
@@ -81,7 +81,7 @@ public class FileCache extends AbstractCacheProvider {
 		if (!f.exists())
 			f.mkdir();
 
-		ImageUtils.saveImage(im, new File(f, generateIdIndex(mc, ed) + "." + getString(FORMAT)), getString(FORMAT));
+		ImageTools.saveImage(im, new File(f, generateIdIndex(mc, ed) + "." + getString(FORMAT)), getString(FORMAT));
 	}
 
 	private String removeCon(String a) {

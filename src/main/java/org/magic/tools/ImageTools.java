@@ -26,12 +26,49 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGLogger;
 
-public class ImageUtils {
+public class ImageTools {
 
-	private ImageUtils() {
+	private static BufferedImage[] imgs;
+	private static Logger logger = MTGLogger.getLogger(ImageTools.class);
+	
+	private ImageTools() {
 	}
+	
+	public static BufferedImage[] splitManaImage()
+	{
+		if(imgs!=null)
+			return imgs;
+		
+		int cols = 10;
+		int rows = 7;
+		int chunkWidth = 100;
+		int chunkHeight = 100;
+		
+		int count=0;
+		BufferedImage image;
+		imgs= new BufferedImage[cols*rows];
+			try {
+				image = ImageIO.read(MTGConstants.URL_MANA_SYMBOLS);
+				for (int x = 0; x < rows; x++) {
+					for (int y = 0; y < cols; y++) {
+						imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
+						Graphics2D gr = imgs[count++].createGraphics();
+						gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x,
+								chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);
+						gr.dispose();
+					}
+				}
+			} catch (IOException e) {
+				logger.error(e);
+			}
+			return imgs;
+		
+	}
+	
 	
 	public static byte[] toByteArray(BufferedImage o) {
         if(o != null) {

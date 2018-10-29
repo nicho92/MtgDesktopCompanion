@@ -36,7 +36,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public class BinderTagsEditorDialog extends JFrame {
 	
@@ -66,7 +66,7 @@ public class BinderTagsEditorDialog extends JFrame {
 	private JLabel lblSelection;
 
 	public void updateInfo() {
-		img = ImageUtils.trimAlpha(tagMaker.generate());
+		img = ImageTools.trimAlpha(tagMaker.generate());
 		previewPanel.revalidate();
 		previewPanel.repaint();
 	}
@@ -75,12 +75,12 @@ public class BinderTagsEditorDialog extends JFrame {
 	private void init()
 	{
 		Dimension d = new Dimension(567,2173);
-		double mmW = ImageUtils.toMM(d.getWidth());
- 		double mmH = ImageUtils.toMM(d.getHeight());
+		double mmW = ImageTools.toMM(d.getWidth());
+ 		double mmH = ImageTools.toMM(d.getHeight());
  		String res = JOptionPane.showInputDialog("Dimension in mm", mmW+"x"+mmH);
  		String[] result = res.split("x");
  		
- 		d = new Dimension((int)ImageUtils.toPX(Double.parseDouble(result[0])), (int)ImageUtils.toPX(Double.parseDouble(result[1])));
+ 		d = new Dimension((int)ImageTools.toPX(Double.parseDouble(result[0])), (int)ImageTools.toPX(Double.parseDouble(result[1])));
 		tagMaker = new BinderTagsManager(d);
 	}
 	
@@ -273,7 +273,7 @@ public class BinderTagsEditorDialog extends JFrame {
 						 choose.showSaveDialog(null);
 			File f = choose.getSelectedFile();
 			try {
-				ImageUtils.saveImageInPng(img, f);
+				ImageTools.saveImageInPng(img, f);
 			} catch (IOException e1) {
 				logger.error("Error saving image", e1);
 			}

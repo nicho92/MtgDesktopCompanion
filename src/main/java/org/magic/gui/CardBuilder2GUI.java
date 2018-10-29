@@ -58,7 +58,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.sorters.CardsEditionSorter;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public class CardBuilder2GUI extends MTGUIPanel {
 
@@ -511,7 +511,7 @@ public class CardBuilder2GUI extends MTGUIPanel {
 					
 					if(img!=null)
 					{
-						cardImage = ImageUtils.scaleResize(img,panelPictures.getWidth());
+						cardImage = ImageTools.scaleResize(img,panelPictures.getWidth());
 					}
 					panelPictures.revalidate();
 					panelPictures.repaint();

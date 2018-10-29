@@ -34,7 +34,7 @@ import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
@@ -196,7 +196,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    
 						    JsonElement el = URLTools.toJson(ret);
 		
-		return ImageUtils.readBase64(el.getAsJsonObject().get("image").getAsString());
+		return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
 	}
 
 	

@@ -35,7 +35,7 @@ import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public class MTGControler {
 
@@ -305,7 +305,7 @@ public class MTGControler {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
 
-		ImageUtils.saveImage(p.getPicture(),
+		ImageTools.saveImage(p.getPicture(),
 				new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, p.getName() + "." + p.getFormat()), p.getFormat());
 
 	}

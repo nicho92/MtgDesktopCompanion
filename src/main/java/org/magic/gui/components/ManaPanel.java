@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -21,22 +22,15 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.CardsPatterns;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
-public class ManaPanel extends JPanel {
+public class ManaPanel extends JComponent {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int cols = 10;
-	private int rows = 7;
-	private int chunkWidth = 100;
-	private int chunkHeight = 100;
-	private transient BufferedImage[] imgs;
-	private boolean cached = false;
 	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
 	private int rowWidth = MTGConstants.TABLE_ROW_WIDTH;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public int getRowHeight() {
 		return rowHeight;
@@ -48,7 +42,6 @@ public class ManaPanel extends JPanel {
 
 	FlowLayout fl = new FlowLayout();
 
-	int chunks = rows * cols;
 	int count = 0;
 
 	String manaCost;
@@ -88,29 +81,7 @@ public class ManaPanel extends JPanel {
 	}
 
 	private void init() {
-		BufferedImage image;
-
-		if (!cached) {
-			imgs = new BufferedImage[chunks];
-			try {
-				image = ImageIO.read(MTGConstants.URL_MANA_SYMBOLS);
-				for (int x = 0; x < rows; x++) {
-					for (int y = 0; y < cols; y++) {
-						imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
-						Graphics2D gr = imgs[count++].createGraphics();
-						gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x,
-								chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);
-						gr.dispose();
-					}
-				}
-				cached = true;
-
-			} catch (IOException e) {
-				logger.error(e);
-			}
-
-		}
-		
+	
 		map = new HashMap<>();
 		map.put("X", 21);
 		map.put("Y",22);
@@ -165,13 +136,16 @@ public class ManaPanel extends JPanel {
 		
 		}
 		List<Image> lst = new ArrayList<>();
-
+		
+		BufferedImage[] imgs = ImageTools.splitManaImage();
+		
+		
 		if (val == 100)// mox lotus
 		{
 			lst.add(imgs[65]);
 			lst.add(imgs[66]);
 			rowWidth = rowWidth * lst.size();
-			return ImageUtils.joinBufferedImage(lst);
+			return ImageTools.joinBufferedImage(lst);
 		}
 
 		if (val == 1000000)// gleemax
@@ -183,7 +157,7 @@ public class ManaPanel extends JPanel {
 			lst.add(imgs[63]);
 			lst.add(imgs[64]);
 			rowWidth = rowWidth * lst.size();
-			return ImageUtils.joinBufferedImage(lst);
+			return ImageTools.joinBufferedImage(lst);
 		}
 
 		return imgs[val];

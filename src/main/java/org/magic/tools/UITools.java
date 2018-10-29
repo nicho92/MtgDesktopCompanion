@@ -156,7 +156,6 @@ public class UITools {
 			public void mouseClicked(MouseEvent e) {
 				int row = table.rowAtPoint(e.getPoint());
 				MagicCardDetailPanel pane = new MagicCardDetailPanel();
-				MTGControler.getInstance().getLafService().setLookAndFeel(pane,MTGControler.getInstance().get("lookAndFeel"),false);
 				pane.enableThumbnail(true);
 				if (row > -1) {
 					table.setRowSelectionInterval(row, row);

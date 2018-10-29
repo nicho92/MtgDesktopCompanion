@@ -48,7 +48,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
 
@@ -1137,7 +1137,7 @@ public class ConfigurationPanel extends JPanel {
 
 	private void loadIcon() {
 		try {
-			lblIconAvatar.setIcon(new ImageIcon(ImageUtils.resize(ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
+			lblIconAvatar.setIcon(new ImageIcon(ImageTools.resize(ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
 
 		} catch (Exception e) {
 			lblIconAvatar.setIcon(null);

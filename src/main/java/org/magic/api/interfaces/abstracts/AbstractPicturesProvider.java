@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
@@ -68,7 +68,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	public BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
 		if(img==null)
 			return null;
-		return ImageUtils.resize(img, newH, newW);
+		return ImageTools.resize(img, newH, newW);
 	}
 
 }

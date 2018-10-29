@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 public class JCSCache extends AbstractCacheProvider {
 	
@@ -65,16 +65,16 @@ public class JCSCache extends AbstractCacheProvider {
 		if (ed == null)
 			ed = mc.getCurrentSet();
 
-		return ImageUtils.fromByteArray(cache.get(generateIdIndex(mc, ed)));
+		return ImageTools.fromByteArray(cache.get(generateIdIndex(mc, ed)));
 	}
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
 		logger.debug("put " + mc + " in cache");
 		if (ed == null)
-			cache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageUtils.toByteArray(im));
+			cache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageTools.toByteArray(im));
 		else
-			cache.put(generateIdIndex(mc, ed), ImageUtils.toByteArray(im));
+			cache.put(generateIdIndex(mc, ed), ImageTools.toByteArray(im));
 
 	}
 	

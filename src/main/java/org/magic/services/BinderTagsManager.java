@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
-import org.magic.tools.ImageUtils;
+import org.magic.tools.ImageTools;
 
 
 public class BinderTagsManager {
@@ -119,14 +119,14 @@ public class BinderTagsManager {
 		if(addlogo!=null)
 		{
 			if(!lst.isEmpty())
-				lst.set(0,ImageUtils.scaleResize(prov.getLogo(addlogo), width));
+				lst.set(0,ImageTools.scaleResize(prov.getLogo(addlogo), width));
 			else
-				lst.add(ImageUtils.scaleResize(prov.getLogo(addlogo), width));
+				lst.add(ImageTools.scaleResize(prov.getLogo(addlogo), width));
 		}
 		
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
-			imgb=ImageUtils.scaleResize(imgb, width);
+			imgb=ImageTools.scaleResize(imgb, width);
 			height += imgb.getHeight()+space;
 			lst.add(imgb);
 		}
