@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
@@ -8,11 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -20,7 +23,7 @@ import javax.swing.text.StyledDocument;
 
 import org.magic.tools.CardsPatterns;
 
-public class MagicTextPane extends JTextPane {
+public class MagicTextPane extends JComponent {
 
 	/**
 	 * 
@@ -29,7 +32,8 @@ public class MagicTextPane extends JTextPane {
 	private transient KeyAdapter translation;
 	
 	ManaPanel manaPanel;
-
+	JTextPane textPane;
+	
 	public MagicTextPane() {
 		init();
 		enableTranslate(true);
@@ -42,16 +46,20 @@ public class MagicTextPane extends JTextPane {
 	
 	
 	private void init() {
+		setLayout(new BorderLayout());
+		textPane = new JTextPane();
+		add(textPane,BorderLayout.CENTER);
+		
 		manaPanel = new ManaPanel();
 		setPreferredSize(new Dimension(200, 150));
-		getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
+		textPane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 
 		translation=new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				int pos = getCaretPosition();
+				int pos = textPane.getCaretPosition();
 				updateTextWithIcons();
-				setCaretPosition(pos);
+				textPane.setCaretPosition(pos);
 			}
 		};
 	}
@@ -68,12 +76,12 @@ public class MagicTextPane extends JTextPane {
 
 	public void updateTextWithIcons() {
 
-		setText(getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
+		textPane.setText(textPane.getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
 
 		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
-		Matcher m = p.matcher(getText());
+		Matcher m = p.matcher(textPane.getText());
 
-		String text = getText();
+		String text = textPane.getText();
 		StyleContext context = new StyleContext();
 		StyledDocument document = new DefaultStyledDocument(context);
 
@@ -101,10 +109,35 @@ public class MagicTextPane extends JTextPane {
 				document.insertString(m.start() + cumule, m.group(), labelStyle);
 			}
 
-			setDocument(document);
+			textPane.setDocument(document);
 
 		} catch (BadLocationException e) {
-			setText(text);
+			textPane.setText(text);
 		}
 	}
+
+	public void setEditable(boolean b) {
+		textPane.setEditable(b);
+		
+	}
+
+	public void setText(String string) {
+		textPane.setText(string);
+		
+	}
+
+	public Document getDocument() {
+		return textPane.getDocument();
+	}
+	
+	public String getText()
+	{
+		return textPane.getText();
+	}
+	
+	public int getCaretPosition()
+	{
+		return textPane.getCaretPosition();
+	}
+	
 }

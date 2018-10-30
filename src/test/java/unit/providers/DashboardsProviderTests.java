@@ -43,7 +43,6 @@ public class DashboardsProviderTests {
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-		mc.setMciNumber("232");
 					 ed = new MagicEdition();
 					 ed.setId("LEA");
 					 ed.setSet("Limited Edition Alpha");

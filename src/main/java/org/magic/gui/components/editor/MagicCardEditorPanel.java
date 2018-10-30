@@ -23,7 +23,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -763,8 +762,8 @@ public class MagicCardEditorPanel extends JPanel {
 		autoBinding14.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
-		BeanProperty<JEditorPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JEditorPane, String> autoBinding16 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, textJEditorPane, textProperty9);
+		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding16 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, textJEditorPane, textProperty9);
 		autoBinding16.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");

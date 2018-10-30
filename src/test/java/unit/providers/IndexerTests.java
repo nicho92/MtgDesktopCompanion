@@ -31,7 +31,6 @@ public class IndexerTests {
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
 		mc.setNumber("232");
-		mc.setMciNumber("232");
 					 ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");

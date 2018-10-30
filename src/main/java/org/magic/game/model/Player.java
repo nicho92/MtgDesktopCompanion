@@ -34,11 +34,11 @@ public class Player extends Observable implements Serializable {
 	private int life;
 	private String name;
 	private MagicDeck deck;
-	private Graveyard graveyard;
-	private Exile exil;
-	private Library library;
-	private List<MagicCard> hand;
-	private BattleField battlefield;
+	private Zone graveyard;
+	private Zone exil;
+	private Zone library;
+	private Zone hand;
+	private Zone battlefield;
 	private ManaPool manaPool;
 	private Locale local;
 	private transient BufferedImage icon;
@@ -76,11 +76,11 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public void init() {
-		graveyard = new Graveyard();
-		exil = new Exile();
-		hand = new ArrayList<>();
-		library = new Library(deck.getAsList());
-		battlefield = new BattleField();
+		graveyard = new Zone(ZoneEnum.GRAVEYARD);
+		battlefield = new Zone(ZoneEnum.BATTLEFIELD);
+		library = new Zone(deck.getAsList(),ZoneEnum.LIBRARY);
+		exil = new Zone(ZoneEnum.EXIL);
+		hand = new Zone(ZoneEnum.HAND);
 		manaPool = new ManaPool();
 		local = Locale.getDefault();
 		mixHandAndLibrary();
@@ -121,11 +121,11 @@ public class Player extends Observable implements Serializable {
 		init();
 	}
 
-	public BattleField getBattlefield() {
+	public Zone getBattlefield() {
 		return battlefield;
 	}
 
-	public void setBattlefield(BattleField battlefield) {
+	public void setBattlefield(Zone battlefield) {
 		this.battlefield = battlefield;
 	}
 
@@ -362,7 +362,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public void mixHandAndLibrary() {
-		library.getCards().addAll(hand);
+		library.getCards().addAll(hand.getCards());
 		hand.clear();
 		logAction("Shuffle hand in library");
 
@@ -401,35 +401,35 @@ public class Player extends Observable implements Serializable {
 		init();
 	}
 
-	public Graveyard getGraveyard() {
+	public Zone getGraveyard() {
 		return graveyard;
 	}
 
-	public void setGraveyard(Graveyard graveyard) {
+	public void setGraveyard(Zone graveyard) {
 		this.graveyard = graveyard;
 	}
 
-	public Exile getExil() {
+	public Zone getExil() {
 		return exil;
 	}
 
-	public void setExil(Exile exil) {
+	public void setExil(Zone exil) {
 		this.exil = exil;
 	}
 
-	public List<MagicCard> getHand() {
+	public Zone getHand() {
 		return hand;
 	}
 
-	public void setHand(List<MagicCard> hand) {
+	public void setHand(Zone hand) {
 		this.hand = hand;
 	}
 
-	public Library getLibrary() {
+	public Zone getLibrary() {
 		return library;
 	}
 
-	public void setLibrary(Library library) {
+	public void setLibrary(Zone library) {
 		this.library = library;
 	}
 

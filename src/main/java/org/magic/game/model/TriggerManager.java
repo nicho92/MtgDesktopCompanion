@@ -48,10 +48,7 @@ public class TriggerManager extends Observable {
 	
 	public void trigger(TRIGGERS t,MagicCard mc)
 	{
-//		if(triggers.get(t)!=null)
-//		{
-//			triggers.get(t).forEach(as->as.resolve());
-//		}
+		//TODO implements triggering
 	}
 
 	public Set<Entry<TRIGGERS, List<AbstractSpell>>> list() {

@@ -2,6 +2,7 @@ package org.magic.tools;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
@@ -43,6 +46,21 @@ public class UITools {
 	private UITools() {}
 	
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
+	
+	public static JDialog createJDialog(JComponent c, String title,Image ic,boolean resizable)
+	{
+		JDialog j = new JDialog();
+		j.getContentPane().setLayout(new BorderLayout());
+		j.getContentPane().add(c, BorderLayout.CENTER);
+		j.setTitle(title);
+		j.setLocationRelativeTo(null);
+		j.setIconImage(ic);
+		j.pack();
+		j.setModal(true);
+		j.setResizable(resizable);
+		return j;
+	}
+	
 	
 	
 	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)

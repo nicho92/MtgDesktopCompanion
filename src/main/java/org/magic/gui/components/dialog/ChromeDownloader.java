@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +16,7 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class ChromeDownloader extends JFrame {
+public class ChromeDownloader extends JDialog {
 	
 	public static void main(String[] args) {
 		ChromeDownloader dow = new ChromeDownloader();

@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
@@ -14,15 +14,13 @@ import javax.swing.SwingConstants;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class AboutDialog extends JFrame {
+public class AboutDialog extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() {
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME);
-		setResizable(false);
-		setIconImage(MTGConstants.IMAGE_LOGO);
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		setLayout(new BorderLayout(0, 0));
 
 		JTextArea txtrWizardsOfThe = new JTextArea();
 		txtrWizardsOfThe.setBackground(Color.BLACK);
@@ -34,11 +32,11 @@ public class AboutDialog extends JFrame {
 				"Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"
 						+ Calendar.getInstance().get(Calendar.YEAR)
 						+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.");
-		getContentPane().add(txtrWizardsOfThe, BorderLayout.SOUTH);
+		add(txtrWizardsOfThe, BorderLayout.SOUTH);
 
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setIcon(MTGConstants.ICON_ABOUT);
-		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
+		add(lblNewLabel, BorderLayout.CENTER);
 
 		JLabel lblDeveloppedByNichow = new JLabel(MTGControler.getInstance().getLangService().getCapitalize(
 				"DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
@@ -46,9 +44,8 @@ public class AboutDialog extends JFrame {
 		lblDeveloppedByNichow.setBackground(Color.BLACK);
 		lblDeveloppedByNichow.setForeground(Color.WHITE);
 		lblDeveloppedByNichow.setHorizontalAlignment(SwingConstants.CENTER);
-		getContentPane().add(lblDeveloppedByNichow, BorderLayout.NORTH);
-		pack();
-		setLocationRelativeTo(null);
+		add(lblDeveloppedByNichow, BorderLayout.NORTH);
+		
 	}
 
 }

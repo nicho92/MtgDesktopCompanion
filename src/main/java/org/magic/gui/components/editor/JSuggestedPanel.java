@@ -7,18 +7,18 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.gui.components.MagicTextPane;
 import org.magic.services.MTGConstants;
 
 public class JSuggestedPanel extends JComponent {
 	
 	private static final long serialVersionUID = 1L;
-	public JSuggestedPanel(JTextPane jTextPane,MTGTextGenerator gen) {
+	public JSuggestedPanel(MagicTextPane jTextPane,MTGTextGenerator gen) {
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		JPanel suggestions = new JPanel();

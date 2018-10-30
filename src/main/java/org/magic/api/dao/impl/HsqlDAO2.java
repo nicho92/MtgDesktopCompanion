@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.apache.commons.io.FileUtils;
 import org.hsqldb.jdbc.JDBCDriver;
 import org.magic.api.beans.EnumCondition;

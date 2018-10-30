@@ -34,8 +34,7 @@ public class DrawActions extends AbstractAction {
 			GamePanelGUI.getInstance().getLblHandCount()
 					.setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getLibrary().size()));
 			DisplayableCard c = new DisplayableCard(
-					GamePanelGUI.getInstance().getPlayer().getHand()
-							.get(GamePanelGUI.getInstance().getPlayer().getHand().size() - 1),
+					GamePanelGUI.getInstance().getPlayer().getHand().getCards().get(GamePanelGUI.getInstance().getPlayer().getHand().size() - 1),
 					MTGControler.getInstance().getCardsGameDimension(), true);
 			c.enableDrag(true);
 			GamePanelGUI.getInstance().getHandPanel().addComponent(c);

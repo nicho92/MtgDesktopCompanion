@@ -12,7 +12,6 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
 import org.magic.api.pictures.impl.MagidexPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
@@ -53,7 +52,6 @@ public class PicturesProviderTests {
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-		mc.setMciNumber("232");
 		
 		MagicEdition ed = new MagicEdition();
 					 ed.setId("lea");
@@ -72,7 +70,6 @@ public class PicturesProviderTests {
 	public void test()
 	{
 		testProviders(new ScryFallPicturesProvider());
-		testProviders(new MagicCardInfoPicturesProvider());
 		testProviders(new GathererPicturesProvider());
 		testProviders(new ScryFallPicturesProvider());
 		testProviders(new MagidexPicturesProvider());

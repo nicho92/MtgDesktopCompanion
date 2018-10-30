@@ -2,22 +2,27 @@ package org.magic.game.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.magic.api.beans.MagicCard;
 
-public class Graveyard implements Serializable {
+public class Zone implements Serializable {
+	
+	protected static final long serialVersionUID = 1L;
+	protected List<MagicCard> cards;
+	protected ZoneEnum zone;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private List<MagicCard> cards;
-
-	public Graveyard() {
+	public Zone(ZoneEnum zone) {
 		cards = new ArrayList<>();
+		this.zone=zone;
+	}
+
+	public Zone(List<MagicCard> asList,ZoneEnum zone) {
+		this.cards = asList;
+		this.zone=zone;
 	}
 
 	public List<MagicCard> getCards() {
@@ -53,9 +58,29 @@ public class Graveyard implements Serializable {
 		return set;
 	}
 
+
+	public void putCardAt(MagicCard mc, int position) {
+		cards.set(position, mc);
+	}
+	
 	@Override
 	public String toString() {
 		return size() + " (" + getTypesIncludes().size() + " types)";
 	}
+	
+	public void shuffle() {
+		Collections.shuffle(cards);
+	}
+
+	public List<MagicCard> subList(int i, int number) {
+		return cards.subList(i, number);
+	}
+	
+
+	public void add(int i, MagicCard mc) {
+		cards.add(i, mc);
+
+	}
+
 
 }

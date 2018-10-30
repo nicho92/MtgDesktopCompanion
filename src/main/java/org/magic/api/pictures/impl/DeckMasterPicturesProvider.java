@@ -13,9 +13,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
@@ -91,7 +93,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 		for (String k : getArray("CALL_MCI_FOR")) {
 			if (selected.getId().startsWith(k)) {
-				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
+				return PluginRegistry.inst().getPlugin("Scryfall", MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
 

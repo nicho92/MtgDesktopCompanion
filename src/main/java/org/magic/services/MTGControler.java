@@ -188,15 +188,8 @@ public class MTGControler {
 		String root = k[1];
 		String elem = k[2];
 		try {
-			/*if(config.containsKey("/"+root))
-			{
-				config.addProperty(root+"/"+elem+"/class",classname.getName());
-				config.addProperty(root+"/"+elem+"/enable",true);
-			}
-			else*/
-				config.addProperty("/" + root + " " + elem + "/class", classname.getName());
-				setProperty(classname.getDeclaredConstructor().newInstance(), false);
-			
+			config.addProperty("/" + root + " " + elem + "/class", classname.getName());
+			setProperty(classname.getDeclaredConstructor().newInstance(), false);
 			logger.debug("add module " + path + " " + classname.getName());
 				
 		} catch (IllegalArgumentException e ) {

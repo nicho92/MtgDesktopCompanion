@@ -37,6 +37,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.magic.tools.UITools;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
@@ -167,7 +168,9 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-		mntmAboutMagicDesktop.addActionListener(ae -> new AboutDialog().setVisible(true));
+		mntmAboutMagicDesktop.addActionListener(ae -> {
+			UITools.createJDialog(new AboutDialog(), MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME, MTGConstants.IMAGE_LOGO, false).setVisible(true);
+		});
 
 		mntmReportBug.addActionListener(ae -> {
 			try {

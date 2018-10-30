@@ -1,26 +1,20 @@
 package org.magic.gui.components;
 
 import java.awt.FlowLayout;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.ImageTools;
 

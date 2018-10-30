@@ -165,9 +165,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get(LOYALTY) != null)
 			mc.setLoyalty(obj.get(LOYALTY).getAsInt());
 
-		if (obj.get("mciNumber") != null)
-			mc.setMciNumber(String.valueOf(obj.get("mciNumber")));
-
 		if (obj.get("colors") != null) {
 			Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
 			while (it.hasNext())

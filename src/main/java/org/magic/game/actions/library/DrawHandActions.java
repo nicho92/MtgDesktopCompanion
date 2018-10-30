@@ -37,7 +37,7 @@ public class DrawHandActions extends AbstractAction {
 		} catch (IndexOutOfBoundsException ex) {
 			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),"Not enougth cards in library",MESSAGE_TYPE.ERROR));
 		}
-		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand(), true,true);
+		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand().getCards(), true,true);
 
 	}
 
