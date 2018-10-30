@@ -9,6 +9,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
+import org.magic.tools.UITools;
 
 public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 	
@@ -27,11 +28,8 @@ public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
-		List<MagicEdition> e = (List) value;
-		JComboBox<MagicEdition> cbo = new JComboBox<>(e.toArray(new MagicEdition[e.size()]));
-		cbo.setOpaque(false);
+		JComboBox<MagicEdition> cbo = UITools.createComboboxEditions((List<MagicEdition>) value,SIZE.SMALL);
 		cbo.setEnabled(enable);
-		cbo.setRenderer(new MagicEditionIconListRenderer(SIZE.SMALL));
 		return cbo;
 	}
 }

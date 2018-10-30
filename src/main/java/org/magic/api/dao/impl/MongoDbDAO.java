@@ -317,7 +317,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
 		logger.debug("saving " + state);
-
+		state.setUpdate(false);
 		if (state.getIdstock() == -1) {
 			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
 			BasicDBObject obj = new BasicDBObject();
@@ -331,9 +331,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			obj.put(dbStockField, state);
 			obj.put(dbCardIDField, IDGenerator.generate(state.getMagicCard()));
 			logger.debug(filter);
-			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(filter,
-					BasicDBObject.parse(serialize(obj)));
-			logger.debug(res);
+			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
+			logger.trace(res);
 		}
 	}
 
@@ -346,6 +345,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		obj.put(dbAlertField, alert);
 		obj.put(dbIDField, IDGenerator.generate(alert.getCard()));
 		db.getCollection(colAlerts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
+		listAlerts.add(alert);
 	}
 
 	@Override
@@ -373,6 +373,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		logger.debug("delete alert " + alert);
 		Bson filter = new Document("alertItem.id", alert.getId());
 		DeleteResult res = db.getCollection(colAlerts).deleteOne(filter);
+		listAlerts.remove(alert);
 		logger.debug(res);
 	}
 

@@ -2,7 +2,9 @@ package org.magic.tools;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
+import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -32,6 +34,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
+import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -75,20 +78,27 @@ public class UITools {
 		return combo;
 	}
 	
-	public static JComboBox<MagicEdition> createComboboxEditions()
-	{
+
+
+
+	public static JComboBox<MagicEdition> createComboboxEditions(List<MagicEdition> value,SIZE s) {
 		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();
 		JComboBox<MagicEdition> combo = new JComboBox<>(model);
-	
-		try {
-			List<MagicEdition> ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
-			Collections.sort(ed);
-			ed.stream().forEach(model::addElement);
-			combo.setRenderer(new MagicEditionIconListRenderer());
+		value.stream().forEach(model::addElement);
+		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
+	}
+	
+	
+	public static JComboBox<MagicEdition> createComboboxEditions()
+	{
+		try {
+			List<MagicEdition> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			Collections.sort(list);
+			return createComboboxEditions(list,SIZE.MEDIUM);
 		} catch (IOException e) {
 			logger.error(e);
-			return combo;
+			return new JComboBox<>();
 		}
 
 	}
@@ -224,4 +234,12 @@ public class UITools {
 		}
 		return listCards;
 	}
+
+
+
+	public static void applyDefaultSelection(Component pane) {
+			pane.setForeground(SystemColor.textHighlightText);
+			pane.setBackground(SystemColor.inactiveCaption);
+	}
+
 }

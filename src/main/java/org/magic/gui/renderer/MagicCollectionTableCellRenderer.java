@@ -2,6 +2,7 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.SystemColor;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
@@ -55,7 +57,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		pane.setBackground(c);
 		
 		double val = (double) table.getValueAt(row, 4);
-
+		
 		if (val * 100 >= 1 && val * 100 < 50) {
 			pane.setBackground(MTGConstants.COLLECTION_1PC);
 			pane.setForeground(Color.BLACK);
@@ -75,6 +77,9 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			pane.setBackground(MTGConstants.COLLECTION_100PC);
 			pane.setForeground(Color.BLACK);
 		}
+
+		if(isSelected)
+			UITools.applyDefaultSelection(pane);
 		
 		
 		return pane;

@@ -291,12 +291,12 @@
         </dao>
     </daos>
     <pictures>
-        <picture>
-            <class>org.magic.api.pictures.impl.GathererPicturesProvider</class>
+    	<picture>
+            <class>org.magic.api.pictures.impl.ScryFallPicturesProvider</class>
             <enable>true</enable>
         </picture>
         <picture>
-            <class>org.magic.api.pictures.impl.MagicCardInfoPicturesProvider</class>
+            <class>org.magic.api.pictures.impl.GathererPicturesProvider</class>
             <enable>false</enable>
         </picture>
         <picture>
@@ -307,10 +307,7 @@
             <class>org.magic.api.pictures.impl.DeckMasterPicturesProvider</class>
             <enable>false</enable>
         </picture>
-        <picture>
-            <class>org.magic.api.pictures.impl.ScryFallPicturesProvider</class>
-            <enable>false</enable>
-        </picture>
+        
         <picture>
             <class>org.magic.api.pictures.impl.MagidexPicturesProvider</class>
             <enable>false</enable>

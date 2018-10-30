@@ -605,7 +605,7 @@ public class CollectionPanelGUI extends MTGUIPanel {
 			try {
 					for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections())
 					{
-						JMenuItem cutMenuItem = new JMenuItem(c.getName());
+						JMenuItem cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
 						initAddAllSet(cutMenuItem);
 						popupMenu.add(cutMenuItem);
 					}

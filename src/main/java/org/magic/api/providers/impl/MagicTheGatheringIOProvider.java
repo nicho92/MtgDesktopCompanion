@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.text.Document;
+
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -91,8 +93,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)
-			throws IOException {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> lists = new ArrayList<>();
 		URLConnection con = null;
 		int page = 1;
@@ -320,14 +321,13 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			ed.setMkmName(obj.get("mkm_name").getAsString());
 		}
 
-		if (obj.get("magicCardsInfoCode") != null)
-			ed.setMagicCardsInfoCode(obj.get("magicCardsInfoCode").getAsString());
-
 		if (propsCache.getProperty(ed.getId()) != null)
 			ed.setCardCount(Integer.parseInt(propsCache.getProperty(ed.getId())));
 		else
 			ed.setCardCount(getCount(ed.getId()));
-
+		
+		cacheEditions.put(ed.getId(), ed);
+	
 		return ed;
 	}
 
@@ -335,7 +335,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		int count = URLTools.openConnection(getString(JSON_URL) + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
 		propsCache.put(id, String.valueOf(count));
 		try {
-			logger.info("update cache " + id);
+			logger.trace("update cache " + id);
 
 			try (FileOutputStream fos = new FileOutputStream(fcacheCount)) {
 				propsCache.store(fos, new Date().toString());
@@ -350,18 +350,12 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		if (cacheEditions.size() == 0) {
-			String url = getString(JSON_URL) + "/sets";
-			String rootKey = "sets";
-
-			logger.info("connect to " + url);
-
-			URLConnection con = URLTools.openConnection(url);
-
-			JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-			for (int i = 0; i < root.get(rootKey).getAsJsonArray().size(); i++) {
-				JsonObject e = root.get(rootKey).getAsJsonArray().get(i).getAsJsonObject();
+		if (cacheEditions.isEmpty()) 
+		{
+			JsonArray root = URLTools.extractJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
+			
+			for (int i = 0; i < root.size(); i++) {
+				JsonObject e = root.get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				cacheEditions.put(ed.getId(), ed);
 			}
@@ -371,15 +365,12 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicEdition getSetById(String id) throws IOException {
-		logger.debug("get Set " + id);
-
 		if (cacheEditions.get(id) != null)
 			return cacheEditions.get(id);
 
-		JsonReader reader = new JsonReader(
-				new InputStreamReader(URLTools.openConnection(getString(JSON_URL) + "/sets/" + id).getInputStream(), MTGConstants.DEFAULT_ENCODING));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		return generateEdition(root.getAsJsonObject("set"));
+		logger.debug("get Set " + id);
+		JsonObject root = URLTools.extractJson(getString(JSON_URL) + "/sets/" + id).getAsJsonObject().get("set").getAsJsonObject();
+		return generateEdition(root);
 	}
 
 	public String[] getLanguages() {

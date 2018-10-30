@@ -25,7 +25,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private transient List<Object> booster;
 	private Map<String, String> translations;
 	private boolean onlineOnly;
-	private String magicCardsInfoCode;
 	private Integer mkmid;
 	private String mkmname;
 	private String gathererCode;
@@ -65,13 +64,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		this.mkmname = mkmname;
 	}
 
-	public String getMagicCardsInfoCode() {
-		return magicCardsInfoCode;
-	}
-
-	public void setMagicCardsInfoCode(String magicCardsInfoCode) {
-		this.magicCardsInfoCode = magicCardsInfoCode;
-	}
 
 	public boolean isOnlineOnly() {
 		return onlineOnly;
