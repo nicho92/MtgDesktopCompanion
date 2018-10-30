@@ -165,7 +165,9 @@ public class StockPanelGUI extends MTGUIPanel {
 						stocks.removeIf(st->st.getIdstock()==-1);
 						
 						if(!stocks.isEmpty())
+						{
 						MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(stocks);
+						}
 						
 						
 						updateCount();

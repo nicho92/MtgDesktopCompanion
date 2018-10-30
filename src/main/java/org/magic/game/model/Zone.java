@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicCard;
 public class Zone implements Serializable {
 	
 	protected static final long serialVersionUID = 1L;
-	protected List<MagicCard> cards;
+	protected transient List<MagicCard> cards;
 	protected ZoneEnum location;
 
 	public Zone(ZoneEnum zone) {

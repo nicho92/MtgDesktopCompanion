@@ -3,19 +3,22 @@ package org.magic.api.main;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class ServerLauncher {
 
-	
+	protected static Logger logger = MTGLogger.getLogger(ServerLauncher.class);
+
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 		
 		if(args.length==0)
 		{
-			System.out.println("Usage : ServerLauncher <server name>");
+			logger.info("Usage : ServerLauncher <server name>");
 			System.exit(-1);
 		}
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
