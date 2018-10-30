@@ -44,9 +44,8 @@ public class CardStockPanel extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 
-		btnAdd = new JButton("");
+		btnAdd = new JButton(MTGConstants.ICON_NEW);
 		btnAdd.setEnabled(false);
-		btnAdd.setIcon(MTGConstants.ICON_NEW);
 		btnAdd.addActionListener(ae -> {
 			layout.setRows(layout.getRows() + 1);
 			content.add(new CardStockLinePanel(selectedCard, selectedCol));
@@ -55,10 +54,13 @@ public class CardStockPanel extends JPanel {
 		panneauHaut.add(btnAdd);
 	}
 
+	
+	//TODO bugfix, reduction du panel apres ajout multiple
 	public void initMagicCardStock(MagicCard mc, MagicCollection col) {
 		selectedCard = mc;
 		selectedCol = col;
 		content.removeAll();
+		content.validate();
 		content.setLayout(layout);
 		try {
 			for (MagicCardStock stat : MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, col,true)) {
