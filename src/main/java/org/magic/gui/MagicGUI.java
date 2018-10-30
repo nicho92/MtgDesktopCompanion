@@ -168,9 +168,7 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-		mntmAboutMagicDesktop.addActionListener(ae -> {
-			UITools.createJDialog(new AboutDialog(), MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME, MTGConstants.IMAGE_LOGO, false).setVisible(true);
-		});
+		mntmAboutMagicDesktop.addActionListener(ae -> UITools.createJDialog(new AboutDialog(), MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME, MTGConstants.IMAGE_LOGO, false).setVisible(true));
 
 		mntmReportBug.addActionListener(ae -> {
 			try {
