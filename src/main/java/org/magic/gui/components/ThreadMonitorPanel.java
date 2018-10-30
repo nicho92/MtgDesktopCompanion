@@ -31,11 +31,10 @@ public class ThreadMonitorPanel extends JPanel {
 	public ThreadMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
 
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
+		
 		model = new ThreadModel();
 		table = new JTable(model);
-		scrollPane.setViewportView(table);
+		add(new JScrollPane(table), BorderLayout.CENTER);
 		sorterCards = new TableRowSorter<DefaultTableModel>(model);
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);

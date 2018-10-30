@@ -13,16 +13,16 @@ public class Zone implements Serializable {
 	
 	protected static final long serialVersionUID = 1L;
 	protected List<MagicCard> cards;
-	protected ZoneEnum zone;
+	protected ZoneEnum location;
 
 	public Zone(ZoneEnum zone) {
 		cards = new ArrayList<>();
-		this.zone=zone;
+		this.location=zone;
 	}
 
 	public Zone(List<MagicCard> asList,ZoneEnum zone) {
 		this.cards = asList;
-		this.zone=zone;
+		this.location=zone;
 	}
 
 	public List<MagicCard> getCards() {
@@ -81,6 +81,9 @@ public class Zone implements Serializable {
 		cards.add(i, mc);
 
 	}
-
+	
+	public ZoneEnum getLocation() {
+		return location;
+	}
 
 }

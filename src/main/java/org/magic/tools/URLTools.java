@@ -45,9 +45,12 @@ public class URLTools {
 			
 			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 			connection.setInstanceFollowRedirects(true);
-			logger.trace("get stream from " + url + " " + connection.getResponseCode());
 			
 			isCorrectConnection(connection);
+			
+			logger.trace("get stream from " + url + " " + connection.getResponseCode());
+			
+			
 			
 			return connection;
 		
@@ -124,7 +127,9 @@ public class URLTools {
 				}
 				else
 				{
-					logger.trace(IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+					if(connection.getErrorStream()!=null)
+						logger.trace(IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+					
 					return false;
 				}
 					

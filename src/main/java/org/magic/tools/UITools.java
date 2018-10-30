@@ -167,7 +167,7 @@ public class UITools {
 	
 	
 	
-	public static String formatDouble(Double f)
+	public static String formatDouble(Object f)
 	{
 		return new DecimalFormat("#0.##").format(f);
 	}

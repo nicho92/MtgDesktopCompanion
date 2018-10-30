@@ -2,7 +2,6 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.SystemColor;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 

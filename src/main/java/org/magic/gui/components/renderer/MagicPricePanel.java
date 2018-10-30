@@ -12,8 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.pricers.impl.MTGPricePricer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 
 public class MagicPricePanel extends JPanel {
 
@@ -35,6 +38,13 @@ public class MagicPricePanel extends JPanel {
 		setLayout(gridBagLayout);
 
 		JLabel lblName = new JLabel(price.getSite());
+		try{
+			lblName.setIcon(PluginRegistry.inst().getPlugin(price.getSite(), MTGPricesProvider.class).getIcon());
+		}
+		catch(Exception e)
+		{
+			//do nothing
+		}
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblName.setFont(new Font(MTGConstants.FONT, Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();

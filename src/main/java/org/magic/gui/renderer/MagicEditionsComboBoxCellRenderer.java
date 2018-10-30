@@ -13,9 +13,7 @@ import org.magic.tools.UITools;
 
 public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 	
-	private static final long serialVersionUID = 1L;
 	private boolean enable;
-	
 	
 	public MagicEditionsComboBoxCellRenderer() {
 		enable=true;

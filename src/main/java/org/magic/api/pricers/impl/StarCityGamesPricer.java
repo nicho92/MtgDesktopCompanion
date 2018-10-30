@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -46,7 +47,13 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 				mp.setUrl(tr.select("td").get(0).select("a").attr("href"));
 				mp.setSeller(tr.select("td").get(1).text());
 				mp.setQuality(tr.select("td").get(6).text());
-				mp.setValue(Double.parseDouble(tr.select("td").get(8).text().replace('$', ' ').trim()));
+				
+				
+				
+				if(tr.select("td").get(8).select("span").size()>1)
+					mp.setValue(Double.parseDouble(tr.select("td").get(8).select("span").get(1).text().replace('$', ' ').trim()));
+				else
+					mp.setValue(Double.parseDouble(tr.select("td").get(8).text().replace('$', ' ').trim()));
 				ret.add(mp);
 			}
 		}

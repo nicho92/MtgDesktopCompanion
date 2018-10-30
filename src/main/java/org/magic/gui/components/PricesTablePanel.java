@@ -112,21 +112,24 @@ public class PricesTablePanel extends JPanel {
 		if(isVisible()&&card!=null)
 		{
 				ThreadManager.getInstance().execute(() -> {
-					try {
+					
 						List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
 						lblLoading.start(providers.size());
 						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
 						model.clear();
 						for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
 						{
+							try {
 							model.addItems(prov.getPrice(currentEd,currentCard));
 							lblLoading.progress();
+							}
+							catch(Exception e)
+							{
+								logger.error("error with " + prov + ":" + e);
+								lblLoading.end();
+							}
 						}
 						lblLoading.end();
-						
-					} catch (Exception e) {
-						logger.error(e);
-					}
 				}, "addTreeSelectionListener init graph cards");
 		}
 		

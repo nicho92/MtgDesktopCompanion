@@ -3,14 +3,14 @@ package org.magic.gui.components;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import org.magic.services.MTGConstants;
 
-public class JResizerPanel extends JPanel {
+public class JResizerPanel extends JComponent {
 	/**
 	 * 
 	 */
