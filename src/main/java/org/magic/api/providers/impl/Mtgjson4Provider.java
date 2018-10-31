@@ -612,7 +612,16 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
+		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
+		logger.debug("search " + jsquery);
+		try {
+			MagicCard mc = search(jsquery).get(0);
+			mc.getEditions().add(me);
+			return mc;
+		} catch (Exception e) {
+			logger.error(e);
 			return null;
+		}
 	}
 	
 	@Override

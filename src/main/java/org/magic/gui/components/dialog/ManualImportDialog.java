@@ -79,11 +79,9 @@ public class ManualImportDialog extends JDialog {
 				if (MagicCard.isBasicLand(name)) {
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-							.searchCardByName( name.trim(), ed, true).get(0);
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), ed, true).get(0);
 				} else {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-							.searchCardByName( name.trim(), null, true).get(0);
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), null, true).get(0);
 				}
 
 				if (mc != null) {

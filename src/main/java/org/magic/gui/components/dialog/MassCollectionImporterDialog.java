@@ -152,9 +152,10 @@ public class MassCollectionImporterDialog extends JDialog {
 						MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
 						MESSAGE_TYPE.INFO
 						));
+				
 				if (!checkNewOne.isSelected()) {
-					setVisible(false);
 					progressBar.end();
+					dispose();
 				}
 			}, "btnImport importCards");
 		});
