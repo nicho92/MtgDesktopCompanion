@@ -174,6 +174,15 @@ public class DeckBoxExport extends AbstractCardExport {
 		return list;
 	}
 	
+	@Override
+	public MagicDeck importDeck(String f, String name) throws IOException {
+		
+		File file = new File(name);
+		FileUtils.write(file, f,MTGConstants.DEFAULT_ENCODING);
+		return importDeck(file);
+	}
+	
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {

@@ -19,6 +19,8 @@ public interface MTGCardsExport extends MTGPlugin {
 
 	public MagicDeck importDeck(File f) throws IOException;
 
+	public MagicDeck importDeck(String f, String name) throws IOException;
+	
 	public void export(List<MagicCard> cards, File f) throws IOException;
 
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException;

@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.MTGODeckExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.components.editor.JTagsPanel;
@@ -31,7 +33,6 @@ public class ManualImportDialog extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 	private JTextPane editorPane;
-	private MagicDeck deck;
 	private JTagsPanel tagsPanel;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private int start;
@@ -42,7 +43,6 @@ public class ManualImportDialog extends JDialog {
 	}
 
 	public ManualImportDialog() {
-		deck = new MagicDeck();
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(400, 400));
 		setIconImage(MTGConstants.ICON_TAB_IMPORT.getImage());
@@ -51,7 +51,7 @@ public class ManualImportDialog extends JDialog {
 		tagsPanel = new JTagsPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		JButton btnImport = new JButton(MTGConstants.ICON_SAVE);
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(e -> dispose());
 		panel.add(btnImport);
@@ -144,30 +144,15 @@ public class ManualImportDialog extends JDialog {
 	public MagicDeck getAsDeck() {
 
 		if (editorPane.getText().isEmpty())
-			return deck;
+			return new MagicDeck();
 
-		String[] line = editorPane.getText().split("\n");
-		for (String l : line) {
-			int nb = Integer.parseInt(l.substring(0, l.indexOf(' ')));
-			String name = l.substring(l.indexOf(' '), l.length());
-			try {
-				MagicCard mc;
-				if (MagicCard.isBasicLand(name)) {
-					MagicEdition ed = new MagicEdition();
-					ed.setId(MTGControler.getInstance().get("default-land-deck"));
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), ed, true).get(0);
-				} else {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), null, true).get(0);
-				}
-
-				if (mc != null) {
-					deck.getMap().put(mc, nb);
-				}
-			} catch (Exception e) {
-				logger.error(e);
-			}
+		try {
+			return new MTGODeckExport().importDeck(editorPane.getText(),"manual");
+		} catch (IOException e) {
+			logger.error(e);
 		}
-		return deck;
+		
+		return new MagicDeck();
 	}
 
 }

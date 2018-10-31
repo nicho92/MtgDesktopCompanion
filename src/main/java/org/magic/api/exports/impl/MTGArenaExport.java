@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -100,10 +101,10 @@ public class MTGArenaExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+	public MagicDeck importDeck(String f,String dname) throws IOException {
+		try (BufferedReader read = new BufferedReader(new StringReader(f))) {
 			MagicDeck deck = new MagicDeck();
-			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+			deck.setName(dname);
 			String line = read.readLine();
 
 			boolean side=false;

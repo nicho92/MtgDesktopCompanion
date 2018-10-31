@@ -68,24 +68,23 @@ public class MkmOnlineExport extends AbstractCardExport {
 			init=false;
 		}
 	}
-	
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeck(String content,String name) throws IOException {
 		
 		if(!init)
 			init();
 		
 		WantsService service = new WantsService();
 		MagicDeck d = new MagicDeck();
-		d.setName(f.getName());
+		d.setName(name);
 		Wantslist list = null;
 		for (Wantslist l : service.getWantList())
 			if (l.getName().equalsIgnoreCase(d.getName()))
 				list = l;
 
 		if (list == null)
-			throw new NullPointerException(getName() + " can't import deck for " + f.getName());
+			throw new NullPointerException(getName() + " can't import deck for " + name);
 
 		service.loadItems(list);
 		for (WantItem w : list.getItem()) {

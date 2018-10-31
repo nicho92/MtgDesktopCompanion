@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,10 +190,10 @@ public class CSVExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+	public MagicDeck importDeck(String s,String n) throws IOException {
+		try (BufferedReader read = new BufferedReader(new StringReader(s))) {
 			MagicDeck deck = new MagicDeck();
-			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+			deck.setName(n);
 
 			String line = read.readLine();
 			line = read.readLine();

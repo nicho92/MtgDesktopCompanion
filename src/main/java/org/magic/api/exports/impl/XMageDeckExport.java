@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -50,10 +51,10 @@ public class XMageDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+	public MagicDeck importDeck(String f,String dname) throws IOException {
+		try (BufferedReader read = new BufferedReader(new StringReader(f))) {
 			MagicDeck deck = new MagicDeck();
-			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+			deck.setName(dname);
 
 			String line = read.readLine();
 

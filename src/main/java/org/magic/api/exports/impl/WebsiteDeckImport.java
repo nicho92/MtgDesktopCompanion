@@ -37,6 +37,12 @@ public class WebsiteDeckImport extends AbstractCardExport {
 		throw new NotImplementedException("not implemented");
 
 	}
+	
+	@Override
+	public MagicDeck importDeck(String f, String name) throws IOException {
+		return importDeck(null);
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {

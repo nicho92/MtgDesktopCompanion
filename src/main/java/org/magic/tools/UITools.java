@@ -50,6 +50,12 @@ public class UITools {
 	
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
 	
+	public static String[] stringLineSplit(String s)
+	{
+		return s.split("[\\r\\n]+");
+	}
+	
+	
 	public static JDialog createJDialog(JComponent c, String title,Image ic,boolean resizable)
 	{
 		JDialog j = new JDialog();
@@ -84,7 +90,7 @@ public class UITools {
 	public static JComboBox<MagicEdition> createComboboxEditions(List<MagicEdition> value,SIZE s) {
 		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();
 		JComboBox<MagicEdition> combo = new JComboBox<>(model);
-		value.stream().forEach(model::addElement);
+		value.forEach(model::addElement);
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}

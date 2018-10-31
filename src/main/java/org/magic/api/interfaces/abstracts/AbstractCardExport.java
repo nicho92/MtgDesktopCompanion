@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -64,6 +65,28 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		export(d, f);
 	}
 
+	@Override
+	public MagicDeck importDeck(File f) throws IOException {
+		String content="";
+		try {
+			content=FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING);
+		}catch(Exception e)
+		{
+			logger.error("error reading " + f.getAbsolutePath());
+		}
+		
+		String name;
+		try {
+			name=f.getName().substring(0, f.getName().indexOf('.'));
+		}catch(Exception e)
+		{
+			name=f.getName();
+		}
+		
+		return importDeck(content,name);
+	}
+
+	
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));

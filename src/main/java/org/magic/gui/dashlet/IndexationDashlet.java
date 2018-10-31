@@ -36,11 +36,15 @@ public class IndexationDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
+		try {
 		cboField = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).listFields());
-		panneauHaut.add(cboField);
-
+		}
+		catch(Exception e)
+		{
+			cboField.addItem("NO INDEXER FILE FOUND");
+		}
 		
-
+		panneauHaut.add(cboField);
 		indexModel = new MapTableModel<>();
 		indexModel.setColumnNameAt(0, "Term");
 		indexModel.setColumnNameAt(1, "Occurences");

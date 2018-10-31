@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class Apprentice2DeckExport extends AbstractCardExport {
 
@@ -59,16 +60,15 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+	public MagicDeck importDeck(String f,String name) throws IOException {
 			MagicDeck deck = new MagicDeck();
-			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+			deck.setName(name);
 
-			String line = read.readLine();
 			int ecart = 0;
 			
 			int count=0;
-			while (line != null) {
+			for(String line : UITools.stringLineSplit(f)) 
+			{
 				line = line.trim();
 				if (!line.startsWith("//")) {
 					String[] elements = line.split(getString("SEPARATOR"));
@@ -80,8 +80,8 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 						ed = null;
 						ecart = 1;
 					}
-					String name = elements[2 - ecart].replaceAll("\"", "");
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, ed, true).get(0);
+					String cname = elements[2 - ecart].replaceAll("\"", "");
+					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 					Integer qte = Integer.parseInt(elements[1 - ecart]);
 					notify(mc);
 					
@@ -93,10 +93,9 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 					notify(count++);
 
 				}
-				line = read.readLine();
 			}
 			return deck;
-		}
+		
 
 	}
 

@@ -3,9 +3,9 @@ package org.magic.api.exports.impl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,11 +20,11 @@ public class MKMFileWantListExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeck(String f,String dname) throws IOException {
 
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+		try (BufferedReader read = new BufferedReader(new StringReader(f))) {
 			MagicDeck deck = new MagicDeck();
-			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+			deck.setName(dname);
 
 			String line = read.readLine();
 

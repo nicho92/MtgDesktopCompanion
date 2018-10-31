@@ -1,8 +1,8 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -62,13 +62,17 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 
 	}
+	
+	
+	
+	
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeck(String f,String n) throws IOException {
 		MagicDeck deck = new MagicDeck();
+		deck.setName(n);
 		try {
-			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.parse(new InputSource(new FileReader(f)));
+			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");

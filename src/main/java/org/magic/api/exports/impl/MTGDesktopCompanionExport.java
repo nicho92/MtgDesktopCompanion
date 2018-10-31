@@ -47,7 +47,13 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".deck";
 	}
-
+	
+	@Override
+	public MagicDeck importDeck(String f, String name) throws IOException {
+		throw new IOException("Not Supported");
+	}
+	
+	
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		try {

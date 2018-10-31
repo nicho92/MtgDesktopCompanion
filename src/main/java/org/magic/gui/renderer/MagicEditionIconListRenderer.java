@@ -45,9 +45,6 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 			
 			JLabel l = new JLabel(value.getSet());
 			l.setToolTipText(value.getId());
-			
-			UITools.applyDefaultSelection(l);
-			
 			l.setIcon(ic);
 			return l;
 		}

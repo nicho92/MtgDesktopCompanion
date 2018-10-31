@@ -37,6 +37,13 @@ public class ManualImportExport extends AbstractCardExport {
 		throw new NotImplementedException("not implemented");
 
 	}
+	
+	@Override
+	public MagicDeck importDeck(String name,String f) throws IOException {
+		return importDeck(null);
+
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {

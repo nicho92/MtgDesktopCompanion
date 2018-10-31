@@ -48,7 +48,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeck(String f,String n) throws IOException {
 		throw new NotImplementedException("Can't generate deck from DCI Sheet");
 	}
 

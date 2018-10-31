@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,12 +53,13 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		JsonReader reader = new JsonReader(new FileReader(f));
+	public MagicDeck importDeck(String f,String name) throws IOException {
+		JsonReader reader = new JsonReader(new StringReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 
 		MagicDeck deck = new MagicDeck();
-	
+			deck.setName(name);
+		
 		if (!root.get(NAME).isJsonNull())
 			deck.setName(root.get(NAME).getAsString());
 

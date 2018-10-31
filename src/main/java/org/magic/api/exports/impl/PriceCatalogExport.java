@@ -96,8 +96,9 @@ public class PriceCatalogExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		return null;
+	public MagicDeck importDeck(String f,String name) throws IOException {
+		//TODO price catalog import
+		return new MagicDeck();
 	}
 
 	@Override

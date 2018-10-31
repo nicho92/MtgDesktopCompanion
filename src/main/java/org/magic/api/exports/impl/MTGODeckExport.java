@@ -1,8 +1,6 @@
 package org.magic.api.exports.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -13,6 +11,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class MTGODeckExport extends AbstractCardExport {
 
@@ -45,16 +44,15 @@ public class MTGODeckExport extends AbstractCardExport {
 
 		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 	}
-
+	
+	
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+	public MagicDeck importDeck(String f, String deckName) throws IOException {
 			MagicDeck deck = new MagicDeck();
-			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
-
-			String line = read.readLine();
+			deck.setName(deckName);
 			boolean side=false;
-			while (line != null) {
+			for(String line : UITools.stringLineSplit(f)) 
+			{
 				if (!line.startsWith("//") && line.length() > 0) {
 					int sep = line.indexOf(' ');
 					if (line.toLowerCase().startsWith("sideboard"))
@@ -86,11 +84,9 @@ public class MTGODeckExport extends AbstractCardExport {
 						notify(list.get(0));
 					}
 				}
-				line = read.readLine();
-
 			}
 			return deck;
-		}
+		
 
 	}
 
@@ -99,5 +95,7 @@ public class MTGODeckExport extends AbstractCardExport {
 		setProperty("VERSION", "1.0");
 
 	}
+
+	
 
 }

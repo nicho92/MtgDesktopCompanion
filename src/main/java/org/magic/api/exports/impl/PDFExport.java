@@ -86,7 +86,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeck(String f,String name) throws IOException {
 		throw new NotImplementedException("Can't generate deck from PDF");
 	}
 

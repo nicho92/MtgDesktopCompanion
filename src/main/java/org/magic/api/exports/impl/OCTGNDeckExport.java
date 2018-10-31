@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -60,13 +61,12 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeck(String f,String dname) throws IOException {
 		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+		deck.setName(dname);
 
 		try {
-			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.parse(new InputSource(new FileReader(f)));
+			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr = xpath.compile("//section[@name='Main']/card");
 			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
