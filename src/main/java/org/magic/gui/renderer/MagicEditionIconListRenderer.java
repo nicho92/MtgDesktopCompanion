@@ -9,6 +9,7 @@ import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
+import org.magic.tools.UITools;
 
 public class MagicEditionIconListRenderer extends JLabel implements ListCellRenderer<MagicEdition> {
 
@@ -44,13 +45,9 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 			
 			JLabel l = new JLabel(value.getSet());
 			l.setToolTipText(value.getId());
-			if (isSelected) {
-				l.setBackground(list.getSelectionBackground());
-				l.setForeground(list.getSelectionForeground());
-			} else {
-				l.setBackground(list.getBackground());
-				l.setForeground(list.getForeground());
-			}
+			
+			UITools.applyDefaultSelection(l);
+			
 			l.setIcon(ic);
 			return l;
 		}

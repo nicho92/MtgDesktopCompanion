@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
@@ -93,7 +94,26 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		return search("*:*");
 	}
 	
+	@Override
+	public List<String> suggestCardName(String q)
+	{
+		
+		StringBuilder query = new StringBuilder("");
+		String[] split = q.split(" ");
+		for(int i=0;i<split.length;i++)
+		{
+			query.append("name:").append(split[i]);
+			
+			if(i<split.length-1)
+				query.append(" AND ");
+			else
+				query.append("*");
+		}
+		
+		return search(query.toString().trim()).stream().map(MagicCard::getName).distinct().collect(Collectors.toList());
+	}
 	
+	@Override
 	public List<MagicCard> search(String q)
 	{
 		if(dir==null)

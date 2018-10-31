@@ -16,5 +16,6 @@ public interface MTGCardsIndexer extends MTGPlugin {
 	public List<MagicCard> search(String q);
 	public Map<String,Long> terms(String field);
 	public List<MagicCard> listCards();
+	public List<String> suggestCardName(String q);
 	
 }

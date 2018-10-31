@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -16,13 +17,17 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import org.jdesktop.swingx.JXLabel;
+import org.jdesktop.swingx.border.DropShadowBorder;
+import org.magic.services.ThreadManager;
 
 public class JTagsPanel extends JComponent {
 
@@ -85,6 +90,7 @@ public class JTagsPanel extends JComponent {
 		};
 
 		btnAdd.setAction(action);
+
 		btnAdd.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "ADD");
 		btnAdd.getActionMap().put("ADD", action);
 		panelAdds.add(btnAdd);
@@ -107,15 +113,16 @@ public class JTagsPanel extends JComponent {
 	public void changeFont(Font f) {
 		this.componentFont = f;
 	}
-
+	
 	public List<String> getValues() {
 		return tags;
 	}
 
-	public void bind(List<String> tags) {
-		this.tags = tags;
-		for (String s : tags)
-			addLabel(s);
+	public void bind(List<String> tagsList) {
+		clean();
+		this.tags = tagsList;
+		tags.forEach(this::addLabel);
+
 	}
 
 	public void setColors(Color background, Color foreground) {
@@ -133,11 +140,11 @@ public class JTagsPanel extends JComponent {
 	public void setEditable(boolean l) {
 		isEditable = l;
 		panelAdds.setVisible(isEditable);
-
-		if (isEditable)
+		
+		if(isEditable)
 			for (Component c : getComponents()) {
 				if (c instanceof TagLabel) {
-					c.addMouseListener(new TagMouseLisenter((TagLabel) c));
+						c.addMouseListener(new TagMouseListener((TagLabel) c));
 				}
 			}
 	}
@@ -147,9 +154,15 @@ public class JTagsPanel extends JComponent {
 		panelTags.revalidate();
 	}
 
+
+	public void addTag(String t) {
+		tags.add(t);
+		addLabel(t);
+	}
+	
+	
 	public void addTags(List<String> list) {
-		for (String t : list)
-			addTag(t);
+		list.forEach(this::addTag);
 	}
 
 	public void removeTag(TagLabel tag) {
@@ -158,27 +171,26 @@ public class JTagsPanel extends JComponent {
 		panelTags.revalidate();
 		panelTags.repaint();
 	}
-
+	
 	private void addLabel(String s) {
-		TagLabel tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
+		ThreadManager.getInstance().runInEdt(()->{
+				TagLabel tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
+			
+				if (isEditable)
+					tab.addMouseListener(new TagMouseListener(tab));
 
-		if (isEditable)
-			tab.addMouseListener(new TagMouseLisenter(tab));
-
-		panelTags.add(tab);
-		revalidate();
-		repaint();
+				panelTags.add(tab);
+				revalidate();
+				repaint();
+		});
 	}
 
-	public void addTag(String t) {
-		tags.add(t);
-		addLabel(t);
-	}
+	
 
-	class TagMouseLisenter extends MouseAdapter {
+	class TagMouseListener extends MouseAdapter {
 		private TagLabel tagLabel;
 
-		public TagMouseLisenter(TagLabel tagLabel) {
+		public TagMouseListener(TagLabel tagLabel) {
 			this.tagLabel = tagLabel;
 		}
 
@@ -191,35 +203,51 @@ public class JTagsPanel extends JComponent {
 		}
 
 	}
+
+	public String getTagAt(Point point) {
+		try {
+		TagLabel t = (TagLabel) panelTags.getComponentAt(point);
+		return t.getText();
+		}
+		catch(Exception e)
+		{
+			return "";
+		}
+	}
+
 }
 
-class TagLabel extends JLabel {
-	/**
-	 * 
-	 */
+class TagLabel extends JXLabel {
+	
 	private static final long serialVersionUID = 1L;
 
 	public TagLabel(String t, Color f, Color b, Font font) {
 		super(t);
-		setToolTipText(t);
-		setForeground(f);
-		setBackground(b);
-		setOpaque(true);
 		setFont(font);
-		setBounds(new Rectangle(0, 0, 7, 2));
-		setBorder(new CompoundBorder(new LineBorder(f, 1, true), new EmptyBorder(5, 5, 5, 5)));
+		init(f,b);
 	}
 	
 	public TagLabel(String t) {
 		super(t);
-		setToolTipText(t);
-		setForeground(Color.BLACK);
-		setBackground(Color.WHITE);
-		setOpaque(true);
-		setBounds(new Rectangle(0, 0, 7, 2));
-		setBorder(new CompoundBorder(new LineBorder(Color.BLACK, 1, true), new EmptyBorder(5, 5, 5, 5)));
+		init(Color.BLACK,Color.WHITE);
 	}
 	
+	private void init(Color f, Color b)
+	{
+		setForeground(f);
+		setBackground(b);
+		setBounds(new Rectangle(2, 2, 7, 2));
+		setBorder(new CompoundBorder(new LineBorder(f, 1, true), new EmptyBorder(5, 5, 5, 5)));
+		setOpaque(true);
+		
+//		DropShadowBorder shadow = new DropShadowBorder();
+//        shadow.setShadowColor(Color.BLACK);
+//        shadow.setShowRightShadow(true);
+//        shadow.setShowBottomShadow(true);
+//        
+//        setBorder(shadow);
+		
+	}
 
 	@Override
 	public int hashCode() {
