@@ -59,6 +59,7 @@ public class IndexerTests {
 				System.out.println(p.getProperties());
 				System.out.println(p.listFields());
 				
+				System.out.println("DATE:" + p.getIndexDate());
 				p.search(mc.getName()).forEach(c->{
 					System.out.println(c.getName());
 				});
@@ -69,7 +70,7 @@ public class IndexerTests {
 					System.out.println(entry.getValue() + "\t" + entry.getKey());
 				});
 			} catch (Exception e) {
-				System.out.println("LOAD EDITION :ERROR " + e);
+				System.out.println("ERROR " + e);
 			}
 					
 	}

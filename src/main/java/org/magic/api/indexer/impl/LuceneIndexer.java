@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -308,6 +309,14 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	@Override
 	public long size() {
 		return FileUtils.sizeOfDirectory(getFile(DIRECTORY));
+	}
+
+	@Override
+	public Date getIndexDate() {
+		if(getFile(DIRECTORY).exists())
+			return new Date(getFile(DIRECTORY).lastModified());
+		else
+			return null;
 	}
 
 

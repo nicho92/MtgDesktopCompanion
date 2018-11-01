@@ -1,7 +1,9 @@
 package org.magic.gui.components.dialog;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Robot;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -17,12 +19,10 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.MTGODeckExport;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
-import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -88,9 +88,16 @@ public class ManualImportDialog extends JDialog {
 				String name = tagsPanel.getTagAt(e.getPoint());
 				try {
 					editorPane.getDocument().remove(start,position-start);
-					editorPane.getDocument().insertString(start, " "+name+"\n", null);
+					editorPane.getDocument().insertString(start, " "+name, null);
+					editorPane.requestFocus();
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_ENTER);
+					start=0;
+					
 				} catch (BadLocationException e1) {
 					logger.error("error editing at s:" +start +" e:"+(position-start),e1);
+				} catch (AWTException e1) {
+					logger.error("Error loading key enter",e1);
 				}
 				
 			}; 
@@ -131,15 +138,7 @@ public class ManualImportDialog extends JDialog {
 		
 		
 	}
-	
-	public static void main(String[] args) {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		ManualImportDialog diag = new ManualImportDialog();
-		diag.setVisible(true);
-	}
-	
-	
-	
+
 
 	public MagicDeck getAsDeck() {
 
@@ -147,7 +146,7 @@ public class ManualImportDialog extends JDialog {
 			return new MagicDeck();
 
 		try {
-			return new MTGODeckExport().importDeck(editorPane.getText(),"manual");
+			return MTGControler.getInstance().getPlugin("MTGO", MTGCardsExport.class).importDeck(editorPane.getText(),"manual");
 		} catch (IOException e) {
 			logger.error(e);
 		}
