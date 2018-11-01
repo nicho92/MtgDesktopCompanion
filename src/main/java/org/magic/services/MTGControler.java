@@ -204,33 +204,16 @@ public class MTGControler {
 		}
 	}
 	
-	//TODO make this function operational
 	public void removeOldPlugins() {
+		PluginRegistry.inst().getPluginsToDelete().entrySet().forEach(s->
+			config.clearTree(s.getKey()+"[class='"+s.getValue()+"']")
+		);
 		
-		boolean modify=false;
-		for(Entry<String, String> s : PluginRegistry.inst().getPluginsToDelete().entrySet())
-		{
-			int index=0;
-			for(HierarchicalConfiguration e : config.configurationsAt(s.getKey()))
-			{
-				if(e.getString("class").equals(s.getValue()))
-				{
-					config.clearTree(e.getRootElementName()+"["+Integer.toString(index)+"]");
-					modify=true;
-				}
-				index++;
-			}
+		try {
+				builder.save();
+		} catch (ConfigurationException e) {
+			logger.error("Error deleting old plugin",e);
 		}
-		
-		
-			try {
-				if(modify)
-					builder.save();
-			} catch (ConfigurationException e) {
-				logger.error("Error deleting old plugin",e);
-			}
-		
-		
 	}
 	
 	
