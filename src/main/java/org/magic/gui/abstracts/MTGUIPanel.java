@@ -21,6 +21,12 @@ public abstract class MTGUIPanel extends JComponent {
 		logger.info("init GUI : " + getTitle());
 	}
 	
+	public void onDestroy()
+	{
+		//do nothing
+	}
+	
+	
 	public static MTGUIPanel build(JComponent c,String name,ImageIcon ic)
 	{
 		MTGUIPanel pane = new MTGUIPanel() {
@@ -41,8 +47,6 @@ public abstract class MTGUIPanel extends JComponent {
 		pane.add(c,BorderLayout.CENTER);
 		
 		return pane;
-		
-		
 	}
 	
 	

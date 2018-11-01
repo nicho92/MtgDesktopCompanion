@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 
 import org.magic.gui.abstracts.GenericTableModel;
@@ -7,7 +8,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 
 	public ThreadsTableModel() {
-		columns = new String[] {"ID","NAME","STATE","PRIORITY","LOCK"};
+		columns = new String[] {"ID","NAME","CPU (s.)","STATE","PRIORITY","LOCK"};
 	}
 	
 	@Override
@@ -20,12 +21,14 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 			case 1:
 				return t.getThreadName();
 			case 2:
-				return t.getThreadState();
+				return ManagementFactory.getThreadMXBean().getThreadCpuTime(t.getThreadId())/(1e+9);
 			case 3:
-				return t.getPriority();
+				return t.getThreadState().name();
 			case 4:
+				return t.getPriority();
+			case 5:
 				return t.getLockInfo();
-			default:
+			default: 
 				return null;
 			}
 		} catch (Exception e) {

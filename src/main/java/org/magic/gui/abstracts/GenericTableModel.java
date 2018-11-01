@@ -45,7 +45,6 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 	
 	public void init(List<T> t)
 	{
-		logger.debug("loading item");
 		items=t;
 		fireTableDataChanged();
 	}

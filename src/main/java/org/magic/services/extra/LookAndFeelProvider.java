@@ -83,6 +83,7 @@ public class LookAndFeelProvider {
 				logger.error("Loading " + c, e);
 			}
 		}
+	
 
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
