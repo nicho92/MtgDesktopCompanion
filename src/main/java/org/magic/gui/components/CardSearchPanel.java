@@ -177,6 +177,7 @@ public class CardSearchPanel extends MTGUIPanel {
 		popupMenu.add(menuItemAdd);
 	}
 
+	
 	public void initGUI() {
 		cardsModeltable = new MagicCardTableModel();
 		JPanel panelResultsCards;

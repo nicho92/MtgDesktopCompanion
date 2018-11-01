@@ -539,10 +539,6 @@ public class StockPanelGUI extends MTGUIPanel {
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-
-
-
-		
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 

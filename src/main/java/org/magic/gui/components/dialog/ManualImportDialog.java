@@ -45,6 +45,7 @@ public class ManualImportDialog extends JDialog {
 	public ManualImportDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(400, 400));
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MANUAL_IMPORT"));
 		setIconImage(MTGConstants.ICON_TAB_IMPORT.getImage());
 		setModal(true);
 		JPanel panel = new JPanel();
@@ -146,7 +147,7 @@ public class ManualImportDialog extends JDialog {
 			return new MagicDeck();
 
 		try {
-			return MTGControler.getInstance().getPlugin("MTGO", MTGCardsExport.class).importDeck(editorPane.getText(),"manual");
+			return MTGControler.getInstance().getPlugin(MTGConstants.MANUAL_IMPORT_SYNTAX, MTGCardsExport.class).importDeck(editorPane.getText(),"manual");
 		} catch (IOException e) {
 			logger.error(e);
 		}

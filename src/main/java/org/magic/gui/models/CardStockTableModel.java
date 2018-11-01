@@ -62,7 +62,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			return super.getColumnClass(columnIndex);
 		}
 	}
-
+	
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return column > 1;
@@ -104,6 +104,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
+		
 		switch (column) {
 		case 2:
 			updateEdition(items.get(row), (MagicEdition) aValue);
@@ -139,6 +140,8 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			break;
 		}
 		items.get(row).setUpdate(true);
+
+		
 	}
 
 	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
