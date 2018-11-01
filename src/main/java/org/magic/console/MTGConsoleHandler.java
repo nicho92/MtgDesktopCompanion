@@ -20,7 +20,7 @@ import org.magic.services.PluginRegistry;
 public class MTGConsoleHandler extends IoHandlerAdapter {
 
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private static Logger logger = MTGLogger.getLogger(MTGConsoleHandler.class);
 
 	private List<String> history;
 
@@ -52,7 +52,12 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	}
 
 	public static MTGCommand commandFactory(String name) {
-		return PluginRegistry.inst().newInstance(MTGConstants.COMMANDS_PACKAGE+StringUtils.capitalize(name));
+		try {
+			return PluginRegistry.inst().newInstance(MTGConstants.COMMANDS_PACKAGE+StringUtils.capitalize(name));
+		} catch (ClassNotFoundException e) {
+			logger.error(e);
+		}
+		return null;
 	}
 	
 	

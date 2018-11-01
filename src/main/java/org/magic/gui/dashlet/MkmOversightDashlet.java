@@ -55,9 +55,6 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		
 		JXTable table = new JXTable(model);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		
-		
-		setVisible(true);
 	}
 
 	@Override

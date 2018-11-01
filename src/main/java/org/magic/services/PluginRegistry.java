@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.FileBasedConfiguration;
@@ -42,6 +43,12 @@ public class PluginRegistry {
 	private ClassLoader classLoader;
 	private boolean hasUpdated = false;
 	private FileBasedConfiguration config;
+	private Map<String,String> pluginsToDelete;
+	
+	public Map<String,String> getPluginsToDelete() {
+		return pluginsToDelete;
+	}
+	
 	
 	public static PluginRegistry inst() {
 		if(instance==null)
@@ -57,18 +64,25 @@ public class PluginRegistry {
 	private PluginRegistry() {
 			classLoader = PluginRegistry.class.getClassLoader();
 			registry=new HashMap<>();
+			pluginsToDelete=new TreeMap<>();
 			init();
 	}
 	
-	public <T> T newInstance(Class<T> classname) {
+	public <T> T newInstance(Class<T> classname) throws ClassNotFoundException {
 		
 		return newInstance(classname.getName());
 		
 	}
 	
-	public <T> T newInstance(String classname) {
+	public <T> T newInstance(String classname) throws ClassNotFoundException {
 		
-		return loadItem(classname);
+		try {
+			logger.debug("\tload plugin :  " + classname);
+			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
+		}  catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException| NoSuchMethodException | SecurityException e) {
+			logger.error("error loading " + classname, e);
+			return null;
+		}
 	}
 	
 	
@@ -105,21 +119,6 @@ public class PluginRegistry {
 		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl"));
 	}
 	
-	private <T> T loadItem(String classname) {
-		try {
-			logger.debug("\tload plugin :  " + classname);
-			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
-		} catch (ClassNotFoundException e) {
-			logger.error(classname + " is not found");
-			return null;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException| NoSuchMethodException | SecurityException e) {
-			logger.error("error loading " + classname, e);
-			return null;
-		}
-	}
-
-	
-	
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{
 		PluginEntry<T> entry = registry.get(classe);
@@ -130,7 +129,14 @@ public class PluginRegistry {
 		logger.debug("loading " + classe.getSimpleName());
 		for (int i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) {
 			String s = config.getString(entry.getXpath()+"[" + i + "]/class");
-			T prov = loadItem(s);
+			T prov = null;
+			try{
+				prov = newInstance(s);
+			}
+			catch (ClassNotFoundException e) {
+				logger.error("\t"+s + " is not found");
+				pluginsToDelete.put(entry.getXpath(),s);
+			}
 			if (prov != null) {
 				try {
 					prov.enable(config.getBoolean(entry.getXpath()+"[" + i + "]/enable"));

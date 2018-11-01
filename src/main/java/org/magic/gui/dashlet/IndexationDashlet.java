@@ -66,8 +66,6 @@ public class IndexationDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 
-		setVisible(true);
-
 	}
 
 	public void init() {

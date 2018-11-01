@@ -7,12 +7,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.configuration2.HierarchicalConfiguration;
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -200,6 +203,36 @@ public class MTGControler {
 			logger.error("Error loading :"+ classname ,e);
 		}
 	}
+	
+	//TODO make this function operational
+	public void removeOldPlugins() {
+		
+		boolean modify=false;
+		for(Entry<String, String> s : PluginRegistry.inst().getPluginsToDelete().entrySet())
+		{
+			int index=0;
+			for(HierarchicalConfiguration e : config.configurationsAt(s.getKey()))
+			{
+				if(e.getString("class").equals(s.getValue()))
+				{
+					config.clearTree(e.getRootElementName()+"["+Integer.toString(index)+"]");
+					modify=true;
+				}
+				index++;
+			}
+		}
+		
+		
+			try {
+				if(modify)
+					builder.save();
+			} catch (ConfigurationException e) {
+				logger.error("Error deleting old plugin",e);
+			}
+		
+		
+	}
+	
 	
 
 	public void setProperty(Object k, Object c) {

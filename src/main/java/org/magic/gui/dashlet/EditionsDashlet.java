@@ -59,7 +59,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 
 		
-		setVisible(true);
+		
 
 		cboEditions.addActionListener(ae -> init());
 

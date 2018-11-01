@@ -53,8 +53,6 @@ public class MTGConstants {
 	
 	public static final String DEFAULT_NOTIFIER_NAME="Tray";
 	
-
-	public static final String TABLE_ALTERNATE_ROW_COLOR = "#E1E4F2";
 	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
 
 	public static final MTGCardsExport DEFAULT_SERIALIZER = new JsonExport();

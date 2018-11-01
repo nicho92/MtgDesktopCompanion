@@ -77,9 +77,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		}
 
 		table.packAll();
-		
-		setVisible(true);
-
+	
 	}
 
 }

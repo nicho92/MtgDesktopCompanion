@@ -194,8 +194,6 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 			setBounds(r);
 		}
-
-		setVisible(true);
 	}
 
 }

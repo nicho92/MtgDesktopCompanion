@@ -83,8 +83,6 @@ public class BestCardsDashlet extends AbstractJDashlet {
 			}
 			setBounds(r);
 		}
-		setVisible(true);
-
 	}
 
 	@Override

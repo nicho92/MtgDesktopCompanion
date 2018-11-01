@@ -70,6 +70,9 @@ public class MtgDesktopCompanion {
 					logger.error(e);
 				}
 			});
+			
+			MTGControler.getInstance().removeOldPlugins();
+			
 
 			long time = chrono.stop();
 			logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");

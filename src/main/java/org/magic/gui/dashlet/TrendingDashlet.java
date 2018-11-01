@@ -95,9 +95,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		lblInfoUpdate = new JLabel("");
 		panel.add(lblInfoUpdate);
-
-		setVisible(true);
-
 	}
 
 	public void init() {

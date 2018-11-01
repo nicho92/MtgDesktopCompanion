@@ -57,21 +57,21 @@
 		<dependency>
 			<groupId>com.github.insubstantial</groupId>
 			<artifactId>substance</artifactId>
-			<version>7.3</version>
+			<version>7.0.2</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/substance-7.0.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.github.insubstantial</groupId>
 		    <artifactId>laf-widget</artifactId>
-		    <version>7.3</version>
+		    <version>7.0.2</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/laf-widget.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.github.insubstantial</groupId>
     		<artifactId>laf-plugin</artifactId>
-   			<version>7.3</version>
+   			<version>7.0.2</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/laf-plugin.jar</systemPath>
 		</dependency>
@@ -100,11 +100,6 @@
 		    <artifactId>lucene-queryparser</artifactId>
 		    <version>7.5.0</version>
 		</dependency>
-		<!-- <dependency>
-		    <groupId>org.apache.lucene</groupId>
-		    <artifactId>lucene-analyzers-common</artifactId>
-		    <version>7.4.0</version>
-		</dependency> -->
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
 		    <artifactId>JTattoo</artifactId>

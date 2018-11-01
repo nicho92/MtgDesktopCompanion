@@ -181,8 +181,6 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
 		}
-
-		setVisible(true);
 	}
 
 }

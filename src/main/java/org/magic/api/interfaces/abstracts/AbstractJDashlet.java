@@ -1,6 +1,9 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import java.util.Properties;
 
@@ -27,15 +30,13 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public AbstractJDashlet() {
 		props = new Properties();
 		
-		setFrameIcon(getIcon());
-
 		if (!confdir.exists())
 		{
 			boolean ret = confdir.mkdirs();
 			logger.debug(confdir + " doesn't exist, create it="+ret);
 			
 		}
-		
+	
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosed(InternalFrameEvent e) {
@@ -46,7 +47,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		});
 		
 		
-
+		setFrameIcon(getIcon());
 		setTitle(getName());
 		setResizable(true);
 		setClosable(true);
