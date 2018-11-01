@@ -7,6 +7,9 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -56,7 +59,7 @@ public class UITools {
 	}
 	
 	
-	public static JDialog createJDialog(JComponent c, String title,Image ic,boolean resizable)
+	public static JDialog createJDialog(JComponent c, String title,Image ic,boolean resizable,boolean modal)
 	{
 		JDialog j = new JDialog();
 		j.getContentPane().setLayout(new BorderLayout());
@@ -65,7 +68,7 @@ public class UITools {
 		j.setLocationRelativeTo(null);
 		j.setIconImage(ic);
 		j.pack();
-		j.setModal(true);
+		j.setModal(modal);
 		j.setResizable(resizable);
 		return j;
 	}

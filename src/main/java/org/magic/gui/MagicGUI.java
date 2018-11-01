@@ -27,7 +27,7 @@ import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.gui.abstracts.MTGUIPanel;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
-import org.magic.gui.components.ThreadMonitorPanel;
+import org.magic.gui.components.ThreadMonitorDialog;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.BinderTagsEditorDialog;
 import org.magic.gui.components.dialog.ChromeDownloader;
@@ -138,23 +138,15 @@ public class MagicGUI extends JFrame {
 		});
 
 		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
-			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
-			f.getContentPane().add(new LoggerViewPanel());
-			f.setLocationRelativeTo(null);
-			f.setVisible(true);
-			f.pack();
-			f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			UITools.createJDialog(new LoggerViewPanel(), MTGControler.getInstance().getLangService().getCapitalize("LOGS"), MTGConstants.ICON_CONFIG.getImage(), true, false).setVisible(true);;
 		}));
 
 		mntmThreadItem.addActionListener(e ->
 
 		ThreadManager.getInstance().runInEdt(() -> {
-			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
-			f.getContentPane().add(new ThreadMonitorPanel());
-			f.setLocationRelativeTo(null);
-			f.setVisible(true);
-			f.pack();
-			f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			ThreadMonitorDialog pane = new ThreadMonitorDialog();
+			pane.pack();
+			pane.setVisible(true);
 		}));
 
 		mntmExit.addActionListener(e -> System.exit(0));
@@ -168,7 +160,7 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-		mntmAboutMagicDesktop.addActionListener(ae -> UITools.createJDialog(new AboutDialog(), MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME, MTGConstants.IMAGE_LOGO, false).setVisible(true));
+		mntmAboutMagicDesktop.addActionListener(ae -> UITools.createJDialog(new AboutDialog(), MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME, MTGConstants.IMAGE_LOGO, false,true).setVisible(true));
 
 		mntmReportBug.addActionListener(ae -> {
 			try {
