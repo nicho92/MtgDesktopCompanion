@@ -61,8 +61,11 @@ public class MtgDesktopCompanion {
 			MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
 			gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			gui.setVisible(true);
+			
+			MTGControler.getInstance().cleaning();
+			
 			launch.stop();
-
+			
 			MTGControler.getInstance().listEnabled(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s->{
 				try {
 					s.start();
@@ -70,10 +73,6 @@ public class MtgDesktopCompanion {
 					logger.error(e);
 				}
 			});
-			
-			MTGControler.getInstance().removeOldPlugins();
-			
-
 			long time = chrono.stop();
 			logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");
 		});

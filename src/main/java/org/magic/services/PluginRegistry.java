@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.FileBasedConfiguration;
+import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -42,8 +43,9 @@ public class PluginRegistry {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private ClassLoader classLoader;
 	private boolean hasUpdated = false;
-	private FileBasedConfiguration config;
+	private XMLConfiguration config;
 	private Map<String,String> pluginsToDelete;
+	private boolean needUpdate;
 	
 	public Map<String,String> getPluginsToDelete() {
 		return pluginsToDelete;
@@ -57,7 +59,7 @@ public class PluginRegistry {
 		return instance;
 	}
 	
-	public void setConfig(FileBasedConfiguration config) {
+	public void setConfig(XMLConfiguration config) {
 		this.config = config;
 	}
 	
@@ -135,7 +137,8 @@ public class PluginRegistry {
 			}
 			catch (ClassNotFoundException e) {
 				logger.error("\t"+s + " is not found");
-				pluginsToDelete.put(entry.getXpath(),s);
+				config.clearTree(entry.getXpath()+"[class='"+s+"']");
+				needUpdate=true;
 			}
 			if (prov != null) {
 				try {
@@ -150,6 +153,11 @@ public class PluginRegistry {
 			}
 		}
 		return entry.getPlugins();
+	}
+	
+	public boolean needUpdate()
+	{
+		return needUpdate;
 	}
 	
 	public Set<Entry<Class, PluginEntry>> entrySet() {

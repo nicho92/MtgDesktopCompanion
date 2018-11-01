@@ -204,20 +204,6 @@ public class MTGControler {
 		}
 	}
 	
-	public void removeOldPlugins() {
-		PluginRegistry.inst().getPluginsToDelete().entrySet().forEach(s->
-			config.clearTree(s.getKey()+"[class='"+s.getValue()+"']")
-		);
-		
-		try {
-				builder.save();
-		} catch (ConfigurationException e) {
-			logger.error("Error deleting old plugin",e);
-		}
-	}
-	
-	
-
 	public void setProperty(Object k, Object c) {
 		try {
 			String path = "";
@@ -353,6 +339,17 @@ public class MTGControler {
 	public <T extends MTGPlugin> List<T> listEnabled(Class<T> t)
 	{
 		return PluginRegistry.inst().listEnabledPlugins(t);
+	}
+
+	public void cleaning() {
+		 if(PluginRegistry.inst().needUpdate())
+		 {	try {
+				builder.save();
+				logger.info("cleaning " + MTGConstants.CONF_FILENAME +" done");
+			} catch (ConfigurationException e) {
+				logger.error(e);
+			}
+		 }
 	}
 	
 
