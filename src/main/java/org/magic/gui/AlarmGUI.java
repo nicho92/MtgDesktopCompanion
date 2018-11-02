@@ -116,8 +116,8 @@ public class AlarmGUI extends MTGUIComponent {
 		btnSuggestPrice = new JButton(MTGConstants.ICON_EURO);
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JPanel serversPanel = new JPanel();
-		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
-		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
+		ServerStatePanel oversightPanel = new ServerStatePanel(false,MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
+		ServerStatePanel serverPricePanel = new ServerStatePanel(false,MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
 		UITools.initTableFilter(table);
 
 		

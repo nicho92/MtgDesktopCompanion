@@ -38,8 +38,7 @@ public class ServerStatePanel extends JPanel {
 	private Map<Boolean, ImageIcon> icons;
 	private JButton btnStartStop;
 	private JLabel lblalive;
-	private JLabel lblLogs;
-	private JScrollPane scrollPane;
+	
 	private JXTable table;
 	private LogTableModel model; 
 	
@@ -47,25 +46,28 @@ public class ServerStatePanel extends JPanel {
 		return server;
 	}
 	
+
+	public ServerStatePanel(boolean b, MTGServer plugin) {
+		init(b,plugin);
+	}
+	
+	
 	public ServerStatePanel(MTGServer s) {
+		init(true,s);
+	}
+	
+	private void init(boolean b, MTGServer s) {
+		
 		setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
 
 		if(s==null)
 			return;
 		
 		this.server = s;
-		icons = new HashMap<>();
-
-		model = new LogTableModel();
-		table = new JXTable();
-		table.setModel(model);
 		
-		table.getColumnExt(model.getColumnName(0)).setVisible(false);
-		table.getColumnExt(model.getColumnName(1)).setVisible(false);
-		table.getColumnExt(model.getColumnName(2)).setVisible(false);
-	
-		table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 2));
-		table.setTableHeader(null);
+		
+		
+		icons = new HashMap<>();
 		
 		icons.put(false, MTGConstants.ICON_DELETE);
 		icons.put(true, MTGConstants.ICON_CHECK);
@@ -96,7 +98,7 @@ public class ServerStatePanel extends JPanel {
 		gbclblalive.gridy = 0;
 		add(lblalive, gbclblalive);
 
-		lblLogs = new JLabel("");
+		JLabel lblLogs = new JLabel("");
 		GridBagConstraints gbclblLogs = new GridBagConstraints();
 		gbclblLogs.anchor = GridBagConstraints.WEST;
 		gbclblLogs.insets = new Insets(0, 0, 0, 5);
@@ -111,17 +113,27 @@ public class ServerStatePanel extends JPanel {
 		gbcbtnStartStop.gridx = 5;
 		gbcbtnStartStop.gridy = 0;
 		add(btnStartStop, gbcbtnStartStop);
-		
-		scrollPane = new JScrollPane();
-		GridBagConstraints gbcscrollPane = new GridBagConstraints();
-		gbcscrollPane.fill = GridBagConstraints.BOTH;
-		gbcscrollPane.gridx = 6;
-		gbcscrollPane.gridy = 0;
-		add(scrollPane, gbcscrollPane);
-		
-		
-		scrollPane.setViewportView(table);
+	
+		if(b) 
+		{
+			
+			model = new LogTableModel();
+			table = new JXTable();
+			table.setModel(model);
+			table.getColumnExt(model.getColumnName(0)).setVisible(false);
+			table.getColumnExt(model.getColumnName(1)).setVisible(false);
+			table.getColumnExt(model.getColumnName(2)).setVisible(false);
+			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 2));
+			table.setTableHeader(null);
 
+			GridBagConstraints gbcscrollPane = new GridBagConstraints();
+			gbcscrollPane.fill = GridBagConstraints.BOTH;
+			gbcscrollPane.gridx = 6;
+			gbcscrollPane.gridy = 0;
+			add(new JScrollPane(table), gbcscrollPane);
+			
+		}
+		
 		TimerTask tache = new TimerTask() {
 			public void run() {
 				btnStartStop.setEnabled(server.isEnable());
@@ -131,7 +143,10 @@ public class ServerStatePanel extends JPanel {
 				if (server.isAlive())
 				{
 					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("STOP"));
+					if(b)
+					{
 					model.fireTableDataChanged();
+					}
 				}
 				else
 				{
@@ -162,5 +177,6 @@ public class ServerStatePanel extends JPanel {
 		});
 
 	}
+
 
 }
