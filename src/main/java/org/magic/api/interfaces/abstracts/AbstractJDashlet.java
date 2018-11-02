@@ -1,9 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.File;
 import java.util.Properties;
 

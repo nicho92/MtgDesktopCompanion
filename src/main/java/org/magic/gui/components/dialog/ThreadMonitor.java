@@ -1,64 +1,48 @@
-package org.magic.gui.components;
+package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
+import java.util.Optional;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.gui.models.MemoryTableModel;
+import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.JVMemoryPanel;
 import org.magic.gui.models.ThreadsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
-public class ThreadMonitorDialog extends JDialog  {
+public class ThreadMonitor extends MTGUIComponent  {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable tableT;
-	private JXTable tableM;
 	private ThreadsTableModel modelT;
-	private MemoryTableModel modelM;
 	private JButton btnRefresh;
 	private Timer t;
 	private JLabel lblThreads;
 	private JVMemoryPanel memoryPanel;
+	private JButton btnRunGC;
 	
-	public ThreadMonitorDialog() {
-		getContentPane().setLayout(new BorderLayout(0, 0));
-
-		
-		setIconImage(MTGConstants.ICON_TAB_ADMIN.getImage());
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+	
+	public ThreadMonitor() {
+		setLayout(new BorderLayout(0, 0));
 		modelT = new ThreadsTableModel();
-		modelM = new MemoryTableModel();
 		tableT = new JXTable();
 		tableT.setModel(modelT);
 		
-		tableM = new JXTable();
-		tableM.setModel(modelM);
-		
-		tableM.setPreferredSize(new Dimension(0, 50));
-		
-		getContentPane().add(new JScrollPane(tableT), BorderLayout.SOUTH);
+		add(new JScrollPane(tableT), BorderLayout.CENTER);
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
-
+		add(panel, BorderLayout.NORTH);
 		btnRefresh = new JButton("Pause");
 		btnRefresh.addActionListener(ae -> {
 			if (t.isRunning()) {
@@ -79,27 +63,44 @@ public class ThreadMonitorDialog extends JDialog  {
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 		
-		JScrollPane scrollPane = new JScrollPane(tableM);
-		scrollPane.setPreferredSize(new Dimension(0, 50));
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		
+		btnRunGC = new JButton("Kill");
+		btnRunGC.addActionListener(e->{
+			Long id = (Long) UITools.getTableSelection(tableT,0).get(0);
+			Optional<Thread> opt = Thread.getAllStackTraces().keySet().stream().filter(th->th.getId()==id).findFirst();
+			
+			if(opt.isPresent())
+			{
+				logger.debug("killing " + opt.get().getName());
+				opt.get().interrupt();
+			}
+			
+		});
+		panel.add(btnRunGC);
 		
 		t = new Timer(5000, e ->{ 
 			modelT.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
-			modelM.init(Arrays.asList(ManagementFactory.getMemoryMXBean()));
 			memoryPanel.refresh();
 			tableT.packAll();
 		});
 		
 		
 		t.start();
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				t.stop();
-			}
-		});
+	}
 	
+
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("THREADS");
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_ADMIN;
 	}
 
+	private double format(long init) {
+		return (init / (1024 * 1024));
+	}
+	
+	
 }

@@ -61,7 +61,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -79,7 +79,7 @@ import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class CardSearchPanel extends MTGUIPanel {
+public class CardSearchPanel extends MTGUIComponent {
 
 	public static final int INDEX_THUMB = 1;
 

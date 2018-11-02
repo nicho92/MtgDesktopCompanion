@@ -2,7 +2,6 @@ package org.magic.gui.abstracts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -10,8 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-
-import com.google.common.collect.Lists;
 
 public abstract class GenericTableModel<T> extends DefaultTableModel {
 
@@ -98,6 +95,12 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 		items.clear();
 		fireTableDataChanged();
 	}
+	
+	public T getItemAt(int row)
+	{
+		return items.get(row);
+	}
+	
 	
 	public List<T> getItems() {
 		return items;

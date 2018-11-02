@@ -5,12 +5,12 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 
 import org.magic.api.interfaces.MTGServer;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class ServersGUI extends MTGUIPanel {
+public class ServersGUI extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {

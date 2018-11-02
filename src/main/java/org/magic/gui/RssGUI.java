@@ -27,7 +27,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
@@ -36,7 +36,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class RssGUI extends MTGUIPanel {
+public class RssGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private JTable table;

@@ -6,15 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JComponent;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class AboutDialog extends JComponent {
+public class AboutDialog extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,6 +47,16 @@ public class AboutDialog extends JComponent {
 		lblDeveloppedByNichow.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblDeveloppedByNichow, BorderLayout.NORTH);
 		
+	}
+
+	@Override
+	public ImageIcon getIcon() {
+		return new ImageIcon(MTGConstants.IMAGE_LOGO);
+	}
+
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME;
 	}
 
 }

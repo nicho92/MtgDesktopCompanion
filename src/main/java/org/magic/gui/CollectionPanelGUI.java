@@ -51,7 +51,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
@@ -77,7 +77,7 @@ import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class CollectionPanelGUI extends MTGUIPanel {
+public class CollectionPanelGUI extends MTGUIComponent {
 	
 	private JXTable tableEditions;
 	private transient MTGCardsProvider provider;

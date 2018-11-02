@@ -7,11 +7,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.configuration2.HierarchicalConfiguration;
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;

@@ -28,14 +28,14 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class WallpaperGUI extends MTGUIPanel {
+public class WallpaperGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;

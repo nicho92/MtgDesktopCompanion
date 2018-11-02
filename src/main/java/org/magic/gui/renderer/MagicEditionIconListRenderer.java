@@ -9,18 +9,11 @@ import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
-import org.magic.tools.UITools;
 
-public class MagicEditionIconListRenderer extends JLabel implements ListCellRenderer<MagicEdition> {
+public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEdition> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-
 	public enum SIZE {SMALL,MEDIUM}
-	
 	private SIZE size;
 	
 	public MagicEditionIconListRenderer(SIZE s) {
@@ -31,10 +24,9 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 		size=SIZE.MEDIUM;
 	}
 	
-	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,boolean isSelected, boolean cellHasFocus) {
-
+		
 		if (value != null) 
 		{
 			ImageIcon ic;
@@ -44,8 +36,19 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 				ic = IconSetProvider.getInstance().get24(value.getId());
 			
 			JLabel l = new JLabel(value.getSet());
-			l.setToolTipText(value.getId());
 			l.setIcon(ic);
+			
+			l.setOpaque(true);
+			if (isSelected) {
+				l.setBackground(list.getSelectionBackground());
+				l.setForeground(list.getSelectionForeground());
+			} else {
+				l.setBackground(list.getBackground());
+				l.setForeground(list.getForeground());
+			}
+			
+			
+			
 			return l;
 		}
 		return new JLabel();

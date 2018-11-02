@@ -14,12 +14,12 @@ import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -27,24 +27,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.BinderTagsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageTools;
 
-public class BinderTagsEditorDialog extends JFrame {
+public class BinderTagsEditorComponent extends MTGUIComponent {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel previewPanel;
 	private transient BinderTagsManager tagMaker;
 	private transient BufferedImage img;
@@ -72,6 +67,8 @@ public class BinderTagsEditorDialog extends JFrame {
 	}
 	
 	
+	
+	
 	private void init()
 	{
 		Dimension d = new Dimension(567,2173);
@@ -84,12 +81,24 @@ public class BinderTagsEditorDialog extends JFrame {
 		tagMaker = new BinderTagsManager(d);
 	}
 	
-	public BinderTagsEditorDialog() {
+
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR");
+	}
+	
+
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_BINDERS;
+	}
+	
+
+	
+	
+	public BinderTagsEditorComponent() {
 		
 		init();
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"));
-		setIconImage(MTGConstants.ICON_BINDERS.getImage());
-		
 		
 		leftPanel = new JPanel();
 		JPanel editorPanel = new JPanel();
@@ -97,7 +106,7 @@ public class BinderTagsEditorDialog extends JFrame {
 		listEditions = new JList<>(model);
 		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
 		
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout(0, 0));
 		
 		try {
 			for(MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions())
@@ -129,8 +138,8 @@ public class BinderTagsEditorDialog extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane(previewPanel);
 		scrollPane.setPreferredSize(new Dimension(250, 250));
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		getContentPane().add(leftPanel, BorderLayout.WEST);
+		add(scrollPane, BorderLayout.CENTER);
+		add(leftPanel, BorderLayout.WEST);
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		leftPanel.add(editorPanel, BorderLayout.NORTH);
 		GridBagLayout gbleditorPanel = new GridBagLayout();
@@ -210,12 +219,7 @@ public class BinderTagsEditorDialog extends JFrame {
 		btnSave = new JButton(MTGConstants.ICON_SAVE);
 		commandsPanel.add(btnSave);
 		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
 		initActions();
-		
-		pack();
-		
 
 	}
 
@@ -282,8 +286,6 @@ public class BinderTagsEditorDialog extends JFrame {
 		
 		
 	}
-	
 
-	
 
 }

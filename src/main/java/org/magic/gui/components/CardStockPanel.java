@@ -19,7 +19,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
-import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

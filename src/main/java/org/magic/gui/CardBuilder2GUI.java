@@ -45,7 +45,7 @@ import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -60,7 +60,7 @@ import org.magic.services.MTGControler;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
 
-public class CardBuilder2GUI extends MTGUIPanel {
+public class CardBuilder2GUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable editionsTable;

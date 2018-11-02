@@ -7,11 +7,11 @@ import javax.swing.JTabbedPane;
 
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.GamingRoomPanel;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class GameGUI extends MTGUIPanel {
+public class GameGUI extends MTGUIComponent {
 
 	
 	@Override

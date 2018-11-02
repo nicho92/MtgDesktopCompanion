@@ -23,14 +23,14 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGShopper;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class ShopperGUI extends MTGUIPanel {
+public class ShopperGUI extends MTGUIComponent {
 	/**
 	 * 
 	 */

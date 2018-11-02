@@ -5,13 +5,13 @@ import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ConstructPanel;
 import org.magic.gui.components.SealedPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class DeckBuilderGUI extends MTGUIPanel {
+public class DeckBuilderGUI extends MTGUIComponent {
 
 	/**
 	 * 

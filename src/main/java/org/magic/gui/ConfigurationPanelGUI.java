@@ -31,7 +31,7 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGWallpaperProvider;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.models.conf.PluginTreeTableModel;
@@ -39,7 +39,7 @@ import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class ConfigurationPanelGUI extends MTGUIPanel {
+public class ConfigurationPanelGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane subTabbedProviders ;

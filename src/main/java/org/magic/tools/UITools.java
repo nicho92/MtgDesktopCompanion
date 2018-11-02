@@ -3,13 +3,9 @@ package org.magic.tools;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -19,8 +15,6 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
@@ -58,21 +52,7 @@ public class UITools {
 		return s.split("[\\r\\n]+");
 	}
 	
-	
-	public static JDialog createJDialog(JComponent c, String title,Image ic,boolean resizable,boolean modal)
-	{
-		JDialog j = new JDialog();
-		j.getContentPane().setLayout(new BorderLayout());
-		j.getContentPane().add(c, BorderLayout.CENTER);
-		j.setTitle(title);
-		j.setLocationRelativeTo(null);
-		j.setIconImage(ic);
-		j.pack();
-		j.setModal(modal);
-		j.setResizable(resizable);
-		return j;
-	}
-	
+
 	
 	
 	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)

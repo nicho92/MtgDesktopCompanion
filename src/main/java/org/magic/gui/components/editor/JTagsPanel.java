@@ -20,13 +20,11 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXLabel;
-import org.jdesktop.swingx.border.DropShadowBorder;
 import org.magic.services.ThreadManager;
 
 public class JTagsPanel extends JComponent {

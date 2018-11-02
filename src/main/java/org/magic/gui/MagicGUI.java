@@ -24,20 +24,19 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
-import org.magic.gui.components.ThreadMonitorDialog;
 import org.magic.gui.components.dialog.AboutDialog;
-import org.magic.gui.components.dialog.BinderTagsEditorDialog;
+import org.magic.gui.components.dialog.BinderTagsEditorComponent;
 import org.magic.gui.components.dialog.ChromeDownloader;
+import org.magic.gui.components.dialog.ThreadMonitor;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
-import org.magic.tools.UITools;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
@@ -131,22 +130,19 @@ public class MagicGUI extends JFrame {
 		});
 		
 		
-		mntmFileTagEditor.addActionListener(ae->{
-			BinderTagsEditorDialog diag = new BinderTagsEditorDialog();
-			diag.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			diag.setVisible(true);
-		});
+		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
+			MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true);
+		}));
+		
 
 		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
-			UITools.createJDialog(new LoggerViewPanel(), MTGControler.getInstance().getLangService().getCapitalize("LOGS"), MTGConstants.ICON_CONFIG.getImage(), true, false).setVisible(true);;
+			MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true);
 		}));
 
 		mntmThreadItem.addActionListener(e ->
 
 		ThreadManager.getInstance().runInEdt(() -> {
-			ThreadMonitorDialog pane = new ThreadMonitorDialog();
-			pane.pack();
-			pane.setVisible(true);
+			MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true);
 		}));
 
 		mntmExit.addActionListener(e -> System.exit(0));
@@ -160,7 +156,7 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-		mntmAboutMagicDesktop.addActionListener(ae -> UITools.createJDialog(new AboutDialog(), MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME, MTGConstants.IMAGE_LOGO, false,true).setVisible(true));
+		mntmAboutMagicDesktop.addActionListener(ae -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
 
 		mntmReportBug.addActionListener(ae -> {
 			try {
@@ -276,7 +272,7 @@ public class MagicGUI extends JFrame {
 			addTab(new WallpaperGUI());
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
-			addTab(MTGUIPanel.build(new MkmPanel(), "MKM", MTGConstants.ICON_SHOP));
+			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", MTGConstants.ICON_SHOP));
 
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
@@ -318,7 +314,7 @@ public class MagicGUI extends JFrame {
 			}, "launch tooltip");
 		}
 
-	private void addTab(MTGUIPanel instance) {
+	private void addTab(MTGUIComponent instance) {
 		tabbedPane.addTab(instance.getTitle(),instance.getIcon(), instance, null);
 		
 	}

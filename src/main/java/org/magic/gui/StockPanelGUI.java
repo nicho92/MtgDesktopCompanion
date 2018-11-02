@@ -44,7 +44,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -62,7 +62,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class StockPanelGUI extends MTGUIPanel {
+public class StockPanelGUI extends MTGUIComponent {
 	/**
 	 * 
 	 */

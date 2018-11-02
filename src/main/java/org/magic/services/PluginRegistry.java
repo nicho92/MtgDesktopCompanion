@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGCardsExport;

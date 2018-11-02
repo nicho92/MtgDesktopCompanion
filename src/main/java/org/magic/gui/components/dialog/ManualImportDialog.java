@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
-import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

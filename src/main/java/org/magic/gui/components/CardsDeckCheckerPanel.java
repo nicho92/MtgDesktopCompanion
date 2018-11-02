@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -15,7 +16,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.ThreadManager;
 
-public class CardsDeckCheckerPanel extends JPanel {
+public class CardsDeckCheckerPanel extends JComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzyLabel;

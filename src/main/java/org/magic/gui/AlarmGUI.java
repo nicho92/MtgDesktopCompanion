@@ -44,7 +44,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.MTGUIPanel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.ServerStatePanel;
@@ -63,7 +63,7 @@ import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.UITools;
 
-public class AlarmGUI extends MTGUIPanel {
+public class AlarmGUI extends MTGUIComponent {
 	
 	private JTable table;
 	private CardAlertTableModel model;

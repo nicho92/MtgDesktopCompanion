@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -19,10 +20,12 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXTable;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
-public class LoggerViewPanel extends JPanel {
+public class LoggerViewPanel extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -94,6 +97,24 @@ public class LoggerViewPanel extends JPanel {
 		});
 		
 		table.packAll();
+	}
+	
+	
+	@Override
+	public void onDestroy() {
+		t.stop();
+	}
+
+
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_CONFIG;
+	}
+
+
+	@Override
+	public String getTitle() {
+		return MTGControler.getInstance().getLangService().getCapitalize("LOGS");
 	}
 
 }

@@ -25,7 +25,6 @@ public class ThreadManager {
 	}
 	
 	public void execute(Runnable task, String name) {
-		
 		executor.execute(task);
 		info = String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", 
 							executor.getPoolSize(),
@@ -34,9 +33,6 @@ public class ThreadManager {
 							executor.getCompletedTaskCount(),
 							executor.getTaskCount(), 
 							name);
-	
-		
-		
 	}
 	
 	public void runInEdt(Runnable runnable) {
