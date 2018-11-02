@@ -12,6 +12,8 @@ import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.StandardMBean;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.PluginEntry;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -205,4 +207,9 @@ public class JMXServer extends AbstractMTGServer {
 		return "MXBean Server";
 	}
 
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/bean.png"));
+	}
+	
 }

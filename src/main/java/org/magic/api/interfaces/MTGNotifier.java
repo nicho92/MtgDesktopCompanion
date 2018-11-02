@@ -9,6 +9,7 @@ public interface MTGNotifier extends MTGPlugin{
 
 	
 	public void send(MTGNotification notification) throws IOException;
+	public void send(String notification) throws IOException;
 	public FORMAT_NOTIFICATION getFormat();
 	
 }
