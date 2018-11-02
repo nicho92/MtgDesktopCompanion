@@ -13,18 +13,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGAppender;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
 
 public class ServerStatePanel extends JPanel {
 
@@ -38,15 +40,15 @@ public class ServerStatePanel extends JPanel {
 	private JLabel lblalive;
 	private JLabel lblLogs;
 	private JScrollPane scrollPane;
-	private JTextPane textPane;
-	private MTGAppender app;
-
+	private JXTable table;
+	private LogTableModel model; 
 	
 	public MTGServer getServer() {
 		return server;
 	}
 	
 	public ServerStatePanel(MTGServer s) {
+		setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
 
 		if(s==null)
 			return;
@@ -54,7 +56,16 @@ public class ServerStatePanel extends JPanel {
 		this.server = s;
 		icons = new HashMap<>();
 
+		model = new LogTableModel();
+		table = new JXTable();
+		table.setModel(model);
 		
+		table.getColumnExt(model.getColumnName(0)).setVisible(false);
+		table.getColumnExt(model.getColumnName(1)).setVisible(false);
+		table.getColumnExt(model.getColumnName(2)).setVisible(false);
+	
+		table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 2));
+		table.setTableHeader(null);
 		
 		icons.put(false, MTGConstants.ICON_DELETE);
 		icons.put(true, MTGConstants.ICON_CHECK);
@@ -108,14 +119,9 @@ public class ServerStatePanel extends JPanel {
 		gbcscrollPane.gridy = 0;
 		add(scrollPane, gbcscrollPane);
 		
-		textPane = new JTextPane();
-		textPane.setEditable(false);
-		scrollPane.setViewportView(textPane);
+		
+		scrollPane.setViewportView(table);
 
-		app = (MTGAppender) MTGLogger.getAppender("APPS");
-		StringBuilder build = new StringBuilder();
-		
-		
 		TimerTask tache = new TimerTask() {
 			public void run() {
 				btnStartStop.setEnabled(server.isEnable());
@@ -123,26 +129,19 @@ public class ServerStatePanel extends JPanel {
 				lblalive.setEnabled(server.isEnable());
 				
 				if (server.isAlive())
+				{
 					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("STOP"));
+					model.fireTableDataChanged();
+				}
 				else
+				{
 					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("START"));
+				}
 				
-				lblalive.setIcon(icons.get(server.isAlive()));
-				build.setLength(0);
-				app.getEvents().forEach(ev->{
+					lblalive.setIcon(icons.get(server.isAlive()));
 					
-					if(ev.getLocationInformation().getClassName().equals(server.getClass().getName()))
-					{
-						build.append(ev.getRenderedMessage()).append("\n");
-					}
-					textPane.setText(build.toString());
-					textPane.setCaretPosition(textPane.getDocument().getLength());
-				});
-				
-				
-				
-				
-			}
+				}
+			
 		};
 		Timer timer = new Timer("Timer-" + server.getName());
 
