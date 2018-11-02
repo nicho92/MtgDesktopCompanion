@@ -3,6 +3,7 @@ package org.magic.api.interfaces;
 import java.io.File;
 import java.util.Properties;
 
+import javax.management.ObjectName;
 import javax.swing.Icon;
 
 import org.utils.patterns.observer.Observer;
@@ -51,4 +52,7 @@ public interface MTGPlugin {
 	public void removeObserver(Observer o);
 	
 	public Icon getIcon() ;
+	
+	public ObjectName getObjectName();
+	
 }

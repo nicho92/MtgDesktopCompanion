@@ -7,6 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -25,6 +27,15 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	public void setProps(Properties props) {
 		this.props = props;
+	}
+	
+	@Override
+	public ObjectName getObjectName() {
+		try {
+			return new ObjectName("org.magic.api:type="+getType().name().toLowerCase()+",name="+getName());
+		} catch (MalformedObjectNameException e) {
+			return null;
+		}
 	}
 	
 

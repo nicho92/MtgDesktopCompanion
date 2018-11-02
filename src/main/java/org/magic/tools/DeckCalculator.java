@@ -66,7 +66,6 @@ public class DeckCalculator {
 		try {
 			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
 		} catch (Exception e) {
-			logger.error("Error in HypergeometricDistribution "+e);
 			return 0;
 		}
 

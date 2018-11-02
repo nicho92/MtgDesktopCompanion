@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.util.Properties;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 import javax.swing.JInternalFrame;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
@@ -22,6 +24,15 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
+	
+	@Override
+	public ObjectName getObjectName() {
+		try {
+			return new ObjectName("org.magic.api:type="+getType()+",name="+getName());
+		} catch (MalformedObjectNameException e) {
+			return null;
+		}
+	}
 
 	
 	public AbstractJDashlet() {

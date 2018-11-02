@@ -32,11 +32,12 @@ public class MtgDesktopCompanion {
 	public MtgDesktopCompanion() {
 		chrono = new Chrono();
 		chrono.start();
-
 		launch = new MTGSplashScreen();
 		MTGLogger.getMTGAppender().addObserver(launch);
+		
+		
 		launch.start();
-
+		
 		try {
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
