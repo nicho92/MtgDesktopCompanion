@@ -132,7 +132,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	@Override
 	public void initDefault() {
 		setProperty(MAX, "5");
-		setProperty(WEBSITE, "http://www.magic-ville.com/");
+		setProperty(WEBSITE, "https://www.magic-ville.com/");
 		
 
 	}

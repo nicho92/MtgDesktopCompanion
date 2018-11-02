@@ -26,6 +26,7 @@ import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -153,6 +154,17 @@ public class JMXServer extends AbstractMTGServer {
 					logger.error(e);
 				} 
 			});
+			
+
+			MTGControler.getInstance().getPlugins(MTGPricesProvider.class).forEach(o->{
+				try {
+					names.add(o.getObjectName());
+					mbs.registerMBean(new StandardMBean(o, MTGPricesProvider.class), o.getObjectName());
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+			});
+			
 			
 			
 		} catch (Exception e) {

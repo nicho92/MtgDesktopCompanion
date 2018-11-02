@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.ReportNotificationManager;
@@ -34,5 +35,4 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	public PLUGINS getType() {
 		return PLUGINS.SERVER;
 	}
-
 }
