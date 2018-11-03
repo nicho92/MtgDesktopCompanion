@@ -56,7 +56,9 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		Date c = evaluator.getCacheDate(edition);
 		Date d = new Date();
 		
-		if(!DateUtils.isSameDay(c, d))
+		logger.trace(edition + " cache : " + c);
+		
+		if(c==null || !DateUtils.isSameDay(c, d))
 		{
 			logger.debug(edition + " not in cache.Loading it");
 			evaluator.initCache(edition,getShakeForEdition(edition));	
