@@ -82,6 +82,16 @@ public class CollectionEvaluator
 		cache.clear();
 	}
 	
+	public void initCache(MagicEdition edition,List<CardShake> ret) throws IOException
+	{
+			try {
+				
+				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
+			} catch (IOException e) {
+				logger.error(edition.getId() + " is not found",e);
+			}
+			
+	}
 	
 	
 	
@@ -90,8 +100,8 @@ public class CollectionEvaluator
 		List<CardShake> ret = new ArrayList<>();
 			try {
 				logger.debug("init cache for " + edition);
-				ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(edition);
-				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
+				ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(edition);
+				initCache(edition,ret);
 			} catch (IOException e) {
 				logger.error(edition.getId() + " is not found",e);
 			}
@@ -127,6 +137,12 @@ public class CollectionEvaluator
 		);
 		return ret;
 	}
+	
+	public boolean hasCache(MagicEdition ed)
+	{
+		return new File(directory,ed.getId()+PRICE_JSON).exists();
+	}
+	
 	
 	public Date getCacheDate(MagicEdition ed)
 	{
@@ -187,7 +203,7 @@ public class CollectionEvaluator
 		return ret;
 	}
 	
-	private List<CardShake> loadFromCache(MagicEdition ed) {
+	public List<CardShake> loadFromCache(MagicEdition ed) {
 		
 		List<CardShake> list = new ArrayList<>();
 		try {

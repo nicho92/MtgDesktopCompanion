@@ -117,7 +117,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		btnCalculate.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 			try {
 				List<CardShake> prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class)
-						.getShakeForEdition((MagicEdition) cboEditions.getSelectedItem());
+						.getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
 				boostersModel.clear();
 				double total = 0;
 				Map<String, Double> priceRarity = new HashMap<>();

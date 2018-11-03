@@ -174,17 +174,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+	protected List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
 
 		List<CardShake> list = new ArrayList<>();
 
 		if(edition==null)
 			return list;
 		
-		
-		
-		if(cacheEditions.get(edition.getId())!=null)
-			return cacheEditions.get(edition.getId());
 		
 		String oldID = edition.getId();
 		String urlEditionChecker = "";
@@ -221,9 +217,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		} catch (IndexOutOfBoundsException e) {
 			logger.error(e);
 		}
-		
-		cacheEditions.put(edition.getId(), list);
-		
 		return list;
 	}
 

@@ -89,12 +89,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+	protected List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
 		connect();
-
-		if(cacheEditions.get(edition.getId())!=null)
-			return cacheEditions.get(edition.getId());
-		
 		List<CardShake> list = new ArrayList<>();
 
 		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(edition.getId());
@@ -118,7 +114,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			}
 			list.add(cs);
 		}
-		cacheEditions.put(edition.getId(), list);
 		return list;
 	}
 

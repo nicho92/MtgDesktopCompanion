@@ -16,8 +16,8 @@ import org.magic.api.beans.MagicEdition;
 public interface MTGDashBoard extends MTGPlugin {
 
 	public List<CardShake> getShakerFor(MTGFormat gameFormat) throws IOException;
-
-	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
+	
+	public List<CardShake> getShakesForEdition(MagicEdition edition) throws IOException;
 
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 

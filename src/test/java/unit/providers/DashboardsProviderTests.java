@@ -83,7 +83,7 @@ public class DashboardsProviderTests {
 			System.out.println("VERS "+p.getVersion());
 			
 			try {
-				p.getShakeForEdition(ed);
+				p.getShakesForEdition(ed);
 				System.out.println("get Shakes for " + ed + " OK");
 			} catch (IOException e) {
 				System.out.println("get Shakes for " + ed + " ERROR "+e);
@@ -107,7 +107,7 @@ public class DashboardsProviderTests {
 			}
 			
 			try {
-				p.getShakeForEdition(ed);
+				p.getShakesForEdition(ed);
 				System.out.println("get Shake for ("+ed+") OK");
 			} catch (IOException e) {
 				System.out.println("get Shake for ("+ed+") ERROR "+e);

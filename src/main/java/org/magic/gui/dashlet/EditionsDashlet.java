@@ -102,7 +102,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 				lblLoading.start();
 				MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 				try {
-					modEdition.init(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(ed));
+					modEdition.init(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed));
 					
 					table.packAll();
 					table.setRowSorter(new TableRowSorter(modEdition));

@@ -374,7 +374,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/dash/edition/:idEd", getString(MIME), (request, response) -> {
 			MagicEdition ed = new MagicEdition();
 			ed.setId(request.params(ID_ED));
-			return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(ed);
+			return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 		}, transformer);
 
 		get("/dash/format/:format", getString(MIME), (request, response) -> MTGControler.getInstance()

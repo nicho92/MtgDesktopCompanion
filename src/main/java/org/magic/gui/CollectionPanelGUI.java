@@ -534,6 +534,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					if (node.getUserObject() instanceof MagicCollection) {
 						JPopupMenu p = new JPopupMenu();
 						JMenuItem it = new JMenuItem("Mass movement");
+						
 						p.add(it);
 
 						it.addActionListener(ae -> {
@@ -768,12 +769,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD_MISSING_CARDS_IN"));
 		JMenu menuItemMove = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MOVE_CARD_TO"));
-		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"));
-		JMenuItem menuItemStocks = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_STOCKS"));
+		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
+		JMenuItem menuItemStocks = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
 		
 		for (MagicCollection mc : dao.listCollections()) {
-			JMenuItem adds = new JMenuItem(mc.getName());
-			JMenuItem movs = new JMenuItem(mc.getName());
+			JMenuItem adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
+			JMenuItem movs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 
 			movs.addActionListener(e -> {
 				DefaultMutableTreeNode nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
@@ -782,9 +783,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				MagicCollection oldCol = (MagicCollection) nodeCol.getUserObject();
 
 				final String collec = ((JMenuItem) e.getSource()).getText();
-				MagicCollection nmagicCol = new MagicCollection();
-				nmagicCol.setName(collec);
-
+				MagicCollection nmagicCol = new MagicCollection(collec);
 				try {
 					dao.moveCard(card, oldCol, nmagicCol);
 					nodeCd.removeFromParent();
@@ -804,8 +803,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
 						MagicEdition me = (MagicEdition) node.getUserObject();
 
-						MagicCollection col = new MagicCollection();
-						col.setName(destinationCollection);
+						MagicCollection col = new MagicCollection(destinationCollection);
 						List<MagicCard> sets = provider.searchCardByEdition(me);
 
 						MagicCollection sourceCol = new MagicCollection(node.getPath()[1].toString());
@@ -853,7 +851,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 		popupMenuEdition.add(menuItemOpen);
 
-		JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"));
+		JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"),MTGConstants.ICON_CHECK);
 		it.addActionListener(e -> {
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();

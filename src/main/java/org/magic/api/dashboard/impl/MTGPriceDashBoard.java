@@ -117,7 +117,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+	protected List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
 
 		String name = convert(edition.getSet()).replaceAll(" ", "_");
 

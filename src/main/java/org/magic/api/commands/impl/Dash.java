@@ -45,7 +45,7 @@ public class Dash extends AbstractCommand {
 		
 		if (cl.hasOption("s") && !cl.hasOption("c")) {
 			MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
-			return new CommandResponse<>(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakeForEdition(ed)));
+			return new CommandResponse<>(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed)));
 		}
 		
 		if (cl.hasOption("c")) {
