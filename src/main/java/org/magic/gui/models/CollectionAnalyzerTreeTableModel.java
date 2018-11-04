@@ -1,16 +1,14 @@
 package org.magic.gui.models;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -18,29 +16,20 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	private static final String[] columnsNames = { "EDITION","PRICE" };
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private CollectionEvaluator evaluator;
-	private List<MagicEdition> editions;
+	private Map<MagicEdition,List<CardShake>> editions;
 	
 	
-	public CollectionAnalyzerTreeTableModel(MagicCollection c) {
+	public CollectionAnalyzerTreeTableModel() {
 		super("T");
-		try {
-			evaluator = new CollectionEvaluator(c);
-			editions = evaluator.getEditions();
-			Collections.sort(editions);
-		} catch (IOException e) {
-			logger.error("couldn't not init evaluator",e);
-		}
+		editions = new TreeMap<>();
 	}
 	
-	public CollectionEvaluator getEvaluator() {
-		return evaluator;
+
+	
+	public void saveRow(MagicEdition ed, List<CardShake> loadFromCache) {
+		editions.put(ed, loadFromCache);
 	}
 	
-	
-	public List<MagicEdition> getEditions() {
-		return editions;
-	}
 	
 	@Override
 	public String getColumnName(int column) {
@@ -59,12 +48,13 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 			switch (column) 
 			{
 				case 0:return node;
-				case 1: return evaluator.total((MagicEdition)node);
+				case 1: return total((MagicEdition)node);
 				default : return "";
 			}
 		}
 		else if(node instanceof CardShake)
 		{
+			
 			switch (column) 
 			{
 				case 0:return node;
@@ -74,19 +64,27 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		}
 		return "";
 	}
+	
+	Double total;
+	private Double total(MagicEdition node) {
+		
+		total=0.0;
+		editions.get(node).forEach(cs->total=total+cs.getPrice());
+		return total;
+		
+	}
 
 	@Override
 	public Object getChild(Object parent, int i) {
 		if (parent instanceof MagicEdition) {
-			List<CardShake> l = new ArrayList<>(evaluator.prices((MagicEdition)parent).values());
-			return l.get(i);
+			return editions.get(parent).get(i);
 		}
-		return editions.get(i);
+		return new ArrayList<>(editions.keySet()).get(i);
 	}
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof MagicEdition) {
-			return evaluator.prices((MagicEdition)parent).size();
+			return editions.get((MagicEdition)parent).size();
 		}
 		return editions.size();
 	}
@@ -111,6 +109,6 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	public boolean isCellEditable(Object node, int column) {
 		return false;
 	}
-	
-	
+
+
 }

@@ -22,10 +22,11 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.utils.patterns.observer.Observable;
 
 import com.google.gson.JsonArray;
 
-public class CollectionEvaluator 
+public class CollectionEvaluator extends Observable
 {
 	private static final String PRICE_JSON = "_price.json";
 	protected static Logger logger = MTGLogger.getLogger(CollectionEvaluator.class);
@@ -33,7 +34,6 @@ public class CollectionEvaluator
 	private File directory;
 	private JsonExport serialiser;
 	private Map<MagicEdition,Map<MagicCard,CardShake>> cache;
-	
 	
 	public File getDirectory() {
 		return directory;
@@ -85,7 +85,6 @@ public class CollectionEvaluator
 	public void initCache(MagicEdition edition,List<CardShake> ret) throws IOException
 	{
 			try {
-				
 				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
 			} catch (IOException e) {
 				logger.error(edition.getId() + " is not found",e);
@@ -159,6 +158,7 @@ public class CollectionEvaluator
 	
 	public synchronized Map<MagicCard,CardShake> prices(MagicEdition ed)
 	{
+		
 		if(cache.get(ed)!=null)
 			return cache.get(ed);
 		
@@ -177,6 +177,7 @@ public class CollectionEvaluator
 			{
 				logger.trace(fich + " is not found for " + ed.getId() +" : " + ed.getSet());
 				list=new ArrayList<>();
+				
 			}	
 			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MagicCard mc : cards) 
@@ -196,6 +197,11 @@ public class CollectionEvaluator
 						ret.put(mc, csn);
 					}
 			}
+			
+			setChanged();
+			notifyObservers(ed);
+			
+			
 		} catch (SQLException e) {
 			logger.error(e);
 		}

@@ -48,7 +48,6 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 			}
 			
 			
-			
 			return l;
 		}
 		return new JLabel();

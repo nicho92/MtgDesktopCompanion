@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.magic.services.MTGControler;
+
 public class MapTableModel<K,V> extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -71,9 +73,16 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 			return super.getColumnClass(columnIndex);
 
 		if(columnIndex==0)
+		{
 			return keys.get(0).getKey().getClass();
+		}
 		else
-			return keys.get(0).getValue().getClass();
+		{
+			if(keys.get(0).getValue()!=null)
+					return keys.get(0).getValue().getClass();
+				else
+					return super.getColumnClass(columnIndex);	
+		}
 	}
 	
 	
@@ -84,7 +93,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		return columnsName[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columnsName[column]);
 	}
 	
 	

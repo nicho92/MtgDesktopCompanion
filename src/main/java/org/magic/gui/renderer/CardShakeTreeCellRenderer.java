@@ -3,22 +3,54 @@ package org.magic.gui.renderer;
 import java.awt.Component;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTable;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
 
+import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MagicEdition;
+import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
+import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
-public class CardShakeTreeCellRenderer extends DefaultTableCellRenderer{
+public class CardShakeTreeCellRenderer extends DefaultTableCellRenderer implements TreeCellRenderer{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private JList defaultJlist;
+	
+	public CardShakeTreeCellRenderer() {
+		defaultJlist=new JList<>();
+	}
+	
+	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		
 		if(value instanceof Double)
 			return new JLabel(UITools.formatDouble((Double)value));
 		
 		return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	}
+
+	@Override
+	public Component getTreeCellRendererComponent(JTree tree,Object value,boolean selected,boolean expanded,boolean leaf,int row,boolean hasFocus) {
+		
+		if(value instanceof MagicEdition)
+			return new MagicEditionIconListRenderer(SIZE.SMALL).getListCellRendererComponent(defaultJlist, (MagicEdition) value, 0, selected, hasFocus);
+		
+		if(value instanceof CardShake)
+		{
+			JLabel l = new JLabel(value.toString());
+			l.setIcon(MTGConstants.ICON_TAB_CARD);
+			return l;
+		}
+		
+		
+		return new JLabel(String.valueOf(value));
+		
+		
 	}
 
 	
