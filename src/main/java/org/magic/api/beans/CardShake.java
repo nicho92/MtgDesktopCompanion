@@ -133,7 +133,7 @@ public class CardShake implements Comparable<CardShake>  {
 
 	@Override
 	public int compareTo(CardShake cs) {
-		return getPrice()>cs.getPrice()?1:-1;
+		return Double.compare(cs.getPrice(),getPrice());
 	}
 
 

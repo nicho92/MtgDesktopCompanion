@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -147,7 +149,10 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				for(MagicEdition ed : eds)
 				{
 					modelCache.addRow(ed, evaluator.getCacheDate(ed));
-					model.saveRow(ed,new ArrayList<>(evaluator.prices(ed).values()));
+					List<CardShake> list = new ArrayList<>(evaluator.prices(ed).values());
+					Collections.sort(list);
+					
+					model.saveRow(ed,list);
 				}
 	
 			lblPrice.setText("Value : " + UITools.formatDouble(evaluator.total()));
