@@ -32,6 +32,7 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.tools.Chrono;
 
 public class JMXServer extends AbstractMTGServer {
 
@@ -50,10 +51,10 @@ public class JMXServer extends AbstractMTGServer {
 	
 	@Override
 	public void start() throws IOException {
+		Chrono c = new Chrono();
+		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
-		
-		try {
-		
+	
 			MTGControler.getInstance().getPlugins(MTGDao.class).forEach(o->{
 				try {
 					names.add(o.getObjectName());
@@ -164,28 +165,22 @@ public class JMXServer extends AbstractMTGServer {
 					logger.error(e);
 				} 
 			});
-			
-			
-			
-		} catch (Exception e) {
-			logger.error(e);
-			throw new IOException(e);
-		}
-		
-		
+			logger.debug(getName() +" started in " + c.stop() +"s.");
 	}
 
 	@Override
 	public void stop() throws IOException {
 		
+		logger.debug(getName() +" is stopping");
 		boolean ok=true;
 		for(ObjectName n : names)
 		{
 			try {
 				mbs.unregisterMBean(n);
+				logger.debug("unloading "+n);
 			} catch (Exception e) {
 				ok=false;
-				logger.error("error unregistration for " + n,e);
+				logger.error("error unloading" + n,e);
 			}
 		}
 		

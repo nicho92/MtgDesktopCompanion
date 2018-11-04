@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.LogTableModel;
+import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGAppender;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -51,6 +52,10 @@ public class ServerStatePanel extends JPanel {
 		init(b,plugin);
 	}
 	
+	public ServerStatePanel() {
+		init(true,new JSONHttpServer());
+	}
+	
 	
 	public ServerStatePanel(MTGServer s) {
 		init(true,s);
@@ -74,9 +79,9 @@ public class ServerStatePanel extends JPanel {
 		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 65, 229, 40, 47, 42, 0, 0, 0 };
+		gridBagLayout.columnWidths = new int[] { 36, 229, 47, 42, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 48, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
@@ -94,23 +99,15 @@ public class ServerStatePanel extends JPanel {
 		GridBagConstraints gbclblalive = new GridBagConstraints();
 		gbclblalive.anchor = GridBagConstraints.WEST;
 		gbclblalive.insets = new Insets(0, 0, 0, 5);
-		gbclblalive.gridx = 3;
+		gbclblalive.gridx = 2;
 		gbclblalive.gridy = 0;
 		add(lblalive, gbclblalive);
-
-		JLabel lblLogs = new JLabel("");
-		GridBagConstraints gbclblLogs = new GridBagConstraints();
-		gbclblLogs.anchor = GridBagConstraints.WEST;
-		gbclblLogs.insets = new Insets(0, 0, 0, 5);
-		gbclblLogs.gridx = 4;
-		gbclblLogs.gridy = 0;
-		add(lblLogs, gbclblLogs);
-
+	
 		btnStartStop = new JButton((server.isAlive() ? "Stop" : "Start"));
 		GridBagConstraints gbcbtnStartStop = new GridBagConstraints();
 		gbcbtnStartStop.anchor = GridBagConstraints.WEST;
 		gbcbtnStartStop.insets = new Insets(0, 0, 0, 5);
-		gbcbtnStartStop.gridx = 5;
+		gbcbtnStartStop.gridx = 3;
 		gbcbtnStartStop.gridy = 0;
 		add(btnStartStop, gbcbtnStartStop);
 	
@@ -128,7 +125,7 @@ public class ServerStatePanel extends JPanel {
 
 			GridBagConstraints gbcscrollPane = new GridBagConstraints();
 			gbcscrollPane.fill = GridBagConstraints.BOTH;
-			gbcscrollPane.gridx = 6;
+			gbcscrollPane.gridx = 4;
 			gbcscrollPane.gridy = 0;
 			add(new JScrollPane(table), gbcscrollPane);
 			
@@ -153,7 +150,7 @@ public class ServerStatePanel extends JPanel {
 					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("START"));
 				}
 				
-					lblalive.setIcon(icons.get(server.isAlive()));
+				lblalive.setIcon(icons.get(server.isAlive()));
 					
 				}
 			
@@ -168,10 +165,10 @@ public class ServerStatePanel extends JPanel {
 					server.stop();
 				else
 					server.start();
-
-				lblLogs.setText("");
+				
+				model.fireTableDataChanged();
 			} catch (Exception e1) {
-				lblLogs.setText(e1.getMessage());
+				model.fireTableDataChanged();
 			}
 
 		});

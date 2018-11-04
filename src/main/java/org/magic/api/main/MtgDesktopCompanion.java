@@ -31,13 +31,13 @@ public class MtgDesktopCompanion {
 
 	public MtgDesktopCompanion() {
 		chrono = new Chrono();
-		chrono.start();
+		
 		launch = new MTGSplashScreen();
 		MTGLogger.getMTGAppender().addObserver(launch);
 		
 		
 		launch.start();
-		
+		chrono.start();
 		try {
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
@@ -46,10 +46,14 @@ public class MtgDesktopCompanion {
 			if (updated)
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize("NEW"), MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
 			
+			
+			
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 			MTGControler.getInstance().getEnabled(MTGDao.class).init();
-
+			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+		
+			
 			logger.info("Init MTG Desktop Companion GUI");
 		} catch (Exception e) {
 			logger.error("Error initialisation", e);
