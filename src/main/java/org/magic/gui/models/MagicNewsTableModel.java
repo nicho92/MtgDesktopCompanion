@@ -18,7 +18,7 @@ public class MagicNewsTableModel extends GenericTableModel<MagicNewsContent> {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return items.get(row).getTitle();
+			return items.get(row);
 		case 1:
 			return items.get(row).getDate();
 		case 2:

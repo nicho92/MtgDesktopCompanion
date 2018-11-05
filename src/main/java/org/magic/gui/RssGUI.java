@@ -178,6 +178,7 @@ public class RssGUI extends MTGUIComponent {
 				if (me.getClickCount() == 2) {
 					try {
 						Desktop.getDesktop().browse(sel.getLink().toURI());
+						
 					} catch (Exception e1) {
 						logger.error(e1);
 					}
@@ -193,7 +194,6 @@ public class RssGUI extends MTGUIComponent {
 							logger.error("Error reading " + sel.getLink(), e);
 							lblLoading.end();
 						}
-
 					}, "reading news "+sel.getLink());
 				}
 			}

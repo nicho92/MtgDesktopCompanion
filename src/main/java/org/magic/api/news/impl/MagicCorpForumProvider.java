@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
+import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
@@ -21,13 +22,16 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	private static final String PAGINATION = "PAGINATION";
 	private String prefixForum = "gathering-forum-viewtopic-";
 
+	
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();
 		int maxpage = 0;
 		Document d = URLTools.extractHtml(n.getUrl());
 		try {
-			maxpage = Integer.parseInt(d.select("a[title=Dernière Page]").first().text());
+			
+			String text = d.select("div.jump_page").text();
+			maxpage = Integer.parseInt(text.substring(text.indexOf('/')+1,text.indexOf('-')).trim());
 		} catch (Exception e) {
 			maxpage = 1;
 		}
