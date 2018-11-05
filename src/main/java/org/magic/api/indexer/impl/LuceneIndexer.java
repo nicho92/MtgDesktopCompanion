@@ -67,7 +67,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		setProperty(MIN_TERM_FREQ, "1");
 		setProperty(FIELDS,"cost,text,color,type,cmc");
 		setProperty(MAX_RESULTS,"20");
-		setProperty(DIRECTORY,Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(), "caches","luceneIndex").toFile().getAbsolutePath());
+		setProperty(DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
 	}
 	
 	public LuceneIndexer() {
