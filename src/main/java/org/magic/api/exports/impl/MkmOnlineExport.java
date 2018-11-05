@@ -116,7 +116,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		for (MagicCard mc : cards)
 		{
 			d.getMap().put(mc, getInt(DEFAULT_QTE));
-			notify(mc);
+		
 		}
 
 		d.setName(f.getName());
