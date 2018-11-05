@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
@@ -599,7 +600,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 	@Override
 	public void initDefault() {
 		setProperty(KEYS.DRIVER.name(), "org.hsqldb.jdbc.JDBCDriver");
-		setProperty(KEYS.URL.name(), confdir.getAbsolutePath() + "/hsqldao");
+		setProperty(KEYS.URL.name(), MTGConstants.DATA_DIR.getAbsolutePath() + "/hsqldao");
 		setProperty(KEYS.DBNAME.name(), "magicjDB");
 		setProperty(KEYS.LOGIN.name(), "SA");
 		setProperty(KEYS.PASS.name(), "");

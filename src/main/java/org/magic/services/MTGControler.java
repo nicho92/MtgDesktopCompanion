@@ -63,11 +63,11 @@ public class MTGControler {
 				logger.error(e1);
 			}
 
-		if(!MTGConstants.CACHE_DIR.exists())
+		if(!MTGConstants.DATA_DIR.exists())
 			try {
-				FileUtils.forceMkdir(MTGConstants.CACHE_DIR);
+				FileUtils.forceMkdir(MTGConstants.DATA_DIR);
 			} catch (IOException e1) {
-				logger.error("error creating " + MTGConstants.CACHE_DIR,e1);
+				logger.error("error creating " + MTGConstants.DATA_DIR,e1);
 			}
 		
 		

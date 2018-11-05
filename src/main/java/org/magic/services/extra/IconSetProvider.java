@@ -41,7 +41,7 @@ public class IconSetProvider {
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		Chrono chrono = new Chrono();
 		
-		localDirectory = new File(MTGConstants.CACHE_DIR, "sets_icons");
+		localDirectory = new File(MTGConstants.DATA_DIR, "sets_icons");
 		
 		initEquiv();
 		
