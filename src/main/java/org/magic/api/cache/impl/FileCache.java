@@ -103,7 +103,7 @@ public class FileCache extends AbstractCacheProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty(DIRECTORY, MTGConstants.CONF_DIR + "/caches/cachePics");
+		setProperty(DIRECTORY, MTGConstants.DATA_DIR + "/cachePics");
 		setProperty(FORMAT, "png");
 
 	}

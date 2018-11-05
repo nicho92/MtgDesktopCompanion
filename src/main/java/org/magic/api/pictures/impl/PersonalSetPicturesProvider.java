@@ -58,7 +58,11 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
 		File mainDir = getFile(PICS_DIR);
-		File edDir = new File(mainDir, ed.getId());
+		File edDir = new File(mainDir,mc.getCurrentSet().getId());
+		if(ed!=null)
+			edDir = new File(mainDir, ed.getId());
+		
+		
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if (edDir.exists())
 		{
@@ -86,7 +90,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void initDefault() {
 		super.initDefault();
 		
-		setProperty(PICS_DIR,Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(),"sets","privatePics").toFile().getAbsolutePath());
+		setProperty(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics").toFile().getAbsolutePath());
 		setProperty(FORMAT,"PNG");
 	}
 

@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 
@@ -33,7 +34,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	private String ext = ".json";
 	private File setDirectory;
-	
 	
 	public void removeEdition(MagicEdition me) {
 		File f = new File(setDirectory, me.getId() + ext);
@@ -67,8 +67,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		JsonReader reader = new JsonReader(fr);
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray arr = (JsonArray) root.get(CARDS);
-		Type listType = new TypeToken<ArrayList<MagicCard>>() {
-		}.getType();
+		Type listType = new TypeToken<ArrayList<MagicCard>>() {}.getType();
 		fr.close();
 		reader.close();
 		return new Gson().fromJson(arr, listType);
@@ -175,6 +174,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
+		return getCards(ed);
+	}
+	
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
@@ -198,7 +203,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		try {
 			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error loading " + mc +" " + att +" " + val,e);
 			return false;
 		}
 	}
@@ -273,7 +278,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("DIRECTORY",new File(MTGConstants.CONF_DIR, "sets").getAbsolutePath());
+		setProperty("DIRECTORY",new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
 	}
 	
 
