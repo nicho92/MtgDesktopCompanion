@@ -58,7 +58,7 @@ public class CollectionEvaluator extends Observable
 	private void init() throws IOException
 	{
 		cache = new HashMap<>();
-		directory = Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(), "caches","prices").toFile();
+		directory = Paths.get(MTGConstants.CACHE_DIR.getAbsolutePath(), "prices").toFile();
 		if(!directory.exists())
 			FileUtils.forceMkdir(directory);
 	

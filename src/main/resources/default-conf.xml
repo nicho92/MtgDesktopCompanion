@@ -27,8 +27,10 @@
     <default-land-deck>XLN</default-land-deck>
     <min-price-alert>1</min-price-alert>
     <debug-json-panel>true</debug-json-panel>
-    <lookAndFeel>javax.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
+    <lookAndFeel></lookAndFeel>
     <locale>en</locale>
+    <currencylayer-access-api></currencylayer-access-api>
+    <currency>USD</currency>
     <card-pictures-dimension>
          <width>336</width>
          <height>468</height>

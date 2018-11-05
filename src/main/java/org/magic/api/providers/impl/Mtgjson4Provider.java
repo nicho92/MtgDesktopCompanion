@@ -81,9 +81,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private static final String NAMES = "names";
 
 	
-	private File fileSetJsonTemp = new File(confdir, "AllSets-x.json4.zip");
-	private File fileSetJson = new File(confdir, "AllSets-x4.json");
-	private File fversion = new File(confdir, "version4");
+	private File fileSetJsonTemp = new File(MTGConstants.CACHE_DIR, "AllSets-x.json4.zip");
+	private File fileSetJson = new File(MTGConstants.CACHE_DIR, "AllSets-x4.json");
+	private File fversion = new File(MTGConstants.CACHE_DIR, "version4");
 	private String version;
 	private Chrono chrono;
 	private ReadContext ctx;

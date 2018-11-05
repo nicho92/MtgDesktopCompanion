@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -19,11 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import org.eclipse.jetty.server.LocalConnector;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
@@ -43,7 +47,9 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
-
+	private Currency currency=Currency.getInstance("USD");
+	
+	
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -117,6 +123,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 						if(!css.isEmpty())
 						{	
 							modelCache.updateRow(ed, css.get(0).getDateUpdate());
+							currency = css.get(0).getCurrency();
 						 	buzy.progress();
 						}
 					} catch (Exception e) {
@@ -155,7 +162,19 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					model.saveRow(ed,list);
 				}
 	
-			lblPrice.setText("Value : " + UITools.formatDouble(evaluator.total()));
+			Double total = evaluator.total();
+			String curr = MTGControler.getInstance().get("currency");
+			if(!curr.isEmpty())
+			{
+				lblPrice.setText("Value : " + UITools.formatDouble(MTGControler.getInstance().getCurrencyService().convert(currency.getCurrencyCode(), curr, total)) +" " + curr);
+			}
+			else
+			{
+				lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + currency.getCurrencyCode());
+			}
+			
+			
+			
 			buzy.end();
 			treeTable.setTreeTableModel(model);
 			

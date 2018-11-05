@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.hsqldb.lib.FileUtil;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
@@ -62,6 +63,15 @@ public class MTGControler {
 				logger.error(e1);
 			}
 
+		if(!MTGConstants.CACHE_DIR.exists())
+			try {
+				FileUtils.forceMkdir(MTGConstants.CACHE_DIR);
+			} catch (IOException e1) {
+				logger.error("error creating " + MTGConstants.CACHE_DIR,e1);
+			}
+		
+		
+		
 		Parameters params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class).configure(params.xml()
 				.setFile(conf).setSchemaValidation(false)
@@ -303,11 +313,6 @@ public class MTGControler {
 
 	}
 	
-
-	@SuppressWarnings("unchecked")
-	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
-		return PluginRegistry.inst().getPlugin(name,type);
-	}
 	
 	
 	public void notify(MTGNotification notif)
@@ -322,6 +327,12 @@ public class MTGControler {
 		}
 	}
 	
+
+
+	@SuppressWarnings("unchecked")
+	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
+		return PluginRegistry.inst().getPlugin(name,type);
+	}
 
 	
 	public <T extends MTGPlugin> List<T> getPlugins(Class<T> t)

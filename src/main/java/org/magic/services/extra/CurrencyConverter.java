@@ -27,7 +27,7 @@ public class CurrencyConverter {
 	public CurrencyConverter(String token) {
 		this.token=token;
 		map = new HashMap<>();
-		cache=Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(),"caches","conversionData.json").toFile();
+		cache=Paths.get(MTGConstants.CACHE_DIR.getAbsolutePath(),"conversionData.json").toFile();
 		init();
 	}
 	

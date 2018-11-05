@@ -47,7 +47,7 @@ public class JCSCache extends AbstractCacheProvider {
 		setProperty("jcs.default.outputCache.cacheattributes.DiskUsagePatternName","UPDATE");
 		setProperty("jcs.auxiliary.DC","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory");
 		setProperty("jcs.auxiliary.DC.attributes","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes");
-		setProperty("jcs.auxiliary.DC.attributes.DiskPath",MTGConstants.CONF_DIR + "/caches/jcsCache");
+		setProperty("jcs.auxiliary.DC.attributes.DiskPath",MTGConstants.CACHE_DIR + "/caches/jcsCache");
 		setProperty("jcs.auxiliary.DC.attributes.MaxPurgatorySize","10000000");
 		setProperty("jcs.auxiliary.DC.attributes.MaxKeySize","1000000");
 		setProperty("jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount","300000");
