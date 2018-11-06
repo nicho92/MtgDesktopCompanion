@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import javax.imageio.ImageIO;
 import javax.net.ssl.SSLHandshakeException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,10 +26,10 @@ public class URLTools {
 	
 	public static final String HEADER_JSON="application/json";
 	
-	
-
 	private URLTools() 
-	{}
+	{
+			
+	}
 	
 	public static HttpURLConnection openConnection(String url) throws IOException {
 		return openConnection(new URL(url));
@@ -46,14 +46,13 @@ public class URLTools {
 			connection.setRequestProperty("User-Agent", userAgent);
 			connection.setAllowUserInteraction(true);
 			connection.setInstanceFollowRedirects(true);
-			isCorrectConnection(connection);
+			int status = connection.getResponseCode();
 			
+			if (!isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM|| status == HttpURLConnection.HTTP_SEE_OTHER)) {
+				return getConnection(connection.getHeaderField("Location"));
+			}
 			logger.trace("get stream from " + url + " " + connection.getResponseCode());
-			
-			
-			
 			return connection;
-		
 		}
 		catch(SSLHandshakeException e)
 		{
@@ -131,11 +130,9 @@ public class URLTools {
 				{
 					if(connection.getErrorStream()!=null)
 						logger.trace(IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
-					
+
 					return false;
 				}
-					
-					
 			} catch (IOException e) {
 				logger.error(e);
 				return false;
