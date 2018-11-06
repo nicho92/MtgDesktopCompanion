@@ -44,6 +44,9 @@ public class MTGConstants {
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36";
+	public static final String USER_AGENT_MOBILE="Mozilla/5.0 (Linux; U; Android 4.0.3; de-ch; HTC Sensation Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30";
+	
+	
 	public static final String DEFAULT_ENCODING="UTF-8";
 	
 	public static final int DEFAULT_PIC_WIDTH = 223;

@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.IOException;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public interface MTGDashBoard extends MTGPlugin {
 	public String[] getDominanceFilters();
 	
 	public Icon getIcon();
+	
+	public Currency getCurrency();
 	
 
 }

@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,12 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
 
 	protected CollectionEvaluator evaluator;
-	
-	
 	protected abstract List<CardShake> getShakeForEdition(MagicEdition ed) throws IOException;
-	
+	 
+	@Override
+	public Currency getCurrency() {
+		return Currency.getInstance("USD");
+	}
 	
 	@Override
 	public PLUGINS getType() {

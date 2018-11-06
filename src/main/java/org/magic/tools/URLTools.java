@@ -36,16 +36,16 @@ public class URLTools {
 	}
 	
 	public static HttpURLConnection getConnection(String url) throws IOException {
-		return getConnection(new URL(url));
+		return getConnection(new URL(url),MTGConstants.USER_AGENT);
 	}
 	
-	public static HttpURLConnection getConnection(URL url) throws IOException {
+	public static HttpURLConnection getConnection(URL url,String userAgent) throws IOException {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try{
 			
-			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+			connection.setRequestProperty("User-Agent", userAgent);
+			connection.setAllowUserInteraction(true);
 			connection.setInstanceFollowRedirects(true);
-			
 			isCorrectConnection(connection);
 			
 			logger.trace("get stream from " + url + " " + connection.getResponseCode());
@@ -64,7 +64,7 @@ public class URLTools {
 	
 	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
-		HttpURLConnection con = getConnection(url);
+		HttpURLConnection con = getConnection(url,MTGConstants.USER_AGENT);
 		con.connect();
 		return con;
 	}
@@ -119,6 +119,8 @@ public class URLTools {
 
 	public static boolean isCorrectConnection(HttpURLConnection connection) {
 			try {
+				
+				connection.getHeaderFields().entrySet().forEach(e->logger.trace(e.getKey() +" " + e.getValue()));
 				
 				int resp=connection.getResponseCode();
 				if(resp >= 200 && resp < 300)

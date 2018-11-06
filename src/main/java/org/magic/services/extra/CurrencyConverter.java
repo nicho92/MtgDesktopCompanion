@@ -10,6 +10,7 @@ import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
 
@@ -30,6 +31,21 @@ public class CurrencyConverter {
 		cache=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"conversionData.json").toFile();
 		init();
 	}
+	
+	public Currency getCurrentCurrency()
+	{
+		if(!MTGControler.getInstance().get("currency").isEmpty())
+			return Currency.getInstance(MTGControler.getInstance().get("currency"));
+		else
+			return Currency.getInstance(MTGControler.getInstance().getLocale());
+	}
+	
+	public Double convertTo(Currency from, double value)
+	{
+		return convert(from.getCurrencyCode(),getCurrentCurrency().getCurrencyCode(), value);
+	}
+	
+	
 	
 	public Double convert(Currency from, Currency to, double value)
 	{

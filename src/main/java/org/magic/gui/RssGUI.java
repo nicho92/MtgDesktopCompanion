@@ -6,10 +6,16 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,6 +28,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.fit.cssbox.swingbox.BrowserPane;
+import org.fit.net.DataURLHandler;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
@@ -35,6 +42,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
+import org.magic.tools.URLTools;
 
 public class RssGUI extends MTGUIComponent {
 	
@@ -69,7 +77,14 @@ public class RssGUI extends MTGUIComponent {
 		tree = new JTree();
 		JSplitPane splitNews = new JSplitPane();
 		JScrollPane scrollEditor = new JScrollPane();
-		editorPane = new BrowserPane();
+		editorPane = new BrowserPane() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected InputStream getStream(URL page) throws IOException {
+				return URLTools.getConnection(page,MTGConstants.USER_AGENT_MOBILE).getInputStream();
+			}
+		};
+		
 		JSplitPane splitTreeTable = new JSplitPane();
 		JPanel leftPanel = new JPanel();
 		JScrollPane scrollTree = new JScrollPane();
@@ -187,6 +202,7 @@ public class RssGUI extends MTGUIComponent {
 						lblLoading.start();
 						try {
 							logger.debug("loading " + sel.getLink());
+							
 							editorPane.setPage(sel.getLink());
 							editorPane.setCaretPosition(0);
 							lblLoading.end();
@@ -203,14 +219,16 @@ public class RssGUI extends MTGUIComponent {
 
 	private void initTree() {
 		rootNode.removeAllChildren();
-		for (MagicNews cat : MTGControler.getInstance().getEnabled(MTGDao.class).listNews())
-			add(cat.getCategorie(), cat);
+		
+		ThreadManager.getInstance().execute(()->{
+				for (MagicNews cat : MTGControler.getInstance().getEnabled(MTGDao.class).listNews())
+					add(cat.getCategorie(), cat);
 
-		((DefaultTreeModel) tree.getModel()).reload();
+				((DefaultTreeModel) tree.getModel()).reload();
 
-		for (int i = 0; i < tree.getRowCount(); i++)
-			tree.expandRow(i + 1);
-
+				for (int i = 0; i < tree.getRowCount(); i++)
+					tree.expandRow(i + 1);
+		},"Loading News Tree");
 	}
 
 	private void add(String cat, MagicNews n) {

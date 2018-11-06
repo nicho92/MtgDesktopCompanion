@@ -47,8 +47,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
-	private Currency currency=Currency.getInstance("USD");
-	
 	
 	@Override
 	public void initGUI() {
@@ -123,7 +121,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 						if(!css.isEmpty())
 						{	
 							modelCache.updateRow(ed, css.get(0).getDateUpdate());
-							currency = css.get(0).getCurrency();
 						 	buzy.progress();
 						}
 					} catch (Exception e) {
@@ -163,15 +160,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				}
 	
 			Double total = evaluator.total();
-			String curr = MTGControler.getInstance().get("currency");
-			if(!curr.isEmpty())
-			{
-				lblPrice.setText("Value : " + UITools.formatDouble(MTGControler.getInstance().getCurrencyService().convert(currency.getCurrencyCode(), curr, total)) +" " + curr);
-			}
-			else
-			{
-				lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + currency.getCurrencyCode());
-			}
+			lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency().getCurrencyCode());
 			
 			
 			
