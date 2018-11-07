@@ -4,9 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.net.ssl.SSLHandshakeException;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Level;
@@ -15,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.xml.sax.SAXException;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -84,7 +88,19 @@ public class URLTools {
 		return toHtml(extractAsString(url));
 	}
 	
+	public static org.w3c.dom.Document extractXML(String url)  throws IOException
+	{
+		return extractXML(new URL(url));
+	}
 	
+	private static org.w3c.dom.Document extractXML(URL url) throws IOException {
+		try {
+			return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(openConnection(url).getInputStream());
+		} catch (Exception e) {
+			throw new IOException(e);
+		} 
+	}
+
 	public static Document extractHtml(String url) throws IOException
 	{
 		return extractHtml(new URL(url));

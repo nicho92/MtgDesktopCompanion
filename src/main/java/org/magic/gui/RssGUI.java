@@ -81,7 +81,7 @@ public class RssGUI extends MTGUIComponent {
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected InputStream getStream(URL page) throws IOException {
-				return URLTools.getConnection(page,MTGConstants.USER_AGENT_MOBILE).getInputStream();
+				return URLTools.getConnection(page,MTGConstants.USER_AGENT).getInputStream();
 			}
 		};
 		

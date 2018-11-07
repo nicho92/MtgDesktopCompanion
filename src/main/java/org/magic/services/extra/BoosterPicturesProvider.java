@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -24,8 +22,6 @@ import org.w3c.dom.NodeList;
 
 public class BoosterPicturesProvider {
 
-	private DocumentBuilderFactory builderFactory;
-	private DocumentBuilder builder;
 	private Document document;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
@@ -33,12 +29,9 @@ public class BoosterPicturesProvider {
 	
 	public BoosterPicturesProvider() {
 		
-		
-		builderFactory = DocumentBuilderFactory.newInstance();
 		try {
-			builder = builderFactory.newDocumentBuilder();
 			logger.debug("Loading booster pics");
-			document = builder.parse(MTGConstants.MTG_BOOSTERS_LOCAL_URI.openStream());
+			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();
 		} catch (Exception e) {
