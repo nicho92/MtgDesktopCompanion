@@ -39,8 +39,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		return MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE");
 	}
 	
-	
-	
 	public DashBoardGUI2() {
 		desktop = new JDesktopPane();
 		

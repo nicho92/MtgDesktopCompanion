@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
@@ -97,7 +98,7 @@ public class CurrencyConverter {
 			{
 				
 				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from website");
-				JsonElement parse = new JsonParser().parse(new InputStreamReader(URLTools.openConnection("http://apilayer.net/api/live?access_key="+token).getInputStream()));
+				JsonElement parse = URLTools.extractJson("http://apilayer.net/api/live?access_key="+token);
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 				FileUtils.writeStringToFile(cache, obj.toString(), MTGConstants.DEFAULT_ENCODING);
 				logger.debug(cache.getAbsolutePath() + " created");

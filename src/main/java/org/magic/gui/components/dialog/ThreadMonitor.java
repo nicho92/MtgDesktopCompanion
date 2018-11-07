@@ -97,10 +97,5 @@ public class ThreadMonitor extends MTGUIComponent  {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_ADMIN;
 	}
-
-	private double format(long init) {
-		return (init / (1024 * 1024));
-	}
-	
 	
 }

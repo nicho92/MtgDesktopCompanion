@@ -18,6 +18,7 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
 
 	protected JsonExport serialiser;
+	
 	protected List<MagicCardAlert> listAlerts;
 
 	protected abstract void initAlerts();

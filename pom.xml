@@ -329,6 +329,12 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.8.0-beta2</version>
 		</dependency> -->
+		<!--  
+		<dependency>
+		    <groupId>org.bidib.org.oxbow</groupId>
+		    <artifactId>swingbits</artifactId>
+		    <version>1.2.2</version>
+		</dependency>-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -339,12 +345,6 @@
 			<artifactId>swingx-all</artifactId>
 			<version>1.6.5-1</version>
 		</dependency>
-		<!--  
-		<dependency>
-		    <groupId>org.bidib.org.oxbow</groupId>
-		    <artifactId>swingbits</artifactId>
-		    <version>1.2.2</version>
-		</dependency>-->
 		<dependency>
 			<groupId>net.coderazzi</groupId>
 			<artifactId>tablefilter-swing</artifactId>
@@ -358,7 +358,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-        <version>3.8.2</version>
+        <version>3.9.0</version>
     </dependency>
 	<dependency>
     	<groupId>org.apache.commons</groupId>

@@ -17,7 +17,6 @@ import org.magic.console.CommandResponse;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -54,7 +53,7 @@ public class Collection extends AbstractCommand {
 			JsonArray arr =new JsonArray();
 			for (MagicEdition ed : eds) {
 				JsonObject obj = new JsonObject();
-				obj.add("edition", new Gson().toJsonTree(ed));
+				obj.add("edition", json.toJsonElement(ed));
 				obj.addProperty("release", ed.getReleaseDate());
 				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 				obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));

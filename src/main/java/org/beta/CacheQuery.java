@@ -1,30 +1,35 @@
 package org.beta;
 
+import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.CacheManagerBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicEdition;
+
 
 public class CacheQuery {
-	CacheManager cacheManager;
-	public enum CACHE { CARDS,ALERTS,STOCKS,SHAKE}
 
-	public CacheQuery() {
+	private CacheManager cacheManager;
+	private Cache<String, MagicEdition> cacheEditions;
+	private int heapPool=10;
+	
+	
+	public CacheQuery() 
+	{
 		cacheManager = CacheManagerBuilder.newCacheManagerBuilder() 
-			    .withCache(CACHE.CARDS.name(),CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, MagicCard.class, ResourcePoolsBuilder.heap(10))) 
-			    .withCache(CACHE.ALERTS.name(),CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, MagicCardAlert.class, ResourcePoolsBuilder.heap(10)))
-			    .withCache(CACHE.STOCKS.name(),CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, MagicCardStock.class, ResourcePoolsBuilder.heap(10)))
-			    .withCache(CACHE.SHAKE.name(),CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, CardShake.class, ResourcePoolsBuilder.heap(10)))
-			    .build(); 
+			    .withCache("editions",CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, MagicEdition.class, ResourcePoolsBuilder.heap(heapPool))) 
+			    .build();
 		
 		cacheManager.init();
+		cacheEditions = cacheManager.getCache("editions", String.class, MagicEdition.class);
 	}
 	
 	
+	public void putEdition(MagicEdition ed)
+	{
+		cacheEditions.put(ed.getId(), ed);
+	}
 	
 	
 	
