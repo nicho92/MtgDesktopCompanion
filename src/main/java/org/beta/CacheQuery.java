@@ -26,6 +26,8 @@ public class CacheQuery {
 	}
 	
 	
+	
+	
 	public void putEdition(MagicEdition ed)
 	{
 		cacheEditions.put(ed.getId(), ed);

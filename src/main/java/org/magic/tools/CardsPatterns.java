@@ -12,7 +12,9 @@ public enum CardsPatterns {
 	REMINDER					("(?:\\(.+?\\))"),
 	TRIGGER_ENTERS_BATTLEFIELD	("(.*?) enters the battlefield"),
 	CREATE_TOKEN 				("[Cc]reate[s]? (.*?) token[s]?"),
-	CREATE_EMBLEM 				("You get an emblem with (.*?)");
+	CREATE_EMBLEM 				("You get an emblem with (.*?)"),
+	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?[a-z]?");
+	
 	
 	private String pattern = "";
 	

@@ -112,14 +112,24 @@ public class URLTools {
 		return new JsonParser().parse(reader);
 	}
 	
-	public static String extractAsString(String url) throws IOException
+	public static String extractAsString(String url,String enc) throws IOException
 	{
-		return extractAsString(new URL(url)); 
+		return extractAsString(new URL(url),enc); 
 	}
 	
 	public static String extractAsString(URL url) throws IOException
 	{
-		return IOUtils.toString(openConnection(url).getInputStream(), MTGConstants.DEFAULT_ENCODING); 
+		return extractAsString(url,MTGConstants.DEFAULT_ENCODING); 
+	}
+	
+	public static String extractAsString(String url) throws IOException
+	{
+		return extractAsString(new URL(url),MTGConstants.DEFAULT_ENCODING); 
+	}
+	
+	public static String extractAsString(URL url,String enc) throws IOException
+	{
+		return IOUtils.toString(openConnection(url).getInputStream(), enc); 
 	}
 
 	public static BufferedImage extractImage(String url) throws IOException
