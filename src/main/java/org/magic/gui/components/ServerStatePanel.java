@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.SystemColor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -14,20 +15,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.LogTableModel;
 import org.magic.servers.impl.JSONHttpServer;
-import org.magic.services.MTGAppender;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
-import javax.swing.border.LineBorder;
-import java.awt.SystemColor;
 
 public class ServerStatePanel extends JPanel {
 
@@ -39,8 +36,6 @@ public class ServerStatePanel extends JPanel {
 	private Map<Boolean, ImageIcon> icons;
 	private JButton btnStartStop;
 	private JLabel lblalive;
-	
-	private JXTable table;
 	private LogTableModel model; 
 	
 	public MTGServer getServer() {
@@ -115,7 +110,7 @@ public class ServerStatePanel extends JPanel {
 		{
 			
 			model = new LogTableModel();
-			table = new JXTable();
+			JXTable table = new JXTable();
 			table.setModel(model);
 			table.getColumnExt(model.getColumnName(0)).setVisible(false);
 			table.getColumnExt(model.getColumnName(1)).setVisible(false);

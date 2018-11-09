@@ -5,13 +5,9 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -19,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
-import org.eclipse.jetty.server.LocalConnector;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
@@ -42,7 +36,6 @@ import org.magic.tools.UITools;
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;
-	private transient CollectionAnalyzerTreeTableModel model;
 	private JLabel lblPrice;
 	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
@@ -139,7 +132,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		model = new CollectionAnalyzerTreeTableModel();
+		CollectionAnalyzerTreeTableModel model = new CollectionAnalyzerTreeTableModel();
 		modelCache.removeAll();
 		ThreadManager.getInstance().execute(()->{
 			

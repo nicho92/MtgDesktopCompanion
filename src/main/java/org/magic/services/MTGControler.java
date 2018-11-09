@@ -19,7 +19,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
-import org.hsqldb.lib.FileUtil;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;

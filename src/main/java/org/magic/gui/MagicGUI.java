@@ -131,20 +131,13 @@ public class MagicGUI extends JFrame {
 		});
 		
 		
-		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
-			MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true);
-		}));
-		
+		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true)));
 
-		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
-			MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true);
-		}));
+		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true)));
 
 		mntmThreadItem.addActionListener(e ->
 
-		ThreadManager.getInstance().runInEdt(() -> {
-			MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true);
-		}));
+		ThreadManager.getInstance().runInEdt(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true)));
 
 		mntmExit.addActionListener(e -> System.exit(0));
 

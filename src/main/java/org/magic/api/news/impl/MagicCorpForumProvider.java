@@ -13,7 +13,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 public class MagicCorpForumProvider extends AbstractMagicNewsProvider {

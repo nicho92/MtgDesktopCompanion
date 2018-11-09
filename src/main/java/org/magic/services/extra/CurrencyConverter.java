@@ -2,10 +2,8 @@ package org.magic.services.extra;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.Currency;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;

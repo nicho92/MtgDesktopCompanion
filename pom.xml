@@ -82,11 +82,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/laf-plugin.jar</systemPath>
 		</dependency>
-		<dependency>
-		    <groupId>org.ehcache</groupId>
-		    <artifactId>ehcache</artifactId>
-		    <version>3.6.1</version>
-		</dependency>
+
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-jcs-jcache</artifactId>
@@ -335,6 +331,11 @@
 		    <artifactId>swingbits</artifactId>
 		    <version>1.2.2</version>
 		</dependency>-->
+		<!-- <dependency>
+		    <groupId>org.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		    <version>3.6.1</version>
+		</dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>

@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.CardShake;

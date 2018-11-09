@@ -100,7 +100,7 @@ public class ManualImportDialog extends JDialog {
 					logger.error("Error loading key enter",e1);
 				}
 				
-			}; 
+			} 
 		});
 		
 		

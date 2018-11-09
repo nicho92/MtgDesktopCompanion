@@ -18,12 +18,12 @@ import org.magic.tools.ImageTools;
 public class JCSCache extends AbstractCacheProvider {
 	
 	
-	private CacheAccess<String, byte[]> cache;
+	private CacheAccess<String, byte[]> picturesCache;
 	
 	public JCSCache() {
 		super();
 		JCS.setConfigProperties(props);
-		cache = JCS.getInstance("default");
+		picturesCache = JCS.getInstance("default");
 	}
 	
 	
@@ -65,16 +65,16 @@ public class JCSCache extends AbstractCacheProvider {
 		if (ed == null)
 			ed = mc.getCurrentSet();
 
-		return ImageTools.fromByteArray(cache.get(generateIdIndex(mc, ed)));
+		return ImageTools.fromByteArray(picturesCache.get(generateIdIndex(mc, ed)));
 	}
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
 		logger.debug("put " + mc + " in cache");
 		if (ed == null)
-			cache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageTools.toByteArray(im));
+			picturesCache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageTools.toByteArray(im));
 		else
-			cache.put(generateIdIndex(mc, ed), ImageTools.toByteArray(im));
+			picturesCache.put(generateIdIndex(mc, ed), ImageTools.toByteArray(im));
 
 	}
 	
@@ -87,7 +87,7 @@ public class JCSCache extends AbstractCacheProvider {
 
 	@Override
 	public void clear() {
-		cache.clear();
+		picturesCache.clear();
 
 	}
 

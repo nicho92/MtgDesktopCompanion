@@ -62,7 +62,8 @@ public class RulesParser {
 				}
 				else
 				{
-					rn.addLine(line);
+					if(rn!=null)
+						rn.addLine(line);
 				}
 				
 				System.out.println(rn +" " + rn.getData().size());

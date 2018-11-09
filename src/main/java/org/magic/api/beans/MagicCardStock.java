@@ -18,6 +18,13 @@ public class MagicCardStock implements Serializable{
 	private double price=0.0;
 	private boolean oversize=false;
 	
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+	
 	public double getPrice() {
 		return price;
 	}
