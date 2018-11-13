@@ -54,12 +54,12 @@ public class ChromeDownloader extends JDialog {
 		JPanel panelButtons = new JPanel();
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
 		
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton(MTGConstants.ICON_DELETE);
 		btnCancel.addActionListener(ae->dispose());
 		
 		panelButtons.add(btnCancel);
 		
-		JButton btnExport = new JButton("Export");
+		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnExport.addActionListener(e-> {
 			try {
 				FileUtils.copyDirectoryToDirectory(new File(MTGConstants.MTG_CHROME_PLUGIN.toURI()), new File(txtDirectory.getText()));
