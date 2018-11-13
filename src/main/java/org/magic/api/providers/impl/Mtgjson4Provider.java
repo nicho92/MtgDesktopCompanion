@@ -79,13 +79,16 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private static final String NAMES = "names";
 
-	private static final String URL_VERSION = "https://mtgjson.com/v4/json/version.json";
-	private static final String URL_JSON_DOWNLOAD = "https://mtgjson.com/v4/json/AllSets.json";
-	private static final String URL_SETS_LIST="https://mtgjson.com/v4/json/SetList.json";
+	public static final String URL_JSON_VERSION = "https://mtgjson.com/v4/json/version.json";
+	public static final String URL_JSON_ALL_SETS = "https://mtgjson.com/v4/json/AllSets.json";
+	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/v4/json/SetList.json";
+	public static final String URL_JSON_KEYWORDS="https://mtgjson.com/v4/json/Keywords.json";
+	
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR, "AllSets-x.json4.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
 	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
+	
 	private String version;
 	private Chrono chrono;
 	private ReadContext ctx;
@@ -96,34 +99,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		if(CacheProvider.getCache()==null)
 			CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
 		
-	}
-
-	private void unZipIt() {
-
-		byte[] buffer = new byte[1024];
-
-		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(fileSetJsonTemp))) {
-
-			ZipEntry ze = zis.getNextEntry();
-
-			while (ze != null) {
-				logger.info(this + " unzip : " + fileSetJson.getAbsoluteFile());
-
-				try (FileOutputStream fos = new FileOutputStream(fileSetJson)) {
-					int len;
-					while ((len = zis.read(buffer)) > 0) {
-						fos.write(buffer, 0, len);
-					}
-					ze = zis.getNextEntry();
-				}
-			}
-		} catch (IOException ex) {
-			logger.error(ex);
-		}
-
-		boolean del = FileUtils.deleteQuietly(fileSetJsonTemp);
-		logger.debug("remove " + fileSetJsonTemp + "=" + del);
-
 	}
 
 	private boolean hasNewVersion() {
@@ -143,7 +118,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			try {
 			logger.debug("check new version of " + toString() + " (" + temp + ")");
 
-			JsonElement d = URLTools.extractJson(URL_VERSION);
+			JsonElement d = URLTools.extractJson(URL_JSON_VERSION);
 			version = d.getAsJsonObject().get("version").getAsString();
 			if (!version.equals(temp)) {
 				logger.info("new version datafile exist (" + version + "). Downloading it");
@@ -195,12 +170,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_DOWNLOAD).getInputStream(),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_ALL_SETS).getInputStream(),fileSetJsonTemp);
 			//	unZipIt();
 				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
 			}
 			else if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_DOWNLOAD).getInputStream(),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_ALL_SETS).getInputStream(),fileSetJsonTemp);
 				//unZipIt();
 				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
 			}
@@ -388,6 +363,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 									   
 									   if (mapNames.get(MULTIVERSE_ID) != null)
 										   fnames.setGathererId((int) (double) mapNames.get(MULTIVERSE_ID));
+									   
+									   if (mapNames.get(FLAVOR_TEXT) != null)
+										   fnames.setFlavor(String.valueOf(mapNames.get(FLAVOR_TEXT)));
+									   
 			
 						mc.getForeignNames().add(fnames);
 					}
@@ -515,7 +494,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 		try {		
 		
-		URLTools.extractJson(URL_SETS_LIST).getAsJsonArray().forEach(e->{
+		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonArray().forEach(e->{
 			String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
 			cacheEditions.put(codeedition, getSetById(codeedition));
 		});
@@ -523,7 +502,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}catch(Exception ex)
 		{
 			
-			logger.error("Error loading set List from " + URL_SETS_LIST +". Loading manually");
+			logger.error("Error loading set List from " + URL_JSON_SETS_LIST +". Loading manually");
 			final List<String> codeEd = new ArrayList<>();
 			ctx.withListeners(fr -> {
 				if (fr.path().startsWith("$"))
@@ -648,7 +627,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getLanguages() {
-		return new String[] { "English","French","Italian","German","Portuguese (Brazil)"  };
+		return new String[] { "English", "Spanish", "French", "German", "Italian", "Portuguese", "Japanese", "Korean", "Russian", "Simplified Chinese","Traditional Chinese","Hebrew","Latin","Ancient Greek", "Arabic", "Sanskrit","Phyrexian" };
 	}
 
 	@Override

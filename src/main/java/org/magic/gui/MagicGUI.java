@@ -99,14 +99,14 @@ public class MagicGUI extends JFrame {
 
 		mnFile = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("FILE"));
 		mnuAbout = new JMenu("?");
+		
+		mntmExit = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("EXIT"),MTGConstants.ICON_EXIT);
 
-		mntmExit = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("EXIT"));
-
-		JMenuItem mntmHelp = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("READ_MANUAL"));
+		JMenuItem mntmHelp = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
 		JMenuItem mntmThreadItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("THREADS"),MTGConstants.ICON_CONFIG);
 		JMenuItem mntmLogsItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("LOGS"),MTGConstants.ICON_CONFIG);
 		JMenuItem mntmAboutMagicDesktop = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
-		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
+		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
 		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"),MTGConstants.ICON_OPEN);
 		JMenuItem mntmFileTagEditor = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		JMenuItem mntmFileChromePlugin = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);

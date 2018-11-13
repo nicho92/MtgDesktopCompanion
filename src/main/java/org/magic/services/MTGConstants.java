@@ -23,7 +23,6 @@ public class MTGConstants {
 	}
 	public static final String SSL_PROTO = "TLS";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
-	public static final String JSON_KEYWORDS = "/data/keywords.json";
 	public static final File CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.CONF_DIR, "decks");
@@ -122,6 +121,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SEARCH = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/search.png"));
 	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
 
+	public static final ImageIcon ICON_EXIT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/exit.png"));
+	public static final ImageIcon ICON_HELP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/help.png"));
+	public static final ImageIcon ICON_BUG = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/bug.png"));
 	public static final ImageIcon ICON_CANCEL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/back.png"));
 	public static final ImageIcon ICON_BINDERS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/binders.png"));
 	public static final ImageIcon ICON_COLLECTION = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/collection.png"));

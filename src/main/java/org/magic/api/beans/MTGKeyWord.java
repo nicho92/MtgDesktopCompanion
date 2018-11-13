@@ -8,24 +8,24 @@ public class MTGKeyWord implements Serializable{
 		ABILITIES, ACTION, WORD
 	}
 
-	public enum SUBTYPE {
-		EVERGREEN, OTHER
-	}
-
 	public enum EVENT {
-		SPELL, STATIC, ACTIVATED, TRIGGERED, ACTION, ABILITY
+		STATIC, ACTIVATED, TRIGGERED, ABILITY
 	}
 
 	private String keyword;
 	private String description;
 
 	private TYPE type;
-	private SUBTYPE subtype;
-	private EVENT event;
 
-	private MTGKeyWord() {
+	public MTGKeyWord() {
 
 	}
+	
+	public MTGKeyWord(String keyword, TYPE type) {
+			this.keyword=keyword;
+			this.type=type;
+	}
+	
 
 	@Override
 	public String toString() {
@@ -56,20 +56,5 @@ public class MTGKeyWord implements Serializable{
 		this.type = type;
 	}
 
-	public SUBTYPE getSubtype() {
-		return subtype;
-	}
-
-	public void setSubtype(SUBTYPE subtype) {
-		this.subtype = subtype;
-	}
-
-	public EVENT getEvent() {
-		return event;
-	}
-
-	public void setEvent(EVENT action) {
-		this.event = action;
-	}
-
+	
 }

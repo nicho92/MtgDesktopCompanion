@@ -142,23 +142,7 @@ public class AbilitiesFactory implements Serializable{
 
 
 	private List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
-		List<StaticAbilities> list = new ArrayList<>();
-		
-		Set<MTGKeyWord> keys= MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc);
-		
-		keys.forEach(key->{
-			
-			if(key.getEvent().equals(EVENT.STATIC))
-			{
-				StaticAbilities abs = new StaticAbilities();
-				abs.setCard(mc);
-				abs.init(key);
-				list.add(abs);
-			}
-		});
-		
-		
-		return list;
+		return new ArrayList<>();
 	}
 
 

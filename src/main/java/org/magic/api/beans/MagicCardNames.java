@@ -12,9 +12,18 @@ public class MagicCardNames implements Serializable {
 	private String name;
 	private String text;
 	private String type;
-	
+	private String flavor;
 	private int gathererId;
 
+	
+	public String getFlavor() {
+		return flavor;
+	}
+	
+	public void setFlavor(String flavor) {
+		this.flavor = flavor;
+	}
+	
 	public String getText() {
 		return text;
 	}
