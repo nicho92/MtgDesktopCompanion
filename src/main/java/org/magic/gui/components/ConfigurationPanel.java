@@ -358,7 +358,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLogLevel.gridy = 2;
 		panelConfig.add(lblLogLevel, gbclblLogLevel);
 
-		cboLogLevels = UITools.createCombobox(new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
+		cboLogLevels = UITools.createCombobox(MTGLogger.LEVELS);
 		GridBagConstraints gbccboLogLevels = new GridBagConstraints();
 		gbccboLogLevels.fill = GridBagConstraints.HORIZONTAL;
 		gbccboLogLevels.gridwidth = 3;

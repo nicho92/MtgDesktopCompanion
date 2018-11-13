@@ -32,6 +32,8 @@ import org.magic.tools.Chrono;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
@@ -75,11 +77,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private static final String MULTIVERSE_ID = "multiverseId";
 	private static final String MANA_COST = "manaCost";
 	private static final String NAME = "name";
-	private static final String URL_VERSION = "URL_VERSION";
-	private static final String URL_SET_JSON_ZIP = "URL_SET_JSON_ZIP";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private static final String NAMES = "names";
 
+	private static final String URL_VERSION = "https://mtgjson.com/v4/json/version.json";
+	private static final String URL_JSON_DOWNLOAD = "https://mtgjson.com/v4/json/AllSets.json";
+	
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR, "AllSets-x.json4.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
@@ -141,8 +144,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			try {
 			logger.debug("check new version of " + toString() + " (" + temp + ")");
 
-			Document d = URLTools.extractHtml(getURL(URL_VERSION));
-			version = d.select("div.splash H4").html().replace("Current version: ", "").trim();
+			JsonElement d = URLTools.extractJson(URL_VERSION);
+			version = d.getAsJsonObject().get("version").getAsString();
 			if (!version.equals(temp)) {
 				logger.info("new version datafile exist (" + version + "). Downloading it");
 				return true;
@@ -193,13 +196,13 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL(URL_SET_JSON_ZIP)).getInputStream(),fileSetJsonTemp);
-				unZipIt();
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_DOWNLOAD).getInputStream(),fileSetJsonTemp);
+			//	unZipIt();
 				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
 			}
 			else if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL(URL_SET_JSON_ZIP)).getInputStream(),fileSetJsonTemp);
-				unZipIt();
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_DOWNLOAD).getInputStream(),fileSetJsonTemp);
+				//unZipIt();
 				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
 			}
 			logger.debug(this + " : parsing db file");
@@ -573,22 +576,40 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}
 		
 		try{
-			ed.setGathererCode(ctx.read(base + ".cards[0].mtgoCode", String.class));
+			ed.setGathererCode(ctx.read(base + ".mtgoCode", String.class));
+		}catch(PathNotFoundException pnfe)
+		{ 
+			//do nothing
+		}
+		
+		try{
+			JsonArray arr = ctx.read(base + ".boosterV3", JsonArray.class);
 		}catch(PathNotFoundException pnfe)
 		{ 
 			//do nothing
 		}
 		
 		
-		if (ed.getCardCount() == 0)
-			try{	
-				Integer i = ctx.read(base + ".cards.length()");
-				ed.setCardCount(i);
+		
+		
+		
+		try{
+			ed.setCardCount(ctx.read(base + ".totalSetSize", Integer.class));
+			}catch(PathNotFoundException pnfe)
+			{ 
+				logger.warn("totalSetSize not found, manual calculation");
+				if (ed.getCardCount() == 0)
+					try{	
+						Integer i = ctx.read(base + ".cards.length()");
+						ed.setCardCount(i);
+					}
+					catch(Exception e)
+					{
+						ed.setCardCount(0);		
+					}
+				
 			}
-			catch(Exception e)
-			{
-				ed.setCardCount(0);		
-			}
+		
 		
 		
 		return ed;
@@ -637,8 +658,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty(URL_SET_JSON_ZIP, "https://mtgjson.com/v4/json/AllSets.json.zip");
-		setProperty(URL_VERSION, "https://mtgjson.com/v4/");
 		setProperty("LRU_CACHE", "400");
 	}
 	

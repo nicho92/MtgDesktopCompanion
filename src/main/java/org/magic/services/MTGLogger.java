@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 
 public class MTGLogger {
 
+	public static final Level[] LEVELS = new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.WARN, Level.TRACE };
+
 	private MTGLogger() {
 	}
 

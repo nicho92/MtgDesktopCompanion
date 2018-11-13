@@ -29,7 +29,7 @@ public class KeyWordProvider {
 		Gson s = new Gson();
 		Type listType = new TypeToken<ArrayList<MTGKeyWord>>() {
 		}.getType();
-		list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream(MTGConstants.CONF_JSON_BOOSTER)), listType);
+		list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream(MTGConstants.JSON_KEYWORDS)), listType);
 		if (list == null)
 			list = new ArrayList<>();
 

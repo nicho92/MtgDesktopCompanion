@@ -222,7 +222,7 @@ public class CollectionEvaluator extends Observable
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
+			logger.error("error loading " + ed, e);
 		}
 		
 		
