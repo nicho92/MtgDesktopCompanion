@@ -102,11 +102,12 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				
 				Collections.sort(ret, new CardsShakeSorter((SORT)cboSorter.getSelectedItem()));
 				modStandard.init(ret);
+				table.setModel(modStandard);
 			} catch (Exception e) {
 				logger.error(e);
 			}
 
-			table.setModel(modStandard);
+
 			modStandard.fireTableDataChanged();
 			table.setRowSorter(new TableRowSorter(modStandard));
 			table.packAll();

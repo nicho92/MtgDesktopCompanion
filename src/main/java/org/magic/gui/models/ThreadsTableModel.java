@@ -10,7 +10,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 
 	public ThreadsTableModel() {
-		columns = new String[] {"ID","NAME","CPU (s.)","STATE","PRIORITY","LOCK INFO","BLOCKED COUNT","DEADLOCKED","MEMORY (MB.)"};
+		columns = new String[] {"ID","NAME","CPU (s.)","STATE","PRIORITY","LOCK INFO","BLOCKED COUNT","DEADLOCKED","MEMORY (KB.)"};
 	}
 	
 	
@@ -54,7 +54,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 			case 7:
 				return Arrays.asList(ManagementFactory.getThreadMXBean().findDeadlockedThreads()).contains(t.getThreadId());
 			case 8 :
-				return ((com.sun.management.ThreadMXBean)ManagementFactory.getThreadMXBean()).getThreadAllocatedBytes(t.getThreadId())/1024/1024;
+				return ((com.sun.management.ThreadMXBean)ManagementFactory.getThreadMXBean()).getThreadAllocatedBytes(t.getThreadId())/1024;
 			default: 
 				return null;
 			}

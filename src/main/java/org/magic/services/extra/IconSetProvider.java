@@ -19,6 +19,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
+import org.magic.tools.ImageTools;
 
 public class IconSetProvider {
 
@@ -78,11 +79,10 @@ public class IconSetProvider {
 			try {
 				String equivSet = getEquiv(id);
 				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
-				ImageIO.write(im, "png", iconFile);
+				ImageTools.saveImage(im, iconFile, "png");
 			} catch (Exception ex) {
 				logger.trace("couldnt load icons for " + id +"=" + getEquiv(id));
 				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
-
 			}
 			return im;
 		}
