@@ -20,7 +20,6 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -82,7 +81,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	private static final String URL_VERSION = "https://mtgjson.com/v4/json/version.json";
 	private static final String URL_JSON_DOWNLOAD = "https://mtgjson.com/v4/json/AllSets.json";
-	
+	private static final String URL_SETS_LIST="https://mtgjson.com/v4/json/SetList.json";
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR, "AllSets-x.json4.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
@@ -422,16 +421,27 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				}
 				
-				if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld"))
+				if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld") || mc.getLayout().equals("transform"))
 					mc.setTranformable(true);
 			
 				if (mc.getLayout().equals("flip"))
 					mc.setFlippable(true);
 				
-				if( map.get(NAMES) !=null)//TODO usage of names is not yet correct (sometimes token, // names, etc...)
+				if( map.get(NAMES) !=null)
 				{
 					List<String> names = ((List<String>)map.get(NAMES));
-					mc.setRotatedCardName(names.get(0));
+					
+					if(names.size()==2)
+					{
+						names.remove(mc.getName());
+						mc.setRotatedCardName(names.get(0));
+					}
+					else if(names.size()>2)
+					{
+						mc.setRotatedCardName(names.get(1));
+						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
+					}
+					
 				}
 			
 		notify(mc);
@@ -503,15 +513,30 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		logger.debug("load editions");
 		chrono.start();
 		
-		final List<String> codeEd = new ArrayList<>();
-		ctx.withListeners(fr -> {
-			if (fr.path().startsWith("$"))
-				codeEd.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf("]") - 1));
-			return null;
+		try {		
+		
+		URLTools.extractJson(URL_SETS_LIST).getAsJsonArray().forEach(e->{
+			String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
+			cacheEditions.put(codeedition, getSetById(codeedition));
+		});
+		
+		}catch(Exception ex)
+		{
+			
+			logger.error("Error loading set List from " + URL_SETS_LIST +". Loading manually");
+			final List<String> codeEd = new ArrayList<>();
+			ctx.withListeners(fr -> {
+				if (fr.path().startsWith("$"))
+					codeEd.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf("]") - 1));
+				return null;
 
-		}).read(jsquery, List.class);
+			}).read(jsquery, List.class);
+			codeEd.forEach(codeedition->cacheEditions.put(codeedition, getSetById(codeedition)));
 
-		codeEd.forEach(codeedition->cacheEditions.put(codeedition, getSetById(codeedition)));
+			
+			
+		}
+
 		logger.debug("Loading editions OK in " + chrono.stop() + " sec.");
 		
 		return new ArrayList<>(cacheEditions.values());
@@ -582,7 +607,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			//do nothing
 		}
 		
-		try{
+		try{//TODO parsing booster cards
 			JsonArray arr = ctx.read(base + ".boosterV3", JsonArray.class);
 		}catch(PathNotFoundException pnfe)
 		{ 
@@ -607,13 +632,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					{
 						ed.setCardCount(0);		
 					}
-				
 			}
-		
-		
-		
 		return ed;
-
 	}
 
 	@Override
