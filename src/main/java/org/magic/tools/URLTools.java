@@ -1,6 +1,7 @@
 package org.magic.tools;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -10,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -79,6 +81,10 @@ public class URLTools {
 		return new JsonParser().parse(s);
 	}
 	
+	public static void download(String url,File to) throws IOException
+	{
+		FileUtils.copyInputStreamToFile(openConnection(url).getInputStream(),to);
+	}
 	
 	public static Document extractHtml(URL url) throws IOException
 	{

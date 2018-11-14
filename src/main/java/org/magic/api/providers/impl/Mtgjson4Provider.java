@@ -29,6 +29,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.ColorParser;
+import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -83,9 +84,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public static final String URL_JSON_ALL_SETS = "https://mtgjson.com/v4/json/AllSets.json";
 	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/v4/json/SetList.json";
 	public static final String URL_JSON_KEYWORDS="https://mtgjson.com/v4/json/Keywords.json";
+	public static final String URL_JSON_ALL_SETS_ZIP ="https://mtgjson.com/v4/json/AllSets.json.zip";
 	
-	
-	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR, "AllSets-x.json4.zip");
+	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
 	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
 	
@@ -100,6 +101,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
 		
 	}
+	
+	
 
 	private boolean hasNewVersion() {
 		String temp = "";
@@ -168,17 +171,13 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 			logger.debug("loading file " + fileSetJson);
 
-			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
-				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_ALL_SETS).getInputStream(),fileSetJsonTemp);
-			//	unZipIt();
+			if (hasNewVersion()||!fileSetJson.exists() || fileSetJson.length() == 0) {
+				logger.info("Downloading "+version + " datafile");
+				URLTools.download(URL_JSON_ALL_SETS_ZIP, fileSetJsonTemp);
+				FileTools.unZipIt(fileSetJsonTemp,fileSetJson);
 				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
 			}
-			else if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(URL_JSON_ALL_SETS).getInputStream(),fileSetJsonTemp);
-				//unZipIt();
-				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
-			}
+			
 			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);
 			logger.debug(this + " : parsing OK ");

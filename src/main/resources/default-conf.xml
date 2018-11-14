@@ -175,6 +175,10 @@
             <class>org.magic.servers.impl.CardShakeDashBoardServer</class>
             <enable>true</enable>
         </server>
+        <server>
+        	<class>org.magic.servers.impl.JMXServer</class>
+        	<enable>true</enable>
+        </server>
     </servers>
     <notifiers>
         <notifier>

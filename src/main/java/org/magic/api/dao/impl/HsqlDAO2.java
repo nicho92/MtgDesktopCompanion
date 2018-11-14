@@ -79,7 +79,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 			logger.debug("populate collections");
 			return true;
 		} catch (SQLException e) {
-			logger.debug(getName() + ": Base already exist",e);
+			logger.debug(getName() + ": Base already exist :" + e);
 			return false;
 		}
 
