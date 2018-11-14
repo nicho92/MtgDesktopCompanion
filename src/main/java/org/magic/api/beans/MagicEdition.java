@@ -20,6 +20,7 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String releaseDate;
 	private String type;
 	private int cardCount;
+	private int cardCountOfficial;
 	private String block;
 	private String border;
 	private transient List<Object> booster;
@@ -32,6 +33,15 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	
 	
 	
+	
+	public int getCardCountOfficial() {
+		return cardCountOfficial;
+	}
+
+	public void setCardCountOfficial(int cardCountOfficial) {
+		this.cardCountOfficial = cardCountOfficial;
+	}
+
 	public boolean isFoilOnly() {
 		return foilOnly;
 	}

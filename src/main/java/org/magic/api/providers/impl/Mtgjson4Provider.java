@@ -541,11 +541,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 		try{
 			ed.setOnlineOnly(ctx.read(base + ".isOnlineOnly", Boolean.class));
-			}
-			catch(PathNotFoundException pnfe)
-			{ 
-				//do nothing
-			}
+		}
+		catch(PathNotFoundException pnfe)
+		{ 
+			//do nothing
+		}
 			
 		
 		
@@ -592,6 +592,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			//do nothing
 		}
 		
+		try{
+			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
+			}catch(PathNotFoundException pnfe)
+			{ 
+				//do nothing
+			}
 		
 		
 		

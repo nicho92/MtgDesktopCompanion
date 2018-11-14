@@ -555,8 +555,12 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 			ThreadManager.getInstance().execute(() -> {
 				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity());
-				lblnumberInSet.setText(magicCard.getCurrentSet().getNumber() + "/"
-						+ magicCard.getCurrentSet().getCardCount());
+				
+				int showCount = magicCard.getCurrentSet().getCardCountOfficial();
+				if(showCount==0)
+					showCount=magicCard.getCurrentSet().getCardCount();
+				
+				lblnumberInSet.setText(magicCard.getCurrentSet().getNumber() + "/"+ showCount);
 			}, "loadLogo");
 		}
 
