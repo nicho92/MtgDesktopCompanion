@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -38,17 +40,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	private Map<String,String> formats;
 	private String postReqData="{\"draw\":1,\"columns\":[{\"data\":\"name\",\"name\":\"name\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"color\",\"name\":\"color\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"tags\",\"name\":\"tags\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"likes\",\"name\":\"likes\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"views\",\"name\":\"views\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"comments\",\"name\":\"comments\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"updated\",\"name\":\"updated\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"7\",\"regex\":false}},{\"data\":\"updatedhidden\",\"name\":\"updatedhidden\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"popularity\",\"name\":\"popularity\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":8,\"dir\":\"desc\"}],\"start\":0,\"length\":50,\"search\":{\"value\":\"\",\"regex\":false}}";
 	private String uriPost = "https://aetherhub.com/Meta/FetchMetaListAdv";
-	
-	public static void main(String[] args) throws IOException {
-		
-		
-		AetherhubDeckSniffer snif = new AetherhubDeckSniffer();
-		MagicDeck d = snif.getDeck(snif.getDeckList().get(1));
-		
-		
-	}
-	
-	
+
 	public AetherhubDeckSniffer() {
 		super();
 		
@@ -59,7 +51,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		formats.put("Commander", "?formatId=3");
 		formats.put("Legacy", "?formatId=4");
 		formats.put("Vintage", "?formatId=5");
-		formats.put("MTG Arena", "?formatId=6");
+		formats.put("MTG Arena", "?formatId=13");
 		formats.put("Commander 1vs1", "?formatId=7");
 		formats.put("Frontier", "?formatId=8");
 		formats.put("Pauper", "?formatId=9");
@@ -79,30 +71,32 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		
+		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
+		
 		logger.debug("get deck from " + info.getUrl());
 		Document d =URLTools.extractHtml(info.getUrl().toString());
-	
-		String desc = d.select("div.decknotes").text();
-		Elements div = d.select("div#tab_full");
+		String data = URLTools.extractAsString(uri);
 		
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
-		deck.setDescription(desc);
+		deck.setDescription(d.select("div.decknotes").text());
+		
 		boolean sideboard=false;
-		String[] lines = div.html().replaceAll("</h4>", "<br>").split("<br>");
+		data = RegExUtils.replaceAll(data,"\\\\r\\\\n","\n");
+		data = RegExUtils.replaceAll(data,"\"","");
+		String[] lines = data.split("\n");
+		
 		for(int i=1;i<lines.length;i++)
 		{
 			String line=lines[i].trim();
 			
-			System.out.println(line);
-			
-			
-			if(line.startsWith("<h4>Sideboard"))
+			if(line.startsWith("Sideboard") || line.startsWith("Maybeboard"))
 			{
 				sideboard=true;
 			}
-			else
+			else if(!line.isBlank())
 			{
+				
 				Integer qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 				String cardName = line.substring(line.indexOf(' '), line.length()).trim();
 				
