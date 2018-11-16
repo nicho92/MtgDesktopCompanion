@@ -43,8 +43,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		
 		
 		AetherhubDeckSniffer snif = new AetherhubDeckSniffer();
+		MagicDeck d = snif.getDeck(snif.getDeckList().get(1));
 		
-		snif.getDeckList();
+		
 	}
 	
 	
@@ -81,16 +82,20 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		logger.debug("get deck from " + info.getUrl());
 		Document d =URLTools.extractHtml(info.getUrl().toString());
 	
-		//TODO need to be reforged
+		String desc = d.select("div.decknotes").text();
+		Elements div = d.select("div#tab_full");
 		
-		Elements div = d.select("div#tab_full_btn");
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
+		deck.setDescription(desc);
 		boolean sideboard=false;
 		String[] lines = div.html().replaceAll("</h4>", "<br>").split("<br>");
 		for(int i=1;i<lines.length;i++)
 		{
 			String line=lines[i].trim();
+			
+			System.out.println(line);
+			
 			
 			if(line.startsWith("<h4>Sideboard"))
 			{
