@@ -1,9 +1,11 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
@@ -441,5 +443,21 @@ public class MagicCard implements Serializable {
 	public boolean isLand() {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
+	
+	public MagicCard toForeign(MagicCardNames fn)
+	{
+		try {
+			MagicCard mc = (MagicCard)BeanUtils.cloneBean(this);
+			
+			mc.setName(fn.getName());
+			mc.setMultiverseid(fn.getGathererId());
+			mc.setFlavor(fn.getFlavor());
+			
+			return mc;
+		} catch (Exception e) {
+			return this;
+		}
+	}
+	
 
 }

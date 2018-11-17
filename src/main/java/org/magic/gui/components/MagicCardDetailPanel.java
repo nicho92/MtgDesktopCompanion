@@ -7,7 +7,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +34,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDao;
@@ -40,6 +45,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
+import javax.swing.JToggleButton;
 
 public class MagicCardDetailPanel extends JPanel implements Observer {
 
@@ -82,7 +88,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private JCheckBox chckbxReserved;
 	private boolean enableCollectionLookup = true;
 	private DefaultListModel<MagicCollection> listModelCollection;
-	
+	private JPanel panelSwitchLangage;
 	
 	public void setEditable(boolean b) {
 		txtWatermark.setEditable(b);
@@ -111,9 +117,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 0, 77, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
 		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
@@ -187,6 +193,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		lblThumbnail = new JLabel("");
 		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
+		gbclblThumbnail.insets = new Insets(0, 0, 5, 0);
 		gbclblThumbnail.fill = GridBagConstraints.HORIZONTAL;
 		gbclblThumbnail.gridwidth = 2;
 		gbclblThumbnail.gridheight = 9;
@@ -313,7 +320,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		GridBagConstraints gbcscrollLegality = new GridBagConstraints();
 		gbcscrollLegality.gridheight = 2;
 		gbcscrollLegality.gridwidth = 2;
-		gbcscrollLegality.insets = new Insets(0, 0, 0, 5);
+		gbcscrollLegality.insets = new Insets(0, 0, 5, 5);
 		gbcscrollLegality.fill = GridBagConstraints.BOTH;
 		gbcscrollLegality.gridx = 1;
 		gbcscrollLegality.gridy = 8;
@@ -406,7 +413,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		GridBagConstraints gbcscrollCollections = new GridBagConstraints();
 		gbcscrollCollections.gridheight = 2;
 		gbcscrollCollections.gridwidth = 3;
-		gbcscrollCollections.insets = new Insets(0, 0, 0, 5);
+		gbcscrollCollections.insets = new Insets(0, 0, 5, 5);
 		gbcscrollCollections.fill = GridBagConstraints.BOTH;
 		gbcscrollCollections.gridx = 4;
 		gbcscrollCollections.gridy = 8;
@@ -416,7 +423,18 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		
 		listCollection = new JList<>(listModelCollection);
 		scrollCollections.setViewportView(listCollection);
-
+		
+		panelSwitchLangage = new JPanel();
+		FlowLayout flowLayout1 = (FlowLayout) panelSwitchLangage.getLayout();
+		flowLayout1.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbcpanelSwitchLangage = new GridBagConstraints();
+		gbcpanelSwitchLangage.gridwidth = 9;
+		gbcpanelSwitchLangage.insets = new Insets(0, 0, 0, 5);
+		gbcpanelSwitchLangage.fill = GridBagConstraints.BOTH;
+		gbcpanelSwitchLangage.gridx = 0;
+		gbcpanelSwitchLangage.gridy = 10;
+		add(panelSwitchLangage, gbcpanelSwitchLangage);
+		
 		if (magicCard != null) {
 			mBindingGroup = initDataBindings();
 		}
@@ -548,7 +566,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		if (thumbnail && magicCard != null)
 		{
-			ThreadManager.getInstance().execute(() -> loadPics(),"load pics");
+			ThreadManager.getInstance().execute(() -> loadPics(magicCard),"load pics");
 		}
 
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) {
@@ -593,6 +611,51 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			for (MagicFormat mf : magicCard.getLegalities())
 				((DefaultListModel) lstFormats.getModel()).addElement(mf);
 
+		ButtonGroup group = new ButtonGroup();
+	
+		
+		if(magicCard!=null)
+		{
+			
+			ThreadManager.getInstance().runInEdt(()->{
+				panelSwitchLangage.removeAll();
+				panelSwitchLangage.revalidate();
+			
+				magicCard.getForeignNames().forEach(fn->{
+					JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
+					tglLangButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
+					tglLangButton.setActionCommand(fn.getLanguage());
+					AbstractAction act = new AbstractAction() {
+						private static final long serialVersionUID = 1L;
+						@Override
+						public void actionPerformed(ActionEvent ae) {
+							txtTextPane.setText(fn.getText());
+							txtTextPane.updateTextWithIcons();
+							nameJTextField.setText(fn.getName());
+							fullTypeJTextField.setText(fn.getType());
+							loadPics(fn,magicCard);
+						}
+					};
+					act.putValue(Action.NAME, fn.getLanguage());
+					
+					tglLangButton.setActionCommand(fn.getLanguage());
+					tglLangButton.setAction(act);
+					
+					
+					group.add(tglLangButton);
+					panelSwitchLangage.add(tglLangButton);
+				});
+				
+			}	
+			);
+			
+			
+		}
+		
+
+		
+		
+		
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -612,18 +675,31 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		return bindingGroup;
 	}
 
-	protected void loadPics() {
+	protected void loadPics(MagicCard mc) {
 		ImageIcon icon;
 		try {
-			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(magicCard, null));
+			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null));
 		} catch (Exception e) {
 			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
-			logger.error("Error loading pics for" + magicCard, e);
+			logger.error("Error loading pics for" + mc, e);
 		}
 		lblThumbnail.setIcon(icon);
 		repaint();
 	}
-
+	
+	protected void loadPics(MagicCardNames fn,MagicCard mc) {
+		ImageIcon icon;
+		try {
+			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(fn, mc));
+		} catch (Exception e) {
+			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
+			logger.error("Error loading pics for" + mc, e);
+		}
+		lblThumbnail.setIcon(icon);
+		repaint();
+	}
+	
+	
 	@Override
 	public void update(Observable o, Object ob) {
 		setMagicCard((MagicCard) ob);

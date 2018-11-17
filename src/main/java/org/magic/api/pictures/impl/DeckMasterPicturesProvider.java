@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
@@ -173,5 +174,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	public String getVersion() {
 		return "0.5";
 	}
+
+	
 
 }

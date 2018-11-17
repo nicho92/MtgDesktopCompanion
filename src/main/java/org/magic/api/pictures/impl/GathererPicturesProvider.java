@@ -8,6 +8,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
@@ -54,6 +55,12 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		return ImageIO.read(URLTools.openConnection("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card").getInputStream());
 	}
 
+	
+	@Override
+	public BufferedImage getPicture(MagicCardNames fn, MagicCard mc) throws IOException {
+		return getPicture(String.valueOf(fn.getGathererId()));
+	}
+	
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
 		return ImageIO.read(URLTools.openConnection("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1)).getInputStream());
