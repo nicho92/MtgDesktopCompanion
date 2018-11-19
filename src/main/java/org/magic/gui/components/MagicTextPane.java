@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
 
 public class MagicTextPane extends JComponent {
@@ -77,7 +79,7 @@ public class MagicTextPane extends JComponent {
 	public void updateTextWithIcons() {
 
 		textPane.setText(textPane.getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
-
+		textPane.setFont(new Font(MTGConstants.FONT, java.awt.Font.PLAIN, 12));
 		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(textPane.getText());
 
@@ -110,7 +112,6 @@ public class MagicTextPane extends JComponent {
 			}
 
 			textPane.setDocument(document);
-
 		} catch (BadLocationException e) {
 			textPane.setText(text);
 		}

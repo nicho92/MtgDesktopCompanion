@@ -94,7 +94,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 			{
 				sideboard=true;
 			}
-			else if(!line.isBlank())
+			else if(!StringUtils.isBlank(line))
 			{
 				
 				Integer qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));

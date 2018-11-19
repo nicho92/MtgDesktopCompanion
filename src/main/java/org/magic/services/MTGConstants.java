@@ -29,7 +29,8 @@ public class MTGConstants {
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
-	public static final String FONT="Tahoma";
+	public static final String FONT="Arial Unicode MS";
+
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
@@ -88,8 +89,7 @@ public class MTGConstants {
 
 
 
-	public static final String GAME_FONT = "Tahoma";
-
+	
 	public static final String HTML_TAG_TABLE = "table";
 	public static final String HTML_TAG_TBODY = "tbody";
 	public static final String HTML_TAG_TR = "tr";
