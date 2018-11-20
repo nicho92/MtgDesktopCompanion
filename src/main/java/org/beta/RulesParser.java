@@ -1,18 +1,19 @@
 package org.beta;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.tools.CardsPatterns;
-import org.magic.tools.URLTools;
 
 public class RulesParser {
 
-	private static Integer parse(String s)
+	private Integer parse(String s)
 	{
 		try {
 			return Integer.parseInt(s);
@@ -22,10 +23,38 @@ public class RulesParser {
 			return null;
 		}
 	}
+	private RulesNode root;
+	
+	public RulesParser() {
+		root=new RulesNode();
+	}
+	
+	public void addNode(RulesNode node)
+	{
+			
+		if(node.getLevel()==1)
+			root.addChild(node);
+		
+		
+	}
+	
+	public RulesNode getRoot()
+	{
+		return root;
+	}
 	
 	
 	public static void main(String[] args) throws IOException {
-		String s = URLTools.extractAsString("http://media.wizards.com/2018/downloads/MagicCompRules%2020181005.txt","ISO-8859-15");
+		//URLTools.download("http://media.wizards.com/2018/downloads/MagicCompRules%2020181005.txt", new File("rules.txt"));
+		RulesParser parser = new RulesParser();
+		parser.read(FileUtils.readFileToString(new File("rules.txt"), "ISO-8859-15"));
+		
+		parser.getRoot().getChildren().forEach(System.out::println);
+		
+	}
+	
+	
+	public void read(String s) throws IOException {
 		RulesNode rn = null;
 		
 		String[] tab = s.split("\n");
@@ -35,15 +64,13 @@ public class RulesParser {
 		{
 			String line = tab[i];
 			
+			line = StringUtils.trimToEmpty(line);
 			if(line.startsWith("Glossary"))
 				break;
-			
-			
 			
 			if(!StringUtils.isAllBlank(line))
 			{
 				Matcher m = CardsPatterns.extract(line,CardsPatterns.RULES_LINE);
-			
 				
 				if(m.find())
 				{
@@ -65,14 +92,13 @@ public class RulesParser {
 					if(rn!=null)
 						rn.addLine(line);
 				}
-				
-				System.out.println(rn +" " + rn.getData().size());
-				
+			}
+			else
+			{
+				if(rn!=null)
+					addNode(rn);
 			}
 		}
-		
-		
-		
 	}
 }
 
@@ -94,6 +120,22 @@ class RulesNode{
     public RulesNode() {
 		init();
 	}
+    
+    public int getLevel()
+    {
+    	int lev = 3;
+    	
+    	if(subsubchapter==null)
+    		lev=2;
+    	
+    	if(subChapter==null)
+    		lev=1;
+    	
+    	if(chapter==null)
+    		lev=0;
+    	
+    	return lev;
+    }
     
     private void init() {
 		data=new ArrayList<>();
