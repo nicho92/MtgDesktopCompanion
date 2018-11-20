@@ -74,6 +74,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		super();
 		serializer=new JsonExport();
 		analyzer = new StandardAnalyzer();
+		
+		if(!getFile(DIRECTORY).exists())
+			logger.warn("Index is not initiated at "+getFile(DIRECTORY)+", please launch it from config panel");
 	}
 	
 	public String[] listFields()
