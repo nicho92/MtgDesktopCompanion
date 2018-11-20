@@ -95,18 +95,23 @@ public class CollectionEvaluator extends Observable
 	}
 	
 	
-	
-	public List<CardShake> initCache(MagicEdition edition) throws IOException
+	public List<CardShake> initCache(MagicEdition edition,String provider) throws IOException
 	{
 		List<CardShake> ret = new ArrayList<>();
 			try {
 				logger.debug("init cache for " + edition);
-				ret= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(edition);
+				ret= MTGControler.getInstance().getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
 				initCache(edition,ret);
 			} catch (IOException e) {
 				logger.error(edition.getId() + " is not found",e);
 			}
 			return ret;
+	}
+	
+	
+	public List<CardShake> initCache(MagicEdition edition) throws IOException
+	{
+		return initCache(edition,MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName());
 	}
 	
 	public List<MagicEdition> getEditions()

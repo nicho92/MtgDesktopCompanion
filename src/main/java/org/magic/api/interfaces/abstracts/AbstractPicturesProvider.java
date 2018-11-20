@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -43,6 +45,11 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		{
 			logger.error("couldn't set size",e);
 		}
+	}
+	
+	@Override
+	public BufferedImage getPicture(MagicCardNames fn, MagicCard mc) throws IOException {
+		return getPicture(mc,mc.getCurrentSet());
 	}
 
 	@Override

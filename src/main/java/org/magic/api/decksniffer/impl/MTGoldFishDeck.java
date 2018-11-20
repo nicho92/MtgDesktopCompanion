@@ -21,6 +21,7 @@ import org.magic.tools.URLTools;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
+	private static final String ARENA_STANDARD = "arena_standard";
 	private static final String BRAWL = "brawl";
 	private static final String COMMANDER = "commander";
 	private static final String VINTAGE = "vintage";
@@ -38,9 +39,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public String[] listFilter() {
 		if (metagames)
-			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, COMMANDER, BRAWL };
+			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, COMMANDER, BRAWL,ARENA_STANDARD };
 		else
-			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, "arena_standard","block", COMMANDER, "limited",
+			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, ARENA_STANDARD,"block", COMMANDER, "limited",
 					"frontier", "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form" };
 	}
 

@@ -1,6 +1,7 @@
 package org.magic.services.extra;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.swing.plaf.FontUIResource;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
@@ -39,8 +41,7 @@ public class LookAndFeelProvider {
 			
 			UIManager.setLookAndFeel(lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
-
-			
+		
 			if(saving)
 				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			

@@ -50,6 +50,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 					CollectionEvaluator evaluator = new CollectionEvaluator(new MagicCollection(getString(COLLECTION)));
 					logger.debug("backuping files");
 					File dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
+					
 					for(File f : evaluator.getDirectory().listFiles(pathname->!pathname.isDirectory())){
 								FileUtils.moveFileToDirectory(f, dest, true);	
 					}

@@ -579,7 +579,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
 		
 		ed.setCardCount(obj.get("card_count").getAsInt());
-
+		ed.setCardCountOfficial(ed.getCardCount());
+		
+		
 		if (obj.get("block") != null)
 			ed.setBlock(obj.get("block").getAsString());
 

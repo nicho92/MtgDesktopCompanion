@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
@@ -65,6 +66,12 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		return new URL(url);
 	}
+	
+	@Override
+	public BufferedImage getPicture(MagicCardNames fn, MagicCard mc) throws IOException {
+		return resizeCard(URLTools.extractImage("https://api.scryfall.com/cards/multiverse/" + fn.getGathererId() + IMAGE_TAG), newW, newH);
+	}
+	
 
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
