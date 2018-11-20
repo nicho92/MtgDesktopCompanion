@@ -14,7 +14,9 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -87,6 +89,7 @@ public class BoosterPicturesProvider {
 			Node item = nodeList.item(pos);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractImage(url);
+
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not open : " + url, e);
 			return null;

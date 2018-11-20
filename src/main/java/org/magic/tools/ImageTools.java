@@ -142,6 +142,11 @@ public class ImageTools {
 		return resize(img, h, width);
 	}
 	
+	public static void resize(BufferedImage img, Dimension pictureProviderDimension) {
+		resize(img,(int)pictureProviderDimension.getHeight(),(int)pictureProviderDimension.getWidth());
+		
+	}
+	
 	
 	public static BufferedImage resize(BufferedImage img, int newH, int newW) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
@@ -273,7 +278,8 @@ public class ImageTools {
 			root.appendChild(dim);
 			metadata.mergeTree("javax_imageio_1.0", root);
 	 }
-	
+
+
 	
 	
 	
