@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.FontUIResource;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -63,6 +64,7 @@ public class MtgDesktopCompanion {
 		ThreadManager.getInstance().runInEdt(() -> {
 
 			MagicGUI gui = new MagicGUI();
+			MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGConstants.FONT));
 			MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
 			gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			gui.setVisible(true);

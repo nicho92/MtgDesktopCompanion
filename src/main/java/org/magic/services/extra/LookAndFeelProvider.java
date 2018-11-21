@@ -3,6 +3,7 @@ package org.magic.services.extra;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
@@ -33,6 +34,15 @@ public class LookAndFeelProvider {
 		setLookAndFeel(ui, lookAndFeel.getClassName(),saving);
 	}
 	
+	public void setUIFont() {
+	    Enumeration<?> keys = UIManager.getDefaults().keys();
+	    while (keys.hasMoreElements()) {
+	        Object key = keys.nextElement();
+	        Object value = UIManager.get(key);
+	        if (value instanceof FontUIResource)
+	            UIManager.put(key, new FontUIResource(MTGConstants.FONT));
+	    }
+	}
 	
 	public void setLookAndFeel(Component ui, String lookAndFeel,boolean saving) {
 		try {

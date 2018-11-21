@@ -79,7 +79,6 @@ public class MagicTextPane extends JComponent {
 	public void updateTextWithIcons() {
 
 		textPane.setText(textPane.getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
-		textPane.setFont(new Font(MTGConstants.FONT, java.awt.Font.PLAIN, 12));
 		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(textPane.getText());
 

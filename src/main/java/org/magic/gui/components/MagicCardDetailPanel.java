@@ -623,7 +623,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			
 				magicCard.getForeignNames().forEach(fn->{
 					JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
-					tglLangButton.setFont(new Font(MTGConstants.FONT, Font.PLAIN, 9));
 					tglLangButton.setActionCommand(fn.getLanguage());
 					AbstractAction act = new AbstractAction() {
 						private static final long serialVersionUID = 1L;
@@ -633,7 +632,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							txtTextPane.updateTextWithIcons();
 							nameJTextField.setText(fn.getName());
 							fullTypeJTextField.setText(fn.getType());
-							
+							txtFlavorArea.setText(fn.getFlavor());
 							if (thumbnail)
 							{
 								ThreadManager.getInstance().execute(() -> loadPics(fn,magicCard),"load pics");
