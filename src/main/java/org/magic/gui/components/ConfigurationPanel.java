@@ -993,7 +993,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{188, 67, 0, 0};
 		gbl_panel.rowHeights = new int[]{23, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		gbl_panel.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 				
@@ -1046,6 +1046,7 @@ public class ConfigurationPanel extends JPanel {
 						
 						resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
 						GridBagConstraints gbcresizerPanel = new GridBagConstraints();
+						gbcresizerPanel.fill = GridBagConstraints.HORIZONTAL;
 						gbcresizerPanel.insets = new Insets(0, 0, 5, 5);
 						gbcresizerPanel.gridx = 1;
 						gbcresizerPanel.gridy = 2;
