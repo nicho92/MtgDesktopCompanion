@@ -113,7 +113,7 @@ public class ConfigurationPanel extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 396, 212, 0 };
 		gridBagLayout.rowHeights = new int[] { 179, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		cboTargetDAO.removeItem(MTGControler.getInstance().getEnabled(MTGDao.class));
@@ -566,7 +566,7 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(cboLook, gbccomboBox);
 		
 		
-		JLabel lblPicsSize = new JLabel("Zoom :");
+		JLabel lblPicsSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL_SIZE")+": ");
 		GridBagConstraints gbclblPicsSize = new GridBagConstraints();
 		gbclblPicsSize.insets = new Insets(0, 0, 5, 5);
 		gbclblPicsSize.gridx = 0;
@@ -1029,7 +1029,7 @@ public class ConfigurationPanel extends JPanel {
 		panelCurrency.setLayout(gblpanelCurrency);
 		panelCurrency.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),MTGControler.getInstance().getLangService().getCapitalize("CURRENCY"), TitledBorder.LEADING,TitledBorder.TOP, null, new Color(64, 64, 64)));
 		GridBagConstraints gbcpanelCurrency = new GridBagConstraints();
-		gbcpanelCurrency.insets = new Insets(0, 0, 5, 5);
+		gbcpanelCurrency.insets = new Insets(0, 0, 0, 5);
 		gbcpanelCurrency.fill = GridBagConstraints.BOTH;
 		gbcpanelCurrency.gridx = 0;
 		gbcpanelCurrency.gridy = 3;
@@ -1105,6 +1105,20 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnUpdateCurrency.gridx = 1;
 		gbcbtnUpdateCurrency.gridy = 2;
 		panelCurrency.add(btnUpdateCurrency, gbcbtnUpdateCurrency);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "GUI", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(64, 64, 64)));
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 3;
+		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{106, 67, 0, 0};
+		gbl_panel.rowHeights = new int[]{23, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		btnSavecurrency.addActionListener(ae->MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
 		
 		btnAdd.addActionListener(ae -> {

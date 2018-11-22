@@ -30,7 +30,7 @@ public class MTGConstants {
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
-	public static final Font FONT=new Font("Arial Unicode MS", Font.PLAIN, 11);
+	public static final Font FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
 
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
