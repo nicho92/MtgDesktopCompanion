@@ -8,9 +8,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -229,6 +231,16 @@ public class UITools {
 	public static void applyDefaultSelection(Component pane) {
 			pane.setForeground(SystemColor.textHighlightText);
 			pane.setBackground(SystemColor.inactiveCaption);
+	}
+
+
+
+
+	public static String formatDate(Date indexDate) {
+		
+		if(indexDate==null)
+			return "";
+		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).format(indexDate);
 	}
 
 }

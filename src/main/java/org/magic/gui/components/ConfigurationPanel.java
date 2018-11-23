@@ -223,6 +223,13 @@ public class ConfigurationPanel extends JPanel {
 		gbclblIndexation.gridx = 0;
 		gbclblIndexation.gridy = 4;
 		panelDAO.add(lblIndexation, gbclblIndexation);
+		
+		JLabel lblIndexSize = new JLabel(UITools.formatDate(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).getIndexDate()));
+		GridBagConstraints gbclblIndexSize = new GridBagConstraints();
+		gbclblIndexSize.insets = new Insets(0, 0, 0, 5);
+		gbclblIndexSize.gridx = 2;
+		gbclblIndexSize.gridy = 4;
+		panelDAO.add(lblIndexSize, gbclblIndexSize);
 
 		btnIndexation = new JButton("Reindexation");
 
@@ -238,6 +245,7 @@ public class ConfigurationPanel extends JPanel {
 				loading(true, "Indexation");
 				btnIndexation.setEnabled(false);
 				MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).initIndex();
+				lblIndexSize.setText(UITools.formatDate(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).getIndexDate()));
 			} catch (Exception e) {
 				logger.error("error indexation", e);
 				MTGControler.getInstance()
