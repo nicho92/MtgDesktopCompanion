@@ -2,7 +2,6 @@ package org.magic.services.extra;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.providers.impl.Mtgjson4Provider;

@@ -59,16 +59,14 @@ public class MTGODeckExport extends AbstractCardExport {
 					{
 						side=true;
 					}
-					else if (side) {
+					else if (side) 
+						{
 						String name = line.substring(sep, line.length()).trim();
-						String qte = line.substring(0, sep).trim();
 						
 						if(name.indexOf("//")>-1)
 							name=name.substring(0, name.indexOf("//")).trim();
 						
-						sep = line.indexOf(' ');
-						name = line.substring(sep, line.length()).trim();
-						qte = line.substring(0, sep).trim();
+						String qte = line.substring(0, sep).trim();
 						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, (name.indexOf("//")==-1));
 						deck.getMapSideBoard().put(list.get(0), Integer.parseInt(qte));
 						notify(list.get(0));

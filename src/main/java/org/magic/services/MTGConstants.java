@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.ImageIcon;
 
@@ -48,7 +50,7 @@ public class MTGConstants {
 	public static final String USER_AGENT_MOBILE="Mozilla/5.0 (Linux; Android 8.1.0; ONEPLUS A5010 Build/OPM1.171019.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 GSA/8.39.8.21.arm64";
 	
 	
-	public static final String DEFAULT_ENCODING="UTF-8";
+	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
 	
 	public static final int DEFAULT_PIC_WIDTH = 223;
 	public static final int DEFAULT_PIC_HEIGHT = 310;

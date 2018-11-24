@@ -2,7 +2,6 @@ package org.magic.servers.impl;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
@@ -33,7 +32,7 @@ public class ConsoleServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		acceptor = new NioSocketAcceptor();
 		acceptor.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName(MTGConstants.DEFAULT_ENCODING))));
+				new ProtocolCodecFilter(new TextLineCodecFactory(MTGConstants.DEFAULT_ENCODING)));
 		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, getInt("IDLE-TIME"));
 		acceptor.setHandler(new MTGConsoleHandler());

@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
@@ -45,7 +46,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-import javax.swing.JToggleButton;
 
 public class MagicCardDetailPanel extends JPanel implements Observer {
 

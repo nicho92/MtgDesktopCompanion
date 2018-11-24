@@ -18,7 +18,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 
-import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -54,7 +53,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			JsonElement el = cards.get(i);
 			if (el.getAsJsonObject().get("id").getAsString().equals(mc.getId())) {
 				cards.remove(el);
-				FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), root.toString(), Charsets.UTF_8);
+				FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), root.toString(), MTGConstants.DEFAULT_ENCODING);
 				return true;
 			}
 		}
@@ -88,7 +87,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			root.addProperty("cardCount", me.getCardCount());
 		}
 		reader.close();
-		FileUtils.writeStringToFile(f, root.toString(), Charsets.UTF_8);
+		FileUtils.writeStringToFile(f, root.toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 
 	private int indexOf(MagicCard mc, JsonArray arr) {

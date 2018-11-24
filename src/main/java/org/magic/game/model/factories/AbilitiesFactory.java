@@ -3,10 +3,7 @@ package org.magic.game.model.factories;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
@@ -15,7 +12,6 @@ import org.magic.game.model.abilities.StaticAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
 import org.magic.game.model.costs.LoyaltyCost;
-import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
 public class AbilitiesFactory implements Serializable{

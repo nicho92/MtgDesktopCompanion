@@ -23,11 +23,6 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 		columns = new String[]{"VALUE"};
 	}
 	
-	public void setColumnName(String[] columnName) {
-		this.columns = columnName;
-		fireTableStructureChanged();
-	}
-	
 	public void setColumns(String[] columns)
 	{
 		this.columns=columns;

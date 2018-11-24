@@ -3,7 +3,6 @@ package org.magic.gui.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -21,14 +20,8 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	HashMap<String, ImageIcon> cache;
-	Color c;
-
-	public MagicCollectionTableCellRenderer() {
-		cache = new HashMap<>();
-	}
-
-	Component pane;
+	private Color c;
+	private Component pane;
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {

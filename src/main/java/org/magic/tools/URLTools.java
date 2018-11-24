@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.SSLHandshakeException;
@@ -115,7 +116,7 @@ public class URLTools {
 		return new JsonParser().parse(reader);
 	}
 	
-	public static String extractAsString(String url,String enc) throws IOException
+	public static String extractAsString(String url,Charset enc) throws IOException
 	{
 		return extractAsString(new URL(url),enc); 
 	}
@@ -130,7 +131,7 @@ public class URLTools {
 		return extractAsString(new URL(url),MTGConstants.DEFAULT_ENCODING); 
 	}
 	
-	public static String extractAsString(URL url,String enc) throws IOException
+	public static String extractAsString(URL url,Charset enc) throws IOException
 	{
 		return IOUtils.toString(openConnection(url).getInputStream(), enc); 
 	}
