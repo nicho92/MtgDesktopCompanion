@@ -111,7 +111,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>3.8.1_441</version>
+			  <version>3.8.1_447</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -413,7 +413,7 @@
 						<unix>.sh</unix>
 					</binFileExtensions>
 					<extraJvmArguments>-Xmx1128m</extraJvmArguments>
-					<extraJvmArguments>-XX:+UseStringDeduplication -XX:+UseG1GC</extraJvmArguments>
+					<extraJvmArguments>-XX:+UseStringDeduplication -XX:+UseG1GC -Djdk.tls.client.protocols="TLSv1"</extraJvmArguments>
 					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 				<executions>
