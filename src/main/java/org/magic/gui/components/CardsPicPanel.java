@@ -72,10 +72,9 @@ public class CardsPicPanel extends JXPanel {
 
 		this.card = mc;
 
-		if (!mc.isTranformable()) {
+		if (!mc.isTranformable()) 
 		{
 			back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
-		}
 		} else {
 			try {
 				MagicCard flipC = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( card.getRotatedCardName(), card.getCurrentSet(), true).get(0);

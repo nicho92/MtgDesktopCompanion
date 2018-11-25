@@ -124,11 +124,10 @@ public class BinderTagsManager {
 				lst.add(ImageTools.scaleResize(prov.getLogo(addlogo), width));
 		}
 		
-		for (Image im : imgs) {
-			BufferedImage imgb = (BufferedImage) im;
-			imgb=ImageTools.scaleResize(imgb, width);
-			height += imgb.getHeight()+space;
-			lst.add(imgb);
+		for (BufferedImage im : imgs) {
+			im=ImageTools.scaleResize(im, width);
+			height += im.getHeight()+space;
+			lst.add(im);
 		}
 		
 		if(d!=null && d.getHeight()>0)

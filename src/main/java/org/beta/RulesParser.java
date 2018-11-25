@@ -54,7 +54,7 @@ public class RulesParser {
 	}
 	
 	
-	public void read(String s) throws IOException {
+	public void read(String s){
 		RulesNode rn = null;
 		
 		String[] tab = s.split("\n");
