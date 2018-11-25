@@ -93,15 +93,20 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		connect();
 		List<CardShake> list = new ArrayList<>();
 
+		String id = edition.getId();
 		
-		if(correspondance.get(edition.getId())==null)
+		if(id.equals("CON_"))
+			id="CON";
+		
+		if(correspondance.get(id)==null)
 		{
-			logger.debug(edition.getId() + " is not found in " + getName());
+			
+			logger.debug(id + " is not found in " + getName());
 			return list;
 		}
 		
 		
-		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(edition.getId());
+		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(id);
 		logger.debug("loading edition cardshake from " + url);
 		JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
 

@@ -24,7 +24,7 @@ public class ReportNotificationManager {
 		  	cfg = new Configuration(MTGConstants.FREEMARKER_VERSION);
 	        try {
 				cfg.setClassForTemplateLoading(ReportNotificationManager.class, MTGConstants.MTG_REPORTS_DIR);
-				cfg.setDefaultEncoding(MTGConstants.DEFAULT_ENCODING.name());
+				cfg.setDefaultEncoding(MTGConstants.DEFAULT_ENCODING.displayName());
 				cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 				cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());
 			} catch (Exception e) {

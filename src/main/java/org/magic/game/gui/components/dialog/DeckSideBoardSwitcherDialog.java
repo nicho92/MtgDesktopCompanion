@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.game.gui.components.LightDescribeCardPanel;
 
 public class DeckSideBoardSwitcherDialog extends JDialog {
 
@@ -26,7 +27,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	private MagicDeck savedDeck;
 	private MagicDeck bckDeck;
 	private JLabel lblDecksize;
-
+	private LightDescribeCardPanel lightDescribeCardPanel;
 	JList<MagicCard> listMain;
 	JList<MagicCard> listSide;
 
@@ -113,24 +114,44 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 			init();
 		});
 		panel.add(lblDecksize);
+		
+		lightDescribeCardPanel = new LightDescribeCardPanel();
+		panel.add(lightDescribeCardPanel);
 
 		JPanel panel1 = new JPanel();
 		getContentPane().add(panel1, BorderLayout.SOUTH);
 
-		JButton btnOk = new JButton("OK");
+		JButton btnOk = new JButton(MTGConstants.ICON_CHECK);
 		btnOk.addActionListener(e -> dispose());
 
 		panel1.add(btnOk);
 
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.addActionListener(e -> {
 			savedDeck = bckDeck;
 			dispose();
 		});
 		panel1.add(btnCancel);
 
+		
+		initDescribe(listMain);
+		initDescribe(listSide);
+		
 		pack();
 	}
+	
+	
+	private void initDescribe(JList<MagicCard> list)
+	{
+		list.addListSelectionListener(ls->{
+			
+			lightDescribeCardPanel.setCard(list.getSelectedValue());
+			
+		});
+		
+		
+	}
+	
 
 	private void refresh() {
 		lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());

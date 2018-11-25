@@ -294,6 +294,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblMainCol = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("MAIN_COLLECTION") + " :");
 		GridBagConstraints gbclblMainCol = new GridBagConstraints();
+		gbclblMainCol.anchor = GridBagConstraints.WEST;
 		gbclblMainCol.insets = new Insets(0, 0, 5, 5);
 		gbclblMainCol.gridx = 0;
 		gbclblMainCol.gridy = 0;
@@ -317,6 +318,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblDefaultLandManuel = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("DEFAULT_LAND_IMPORT") + " :");
 		GridBagConstraints gbclblDefaultLandManuel = new GridBagConstraints();
+		gbclblDefaultLandManuel.anchor = GridBagConstraints.WEST;
 		gbclblDefaultLandManuel.insets = new Insets(0, 0, 5, 5);
 		gbclblDefaultLandManuel.gridx = 0;
 		gbclblDefaultLandManuel.gridy = 1;
@@ -339,6 +341,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JLabel lblLogLevel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOG_LEVEL") + " :");
 		GridBagConstraints gbclblLogLevel = new GridBagConstraints();
+		gbclblLogLevel.anchor = GridBagConstraints.WEST;
 		gbclblLogLevel.insets = new Insets(0, 0, 5, 5);
 		gbclblLogLevel.gridx = 0;
 		gbclblLogLevel.gridy = 2;
@@ -363,6 +366,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblDontTakeAlert = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("SHOW_LOW_PRICES") + " :");
 		GridBagConstraints gbclblDontTakeAlert = new GridBagConstraints();
+		gbclblDontTakeAlert.anchor = GridBagConstraints.WEST;
 		gbclblDontTakeAlert.insets = new Insets(0, 0, 5, 5);
 		gbclblDontTakeAlert.gridx = 0;
 		gbclblDontTakeAlert.gridy = 3;
@@ -390,6 +394,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblShowTooltip = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("SHOW_TOOLTIP") + " :");
 		GridBagConstraints gbclblShowTooltip = new GridBagConstraints();
+		gbclblShowTooltip.anchor = GridBagConstraints.WEST;
 		gbclblShowTooltip.insets = new Insets(0, 0, 5, 5);
 		gbclblShowTooltip.gridx = 0;
 		gbclblShowTooltip.gridy = 4;
@@ -407,6 +412,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblCardsLanguage = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("CARDS_LANGUAGE") + " :");
 		GridBagConstraints gbclblCardsLanguage = new GridBagConstraints();
+		gbclblCardsLanguage.anchor = GridBagConstraints.WEST;
 		gbclblCardsLanguage.insets = new Insets(0, 0, 5, 5);
 		gbclblCardsLanguage.gridx = 0;
 		gbclblCardsLanguage.gridy = 5;
@@ -435,6 +441,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblCleancache = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("CLEAN_CACHE") + " :");
 		GridBagConstraints gbclblCleancache = new GridBagConstraints();
+		gbclblCleancache.anchor = GridBagConstraints.WEST;
 		gbclblCleancache.insets = new Insets(0, 0, 5, 5);
 		gbclblCleancache.gridx = 0;
 		gbclblCleancache.gridy = 6;
@@ -480,6 +487,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblAutoStock = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK") + ": ");
 		GridBagConstraints gbclblAutoStock = new GridBagConstraints();
+		gbclblAutoStock.anchor = GridBagConstraints.WEST;
 		gbclblAutoStock.insets = new Insets(0, 0, 0, 5);
 		gbclblAutoStock.gridx = 0;
 		gbclblAutoStock.gridy = 7;
@@ -881,7 +889,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gblpanelCurrency = new GridBagLayout();
 		gblpanelCurrency.columnWidths = new int[] { 106, 67, 0, 0 };
 		gblpanelCurrency.rowHeights = new int[] { 23, 0, 0, 0 };
-		gblpanelCurrency.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelCurrency.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gblpanelCurrency.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelCurrency.setLayout(gblpanelCurrency);
 		panelCurrency.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
@@ -984,6 +992,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblGuiLocal = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("LOCALISATION") + " :");
 		GridBagConstraints gbclblGuiLocal = new GridBagConstraints();
+		gbclblGuiLocal.anchor = GridBagConstraints.WEST;
 		gbclblGuiLocal.insets = new Insets(0, 0, 5, 5);
 		gbclblGuiLocal.gridx = 0;
 		gbclblGuiLocal.gridy = 0;
@@ -1008,6 +1017,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK") + " :");
 		GridBagConstraints gbclblLook = new GridBagConstraints();
+		gbclblLook.anchor = GridBagConstraints.WEST;
 		gbclblLook.insets = new Insets(0, 0, 5, 5);
 		gbclblLook.gridx = 0;
 		gbclblLook.gridy = 1;
@@ -1028,6 +1038,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblPicsSize = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL_SIZE") + ": ");
 		GridBagConstraints gbclblPicsSize = new GridBagConstraints();
+		gbclblPicsSize.anchor = GridBagConstraints.WEST;
 		gbclblPicsSize.insets = new Insets(0, 0, 5, 5);
 		gbclblPicsSize.gridx = 0;
 		gbclblPicsSize.gridy = 2;
@@ -1060,6 +1071,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblShowJsonPanel = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("SHOW_JSON_PANEL") + " :");
 		GridBagConstraints gbclblShowJsonPanel = new GridBagConstraints();
+		gbclblShowJsonPanel.anchor = GridBagConstraints.WEST;
 		gbclblShowJsonPanel.insets = new Insets(0, 0, 5, 5);
 		gbclblShowJsonPanel.gridx = 0;
 		gbclblShowJsonPanel.gridy = 3;
@@ -1084,6 +1096,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JLabel lblToolPosition = new JLabel("Position :");
 		GridBagConstraints gbclblToolPosition = new GridBagConstraints();
+		gbclblToolPosition.anchor = GridBagConstraints.WEST;
 		gbclblToolPosition.insets = new Insets(0, 0, 0, 5);
 		gbclblToolPosition.gridx = 0;
 		gbclblToolPosition.gridy = 4;
