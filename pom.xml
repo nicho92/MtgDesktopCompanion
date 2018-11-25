@@ -47,13 +47,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/mkm-api-java-0.9.2.jar</systemPath>
 		</dependency>
-		<!-- <dependency>
-			<groupId>weblaf</groupId>
-			<artifactId>weblaf</artifactId>
-			<version>1.28</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/weblaf-1.28.jar</systemPath>
-		</dependency> -->
 		<dependency>
 			<groupId>com.github.insubstantial</groupId>
 			<artifactId>trident</artifactId>
@@ -119,6 +112,11 @@
 			    </exclusion>
 			  </exclusions>
 		</dependency>
+		<!-- <dependency>
+		  <groupId>com.squareup.okhttp3</groupId>
+		  <artifactId>okhttp</artifactId>
+		  <version>3.12.0</version>
+		</dependency> -->
 		<dependency>
 		    <groupId>com.sparkjava</groupId>
 		    <artifactId>spark-core</artifactId>

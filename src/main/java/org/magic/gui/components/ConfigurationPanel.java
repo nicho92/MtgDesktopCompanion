@@ -409,35 +409,6 @@ public class ConfigurationPanel extends JPanel {
 		chkToolTip.setSelected(MTGControler.getInstance().get("tooltip").equals("true"));
 		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
 
-		JLabel lblCardsLanguage = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CARDS_LANGUAGE") + " :");
-		GridBagConstraints gbclblCardsLanguage = new GridBagConstraints();
-		gbclblCardsLanguage.anchor = GridBagConstraints.WEST;
-		gbclblCardsLanguage.insets = new Insets(0, 0, 5, 5);
-		gbclblCardsLanguage.gridx = 0;
-		gbclblCardsLanguage.gridy = 5;
-		panelConfig.add(lblCardsLanguage, gbclblCardsLanguage);
-
-		JComboBox<String> cboLanguages = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
-
-		JButton btnSavelang = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		btnSavelang.addActionListener(
-				ae -> MTGControler.getInstance().setProperty(LANGAGE, cboLanguages.getSelectedItem().toString()));
-
-		GridBagConstraints gbccboLanguages = new GridBagConstraints();
-		gbccboLanguages.insets = new Insets(0, 0, 5, 5);
-		gbccboLanguages.fill = GridBagConstraints.HORIZONTAL;
-		gbccboLanguages.gridx = 1;
-		gbccboLanguages.gridy = 5;
-		panelConfig.add(cboLanguages, gbccboLanguages);
-
-		GridBagConstraints gbcbtnSavelang = new GridBagConstraints();
-		gbcbtnSavelang.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnSavelang.insets = new Insets(0, 0, 5, 0);
-		gbcbtnSavelang.gridx = 2;
-		gbcbtnSavelang.gridy = 5;
-		panelConfig.add(btnSavelang, gbcbtnSavelang);
-
 		JLabel lblCleancache = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("CLEAN_CACHE") + " :");
 		GridBagConstraints gbclblCleancache = new GridBagConstraints();
@@ -531,12 +502,6 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnDefaultStock.gridy = 7;
 		panelConfig.add(btnDefaultStock, gbcbtnDefaultStock);
 
-		if (MTGControler.getInstance().get(LANGAGE) != null) {
-			cboLanguages.setSelectedItem(MTGControler.getInstance().get(LANGAGE));
-		}
-		if (MTGControler.getInstance().get(DEFAULT_LIBRARY) != null) {
-			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY)));
-		}
 
 		btnSaveLoglevel.addActionListener(ae -> {
 			if (chckbxIconset.isSelected())
@@ -984,9 +949,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panel, gbcpanel);
 		GridBagLayout gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[] { 188, 38, 0, 0 };
-		gblpanel.rowHeights = new int[] { 23, 0, 0, 0, 0, 0 };
+		gblpanel.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0 };
 		gblpanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
-		gblpanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gblpanel);
 
 		JLabel lblGuiLocal = new JLabel(
@@ -1014,26 +979,51 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnSave3.gridy = 0;
 		panel.add(btnSave, gbcbtnSave3);
 		btnSave.addActionListener(ae -> MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem()));
+		
+				JLabel lblCardsLanguage = new JLabel(
+						MTGControler.getInstance().getLangService().getCapitalize("CARDS_LANGUAGE") + " :");
+				GridBagConstraints gbclblCardsLanguage = new GridBagConstraints();
+				gbclblCardsLanguage.anchor = GridBagConstraints.WEST;
+				gbclblCardsLanguage.insets = new Insets(0, 0, 5, 5);
+				gbclblCardsLanguage.gridx = 0;
+				gbclblCardsLanguage.gridy = 1;
+				panel.add(lblCardsLanguage, gbclblCardsLanguage);
+				
+						JComboBox<String> cboLanguages = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
+						GridBagConstraints gbccboLanguages = new GridBagConstraints();
+						gbccboLanguages.fill = GridBagConstraints.HORIZONTAL;
+						gbccboLanguages.insets = new Insets(0, 0, 5, 5);
+						gbccboLanguages.gridx = 1;
+						gbccboLanguages.gridy = 1;
+						panel.add(cboLanguages, gbccboLanguages);
+		
+				JButton btnSavelang = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+				GridBagConstraints gbcbtnSavelang = new GridBagConstraints();
+				gbcbtnSavelang.insets = new Insets(0, 0, 5, 5);
+				gbcbtnSavelang.gridx = 2;
+				gbcbtnSavelang.gridy = 1;
+				panel.add(btnSavelang, gbcbtnSavelang);
+				btnSavelang.addActionListener(
+						ae -> MTGControler.getInstance().setProperty(LANGAGE, cboLanguages.getSelectedItem().toString()));
 
 		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK") + " :");
 		GridBagConstraints gbclblLook = new GridBagConstraints();
 		gbclblLook.anchor = GridBagConstraints.WEST;
 		gbclblLook.insets = new Insets(0, 0, 5, 5);
 		gbclblLook.gridx = 0;
-		gbclblLook.gridy = 1;
+		gbclblLook.gridy = 2;
 		panel.add(lblLook, gbclblLook);
-
-		JComboBox<LookAndFeelInfo> cboLook = UITools
-				.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
-		GridBagConstraints gbccboLook = new GridBagConstraints();
-		gbccboLook.insets = new Insets(0, 0, 5, 5);
-		gbccboLook.fill= GridBagConstraints.HORIZONTAL;
-		gbccboLook.gridx = 1;
-		gbccboLook.gridy = 1;
-		panel.add(cboLook, gbccboLook);
-		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
-				SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem(),
-				true));
+		
+				JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
+				GridBagConstraints gbccboLook = new GridBagConstraints();
+				gbccboLook.insets = new Insets(0, 0, 5, 5);
+				gbccboLook.fill= GridBagConstraints.HORIZONTAL;
+				gbccboLook.gridx = 1;
+				gbccboLook.gridy = 2;
+				panel.add(cboLook, gbccboLook);
+				cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
+						SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem(),
+						true));
 
 		JLabel lblPicsSize = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL_SIZE") + ": ");
@@ -1041,23 +1031,23 @@ public class ConfigurationPanel extends JPanel {
 		gbclblPicsSize.anchor = GridBagConstraints.WEST;
 		gbclblPicsSize.insets = new Insets(0, 0, 5, 5);
 		gbclblPicsSize.gridx = 0;
-		gbclblPicsSize.gridy = 2;
+		gbclblPicsSize.gridy = 3;
 		panel.add(lblPicsSize, gbclblPicsSize);
-
-		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
-		GridBagConstraints gbcresizerPanel = new GridBagConstraints();
-		gbcresizerPanel.fill = GridBagConstraints.HORIZONTAL;
-		gbcresizerPanel.insets = new Insets(0, 0, 5, 5);
-		gbcresizerPanel.gridx = 1;
-		gbcresizerPanel.gridy = 2;
-		panel.add(resizerPanel, gbcresizerPanel);
+		
+				resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
+				GridBagConstraints gbcresizerPanel = new GridBagConstraints();
+				gbcresizerPanel.fill = GridBagConstraints.HORIZONTAL;
+				gbcresizerPanel.insets = new Insets(0, 0, 5, 5);
+				gbcresizerPanel.gridx = 1;
+				gbcresizerPanel.gridy = 3;
+				panel.add(resizerPanel, gbcresizerPanel);
 
 		JButton btnSavePicSize = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSavePicSize = new GridBagConstraints();
 		gbcbtnSavePicSize.fill = GridBagConstraints.HORIZONTAL;
 		gbcbtnSavePicSize.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSavePicSize.gridx = 2;
-		gbcbtnSavePicSize.gridy = 2;
+		gbcbtnSavePicSize.gridy = 3;
 		panel.add(btnSavePicSize, gbcbtnSavePicSize);
 		btnSavePicSize.addActionListener(ae -> {
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",
@@ -1074,24 +1064,24 @@ public class ConfigurationPanel extends JPanel {
 		gbclblShowJsonPanel.anchor = GridBagConstraints.WEST;
 		gbclblShowJsonPanel.insets = new Insets(0, 0, 5, 5);
 		gbclblShowJsonPanel.gridx = 0;
-		gbclblShowJsonPanel.gridy = 3;
+		gbclblShowJsonPanel.gridy = 4;
 		panel.add(lblShowJsonPanel, gbclblShowJsonPanel);
-
-		cbojsonView = UITools.createCombobox(new String[] { "true", "false" });
-		GridBagConstraints gbccbojsonView = new GridBagConstraints();
-		gbccbojsonView.fill = GridBagConstraints.HORIZONTAL;
-		gbccbojsonView.insets = new Insets(0, 0, 5, 5);
-		gbccbojsonView.gridx = 1;
-		gbccbojsonView.gridy = 3;
-		panel.add(cbojsonView, gbccbojsonView);
-		cbojsonView.setSelectedItem(MTGControler.getInstance().get("debug-json-panel"));
+		
+				cbojsonView = UITools.createCombobox(new String[] { "true", "false" });
+				GridBagConstraints gbccbojsonView = new GridBagConstraints();
+				gbccbojsonView.fill = GridBagConstraints.HORIZONTAL;
+				gbccbojsonView.insets = new Insets(0, 0, 5, 5);
+				gbccbojsonView.gridx = 1;
+				gbccbojsonView.gridy = 4;
+				panel.add(cbojsonView, gbccbojsonView);
+				cbojsonView.setSelectedItem(MTGControler.getInstance().get("debug-json-panel"));
 
 		JButton btnSaveJson = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSaveJson = new GridBagConstraints();
 		gbcbtnSaveJson.fill = GridBagConstraints.HORIZONTAL;
 		gbcbtnSaveJson.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSaveJson.gridx = 2;
-		gbcbtnSaveJson.gridy = 3;
+		gbcbtnSaveJson.gridy = 4;
 		panel.add(btnSaveJson, gbcbtnSaveJson);
 
 		JLabel lblToolPosition = new JLabel("Position :");
@@ -1099,17 +1089,17 @@ public class ConfigurationPanel extends JPanel {
 		gbclblToolPosition.anchor = GridBagConstraints.WEST;
 		gbclblToolPosition.insets = new Insets(0, 0, 0, 5);
 		gbclblToolPosition.gridx = 0;
-		gbclblToolPosition.gridy = 4;
+		gbclblToolPosition.gridy = 5;
 		panel.add(lblToolPosition, gbclblToolPosition);
-
-		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
-		GridBagConstraints gbccboToolPosition = new GridBagConstraints();
-		gbccboToolPosition.fill = GridBagConstraints.HORIZONTAL;
-		gbccboToolPosition.insets = new Insets(0, 0, 0, 5);
-		gbccboToolPosition.gridx = 1;
-		gbccboToolPosition.gridy = 4;
-		panel.add(cboToolPosition, gbccboToolPosition);
-		cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
+		
+				JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
+				GridBagConstraints gbccboToolPosition = new GridBagConstraints();
+				gbccboToolPosition.fill = GridBagConstraints.HORIZONTAL;
+				gbccboToolPosition.insets = new Insets(0, 0, 0, 5);
+				gbccboToolPosition.gridx = 1;
+				gbccboToolPosition.gridy = 5;
+				panel.add(cboToolPosition, gbccboToolPosition);
+				cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
 		cboToolPosition.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty("ui/moduleTabPosition",
@@ -1133,6 +1123,16 @@ public class ConfigurationPanel extends JPanel {
 		btnWebsiteSave.addActionListener(
 				ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getText()));
 
+		
+
+		if (MTGControler.getInstance().get(LANGAGE) != null) {
+			cboLanguages.setSelectedItem(MTGControler.getInstance().get(LANGAGE));
+		}
+		if (MTGControler.getInstance().get(DEFAULT_LIBRARY) != null) {
+			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY)));
+		}
+		
+		
 		for (int i = 0; i < cboLogLevels.getItemCount(); i++) {
 			if (cboLogLevels.getItemAt(i).toString().equals(MTGControler.getInstance().get("loglevel")))
 				cboLogLevels.setSelectedIndex(i);
