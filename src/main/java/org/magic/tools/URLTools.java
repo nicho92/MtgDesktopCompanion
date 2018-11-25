@@ -24,8 +24,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-import okhttp3.OkHttpClient;
-
 public class URLTools {
 
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);

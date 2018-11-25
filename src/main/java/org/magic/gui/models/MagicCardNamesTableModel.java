@@ -22,6 +22,7 @@ public class MagicCardNamesTableModel extends GenericTableModel<MagicCardNames> 
 	
 
 	public void init(MagicCard mc) {
+		this.mc=mc;
 		items=mc.getForeignNames();
 		fireTableDataChanged();
 	}

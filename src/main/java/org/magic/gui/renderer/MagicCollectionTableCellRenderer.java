@@ -21,14 +21,15 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Color c;
-	private Component pane;
+	
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		if (column == 4)
 			value = new DecimalFormat("#0.0%").format((double) value);
-
+		Component pane;
+		
 		if(value instanceof ImageIcon)
 		{
 			pane=new JLabel((ImageIcon)value);
