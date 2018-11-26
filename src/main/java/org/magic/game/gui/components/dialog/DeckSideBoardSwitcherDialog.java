@@ -143,13 +143,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	
 	private void initDescribe(JList<MagicCard> list)
 	{
-		list.addListSelectionListener(ls->{
-			
-			lightDescribeCardPanel.setCard(list.getSelectedValue());
-			
-		});
-		
-		
+		list.addListSelectionListener(ls->lightDescribeCardPanel.setCard(list.getSelectedValue()));
 	}
 	
 

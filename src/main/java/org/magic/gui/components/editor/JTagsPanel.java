@@ -243,7 +243,6 @@ class TagLabel extends JXLabel {
 //        shadow.setShadowColor(Color.BLACK);
 //        shadow.setShowRightShadow(true);
 //        shadow.setShowBottomShadow(true);
-//        
 //        setBorder(shadow);
 		
 	}

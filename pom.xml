@@ -411,7 +411,7 @@
 						<unix>.sh</unix>
 					</binFileExtensions>
 					<extraJvmArguments>-Xmx1128m</extraJvmArguments>
-					<extraJvmArguments>-XX:+UseStringDeduplication -XX:+UseG1GC -Djdk.tls.client.protocols="TLSv1"</extraJvmArguments>
+					<extraJvmArguments>-XX:+UseStringDeduplication -XX:+UseG1GC -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"</extraJvmArguments>
 					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 				<executions>

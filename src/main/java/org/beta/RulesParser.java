@@ -45,7 +45,6 @@ public class RulesParser {
 	
 	
 	public static void main(String[] args) throws IOException {
-		//URLTools.download("http://media.wizards.com/2018/downloads/MagicCompRules%2020181005.txt", new File("rules.txt"));
 		RulesParser parser = new RulesParser();
 		parser.read(FileUtils.readFileToString(new File("rules.txt"), "ISO-8859-15"));
 		
