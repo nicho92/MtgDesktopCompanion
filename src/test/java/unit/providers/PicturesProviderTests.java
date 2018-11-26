@@ -14,6 +14,7 @@ import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MagidexPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
+import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -75,6 +76,7 @@ public class PicturesProviderTests {
 		testProviders(new MagidexPicturesProvider());
 		testProviders(new MythicSpoilerPicturesProvider());
 		testProviders(new DeckMasterPicturesProvider());
+		testProviders(new PersonalSetPicturesProvider());
 		
 	}
 	
