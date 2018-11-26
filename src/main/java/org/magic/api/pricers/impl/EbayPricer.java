@@ -32,7 +32,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 		setProperty("KEYWORD", keyword);
 
-		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING);
+		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING.displayName());
 
 		String link = url.replaceAll("%KEYWORD%", keyword);
 		

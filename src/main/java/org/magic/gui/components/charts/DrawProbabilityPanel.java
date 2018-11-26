@@ -44,7 +44,7 @@ public class DrawProbabilityPanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 
 		JLabel lblDrawProbability = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DRAW_PROBABILITIES"));
-		lblDrawProbability.setFont(new Font(MTGConstants.FONT.getFontName(), Font.BOLD, 14));
+		lblDrawProbability.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 14));
 		panel.add(lblDrawProbability);
 	}
 

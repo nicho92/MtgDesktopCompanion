@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXLabel;
+import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 
 public class JTagsPanel extends JComponent {
@@ -92,7 +93,7 @@ public class JTagsPanel extends JComponent {
 		btnAdd.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "ADD");
 		btnAdd.getActionMap().put("ADD", action);
 		panelAdds.add(btnAdd);
-		componentFont = new Font("Tahoma", Font.PLAIN, 15);
+		componentFont = MTGConstants.FONT.deriveFont(Font.PLAIN, 15);
 
 	}
 

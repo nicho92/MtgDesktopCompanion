@@ -34,6 +34,7 @@ import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
+	
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;
 	private JLabel lblPrice;
@@ -53,8 +54,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
-		lblPrice = new JLabel("");
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblPrice = new JLabel();
+		lblPrice.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 13));
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
 		

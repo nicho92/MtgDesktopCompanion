@@ -339,8 +339,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		txtTextPane.setBorder(new LineBorder(Color.GRAY));
 		txtTextPane.setBackground(Color.WHITE);
 
-		txtTextPane.setFont(new Font("Arial", Font.PLAIN, 12));
-
+		
 		GridBagConstraints gbctxtTextPane = new GridBagConstraints();
 		gbctxtTextPane.gridwidth = 6;
 		gbctxtTextPane.gridheight = 2;
@@ -358,7 +357,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		add(lblFlavor, gbclblFlavor);
 
 		txtFlavorArea = new JTextPane();
-		txtFlavorArea.setFont(new Font("Arial", Font.ITALIC, 11));
 		GridBagConstraints gbctxtFlavorArea = new GridBagConstraints();
 		gbctxtFlavorArea.gridwidth = 6;
 		gbctxtFlavorArea.insets = new Insets(0, 0, 5, 5);

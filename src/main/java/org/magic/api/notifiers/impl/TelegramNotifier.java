@@ -30,7 +30,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");
-		String msg = URLEncoder.encode(notification.getMessage(),MTGConstants.DEFAULT_ENCODING);
+		String msg = URLEncoder.encode(notification.getMessage(),MTGConstants.DEFAULT_ENCODING.displayName());
 		
 		if(msg.length()>4096)
 		{

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGStory;
+import org.magic.services.MTGConstants;
 
 public class MTGStoryListPanel extends JPanel {
 
@@ -21,8 +22,7 @@ public class MTGStoryListPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblicon;
-	private String useFonts = "Tahoma";
-
+	
 	public MTGStoryListPanel(MTGStory value) {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -41,7 +41,7 @@ public class MTGStoryListPanel extends JPanel {
 		add(lblicon, gbclblicon);
 
 		JLabel lblTitle = new JLabel(value.getTitle());
-		lblTitle.setFont(new Font(useFonts, Font.BOLD, 14));
+		lblTitle.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 14));
 		GridBagConstraints gbclblTitle = new GridBagConstraints();
 		gbclblTitle.insets = new Insets(0, 0, 5, 5);
 		gbclblTitle.anchor = GridBagConstraints.NORTHWEST;
@@ -50,7 +50,7 @@ public class MTGStoryListPanel extends JPanel {
 		add(lblTitle, gbclblTitle);
 
 		JLabel lblDate = new JLabel(value.getDate());
-		lblDate.setFont(new Font(useFonts, Font.PLAIN, 11));
+		lblDate.setFont(MTGConstants.FONT.deriveFont(Font.PLAIN, 11));
 		GridBagConstraints gbclblDate = new GridBagConstraints();
 		gbclblDate.anchor = GridBagConstraints.NORTH;
 		gbclblDate.insets = new Insets(0, 0, 5, 0);
@@ -59,7 +59,7 @@ public class MTGStoryListPanel extends JPanel {
 		add(lblDate, gbclblDate);
 
 		JLabel lblAuthor = new JLabel(value.getAuthor());
-		lblAuthor.setFont(new Font(useFonts, Font.ITALIC, 11));
+		lblAuthor.setFont(MTGConstants.FONT.deriveFont( Font.ITALIC, 11));
 		GridBagConstraints gbclblAuthor = new GridBagConstraints();
 		gbclblAuthor.anchor = GridBagConstraints.WEST;
 		gbclblAuthor.insets = new Insets(0, 0, 5, 5);

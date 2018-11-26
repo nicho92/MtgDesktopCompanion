@@ -95,7 +95,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		List<MagicCard> lists = new ArrayList<>();
 		URLConnection con = null;
 		int page = 1;
-		String url = getString(JSON_URL) + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING);
+		String url = getString(JSON_URL) + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING.displayName());
 		logger.debug(url);
 
 		con = URLTools.openConnection(url);
@@ -104,7 +104,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		int totalcount = con.getHeaderFieldInt("Total-Count", 0);
 
 		while (count < totalcount) {
-			url = getString(JSON_URL) + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING) + "&page=" + page++;
+			url = getString(JSON_URL) + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING.displayName()) + "&page=" + page++;
 			logger.trace(url);
 			JsonArray jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
 			for (int i = 0; i < jsonList.size(); i++) {
@@ -286,7 +286,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		JsonObject temp = null;
 		try {
 			reader = new JsonReader(new InputStreamReader(URLTools.openConnection(
-					getString(JSON_URL) + "/cards?set=" + ed.getId() + "&name=" + URLEncoder.encode(mc.getName(), MTGConstants.DEFAULT_ENCODING))
+					getString(JSON_URL) + "/cards?set=" + ed.getId() + "&name=" + URLEncoder.encode(mc.getName(), MTGConstants.DEFAULT_ENCODING.displayName()))
 							.getInputStream(),
 					MTGConstants.DEFAULT_ENCODING));
 			root = new JsonParser().parse(reader).getAsJsonObject();

@@ -28,12 +28,12 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String keyword = card.getName();
 		String url = getString("URL");
 
-		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING);
+		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING.displayName());
 
 		setProperty("KEYWORD", keyword);
 
 		if (me != null)
-			keyword += "&setname=" + URLEncoder.encode(me.getSet(), MTGConstants.DEFAULT_ENCODING);
+			keyword += "&setname=" + URLEncoder.encode(me.getSet(), MTGConstants.DEFAULT_ENCODING.displayName());
 
 		String link = url.replaceAll("%CARDNAME%", keyword);
 
@@ -43,7 +43,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String value = root.getAsJsonArray().get(0).getAsString();
 
 		MagicPrice mp = new MagicPrice();
-		mp.setUrl("http://store.channelfireball.com/products/search?query="+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
+		mp.setUrl("http://store.channelfireball.com/products/search?query="+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()));
 		mp.setSite(getName());
 		mp.setCurrency("USD");
 		try {

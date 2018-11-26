@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -59,7 +60,11 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 		PrintWriter ps = new PrintWriter(baos);
 		formatter.printHelp(ps, 50, getCommandName(), null, opts, 0, 0, null);
 		ps.close();
-		return new CommandResponse(String.class,null,toObject(baos.toString(MTGConstants.DEFAULT_ENCODING)));
+		try {
+			return new CommandResponse(String.class,null,toObject(baos.toString(MTGConstants.DEFAULT_ENCODING.displayName())));
+		} catch (UnsupportedEncodingException e) {
+			return new CommandResponse(String.class,null,toObject(baos.toString()));
+		}
 	
 	}
 	

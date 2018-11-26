@@ -38,7 +38,7 @@ public class EbayShopper extends AbstractMagicShopper {
 			url = url.replaceAll("%COUNTRY%", getString("COUNTRY"));
 			url = url.replaceAll("%MAX%", getString("MAX"));
 
-			String keyword = URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING);
+			String keyword = URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING.displayName());
 
 			String link = url.replaceAll("%KEYWORD%", keyword);
 

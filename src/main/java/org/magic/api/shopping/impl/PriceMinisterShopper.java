@@ -38,7 +38,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 				.append("&version=").append(getString("VERSION"))
 				.append("&scope=").append(getString("SCOPE"))
 				.append("&nbproductsperpage=").append(getString("NB_PRODUCT_PAGE"))
-				.append("&kw=").append(URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING))
+				.append("&kw=").append(URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING.displayName()))
 				.append("&nav=").append(getString("CATEGORIE"));
 
 			logger.debug(getName() + " parsing item from " + url);

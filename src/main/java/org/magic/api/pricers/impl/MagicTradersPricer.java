@@ -47,7 +47,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 						MagicPrice mp = new MagicPrice();
 						mp.setSeller(getName());
 						mp.setUrl("http://store.eudogames.com/products/search?query="
-								+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
+								+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()));
 						mp.setSite(getName());
 						mp.setValue(f);
 						mp.setCurrency("USD");

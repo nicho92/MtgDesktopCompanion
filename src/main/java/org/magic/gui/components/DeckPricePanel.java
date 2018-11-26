@@ -107,7 +107,7 @@ public class DeckPricePanel extends JComponent {
 
 		lblPrice = new JLabel();
 		panel.add(lblPrice);
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblPrice.setFont(MTGConstants.FONT.deriveFont( Font.BOLD, 13));
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);

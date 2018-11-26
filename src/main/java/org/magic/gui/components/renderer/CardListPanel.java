@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.ManaPanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.extra.IconSetProvider;
 
 public class CardListPanel extends JPanel {
@@ -43,7 +44,7 @@ public class CardListPanel extends JPanel {
 		setLayout(gridBagLayout);
 
 		lblName = new JLabel();
-		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblName.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
 		gbclblName.fill = GridBagConstraints.VERTICAL;
 		gbclblName.insets = new Insets(0, 0, 5, 5);
@@ -83,7 +84,7 @@ public class CardListPanel extends JPanel {
 		add(manaPanel, gbcmanaPanel);
 
 		lblRarity = new JLabel();
-		lblRarity.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblRarity.setFont(MTGConstants.FONT.deriveFont(Font.ITALIC, 11));
 		GridBagConstraints gbclblRarity = new GridBagConstraints();
 		gbclblRarity.fill = GridBagConstraints.VERTICAL;
 		gbclblRarity.gridwidth = 2;
