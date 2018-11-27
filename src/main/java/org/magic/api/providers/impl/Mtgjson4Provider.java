@@ -522,9 +522,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		if(id.startsWith("p"))
 			id=id.toUpperCase();
 		
-		if(id.equals("CON"))
-			id="CON_";
-		
 		MagicEdition ed = new MagicEdition(id);
 		String base = "$." + id.toUpperCase();
 		try{
@@ -581,38 +578,26 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			//do nothing
 		}
 		
-		try{//TODO parsing booster cards
-			JsonArray arr = ctx.read(base + ".boosterV3", JsonArray.class);
-		}catch(PathNotFoundException pnfe)
-		{ 
-			//do nothing
+		try {
+			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
+		} catch (PathNotFoundException pnfe) {
+			// do nothing
 		}
 		
-		try{
-			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
-			}catch(PathNotFoundException pnfe)
-			{ 
-				//do nothing
-			}
 		
 		
-		
-		
-		try{
+		try {
 			ed.setCardCount(ctx.read(base + ".totalSetSize", Integer.class));
-			}catch(PathNotFoundException pnfe)
-			{ 
-				logger.warn("totalSetSize not found, manual calculation");
-				if (ed.getCardCount() == 0)
-					try{	
-						Integer i = ctx.read(base + ".cards.length()");
-						ed.setCardCount(i);
-					}
-					catch(Exception e)
-					{
-						ed.setCardCount(0);		
-					}
-			}
+		} catch (PathNotFoundException pnfe) {
+			logger.warn("totalSetSize not found in " + ed.getId() + ", manual calculation");
+			if (ed.getCardCount() == 0)
+				try {
+					Integer i = ctx.read(base + ".cards.length()");
+					ed.setCardCount(i);
+				} catch (Exception e) {
+					ed.setCardCount(0);
+				}
+		}
 		return ed;
 	}
 
