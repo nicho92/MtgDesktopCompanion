@@ -69,6 +69,9 @@ public class IndexerTests {
 				p.similarity(mc).entrySet().forEach(entry->{
 					System.out.println(entry.getValue() + "\t" + entry.getKey());
 				});
+				
+				System.out.println(p.suggestCardName("emrakul"));
+				
 			} catch (Exception e) {
 				System.out.println("ERROR " + e);
 			}

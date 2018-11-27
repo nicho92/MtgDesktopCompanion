@@ -24,7 +24,7 @@ public class PicturesProviderTests {
 	MagicCard mc;
 	MagicEdition ed;
 	
-	@Before
+	
 	public void removeCache()
 	{
 		MTGLogger.changeLevel(Level.ERROR);
@@ -70,6 +70,16 @@ public class PicturesProviderTests {
 	@Test
 	public void test()
 	{
+		testProviders(new ScryFallPicturesProvider());
+		testProviders(new GathererPicturesProvider());
+		testProviders(new ScryFallPicturesProvider());
+		testProviders(new MagidexPicturesProvider());
+		testProviders(new MythicSpoilerPicturesProvider());
+		testProviders(new DeckMasterPicturesProvider());
+		testProviders(new PersonalSetPicturesProvider());
+		
+		removeCache();
+		
 		testProviders(new ScryFallPicturesProvider());
 		testProviders(new GathererPicturesProvider());
 		testProviders(new ScryFallPicturesProvider());

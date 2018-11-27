@@ -17,6 +17,7 @@ import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
 import org.magic.api.decksniffer.impl.MTGoldFishDeck;
 import org.magic.api.decksniffer.impl.MagicCorporationDecks;
 import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
+import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
@@ -75,7 +76,7 @@ public class DeckSnifferProviderTests {
 		test(new MTGTop8DeckSniffer());
 		test(new TCGPlayerDeckSniffer());
 		test(new MTGDecksSniffer());
-	//	test(new TappedOutDeckSniffer());
+		test(new TappedOutDeckSniffer());
 		
 		
 	}
