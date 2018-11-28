@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -71,7 +72,7 @@ public class RarityRepartitionPanel extends JPanel {
 		plot.setSectionPaint("Uncommon", Color.GRAY);
 		plot.setSectionPaint("Common", Color.WHITE);
 		plot.setSectionPaint("Rare", Color.YELLOW);
-		plot.setSectionPaint("Mythic Rare", Color.ORANGE);
+		plot.setSectionPaint("Mythic", Color.ORANGE);
 
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
@@ -83,7 +84,7 @@ public class RarityRepartitionPanel extends JPanel {
 	private PieDataset getRarityRepartitionDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for (Entry<String, Integer> data : manager.analyseRarities(cards).entrySet()) {
-			dataset.setValue(data.getKey(), data.getValue());
+			dataset.setValue(StringUtils.capitalize(data.getKey()), data.getValue());
 		}
 
 		return dataset;
