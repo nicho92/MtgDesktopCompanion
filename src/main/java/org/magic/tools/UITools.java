@@ -3,6 +3,8 @@ package org.magic.tools;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -54,7 +56,23 @@ public class UITools {
 		return s.split("[\\r\\n]+");
 	}
 	
-
+	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,Insets in,int gridx,int gridy)
+	{
+		GridBagConstraints cons = new GridBagConstraints();
+		
+		if(anchor!=null)
+			cons.anchor = anchor;
+		
+		if(fill!=null)
+			cons.fill = fill;
+		
+		cons.insets = in;
+		cons.gridx = gridx;
+		cons.gridy = gridy;
+		
+		return cons;
+	}
+	
 	
 	
 	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)
