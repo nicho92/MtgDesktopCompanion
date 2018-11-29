@@ -1,6 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +13,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
@@ -44,6 +48,7 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -190,6 +195,13 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLocation.gridx = 0;
 		gbclblLocation.gridy = 2;
 		panelDAO.add(lblLocation, gbclblLocation);
+		
+		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getEnabled(MTGDao.class).getDBLocation());
+		GridBagConstraints gbclblDBLocation = new GridBagConstraints();
+		gbclblDBLocation.insets = new Insets(0, 0, 5, 5);
+		gbclblDBLocation.gridx = 1;
+		gbclblDBLocation.gridy = 2;
+		panelDAO.add(lblNewLabel, gbclblDBLocation);
 
 		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE") + " : ");
 		GridBagConstraints gbclblSize = new GridBagConstraints();
@@ -198,6 +210,13 @@ public class ConfigurationPanel extends JPanel {
 		gbclblSize.gridx = 0;
 		gbclblSize.gridy = 3;
 		panelDAO.add(lblSize, gbclblSize);
+		
+		JLabel lblSizeValue  = new JLabel(String.valueOf(MTGControler.getInstance().getEnabled(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
+		GridBagConstraints gbclblNewLabel = new GridBagConstraints();
+		gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbclblNewLabel.gridx = 1;
+		gbclblNewLabel.gridy = 3;
+		panelDAO.add(lblSizeValue , gbclblNewLabel);
 
 		JLabel lblIndexation = new JLabel("Réindexation : ");
 		GridBagConstraints gbclblIndexation = new GridBagConstraints();
@@ -897,6 +916,7 @@ public class ConfigurationPanel extends JPanel {
 		panelCurrency.add(btnSavecurrency, gbcbtnSavecurrency);
 
 		JLabel lclCodeCurrency = new JLabel("CurrencyLayer API code :");
+		
 		GridBagConstraints gbclclCodeCurrency = new GridBagConstraints();
 		gbclclCodeCurrency.insets = new Insets(0, 0, 5, 5);
 		gbclclCodeCurrency.anchor = GridBagConstraints.WEST;
@@ -1100,16 +1120,18 @@ public class ConfigurationPanel extends JPanel {
 				gbccboToolPosition.gridy = 5;
 				panel.add(cboToolPosition, gbccboToolPosition);
 				cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
+	
+				
 		cboToolPosition.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty("ui/moduleTabPosition",
 						cboToolPosition.getSelectedItem().toString());
 
 		});
-		btnSaveJson.addActionListener(
-				ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.getSelectedItem()));
-		btnSavecurrency.addActionListener(
-				ae -> MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
+		
+		btnSaveJson.addActionListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.getSelectedItem()));
+		
+		btnSavecurrency.addActionListener(ae -> MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
 
 		btnAdd.addActionListener(ae -> {
 			try {
@@ -1120,10 +1142,28 @@ public class ConfigurationPanel extends JPanel {
 			}
 		});
 
-		btnWebsiteSave.addActionListener(
-				ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getText()));
+		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getText()));
 
-		
+		lclCodeCurrency.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI(MTGConstants.CURRENCY_API));
+				} catch (Exception e1) {
+					logger.error(e1);
+				} 
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lclCodeCurrency.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lclCodeCurrency.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+			
+		});
 
 		if (MTGControler.getInstance().get(LANGAGE) != null) {
 			cboLanguages.setSelectedItem(MTGControler.getInstance().get(LANGAGE));
