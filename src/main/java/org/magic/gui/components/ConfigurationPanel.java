@@ -103,55 +103,28 @@ public class ConfigurationPanel extends JPanel {
 		}
 	}
 	
+	private JPanel createBoxPanel(String keyName,GridBagLayout layout)
+	{
+		JPanel pane = new JPanel();
+		pane.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
+				MTGControler.getInstance().getLangService().getCapitalize(keyName), TitledBorder.LEADING,
+				TitledBorder.TOP, null, new Color(64, 64, 64)));
+		pane.setLayout(layout);
+		
+		return pane;
+	}
+	
+	
 	
 	public ConfigurationPanel() {
-
-		cboTargetDAO = UITools.createCombobox(MTGDao.class, true);
-		cboTargetDAO.removeItem(MTGControler.getInstance().getEnabled(MTGDao.class));
-
-		
-		cboEditionLands = UITools.createComboboxEditions();
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
-		JPanel panelDAO = new JPanel();
-		panelDAO.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
-		
-		
-		JPanel panelConfig = new JPanel();
-		panelConfig.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
-		
-		JPanel panelWebSite = new JPanel();
-		panelWebSite.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
-		
-		JPanel panelGameProfil = new JPanel();
-		panelGameProfil.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize("GAME"), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
-
-		JPanel panelModule = new JPanel();
-		panelModule.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Modules",
-				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(64, 64, 64)));
-		
-		JPanel panelCurrency = new JPanel();
-		panelCurrency.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize("CURRENCY"), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
-		
-		JPanel panelGUI = new JPanel();
-		panelGUI.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "GUI", TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
 		
 /////////////CONFIG PANEL BOX		
 		
 		GridBagLayout mainPanelLayout = new GridBagLayout();
-					mainPanelLayout.columnWidths = new int[] { 396, 212, 0 };
-					mainPanelLayout.rowHeights = new int[] { 203, 0, 110, 0, 0 };
+					mainPanelLayout.columnWidths = new int[] { 300, 212, 0 };
+					mainPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 					mainPanelLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 					mainPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 					
@@ -199,25 +172,27 @@ public class ConfigurationPanel extends JPanel {
 					
 					
 		setLayout(mainPanelLayout);
-		panelDAO.setLayout(daoPanelLayout);
-		panelConfig.setLayout(configPanelLayout);
-		panelWebSite.setLayout(websitePanelLayout);
-		panelGameProfil.setLayout(gameProfilPanelLayout);
-		panelModule.setLayout(modulesPanelLayout);
-		panelCurrency.setLayout(currencyPanelLayout);
-		panelGUI.setLayout(guiPanelLayout);
+		
+
+		JPanel panelDAO = createBoxPanel("DATABASES",daoPanelLayout);
+		JPanel panelConfig = createBoxPanel("CONFIGURATION",configPanelLayout);
+		JPanel panelWebSite = createBoxPanel("WEBSITE",websitePanelLayout);
+		JPanel panelGameProfil = createBoxPanel("GAME",gameProfilPanelLayout);
+		JPanel panelModule = createBoxPanel("Modules",modulesPanelLayout);
+		JPanel panelCurrency = createBoxPanel("CURRENCY",currencyPanelLayout);
+		JPanel panelGUI = createBoxPanel("GUI",guiPanelLayout);
 		
 		
-		add(panelDAO, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 0));
-		add(panelConfig, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 1, 0));
-		add(panelWebSite, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 1));
-		add(panelGameProfil, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 2));
-		add(panelModule, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 1, 1));
-		add(panelCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 3));
-		add(panelGUI, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 1, 2));
+		add(panelDAO, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0));
+		add(panelConfig, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 0));
+		add(panelWebSite, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 1));
+		add(panelGameProfil, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 2));
+		add(panelModule, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 1));
+		add(panelCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 3));
+		add(panelGUI, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 2));
 
 		
-		GridBagConstraints gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 4);
+		GridBagConstraints gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
 		gbclblLoading.gridwidth = 2;
 		add(lblLoading,gbclblLoading);
 		
@@ -235,22 +210,24 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblIndexation = new JLabel("Indexation : ");
 		JLabel lblIndexSize = new JLabel(UITools.formatDate(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).getIndexDate()));
 		JButton btnIndexation = new JButton("Reindexation");
+		cboTargetDAO = UITools.createCombobox(MTGDao.class, true);
+		cboTargetDAO.removeItem(MTGControler.getInstance().getEnabled(MTGDao.class));
 
 		
 		
-		panelDAO.add(lblBackupDao, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 0));
-		panelDAO.add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
-		panelDAO.add(btnBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 0));
-		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 1));
-		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
-		panelDAO.add(btnDuplicate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 1));
-		panelDAO.add(lblLocation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 2));
-		panelDAO.add(lbldbLocationValue, UITools.createGridBagConstraints(null, null, new Insets(0, 0, 5, 5), 1, 2));
-		panelDAO.add(lblSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 3));
-		panelDAO.add(lblSizeValue, UITools.createGridBagConstraints(null, null, new Insets(0, 0, 5, 5), 1, 3));
-		panelDAO.add(lblIndexation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 0, 5), 0, 4));
-		panelDAO.add(lblIndexSize, UITools.createGridBagConstraints(null, null, new Insets(0, 0, 0, 5), 1, 4));
-		panelDAO.add(btnIndexation, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 2, 4));
+		panelDAO.add(lblBackupDao, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelDAO.add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelDAO.add(btnBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
+		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
+		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+		panelDAO.add(btnDuplicate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 1));
+		panelDAO.add(lblLocation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
+		panelDAO.add(lbldbLocationValue, UITools.createGridBagConstraints(null, null,  1, 2));
+		panelDAO.add(lblSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
+		panelDAO.add(lblSizeValue, UITools.createGridBagConstraints(null, null,  1, 3));
+		panelDAO.add(lblIndexation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 4));
+		panelDAO.add(lblIndexSize, UITools.createGridBagConstraints(null, null, 1, 4));
+		panelDAO.add(btnIndexation, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
 		
 		
 /////////////CONFIG BOX
@@ -275,7 +252,8 @@ public class ConfigurationPanel extends JPanel {
 		JCheckBox chkboxAutoDelete = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_DELETE"));
 		JButton btnDefaultStock = new JButton("Default Stock");
 		JPanel panelAutoStock = new JPanel();
-		
+		cboEditionLands = UITools.createComboboxEditions();
+
 		((FlowLayout) panelAutoStock.getLayout()).setAlignment(FlowLayout.LEFT);
 		
 		
@@ -291,24 +269,24 @@ public class ConfigurationPanel extends JPanel {
 		panelAutoStock.add(chkboxAutoDelete);
 
 		
-		panelConfig.add(lblMainCol, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 0));
-		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
-		panelConfig.add(btnSaveDefaultLib, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 0));
-		panelConfig.add(lblDefaultLandManuel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 1));
-		panelConfig.add(cboEditionLands, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
-		panelConfig.add(btnSaveDefaultLandDeck, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 1));
-		panelConfig.add(lblLogLevel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 2));
-		panelConfig.add(cboLogLevels, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 2));
-		panelConfig.add(btnSaveLoglevel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 2));
-		panelConfig.add(lblDontTakeAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 3));
-		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 3));
-		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 3));
-		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 4));
-		panelConfig.add(panelCheckCache, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 5, 5), 1, 4));
-		panelConfig.add(btnClean, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 4));
-		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 0, 5), 0, 5));
-		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 0, 5), 1, 5));
-		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 2, 5));
+		panelConfig.add(lblMainCol, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelConfig.add(btnSaveDefaultLib, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
+		panelConfig.add(lblDefaultLandManuel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
+		panelConfig.add(cboEditionLands, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+		panelConfig.add(btnSaveDefaultLandDeck, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 1));
+		panelConfig.add(lblLogLevel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
+		panelConfig.add(cboLogLevels, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
+		panelConfig.add(btnSaveLoglevel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 2));
+		panelConfig.add(lblDontTakeAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
+		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
+		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
+		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
+		panelConfig.add(panelCheckCache, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL,  1, 4));
+		panelConfig.add(btnClean, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
+		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 5));
+		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 5));
+		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
 
 		
 
@@ -324,12 +302,12 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnAdd = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		
 		
-		panelWebSite.add(lblWebsiteDir, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 0, 0));
-		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
-		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 3, 0));
-		panelWebSite.add(lblAddWebsiteCertificate, UITools.createGridBagConstraints(null, null, new Insets(0, 0, 5, 5), 0, 1));
-		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
-		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 3, 1));
+		panelWebSite.add(lblWebsiteDir, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
+		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 0));
+		panelWebSite.add(lblAddWebsiteCertificate, UITools.createGridBagConstraints(null, null,  0, 1));
+		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
 
 		
 		
@@ -343,12 +321,12 @@ public class ConfigurationPanel extends JPanel {
 		JResizerPanel gamePicsResizerPanel = new JResizerPanel(MTGControler.getInstance().getCardsGameDimension());
 		JButton btnSaveProfilGame = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 	
-		panelGameProfil.add(lblName, UITools.createGridBagConstraints(GridBagConstraints.EAST, null, new Insets(0, 0, 5, 5), 0, 0));
-		panelGameProfil.add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
-		panelGameProfil.add(lblAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 0, 1));
-		panelGameProfil.add(lblIconAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 1, 1));
-		panelGameProfil.add(gamePicsResizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 2, 2));
-		panelGameProfil.add(btnSaveProfilGame,UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 2, 3));
+		panelGameProfil.add(lblName, UITools.createGridBagConstraints(GridBagConstraints.EAST, null,  0, 0));
+		panelGameProfil.add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelGameProfil.add(lblAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 1));
+		panelGameProfil.add(lblIconAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 1));
+		panelGameProfil.add(gamePicsResizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  2, 0));
+		panelGameProfil.add(btnSaveProfilGame,UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  3, 0));
 		
 		loadIcon();
 
@@ -394,18 +372,18 @@ public class ConfigurationPanel extends JPanel {
 		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
 		
 		
-		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 1, 0));
-		panelModule.add(chckbxCollection, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 3, 0));
-		panelModule.add(chckbxStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 5, 0));
-		panelModule.add(chckbxAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 6, 0));
-		panelModule.add(chckbxDashboard, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 1, 1));
-		panelModule.add(chckbxGame, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 3, 1));
-		panelModule.add(chckbxRss, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 5, 1));
-		panelModule.add(chckbxWallpaper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 6, 1));
-		panelModule.add(chckbxDeckBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 1, 2));
-		panelModule.add(chckbxShopper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 3, 2));
-		panelModule.add(chckbxHistory, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 5, 2));
-		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 6, 2));
+		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
+		panelModule.add(chckbxCollection, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 0));
+		panelModule.add(chckbxStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 0));
+		panelModule.add(chckbxAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 0));
+		panelModule.add(chckbxDashboard, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 1));
+		panelModule.add(chckbxGame, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 1));
+		panelModule.add(chckbxRss, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 1));
+		panelModule.add(chckbxWallpaper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 1));
+		panelModule.add(chckbxDeckBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 2));
+		panelModule.add(chckbxShopper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 2));
+		panelModule.add(chckbxHistory, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 2));
+		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 2));
 
 
 	
@@ -426,13 +404,13 @@ public class ConfigurationPanel extends JPanel {
 			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get(CURRENCY)));
 		
 		
-		panelCurrency.add(lblCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 0));
-		panelCurrency.add(cboCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
-		panelCurrency.add(btnSavecurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 2, 0));
-		panelCurrency.add(lclCodeCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 1));
-		panelCurrency.add(txtCurrencyFieldApiCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
-		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 2, 1));
-		panelCurrency.add(btnUpdateCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 2, 2));
+		panelCurrency.add(lblCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelCurrency.add(cboCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelCurrency.add(btnSavecurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 0));
+		panelCurrency.add(lclCodeCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
+		panelCurrency.add(txtCurrencyFieldApiCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 1));
+		panelCurrency.add(btnUpdateCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
 
 /////////////GUI BOX			
 		
@@ -460,28 +438,28 @@ public class ConfigurationPanel extends JPanel {
 		cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
 		
 		
-		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 0));
-		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
-		panelGUI.add(btnSaveLocal, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 2, 0));
-		panelGUI.add(lblCardsLanguage, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 1));
-		panelGUI.add(cboLanguages, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
-		panelGUI.add(btnSavelang, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 2, 1));
-		panelGUI.add(lblLook,  UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 2));
-		panelGUI.add(cboLook,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 2));
-		panelGUI.add(lblPicsSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 3));
-		panelGUI.add(resizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 3));
-		panelGUI.add(btnSavePicSize, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 2, 3));
-		panelGUI.add(lblShowJsonPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 4));
-		panelGUI.add(cbojsonView, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 4));
-		panelGUI.add(lblShowTooltip, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 5));
-		panelGUI.add(chkToolTip, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 5));
-		panelGUI.add(lblToolPosition, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 6));
-		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 6));
+		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelGUI.add(btnSaveLocal, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 0));
+		panelGUI.add(lblCardsLanguage, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
+		panelGUI.add(cboLanguages, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+		panelGUI.add(btnSavelang, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 1));
+		panelGUI.add(lblLook,  UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
+		panelGUI.add(cboLook,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
+		panelGUI.add(lblPicsSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
+		panelGUI.add(resizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
+		panelGUI.add(btnSavePicSize, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 3));
+		panelGUI.add(lblShowJsonPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
+		panelGUI.add(cbojsonView, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 4));
+		panelGUI.add(lblShowTooltip, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 5));
+		panelGUI.add(chkToolTip, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 5));
+		panelGUI.add(lblToolPosition, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 6));
+		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 6));
 		
 		
 		
 		
-	
+/////////////EVENTS	
 				
 		cboToolPosition.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
