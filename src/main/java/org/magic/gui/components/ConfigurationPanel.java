@@ -124,7 +124,13 @@ public class ConfigurationPanel extends JPanel {
 				MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(64, 64, 64)));
 		
+		JPanel panelWebSite = new JPanel();
+		panelWebSite.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true),
+				MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"), TitledBorder.LEADING,
+				TitledBorder.TOP, null, new Color(64, 64, 64)));
 		
+
+/////////////CONFIG PANEL BOX		
 		
 		GridBagLayout mainPanelLayout = new GridBagLayout();
 					mainPanelLayout.columnWidths = new int[] { 396, 212, 0 };
@@ -143,17 +149,24 @@ public class ConfigurationPanel extends JPanel {
 					configPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 					configPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 					configPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-								
 	
+		GridBagLayout websitePanelLayout = new GridBagLayout();
+					websitePanelLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+					websitePanelLayout.rowHeights = new int[] { 0, 0, 0 };
+					websitePanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+					websitePanelLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+					
 					
 		setLayout(mainPanelLayout);
 		panelDAO.setLayout(daoPanelLayout);
 		panelConfig.setLayout(configPanelLayout);
+		panelWebSite.setLayout(websitePanelLayout);
 		
 		
 		add(panelDAO, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 0));
-		add(panelConfig, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 0), 1, 0));
-
+		add(panelConfig, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 1, 0));
+		add(panelWebSite, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 5, 5), 0, 1));
+		
 		
 /////////////DAO BOX		
 		JLabel lblBackupDao = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DAO_BACKUP") + " : ");
@@ -174,7 +187,7 @@ public class ConfigurationPanel extends JPanel {
 		panelDAO.add(lblBackupDao, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 0));
 		panelDAO.add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
 		panelDAO.add(btnBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 0));
-		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, new Insets(0, 0, 5, 5), 0, 1));
+		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 1));
 		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
 		panelDAO.add(btnDuplicate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 1));
 		panelDAO.add(lblLocation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 2));
@@ -201,15 +214,28 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblCleancache = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CLEAN_CACHE") + " :");
 		JButton btnClean = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CLEAN"));
 		JPanel panelCheckCache = new JPanel();
-
+		JLabel lblAutoStock = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK") + ": ");
+		JCheckBox chkboxAutoAdd = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_ADD"));
 		chckbxIconset = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_CARD"));
+		JCheckBox chkboxAutoDelete = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_DELETE"));
+		JButton btnDefaultStock = new JButton("Default Stock");
+		JPanel panelAutoStock = new JPanel();
+		
+		((FlowLayout) panelAutoStock.getLayout()).setAlignment(FlowLayout.LEFT);
+		
+		
 		chckbxIconset.setSelected(true);
 		chckbxIconcards.setSelected(true);
+		chkboxAutoAdd.setSelected(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"));
+		chkboxAutoDelete.setSelected(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"));
+		
 		
 		panelCheckCache.add(chckbxIconset);
 		panelCheckCache.add(chckbxIconcards);
-	
+		panelAutoStock.add(chkboxAutoAdd);
+		panelAutoStock.add(chkboxAutoDelete);
+
 		
 		panelConfig.add(lblMainCol, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
@@ -226,146 +252,35 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 5, 5), 0, 4));
 		panelConfig.add(panelCheckCache, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 5, 5), 1, 4));
 		panelConfig.add(btnClean, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 2, 4));
+		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, new Insets(0, 0, 0, 5), 0, 5));
+		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, new Insets(0, 0, 0, 5), 1, 5));
+		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5), 2, 5));
+
 		
+
 		
-		JLabel lblAutoStock = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK") + ": ");
-		GridBagConstraints gbclblAutoStock = new GridBagConstraints();
-		gbclblAutoStock.anchor = GridBagConstraints.WEST;
-		gbclblAutoStock.insets = new Insets(0, 0, 0, 5);
-		gbclblAutoStock.gridx = 0;
-		gbclblAutoStock.gridy = 5;
-		panelConfig.add(lblAutoStock, gbclblAutoStock);
 
-		JPanel panelAutoStock = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panelAutoStock.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		GridBagConstraints gbcpanelAutoStock = new GridBagConstraints();
-		gbcpanelAutoStock.insets = new Insets(0, 0, 0, 5);
-		gbcpanelAutoStock.fill = GridBagConstraints.BOTH;
-		gbcpanelAutoStock.gridx = 1;
-		gbcpanelAutoStock.gridy = 5;
-		panelConfig.add(panelAutoStock, gbcpanelAutoStock);
-
-		JCheckBox chkboxAutoAdd = new JCheckBox(
-				MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_ADD"));
-		chkboxAutoAdd.setSelected(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"));
-		chkboxAutoAdd.addActionListener(e -> MTGControler.getInstance().setProperty("collections/stockAutoAdd",
-				String.valueOf(chkboxAutoAdd.isSelected())));
-		panelAutoStock.add(chkboxAutoAdd);
-
-		JCheckBox chkboxAutoDelete = new JCheckBox(
-				MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_DELETE"));
-		chkboxAutoDelete.setSelected(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"));
-		chkboxAutoDelete.addActionListener(e -> MTGControler.getInstance().setProperty("collections/stockAutoDelete",
-				String.valueOf(chkboxAutoDelete.isSelected())));
-
-		panelAutoStock.add(chkboxAutoDelete);
-
-		JButton btnDefaultStock = new JButton("Default Stock");
-		btnDefaultStock.addActionListener(ae -> {
-			DefaultStockEditorDialog diag = new DefaultStockEditorDialog();
-			diag.setMagicCardStock(MTGControler.getInstance().getDefaultStock());
-			diag.setVisible(true);
-
-		});
-		GridBagConstraints gbcbtnDefaultStock = new GridBagConstraints();
-		gbcbtnDefaultStock.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnDefaultStock.gridx = 2;
-		gbcbtnDefaultStock.gridy = 5;
-		panelConfig.add(btnDefaultStock, gbcbtnDefaultStock);
-
-
-		btnSaveLoglevel.addActionListener(ae -> {
-			if (chckbxIconset.isSelected())
-				MTGControler.getInstance().setProperty("loglevel", (Level) cboLogLevels.getSelectedItem());
-			MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem());
-		});
-
-		cboLogLevels.addActionListener(ae -> MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem()));
-
-		btnSaveDefaultLandDeck.addActionListener(ae -> MTGControler.getInstance().setProperty("default-land-deck",
-				((MagicEdition) cboEditionLands.getSelectedItem()).getId()));
-
-		btnSaveDefaultLib.addActionListener(ae -> {
-			try {
-
-				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,
-						(MagicCollection) cboCollections.getSelectedItem());
-			} catch (Exception e) {
-				logger.error(e);
-			}
-		});
-
-		JPanel panelWebSite = new JPanel();
-		panelWebSite.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
-		GridBagConstraints gbcpanelWebSite = new GridBagConstraints();
-		gbcpanelWebSite.insets = new Insets(0, 0, 5, 5);
-		gbcpanelWebSite.fill = GridBagConstraints.BOTH;
-		gbcpanelWebSite.gridx = 0;
-		gbcpanelWebSite.gridy = 1;
-		add(panelWebSite, gbcpanelWebSite);
-		GridBagLayout gblpanelWebSite = new GridBagLayout();
-		gblpanelWebSite.columnWidths = new int[] { 0, 0, 0, 0, 0 };
-		gblpanelWebSite.rowHeights = new int[] { 0, 0, 0 };
-		gblpanelWebSite.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gblpanelWebSite.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		panelWebSite.setLayout(gblpanelWebSite);
-
-		JLabel lblWebsiteDir = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("DIRECTORY") + " :");
-		GridBagConstraints gbclblWebsiteDir = new GridBagConstraints();
-		gbclblWebsiteDir.insets = new Insets(0, 0, 5, 5);
-		gbclblWebsiteDir.gridx = 0;
-		gbclblWebsiteDir.gridy = 0;
-		panelWebSite.add(lblWebsiteDir, gbclblWebsiteDir);
-
-		txtdirWebsite = new JTextField(MTGControler.getInstance().get("default-website-dir"));
-		GridBagConstraints gbctxtdirWebsite = new GridBagConstraints();
-		gbctxtdirWebsite.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtdirWebsite.gridwidth = 2;
-		gbctxtdirWebsite.insets = new Insets(0, 0, 5, 5);
-		gbctxtdirWebsite.gridx = 1;
-		gbctxtdirWebsite.gridy = 0;
-		panelWebSite.add(txtdirWebsite, gbctxtdirWebsite);
-		txtdirWebsite.setColumns(10);
-
+/////////////WEBSITE BOX		
+	
+		JLabel lblWebsiteDir = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DIRECTORY") + " :");
+		txtdirWebsite = new JTextField(MTGControler.getInstance().get("default-website-dir"),10);
 		JButton btnWebsiteSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		GridBagConstraints gbcbtnWebsiteSave = new GridBagConstraints();
-		gbcbtnWebsiteSave.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnWebsiteSave.insets = new Insets(0, 0, 5, 0);
-		gbcbtnWebsiteSave.gridx = 3;
-		gbcbtnWebsiteSave.gridy = 0;
-		panelWebSite.add(btnWebsiteSave, gbcbtnWebsiteSave);
-
-		JLabel lblAddWebsiteCertificate = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("ADD_CERTIFICATE") + " :");
-		GridBagConstraints gbclblAddWebsiteCertificate = new GridBagConstraints();
-		gbclblAddWebsiteCertificate.insets = new Insets(0, 0, 0, 5);
-		gbclblAddWebsiteCertificate.gridx = 0;
-		gbclblAddWebsiteCertificate.gridy = 1;
-		panelWebSite.add(lblAddWebsiteCertificate, gbclblAddWebsiteCertificate);
-
-		txtWebSiteCertificate = new JTextField();
-		GridBagConstraints gbctxtWebSiteCertificate = new GridBagConstraints();
-		gbctxtWebSiteCertificate.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtWebSiteCertificate.gridwidth = 2;
-		gbctxtWebSiteCertificate.insets = new Insets(0, 0, 0, 5);
-		gbctxtWebSiteCertificate.gridx = 1;
-		gbctxtWebSiteCertificate.gridy = 1;
-		panelWebSite.add(txtWebSiteCertificate, gbctxtWebSiteCertificate);
-		txtWebSiteCertificate.setText("www.");
-		txtWebSiteCertificate.setColumns(10);
-
+		JLabel lblAddWebsiteCertificate = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ADD_CERTIFICATE") + " :");
+		txtWebSiteCertificate = new JTextField("www.",10);
 		JButton btnAdd = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		GridBagConstraints gbcbtnAdd = new GridBagConstraints();
-		gbcbtnAdd.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnAdd.gridx = 3;
-		gbcbtnAdd.gridy = 1;
-		panelWebSite.add(btnAdd, gbcbtnAdd);
+		
+		
+		panelWebSite.add(lblWebsiteDir, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 0, 0));
+		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 0));
+		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 3, 0));
+		panelWebSite.add(lblAddWebsiteCertificate, UITools.createGridBagConstraints(null, null, new Insets(0, 0, 5, 5), 0, 1));
+		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 1, 1));
+		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 3, 1));
 
+		
+		
+/////////////PROFIL BOX		
+		
 		JPanel panelProfil = new JPanel();
 		panelProfil.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
 				MTGControler.getInstance().getLangService().getCapitalize("GAME"), TitledBorder.LEADING,
@@ -961,6 +876,36 @@ public class ConfigurationPanel extends JPanel {
 
 		);
 		
+		btnSaveLoglevel.addActionListener(ae -> {
+			if (chckbxIconset.isSelected())
+				MTGControler.getInstance().setProperty("loglevel", (Level) cboLogLevels.getSelectedItem());
+			MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem());
+		});
+
+		cboLogLevels.addActionListener(ae -> MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem()));
+
+		btnSaveDefaultLandDeck.addActionListener(ae -> MTGControler.getInstance().setProperty("default-land-deck",
+				((MagicEdition) cboEditionLands.getSelectedItem()).getId()));
+
+		btnSaveDefaultLib.addActionListener(ae -> {
+			try {
+
+				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,
+						(MagicCollection) cboCollections.getSelectedItem());
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		});
+		
+		chkboxAutoAdd.addActionListener(e -> MTGControler.getInstance().setProperty("collections/stockAutoAdd",String.valueOf(chkboxAutoAdd.isSelected())));
+		chkboxAutoDelete.addActionListener(e -> MTGControler.getInstance().setProperty("collections/stockAutoDelete",String.valueOf(chkboxAutoDelete.isSelected())));
+
+		btnDefaultStock.addActionListener(ae -> {
+			DefaultStockEditorDialog diag = new DefaultStockEditorDialog();
+			diag.setMagicCardStock(MTGControler.getInstance().getDefaultStock());
+			diag.setVisible(true);
+
+		});
 		
 		btnBackup.addActionListener(ae ->
 
