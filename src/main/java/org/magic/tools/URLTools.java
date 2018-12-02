@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -33,6 +34,17 @@ public class URLTools {
 	{
 			
 	}
+	
+	
+	public static boolean isConnected()
+	{
+		try {
+			return InetAddress.getByName(MTGConstants.URLTOOL_CHECK_URI).isReachable(3000);
+		}  catch (Exception e) {
+			return false;
+		}
+	}
+	
 	
 	public static HttpURLConnection openConnection(String url) throws IOException {
 		return openConnection(new URL(url));

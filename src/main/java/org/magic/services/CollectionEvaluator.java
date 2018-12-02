@@ -86,12 +86,12 @@ public class CollectionEvaluator extends Observable
 	
 	public void initCache(MagicEdition edition,List<CardShake> ret) throws IOException
 	{
-			try {
-				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
-			} catch (IOException e) {
-				logger.error(edition.getId() + " is not found",e);
-			}
-			
+		try {
+			FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
+		} catch (IOException e) {
+			logger.error(edition.getId() + " is not found",e);
+		}
+		
 	}
 	
 	

@@ -46,7 +46,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 			case 3:
 				return t.getThreadState().name();
 			case 4:
-				return t.getPriority();
+				return 1;
 			case 5:
 				return t.getLockInfo();
 			case 6:
