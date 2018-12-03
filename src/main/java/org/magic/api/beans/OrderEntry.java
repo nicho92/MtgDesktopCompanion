@@ -21,9 +21,17 @@ public class OrderEntry {
 	private TYPE_TRANSACTION typeTransaction;
 	private MagicEdition edition;
 	private MagicCollection collection;
+	private String source;
 	
 	
 	
+	
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
 	public TYPE_TRANSACTION getTypeTransaction() {
 		return typeTransaction;
 	}
