@@ -348,6 +348,18 @@ public class ConfigurationPanel extends JPanel {
 		chckbxRss = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 		chckbxWallpaper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"));
 	
+		chckbxStock.setSelected(MTGControler.getInstance().get("modules/stock").equals("true"));
+		chckbxAlert.setSelected(MTGControler.getInstance().get("modules/alarm").equals("true"));
+		chckbxGame.setSelected(MTGControler.getInstance().get("modules/game").equals("true"));
+		chckbxDeckBuilder.setSelected(MTGControler.getInstance().get("modules/deckbuilder").equals("true"));
+		chckbxRss.setSelected(MTGControler.getInstance().get("modules/rss").equals("true"));
+		chckbxWallpaper.setSelected(MTGControler.getInstance().get("modules/wallpaper").equals("true"));
+		chckbxShopper.setSelected(MTGControler.getInstance().get("modules/shopper").equals("true"));
+		chckbxHistory.setSelected(MTGControler.getInstance().get("modules/history").equals("true"));
+		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
+	
+		
+		
 		chckbxDashboard.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
 		chckbxStock.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
 		chckbxAlert.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/alarm", chckbxAlert.isSelected()));
@@ -361,15 +373,6 @@ public class ConfigurationPanel extends JPanel {
 		chckbxCollection.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
 		chckbxSearch.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
 		
-		chckbxStock.setSelected(MTGControler.getInstance().get("modules/stock").equals("true"));
-		chckbxAlert.setSelected(MTGControler.getInstance().get("modules/alarm").equals("true"));
-		chckbxGame.setSelected(MTGControler.getInstance().get("modules/game").equals("true"));
-		chckbxDeckBuilder.setSelected(MTGControler.getInstance().get("modules/deckbuilder").equals("true"));
-		chckbxRss.setSelected(MTGControler.getInstance().get("modules/rss").equals("true"));
-		chckbxWallpaper.setSelected(MTGControler.getInstance().get("modules/wallpaper").equals("true"));
-		chckbxShopper.setSelected(MTGControler.getInstance().get("modules/shopper").equals("true"));
-		chckbxHistory.setSelected(MTGControler.getInstance().get("modules/history").equals("true"));
-		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
 		
 		
 		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
@@ -429,7 +432,7 @@ public class ConfigurationPanel extends JPanel {
 		cbojsonView = new JCheckBox();
 		JLabel lblShowTooltip = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_TOOLTIP") + " :");
 		chkToolTip = new JCheckBox("");
-		JLabel lblToolPosition = new JLabel("Position :");
+		JLabel lblToolPosition = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAB_POSITION") + " :");
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
 		
 		cboLocales.setSelectedItem(MTGControler.getInstance().getLocale());
@@ -467,8 +470,9 @@ public class ConfigurationPanel extends JPanel {
 						cboToolPosition.getSelectedItem().toString());
 
 		});
+
 		
-		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
+		btnSavecurrency.addActionListener(ae -> MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
 		btnSaveLocal.addActionListener(ae -> MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem()));
 		btnSavelang.addActionListener(ae -> MTGControler.getInstance().setProperty(LANGAGE, cboLanguages.getSelectedItem().toString()));
 		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem(),true));
@@ -480,9 +484,10 @@ public class ConfigurationPanel extends JPanel {
 		});
 		
 		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
-		
-		btnSavecurrency.addActionListener(ae -> MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
+		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
 
+		
+		
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		
 		btnUpdateCurrency.addActionListener(ae -> {
@@ -526,8 +531,13 @@ public class ConfigurationPanel extends JPanel {
 
 			try {
 				loading(true, MTGControler.getInstance().getLangService().getCapitalize("CLEAN"));
-				IconSetProvider.getInstance().clean();
-				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).clear();
+				
+				if(chckbxIconset.isSelected())
+					IconSetProvider.getInstance().clean();
+				
+				if(chckbxIconcards.isSelected())
+					MTGControler.getInstance().getEnabled(MTGPicturesCache.class).clear();
+				
 				loading(false, "");
 			} catch (Exception e) {
 				logger.error(e);

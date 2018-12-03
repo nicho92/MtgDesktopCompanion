@@ -121,7 +121,7 @@ public class DeckSnifferDialog extends JDialog {
 		btnClose.addActionListener(e -> dispose());
 		panelButton.add(btnClose);
 
-		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
 			try {
