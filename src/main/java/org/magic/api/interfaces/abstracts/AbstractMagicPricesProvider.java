@@ -1,7 +1,9 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
+import java.util.List;
 
+import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGConstants;
 
@@ -24,6 +26,12 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 			initDefault();
 			save();
 		}
+	}
+	
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// do nothing
+
 	}
 
 }

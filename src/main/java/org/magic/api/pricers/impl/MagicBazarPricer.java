@@ -73,11 +73,6 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		return "MagicBazar";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> okz) {
-		// do nothing
-
-	}
 
 	@Override
 	public void initDefault() {

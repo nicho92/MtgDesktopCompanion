@@ -248,7 +248,7 @@ public class MagicGUI extends JFrame {
 			addTab(new DashBoardGUI2());
 
 		if (MTGControler.getInstance().get("modules/shopper").equals("true"))
-			addTab(new ShopperGUI());
+			addTab(new BalanceGUI());
 
 		if (MTGControler.getInstance().get("modules/alarm").equals("true"))
 			addTab(new AlarmGUI());

@@ -65,11 +65,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		return "Channel Fireball";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		// do nothing
 
-	}
 
 	@Override
 	public void initDefault() {

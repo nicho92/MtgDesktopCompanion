@@ -64,11 +64,6 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 		
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> okz) {
-		//do nothing
-
-	}
 
 	@Override
 	public String getName() {

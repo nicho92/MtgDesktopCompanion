@@ -79,11 +79,6 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		return "Magic Traders";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		logger.error("not implemented");
-
-	}
 
 	@Override
 	public void initDefault() {

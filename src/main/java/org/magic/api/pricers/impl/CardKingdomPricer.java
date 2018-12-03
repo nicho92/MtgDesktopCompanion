@@ -127,12 +127,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		logger.error("not implemented");
-
-	}
-
-	@Override
 	public void initDefault() {
 		setProperty("URL", "https://www.cardkingdom.com/mtg/");
 		setProperty("WEBSITE", "https://www.cardkingdom.com/");

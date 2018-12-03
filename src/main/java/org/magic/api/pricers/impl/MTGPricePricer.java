@@ -93,11 +93,6 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		return "MTGPrice";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		// do nothing
-
-	}
 
 	@Override
 	public void initDefault() {

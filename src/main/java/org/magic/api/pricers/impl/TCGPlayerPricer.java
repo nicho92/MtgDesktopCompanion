@@ -98,11 +98,6 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		return "TCGPlayer";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		logger.trace("no implementation for alertDetected " + p);
-
-	}
 
 	@Override
 	public void initDefault() {

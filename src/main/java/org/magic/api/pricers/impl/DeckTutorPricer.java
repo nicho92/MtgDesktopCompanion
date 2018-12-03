@@ -189,10 +189,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		return "Deck Tutor";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		// nothing to do
-	}
 
 	@Override
 	public void initDefault() {

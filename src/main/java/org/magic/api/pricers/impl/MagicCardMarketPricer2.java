@@ -2,6 +2,7 @@ package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
@@ -14,12 +15,20 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
+import org.api.mkm.services.OrderService;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.OrderService.ACTOR;
+import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_ITEM;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 
@@ -93,6 +102,59 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		}
 		return resultat;
 
+	}
+	
+	
+	public List<OrderEntry> listOrders() throws IOException
+	{
+		if(!initied)
+			init();
+		
+		List<OrderEntry> entries = new ArrayList<>();
+		
+		new OrderService().listOrders(ACTOR.buyer, STATE.received, null).forEach(o->{
+			
+			o.getArticle().forEach(a->{
+			
+				OrderEntry entrie = new OrderEntry();
+					entrie.setIdTransation(""+o.getIdOrder());
+					entrie.setCurrency(Currency.getInstance("EUR"));
+					entrie.setDescription(a.getProduct().getEnName());
+					entrie.setTransationDate(o.getState().getDatePaid());
+					entrie.setTypeTransaction(TYPE_TRANSACTION.BUY);
+					entrie.setSeller(o.getSeller().getUsername());
+					entrie.setShippingPrice(o.getTotalValue()-o.getArticleValue());
+					entrie.setItemPrice(a.getPrice());
+	
+					if(a.getProduct().getExpansionName()!=null)
+					{
+						entrie.setType(TYPE_ITEM.CARD);
+						
+						try {
+							entrie.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansionName()));
+						} catch (IOException e) {
+							logger.error("can't found " + a.getProduct().getExpansionName());
+						}
+					}
+					
+						
+					
+					
+				entries.add(entrie);
+				
+			});
+			
+			
+			
+			
+			
+			
+		});
+		
+		
+		
+		
+		return entries;
 	}
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {

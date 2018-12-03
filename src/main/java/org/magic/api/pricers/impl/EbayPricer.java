@@ -92,11 +92,6 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		return "Ebay";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		logger.error("not implemented");
-
-	}
 
 	@Override
 	public void initDefault() {

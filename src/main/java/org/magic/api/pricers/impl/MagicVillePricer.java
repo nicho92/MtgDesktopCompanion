@@ -123,11 +123,6 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		return "Magic-Ville";
 	}
 
-	@Override
-	public void alertDetected(List<MagicPrice> p) {
-		// do nothing
-
-	}
 
 	@Override
 	public void initDefault() {

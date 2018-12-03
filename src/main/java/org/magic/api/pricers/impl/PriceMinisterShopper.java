@@ -1,6 +1,6 @@
-package org.magic.api.shopping.impl;
+package org.magic.api.pricers.impl;
 
-import java.net.URL;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,24 +8,28 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class PriceMinisterShopper extends AbstractMagicShopper {
+public class PriceMinisterShopper extends AbstractMagicPricesProvider {
 
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
 
+	
 	@Override
-	public List<ShopItem> search(String search) {
-		List<ShopItem> list = new ArrayList<>();
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException
+	{
+		List<MagicPrice> list = new ArrayList<>();
 		try {
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -38,10 +42,10 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 				.append("&version=").append(getString("VERSION"))
 				.append("&scope=").append(getString("SCOPE"))
 				.append("&nbproductsperpage=").append(getString("NB_PRODUCT_PAGE"))
-				.append("&kw=").append(URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING.displayName()))
+				.append("&kw=").append(URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()))
 				.append("&nav=").append(getString("CATEGORIE"));
 
-			logger.debug(getName() + " parsing item from " + url);
+			logger.debug(getName() + " parsing items from " + url);
 
 			Document doc = dBuilder.parse(url.toString());
 			doc.getDocumentElement().normalize();
@@ -51,15 +55,14 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 				Node nNode = lst.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element e = (Element) nNode;
-					ShopItem it = new ShopItem();
-					it.setId(e.getElementsByTagName("productid").item(0).getTextContent());
-					it.setType(e.getElementsByTagName("topic").item(0).getTextContent());
-					it.setUrl(new URL(e.getElementsByTagName("url").item(0).getTextContent()));
-
-					it.setImage(new URL(e.getElementsByTagName("image").item(0).getTextContent()));
-					it.setName(e.getElementsByTagName("headline").item(0).getTextContent());
-					it.setShopName(getName());
-					it.setPrice(Double.parseDouble(parsePrice((Element) e.getElementsByTagName("global").item(0))));
+					MagicPrice it = new MagicPrice();
+					//it.setId(e.getElementsByTagName("productid").item(0).getTextContent());
+					//	it.setName(e.getElementsByTagName("headline").item(0).getTextContent());
+					//	it.setType(e.getElementsByTagName("topic").item(0).getTextContent());
+					it.setUrl(e.getElementsByTagName("url").item(0).getTextContent());
+					it.setSite(getName());
+					it.setValue(Double.parseDouble(parsePrice((Element) e.getElementsByTagName("global").item(0))));
+					it.setCurrency("EUR");
 					list.add(it);
 
 				}
@@ -70,7 +73,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 			return list;
 
 		} catch (Exception e) {
-			logger.error("error in search " + search, e);
+			logger.error("error in search " + card.getName(), e);
 		}
 
 		return list;
@@ -105,6 +108,8 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 		
 
 	}
+
+
 
 
 
