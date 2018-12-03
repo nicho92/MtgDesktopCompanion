@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
@@ -47,6 +48,7 @@ public class JsonExport extends AbstractCardExport {
 		return gson.toJsonTree(o);
 	}
 	
+		
 	public <T> T fromJson(String s,Class<T> classe)
 	{
 		return gson.fromJson(s, classe);

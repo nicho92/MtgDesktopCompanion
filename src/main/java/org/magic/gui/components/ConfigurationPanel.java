@@ -335,7 +335,7 @@ public class ConfigurationPanel extends JPanel {
 		chckbxSearch = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		chckbxCollection = new JCheckBox("Collection");
 		chckbxDashboard = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"));
-		chckbxShopper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING_MODULE"));
+		chckbxShopper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FINANCIAL_MODULE"));
 		chckbxCardBuilder = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"));
 		chckbxHistory = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"));
 		chckbxDashboard.setSelected(MTGControler.getInstance().get("modules/dashboard").equals("true"));

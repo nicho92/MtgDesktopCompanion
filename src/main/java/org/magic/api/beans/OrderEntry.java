@@ -22,10 +22,25 @@ public class OrderEntry {
 	private MagicEdition edition;
 	private MagicCollection collection;
 	private String source;
+	private boolean updated;
+	
+	@Override
+	public String toString() {
+		return idTransation;
+	}
 	
 	
+	public OrderEntry() {
+		transationDate=new Date();
+		updated=true;
+	}
 	
-	
+	public boolean isUpdated() {
+		return updated;
+	}
+	public void setUpdated(boolean updated) {
+		this.updated = updated;
+	}
 	public String getSource() {
 		return source;
 	}
