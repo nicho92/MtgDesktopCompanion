@@ -20,6 +20,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
+import org.magic.gui.renderer.OrderEntryRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
@@ -48,7 +49,8 @@ public class BalanceGUI extends MTGUIComponent {
 		model.setWritable(true);
 		setLayout(new BorderLayout(0, 0));
 		table.setModel(model);
-		
+		OrderEntryRenderer render = new OrderEntryRenderer();
+		table.setDefaultRenderer(Object.class, render);
 		panneauHaut.add(btnNewEntry);
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
