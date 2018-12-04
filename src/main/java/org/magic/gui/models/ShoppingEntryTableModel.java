@@ -15,12 +15,6 @@ public class ShoppingEntryTableModel extends GenericTableModel<OrderEntry> {
 		columns=new String[]{"ID", "SOURCE","DATE","TYPE","MOVE","DESCRIPTION","EDITION","PRICE" };
 	}
 	
-	
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return true;
-	}
-	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columns[columnIndex].equals("ID"))

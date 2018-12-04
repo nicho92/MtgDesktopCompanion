@@ -91,7 +91,6 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("INDEXER"), MTGConstants.ICON_TAB_SIMILARITY, false, MTGControler.getInstance().getPlugins(MTGCardsIndexer.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("SUGGESTION"), MTGConstants.ICON_TAB_SUGGESTION, false, MTGControler.getInstance().getPlugins(MTGTextGenerator.class));
 
-
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new ConfigurationPanel(), null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOGS"), MTGConstants.ICON_TAB_RULES, new LoggerViewPanel(),null);

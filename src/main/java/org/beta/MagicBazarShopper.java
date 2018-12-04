@@ -8,6 +8,10 @@ import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 
 public class MagicBazarShopper extends AbstractMagicShopper {
 
+	
+	String urlLogin = "https://www.magicbazar.fr/user/signin.php";
+	
+	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		return null;

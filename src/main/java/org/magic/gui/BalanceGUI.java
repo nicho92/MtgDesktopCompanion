@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -15,7 +17,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.shopping.impl.MagicCardmarketShopper;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
@@ -23,30 +24,28 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
-import com.google.gson.JsonSyntaxException;
-import com.itextpdf.text.List;
-
 public class BalanceGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private ShoppingEntryTableModel model;
-	
 	private File tamponFile = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "financialBook.json").toFile();
+	private JLabel lblInformation;
 	
 	
 	
 	public BalanceGUI() {
-		
+		JPanel panneauBas = new JPanel();
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauRight = new JPanel();
 		JXTable table = new JXTable();
+		lblInformation= new JLabel();
 		model = new ShoppingEntryTableModel();
 		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
 		JButton btnImportTransaction = new JButton(MTGConstants.ICON_IMPORT);
 		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
 		
 		UITools.initTableFilter(table);
-		
+		model.setWritable(true);
 		setLayout(new BorderLayout(0, 0));
 		table.setModel(model);
 		
@@ -56,7 +55,28 @@ public class BalanceGUI extends MTGUIComponent {
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauRight,BorderLayout.EAST);
+		add(panneauBas,BorderLayout.SOUTH);
+		panneauBas.add(lblInformation);
 		
+		
+		
+		table.getSelectionModel().addListSelectionListener(event -> {
+
+			if (!event.getValueIsAdjusting()) {
+				
+				
+				List<OrderEntry> entries = UITools.getTableSelection(table, 0);
+				double total=0;
+				
+				for(OrderEntry e : entries)
+				{
+					total=total+e.getItemPrice();
+				}
+				
+				lblInformation.setText("Total :"+ UITools.formatDouble(total));
+			}
+		});
+
 		
 	
 		

@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import javax.swing.plaf.synth.SynthScrollPaneUI;
+
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.PluginEntry;
@@ -77,7 +79,6 @@ public class PluginRegistry {
 	}
 	
 	public <T> T newInstance(String classname) throws ClassNotFoundException {
-		
 		try {
 			logger.debug("\tload plugin :  " + classname);
 			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();

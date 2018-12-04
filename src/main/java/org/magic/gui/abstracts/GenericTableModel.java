@@ -16,12 +16,17 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 	protected transient List<T> items;
 	protected String[] columns;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
+	protected boolean writable=false;
 	
 	public GenericTableModel() {
 		items = new ArrayList<>();
 		columns = new String[]{"VALUE"};
 	}
+	
+	public void setWritable(boolean writable) {
+		this.writable = writable;
+	}
+	
 	
 	public void setColumns(String[] columns)
 	{
@@ -103,7 +108,7 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return false;
+		return writable;
 	}
 	
 }

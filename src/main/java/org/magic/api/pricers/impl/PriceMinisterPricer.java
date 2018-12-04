@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class PriceMinisterShopper extends AbstractMagicPricesProvider {
+public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public STATUT getStatut() {
@@ -103,14 +103,7 @@ public class PriceMinisterShopper extends AbstractMagicPricesProvider {
 		setProperty("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
 		setProperty("SCOPE", "PRICING");
 		setProperty("NB_PRODUCT_PAGE", "20");
-		
 		setProperty("WEBSITE", "http://www.priceminister.com/");
-		
-
 	}
-
-
-
-
 
 }
