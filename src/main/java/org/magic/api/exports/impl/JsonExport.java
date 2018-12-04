@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 
@@ -22,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
@@ -53,6 +56,16 @@ public class JsonExport extends AbstractCardExport {
 	{
 		return gson.fromJson(s, classe);
 	}
+	
+	public <T> List<T> fromJsonList(String s,Class<T> classe)
+	{
+		//return gson.fromJson(s, new TypeToken<ArrayList<T>>() {}.getType());
+		ArrayList<T> list = new ArrayList<>();
+		JsonArray json= gson.fromJson(s,JsonArray.class);
+		json.forEach(el->list.add(gson.fromJson(el.toString(),classe)));
+		return list;
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {

@@ -58,6 +58,10 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 				logger.error("can't found " + a.getProduct().getExpansionName());
 			}
 		}
+		else if(a.getProduct().getEnName().toLowerCase().contains("booster box"))
+		{
+			entrie.setType(TYPE_ITEM.BOX);
+		}
 		
 		return entrie;
 	}
@@ -70,12 +74,13 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 			init();
 		
 		List<OrderEntry> entries = new ArrayList<>();
+		OrderService serv = new OrderService();
 		
-		new OrderService().listOrders(ACTOR.buyer, STATE.received, null).forEach(o->{
+		serv.listOrders(ACTOR.buyer, STATE.received, null).forEach(o->{
 			o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY)));
 		});
 		
-		new OrderService().listOrders(ACTOR.seller, STATE.received, null).forEach(o->{
+		serv.listOrders(ACTOR.seller, STATE.received, null).forEach(o->{
 			o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.SELL)));
 		});
 		

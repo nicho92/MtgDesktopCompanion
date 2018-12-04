@@ -1,6 +1,7 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -9,7 +10,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
 
 public class OrderEntryRenderer extends DefaultTableCellRenderer {
 
@@ -20,7 +20,8 @@ public class OrderEntryRenderer extends DefaultTableCellRenderer {
 		
 		OrderEntry o = (OrderEntry)table.getValueAt(row, 0);
 		
-		JLabel comp = new JLabel();
+		JLabel comp = new JLabel(String.valueOf(value));
+		comp.setFont(MTGConstants.FONT.deriveFont(Font.PLAIN));
 		comp.setHorizontalAlignment(JLabel.CENTER);
 		comp.setOpaque(true);
 		
@@ -34,16 +35,15 @@ public class OrderEntryRenderer extends DefaultTableCellRenderer {
 		
 		
 		try {
-			
 			if(value instanceof Double)
-			if (o.getTypeTransaction()==TYPE_TRANSACTION.BUY)
-			{
-				comp.setIcon(MTGConstants.ICON_DOWN);
-			}
-			else
-			{
-				comp.setIcon(MTGConstants.ICON_UP);
-			}
+				if (o.getTypeTransaction()==TYPE_TRANSACTION.BUY)
+				{
+					comp.setIcon(MTGConstants.ICON_DOWN);
+				}
+				else
+				{
+					comp.setIcon(MTGConstants.ICON_UP);
+				}
 				
 			return comp;
 		} catch (Exception e) {

@@ -10,19 +10,14 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.models.ShoppingEntryTableModel;
-import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -35,7 +30,7 @@ public class OrderImporterDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JXTable table;
 	private JComboBox<MTGShopper> cboSniffers;
 	private ShoppingEntryTableModel model;
 	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -53,7 +48,7 @@ public class OrderImporterDialog extends JDialog {
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		table = new JTable();
+		table = new JXTable();
 		model = new ShoppingEntryTableModel();
 		panelChoose = new JPanel();
 		JPanel panel = new JPanel();

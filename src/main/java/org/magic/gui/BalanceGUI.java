@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -14,16 +15,23 @@ import javax.swing.JScrollPane;
 
 import org.apache.commons.io.FileUtils;
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
+import org.magic.gui.renderer.MagicEditionJLabelRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.renderer.OrderEntryRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
+
+import com.google.gson.reflect.TypeToken;
 
 public class BalanceGUI extends MTGUIComponent {
 	
@@ -32,6 +40,41 @@ public class BalanceGUI extends MTGUIComponent {
 	private File tamponFile = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "financialBook.json").toFile();
 	private JLabel lblInformation;
 	
+	
+	private void calulate(List<OrderEntry> entries)
+	{
+		double totalSell=0;
+		double totalBuy=0;
+		
+		for(OrderEntry e : entries)
+		{
+			if(e.getTypeTransaction().equals(TYPE_TRANSACTION.BUY))
+				totalBuy=totalBuy+e.getItemPrice();
+			else
+				totalSell=totalSell+e.getItemPrice();
+		}
+		
+		lblInformation.setText("-"+UITools.formatDouble(totalBuy) +" / +"+UITools.formatDouble(totalSell)+" Total: "+UITools.formatDouble(totalSell-totalBuy));
+	}
+	
+	private void loadFinancialBook()
+	{
+		if(tamponFile.exists())
+		{
+			
+			try {
+				List<OrderEntry> l = new JsonExport().fromJsonList(FileUtils.readFileToString(tamponFile,MTGConstants.DEFAULT_ENCODING),OrderEntry.class);
+				model.addItems(l);
+				calulate(l);
+			} catch (IOException e) {
+				logger.error("error loading " + tamponFile,e);
+			}
+			
+			
+			
+		}
+		
+	}
 	
 	
 	public BalanceGUI() {
@@ -50,7 +93,8 @@ public class BalanceGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		table.setModel(model);
 		OrderEntryRenderer render = new OrderEntryRenderer();
-		table.setDefaultRenderer(Object.class, render);
+		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
+		table.setDefaultRenderer(Double.class, render);
 		panneauHaut.add(btnNewEntry);
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
@@ -62,20 +106,17 @@ public class BalanceGUI extends MTGUIComponent {
 		
 		
 		
+		
+		
+		
+		loadFinancialBook();
+		
+		
+		
 		table.getSelectionModel().addListSelectionListener(event -> {
 
 			if (!event.getValueIsAdjusting()) {
-				
-				
-				List<OrderEntry> entries = UITools.getTableSelection(table, 0);
-				double total=0;
-				
-				for(OrderEntry e : entries)
-				{
-					total=total+e.getItemPrice();
-				}
-				
-				lblInformation.setText("Total :"+ UITools.formatDouble(total));
+				calulate(UITools.getTableSelection(table, 0));
 			}
 		});
 
@@ -99,6 +140,7 @@ public class BalanceGUI extends MTGUIComponent {
 			OrderImporterDialog diag = new OrderImporterDialog();
 			diag.setVisible(true);
 			model.addItems(diag.getSelectedEntries());
+			calulate(model.getItems());
 			
 		});
 		

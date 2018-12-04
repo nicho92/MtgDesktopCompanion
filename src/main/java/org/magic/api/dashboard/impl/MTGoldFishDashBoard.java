@@ -327,7 +327,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	public String replace(String id, boolean byValue) {
+	private String replace(String id, boolean byValue) {
 
 		if (byValue) {
 			for (Entry<String, String> entry : mapConcordance.entrySet()) {
