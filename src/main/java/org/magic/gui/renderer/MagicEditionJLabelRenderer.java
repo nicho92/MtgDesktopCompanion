@@ -2,6 +2,7 @@ package org.magic.gui.renderer;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -10,13 +11,16 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
+import org.magic.services.MTGConstants;
 import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionJLabelRenderer extends DefaultTableCellRenderer {
 
 	
 	private static final long serialVersionUID = 1L;
-
+	private Font f = MTGConstants.FONT.deriveFont(Font.PLAIN);
+	
+	
 	public MagicEditionJLabelRenderer() {
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
@@ -41,6 +45,7 @@ public class MagicEditionJLabelRenderer extends DefaultTableCellRenderer {
 			l.setText(ed.getSet());
 			l.setToolTipText(ed.getSet());
 			l.setOpaque(false);
+			l.setFont(f);
 			pane.add(l);
 		return pane;
 

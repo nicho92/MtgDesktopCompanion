@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -251,7 +252,18 @@ public class UITools {
 			pane.setBackground(SystemColor.inactiveCaption);
 	}
 
-
+	public static Date parseDate(String indexDate) {
+		
+		if(indexDate==null)
+			return new Date();
+		
+		try {
+			return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).parse(indexDate);
+		} catch (ParseException e) {
+			return new Date();
+		}
+	}
+	
 
 
 	public static String formatDate(Date indexDate) {

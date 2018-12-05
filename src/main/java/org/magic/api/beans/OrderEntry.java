@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class OrderEntry {
 
-	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET}
+	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET,LOTS}
 	public enum TYPE_TRANSACTION {BUY,SELL}
 	
 	
@@ -20,7 +20,6 @@ public class OrderEntry {
 	private String idTransation;
 	private TYPE_TRANSACTION typeTransaction;
 	private MagicEdition edition;
-	private MagicCollection collection;
 	private String source;
 	private boolean updated;
 	
@@ -29,9 +28,10 @@ public class OrderEntry {
 		return idTransation;
 	}
 	
-	
 	public OrderEntry() {
 		transationDate=new Date();
+		itemPrice=0.0;
+		type=TYPE_ITEM.CARD;
 		updated=true;
 	}
 	
@@ -107,16 +107,6 @@ public class OrderEntry {
 	public void setEdition(MagicEdition edition) {
 		this.edition = edition;
 	}
-	public MagicCollection getCollection() {
-		return collection;
-	}
-	public void setCollection(MagicCollection collection) {
-		this.collection = collection;
-	}
-	
-	
-	
-	
 	
 	
 }
