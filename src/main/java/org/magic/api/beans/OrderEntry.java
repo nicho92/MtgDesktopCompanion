@@ -31,7 +31,6 @@ public class OrderEntry {
 	public OrderEntry() {
 		transationDate=new Date();
 		itemPrice=0.0;
-		type=TYPE_ITEM.CARD;
 		updated=true;
 	}
 	

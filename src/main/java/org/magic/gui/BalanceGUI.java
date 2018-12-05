@@ -88,7 +88,6 @@ public class BalanceGUI extends MTGUIComponent {
 		table = new JXTable();
 		lblInformation= new JLabel();
 		model = new ShoppingEntryTableModel();
-		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
 		JButton btnImportTransaction = new JButton(MTGConstants.ICON_IMPORT);
 		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
 		
@@ -99,7 +98,6 @@ public class BalanceGUI extends MTGUIComponent {
 		OrderEntryRenderer render = new OrderEntryRenderer();
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultRenderer(Double.class, render);
-		panneauHaut.add(btnNewEntry);
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
 		add(panneauHaut, BorderLayout.NORTH);
@@ -125,6 +123,11 @@ public class BalanceGUI extends MTGUIComponent {
 			model.fireTableDataChanged();
 		});
 		panelButton.add(btnSaveOrder);
+		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
+		panelButton.add(btnNewEntry);
+		btnNewEntry.addActionListener(ae->{ 
+			model.addItem(orderEntryPanel.newOrderEntry());
+			});
 		add(panneauBas,BorderLayout.SOUTH);
 		panneauBas.add(lblInformation);
 		
@@ -145,7 +148,6 @@ public class BalanceGUI extends MTGUIComponent {
 		});
 		
 		btnSave.addActionListener(ae->serv.saveBook(model.getItems()));
-		btnNewEntry.addActionListener(ae-> model.addItem(new OrderEntry()));
 		
 		btnImportTransaction.addActionListener(ae->{
 			OrderImporterDialog diag = new OrderImporterDialog();

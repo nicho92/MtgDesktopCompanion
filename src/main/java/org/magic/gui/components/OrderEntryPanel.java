@@ -130,6 +130,21 @@ public class OrderEntryPanel extends JPanel {
 		
 	}
 
+	public OrderEntry newOrderEntry() {
+		OrderEntry o = new OrderEntry();
+		o.setDescription(txtDescription.getText());
+		o.setEdition((MagicEdition)cboEditions.getSelectedItem());
+		o.setCurrency((Currency)cboCurrency.getSelectedItem());
+		o.setIdTransation(txtidTransaction.getText());
+		o.setItemPrice(Double.parseDouble(txtPrice.getText()));
+		o.setSource(txtSource.getText());
+		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
+		o.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
+		o.setTransationDate(UITools.parseDate(txtDateTransaction.getText()));
+		o.setUpdated(true);
+		return o;
+	}
+
 //	
 //	@Override
 //	public String getTitle() {
