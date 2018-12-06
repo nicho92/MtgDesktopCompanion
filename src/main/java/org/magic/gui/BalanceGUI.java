@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -46,27 +47,57 @@ public class BalanceGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private ShoppingEntryTableModel model;
-	private JLabel lblInformation;
+	private JLabel totalBuy;
+	private JLabel totalSell;
+	private JLabel total;
+	
+	
+	private JLabel selectionBuy;
+	private JLabel selectionSell;
+	private JLabel totalSelection;
+	
+	
+	
 	private JXTable table;
-	private FinancialBookService serv;
+	private transient FinancialBookService serv;
 	private OrderEntryPanel orderEntryPanel;
 	
 	
 	
 	private void calulate(List<OrderEntry> entries)
 	{
-		double totalSell=0;
-		double totalBuy=0;
-		
+		double totalS=0;
+		double totalB=0;
 		for(OrderEntry e : entries)
 		{
 			if(e.getTypeTransaction().equals(TYPE_TRANSACTION.BUY))
-				totalBuy=totalBuy+e.getItemPrice();
+				totalB=totalB+e.getItemPrice();
 			else
-				totalSell=totalSell+e.getItemPrice();
+				totalS=totalS+e.getItemPrice();
 		}
-		
-		lblInformation.setText("-"+UITools.formatDouble(totalBuy) +" / +"+UITools.formatDouble(totalSell)+" Total: "+UITools.formatDouble(totalSell-totalBuy));
+	
+		if(entries.size()<model.getRowCount())
+		{
+			selectionBuy.setText(UITools.formatDouble(totalB));
+			selectionSell.setText(UITools.formatDouble(totalS));
+			totalSelection.setText(": "+UITools.formatDouble(totalS-totalB)+")");
+			if((totalS-totalB)>0)
+				totalSelection.setIcon(MTGConstants.ICON_UP);
+			else
+				totalSelection.setIcon(MTGConstants.ICON_DOWN);
+			
+		}
+		else
+		{
+			totalBuy.setText(UITools.formatDouble(totalB));
+			totalSell.setText(UITools.formatDouble(totalS));
+			total.setText(UITools.formatDouble(totalS-totalB));
+			
+			if((totalS-totalB)>0)
+				total.setIcon(MTGConstants.ICON_UP);
+			else
+				total.setIcon(MTGConstants.ICON_DOWN);
+		}
 	}
 	
 	private void loadFinancialBook()
@@ -86,10 +117,28 @@ public class BalanceGUI extends MTGUIComponent {
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauRight = new JPanel();
 		table = new JXTable();
-		lblInformation= new JLabel();
 		model = new ShoppingEntryTableModel();
 		JButton btnImportTransaction = new JButton(MTGConstants.ICON_IMPORT);
 		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
+		
+		totalBuy = new JLabel(MTGConstants.ICON_DOWN);
+		totalSell = new JLabel(MTGConstants.ICON_UP);
+		total = new JLabel();
+		
+		totalSelection = new JLabel();
+		selectionSell = new JLabel(MTGConstants.ICON_UP);
+		selectionBuy=new JLabel(MTGConstants.ICON_DOWN);
+		
+		
+		panneauBas.add(totalBuy);
+		panneauBas.add(totalSell);
+		panneauBas.add(total);
+		panneauBas.add(new JLabel(" ("));
+		panneauBas.add(selectionBuy);
+		panneauBas.add(selectionSell);
+		panneauBas.add(totalSelection);
+		
+		
 		
 		UITools.initTableFilter(table);
 		model.setWritable(true);
@@ -125,11 +174,8 @@ public class BalanceGUI extends MTGUIComponent {
 		panelButton.add(btnSaveOrder);
 		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
 		panelButton.add(btnNewEntry);
-		btnNewEntry.addActionListener(ae->{ 
-			model.addItem(orderEntryPanel.newOrderEntry());
-			});
+		btnNewEntry.addActionListener(ae->model.addItem(orderEntryPanel.newOrderEntry()));
 		add(panneauBas,BorderLayout.SOUTH);
-		panneauBas.add(lblInformation);
 		
 		
 		loadFinancialBook();
@@ -139,6 +185,8 @@ public class BalanceGUI extends MTGUIComponent {
 				try {
 				OrderEntry o = (OrderEntry) UITools.getTableSelection(table, 0).get(0);
 				orderEntryPanel.setOrderEntry(o);
+				
+				calulate(UITools.getTableSelection(table, 0));
 				}
 				catch(Exception e)
 				{
