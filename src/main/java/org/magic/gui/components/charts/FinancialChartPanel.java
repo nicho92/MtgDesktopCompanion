@@ -3,11 +3,22 @@ package org.magic.gui.components.charts;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class FinancialChartPanel extends JPanel {
@@ -18,7 +29,7 @@ public class FinancialChartPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private ChartPanel pane;
-	private String title;
+	private String title ="Financial History";
 	
 	public FinancialChartPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -39,32 +50,29 @@ public class FinancialChartPanel extends JPanel {
 	}
 
 	private void refresh() {
-/*
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 
-		TimeSeries series1 = new TimeSeries(title);
-			for (MTGDashBoard d : MTGControler.getInstance().getPlugins(MTGDashBoard.class)) 
-			{
-				TimeSeries series = new TimeSeries(d.getName());
-				CardPriceVariations mapTime;
-				try {
-					mapTime = d.getPriceVariation(mc, me);
-					if (mapTime != null) {
-						for (Entry<Date, Double> da : mapTime.entrySet())
-							series.add(new Day(da.getKey()), da.getValue().doubleValue());
-
-						dataset.addSeries(series);
-					}
-
-				} catch (IOException e) {
-					logger.error("Error refresh", e);
-				}
-
-			}
-
+		TimeSeries series = new TimeSeries(TYPE_TRANSACTION.BUY.name());
+		TimeSeries seriesS = new TimeSeries(TYPE_TRANSACTION.SELL.name());
 		
-
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Price", dataset, true, true,false);
+		
+		for (Date d : MTGControler.getInstance().getFinancialService().getOrdersDate()) 
+		{
+			List<OrderEntry> list = MTGControler.getInstance().getFinancialService().getOrderAt(d);
+			list.forEach(o->{
+				if(o.getTypeTransaction().equals(TYPE_TRANSACTION.BUY))
+					series.addOrUpdate(new Month(d),o.getItemPrice());
+				else
+					seriesS.addOrUpdate(new Month(d),o.getItemPrice());
+				
+			});
+			
+		}
+		dataset.addSeries(series);
+		dataset.addSeries(seriesS);
+		
+		
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "Date", "Price", dataset, true, true,false);
 
 		pane.setChart(chart);
 		pane.addMouseWheelListener(mwe -> {
@@ -76,7 +84,7 @@ public class FinancialChartPanel extends JPanel {
 			}
 		});
 		this.add(pane, BorderLayout.CENTER);
-		chart.fireChartChanged();*/
+		chart.fireChartChanged();
 	}
 
 	public void zoom() {

@@ -49,7 +49,9 @@ public class MTGControler {
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNotifier notifier;
-
+	private FinancialBookService financialServices;
+	
+	
 	private MTGControler() {
 		
 		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
@@ -85,6 +87,7 @@ public class MTGControler {
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
 			currencyService = new CurrencyConverter(get("currencylayer-access-api"));
+			
 			
 		} catch (Exception e) {
 			logger.error("error init", e);
@@ -161,6 +164,17 @@ public class MTGControler {
 			return lafService;
 		}
 	}
+	
+	public FinancialBookService getFinancialService()
+	{
+		if (financialServices != null) {
+			return financialServices;
+		} else {
+			financialServices = new FinancialBookService();
+			return financialServices;
+		}
+	}
+	
 
 	public LanguageService getLangService() {
 		if (langService != null) {

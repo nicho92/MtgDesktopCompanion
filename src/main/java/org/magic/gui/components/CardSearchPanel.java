@@ -232,7 +232,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		cmcChart = new CmcChartPanel();
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
-		historyChartPanel = new HistoryPricesPanel();
+		historyChartPanel = new HistoryPricesPanel(true);
 		cardsPicPanel = new CardsPicPanel();
 		priceTablePanel = new PricesTablePanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();

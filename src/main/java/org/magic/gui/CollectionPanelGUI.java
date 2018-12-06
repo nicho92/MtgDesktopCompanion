@@ -173,7 +173,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		statsPanel = new CardStockPanel();
-		historyPricesPanel = new HistoryPricesPanel();
+		historyPricesPanel = new HistoryPricesPanel(true);
 		jsonPanel = new JSONPanel();
 		tree = new LazyLoadingTree();
 		tableEditions = new JXTable();

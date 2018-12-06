@@ -483,7 +483,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		deckPanel = new CardsDeckCheckerPanel();
 		model = new CardStockTableModel();
 		magicCardDetailPanel = new MagicCardDetailPanel();
-		historyPricePanel = new HistoryPricesPanel();
+		historyPricePanel = new HistoryPricesPanel(true);
 		pricePanel = new PricesTablePanel();
 		
 		JPanel centerPanel = new JPanel();

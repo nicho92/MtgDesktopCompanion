@@ -50,11 +50,16 @@ public class HistoryPricesPanel extends JPanel {
 	private MagicCard mc;
 	private MagicEdition me;
 	
-	public HistoryPricesPanel() {
+	public HistoryPricesPanel(boolean showOption) {
 		setLayout(new BorderLayout(0, 0));
+		pane = new ChartPanel(null);
+		
+		
+		if(showOption) {
+		
 		JPanel panelActions = new JPanel();
 		add(panelActions, BorderLayout.EAST);
-		pane = new ChartPanel(null);
+		
 		GridBagLayout gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[] { 91, 0 };
 		gblpanel.rowHeights = new int[] { 23, 0, 0 };
@@ -84,6 +89,8 @@ public class HistoryPricesPanel extends JPanel {
 		gbcchckbxShowAllDashboard.gridx = 0;
 		gbcchckbxShowAllDashboard.gridy = 1;
 		panelActions.add(chckbxShowAllDashboard, gbcchckbxShowAllDashboard);
+		
+		}
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override

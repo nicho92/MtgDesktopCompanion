@@ -104,7 +104,7 @@ public class AlarmGUI extends MTGUIComponent {
 		model = new CardAlertTableModel();
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
-		variationPanel = new HistoryPricesPanel();
+		variationPanel = new HistoryPricesPanel(true);
 		JScrollPane scrollListOffers = new JScrollPane();
 		JPanel panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
