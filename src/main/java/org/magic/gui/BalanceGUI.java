@@ -89,9 +89,29 @@ public class BalanceGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		table.setModel(model);
 		OrderEntryRenderer render = new OrderEntryRenderer();
+		editorPanel = new JPanel();
+		orderEntryPanel = new OrderEntryPanel();
+		JButton btnSaveOrder = new JButton(MTGConstants.ICON_SAVE);
+		JPanel panelButton = new JPanel();
+		JButton btnDeleteOrder = new JButton(MTGConstants.ICON_DELETE);
+		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
+		panelComparator = new JPanel();
+		lblComparator = new JLabel("Values");
+
+		
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultRenderer(Double.class, render);
 		panneauRight.setPreferredSize(new Dimension(500, 1));
+		panneauRight.setLayout(new BoxLayout(panneauRight, BoxLayout.Y_AXIS));
+		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		editorPanel.setLayout(new BorderLayout(0, 0));
+		
+		btnDeleteOrder.setEnabled(false);
+		panelComparator.setLayout(new BorderLayout(0, 0));
+		lblComparator.setHorizontalAlignment(SwingConstants.LEFT);
+		lblComparator.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 16));
+	
+		
 		
 		panneauBas.add(totalBuy);
 		panneauBas.add(totalSell);
@@ -100,34 +120,25 @@ public class BalanceGUI extends MTGUIComponent {
 		panneauBas.add(selectionBuy);
 		panneauBas.add(selectionSell);
 		panneauBas.add(totalSelection);
-
-		
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauRight,BorderLayout.EAST);
-		
-		panneauRight.setLayout(new BoxLayout(panneauRight, BoxLayout.Y_AXIS));
-		
-		editorPanel = new JPanel();
-		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-		panneauRight.add(editorPanel);
-		editorPanel.setLayout(new BorderLayout(0, 0));
-		orderEntryPanel = new OrderEntryPanel();
 		editorPanel.add(orderEntryPanel, BorderLayout.CENTER);
-		JButton btnSaveOrder = new JButton(MTGConstants.ICON_SAVE);
-		JPanel panelButton = new JPanel();
 		editorPanel.add(panelButton, BorderLayout.SOUTH);
-		JButton btnDeleteOrder = new JButton(MTGConstants.ICON_DELETE);
-		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
-		
-	
-		btnDeleteOrder.setEnabled(false);
 		
 		panelButton.add(btnSaveOrder);
 		panelButton.add(btnNewEntry);
 		panelButton.add(btnDeleteOrder);
+
+		panneauRight.add(editorPanel);
+		panneauRight.add(panelComparator);
+		panneauRight.add(pricesPanel);
+			
+		panelComparator.add(lblComparator);
+		
+		
 		
 		btnSaveOrder.addActionListener(ae->{
 			orderEntryPanel.save();
@@ -144,16 +155,6 @@ public class BalanceGUI extends MTGUIComponent {
 			model.removeItem(UITools.getTableSelection(table, 0));
 			calulate(model.getItems());
 		});
-		panneauRight.add(pricesPanel);
-		
-		panelComparator = new JPanel();
-		panneauRight.add(panelComparator);
-		panelComparator.setLayout(new BorderLayout(0, 0));
-		
-		lblComparator = new JLabel("Values");
-		panelComparator.add(lblComparator);
-		lblComparator.setHorizontalAlignment(SwingConstants.LEFT);
-		lblComparator.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 16));
 		add(panneauBas,BorderLayout.SOUTH);
 		
 		
@@ -183,12 +184,14 @@ public class BalanceGUI extends MTGUIComponent {
 						
 						Double actualValue = MTGControler.getInstance().getCurrencyService().convert(source, o.getCurrency(), e.get(e.getLastDay()));
 						
-						lblComparator.setText(o.getCurrency() + " VALUE="+UITools.formatDouble(actualValue) + " PAID=" + UITools.formatDouble(o.getItemPrice()));
+						
+						lblComparator.setText(o.getCurrency() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(o.getItemPrice()));
+						
 						
 						if(actualValue<o.getItemPrice())
-							lblComparator.setIcon(MTGConstants.ICON_DOWN);
+							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
 						else if(actualValue>o.getItemPrice())
-							lblComparator.setIcon(MTGConstants.ICON_UP);
+							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
 						else
 							lblComparator.setIcon(null);
 						} catch (IOException e1) {
