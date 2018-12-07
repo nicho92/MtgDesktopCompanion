@@ -83,12 +83,14 @@ public class OrderImporterDialog extends JDialog {
 			ThreadManager.getInstance().execute(()->{
 					try {
 						lblLoad.start();
+						selectedSniffer.addObserver(lblLoad);
 						model.init(selectedSniffer.listOrders());
 						lblLoad.end();
 					} catch (IOException e) {
 						logger.error(e);
 						lblLoad.end();
 					}
+					selectedSniffer.removeObserver(lblLoad);
 			}, "loading orders");
 			
 			

@@ -175,7 +175,14 @@ public class UITools {
 
 	}
 	
-	
+	public static Double parseDouble(String text) {
+		try {
+			return new DecimalFormat().parse(text.replaceAll(",", ".").trim()).doubleValue();
+		} catch (ParseException e) {
+			return 0.0;
+		}
+	}
+
 	
 	public static String formatDouble(Object f)
 	{
@@ -254,17 +261,20 @@ public class UITools {
 
 	public static Date parseDate(String indexDate) {
 		
+		return parseDate(indexDate, MTGControler.getInstance().getLangService().get("DATE_FORMAT"));
+	}
+	
+	public static Date parseDate(String indexDate,String format) {
+		
 		if(indexDate==null)
 			return new Date();
 		
 		try {
-			return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).parse(indexDate);
+			return new SimpleDateFormat(format).parse(indexDate);
 		} catch (ParseException e) {
 			return new Date();
 		}
 	}
-	
-
 
 	public static String formatDate(Date indexDate) {
 		
@@ -272,5 +282,6 @@ public class UITools {
 			return "";
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).format(indexDate);
 	}
+
 
 }

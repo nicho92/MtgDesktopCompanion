@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,7 +35,6 @@ public class URLTools {
 	{
 			
 	}
-	
 	
 	public static boolean isConnected()
 	{
@@ -178,6 +178,10 @@ public class URLTools {
 				logger.error(e);
 				return false;
 			}
+	}
+
+	public static URLToolsClient newClient() {
+		return new URLToolsClient();
 	}
 	
 	

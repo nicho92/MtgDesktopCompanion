@@ -244,8 +244,11 @@ public class BalanceGUI extends MTGUIComponent {
 		btnImportTransaction.addActionListener(ae->{
 			OrderImporterDialog diag = new OrderImporterDialog();
 			diag.setVisible(true);
-			model.addItems(diag.getSelectedEntries());
-			calulate(model.getItems());
+			
+			if(diag.getSelectedEntries()!=null) {
+				model.addItems(diag.getSelectedEntries());
+				calulate(model.getItems());
+			}
 		});
 		
 	}
