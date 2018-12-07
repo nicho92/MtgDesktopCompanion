@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardPriceVariations;
@@ -37,6 +38,8 @@ import org.magic.tools.UITools;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Component;
+import org.magic.gui.components.charts.EditionFinancialChartPanel;
+import java.awt.GridLayout;
 
 public class BalanceGUI extends MTGUIComponent {
 	
@@ -54,6 +57,8 @@ public class BalanceGUI extends MTGUIComponent {
 	private JLabel lblComparator;
 	private JPanel editorPanel;
 	private JPanel panelComparator;
+	private JPanel chartesContainerPanel;
+	private EditionFinancialChartPanel editionFinancialChartPanel;
 
 	
 	
@@ -82,12 +87,6 @@ public class BalanceGUI extends MTGUIComponent {
 		totalSelection = new JLabel();
 		selectionSell = new JLabel(MTGConstants.ICON_UP);
 		selectionBuy=new JLabel(MTGConstants.ICON_DOWN);
-		pricesPanel = new HistoryPricesPanel(false);
-		btnSave.setEnabled(false);
-		UITools.initTableFilter(table);
-		model.setWritable(true);
-		setLayout(new BorderLayout(0, 0));
-		table.setModel(model);
 		OrderEntryRenderer render = new OrderEntryRenderer();
 		editorPanel = new JPanel();
 		orderEntryPanel = new OrderEntryPanel();
@@ -97,18 +96,22 @@ public class BalanceGUI extends MTGUIComponent {
 		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
 		panelComparator = new JPanel();
 		lblComparator = new JLabel("Values");
-
+		editionFinancialChartPanel = new EditionFinancialChartPanel();
 		
+		btnSave.setEnabled(false);
+		UITools.initTableFilter(table);
+		setLayout(new BorderLayout(0, 0));
+		table.setModel(model);
+	
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultRenderer(Double.class, render);
 		panneauRight.setPreferredSize(new Dimension(500, 1));
-		panneauRight.setLayout(new BoxLayout(panneauRight, BoxLayout.Y_AXIS));
 		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		editorPanel.setLayout(new BorderLayout(0, 0));
 		
 		btnDeleteOrder.setEnabled(false);
 		panelComparator.setLayout(new BorderLayout(0, 0));
-		lblComparator.setHorizontalAlignment(SwingConstants.LEFT);
+		lblComparator.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComparator.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 16));
 	
 		
@@ -125,6 +128,7 @@ public class BalanceGUI extends MTGUIComponent {
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauRight,BorderLayout.EAST);
+		panneauRight.setLayout(new BorderLayout(0, 0));
 		editorPanel.add(orderEntryPanel, BorderLayout.CENTER);
 		editorPanel.add(panelButton, BorderLayout.SOUTH);
 		
@@ -132,11 +136,17 @@ public class BalanceGUI extends MTGUIComponent {
 		panelButton.add(btnNewEntry);
 		panelButton.add(btnDeleteOrder);
 
-		panneauRight.add(editorPanel);
-		panneauRight.add(panelComparator);
-		panneauRight.add(pricesPanel);
+		panneauRight.add(editorPanel, BorderLayout.NORTH);
+		panneauRight.add(panelComparator, BorderLayout.SOUTH);
 			
 		panelComparator.add(lblComparator);
+		
+		chartesContainerPanel = new JPanel();
+		panneauRight.add(chartesContainerPanel, BorderLayout.CENTER);
+		chartesContainerPanel.setLayout(new GridLayout(2, 1, 0, 0));
+		pricesPanel = new HistoryPricesPanel(false);
+		chartesContainerPanel.add(pricesPanel);
+		chartesContainerPanel.add(editionFinancialChartPanel);
 		
 		
 		
@@ -159,17 +169,20 @@ public class BalanceGUI extends MTGUIComponent {
 		
 		
 		loadFinancialBook();
+		table.setSortOrder(2, SortOrder.DESCENDING);
+		
+		
 		
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
 				OrderEntry o = (OrderEntry) UITools.getTableSelection(table, 0).get(0);
 				orderEntryPanel.setOrderEntry(o);
+				
 				calulate(UITools.getTableSelection(table, 0));
 			
 				ThreadManager.getInstance().execute(()->{
 						MagicCard mc=null;
-					
 						try {
 							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
 						}
@@ -184,10 +197,9 @@ public class BalanceGUI extends MTGUIComponent {
 						
 						Double actualValue = MTGControler.getInstance().getCurrencyService().convert(source, o.getCurrency(), e.get(e.getLastDay()));
 						
+						editionFinancialChartPanel.init(o.getEdition());
 						
 						lblComparator.setText(o.getCurrency() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(o.getItemPrice()));
-						
-						
 						if(actualValue<o.getItemPrice())
 							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
 						else if(actualValue>o.getItemPrice())

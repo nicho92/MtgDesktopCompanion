@@ -254,11 +254,7 @@ public class CollectionEvaluator extends Observable
 	
 	
 	public Double total(MagicEdition ed) {
-		Double price=0.0;
-		for(CardShake cs : prices(ed).values())
-			price=price+cs.getPrice();
-		
-		return price;
+		return prices(ed).values().stream().mapToDouble(CardShake::getPrice).sum();
 	}
 
 	public Double total() {

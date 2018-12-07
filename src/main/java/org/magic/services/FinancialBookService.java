@@ -32,6 +32,7 @@ public class FinancialBookService {
 	
 	
 	public FinancialBookService() {
+		entries = new ArrayList<>();
 		tamponFile = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "financialBook.json").toFile();
 		serializer= new JsonExport();
 	}
@@ -54,7 +55,7 @@ public class FinancialBookService {
 	
 	public List<OrderEntry> getOrderFor(MagicEdition ed)
 	{
-		return getEntries().stream().filter(o->o.getEdition().equals(ed)).collect(Collectors.toList());
+		return getEntries().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).collect(Collectors.toList());
 	}
 
 	public List<OrderEntry> getOrderFor(TYPE_TRANSACTION type)
@@ -64,7 +65,7 @@ public class FinancialBookService {
 
 	public double getTotal(List<OrderEntry> order)
 	{
-		return order.stream().mapToDouble(OrderEntry::getItemPrice).sum();
+		return order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.BUY).mapToDouble(OrderEntry::getItemPrice).sum()-order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.SELL).mapToDouble(OrderEntry::getItemPrice).sum();
 	}
 	
 	public List<OrderEntry> getEntries()

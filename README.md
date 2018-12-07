@@ -70,7 +70,6 @@ Check for price variation :
 Use "MoreLikeThis" Functionnality :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png)
 
-
 lookup for cards in auction website :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png)
 
@@ -83,6 +82,10 @@ Be alerted for your wanted cards :
 Manage your stock :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png)
+
+Store your financial movement and check your benefits :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/financial.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/financial.png)
+
 
 
 Try your deck in game simulator :
