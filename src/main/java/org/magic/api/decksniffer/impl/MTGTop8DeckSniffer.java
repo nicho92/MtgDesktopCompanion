@@ -8,15 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -28,6 +21,7 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
@@ -104,11 +98,9 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		HttpClient httpClient = HttpClientBuilder.create().build();
-
+		URLToolsClient httpClient = URLTools.newClient();
 		StringBuilder res = new StringBuilder();
 		for (int i = 0; i < getInt("MAX_PAGE"); i++) {
-			HttpPost reqSearch = new HttpPost(getString("URL") + "/search");
 			List<NameValuePair> nvps = new ArrayList<>();
 			nvps.add(new BasicNameValuePair("current_page", String.valueOf(i + 1)));
 			nvps.add(new BasicNameValuePair("event_titre", getString("EVENT_FILTER")));
@@ -125,15 +117,12 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 					nvps.add(new BasicNameValuePair(" compet_check[" + c.toUpperCase() + "]", "1"));
 			}
 
-			reqSearch.setEntity(new UrlEncodedFormEntity(nvps));
+			logger.debug("snif decks : " + getString("URL") + "/search");
 
-			logger.debug("snif decks : " + reqSearch.toString());
-
-			HttpResponse rep = httpClient.execute(reqSearch);
-			res.append(EntityUtils.toString(rep.getEntity()));
+			res.append(httpClient.doPost(getString("URL") + "/search", nvps, null));
 		}
 
-		Document d = Jsoup.parse(res.toString());
+		Document d = URLTools.toHtml(res.toString());
 		Elements els = d.select("tr.hover_tr");
 
 		List<RetrievableDeck> ret = new ArrayList<>();

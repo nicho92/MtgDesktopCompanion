@@ -168,7 +168,9 @@ public class BalanceGUI extends MTGUIComponent {
 		add(panneauBas,BorderLayout.SOUTH);
 		
 		
-		loadFinancialBook();
+		ThreadManager.getInstance().execute(()->loadFinancialBook(), "loading financial book");
+		
+		
 		table.setSortOrder(2, SortOrder.DESCENDING);
 		
 		
@@ -296,7 +298,7 @@ public class BalanceGUI extends MTGUIComponent {
 		{
 			totalBuy.setText(UITools.formatDouble(totalB));
 			totalSell.setText(UITools.formatDouble(totalS));
-			total.setText(UITools.formatDouble(totalS-totalB));
+			total.setText(": "+UITools.formatDouble(totalS-totalB));
 			
 			if((totalS-totalB)>0)
 				total.setIcon(MTGConstants.ICON_UP);

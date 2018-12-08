@@ -10,13 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
@@ -25,6 +19,7 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -34,7 +29,7 @@ import com.google.gson.JsonParser;
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String FORMAT = "FORMAT";
-	private HttpClient httpclient;
+	private URLToolsClient httpclient;
 	private Map<String,String> formats;
 	private String postReqData="{\"draw\":1,\"columns\":[{\"data\":\"name\",\"name\":\"name\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"color\",\"name\":\"color\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"tags\",\"name\":\"tags\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"likes\",\"name\":\"likes\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"views\",\"name\":\"views\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"comments\",\"name\":\"comments\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"updated\",\"name\":\"updated\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"7\",\"regex\":false}},{\"data\":\"updatedhidden\",\"name\":\"updatedhidden\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"popularity\",\"name\":\"popularity\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":8,\"dir\":\"desc\"}],\"start\":0,\"length\":50,\"search\":{\"value\":\"\",\"regex\":false}}";
 	private String uriPost = "https://aetherhub.com/Meta/FetchMetaListAdv";
@@ -56,8 +51,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		formats.put("Brawl", "?formatId=10");
 		
 		
-		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
-				 .setRedirectStrategy(new LaxRedirectStrategy()).build();
+		httpclient = URLTools.newClient();
 
 	}
 
@@ -112,16 +106,12 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
 		
-		HttpPost p = new HttpPost(uriPost+formats.get(getString(FORMAT)));
-				 p.addHeader("Content-Type", "application/json");
-				 p.addHeader("user-agent",MTGConstants.USER_AGENT);
-				 p.setEntity(new StringEntity(postReqData));
-		
-				 
+		Map<String,String> headers = new HashMap<>();
+		headers.put("Content-Type", "application/json");
+		headers.put("user-agent",MTGConstants.USER_AGENT);
 		logger.debug("list decks at" + uriPost+formats.get(getString(FORMAT)));		 
-				 
-		HttpResponse resp = httpclient.execute(p);
-		String ret = EntityUtils.toString(resp.getEntity());
+		String ret = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
+		
 		logger.trace(ret);
 		JsonObject el = new JsonParser().parse(ret).getAsJsonObject();
 		JsonArray arr = el.get("metadecks").getAsJsonArray();

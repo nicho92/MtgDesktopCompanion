@@ -22,12 +22,6 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	private String urlCommandes="https://boutique.magiccorporation.com/moncompte.php?op=suivi_commande";
 	private String urlDetailCommandes="https://boutique.magiccorporation.com/moncompte.php?op=commande&num_commande=";
 	
-	
-	public static void main(String[] args) throws IOException {
-		MagicCorporationShopper shop = new MagicCorporationShopper();
-		shop.listOrders();
-	}
-	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		
@@ -41,7 +35,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	
 		client.doPost(urlLogin, nvps, null);
 	
-		Document doc = client.doGet(urlCommandes);
+		Document doc = URLTools.toHtml(client.doGet(urlCommandes));
 		Elements numCommands = doc.select("table tbody tr");
 		
 		logger.debug("found "+ numCommands.size()+ " orders. Parsing details");
@@ -51,7 +45,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			String date=numCommands.get(i).select("td").get(1).text();
 			try {
 				logger.trace("parsing " + i + "/"+numCommands.size());
-				entries.addAll(parse(client.doGet(urlDetailCommandes+id),id,date));
+				entries.addAll(parse(URLTools.toHtml(client.doGet(urlDetailCommandes+id)),id,date));
 				
 			}
 			catch(Exception e)

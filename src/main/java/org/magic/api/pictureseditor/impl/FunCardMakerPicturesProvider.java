@@ -4,38 +4,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
-import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonElement;
 
@@ -47,18 +39,12 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	private static final String UPLOAD_URL ="http://funcardmaker.thaledric.fr/upload.php";
 	private static final String DOMAIN="funcardmaker.thaledric.fr";
 	private static final String WEBSITE="http://"+DOMAIN;
-	
-	private BasicHttpContext httpContext;
-	private BasicCookieStore cookieStore;
-	private HttpClient httpclient;
+	private URLToolsClient httpclient;
 
 	
 	
 	public FunCardMakerPicturesProvider() {
 		super();
-		cookieStore = new BasicCookieStore();
-		httpContext = new BasicHttpContext();
-		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 	}
 	
 	@Override
@@ -68,7 +54,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	
 	private void connect()
 	{
-		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
+		httpclient = URLTools.newClient();
 		
 	}
 	
@@ -113,10 +99,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		if(httpclient==null)
 			connect();
 		
-		HttpPost post = new HttpPost(GENERATE_URL);
-		post.addHeader("Host", DOMAIN);
-		post.addHeader("Origin", WEBSITE);
-		post.addHeader("Referer",WEBSITE);
+		
+		
 		
 		List<NameValuePair> nvps = new ArrayList<>();
 						    nvps.add(new BasicNameValuePair("width", "791"));
@@ -186,12 +170,16 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	}
 						    }
 
-						    post.setEntity(new UrlEncodedFormEntity(nvps));
-						    				
-						    logger.debug(post + " with " + nvps);
-						    HttpResponse resp = httpclient.execute(post, httpContext);
-						    String ret = EntityUtils.toString(resp.getEntity());
-						    EntityUtils.consume(resp.getEntity());
+						    Map<String,String> headers = new HashMap<>();
+						    
+							headers.put("Host", DOMAIN);
+							headers.put("Origin", WEBSITE);
+							headers.put("Referer",WEBSITE);
+							
+							
+						    logger.debug(GENERATE_URL + " with " + nvps);
+						
+						    String ret = httpclient.doPost(GENERATE_URL, nvps, headers);
 						    logger.trace("RESPONSE: "+ret);
 						    
 						    JsonElement el = URLTools.toJson(ret);
@@ -214,22 +202,18 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 								builder.addTextBody("MAX_FILE_SIZE", "104857600");
 		
 		HttpEntity ent = builder.build();
-		HttpPost upload = new HttpPost(UPLOAD_URL);
-				upload.addHeader("Host", DOMAIN);
-				upload.addHeader("Origin", WEBSITE);
-				upload.addHeader("Referer",WEBSITE);
-				upload.addHeader("X-Requested-With","XMLHttpRequest");
-	            upload.setEntity(ent);
+		Map<String,String> map = new HashMap<>();
+		map.put("Host", DOMAIN);
+		map.put("Origin", WEBSITE);
+		map.put("Referer",WEBSITE);
+		map.put("X-Requested-With","XMLHttpRequest");
 	            
-				 HttpResponse resp = httpclient.execute(upload, httpContext);
-				 logger.trace("Upload image " + resp.getStatusLine());
-				 JsonElement response = URLTools.toJson(EntityUtils.toString(resp.getEntity()));
+				 JsonElement response = URLTools.toJson(httpclient.doPost(UPLOAD_URL, ent, map));
 				 logger.trace("response:"+response);
 				 
 				 if(response.getAsJsonObject().get("error")!=null)
 					 throw new IOException(response.getAsJsonObject().get("error").getAsString());
-				
-				 EntityUtils.consume(upload.getEntity());
+			
 				 return response.getAsJsonObject().get("filepath").getAsString();
 				 
 				 

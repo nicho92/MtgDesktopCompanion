@@ -5,40 +5,27 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
@@ -47,9 +34,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private static final String PASS = "PASS";
 	private static final String LOGIN2 = "LOGIN";
 	private static final String URI_BASE="https://tappedout.net";
-	private CookieStore cookieStore;
-	private HttpClient httpclient;
-	private HttpContext httpContext;
+	private URLToolsClient httpclient;
+
 
 	@Override
 	public STATUT getStatut() {
@@ -81,44 +67,41 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	private void initConnexion() throws IOException {
-		cookieStore = new BasicCookieStore();
-		httpContext = new BasicHttpContext();
-		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
-		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
+		httpclient = URLTools.newClient();
 		
-		httpclient.execute(new HttpGet(URI_BASE+"/accounts/login/?next=/"), httpContext);
-		
-		HttpPost login = new HttpPost(URI_BASE+"/accounts/login/");
+		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
+
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("next", "/"));
 							nvps.add(new BasicNameValuePair("username", getString(LOGIN2)));
 							nvps.add(new BasicNameValuePair("password", getString(PASS)));
-							nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
-		login.setEntity(new UrlEncodedFormEntity(nvps));
-		login.addHeader("Referer", URI_BASE+"/accounts/login/?next=/");
-		login.addHeader("Upgrade-Insecure-Requests", "1");
-		login.addHeader("Origin", URI_BASE);
-		HttpResponse resp = httpclient.execute(login, httpContext);
-		EntityUtils.consume(resp.getEntity());
-		logger.debug("Connection : " + getString(LOGIN2) + " " + resp.getStatusLine().getReasonPhrase());
+							nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken")));
+		
+		Map<String,String> map = httpclient.buildMap();
+		
+		map.put("Referer", URI_BASE+"/accounts/login/?next=/");
+		map.put("Upgrade-Insecure-Requests", "1");
+		map.put("Origin", URI_BASE);
+		
+		httpclient.doPost(URI_BASE+"/accounts/login/", nvps, map);
+
+		logger.debug("Connection : " + getString(LOGIN2) + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
 	}
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		if(cookieStore==null)
+		if(httpclient==null)
 			initConnexion();
 		
 		logger.debug("sniff deck at " + info.getUrl());
 		
-		
-		HttpGet get = new HttpGet(info.getUrl());
-		HttpResponse resp = httpclient.execute(get, httpContext);
-		String responseBody = EntityUtils.toString(resp.getEntity());
-		logger.debug("sniff deck : "+ resp.getStatusLine().getReasonPhrase());
+
+		String responseBody = httpclient.doGet(info.getUrl());
+		logger.debug("sniff deck : "+ httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
 		MagicDeck deck = new MagicDeck();
-		JsonElement root = new JsonParser().parse(responseBody);
+		JsonElement root = URLTools.toJson(responseBody);
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());
 		for (int i = 0; i < root.getAsJsonObject().get("inventory").getAsJsonArray().size(); i++) {
@@ -176,16 +159,15 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		if(cookieStore==null)
+		if(httpclient==null)
 			initConnexion();
 		
 		String tappedJson = RegExUtils.replaceAll(getString(URL_JSON), "%FORMAT%", getString(FORMAT));
 		logger.debug("sniff url : " + tappedJson);
 
-		HttpResponse resp = httpclient.execute(new HttpGet(tappedJson), httpContext);
-		String responseBody = EntityUtils.toString(resp.getEntity());
+		String responseBody = httpclient.doGet(tappedJson);
 		
-		JsonElement root = new JsonParser().parse(responseBody);
+		JsonElement root = URLTools.toJson(responseBody);
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 0; i < root.getAsJsonArray().size(); i++) {
@@ -203,21 +185,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			deck.setColor("");
 			list.add(deck);
 		}
-		EntityUtils.consume(resp.getEntity());
-		
 		return list;
 	}
 
-	private String getCookieValue(String cookieName) {
-		String value = null;
-		for (Cookie cookie : cookieStore.getCookies()) {
-			if (cookie.getName().equals(cookieName)) {
-				value = cookie.getValue();
-				break;
-			}
-		}
-		return value;
-	}
 
 	@Override
 	public void initDefault() {

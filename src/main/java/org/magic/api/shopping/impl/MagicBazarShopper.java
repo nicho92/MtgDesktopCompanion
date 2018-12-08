@@ -48,15 +48,17 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		nvps.add(new BasicNameValuePair("_submit_login", "Me connecter"));
 		client.doPost(urlLogin, nvps, null);
 		
-		Document listOrders = client.doGet(urlListOrders, null);
+		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders, null));
 		Elements e = listOrders.select("div.total_list a");
+		
+		logger.debug("Found " + e.size() + " orders");
 		for(int i=0;i<e.size();i++)
 		{
 			String id = e.get(i).select("div.num_commande").text();
 			String link = e.get(i).attr("href");
-			String date = e.get(i).attr("attribute_ext");
-			System.out.println(e.get(i).html());
-			entries.addAll(parse(client.doGet(urlBase+link),id,UITools.parseDate(date)));
+			String date = e.get(i).select("div.hide_mobile").first().html();
+			entries.addAll(parse(URLTools.toHtml(client.doGet(urlBase+link)),id,UITools.parseDate(date,"mm/dd/yy")));
+			
 		}
 		return entries;
 	}
@@ -84,7 +86,6 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 					entrie.setSeller(getName());
 					entrie.setTypeTransaction(TYPE_TRANSACTION.BUY);
 					entrie.setTransationDate(date);
-					System.out.println(date);
 					entrie.setDescription(name);
 					if(iscard)
 					{
@@ -110,12 +111,14 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 						entrie.setItemPrice(UITools.parseDouble(price));
 						
 						
-						if(entrie.getDescription().toLowerCase().contains("collection"))
+						if(entrie.getDescription().contains("Set")||entrie.getDescription().toLowerCase().contains("collection"))
 							entrie.setType(TYPE_ITEM.FULLSET);
 						else if(entrie.getDescription().toLowerCase().contains("booster"))
 							entrie.setType(TYPE_ITEM.BOOSTER);
-						else if(entrie.getDescription().toLowerCase().startsWith("boite de"))
+						else if(entrie.getDescription().toLowerCase().startsWith("boite de") || entrie.getDescription().contains("Display") )
 							entrie.setType(TYPE_ITEM.BOX);
+						else
+							entrie.setType(TYPE_ITEM.LOTS);
 					}
 					notify(entrie);
 					entries.add(entrie);	

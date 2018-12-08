@@ -1,12 +1,9 @@
 package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -16,19 +13,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.UITools;
-
-import com.sun.media.jfxmedia.logging.Logger;
-
-import javax.swing.JComboBox;
 
 public class EditionFinancialChartPanel extends JPanel {
 
@@ -78,6 +67,8 @@ public class EditionFinancialChartPanel extends JPanel {
 			List<OrderEntry> temp = MTGControler.getInstance().getFinancialService().getOrderFor(ed);
 			List<CardShake> price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.stream().mapToDouble(CardShake::getPrice).sum();
+			
+			totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),temp.get(0).getCurrency(), totalEd);
 			dataset.addValue(totalEd, "Actual Value", ed.getSet() );
 			dataset.addValue(MTGControler.getInstance().getFinancialService().getTotal(temp), "Paid", ed.getSet() );
 		}

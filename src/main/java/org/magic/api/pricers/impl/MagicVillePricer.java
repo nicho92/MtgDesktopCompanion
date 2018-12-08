@@ -4,17 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -24,47 +15,35 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
 	
 	private static final String MAX = "MAX";
 	private static final String WEBSITE = "WEBSITE";
-	private HttpClient httpclient;
+	private URLToolsClient httpclient;
 	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
 	
-	private ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-		public String handleResponse(final HttpResponse response) throws IOException {
-			int status = response.getStatusLine().getStatusCode();
-			HttpEntity entity = response.getEntity();
-
-			if (status >= 200 && status < 300) {
-				return entity != null ? EntityUtils.toString(entity) : null;
-			} else {
-				throw new ClientProtocolException(
-						"Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
-			}
-		}
-	};
-
+	
 	public MagicVillePricer() {
 		super();
-		httpclient = HttpClientBuilder.create().build();
+		httpclient = URLTools.newClient();
 
 	}
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-		HttpPost searchPost = new HttpPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1");
+		
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("recherche_titre", card.getName()));
 
-		searchPost.setEntity(new UrlEncodedFormEntity(nvps));
-		String res = httpclient.execute(searchPost,responseHandler);
+		
+		
+		String res = httpclient.doPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1", nvps, null);
 		if(res.length()>100)
 		{
 			logger.error("too much result");

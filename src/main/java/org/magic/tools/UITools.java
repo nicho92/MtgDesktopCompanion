@@ -265,13 +265,14 @@ public class UITools {
 	}
 	
 	public static Date parseDate(String indexDate,String format) {
-		
 		if(indexDate==null)
 			return new Date();
 		
 		try {
 			return new SimpleDateFormat(format).parse(indexDate);
 		} catch (ParseException e) {
+			
+			System.out.println(e);
 			return new Date();
 		}
 	}

@@ -7,19 +7,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -27,6 +17,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -44,29 +35,11 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		return STATUT.DEV;
 	}
 
-	private BasicCookieStore cookieStore;
-	private BasicHttpContext httpContext;
 	private static int sequence = 1;
 	private JsonParser parser;
-	private ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-		public String handleResponse(final HttpResponse response) throws IOException {
-			int status = response.getStatusLine().getStatusCode();
-			HttpEntity entity = response.getEntity();
-
-			if (status >= 200 && status < 300) {
-				return entity != null ? EntityUtils.toString(entity) : null;
-			} else {
-				throw new ClientProtocolException(
-						"Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
-			}
-		}
-	};
-
+	
 	public DeckTutorPricer() {
 		super();
-		cookieStore = new BasicCookieStore();
-		httpContext = new BasicHttpContext();
 		parser = new JsonParser();
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
@@ -92,38 +65,36 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
-		HttpClient httpClient = HttpClientBuilder.create().build();
-		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
+		URLToolsClient httpClient = URLTools.newClient();
+		
 		JsonObject jsonparams = new JsonObject();
-		jsonparams.addProperty("login", getString("LOGIN"));
-		jsonparams.addProperty("password", getString("PASS"));
+				   jsonparams.addProperty("login", getString("LOGIN"));
+				   jsonparams.addProperty("password", getString("PASS"));
 
-		HttpPost reqCredential = new HttpPost(getString("URL") + "/account/login");
-		reqCredential.addHeader("content-type", URLTools.HEADER_JSON);
-		reqCredential.setEntity(new StringEntity(jsonparams.toString()));
-
-		String response = httpClient.execute(reqCredential, responseHandler, httpContext);
+		
+		Map<String,String> headers = httpClient.buildMap();
+		headers.put("content-type", URLTools.HEADER_JSON);
+		String response = httpClient.doPost(getString("URL") + "/account/login", new StringEntity(jsonparams.toString()), headers);
 		logger.debug(getName() + " connected with " + response);
-
-		JsonElement root = new JsonParser().parse(response);
-
+		JsonElement root = URLTools.toJson(response);
 		String authToken = root.getAsJsonObject().get("auth_token").getAsString();
 		String authSecrectToken = root.getAsJsonObject().get("auth_token_secret").getAsString();
-
 		logger.info(getName() + " Looking for price " + getString("URL") + "/search/serp");
 
-		HttpPost reqSearch = new HttpPost(getString("URL") + "/search/serp");
-		reqSearch.addHeader("x-dt-Auth-Token", authToken);
-		reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
+		Map<String,String> reqSearch = httpClient.buildMap();
+		
+		
+		reqSearch.put("x-dt-Auth-Token", authToken);
+		reqSearch.put("x-dt-Sequence", String.valueOf(sequence));
 		try {
-			reqSearch.addHeader("x-dt-Signature", getMD5(sequence + ":" + authSecrectToken));
+			reqSearch.put("x-dt-Signature", getMD5(sequence + ":" + authSecrectToken));
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException(e);
 		}
-		reqSearch.addHeader("Content-type", URLTools.HEADER_JSON);
-		reqSearch.addHeader("Accept", URLTools.HEADER_JSON);
-		reqSearch.addHeader("x-dt-cdb-Language", "en");
-		reqSearch.addHeader("User-Agent",MTGConstants.USER_AGENT);
+		reqSearch.put("Content-type", URLTools.HEADER_JSON);
+		reqSearch.put("Accept", URLTools.HEADER_JSON);
+		reqSearch.put("x-dt-cdb-Language", "en");
+		reqSearch.put("User-Agent",MTGConstants.USER_AGENT);
 
 		jsonparams = new JsonObject();
 		jsonparams.addProperty("name", card.getName());
@@ -140,8 +111,9 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			obj.addProperty("limit", getString(MAX_RESULT));
 
 		logger.trace(getName() + " request :" + obj);
-		reqSearch.setEntity(new StringEntity(obj.toString()));
-		response = httpClient.execute(reqSearch, responseHandler, httpContext);
+		
+		
+		response = httpClient.doPost(getString("URL") + "/search/serp", new StringEntity(obj.toString()), headers);
 		logger.trace(getName() + " response :" + response);
 		increment();
 

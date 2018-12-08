@@ -194,8 +194,14 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		String filterEdition = ".";
 
 		if (ed != null)
+		{
+			if(ed.getId().equals("NMS"))
+				ed.setId("NEM");
+				
 			filterEdition = filterEdition + ed.getId().toUpperCase();
+		}
 
+		
 		String jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
 
 		if (exact)
