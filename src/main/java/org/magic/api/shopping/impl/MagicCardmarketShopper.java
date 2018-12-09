@@ -80,6 +80,10 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 			o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY)));
 		});
 		
+		serv.listOrders(ACTOR.buyer, STATE.paid, null).forEach(o->{
+			o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY)));
+		});
+		
 		serv.listOrders(ACTOR.seller, STATE.received, null).forEach(o->{
 			o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.SELL)));
 		});

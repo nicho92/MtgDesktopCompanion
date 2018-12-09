@@ -134,6 +134,10 @@ public class URLToolsClient {
 		return value;
 		
 	}
+
+	public List<Cookie> getCookies() {
+		return cookieStore.getCookies();
+	}
 	
 
 }
