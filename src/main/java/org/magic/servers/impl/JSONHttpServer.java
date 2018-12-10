@@ -196,6 +196,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 		
 		
+		get("/shopping/list", getString(MIME), (request, response) -> {
+			return MTGControler.getInstance().getFinancialService().getEntries();
+		}, transformer);
+		
+		
 		get("/cards/name/:idEd/:cName", getString(MIME), (request, response) -> {
 
 			MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(request.params(ID_ED));
