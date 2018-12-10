@@ -165,7 +165,15 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private CardPriceVariations extractPrice(JsonObject obj,MagicCard mc) {
+		
+		logger.trace("extract " + obj);
+		
 		JsonArray arr = obj.get(getString("CARD_PRICES_SHAKER")).getAsJsonArray();
+		
+		if(mc.getCurrentSet().isFoilOnly())
+			arr = obj.get("foil").getAsJsonArray();
+		
+		
 		CardPriceVariations prices = new CardPriceVariations(mc);
 		prices.setCurrency(Currency.getInstance("USD"));
 		Calendar cal = GregorianCalendar.getInstance();

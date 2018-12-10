@@ -545,6 +545,14 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		{ 
 			//do nothing
 		}
+		
+		try{
+			ed.setFoilOnly(ctx.read(base + ".isFoilOnly", Boolean.class));
+		}
+		catch(PathNotFoundException pnfe)
+		{ 
+			//do nothing
+		}
 			
 		
 		
