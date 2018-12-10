@@ -70,7 +70,11 @@ public class HistoryPricesPanel extends JPanel {
 		chckbxShowEditions.setSelected(showEdition);
 		chckbxShowEditions.addActionListener(ae -> {
 			showEdition = chckbxShowEditions.isSelected();
-			refresh();
+			try {
+				refresh();
+			} catch (IOException e) {
+				logger.error("error loading edition",e);
+			}
 		});
 		GridBagConstraints gbcchckbxShowEditions = new GridBagConstraints();
 		gbcchckbxShowEditions.anchor = GridBagConstraints.NORTHWEST;
@@ -82,7 +86,11 @@ public class HistoryPricesPanel extends JPanel {
 		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
 		chckbxShowAllDashboard.addActionListener(ae -> {
 			showAll = chckbxShowAllDashboard.isSelected();
-			refresh();
+			try {
+				refresh();
+			} catch (IOException e) {
+				logger.error("error reloading edition",e);
+			}
 		});
 
 		GridBagConstraints gbcchckbxShowAllDashboard = new GridBagConstraints();
@@ -123,7 +131,7 @@ public class HistoryPricesPanel extends JPanel {
 		}
 	}
 
-	private void refresh() {
+	private void refresh() throws IOException {
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 
@@ -160,8 +168,9 @@ public class HistoryPricesPanel extends JPanel {
 		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Price", dataset, true, true,false);
 
 		if (showEdition)
-			try {
-				for (MagicEdition edition : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) {
+				for (MagicEdition edition : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) 
+				{
+					try {	
 					Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 					TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 
@@ -174,11 +183,11 @@ public class HistoryPricesPanel extends JPanel {
 						XYPlot plot = (XYPlot) chart.getPlot();
 						plot.addAnnotation(annot);
 					}
-				}
+				
 			} catch (Exception e) {
-				logger.error("error showeds", e);
+				logger.error("error show eds " + edition+ " :" + e);
 			}
-
+				}
 		pane.setChart(chart);
 		pane.addMouseWheelListener(mwe -> {
 			if (mwe.getWheelRotation() > 0) {
