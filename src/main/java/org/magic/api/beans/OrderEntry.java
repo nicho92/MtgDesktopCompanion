@@ -1,10 +1,13 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-public class OrderEntry {
+public class OrderEntry implements Serializable {
 
+	
+	private static final long serialVersionUID = 1L;
 	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET,LOTS}
 	public enum TYPE_TRANSACTION {BUY,SELL}
 	
@@ -106,6 +109,6 @@ public class OrderEntry {
 	public void setEdition(MagicEdition edition) {
 		this.edition = edition;
 	}
-	
+
 	
 }

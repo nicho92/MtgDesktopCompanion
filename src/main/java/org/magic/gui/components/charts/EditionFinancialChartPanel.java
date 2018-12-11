@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -17,6 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
 
 public class EditionFinancialChartPanel extends JPanel {
@@ -26,7 +28,8 @@ public class EditionFinancialChartPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicEdition> cboEditions;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public EditionFinancialChartPanel() {
 		setLayout(new BorderLayout(0, 0));
 		JPanel panelEdition = new JPanel();
@@ -74,7 +77,7 @@ public class EditionFinancialChartPanel extends JPanel {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error("erreur calculate dataset",e);
 		}
 		return dataset;
 	}

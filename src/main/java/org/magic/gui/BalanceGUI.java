@@ -1,18 +1,21 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.Currency;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardPriceVariations;
@@ -26,6 +29,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.OrderEntryPanel;
+import org.magic.gui.components.charts.EditionFinancialChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
@@ -35,11 +39,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import java.awt.Component;
-import org.magic.gui.components.charts.EditionFinancialChartPanel;
-import java.awt.GridLayout;
 
 public class BalanceGUI extends MTGUIComponent {
 	
@@ -168,7 +167,7 @@ public class BalanceGUI extends MTGUIComponent {
 		add(panneauBas,BorderLayout.SOUTH);
 		
 		
-		ThreadManager.getInstance().execute(()->loadFinancialBook(), "loading financial book");
+		ThreadManager.getInstance().execute(this::loadFinancialBook, "loading financial book");
 		
 		
 		table.setSortOrder(2, SortOrder.DESCENDING);

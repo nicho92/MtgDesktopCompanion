@@ -2,14 +2,18 @@ package org.beta;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.CharSet;
 import org.apache.commons.lang3.StringUtils;
+import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
+import org.magic.tools.URLTools;
 
 public class RulesParser {
 
@@ -46,7 +50,7 @@ public class RulesParser {
 	
 	public static void main(String[] args) throws IOException {
 		RulesParser parser = new RulesParser();
-		parser.read(FileUtils.readFileToString(new File("rules.txt"), "ISO-8859-15"));
+		parser.read(URLTools.extractAsString(MTGConstants.URL_RULES_FILE, Charset.forName("ISO-8859-15")));
 		
 		parser.getRoot().getChildren().forEach(System.out::println);
 		

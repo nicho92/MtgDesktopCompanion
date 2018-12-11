@@ -271,8 +271,7 @@ public class UITools {
 		try {
 			return new SimpleDateFormat(format).parse(indexDate);
 		} catch (ParseException e) {
-			
-			System.out.println(e);
+			logger.error(e);
 			return new Date();
 		}
 	}

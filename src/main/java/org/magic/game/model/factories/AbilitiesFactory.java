@@ -12,6 +12,7 @@ import org.magic.game.model.abilities.StaticAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
 import org.magic.game.model.costs.LoyaltyCost;
+import org.magic.services.extra.KeyWordProvider;
 import org.magic.tools.CardsPatterns;
 
 public class AbilitiesFactory implements Serializable{
@@ -139,6 +140,8 @@ public class AbilitiesFactory implements Serializable{
 
 	private List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
 		return new ArrayList<>();
+		
+		//TODO parse static abilities;
 	}
 
 

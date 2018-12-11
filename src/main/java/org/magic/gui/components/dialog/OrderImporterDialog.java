@@ -79,7 +79,7 @@ public class OrderImporterDialog extends JDialog {
 				
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 	
-		btnLoad.addActionListener(ae->{
+		btnLoad.addActionListener(ae->
 			ThreadManager.getInstance().execute(()->{
 					try {
 						lblLoad.start();
@@ -91,11 +91,8 @@ public class OrderImporterDialog extends JDialog {
 						lblLoad.end();
 					}
 					selectedSniffer.removeObserver(lblLoad);
-			}, "loading orders");
-			
-			
-			
-		});
+			}, "loading orders")
+		);
 		
 		
 		btnClose.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));

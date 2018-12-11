@@ -10,12 +10,11 @@ import java.util.Map;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -34,23 +33,6 @@ public class URLToolsClient {
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
-
-	private ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-		public String handleResponse(final HttpResponse response) throws IOException {
-			int status = response.getStatusLine().getStatusCode();
-			HttpEntity entity = response.getEntity();
-
-			if (status >= 200 && status < 300) {
-				return entity != null ? EntityUtils.toString(entity) : null;
-			} else {
-				throw new ClientProtocolException(
-						"Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
-			}
-		}
-	};
-
-	
 	
 	public HttpResponse getResponse() {
 		return response;
@@ -74,24 +56,43 @@ public class URLToolsClient {
 		return new HashMap<>();
 	}
 	
+	public String doGet(String url, Map<String,String> headers) throws IOException
+	{
+		logger.trace("GET " + url);
+		HttpGet getReq = new HttpGet(url);
+		init(headers,getReq);
+		response  = httpclient.execute(getReq,httpContext);
+		return extractAndClose(response);
+	}
+	
+	private String extractAndClose(HttpResponse response) throws IOException
+	{
+		logger.debug("return" + response.getStatusLine().getStatusCode());
+		String ret = EntityUtils.toString(response.getEntity());
+		EntityUtils.consume(response.getEntity());
+		return ret;
+	}
+	
+	private void init(Map<String,String> headers,HttpRequestBase req)
+	{
+		if(headers!=null)
+			headers.entrySet().forEach(e->req.addHeader(e.getKey(), e.getValue()));
+	}
+	
 	
 	public String doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
 			logger.trace("POST " + url);
 		
-			HttpPost login = new HttpPost(url);
+			HttpPost postReq = new HttpPost(url);
 			try {
 				if(entities!=null)
-					login.setEntity(entities);
+					postReq.setEntity(entities);
 				
-				if(headers!=null)
-					headers.entrySet().forEach(e->login.addHeader(e.getKey(), e.getValue()));
+				init(headers,postReq);
 				
-				
-				response  = httpclient.execute(login,httpContext);
-				String ret = EntityUtils.toString(response.getEntity());
-				EntityUtils.consume(response.getEntity());
-				return ret;
+				response  = httpclient.execute(postReq,httpContext);
+				return extractAndClose(response);
 			} catch (UnsupportedEncodingException e1) {
 				throw new IOException(e1);
 			}
@@ -110,18 +111,7 @@ public class URLToolsClient {
 	}
 	
 	
-	public String doGet(String url, Map<String,String> headers) throws IOException
-	{
-		logger.trace("GET " + url);
-		HttpGet get = new HttpGet(url);
-		if(headers!=null)
-			headers.entrySet().forEach(e->get.addHeader(e.getKey(), e.getValue()));
-
-		response  = httpclient.execute(get,httpContext);
-		String d = EntityUtils.toString(response.getEntity());
-		EntityUtils.consume(response.getEntity());
-		return d;
-	}
+	
 
 	public String getCookieValue(String cookieName) {
 		String value = null;

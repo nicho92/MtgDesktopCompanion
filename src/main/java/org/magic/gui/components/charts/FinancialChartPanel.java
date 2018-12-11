@@ -8,18 +8,15 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.time.Day;
 import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class FinancialChartPanel extends JPanel {
 
@@ -27,7 +24,6 @@ public class FinancialChartPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private ChartPanel pane;
 	private String title ="Financial History";
 	

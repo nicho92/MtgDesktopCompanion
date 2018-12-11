@@ -238,13 +238,6 @@ class TagLabel extends JXLabel {
 		setBounds(new Rectangle(2, 2, 7, 2));
 		setBorder(new CompoundBorder(new LineBorder(f, 1, true), new EmptyBorder(5, 5, 5, 5)));
 		setOpaque(true);
-		
-//		DropShadowBorder shadow = new DropShadowBorder();
-//        shadow.setShadowColor(Color.BLACK);
-//        shadow.setShowRightShadow(true);
-//        shadow.setShowBottomShadow(true);
-//        setBorder(shadow);
-		
 	}
 
 	@Override

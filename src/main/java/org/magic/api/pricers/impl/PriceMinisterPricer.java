@@ -22,7 +22,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.ABANDONNED;
 	}
 
 	
@@ -39,7 +39,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 			url.append(getString("URL"))
 				.append("&login=").append(getString("LOGIN"))
 				.append("&pwd=").append(getString("PASS"))
-				.append("&version=").append(getString("VERSION"))
+				.append("&version=").append("2018-06-28")
 				.append("&scope=").append(getString("SCOPE"))
 				.append("&nbproductsperpage=").append(getString("NB_PRODUCT_PAGE"))
 				.append("&kw=").append(URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()))
@@ -88,6 +88,8 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 			return "0.0";
 		}
 	}
+	
+	
 
 	@Override
 	public String getName() {
@@ -98,9 +100,8 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 	public void initDefault() {
 		setProperty("LOGIN", "login");
 		setProperty("PASS", "PASS");
-		setProperty("VERSION", "2015-07-05");
 		setProperty("CATEGORIE", "");
-		setProperty("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
+		setProperty("URL", "https://ws.fr.shopping.rakuten.com/listing_ssl_ws?action=listing");
 		setProperty("SCOPE", "PRICING");
 		setProperty("NB_PRODUCT_PAGE", "20");
 		setProperty("WEBSITE", "http://www.priceminister.com/");

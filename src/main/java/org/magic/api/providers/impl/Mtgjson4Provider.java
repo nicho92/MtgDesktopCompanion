@@ -28,7 +28,6 @@ import org.magic.tools.ColorParser;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;

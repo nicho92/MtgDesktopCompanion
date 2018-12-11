@@ -2,7 +2,6 @@ package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +11,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;

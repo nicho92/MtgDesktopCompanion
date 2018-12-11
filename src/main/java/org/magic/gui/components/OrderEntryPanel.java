@@ -15,9 +15,10 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.tools.UITools;
 
-public class OrderEntryPanel extends JPanel {
+public class OrderEntryPanel extends MTGUIComponent {
 	
 	
 	private JTextField txtDescription;
@@ -131,24 +132,25 @@ public class OrderEntryPanel extends JPanel {
 	}
 
 	public OrderEntry newOrderEntry() {
-		OrderEntry o = new OrderEntry();
-		o.setDescription(txtDescription.getText());
-		o.setEdition((MagicEdition)cboEditions.getSelectedItem());
-		o.setCurrency((Currency)cboCurrency.getSelectedItem());
-		o.setIdTransation(txtidTransaction.getText());
-		o.setItemPrice(Double.parseDouble(txtPrice.getText()));
-		o.setSource(txtSource.getText());
-		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
-		o.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
-		o.setTransationDate(UITools.parseDate(txtDateTransaction.getText()));
-		o.setUpdated(true);
-		return o;
+		OrderEntry ord = new OrderEntry();
+	
+		ord.setDescription(txtDescription.getText());
+		ord.setEdition((MagicEdition)cboEditions.getSelectedItem());
+		ord.setCurrency((Currency)cboCurrency.getSelectedItem());
+		ord.setIdTransation(txtidTransaction.getText());
+		ord.setItemPrice(Double.parseDouble(txtPrice.getText()));
+		ord.setSource(txtSource.getText());
+		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
+		ord.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
+		ord.setTransationDate(UITools.parseDate(txtDateTransaction.getText()));
+		ord.setUpdated(true);
+		return ord;
 	}
 
-//	
-//	@Override
-//	public String getTitle() {
-//		return "Order Entry Panel";
-//	}
+	
+	@Override
+	public String getTitle() {
+		return "Order Entry Panel";
+	}
 	
 }

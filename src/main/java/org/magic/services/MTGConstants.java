@@ -209,6 +209,7 @@ public class MTGConstants {
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URLTOOL_CHECK_URI = "www.google.com";
+	public static final String URL_RULES_FILE = "http://media.wizards.com/2018/downloads/MagicCompRules%2020181005.txt";
 	
 	
 		

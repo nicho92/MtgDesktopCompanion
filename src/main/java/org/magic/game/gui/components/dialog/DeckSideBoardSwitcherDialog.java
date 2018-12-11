@@ -14,9 +14,9 @@ import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.game.gui.components.LightDescribeCardPanel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.game.gui.components.LightDescribeCardPanel;
 
 public class DeckSideBoardSwitcherDialog extends JDialog {
 
