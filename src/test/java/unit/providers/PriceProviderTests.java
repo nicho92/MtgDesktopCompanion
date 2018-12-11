@@ -19,6 +19,7 @@ import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.api.pricers.impl.MagicTradersPricer;
 import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.PriceMinisterPricer;
+import org.magic.api.pricers.impl.StarCityGamesPricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.services.MTGLogger;
 
@@ -31,7 +32,7 @@ public class PriceProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.TRACE);
+		MTGLogger.changeLevel(Level.DEBUG);
 	}
 
 	
@@ -75,8 +76,9 @@ public class PriceProviderTests {
 		test(new MagicTradersPricer());
 		test(new MagicVillePricer());
 		test(new MTGPricePricer());
-		test(new TCGPlayerPricer());
 		test(new PriceMinisterPricer());
+		test(new StarCityGamesPricer());
+		test(new TCGPlayerPricer());
 		
 	}
 	

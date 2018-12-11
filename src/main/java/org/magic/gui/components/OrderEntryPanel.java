@@ -11,11 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.jdesktop.swingx.JXDatePicker;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 public class OrderEntryPanel extends MTGUIComponent {
@@ -25,7 +27,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	private JTextField txtPrice;
 	private JTextField txtSource;
 	private JTextField txtidTransaction;
-	private JTextField txtDateTransaction;
+	private JXDatePicker txtDateTransaction;
 	private JComboBox<MagicEdition> cboEditions;
 	private JComboBox<TYPE_TRANSACTION> cboTransactionType;
 	private JComboBox<TYPE_ITEM> cboTypeItem;
@@ -53,7 +55,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		cboTransactionType.setSelectedItem(o.getTypeTransaction());
 		cboCurrency.setSelectedItem(o.getCurrency());
 		cboTypeItem.setSelectedItem(o.getType());
-		txtDateTransaction.setText(UITools.formatDate(o.getTransationDate()));
+		txtDateTransaction.setDate(o.getTransationDate());
 	}
 	
 	public OrderEntry getOrderEntry()
@@ -72,7 +74,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		o.setSource(txtSource.getText());
 		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		o.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
-		o.setTransationDate(UITools.parseDate(txtDateTransaction.getText()));
+		o.setTransationDate(txtDateTransaction.getDate());
 		o.setUpdated(true);
 	}
 	
@@ -126,7 +128,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		txtidTransaction = new JTextField(10);
 		add(txtidTransaction, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 		
-		txtDateTransaction = new JTextField(10);
+		txtDateTransaction = new JXDatePicker(MTGControler.getInstance().getLocale());
 		add(txtDateTransaction, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
 		
 	}
@@ -142,7 +144,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		ord.setSource(txtSource.getText());
 		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		ord.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
-		ord.setTransationDate(UITools.parseDate(txtDateTransaction.getText()));
+		ord.setTransationDate(txtDateTransaction.getDate());
 		ord.setUpdated(true);
 		return ord;
 	}
