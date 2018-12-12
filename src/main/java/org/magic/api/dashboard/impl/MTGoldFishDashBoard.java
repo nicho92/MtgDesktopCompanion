@@ -309,7 +309,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		mapConcordance.put("WTH", "WL");
 		mapConcordance.put("ODY", "OD");
 		mapConcordance.put("EXO", "EX");
-		mapConcordance.put("CON_", "CON");
 		mapConcordance.put("APC", "AP");
 		mapConcordance.put("PLS", "PS");
 		mapConcordance.put("INV", "IN");

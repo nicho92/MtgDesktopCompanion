@@ -61,9 +61,7 @@ public class CollectionEvaluator extends Observable
 		directory = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "prices").toFile();
 		if(!directory.exists())
 			FileUtils.forceMkdir(directory);
-	
-		
-		
+
 		serialiser= new JsonExport();
 	}
 	

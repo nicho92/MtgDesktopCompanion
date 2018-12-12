@@ -1,15 +1,12 @@
 package org.beta;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.CharSet;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;

@@ -58,7 +58,6 @@ public class BalanceGUI extends MTGUIComponent {
 	private JPanel panelComparator;
 	private JPanel chartesContainerPanel;
 	private EditionFinancialChartPanel editionFinancialChartPanel;
-
 	
 	
 	private void loadFinancialBook()

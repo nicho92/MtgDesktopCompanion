@@ -15,6 +15,8 @@ public class FileTools {
 
 	private static Logger logger = MTGLogger.getLogger(FileTools.class);
 
+	private FileTools() {	}
+	
 	
 	public static void unZipIt(File src,File dst) {
  		byte[] buffer = new byte[1024];
