@@ -27,7 +27,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 		String url = getString("URL");
 		url = url.replaceAll("%API_KEY%", getString("API_KEY"));

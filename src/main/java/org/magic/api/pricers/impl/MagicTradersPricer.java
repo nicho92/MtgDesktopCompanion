@@ -18,7 +18,7 @@ import org.magic.tools.URLTools;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 
 		URL link = new URL(getString("URL"));
 		logger.info(getName() + " looking for prices " + link);

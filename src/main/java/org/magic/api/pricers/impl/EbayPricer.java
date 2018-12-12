@@ -18,7 +18,7 @@ import com.google.gson.JsonElement;
 public class EbayPricer extends AbstractMagicPricesProvider {
 
 	
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 
 		String url = getString("URL");

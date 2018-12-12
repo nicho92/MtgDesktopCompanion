@@ -35,7 +35,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	}
 
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 		
 		List<NameValuePair> nvps = new ArrayList<>();

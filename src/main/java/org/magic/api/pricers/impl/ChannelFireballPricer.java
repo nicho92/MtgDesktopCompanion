@@ -23,7 +23,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
 
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 
 		String keyword = card.getName();
 		String url = getString("URL");

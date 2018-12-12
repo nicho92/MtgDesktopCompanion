@@ -97,8 +97,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	
 	
 	
-
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	@Override
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		if(!initied)
 			init();
 		

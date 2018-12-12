@@ -24,7 +24,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition ed, MagicCard card) throws IOException {
 		if (getString(API_KEY).equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 

@@ -64,7 +64,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		URLToolsClient httpClient = URLTools.newClient();
 		
 		JsonObject jsonparams = new JsonObject();

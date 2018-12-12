@@ -27,7 +27,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 
 	
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException
+	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException
 	{
 		List<MagicPrice> list = new ArrayList<>();
 		try {
