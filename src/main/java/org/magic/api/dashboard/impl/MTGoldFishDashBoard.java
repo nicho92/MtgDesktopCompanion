@@ -122,7 +122,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 	}
 
-	public List<CardShake> getShakerFor(MTGFormat f) throws IOException {
+	@Override
+	public List<CardShake> getOnlineShakerFor(MTGFormat f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		
 		String gameFormat="all";

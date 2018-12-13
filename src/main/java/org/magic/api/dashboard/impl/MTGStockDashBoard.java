@@ -52,7 +52,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardShake> getShakerFor(MTGFormat f) throws IOException {
+	public List<CardShake> getOnlineShakerFor(MTGFormat f) throws IOException {
 		connect();
 
 		List<CardShake> ret = new ArrayList<>();

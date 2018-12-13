@@ -53,17 +53,25 @@ public class CurrencyConverter {
 	
 	public Double convert(String from, String to, double value)
 	{
+		
+		double ret=value;
 		try {
 			if(!from.equalsIgnoreCase("USD")&&!to.equalsIgnoreCase("USD"))
-				return usdConvert("USD", to, 1)*usdConvert(from, "USD", 1)*value;
+				ret= usdConvert("USD", to, 1)*usdConvert(from, "USD", 1)*value;
 			else
-				return usdConvert(from, to, value);
+				ret= usdConvert(from, to, value);
+			
+			logger.trace("converting " + value + from+ " from to " + to + "="+ret);
+	
+			return ret;
 		}
 		catch(Exception e)
 		{
 			logger.error("Error convert " + from + " to " + to +", return default value");
 			return value;
 		}
+		
+		
 			
 	}
 	

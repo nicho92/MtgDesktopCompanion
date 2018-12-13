@@ -39,7 +39,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	
 	@Override
-	public List<CardShake> getShakerFor(MTGFormat f) throws IOException {
+	public List<CardShake> getOnlineShakerFor(MTGFormat f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);

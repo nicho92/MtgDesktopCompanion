@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -57,11 +58,12 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	@Override
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition ed) throws IOException {
 		CardPriceVariations var = getOnlinePricesVariation(mc, ed);
-		
-		var.entrySet().forEach(e->{
-			e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue()));
+		if(var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		{
+			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
 			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-		});
+				
+		}
 		return var;
 	}
 	
@@ -79,12 +81,43 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			logger.debug(edition + " not in cache.Loading it");
 			evaluator.initCache(edition,getOnlineShakesForEdition(edition));	
 		}
+		List<CardShake> ret = evaluator.loadFromCache(edition);
 		
-		return evaluator.loadFromCache(edition);
+		
+		convert(ret);
+		
+		
+		return ret;
+	}
+
+
+	public List<CardShake> getShakerFor(MTGFormat format)  throws IOException
+	{
+		List<CardShake> ret = getOnlineShakerFor(format);
+		convert(ret);
+		
+		return ret;
+		
+		
 	}
 	
+	protected abstract List<CardShake> getOnlineShakerFor(MTGFormat gameFormat) throws IOException;
 	protected abstract List<CardShake> getOnlineShakesForEdition(MagicEdition ed) throws IOException;
 	protected abstract CardPriceVariations getOnlinePricesVariation(MagicCard mc,MagicEdition ed) throws IOException;
 	
+	
+	private void convert(List<CardShake> ret)
+	{
+		ret.forEach(cs->{
+					
+					if(cs.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+					{
+						cs.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPrice()));
+						cs.setPriceDayChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceDayChange()));
+						cs.setPriceWeekChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceWeekChange()));	
+					}
+		});
+				
+	}
 	
 }
