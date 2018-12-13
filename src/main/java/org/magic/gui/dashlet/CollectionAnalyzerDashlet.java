@@ -22,6 +22,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
@@ -136,7 +137,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		CollectionAnalyzerTreeTableModel model = new CollectionAnalyzerTreeTableModel();
 		modelCache.removeAll();
 		ThreadManager.getInstance().execute(()->{
-			
 			try {
 				evaluator = new CollectionEvaluator(new MagicCollection(MTGControler.getInstance().get("default-library")));
 				evaluator.addObserver(buzy);
@@ -148,13 +148,13 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				{
 					modelCache.addRow(ed, evaluator.getCacheDate(ed));
 					List<CardShake> list = new ArrayList<>(evaluator.prices(ed).values());
+					AbstractDashBoard.convert(list);
 					Collections.sort(list);
-					
 					model.saveRow(ed,list);
 				}
 	
 			Double total = evaluator.total();
-			lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency().getCurrencyCode());
+			lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 			
 			
 			

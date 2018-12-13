@@ -106,7 +106,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	protected abstract CardPriceVariations getOnlinePricesVariation(MagicCard mc,MagicEdition ed) throws IOException;
 	
 	
-	private void convert(List<CardShake> ret)
+	public static void convert(List<CardShake> ret)
 	{
 		ret.forEach(cs->{
 					

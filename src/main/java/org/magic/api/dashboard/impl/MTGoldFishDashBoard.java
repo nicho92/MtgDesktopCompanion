@@ -193,10 +193,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		logger.trace("Parsing dashboard " + urlEditionChecker);
 
-		Document doc = URLTools.extractHtml(urlEditionChecker);
-		Element table = null;
 		try {
-
+			Document doc = URLTools.extractHtml(urlEditionChecker);
+			Element table = null;
+		
 			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(1).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0);
 
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
@@ -217,6 +217,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			}
 		} catch (IndexOutOfBoundsException e) {
 			logger.error(e);
+		}
+		catch(IOException e)
+		{
+			logger.error("error getting CardShake for " + edition,e);
 		}
 		return list;
 	}
