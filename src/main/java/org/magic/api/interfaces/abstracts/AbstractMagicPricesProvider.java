@@ -2,7 +2,9 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Currency;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -37,7 +39,14 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 	
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException
 	{
-		return getLocalePrice(me, card);
+		return getLocalePrice(me, card)
+								.stream()
+								.map(p->{
+											p.setValue(MTGControler.getInstance().getCurrencyService().convertTo(p.getCurrency(), p.getValue()));
+											p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+											return p;
+										}
+								).collect(Collectors.toList());
 	}
 	
 	

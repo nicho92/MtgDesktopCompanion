@@ -7,16 +7,18 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
 
 	protected CollectionEvaluator evaluator;
-	protected abstract List<CardShake> getShakeForEdition(MagicEdition ed) throws IOException;
 	 
 	@Override
 	public Currency getCurrency() {
@@ -51,6 +53,19 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		return new String[] { "" };
 	}
 	
+	
+	@Override
+	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition ed) throws IOException {
+		CardPriceVariations var = getOnlinePricesVariation(mc, ed);
+		
+		var.entrySet().forEach(e->{
+			e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue()));
+			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+		});
+		return var;
+	}
+	
+	
 	@Override
 	public List<CardShake> getShakesForEdition(MagicEdition edition) throws IOException {
 		
@@ -62,14 +77,14 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		if(c==null || !DateUtils.isSameDay(c, d))
 		{
 			logger.debug(edition + " not in cache.Loading it");
-			evaluator.initCache(edition,getShakeForEdition(edition));	
+			evaluator.initCache(edition,getOnlineShakesForEdition(edition));	
 		}
 		
 		return evaluator.loadFromCache(edition);
-		
-		
-		
-		
 	}
+	
+	protected abstract List<CardShake> getOnlineShakesForEdition(MagicEdition ed) throws IOException;
+	protected abstract CardPriceVariations getOnlinePricesVariation(MagicCard mc,MagicEdition ed) throws IOException;
+	
 	
 }

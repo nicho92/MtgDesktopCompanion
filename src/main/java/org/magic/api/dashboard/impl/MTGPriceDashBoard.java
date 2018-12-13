@@ -117,7 +117,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+	protected List<CardShake> getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
 		String name = convert(edition.getSet()).replaceAll(" ", "_");
 
@@ -166,7 +166,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		CardPriceVariations historyPrice = new CardPriceVariations(mc);
 

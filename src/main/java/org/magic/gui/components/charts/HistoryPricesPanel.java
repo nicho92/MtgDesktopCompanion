@@ -165,7 +165,7 @@ public class HistoryPricesPanel extends JPanel {
 			dataset.addSeries(series1);
 		}
 
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Price", dataset, true, true,false);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", cpVariations.getCurrency().getSymbol(), dataset, true, true,false);
 
 		if (showEdition)
 				for (MagicEdition edition : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) 

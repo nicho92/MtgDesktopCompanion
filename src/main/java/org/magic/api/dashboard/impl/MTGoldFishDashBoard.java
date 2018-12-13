@@ -46,7 +46,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		initConcordance();
 	}
 
-	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		stop = false;
 		String url = "";
@@ -174,7 +174,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	protected List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+	protected List<CardShake> getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
 		List<CardShake> list = new ArrayList<>();
 
