@@ -29,12 +29,6 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	String urlListOrders = urlBase + "/user/list_order.php";
 	String urlLogin = urlBase+"/user/signin.php";
 	
-	public static void main(String[] args) throws IOException {
-		MagicBazarShopper shop = new MagicBazarShopper();
-		shop.listOrders();
-	}
-	
-	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		URLToolsClient client = URLTools.newClient();

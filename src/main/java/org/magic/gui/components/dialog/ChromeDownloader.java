@@ -17,11 +17,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class ChromeDownloader extends JDialog {
-	
-	public static void main(String[] args) {
-		ChromeDownloader dow = new ChromeDownloader();
-		dow.setVisible(true);
-	}
+
 	
 	public ChromeDownloader() {
 		
