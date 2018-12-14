@@ -2,7 +2,6 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -40,11 +39,9 @@ import org.magic.tools.UITools;
 public class BoosterBoxDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
-	private DecimalFormat doubleFormat;
 
 	public BoosterBoxDashlet() {
 		super();
-		doubleFormat = new DecimalFormat("#0.00");
 	}
 	
 	@Override
@@ -147,10 +144,10 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					total = total + booster.getPrice();
 
 					StringBuilder temp = new StringBuilder();
-					temp.append("TOTAL: ").append(doubleFormat.format(total)).append("\n");
+					temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
 
 					for (Entry<String, Double> s : priceRarity.entrySet())
-						temp.append(s.getKey()).append(": ").append(doubleFormat.format(priceRarity.get(s.getKey())))
+						temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
 								.append("\n");
 
 					txtDetailBox.setText(temp.toString());

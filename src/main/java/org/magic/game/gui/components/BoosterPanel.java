@@ -38,9 +38,6 @@ public class BoosterPanel extends JPanel {
 		if (lastColumn < column) {
 			p = new GraveyardPanel() {
 
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1L;
 
 				@Override
