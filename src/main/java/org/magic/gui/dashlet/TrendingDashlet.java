@@ -36,7 +36,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 	private CardShakerTableModel modStandard;
 	private JComboBox<MTGFormat> cboFormats;
 	private AbstractBuzyIndicatorComponent lblLoading;
-	private JLabel lblInfoUpdate;
 
 	@Override
 	public Icon getIcon() {
@@ -92,9 +91,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
-
-		lblInfoUpdate = new JLabel("");
-		panel.add(lblInfoUpdate);
 	}
 
 	public void init() {
@@ -110,11 +106,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 			setProperty("FORMAT", ((MTGFormat) cboFormats.getSelectedItem()).toString());
 			lblLoading.end();
 			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-
-			lblInfoUpdate.setText(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName() + "(updated : "
-					+ new SimpleDateFormat("dd/MM/yyyy HH:mm")
-							.format(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getUpdatedDate())
-					+ ")");
 
 			List<SortKey> keys = new ArrayList<>();
 			SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
