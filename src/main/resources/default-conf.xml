@@ -255,6 +255,10 @@
             <class>org.magic.api.pricers.impl.StarCityGamesPricer</class>
             <enable>true</enable>
         </pricer>
+         <pricer>
+            <class>org.magic.api.pricers.impl.PriceMinisterPricer</class>
+            <enable>true</enable>
+        </pricer>
     </pricers>
     <providers>
      	<provider>
@@ -339,16 +343,16 @@
     </editors>
     <shoppers>
         <shopper>
-            <class>org.magic.api.shopping.impl.LeboncoinShopper</class>
-            <enable>false</enable>
-        </shopper>
-        <shopper>
-            <class>org.magic.api.shopping.impl.EbayShopper</class>
+            <class>org.magic.api.shopping.impl.MagicBazarShopper</class>
             <enable>true</enable>
         </shopper>
         <shopper>
-            <class>org.magic.api.shopping.impl.PriceMinisterShopper</class>
-            <enable>false</enable>
+            <class>org.magic.api.shopping.impl.MagicCardmarketShopper</class>
+            <enable>true</enable>
+        </shopper>
+        <shopper>
+            <class>org.magic.api.shopping.impl.MagicCorporationShopper</class>
+            <enable>true</enable>
         </shopper>
     </shoppers>
     <dashboards>
