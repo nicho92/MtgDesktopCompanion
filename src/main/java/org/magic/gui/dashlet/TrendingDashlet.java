@@ -2,14 +2,12 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowSorter.SortKey;
