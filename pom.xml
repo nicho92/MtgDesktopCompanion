@@ -400,6 +400,14 @@
 							<mainClass>org.magic.api.main.WebUIServerLauncher</mainClass>
 							<name>web-ui</name>
 						</program>
+						<program>
+							<mainClass>org.magic.api.main.SpeedConfigurator</mainClass>
+							<name>speed-configurator</name>
+						</program>
+						<program>
+							<mainClass>org.magic.api.main.GameClient</mainClass>
+							<name>game-client</name>
+						</program>
 					</programs>
 					<generateRepository>true</generateRepository>
 					<repositoryName>lib</repositoryName>
