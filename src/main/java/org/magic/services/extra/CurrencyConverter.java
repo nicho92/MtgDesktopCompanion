@@ -100,6 +100,7 @@ public class CurrencyConverter {
 	public void init() {
 		try {
 			JsonObject obj;
+			map.clear();
 			if(!cache.exists())
 			{
 				
