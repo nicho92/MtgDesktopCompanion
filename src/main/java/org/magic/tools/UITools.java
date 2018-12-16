@@ -179,6 +179,7 @@ public class UITools {
 		try {
 			return new DecimalFormat().parse(text.replaceAll(",", ".").trim()).doubleValue();
 		} catch (ParseException e) {
+			logger.error("error parsing " + text,e);
 			return 0.0;
 		}
 	}

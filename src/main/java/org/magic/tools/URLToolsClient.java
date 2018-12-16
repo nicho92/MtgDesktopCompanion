@@ -67,7 +67,7 @@ public class URLToolsClient {
 	
 	private String extractAndClose(HttpResponse response) throws IOException
 	{
-		logger.debug("return" + response.getStatusLine().getStatusCode());
+		logger.trace("return " + response.getStatusLine().getStatusCode());
 		String ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
