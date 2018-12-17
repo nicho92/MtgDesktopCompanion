@@ -52,13 +52,18 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		
 		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders, null));
 		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
-		
-		tableOrders.remove(0); //remove header
-		tableOrders.remove(0); //remove separator
-		tableOrders.remove(tableOrders.size()-1); //remove separator
-		tableOrders.remove(tableOrders.size()-1); // remove table foot
-			
-		logger.debug("Found " + tableOrders.size() + " orders");
+		try {
+			tableOrders.remove(0); //remove header
+			tableOrders.remove(0); //remove separator
+			tableOrders.remove(tableOrders.size()-1); //remove separator
+			tableOrders.remove(tableOrders.size()-1); // remove table foot
+			logger.debug("Found " + tableOrders.size() + " orders");
+		}
+		catch(Exception e)
+		{
+			logger.debug("Found no orders");
+			return entries;
+		}
 		
 		for(Element tr : tableOrders)
 		{
@@ -92,8 +97,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 						entrie.setTransationDate(date);
 						entrie.setType(TYPE_ITEM.CARD);
 						entrie.setDescription(e.select("td").get(1).text());
-						entrie.setItemPrice(UITools.parseDouble(e.select("td").get(6).text().replaceAll("€", "")));
-						System.out.println(entrie.getItemPrice());
+						entrie.setItemPrice(UITools.parseDouble(e.select("td").get(6).html().replaceAll("\u0080", "").trim()));
 					notify(entrie);
 					entries.add(entrie);	
 		}

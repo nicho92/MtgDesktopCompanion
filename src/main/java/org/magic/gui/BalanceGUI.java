@@ -190,19 +190,20 @@ public class BalanceGUI extends MTGUIComponent {
 						{
 							//do nothing
 						}	
-						Currency source = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency();
 						CardPriceVariations e;
 						try {
 							e = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, o.getEdition());
 						
-						Double actualValue = MTGControler.getInstance().getCurrencyService().convert(source, o.getCurrency(), e.get(e.getLastDay()));
+						Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
+						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
+						
 						
 						editionFinancialChartPanel.init(o.getEdition());
 						
-						lblComparator.setText(o.getCurrency() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(o.getItemPrice()));
-						if(actualValue<o.getItemPrice())
+						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue));
+						if(actualValue<paidValue)
 							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
-						else if(actualValue>o.getItemPrice())
+						else if(actualValue>paidValue)
 							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
 						else
 							lblComparator.setIcon(null);

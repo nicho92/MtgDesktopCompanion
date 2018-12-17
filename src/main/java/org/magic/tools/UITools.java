@@ -26,6 +26,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -177,8 +179,10 @@ public class UITools {
 	
 	public static Double parseDouble(String text) {
 		try {
-			return new DecimalFormat().parse(text.replaceAll(",", ".").trim()).doubleValue();
-		} catch (ParseException e) {
+			text=text.replaceAll(",", ".").trim();
+			//return new DecimalFormat().parse(text).doubleValue();
+			return Double.parseDouble(text);
+		} catch (Exception e) {
 			logger.error("error parsing " + text,e);
 			return 0.0;
 		}
