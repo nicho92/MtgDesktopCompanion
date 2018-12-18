@@ -424,10 +424,10 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblToolPosition = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAB_POSITION") + " :");
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
 		
-		cboLocales.setSelectedItem(MTGControler.getInstance().getLocale());
-		cbojsonView.setSelected(MTGControler.getInstance().get("debug-json-panel").equals("true"));
-		chkToolTip.setSelected(MTGControler.getInstance().get("tooltip").equals("true"));
-		cboToolPosition.setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
+		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
+		cbojsonView.getModel().setSelected(MTGControler.getInstance().get("debug-json-panel").equals("true"));
+		chkToolTip.getModel().setSelected(MTGControler.getInstance().get("tooltip").equals("true"));
+		cboToolPosition.getModel().setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
 		
 		
 		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
@@ -492,15 +492,10 @@ public class ConfigurationPanel extends JPanel {
 				MTGControler.getInstance().setProperty("default-land-deck",((MagicEdition) cboEditionLands.getSelectedItem()).getId());
 		});
 
-		
-		
-
 		cboCollections.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,(MagicCollection) cboCollections.getSelectedItem());
 		});
-
-		
 		
 		btnSavePicSize.addActionListener(ae -> {
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",(int) resizerPanel.getDimension().getWidth());
@@ -511,11 +506,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
 		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
-
-		
-		
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
-		
 		btnUpdateCurrency.addActionListener(ae -> {
 			try {
 				MTGControler.getInstance().getCurrencyService().clean();
@@ -538,10 +529,6 @@ public class ConfigurationPanel extends JPanel {
 		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getText()));
 
 		btnSavePrice.addActionListener(ae -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
-
-		
-		
-		
 		
 		btnSaveProfilGame.addActionListener(ae -> {
 			MTGControler.getInstance().setProperty("/game/player-profil/name", txtName.getText());

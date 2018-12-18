@@ -119,7 +119,7 @@ public class CurrencyConverter {
 		}
 		catch(Exception e)
 		{
-			logger.error("couldn't init CurrencyConverter");
+			logger.error("couldn't init CurrencyConverter :"+e);
 		}
 		
 	}
