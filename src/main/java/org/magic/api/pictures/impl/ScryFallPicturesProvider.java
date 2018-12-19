@@ -68,38 +68,23 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public BufferedImage getPicture(MagicCardNames fn, MagicCard mc) throws IOException {
+	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
 		return resizeCard(URLTools.extractImage("https://api.scryfall.com/cards/multiverse/" + fn.getGathererId() + IMAGE_TAG), newW, newH);
 	}
 	
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
-
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
 		MagicEdition selected = ed;
-
 		if (ed == null)
 			selected = mc.getCurrentSet();
 
-		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected) != null) {
-			logger.trace("cached " + mc + "(" + selected + ") found");
-			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected), newW, newH);
-		}
-
 		URL url = generateLink(mc, selected, false);
-
 		logger.debug("load pics " + url);
-
 		try {
-			BufferedImage bufferedImage = URLTools.extractImage(url);
-
-			if (bufferedImage != null)
-				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, selected);
-			
-			return resizeCard(bufferedImage, newW, newH);
+			return URLTools.extractImage(url);
 		} catch (Exception e) {
-			logger.error(e);
-			return getBackPicture();
+			return null;
 		}
 	}
 

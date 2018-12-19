@@ -25,17 +25,12 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition me) throws IOException {
 
 		String cardName = mc.getName().toLowerCase();
 		MagicEdition edition = me;
 		if (me == null)
 			edition = mc.getCurrentSet();
-
-		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, edition) != null) {
-			logger.trace("cached " + mc + "(" + edition + ") found");
-			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, edition), newW, newH);
-		}
 
 		String cardSet = edition.getId();
 
@@ -56,13 +51,10 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		HttpURLConnection connection = URLTools.openConnection(uri.toURL());
 	
 		try {
-			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
-			if (bufferedImage != null)
-				MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, edition);
-			return resizeCard(bufferedImage, newW, newH);
+			return ImageIO.read(connection.getInputStream());
 		} catch (Exception e) {
 			logger.error(e);
-			return getBackPicture();
+			return null;
 		}
 	}
 

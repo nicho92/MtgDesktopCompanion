@@ -9,10 +9,13 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
+import org.magic.tools.URLTools;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
@@ -47,8 +50,29 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 	
+	public abstract BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException;
+	
 	@Override
-	public BufferedImage getPicture(MagicCardNames fn, MagicCard mc) throws IOException {
+	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed) != null) {
+			logger.trace("cached " + mc + "(" + ed + ") found");
+			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed), newW, newH);
+		}
+
+		BufferedImage bufferedImage = getOnlinePicture(mc, ed);
+		if (bufferedImage != null)
+		{
+			MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, ed);
+			return resizeCard(bufferedImage, newW, newH);
+		}
+		else
+		{
+			return getBackPicture();
+		}
+	}
+	
+	@Override
+	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
 		return getPicture(mc,mc.getCurrentSet());
 	}
 

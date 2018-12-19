@@ -44,18 +44,12 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		}
 	}
 
-	private BufferedImage getPicture(String multiverseid) throws IOException {
-
+	private BufferedImage extractbyMultiverseId(String multiverseid) throws IOException {
 		try {
-
 			Document d = URLTools.extractHtml(getString("URL") + "/card.php?multiverseid=" + multiverseid);
-					
-
 			logger.debug("read " + getString("URL") + "/card.php?multiverseid=" + multiverseid);
 			Element e = d.select(".card > img").get(0);
-			HttpURLConnection con = URLTools.openConnection(e.attr("src"));
-			return ImageIO.read(con.getInputStream());
-
+			return URLTools.extractImage(e.attr("src"));
 		} catch (Exception e) {
 			logger.error(e);
 			return null;
@@ -84,7 +78,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
 
 
 		MagicEdition selected = ed;
@@ -96,18 +90,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 				return PluginRegistry.inst().getPlugin("Scryfall", MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
-
-		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected) != null) {
-
-			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected), newW, newH);
-		}
-
-		BufferedImage im = getPicture(selected.getMultiverseid());
-
-		if (im != null)
-			MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(im, mc, ed);
-
-		return resizeCard(im, newW, newH);
+		return extractbyMultiverseId(selected.getMultiverseid());
 	}
 
 	@Override

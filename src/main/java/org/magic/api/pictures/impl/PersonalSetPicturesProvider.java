@@ -55,8 +55,15 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
+	
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+		return getOnlinePicture(mc, ed);
+	}
+	
+	
+	@Override
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
 		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir,mc.getCurrentSet().getId());
 		if(ed!=null)

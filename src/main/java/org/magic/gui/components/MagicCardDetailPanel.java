@@ -695,7 +695,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	protected void loadPics(MagicCardNames fn,MagicCard mc) {
 		ImageIcon icon;
 		try {
-			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(fn, mc));
+			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
 		} catch (Exception e) {
 			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
 			logger.error("Error loading pics for" + mc, e);

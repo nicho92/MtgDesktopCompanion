@@ -12,7 +12,7 @@ public interface MTGPictureProvider extends MTGPlugin {
 
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException;
 	
-	public BufferedImage getPicture(MagicCardNames fn,MagicCard mc) throws IOException;
+	public BufferedImage getForeignNamePicture(MagicCardNames fn,MagicCard mc) throws IOException;
 
 	public BufferedImage getSetLogo(String setID, String rarity) throws IOException;
 

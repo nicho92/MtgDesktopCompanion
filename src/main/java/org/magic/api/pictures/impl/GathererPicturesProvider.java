@@ -25,7 +25,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
 
 		MagicEdition selected = ed;
 
@@ -37,33 +37,22 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 				return MTGControler.getInstance().getPlugin(getString("SECOND_PROVIDER"), MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
-
-		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected) != null) {
-			logger.trace("cached " + mc + "(" + selected + ") found");
-			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, selected), newW, newH);
-		}
-
-		BufferedImage im = getPicture(selected.getMultiverseid());
-
-		if (im != null)
-			MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(im, mc, ed);
-
-		return resizeCard(im, newW, newH);
+		return extractByMultiverseId(selected.getMultiverseid());
 	}
 
-	private BufferedImage getPicture(String multiverseid) throws IOException {
-		return ImageIO.read(URLTools.openConnection("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card").getInputStream());
+	private BufferedImage extractByMultiverseId(String multiverseid) throws IOException {
+		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card");
 	}
 
 	
 	@Override
-	public BufferedImage getPicture(MagicCardNames fn, MagicCard mc) throws IOException {
-		return getPicture(String.valueOf(fn.getGathererId()));
+	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
+		return extractByMultiverseId(String.valueOf(fn.getGathererId()));
 	}
 	
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		return ImageIO.read(URLTools.openConnection("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1)).getInputStream());
+		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1));
 	}
 
 	@Override
