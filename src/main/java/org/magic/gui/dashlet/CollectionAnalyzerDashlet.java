@@ -31,6 +31,8 @@ import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.sorters.PricesCardsShakeSorter;
+import org.magic.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
@@ -148,7 +150,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					modelCache.addRow(ed, evaluator.getCacheDate(ed));
 					List<CardShake> list = new ArrayList<>(evaluator.prices(ed).values());
 					AbstractDashBoard.convert(list);
-					Collections.sort(list);
+					Collections.sort(list,new PricesCardsShakeSorter());
 					model.saveRow(ed,list);
 				}
 	

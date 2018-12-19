@@ -16,8 +16,8 @@ import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.sorters.CardsShakeSorter;
-import org.magic.sorters.CardsShakeSorter.SORT;
+import org.magic.sorters.PricesCardsShakeSorter;
+import org.magic.sorters.PricesCardsShakeSorter.SORT;
 
 public class OversightServer extends AbstractMTGServer {
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
@@ -44,7 +44,7 @@ public class OversightServer extends AbstractMTGServer {
 					try {
 						ret = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null);
 						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
-						Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
+						Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
 					} catch (IOException e1) {
 						logger.error(e1);
 					}

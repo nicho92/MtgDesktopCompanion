@@ -28,8 +28,8 @@ import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import org.magic.sorters.CardsShakeSorter;
-import org.magic.sorters.CardsShakeSorter.SORT;
+import org.magic.sorters.PricesCardsShakeSorter;
+import org.magic.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.tools.UITools;
 
 public class BestTrendingDashlet extends AbstractJDashlet {
@@ -48,7 +48,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private JCheckBox boxM;
 	private JCheckBox boxV;
 	private JCheckBox boxL;
-	private JComboBox<CardsShakeSorter.SORT> cboSorter;
+	private JComboBox<PricesCardsShakeSorter.SORT> cboSorter;
 	
 
 	@Override
@@ -99,7 +99,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
 				
 				
-				Collections.sort(ret, new CardsShakeSorter((SORT)cboSorter.getSelectedItem()));
+				Collections.sort(ret, new PricesCardsShakeSorter((SORT)cboSorter.getSelectedItem()));
 				modStandard.init(ret);
 				table.setModel(modStandard);
 			} catch (Exception e) {
@@ -133,7 +133,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 			}
 		};
 		
-		cboSorter = UITools.createCombobox(CardsShakeSorter.SORT.values());
+		cboSorter = UITools.createCombobox(PricesCardsShakeSorter.SORT.values());
 		
 		boxS = new JCheckBox();
 		boxS.setAction(a);
