@@ -6,9 +6,14 @@ import org.magic.api.interfaces.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
+	
+	@Override
+	public String toString() {
+		return "Edition Sorter";
+	}
+	
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
-		
 		
 		boolean o1NullNumber=StringUtils.isEmpty(o1.getCurrentSet().getNumber());
 		boolean o2NullNumber=StringUtils.isEmpty(o2.getCurrentSet().getNumber());

@@ -167,7 +167,7 @@ public class SealedPanel extends JPanel {
 		gbcbtnSaveDeck.gridy = 1;
 		panel.add(btnSaveDeck, gbcbtnSaveDeck);
 
-		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
+		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		GridBagConstraints gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;
@@ -189,8 +189,7 @@ public class SealedPanel extends JPanel {
 		panelAnalyse.add(panelSorters);
 		panelSorters.setLayout(new GridLayout(0, 1, 0, 0));
 
-		rdioCmcSortButton = new JRadioButton(
-				MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "cmc"));
+		rdioCmcSortButton = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "cmc"));
 		rdioCmcSortButton.addActionListener(ae -> sort(new CmcSorter()));
 
 		panelSorters.add(rdioCmcSortButton);
@@ -286,14 +285,10 @@ public class SealedPanel extends JPanel {
 
 		};
 
-		JScrollPane scrollDeck = new JScrollPane();
-		scrollDeck.setViewportView(panelDeck);
-		panelEast.add(scrollDeck);
-		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,
-				(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
+		panelEast.add(new JScrollPane(panelDeck));
+		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 
-		panelEast.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DROP_HERE")),
-				BorderLayout.NORTH);
+		panelEast.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DROP_HERE")),BorderLayout.NORTH);
 
 		panelLands = new JPanel();
 		panelEast.add(panelLands, BorderLayout.SOUTH);
@@ -392,7 +387,9 @@ public class SealedPanel extends JPanel {
 	}
 
 	public void sort(MTGComparator<MagicCard> sorter) {
+		logger.trace("sorting with " + sorter +" : " + list.size() + " items");
 		Collections.sort(list, sorter);
+		logger.trace("sorting with " + sorter + " done");
 		panelOpenedBooster.clear();
 		for (MagicCard mc : list) {
 			DisplayableCard c = createCard(mc);

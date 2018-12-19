@@ -21,4 +21,9 @@ public class CmcSorter implements MTGComparator<MagicCard> {
 		return mc.getCmc() + 1;
 	}
 
+	@Override
+	public String toString() {
+		return "Cmc Sorter";
+	}
+	
 }
