@@ -53,7 +53,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	private Image resizeBooster(BufferedImage boosterFor) {
 		
 		Dimension d= MTGControler.getInstance().getPictureProviderDimension();
-		return ImageTools.resize(ImageTools.trimAlpha(boosterFor), (int)d.getHeight(), (int)d.getWidth());
+		return ImageTools.resize(ImageTools.trimAlpha(boosterFor), (int)d.getHeight(), (int)d.getWidth()-15);
 		
 	}
 
