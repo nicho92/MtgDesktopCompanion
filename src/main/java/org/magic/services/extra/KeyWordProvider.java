@@ -60,13 +60,9 @@ public class KeyWordProvider {
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc) {
-		Set<MTGKeyWord> ret = new LinkedHashSet<>();
-
-		for (MTGKeyWord s : list) {
-			if (String.valueOf(mc.getText()).toLowerCase().contains(s.getKeyword().toLowerCase()))
-				ret.add(s);
-		}
-		return ret;
+		return list.stream()
+				   .filter(kw->String.valueOf(mc.getText()).toLowerCase().contains(kw.getKeyword().toLowerCase()))
+				   .collect(Collectors.toSet());
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,TYPE t) {

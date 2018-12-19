@@ -2,6 +2,8 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MTGKeyWord implements Serializable{
 
 	public enum TYPE {
@@ -29,7 +31,7 @@ public class MTGKeyWord implements Serializable{
 
 	@Override
 	public String toString() {
-		return getKeyword();
+		return StringUtils.capitalize(getKeyword());
 	}
 
 	public String getKeyword() {

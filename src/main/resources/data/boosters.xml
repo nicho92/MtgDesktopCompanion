@@ -1012,7 +1012,12 @@
 	</booster>
 	<booster id='SOI'>
 		<packs lang='en'>
-			<pack num='1' url="http://i.tcgplayer.com/112708_200w.jpg"/>
+			<pack num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680463/large/SOI_pack1.png?1457740713"/>
+			<pack num='2' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680483/large/SOI_pack2.png?1457740713"/>
+			<pack num='3' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680503/large/SOI_pack3.png?1457740713"/>
+			<pack num='4' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680523/large/SOI_pack4.png?1457740713"/>
+			<pack num='5' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680543/large/SOI_pack5.png?1457740713"/>
+			
 		</packs>
 		<banner lang='en' url="http://mtgen.net/soi/images/logo-word.png"/>
 	</booster>
