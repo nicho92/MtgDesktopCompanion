@@ -32,7 +32,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.PricesCardsShakeSorter;
-import org.magic.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {

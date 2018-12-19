@@ -15,7 +15,6 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 

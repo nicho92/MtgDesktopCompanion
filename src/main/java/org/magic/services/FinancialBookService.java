@@ -7,11 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -33,7 +29,6 @@ public class FinancialBookService {
 	
 	public FinancialBookService() {
 		entries = new ArrayList<>();
-		tamponFile = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "financialBook.json").toFile();
 		serializer= new JsonExport();
 	}
 	
@@ -82,6 +77,13 @@ public class FinancialBookService {
 	
 	public void loadFinancialBook()
 	{
+		loadFinancialBook(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "financialBook.json").toFile());
+	}
+	
+	
+	public void loadFinancialBook(File tamponFile)
+	{
+		this.tamponFile=tamponFile;
 		if(tamponFile.exists())
 		{
 			try {
@@ -100,9 +102,6 @@ public class FinancialBookService {
 			FileUtils.write(tamponFile, serializer.toJson(items),MTGConstants.DEFAULT_ENCODING.displayName());
 	}
 	
-	public static <T> Predicate<T> distinctByKey(Function<? super T,Object> keyExtractor) {
-        Map<Object,Boolean> seen = new ConcurrentHashMap<>();
-        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-    }
+
 	
 }
