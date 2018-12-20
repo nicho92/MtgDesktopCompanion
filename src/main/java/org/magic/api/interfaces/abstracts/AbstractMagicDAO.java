@@ -10,6 +10,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
@@ -60,6 +61,15 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			}
 		});
 	}
+/*	
+	@Override
+	public void deleteOrderEntry(OrderEntry state) throws SQLException
+	{
+		ArrayList<OrderEntry> orders = new ArrayList<>();
+		orders.add(state);
+		deleteOrderEntry(orders);
+	}
+	*/
 	
 	@Override
 	public void deleteStock(MagicCardStock state) throws SQLException
@@ -120,7 +130,11 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		for(MagicNews news : listNews())
 			dao.saveOrUpdateNews(news);
 		
-
+		/*logger.debug("duplicate orders");
+		for(OrderEntry oe : listOrders())
+			dao.saveOrUpdateOrders(oe);
+		*/
+		//TODO ORDER DUPLICATION
 		
 	}
 

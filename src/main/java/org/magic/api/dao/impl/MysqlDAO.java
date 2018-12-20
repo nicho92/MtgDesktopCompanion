@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
@@ -59,6 +60,9 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
+			
+			logger.debug("Create table Orders");
+			stat.executeUpdate("CREATE TABLE orders (id integer PRIMARY KEY AUTO_INCREMENT, idTransaction VARCHAR(250), description VARCHAR(250),edition VARCHAR(10),itemPrice DECIMAL,shippingPrice DECIMAL, currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(250),seller VARCHAR(250))");
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table cards (ID varchar(250),mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table collections");
@@ -686,5 +690,21 @@ public class MysqlDAO extends AbstractMagicDAO {
 		}
 		
 	}
+//
+//	@Override
+//	public List<OrderEntry> listOrders() throws SQLException {
+//		try (PreparedStatement pst = con.prepareStatement("select * from orders"); ResultSet rs = pst.executeQuery();) {
+//			List<OrderEntry> colls = new ArrayList<>();
+//			while (rs.next()) {
+//				OrderEntry state = new OrderEntry();
+//				
+//				
+//				colls.add(state);
+//			}
+//			logger.debug("load " + colls.size() + " item(s) from orders");
+//			return colls;
+//		}
+//	}
+
 
 }

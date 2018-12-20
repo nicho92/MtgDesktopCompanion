@@ -99,7 +99,13 @@ public class FinancialBookService {
 	}
 
 	public void saveBook(List<OrderEntry> items) throws IOException {
-			FileUtils.write(tamponFile, serializer.toJson(items),MTGConstants.DEFAULT_ENCODING.displayName());
+		
+	/*	int i=1;
+		for(OrderEntry e : items)
+			e.setId(i++);
+		*/
+		
+		FileUtils.write(tamponFile, serializer.toJson(items),MTGConstants.DEFAULT_ENCODING.displayName());
 	}
 	
 

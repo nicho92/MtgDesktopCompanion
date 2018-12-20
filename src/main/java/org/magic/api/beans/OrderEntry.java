@@ -11,7 +11,7 @@ public class OrderEntry implements Serializable {
 	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET,LOTS}
 	public enum TYPE_TRANSACTION {BUY,SELL}
 	
-	
+	private Integer id=-1;
 	private TYPE_ITEM type;
 	private String description;
 	private Double itemPrice;
@@ -25,6 +25,15 @@ public class OrderEntry implements Serializable {
 	private MagicEdition edition;
 	private String source;
 	private boolean updated;
+	
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	@Override
 	public String toString() {

@@ -54,8 +54,7 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
-			stat.executeUpdate(
-					"create table cards (ID varchar(250), name varchar(250), mcard LONGVARCHAR, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+			stat.executeUpdate("create table cards (ID varchar(250), name varchar(250), mcard LONGVARCHAR, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table decks (name varchar(45),mcard LONGVARCHAR)");
 			logger.debug("Create table decks");
@@ -63,15 +62,14 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 			logger.debug("Create table collections");
 			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table shop");
-			stat.executeUpdate(
-					"create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard LONGVARCHAR,altered boolean,price double)");
+			stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard LONGVARCHAR,altered boolean,price double)");
 			logger.debug("Create table stocks");
 			stat.executeUpdate("create table alerts (id varchar(250),mcard LONGVARCHAR, amount DECIMAL)");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate(
-					"CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
+			stat.executeUpdate("CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
 			logger.debug("Create table News");
-
+	
+			
 			stat.executeUpdate("insert into collections values ('Library')");
 			stat.executeUpdate("insert into collections values ('Needed')");
 			stat.executeUpdate("insert into collections values ('For sell')");

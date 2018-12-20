@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
@@ -32,6 +33,7 @@ public class FileDAO extends AbstractMagicDAO {
 	private static final String STOCKDIR = "stocks";
 	private static final String ALERTSDIR = "alerts";
 	private static final String NEWSDIR = "news";
+	private static final String ORDERSDIR = "orders";
 
 
 	public <T> T read(Class<T> c, File f) throws IOException {
@@ -53,6 +55,9 @@ public class FileDAO extends AbstractMagicDAO {
 		new File(directory, ALERTSDIR).mkdir();
 		new File(directory, STOCKDIR).mkdir();
 		new File(directory, NEWSDIR).mkdir();
+		new File(directory, ORDERSDIR).mkdir();
+		
+		
 		new File(new File(directory, CARDSDIR), MTGControler.getInstance().get("default-library")).mkdir();
 		logger.debug("File DAO init");
 	}
@@ -294,6 +299,49 @@ public class FileDAO extends AbstractMagicDAO {
 		}
 		return ret;
 	}
+	
+/*
+	@Override
+	public List<OrderEntry> listOrders() throws SQLException {
+		List<OrderEntry> ret = new ArrayList<>();
+
+		for (File f : FileUtils.listFiles(new File(directory, ORDERSDIR), null, false)) {
+			try {
+				ret.add(read(OrderEntry.class, f));
+			} catch (Exception e) {
+				logger.error("Error reading OrderEntry", e);
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
+		File f = new File(directory, ORDERSDIR);
+
+		if (state.getId() == -1 || state.getId()==null)
+			state.setId(f.listFiles().length + 1);
+
+		f = new File(f, String.valueOf(state.getId()));
+		try {
+			save(state, f);
+		} catch (Exception e) {
+			throw new SQLException(e);
+		}
+		
+	}
+
+	@Override
+	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
+		for (OrderEntry s : state) {
+			File f = Paths.get(directory.getAbsolutePath(), ORDERSDIR,String.valueOf(s.getId())).toFile();
+			logger.debug("Delete " + f);
+			FileUtils.deleteQuietly(f);
+		}
+		
+	}
+
+	*/
 
 	@Override
 	public void initAlerts() {
