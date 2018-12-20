@@ -75,11 +75,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private static final String NAMES = "names";
 
-	public static final String URL_JSON_VERSION = "https://mtgjson.com/v4/json/version.json";
-	public static final String URL_JSON_ALL_SETS = "https://mtgjson.com/v4/json/AllSets.json";
-	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/v4/json/SetList.json";
-	public static final String URL_JSON_KEYWORDS="https://mtgjson.com/v4/json/Keywords.json";
-	public static final String URL_JSON_ALL_SETS_ZIP ="https://mtgjson.com/v4/json/AllSets.json.zip";
+	public static final String URL_JSON_VERSION = "https://mtgjson.com/json/version.json";
+	public static final String URL_JSON_ALL_SETS = "https://mtgjson.com/json/AllSets.json";
+	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/json/SetList.json";
+	public static final String URL_JSON_KEYWORDS="https://mtgjson.com/json/Keywords.json";
+	public static final String URL_JSON_ALL_SETS_ZIP ="https://mtgjson.com/json/AllSets.json.zip";
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
