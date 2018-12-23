@@ -34,26 +34,6 @@ public class ShoppingEntryTableModel extends GenericTableModel<OrderEntry> {
 	
 	
 	@Override
-	public void setValueAt(Object aValue, int row, int column) {
-		
-		OrderEntry e = items.get(row);
-		
-		switch (column) {
-			case 0: e.setIdTransation(aValue.toString());break;
-			case 1: e.setSource(aValue.toString());break;
-			
-		
-		
-		default:break;
-		}
-		
-		
-		
-		
-	}
-	
-	
-	@Override
 	public Object getValueAt(int row, int column) {
 		
 		OrderEntry e = items.get(row);

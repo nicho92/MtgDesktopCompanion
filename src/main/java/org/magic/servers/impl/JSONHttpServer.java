@@ -196,7 +196,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 		
 		
-		get("/shopping/list", getString(MIME), (request, response) -> MTGControler.getInstance().getFinancialService().getEntries(), transformer);
+		get("/shopping/list", getString(MIME), (request, response) -> MTGControler.getInstance().getEnabled(MTGDao.class).listOrders(), transformer);
 		
 		
 		get("/cards/name/:idEd/:cName", getString(MIME), (request, response) -> {

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -19,12 +20,12 @@ import javax.swing.SwingConstants;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.OrderEntryPanel;
@@ -61,11 +62,11 @@ public class BalanceGUI extends MTGUIComponent {
 	
 	private void loadFinancialBook()
 	{
-		 	MTGControler.getInstance().getFinancialService().loadFinancialBook();
-			List<OrderEntry> l =MTGControler.getInstance().getFinancialService().getEntries();
-			model.addItems(l);
-			calulate(l);
-			table.packAll();
+			List<OrderEntry> l = MTGControler.getInstance().getEnabled(MTGDao.class).listOrders();
+				model.addItems(l);
+				calulate(l);
+				table.packAll();
+
 	}
 	
 	
@@ -233,12 +234,19 @@ public class BalanceGUI extends MTGUIComponent {
 		});
 		
 		btnSave.addActionListener(ae->{
-			try {
-				MTGControler.getInstance().getFinancialService().saveBook(model.getItems());
-				MTGControler.getInstance().notify(new MTGNotification("Confirmation", "Financial book saved",MESSAGE_TYPE.INFO));
-			} catch (IOException e) {
-				MTGControler.getInstance().notify(new MTGNotification("ERROR", e));
-			}
+			
+				
+				model.getItems().stream().filter(OrderEntry::isUpdated).forEach(o->{
+					try {
+						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateOrderEntry(o);
+						o.setUpdated(false);
+
+					} catch (Exception e) {
+						MTGControler.getInstance().notify(new MTGNotification("ERROR", e));
+					}});
+				
+				
+			
 		});
 		
 		btnImportTransaction.addActionListener(ae->{
@@ -253,8 +261,9 @@ public class BalanceGUI extends MTGUIComponent {
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		MTGControler.getInstance().getEnabled(MTGDao.class).init();
 		MTGUIComponent.createJDialog(new BalanceGUI(),true,false).setVisible(true);
 	}
 

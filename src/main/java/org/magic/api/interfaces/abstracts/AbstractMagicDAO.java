@@ -3,12 +3,17 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
@@ -21,9 +26,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected JsonExport serialiser;
 	
 	protected List<MagicCardAlert> listAlerts;
+	protected List<OrderEntry> listOrders;
 
 	protected abstract void initAlerts();
-
+	protected abstract void initOrders();
 	
 	@Override
 	public PLUGINS getType() {
@@ -42,6 +48,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			save();
 		}
 		listAlerts = new ArrayList<>();
+		listOrders = new ArrayList<>();
 		serialiser=new JsonExport();
 	
 	}
@@ -61,7 +68,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			}
 		});
 	}
-/*	
+
 	@Override
 	public void deleteOrderEntry(OrderEntry state) throws SQLException
 	{
@@ -69,7 +76,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		orders.add(state);
 		deleteOrderEntry(orders);
 	}
-	*/
 	
 	@Override
 	public void deleteStock(MagicCardStock state) throws SQLException
@@ -91,6 +97,15 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		return listAlerts;
 	}
+	
+	@Override
+	public List<OrderEntry> listOrders() {
+		if (listOrders.isEmpty())
+			initOrders();
+		
+		return listOrders;
+	}
+	
 	
 	
 
@@ -130,13 +145,29 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		for(MagicNews news : listNews())
 			dao.saveOrUpdateNews(news);
 		
-		/*logger.debug("duplicate orders");
+		logger.debug("duplicate orders");
 		for(OrderEntry oe : listOrders())
-			dao.saveOrUpdateOrders(oe);
-		*/
-		//TODO ORDER DUPLICATION
+			dao.saveOrUpdateOrderEntry(oe);
 		
 	}
-
 	
+	
+	public List<OrderEntry> listOrderForEdition(MagicEdition ed) 
+	{
+			return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<OrderEntry> listOrdersAt(Date d) {
+		return listOrders().stream().filter(o->o.getTransationDate().equals(d)).collect(Collectors.toList());
+		
+	}
+	
+	@Override
+	public List<Date> listDatesOrders() {
+		Set<Date> d = new HashSet<>();
+			listOrders().forEach(o->d.add(o.getTransationDate()));
+	
+			return new ArrayList<>(d);
+	}
 }

@@ -14,8 +14,8 @@ public class OrderEntry implements Serializable {
 	private Integer id=-1;
 	private TYPE_ITEM type;
 	private String description;
-	private Double itemPrice;
-	private Double shippingPrice;
+	private Double itemPrice=0.0;
+	private Double shippingPrice=0.0;
 	
 	private Currency currency;
 	private Date transationDate;
@@ -35,9 +35,24 @@ public class OrderEntry implements Serializable {
 		this.id = id;
 	}
 	
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj==null)
+			return false;
+		
+		if(!(obj instanceof OrderEntry))
+			return false;
+		
+		
+		return getId() ==((OrderEntry)obj).getId();
+		
+	}
+	
 	@Override
 	public String toString() {
-		return idTransation;
+		return getIdTransation();
 	}
 	
 	public OrderEntry() {

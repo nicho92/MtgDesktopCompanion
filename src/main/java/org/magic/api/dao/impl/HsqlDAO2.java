@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -614,5 +615,25 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
+
+	
+	@Override
+	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void initOrders() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

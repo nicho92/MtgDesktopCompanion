@@ -49,8 +49,6 @@ public class MTGControler {
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNotifier notifier;
-	private FinancialBookService financialServices;
-	
 	
 	private MTGControler() {
 		
@@ -165,16 +163,16 @@ public class MTGControler {
 		}
 	}
 	
-	public FinancialBookService getFinancialService()
-	{
-		if (financialServices != null) {
-			return financialServices;
-		} else {
-			financialServices = new FinancialBookService();
-			return financialServices;
-		}
-	}
-	
+//	public FinancialBookService getFinancialService()
+//	{
+//		if (financialServices != null) {
+//			return financialServices;
+//		} else {
+//			financialServices = new FinancialBookService();
+//			return financialServices;
+//		}
+//	}
+//	
 
 	public LanguageService getLangService() {
 		if (langService != null) {

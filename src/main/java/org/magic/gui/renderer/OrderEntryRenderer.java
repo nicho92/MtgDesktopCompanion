@@ -1,5 +1,6 @@
 package org.magic.gui.renderer;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
@@ -25,7 +26,11 @@ public class OrderEntryRenderer extends DefaultTableCellRenderer {
 		comp.setHorizontalAlignment(JLabel.CENTER);
 		comp.setOpaque(true);
 		
-		if (isSelected) {
+		if (((OrderEntry) table.getValueAt(row, 0)).isUpdated()) {
+			comp.setBackground(Color.GREEN);
+			comp.setForeground(table.getForeground());
+		}
+		else if (isSelected) {
 			comp.setBackground(table.getSelectionBackground());
 			comp.setForeground(table.getSelectionForeground());
 		} else {

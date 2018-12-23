@@ -16,6 +16,7 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 
 public class FinancialChartPanel extends JPanel {
@@ -52,9 +53,9 @@ public class FinancialChartPanel extends JPanel {
 		TimeSeries seriesS = new TimeSeries(TYPE_TRANSACTION.SELL.name());
 		
 		
-		for (Date d : MTGControler.getInstance().getFinancialService().getOrdersDate()) 
+		for (Date d : MTGControler.getInstance().getEnabled(MTGDao.class).listDatesOrders()) 
 		{
-			List<OrderEntry> list = MTGControler.getInstance().getFinancialService().getOrderAt(d);
+			List<OrderEntry> list = MTGControler.getInstance().getEnabled(MTGDao.class).listOrdersAt(d);
 			list.forEach(o->{
 				if(o.getTypeTransaction().equals(TYPE_TRANSACTION.BUY))
 					series.addOrUpdate(new Month(d),o.getItemPrice());

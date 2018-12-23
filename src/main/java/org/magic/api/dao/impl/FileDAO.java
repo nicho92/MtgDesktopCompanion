@@ -300,19 +300,16 @@ public class FileDAO extends AbstractMagicDAO {
 		return ret;
 	}
 	
-/*
-	@Override
-	public List<OrderEntry> listOrders() throws SQLException {
-		List<OrderEntry> ret = new ArrayList<>();
 
+	@Override
+	public void initOrders(){
 		for (File f : FileUtils.listFiles(new File(directory, ORDERSDIR), null, false)) {
 			try {
-				ret.add(read(OrderEntry.class, f));
+				listOrders.add(read(OrderEntry.class, f));
 			} catch (Exception e) {
 				logger.error("Error reading OrderEntry", e);
 			}
 		}
-		return ret;
 	}
 
 	@Override
@@ -341,8 +338,7 @@ public class FileDAO extends AbstractMagicDAO {
 		
 	}
 
-	*/
-
+	
 	@Override
 	public void initAlerts() {
 		for (File f : FileUtils.listFiles(new File(directory, ALERTSDIR), null, false)) {

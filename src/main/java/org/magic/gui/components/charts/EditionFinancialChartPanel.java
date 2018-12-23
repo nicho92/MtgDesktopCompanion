@@ -16,6 +16,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -67,13 +69,13 @@ public class EditionFinancialChartPanel extends JPanel {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		try {
 			MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
-			List<OrderEntry> temp = MTGControler.getInstance().getFinancialService().getOrderFor(ed);
+			List<OrderEntry> temp = MTGControler.getInstance().getEnabled(MTGDao.class).listOrderForEdition(ed);
 			List<CardShake> price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.stream().mapToDouble(CardShake::getPrice).sum();
 			
 			totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),temp.get(0).getCurrency(), totalEd);
 			dataset.addValue(totalEd, "Actual Value", ed.getSet() );
-			dataset.addValue(MTGControler.getInstance().getFinancialService().getTotal(temp), "Paid", ed.getSet() );
+			dataset.addValue(getTotal(temp), "Paid", ed.getSet() );
 		}
 		catch(Exception e)
 		{
@@ -82,4 +84,11 @@ public class EditionFinancialChartPanel extends JPanel {
 		return dataset;
 	}
 
+	
+	public double getTotal(List<OrderEntry> order)
+	{
+		return order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.BUY).mapToDouble(OrderEntry::getItemPrice).sum()-order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.SELL).mapToDouble(OrderEntry::getItemPrice).sum();
+	}
+	
+	
 }
