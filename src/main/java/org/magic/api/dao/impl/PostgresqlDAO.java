@@ -58,6 +58,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
+			logger.debug("Create table Orders");
+			stat.executeUpdate("CREATE TABLE orders (id SERIAL PRIMARY KEY , idTransaction VARCHAR(250), description VARCHAR(250),edition VARCHAR(10),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(250),seller VARCHAR(250))");
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard json, edition varchar(20), cardprovider varchar(50),collection varchar(250), PRIMARY KEY(ID, edition,collection))");
 			logger.debug("Create table collections");

@@ -35,9 +35,7 @@ public class ShoppingEntryTableModel extends GenericTableModel<OrderEntry> {
 	
 	@Override
 	public Object getValueAt(int row, int column) {
-		
 		OrderEntry e = items.get(row);
-		
 		switch (column) { 
 			case 0 : return e;
 			case 1 : return e.getSource();

@@ -2,6 +2,8 @@ package unit.providers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -13,7 +15,13 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_ITEM;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.dao.impl.FileDAO;
 import org.magic.api.dao.impl.HsqlDAO2;
+import org.magic.api.dao.impl.MongoDbDAO;
+import org.magic.api.dao.impl.PostgresqlDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 
@@ -59,10 +67,10 @@ public class DAOProviderTests {
 	public void test()
 	{
 		//testProviders(new FileDAO());
-		//testProviders(new MongoDbDAO());
+		testProviders(new MongoDbDAO());
 		//testProviders(new PostgresqlDAO());
 		//testProviders(new MysqlDAO());
-		testProviders(new HsqlDAO2());
+		//testProviders(new HsqlDAO2());
 	}
 	
 	public void testProviders(MTGDao p)
@@ -77,11 +85,11 @@ public class DAOProviderTests {
 			System.out.println("TYPE " + p.getType());
 			System.out.println("VERS "+p.getVersion());
 			
-			System.out.println("******************SAVING");
+			System.out.println("******************SAVING CARDS");
 			p.saveCollection(col);
 			p.saveCard(mc, col);
 			
-			System.out.println("******************LISTING");
+			System.out.println("******************LISTING COLLECTION");
 			System.out.println("list  " + p.listCards());
 			System.out.println("count " + p.getCardsCount(col, ed));
 			System.out.println(p.listCardsFromCollection(col));
@@ -106,6 +114,27 @@ public class DAOProviderTests {
 			System.out.println(p.hasAlert(mc));
 			
 			
+			System.out.println("******************ORDERS");
+			OrderEntry oe=new OrderEntry();
+						oe.setCurrency(Currency.getInstance("EUR"));
+						oe.setDescription("TEST FROM JUNIT");
+						oe.setIdTransation("TEST-1");
+						oe.setItemPrice(0.587);
+						oe.setSeller("Junit");
+						oe.setSource("JUNIT TEST DAO");
+						oe.setEdition(new MagicEdition("UMA"));
+						oe.setType(TYPE_ITEM.LOTS);
+						oe.setTransationDate(new Date());
+						oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
+			p.saveOrUpdateOrderEntry(oe);
+			oe.setItemPrice(15.0);
+			p.saveOrUpdateOrderEntry(oe);
+			
+			System.out.println(p.listOrders());
+			System.out.println(p.listOrderForEdition(new MagicEdition("UMA")));
+			
+			p.deleteOrderEntry(oe);
+			
 			System.out.println("******************STOCKS");
 			MagicCardStock stock = new MagicCardStock();
 							stock.setMagicCard(mc);
@@ -118,13 +147,7 @@ public class DAOProviderTests {
 			p.saveOrUpdateStock(stock);
 			stock.setFoil(true);
 			p.saveOrUpdateStock(stock);
-			
-			for(MagicCardStock st : p.listStocks())
-			{
-				System.out.println(st.getIdstock() +" " + st.getMagicCard() + " " + st.getMagicCollection() + " " + st.isFoil());
-			}
-			
-			
+			System.out.println("Total stock :" + p.listStocks().size());
 			System.out.println("Get stocks strict " + p.listStocks(mc, col,true));
 			System.out.println("Get stocks nstrict " + p.listStocks(mc, col,false));
 			

@@ -53,10 +53,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colAlerts = "alerts";
 	private String colDecks = "decks";
 	private String colNews = "news";
+	private String colOrders = "orders";
+	
 	private String dbIDField = "db_id";
 	private String dbCardIDField = "card_id";
 	private String dbEditionField = "edition";
 	private String dbAlertField = "alertItem";
+	private String dbOrdersField = "orderItem";
 	private String dbNewsField = "newsItem";
 	private String dbStockField = "stockItem";
 	private String dbColIDField = "collection.name";
@@ -102,7 +105,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.createCollection(colAlerts);
 			db.createCollection(colDecks);
 			db.createCollection(colNews);
-
+			db.createCollection(colOrders);
+			
 			for (String s : new String[] { "Library", "Needed", "For Sell", "Favorites" })
 				db.getCollection(colCollects, MagicCollection.class).insertOne(new MagicCollection(s));
 
@@ -476,19 +480,38 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
-		// TODO Auto-generated method stub
+		logger.debug("saving " + state);
+		state.setUpdated(false);
+		if (state.getId() == -1) {
+			state.setId(Integer.parseInt(getNextSequence().toString()));
+			BasicDBObject obj = new BasicDBObject();
+			obj.put(dbOrdersField, state);
+			db.getCollection(colOrders, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
+
+		} else {
+			Bson filter = new Document(dbOrdersField+".id", state.getId());
+			BasicDBObject obj = new BasicDBObject();
+			obj.put(dbOrdersField, state);
+			logger.debug(filter);
+			UpdateResult res = db.getCollection(colOrders, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
+			logger.trace(res);
+		}
 		
 	}
 
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
-		// TODO Auto-generated method stub
+		logger.debug("remove " + state.size() + " items in orders");
+		for (OrderEntry s : state) {
+			Bson filter = new Document(dbOrdersField+".id", s.getId());
+			db.getCollection(colStocks).deleteOne(filter);
+		}
 		
 	}
 
 	@Override
 	protected void initOrders() {
-		// TODO Auto-generated method stub
+		db.getCollection(colOrders, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> listOrders.add(deserialize(result.get(dbOrdersField).toString(), OrderEntry.class)));
 		
 	}
 
