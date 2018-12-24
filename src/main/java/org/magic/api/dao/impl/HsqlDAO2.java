@@ -5,12 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,9 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_ITEM;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -55,6 +60,8 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
+			stat.executeUpdate("CREATE TABLE orders (id integer PRIMARY KEY IDENTITY, idTransaction VARCHAR(250), description VARCHAR(250),edition VARCHAR(10),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(250),seller VARCHAR(250))");
+			logger.debug("Create table Orders");
 			stat.executeUpdate("create table cards (ID varchar(250), name varchar(250), mcard LONGVARCHAR, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table decks (name varchar(45),mcard LONGVARCHAR)");
@@ -618,21 +625,122 @@ public class HsqlDAO2 extends AbstractMagicDAO {
 
 	
 	@Override
-	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void initOrders() {
+		try (PreparedStatement pst = con.prepareStatement("select * from orders"); ResultSet rs = pst.executeQuery();) {
+			while (rs.next()) {
+				OrderEntry state = new OrderEntry();
+				
+				state.setId(rs.getInt("id"));
+				state.setIdTransation(rs.getString("idTransaction"));
+				state.setDescription(rs.getString("description"));
+				try {
+					state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
+				} catch (Exception e) {
+					state.setEdition(null);
+				}
+				state.setCurrency(Currency.getInstance(rs.getString("currency")));
+				state.setTransationDate(rs.getDate("transactionDate"));
+				state.setItemPrice(rs.getDouble("itemPrice"));
+				state.setShippingPrice(rs.getDouble("shippingPrice"));
+				state.setType(TYPE_ITEM.valueOf(rs.getString("typeItem")));
+				state.setTypeTransaction(TYPE_TRANSACTION.valueOf(rs.getString("typeTransaction")));
+				state.setSource(rs.getString("sources"));
+				state.setSeller(rs.getString("seller"));
+				state.setUpdated(false);
+				listOrders.add(state);
+			}
+			logger.debug("load " + listOrders.size() + " item(s) from orders");
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
 	}
+
 
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
-		// TODO Auto-generated method stub
+		logger.debug("remove " + state.size() + " items in orders");
+		StringBuilder st = new StringBuilder();
+		st.append("delete from orders where id IN (");
+		for (OrderEntry sto : state) {
+			st.append(sto.getId()).append(",");
+		}
+		st.append(")");
+		String sql = st.toString().replace(",)", ")");
+		try (Statement pst = con.createStatement()) {
+			pst.executeUpdate(sql);
+		}
+		
+
+		if (listOrders != null)
+		{
+			boolean res = listOrders.removeAll(state);
+			logger.debug("delete orders from list " + res);
+		}
 		
 	}
-
+	
 	@Override
-	protected void initOrders() {
-		// TODO Auto-generated method stub
-		
+	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
+
+		if (state.getId() < 0) {
+			logger.debug("save " + state);
+			try (PreparedStatement pst = con.prepareStatement(
+					"INSERT INTO orders (idTransaction, description, edition, itemPrice, shippingPrice, currency, transactionDate, typeItem, typeTransaction, sources, seller)"
+				  + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS)) {
+				
+				pst.setString(1, state.getIdTransation());
+				pst.setString(2, state.getDescription());
+				
+				if(state.getEdition()!=null)
+					pst.setString(3, state.getEdition().getId());
+				else
+					pst.setString(3, null);
+				
+				pst.setDouble(4, state.getItemPrice());
+				pst.setDouble(5,state.getShippingPrice());
+				pst.setString(6,state.getCurrency().getCurrencyCode());
+				pst.setDate(7, new Date(state.getTransationDate().getTime()));
+				pst.setString(8,state.getType().name());
+				pst.setString(9,state.getTypeTransaction().name());
+				pst.setString(10, state.getSource());
+				pst.setString(11, state.getSeller());
+				state.setId(pst.executeUpdate());
+				listOrders.add(state);
+			} catch (Exception e) {
+				logger.error("error insert " + state.getDescription() , e);
+			}
+		} else {
+			logger.debug("update Order " + state);
+			
+			
+			try (PreparedStatement pst = con.prepareStatement(
+					"UPDATE orders SET "
+					+ "idTransaction= ?, description=?, edition=?,itemPrice=?,shippingPrice=?,currency=?,transactionDate=?,typeItem=?,typeTransaction=?,sources=?,seller=? "
+					+ "WHERE id = ?")) {
+				
+				pst.setString(1, state.getIdTransation());
+				pst.setString(2, state.getDescription());
+				
+				if(state.getEdition()!=null)
+					pst.setString(3, state.getEdition().getId());
+				else
+					pst.setString(3, null);
+				
+				pst.setDouble(4, state.getItemPrice());
+				pst.setDouble(5,state.getShippingPrice());
+				pst.setString(6,state.getCurrency().getCurrencyCode());
+				pst.setDate(7, new Date(state.getTransationDate().getTime()));
+				pst.setString(8,state.getType().name());
+				pst.setString(9,state.getTypeTransaction().name());
+				pst.setString(10, state.getSource());
+				pst.setString(11, state.getSeller());
+				pst.setInt(12, state.getId());
+				pst.executeUpdate();
+			}
+		}
 	}
 
 

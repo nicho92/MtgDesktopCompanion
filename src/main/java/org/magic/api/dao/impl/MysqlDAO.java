@@ -694,8 +694,8 @@ public class MysqlDAO extends AbstractMagicDAO {
 		}
 		
 	}
-//
-//	@Override
+
+	@Override
 	public void initOrders() {
 		try (PreparedStatement pst = con.prepareStatement("select * from orders"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
