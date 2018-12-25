@@ -73,9 +73,11 @@ public class EditionFinancialChartPanel extends JPanel {
 			List<CardShake> price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.stream().mapToDouble(CardShake::getPrice).sum();
 			
+			if(!temp.isEmpty()) {
 			totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),temp.get(0).getCurrency(), totalEd);
 			dataset.addValue(totalEd, "Actual Value", ed.getSet() );
 			dataset.addValue(getTotal(temp), "Paid", ed.getSet() );
+			}
 		}
 		catch(Exception e)
 		{

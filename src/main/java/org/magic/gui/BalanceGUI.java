@@ -97,9 +97,9 @@ public class BalanceGUI extends MTGUIComponent {
 		editionFinancialChartPanel = new EditionFinancialChartPanel();
 		
 		btnSave.setEnabled(false);
+		table.setModel(model);
 		UITools.initTableFilter(table);
 		setLayout(new BorderLayout(0, 0));
-		table.setModel(model);
 	
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultRenderer(Double.class, render);

@@ -95,7 +95,13 @@ public class CardPriceVariations {
 	
 	public Double get(Date d)
 	{
+		try {
 		return variations.get(d);
+		}
+		catch(Exception e)
+		{
+			return 0.0;
+		}
 	}
 	
 	
