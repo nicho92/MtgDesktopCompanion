@@ -67,10 +67,10 @@ public class DAOProviderTests {
 	public void test()
 	{
 		//testProviders(new FileDAO());
-		testProviders(new MongoDbDAO());
+		//estProviders(new MongoDbDAO());
 		//testProviders(new PostgresqlDAO());
 		//testProviders(new MysqlDAO());
-		//testProviders(new HsqlDAO2());
+		testProviders(new HsqlDAO2());
 	}
 	
 	public void testProviders(MTGDao p)

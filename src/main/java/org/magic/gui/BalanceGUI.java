@@ -160,8 +160,18 @@ public class BalanceGUI extends MTGUIComponent {
 		
 		
 		btnDeleteOrder.addActionListener(ae->{
-			model.removeItem(UITools.getTableSelection(table, 0));
-			calulate(model.getItems());
+			
+			OrderEntry state=null;
+			try {
+				state = (OrderEntry) UITools.getTableSelection(table, 0).get(0);
+				model.removeItem(state);
+				MTGControler.getInstance().getEnabled(MTGDao.class).deleteOrderEntry(state);
+				calulate(model.getItems());
+			} catch (Exception e) {
+				logger.error("error deleting " + state,e);
+			}
+			
+			
 		});
 		add(panneauBas,BorderLayout.SOUTH);
 		
