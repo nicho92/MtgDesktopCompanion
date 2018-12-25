@@ -96,7 +96,7 @@ public class BalanceGUI extends MTGUIComponent {
 		lblComparator = new JLabel("Values");
 		editionFinancialChartPanel = new EditionFinancialChartPanel();
 		
-		btnSave.setEnabled(false);
+		
 		table.setModel(model);
 		UITools.initTableFilter(table);
 		setLayout(new BorderLayout(0, 0));
@@ -232,12 +232,12 @@ public class BalanceGUI extends MTGUIComponent {
 				
 				btnDeleteOrder.setEnabled(true);
 				btnSaveOrder.setEnabled(true);
-				btnSave.setEnabled(true);
+				
 				}
 				catch(Exception e)
 				{
 					btnDeleteOrder.setEnabled(false);
-					btnSave.setEnabled(false);
+					
 
 				}
 			}
