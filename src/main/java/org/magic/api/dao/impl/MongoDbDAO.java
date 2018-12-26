@@ -501,10 +501,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
-		logger.debug("remove " + state.size() + " items in orders");
+		logger.debug("remove " + state + " item(s) in orders");
 		for (OrderEntry s : state) {
 			Bson filter = new Document(dbOrdersField+".id", s.getId());
-			db.getCollection(colStocks).deleteOne(filter);
+			DeleteResult res = db.getCollection(colOrders).deleteOne(filter);
+			logger.debug(res.getDeletedCount() + " item deleted");
 		}
 		
 	}

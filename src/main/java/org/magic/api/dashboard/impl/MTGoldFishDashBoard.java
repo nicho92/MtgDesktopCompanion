@@ -215,13 +215,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 				list.add(cs);
 			}
-		} catch (IndexOutOfBoundsException e) {
-			logger.error(e);
+		} catch (Exception e) {
+			logger.error("error getting CardShake for " + edition + " " + e);
 		}
-		catch(IOException e)
-		{
-			logger.error("error getting CardShake for " + edition,e);
-		}
+		
 		return list;
 	}
 

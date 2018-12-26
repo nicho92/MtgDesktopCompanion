@@ -40,7 +40,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
-public class BalanceGUI extends MTGUIComponent {
+public class OrdersGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private ShoppingEntryTableModel model;
@@ -70,7 +70,7 @@ public class BalanceGUI extends MTGUIComponent {
 	}
 	
 	
-	public BalanceGUI() {
+	public OrdersGUI() {
 		
 		JPanel panneauBas = new JPanel();
 		JPanel panneauHaut = new JPanel();
@@ -123,6 +123,7 @@ public class BalanceGUI extends MTGUIComponent {
 		panneauBas.add(totalSelection);
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
+		panneauHaut.add(btnDeleteOrder);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauRight,BorderLayout.EAST);
@@ -132,7 +133,6 @@ public class BalanceGUI extends MTGUIComponent {
 		
 		panelButton.add(btnSaveOrder);
 		panelButton.add(btnNewEntry);
-		panelButton.add(btnDeleteOrder);
 
 		panneauRight.add(editorPanel, BorderLayout.NORTH);
 		panneauRight.add(panelComparator, BorderLayout.SOUTH);
@@ -208,7 +208,8 @@ public class BalanceGUI extends MTGUIComponent {
 						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
 						
 						
-						editionFinancialChartPanel.init(o.getEdition());
+						if(o.getEdition()!=null)
+							editionFinancialChartPanel.init(o.getEdition());
 						
 						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue));
 						if(actualValue<paidValue)
@@ -274,7 +275,7 @@ public class BalanceGUI extends MTGUIComponent {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		MTGUIComponent.createJDialog(new BalanceGUI(),true,false).setVisible(true);
+		MTGUIComponent.createJDialog(new OrdersGUI(),true,false).setVisible(true);
 	}
 
 	@Override
