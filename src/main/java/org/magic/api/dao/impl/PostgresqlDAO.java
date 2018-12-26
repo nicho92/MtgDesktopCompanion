@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,10 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -24,6 +28,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.OrderEntry.TYPE_ITEM;
+import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
@@ -486,27 +492,28 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	}
 
 	@Override
+	public void saveAlert(MagicCardAlert alert) throws SQLException {
+			logger.debug("save " + alert);
+			try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
+				pst.setString(1, IDGenerator.generate(alert.getCard()));
+				pst.setObject(2, convertObject(alert.getCard()));
+				pst.setDouble(3, alert.getPrice());
+				pst.executeUpdate();
+				listAlerts.add(alert);
+			}
+	}
+	
+	@Override
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
+		logger.debug("update " + alert);
 		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
 			pst.setString(2, IDGenerator.generate(alert.getCard()));
 			pst.executeUpdate();
 		}
-
+		
 	}
-
-
-	@Override
-	public void saveAlert(MagicCardAlert alert) throws SQLException {
-		logger.debug("save " + alert);
-		try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
-			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			pst.setObject(2, convertObject(alert.getCard()));
-			pst.setDouble(3, alert.getPrice());
-			pst.executeUpdate();
-			listAlerts.add(alert);
-		}
-	}
+	
 
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws SQLException {
@@ -617,19 +624,122 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
-		// TODO Auto-generated method stub
+
+		if (state.getId() < 0) {
+			logger.debug("save " + state);
+			try (PreparedStatement pst = con.prepareStatement(
+					"INSERT INTO orders (idTransaction, description, edition, itemPrice, shippingPrice, currency, transactionDate, typeItem, typeTransaction, sources, seller)"
+				  + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS)) {
+				
+				pst.setString(1, state.getIdTransation());
+				pst.setString(2, state.getDescription());
+				
+				if(state.getEdition()!=null)
+					pst.setString(3, state.getEdition().getId());
+				else
+					pst.setString(3, null);
+				
+				pst.setDouble(4, state.getItemPrice());
+				pst.setDouble(5,state.getShippingPrice());
+				pst.setString(6,state.getCurrency().getCurrencyCode());
+				pst.setDate(7, new Date(state.getTransationDate().getTime()));
+				pst.setString(8,state.getType().name());
+				pst.setString(9,state.getTypeTransaction().name());
+				pst.setString(10, state.getSource());
+				pst.setString(11, state.getSeller());
+				state.setId(pst.executeUpdate());
+				listOrders.add(state);
+			} catch (Exception e) {
+				logger.error("error insert " + state.getDescription() , e);
+			}
+		} else {
+			logger.debug("update Order " + state);
+			
+			
+			try (PreparedStatement pst = con.prepareStatement(
+					"UPDATE orders SET "
+					+ "idTransaction= ?, description=?, edition=?,itemPrice=?,shippingPrice=?,currency=?,transactionDate=?,typeItem=?,typeTransaction=?,sources=?,seller=? "
+					+ "WHERE id = ?")) {
+				
+				pst.setString(1, state.getIdTransation());
+				pst.setString(2, state.getDescription());
+				
+				if(state.getEdition()!=null)
+					pst.setString(3, state.getEdition().getId());
+				else
+					pst.setString(3, null);
+				
+				pst.setDouble(4, state.getItemPrice());
+				pst.setDouble(5,state.getShippingPrice());
+				pst.setString(6,state.getCurrency().getCurrencyCode());
+				pst.setDate(7, new Date(state.getTransationDate().getTime()));
+				pst.setString(8,state.getType().name());
+				pst.setString(9,state.getTypeTransaction().name());
+				pst.setString(10, state.getSource());
+				pst.setString(11, state.getSeller());
+				pst.setInt(12, state.getId());
+				pst.executeUpdate();
+			}
+		}
 		
 	}
 
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
-		// TODO Auto-generated method stub
+		logger.debug("remove " + state.size() + " items in orders");
+		StringBuilder st = new StringBuilder();
+		st.append("delete from orders where id IN (");
+		for (OrderEntry sto : state) {
+			st.append(sto.getId()).append(",");
+		}
+		st.append(")");
+		String sql = st.toString().replace(",)", ")");
+		try (Statement pst = con.createStatement()) {
+			pst.executeUpdate(sql);
+		}
+		
+
+		if (listOrders != null)
+		{
+			boolean res = listOrders.removeAll(state);
+			logger.debug("delete orders from list " + res);
+		}
+		
 		
 	}
 
 	@Override
 	protected void initOrders() {
-		// TODO Auto-generated method stub
+		try (PreparedStatement pst = con.prepareStatement("select * from orders"); ResultSet rs = pst.executeQuery();) {
+			while (rs.next()) {
+				OrderEntry state = new OrderEntry();
+				
+				state.setId(rs.getInt("id"));
+				state.setIdTransation(rs.getString("idTransaction"));
+				state.setDescription(rs.getString("description"));
+				try {
+					state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
+				} catch (Exception e) {
+					state.setEdition(null);
+				}
+				state.setCurrency(Currency.getInstance(rs.getString("currency")));
+				state.setTransationDate(rs.getDate("transactionDate"));
+				state.setItemPrice(rs.getDouble("itemPrice"));
+				state.setShippingPrice(rs.getDouble("shippingPrice"));
+				state.setType(TYPE_ITEM.valueOf(rs.getString("typeItem")));
+				state.setTypeTransaction(TYPE_TRANSACTION.valueOf(rs.getString("typeTransaction")));
+				state.setSource(rs.getString("sources"));
+				state.setSeller(rs.getString("seller"));
+				state.setUpdated(false);
+				listOrders.add(state);
+			}
+			logger.debug("load " + listOrders.size() + " item(s) from orders");
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
 		
 	}
 
