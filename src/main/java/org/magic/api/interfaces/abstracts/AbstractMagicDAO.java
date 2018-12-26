@@ -154,7 +154,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed) 
 	{
-			return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).collect(Collectors.toList());
+		return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).collect(Collectors.toList());
 	}
 	
 	@Override

@@ -57,8 +57,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		logger.info("init " + getName());
 		Class.forName(getString(KEYS.DRIVER.name()));
 		String url = "jdbc:postgresql://" + getString(KEYS.SERVERNAME.name()) + ":" + getString(KEYS.SERVERPORT.name());
-		con = DriverManager.getConnection(url + "/" + getString(KEYS.DB_NAME.name()), getString(KEYS.LOGIN.name()),
-				getString(KEYS.PASS.name()));
+		con = DriverManager.getConnection(url + "/" + getString(KEYS.DB_NAME.name()), getString(KEYS.LOGIN.name()),getString(KEYS.PASS.name()));
 		createDB();
 	}
 
