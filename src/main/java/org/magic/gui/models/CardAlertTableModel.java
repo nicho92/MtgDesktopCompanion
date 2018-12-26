@@ -2,30 +2,19 @@ package org.magic.gui.models;
 
 import java.util.List;
 
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
-public class CardAlertTableModel extends DefaultTableModel {
-
-	/**
-	 * 
-	 */
+public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
+	
 	private static final long serialVersionUID = 1L;
 
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	static final String[] columns = new String[] { "CARD","EDITION","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
+	public CardAlertTableModel() {
+		columns = new String[] { "CARD","EDITION","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
 	}
 
 	@Override
@@ -67,11 +56,6 @@ public class CardAlertTableModel extends DefaultTableModel {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return (column == 2 || column==1);
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return  MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

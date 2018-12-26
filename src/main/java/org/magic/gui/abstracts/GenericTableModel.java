@@ -87,6 +87,8 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 	
 	@Override
 	public int getColumnCount() {
+		if(columns==null)
+			return 0;
 		return columns.length;
 	}
 	
