@@ -1,12 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,40 +25,53 @@ import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
-
-	private static final String MCARD = "mcard";
-	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
-	private static final String LOGIN = "LOGIN";
-	private static final String PASS = "PASS";
-	private static final String DB_NAME = "DB_NAME";
-	private static final String PARAMS = "PARAMS";
-	private static final String SERVERPORT = "SERVERPORT";
-	private static final String SERVERNAME = "SERVERNAME";
-	private static final String DRIVER = "DRIVER";
 	
+	protected static final String LOGIN = "LOGIN";
+	protected static final String PASS = "PASS";
+	protected static final String DB_NAME = "DB_NAME";
+	protected static final String PARAMS = "PARAMS";
+	protected static final String SERVERPORT = "SERVERPORT";
+	protected static final String SERVERNAME = "SERVERNAME";
 	
-	private Connection con;
-
-	 public Connection getCon() {
-		return con;
-	}
-
-	
+	protected Connection con;
 	public abstract String getAutoIncrementKeyWord();
 	public abstract String getjdbcnamedb();
-	 
+	public abstract String cardStorage(); // mySQL TEXT
+	public abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
+	public abstract MagicCard readCard(ResultSet rs) throws SQLException;
+	public abstract void createIndex(Statement stat) throws SQLException;
+	public abstract String createListStockSQL(MagicCard mc);
 	
+	
+	@Override
+	public void initDefault() {
+		setProperty(SERVERNAME, "localhost");
+		setProperty(SERVERPORT, "1234");
+		setProperty(DB_NAME, "mtgdesktopclient");
+		setProperty(LOGIN, "login");
+		setProperty(PASS, "pass");
+		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
+	}
+	
+	public String getDBLocation() {
+		return getString(SERVERNAME) + "/" + getString(DB_NAME);
+	}
+
 	
 	 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		String url = "jdbc:"+getjdbcnamedb()+"://" + getString(SERVERNAME) + ":" + getString(SERVERPORT);
+		
+		String url = "jdbc:"+getjdbcnamedb()+"://" + getString(SERVERNAME);
+		
+		if(!getString(SERVERPORT).isEmpty())
+			url+=":" + getString(SERVERPORT);
+		
 		logger.trace("Connexion to " + url + "/" + getString(DB_NAME) + getString(PARAMS));
 		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),getString(LOGIN), getString(PASS));
 		createDB();
@@ -71,19 +79,19 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
-			
 			logger.debug("Create table Orders");
-			stat.executeUpdate("CREATE TABLE orders (id integer PRIMARY KEY AUTO_INCREMENT, idTransaction VARCHAR(250), description VARCHAR(250),edition VARCHAR(10),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(250),seller VARCHAR(250))");
+			
+			stat.executeUpdate("CREATE TABLE orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(250), description VARCHAR(250),edition VARCHAR(10),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(250),seller VARCHAR(250))");
 			logger.debug("Create table Cards");
-			stat.executeUpdate("create table cards (ID varchar(250),mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+			stat.executeUpdate("create table cards (ID varchar(250),mcard "+cardStorage()+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table collections");
 			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 			logger.debug("Create table stocks");
-			stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard TEXT, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+			stat.executeUpdate("create table stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar(250), mcard "+cardStorage()+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price DECIMAL(10,3))");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate("create table alerts (id varchar(250) PRIMARY KEY, mcard TEXT, amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250) PRIMARY KEY, mcard "+cardStorage()+", amount DECIMAL)");
 			logger.debug("Create table News");
-			stat.executeUpdate("CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
+			stat.executeUpdate("CREATE TABLE news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
 
 			logger.debug("populate collections");
 			stat.executeUpdate("insert into collections values ('Library')");
@@ -91,11 +99,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("insert into collections values ('For sell')");
 			stat.executeUpdate("insert into collections values ('Favorites')");
 
-			stat.executeUpdate("ALTER TABLE cards ADD INDEX(ID);");
-			stat.executeUpdate("ALTER TABLE cards ADD INDEX(edition);");
-			stat.executeUpdate("ALTER TABLE cards ADD INDEX(collection);");
-			stat.executeUpdate("ALTER TABLE cards ADD INDEX(cardprovider);");
-			stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
+			createIndex(stat);
+			
 			return true;
 		} catch (SQLException e) {
 			logger.error(e);
@@ -110,7 +115,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
-			pst.setString(2, serialiser.toJsonElement(mc).toString());
+			storeCard(pst, 2, mc);
 			pst.setString(3, mc.getCurrentSet().getId());
 			pst.setString(4, MTGControler.getInstance().getEnabled(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
@@ -121,8 +126,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("delete " + mc + " in " + collection);
-		try (PreparedStatement pst = con
-				.prepareStatement("delete from cards where id=? and edition=? and collection=?")) {
+		try (PreparedStatement pst = con.prepareStatement("delete from cards where id=? and edition=? and collection=?")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getCurrentSet().getId());
 			pst.setString(3, collection.getName());
@@ -164,7 +168,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> listCards = new ArrayList<>();
 			while (rs.next()) {
-				listCards.add(serialiser.fromJson(rs.getString(MCARD), MagicCard.class) );
+				listCards.add(readCard(rs));
 			}
 			return listCards;
 		}
@@ -210,10 +214,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		String sql = "select "+MCARD+" from cards where collection= ?";
+		String sql = "select mcard from cards where collection= ?";
 
 		if (me != null)
-			sql = "select "+MCARD+" from cards where collection= ? and edition = ?";
+			sql = "select mcard from cards where collection= ? and edition = ?";
 
 		logger.trace(sql +" " + collection +" " + me);
 
@@ -226,7 +230,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				logger.trace(sql +" resultSet done");
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
-					MagicCard mc = serialiser.fromJson(rs.getString(MCARD),MagicCard.class);
+					MagicCard mc = readCard(rs);
 					ret.add(mc);
 				}
 				
@@ -362,7 +366,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		
-		String sql = "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
+		String sql = createListStockSQL(mc);
+		
 		if(editionStrict)
 			sql ="select * from stocks where collection=? and idmc=?";
 		
@@ -410,7 +415,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
+				state.setMagicCard(readCard(rs));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				try {
 					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
@@ -459,7 +464,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(6, state.getComment());
 				pst.setString(7, IDGenerator.generate(state.getMagicCard()));
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
-				pst.setString(9, serialiser.toJsonElement(state.getMagicCard()).toString());
+				storeCard(pst, 9, state.getMagicCard());
 				pst.setBoolean(10, state.isAltered());
 				pst.setDouble(11, state.getPrice());
 				pst.executeUpdate();
@@ -497,7 +502,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
-					alert.setCard(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
+					alert.setCard(readCard(rs));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 
@@ -518,7 +523,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			alert.setId(IDGenerator.generate(alert.getCard()));
 			
 			pst.setString(1, alert.getId());
-			pst.setString(2, serialiser.toJsonElement(alert.getCard()).toString());
+			storeCard(pst, 2, alert.getCard());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			logger.debug("save alert for " + alert.getCard()+ " ("+alert.getCard().getCurrentSet()+")");
@@ -531,7 +536,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		logger.debug("update " + alert);
 		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=?,mcard=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
-			pst.setString(2, serialiser.toJsonElement(alert.getCard()).toString());
+			storeCard(pst, 2, alert.getCard());
 			pst.setString(3, alert.getId());
 			pst.executeUpdate();
 		}
@@ -740,5 +745,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			}
 		}
 	}
+
+
+
 
 }

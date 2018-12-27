@@ -34,6 +34,7 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.reflections.Reflections;
 
 public class PluginRegistry {
@@ -87,10 +88,18 @@ public class PluginRegistry {
 	}
 	
 	
-	//TODO correct this for Dashlets
+	//TODO correct this for Dashlets and 
 	public PluginEntry getEntryFor(Object k)
 	{
-		return getEntry(k.getClass().getSuperclass().getInterfaces()[0]);
+		
+		if(k instanceof AbstractSQLMagicDAO)
+		{
+			return getEntry(k.getClass().getSuperclass().getSuperclass().getInterfaces()[0]);
+		}
+		else
+		{
+			return getEntry(k.getClass().getSuperclass().getInterfaces()[0]);
+		}
 	}
 	
 	public PluginEntry getEntry(Class p)

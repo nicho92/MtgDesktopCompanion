@@ -161,11 +161,12 @@ public class ServerStatePanel extends JPanel {
 				else
 					server.start();
 				
-				model.fireTableDataChanged();
 			} catch (Exception e1) {
-				model.fireTableDataChanged();
+				
 			}
 
+			if(b)
+				model.fireTableDataChanged();
 		});
 
 	}
