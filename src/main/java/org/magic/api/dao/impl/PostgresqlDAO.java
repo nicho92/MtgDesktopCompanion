@@ -52,15 +52,6 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 		return serialiser.fromJson(((PGobject)rs.getObject("mcard")).getValue(), MagicCard.class);
 	}
 
-	@Override
-	public void createIndex(Statement stat) throws SQLException {
-		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
-		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
-		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
-		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
-		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
-		
-	}
 
 	@Override
 	public long getDBSize() {

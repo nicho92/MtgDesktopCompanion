@@ -43,17 +43,6 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 	
 
 	@Override
-	public void createIndex(Statement stat) throws SQLException {
-		stat.executeUpdate("ALTER TABLE cards ADD INDEX(ID);");
-		stat.executeUpdate("ALTER TABLE cards ADD INDEX(edition);");
-		stat.executeUpdate("ALTER TABLE cards ADD INDEX(collection);");
-		stat.executeUpdate("ALTER TABLE cards ADD INDEX(cardprovider);");
-		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
-	}
-
-	
-
-	@Override
 	public long getDBSize() {
 		String sql = "SELECT Round(Sum(data_length + index_length), 1) FROM information_schema.tables WHERE  table_schema = '"+DB_NAME+"'";
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {

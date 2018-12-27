@@ -45,8 +45,16 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public abstract String cardStorage();
 	public abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
 	public abstract MagicCard readCard(ResultSet rs) throws SQLException;
-	public abstract void createIndex(Statement stat) throws SQLException;
 	public abstract String createListStockSQL(MagicCard mc);
+	
+
+	public void createIndex(Statement stat) throws SQLException {
+		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
+		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
+		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
+		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
+		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
+	}
 	
 	
 	@Override
@@ -63,6 +71,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		return getString(SERVERNAME) + "/" + getString(DB_NAME);
 	}
 	
+
 	@Override
 	public String getVersion() {
 		try {
