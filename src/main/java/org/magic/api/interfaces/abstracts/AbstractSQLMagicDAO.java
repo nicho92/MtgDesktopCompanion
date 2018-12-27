@@ -76,19 +76,18 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	protected String getjdbcUrl()
 	{
-		String url = "jdbc:"+getjdbcnamedb()+"://" + getString(SERVERNAME);
-		
+		StringBuilder url = new StringBuilder();
+					  url.append("jdbc:").append(getjdbcnamedb()).append("://").append(getString(SERVERNAME));
+
 		if(!getString(SERVERPORT).isEmpty())
-			url+=":" + getString(SERVERPORT);
-		
-		url+="/" + getString(DB_NAME) + getString(PARAMS);
-		
-		return url;
+			url.append(":").append(getString(SERVERPORT));
+	
+		url.append("/").append(getString(DB_NAME)).append(getString(PARAMS));
+		return url.toString();
 	}
 	 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		
 		logger.trace("Connexion to " + getjdbcUrl() + "/" + getString(DB_NAME) + getString(PARAMS));
 		con = DriverManager.getConnection(getjdbcUrl(),getString(LOGIN), getString(PASS));
 		createDB();
@@ -112,10 +111,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("populate collections");
 			
-			saveCollection(new MagicCollection("Library"));
-			saveCollection(new MagicCollection("Needed"));
-			saveCollection(new MagicCollection("For sell"));
-			saveCollection(new MagicCollection("Favorites"));
+			saveCollection("Library");
+			saveCollection("Needed");
+			saveCollection("For sell");
+			saveCollection("Favorites");
 			
 			createIndex(stat);
 			
@@ -179,10 +178,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
-		logger.debug("list all cards");
-
 		String sql = "select mcard from cards";
-
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> listCards = new ArrayList<>();
 			while (rs.next()) {

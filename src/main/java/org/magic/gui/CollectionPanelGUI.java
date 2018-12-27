@@ -648,8 +648,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnAdd.addActionListener(e -> {
 			String name = JOptionPane
 					.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
-			MagicCollection collectionAdd = new MagicCollection();
-			collectionAdd.setName(name);
+			MagicCollection collectionAdd = new MagicCollection(name);
 			try {
 				dao.saveCollection(collectionAdd);
 				((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));

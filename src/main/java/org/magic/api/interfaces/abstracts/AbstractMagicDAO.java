@@ -68,6 +68,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			}
 		});
 	}
+	
+	
+	@Override
+	public void saveCollection(String name) throws SQLException {
+		saveCollection(new MagicCollection(name));
+		
+	}
 
 	@Override
 	public void deleteOrderEntry(OrderEntry state) throws SQLException
