@@ -17,13 +17,6 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 
 	private static final String URL_PGDUMP = "URL_PGDUMP";
 
-
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
-
 	@Override
 	public String getAutoIncrementKeyWord() {
 		return "SERIAL";

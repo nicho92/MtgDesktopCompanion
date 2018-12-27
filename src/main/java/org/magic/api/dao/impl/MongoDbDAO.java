@@ -507,7 +507,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			DeleteResult res = db.getCollection(colOrders).deleteOne(filter);
 			logger.debug(res.getDeletedCount() + " item deleted");
 		}
-		
 	}
 
 	@Override

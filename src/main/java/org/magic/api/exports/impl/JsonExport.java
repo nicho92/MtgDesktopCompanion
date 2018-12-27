@@ -16,6 +16,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -33,7 +34,7 @@ public class JsonExport extends AbstractCardExport {
 	
 	public JsonExport() {
 		super();
-		gson=new Gson();
+		gson=new GsonBuilder().create();
 	}
 	
 	
