@@ -37,6 +37,11 @@ public class OrderEntry implements Serializable {
 	
 	
 	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		
 		if(obj==null)
