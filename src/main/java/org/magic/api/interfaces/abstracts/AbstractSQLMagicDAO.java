@@ -52,11 +52,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void initDefault() {
 		setProperty(SERVERNAME, "localhost");
-		setProperty(SERVERPORT, "1234");
+		setProperty(SERVERPORT, "");
 		setProperty(DB_NAME, "mtgdesktopclient");
 		setProperty(LOGIN, "login");
 		setProperty(PASS, "pass");
-		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
+		setProperty(PARAMS, "");
 	}
 	
 	public String getDBLocation() {
@@ -77,6 +77,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected String getjdbcUrl()
 	{
 		String url = "jdbc:"+getjdbcnamedb()+"://" + getString(SERVERNAME);
+		
 		if(!getString(SERVERPORT).isEmpty())
 			url+=":" + getString(SERVERPORT);
 		
