@@ -4,23 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.sql.Driver;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
-import org.magic.tools.IDGenerator;
 import org.postgresql.util.PGobject;
 
 public class PostgresqlDAO extends AbstractSQLMagicDAO {
+
+	private static final String URL_PGDUMP = "URL_PGDUMP";
+
+
 
 	@Override
 	public STATUT getStatut() {
@@ -86,11 +83,11 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	public void backup(File f) throws IOException {
 
-		if (getString("URL_PGDUMP").length() <= 0) {
+		if (getString(URL_PGDUMP).length() <= 0) {
 			throw new NullPointerException("Please fill URL_PGDUMP var");
 		}
 
-		String dumpCommand = getString("URL_PGDUMP") + "/pg_dump" + " -d" + getString(DB_NAME)
+		String dumpCommand = getString(URL_PGDUMP) + "/pg_dump" + " -d" + getString(DB_NAME)
 				+ " -h" + getString(SERVERNAME) + " -U" + getString(LOGIN) + " -p"
 				+ getString(SERVERPORT);
 
@@ -117,16 +114,8 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 		setProperty(SERVERPORT, "5432");
 		setProperty(LOGIN, "postgres");
 		setProperty(PASS, "postgres");
-		setProperty("URL_PGDUMP", "C:/Program Files (x86)/PostgreSQL/9.5/bin");
+		setProperty(URL_PGDUMP, "C:/Program Files (x86)/PostgreSQL/9.5/bin");
 
-	}
-
-	@Override
-	public String getVersion() {
-		
-		Driver d = new org.postgresql.Driver();
-		return d.getMajorVersion()+"."+d.getMinorVersion();
-		
 	}
 
 

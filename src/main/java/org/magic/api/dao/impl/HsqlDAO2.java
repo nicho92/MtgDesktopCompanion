@@ -4,40 +4,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
-import org.hsqldb.jdbc.JDBCDriver;
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.OrderEntry.TYPE_ITEM;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.tools.IDGenerator;
 
 public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
@@ -97,7 +74,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
 	@Override
 	public void backup(File dir) throws IOException {
-		File base = new File(getString("URL"));
+		File base = getFile(SERVERNAME);
 		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir, "backup.zip")))) {
 			for (File doc : base.listFiles()) {
 				if (!doc.getName().endsWith(".tmp")) {
@@ -128,10 +105,5 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		setProperty(PASS, "");
 	}
 
-	@Override
-	public String getVersion() {
-		JDBCDriver driv = new JDBCDriver();
-		return driv.getMajorVersion()+"."+driv.getMinorVersion();
-	}
-
+	
 }

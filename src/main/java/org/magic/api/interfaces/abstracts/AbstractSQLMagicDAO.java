@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,19 +62,34 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public String getDBLocation() {
 		return getString(SERVERNAME) + "/" + getString(DB_NAME);
 	}
+	
+	@Override
+	public String getVersion() {
+		try {
+			Driver d = DriverManager.getDriver(getjdbcUrl());
+			return d.getMajorVersion()+"."+d.getMinorVersion();
+		} catch (SQLException e) {
+			return "1.0";
+		}
+	}
 
 	
+	protected String getjdbcUrl()
+	{
+		String url = "jdbc:"+getjdbcnamedb()+"://" + getString(SERVERNAME);
+		if(!getString(SERVERPORT).isEmpty())
+			url+=":" + getString(SERVERPORT);
+		
+		url+="/" + getString(DB_NAME) + getString(PARAMS);
+		
+		return url;
+	}
 	 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
 		
-		String url = "jdbc:"+getjdbcnamedb()+"://" + getString(SERVERNAME);
-		
-		if(!getString(SERVERPORT).isEmpty())
-			url+=":" + getString(SERVERPORT);
-		
-		logger.trace("Connexion to " + url + "/" + getString(DB_NAME) + getString(PARAMS));
-		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),getString(LOGIN), getString(PASS));
+		logger.trace("Connexion to " + getjdbcUrl() + "/" + getString(DB_NAME) + getString(PARAMS));
+		con = DriverManager.getConnection(getjdbcUrl(),getString(LOGIN), getString(PASS));
 		createDB();
 	}
 

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.sql.Driver;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +13,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 
 public class MysqlDAO extends AbstractSQLMagicDAO {
+
+	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
 
 	@Override
 	public String getAutoIncrementKeyWord() {
@@ -32,7 +33,7 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 
 	@Override
 	public void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
-			pst.setString(position, serialiser.toJsonElement(mc).toString());
+		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
 	@Override
@@ -73,14 +74,14 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	public void backup(File f) throws SQLException, IOException {
 
-		if (getString("MYSQL_DUMP_PATH").length() <= 0)
+		if (getString(MYSQL_DUMP_PATH).length() <= 0)
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 
-		if (!new File(getString("MYSQL_DUMP_PATH")).exists())
-			throw new IOException(getString("MYSQL_DUMP_PATH") + " doesn't exist");
+		if (!new File(getString(MYSQL_DUMP_PATH)).exists())
+			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
 
 		StringBuilder dumpCommand = new StringBuilder();
-		dumpCommand.append(getString("MYSQL_DUMP_PATH")).append("/mysqldump ").append(getString(DB_NAME))
+		dumpCommand.append(getString(MYSQL_DUMP_PATH)).append("/mysqldump ").append(getString(DB_NAME))
 				   .append(" -h ").append(getString(SERVERNAME))
 				   .append(" -u ").append(getString(LOGIN))
 				   .append(" -p").append(getString(PASS))
@@ -111,21 +112,11 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 		setProperty(LOGIN, "login");
 		setProperty(PASS, "");
 		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
-		setProperty("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
+		setProperty(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
 
 	}
 
-	@Override
-	public String getVersion() {
-		
-		try {
-			Driver d = new com.mysql.cj.jdbc.Driver();
-			return d.getMajorVersion()+"."+d.getMinorVersion();
-		} catch (SQLException e) {
-			return "1.0";
-		}
-		
-	}
+
 
 	@Override
 	public String createListStockSQL(MagicCard mc) {
