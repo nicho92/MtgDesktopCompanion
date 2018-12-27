@@ -135,7 +135,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		logger.debug("duplicate stock");
 		for(MagicCardStock stock : listStocks())
+		{
+			stock.setIdstock(-1);
 			dao.saveOrUpdateStock(stock);
+		}
 			
 		logger.debug("duplicate alerts");
 		for(MagicCardAlert alert : listAlerts())
@@ -143,11 +146,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		logger.debug("duplicate news");
 		for(MagicNews news : listNews())
+		{
+			news.setId(-1);
 			dao.saveOrUpdateNews(news);
+		}
 		
 		logger.debug("duplicate orders");
 		for(OrderEntry oe : listOrders())
+		{
+			oe.setId(-1);
 			dao.saveOrUpdateOrderEntry(oe);
+		}
 		
 	}
 	

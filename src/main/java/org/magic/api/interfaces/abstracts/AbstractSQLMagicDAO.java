@@ -41,7 +41,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected Connection con;
 	public abstract String getAutoIncrementKeyWord();
 	public abstract String getjdbcnamedb();
-	public abstract String cardStorage(); // mySQL TEXT
+	public abstract String cardStorage();
 	public abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
 	public abstract MagicCard readCard(ResultSet rs) throws SQLException;
 	public abstract void createIndex(Statement stat) throws SQLException;
@@ -85,20 +85,21 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table cards (ID varchar(250),mcard "+cardStorage()+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table collections");
-			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
+			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250) PRIMARY KEY)");
 			logger.debug("Create table stocks");
 			stat.executeUpdate("create table stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar(250), mcard "+cardStorage()+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price DECIMAL(10,3))");
 			logger.debug("Create table Alerts");
 			stat.executeUpdate("create table alerts (id varchar(250) PRIMARY KEY, mcard "+cardStorage()+", amount DECIMAL)");
 			logger.debug("Create table News");
-			stat.executeUpdate("CREATE TABLE news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
+			stat.executeUpdate("CREATE TABLE news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews varchar(150))");
 
 			logger.debug("populate collections");
-			stat.executeUpdate("insert into collections values ('Library')");
-			stat.executeUpdate("insert into collections values ('Needed')");
-			stat.executeUpdate("insert into collections values ('For sell')");
-			stat.executeUpdate("insert into collections values ('Favorites')");
-
+			
+			saveCollection(new MagicCollection("Library"));
+			saveCollection(new MagicCollection("Needed"));
+			saveCollection(new MagicCollection("For sell"));
+			saveCollection(new MagicCollection("Favorites"));
+			
 			createIndex(stat);
 			
 			return true;
@@ -717,8 +718,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			}
 		} else {
 			logger.debug("update Order " + state);
-			
-			
 			try (PreparedStatement pst = con.prepareStatement(
 					"UPDATE orders SET "
 					+ "idTransaction= ?, description=?, edition=?,itemPrice=?,shippingPrice=?,currency=?,transactionDate=?,typeItem=?,typeTransaction=?,sources=?,seller=? "
