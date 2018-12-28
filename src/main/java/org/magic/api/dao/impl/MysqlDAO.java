@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
@@ -17,27 +16,27 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
 
 	@Override
-	public String getAutoIncrementKeyWord() {
+	protected String getAutoIncrementKeyWord() {
 		return "INTEGER AUTO_INCREMENT";
 	}
 
 	@Override
-	public String getjdbcnamedb() {
+	protected String getjdbcnamedb() {
 		return "mysql";
 	}
 
 	@Override
-	public String cardStorage() {
+	protected String cardStorage() {
 		return "TEXT";
 	}
 
 	@Override
-	public void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
+	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
 	@Override
-	public MagicCard readCard(ResultSet rs) throws SQLException {
+	protected MagicCard readCard(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("mcard"), MagicCard.class);
 	}
 	

@@ -34,12 +34,12 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	
 	protected Connection con;
-	public abstract String getAutoIncrementKeyWord();
-	public abstract String getjdbcnamedb();
-	public abstract String cardStorage();
-	public abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
-	public abstract MagicCard readCard(ResultSet rs) throws SQLException;
-	public abstract String createListStockSQL(MagicCard mc);
+	protected abstract String getAutoIncrementKeyWord();
+	protected abstract String getjdbcnamedb();
+	protected abstract String cardStorage();
+	protected abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
+	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
+	protected abstract String createListStockSQL(MagicCard mc);
 	
 
 	public void createIndex(Statement stat) throws SQLException {

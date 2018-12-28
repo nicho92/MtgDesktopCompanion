@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -18,32 +17,28 @@ import org.magic.services.MTGConstants;
 
 public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
-	
-	
-	
 	@Override
-	public String getAutoIncrementKeyWord() {
+	protected String getAutoIncrementKeyWord() {
 		return "IDENTITY";
 	}
 	
-	
 	@Override
-	public String cardStorage() {
+	protected String cardStorage() {
 		return "LONGVARCHAR";
 	}
 	
 	@Override
-	public String getjdbcnamedb() {
+	protected String getjdbcnamedb() {
 		return "hsqldb";
 	}
 	
 	@Override
-	public MagicCard readCard(ResultSet rs) throws SQLException {
+	protected MagicCard readCard(ResultSet rs) throws SQLException {
 		return serialiser.fromJson( rs.getObject("mcard").toString(), MagicCard.class);
 	}
 	
 	@Override
-	public void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
+	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 		
 		

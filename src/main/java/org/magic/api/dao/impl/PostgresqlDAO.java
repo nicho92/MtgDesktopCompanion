@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
@@ -18,28 +17,28 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	private static final String URL_PGDUMP = "URL_PGDUMP";
 
 	@Override
-	public String getAutoIncrementKeyWord() {
+	protected String getAutoIncrementKeyWord() {
 		return "SERIAL";
 	}
 
 	@Override
-	public String getjdbcnamedb() {
+	protected String getjdbcnamedb() {
 		return "postgresql";
 	}
 
 	@Override
-	public String cardStorage() {
+	protected String cardStorage() {
 		return "json";
 	}
 
 	
 	@Override
-	public String createListStockSQL(MagicCard mc) {
+	protected String createListStockSQL(MagicCard mc) {
 		return "SELECT * FROM  stocks WHERE mcard->>'name' = ? and collection = ?";
 	}
 	
 	@Override
-	public void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
+	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		
 		PGobject jsonObject = new PGobject();
 		jsonObject.setType("json");
@@ -48,7 +47,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	public MagicCard readCard(ResultSet rs) throws SQLException {
+	protected MagicCard readCard(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(((PGobject)rs.getObject("mcard")).getValue(), MagicCard.class);
 	}
 
