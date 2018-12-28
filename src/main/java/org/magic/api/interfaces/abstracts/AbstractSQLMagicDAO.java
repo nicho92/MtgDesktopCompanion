@@ -146,7 +146,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("delete " + mc + " in " + collection);
-		try (PreparedStatement pst = con.prepareStatement("delete from cards where id=? and edition=? and collection=?")) {
+		try (PreparedStatement pst = con.prepareStatement("DELETE FROM cards where id=? and edition=? and collection=?")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getCurrentSet().getId());
 			pst.setString(3, collection.getName());
@@ -181,7 +181,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
-		String sql = "select mcard from cards";
+		String sql = "SELECT mcard FROM cards";
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> listCards = new ArrayList<>();
 			while (rs.next()) {
@@ -193,7 +193,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
-		String sql = "select edition, count(ID) from cards where collection=? group by edition";
+		String sql = "SELECT edition, count(ID) FROM cards where collection=? group by edition";
 		try (PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setString(1, c.getName());
 			try (ResultSet rs = pst.executeQuery()) {
@@ -208,7 +208,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public int getCardsCount(MagicCollection cols, MagicEdition me) throws SQLException {
 
-		String sql = "select count(ID) from cards ";
+		String sql = "SELECT count(ID) FROM cards ";
 
 		if (cols != null)
 			sql += " where collection = '" + cols.getName() + "'";
@@ -231,10 +231,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		String sql = "select mcard from cards where collection= ?";
+		String sql = "SELECT mcard FROM cards where collection= ?";
 
 		if (me != null)
-			sql = "select mcard from cards where collection= ? and edition = ?";
+			sql = "SELECT mcard FROM cards where collection= ? and edition = ?";
 
 		logger.trace(sql +" " + collection +" " + me);
 
@@ -258,7 +258,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
-		String sql = "select distinct(edition) from cards where collection=?";
+		String sql = "SELECT distinct(edition) FROM cards where collection=?";
 		Chrono c = new Chrono();
 		c.start();
 		logger.trace(sql + " begin query " + collection);
@@ -278,7 +278,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public MagicCollection getCollection(String name) throws SQLException {
 
-		try (PreparedStatement pst = con.prepareStatement("select * from collections where name= ?")) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM collections where name= ?")) {
 			pst.setString(1, name);
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
@@ -303,13 +303,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		if (c.getName().equals(MTGControler.getInstance().get("default-library")))
 			throw new SQLException(c.getName() + " can not be deleted");
 
-		try (PreparedStatement pst = con.prepareStatement("delete from collections where name = ?")) {
+		try (PreparedStatement pst = con.prepareStatement("DELETE FROM collections where name = ?")) {
 			pst.setString(1, c.getName());
 			pst.executeUpdate();
 
 		}
 
-		try (PreparedStatement pst2 = con.prepareStatement("delete from cards where collection = ?")) {
+		try (PreparedStatement pst2 = con.prepareStatement("DELETE FROM cards where collection = ?")) {
 			pst2.setString(1, c.getName());
 			pst2.executeUpdate();
 		}
@@ -317,7 +317,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
-		try (PreparedStatement pst = con.prepareStatement("select * from collections")) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM collections")) {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> colls = new ArrayList<>();
 				while (rs.next()) {
@@ -332,7 +332,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void removeEdition(MagicEdition me, MagicCollection col) throws SQLException {
 		logger.debug("remove " + me + " from " + col);
-		try (PreparedStatement pst = con.prepareStatement("delete from cards where edition=? and collection=?")) {
+		try (PreparedStatement pst = con.prepareStatement("DELETE FROM cards where edition=? and collection=?")) {
 			pst.setString(1, me.getId());
 			pst.setString(2, col.getName());
 			pst.executeUpdate();
@@ -369,7 +369,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
 		logger.debug("remove " + state.size() + " items in stock");
 		StringBuilder st = new StringBuilder();
-		st.append("delete from stocks where idstock IN (");
+		st.append("DELETE FROM stocks where idstock IN (");
 		for (MagicCardStock sto : state) {
 			st.append(sto.getIdstock()).append(",");
 		}
@@ -386,7 +386,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		String sql = createListStockSQL(mc);
 		
 		if(editionStrict)
-			sql ="select * from stocks where collection=? and idmc=?";
+			sql ="SELECT * FROM stocks where collection=? and idmc=?";
 		
 		logger.trace("sql="+sql);
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
@@ -416,7 +416,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					state.setPrice(rs.getDouble("price"));
 					colls.add(state);
 				}
-				logger.trace("load " + colls.size() + " item from stock for " + mc);
+				logger.trace("load " + colls.size() + " item FROM stock for " + mc);
 				return colls;
 			}
 
@@ -425,7 +425,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 
 	public List<MagicCardStock> listStocks() throws SQLException {
-		try (PreparedStatement pst = con.prepareStatement("select * from stocks"); ResultSet rs = pst.executeQuery();) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM stocks"); ResultSet rs = pst.executeQuery();) {
 			List<MagicCardStock> colls = new ArrayList<>();
 			while (rs.next()) {
 				MagicCardStock state = new MagicCardStock();
@@ -515,7 +515,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void initAlerts() {
 
-		try (PreparedStatement pst = con.prepareStatement("select * from alerts")) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM alerts")) {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
@@ -563,8 +563,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws SQLException 
 	{
-		try (PreparedStatement pst = con.prepareStatement("delete from alerts where id=?")) {
-			logger.debug("delete from alerts where id="+alert.getId());
+		try (PreparedStatement pst = con.prepareStatement("DELETE FROM alerts where id=?")) {
+			logger.debug("DELETE FROM alerts where id="+alert.getId());
 			pst.setString(1, alert.getId());
 			int res = pst.executeUpdate();
 			logger.debug("delete alert " + alert + " ("+alert.getCard().getCurrentSet()+")="+res);
@@ -573,14 +573,14 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		if (listAlerts != null)
 		{
 			boolean res = listAlerts.remove(alert);
-			logger.debug("delete alert from list " + res);
+			logger.debug("delete alert FROM list " + res);
 		}
 
 	}
 
 	@Override
 	public List<MagicNews> listNews() {
-		try (PreparedStatement pst = con.prepareStatement("select * from news")) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM news")) {
 			List<MagicNews> news = new ArrayList<>();
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
@@ -603,7 +603,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteNews(MagicNews n) throws SQLException {
 		logger.debug("delete news " + n);
-		try (PreparedStatement pst = con.prepareStatement("delete from news where id=?")) {
+		try (PreparedStatement pst = con.prepareStatement("DELETE FROM news where id=?")) {
 			pst.setInt(1, n.getId());
 			pst.executeUpdate();
 		}
@@ -645,7 +645,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void initOrders() {
-		try (PreparedStatement pst = con.prepareStatement("select * from orders"); ResultSet rs = pst.executeQuery();) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM orders"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
 				OrderEntry state = new OrderEntry();
 				
@@ -681,7 +681,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
 		logger.debug("remove " + state.size() + " items in orders");
 		StringBuilder st = new StringBuilder();
-		st.append("delete from orders where id IN (");
+		st.append("DELETE FROM orders where id IN (");
 		for (OrderEntry sto : state) {
 			st.append(sto.getId()).append(",");
 		}
@@ -695,7 +695,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		if (listOrders != null)
 		{
 			boolean res = listOrders.removeAll(state);
-			logger.debug("delete orders from list " + res);
+			logger.debug("delete orders FROM list " + res);
 		}
 		
 	}
