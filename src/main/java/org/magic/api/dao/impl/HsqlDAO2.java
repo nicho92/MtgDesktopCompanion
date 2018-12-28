@@ -88,7 +88,6 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	public void initDefault() {
 		super.initDefault();
 		setProperty(SERVERNAME, MTGConstants.DATA_DIR.getAbsolutePath() + "/hsqldao");
-		setProperty(DB_NAME, "magicDB");
 		setProperty(LOGIN, "SA");
 		setProperty(PASS, "");
 	}

@@ -95,7 +95,8 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	public void initDefault() {
 		setProperty(SERVERPORT, "3306");
-		setProperty(DB_NAME, "mtgdesktopclient");
+		setProperty(LOGIN, "mysql");
+		setProperty(PASS, "mysql");
 		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
 		setProperty(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
 
