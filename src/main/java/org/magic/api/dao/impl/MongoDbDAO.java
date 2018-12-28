@@ -86,9 +86,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
-		client = new MongoClient(new ServerAddress(getString("SERVERNAME"), getInt("SERVERPORT")),
-				MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
-		db = client.getDatabase(getString("DB_NAME")).withCodecRegistry(pojoCodecRegistry);
+		client = new MongoClient(new ServerAddress(getString(SERVERNAME), getInt(SERVERPORT)),MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+		db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);
 
 		createDB();
 
@@ -228,7 +227,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCollection(MagicCollection c) throws SQLException {
-		db.getCollection(colCollects, MagicCollection.class).insertOne(c);
+		if(getCollection(c.getName())==null)
+			db.getCollection(colCollects, MagicCollection.class).insertOne(c);
+		else
+			throw new SQLException(c.getName() + " already exists");
 	}
 
 	@Override
@@ -238,9 +240,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		query.put(dbColIDField, c.getName());
 		DeleteResult dr = db.getCollection(colCards).deleteMany(query);
 		logger.trace(dr);
-		MongoCollection<MagicCollection> collection = db.getCollection(colCollects, MagicCollection.class);
-		collection.deleteOne(Filters.eq("name", c.getName()));
-
+		db.getCollection(colCollects, MagicCollection.class).deleteOne(Filters.eq("name", c.getName()));
 	}
 
 	@Override
@@ -265,7 +265,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getDBLocation() {
-		return client.getConnectPoint();
+		return getString(SERVERNAME)+":"+getInt(SERVERPORT);
 	}
 
 	@Override
@@ -321,7 +321,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
-		logger.debug("saving " + state);
+		logger.debug("saving stock " + state);
 		state.setUpdate(false);
 		if (state.getIdstock() == -1) {
 			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
@@ -384,7 +384,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
-		logger.debug("remove " + state.size() + " items in stock");
+		logger.debug("remove stocks : " + state.size() + " items");
 		for (MagicCardStock s : state) {
 			Bson filter = new Document("stockItem.idstock", s.getIdstock());
 			db.getCollection(colStocks).deleteOne(filter);
@@ -465,17 +465,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void initDefault() {
-		setProperty("SERVERNAME", "localhost");
-		setProperty("SERVERPORT", "27017");
-		setProperty("DB_NAME", "mtgdesktopcompanion");
-		setProperty("LOGIN", "login");
-		setProperty("PASS", "");
+		setProperty(SERVERNAME, "localhost");
+		setProperty(SERVERPORT, "27017");
+		setProperty(DB_NAME, "mtgdesktopcompanion");
+		setProperty(LOGIN, "login");
+		setProperty(PASS, "");
 
 	}
 
 	@Override
 	public String getVersion() {
-		return "3.8.2";
+		return "3.9.1";
 	}
 
 	@Override

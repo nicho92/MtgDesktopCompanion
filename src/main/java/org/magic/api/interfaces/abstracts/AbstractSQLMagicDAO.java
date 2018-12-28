@@ -32,12 +32,6 @@ import org.magic.tools.IDGenerator;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
-	protected static final String LOGIN = "LOGIN";
-	protected static final String PASS = "PASS";
-	protected static final String DB_NAME = "DB_NAME";
-	protected static final String PARAMS = "PARAMS";
-	protected static final String SERVERPORT = "SERVERPORT";
-	protected static final String SERVERNAME = "SERVERNAME";
 	
 	protected Connection con;
 	public abstract String getAutoIncrementKeyWord();

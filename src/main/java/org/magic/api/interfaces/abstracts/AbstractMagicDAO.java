@@ -23,6 +23,15 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
 
+	protected static final String LOGIN = "LOGIN";
+	protected static final String PASS = "PASS";
+	protected static final String DB_NAME = "DB_NAME";
+	protected static final String PARAMS = "PARAMS";
+	protected static final String SERVERPORT = "SERVERPORT";
+	protected static final String SERVERNAME = "SERVERNAME";
+
+	
+	
 	protected JsonExport serialiser;
 	
 	protected List<MagicCardAlert> listAlerts;
