@@ -52,10 +52,23 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	}
 
 
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		PostgresqlDAO dao = new PostgresqlDAO();
+		dao.init();
+	}
+	
+	
 	@Override
 	public long getDBSize() {
-		return 0;
-
+		
+		String sql="SELECT pg_database_size('"+getString(DB_NAME)+"');";
+		try (PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = pst.executeQuery();) {
+			rs.first();
+			return (long) rs.getDouble(1);
+		} catch (SQLException e) {
+			logger.error(e);
+			return 0;
+		}
 	}
 
 	@Override

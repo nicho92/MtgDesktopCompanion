@@ -197,13 +197,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 	
 	
-	public static void main(String[] args) throws SQLException {
-		MongoDbDAO dao = new MongoDbDAO();
-		dao.init();
-		dao.listCardsFromCollection(new MagicCollection("Library"));
-	}
-	
-
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
 	
