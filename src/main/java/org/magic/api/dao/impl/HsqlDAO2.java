@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -87,7 +88,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	@Override
 	public void initDefault() {
 		super.initDefault();
-		setProperty(SERVERNAME, MTGConstants.DATA_DIR.getAbsolutePath() + "/hsqldao");
+		setProperty(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"hsqldao").toFile().getAbsolutePath());
 		setProperty(LOGIN, "SA");
 		setProperty(PASS, "");
 	}

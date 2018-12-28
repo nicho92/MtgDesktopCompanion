@@ -469,7 +469,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 		if (state.getIdstock() < 0) {
 
-			logger.debug("save " + state);
+			logger.debug("save stock " + state);
 			try (PreparedStatement pst = con.prepareStatement(
 					"insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price) values (?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS)) {
@@ -550,7 +550,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
-		logger.debug("update " + alert);
+		logger.debug("update alert " + alert);
 		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=?,mcard=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
 			storeCard(pst, 2, alert.getCard());
@@ -704,7 +704,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
 
 		if (state.getId() < 0) {
-			logger.debug("save " + state);
+			logger.debug("save order " + state);
 			try (PreparedStatement pst = con.prepareStatement(
 					"INSERT INTO orders (idTransaction, description, edition, itemPrice, shippingPrice, currency, transactionDate, typeItem, typeTransaction, sources, seller)"
 				  + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -733,7 +733,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				logger.error("error insert " + state.getDescription() , e);
 			}
 		} else {
-			logger.debug("update Order " + state);
+			logger.debug("update order " + state);
 			try (PreparedStatement pst = con.prepareStatement(
 					"UPDATE orders SET "
 					+ "idTransaction= ?, description=?, edition=?,itemPrice=?,shippingPrice=?,currency=?,transactionDate=?,typeItem=?,typeTransaction=?,sources=?,seller=? "
