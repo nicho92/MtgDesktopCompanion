@@ -66,7 +66,7 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 		if (getString(MYSQL_DUMP_PATH).length() <= 0)
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 
-		if (!new File(getString(MYSQL_DUMP_PATH)).exists())
+		if (!getFile(MYSQL_DUMP_PATH).exists())
 			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
 
 		StringBuilder dumpCommand = new StringBuilder();

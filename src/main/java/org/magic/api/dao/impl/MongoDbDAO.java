@@ -28,23 +28,25 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
+import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Indexes;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 
-	private MongoClient client;
 	private MongoDatabase db;
 	private String colCards = "cards";
 	private String colShops = "shops";
@@ -65,6 +67,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbColIDField = "collection.name";
 	private String dbTypeNewsField = "typeNews";
 
+	private MongoClient client;
 
 	private <T> T deserialize(Object o, Class<T> classe) {
 		return serialiser.fromJson(o.toString(), classe);
@@ -81,18 +84,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	
-	public void init() throws SQLException, ClassNotFoundException {
+	public void init() throws SQLException {
 
-		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
-				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-
-		client = new MongoClient(new ServerAddress(getString(SERVERNAME), getInt(SERVERPORT)),MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
-		db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);
-
-		createDB();
-
-		logger.info("init " + getName() + " done");
-
+		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+			client = new MongoClient(new ServerAddress(getString(SERVERNAME), getInt(SERVERPORT)),MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+			db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);
+			createDB();
+			logger.info("init " + getName() + " done");
+		
 	}
 
 	public boolean createDB() {
@@ -105,15 +104,22 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.createCollection(colDecks);
 			db.createCollection(colNews);
 			db.createCollection(colOrders);
-			
-			for (String s : new String[] { "Library", "Needed", "For Sell", "Favorites" })
-				db.getCollection(colCollects, MagicCollection.class).insertOne(new MagicCollection(s));
-
-			return true;
 		} catch (Exception e) {
 			logger.debug(e);
 			return false;
 		}
+	
+		for (String s : new String[] { "Library", "Needed", "For Sell", "Favorites" })
+		{
+			try {
+			saveCollection(s);
+			}catch(Exception e)
+			{
+				//do nothing
+			}
+		}
+	
+		return true;
 
 	}
 
@@ -167,6 +173,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return map;
 	}
 
+
+	
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
 		return listCardsFromCollection(collection, null);
@@ -189,24 +197,33 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		}
 
 	}
+	
+	
+	public static void main(String[] args) throws SQLException {
+		MongoDbDAO dao = new MongoDbDAO();
+		dao.init();
+		dao.listCardsFromCollection(new MagicCollection("Library"));
+	}
+	
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		logger.debug("getCardsFromCollection " + collection + " " + me);
-
+	
 		BasicDBObject query = new BasicDBObject();
 		List<MagicCard> ret = new ArrayList<>();
-
+		
 		List<BasicDBObject> obj = new ArrayList<>();
-		obj.add(new BasicDBObject(dbColIDField, collection.getName()));
+		query.put(dbColIDField, collection.getName());
 
 		if (me != null) {
 			obj.add(new BasicDBObject(dbEditionField, me.getId().toUpperCase()));
 			query.put("$and", obj);
 		}
-
-		db.getCollection(colCards, BasicDBObject.class).find(query).forEach((Consumer<BasicDBObject>) result -> ret
-				.add(deserialize(result.get("card").toString(), MagicCard.class)));
+		Chrono c = new Chrono();
+		c.start();
+		db.getCollection(colCards, BasicDBObject.class).find(query).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MagicCard.class)));
+		logger.debug("list cards from " + collection + "/" + me + " :" + query+": done in "+c.stop()+"s.");
+		
 		return ret;
 	}
 

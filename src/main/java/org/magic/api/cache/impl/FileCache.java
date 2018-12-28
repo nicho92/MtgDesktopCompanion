@@ -32,7 +32,7 @@ public class FileCache extends AbstractCacheProvider {
 	public FileCache() {
 		super();
 
-		dir = new File(getString(DIRECTORY));
+		dir = getFile(DIRECTORY);
 		if (!dir.exists())
 			dir.mkdir();
 	}

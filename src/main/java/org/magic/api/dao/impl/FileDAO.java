@@ -47,7 +47,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void init() {
-		directory = new File(getString("URL"));
+		directory = getFile("URL");
 
 		if (!directory.exists())
 			directory.mkdir();

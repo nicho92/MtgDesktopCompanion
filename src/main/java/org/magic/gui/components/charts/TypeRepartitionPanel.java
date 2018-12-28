@@ -48,13 +48,15 @@ public class TypeRepartitionPanel extends JPanel {
 	}
 	public void init(List<MagicCard> cards) {
 		this.cards = cards;
-		
 		if(isVisible())
+		{
 			refresh();
+		}
 	}
 
 
 	private void refresh() {
+		
 		this.removeAll();
 		
 		if(cards==null)
