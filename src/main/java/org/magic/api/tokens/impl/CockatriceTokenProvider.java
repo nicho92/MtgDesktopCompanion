@@ -3,11 +3,9 @@ package org.magic.api.tokens.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -217,18 +215,17 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		logger.debug("found pics " + map);
 
 		try {
-			URLConnection connection;
-
 			if (map == null)
 				throw new NullPointerException("no pics found");
-
+			
+			URL u = null;
 			if (map.get(tok.getCurrentSet().getId()) != null) // error on
-				connection = URLTools.openConnection(map.get(tok.getCurrentSet().getId()));
+				u = map.get(tok.getCurrentSet().getId());
 			else
-				connection = URLTools.openConnection(map.get(map.keySet().iterator().next()));
+				u = map.get(map.keySet().iterator().next());
 
-			logger.debug("Load token pics : " + connection.getURL());
-			return ImageIO.read(connection.getInputStream());
+			logger.debug("Load token pics : " + u);
+			return URLTools.extractImage(u);
 		} catch (Exception e) {
 			logger.error("error pics reading for " + tok, e);
 			return MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
