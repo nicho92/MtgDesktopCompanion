@@ -33,6 +33,7 @@ public class CurrencyConverter {
 	
 	public Currency getCurrentCurrency()
 	{
+		
 		if(!MTGControler.getInstance().get("currency").isEmpty())
 			return Currency.getInstance(MTGControler.getInstance().get("currency"));
 		else
@@ -53,7 +54,6 @@ public class CurrencyConverter {
 	
 	public Double convert(String from, String to, double value)
 	{
-		
 		double ret=value;
 		try {
 			if(!from.equalsIgnoreCase("USD")&&!to.equalsIgnoreCase("USD"))
@@ -97,6 +97,10 @@ public class CurrencyConverter {
 		
 	}
 	
+	public boolean isEnable() {
+		return MTGControler.getInstance().get("currencylayer-converter-enable").equals("true");
+	}
+	
 	public void init() {
 		try {
 			JsonObject obj;
@@ -114,12 +118,12 @@ public class CurrencyConverter {
 			{
 				obj = new JsonParser().parse(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 			}
-			
 			obj.entrySet().forEach(entry->map.put(entry.getKey().substring(3),entry.getValue().getAsDouble()));
 		}
 		catch(Exception e)
 		{
 			logger.error("couldn't init CurrencyConverter :"+e);
+			MTGControler.getInstance().setProperty("/currencylayer-converter-enable","false");
 		}
 		
 	}

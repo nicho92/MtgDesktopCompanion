@@ -41,8 +41,10 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 		return getLocalePrice(me, card)
 								.stream()
 								.map(p->{
-											p.setValue(MTGControler.getInstance().getCurrencyService().convertTo(p.getCurrency(), p.getValue()));
-											p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+											if(MTGControler.getInstance().getCurrencyService().isEnable()) {
+												p.setValue(MTGControler.getInstance().getCurrencyService().convertTo(p.getCurrency(), p.getValue()));
+												p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+											}
 											return p;
 										}
 								).collect(Collectors.toList());

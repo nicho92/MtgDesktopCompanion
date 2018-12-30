@@ -58,7 +58,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	@Override
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition ed) throws IOException {
 		CardPriceVariations var = getOnlinePricesVariation(mc, ed);
-		if(var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		
+		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
 			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
 			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
@@ -109,13 +110,13 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	public static void convert(List<CardShake> ret)
 	{
 		ret.forEach(cs->{
-					
-					if(cs.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+					if(MTGControler.getInstance().getCurrencyService().isEnable() && cs.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 					{
 						cs.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPrice()));
 						cs.setPriceDayChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceDayChange()));
 						cs.setPriceWeekChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceWeekChange()));	
 					}
+			
 		});
 				
 	}

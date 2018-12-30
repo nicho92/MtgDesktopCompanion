@@ -162,17 +162,6 @@ public class MTGControler {
 			return lafService;
 		}
 	}
-	
-//	public FinancialBookService getFinancialService()
-//	{
-//		if (financialServices != null) {
-//			return financialServices;
-//		} else {
-//			financialServices = new FinancialBookService();
-//			return financialServices;
-//		}
-//	}
-//	
 
 	public LanguageService getLangService() {
 		if (langService != null) {

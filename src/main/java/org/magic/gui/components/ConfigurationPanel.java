@@ -391,21 +391,24 @@ public class ConfigurationPanel extends JPanel {
 		JTextField txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"),10);
 		JButton btnSaveCode = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		JButton btnUpdateCurrency = new JButton("Update Currency");
-		
+		JCheckBox chkEnablePriceConversion = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ENABLED"));
 		
 		if (MTGControler.getInstance().get(CURRENCY).isEmpty())
 			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
 		else
 			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get(CURRENCY)));
 		
-		
-		panelCurrency.add(lblCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
-		panelCurrency.add(cboCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelCurrency.add(chkEnablePriceConversion, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelCurrency.add(lblCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
+		panelCurrency.add(cboCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 0));
 		panelCurrency.add(lclCodeCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
 		panelCurrency.add(txtCurrencyFieldApiCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
 		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 1));
 		panelCurrency.add(btnUpdateCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
-
+		
+		chkEnablePriceConversion.getModel().setSelected(MTGControler.getInstance().get("/currencylayer-converter-enable").equals("true"));
+		
+		
 /////////////GUI BOX			
 		
 		JLabel lblGuiLocal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCALISATION") + " :");
@@ -458,6 +461,10 @@ public class ConfigurationPanel extends JPanel {
 
 		});
 		
+		
+		
+		
+		
 		cboCurrency.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem());
@@ -505,6 +512,9 @@ public class ConfigurationPanel extends JPanel {
 		});
 		
 		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
+		
+		chkEnablePriceConversion.addItemListener(ie -> MTGControler.getInstance().setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
+		
 		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(ae -> {
