@@ -1,15 +1,10 @@
 package org.magic.gui.components.charts;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
@@ -17,9 +12,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
 import org.magic.gui.abstracts.MTGUIChartComponent;
-import org.magic.services.MTGDeckManager;
 
 public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 
