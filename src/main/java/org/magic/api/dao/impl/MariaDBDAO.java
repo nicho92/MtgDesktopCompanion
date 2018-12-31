@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 
-public class MysqlDAO extends AbstractSQLMagicDAO {
+public class MariaDBDAO extends AbstractSQLMagicDAO {
 
-	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
+	private static final String MARIA_DUMP_PATH = "MARIA_DUMP_PATH";
 
 	@Override
 	protected String getAutoIncrementKeyWord() {
@@ -56,20 +56,20 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 
 	@Override
 	public String getName() {
-		return "MySQL";
+		return "MariaDB";
 	}
 	
 	@Override
 	public void backup(File f) throws SQLException, IOException {
 
-		if (getString(MYSQL_DUMP_PATH).length() <= 0)
-			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
+		if (getString(MARIA_DUMP_PATH).length() <= 0)
+			throw new NullPointerException("Please fill MARIA_DUMP_PATH var");
 
-		if (!getFile(MYSQL_DUMP_PATH).exists())
-			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
+		if (!getFile(MARIA_DUMP_PATH).exists())
+			throw new IOException(getString(MARIA_DUMP_PATH) + " doesn't exist");
 
 		StringBuilder dumpCommand = new StringBuilder();
-		dumpCommand.append(getString(MYSQL_DUMP_PATH)).append("/mysqldump ").append(getString(DB_NAME))
+		dumpCommand.append(getString(MARIA_DUMP_PATH)).append("/mysqldump ").append(getString(DB_NAME))
 				   .append(" -h ").append(getString(SERVERNAME))
 				   .append(" -u ").append(getString(LOGIN))
 				   .append(" -p").append(getString(PASS))
@@ -95,10 +95,10 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	public void initDefault() {
 		setProperty(SERVERPORT, "3306");
-		setProperty(LOGIN, "mysql");
-		setProperty(PASS, "mysql");
+		setProperty(LOGIN, "mariadb");
+		setProperty(PASS, "mariadb");
 		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
-		setProperty(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
+		setProperty(MARIA_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
 
 	}
 

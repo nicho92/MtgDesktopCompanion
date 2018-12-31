@@ -2,13 +2,8 @@ package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Map.Entry;
-
-import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -19,53 +14,22 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.services.MTGDeckManager;
+import org.magic.gui.abstracts.MTGUIChartComponent;
 
-public class TypeRepartitionPanel extends JPanel {
+public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private List<MagicCard> cards;
-	private transient MTGDeckManager manager;
-
-	public TypeRepartitionPanel() {
-		manager = new MTGDeckManager();
-		setLayout(new BorderLayout(0, 0));
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(cards);
-			}
-		});
+	
+	
+	@Override
+	public String getTitle() {
+		return "Types Chart";
 	}
 
-	public void init(MagicDeck deck) {
-		if(deck!=null)
-			init(deck.getAsList());
-	}
-	public void init(List<MagicCard> cards) {
-		this.cards = cards;
-		if(isVisible())
-		{
-			refresh();
-		}
-	}
-
-
-	private void refresh() {
+	@Override
+	public void drawGraph() {
 		
-		this.removeAll();
-		
-		if(cards==null)
-			return;
-		
-		JFreeChart chart = ChartFactory.createPieChart3D("Type repartition", // chart title
-				getTypeRepartitionDataSet(), // data
-				false, // include legend
-				true, true);
+		JFreeChart chart = ChartFactory.createPieChart3D("Type repartition", getDataSet(), false,true, true);
 
 		ChartPanel pane = new ChartPanel(chart);
 		this.add(pane, BorderLayout.CENTER);
@@ -81,15 +45,12 @@ public class TypeRepartitionPanel extends JPanel {
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),
 				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
-		
-		chart.fireChartChanged();
-		pane.revalidate();
 	}
 
 
-	private PieDataset getTypeRepartitionDataSet() {
+	private PieDataset getDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for (Entry<String, Integer> entry : manager.analyseTypes(cards).entrySet()) {
+		for (Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {
 			dataset.setValue(entry.getKey(), entry.getValue());
 		}
 

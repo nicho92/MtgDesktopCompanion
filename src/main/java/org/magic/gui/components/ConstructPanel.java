@@ -724,10 +724,10 @@ public class ConstructPanel extends JPanel {
 	protected void updatePanels() {
 
 		deckDetailsPanel.setMagicDeck(deck);
-		cmcChartPanel.init(deck);
+		cmcChartPanel.init(deck.getAsList());
 		typeRepartitionPanel.init(deck.getAsList());
-		manaRepartitionPanel.init(deck);
-		rarityRepartitionPanel.init(deck);
+		manaRepartitionPanel.init(deck.getAsList());
+		rarityRepartitionPanel.init(deck.getAsList());
 		deckPricePanel.initDeck(deck);
 		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(!deck.getAsList().isEmpty());

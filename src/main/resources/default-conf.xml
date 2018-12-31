@@ -288,6 +288,10 @@
             <enable>false</enable>
         </dao>
         <dao>
+            <class>org.magic.api.dao.impl.MariaDBDAO</class>
+            <enable>false</enable>
+        </dao>
+        <dao>
             <class>org.magic.api.dao.impl.PostgresqlDAO</class>
             <enable>false</enable>
         </dao>

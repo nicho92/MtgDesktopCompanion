@@ -56,7 +56,7 @@ public class JCSCache extends AbstractCacheProvider {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	

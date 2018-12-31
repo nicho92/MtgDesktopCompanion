@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -64,7 +65,7 @@ public class InstallCert {
 		String host;
 		int port;
 
-		File defaultF = new File(System.getProperty("java.home") + File.separatorChar + "lib" + File.separatorChar + "security");
+		File defaultF = Paths.get(System.getProperty("java.home"),"lib","security").toFile();
 		char[] phrase;
 		String[] c = website.split(":");
 		host = c[0];

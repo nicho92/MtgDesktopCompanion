@@ -8,8 +8,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.swing.JPanel;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,49 +18,24 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGDeckManager;
 
-public class ManaRepartitionPanel extends JPanel {
+public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private List<MagicCard> cards;
-	private transient MTGDeckManager manager;
-
-	public ManaRepartitionPanel() {
-		manager = new MTGDeckManager();
-		setLayout(new BorderLayout(0, 0));
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(cards);
-			}
-		});
-		
+	
+	
+	@Override
+	public String getTitle() {
+		return "Mana Chart";
 	}
 
-	public void init(MagicDeck deck) {
-		if(deck!=null)
-			init(deck.getAsList());
-
-	}
-
-	public void init(List<MagicCard> cards) {
-		this.cards = cards;
-		if(isVisible())
-			refresh();
-	}
-
-	private void refresh() {
-		this.removeAll();
-
-		if(cards==null)
-			return;
+	@Override
+	public void drawGraph() {
 		
 		JFreeChart chart = ChartFactory.createPieChart3D("Color repartition", // chart title
-				getManaRepartitionDataSet(), // data
+				getDataSet(), // data
 				false, // include legend
 				true, true);
 
@@ -90,14 +63,11 @@ public class ManaRepartitionPanel extends JPanel {
 				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
 
-		chart.fireChartChanged();
-		pane.revalidate();
-
 	}
 
-	private PieDataset getManaRepartitionDataSet() {
+	private PieDataset getDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for (Entry<String, Integer> data : manager.analyseColors(cards).entrySet()) {
+		for (Entry<String, Integer> data : manager.analyseColors(items).entrySet()) {
 			dataset.setValue(data.getKey(), data.getValue());
 
 		}

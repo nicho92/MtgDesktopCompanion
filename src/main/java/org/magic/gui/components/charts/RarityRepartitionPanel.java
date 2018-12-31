@@ -2,13 +2,8 @@ package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Map.Entry;
-
-import javax.swing.JPanel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jfree.chart.ChartFactory;
@@ -20,50 +15,22 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.services.MTGDeckManager;
+import org.magic.gui.abstracts.MTGUIChartComponent;
 
-public class RarityRepartitionPanel extends JPanel {
+public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private List<MagicCard> cards;
-	private transient MTGDeckManager manager;
 
-	public RarityRepartitionPanel() {
-		manager = new MTGDeckManager();
-		setLayout(new BorderLayout(0, 0));
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(cards);
-			}
-		});
+	
+	@Override
+	public String getTitle() {
+		return "Rarity Chart";
 	}
+	
+	@Override
+	public void drawGraph() {
 
-	public void init(MagicDeck deck) {
-		if(deck!=null)
-			init(deck.getAsList());
-	}
-
-	public void init(List<MagicCard> cards) {
-		this.cards = cards;
-		if(isVisible())
-			refresh();
-	}
-
-	private void refresh() {
-		this.removeAll();
-
-		if(cards==null)
-			return;
-		
-		JFreeChart chart = ChartFactory.createPieChart3D("Rarity repartition", // chart title
-				getRarityRepartitionDataSet(), // data
-				false, // include legend
-				true, true);
+		JFreeChart chart = ChartFactory.createPieChart3D("Rarity repartition", getDataSet(), false, true, true);
 
 		ChartPanel pane = new ChartPanel(chart);
 		this.add(pane, BorderLayout.CENTER);
@@ -76,14 +43,11 @@ public class RarityRepartitionPanel extends JPanel {
 
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
-		
-		chart.fireChartChanged();
-		pane.revalidate();
 	}
 
-	private PieDataset getRarityRepartitionDataSet() {
+	private PieDataset getDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for (Entry<String, Integer> data : manager.analyseRarities(cards).entrySet()) {
+		for (Entry<String, Integer> data : manager.analyseRarities(items).entrySet()) {
 			dataset.setValue(StringUtils.capitalize(data.getKey()), data.getValue());
 		}
 

@@ -145,7 +145,7 @@ public class JDeckChooserDialog extends JDialog {
 				initTree();
 				tagsPanel.clean();
 				tagsPanel.addTags(selectedDeck.getTags());
-				cmcChartPanel.init(selectedDeck);
+				cmcChartPanel.init(selectedDeck.getAsList());
 				cmcChartPanel.revalidate();
 				cmcChartPanel.repaint();
 
