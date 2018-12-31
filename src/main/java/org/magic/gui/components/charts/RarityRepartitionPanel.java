@@ -28,13 +28,8 @@ public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 	}
 	
 	@Override
-	public void drawGraph() {
-
+	public JFreeChart initChart() {
 		JFreeChart chart = ChartFactory.createPieChart3D("Rarity repartition", getDataSet(), false, true, true);
-
-		ChartPanel pane = new ChartPanel(chart);
-		this.add(pane, BorderLayout.CENTER);
-		
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Uncommon", Color.GRAY);
 		plot.setSectionPaint("Common", Color.WHITE);
@@ -43,6 +38,8 @@ public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
+		
+		return chart;
 	}
 
 	private PieDataset getDataSet() {

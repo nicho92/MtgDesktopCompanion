@@ -32,15 +32,12 @@ public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 	}
 
 	@Override
-	public void drawGraph() {
+	public JFreeChart initChart() {
 		
 		JFreeChart chart = ChartFactory.createPieChart3D("Color repartition", // chart title
 				getDataSet(), // data
 				false, // include legend
 				true, true);
-
-		ChartPanel pane = new ChartPanel(chart);
-		this.add(pane, BorderLayout.CENTER);
 		
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Black", Color.BLACK);
@@ -63,6 +60,7 @@ public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
 
+		return chart;
 	}
 
 	private PieDataset getDataSet() {

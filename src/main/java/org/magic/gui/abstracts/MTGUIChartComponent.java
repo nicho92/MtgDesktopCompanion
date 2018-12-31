@@ -16,7 +16,6 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	protected transient List<T> items;
 	protected transient MTGDeckManager manager;
-	protected JFreeChart chart;
 	protected ChartPanel chartPanel;
 	
 	
@@ -29,6 +28,11 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 		items = new ArrayList<>();
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout());
+	
+		chartPanel = new ChartPanel(null,true);
+		add(chartPanel, BorderLayout.CENTER);
+
+		
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
@@ -42,26 +46,26 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	public void init(List<T> items)
 	{
 		this.items = items;
-		if(isVisible() && items!=null)
+	
+		if(isVisible())
 			refresh();
 	}
 	
-	public abstract void drawGraph();
+	public abstract JFreeChart initChart();
 	
 	public void refresh()
 	{
-		removeAll();
-		
 		if(items==null)
 			return;
 		
-		drawGraph();
+		
+		JFreeChart chart = initChart();
+		chartPanel.setChart(chart);
 		
 		if(chart!=null)
 			chart.fireChartChanged();
 		
-		if(chartPanel!=null)
-			chartPanel.revalidate();
+		chartPanel.revalidate();
 	}
 
 

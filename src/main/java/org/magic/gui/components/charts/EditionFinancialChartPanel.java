@@ -19,43 +19,29 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
 
-public class EditionFinancialChartPanel extends JPanel {
+public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicEdition> cboEditions;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public EditionFinancialChartPanel() {
-		setLayout(new BorderLayout(0, 0));
-		JPanel panelEdition = new JPanel();
-		add(panelEdition, BorderLayout.NORTH);
 		cboEditions = UITools.createComboboxEditions();
-		panelEdition.add(cboEditions);
-		
+		add(cboEditions, BorderLayout.NORTH);
 		
 		cboEditions.addItemListener(il->refresh());
 	}
 
-	ChartPanel pane;
-
-	private void refresh() {
-		this.removeAll();
+	public JFreeChart initChart() {
 
 		if(cboEditions.getSelectedItem()==null)
-			return;
+			return null;
 		
-		JFreeChart chart = ChartFactory.createBarChart("BALANCE", "MOUV", "VALUE", getDataSet(),PlotOrientation.VERTICAL, true, true, false);
-		pane = new ChartPanel(chart);
-		this.add(pane, BorderLayout.CENTER);
-		chart.fireChartChanged();
-		pane.revalidate();
+		return ChartFactory.createBarChart("BALANCE", "MOUV", "VALUE", getDataSet(),PlotOrientation.VERTICAL, true, true, false);
 	}
 
 	public void init(MagicEdition ed) {
@@ -69,14 +55,14 @@ public class EditionFinancialChartPanel extends JPanel {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		try {
 			MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
-			List<OrderEntry> temp = MTGControler.getInstance().getEnabled(MTGDao.class).listOrderForEdition(ed);
+			items = MTGControler.getInstance().getEnabled(MTGDao.class).listOrderForEdition(ed);
 			List<CardShake> price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.stream().mapToDouble(CardShake::getPrice).sum();
 			
-			if(!temp.isEmpty()) {
-			totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),temp.get(0).getCurrency(), totalEd);
-			dataset.addValue(totalEd, "Actual Value", ed.getSet() );
-			dataset.addValue(getTotal(temp), "Paid", ed.getSet() );
+			if(!items.isEmpty()) {
+				totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),items.get(0).getCurrency(), totalEd);
+				dataset.addValue(totalEd, "Actual Value", ed.getSet() );
+				dataset.addValue(getTotal(items), "Paid", ed.getSet() );
 			}
 		}
 		catch(Exception e)
@@ -90,6 +76,11 @@ public class EditionFinancialChartPanel extends JPanel {
 	public double getTotal(List<OrderEntry> order)
 	{
 		return order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.BUY).mapToDouble(OrderEntry::getItemPrice).sum()-order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.SELL).mapToDouble(OrderEntry::getItemPrice).sum();
+	}
+
+	@Override
+	public String getTitle() {
+		return "Orders by Editions";
 	}
 	
 	

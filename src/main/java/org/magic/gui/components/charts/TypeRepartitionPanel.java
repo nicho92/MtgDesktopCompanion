@@ -27,12 +27,10 @@ public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
 	}
 
 	@Override
-	public void drawGraph() {
+	public JFreeChart initChart() {
 		
 		JFreeChart chart = ChartFactory.createPieChart3D("Type repartition", getDataSet(), false,true, true);
-
-		ChartPanel pane = new ChartPanel(chart);
-		this.add(pane, BorderLayout.CENTER);
+	
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("B", Color.BLACK);
 		plot.setSectionPaint("W", Color.WHITE);
@@ -45,6 +43,8 @@ public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),
 				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
+		
+		return chart;
 	}
 
 

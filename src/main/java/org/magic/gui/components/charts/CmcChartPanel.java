@@ -1,11 +1,10 @@
 package org.magic.gui.components.charts;
 
-import java.awt.BorderLayout;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -17,12 +16,8 @@ public class CmcChartPanel extends MTGUIChartComponent<MagicCard> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void drawGraph() {
-		chart = ChartFactory.createBarChart("Mana Curve", "cost", "number", getDataSet(),PlotOrientation.VERTICAL, true, true, false);
-		chartPanel = new ChartPanel(chart,true);
-		add(chartPanel, BorderLayout.CENTER);
-		chart.fireChartChanged();
-		chartPanel.revalidate();
+	public JFreeChart initChart() {
+		return ChartFactory.createBarChart("Mana Curve", "cost", "number", getDataSet(),PlotOrientation.VERTICAL, true, true, false);
 	}
 
 
