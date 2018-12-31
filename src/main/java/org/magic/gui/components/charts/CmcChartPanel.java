@@ -1,6 +1,5 @@
 package org.magic.gui.components.charts;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jfree.chart.ChartFactory;
@@ -23,8 +22,7 @@ public class CmcChartPanel extends MTGUIChartComponent<MagicCard> {
 
 	private CategoryDataset getDataSet() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		Map<Integer, Integer> temp = manager.analyseCMC(items);
-		for (Entry<Integer, Integer> k : temp.entrySet())
+		for (Entry<Integer, Integer> k : manager.analyseCMC(items).entrySet())
 			dataset.addValue(k.getValue(), "cmc", k.getKey());
 
 		return dataset;

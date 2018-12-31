@@ -17,7 +17,7 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	protected transient List<T> items;
 	protected transient MTGDeckManager manager;
 	protected ChartPanel chartPanel;
-	
+
 	
 	public MTGUIChartComponent() {
 		init();
@@ -28,7 +28,6 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 		items = new ArrayList<>();
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout());
-	
 		chartPanel = new ChartPanel(null,true);
 		add(chartPanel, BorderLayout.CENTER);
 
