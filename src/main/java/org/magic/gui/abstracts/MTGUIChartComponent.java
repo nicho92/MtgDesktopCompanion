@@ -39,6 +39,16 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 			}
 
 		});
+		
+		chartPanel.addMouseWheelListener(mwe -> {
+			if (mwe.getWheelRotation() > 0) {
+				chartPanel.zoomOutDomain(0.5, 0.5);
+
+			} else if (mwe.getWheelRotation() < 0) {
+				chartPanel.zoomInDomain(1.5, 1.5);
+			}
+		});
+
 	}
 	
 	
@@ -54,17 +64,13 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	
 	public void refresh()
 	{
-		if(items==null)
-			return;
-		
-		
+
 		JFreeChart chart = initChart();
 		chartPanel.setChart(chart);
 		
 		if(chart!=null)
 			chart.fireChartChanged();
-		
-		chartPanel.revalidate();
+
 	}
 
 

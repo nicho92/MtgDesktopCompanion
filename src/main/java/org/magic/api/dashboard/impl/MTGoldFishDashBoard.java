@@ -1,5 +1,6 @@
 package org.magic.api.dashboard.impl;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -215,8 +216,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 				list.add(cs);
 			}
-		} catch (Exception e) {
-			logger.error("error getting CardShake for " + edition + " " + e);
+		}
+		catch(FileNotFoundException ex){
+			logger.error(edition + " is not found");
+		}
+		catch (IndexOutOfBoundsException e) {
+			logger.error("error getting CardShake for " + edition,e);
 		}
 		
 		return list;

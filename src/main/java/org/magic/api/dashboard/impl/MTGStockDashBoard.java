@@ -47,7 +47,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if (!connected) {
 			initInterests();
 			initEds();
-			connected = true;
+			connected = true; 
 		}
 	}
 
@@ -87,7 +87,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		});
 		return cs;
 	}
-
+	
 	@Override
 	protected List<CardShake> getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 		connect();
@@ -123,7 +123,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			}
 			catch(Exception e)
 			{
-				logger.error("Error adding :" + el);
+				logger.error("Error adding :" + el +" :" + e);
 			}
 			list.add(cs);
 		}
@@ -221,11 +221,16 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				if (!el.getAsJsonObject().get("abbreviation").isJsonNull())
 					correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(),el.getAsJsonObject().get("id").getAsInt());
 				else
-					logger.trace("no id for" + el.getAsJsonObject().get("name"));
+					logger.error("no id for" + el.getAsJsonObject().get("name"));
 			});
 			logger.debug("init editions id done: " + correspondance.size() + " items");
 			
 		}
+		
+		
+		correspondance.put("FBB", 305);
+		correspondance.put("FWB", 306);
+		
 	}
 	
 

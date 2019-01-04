@@ -1,13 +1,11 @@
 package org.magic.gui.components.charts;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;

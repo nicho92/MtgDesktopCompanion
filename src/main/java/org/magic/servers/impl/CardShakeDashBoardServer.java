@@ -52,7 +52,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 					File dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
 					
 					for(File f : evaluator.getDirectory().listFiles(pathname->!pathname.isDirectory())){
-								FileUtils.moveFileToDirectory(f, dest, true);	
+							FileUtils.moveFileToDirectory(f, dest, true);	
 					}
 					
 					logger.debug("updating cache");
@@ -62,7 +62,6 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 				} catch (IOException e) {
 					logger.error(e);
 				}
-
 			}
 		};
 

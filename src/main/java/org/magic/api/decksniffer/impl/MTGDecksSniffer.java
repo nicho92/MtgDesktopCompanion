@@ -41,8 +41,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public String[] listFilter() {
-		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "MTGO", "Pauper", "Frontier",
-				"Peasant", "Highlander" };
+		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "MTGO", "Pauper", "Frontier",	"Peasant", "Highlander" };
 	}
 
 	@Override

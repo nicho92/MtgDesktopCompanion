@@ -3,20 +3,19 @@ package org.magic.gui.components.charts;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
@@ -29,11 +28,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
+import org.magic.tools.UITools;
 
-public class HistoryPricesPanel extends JPanel {
+public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 
 	/**
 	 * 
@@ -43,17 +43,19 @@ public class HistoryPricesPanel extends JPanel {
 	boolean showAll = false;
 	private JCheckBox chckbxShowEditions;
 	private JCheckBox chckbxShowAllDashboard;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private ChartPanel pane;
 	private transient CardPriceVariations cpVariations;
 	private String title;
 	private MagicCard mc;
 	private MagicEdition me;
 	
+	
+	@Override
+	public String getTitle() {
+		return "Price History Chart";
+	}
+	
+	
 	public HistoryPricesPanel(boolean showOption) {
-		setLayout(new BorderLayout(0, 0));
-		pane = new ChartPanel(null);
-		
 		
 		if(showOption) {
 		
@@ -70,27 +72,14 @@ public class HistoryPricesPanel extends JPanel {
 		chckbxShowEditions.setSelected(showEdition);
 		chckbxShowEditions.addActionListener(ae -> {
 			showEdition = chckbxShowEditions.isSelected();
-			try {
-				refresh();
-			} catch (IOException e) {
-				logger.error("error loading edition",e);
-			}
+			refresh();
 		});
-		GridBagConstraints gbcchckbxShowEditions = new GridBagConstraints();
-		gbcchckbxShowEditions.anchor = GridBagConstraints.NORTHWEST;
-		gbcchckbxShowEditions.insets = new Insets(0, 0, 5, 0);
-		gbcchckbxShowEditions.gridx = 0;
-		gbcchckbxShowEditions.gridy = 0;
-		panelActions.add(chckbxShowEditions, gbcchckbxShowEditions);
+		panelActions.add(chckbxShowEditions, UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
 
 		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
 		chckbxShowAllDashboard.addActionListener(ae -> {
 			showAll = chckbxShowAllDashboard.isSelected();
-			try {
-				refresh();
-			} catch (IOException e) {
-				logger.error("error reloading edition",e);
-			}
+			refresh();
 		});
 
 		GridBagConstraints gbcchckbxShowAllDashboard = new GridBagConstraints();
@@ -131,7 +120,8 @@ public class HistoryPricesPanel extends JPanel {
 		}
 	}
 
-	private void refresh() throws IOException {
+	@Override
+	public JFreeChart initChart() {
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 
@@ -158,17 +148,26 @@ public class HistoryPricesPanel extends JPanel {
 			}
 
 		} else {
-
-			for (Entry<Date, Double> d : cpVariations.entrySet())
-				series1.add(new Day(d.getKey()), d.getValue().doubleValue());
+			if(cpVariations!=null)
+				for (Entry<Date, Double> d : cpVariations.entrySet())
+					series1.add(new Day(d.getKey()), d.getValue().doubleValue());
 
 			dataset.addSeries(series1);
 		}
 
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", cpVariations.getCurrency().getSymbol(), dataset, true, true,false);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", dataset, true, true,false);
 
 		if (showEdition)
-				for (MagicEdition edition : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) 
+		{		
+			
+			List<MagicEdition> list = new ArrayList<>();
+			try {
+				list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+			
+				for (MagicEdition edition : list) 
 				{
 					try {	
 					Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
@@ -188,21 +187,9 @@ public class HistoryPricesPanel extends JPanel {
 				logger.error("error show eds " + edition+ " :" + e);
 			}
 				}
-		pane.setChart(chart);
-		pane.addMouseWheelListener(mwe -> {
-			if (mwe.getWheelRotation() > 0) {
-				pane.zoomOutDomain(0.5, 0.5);
-
-			} else if (mwe.getWheelRotation() < 0) {
-				pane.zoomInDomain(1.5, 1.5);
-			}
-		});
-		this.add(pane, BorderLayout.CENTER);
-		chart.fireChartChanged();
+		}
+		return chart;
 	}
 
-	public void zoom() {
-		// do nothing
-	}
 
 }

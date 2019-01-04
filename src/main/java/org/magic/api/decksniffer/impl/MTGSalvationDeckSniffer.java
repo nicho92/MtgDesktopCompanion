@@ -80,13 +80,14 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		List<String> elements = new ArrayList<>(Arrays.asList(plainDeck.split("\n")));
 		elements.remove(0);
+		String cardName = null;
 		for (String s : elements) {
 			if (s.toLowerCase().startsWith("sideboard")) {
 				sideboard = true;
 			} else if (s.length() > 1) {
 				try {
 					int qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
-					String cardName = s.substring(s.indexOf(' '), s.length()).trim();
+					cardName = s.substring(s.indexOf(' '), s.length()).trim();
 					MagicEdition ed = null;
 					if (MagicCard.isBasicLand(cardName)) {
 						ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
@@ -101,7 +102,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					notify(mc);
 
 				} catch (Exception e) {
-					logger.error(e);
+					logger.error("error getting" + cardName +" : " + e);
 				}
 			}
 		}
@@ -191,12 +192,10 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		
 		setProperty("URL", "https://www.mtgsalvation.com/");
 		setProperty("MAX_PAGE", "2");
 		setProperty("FORMAT", "Modern");
 		setProperty("FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
-
 	}
 
 	@Override

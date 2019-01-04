@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -85,7 +86,8 @@ public class CollectionEvaluator extends Observable
 	public void initCache(MagicEdition edition,List<CardShake> ret) throws IOException
 	{
 		try {
-			FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
+			if(!ret.isEmpty())
+				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
 		} catch (IOException e) {
 			logger.error(edition.getId() + " is not found",e);
 		}
@@ -100,8 +102,8 @@ public class CollectionEvaluator extends Observable
 				logger.debug("init cache for " + edition);
 				ret= MTGControler.getInstance().getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
 				initCache(edition,ret);
-			} catch (IOException e) {
-				logger.error(edition.getId() + " is not found",e);
+			} catch (FileNotFoundException e) {
+				logger.error(edition.getId() + " is not found " + e);
 			}
 			return ret;
 	}

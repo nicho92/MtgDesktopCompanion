@@ -18,10 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
-import org.magic.api.dao.impl.FileDAO;
 import org.magic.api.dao.impl.HsqlDAO2;
-import org.magic.api.dao.impl.MongoDbDAO;
-import org.magic.api.dao.impl.PostgresqlDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 

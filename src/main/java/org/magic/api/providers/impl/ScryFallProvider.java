@@ -187,19 +187,18 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicEdition getSetById(String id) throws IOException {
+		
 		if (cacheEditions.size() > 0) {
 			for (MagicEdition ed : cacheEditions.values())
 				if (ed.getId().equalsIgnoreCase(id))
 					try {
 						return (MagicEdition) BeanUtils.cloneBean(ed);
 					} catch (Exception e) {
-						throw new IOException(e);
+						new MagicEdition(id);
 					}
 		}
 		try {
-			JsonReader reader = new JsonReader(new InputStreamReader(
-					URLTools.openConnection(baseURI + "/sets/" + id.toLowerCase()).getInputStream(), MTGConstants.DEFAULT_ENCODING));
-			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+			JsonObject root =URLTools.extractJson(baseURI + "/sets/" + id.toLowerCase()).getAsJsonObject();
 			return generateEdition(root.getAsJsonObject());
 		} catch (Exception e) {
 			MagicEdition ed = new MagicEdition();

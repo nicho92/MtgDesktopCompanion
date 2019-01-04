@@ -12,6 +12,16 @@
         </layout>
     </appender>
    
+	<appender name="ROLEFILE" class="org.apache.log4j.RollingFileAppender">
+	    <param name="file" value="${user.home}/.magicDeskCompanion/logs/mtgcompanion.log" />
+	    <param name="MaxFileSize" value="10MB" />
+	    <param name="MaxBackupIndex" value="2" />
+	        <layout class="org.apache.log4j.PatternLayout">
+	            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c %L %x - %m%n" />
+	        </layout>
+	</appender>
+   
+   
     <appender name="FILE" class="org.apache.log4j.FileAppender">
         <param name="append" value="true"/>
         <param name="file" value="${user.home}/.magicDeskCompanion/logs/mtgcompanion.log"/>
@@ -32,6 +42,6 @@
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="APPS"/>
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="ROLEFILE"/>
     </root>
 </log4j:configuration>

@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.util.List;
 
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
@@ -21,7 +18,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
 
 public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> {
@@ -60,7 +56,7 @@ public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> 
 			double totalEd = price.stream().mapToDouble(CardShake::getPrice).sum();
 			
 			if(!items.isEmpty()) {
-				totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),items.get(0).getCurrency(), totalEd);
+			//	totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),items.get(0).getCurrency(), totalEd);
 				dataset.addValue(totalEd, "Actual Value", ed.getSet() );
 				dataset.addValue(getTotal(items), "Paid", ed.getSet() );
 			}

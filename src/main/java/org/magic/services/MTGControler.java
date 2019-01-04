@@ -72,9 +72,13 @@ public class MTGControler {
 		
 		
 		Parameters params = new Parameters();
-		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class).configure(params.xml()
-				.setFile(conf).setSchemaValidation(false)
-				.setValidating(false).setEncoding(MTGConstants.DEFAULT_ENCODING.displayName()).setExpressionEngine(new XPathExpressionEngine()));
+		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
+				.configure(params.xml()
+				.setFile(conf)
+				.setSchemaValidation(false)
+				.setValidating(false)
+				.setEncoding(MTGConstants.DEFAULT_ENCODING.displayName())
+				.setExpressionEngine(new XPathExpressionEngine()));
 
 		try {
 			config = builder.getConfiguration();

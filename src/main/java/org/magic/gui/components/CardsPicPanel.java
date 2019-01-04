@@ -72,6 +72,10 @@ public class CardsPicPanel extends JXPanel {
 
 		this.card = mc;
 
+		
+		if(card == null)
+			return;
+		
 		if (!mc.isTranformable()) 
 		{
 			back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
@@ -210,6 +214,9 @@ public class CardsPicPanel extends JXPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			if(card==null)
+				return;
+			
 			if (!launched) {
 				timer.start();
 				launched = true;
@@ -218,6 +225,9 @@ public class CardsPicPanel extends JXPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if(card==null)
+				return;
+			
 			if (selectedShape.contains(e.getPoint())) {
 				pointInitial = e.getPoint();
 				mainPanel.repaint();
@@ -226,6 +236,9 @@ public class CardsPicPanel extends JXPanel {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
+			if(card==null)
+				return;
+			
 			if (moveable && (selectedShape != null)) {
 				int deltaX = e.getX() - pointInitial.x;
 				int deltaY = e.getY() - pointInitial.y;

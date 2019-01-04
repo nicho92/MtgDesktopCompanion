@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
@@ -20,7 +18,6 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 	private static final int ENABLED_INDEX = 3;
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGPlugin selectedProvider = null;
 	private List<T> listElements;
 	private boolean multipleSelection = false;

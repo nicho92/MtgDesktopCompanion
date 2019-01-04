@@ -7,7 +7,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
