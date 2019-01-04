@@ -209,10 +209,16 @@ public class IconSetProvider {
 	}
 
 	public ImageIcon get24(String id) {
+		if(id==null)
+			return null;
+		
 		return cache24.get(id);
 	}
 
 	public ImageIcon get16(String id) {
+		if(id==null)
+			return null;
+		
 		return cache16.get(id);
 	}
 

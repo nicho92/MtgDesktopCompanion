@@ -66,6 +66,7 @@ public class OrdersGUI extends MTGUIComponent {
 			model.addItems(l);
 			calulate(l);
 			table.packAll();
+			UITools.initTableFilter(table);
 
 	}
 	
@@ -98,7 +99,6 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		
 		table.setModel(model);
-		UITools.initTableFilter(table);
 		setLayout(new BorderLayout(0, 0));
 	
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
@@ -148,6 +148,15 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		
 		
+		
+		add(panneauBas,BorderLayout.SOUTH);
+		
+		table.setSortOrder(2, SortOrder.DESCENDING);
+
+		ThreadManager.getInstance().execute(this::loadFinancialBook, "loading financial book");
+	
+		
+		
 		btnSaveOrder.addActionListener(ae->{
 			orderEntryPanel.save();
 			model.fireTableDataChanged();
@@ -173,16 +182,7 @@ public class OrdersGUI extends MTGUIComponent {
 			
 			
 		});
-		add(panneauBas,BorderLayout.SOUTH);
-		
-		
-		ThreadManager.getInstance().execute(this::loadFinancialBook, "loading financial book");
-		
-		
-		table.setSortOrder(2, SortOrder.DESCENDING);
-		
-		
-		
+			
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {

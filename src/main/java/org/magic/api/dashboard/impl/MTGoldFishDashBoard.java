@@ -55,7 +55,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		historyPrice.setCurrency(Currency.getInstance("USD"));
 		int index = 0;
 
-		if (me == null)
+		if (me == null && mc!=null)
 			me = mc.getCurrentSet();
 
 		if (mc == null) {
