@@ -195,8 +195,14 @@ public class UITools {
 	public static void initTableFilter(JTable table)
 	{
 		ThreadManager.getInstance().runInEdt(()->{
+			try {
 			TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
-			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);	
+			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+			}
+			catch(Exception e)
+			{
+				logger.error("error setting TableFilter to " + table);
+			}
 		});
 		
 	}

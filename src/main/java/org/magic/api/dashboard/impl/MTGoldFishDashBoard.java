@@ -52,12 +52,19 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		stop = false;
 		String url = "";
 		CardPriceVariations historyPrice = new CardPriceVariations(mc);
-		historyPrice.setCurrency(Currency.getInstance("USD"));
+		historyPrice.setCurrency(getCurrency());
 		int index = 0;
 
+		if(mc==null && me==null)
+			return historyPrice;
+		
+		
 		if (me == null && mc!=null)
 			me = mc.getCurrentSet();
 
+		
+		
+		
 		if (mc == null) {
 			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
 			index = 6;

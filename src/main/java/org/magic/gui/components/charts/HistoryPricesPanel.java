@@ -105,6 +105,10 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	public void init(MagicCard card, MagicEdition me, String title) {
 		this.mc = card;
 		this.me = me;
+		
+		if(card==null && me==null)
+			return;
+		
 		if(me==null)
 			me=card.getCurrentSet();
 		
