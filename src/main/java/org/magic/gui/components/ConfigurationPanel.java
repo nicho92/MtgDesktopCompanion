@@ -43,6 +43,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.gui.components.JTextFieldFileChooser;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.services.MTGConstants;
@@ -63,11 +64,11 @@ public class ConfigurationPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextFieldFileChooser txtDAOBackup;
 	private JComboBox<MTGDao> cboTargetDAO;
 	private JComboBox<MagicCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
-	private JTextField txtdirWebsite;
+	private JTextFieldFileChooser txtdirWebsite;
 	private JComboBox<MagicEdition> cboEditionLands;
 	private JTextField txtMinPrice;
 	private JCheckBox cbojsonView;
@@ -198,7 +199,7 @@ public class ConfigurationPanel extends JPanel {
 		
 /////////////DAO BOX		
 		JLabel lblBackupDao = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DAO_BACKUP") + " : ");
-		textField = new JTextField(10);
+		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
 		JButton btnBackup = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 		JLabel lblDuplicateDb = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",MTGControler.getInstance().getEnabled(MTGDao.class)));
 		JButton btnDuplicate = new JButton((MTGControler.getInstance().getLangService().getCapitalize("EXPORT")));
@@ -215,7 +216,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 		panelDAO.add(lblBackupDao, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
-		panelDAO.add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
+		panelDAO.add(txtDAOBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelDAO.add(btnBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
 		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
 		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
@@ -288,7 +289,7 @@ public class ConfigurationPanel extends JPanel {
 /////////////WEBSITE BOX		
 	
 		JLabel lblWebsiteDir = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DIRECTORY") + " :");
-		txtdirWebsite = new JTextField(MTGControler.getInstance().get("default-website-dir"),10);
+		txtdirWebsite = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
 		JButton btnWebsiteSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		JLabel lblAddWebsiteCertificate = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ADD_CERTIFICATE") + " :");
 		txtWebSiteCertificate = new JTextField("www.",10);
@@ -432,7 +433,6 @@ public class ConfigurationPanel extends JPanel {
 		chkToolTip.getModel().setSelected(MTGControler.getInstance().get("tooltip").equals("true"));
 		cboToolPosition.getModel().setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
 		
-		
 		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelGUI.add(lblCardsLanguage, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
@@ -536,7 +536,7 @@ public class ConfigurationPanel extends JPanel {
 			}
 		});
 
-		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getText()));
+		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getFile().getAbsolutePath()));
 
 		btnSavePrice.addActionListener(ae -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
 		
@@ -637,7 +637,7 @@ public class ConfigurationPanel extends JPanel {
 		ThreadManager.getInstance().execute(() -> {
 			try {
 				loading(true, "backup db " + MTGControler.getInstance().getEnabled(MTGDao.class) + " database");
-				MTGControler.getInstance().getEnabled(MTGDao.class).backup(new File(textField.getText()));
+				MTGControler.getInstance().getEnabled(MTGDao.class).backup(txtDAOBackup.getFile());
 				loading(false, "");
 
 			} catch (Exception e1) {

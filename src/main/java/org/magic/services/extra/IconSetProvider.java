@@ -183,6 +183,7 @@ public class IconSetProvider {
 		equiv.put("PWP10", "PMEI");
 		equiv.put("PWP11", "PMEI");
 		equiv.put("PWP12", "PMEI");
+		equiv.put("PF19", "PMEI");
 		equiv.put("DVD", "DDC");
 		equiv.put("EVG", "DD1");
 		equiv.put("GVL", "DDD");

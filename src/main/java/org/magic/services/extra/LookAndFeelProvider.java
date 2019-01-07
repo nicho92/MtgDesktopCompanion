@@ -130,7 +130,6 @@ public class LookAndFeelProvider {
 	    UIManager.put("TableHeader.font", myFont);
 	    UIManager.put("TextField.font", myFont);
 	    UIManager.put("Spinner.font", myFont);
-	    UIManager.put("PasswordField.font", myFont);
 	    UIManager.put("TextArea.font", myFont);
 	    UIManager.put("TextPane.font", myFont);
 	    UIManager.put("EditorPane.font", myFont);
