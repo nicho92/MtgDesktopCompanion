@@ -43,7 +43,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.gui.components.JTextFieldFileChooser;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.services.MTGConstants;
