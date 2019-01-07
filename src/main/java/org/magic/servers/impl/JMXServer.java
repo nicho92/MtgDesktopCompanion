@@ -219,7 +219,7 @@ public class JMXServer extends AbstractMTGServer {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/bean.png"));
+		return new ImageIcon(JMXServer.class.getResource("/icons/plugins/bean.png"));
 	}
 	
 }
