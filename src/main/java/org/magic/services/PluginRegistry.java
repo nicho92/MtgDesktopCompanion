@@ -13,8 +13,11 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.XMLConfiguration;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.PluginEntry;
+import org.magic.api.dao.impl.MongoDbDAO;
+import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -34,7 +37,7 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.gui.dashlet.BestTrendingDashlet;
 import org.reflections.Reflections;
 
 public class PluginRegistry {
@@ -88,18 +91,16 @@ public class PluginRegistry {
 	}
 	
 	
-	//TODO correct this for Dashlets and 
+	
+	public static void main(String[] args) {
+		PluginRegistry.inst().getEntryFor(new MysqlDAO());
+		PluginRegistry.inst().getEntryFor(new BestTrendingDashlet());
+		PluginRegistry.inst().getEntryFor(new MongoDbDAO());
+	}
+
 	public PluginEntry getEntryFor(Object k)
 	{
-		
-		if(k instanceof AbstractSQLMagicDAO)
-		{
-			return getEntry(k.getClass().getSuperclass().getSuperclass().getInterfaces()[0]);
-		}
-		else
-		{
-			return getEntry(k.getClass().getSuperclass().getInterfaces()[0]);
-		}
+		return getEntry(ClassUtils.getAllInterfaces(k.getClass()).get(0));
 	}
 	
 	public PluginEntry getEntry(Class p)

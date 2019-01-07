@@ -63,7 +63,7 @@ public class MariaDBDAO extends AbstractSQLMagicDAO {
 	public void backup(File f) throws SQLException, IOException {
 
 		if (getString(MARIA_DUMP_PATH).length() <= 0)
-			throw new NullPointerException("Please fill MARIA_DUMP_PATH var");
+			throw new NullPointerException("Please fill "+MARIA_DUMP_PATH+" var");
 
 		if (!getFile(MARIA_DUMP_PATH).exists())
 			throw new IOException(getString(MARIA_DUMP_PATH) + " doesn't exist");
