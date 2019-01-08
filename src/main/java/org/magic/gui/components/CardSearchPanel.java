@@ -535,7 +535,7 @@ public class CardSearchPanel extends MTGUIComponent {
 						}
 						catch(IllegalArgumentException e)
 						{
-							logger.error("error sorting result",e);
+							logger.error("error sorting result "+e);
 						}
 						open(cards);
 						return null;

@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
@@ -19,7 +21,7 @@ public class HandPanel extends DraggablePanel {
 	private GridBagConstraints c;
 	private int index = 0;
 	private int val = 7;
-	private transient Thread t;
+	private transient Future<Void> t;
 	private ZoneEnum origine = ZoneEnum.HAND;
 
 	@Override
@@ -74,8 +76,8 @@ public class HandPanel extends DraggablePanel {
 
 	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards, final boolean rightClick) {
 
-		if (t != null && t.isAlive())
-			t.interrupt();
+		if (t != null && !t.isDone())
+			t.cancel(true);
 
 		c.weightx = 1;
 		c.weighty = 1;
@@ -87,28 +89,24 @@ public class HandPanel extends DraggablePanel {
 		this.removeAll();
 		index = 0;
 
-		t = new Thread(() -> {
-
-			for (MagicCard mc : cards) {
-				
-
-				DisplayableCard lab = new DisplayableCard(mc, getCardsDimension(), activateCards, rightClick);
-				lab.setTappable(activateCards);
-
-				try {
-				
-					addComponent(lab);
-					revalidate();
-				} catch (Exception e) {
-					lab.setText(mc.getName());
-					lab.setBorder(new LineBorder(Color.BLACK));
+		
+		t = ThreadManager.getInstance().executeAsFuture(new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				for (MagicCard mc : cards) {
+					DisplayableCard lab = new DisplayableCard(mc, getCardsDimension(), activateCards, rightClick);
+					lab.setTappable(activateCards);
+					try {
+						addComponent(lab);
+						revalidate();
+					} catch (Exception e) {
+						lab.setText(mc.getName());
+						lab.setBorder(new LineBorder(Color.BLACK));
+					}
 				}
-
+				return null;
 			}
 		});
-
-		ThreadManager.getInstance().execute(t, "thumbnail");
-		
 	}
 
 	@Override

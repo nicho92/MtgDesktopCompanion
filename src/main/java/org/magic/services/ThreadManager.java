@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
@@ -8,7 +9,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.log4j.Logger;
 
 public class ThreadManager {
@@ -30,10 +30,19 @@ public class ThreadManager {
 	
 	public Future executeAsFuture(Runnable task)
 	{
+		Future<?> f = executor.submit(task);
+		log();
+		return f;
+	}
+	
+	
+	public Future executeAsFuture(Callable task)
+	{
 		Future f = executor.submit(task);
 		log();
 		return f;
 	}
+	
 		
 	public void execute(Runnable task, String name) {
 		this.name=name;
