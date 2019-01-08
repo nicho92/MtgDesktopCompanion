@@ -212,11 +212,12 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			}
 		}
 
-		logger.debug("found pics " + map);
-
 		try {
 			if (map == null)
-				throw new NullPointerException("no pics found");
+				{
+				logger.error("no pics found for" + tok);
+				return null;
+				}
 			
 			URL u = null;
 			if (map.get(tok.getCurrentSet().getId()) != null) // error on

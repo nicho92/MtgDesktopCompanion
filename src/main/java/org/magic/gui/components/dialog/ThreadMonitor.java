@@ -29,7 +29,6 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private ThreadsTableModel modelT;
 	private JButton btnRefresh;
 	private Timer t;
-	private JLabel lblThreads;
 	private JVMemoryPanel memoryPanel;
 	private JButton btnRunGC;
 	
@@ -51,15 +50,10 @@ public class ThreadMonitor extends MTGUIComponent  {
 			} else {
 				t.start();
 				btnRefresh.setText(MTGControler.getInstance().getLangService().getCapitalize("PAUSE"));
-				lblThreads.setText(ThreadManager.getInstance().getInfo());
 
 			}
 		});
 		panel.add(btnRefresh);
-
-		lblThreads = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
-		panel.add(lblThreads);
-
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 		

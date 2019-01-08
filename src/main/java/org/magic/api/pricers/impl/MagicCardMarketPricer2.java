@@ -207,7 +207,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			init();
 	
 		ThreadManager.getInstance().execute(() -> {
-			if (!p.isEmpty() && getString("AUTOMATIC_ADD_CARD_ALERT").equals("true")) {
+			if (!p.isEmpty() && getBoolean("AUTOMATIC_ADD_CARD_ALERT")) {
 				CartServices cart = new CartServices();
 				try {
 					List<Article> list = new ArrayList<>();

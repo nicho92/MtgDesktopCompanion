@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.ZoneEnum;
+import org.magic.services.ThreadManager;
 
 public class HandPanel extends DraggablePanel {
 
@@ -106,7 +107,8 @@ public class HandPanel extends DraggablePanel {
 			}
 		});
 
-		t.start();
+		ThreadManager.getInstance().execute(t, "thumbnail");
+		
 	}
 
 	@Override

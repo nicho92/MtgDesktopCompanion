@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.ThreadManager;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
@@ -451,7 +452,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			throw new IOException(e1);
 		}
 
-		new Thread(() -> {
+		ThreadManager.getInstance().execute(() -> {
 			try {
 				if (!mc.isBasicLand())
 					initOtherEdition(mc);
@@ -460,7 +461,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			} catch (Exception e) {
 				logger.error("error in initOtherEdition :" + e.getMessage());
 			}
-		}, "other editions").start();
+		}, "other editions");
 
 		notify(mc);
 		cacheCards.put(mc.getId(), mc);
@@ -470,7 +471,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	private void generateRules(MagicCard mc) throws IOException {
-		String url = "https://api.scryfall.com/cards/" + mc.getId() + "/rulings";
+		String url = getString("URL")+"/cards/" + mc.getId() + "/rulings";
 		HttpURLConnection con = URLTools.openConnection(url);
 
 		JsonElement el = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING)));

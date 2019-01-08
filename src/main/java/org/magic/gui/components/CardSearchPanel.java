@@ -45,6 +45,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.ThreadUtils;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
@@ -506,7 +507,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				return;
 			
 			cardsModeltable.clear();
-			new SwingWorker<Object, Object>() {
+			SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
 				protected Void doInBackground() {
 					lblLoading.start();
 					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
@@ -549,7 +550,10 @@ public class CardSearchPanel extends MTGUIComponent {
 					MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(ob);
 
 				}
-			}.execute();
+			};
+			
+			ThreadManager.getInstance().execute(sw);
+			
 		});
 
 		tableCards.addMouseListener(new MouseAdapter() {

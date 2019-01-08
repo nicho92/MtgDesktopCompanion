@@ -271,7 +271,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		try {
-			setMagicCard((MagicCard) BeanUtils.cloneBean(mc));
+			setMagicCard(mc);
 		} catch (Exception e1) {
 			logger.error(e1);
 		}
@@ -465,21 +465,23 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			this.magicCard = (MagicCard) BeanUtils.cloneBean(mc);
 		} catch (Exception e1) {
-			logger.error(e1);
+			logger.error("error setting " + mc, e1);
 		}
 
-		try {
-			if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
-				fullResPics = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
-			} else {
-				fullResPics = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
-
+		
+			try {
+				if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
+					fullResPics = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
+				} else {
+					fullResPics = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
+	
+				}
+	
+			} catch (Exception e) {
+				fullResPics = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 			}
-
-		} catch (Exception e) {
-			fullResPics = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
-		}
-		image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+	
+			image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 	}
 
 	public boolean isTapped() {
