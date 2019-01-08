@@ -8,9 +8,15 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
+	
 	public enum LAYOUT {
 		NORMAL, TOKEN, EMBLEM
 	}
+	
+	public enum COLOR {
+		WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR
+	}
+	
 	private static final long serialVersionUID = 1L;
 	private String name="";
 	private String id;

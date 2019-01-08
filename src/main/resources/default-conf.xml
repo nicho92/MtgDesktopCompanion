@@ -24,7 +24,7 @@
     <default-website-dir>.</default-website-dir>
     <keystore-name>jssecacerts</keystore-name>
     <keystore-pass>changeit</keystore-pass>
-    <default-land-deck>XLN</default-land-deck>
+    <default-land-deck>M19</default-land-deck>
     <min-price-alert>1</min-price-alert>
     <debug-json-panel>true</debug-json-panel>
     <lookAndFeel></lookAndFeel>

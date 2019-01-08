@@ -14,8 +14,9 @@ public class ServerLauncher {
 
 	protected static Logger logger = MTGLogger.getLogger(ServerLauncher.class);
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-		
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException 
+	{
+	
 		if(args.length==0)
 		{
 			logger.info("Usage : ServerLauncher <server name>");
