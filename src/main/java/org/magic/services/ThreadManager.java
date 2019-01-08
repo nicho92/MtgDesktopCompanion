@@ -28,14 +28,20 @@ public class ThreadManager {
 	
 	
 	
-	public Future<?> toFuture(Runnable task)
+	public Future executeAsFuture(Runnable task)
 	{
-		return executor.submit(task);
+		Future f = executor.submit(task);
+		log();
+		return f;
 	}
 		
 	public void execute(Runnable task, String name) {
 		this.name=name;
 		executor.execute(task);
+		log();
+	}
+	
+	private void log() {
 		logger.debug(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
@@ -43,10 +49,14 @@ public class ThreadManager {
 				executor.getCompletedTaskCount(),
 				executor.getTaskCount(), 
 				name));
+		
 	}
-	
+
+
+
 	public void execute(SwingWorker<?, ?> sw) {
 		sw.execute();
+		log();
 	}
 	
 	public void runInEdt(Runnable runnable) {
@@ -58,13 +68,10 @@ public class ThreadManager {
 
 	private ThreadManager() {
 		
-		ThreadFactory factory = new ThreadFactory() {
-			
+		factory = new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
-				Thread t = new Thread(r,"mtgThread-"+name);
-				t.setDaemon(true);
-				return t;
+				return new Thread(r,"MTGThread-"+name);
 			}
 		};
 		
