@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.services.ThreadManager;
 
 public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 
@@ -41,11 +42,11 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 
 
 	public void start(int max) {
-		setText(null);
-		progress.setValue(0);
-		progress.setMaximum(max);
-		progress.setIndeterminate(false);
-		setVisible(true);
+			setText(null);
+			progress.setValue(0);
+			progress.setMaximum(max);
+			progress.setIndeterminate(false);
+			setVisible(true);
 	}
 	
 	public void start() {

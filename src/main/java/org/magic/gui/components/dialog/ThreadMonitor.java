@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
@@ -17,7 +16,6 @@ import org.magic.gui.components.JVMemoryPanel;
 import org.magic.gui.models.ThreadsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
 public class ThreadMonitor extends MTGUIComponent  {

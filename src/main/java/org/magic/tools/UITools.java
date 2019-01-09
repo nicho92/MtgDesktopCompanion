@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 
@@ -194,17 +195,14 @@ public class UITools {
 
 	public static void initTableFilter(JTable table)
 	{
-		ThreadManager.getInstance().runInEdt(()->{
 			try {
-			TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
-			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+				TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
+				filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 			}
 			catch(Exception e)
 			{
-				logger.error("error setting TableFilter to " + table);
+				logger.error("error setting TableFilter of " + table.getName());
 			}
-		});
-		
 	}
 	
 	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {

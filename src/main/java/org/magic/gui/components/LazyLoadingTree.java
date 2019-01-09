@@ -16,6 +16,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.apache.commons.lang3.ThreadUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -24,6 +25,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
 
 public class LazyLoadingTree extends JTree {
@@ -126,7 +128,7 @@ public class LazyLoadingTree extends JTree {
 					super.done();
 				}
 			};
-			worker.execute();
+			ThreadManager.getInstance().execute(worker, "tree expand collection");
 
 		}
 
@@ -164,7 +166,8 @@ public class LazyLoadingTree extends JTree {
 					super.done();
 				}
 			};
-			worker.execute();
+			ThreadManager.getInstance().execute(worker, "tree expand edition");
+
 
 		}
 
@@ -195,7 +198,8 @@ public class LazyLoadingTree extends JTree {
 					super.done();
 				}
 			};
-			worker.execute();
+			ThreadManager.getInstance().execute(worker, "tree init editions");
+
 
 		}
 

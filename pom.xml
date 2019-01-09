@@ -48,32 +48,9 @@
 			<systemPath>${project.basedir}/lib/mkm-api-java-0.9.2.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.github.insubstantial</groupId>
-			<artifactId>trident</artifactId>
-			<version>7.0.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/trident-1.4.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.insubstantial</groupId>
-			<artifactId>substance</artifactId>
-			<version>7.0.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/substance-7.0.2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.insubstantial</groupId>
-		    <artifactId>laf-widget</artifactId>
-		    <version>7.0.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/laf-widget.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.insubstantial</groupId>
-    		<artifactId>laf-plugin</artifactId>
-   			<version>7.0.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/laf-plugin.jar</systemPath>
+		  <groupId>org.pushing-pixels</groupId>
+		  <artifactId>radiance-substance</artifactId>
+		  <version>1.0.2</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>

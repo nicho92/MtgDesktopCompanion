@@ -45,7 +45,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.ThreadUtils;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
@@ -494,12 +493,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		txtSearch.addActionListener(ae -> {
 
-			Observer ob = new Observer() {
-				@Override
-				public void update(Observable o, Object arg) {
-					cardsModeltable.addItem((MagicCard) arg);
-				}
-			};
+			Observer ob = ((Observable o, Object arg)->cardsModeltable.addItem((MagicCard) arg));
 			
 			
 			selectedEdition = null;
@@ -552,7 +546,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				}
 			};
 			
-			ThreadManager.getInstance().execute(sw);
+			ThreadManager.getInstance().execute(sw,"searching "+txtSearch.getText());
 			
 		});
 

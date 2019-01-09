@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
+import javax.swing.SwingWorker;
 
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
@@ -21,6 +22,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JProgressBar progressBar;
 
+	
 	public void start() {
 		setVisible(true);
 		progressBar.setValue(0);

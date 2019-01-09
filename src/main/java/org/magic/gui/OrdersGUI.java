@@ -245,21 +245,16 @@ public class OrdersGUI extends MTGUIComponent {
 			}
 		});
 		
-		btnSave.addActionListener(ae->{
-			
-				
-				model.getItems().stream().filter(OrderEntry::isUpdated).forEach(o->{
+		btnSave.addActionListener(ae->
+			model.getItems().stream().filter(OrderEntry::isUpdated).forEach(o->{
 					try {
 						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateOrderEntry(o);
 						o.setUpdated(false);
 
 					} catch (Exception e) {
 						MTGControler.getInstance().notify(new MTGNotification("ERROR", e));
-					}});
-				
-				
-			
-		});
+					}})
+		);
 		
 		btnImportTransaction.addActionListener(ae->{
 			OrderImporterDialog diag = new OrderImporterDialog();

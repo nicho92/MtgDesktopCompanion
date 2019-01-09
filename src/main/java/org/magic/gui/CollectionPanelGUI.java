@@ -281,8 +281,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		List<SortKey> keys = new ArrayList<>();
 		SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
 		keys.add(sortKey);
+		try {
 		sorterEditions.setSortKeys(keys);
-
+		}
+		catch(NullPointerException e)
+		{
+			logger.error(e);
+		}
 		tableEditions.packAll();
 
 		initPopupCollection();

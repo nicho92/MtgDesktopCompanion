@@ -21,7 +21,7 @@ public class GameClient {
 			f.setVisible(true);
 			f.pack();
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		});
+		},"Running Game Client");
 		
 		
 		
