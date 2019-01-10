@@ -37,8 +37,21 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	
 	public void progress()
 	{
-		setValue(getValue()+1);
+		progress(1);
 	}
+	
+	public void progressSmooth(int step)
+	{
+		for(int i=0;i<step;i++)
+			progress();
+	}
+	
+	
+	public void progress(int step)
+	{
+		setValue(getValue()+step);
+	}
+	
 	
 	@Override
 	public void update(Observable o, Object obj) {

@@ -25,6 +25,7 @@ public class ThreadManager {
 	private ThreadPoolExecutor executor;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
+	private List<Thread> threads;
 	private String name="";
 
 	public static ThreadManager getInstance() {
@@ -59,9 +60,9 @@ public class ThreadManager {
 	}
 
 	public void execute(SwingWorker<?, ?> sw,String name) {
-		 sw.addPropertyChangeListener((PropertyChangeEvent pce)->
-			logger.debug(pce.getSource().getClass() + ":" + pce.getOldValue()+"->"+pce.getNewValue())
-		);
+//		 sw.addPropertyChangeListener((PropertyChangeEvent pce)->
+//			logger.debug(pce.getSource().getClass().getName() + ":" + pce.getOldValue()+"->"+pce.getNewValue())
+//		);
 		runInEdt(sw,name);
 	}
 	
@@ -90,9 +91,27 @@ public class ThreadManager {
 				executor.getActiveCount(), 
 				executor.getCompletedTaskCount(),
 				executor.getTaskCount()));
+		
+		
+		threads.forEach(t->logger.debug("THREAD-" + t.getId()+"\t"+t.getName() +"\t" + t.isAlive()));
+		
+		
+		
 	}
 
 	private ThreadManager() {
+		
+		threads = new ArrayList<>();
+//		factory = new ThreadFactory() {
+//			
+//			@Override
+//			public Thread newThread(Runnable r) {
+//				Thread t = new Thread(r,name);
+//				threads.add(t);
+//				return t;
+//			}
+//		};
+		
 		factory = new ThreadFactoryBuilder().setNameFormat("mtg-threadpool-%d").setDaemon(true).build();
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}

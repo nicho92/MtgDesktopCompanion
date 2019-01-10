@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
@@ -35,18 +37,32 @@ public class BoosterPicsPanel extends JTabbedPane {
 		revalidate();
 		
 		if(ed!=null)
-			ThreadManager.getInstance().runInEdt(() -> adds(ed,provider.getBoostersUrl(ed)),"load booster pic for " + ed);
-	}
-
-	private void adds(MagicEdition ed, NodeList boostersUrl) {
-		for(int i =0; i<boostersUrl.getLength();i++)
 		{
-			try {
-				addTab(String.valueOf(i+1), new JLabel(new ImageIcon(resizeBooster(provider.getBoosterFor(ed, i)))));
-			}catch(Exception e)
-			{
-				logger.error(e);
-			}
+			SwingWorker<ImageIcon, ImageIcon> sw = new SwingWorker<ImageIcon, ImageIcon>() {
+				int n=1;
+				@Override
+				protected void process(List<ImageIcon> chunks) {
+					addTab(String.valueOf(n++), new JLabel(chunks.get(0)));
+				}
+				
+				@Override
+				protected ImageIcon doInBackground() throws Exception {
+					
+					NodeList l = provider.getBoostersUrl(ed);
+					for(int i =0; i<l.getLength();i++)
+					{
+						try {
+							publish(new ImageIcon(resizeBooster(provider.getBoosterFor(ed, i))));
+							
+						}catch(Exception e)
+						{
+							logger.error(e);
+						}
+					}
+					return null;
+				}
+			};
+			ThreadManager.getInstance().runInEdt(sw,"load booster pic for " + ed);
 		}
 	}
 

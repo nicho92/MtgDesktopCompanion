@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -30,6 +32,8 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 
 public class CardsEditionTablePanel extends JPanel {
@@ -138,6 +142,50 @@ public class CardsEditionTablePanel extends JPanel {
 			return;
 		
 		btnImport.setEnabled(false);
+		
+		buzy.start(currentEdition.getCardCount());
+		
+		SwingWorker<List<MagicCard>, MagicCard> sw = new SwingWorker<List<MagicCard>, MagicCard>() {
+			
+			Observer o;
+			@Override
+			protected void process(List<MagicCard> chunks) {
+				model.addItems(chunks);
+				buzy.progressSmooth(chunks.size());
+			}
+			
+			
+			@Override
+			protected List<MagicCard> doInBackground() throws Exception {
+				model.clear();
+				o=(Observable obs, Object c)->publish((MagicCard)c);
+				MTGControler.getInstance().getEnabled(MTGCardsProvider.class).addObserver(o);
+				List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(currentEdition);
+				Collections.sort(list, new CardsEditionSorter() );
+				return list;
+			}
+			
+			@Override
+			protected void done() {
+				
+				try {
+					model.init(get());
+					MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(o);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				buzy.end();
+			}
+			
+			
+		};
+		
+		ThreadManager.getInstance().execute(sw, "loading edition");
+		
+		
+		/*
+		
+		
 		ThreadManager.getInstance().execute(()->{
 				buzy.start(currentEdition.getCardCount());
 				try {
@@ -156,7 +204,7 @@ public class CardsEditionTablePanel extends JPanel {
 				MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(buzy);
 		}, "loading cards from " + currentEdition);
 		
-		
+		*/
 		
 	}
 	
