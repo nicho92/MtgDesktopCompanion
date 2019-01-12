@@ -58,6 +58,11 @@
 		    <version>2.3.0</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.xerial</groupId>
+		    <artifactId>sqlite-jdbc</artifactId>
+		    <version>3.25.2</version>
+		</dependency>
+		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-jcs-jcache</artifactId>
 		    <version>2.2.1</version>

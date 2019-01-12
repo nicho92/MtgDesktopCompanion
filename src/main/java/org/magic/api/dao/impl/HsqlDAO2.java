@@ -92,6 +92,5 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		setProperty(LOGIN, "SA");
 		setProperty(PASS, "");
 	}
-
 	
 }
