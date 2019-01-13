@@ -54,7 +54,7 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 
