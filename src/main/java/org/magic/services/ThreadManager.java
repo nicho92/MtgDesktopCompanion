@@ -76,6 +76,7 @@ public class ThreadManager {
 
 	public void runInEdt(Runnable runnable,String name) {
 		this.name=name;
+		logger.debug(name + " is running in EDT");
 		if (SwingUtilities.isEventDispatchThread())
 			executor.execute(runnable);
 		else
@@ -85,7 +86,7 @@ public class ThreadManager {
 	}
 	
 	private void log() {
-		logger.debug(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d", 
+		logger.trace(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
 				executor.getActiveCount(), 

@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -28,6 +29,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -63,6 +65,7 @@ import org.magic.game.model.factories.CountersFactory;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -270,11 +273,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 		setPreferredSize(d);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
-		try {
-			setMagicCard(mc);
-		} catch (Exception e1) {
-			logger.error(e1);
-		}
+		setMagicCard(mc);
+		
+		
 		if (activateCards) {
 			addMouseListener(new MouseAdapter() {
 				@Override
@@ -469,19 +470,44 @@ public class DisplayableCard extends JLabel implements Draggable {
 		}
 
 		
-			try {
-				if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
-					fullResPics = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
-				} else {
-					fullResPics = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
-	
+		SwingWorker<Image, Image> sw = new SwingWorker<Image, Image>()
+		{
+			Image temp = null;
+			@Override
+			protected Image doInBackground() throws Exception {
+				try {
+					if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
+						temp = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
+					} else {
+						temp = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
+					}
+					publish(temp);
+				} catch (Exception e) {
+					temp = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 				}
-	
-			} catch (Exception e) {
-				fullResPics = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
+				
+				
+				return temp;
 			}
-	
-			image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			
+			
+			@Override
+			protected void done() {
+				try {
+					fullResPics=get();
+					image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+					revalidate();
+					repaint();
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+			}
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw);
+		
+			
 	}
 
 	public boolean isTapped() {

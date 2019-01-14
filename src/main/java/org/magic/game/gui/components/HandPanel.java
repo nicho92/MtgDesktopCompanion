@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 import javax.swing.JLabel;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
@@ -21,7 +22,7 @@ public class HandPanel extends DraggablePanel {
 	private GridBagConstraints c;
 	private int index = 0;
 	private int val = 7;
-	private transient Future<Void> t;
+	private transient SwingWorker<Void, MagicCard> sw;
 	private ZoneEnum origine = ZoneEnum.HAND;
 
 	@Override
@@ -76,8 +77,8 @@ public class HandPanel extends DraggablePanel {
 
 	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards, final boolean rightClick) {
 
-		if (t != null && !t.isDone())
-			t.cancel(true);
+		if (sw != null && !sw.isDone())
+			sw.cancel(true);
 
 		c.weightx = 1;
 		c.weighty = 1;
@@ -88,25 +89,34 @@ public class HandPanel extends DraggablePanel {
 
 		this.removeAll();
 		index = 0;
-
 		
-		t = ThreadManager.getInstance().executeAsFuture(new Callable<Void>() {
+		sw = new SwingWorker<Void, MagicCard>()
+		{
+
 			@Override
-			public Void call() throws Exception {
-				for (MagicCard mc : cards) {
-					DisplayableCard lab = new DisplayableCard(mc, getCardsDimension(), activateCards, rightClick);
-					lab.setTappable(activateCards);
-					try {
+			protected void process(List<MagicCard> cards) {
+				for(MagicCard mc : cards) {
+						DisplayableCard lab = new DisplayableCard(mc, getCardsDimension(), activateCards, rightClick);
+						lab.setTappable(activateCards);
 						addComponent(lab);
 						revalidate();
-					} catch (Exception e) {
-						lab.setText(mc.getName());
-						lab.setBorder(new LineBorder(Color.BLACK));
-					}
 				}
+			}
+			
+			@Override
+			protected Void doInBackground() throws Exception {
+				publish(cards.toArray(new MagicCard[cards.size()]));
 				return null;
 			}
-		});
+			
+			@Override
+			protected void done() {
+				revalidate();
+				repaint();
+			}
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw);
 	}
 
 	@Override

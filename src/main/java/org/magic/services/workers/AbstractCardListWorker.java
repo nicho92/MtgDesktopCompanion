@@ -28,18 +28,13 @@ public abstract class AbstractCardListWorker extends SwingWorker<List<MagicCard>
 		model.clear();
 		o=(Observable obs, Object c)->publish((MagicCard)c);
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).addObserver(o);
-
 	}
-	
 	
 	@Override
 	protected void process(List<MagicCard> chunks) {
 		model.addItems(chunks);
 		buzy.progressSmooth(chunks.size());
-		
 	}
-	
-	
 	
 	@Override
 	protected void done() {

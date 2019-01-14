@@ -74,6 +74,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractCardListWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
@@ -493,23 +494,17 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		txtSearch.addActionListener(ae -> {
 
-			Observer ob = ((Observable o, Object arg)->cardsModeltable.addItem((MagicCard) arg));
-			
-			
 			selectedEdition = null;
 			if (txtSearch.getText().equals("") && !cboCollections.isVisible())
 				return;
 			
-			cardsModeltable.clear();
-			SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
-				protected Void doInBackground() {
-					lblLoading.start();
-					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
-					String searchName = txtSearch.getText().trim();
+			lblLoading.start();
+			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
+			
+			SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardListWorker(cardsModeltable,lblLoading) {
+				protected List<MagicCard> doInBackground() {
 					
-						List<MagicCard> cards = null;
-						MTGControler.getInstance().getEnabled(MTGCardsProvider.class).addObserver(ob);
-
+						String searchName = txtSearch.getText().trim();
 						try {
 						if (cboCollections.isVisible())
 							cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
@@ -522,8 +517,6 @@ public class CardSearchPanel extends MTGUIComponent {
 						} catch (SQLException e) {
 							logger.error("Error in dao for "+ searchName,e);
 						}
-						
-						
 						try {
 							Collections.sort(cards, new CardsEditionSorter());
 						}
@@ -531,18 +524,15 @@ public class CardSearchPanel extends MTGUIComponent {
 						{
 							logger.error("error sorting result "+e);
 						}
-						open(cards);
-						return null;
+						
+						return cards;
 				}
 
 				@Override
 				protected void done() {
 					super.done();
-					lblLoading.end();
-					cardsModeltable.fireTableDataChanged();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-					MTGControler.getInstance().getEnabled(MTGCardsProvider.class).removeObserver(ob);
-
+					open(cards);
 				}
 			};
 			
