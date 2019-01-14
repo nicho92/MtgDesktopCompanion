@@ -189,6 +189,12 @@ public class IconSetProvider {
 		equiv.put("GVL", "DDD");
 		equiv.put("JVC", "DD2");
 		equiv.put("PUMA", "UMA");
+		equiv.put("OPC2", "PC2");
+		equiv.put("OE01", "E01");
+		equiv.put("OHOP", "HOP");
+		equiv.put("OPCA", "PCA");
+		equiv.put("MED", "MPS_MED");
+		
 		
 	}
 	
