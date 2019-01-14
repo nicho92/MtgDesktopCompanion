@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -23,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
@@ -614,46 +616,59 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		if(magicCard!=null)
 		{
 			
-			ThreadManager.getInstance().runInEdt(()->{
 				panelSwitchLangage.removeAll();
 				panelSwitchLangage.revalidate();
 			
-				magicCard.getForeignNames().forEach(fn->{
-					JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
-					tglLangButton.setActionCommand(fn.getLanguage());
-					AbstractAction act = new AbstractAction() {
-						private static final long serialVersionUID = 1L;
-						@Override
-						public void actionPerformed(ActionEvent ae) {
-							txtTextPane.setText(fn.getText());
-							txtTextPane.updateTextWithIcons();
-							nameJTextField.setText(fn.getName());
-							fullTypeJTextField.setText(fn.getType());
-							txtFlavorArea.setText(fn.getFlavor());
-							if (thumbnail)
-							{
-								ThreadManager.getInstance().execute(() -> loadPics(fn,magicCard),"load pics");
-							}
+				SwingWorker<Void, MagicCardNames> sw = new SwingWorker<Void, MagicCardNames>(){
+
+					@Override
+					protected void process(List<MagicCardNames> chunks) {
+						
+						chunks.forEach(fn->{
+							JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
+							tglLangButton.setActionCommand(fn.getLanguage());
+							AbstractAction act = new AbstractAction() {
+								private static final long serialVersionUID = 1L;
+								@Override
+								public void actionPerformed(ActionEvent ae) {
+									txtTextPane.setText(fn.getText());
+									txtTextPane.updateTextWithIcons();
+									nameJTextField.setText(fn.getName());
+									fullTypeJTextField.setText(fn.getType());
+									txtFlavorArea.setText(fn.getFlavor());
+									if (thumbnail)
+									{
+										ThreadManager.getInstance().execute(() -> loadPics(fn,magicCard),"load pics");
+									}
+									
+									
+									
+								}
+							};
+							act.putValue(Action.NAME, fn.getLanguage());
 							
+							tglLangButton.setActionCommand(fn.getLanguage());
+							tglLangButton.setAction(act);
+							group.add(tglLangButton);
+							panelSwitchLangage.add(tglLangButton);
 							
+							if(fn.getGathererId()>0 && fn.getLanguage().equalsIgnoreCase(MTGControler.getInstance().get("langage")))
+								tglLangButton.doClick();
 							
-						}
-					};
-					act.putValue(Action.NAME, fn.getLanguage());
+						});
 					
-					tglLangButton.setActionCommand(fn.getLanguage());
-					tglLangButton.setAction(act);
-					group.add(tglLangButton);
-					panelSwitchLangage.add(tglLangButton);
 					
-					if(fn.getGathererId()>0 && fn.getLanguage().equalsIgnoreCase(MTGControler.getInstance().get("langage")))
-						tglLangButton.doClick();
 					
-				});
+					}
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						publish(magicCard.getForeignNames().toArray(new MagicCardNames[magicCard.getForeignNames().size()]));
+						return null;
+					}
+				};
 				
-			}	
-			);
-			
+				ThreadManager.getInstance().runInEdt(sw);
 			
 		}
 		
