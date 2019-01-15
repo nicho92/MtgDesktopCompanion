@@ -11,6 +11,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -172,16 +174,14 @@ public class JTagsPanel extends JComponent {
 	}
 	
 	private void addLabel(String s) {
-		ThreadManager.getInstance().runInEdt(()->{
-				TagLabel tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
-			
-				if (isEditable)
-					tab.addMouseListener(new TagMouseListener(tab));
+		TagLabel tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
+	
+		if (isEditable)
+			tab.addMouseListener(new TagMouseListener(tab));
 
-				panelTags.add(tab);
-				revalidate();
-				repaint();
-		});
+		panelTags.add(tab);
+		revalidate();
+		repaint();
 	}
 
 	

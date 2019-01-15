@@ -74,11 +74,9 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import org.magic.services.workers.AbstractCardListWorker;
+import org.magic.services.workers.AbstractCardTableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class CardSearchPanel extends MTGUIComponent {
 
@@ -501,7 +499,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			lblLoading.start();
 			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 			
-			SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardListWorker(cardsModeltable,lblLoading) {
+			SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardTableWorker(cardsModeltable,lblLoading) {
 				protected List<MagicCard> doInBackground() {
 					
 						String searchName = txtSearch.getText().trim();

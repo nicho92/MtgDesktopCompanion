@@ -69,14 +69,13 @@ public class ThreadManager {
 	
 	
 	public void runInEdt(Runnable runnable) {
-		runInEdt(runnable, "EDT-Thread");
+		runInEdt(runnable, "MTGThread");
 	}
 	
 		
 
 	public void runInEdt(Runnable runnable,String name) {
-		this.name=name;
-		logger.debug(name + " is running in EDT");
+		this.name="EDT-"+name;
 		if (SwingUtilities.isEventDispatchThread())
 			executor.execute(runnable);
 		else

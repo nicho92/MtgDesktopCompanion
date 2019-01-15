@@ -35,6 +35,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
@@ -73,6 +74,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractCardListWorker;
 import org.magic.tools.UITools;
 
 public class ConstructPanel extends JPanel {
@@ -92,6 +94,7 @@ public class ConstructPanel extends JPanel {
 	private DeckPricePanel deckPricePanel;
 	private DeckCardsTableModel deckSidemodel;
 	private DeckCardsTableModel deckmodel;
+	private AbstractBuzyIndicatorComponent buzy;
 	private MagicDeck deck;
 	private JButton btnExports;
 	private transient MTGDeckManager deckManager;
@@ -154,7 +157,7 @@ public class ConstructPanel extends JPanel {
 		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnExports = new JButton();
 		stockPanel = new DeckStockComparatorPanel();
-		
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		
 		
@@ -172,6 +175,8 @@ public class ConstructPanel extends JPanel {
 
 
 		panneauHaut.add(txtSearch);
+		panneauHaut.add(buzy);
+		
 		txtSearch.setColumns(25);
 
 		panneauHaut.add(lblCards);
@@ -596,35 +601,39 @@ public class ConstructPanel extends JPanel {
 			if (txtSearch.getText().equals(""))
 				return;
 
-			resultListModel.removeAllElements();
+			buzy.start();
+			SwingWorker<List<MagicCard>,MagicCard> sw = new AbstractCardListWorker(resultListModel,buzy)
+			{
+				@Override
+				protected List<MagicCard> doInBackground() throws Exception {
+					return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(cboAttributs.getSelectedItem().toString(), txtSearch.getText(), null, false);
+				}
 
-			ThreadManager.getInstance().execute(() -> {
-				try {
-					String searchName = txtSearch.getText();
-					List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-							.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null, false);
+				@Override
+				protected void process(List<MagicCard> chunks) {
 					MagicFormat form = new MagicFormat();
-
-					for (MagicCard m : cards) {
+					for (MagicCard m : chunks) {
 						if (groupsFilterResult.getSelection() != null) {
 							form.setFormat(groupsFilterResult.getSelection().getActionCommand());
 							if (m.getLegalities().contains(form))
-								resultListModel.addElement(m);
+								model.addElement(m);
 						} else {
-							resultListModel.addElement(m);
+							model.addElement(m);
 						}
 					}
-					lblCards.setText(
-							resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
-					listResult.setModel(resultListModel);
-					listResult.updateUI();
-
-				} catch (Exception e) {
-					MTGControler.getInstance()
-							.notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
+					buzy.progressSmooth(chunks.size());
 				}
 
-			}, "search deck");
+				@Override
+				protected void done() {
+					super.done();
+					lblCards.setText(model.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
+					listResult.setModel(model);
+					listResult.updateUI();
+				}
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw,"search cards for deck");
 
 		});
 	}

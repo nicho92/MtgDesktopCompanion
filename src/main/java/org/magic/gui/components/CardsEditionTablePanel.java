@@ -3,11 +3,9 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,11 +28,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.services.workers.AbstractCardListWorker;
+import org.magic.services.workers.AbstractCardTableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 
 public class CardsEditionTablePanel extends JPanel {
@@ -145,7 +141,7 @@ public class CardsEditionTablePanel extends JPanel {
 		btnImport.setEnabled(false);
 		buzy.start(currentEdition.getCardCount());
 		
-		SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardListWorker(model,buzy) {
+		SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardTableWorker(model,buzy) {
 			
 			@Override
 			protected List<MagicCard> doInBackground() throws Exception {
