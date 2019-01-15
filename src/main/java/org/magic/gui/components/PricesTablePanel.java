@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -111,26 +112,51 @@ public class PricesTablePanel extends JPanel {
 		
 		if(isVisible()&&card!=null)
 		{
-				ThreadManager.getInstance().execute(() -> {
-					
-						List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
-						lblLoading.start(providers.size());
-						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
-						model.clear();
-						for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
-						{
-							try {
-							model.addItems(prov.getPrice(currentEd,currentCard));
-							lblLoading.progress();
-							}
-							catch(Exception e)
-							{
-								logger.error("error with " + prov + ":" + e);
-								lblLoading.end();
-							}
+			
+			List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
+			lblLoading.start(providers.size());
+			
+			
+			SwingWorker<List<MagicPrice>, MagicPrice> sw = new SwingWorker<List<MagicPrice>, MagicPrice>()
+			{
+				@Override
+				protected List<MagicPrice> doInBackground() throws Exception {
+					model.clear();
+					List<MagicPrice> list = new ArrayList<>();
+					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
+					for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
+					{
+						try {
+						
+						List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
+						publish(l.toArray(new MagicPrice[l.size()]));
+						list.addAll(l);
 						}
-						lblLoading.end();
-				}, "addTreeSelectionListener init graph cards");
+						catch(Exception e)
+						{
+							logger.error("error with " + prov + ":" + e);
+						}
+					}
+					return list;
+				}
+				
+				
+				@Override
+				protected void process(List<MagicPrice> chunks) {
+					model.addItems(chunks);
+					lblLoading.progress();
+				}
+				
+				@Override
+				protected void done() {
+					lblLoading.end();
+				}
+		
+			};
+			
+			
+			
+			ThreadManager.getInstance().runInEdt(sw,"loading prices");
 		}
 		
 	}
