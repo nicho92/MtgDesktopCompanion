@@ -41,7 +41,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
 		
-		if(cacheBoosterCards.get(ed.getId()) != null || !cacheBoosterCards.isEmpty())
+		if(cacheBoosterCards.get(ed.getId()) != null)
 			return cacheBoosterCards.get(ed.getId());
 		
 		cacheBoosterCards.put(ed.getId(), searchCardByCriteria("set", ed.getId(), null, false));
