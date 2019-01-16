@@ -18,7 +18,7 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class CardExportWorker extends SwingWorker<Void, MagicCard> {
+public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
@@ -26,26 +26,12 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 	protected List<MagicCard> cards = null;
 	protected AbstractBuzyIndicatorComponent buzy;
 	private File f;
-	private MagicDeck export;
 	private Exception err;
 	
-	
-	
-	public CardExportWorker(MTGCardsExport exp,List<MagicCard> export,AbstractBuzyIndicatorComponent buzy,File f) {
+	public DeckImportWorker(MTGCardsExport exp,AbstractBuzyIndicatorComponent buzy,File f) {
 		this.exp=exp;
 		this.buzy=buzy;
 		this.f=f;
-		this.export=AbstractCardExport.toDeck(export);
-		err=null;
-		o=(Observable obs, Object c)->publish((MagicCard)c);
-		exp.addObserver(o);
-	}
-	
-	public CardExportWorker(MTGCardsExport exp,MagicDeck export,AbstractBuzyIndicatorComponent buzy,File f) {
-		this.exp=exp;
-		this.buzy=buzy;
-		this.f=f;
-		this.export=export;
 		err=null;
 		o=(Observable obs, Object c)->publish((MagicCard)c);
 		exp.addObserver(o);
@@ -54,9 +40,9 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 	
 	
 	@Override
-	protected Void doInBackground(){
+	protected MagicDeck doInBackground(){
 		try {
-			exp.export(export, f);
+			exp.importDeck(f);
 		} catch (Exception e) {
 			err=e;
 			logger.error("error export with " + exp,e);

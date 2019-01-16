@@ -64,6 +64,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.models.DeckCardsTableModel;
+import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
@@ -75,6 +76,7 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractCardListWorker;
+import org.magic.services.workers.CardExportWorker;
 import org.magic.tools.UITools;
 
 public class ConstructPanel extends JPanel {
@@ -123,6 +125,7 @@ public class ConstructPanel extends JPanel {
 		deckDetailsPanel.setMagicDeck(deck);
 		deckDetailsPanel.updatePicture();
 		deckmodel.init(deck);
+		deckSidemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
 		p = new Player(deck);
 	}
@@ -286,86 +289,7 @@ public class ConstructPanel extends JPanel {
 
 			btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DECK_IMPORT_AS"));
 
-		btnImport.addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
-
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
-					it.addActionListener(itEvent -> {
-						JFileChooser jf = new JFileChooser(".");
-						jf.setFileFilter(new FileFilter() {
-							@Override
-							public String getDescription() {
-								return exp.getName();
-							}
-
-							@Override
-							public boolean accept(File f) {
-								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
-							}
-						});
-
-						int res = -1;
-						f = new File("");
-
-						if (!exp.needDialogGUI()) {
-							res = jf.showOpenDialog(null);
-							f = jf.getSelectedFile();
-						} else {
-							res = JFileChooser.APPROVE_OPTION;
-
-						}
-
-						if (res == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(() -> {
-								try {
-									buzyLabel.start();
-									buzyLabel.setText(MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
-									exp.addObserver(buzyLabel);
-									
-									deck = exp.importDeck(f);
-
-									MTGControler.getInstance()
-											.notify(new MTGNotification(
-													MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
-													exp.getName() + " "
-															+ MTGControler.getInstance().getLangService().get(FINISHED),
-													MESSAGE_TYPE.INFO));
-									setDeck(deck);
-									buzyLabel.end();
-									deckmodel.init(deck);
-									deckSidemodel.init(deck);
-									setDeck(deck);
-									updatePanels();
-
-								} catch (Exception e) {
-									logger.error("error import", e);
-									buzyLabel.end();
-									MTGControler.getInstance().notify(new MTGNotification(
-											MTGControler.getInstance().getLangService().getError(), e));
-								}
-								finally {
-									exp.removeObserver(buzyLabel);
-								}
-
-							}, "import " + exp);
-
-					});
-
-					menu.add(it);
-
-				}
-			}
-
-			Component b = (Component) ae.getSource();
-			Point point = b.getLocationOnScreen();
-			menu.show(b, 0, 0);
-			menu.setLocation(point.x, point.y + b.getHeight());
-
-		});
+		
 
 		panneauHaut.add(btnImport);
 
@@ -373,55 +297,6 @@ public class ConstructPanel extends JPanel {
 		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
 		btnExports.setIcon(MTGConstants.ICON_EXPORT);
 
-		btnExports.addActionListener(exportsAction -> {
-			JPopupMenu menu = new JPopupMenu();
-
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
-					it.addActionListener(pluginExportEvent -> {
-						JFileChooser jf = new JFileChooser(".");
-						jf.setSelectedFile(new File(deck.getName() + exp.getFileExtension()));
-						jf.showSaveDialog(null);
-						exportedFile = jf.getSelectedFile();
-						ThreadManager.getInstance().execute(() -> {
-							try {
-								buzyLabel.start(deck.getAsList().size());
-								buzyLabel.setText(MTGControler.getInstance().getLangService().get("EXPORT_TO", deck, exp));
-								exp.addObserver(buzyLabel);
-								exp.export(deck, exportedFile);
-								MTGControler.getInstance()
-										.notify(new MTGNotification(
-												exp.getName() + " "
-														+ MTGControler.getInstance().getLangService()
-																.getCapitalize(FINISHED),
-												MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),
-												MESSAGE_TYPE.INFO));
-								buzyLabel.end();
-							} catch (Exception e) {
-								logger.error("error", e);
-								buzyLabel.end();
-								MTGControler.getInstance().notify(
-										new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
-							}
-							finally
-							{
-								exp.removeObserver(buzyLabel);
-							}
-						}, "Export " + deck + " to " + exp.getName());
-					});
-					menu.add(it);
-				}
-			}
-
-			Component b = (Component) exportsAction.getSource();
-			Point point = b.getLocationOnScreen();
-			menu.show(b, 0, 0);
-			menu.setLocation(point.x, point.y + b.getHeight());
-
-		});
 		panneauHaut.add(btnExports);
 
 		panneauHaut.add(buzyLabel);
@@ -596,6 +471,120 @@ public class ConstructPanel extends JPanel {
 
 		tabbedDeckSide.addChangeListener(e -> selectedIndex = tabbedDeckSide.getSelectedIndex());
 
+		btnImport.addActionListener(ae -> {
+			JPopupMenu menu = new JPopupMenu();
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
+
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(itEvent -> {
+						JFileChooser jf = new JFileChooser(".");
+						jf.setFileFilter(new FileFilter() {
+							@Override
+							public String getDescription() {
+								return exp.getName();
+							}
+
+							@Override
+							public boolean accept(File f) {
+								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
+							}
+						});
+
+						int res = -1;
+						f = new File("");
+
+						if (!exp.needDialogGUI()) {
+							res = jf.showOpenDialog(null);
+							f = jf.getSelectedFile();
+						} else {
+							res = JFileChooser.APPROVE_OPTION;
+
+						}
+
+						if (res == JFileChooser.APPROVE_OPTION)
+							ThreadManager.getInstance().execute(() -> {
+								try {
+									buzyLabel.start();
+									buzyLabel.setText(MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
+									exp.addObserver(buzyLabel);
+									
+									deck = exp.importDeck(f);
+
+									MTGControler.getInstance()
+											.notify(new MTGNotification(
+													MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+													exp.getName() + " "
+															+ MTGControler.getInstance().getLangService().get(FINISHED),
+													MESSAGE_TYPE.INFO));
+									setDeck(deck);
+									buzyLabel.end();
+								
+									setDeck(deck);
+									updatePanels();
+
+								} catch (Exception e) {
+									logger.error("error import", e);
+									buzyLabel.end();
+									MTGControler.getInstance().notify(new MTGNotification(
+											MTGControler.getInstance().getLangService().getError(), e));
+								}
+								finally {
+									exp.removeObserver(buzyLabel);
+								}
+
+							}, "import " + exp);
+
+					});
+
+					menu.add(it);
+
+				}
+			}
+
+			Component b = (Component) ae.getSource();
+			Point point = b.getLocationOnScreen();
+			menu.show(b, 0, 0);
+			menu.setLocation(point.x, point.y + b.getHeight());
+
+		});
+		
+		
+
+		btnExports.addActionListener(exportsAction -> {
+			JPopupMenu menu = new JPopupMenu();
+
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(pluginExportEvent -> {
+						JFileChooser jf = new JFileChooser(".");
+						jf.setSelectedFile(new File(deck.getName() + exp.getFileExtension()));
+						int result=jf.showSaveDialog(null);
+						exportedFile = jf.getSelectedFile();
+						if (result == JFileChooser.APPROVE_OPTION)
+						{
+							buzyLabel.start(deck.getAsList().size()); 
+							ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, deck, buzyLabel, exportedFile), "export "+ deck +" to " + exp);
+						}
+	
+					});
+					menu.add(it);
+				}
+			}
+
+			Component b = (Component) exportsAction.getSource();
+			Point point = b.getLocationOnScreen();
+			menu.show(b, 0, 0);
+			menu.setLocation(point.x, point.y + b.getHeight());
+
+		});
+		
+		
 		txtSearch.addActionListener(aeSearch -> {
 
 			if (txtSearch.getText().equals(""))

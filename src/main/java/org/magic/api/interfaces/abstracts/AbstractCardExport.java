@@ -26,6 +26,8 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	public PLUGINS getType() {
 		return PLUGINS.EXPORT;
 	}
+	
+
 
 	public AbstractCardExport() {
 		super();
@@ -43,15 +45,26 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	public boolean needDialogGUI() {
 		return false;
 	}
-
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
+	
+	
+	public static MagicDeck toDeck(List<MagicCard> cards)
+	{
 		MagicDeck d = new MagicDeck();
-		d.setName("export " + getName() + " cards");
-		d.setDescription(getName() + " export to " + f.getName());
+		d.setName("export");
+		d.setDescription("");
 		for (MagicCard mc : cards) {
 			d.add(mc);
 		}
+		return d;
+	}
+
+	@Override
+	public void export(List<MagicCard> cards, File f) throws IOException {
+		
+		MagicDeck d = toDeck(cards);
+		d.setName("export " + getName() + " cards");
+		d.setDescription(getName() + " export to " + f.getName());
+	
 		export(d, f);
 	}
 	

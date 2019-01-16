@@ -610,9 +610,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 			for (MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
+					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {
 						JFileChooser jf = new JFileChooser(".");
 						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
