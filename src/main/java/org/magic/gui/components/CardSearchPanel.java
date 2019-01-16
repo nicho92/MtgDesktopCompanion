@@ -75,6 +75,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractCardTableWorker;
+import org.magic.services.workers.CardExportWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 
@@ -607,7 +608,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+			for (MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -617,29 +618,12 @@ public class CardSearchPanel extends MTGUIComponent {
 						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
 						int result = jf.showSaveDialog(null);
 						final File f = jf.getSelectedFile();
-						List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
-						lblLoading.start(export.size()); 
-						exp.addObserver(lblLoading);
-						
 						if (result == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(() -> {
-								try {
-									exp.export(export, f);
-									lblLoading.end();
-									MTGControler.getInstance().notify(new MTGNotification(
-											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
-											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-											MESSAGE_TYPE.INFO
-											));
-								} catch (Exception e) {
-									logger.error(e);
-									lblLoading.end();
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-								}
-								finally {
-									exp.removeObserver(lblLoading);
-								}
-							}, "export search " + exp);
+						{
+							List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
+							lblLoading.start(export.size()); 
+							ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, export, lblLoading, f), "export search " + exp);
+						}
 					});
 
 					menu.add(it);

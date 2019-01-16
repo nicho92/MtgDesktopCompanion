@@ -138,33 +138,36 @@ public class MkmOnlineExport extends AbstractCardExport {
 		WantsService wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
-		for (MagicCard mc : deck.getMap().keySet()) {
-			Product p;
+		for (MagicCard mc : deck.getMap().keySet()) 
+		{
+			Product p = null;
 			try {
 				p = MagicCardMarketPricer2.getProductFromCard(mc, pService.findProduct(mc.getName(), atts));
-				
-					if (p != null) {
-						WantItem w = new WantItem();
-						w.setProduct(p);
-						w.setCount(deck.getMap().get(mc));
-						w.setFoil(new MkmBoolean(false));
-						w.setMinCondition(getString(QUALITY));
-						w.setAltered(new MkmBoolean(false));
-						w.setType("product");
-						w.setSigned(new MkmBoolean(false));
-						for (String s : getArray(LANGUAGES))
-							w.getIdLanguage().add(Integer.parseInt(s));
-						wants.add(w);
-					} else {
-						logger.debug("could not find product for " + mc);
-					}
-				
-					notify(mc);
 			}
-			catch(MkmNetworkException ex)
+			catch(Exception ex)
 			{
 				logger.error("could not export " + mc,ex);
+				p=null;
 			}	
+			
+			if (p != null) {
+				WantItem w = new WantItem();
+				w.setProduct(p);
+				w.setCount(deck.getMap().get(mc));
+				w.setFoil(new MkmBoolean(false));
+				w.setMinCondition(getString(QUALITY));
+				w.setAltered(new MkmBoolean(false));
+				w.setType("product");
+				w.setSigned(new MkmBoolean(false));
+				for (String s : getArray(LANGUAGES))
+					w.getIdLanguage().add(Integer.parseInt(s));
+			
+				wants.add(w);
+			} else {
+				logger.debug("could not find product for " + mc + " (" + mc.getCurrentSet()+")");
+			}
+			
+			notify(mc);
 
 		}
 

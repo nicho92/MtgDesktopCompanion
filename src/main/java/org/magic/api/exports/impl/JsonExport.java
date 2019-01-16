@@ -114,11 +114,11 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		FileUtils.writeStringToFile(dest, toJson(deck).toString(), MTGConstants.DEFAULT_ENCODING);
+		FileUtils.writeStringToFile(dest, toJsonDeck(deck).toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 
 
-	public JsonObject toJson(MagicDeck deck) {
+	public JsonObject toJsonDeck(MagicDeck deck) {
 		JsonObject json = new JsonObject();
 		json.addProperty(NAME, deck.getName());
 		json.addProperty(DESCRIPTION, deck.getDescription());
@@ -137,8 +137,9 @@ public class JsonExport extends AbstractCardExport {
 		for (MagicCard mc : deck.getMap().keySet()) {
 			JsonObject card = new JsonObject();
 			card.addProperty("qty", (Number) deck.getMap().get(mc));
-			card.add("card", new Gson().toJsonTree(mc));
+			card.add("card", toJsonElement(mc));
 			main.add(card);
+			notify(mc);
 		}
 
 		JsonArray side = new JsonArray();
@@ -146,8 +147,9 @@ public class JsonExport extends AbstractCardExport {
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			JsonObject card = new JsonObject();
 			card.addProperty("qty", (Number) deck.getMapSideBoard().get(mc));
-			card.add("card", new Gson().toJsonTree(mc));
+			card.add("card", toJsonElement(mc));
 			side.add(card);
+			notify(mc);
 		}
 		json.add("main", main);
 		json.add("side", side);
