@@ -33,6 +33,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -345,21 +346,37 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private void initActions()
 	{
 		
-		btnRefresh.addActionListener(e ->
+		btnRefresh.addActionListener(e -> {
 
-		ThreadManager.getInstance().execute(() -> {
-			progressBar.start();
-			tree.refresh();
-			try {
-				model.calculate();
-				lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
-			} catch (Exception ex) {
-				logger.error(ex);
-			}
-			model.fireTableDataChanged();
-			progressBar.end();
-		}, "update Tree"));
+		progressBar.start();
 		
+		SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>()
+		{
+			@Override
+			protected void process(List<Void> chunks) {
+				progressBar.progress();
+			}
+				
+			 protected Void doInBackground() {
+					try {
+						tree.refresh();
+						model.calculate();
+						lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
+					} catch (Exception ex) {
+						logger.error(ex);
+					}
+				 return null;
+			 };
+			 
+			 @Override
+			protected void done() {
+				model.fireTableDataChanged();
+				progressBar.end();
+			}
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw);
+		});
 		
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();

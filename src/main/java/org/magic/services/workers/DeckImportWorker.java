@@ -42,7 +42,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 	@Override
 	protected MagicDeck doInBackground(){
 		try {
-			exp.importDeck(f);
+			return exp.importDeck(f);
 		} catch (Exception e) {
 			err=e;
 			logger.error("error export with " + exp,e);
