@@ -29,6 +29,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 				w.setUrl(new URL(e.select("a img").attr("src")));
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
+				notify(w);
 			}
 			return list;
 		} catch (IOException e) {

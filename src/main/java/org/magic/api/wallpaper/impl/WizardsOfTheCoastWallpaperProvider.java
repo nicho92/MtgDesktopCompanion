@@ -57,6 +57,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 				w.setUrl(new URL(e.select("a").first().attr("download")));
 				w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
 				list.add(w);
+				notify(w);
 			}
 			return list;
 		} catch (IOException e) {

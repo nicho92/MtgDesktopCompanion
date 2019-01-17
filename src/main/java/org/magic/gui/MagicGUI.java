@@ -298,7 +298,7 @@ public class MagicGUI extends JFrame {
 					osNotifier.send(notif);
 				}
 			}
-			ThreadManager.getInstance().execute(() -> {
+			ThreadManager.getInstance().runInEdt(() -> {
 				try {
 					new TipsOfTheDayDialog().show();
 				} catch (IOException e) {

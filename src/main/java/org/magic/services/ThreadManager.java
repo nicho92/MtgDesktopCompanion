@@ -1,23 +1,17 @@
 package org.magic.services;
 
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import org.apache.commons.lang3.ThreadUtils;
 import org.apache.log4j.Logger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
-import de.vandermeer.asciitable.AsciiTable;
 
 public class ThreadManager {
 
@@ -36,23 +30,7 @@ public class ThreadManager {
 	}
 	
 	
-	
-	public Future executeAsFuture(Runnable task)
-	{
-		Future<?> f = executor.submit(task);
-		log();
-		return f;
-	}
-	
-	
-	public Future executeAsFuture(Callable task)
-	{
-		Future f = executor.submit(task);
-		log();
-		return f;
-	}
-	
-		
+	@Deprecated	
 	public void execute(Runnable task, String name) {
 		this.name=name;
 		executor.submit(task);
@@ -60,9 +38,6 @@ public class ThreadManager {
 	}
 
 	public void execute(SwingWorker<?, ?> sw,String name) {
-//		 sw.addPropertyChangeListener((PropertyChangeEvent pce)->
-//			logger.debug(pce.getSource().getClass().getName() + ":" + pce.getOldValue()+"->"+pce.getNewValue())
-//		);
 		runInEdt(sw,name);
 	}
 	

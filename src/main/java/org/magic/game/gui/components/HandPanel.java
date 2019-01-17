@@ -1,16 +1,12 @@
 package org.magic.game.gui.components;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
-import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.ZoneEnum;

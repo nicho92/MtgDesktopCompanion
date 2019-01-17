@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
-import javax.swing.SwingWorker;
 
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;

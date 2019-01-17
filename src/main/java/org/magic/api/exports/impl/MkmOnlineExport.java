@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.collections4.ListUtils;
 import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;

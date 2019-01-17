@@ -6,7 +6,6 @@ import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.services.ThreadManager;
 
 public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 

@@ -366,7 +366,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						logger.error(ex);
 					}
 				 return null;
-			 };
+			 }
 			 
 			 @Override
 			protected void done() {

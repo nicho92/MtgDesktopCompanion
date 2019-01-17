@@ -30,6 +30,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 				w.setUrl(Paths.get(f.toURI()).toUri().toURL());
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
+				notify(w);
 			}
 			return list;
 		} catch (IOException e) {

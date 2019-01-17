@@ -1,6 +1,5 @@
 package org.magic.gui.models;
 
-import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.util.Arrays;
