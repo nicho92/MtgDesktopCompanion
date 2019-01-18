@@ -20,6 +20,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;
@@ -111,7 +112,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		list1.setCellRenderer(new MagicCardListRenderer());
 		scrollPane1.setViewportView(list1);
 
-		btnCalculate.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
+		btnCalculate.addActionListener(e -> ThreadManager.getInstance().runInEdt(() -> {
 			try {
 				List<CardShake> prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class)
 						.getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());

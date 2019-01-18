@@ -1,11 +1,9 @@
 package org.magic.services.workers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -13,7 +11,6 @@ import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

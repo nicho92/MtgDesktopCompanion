@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
@@ -63,57 +65,71 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		ThreadManager.getInstance().execute(() -> {
+		
+		
+		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<List<CardShake>, Void>()
+		{
 
-			try {
-				List<CardShake> shakes = new ArrayList<>();
-
-				if (boxM.isSelected())
-					shakes.addAll(
-							MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.MODERN));
-				if (boxS.isSelected())
-					shakes.addAll(
-							MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.STANDARD));
-				if (boxL.isSelected())
-					shakes.addAll(
-							MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.LEGACY));
-				if (boxV.isSelected())
-					shakes.addAll(
-							MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.VINTAGE));
-
-				if(shakes.isEmpty())
-					shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null));
-				
-				
-			
-				int val = (Integer) spinner.getValue();
-				setProperty("LIMIT", String.valueOf(val));
-				setProperty("STD", String.valueOf(boxS.isSelected()));
-				setProperty("MDN", String.valueOf(boxM.isSelected()));
-				setProperty("LEG", String.valueOf(boxL.isSelected()));
-				setProperty("VIN", String.valueOf(boxV.isSelected()));
-				setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
-				
+			@Override
+			protected List<CardShake> doInBackground() {
 				List<CardShake> ret = new ArrayList<>();
-				ret.addAll(shakes.subList(0, val));
-				ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
+				try {
+					List<CardShake> shakes = new ArrayList<>();
+
+					if (boxM.isSelected())
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.MODERN));
+					if (boxS.isSelected())
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.STANDARD));
+					if (boxL.isSelected())
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.LEGACY));
+					if (boxV.isSelected())
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.VINTAGE));
+					if(shakes.isEmpty())
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null));
+					
+					
 				
-				
-				Collections.sort(ret, new PricesCardsShakeSorter((SORT)cboSorter.getSelectedItem()));
-				modStandard.init(ret);
-				table.setModel(modStandard);
-			} catch (Exception e) {
-				logger.error(e);
+					int val = (Integer) spinner.getValue();
+					setProperty("LIMIT", String.valueOf(val));
+					setProperty("STD", String.valueOf(boxS.isSelected()));
+					setProperty("MDN", String.valueOf(boxM.isSelected()));
+					setProperty("LEG", String.valueOf(boxL.isSelected()));
+					setProperty("VIN", String.valueOf(boxV.isSelected()));
+					setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
+					
+					
+					ret.addAll(shakes.subList(0, val));
+					ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
+					
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				return ret;
+
 			}
-
-
-			modStandard.fireTableDataChanged();
-			table.setRowSorter(new TableRowSorter(modStandard));
-			table.packAll();
-			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 			
-		}, "Init best Dashlet");
+			@Override
+			protected void done() {
+				
+				List<CardShake> ret;
+				try {
+					ret = get();
 
+					Collections.sort(ret, new PricesCardsShakeSorter((SORT)cboSorter.getSelectedItem()));
+					modStandard.init(ret);
+					table.setModel(modStandard);
+					modStandard.fireTableDataChanged();
+					table.setRowSorter(new TableRowSorter(modStandard));
+					table.packAll();
+					table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+				
+			}
+	
+		};
+		ThreadManager.getInstance().runInEdt(sw,"update best trending");
 	}
 
 	@Override

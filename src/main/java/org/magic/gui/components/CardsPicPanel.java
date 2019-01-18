@@ -88,9 +88,8 @@ public class CardsPicPanel extends JXPanel {
 
 			}
 		}
-		ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().runInEdt(() -> {
 			try {
-
 				if (edition == null)
 					imgFront = renderer.appendReflection(
 							MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card, null));

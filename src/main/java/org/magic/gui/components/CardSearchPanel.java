@@ -566,9 +566,47 @@ public class CardSearchPanel extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent mev) {
 				selectedEdition = listEdition.getSelectedValue();
-				ThreadManager.getInstance().execute(() -> {
-					lblLoading.start();
-					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
+				
+				
+				SwingWorker<MagicCard, MagicCard> sw = new SwingWorker<MagicCard, MagicCard>()
+						{
+							
+							@Override
+							protected void process(List<MagicCard> chunks) {
+								detailCardPanel.setMagicCard(chunks.get(0));
+								magicEditionDetailPanel.setMagicEdition(selectedEdition);
+							} 
+					
+							@Override
+							protected MagicCard doInBackground() throws Exception {
+								try {
+									MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
+									publish(mc);
+									return mc;
+								} catch (Exception e) {
+									logger.error(e);
+									return null;
+								}
+								
+								
+							}
+							@Override
+							protected void done() {
+								try {
+									selectedCard = get();
+									cardsPicPanel.showPhoto(selectedCard); // backcard
+									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
+									priceTablePanel.init(selectedCard,selectedEdition);
+								} catch (Exception e) {
+									logger.error(e);
+								} 
+							};
+					
+						};
+				
+				
+				ThreadManager.getInstance().runInEdt(sw);
+				/*() -> {
 					try {
 						selectedCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
 						detailCardPanel.setMagicCard(selectedCard);
@@ -580,9 +618,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					cardsPicPanel.showPhoto(selectedCard);// backcard
 					historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 					priceTablePanel.init(selectedCard,selectedEdition);
-
-					lblLoading.end();
-				}, "changeEdition");
+				}, "changeEdition");*/
 			}
 		});
 	
@@ -711,7 +747,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
 			deckPanel.init(selectedCard);
-			ThreadManager.getInstance().execute(
+			ThreadManager.getInstance().runInEdt(
 					() -> historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName()),
 					"load history for " + selectedEdition);
 

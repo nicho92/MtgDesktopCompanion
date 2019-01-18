@@ -565,12 +565,12 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		if (thumbnail && magicCard != null)
 		{
-			ThreadManager.getInstance().execute(() -> loadPics(magicCard),"load pics");
+			ThreadManager.getInstance().runInEdt(() -> loadPics(magicCard),"load pics");
 		}
 
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) {
 
-			ThreadManager.getInstance().execute(() -> {
+			ThreadManager.getInstance().runInEdt(() -> {
 				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity());
 				
 				int showCount = magicCard.getCurrentSet().getCardCountOfficial();
@@ -582,7 +582,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		}
 
 		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty())
-			ThreadManager.getInstance().execute(() -> {
+			ThreadManager.getInstance().runInEdt(() -> {
 				try {
 					listModelCollection.removeAllElements();
 					MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(magicCard).forEach(col->listModelCollection.addElement(col));
@@ -593,7 +593,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			}, "loadCollections");
 
 		if (magicCard != null && enableCollectionLookup)
-			ThreadManager.getInstance().execute(() -> {
+			ThreadManager.getInstance().runInEdt(() -> {
 				if (MTGControler.getInstance().getEnabled(MTGDao.class).hasAlert(magicCard)) {
 					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));
 					btnAlert.setEnabled(false);
@@ -638,7 +638,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 									txtFlavorArea.setText(fn.getFlavor());
 									if (thumbnail)
 									{
-										ThreadManager.getInstance().execute(() -> loadPics(fn,magicCard),"load pics");
+										loadPics(fn,magicCard);
 									}
 									
 									

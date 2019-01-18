@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.magic.api.beans.MTGNotification;
@@ -219,41 +220,54 @@ public class AlarmGUI extends MTGUIComponent {
 			if(table.getSelectedRows().length<=0)
 				return;
 			
-			ThreadManager.getInstance().execute(() -> {
-				try {
-					int[] selected = table.getSelectedRows();
-					lblLoading.start(selected.length);
-					List<MagicCardAlert> alerts = extract(selected);
-					for (MagicCardAlert alert : alerts)
-					{	
-						List<MagicPrice> prices=new ArrayList<>();
-						MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(p->{
-							try {
-								prices.addAll(p.getPrice(alert.getCard().getCurrentSet(), alert.getCard()));
-							} catch (IOException e1) {
-								logger.error("error adding price for" + alert.getCard() + " with " + p,e1);
-							}
-						});
-						
-						Collections.sort(prices,new MagicPricesComparator());
-						if(!prices.isEmpty())
-						{
-							alert.setPrice(prices.get(0).getValue());
-							MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
+			
+			lblLoading.start(table.getSelectedRows().length);
+			SwingWorker<Void, MagicCardAlert> sw = new SwingWorker<Void, MagicCardAlert>()
+					{
+						@Override
+						protected void done() {
+							lblLoading.end();
+							model.fireTableDataChanged();
 						}
-						lblLoading.progress();
-					}
-					model.fireTableDataChanged();
-				} catch (Exception e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-					lblLoading.end();
-				}
-				lblLoading.end();
+
+						@Override
+						protected void process(List<MagicCardAlert> chunks) {
+							lblLoading.progressSmooth(chunks.size());
+						}
+
+						@Override
+						protected Void doInBackground(){
+							List<MagicCardAlert> alerts = extract(table.getSelectedRows());
+							for (MagicCardAlert alert : alerts)
+							{	
+								List<MagicPrice> prices=new ArrayList<>();
+								MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(p->{
+									try {
+										prices.addAll(p.getPrice(alert.getCard().getCurrentSet(), alert.getCard()));
+									} catch (IOException e1) {
+										logger.error("error adding price for" + alert.getCard() + " with " + p,e1);
+									}
+									
+								});
+								
+								Collections.sort(prices,new MagicPricesComparator());
+								if(!prices.isEmpty())
+								{
+									alert.setPrice(prices.get(0).getValue());
+									try {
+										MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
+									} catch (SQLException e) {
+										logger.error("error updating " + alert,e);
+									}
+								}
+								publish(alert);
+							}
+							return null;
+						}
 				
-			}, "suggest prices");
+					};
 			
-			
-			
+					ThreadManager.getInstance().runInEdt(sw,"suggest prices");
 		});
 		
 		

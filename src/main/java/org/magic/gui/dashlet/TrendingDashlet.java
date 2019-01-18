@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
