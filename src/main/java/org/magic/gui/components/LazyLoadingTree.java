@@ -136,7 +136,7 @@ public class LazyLoadingTree extends JTree {
 			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
 				@Override
 				protected List<MyNode> doInBackground() {
-					logger.debug("loading cards from " + col + "/" + ed);
+					logger.trace("loading cards from " + col + "/" + ed);
 
 					List<MyNode> children = new ArrayList<>();
 					try {
@@ -156,7 +156,7 @@ public class LazyLoadingTree extends JTree {
 				@Override
 				protected void done() {
 					try {
-						logger.debug("loading cards from " + col + "/" + ed + " done");
+						logger.trace("loading cards from " + col + "/" + ed + " done");
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
 					} catch (Exception e) {

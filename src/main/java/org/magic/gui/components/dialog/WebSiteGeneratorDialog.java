@@ -17,10 +17,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.gui.components.JTextFieldFileChooser;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
@@ -33,7 +33,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JTextField txtDest;
+	private JTextFieldFileChooser txtDest;
 
 	private boolean value = false;
 	private JComboBox<String> cboTemplates;
@@ -41,7 +41,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	private JList<MTGPricesProvider> lstProviders;
 
 	public File getDest() {
-		return new File(txtDest.getText());
+		return txtDest.getFile();
 	}
 
 	public String getTemplate() {
@@ -69,14 +69,8 @@ public class WebSiteGeneratorDialog extends JDialog {
 
 		panel.add(cboTemplates);
 
-		txtDest = new JTextField(new File(MTGControler.getInstance().get("default-website-dir")).getAbsolutePath());
-
+		txtDest = new JTextFieldFileChooser(20,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
 		panel.add(txtDest);
-		txtDest.setColumns(20);
-
-		JButton btnDestChoose = new JButton("...");
-
-		panel.add(btnDestChoose);
 
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
@@ -133,17 +127,6 @@ public class WebSiteGeneratorDialog extends JDialog {
 
 		scrollProviders.setViewportView(lstProviders);
 
-		btnDestChoose.addActionListener(e -> {
-			JFileChooser choose = new JFileChooser(txtDest.getText());
-			choose.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			choose.showSaveDialog(null);
-			File dest = choose.getSelectedFile();
-
-			if (dest == null)
-				dest = new File(".");
-
-			txtDest.setText(dest.getAbsolutePath());
-		});
 
 		btnGenerate.addActionListener(e -> {
 			value = true;
