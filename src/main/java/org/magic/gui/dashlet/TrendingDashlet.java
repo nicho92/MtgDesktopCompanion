@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
+import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
@@ -92,32 +94,48 @@ public class TrendingDashlet extends AbstractJDashlet {
 	}
 
 	public void init() {
-		ThreadManager.getInstance().execute(() -> {
-			lblLoading.start();
-			try {
-				List<CardShake> l = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor((MTGFormat) cboFormats.getSelectedItem());
-				modStandard.init(l);
-				table.setModel(modStandard);
-			} catch (Exception e) {
-				logger.error(e);
+		
+		
+		
+		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<List<CardShake>, CardShake>()
+		{
+			
+			@Override
+			protected List<CardShake> doInBackground() throws Exception {
+				return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor((MTGFormat) cboFormats.getSelectedItem());
 			}
-			setProperty("FORMAT", ((MTGFormat) cboFormats.getSelectedItem()).toString());
-			lblLoading.end();
-			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+			
+			@Override
+			protected void done() {
+				try {
+					modStandard.init(get());
+					table.setModel(modStandard);
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+				lblLoading.end();
+				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				setProperty("FORMAT", ((MTGFormat) cboFormats.getSelectedItem()).toString());
 
-			List<SortKey> keys = new ArrayList<>();
-			SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
-			keys.add(sortKey);
-			try {
-				table.setRowSorter(new TableRowSorter(modStandard));
-				((TableRowSorter) table.getRowSorter()).setSortKeys(keys);
-				((TableRowSorter) table.getRowSorter()).sort();
-				modStandard.fireTableDataChanged();
-				table.packAll();
-			} catch (Exception e) {
-				// do nothing
+				List<SortKey> keys = new ArrayList<>();
+				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
+				keys.add(sortKey);
+				try {
+					table.setRowSorter(new TableRowSorter(modStandard));
+					((TableRowSorter) table.getRowSorter()).setSortKeys(keys);
+					((TableRowSorter) table.getRowSorter()).sort();
+					modStandard.fireTableDataChanged();
+					table.packAll();
+				} catch (Exception e) {
+					// do nothing
+				}
 			}
-		}, "Init Formats Dashlet");
+			
+		};
+		
+		lblLoading.start();
+		ThreadManager.getInstance().runInEdt(sw,"Init Formats Dashlet");
+
 	}
 
 	@Override

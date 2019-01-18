@@ -4,10 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -15,23 +14,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingWorker;
 
+import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.gui.renderer.CardShakeTreeCellRenderer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import org.magic.sorters.PricesCardsShakeSorter;
+import org.magic.services.workers.CollectionAnalyzerWorker;
 import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
@@ -106,26 +105,42 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		btnUpdateCache.addActionListener(ae->
 		{
 			List<MagicEdition> ret = UITools.getTableSelection(tableCache,0);
-			logger.debug("updating " + ret);
 			buzy.start(ret.size());
-			ThreadManager.getInstance().execute(()->{
-				for(MagicEdition ed : ret) {
-					try {
-						List<CardShake> css = evaluator.initCache(ed);
-						
-						if(!css.isEmpty())
-						{	
-							modelCache.updateRow(ed, css.get(0).getDateUpdate());
-						 	buzy.progress();
-						}
-					} catch (Exception e) {
-						logger.error(e);
-					}
+			SwingWorker<Void, Map.Entry<MagicEdition,Date>> sw = new SwingWorker<Void, Map.Entry<MagicEdition,Date>>()
+			{
+
+				@Override
+				protected void done() {
+					buzy.end();
 				}
-				buzy.end();
-			}, "Loading treeCardShake");
-			
+
+				@Override
+				protected void process(List<Map.Entry<MagicEdition,Date>> chunks) {
+					buzy.progressSmooth(chunks.size());
+					
+					chunks.forEach(e->modelCache.updateRow(e.getKey(),e.getValue()));
+				}
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					for(MagicEdition ed : ret) {
+						try {
+							List<CardShake> css = evaluator.initCache(ed);
+							
+							if(!css.isEmpty())
+							{	
+								
+								publish(new DefaultMapEntry<>(ed, css.get(0).getDateUpdate()));
+							}
+						} catch (Exception e) {
+							logger.error(e);
+						}
+					}
+					return null;
+				}
 		
+			};
+			ThreadManager.getInstance().runInEdt(sw,"update cache date for "+ret);
 		});
 		
 		btnRefresh.addActionListener(ae-> init());
@@ -134,40 +149,13 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		CollectionAnalyzerTreeTableModel model = new CollectionAnalyzerTreeTableModel();
-		modelCache.removeAll();
-		ThreadManager.getInstance().execute(()->{
-			try {
-				evaluator = new CollectionEvaluator(new MagicCollection(MTGControler.getInstance().get("default-library")));
-				evaluator.addObserver(buzy);
-				List<MagicEdition> eds = evaluator.getEditions();
-				Collections.sort(eds);
-				buzy.start(eds.size());
-				
-				for(MagicEdition ed : eds)
-				{
-					modelCache.addRow(ed, evaluator.getCacheDate(ed));
-					List<CardShake> list = new ArrayList<>(evaluator.prices(ed).values());
-					AbstractDashBoard.convert(list);
-					Collections.sort(list,new PricesCardsShakeSorter());
-					model.saveRow(ed,list);
-				}
-	
-			Double total = evaluator.total();
-			lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
-			
-			
-			
-			buzy.end();
-			treeTable.setTreeTableModel(model);
-			
-			} catch (IOException e) {
-				logger.error(e);
-				buzy.end();
-			}
-			
-			
-		}, "Loading treeCardShake");
+		try {
+			evaluator = new CollectionEvaluator(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			CollectionAnalyzerWorker sw = new CollectionAnalyzerWorker(evaluator,treeTable,modelCache,buzy,lblPrice);
+			ThreadManager.getInstance().runInEdt(sw,"init collection analysis dashlet");
+		} catch (IOException e) {
+			logger.error("error init analyzer",e);
+		}
 	}
 
 	@Override
