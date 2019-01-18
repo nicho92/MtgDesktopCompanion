@@ -219,48 +219,66 @@ public class ConstructPanel extends JPanel {
 		});
 
 		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
-		btnUpdate.addActionListener(updateEvent -> ThreadManager.getInstance().execute(() -> {
-
+		btnUpdate.addActionListener(updateEvent ->  {
 			Map<MagicCard, Integer> updateM = new HashMap<>();
 			Map<MagicCard, Integer> updateS = new HashMap<>();
-
 			btnUpdate.setEnabled(false);
 			buzyLabel.start(deck.getMap().size() + deck.getMapSideBoard().size());
-			for (MagicCard mc : deck.getMap().keySet()) {
-				try {
-					updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMap().get(mc));
-					buzyLabel.progress();
-				} catch (Exception e) {
-					logger.error(e);
-					btnUpdate.setEnabled(true);
-					buzyLabel.end();
-				}
-			}
-			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-				try {
-					updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMapSideBoard().get(mc));
-					buzyLabel.progress();
-				} catch (Exception e) {
-					btnUpdate.setEnabled(true);
-					buzyLabel.end();
-				}
-			}
+			SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
+					{
+						@Override
+						protected void done() {
+							buzyLabel.end();
+							btnUpdate.setEnabled(true);
 
-			deck.getMap().clear();
-			deck.setMapDeck(updateM);
+							deck.getMap().clear();
+							deck.setMapDeck(updateM);
 
-			deck.getMapSideBoard().clear();
-			deck.setMapSideBoard(updateS);
+							deck.getMapSideBoard().clear();
+							deck.setMapSideBoard(updateS);
 
-			updatePanels();
+							updatePanels();
 
-			btnUpdate.setEnabled(true);
-			buzyLabel.end();
-			MTGControler.getInstance()
-					.notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
-							MTGControler.getInstance().getLangService().getCapitalize(UPDATED_DECK),
-							MESSAGE_TYPE.INFO));
-		}, "Update Deck"));
+							btnUpdate.setEnabled(true);
+							buzyLabel.end();
+							MTGControler.getInstance()
+									.notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+											MTGControler.getInstance().getLangService().getCapitalize(UPDATED_DECK),
+											MESSAGE_TYPE.INFO));
+						}
+
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							buzyLabel.progressSmooth(chunks.size());
+						}
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							for (MagicCard mc : deck.getMap().keySet()) {
+								try {
+									updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMap().get(mc));
+									publish(mc);
+								} catch (Exception e) {
+									logger.error(e);
+								}
+							}
+							for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+								try {
+									updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMapSideBoard().get(mc));
+									publish(mc);
+								} catch (Exception e) {
+									logger.error(e);
+									
+								}
+							}
+							return null;
+						}
+				
+					};
+			ThreadManager.getInstance().runInEdt(sw,"updating "+deck);
+		});
+		
+		
 		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
 
 		panneauHaut.add(btnUpdate);

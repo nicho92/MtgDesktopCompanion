@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
@@ -79,7 +80,7 @@ public class SealedPanel extends JPanel {
 	private JProgressBar progressBar;
 	private transient MTGDeckManager deckManager;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	int column=0;
 	public SealedPanel() {
 		deckManager = new MTGDeckManager();
 		initGUI();
@@ -348,6 +349,57 @@ public class SealedPanel extends JPanel {
 		panelDeck.removeAll();
 		panelDeck.revalidate();
 		panelDeck.repaint();
+		
+		
+		lblLoading.start();
+		list = new ArrayList<>();
+		SwingWorker<Void, Booster> sw = new SwingWorker<Void,Booster>()
+		{
+	
+			@Override
+			protected void process(List<Booster> chunks) {
+				
+				chunks.forEach(e->{
+					column++;
+					for(MagicCard mc : e.getCards()) {
+						list.add(mc);
+						DisplayableCard c = createCard(mc);
+						panelOpenedBooster.addComponent(c, column);
+					}
+					
+				});
+				
+			}
+			
+			@Override
+			protected void done() {
+				lblLoading.end();
+				panelOpenedBooster.setList(list);
+				refreshStats();
+			}
+			
+			@Override
+			protected Void doInBackground() throws Exception {
+				column=0;
+				for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
+					try {
+						for (int i = 0; i < ed.getValue(); i++) {
+							Booster b = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster(ed.getKey());
+							publish(b);
+						}
+					} catch (IOException e) {
+						logger.error(e);
+						lblLoading.end();
+					}
+
+				}
+				return null;
+			}
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw);
+		/*
 		ThreadManager.getInstance().execute(() -> {
 			int column = 0;
 			list = new ArrayList<>();
@@ -362,10 +414,8 @@ public class SealedPanel extends JPanel {
 						for (MagicCard mc : b.getCards()) {
 							list.add(mc);
 							DisplayableCard c = createCard(mc);
-
 							panelOpenedBooster.addComponent(c, column);
 						}
-
 					}
 				} catch (IOException e) {
 					logger.error(e);
@@ -376,7 +426,7 @@ public class SealedPanel extends JPanel {
 			panelOpenedBooster.setList(list);
 			refreshStats();
 			lblLoading.end();
-		}, "Opening Sealed Booster");
+		}, "Opening Sealed Booster");*/
 	}
 
 	private DisplayableCard createCard(MagicCard mc) {

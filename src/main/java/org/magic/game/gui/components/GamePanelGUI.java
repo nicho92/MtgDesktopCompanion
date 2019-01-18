@@ -468,10 +468,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 	}
 
 	public void describeCard(DisplayableCard mc) {
+		
 		panneauHaut.setCard(mc.getMagicCard());
-		lblThumbnailPics
-				.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, BufferedImage.SCALE_SMOOTH)));
-		//
+		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, BufferedImage.SCALE_SMOOTH)));
 	}
 
 	public void addPlayer(Player p) {
