@@ -505,10 +505,15 @@ public class CardSearchPanel extends MTGUIComponent {
 						List<MagicCard> cards = new ArrayList<>();
 						String searchName = txtSearch.getText().trim();
 						try {
-						if (cboCollections.isVisible())
-							cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
-						else
-							cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
+							if (cboCollections.isVisible()) {
+								cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
+							}
+							else if(cboEdition.isVisible()) {
+								cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEdition.getSelectedItem());
+							} 
+							else {
+								cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
+							}
 						}
 						catch(IOException e)
 						{
