@@ -45,7 +45,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			return cacheBoosterCards.get(ed.getId());
 		
 		cacheBoosterCards.put(ed.getId(), searchCardByCriteria("set", ed.getId(), null, false));
-	
 		
 		return cacheBoosterCards.get(ed.getId());
 	}

@@ -11,6 +11,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -164,20 +166,37 @@ public class RssGUI extends MTGUIComponent {
 			curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof MagicNews)
-				ThreadManager.getInstance().execute(() -> {
-					try {
-						lblLoading.start();
-						newsPanel.setMagicNews((MagicNews) curr.getUserObject());
-						
+			{	
+				SwingWorker<List<MagicNewsContent>, MagicNews> sw = new SwingWorker<List<MagicNewsContent>, MagicNews>()
+				{
+
+					@Override
+					protected List<MagicNewsContent> doInBackground() throws Exception {
 						MagicNews n = (MagicNews) curr.getUserObject();
-						
-						model.init(n.getProvider().listNews(n));
-					} catch (Exception e) {
-						logger.error("error reading rss", e);
+						return n.getProvider().listNews(n);
 					}
-					model.fireTableDataChanged();
-					lblLoading.end();
-				}, "load RSS " + curr.getUserObject());
+
+					@Override
+					protected void done() {
+						try {
+							model.init(get());
+							model.fireTableDataChanged();
+							
+						} catch (Exception e) {
+							logger.error(e);
+						} 
+						lblLoading.end();
+					}
+
+					
+				
+				};
+				
+				lblLoading.start();
+				newsPanel.setMagicNews((MagicNews) curr.getUserObject());
+				ThreadManager.getInstance().runInEdt(sw,"loading rss");
+				
+			}
 		});
 
 		table.addMouseListener(new MouseAdapter() {
@@ -193,19 +212,37 @@ public class RssGUI extends MTGUIComponent {
 						logger.error(e1);
 					}
 				} else {
-					ThreadManager.getInstance().execute(() -> {
-						lblLoading.start();
-						try {
-							logger.debug("loading " + sel.getLink());
-							
-							editorPane.setPage(sel.getLink());
+					
+					SwingWorker<Void, URL> sw = new SwingWorker<Void, URL>()
+					{
+						@Override
+						protected void done() {
+							lblLoading.end();
 							editorPane.setCaretPosition(0);
-							lblLoading.end();
-						} catch (IOException e) {
-							logger.error("Error reading " + sel.getLink(), e);
-							lblLoading.end();
+							
+							
 						}
-					}, "reading news "+sel.getLink());
+						
+						@Override
+						protected void process(java.util.List<URL> chunks) {
+							try {
+								editorPane.setPage(chunks.get(0));
+							} catch (IOException e) {
+								logger.error("error loading " + chunks.get(0),e);
+							}
+							
+						}
+						
+						@Override
+						protected Void doInBackground() throws Exception {
+							publish(sel.getLink());
+							return null;
+						}
+
+					};
+					
+					lblLoading.start();
+					ThreadManager.getInstance().runInEdt(sw,"loading "+sel.getLink());
 				}
 			}
 		});

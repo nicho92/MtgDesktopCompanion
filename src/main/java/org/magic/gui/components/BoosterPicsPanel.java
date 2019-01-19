@@ -46,7 +46,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 				}
 				
 				@Override
-				protected ImageIcon doInBackground() throws Exception {
+				protected ImageIcon doInBackground() {
 					
 					NodeList l = provider.getBoostersUrl(ed);
 					for(int i =0; i<l.getLength();i++)

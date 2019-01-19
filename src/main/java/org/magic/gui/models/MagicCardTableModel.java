@@ -42,7 +42,6 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	public Object getValueAt(int row, int column) {
 		try {
 			MagicCard mc = items.get(row);
-
 			switch (column) {
 			case 0:
 				return mc;

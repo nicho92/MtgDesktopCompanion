@@ -18,7 +18,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.jsoup.Jsoup;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGStory;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -28,6 +27,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.StoryProvider;
+import org.magic.tools.URLTools;
 
 public class StoriesGUI extends MTGUIComponent {
 
@@ -78,8 +78,7 @@ public class StoriesGUI extends MTGUIComponent {
 					ThreadManager.getInstance().execute(() -> {
 						lblLoading.start();
 						try {
-							editorPane.setText(Jsoup.connect(listResult.getSelectedValue().getUrl().toString()).get()
-									.select("div#content-detail-page-of-an-article").html());
+							editorPane.setText(URLTools.extractHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html());
 
 						} catch (Exception e) {
 							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));

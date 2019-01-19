@@ -645,7 +645,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tableEditions.getSelectionModel().addListSelectionListener(me-> {
 			if(!me.getValueIsAdjusting()) {
 		    	  try {  
-		    		  int row = tableEditions.getSelectedRow();
+		    		 int row = tableEditions.getSelectedRow();
 					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
 					magicEditionDetailPanel.setMagicEdition(ed);
 					historyPricesPanel.init(null, ed, ed.getSet());

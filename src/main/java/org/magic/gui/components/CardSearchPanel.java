@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -501,7 +502,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			
 			SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardTableWorker(cardsModeltable,lblLoading) {
 				protected List<MagicCard> doInBackground() {
-					
+						List<MagicCard> cards = new ArrayList<>();
 						String searchName = txtSearch.getText().trim();
 						try {
 						if (cboCollections.isVisible())
@@ -528,9 +529,13 @@ public class CardSearchPanel extends MTGUIComponent {
 
 				@Override
 				protected void done() {
-					super.done();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-					open(cards);
+					try {
+						open(get());
+					} catch (Exception e) {
+						logger.error(e);
+					}
+					lblLoading.end();
 				}
 			};
 			
@@ -600,7 +605,7 @@ public class CardSearchPanel extends MTGUIComponent {
 								} catch (Exception e) {
 									logger.error(e);
 								} 
-							};
+							}
 					
 						};
 				

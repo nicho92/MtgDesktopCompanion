@@ -20,7 +20,6 @@ public abstract class AbstractCardTableWorker extends SwingWorker<List<MagicCard
 	protected GenericTableModel<MagicCard> model;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
-	protected List<MagicCard> cards = null;
 	
 	public AbstractCardTableWorker(GenericTableModel<MagicCard> model, AbstractBuzyIndicatorComponent buzy) {
 		this.buzy=buzy;

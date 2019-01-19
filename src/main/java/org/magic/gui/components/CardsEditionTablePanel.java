@@ -3,7 +3,9 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +43,8 @@ public class CardsEditionTablePanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnImport;
 	private JComboBox<MagicCollection> cboCollection;
+	private SwingWorker<List<MagicCard>, MagicCard> sw;
+	
 	
 	public CardsEditionTablePanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -137,21 +141,38 @@ public class CardsEditionTablePanel extends JPanel {
 	{
 		if(currentEdition==null)
 			return;
+	
 		
 		btnImport.setEnabled(false);
 		buzy.start(currentEdition.getCardCount());
 		
-		SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardTableWorker(model,buzy) {
+		
+		if(sw!=null && !sw.isDone())
+		{
+			sw.cancel(true);
+		}
+		
+		
+		sw = new AbstractCardTableWorker(model,buzy) {
 			
 			@Override
-			protected List<MagicCard> doInBackground() throws Exception {
-				List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(currentEdition);
-				Collections.sort(list, new CardsEditionSorter() );
-				return list;
+			protected List<MagicCard> doInBackground() {
+				List<MagicCard> cards = new ArrayList<>();
+				try {
+					cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(currentEdition);
+					Collections.sort(cards, new CardsEditionSorter() );
+					logger.debug(currentEdition +"=" + cards);
+					
+					return cards;
+				} catch (IOException e) {
+					logger.error(e);
+					return cards;
+				}
+				
 			}
 		};
 		
-		ThreadManager.getInstance().execute(sw, "loading edition");
+		ThreadManager.getInstance().runInEdt(sw, "loading edition "+currentEdition);
 	}
 	
 	

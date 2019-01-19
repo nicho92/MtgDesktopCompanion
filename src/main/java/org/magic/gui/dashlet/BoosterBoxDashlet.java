@@ -20,7 +20,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.SSLHandshakeException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -87,9 +88,8 @@ public class BoosterPicturesProvider {
 			Node item = nodeList.item(pos);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractImage(url);
-
 		} catch (IOException e) {
-			logger.error(me.getId() + " could not open : " + url, e);
+			logger.error(me.getId() + " could not open : " + url +" "+ e);
 			return null;
 		} catch (Exception e) {
 			logger.error(me.getId() + " error " + url, e);

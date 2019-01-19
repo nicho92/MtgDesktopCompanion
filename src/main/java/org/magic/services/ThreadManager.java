@@ -60,15 +60,16 @@ public class ThreadManager {
 	}
 	
 	private void log() {
-		logger.trace(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d", 
+		logger.trace(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
 				executor.getActiveCount(), 
 				executor.getCompletedTaskCount(),
-				executor.getTaskCount()));
+				executor.getTaskCount(),
+				name));
 		
 		
-		threads.forEach(t->logger.debug("THREAD-" + t.getId()+"\t"+t.getName() +"\t" + t.isAlive()));
+		threads.forEach(t->logger.trace("THREAD-" + t.getId()+"\t"+t.getName() +"\t" + t.isAlive()));
 		
 		
 		
