@@ -2,14 +2,19 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -98,20 +103,38 @@ public class EditionsDashlet extends AbstractJDashlet {
 	public void init() {
 
 		if (cboEditions.getSelectedItem() != null)
-			ThreadManager.getInstance().execute(() -> {
-				lblLoading.start();
-				MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
-				try {
-					modEdition.init(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed));
-					
-					table.packAll();
-					table.setRowSorter(new TableRowSorter(modEdition));
-				} catch (Exception e) {
-					// do nothing
+		{	
+			lblLoading.start();
+			SwingWorker<List<CardShake>, Void> sw = new SwingWorker<List<CardShake>, Void>()
+			{
+				@Override
+				protected List<CardShake> doInBackground(){
+					MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
+					try {
+						return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
+					} catch (IOException e) {
+						logger.error(e);
+						return new ArrayList<>();
+					}
 				}
-				setProperty("EDITION", ed.getId());
-				lblLoading.end();
-			}, "init EditionDashLet");
+				
+				@Override
+				protected void done() {
+					try {
+						modEdition.init(get());
+						table.packAll();
+						table.setRowSorter(new TableRowSorter(modEdition));
+					} catch (Exception e) {
+						logger.error(e);
+					}
+					lblLoading.end();
+				}
+				
+				
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw,"loading " + cboEditions.getSelectedItem() + " in editionDashlet");
+		}
 
 	}
 
