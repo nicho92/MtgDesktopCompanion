@@ -219,7 +219,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setEd(oldID);
 				cs.setDateUpdate(new Date());
 				cs.setProviderName(getName());
-
+				notify(cs);
 				list.add(cs);
 			}
 		}

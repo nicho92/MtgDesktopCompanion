@@ -125,6 +125,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			{
 				logger.error("Error adding :" + el +" :" + e);
 			}
+			notify(cs);
 			list.add(cs);
 		}
 		return list;

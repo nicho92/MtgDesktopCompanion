@@ -152,6 +152,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			}
 			shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
 			shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
+			notify(shake);
 			list.add(shake);
 		}
 
