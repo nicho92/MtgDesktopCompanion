@@ -310,7 +310,25 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		pricePanel.init(mc,mc.getCurrentSet());
 		btnExport.setEnabled(false);
 		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
-		ThreadManager.getInstance().execute(() -> {
+		
+		try {
+			if(col==null)
+			{
+				statsPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
+			}
+			else
+			{
+				statsPanel.initMagicCardStock(mc,col);
+			}
+		
+			statsPanel.enabledAdd(true);
+		}
+		catch(NullPointerException e)
+		{
+			//do nothing
+		}
+
+		ThreadManager.getInstance().runInEdt(() -> {
 			try {
 				historyPricesPanel.init(mc, null, mc.getName());
 			} catch (Exception e) {
@@ -318,29 +336,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 		}, "update history");
 		
-		ThreadManager.getInstance().execute(() -> {
-			
-			try {
-				if(col==null)
-				{
-					statsPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
-				}
-				else
-				{
-					statsPanel.initMagicCardStock(mc,col);
-				}
-			
-			statsPanel.enabledAdd(true);
-			}
-			catch(NullPointerException e)
-			{
-				//do nothing
-			}
-			
-		
-		}, "Update Collection");
-		
-	
 	}
 	
 	private void initActions()
@@ -753,25 +748,46 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						progressBar.start(list.size());
 						logger.debug("save " + list.size() + " cards from " + ed.getId());
 						
-						ThreadManager.getInstance().execute(()->{
+						
+						SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
+						{
+
+							@Override
+							protected Void doInBackground() {
 								for (MagicCard mc : list) {
 									MagicCollection col = new MagicCollection(it.getText());
 									try {
 										MTGControler.getInstance().saveCard(mc, col);
-										progressBar.progress();
+										publish(mc);
+										
 									} catch (SQLException e) {
 										logger.error(e);
 									}
 								}
+								return null;
+							}
+
+							@Override
+							protected void done() {
 								model.calculate();
 								model.fireTableDataChanged();
 								progressBar.end();
+							}
+
+							@Override
+							protected void process(List<MagicCard> chunks) {
+								progressBar.progressSmooth(chunks.size());
+							}
 							
-						}, "insert sets");
+							
+							
+						};
+						
+						ThreadManager.getInstance().runInEdt(sw, "insert sets");
 					} catch (Exception e) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						logger.error(e);
-						progressBar.end();
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+
 					}
 					
 			}		

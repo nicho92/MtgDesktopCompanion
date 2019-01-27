@@ -15,13 +15,17 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 	private static final long serialVersionUID = 1L;
 	public enum SIZE {SMALL,MEDIUM}
 	private SIZE size;
+	private JLabel l;
+	
 	
 	public MagicEditionIconListRenderer(SIZE s) {
 		size=s;
+		l = new JLabel();
 	}
 	
 	public MagicEditionIconListRenderer() {
 		size=SIZE.MEDIUM;
+		l = new JLabel();
 	}
 	
 	@Override
@@ -35,7 +39,7 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 			else
 				ic = IconSetProvider.getInstance().get24(value.getId());
 			
-			JLabel l = new JLabel(value.getSet());
+			l.setText(value.getSet());
 			l.setIcon(ic);
 			
 			l.setOpaque(true);
@@ -46,11 +50,10 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 				l.setBackground(list.getBackground());
 				l.setForeground(list.getForeground());
 			}
-			
-			
-			return l;
 		}
-		return new JLabel();
+		
+		return l;
+		
 
 	}
 

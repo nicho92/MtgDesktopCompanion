@@ -192,7 +192,11 @@ public class OrdersGUI extends MTGUIComponent {
 				
 				calulate(UITools.getTableSelection(table, 0));
 			
-				ThreadManager.getInstance().execute(()->{
+				if(o.getEdition()!=null)
+					editionFinancialChartPanel.init(o.getEdition());
+		
+				
+				ThreadManager.getInstance().runInEdt(()->{
 						MagicCard mc=null;
 						try {
 							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
@@ -209,8 +213,6 @@ public class OrdersGUI extends MTGUIComponent {
 						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
 						
 						
-						if(o.getEdition()!=null)
-							editionFinancialChartPanel.init(o.getEdition());
 						
 						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue));
 						if(actualValue<paidValue)
