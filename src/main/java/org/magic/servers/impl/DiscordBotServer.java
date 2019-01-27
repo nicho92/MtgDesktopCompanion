@@ -33,19 +33,19 @@ import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.ColorParser;
 
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.react.GenericMessageReactionEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -224,7 +224,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			jda = new JDABuilder(AccountType.BOT)
 							.setToken(getString(TOKEN))
-							.addEventListener(listener)
+							.addEventListeners(listener)
 							.build();
 		
 		} catch (LoginException e) {

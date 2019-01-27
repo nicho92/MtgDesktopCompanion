@@ -8,11 +8,11 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 public class DiscordNotifier extends AbstractMTGNotifier {
 
