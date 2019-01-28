@@ -161,8 +161,6 @@ public class CardsEditionTablePanel extends JPanel {
 				try {
 					cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter() );
-					logger.debug(currentEdition +"=" + cards);
-					
 					return cards;
 				} catch (IOException e) {
 					logger.error(e);
