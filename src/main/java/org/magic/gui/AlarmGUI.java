@@ -275,26 +275,47 @@ public class AlarmGUI extends MTGUIComponent {
 			int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
 					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
 			
-			if (res == JOptionPane.YES_OPTION) {
-				ThreadManager.getInstance().execute(() -> {
-					try {
-						int[] selected = table.getSelectedRows();
-						lblLoading.start(selected.length);
+			if (res == JOptionPane.YES_OPTION) 
+			{
+				int[] selected = table.getSelectedRows();
+				lblLoading.start(selected.length);
+				
+				
+				SwingWorker<List<MagicCardAlert>, MagicCardAlert> sw = new SwingWorker<List<MagicCardAlert>, MagicCardAlert>()
+				{
+
+					@Override
+					protected List<MagicCardAlert> doInBackground() throws Exception {
 						List<MagicCardAlert> alerts = extract(selected);
 						for (MagicCardAlert alert : alerts)
 						{
 							MTGControler.getInstance().getEnabled(MTGDao.class).deleteAlert(alert);
-							lblLoading.progress();
+							publish(alert);
 						}
+						return alerts;
+					}
 
+					@Override
+					protected void done() {
+						try {
+							get();
+						}
+						catch(Exception e)
+						{
+							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						}
+						
 						model.fireTableDataChanged();
-					} catch (Exception e) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						lblLoading.end();
 					}
-					lblLoading.end();
 
-				}, "delete alerts");
+					@Override
+					protected void process(List<MagicCardAlert> chunks) {
+						lblLoading.progress(chunks.size());
+					}
+				};
+				
+				ThreadManager.getInstance().runInEdt(sw, "delete alerts");
 
 			}
 		});

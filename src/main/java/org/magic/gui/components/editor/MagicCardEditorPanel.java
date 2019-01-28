@@ -757,8 +757,8 @@ public class MagicCardEditorPanel extends JPanel {
 		autoBinding13.bind();
 		//
 		BeanProperty<MagicCard, Object> rarityProperty = BeanProperty.create("rarity");
-		BeanProperty<JComboBox, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
+		BeanProperty<JComboBox<String>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
+		AutoBinding<MagicCard, Object, JComboBox<String>, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
 		autoBinding14.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");

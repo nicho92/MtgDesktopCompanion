@@ -604,11 +604,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				}
 			}, "Get alerts for " + magicCard);
 
-		((DefaultListModel) lstFormats.getModel()).removeAllElements();
+		((DefaultListModel<MagicFormat>) lstFormats.getModel()).removeAllElements();
 
 		if (magicCard != null)
 			for (MagicFormat mf : magicCard.getLegalities())
-				((DefaultListModel) lstFormats.getModel()).addElement(mf);
+				((DefaultListModel<MagicFormat>) lstFormats.getModel()).addElement(mf);
 
 		ButtonGroup group = new ButtonGroup();
 	

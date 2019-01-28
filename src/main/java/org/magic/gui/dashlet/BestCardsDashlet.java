@@ -96,7 +96,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 				models.init(list);
 				models.fireTableDataChanged();
 				table.packAll();
-				table.setRowSorter(new TableRowSorter(models));
+				table.setRowSorter(new TableRowSorter<>(models));
 				setProperty("FORMAT", cboFormat.getSelectedItem().toString());
 				setProperty("FILTER", cboFilter.getSelectedItem().toString());
 			} catch (IOException e) {
