@@ -11,7 +11,6 @@ import java.nio.charset.Charset;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.SSLHandshakeException;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
