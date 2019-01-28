@@ -1,9 +1,13 @@
 package unit.providers;
 
+import java.io.IOException;
+
 import org.apache.log4j.Level;
 import org.junit.Test;
+import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider;
+import org.magic.tools.URLTools;
 
 public class BoosterProviderTests {
 
@@ -15,7 +19,20 @@ public class BoosterProviderTests {
 		BoosterPicturesProvider prov = new BoosterPicturesProvider();
 		for(String id : prov.listEditionsID())
 		{
-			System.out.println(id+";"+(prov.getBoosterFor(id,0)!=null));
+			prov.getBoostersUrl(new MagicEdition(id)).entrySet().forEach(e->{
+				
+				System.out.println("===================="+id);
+				try {
+					URLTools.extractImage(e.getValue());
+					System.out.println(e.getKey()+";OK;"+e.getValue());
+				} catch (IOException e1) {
+					System.out.println(e.getKey()+";"+e1);
+				}
+			});
+			
+			
+			
+			
 		}
 		
 	}
