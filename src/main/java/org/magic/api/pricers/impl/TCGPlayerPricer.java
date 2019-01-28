@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
+import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -54,7 +55,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() + " looking " + " for " + link);
 
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory dbFactory = XMLTools.createSecureXMLFactory();
 		DocumentBuilder dBuilder;
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();

@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.magic.tools.URLTools;
+import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -54,7 +55,7 @@ public class VersionChecker {
 	}
 
 	private String parseXML(InputStream input)	throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
-		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory docBuilderFactory = XMLTools.createSecureXMLFactory();
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 		Document doc = docBuilder.parse(input);
 		XPathFactory xpf = XPathFactory.newInstance();

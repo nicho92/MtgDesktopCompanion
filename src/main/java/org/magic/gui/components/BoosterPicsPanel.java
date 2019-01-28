@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -18,7 +20,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.tools.ImageTools;
-import org.w3c.dom.NodeList;
+import org.magic.tools.URLTools;
 
 public class BoosterPicsPanel extends JTabbedPane {
 	
@@ -48,17 +50,17 @@ public class BoosterPicsPanel extends JTabbedPane {
 				@Override
 				protected ImageIcon doInBackground() {
 					
-					NodeList l = provider.getBoostersUrl(ed);
-					for(int i =0; i<l.getLength();i++)
+					Map<String,URL> l = provider.getBoostersUrl(ed);
+					l.entrySet().forEach(i->
 					{
 						try {
-							publish(new ImageIcon(resizeBooster(provider.getBoosterFor(ed, i))));
+							publish(new ImageIcon(resizeBooster(URLTools.extractImage(i.getValue()))));
 							
 						}catch(Exception e)
 						{
 							logger.error(e);
 						}
-					}
+					});
 					return null;
 				}
 			};

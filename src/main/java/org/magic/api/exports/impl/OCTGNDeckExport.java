@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -65,7 +66,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		deck.setName(dname);
 
 		try {
-			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
+			Document d = XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr = xpath.compile("//section[@name='Main']/card");
 			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);

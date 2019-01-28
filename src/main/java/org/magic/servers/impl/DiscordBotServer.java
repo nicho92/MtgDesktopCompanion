@@ -138,7 +138,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 					applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
 					applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
 			
-					ReactionListener rl = new ReactionListener(jda, navEb.getMessage(), false, 30 * 1000);
+					ReactionListener rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
 					rl.addController(event.getAuthor());
 					rl.addResponse(EmbedButton.PREVIOUS.getIcon(), ev -> {
 						navEb.setY(0);

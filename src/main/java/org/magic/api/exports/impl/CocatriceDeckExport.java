@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -72,7 +73,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(n);
 		try {
-			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
+			Document d = XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");

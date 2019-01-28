@@ -23,6 +23,7 @@ import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
+import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -45,7 +46,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	public CockatriceTokenProvider() {
 		super();
 		try {
-			builderFactory = DocumentBuilderFactory.newInstance();
+			builderFactory = XMLTools.createSecureXMLFactory();
 			builder = builderFactory.newDocumentBuilder();
 			document = builder.parse(URLTools.openConnection(getURL("URL")).getInputStream());
 			xPath = XPathFactory.newInstance().newXPath();

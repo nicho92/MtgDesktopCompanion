@@ -95,7 +95,6 @@ public class ConstructPanel extends JPanel {
 	private DeckPricePanel deckPricePanel;
 	private DeckCardsTableModel deckSidemodel;
 	private DeckCardsTableModel deckmodel;
-	private AbstractBuzyIndicatorComponent buzy;
 	private MagicDeck deck;
 	private JButton btnExports;
 	private transient MTGDeckManager deckManager;
@@ -159,7 +158,7 @@ public class ConstructPanel extends JPanel {
 		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnExports = new JButton();
 		stockPanel = new DeckStockComparatorPanel();
-		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		
 		

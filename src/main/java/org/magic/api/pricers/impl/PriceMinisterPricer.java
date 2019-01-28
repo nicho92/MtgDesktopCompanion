@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,7 +33,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 		List<MagicPrice> list = new ArrayList<>();
 		try {
 
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory dbFactory = XMLTools.createSecureXMLFactory();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			StringBuilder url = new StringBuilder();
 

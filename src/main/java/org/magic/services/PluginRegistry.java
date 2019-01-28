@@ -201,7 +201,7 @@ public class PluginRegistry {
 			if (!c.isAnonymousClass() && !c.getName().contains("$")) {
 				String path = k + "[class='" + c.getName() + "']/class";
 				String s = MTGControler.getInstance().get(path);
-				if (s == "") {
+				if (s.isEmpty()) {
 					hasUpdated = true;
 					retour.add(c);
 				}

@@ -43,7 +43,7 @@ public class CardsEditionTablePanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnImport;
 	private JComboBox<MagicCollection> cboCollection;
-	private SwingWorker<List<MagicCard>, MagicCard> sw;
+	private transient SwingWorker<List<MagicCard>, MagicCard> sw;
 	
 	
 	public CardsEditionTablePanel() {

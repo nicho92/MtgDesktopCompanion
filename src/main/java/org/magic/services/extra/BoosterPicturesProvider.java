@@ -3,10 +3,12 @@ package org.magic.services.extra;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.net.ssl.SSLHandshakeException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -66,17 +68,34 @@ public class BoosterPicturesProvider {
 		return getBoosterFor(ed,pos);
 	}
 
-	public NodeList getBoostersUrl(MagicEdition me)
+	public Map<String, URL> getBoostersUrl(MagicEdition me)
 	{
 		XPath xPath = XPathFactory.newInstance().newXPath();
 		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack";
 		logger.trace(expression);
+		
+		NodeList list;
 		try {
-			return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			list = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			logger.error(me.getId() + " not found :" + e);
 			return null;
 		}
+		
+		HashMap<String, URL> ret = new HashMap<>();
+		try {
+			for(int i=0;i<list.getLength();i++)
+			{
+				ret.put(list.item(i).getAttributes().getNamedItem("num").getNodeValue(),
+						new URL(list.item(i).getAttributes().getNamedItem("url").getNodeValue())
+						);
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+		return ret;
+
 	}
 	
 	
@@ -84,10 +103,8 @@ public class BoosterPicturesProvider {
 	public BufferedImage getBoosterFor(MagicEdition me, int pos) {
 		String url = "";
 		try {
-			NodeList nodeList=getBoostersUrl(me);
-			Node item = nodeList.item(pos);
-			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return URLTools.extractImage(url);
+			Map<String, URL> nodeList=getBoostersUrl(me);
+			return URLTools.extractImage(nodeList.values().toArray(new URL[nodeList.size()])[pos]);
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not open : " + url +" "+ e);
 			return null;
@@ -96,6 +113,7 @@ public class BoosterPicturesProvider {
 			return null;
 		}
 	}
+	
 	public BufferedImage getBannerFor(String idMe)
 	{
 		return getBannerFor(new MagicEdition(idMe));

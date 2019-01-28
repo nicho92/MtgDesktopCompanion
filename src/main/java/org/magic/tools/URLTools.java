@@ -109,7 +109,7 @@ public class URLTools {
 	
 	private static org.w3c.dom.Document extractXML(URL url) throws IOException {
 		try {
-			return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(openConnection(url).getInputStream());
+			return XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(openConnection(url).getInputStream());
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 
