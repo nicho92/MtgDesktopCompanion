@@ -344,7 +344,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeEdition(MagicEdition me, MagicCollection col) throws SQLException {
-		logger.debug("remove " + me + " from " + col);
+		logger.debug("delete " + me + " from " + col);
 		try (PreparedStatement pst = con.prepareStatement("DELETE FROM cards where edition=? and collection=?")) {
 			pst.setString(1, me.getId());
 			pst.setString(2, col.getName());
@@ -385,12 +385,14 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		st.append("DELETE FROM stocks where idstock IN (");
 		for (MagicCardStock sto : state) {
 			st.append(sto.getIdstock()).append(",");
+			notify(sto);
 		}
 		st.append(")");
 		String sql = st.toString().replace(",)", ")");
 		try (Statement pst = con.createStatement()) {
 			pst.executeUpdate(sql);
 		}
+		
 	}
 
 	@Override
@@ -429,7 +431,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					state.setPrice(rs.getDouble("price"));
 					colls.add(state);
 				}
-				logger.trace("load " + colls.size() + " item FROM stock for " + mc);
+				logger.trace("loading " + colls.size() + " item FROM stock for " + mc);
 				return colls;
 			}
 
@@ -522,6 +524,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				logger.error(e);
 			}
 		}
+		notify(state);
 	}
 
 

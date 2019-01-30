@@ -45,7 +45,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			
 			if(message.length()>MAXSIZE)
 			{
-				logger.error("Message is too long : " + msg.length() + ">"+MAXSIZE+". Will truncate it");
+				logger.warn("Message is too long : " + msg.length() + ">"+MAXSIZE+". Will truncate it");
 				message=message.substring(0, MAXSIZE);
 			}
 			

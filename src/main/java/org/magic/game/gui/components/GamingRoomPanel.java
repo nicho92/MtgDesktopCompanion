@@ -227,7 +227,7 @@ public class GamingRoomPanel extends JPanel {
 				client.getP().setName(txtName.getText());
 				client.join();
 
-				ThreadManager.getInstance().execute(() -> {
+				ThreadManager.getInstance().executeThread(() -> {
 					while (client.getSession().isActive()) {
 						txtName.setEnabled(!client.getSession().isActive());
 						txtServer.setEnabled(!client.getSession().isActive());

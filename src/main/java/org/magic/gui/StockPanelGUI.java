@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -30,6 +31,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
@@ -60,6 +62,7 @@ import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class StockPanelGUI extends MTGUIComponent {
@@ -118,32 +121,40 @@ public class StockPanelGUI extends MTGUIComponent {
 	
 		initGUI();
 
-		btnSave.addActionListener(e ->
+		btnSave.addActionListener(e ->{
+			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdate).collect(Collectors.toList());
+			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock,MTGDao>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class),updates.size())
+			{
+				@Override
+				protected void done() {
+					super.done();
+					model.fireTableDataChanged();
+				}
 
-		ThreadManager.getInstance().execute(() -> {
-			lblLoading.start(model.getItems().size());
-			for (MagicCardStock ms : model.getItems())
-				if (ms.isUpdate())
-					try {
-						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
-						lblLoading.progress();
-						ms.setUpdate(false);
-						lblLoading.end();
-					} catch (SQLException e1) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-						lblLoading.end();
+				@Override
+				protected Void doInBackground(){
+					for (MagicCardStock ms : updates) 
+					{
+						try {
+							plug.saveOrUpdateStock(ms);
+							ms.setUpdate(false);
+						} catch (Exception e1) {
+							logger.error(e1);
+						}
 					}
-
-			model.fireTableDataChanged();
-		}, "Batch stock save"));
+					return null;
+				}
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw,"Batch stock save");
+			
+		});
 
 		table.getSelectionModel().addListSelectionListener(event -> {
-
 			if (!multiselection && !event.getValueIsAdjusting()) {
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
-					int modelRow = table.convertRowIndexToModel(viewRow);
-					MagicCardStock selectedStock = (MagicCardStock) table.getModel().getValueAt(modelRow, 0);
+					MagicCardStock selectedStock = (MagicCardStock) UITools.getTableSelection(table, 0).get(0);
 					btnDelete.setEnabled(true);
 					updatePanels(selectedStock);
 				}
@@ -152,34 +163,43 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnDelete.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",
-							table.getSelectedRows().length + " item(s)"),
-					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",
-					JOptionPane.YES_NO_OPTION);
+					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
+					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+			
 			if (res == JOptionPane.YES_OPTION) {
-				ThreadManager.getInstance().execute(() -> {
-					try {
-						lblLoading.start();
-						List<MagicCardStock> stocks = UITools.getTableSelection(table, 0);
-						model.removeItem(stocks);
-						stocks.removeIf(st->st.getIdstock()==-1);
+				
+				List<MagicCardStock> stocks = UITools.getTableSelection(table, 0);
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading,MTGControler.getInstance().getEnabled(MTGDao.class),stocks.size()) {
+					@Override
+					protected Void doInBackground(){
 						
+						stocks.removeIf(st->st.getIdstock()==-1);
 						if(!stocks.isEmpty())
 						{
-						MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(stocks);
+							try {
+								plug.deleteStock(stocks);
+							} catch (Exception e) {
+								logger.error(e);
+							}
 						}
 						
-						
-						updateCount();
-					} catch (Exception e) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-						lblLoading.end();
+						return null;
 					}
-					lblLoading.end();
-					updateCount();
+					
+					@Override
+					protected void process(List<MagicCardStock> chunks) {
+						super.process(chunks);
+						model.removeItem(chunks);
+					}
 
-				}, "delete stock");
-
+					@Override
+					protected void done() {
+						super.done();
+						model.fireTableDataChanged();
+						updateCount();
+					}
+				};
+				ThreadManager.getInstance().runInEdt(sw,"delete stocks");
 			}
 		});
 
@@ -188,16 +208,26 @@ public class StockPanelGUI extends MTGUIComponent {
 					MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				logger.debug("reload collection");
-				ThreadManager.getInstance().execute(() -> {
-					try {
-						lblLoading.start();
-						model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
-					} catch (SQLException e1) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+				
+				
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class), -1) {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						model.init(plug.listStocks());
+						return null;
 					}
-					lblLoading.end();
-					updateCount();
-				}, "reload stock");
+					
+					@Override
+					protected void done()
+					{
+						super.done();
+						updateCount();
+					}
+				};
+				
+				
+				ThreadManager.getInstance().runInEdt(sw, "reload stock");
 
 			}
 
@@ -349,35 +379,65 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		});
 
-		btnGeneratePrice.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
+		
+		
+		
+		
+		btnGeneratePrice.addActionListener(ae -> {
 			lblLoading.start(table.getSelectedRows().length);
-			for (int i : table.getSelectedRows()) {
-				MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
-				Collection<Double> prices;
-				Double price = 0.0;
-				try {
-					prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(s.getMagicCard(), null).values();
-					if (!prices.isEmpty())
-						price = (Double) prices.toArray()[prices.size() - 1];
-					else
-						price = 0.0;
-					
-					
-				} catch (IOException e) {
-					price = 0.0;
-				}
-				double old = s.getPrice();
-				s.setPrice(price);
-				if (old != s.getPrice())
-					s.setUpdate(true);
+			
+			SwingWorker<Void,MagicCardStock> sw = new SwingWorker<Void, MagicCardStock>() {
 				
-				lblLoading.progress();
-				model.fireTableDataChanged();
-			}
-			lblLoading.end();
+				@Override
+				public void done() {
+					lblLoading.end();
+				}
 
-		}, "generate prices for stock"));
-
+				@Override
+				protected void process(List<MagicCardStock> chunks) {
+					lblLoading.progressSmooth(chunks.size());
+					model.fireTableDataChanged();
+				} 
+				
+				
+				@Override
+				protected Void doInBackground(){
+					
+					for (int i : table.getSelectedRows())
+					{
+						MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
+						logger.debug("prices for" + s.getMagicCard());
+						
+						Collection<Double> prices;
+						Double price = 0.0;
+						try {
+							prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(s.getMagicCard(), null).values();
+							if (!prices.isEmpty())
+								price = (Double) prices.toArray()[prices.size() - 1];
+							else
+								price = 0.0;
+							
+							
+						} catch (IOException e) {
+							logger.error("error getting price for " + s.getMagicCard(),e);
+							price = 0.0;
+						}
+						double old = s.getPrice();
+						s.setPrice(price);
+						if (old != s.getPrice())
+							s.setUpdate(true);
+					
+						publish(s);
+					}
+					return null;
+				}
+				
+				
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw, "generate prices for stock");
+		});
+		
 		cboSelections.addItemListener(ie -> {
 			multiselection = true;
 			if (String.valueOf(cboSelections.getSelectedItem()).equals(selections[1])) {
@@ -747,9 +807,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		bottomPanel.add(lblCount);
 
 		
-		
-		
-		ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				lblLoading.start();
 				model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
@@ -764,8 +822,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void updateCount() {
-		lblCount.setText(MTGControler.getInstance().getLangService().getCapitalize("ITEMS_IN_STOCK") + ": "
-				+ table.getRowCount());
+		lblCount.setText(MTGControler.getInstance().getLangService().getCapitalize("ITEMS_IN_STOCK") + ": "+ table.getRowCount());
 	}
 
 }

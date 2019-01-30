@@ -347,6 +347,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.trace(res);
 		}
+		
+		notify(state);
+		
 	}
 
 	@Override
@@ -396,6 +399,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		for (MagicCardStock s : state) {
 			Bson filter = new Document("stockItem.idstock", s.getIdstock());
 			db.getCollection(colStocks).deleteOne(filter);
+			notify(s);
 		}
 	}
 

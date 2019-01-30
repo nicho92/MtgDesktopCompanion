@@ -37,6 +37,17 @@ public class ThreadManager {
 		log();
 	}
 
+
+	public void executeThread(Runnable task, String name) {
+		this.name=name;
+		executor.submit(task);
+		log();
+		
+	}
+	
+	
+	
+	
 	public void execute(SwingWorker<?, ?> sw,String name) {
 		runInEdt(sw,name);
 	}
@@ -91,7 +102,8 @@ public class ThreadManager {
 		factory = new ThreadFactoryBuilder().setNameFormat("mtg-threadpool-%d").setDaemon(true).build();
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}
-	
+
+
 	
 }
 

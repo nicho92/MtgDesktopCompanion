@@ -275,6 +275,7 @@ public class FileDAO extends AbstractMagicDAO {
 		f = new File(f, state.getIdstock() + "-" + IDGenerator.generate(state.getMagicCard()));
 		try {
 			save(state, f);
+			notify(state);
 		} catch (Exception e) {
 			throw new SQLException(e);
 		}
@@ -289,6 +290,7 @@ public class FileDAO extends AbstractMagicDAO {
 					s.getIdstock() + "-" + IDGenerator.generate(s.getMagicCard())).toFile();
 			logger.debug("Delete " + f);
 			FileUtils.deleteQuietly(f);
+			notify(s);
 		}
 	}
 

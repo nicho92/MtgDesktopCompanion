@@ -98,12 +98,8 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 					}
 					else
 					{
-						//TODO bugfix with euro symbol
 						String price =e.select("div.new_price").html().replaceAll("&nbsp;"+Currency.getInstance("EUR").getSymbol(), "").trim(); 
-						
 						entrie.setItemPrice(UITools.parseDouble(price));
-						
-						
 						if(entrie.getDescription().contains("Set")||entrie.getDescription().toLowerCase().contains("collection"))
 							entrie.setType(TYPE_ITEM.FULLSET);
 						else if(entrie.getDescription().toLowerCase().contains("booster"))
