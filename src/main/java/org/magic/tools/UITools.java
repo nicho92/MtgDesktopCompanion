@@ -9,6 +9,8 @@ import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -185,6 +187,12 @@ public class UITools {
 		}
 	}
 
+	
+	public static double roundDouble(double d)
+	{
+		return BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+	}
+	
 	
 	public static String formatDouble(Object f)
 	{

@@ -6,7 +6,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class XMLTools {
 
 	
-	private XMLTools() {};
+	private XMLTools() {}
 	
 	public static DocumentBuilderFactory createSecureXMLFactory()
 	{
