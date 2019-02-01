@@ -3,6 +3,7 @@ package org.magic.api.cache.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 
@@ -103,7 +104,7 @@ public class FileCache extends AbstractCacheProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty(DIRECTORY, MTGConstants.DATA_DIR + "/cachePics");
+		setProperty(DIRECTORY, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"cachePics").toFile().getAbsolutePath());
 		setProperty(FORMAT, "png");
 
 	}

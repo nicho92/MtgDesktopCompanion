@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 			case 2 : return Double.class;
 			case 3 : return String.class;
 			case 4 : return Integer.class;
-			case 5 : return int.class;
+			case 5 : return LockInfo.class;
 			case 6 : return Long.class;
 			case 7 : return Boolean.class;
 			case 8 : return Double.class;
@@ -47,7 +48,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 			case 4:
 				return 1;
 			case 5:
-				return t.getLockInfo().getIdentityHashCode();
+				return t.getLockInfo();
 			case 6:
 				return t.getBlockedCount();
 			case 7:
@@ -58,7 +59,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 				return null;
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error get value :" + row+"/"+column,e);
 			return null;
 		}
 

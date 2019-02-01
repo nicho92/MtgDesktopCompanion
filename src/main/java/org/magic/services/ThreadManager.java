@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.SwingXUtilities;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -45,6 +46,9 @@ public class ThreadManager {
 		
 	}
 	
+	public void invokeLater(Runnable task) {
+		SwingUtilities.invokeLater(task);
+	}
 	
 	
 	
