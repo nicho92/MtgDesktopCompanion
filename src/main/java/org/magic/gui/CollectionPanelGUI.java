@@ -356,7 +356,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					try {
 						tree.refresh();
 						model.calculate();
-						lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
 					} catch (Exception ex) {
 						logger.error(ex);
 					}
@@ -365,6 +364,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			 
 			 @Override
 			protected void done() {
+				lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
 				model.fireTableDataChanged();
 				progressBar.end();
 			}

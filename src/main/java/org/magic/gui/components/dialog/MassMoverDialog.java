@@ -3,6 +3,8 @@ package org.magic.gui.components.dialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -38,7 +41,7 @@ public class MassMoverDialog extends JDialog {
 	private MagicEdition toSaveEd;
 	private boolean change = false;
 	private JComboBox<MagicCollection> cboCollections;
-	private AbstractBuzyIndicatorComponent lblWaiting = AbstractBuzyIndicatorComponent.createLabelComponent();
+	private AbstractBuzyIndicatorComponent lblWaiting = AbstractBuzyIndicatorComponent.createProgressComponent();
 	private JButton btnMove;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -89,47 +92,69 @@ public class MassMoverDialog extends JDialog {
 		btnMove.addActionListener(e -> {
 			btnMove.setEnabled(false);
 
-			if (tableCards.getSelectedRowCount() > 0) {
-				lblWaiting.start(tableCards.getSelectedRowCount());
-				ThreadManager.getInstance().execute(() -> {
+			
+			SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>() {
+				
+				@Override
+				protected void done() {
+					model.fireTableDataChanged();
+					try {
+						get();
+						if (toSaveEd == null)
+							model.init(dao.listCardsFromCollection(toSaveCol));
+						else
+							model.init(dao.listCardsFromCollection(toSaveCol, toSaveEd));
+					} catch (SQLException | ExecutionException ex) {
+						logger.error(ex);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+						lblWaiting.end();
+						btnMove.setEnabled(true);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						logger.error(e);
+						lblWaiting.end();
+						btnMove.setEnabled(true);
+					}
+					lblWaiting.end();
+					btnMove.setEnabled(true);
+				
+				}
 
+				@Override
+				protected void process(List<MagicCard> chunks) {
+					lblWaiting.setText("moving " + chunks);
+					lblWaiting.progressSmooth(chunks.size());
+				}
+
+				@Override
+				protected Void doInBackground(){
 					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
 						int viewRow = tableCards.getSelectedRows()[i];
 						int modelRow = tableCards.convertRowIndexToModel(viewRow);
 						MagicCard mc = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
 						try {
-							
 							dao.moveCard(mc, toSaveCol, (MagicCollection) cboCollections.getSelectedItem());
+							publish(mc);
 							logger.info("moving " + mc + " to " + cboCollections.getSelectedItem());
 							change = true;
-							lblWaiting.setText("moving " + mc);
-							lblWaiting.progress();
 						} catch (SQLException e1) {
 							logger.error(e1);
-							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-							lblWaiting.end();
-							btnMove.setEnabled(true);
-
 						}
 					}
+					
+					
 
-					try {
-						lblWaiting.start();
-						lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
-						if (toSaveEd == null)
-							model.init(dao.listCardsFromCollection(toSaveCol));
-						else
-							model.init(dao.listCardsFromCollection(toSaveCol, toSaveEd));
-					} catch (SQLException ex) {
-						logger.error(ex);
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
-					}
+					
+					return null;
 
-					model.fireTableDataChanged();
-					lblWaiting.end();
-					btnMove.setEnabled(true);
-
-				}, "mass movement");
+				}
+			};
+			
+			
+			
+			if (tableCards.getSelectedRowCount() > 0) {
+				lblWaiting.start(tableCards.getSelectedRowCount());
+				ThreadManager.getInstance().execute(sw, "mass movement");
 
 			}
 		});

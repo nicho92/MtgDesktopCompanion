@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -68,39 +69,49 @@ public class DeckPricePanel extends JComponent {
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
+			SwingWorker<Void, MagicPrice> sw = new SwingWorker<Void, MagicPrice>() {
+				@Override
+				protected void done() {
+					lblPrice.setText(String.valueOf(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
+					deck.setAveragePrice(total);
+				}
 
-			ThreadManager.getInstance().execute(() -> {
-				total = 0;
+				@Override
+				protected void process(List<MagicPrice> p) {
+					model.addItems(p);
+					
+				}
 
-				for (MagicCard c : deck.getMap().keySet()) {
-					try {
-						List<MagicPrice> prices = ((MTGPricesProvider)cboPricers.getSelectedItem()).getPrice(c.getCurrentSet(), c);
-						MagicPrice p = null;
-						if (!prices.isEmpty()) {
-							Collections.sort(prices, new MagicPricesComparator());
-							p = prices.get(0);
-							p.setValue(p.getValue() * deck.getMap().get(c));
-							p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ")");
-						} else {
-							p = new MagicPrice();
-							p.setValue(0.0);
-							p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ") - "
-									+ MTGControler.getInstance().getLangService().get("NOT_FOUND"));
-							p.setCurrency("");
+				@Override
+				protected Void doInBackground(){
+					for (MagicCard c : deck.getMap().keySet()) {
+						try {
+							List<MagicPrice> prices = ((MTGPricesProvider)cboPricers.getSelectedItem()).getPrice(c.getCurrentSet(), c);
+							MagicPrice p = null;
+							if (!prices.isEmpty()) {
+								Collections.sort(prices, new MagicPricesComparator());
+								p = prices.get(0);
+								p.setValue(p.getValue() * deck.getMap().get(c));
+								p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ")");
+							} else {
+								p = new MagicPrice();
+								p.setValue(0.0);
+								p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ") - "+ MTGControler.getInstance().getLangService().get("NOT_FOUND"));
+							}
+							
+							publish(p);
+							total += p.getValue();
+							
+
+						} catch (Exception e) {
+							logger.error("error in " + c, e);
 						}
 
-						model.addItem(p);
-						total += p.getValue();
-
-						lblPrice.setText(String.valueOf(total) + " " + p.getCurrency());
-
-					} catch (Exception e) {
-						logger.error("error in " + c, e);
 					}
-
+					return null;
 				}
-				deck.setAveragePrice(total);
-			}, "loading deck price");
+			};
+			ThreadManager.getInstance().runInEdt(sw, "loading deck price");
 
 		});
 		panel.add(btnCheckPrice);

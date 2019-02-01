@@ -67,7 +67,8 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	
 	public void setCurrency(String currencyCode)
 	{
-		this.currency=Currency.getInstance(currencyCode.toUpperCase());
+		if(!currencyCode.isEmpty())
+			this.currency=Currency.getInstance(currencyCode.toUpperCase());
 	}
 	
 	
