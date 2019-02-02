@@ -45,7 +45,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	private void initEds()
 	{
 		try {
-			doc = URLTools.extractHtml("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az");
+			doc = URLTools.extractHtml(getString("WEBSITE")+"/catalog/magic_the_gathering/by_az");
 			Elements e = doc.select(".anchorList a[href]");
 			for (Element ed : e)
 				eds.add(ed.html());

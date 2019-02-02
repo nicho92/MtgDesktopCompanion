@@ -2,6 +2,7 @@ package org.magic.gui.models;
 
 import org.magic.api.beans.CardShake;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.tools.UITools;
 
 public class CardShakerTableModel extends GenericTableModel<CardShake> {
 
@@ -42,7 +43,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 1:
 				return mp.getEd();
 			case 2:
-				return mp.getPrice();
+				return UITools.roundDouble(mp.getPrice());
 			case 3:
 				return mp.getPriceDayChange();
 			case 4:

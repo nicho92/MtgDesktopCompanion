@@ -5,6 +5,7 @@ import java.util.Currency;
 
 import org.magic.api.beans.MagicPrice;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.tools.UITools;
 
 public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
@@ -57,7 +58,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 			case 0:
 				return mp.getSite();
 			case 1:
-				return mp.getValue();
+				return UITools.roundDouble(mp.getValue());
 			case 2:
 				return mp.getCurrency();
 			case 3:

@@ -615,19 +615,6 @@ public class CardSearchPanel extends MTGUIComponent {
 				
 				
 				ThreadManager.getInstance().runInEdt(sw);
-				/*() -> {
-					try {
-						selectedCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
-						detailCardPanel.setMagicCard(selectedCard);
-						magicEditionDetailPanel.setMagicEdition(selectedEdition);
-
-					} catch (Exception e) {
-						logger.error(e);
-					}
-					cardsPicPanel.showPhoto(selectedCard);// backcard
-					historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
-					priceTablePanel.init(selectedCard,selectedEdition);
-				}, "changeEdition");*/
 			}
 		});
 	

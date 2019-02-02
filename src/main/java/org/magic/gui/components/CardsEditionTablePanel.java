@@ -31,6 +31,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractCardTableWorker;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 
