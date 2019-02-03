@@ -655,7 +655,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		    	  catch(Exception e)
 		    	  {
 		    		  progressBar.end();
-		    		  logger.error(e);
 		    	  }
 			}
 		});
