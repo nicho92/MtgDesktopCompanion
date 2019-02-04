@@ -87,7 +87,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			lblLoading.start();
 			
 			List<CardDominance> list;
