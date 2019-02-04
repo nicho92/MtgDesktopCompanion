@@ -31,7 +31,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractCardTableWorker;
-import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 
@@ -94,16 +93,36 @@ public class CardsEditionTablePanel extends JPanel {
 			if(res==JOptionPane.YES_OPTION)
 			{
 				buzy.start(list.size());
-				ThreadManager.getInstance().execute(()->{
-					for(MagicCard mc : list)
-						try {
-							MTGControler.getInstance().saveCard(mc, (MagicCollection)cboCollection.getSelectedItem());
-							buzy.progress();
-						} catch (SQLException e) {
-							logger.error("couln't save " + mc,e);
+				
+				SwingWorker<Void, MagicCard> swImp = new SwingWorker<Void, MagicCard>()
+				{
+				@Override
+					protected void done() {
+						buzy.end();
+					}
+
+					@Override
+					protected void process(List<MagicCard> chunks) {
+						buzy.progressSmooth(chunks.size());
+					}
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						for(MagicCard mc : list)
+							try {
+								MTGControler.getInstance().saveCard(mc, (MagicCollection)cboCollection.getSelectedItem());
+								publish(mc);
+							} catch (SQLException e) {
+								logger.error("couln't save " + mc,e);
+							}
+						return null;
 						}
-					buzy.end();
-				}, "import cards in "+cboCollection.getSelectedItem());
+					
+						};
+				
+				
+				
+				ThreadManager.getInstance().execute(swImp, "import cards in "+cboCollection.getSelectedItem());
 			}
 		});
 	}

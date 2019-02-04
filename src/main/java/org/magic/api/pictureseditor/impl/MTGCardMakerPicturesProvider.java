@@ -120,31 +120,27 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	@Override
 	public void setFoil(Boolean b) {
-		// TODO Auto-generated method stub
+		//do nothing
 		
 	}
 
 	@Override
 	public void setTextSize(int size) {
-		// TODO Auto-generated method stub
-		
+		//do nothing		
 	}
 
 	@Override
 	public void setCenter(boolean center) {
-		// TODO Auto-generated method stub
-		
+		//do nothing		
 	}
 	@Override
 	public void setColorIndicator(boolean selected) {
-		// TODO Auto-generated method stub
-		
+		//do nothing		
 	}
 
 	@Override
 	public void setColorAccentuation(String c) {
-		// TODO Auto-generated method stub
-		
+		//do nothing		
 	}
 
 

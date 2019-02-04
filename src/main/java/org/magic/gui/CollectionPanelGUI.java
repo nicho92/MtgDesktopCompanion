@@ -354,7 +354,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				
 			 protected Void doInBackground() {
 					try {
-						tree.refresh();
 						model.calculate();
 					} catch (Exception ex) {
 						logger.error(ex);
@@ -366,6 +365,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			protected void done() {
 				lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
 				model.fireTableDataChanged();
+				tree.refresh();
 				progressBar.end();
 			}
 		};
@@ -473,7 +473,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			if (curr.getUserObject() instanceof MagicCollection) {
 				selectedcol = (MagicCollection) curr.getUserObject();
 				statsPanel.enabledAdd(false);
-				ThreadManager.getInstance().execute(() -> {
+				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
 						List<MagicCard> list = dao.listCardsFromCollection(selectedcol);
@@ -493,7 +493,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				magicEditionDetailPanel.setMagicEdition((MagicEdition) curr.getUserObject());
 				
 				statsPanel.enabledAdd(false);
-				ThreadManager.getInstance().execute(() -> {
+				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
 						MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
@@ -505,7 +505,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						jsonPanel.show(curr.getUserObject());
 
 					} catch (Exception e) {
-						logger.error(e);
+						logger.error("error refresh " + curr.getUserObject(),e);
 					}
 				}, "Calculate Editions cards");
 			}

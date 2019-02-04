@@ -187,7 +187,6 @@ public class ConstructPanel extends JPanel {
 		panneauHaut.add(btnNewDeck);
 
 		btnNewDeck.addActionListener(newDeckEvent -> {
-
 			MagicDeck newDeck = new MagicDeck();
 			setDeck(newDeck);
 			deckmodel.init(newDeck);
@@ -728,6 +727,7 @@ public class ConstructPanel extends JPanel {
 	}
 
 	public Map<MagicCard, Integer> getSelectedMap() {
+		
 		if (selectedIndex > 0)
 			return deck.getMapSideBoard();
 		else

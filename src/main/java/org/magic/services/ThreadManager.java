@@ -50,13 +50,6 @@ public class ThreadManager {
 	}
 	
 	
-	
-	public void execute(SwingWorker<?, ?> sw,String name) {
-		runInEdt(sw,name);
-	}
-	
-	
-	
 	public void runInEdt(Runnable runnable) {
 		runInEdt(runnable, "MTGThread");
 	}

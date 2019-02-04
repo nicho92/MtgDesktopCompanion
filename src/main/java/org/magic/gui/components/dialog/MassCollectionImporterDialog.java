@@ -170,9 +170,8 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		txtNumbersInput = new JTextPane();
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setViewportView(txtNumbersInput);
+		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
+
 
 		setModal(true);
 		setLocationRelativeTo(null);

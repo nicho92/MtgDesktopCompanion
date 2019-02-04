@@ -368,6 +368,7 @@ public class AlarmGUI extends MTGUIComponent {
 						}
 
 						if (res == JFileChooser.APPROVE_OPTION)
+						{	
 							ThreadManager.getInstance().execute(() -> {
 								try {
 									lblLoading.start();
@@ -384,7 +385,7 @@ public class AlarmGUI extends MTGUIComponent {
 								}
 
 							}, "import " + exp);
-
+						}
 					});
 
 					menu.add(it);

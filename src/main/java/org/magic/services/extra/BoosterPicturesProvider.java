@@ -74,9 +74,9 @@ public class BoosterPicturesProvider {
 		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack";
 		logger.trace(expression);
 		
-		NodeList list;
+		NodeList liste;
 		try {
-			list = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			liste = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			logger.error(me.getId() + " not found :" + e);
 			return null;
@@ -84,10 +84,10 @@ public class BoosterPicturesProvider {
 		
 		HashMap<String, URL> ret = new HashMap<>();
 		try {
-			for(int i=0;i<list.getLength();i++)
+			for(int i=0;i<liste.getLength();i++)
 			{
-				ret.put(list.item(i).getAttributes().getNamedItem("num").getNodeValue(),
-						new URL(list.item(i).getAttributes().getNamedItem("url").getNodeValue())
+				ret.put(liste.item(i).getAttributes().getNamedItem("num").getNodeValue(),
+						new URL(liste.item(i).getAttributes().getNamedItem("url").getNodeValue())
 						);
 			}
 		} catch (Exception e) {

@@ -4,9 +4,7 @@ import org.magic.game.gui.components.DisplayableCard;
 
 public class BonusCounter extends AbstractCounter {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	int powerModifier;
 	int toughnessModifier;

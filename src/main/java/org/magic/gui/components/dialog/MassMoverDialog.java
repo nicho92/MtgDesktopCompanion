@@ -117,7 +117,6 @@ public class MassMoverDialog extends JDialog {
 					}
 					lblWaiting.end();
 					btnMove.setEnabled(true);
-				
 				}
 
 				@Override
