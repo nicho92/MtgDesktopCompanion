@@ -153,7 +153,7 @@ public class MassMoverDialog extends JDialog {
 			
 			if (tableCards.getSelectedRowCount() > 0) {
 				lblWaiting.start(tableCards.getSelectedRowCount());
-				ThreadManager.getInstance().execute(sw, "mass movement");
+				ThreadManager.getInstance().runInEdt(sw, "mass movement");
 
 			}
 		});

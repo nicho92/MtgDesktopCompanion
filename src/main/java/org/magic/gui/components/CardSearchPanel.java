@@ -543,7 +543,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				}
 			};
 			
-			ThreadManager.getInstance().execute(sw,"searching "+txtSearch.getText());
+			ThreadManager.getInstance().runInEdt(sw,"searching "+txtSearch.getText());
 			
 		});
 

@@ -10,6 +10,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	
@@ -93,7 +94,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 9:
 			return items.get(row).isAltered();
 		case 10:
-			return items.get(row).getPrice();
+			return UITools.roundDouble(items.get(row).getPrice());
 		case 11:
 			return items.get(row).getComment();
 

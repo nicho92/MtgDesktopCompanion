@@ -14,6 +14,7 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
+@Deprecated
 public abstract class AbstractCardListWorker extends SwingWorker<List<MagicCard>, MagicCard> {
 
 	protected DefaultListModel<MagicCard> model;

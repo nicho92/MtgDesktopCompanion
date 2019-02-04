@@ -13,10 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
@@ -110,25 +112,37 @@ public class DeckStockComparatorPanel extends JComponent {
 			{
 				MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
 				buzyLabel.start(currentDeck.getMap().entrySet().size());
-				
-				
-				ThreadManager.getInstance().execute(()->{
-						currentDeck.getMap().entrySet().forEach(entry->
+				SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
 						{
-							try {
-								boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
-								List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
-								int qty = currentDeck.getMap().get(entry.getKey());
-								model.addItem(entry.getKey(),qty,has, stocks);
-								buzyLabel.progress();
-							} catch (SQLException e) {
-								logger.error(e);
-								buzyLabel.end();
-							}
-						});
-						buzyLabel.end();
-						
-				}, "compare deck and stock");
+						@Override
+						protected Void doInBackground() throws Exception {
+							currentDeck.getMap().entrySet().forEach(entry->
+							{
+								try {
+									boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
+									List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
+									int qty = currentDeck.getMap().get(entry.getKey());
+									model.addItem(entry.getKey(),qty,has, stocks);
+									publish(entry.getKey());
+								} catch (SQLException e) {
+									logger.error(e);
+								}
+							});
+							
+							return null;
+						}
+
+						@Override
+						protected void done() {
+							buzyLabel.end();
+						}
+
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							buzyLabel.progressSmooth(chunks.size());
+						}
+				};
+				ThreadManager.getInstance().runInEdt(sw, "compare deck and stock");
 				
 				
 			}

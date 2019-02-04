@@ -104,7 +104,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	}
 
 	public void init() {
-		ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			lblLoading.start();
 			int y = c.get(Calendar.YEAR);
 			int m = c.get(Calendar.MONTH) + 1;

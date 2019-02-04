@@ -14,6 +14,8 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
+
+@Deprecated
 public abstract class AbstractCardTableWorker extends SwingWorker<List<MagicCard>, MagicCard> {
 
 	protected AbstractBuzyIndicatorComponent buzy;

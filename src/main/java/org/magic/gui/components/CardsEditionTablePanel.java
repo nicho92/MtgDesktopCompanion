@@ -122,7 +122,7 @@ public class CardsEditionTablePanel extends JPanel {
 				
 				
 				
-				ThreadManager.getInstance().execute(swImp, "import cards in "+cboCollection.getSelectedItem());
+				ThreadManager.getInstance().runInEdt(swImp, "import cards in "+cboCollection.getSelectedItem());
 			}
 		});
 	}

@@ -452,7 +452,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			throw new IOException(e1);
 		}
 
-		ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (!mc.isBasicLand())
 					initOtherEdition(mc);

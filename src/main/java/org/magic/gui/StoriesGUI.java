@@ -27,6 +27,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.StoryProvider;
+import org.magic.services.workers.CardExportWorker;
 import org.magic.tools.URLTools;
 
 public class StoriesGUI extends MTGUIComponent {
@@ -75,6 +76,7 @@ public class StoriesGUI extends MTGUIComponent {
 				if (evt.getClickCount() == 1) {
 					evt.consume();
 
+					
 					ThreadManager.getInstance().execute(() -> {
 						lblLoading.start();
 						try {

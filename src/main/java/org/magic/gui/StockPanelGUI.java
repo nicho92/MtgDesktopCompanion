@@ -224,6 +224,8 @@ public class StockPanelGUI extends MTGUIComponent {
 						super.done();
 						updateCount();
 					}
+					
+					
 				};
 				
 				
@@ -351,22 +353,30 @@ public class StockPanelGUI extends MTGUIComponent {
 						final File fileExport = jf.getSelectedFile();
 
 						if (res == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(() -> {
-								try {
-									lblLoading.start(model.getItems().size());
-									exp.addObserver(lblLoading);
-									exp.exportStock(model.getItems(), fileExport);
-									lblLoading.end();
+						{	
+							
+							AbstractObservableWorker<Void, MagicCardStock, MTGCardsExport> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGCardsExport>(lblLoading,exp,model.getItems().size()) {
+
+								@Override
+								protected Void doInBackground() throws Exception {
+									plug.exportStock(model.getItems(), fileExport);
+									return null;
+								}
+
+								@Override
+								protected void notifyEnd() {
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),exp.getName() + " "
 											+ MTGControler.getInstance().getLangService()
 											.getCapitalize(FINISHED),MESSAGE_TYPE.INFO));
-								} catch (Exception e) {
-									logger.error(e);
-									lblLoading.end();
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+									
 								}
-							}, "export " + exp);
-
+								
+								
+							};
+							
+							
+							ThreadManager.getInstance().runInEdt(sw, "export " + exp);
+						}
 					});
 					menu.add(it);
 				}

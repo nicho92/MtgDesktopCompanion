@@ -56,8 +56,8 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
 
+	@Override
 	public void createIndex(Statement stat) throws SQLException {
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
@@ -74,7 +74,7 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 
 	@Override
 	protected String getAutoIncrementKeyWord() {
-		return "INTEGER"; // primary key column is autoincrement
+		return "INTEGER";// primary key column is autoincrement
 	}
 
 	@Override
