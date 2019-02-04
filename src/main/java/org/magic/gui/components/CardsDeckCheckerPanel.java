@@ -58,7 +58,7 @@ public class CardsDeckCheckerPanel extends JComponent {
 	public void init() {
 		if(isVisible() && selectedCard!=null)
 		{
-			ThreadManager.getInstance().execute(()->{
+			ThreadManager.getInstance().executeThread(()->{
 					buzyLabel.start();
 					buzyLabel.setText("looking for " + selectedCard);
 					model.init(manager.listDecksWith(selectedCard));

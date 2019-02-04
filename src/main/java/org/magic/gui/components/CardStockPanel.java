@@ -85,7 +85,7 @@ public class CardStockPanel extends JPanel {
 	}
 
 	private void save() {
-		ThreadManager.getInstance().execute(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			for (MagicCardStock ms : model.getItems())
 				if (ms.isUpdate())
 					try {

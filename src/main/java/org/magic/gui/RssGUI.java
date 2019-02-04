@@ -251,15 +251,37 @@ public class RssGUI extends MTGUIComponent {
 	private void initTree() {
 		rootNode.removeAllChildren();
 		
-		ThreadManager.getInstance().execute(()->{
+		
+		SwingWorker<Void, MagicNews> sw = new SwingWorker<Void, MagicNews>() {
+			
+			@Override
+			protected void process(List<MagicNews> chunks) {
+				chunks.forEach(cat->add(cat.getCategorie(), cat));
+			}
+			
+			@Override
+			protected Void doInBackground() throws Exception {
 				for (MagicNews cat : MTGControler.getInstance().getEnabled(MTGDao.class).listNews())
-					add(cat.getCategorie(), cat);
+					publish(cat);
+			
+				return null;
+			}
 
+			@Override
+			protected void done() {
 				((DefaultTreeModel) tree.getModel()).reload();
 
 				for (int i = 0; i < tree.getRowCount(); i++)
 					tree.expandRow(i + 1);
-		},"Loading News Tree");
+
+			}
+			
+			
+			
+		};
+		
+		
+		ThreadManager.getInstance().runInEdt(sw,"Loading News Tree");
 	}
 
 	private void add(String cat, MagicNews n) {

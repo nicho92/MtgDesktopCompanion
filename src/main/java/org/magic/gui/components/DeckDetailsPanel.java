@@ -19,7 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -31,7 +30,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.ImageTools;
 
@@ -40,7 +38,6 @@ public class DeckDetailsPanel extends JComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient BindingGroup mBindingGroup;
 	private MagicDeck magicDeck = new MagicDeck();
 	private JTextField nameJTextField;

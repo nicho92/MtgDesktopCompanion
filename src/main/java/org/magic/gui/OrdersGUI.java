@@ -153,8 +153,6 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		table.setSortOrder(2, SortOrder.DESCENDING);
 
-		//ThreadManager.getInstance().execute(this::loadFinancialBook, "loading financial book");
-	
 		loadFinancialBook();
 		
 		

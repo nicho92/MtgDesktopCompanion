@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -27,7 +28,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.StoryProvider;
-import org.magic.services.workers.CardExportWorker;
 import org.magic.tools.URLTools;
 
 public class StoriesGUI extends MTGUIComponent {
@@ -77,7 +77,7 @@ public class StoriesGUI extends MTGUIComponent {
 					evt.consume();
 
 					
-					ThreadManager.getInstance().execute(() -> {
+					ThreadManager.getInstance().executeThread(() -> {
 						lblLoading.start();
 						try {
 							editorPane.setText(URLTools.extractHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html());
@@ -126,18 +126,32 @@ public class StoriesGUI extends MTGUIComponent {
 	}
 
 	public void initStories() {
-		ThreadManager.getInstance().execute(() -> {
-			lblLoading.start();
-
-			try {
-				for (MTGStory story : provider.next())
-					resultListModel.addElement(story);
-			} catch (IOException e) {
-				logger.error(e);
-			} finally {
+		
+		SwingWorker<Void, MTGStory> sw = new SwingWorker<Void, MTGStory>() {
+			
+			@Override
+			protected Void doInBackground(){
+				try {
+					for (MTGStory story : provider.next())
+						resultListModel.addElement(story);
+				} catch (IOException e) {
+					logger.error(e);
+				}
+				
+				return null;
+			}
+			
+			@Override
+			protected void done() {
 				lblLoading.end();
 			}
-		}, "loading stories");
+			
+		};
+		
+		
+		
+		lblLoading.start();
+		ThreadManager.getInstance().runInEdt(sw, "loading stories");
 	}
 
 }
