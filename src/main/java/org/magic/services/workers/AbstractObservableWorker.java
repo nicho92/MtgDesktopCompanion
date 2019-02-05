@@ -32,6 +32,15 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			buzy.start();
 	}
 	
+	public AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug) {
+		this.buzy=buzy;
+		this.plug=plug;
+		o=(Observable obs, Object c)->publish((V)c);
+		plug.addObserver(o);
+		buzy.start();
+	}
+	
+	
 	@Override
 	protected void process(List<V> chunks) {
 		buzy.progressSmooth(chunks.size());
@@ -54,7 +63,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	}
 
 	protected void notifyEnd() {
-		
+		//do nothing by default
 	}
 	
 	protected void error(Exception e)

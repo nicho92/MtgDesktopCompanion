@@ -33,6 +33,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class WallpaperGUI extends MTGUIComponent {
@@ -106,39 +107,48 @@ public class WallpaperGUI extends MTGUIComponent {
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
 
-		txtSearch.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
-			try {
-				panelThumnail.removeAll();
-				panelThumnail.revalidate();
-				index = 0;
-				c.weightx = 1;
-				c.weighty = 1;
-				c.gridx = 0;
-				c.gridy = 0;
-				lblLoad.start();
-				List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
+		
+		txtSearch.addActionListener(e ->{ 
+			
+			panelThumnail.removeAll();
+			panelThumnail.revalidate();
+			index = 0;
+			c.weightx = 1;
+			c.weighty = 1;
+			c.gridx = 0;
+			c.gridy = 0;
+			lblLoad.start();
+			
+			AbstractObservableWorker<List<Wallpaper>, Wallpaper,MTGWallpaperProvider> sw = new AbstractObservableWorker<List<Wallpaper>, Wallpaper,MTGWallpaperProvider>(lblLoad,selectedProvider) {
 
-				for (Wallpaper w : list) {
-					JWallThumb thumb = new JWallThumb(w);
-					addComponent(thumb);
-
-					thumb.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							thumb.selected(!thumb.isSelected());
-
-						}
-					});
-
+				@Override
+				protected List<Wallpaper> doInBackground() throws Exception {
+					return plug.search(txtSearch.getText());
 				}
 
-				lblLoad.end();
-
-			} catch (Exception e1) {
-				lblLoad.end();
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-			}
-		}, "search " + selectedProvider));
+				@Override
+				protected void process(List<Wallpaper> chunks) {
+					super.process(chunks);
+					for (Wallpaper w : chunks) {
+						JWallThumb thumb = new JWallThumb(w);
+						addComponent(thumb);
+						
+						thumb.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								thumb.selected(!thumb.isSelected());
+	
+							}
+						});
+				}
+				}
+				
+			};
+			
+			
+			ThreadManager.getInstance().runInEdt(sw,"searching " + txtSearch.getText());
+		
+		});
 
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoad);
