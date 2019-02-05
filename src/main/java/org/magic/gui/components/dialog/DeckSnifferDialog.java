@@ -2,8 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -97,7 +95,7 @@ public class DeckSnifferDialog extends JDialog {
 							}
 						});
 			
-				btnConnect.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
+				btnConnect.addActionListener(e -> ThreadManager.getInstance().runInEdt(() -> {
 					try {
 						lblLoad.start();
 						selectedSniffer.connect();
