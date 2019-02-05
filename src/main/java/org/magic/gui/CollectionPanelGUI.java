@@ -583,7 +583,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 
 		
-		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
+		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> {
 			try {
 
 				WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.listCollections());
@@ -614,7 +614,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				progressBar.end();
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
-		}, "btnGenerateWebSite generate website"));
+		}));
 
 	    btnAddAllSet.addActionListener(ae ->{
 			JPopupMenu popupMenu = new JPopupMenu("Title");

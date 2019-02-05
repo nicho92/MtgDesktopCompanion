@@ -90,42 +90,24 @@ public class WebSiteGeneratorDialog extends JDialog {
 
 		JLabel lblChooseYourCollections = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_COLLECTIONS") + " :");
-		GridBagConstraints gbclblChooseYourCollections = new GridBagConstraints();
-		gbclblChooseYourCollections.insets = new Insets(0, 0, 5, 5);
-		gbclblChooseYourCollections.gridx = 0;
-		gbclblChooseYourCollections.gridy = 0;
+		GridBagConstraints gbclblChooseYourCollections = UITools.createGridBagConstraints(null, null, 0, 0);
 		panneaucentral.add(lblChooseYourCollections, gbclblChooseYourCollections);
 
 		JLabel lblChooseYourPrices = new JLabel(
 				MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_PRICER") + " :");
-		GridBagConstraints gbclblChooseYourPrices = new GridBagConstraints();
-		gbclblChooseYourPrices.insets = new Insets(0, 0, 5, 0);
-		gbclblChooseYourPrices.gridx = 1;
-		gbclblChooseYourPrices.gridy = 0;
+		GridBagConstraints gbclblChooseYourPrices = UITools.createGridBagConstraints(null, null,1, 0);
 		panneaucentral.add(lblChooseYourPrices, gbclblChooseYourPrices);
 
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbcscrollPane = new GridBagConstraints();
-		gbcscrollPane.fill = GridBagConstraints.BOTH;
-		gbcscrollPane.insets = new Insets(0, 0, 0, 5);
-		gbcscrollPane.gridx = 0;
-		gbcscrollPane.gridy = 1;
-		panneaucentral.add(scrollPane, gbcscrollPane);
+		
 		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
 		list.setCellRenderer(new MagicCollectionIconListRenderer());
 		lstProviders = new JList<>(MTGControler.getInstance().listEnabled(MTGPricesProvider.class)
 				.toArray(new MTGPricesProvider[MTGControler.getInstance().listEnabled(MTGPricesProvider.class).size()]));
 		lstProviders.setCellRenderer(new PluginIconListRenderer());
-		scrollPane.setViewportView(list);
+		panneaucentral.add(new JScrollPane(list), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1));
+		
 
-		JScrollPane scrollProviders = new JScrollPane();
-		GridBagConstraints gbcscrollProviders = new GridBagConstraints();
-		gbcscrollProviders.fill = GridBagConstraints.BOTH;
-		gbcscrollProviders.gridx = 1;
-		gbcscrollProviders.gridy = 1;
-		panneaucentral.add(scrollProviders, gbcscrollProviders);
-
-		scrollProviders.setViewportView(lstProviders);
+		panneaucentral.add(new JScrollPane(lstProviders), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1));
 
 
 		btnGenerate.addActionListener(e -> {
