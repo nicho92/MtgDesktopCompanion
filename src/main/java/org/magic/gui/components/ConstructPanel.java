@@ -520,7 +520,7 @@ public class ConstructPanel extends JPanel {
 						}
 
 						if (res == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(() -> {
+							ThreadManager.getInstance().invokeLater(() -> {
 								try {
 									buzyLabel.start();
 									buzyLabel.setText(MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
@@ -550,7 +550,7 @@ public class ConstructPanel extends JPanel {
 									exp.removeObserver(buzyLabel);
 								}
 
-							}, "import " + exp);
+							});
 
 					});
 

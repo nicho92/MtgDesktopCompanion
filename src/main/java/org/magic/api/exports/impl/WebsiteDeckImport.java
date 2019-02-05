@@ -17,6 +17,8 @@ import org.magic.services.MTGConstants;
 
 public class WebsiteDeckImport extends AbstractCardExport {
 
+	
+	
 	@Override
 	public MODS getMods() {
 		return MODS.IMPORT;

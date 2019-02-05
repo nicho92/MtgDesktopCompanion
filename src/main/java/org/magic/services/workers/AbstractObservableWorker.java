@@ -20,6 +20,16 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	protected Observer o;
 	protected P plug;
 
+	public T getResult()
+	{
+		try {
+			return get();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	
 	public AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,int size) {
 		this.buzy=buzy;
 		this.plug=plug;
