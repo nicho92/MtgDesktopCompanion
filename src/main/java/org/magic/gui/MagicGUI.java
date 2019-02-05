@@ -21,6 +21,7 @@ import javax.swing.JTabbedPane;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGNotifier;
@@ -38,6 +39,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
@@ -99,7 +101,6 @@ public class MagicGUI extends JFrame {
 
 		mnFile = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("FILE"));
 		mnuAbout = new JMenu("?");
-		
 		mntmExit = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("EXIT"),MTGConstants.ICON_EXIT);
 
 		JMenuItem mntmHelp = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
@@ -162,6 +163,13 @@ public class MagicGUI extends JFrame {
 		});
 
 		mntmFileOpen.addActionListener(ae -> {
+			
+			
+			if (CardSearchPanel.getInstance() == null)
+				throw new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+
+			
+			
 			JFileChooser choose = new JFileChooser();
 			int returnVal = choose.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -169,24 +177,25 @@ public class MagicGUI extends JFrame {
 				MTGCardsExport exp = MTGControler.getInstance().getAbstractExporterFromExt(f);
 
 				if (exp != null) {
-					ThreadManager.getInstance().execute(() -> {
-						try {
-							if (CardSearchPanel.getInstance() == null)
-								throw new NullPointerException(
-										MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",
-												MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
-
-							exp.addObserver(CardSearchPanel.getInstance().getLblLoading());
-							CardSearchPanel.getInstance().getLblLoading().setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE", f.getName(), exp));
-							CardSearchPanel.getInstance().getLblLoading().start();
-							MagicDeck d = exp.importDeck(f);
-							CardSearchPanel.getInstance().open(d.getAsList());
-							CardSearchPanel.getInstance().getLblLoading().end();
-							tabbedPane.setSelectedIndex(0);
-						} catch (Exception e) {
-							logger.error(e);
+					CardSearchPanel.getInstance().getLblLoading().setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE", f.getName(), exp));
+					AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport>(CardSearchPanel.getInstance().getLblLoading(),exp) {
+						@Override
+						protected MagicDeck doInBackground() throws IOException {
+							return plug.importDeck(f);
 						}
-					}, "open " + f);
+
+						@Override
+						protected void done() {
+							super.done();
+							try {
+								CardSearchPanel.getInstance().open(get().getAsList());
+								tabbedPane.setSelectedIndex(0);
+							} catch (Exception e) {
+								logger.error(e);
+							} 
+						}
+					};
+					ThreadManager.getInstance().runInEdt(sw, "opening " + f);
 
 				} else {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),"NO EXPORT FOUND",MESSAGE_TYPE.ERROR));

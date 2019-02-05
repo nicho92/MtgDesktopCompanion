@@ -37,7 +37,7 @@ public class MTGStockExport extends AbstractCardExport {
 			if(mc.getName().contains("'"))
 				name="\""+mc.getName()+"\"";
 			
-			String line= name+","+mc.getCurrentSet().getId()+"\n";
+			String line= deck.getMap().get(mc) + " " + name+","+mc.getCurrentSet().getId()+"\n";
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
 			notify(mc);
 		}

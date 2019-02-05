@@ -619,6 +619,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				panelSwitchLangage.removeAll();
 				panelSwitchLangage.revalidate();
 			
+				if(enableCollectionLookup)
+				{
+				
 				SwingWorker<Void, MagicCardNames> sw = new SwingWorker<Void, MagicCardNames>(){
 
 					@Override
@@ -667,9 +670,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 						return null;
 					}
 				};
-				
 				ThreadManager.getInstance().runInEdt(sw);
-			
+				}
 		}
 		
 
