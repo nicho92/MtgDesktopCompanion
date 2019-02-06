@@ -59,7 +59,7 @@ public class MtgDesktopCompanion {
 			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 		}
 
-		ThreadManager.getInstance().runInEdt(() -> {
+		ThreadManager.getInstance().invokeLater(() -> {
 
 			MagicGUI gui = new MagicGUI();
 			MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGConstants.FONT));
@@ -80,7 +80,7 @@ public class MtgDesktopCompanion {
 			});
 			long time = chrono.stop();
 			logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");
-		},"Running main GUI");
+		});
 	}
 
 }
