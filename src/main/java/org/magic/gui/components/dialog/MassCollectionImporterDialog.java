@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -29,6 +31,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class MassCollectionImporterDialog extends JDialog {
@@ -130,39 +133,59 @@ public class MassCollectionImporterDialog extends JDialog {
 			else
 				ids = txtNumbersInput.getText().split("\n");
 		
-			progressBar.start(ids.length);
-			ThreadManager.getInstance().execute(() -> {
-				for (String id : ids) {
-					try {
-						MagicCard mc = null;
+			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<Void, MagicCard, MTGCardsProvider>(progressBar,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),ids.length) {
 
-						if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
-							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(id, ed);
-						else
-							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-									.searchCardByName( id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
-											(MagicEdition) cboEditions.getSelectedItem(), true)
-									.get(0);
+				@Override
+				protected void notifyEnd() {
+					MTGControler.getInstance().notify(new MTGNotification(
+							MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+							MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
+							MESSAGE_TYPE.INFO
+							));
+				}
+				
+				
 
-						deck.add(mc);
-						MTGControler.getInstance().saveCard(mc,col);
-						progressBar.progress();
-					} catch (Exception e1) {
-						logger.error(e1);
+				@Override
+				protected void done() {
+					super.done();
+					if (!checkNewOne.isSelected()) {
+						dispose();
 					}
 				}
-				
-				MTGControler.getInstance().notify(new MTGNotification(
-						MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-						MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
-						MESSAGE_TYPE.INFO
-						));
-				
-				if (!checkNewOne.isSelected()) {
-					progressBar.end();
-					dispose();
+
+
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					for (String id : ids) {
+						try {
+							MagicCard mc = null;
+
+							if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
+								mc = plug.getCardByNumber(id, ed);
+							else
+								mc = plug.searchCardByName( id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
+												(MagicEdition) cboEditions.getSelectedItem(), true)
+										.get(0);
+
+							deck.add(mc);
+							MTGControler.getInstance().saveCard(mc,col);
+							
+						} catch (Exception e1) {
+							logger.error(e1);
+						}
+					}
+					
+					return null;
 				}
-			}, "btnImport importCards");
+			};
+			
+		
+			
+			
+			
+			ThreadManager.getInstance().runInEdt(sw, "btnImport importCards");
 		});
 		panneauBas.add(btnImport);
 
