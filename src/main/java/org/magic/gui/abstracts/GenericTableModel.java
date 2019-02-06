@@ -42,7 +42,12 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 	
 	public void init(List<T> t)
 	{
-		items=new ArrayList<>(t);
+		if(t==null)
+			items=new ArrayList<>();
+		else
+			items=new ArrayList<>(t);
+		
+		
 		fireTableDataChanged();
 	}
 	

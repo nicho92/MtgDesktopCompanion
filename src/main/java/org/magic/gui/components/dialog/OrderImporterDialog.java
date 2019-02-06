@@ -22,6 +22,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class OrderImporterDialog extends JDialog {
@@ -79,8 +80,28 @@ public class OrderImporterDialog extends JDialog {
 				
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 	
-		btnLoad.addActionListener(ae->
-			ThreadManager.getInstance().execute(()->{
+		btnLoad.addActionListener(ae->{
+			
+			AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper> sw = new AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper>(lblLoad,selectedSniffer) {
+				@Override
+				protected List<OrderEntry> doInBackground() throws Exception {
+					return plug.listOrders();
+				}
+
+				@Override
+				protected void done() {
+					super.done();
+					model.init(getResult());
+				}
+				
+				
+				
+			};
+			
+			
+			ThreadManager.getInstance().runInEdt(sw, "loading orders");
+			
+			/**()->{
 					try {
 						lblLoad.start();
 						selectedSniffer.addObserver(lblLoad);
@@ -91,8 +112,10 @@ public class OrderImporterDialog extends JDialog {
 						lblLoad.end();
 					}
 					selectedSniffer.removeObserver(lblLoad);
-			}, "loading orders")
-		);
+			}*/
+			
+			
+		});
 		
 		
 		btnClose.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
