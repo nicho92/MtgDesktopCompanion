@@ -369,7 +369,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 						if (res == JFileChooser.APPROVE_OPTION)
 						{	
-							ThreadManager.getInstance().invokeLater(() -> {
+							ThreadManager.getInstance().execute(() -> {
 								try {
 									lblLoading.start();
 									MagicDeck deck = exp.importDeck(f);
@@ -384,7 +384,7 @@ public class AlarmGUI extends MTGUIComponent {
 									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 
-							});
+							},"import cards from " + exp);
 						}
 					});
 
