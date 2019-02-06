@@ -32,7 +32,7 @@ public class ThreadManager {
 	@Deprecated	
 	public void execute(Runnable task, String name) {
 		this.name=name;
-		executor.submit(task);
+		executor.execute(task);
 		log();
 	}
 
@@ -41,7 +41,6 @@ public class ThreadManager {
 		this.name=name;
 		executor.submit(task);
 		log();
-		
 	}
 	
 	public void invokeLater(Runnable task) {
