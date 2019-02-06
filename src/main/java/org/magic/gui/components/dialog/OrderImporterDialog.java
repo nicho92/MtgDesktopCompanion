@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -81,40 +80,18 @@ public class OrderImporterDialog extends JDialog {
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 	
 		btnLoad.addActionListener(ae->{
-			
 			AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper> sw = new AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper>(lblLoad,selectedSniffer) {
 				@Override
 				protected List<OrderEntry> doInBackground() throws Exception {
 					return plug.listOrders();
 				}
-
 				@Override
 				protected void done() {
 					super.done();
 					model.init(getResult());
 				}
-				
-				
-				
 			};
-			
-			
 			ThreadManager.getInstance().runInEdt(sw, "loading orders");
-			
-			/**()->{
-					try {
-						lblLoad.start();
-						selectedSniffer.addObserver(lblLoad);
-						model.init(selectedSniffer.listOrders());
-						lblLoad.end();
-					} catch (IOException e) {
-						logger.error(e);
-						lblLoad.end();
-					}
-					selectedSniffer.removeObserver(lblLoad);
-			}*/
-			
-			
 		});
 		
 		
@@ -123,22 +100,25 @@ public class OrderImporterDialog extends JDialog {
 		btnClose.addActionListener(e -> dispose());
 	
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-		btnImport.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
-			try {
-				btnImport.setEnabled(false);
-				selectedEntries = UITools.getTableSelection(table, 0);
-				btnImport.setEnabled(true);
-				dispose();
-			} catch (Exception e1) {
-				logger.error("Error snif",e1);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-				btnImport.setEnabled(true);
-			}
-			finally
-			{
-				selectedSniffer.removeObserver(lblLoad);
-			}
-		}, "Import Orders"));
+		
+		btnImport.addActionListener(e -> 
+			ThreadManager.getInstance().invokeLater(() -> {
+					try {
+						btnImport.setEnabled(false);
+						selectedEntries = UITools.getTableSelection(table, 0);
+						btnImport.setEnabled(true);
+						dispose();
+					} catch (Exception e1) {
+						logger.error("Error snif",e1);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+						btnImport.setEnabled(true);
+					}
+					finally
+					{
+						selectedSniffer.removeObserver(lblLoad);
+					}
+				})
+		);
 
 		
 		setLocationRelativeTo(null);
