@@ -74,7 +74,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.services.workers.AbstractCardListWorker;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.tools.UITools;
 
@@ -602,37 +602,36 @@ public class ConstructPanel extends JPanel {
 		
 		txtSearch.addActionListener(aeSearch -> {
 
-			if (txtSearch.getText().equals(""))
+			if (txtSearch.getText().isEmpty())
 				return;
 
-			buzy.start();
-			SwingWorker<List<MagicCard>,MagicCard> sw = new AbstractCardListWorker(resultListModel,buzy)
+			AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider> sw = new AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class))
 			{
 				@Override
 				protected List<MagicCard> doInBackground() throws Exception {
-					return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(cboAttributs.getSelectedItem().toString(), txtSearch.getText(), null, false);
+					return plug.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), txtSearch.getText(), null, false);
 				}
 
 				@Override
 				protected void process(List<MagicCard> chunks) {
+					super.process(chunks);
 					MagicFormat form = new MagicFormat();
 					for (MagicCard m : chunks) {
 						if (groupsFilterResult.getSelection() != null) {
 							form.setFormat(groupsFilterResult.getSelection().getActionCommand());
 							if (m.getLegalities().contains(form))
-								model.addElement(m);
+								resultListModel.addElement(m);
 						} else {
-							model.addElement(m);
+							resultListModel.addElement(m);
 						}
 					}
-					buzy.progressSmooth(chunks.size());
 				}
 
 				@Override
 				protected void done() {
 					super.done();
-					lblCards.setText(model.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
-					listResult.setModel(model);
+					lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
+					listResult.setModel(resultListModel);
 					listResult.updateUI();
 				}
 			};

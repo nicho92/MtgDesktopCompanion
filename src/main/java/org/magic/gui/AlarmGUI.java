@@ -60,6 +60,7 @@ import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.UITools;
@@ -369,22 +370,24 @@ public class AlarmGUI extends MTGUIComponent {
 
 						if (res == JFileChooser.APPROVE_OPTION)
 						{	
-							ThreadManager.getInstance().execute(() -> {
-								try {
-									lblLoading.start();
-									MagicDeck deck = exp.importDeck(f);
+							
+							AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport>(lblLoading,exp) {
 
-									for (MagicCard mc : deck.getMap().keySet())
-										addCard(mc);
-
-									lblLoading.end();
-								} catch (Exception e) {
-									logger.error("error import", e);
-									lblLoading.end();
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+								@Override
+								protected MagicDeck doInBackground() throws Exception {
+									return plug.importDeck(f);
 								}
-
-							},"import cards from " + exp);
+								
+								@Override
+								protected void done() {
+									super.done();
+									
+									if(getResult()!=null)
+										for (MagicCard mc : getResult().getMap().keySet())
+											addCard(mc);
+								}
+							};
+							ThreadManager.getInstance().invokeLater(sw);
 						}
 					});
 

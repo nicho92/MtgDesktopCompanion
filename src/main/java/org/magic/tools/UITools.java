@@ -179,7 +179,6 @@ public class UITools {
 	public static Double parseDouble(String text) {
 		try {
 			text=text.replaceAll(",", ".").trim();
-			//return new DecimalFormat().parse(text).doubleValue();
 			return Double.parseDouble(text);
 		} catch (Exception e) {
 			logger.error("error parsing " + text,e);

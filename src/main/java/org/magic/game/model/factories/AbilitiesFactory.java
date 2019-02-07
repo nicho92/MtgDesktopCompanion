@@ -139,8 +139,6 @@ public class AbilitiesFactory implements Serializable{
 
 	private List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
 		return new ArrayList<>();
-		
-		//TODO parse static abilities;
 	}
 
 

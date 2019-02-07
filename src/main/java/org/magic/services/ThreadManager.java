@@ -80,16 +80,6 @@ public class ThreadManager {
 	private ThreadManager() {
 		
 		threads = new ArrayList<>();
-//		factory = new ThreadFactory() {
-//			
-//			@Override
-//			public Thread newThread(Runnable r) {
-//				Thread t = new Thread(r,name);
-//				threads.add(t);
-//				return t;
-//			}
-//		};
-		
 		factory = new ThreadFactoryBuilder().setNameFormat("mtg-threadpool-%d").setDaemon(true).build();
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}
