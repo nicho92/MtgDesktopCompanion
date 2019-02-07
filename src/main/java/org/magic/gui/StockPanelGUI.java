@@ -41,6 +41,7 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -169,15 +170,16 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION) {
 				
 				List<MagicCardStock> stocks = UITools.getTableSelection(table, 0);
+				model.removeItem(stocks);
 				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading,MTGControler.getInstance().getEnabled(MTGDao.class),stocks.size()) {
 					@Override
 					protected Void doInBackground(){
-						
 						stocks.removeIf(st->st.getIdstock()==-1);
 						if(!stocks.isEmpty())
 						{
 							try {
 								plug.deleteStock(stocks);
+								
 							} catch (Exception e) {
 								logger.error(e);
 							}
@@ -206,29 +208,22 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnReload.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
 					MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
-			if (res == JOptionPane.YES_OPTION) {
+			if (res == JOptionPane.YES_OPTION)
+			{
 				logger.debug("reload collection");
-				
-				
 				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class), -1) {
-
 					@Override
 					protected Void doInBackground() throws Exception {
 						model.init(plug.listStocks());
 						return null;
 					}
-					
 					@Override
 					protected void done()
 					{
 						super.done();
 						updateCount();
 					}
-					
-					
 				};
-				
-				
 				ThreadManager.getInstance().runInEdt(sw, "reload stock");
 
 			}
@@ -288,34 +283,40 @@ public class StockPanelGUI extends MTGUIComponent {
 						}
 
 						if (res == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(() -> {
-								try {
-									
-									List<MagicCardStock> list = exp.importStock(fileImport);
-									lblLoading.start(list.size());
-									for (MagicCardStock mc : list) {
-										addStock(mc);
-										lblLoading.progress();
-									}
-									model.fireTableDataChanged();
-									updateCount();
-									lblLoading.end();
-									
-									MTGControler.getInstance().notify(new MTGNotification(
-											MTGControler.getInstance().getLangService().combine("IMPORT", FINISHED),
-											exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
-											MESSAGE_TYPE.INFO
-											));
-
-								} catch (Exception e) {
-									logger.error("ERROR", e);
-									lblLoading.end();
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						{
+							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport>(lblLoading,exp) 
+							{
+								@Override
+								protected List<MagicCardStock> doInBackground() throws Exception {
+									return plug.importStock(fileImport);
 								}
 
-							}, "import " + exp);
-					});
+								@Override
+								protected void notifyEnd() {
+									MTGControler.getInstance().notify(new MTGNotification(
+										MTGControler.getInstance().getLangService().combine("IMPORT", FINISHED),
+										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+										MESSAGE_TYPE.INFO
+									));
+								}
 
+								@Override
+								protected void done() {
+									super.done();
+									if(getResult()!=null)
+									{
+										for (MagicCardStock mc : getResult()) {
+											addStock(mc);
+										}
+										model.fireTableDataChanged();
+										updateCount();
+									}
+								}
+							};
+							ThreadManager.getInstance().invokeLater(sw);
+							
+						}
+					});
 					menu.add(it);
 				}
 			}

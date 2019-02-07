@@ -78,6 +78,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	
 	protected void error(Exception e)
 	{
+		logger.error("error", e);
 		MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 	}
 }

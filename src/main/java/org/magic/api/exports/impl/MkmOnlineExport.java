@@ -252,14 +252,21 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setUpdate(true);
 			mcs.setIdstock(-1);
 			mcs.setComment(a.getComments());
-			mcs.setLanguage(a.getLanguage().getLanguageName());
+			try{
+				mcs.setLanguage(a.getLanguage().getLanguageName());
+			}
+			catch(Exception e)
+			{
+				logger.error("Error getting langage for " + a);
+			}
+			
+			
 			mcs.setQte(a.getCount());
 			mcs.setFoil(a.isFoil());
 			mcs.setSigned(a.isSigned());
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-					.searchCardByName( a.getProduct().getEnName(), null, true).get(0);
+			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true).get(0);
 			MagicCardMarketPricer2.selectEditionCard(mc, a.getProduct().getExpansionName());
 
 			mcs.setMagicCard(mc);
