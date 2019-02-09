@@ -29,8 +29,12 @@
     <debug-json-panel>true</debug-json-panel>
     <lookAndFeel></lookAndFeel>
     <locale>en</locale>
+    
     <currencylayer-access-api></currencylayer-access-api>
+    <currencylayer-converter-enable>false</currencylayer-converter-enable>
     <currency>USD</currency>
+    
+    
     <card-pictures-dimension>
          <width>336</width>
          <height>468</height>

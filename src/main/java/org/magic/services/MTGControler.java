@@ -37,6 +37,7 @@ import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageTools;
+import org.utils.patterns.observer.Observer;
 
 public class MTGControler {
 
@@ -88,12 +89,23 @@ public class MTGControler {
 			keyWordManager = new KeyWordProvider();
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
-			currencyService = new CurrencyConverter(get("currencylayer-access-api"));
-			
-			
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
+		
+		
+		currencyService = new CurrencyConverter(get("currencylayer-access-api"));
+		try {
+			currencyService.init();
+		}
+		catch(Exception e)
+		{
+			logger.error("error init currency services : " + e);
+			setProperty("/currencylayer-converter-enable", "false");
+
+		}
+		
+		
 	}
 	
 	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException
@@ -114,8 +126,12 @@ public class MTGControler {
 		
 	}
 	
-	public void saveCard(MagicCard mc , MagicCollection collection) throws SQLException
+	public void saveCard(MagicCard mc , MagicCollection collection,Observer o) throws SQLException
 	{
+		
+		if(o!=null)
+			getEnabled(MTGDao.class).addObserver(o);
+		
 		getEnabled(MTGDao.class).saveCard(mc, collection);
 		if(get("collections/stockAutoAdd").equals("true"))
 		{ 
@@ -124,6 +140,9 @@ public class MTGControler {
 			st.setMagicCollection(collection);
 			getEnabled(MTGDao.class).saveOrUpdateStock(st);
 		}
+		
+		if(o!=null)
+			getEnabled(MTGDao.class).removeObserver(o);
 	}
 	
 	public void setDefaultStock(MagicCardStock st) {

@@ -756,7 +756,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 								for (MagicCard mc : list) {
 									MagicCollection col = new MagicCollection(it.getText());
 									try {
-										MTGControler.getInstance().saveCard(mc, col);
+										MTGControler.getInstance().saveCard(mc, col,null);
 										publish(mc);
 										
 									} catch (SQLException e) {
@@ -856,7 +856,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 						for (MagicCard m : sets)
 						{
-							MTGControler.getInstance().saveCard(m, col);
+							MTGControler.getInstance().saveCard(m, col,null);
 							progressBar.progress();
 						}
 

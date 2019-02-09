@@ -31,6 +31,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractCardTableWorker;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 
@@ -43,7 +44,7 @@ public class CardsEditionTablePanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnImport;
 	private JComboBox<MagicCollection> cboCollection;
-	private transient SwingWorker<List<MagicCard>, MagicCard> sw;
+	private transient AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider> sw;
 	
 	
 	public CardsEditionTablePanel() {
@@ -110,7 +111,7 @@ public class CardsEditionTablePanel extends JPanel {
 					protected Void doInBackground() throws Exception {
 						for(MagicCard mc : list)
 							try {
-								MTGControler.getInstance().saveCard(mc, (MagicCollection)cboCollection.getSelectedItem());
+								MTGControler.getInstance().saveCard(mc, (MagicCollection)cboCollection.getSelectedItem(),null);
 								publish(mc);
 							} catch (SQLException e) {
 								logger.error("couln't save " + mc,e);
@@ -173,7 +174,7 @@ public class CardsEditionTablePanel extends JPanel {
 		}
 		
 		
-		sw = new AbstractCardTableWorker(model,buzy) {
+		sw = new AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class)) {
 			
 			@Override
 			protected List<MagicCard> doInBackground() {
@@ -188,6 +189,26 @@ public class CardsEditionTablePanel extends JPanel {
 				}
 				
 			}
+			
+			@Override
+			protected void process(List<MagicCard> chunks) {
+				super.process(chunks);
+				model.addItems(chunks);
+			}
+			
+			
+			@Override
+			protected void done() {
+				super.done();
+				try {
+					model.init(get());
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+			
+			
+			
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw, "loading edition "+currentEdition);

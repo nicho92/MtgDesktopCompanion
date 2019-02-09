@@ -162,7 +162,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 					MagicCard mcCard = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
 					try {
-						MTGControler.getInstance().saveCard(mcCard, MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec));
+						MTGControler.getInstance().saveCard(mcCard, MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec),null);
 					} catch (SQLException e1) {
 						logger.error(e1);
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));

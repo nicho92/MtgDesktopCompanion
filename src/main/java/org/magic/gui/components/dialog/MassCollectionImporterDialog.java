@@ -168,7 +168,7 @@ public class MassCollectionImporterDialog extends JDialog {
 										.get(0);
 
 							deck.add(mc);
-							MTGControler.getInstance().saveCard(mc,col);
+							MTGControler.getInstance().saveCard(mc,col,null);
 							
 						} catch (Exception e1) {
 							logger.error(e1);

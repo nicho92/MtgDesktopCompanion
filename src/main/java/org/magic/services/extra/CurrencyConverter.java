@@ -16,6 +16,7 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 
 public class CurrencyConverter {
@@ -28,7 +29,6 @@ public class CurrencyConverter {
 		this.token=token;
 		map = new HashMap<>();
 		cache=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"conversionData.json").toFile();
-		init();
 	}
 	
 	public Currency getCurrentCurrency()
@@ -101,8 +101,7 @@ public class CurrencyConverter {
 		return MTGControler.getInstance().get("currencylayer-converter-enable").equals("true");
 	}
 	
-	public void init() {
-		try {
+	public void init() throws IOException {
 			JsonObject obj;
 			map.clear();
 			if(!cache.exists())
@@ -119,12 +118,6 @@ public class CurrencyConverter {
 				obj = new JsonParser().parse(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 			}
 			obj.entrySet().forEach(entry->map.put(entry.getKey().substring(3),entry.getValue().getAsDouble()));
-		}
-		catch(Exception e)
-		{
-			logger.error("couldn't init CurrencyConverter :"+e);
-			MTGControler.getInstance().setProperty("/currencylayer-converter-enable","false");
-		}
 		
 	}
 	
