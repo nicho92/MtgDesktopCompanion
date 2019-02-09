@@ -78,7 +78,7 @@ public class LookAndFeelProvider {
 			return list.toArray(new LookAndFeelInfo[list.size()]);
 		
 		logger.warn("pushingpixel is temporary suspended, need to finish SwingWorker thread reforge");
-/*
+
 		Reflections classReflections = new Reflections("org.pushingpixels.substance.api.skin");
 		list = new ArrayList<>();
 		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
@@ -89,8 +89,8 @@ public class LookAndFeelProvider {
 				logger.error("Loading " + c, e);
 			}
 		}
-		*/
-		Reflections classReflections = new Reflections("com.jtattoo.plaf");
+		
+		classReflections = new Reflections("com.jtattoo.plaf");
 		for (Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
 			try {
 				AbstractLookAndFeel look = c.getConstructor(null).newInstance();

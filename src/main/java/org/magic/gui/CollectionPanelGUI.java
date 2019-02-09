@@ -505,7 +505,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						jsonPanel.show(curr.getUserObject());
 
 					} catch (Exception e) {
-						logger.error("error refresh " + curr.getUserObject(),e);
+						logger.error("error refresh " + curr.getUserObject() +":"+e.getLocalizedMessage());
 					}
 				}, "Calculate Editions cards");
 			}
@@ -834,7 +834,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			adds.addActionListener(e -> {
 
 				final String destinationCollection = ((JMenuItem) e.getSource()).getText();
-				ThreadManager.getInstance().execute(() -> {
+				ThreadManager.getInstance().invokeLater(() -> {
 					try {
 						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
 						MagicEdition me = (MagicEdition) node.getUserObject();
@@ -866,7 +866,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						logger.error(e1);
 						progressBar.end();
 					}
-				}, "btnAdds addCardsCollection");
+				});
 			});
 
 			menuItemAdd.add(adds);

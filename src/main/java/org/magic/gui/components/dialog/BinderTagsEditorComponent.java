@@ -36,6 +36,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageTools;
+import javax.swing.BoxLayout;
 
 public class BinderTagsEditorComponent extends MTGUIComponent {
 	
@@ -58,7 +59,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 	private JList<MagicEdition> listEditions;
 	private DefaultListModel<MagicEdition> model;
 	private JButton btnRefresh;
-	private JLabel lblSelection;
+	private JPanel panneauBas;
 
 	public void updateInfo() {
 		img = ImageTools.trimAlpha(tagMaker.generate());
@@ -141,41 +142,22 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		add(scrollPane, BorderLayout.CENTER);
 		add(leftPanel, BorderLayout.WEST);
 		leftPanel.setLayout(new BorderLayout(0, 0));
-		leftPanel.add(editorPanel, BorderLayout.NORTH);
-		GridBagLayout gbleditorPanel = new GridBagLayout();
-		gbleditorPanel.columnWidths = new int[]{0, 275, 0, 0};
-		gbleditorPanel.rowHeights = new int[]{0, 249, 0, 0, 0, 0};
-		gbleditorPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbleditorPanel.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
-		editorPanel.setLayout(gbleditorPanel);
-		
-		lblSelection = new JLabel("Select your expansions :");
-		GridBagConstraints gbclblSelection = new GridBagConstraints();
-		gbclblSelection.anchor = GridBagConstraints.NORTHWEST;
-		gbclblSelection.insets = new Insets(0, 0, 5, 5);
-		gbclblSelection.gridx = 1;
-		gbclblSelection.gridy = 0;
-		editorPanel.add(lblSelection, gbclblSelection);
+		leftPanel.add(editorPanel, BorderLayout.CENTER);
+		editorPanel.setLayout(new BorderLayout(0, 0));
 		
 		scrollListEdition = new JScrollPane(listEditions);
-		GridBagConstraints gbcscrollPane1 = new GridBagConstraints();
-		gbcscrollPane1.insets = new Insets(0, 0, 5, 5);
-		gbcscrollPane1.fill = GridBagConstraints.BOTH;
-		gbcscrollPane1.gridx = 1;
-		gbcscrollPane1.gridy = 1;
-		editorPanel.add(scrollListEdition, gbcscrollPane1);
+		editorPanel.add(scrollListEdition, BorderLayout.CENTER);
+		
+		panneauBas = new JPanel();
+		editorPanel.add(panneauBas, BorderLayout.SOUTH);
+		panneauBas.setLayout(new BoxLayout(panneauBas, BoxLayout.Y_AXIS));
 		
 		
 		
 		panel1 = new JPanel();
+		panneauBas.add(panel1);
 		FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		GridBagConstraints gbcpanel1 = new GridBagConstraints();
-		gbcpanel1.insets = new Insets(0, 0, 5, 5);
-		gbcpanel1.fill = GridBagConstraints.BOTH;
-		gbcpanel1.gridx = 1;
-		gbcpanel1.gridy = 2;
-		editorPanel.add(panel1, gbcpanel1);
 		
 		chckbxAddHeader = new JCheckBox("add Header");
 		panel1.add(chckbxAddHeader);
@@ -184,14 +166,9 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panel1.add(cboLogo);
 		
 		panelInterspace = new JPanel();
+		panneauBas.add(panelInterspace);
 		FlowLayout flowLayout1 = (FlowLayout) panelInterspace.getLayout();
 		flowLayout1.setAlignment(FlowLayout.LEFT);
-		GridBagConstraints gbcPanelInterSpace = new GridBagConstraints();
-		gbcPanelInterSpace.insets = new Insets(0, 0, 0, 5);
-		gbcPanelInterSpace.fill = GridBagConstraints.BOTH;
-		gbcPanelInterSpace.gridx = 1;
-		gbcPanelInterSpace.gridy = 4;
-		editorPanel.add(panelInterspace, gbcPanelInterSpace);
 		
 		lblInterSpace = new JLabel("Space :");
 		panelInterspace.add(lblInterSpace);
