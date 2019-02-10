@@ -63,9 +63,6 @@ public class ThreadManager {
 				executor.getCompletedTaskCount(),
 				executor.getTaskCount(),
 				name));
-		
-		
-		threads.forEach(t->logger.trace("THREAD-" + t.getId()+"\t"+t.getName() +"\t" + t.isAlive()));
 	}
 
 	private ThreadManager() {
