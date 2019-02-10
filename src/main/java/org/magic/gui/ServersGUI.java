@@ -27,7 +27,7 @@ public class ServersGUI extends MTGUIComponent {
 	public ServersGUI() {
 		setLayout(new GridLayout(10, 1, 0, 0));
 		
-		ThreadManager.getInstance().runInEdt(()->{
+		ThreadManager.getInstance().invokeLater(()->{
 				for (MTGServer s : MTGControler.getInstance().getPlugins(MTGServer.class)) {
 					add(new ServerStatePanel(s));
 				}

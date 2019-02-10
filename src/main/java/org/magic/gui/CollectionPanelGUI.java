@@ -76,6 +76,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class CollectionPanelGUI extends MTGUIComponent {
@@ -111,7 +112,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JButton btnGenerateWebSite;
 	private JSplitPane splitListPanel;
 	private JSplitPane splitPane;
-	
+	private List<MagicCard> listExport;
 	
 	private PricesTablePanel pricePanel;
 	
@@ -382,60 +383,75 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(al -> ThreadManager.getInstance().execute(() -> {
-						try {
+					it.addActionListener(al -> {
 
-							DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-							JFileChooser jf = new JFileChooser();
+						
+								DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+								JFileChooser jf = new JFileChooser();
+		
+								MagicCollection mc = null;
+								MagicEdition ed = null;
+		
+								if (curr.getUserObject() instanceof MagicEdition) {
+									ed = (MagicEdition) curr.getUserObject();
+									mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+								} else {
+									mc = (MagicCollection) curr.getUserObject();
+								}
+		
+								jf.setSelectedFile(new File(mc.getName() + exp.getFileExtension()));
+								int result = jf.showSaveDialog(null);
+								File f = jf.getSelectedFile();
+						
+								if (result == JFileChooser.APPROVE_OPTION) {
+									
+									
+									
+									try {
+										
+										
+									if (ed == null)
+										listExport= dao.listCardsFromCollection(mc);
+									else
+										listExport= dao.listCardsFromCollection(mc, ed);
+									
+									
+									AbstractObservableWorker<Void, MagicCard, MTGCardsExport> swExp = new AbstractObservableWorker<Void, MagicCard, MTGCardsExport>(progressBar,exp,listExport.size()){
 
-							MagicCollection mc = null;
-							MagicEdition ed = null;
+										@Override
+										protected Void doInBackground() throws Exception {
+											plug.export(listExport, f);
+											return null;
+										}
 
-							if (curr.getUserObject() instanceof MagicEdition) {
-								ed = (MagicEdition) curr.getUserObject();
-								mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-							} else {
-								mc = (MagicCollection) curr.getUserObject();
-							}
+										@Override
+										protected void notifyEnd() {
+											MTGControler.getInstance().notify(new MTGNotification(
+													MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+													MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+													MESSAGE_TYPE.INFO
+													));
+										}
 
-							jf.setSelectedFile(new File(mc.getName() + exp.getFileExtension()));
-							int result = jf.showSaveDialog(null);
-							File f = jf.getSelectedFile();
-
-							
-							exp.addObserver(progressBar);
-							if (result == JFileChooser.APPROVE_OPTION) {
-								
-								List<MagicCard> list=null;
-								if (ed == null)
-									list=dao.listCardsFromCollection(mc);
-								else
-									list=dao.listCardsFromCollection(mc, ed);
-								
-								progressBar.start(list.size());
-								
-								exp.export(list, f);
-
-								progressBar.end();
-								
-								MTGControler.getInstance().notify(new MTGNotification(
-										MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-										MESSAGE_TYPE.INFO
-										));
-							}
-
-						} catch (Exception e) {
-							logger.error("error in export",e);
-							progressBar.end();
-							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-						}
-						finally
-						{
-							exp.removeObserver(progressBar);
-						}
-					}, "export collection with " + exp));
-
+										@Override
+										protected void error(Exception e) {
+											MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+										}
+									};
+									ThreadManager.getInstance().runInEdt(swExp);
+									
+									}
+									catch(Exception e)
+									{
+										MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+									}
+									
+									
+								}
+						
+													
+					
+					});
 					menu.add(it);
 				}
 				

@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 
@@ -28,15 +29,6 @@ public class ThreadManager {
 		return inst;
 	}
 	
-	
-	@Deprecated	
-	public void execute(Runnable task, String name) {
-		this.name=name;
-		executor.execute(task);
-		log();
-	}
-
-
 	public void executeThread(Runnable task, String name) {
 		this.name=name;
 		executor.submit(task);
@@ -47,9 +39,8 @@ public class ThreadManager {
 		SwingUtilities.invokeLater(task);
 	}
 	
-	
-	public void runInEdt(Runnable runnable) {
-		runInEdt(runnable, "MTGThread");
+	public void runInEdt(SwingWorker<?, ?> runnable) {
+		runnable.execute();
 	}
 	
 		

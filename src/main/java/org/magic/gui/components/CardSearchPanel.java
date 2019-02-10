@@ -14,7 +14,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +55,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
@@ -73,7 +73,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import org.magic.services.workers.AbstractCardTableWorker;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
@@ -499,51 +499,52 @@ public class CardSearchPanel extends MTGUIComponent {
 			lblLoading.start();
 			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 			
-			SwingWorker<List<MagicCard>, MagicCard> sw = new AbstractCardTableWorker(cardsModeltable,lblLoading) {
-				protected List<MagicCard> doInBackground() {
-						List<MagicCard> cards = new ArrayList<>();
-						String searchName = txtSearch.getText().trim();
-						try {
-							if (cboCollections.isVisible()) {
-								cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
-							}
-							else if(cboEdition.isVisible()) {
-								cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEdition.getSelectedItem());
-							} 
-							else {
-								cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
-							}
-						}
-						catch(IOException e)
-						{
-							logger.error("Error searching "+ searchName,e);
-						} catch (SQLException e) {
-							logger.error("Error in dao for "+ searchName,e);
-						}
-						try {
-							Collections.sort(cards, new CardsEditionSorter());
-						}
-						catch(IllegalArgumentException e)
-						{
-							logger.error("error sorting result "+e);
-						}
-						
-						return cards;
+			
+			
+			MTGPlugin plug = (cboCollections.isVisible()) ? MTGControler.getInstance().getEnabled(MTGDao.class):MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
+			String searchName = txtSearch.getText().trim();
+			cardsModeltable.clear();
+			
+			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin>(lblLoading,plug) {
+				@Override
+				protected List<MagicCard> doInBackground() throws Exception {
+					List<MagicCard> cards;
+					
+					if (cboCollections.isVisible()) {
+						cards=((MTGDao)plug).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
+					}
+					else if(cboEdition.isVisible()) {
+						cards=((MTGCardsProvider)plug).searchCardByEdition((MagicEdition)cboEdition.getSelectedItem());
+					} 
+					else {
+						cards=((MTGCardsProvider)plug).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
+					}
+					
+					try {
+						Collections.sort(cards, new CardsEditionSorter());
+					}
+					catch(IllegalArgumentException e)
+					{
+						logger.error("error sorting result "+e);
+					}
+					
+					return cards;
+				}
+				
+				@Override
+				protected void process(List<MagicCard> chunks) {
+					super.process(chunks);
+					cardsModeltable.addItems(chunks);
 				}
 
 				@Override
 				protected void done() {
+					super.done();
+					open(getResult());
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-					try {
-						open(get());
-					} catch (Exception e) {
-						logger.error(e);
-					}
-					lblLoading.end();
 				}
 			};
-			
-			ThreadManager.getInstance().runInEdt(sw,"searching "+txtSearch.getText());
+			ThreadManager.getInstance().runInEdt(wk,"searching "+txtSearch.getText());
 			
 		});
 
@@ -763,8 +764,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			typeRepartitionPanel.init(cards);
 			manaRepartitionPanel.init(cards);
 			rarityRepartitionPanel.init(cards);
-			tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS") + " ("
-					+ cardsModeltable.getRowCount() + ")");
+			tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS") + " ("+ cardsModeltable.getRowCount() + ")");
 			btnExport.setEnabled(true);
 		}
 	}
