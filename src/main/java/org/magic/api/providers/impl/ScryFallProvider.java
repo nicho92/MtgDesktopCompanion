@@ -34,6 +34,7 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String CARDS = "/cards/";
 	private static final String ILLUSTRATION_ID = "illustration_id";
 	private static final String FRAME = "frame";
 	private static final String SEARCH_Q = "search?q=";
@@ -100,7 +101,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			comparator = "!\"" + crit + "\"";
 
 		StringBuilder url = new StringBuilder(baseURI);
-				url.append("/cards/");
+				url.append(CARDS);
 				
 		if (att.equals(NAME))
 			url.append(SEARCH_Q).append(URLEncoder.encode("++" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING.displayName()));
@@ -161,7 +162,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
-		String url = baseURI + "/cards/" + me.getId() + "/" + id;
+		String url = baseURI + CARDS + me.getId() + "/" + id;
 		URLConnection con = URLTools.openConnection(url);
 		JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
@@ -471,7 +472,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	private void generateRules(MagicCard mc) throws IOException {
-		String url = getString("URL")+"/cards/" + mc.getId() + "/rulings";
+		String url = getString("URL")+CARDS + mc.getId() + "/rulings";
 		HttpURLConnection con = URLTools.openConnection(url);
 
 		JsonElement el = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING)));
