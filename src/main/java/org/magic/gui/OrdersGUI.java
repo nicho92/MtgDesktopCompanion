@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -194,7 +193,7 @@ public class OrdersGUI extends MTGUIComponent {
 					editionFinancialChartPanel.init(o.getEdition());
 		
 				
-				ThreadManager.getInstance().runInEdt(()->{
+				ThreadManager.getInstance().executeThread(()->{
 						MagicCard mc=null;
 						try {
 							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
@@ -266,12 +265,6 @@ public class OrdersGUI extends MTGUIComponent {
 			}
 		});
 		
-	}
-
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		MTGUIComponent.createJDialog(new OrdersGUI(),true,false).setVisible(true);
 	}
 
 	@Override

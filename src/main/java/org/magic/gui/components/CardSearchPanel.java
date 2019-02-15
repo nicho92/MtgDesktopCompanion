@@ -744,7 +744,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
 			deckPanel.init(selectedCard);
-			ThreadManager.getInstance().runInEdt(
+			ThreadManager.getInstance().executeThread(
 					() -> historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName()),
 					"load history for " + selectedEdition);
 

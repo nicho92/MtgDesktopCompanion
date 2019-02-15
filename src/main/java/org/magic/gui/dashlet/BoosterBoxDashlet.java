@@ -111,7 +111,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		list1.setCellRenderer(new MagicCardListRenderer());
 		scrollPane1.setViewportView(list1);
 
-		btnCalculate.addActionListener(e -> ThreadManager.getInstance().runInEdt(() -> {
+		btnCalculate.addActionListener(e -> ThreadManager.getInstance().executeThread(() -> {
 			try {
 				List<CardShake> prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class)
 						.getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());

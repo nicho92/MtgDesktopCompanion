@@ -1,7 +1,5 @@
 package org.magic.services;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -19,7 +17,6 @@ public class ThreadManager {
 	private ThreadPoolExecutor executor;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
-	private List<Thread> threads;
 	private String name="";
 
 	public static ThreadManager getInstance() {
@@ -45,13 +42,9 @@ public class ThreadManager {
 	
 		
 
-	public void runInEdt(Runnable runnable,String name) {
-		this.name="EDT-"+name;
-		if (SwingUtilities.isEventDispatchThread())
-			executor.execute(runnable);
-		else
-			SwingUtilities.invokeLater(runnable);
-		
+	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
+		this.name=name;
+		runnable.execute();
 		log();
 	}
 	
@@ -66,14 +59,10 @@ public class ThreadManager {
 	}
 
 	private ThreadManager() {
-		
-		threads = new ArrayList<>();
 		factory = new ThreadFactoryBuilder().setNameFormat("mtg-threadpool-%d").setDaemon(true).build();
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}
 
-
-	
 }
 
 

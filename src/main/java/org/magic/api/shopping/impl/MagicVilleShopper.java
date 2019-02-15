@@ -28,11 +28,6 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	String urlLogin = urlBase+"/fr/connexion.php";
 	String urlDetailOrder=urlBase+"/fr/register/";
 	
-	
-	public static void main(String[] args) throws IOException {
-		new MagicVilleShopper().listOrders();
-	}
-	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		URLToolsClient client = URLTools.newClient();

@@ -568,7 +568,7 @@ public class ConfigurationPanel extends JPanel {
 		});
 		
 		btnIndexation.addActionListener(ae ->
-			ThreadManager.getInstance().runInEdt(() -> {
+			ThreadManager.getInstance().executeThread(() -> {
 				try {
 					loading(true, "Indexation");
 					btnIndexation.setEnabled(false);
@@ -585,7 +585,7 @@ public class ConfigurationPanel extends JPanel {
 			}, "Indexation")
 		);
 		
-		btnDuplicate.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
+		btnDuplicate.addActionListener(ae -> ThreadManager.getInstance().executeThread(() -> {
 			try {
 				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
 				dao.init();
@@ -633,7 +633,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		btnBackup.addActionListener(ae ->
 
-		ThreadManager.getInstance().runInEdt(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				loading(true, "backup db " + MTGControler.getInstance().getEnabled(MTGDao.class) + " database");
 				MTGControler.getInstance().getEnabled(MTGDao.class).backup(txtDAOBackup.getFile());

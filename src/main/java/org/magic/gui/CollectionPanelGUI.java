@@ -329,7 +329,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			//do nothing
 		}
 
-		ThreadManager.getInstance().runInEdt(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				historyPricesPanel.init(mc, null, mc.getName());
 			} catch (Exception e) {

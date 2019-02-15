@@ -103,10 +103,4 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 
 	}
 	
-	
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		SQLLiteDAO dao = new SQLLiteDAO();
-		dao.init();
-	}
-
 }

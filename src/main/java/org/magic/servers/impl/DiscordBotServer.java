@@ -165,7 +165,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				message.getReactions().parallelStream().filter(r -> r.getReactionEmote().getEmote().getName().equals(emote))
 								   .forEach(r -> {
 									   	try {
-											r.getUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
+											r.retrieveUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
 										} catch (Exception e) {
 											logger.error(e);
 										}

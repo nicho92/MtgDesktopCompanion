@@ -88,7 +88,7 @@ public class CardsPicPanel extends JXPanel {
 
 			}
 		}
-		ThreadManager.getInstance().runInEdt(() -> {
+		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (edition == null)
 					imgFront = renderer.appendReflection(

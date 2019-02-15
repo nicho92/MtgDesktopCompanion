@@ -14,14 +14,14 @@ public class GameClient {
 		
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
-		ThreadManager.getInstance().runInEdt(() -> {
+		ThreadManager.getInstance().invokeLater(() -> {
 			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"));
 			f.setIconImage(MTGConstants.ICON_GAME.getImage());
 			f.getContentPane().add(new GameGUI());
 			f.setVisible(true);
 			f.pack();
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		},"Running Game Client");
+		});
 		
 		
 		

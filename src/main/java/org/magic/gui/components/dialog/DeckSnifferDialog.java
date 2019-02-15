@@ -95,7 +95,7 @@ public class DeckSnifferDialog extends JDialog {
 							}
 						});
 			
-				btnConnect.addActionListener(e -> ThreadManager.getInstance().runInEdt(() -> {
+				btnConnect.addActionListener(e -> ThreadManager.getInstance().executeThread(() -> {
 					try {
 						lblLoad.start();
 						selectedSniffer.connect();
