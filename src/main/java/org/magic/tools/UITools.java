@@ -206,7 +206,7 @@ public class UITools {
 			}
 			catch(Exception e)
 			{
-				logger.error("error setting TableFilter of " + table.getName());
+				logger.error("error setting TableFilter of " + table);
 			}
 	}
 	
