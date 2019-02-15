@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
@@ -172,8 +173,15 @@ public class OrdersGUI extends MTGUIComponent {
 			
 				List<OrderEntry> states = UITools.getTableSelection(table, 0);
 			
+
 				if(states.isEmpty())
 					return;
+				
+				
+				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",states.size() + " item(s)"),
+						MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+				
+				
 				
 				SwingWorker<Void,OrderEntry> sw = new SwingWorker<Void, OrderEntry>()
 				{
@@ -200,7 +208,9 @@ public class OrdersGUI extends MTGUIComponent {
 									
 				};
 				
-				ThreadManager.getInstance().runInEdt(sw);
+				
+				if(res==JOptionPane.OK_OPTION)
+					ThreadManager.getInstance().runInEdt(sw);
 				
 				
 				
