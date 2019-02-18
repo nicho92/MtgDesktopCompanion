@@ -164,7 +164,6 @@ public class CardsEditionTablePanel extends JPanel {
 	
 		
 		btnImport.setEnabled(false);
-		buzy.start(currentEdition.getCardCount());
 		
 		
 		if(sw!=null && !sw.isDone())
@@ -173,7 +172,7 @@ public class CardsEditionTablePanel extends JPanel {
 		}
 		
 		
-		sw = new AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class)) {
+		sw = new AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),currentEdition.getCardCount()) {
 			
 			@Override
 			protected List<MagicCard> doInBackground() {

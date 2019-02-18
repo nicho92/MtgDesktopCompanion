@@ -22,7 +22,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
