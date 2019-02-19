@@ -35,7 +35,9 @@ public class ConsoleServer extends AbstractMTGServer {
 				new ProtocolCodecFilter(new TextLineCodecFactory(MTGConstants.DEFAULT_ENCODING)));
 		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, getInt("IDLE-TIME"));
-		acceptor.setHandler(new MTGConsoleHandler());
+		MTGConsoleHandler handler = new MTGConsoleHandler();
+		handler.setWelcomeMessage(getString("STARTUP_MESSAGE"));
+		acceptor.setHandler(handler);
 		acceptor.bind(new InetSocketAddress(getInt(SERVER_PORT)));
 		logger.info("Server started on port " + getString(SERVER_PORT));
 	}
@@ -64,7 +66,7 @@ public class ConsoleServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAutostart() {
-		return getString("AUTOSTART").equals("true");
+		return getBoolean("AUTOSTART");
 	}
 
 	@Override
@@ -72,9 +74,8 @@ public class ConsoleServer extends AbstractMTGServer {
 		setProperty(SERVER_PORT, "5152");
 		setProperty("IDLE-TIME", "10");
 		setProperty("BUFFER-SIZE", "2048");
-		
 		setProperty("AUTOSTART", "false");
-
+		setProperty("STARTUP_MESSAGE", "Welcome to MTG Desktop Companion Server");
 	}
 
 }
