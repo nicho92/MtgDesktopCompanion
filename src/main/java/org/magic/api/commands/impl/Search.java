@@ -20,10 +20,10 @@ import org.magic.services.MTGControler;
 public class Search extends AbstractCommand {
 
 	public void initOptions()  {
+		super.initOptions();
 		opts.addOption("c", "cards", true, "search cards");
 		opts.addOption("s", "set", false, "show all sets");
 		opts.addOption("col", "cols", false, "show all collections");
-		opts.addOption("?", "help", false, "help for command");
 	}
 
 	@Override

@@ -17,10 +17,11 @@ import org.magic.services.MTGControler;
 public class Get extends AbstractCommand {
 
 	public void initOptions() {
+		super.initOptions();
+		
 		opts.addOption("n", "name", true, "get Card by name");
 		opts.addOption("e", "equal", false, "strict search");
 		opts.addOption("s", "set", true, "search in edition");
-		opts.addOption("?", "help", false, "help for command");
 	}
 	
 	@Override

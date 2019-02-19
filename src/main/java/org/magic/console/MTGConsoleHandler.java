@@ -106,9 +106,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		if (message == null)
 			return;
 		
-		if (message.toString().equals("cls") || message.toString().equals("clear")) {
-			session.write("\033[2J");
-		} else {
+		
 			String line = message.toString();
 			String[] commandeLine = translateCommandline(line);
 			MTGCommand c = commandFactory(commandeLine[0]);
@@ -122,11 +120,11 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 				c.setHandler(this);
 				logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
 				AbstractResponse ret = c.run(commandeLine);
-				session.write(ret);
+				session.write(ret+EOL);
 				c.quit();
 				history.add(line);
 			}
-		}
+		
 
 	}
 

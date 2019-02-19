@@ -22,12 +22,11 @@ public class Dash extends AbstractCommand {
 
 	@Override
 	public void initOptions() {
+		super.initOptions();
 		opts.addOption("f", "format", true, "get trending for a format");
 		opts.addOption("c", "card", true, "get trending for a card");
 		opts.addOption("s", "set", true, "get trending for a set");
 		opts.addOption("t", "trending", true, "get trending for a set");
-		opts.addOption("?", "help", false, "help for command");
-		
 	}
 
 

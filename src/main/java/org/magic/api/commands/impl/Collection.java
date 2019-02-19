@@ -27,10 +27,9 @@ public class Collection extends AbstractCommand {
 	
 	@Override
 	public void initOptions() {
+		super.initOptions();
 		opts.addOption("l", "list", false, "list Collections");
 		opts.addOption("s", "sets", false, "list editions");
-		opts.addOption("?", "help", false, "help for command");
-		
 	}
 	
 	@Override

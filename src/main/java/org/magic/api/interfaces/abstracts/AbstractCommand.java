@@ -28,8 +28,10 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	protected JsonExport json;
 	protected MTGConsoleHandler handler;
 	
-	public abstract void initOptions();
-	
+	public void initOptions()
+	{
+		opts.addOption("?", "help", false, " : help for command");
+	}
 	
 	public AbstractCommand() {
 		json = new JsonExport();
