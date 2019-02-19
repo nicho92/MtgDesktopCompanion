@@ -21,7 +21,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 
 
 	private static Logger logger = MTGLogger.getLogger(MTGConsoleHandler.class);
-	private List<String> history;
+	private List<MTGCommand> history;
 	private String wcMessage;
 
 	public static final String EOL="\r\n";
@@ -30,16 +30,18 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		history = new ArrayList<>();
 	}
 
-	public List<String> getHistory() {
+	public List<MTGCommand> getHistory() {
 		return history;
 	}
 
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
-		
+		logger.debug("Connection from " + session.getRemoteAddress());
+	
 		if(wcMessage.isEmpty())
-			session.write("Welcome to MTG Desktop Companion Server"+EOL);
-		else
+			wcMessage="Welcome to MTG Desktop Companion Server";
+
+		
 			session.write(wcMessage+EOL);
 	}
 
@@ -128,7 +130,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 				AbstractResponse ret = c.run(commandeLine);
 				session.write(ret+EOL);
 				c.quit();
-				history.add(line);
+				history.add(c);
 			}
 		
 
