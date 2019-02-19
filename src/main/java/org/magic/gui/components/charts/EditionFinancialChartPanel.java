@@ -56,7 +56,6 @@ public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> 
 			double totalEd = price.stream().mapToDouble(CardShake::getPrice).sum();
 			
 			if(!items.isEmpty()) {
-			//	totalEd = MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getCurrency(),items.get(0).getCurrency(), totalEd);
 				dataset.addValue(totalEd, "Actual Value", ed.getSet() );
 				dataset.addValue(getTotal(items), "Paid", ed.getSet() );
 			}
