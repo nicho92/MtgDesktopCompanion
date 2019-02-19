@@ -1,4 +1,4 @@
-package org.magic.gui.components.dialog;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.lang.management.ManagementFactory;
@@ -79,6 +79,11 @@ public class ThreadMonitor extends MTGUIComponent  {
 		t.start();
 	}
 	
+	
+	@Override
+	public void onDestroy() {
+		t.stop();
+	}
 
 	@Override
 	public String getTitle() {
