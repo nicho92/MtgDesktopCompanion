@@ -34,7 +34,7 @@ public class Collection extends AbstractCommand {
 	}
 	
 	@Override
-	public AbstractResponse<?> run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
+	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		CommandLine cl = parser.parse(opts, args);
@@ -54,7 +54,7 @@ public class Collection extends AbstractCommand {
 			JsonArray arr =new JsonArray();
 			for (MagicEdition ed : eds) {
 				JsonObject obj = new JsonObject();
-				obj.add("edition", json.toJsonElement(ed));
+				obj.addProperty("edition", ed.getSet());
 				obj.addProperty("release", ed.getReleaseDate());
 				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 				obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
@@ -68,12 +68,12 @@ public class Collection extends AbstractCommand {
 
 				arr.add(obj);
 			}
-			return new ArrayResponse<>(JsonArray.class, Arrays.asList("edition","release","qty","cardNumber","defaultLibrary","pc"), arr);
+			return new ArrayResponse(JsonArray.class, Arrays.asList("edition","release","qty","cardNumber","defaultLibrary","pc"), arr);
 		}
 		
 		if (cl.hasOption("l")) {
 			try {
-				return new ArrayResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+				return new ArrayResponse(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}

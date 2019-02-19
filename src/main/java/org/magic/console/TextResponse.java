@@ -1,6 +1,6 @@
 package org.magic.console;
 
-public class TextResponse extends AbstractResponse<String> {
+public class TextResponse extends AbstractResponse {
 
 	private String content;
 	

@@ -24,7 +24,7 @@ public class Get extends AbstractCommand {
 	}
 	
 	@Override
-	public AbstractResponse<?> run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -51,7 +51,7 @@ public class Get extends AbstractCommand {
 		if(name!=null)
 		{
 			try {
-				return new ArrayResponse<>(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
+				return new ArrayResponse(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
 			}catch(Exception e)
 			{
 				logger.error(e);

@@ -32,7 +32,7 @@ public class CommandsTests {
 		String[] commandeLine = MTGConsoleHandler.translateCommandline(line);
 		MTGCommand c = MTGConsoleHandler.commandFactory(commandeLine[0]);
 		try {
-			AbstractResponse<?> resp = c.run(commandeLine);
+			AbstractResponse resp = c.run(commandeLine);
 			System.out.println(resp.show());
 		} catch (Exception e) {
 			fail(e.getMessage());

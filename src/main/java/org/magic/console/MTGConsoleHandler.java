@@ -23,6 +23,8 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	private static Logger logger = MTGLogger.getLogger(MTGConsoleHandler.class);
 	private List<String> history;
 
+	public static final String EOL="\r\n";
+	
 	public MTGConsoleHandler() {
 		history = new ArrayList<>();
 	}
@@ -33,7 +35,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
-		session.write("Welcome to MTG Desktop Companion Server\r\n");
+		session.write("Welcome to MTG Desktop Companion Server"+EOL);
 	}
 
 	@Override
@@ -113,13 +115,13 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			
 			if(c==null)
 			{
-				session.write("Command not found");
+				session.write("Command not found"+EOL);
 			}
 			else
 			{
 				c.setHandler(this);
 				logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
-				AbstractResponse<?> ret = c.run(commandeLine);
+				AbstractResponse ret = c.run(commandeLine);
 				session.write(ret);
 				c.quit();
 				history.add(line);

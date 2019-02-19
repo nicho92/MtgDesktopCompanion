@@ -1,6 +1,6 @@
 package org.magic.console;
 
-public abstract class AbstractResponse<T> {
+public abstract class AbstractResponse {
 	
 
 	

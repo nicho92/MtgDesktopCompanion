@@ -10,15 +10,15 @@ import com.google.gson.JsonObject;
 
 import de.vandermeer.asciitable.AsciiTable;
 
-public class ArrayResponse<T> extends AbstractResponse<T> {
+public class ArrayResponse extends AbstractResponse {
 
 	private JsonElement element;
 	private List<String> attributes;
-	private Class<T> classe;
+	private Class classe;
 	
 	
 	
-	public ArrayResponse(Class<T> cls, List<String> attributes, JsonElement element)
+	public ArrayResponse(Class cls, List<String> attributes, JsonElement element)
 	{
 		this.classe=cls;
 		this.attributes=attributes;
@@ -60,13 +60,6 @@ public class ArrayResponse<T> extends AbstractResponse<T> {
 		return element.isJsonArray();
 	}
 	
-	public Class<T> getClasse() {
-		return classe;
-	}
-	
-	public void setClasse(Class<T> classe) {
-		this.classe = classe;
-	}
 	
 	public JsonElement getElement() {
 		return element;

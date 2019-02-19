@@ -32,7 +32,7 @@ public class Dash extends AbstractCommand {
 
 
 	@Override
-	public AbstractResponse<?> run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -41,12 +41,12 @@ public class Dash extends AbstractCommand {
 		
 		if (cl.hasOption("f")) {
 			MTGFormat f = MTGFormat.valueOf(cl.getOptionValue("f").toUpperCase());
-			return new ArrayResponse<>(CardShake.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(f)));
+			return new ArrayResponse(CardShake.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(f)));
 		}
 		
 		if (cl.hasOption("s") && !cl.hasOption("c")) {
 			MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
-			return new ArrayResponse<>(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed)));
+			return new ArrayResponse(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed)));
 		}
 		
 		if (cl.hasOption("c")) {
@@ -55,7 +55,14 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return new ArrayResponse<>(CardPriceVariations.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, ed)));
+			return new ArrayResponse(CardPriceVariations.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, ed)));
+		}
+		
+		
+		if (cl.hasOption("t")) {
+			MagicEdition ed = null;
+			ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(cl.getOptionValue("t"));
+			return new ArrayResponse(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed)));
 		}
 		
 		if (cl.hasOption("?")) {
