@@ -28,7 +28,6 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private JButton btnRefresh;
 	private Timer t;
 	private JVMemoryPanel memoryPanel;
-	private JButton btnRunGC;
 	
 	
 	public ThreadMonitor() {
@@ -54,20 +53,6 @@ public class ThreadMonitor extends MTGUIComponent  {
 		panel.add(btnRefresh);
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
-		
-		btnRunGC = new JButton("Kill");
-		btnRunGC.addActionListener(e->{
-			Long id = (Long) UITools.getTableSelection(tableT,0).get(0);
-			Optional<Thread> opt = Thread.getAllStackTraces().keySet().stream().filter(th->th.getId()==id).findFirst();
-			
-			if(opt.isPresent())
-			{
-				logger.debug("killing " + opt.get().getName());
-				opt.get().interrupt();
-			}
-			
-		});
-		panel.add(btnRunGC);
 		
 		t = new Timer(5000, e ->{ 
 			modelT.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
