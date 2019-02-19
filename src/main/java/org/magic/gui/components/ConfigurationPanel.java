@@ -457,12 +457,7 @@ public class ConfigurationPanel extends JPanel {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty("ui/moduleTabPosition",
 						cboToolPosition.getSelectedItem().toString());
-
 		});
-		
-		
-		
-		
 		
 		cboCurrency.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
@@ -484,7 +479,6 @@ public class ConfigurationPanel extends JPanel {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().getLafService().setLookAndFeel(SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem(),true);
 		});
-		
 
 		cboLogLevels.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED) {
@@ -492,6 +486,9 @@ public class ConfigurationPanel extends JPanel {
 				MTGLogger.changeLevel((Level) cboLogLevels.getSelectedItem());
 			}
 		});
+		
+		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
+
 
 		cboEditionLands.addItemListener(ie ->{
 			if (ie.getStateChange() == ItemEvent.SELECTED) 
@@ -503,6 +500,10 @@ public class ConfigurationPanel extends JPanel {
 				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,(MagicCollection) cboCollections.getSelectedItem());
 		});
 		
+		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getFile().getAbsolutePath()));
+
+		btnSavePrice.addActionListener(ae -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
+		
 		btnSavePicSize.addActionListener(ae -> {
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",(int) resizerPanel.getDimension().getWidth());
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/height",(int) resizerPanel.getDimension().getHeight());
@@ -510,7 +511,6 @@ public class ConfigurationPanel extends JPanel {
 			MTGControler.getInstance().getEnabled(MTGPictureProvider.class).setSize(resizerPanel.getDimension());
 		});
 		
-		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
 		
 		chkEnablePriceConversion.addItemListener(ie -> MTGControler.getInstance().setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
 		
@@ -535,9 +535,6 @@ public class ConfigurationPanel extends JPanel {
 			}
 		});
 
-		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getFile().getAbsolutePath()));
-
-		btnSavePrice.addActionListener(ae -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
 		
 		btnSaveProfilGame.addActionListener(ae -> {
 			MTGControler.getInstance().setProperty("/game/player-profil/name", txtName.getText());
