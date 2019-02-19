@@ -103,8 +103,7 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 		fireTableDataChanged();
 	}
 	
-	public T getItemAt(int row)
-	{
+	public T getItemAt(int row)	{
 		return items.get(row);
 	}
 	

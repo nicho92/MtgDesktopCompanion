@@ -53,13 +53,7 @@ public class JCSCache extends AbstractCacheProvider {
 		setProperty("jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount","300000");
 		setProperty("jcs.auxiliary.DC.attributes.ShutdownSpoolTimeLimit","60");
 	}
-	
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
-	
-	
+
 	@Override
 	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
 		if (ed == null)
