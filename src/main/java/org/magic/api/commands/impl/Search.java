@@ -13,7 +13,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
-import org.magic.console.CommandResponse;
+import org.magic.console.AbstractResponse;
+import org.magic.console.ArrayResponse;
 import org.magic.services.MTGControler;
 
 public class Search extends AbstractCommand {
@@ -26,7 +27,7 @@ public class Search extends AbstractCommand {
 	}
 
 	@Override
-	public CommandResponse<?> run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+	public AbstractResponse<?> run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		
@@ -35,11 +36,11 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			return new CommandResponse<>(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(att, val, null,false)));
+			return new ArrayResponse<>(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(att, val, null,false)));
 		}
 
 		if (cl.hasOption("s")) {
-			return new CommandResponse<>(MagicEdition.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()));
+			return new ArrayResponse<>(MagicEdition.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()));
 		}
 
 		if (cl.hasOption("col")) {
@@ -49,7 +50,7 @@ public class Search extends AbstractCommand {
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			return new CommandResponse<>(MagicCollection.class, null,json.toJsonElement(list));
+			return new ArrayResponse<>(MagicCollection.class, null,json.toJsonElement(list));
 		}
 
 		if (cl.hasOption("?")) {

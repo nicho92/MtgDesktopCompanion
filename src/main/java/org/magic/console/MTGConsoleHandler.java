@@ -21,7 +21,6 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 
 
 	private static Logger logger = MTGLogger.getLogger(MTGConsoleHandler.class);
-
 	private List<String> history;
 
 	public MTGConsoleHandler() {
@@ -101,9 +100,10 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	
 	@Override
 	public void messageReceived(IoSession session, Object message)throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException,InvocationTargetException, NoSuchMethodException {
+		
 		if (message == null)
 			return;
-
+		
 		if (message.toString().equals("cls") || message.toString().equals("clear")) {
 			session.write("\033[2J");
 		} else {
@@ -117,12 +117,12 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			}
 			else
 			{
+				c.setHandler(this);
 				logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
-				CommandResponse<?> ret = c.run(commandeLine);
+				AbstractResponse<?> ret = c.run(commandeLine);
 				session.write(ret);
 				c.quit();
 				history.add(line);
-				
 			}
 		}
 

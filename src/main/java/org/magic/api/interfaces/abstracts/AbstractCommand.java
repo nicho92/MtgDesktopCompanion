@@ -13,7 +13,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCommand;
-import org.magic.console.CommandResponse;
+import org.magic.console.AbstractResponse;
+import org.magic.console.MTGConsoleHandler;
+import org.magic.console.TextResponse;
 import org.magic.services.MTGConstants;
 
 import com.google.gson.JsonElement;
@@ -24,7 +26,7 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	protected CommandLineParser parser = new DefaultParser();
 	protected Options opts = new Options();
 	protected JsonExport json;
-	
+	protected MTGConsoleHandler handler;
 	
 	public abstract void initOptions();
 	
@@ -33,6 +35,12 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 		json = new JsonExport();
 		initOptions();
 	}
+	
+	@Override
+	public void setHandler(MTGConsoleHandler handler) {
+		this.handler=handler;
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -54,16 +62,16 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	
 	
 	@Override
-	public CommandResponse<?> usage() {
+	public AbstractResponse<?> usage() {
 		HelpFormatter formatter = new HelpFormatter();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintWriter ps = new PrintWriter(baos);
 		formatter.printHelp(ps, 50, getCommandName(), null, opts, 0, 0, null);
 		ps.close();
 		try {
-			return new CommandResponse(String.class,null,toObject(baos.toString(MTGConstants.DEFAULT_ENCODING.displayName())));
+			return new TextResponse(baos.toString(MTGConstants.DEFAULT_ENCODING.displayName()));
 		} catch (UnsupportedEncodingException e) {
-			return new CommandResponse(String.class,null,toObject(baos.toString()));
+			return new TextResponse(e.getMessage());
 		}
 	
 	}
