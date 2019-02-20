@@ -90,7 +90,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_45</version>
+			  <version>4.ALPHA.0_47</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -302,7 +302,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.8.0-beta2</version>
+			<version>1.8.0-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs.swingx</groupId>

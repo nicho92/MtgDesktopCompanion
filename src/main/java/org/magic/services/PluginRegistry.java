@@ -173,7 +173,7 @@ public class PluginRegistry {
 		return registry.entrySet();
 	}
 
-	private List<Class> getClasses(String packageName) {
+	public List<Class> getClasses(String packageName) {
 		ArrayList<Class> classes = new ArrayList<>();
 		Reflections classReflections = new Reflections(packageName);
 		for (Class<? extends MTGPlugin> c : classReflections.getSubTypesOf(MTGPlugin.class)) {
