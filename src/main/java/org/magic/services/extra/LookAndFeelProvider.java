@@ -77,8 +77,6 @@ public class LookAndFeelProvider {
 		if (!list.isEmpty())
 			return list.toArray(new LookAndFeelInfo[list.size()]);
 		
-		logger.warn("pushingpixel is temporary suspended, need to finish SwingWorker thread reforge");
-
 		Reflections classReflections = new Reflections("org.pushingpixels.substance.api.skin");
 		list = new ArrayList<>();
 		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
