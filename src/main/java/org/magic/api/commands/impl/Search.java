@@ -19,6 +19,7 @@ import org.magic.services.MTGControler;
 
 public class Search extends AbstractCommand {
 
+	@Override
 	public void initOptions()  {
 		super.initOptions();
 		opts.addOption("c", "cards", true, "search cards");

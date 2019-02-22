@@ -399,34 +399,6 @@ public class SealedPanel extends JPanel {
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw);
-		/*
-		ThreadManager.getInstance().execute(() -> {
-			int column = 0;
-			list = new ArrayList<>();
-			lblLoading.start();
-			for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
-
-				try {
-					for (int i = 0; i < ed.getValue(); i++) {
-
-						Booster b = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster(ed.getKey());
-						column++;
-						for (MagicCard mc : b.getCards()) {
-							list.add(mc);
-							DisplayableCard c = createCard(mc);
-							panelOpenedBooster.addComponent(c, column);
-						}
-					}
-				} catch (IOException e) {
-					logger.error(e);
-					lblLoading.end();
-				}
-
-			}
-			panelOpenedBooster.setList(list);
-			refreshStats();
-			lblLoading.end();
-		}, "Opening Sealed Booster");*/
 	}
 
 	private DisplayableCard createCard(MagicCard mc) {

@@ -16,9 +16,9 @@ import org.magic.services.MTGControler;
 
 public class Get extends AbstractCommand {
 
+	@Override
 	public void initOptions() {
 		super.initOptions();
-		
 		opts.addOption("n", "name", true, "get Card by name");
 		opts.addOption("e", "equal", false, "strict search");
 		opts.addOption("s", "set", true, "search in edition");
@@ -34,6 +34,11 @@ public class Get extends AbstractCommand {
 		String name=null;
 		MagicEdition edition=null;
 		boolean strict=cl.hasOption("e");
+		
+		
+		if (cl.hasOption("?")) {
+			return usage();
+		}
 		
 		if(cl.getOptions().length==0)
 		{
