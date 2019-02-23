@@ -580,18 +580,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void deleteAlert(MagicCardAlert alert) throws SQLException 
 	{
 		try (PreparedStatement pst = con.prepareStatement("DELETE FROM alerts where id=?")) {
-			logger.debug("DELETE FROM alerts where id="+alert.getId());
 			pst.setString(1, alert.getId());
 			int res = pst.executeUpdate();
 			logger.debug("delete alert " + alert + " ("+alert.getCard().getCurrentSet()+")="+res);
 		}
 
 		if (listAlerts != null)
-		{
-			boolean res = listAlerts.remove(alert);
-			logger.debug("delete alert FROM list " + res);
-		}
-
+			listAlerts.remove(alert);
 	}
 
 	@Override

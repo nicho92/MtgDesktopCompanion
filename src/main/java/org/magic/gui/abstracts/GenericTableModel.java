@@ -59,7 +59,10 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 	
 	public void addItems(List<T> t)
 	{
-		items.addAll(t);
+		
+		if(t!=null)
+			t.stream().forEach(c->items.add(c));
+		
 		fireTableDataChanged();
 	}
 	

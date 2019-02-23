@@ -143,6 +143,7 @@ public class PricesTablePanel extends JPanel {
 				
 				@Override
 				protected void process(List<MagicPrice> chunks) {
+					
 					model.addItems(chunks);
 					lblLoading.progress();
 				}
