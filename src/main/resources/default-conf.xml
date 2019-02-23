@@ -141,6 +141,10 @@
             <class>org.magic.api.cache.impl.JCSCache</class>
             <enable>false</enable>
         </cache>
+         <cache>
+            <class>org.magic.api.cache.impl.GuavaCache</class>
+            <enable>false</enable>
+        </cache>
     </caches>
     <servers>
         <server>
