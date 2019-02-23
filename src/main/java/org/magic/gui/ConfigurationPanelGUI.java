@@ -1,7 +1,6 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -11,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -103,10 +101,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<T>(multi, list));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
-		table.setDefaultRenderer(Boolean.class, new DefaultTableCellRenderer() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
+		table.setDefaultRenderer(Boolean.class, (JTable table2, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 				JPanel p = new JPanel();
 				JCheckBox cbox = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 				cbox.setOpaque(false);
@@ -118,11 +113,9 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 					p.setBackground(table.getBackground());
 				
 				return p;
-				
-				
-			}
-			
 		});
+		
+		
 		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
 		table.addTreeSelectionListener(e -> {
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)

@@ -64,9 +64,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		}
 		return "";
 	}
-	
-	
-	//todo : currency values of total
+
 	Double total;
 	private Double total(MagicEdition node) {
 		

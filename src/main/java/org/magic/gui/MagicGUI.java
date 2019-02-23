@@ -307,14 +307,14 @@ public class MagicGUI extends JFrame {
 					osNotifier.send(notif);
 				}
 			}
-			ThreadManager.getInstance().executeThread(() -> {
+			ThreadManager.getInstance().invokeLater(() -> {
 				try {
 					new TipsOfTheDayDialog().show();
 				} catch (IOException e) {
 					logger.error(e);
 				}
 
-			}, "launch tooltip");
+			});
 		}
 
 	private void addTab(MTGUIComponent instance) {

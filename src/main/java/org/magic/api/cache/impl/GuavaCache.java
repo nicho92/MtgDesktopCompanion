@@ -2,8 +2,6 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.magic.api.beans.MagicCard;
@@ -12,8 +10,6 @@ import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 
 public class GuavaCache extends AbstractCacheProvider {
 
