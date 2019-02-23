@@ -375,7 +375,8 @@ public class MTGControler {
 
 	public void cleaning() {
 		 if(PluginRegistry.inst().needUpdate())
-		 {	try {
+		 {	
+			 try {
 				builder.save();
 				logger.info("cleaning " + MTGConstants.CONF_FILENAME +" done");
 			} catch (ConfigurationException e) {
