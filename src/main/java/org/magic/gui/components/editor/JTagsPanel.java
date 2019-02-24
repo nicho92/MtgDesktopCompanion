@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -24,7 +25,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import org.jdesktop.swingx.JXLabel;
 import org.magic.services.MTGConstants;
 
 public class JTagsPanel extends JComponent {
@@ -213,7 +213,7 @@ public class JTagsPanel extends JComponent {
 
 }
 
-class TagLabel extends JXLabel {
+class TagLabel extends JLabel {
 	
 	private static final long serialVersionUID = 1L;
 

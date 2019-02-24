@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGNotification;

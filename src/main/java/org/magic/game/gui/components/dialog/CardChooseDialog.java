@@ -13,9 +13,6 @@ import org.magic.services.MTGConstants;
 
 public class CardChooseDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	JComboBox<DisplayableCard> comboBox;
 	DisplayableCard selected;
