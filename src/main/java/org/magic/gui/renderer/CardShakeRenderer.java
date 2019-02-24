@@ -4,14 +4,12 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
-public class CardShakeRenderer extends DefaultTableCellRenderer {
-
-	private static final long serialVersionUID = 1L;
+public class CardShakeRenderer implements TableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {

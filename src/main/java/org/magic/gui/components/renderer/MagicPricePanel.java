@@ -16,6 +16,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.tools.UITools;
 
 public class MagicPricePanel extends JPanel {
 
@@ -46,61 +47,30 @@ public class MagicPricePanel extends JPanel {
 		}
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblName.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
-		GridBagConstraints gbclblName = new GridBagConstraints();
+		GridBagConstraints gbclblName = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0);
 		gbclblName.gridwidth = 2;
-		gbclblName.fill = GridBagConstraints.BOTH;
-		gbclblName.insets = new Insets(0, 0, 5, 0);
-		gbclblName.gridx = 0;
-		gbclblName.gridy = 0;
 		add(lblName, gbclblName);
 
 		JLabel lblPrice = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("PRICE") + " :");
 		lblPrice.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
-		GridBagConstraints gbclblPrice = new GridBagConstraints();
-		gbclblPrice.anchor = GridBagConstraints.WEST;
-		gbclblPrice.insets = new Insets(0, 0, 5, 5);
-		gbclblPrice.gridx = 0;
-		gbclblPrice.gridy = 1;
-		add(lblPrice, gbclblPrice);
+		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
 		JLabel lblpriceValue = new JLabel(price.getValue() + " " +price.getCurrency());
-		GridBagConstraints gbclblpriceValue = new GridBagConstraints();
-		gbclblpriceValue.insets = new Insets(0, 0, 5, 0);
-		gbclblpriceValue.fill = GridBagConstraints.VERTICAL;
-		gbclblpriceValue.gridx = 1;
-		gbclblpriceValue.gridy = 1;
-		add(lblpriceValue, gbclblpriceValue);
+		add(lblpriceValue, UITools.createGridBagConstraints(null, GridBagConstraints.VERTICAL, 1, 1));
 
 		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER") + " :");
 		lblSeller.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
-		GridBagConstraints gbclblSeller = new GridBagConstraints();
-		gbclblSeller.anchor = GridBagConstraints.WEST;
-		gbclblSeller.insets = new Insets(0, 0, 5, 5);
-		gbclblSeller.gridx = 0;
-		gbclblSeller.gridy = 2;
-		add(lblSeller, gbclblSeller);
+		add(lblSeller, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
 
 		JLabel lblSellerinfo = new JLabel(price.getSeller());
-		GridBagConstraints gbclblSellerinfo = new GridBagConstraints();
-		gbclblSellerinfo.insets = new Insets(0, 0, 5, 0);
-		gbclblSellerinfo.gridx = 1;
-		gbclblSellerinfo.gridy = 2;
-		add(lblSellerinfo, gbclblSellerinfo);
+		add(lblSellerinfo, UITools.createGridBagConstraints(null, null, 1, 2));
 
 		JLabel lblInfos = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS") + " :");
 		lblInfos.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
-		GridBagConstraints gbclblInfos = new GridBagConstraints();
-		gbclblInfos.anchor = GridBagConstraints.WEST;
-		gbclblInfos.insets = new Insets(0, 0, 0, 5);
-		gbclblInfos.gridx = 0;
-		gbclblInfos.gridy = 3;
-		add(lblInfos, gbclblInfos);
+		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
 		JLabel lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""
 				+ (price.isFoil() ? "/" + MTGControler.getInstance().getLangService().getCapitalize("FOIL") + "" : ""));
-		GridBagConstraints gbclblNewLabel = new GridBagConstraints();
-		gbclblNewLabel.gridx = 1;
-		gbclblNewLabel.gridy = 3;
-		add(lblNewLabel, gbclblNewLabel);
+		add(lblNewLabel, UITools.createGridBagConstraints(null, null, 1, 3));
 	}
 }

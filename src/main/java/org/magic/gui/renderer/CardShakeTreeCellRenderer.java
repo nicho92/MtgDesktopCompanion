@@ -7,6 +7,7 @@ import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.beans.CardShake;
@@ -15,9 +16,7 @@ import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
-public class CardShakeTreeCellRenderer extends DefaultTableCellRenderer implements TreeCellRenderer{
-	
-	private static final long serialVersionUID = 1L;
+public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRenderer{
 	
 	private JList defaultJlist;
 	
@@ -31,7 +30,7 @@ public class CardShakeTreeCellRenderer extends DefaultTableCellRenderer implemen
 		if(value instanceof Double)
 			return new JLabel(UITools.formatDouble((Double)value));
 		
-		return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	}
 
 	@Override

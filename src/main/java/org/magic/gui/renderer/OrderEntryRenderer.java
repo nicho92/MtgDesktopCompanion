@@ -6,15 +6,13 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.services.MTGConstants;
 
-public class OrderEntryRenderer extends DefaultTableCellRenderer {
-
-	private static final long serialVersionUID = 1L;
+public class OrderEntryRenderer implements TableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {

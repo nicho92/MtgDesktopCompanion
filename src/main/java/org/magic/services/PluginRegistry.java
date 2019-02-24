@@ -186,7 +186,7 @@ public class PluginRegistry {
 	public boolean updateConfigWithNewModule() {
 		entrySet().forEach(p->
 		{
-			for (Class c : extractMissing(p.getValue().getClasspath(), p.getValue().getXpath()))
+			for (Class<MTGPlugin> c : extractMissing(p.getValue().getClasspath(), p.getValue().getXpath()))
 				MTGControler.getInstance().addProperty(p.getValue().getXpath(), c);
 
 		});

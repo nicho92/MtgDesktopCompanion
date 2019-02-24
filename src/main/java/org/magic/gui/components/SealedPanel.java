@@ -409,6 +409,10 @@ public class SealedPanel extends JPanel {
 	}
 
 	public void sort(MTGComparator<MagicCard> sorter) {
+		
+		if(list==null)
+			return;
+		
 		logger.trace("sorting with " + sorter +" : " + list.size() + " items");
 		Collections.sort(list, sorter);
 		logger.trace("sorting with " + sorter + " done");

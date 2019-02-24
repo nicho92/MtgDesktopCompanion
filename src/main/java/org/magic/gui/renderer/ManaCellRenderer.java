@@ -4,23 +4,23 @@ import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.magic.gui.components.ManaPanel;
 
-public class ManaCellRenderer extends DefaultTableCellRenderer {
+public class ManaCellRenderer implements TableCellRenderer {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	ManaPanel pane = new ManaPanel();
+	ManaPanel pane;
+	
+	public ManaCellRenderer() {
+		pane = new ManaPanel();
+	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		pane.setManaCost(String.valueOf(value));
-		pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
+		pane.setBackground(new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 		return pane;
 
 	}

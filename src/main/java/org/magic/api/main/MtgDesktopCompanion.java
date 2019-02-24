@@ -42,7 +42,7 @@ public class MtgDesktopCompanion {
 		try {
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
-			logger.debug("result config updated : " + updated);
+			logger.trace("result config updated : " + updated);
 
 			if (updated)
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize("NEW"), MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));

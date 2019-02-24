@@ -8,14 +8,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
 
-public class MagicEditionsJLabelRenderer extends DefaultTableCellRenderer {
-
-	
-	private static final long serialVersionUID = 1L;
+public class MagicEditionsJLabelRenderer implements TableCellRenderer {
 
 	public MagicEditionsJLabelRenderer() {
 		FlowLayout flowLayout = new FlowLayout();
@@ -29,7 +27,7 @@ public class MagicEditionsJLabelRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane.removeAll();
-		pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
+		pane.setBackground(new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 
 		for (MagicEdition ed : (List<MagicEdition>) value) {
 			JLabel l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));

@@ -8,15 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.extra.IconSetProvider;
 
-public class MagicEditionJLabelRenderer extends DefaultTableCellRenderer {
+public class MagicEditionJLabelRenderer implements TableCellRenderer {
 
-	
-	private static final long serialVersionUID = 1L;
 	private Font f = MTGConstants.FONT.deriveFont(Font.PLAIN);
 	
 	
@@ -34,10 +33,10 @@ public class MagicEditionJLabelRenderer extends DefaultTableCellRenderer {
 		
 		
 		if(value==null)
-			return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		
 		pane.removeAll();
-		pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
+		pane.setBackground(new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 
 		MagicEdition ed = (MagicEdition) value;
 			JLabel l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));

@@ -6,18 +6,13 @@ import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 
-public class MTGPluginTreeCellRenderer extends DefaultTreeCellRenderer{
+public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
 		JLabel lab = new JLabel();
