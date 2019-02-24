@@ -57,17 +57,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(mc==null && me==null)
 			return historyPrice;
 		
-		
-		if (me == null && mc!=null)
-			me = mc.getCurrentSet();
-
-		
-		
-		
 		if (mc == null) {
 			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
 			index = 6;
 		} else {
+			
+			if (me == null)
+				me = mc.getCurrentSet();
+			
 			String cardName = RegExUtils.replaceAll(mc.getName(), " ", "+");
 			cardName = RegExUtils.replaceAll(cardName, "'", "");
 			cardName = RegExUtils.replaceAll(cardName, ",", "");

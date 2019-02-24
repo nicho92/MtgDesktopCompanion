@@ -214,27 +214,27 @@ public class ImageTools {
 	
 
 	public static void saveImageInPng(BufferedImage img, File f) throws IOException {
-		for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png"); iw.hasNext();) 
-		{
-		   ImageWriter writer = iw.next();
-		   ImageWriteParam writeParam = writer.getDefaultWriteParam();
-		   ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
-		   IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
-//		   if (metadata.isReadOnly() || !metadata.isStandardMetadataFormatSupported()) {
-//		      continue;
-//		   }
+		Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png");
+		
+		if(!iw.hasNext())
+			throw new IOException("PNG Writer not found");
+		
+		
+		ImageWriter writer = iw.next();
 
-		   setDPI(metadata);
+		ImageWriteParam writeParam = writer.getDefaultWriteParam();
+		ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+		IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+		setDPI(metadata);
 
-		   ImageOutputStream stream = ImageIO.createImageOutputStream(f);
-		   try {
-		      writer.setOutput(stream);
-		      writer.write(metadata, new IIOImage(img, null, metadata), writeParam);
-		   } finally {
-		      stream.close();
-		   }
-		   break;
+		ImageOutputStream stream = ImageIO.createImageOutputStream(f);
+		try {
+			writer.setOutput(stream);
+			writer.write(metadata, new IIOImage(img, null, metadata), writeParam);
+		} finally {
+			stream.close();
 		}
+
 	}
 		
 	
