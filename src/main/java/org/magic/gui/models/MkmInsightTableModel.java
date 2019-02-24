@@ -23,7 +23,7 @@ public class MkmInsightTableModel extends GenericTableModel<InsightElement> {
 			case 1 : return it.getEd();
 			case 2 : return it.getYesterdayStock();
 			case 3 : return it.getStock();
-			case 4 : return it.getChangeValue();
+			case 4 : return UITools.roundDouble((((double)it.getStock()-it.getYesterdayStock())/it.getYesterdayStock())*100);
 			default : return it;
 		}
 	}
