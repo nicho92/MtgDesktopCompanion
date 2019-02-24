@@ -60,5 +60,11 @@ public class GuavaCache extends AbstractCacheProvider {
 	public String getName() {
 		return "Guava";
 	}
+	
+	@Override
+	public String getVersion() {
+		return "27.0";
+	}
+	
 
 }
