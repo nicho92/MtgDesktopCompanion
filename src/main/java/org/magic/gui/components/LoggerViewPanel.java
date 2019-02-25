@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,6 +23,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class LoggerViewPanel extends MTGUIComponent {
 	
@@ -39,7 +39,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 	
 	public LoggerViewPanel() {
 		model = new LogTableModel();
-		cboChooseLevel = new JComboBox<>(new DefaultComboBoxModel<>(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE }));
+		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
 		JPanel panel = new JPanel();
 		table = new JXTable(model);
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
