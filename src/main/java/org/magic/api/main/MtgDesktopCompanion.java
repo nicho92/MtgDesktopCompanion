@@ -48,6 +48,7 @@ public class MtgDesktopCompanion {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize("NEW"), MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
 			
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
+			
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 			MTGControler.getInstance().getEnabled(MTGDao.class).init();
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();

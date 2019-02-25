@@ -41,6 +41,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 				Integer qte = Integer.parseInt(li.text().substring(0, li.text().indexOf(' ')));
 				String name = li.getElementsByTag("a").attr("title");
+				//TODO waiting for foreignnames search
 				logger.debug(qte + " " + name);
 			}
 		}
