@@ -80,7 +80,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/json/SetList.json";
 	public static final String URL_JSON_KEYWORDS="https://mtgjson.com/json/Keywords.json";
 	public static final String URL_JSON_ALL_SETS_ZIP ="https://mtgjson.com/json/AllSets.json.zip";
-	
+	public static final String URL_JSON_DECKS_LIST = "https://mtgjson.com/json/DeckLists.json";
+	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
 	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
