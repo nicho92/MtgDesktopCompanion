@@ -426,6 +426,10 @@
             <class>org.magic.api.decksniffer.impl.AetherhubDeckSniffer</class>
             <enable>true</enable>
         </sniffer>
+         <sniffer>
+            <class>org.magic.api.decksniffer.impl.MTGJSonDeckSniffer</class>
+            <enable>true</enable>
+        </sniffer>
     </decksniffer>
     <deckexports>
         <export>

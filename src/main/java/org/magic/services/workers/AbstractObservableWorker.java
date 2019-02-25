@@ -59,7 +59,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	@Override
 	protected void done() {
 		buzy.end();
-		
+		plug.removeObserver(o);
 		try {
 			get();
 			notifyEnd();
