@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -101,9 +103,19 @@ public class URLTools {
 		return toHtml(extractAsString(url));
 	}
 	
+	public static org.w3c.dom.Document extractXML(URI url)  throws IOException
+	{
+		return extractXML(url.toURL());
+	}
+	
+	
 	public static org.w3c.dom.Document extractXML(String url)  throws IOException
 	{
-		return extractXML(new URL(url));
+		try {
+			return extractXML(new URI(url));
+		} catch (URISyntaxException e) {
+			throw new IOException(e);
+		}
 	}
 	
 	public static org.w3c.dom.Document extractXML(URL url) throws IOException {

@@ -62,12 +62,6 @@ public class BoosterPicturesProvider {
 		return list;
 	}
 
-	public Image getBoosterFor(String id,int pos) {
-		MagicEdition ed = new MagicEdition();
-		ed.setId(id);
-		return getBoosterFor(ed,pos);
-	}
-
 	public Map<String, URL> getBoostersUrl(MagicEdition me)
 	{
 		XPath xPath = XPathFactory.newInstance().newXPath();
@@ -86,12 +80,13 @@ public class BoosterPicturesProvider {
 		try {
 			for(int i=0;i<liste.getLength();i++)
 			{
-				ret.put(liste.item(i).getAttributes().getNamedItem("num").getNodeValue(),
-						new URL(liste.item(i).getAttributes().getNamedItem("url").getNodeValue())
-						);
+				String id = //liste.item(i).getAttributes().getNamedItem("lang").getNodeValue()+"-"+
+							liste.item(i).getAttributes().getNamedItem("num").getNodeValue();
+				
+				ret.put(id,new URL(liste.item(i).getAttributes().getNamedItem("url").getNodeValue()));
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error loading", e);
 			return null;
 		}
 		return ret;
@@ -99,27 +94,10 @@ public class BoosterPicturesProvider {
 	}
 	
 	
-	
-	public BufferedImage getBoosterFor(MagicEdition me, int pos) {
-		String url = "";
-		try {
-			Map<String, URL> nodeList=getBoostersUrl(me);
-			return URLTools.extractImage(nodeList.values().toArray(new URL[nodeList.size()])[pos]);
-		} catch (IOException e) {
-			logger.error(me.getId() + " could not open : " + url +" "+ e);
-			return null;
-		} catch (Exception e) {
-			logger.error(me.getId() + " error " + url, e);
-			return null;
-		}
-	}
-	
 	public BufferedImage getBannerFor(String idMe)
 	{
 		return getBannerFor(new MagicEdition(idMe));
 	}
-	
-	
 	
 	public BufferedImage getLogo(LOGO logo)
 	{
@@ -143,7 +121,6 @@ public class BoosterPicturesProvider {
 			return null;
 		}
 	}
-	
 	
 	public BufferedImage getBannerFor(MagicEdition me) {
 		String url = "";

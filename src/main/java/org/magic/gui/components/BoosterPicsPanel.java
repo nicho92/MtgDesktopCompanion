@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	private transient BoosterPicturesProvider provider;
 	private static final long serialVersionUID = 1L;
 	static Logger logger = MTGLogger.getLogger(BoosterPicsPanel.class);
-
+	SwingWorker<ImageIcon, SimpleEntry<String, ImageIcon>> sw;
 	
 	public BoosterPicsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -38,13 +39,18 @@ public class BoosterPicsPanel extends JTabbedPane {
 		removeAll();
 		revalidate();
 		
+		if(sw!=null && !sw.isDone())
+			sw.cancel(true);
+		
+		
+		
+		
 		if(ed!=null)
 		{
-			SwingWorker<ImageIcon, ImageIcon> sw = new SwingWorker<ImageIcon, ImageIcon>() {
-				int n=1;
+			sw = new SwingWorker<ImageIcon, SimpleEntry<String, ImageIcon>>() {
 				@Override
-				protected void process(List<ImageIcon> chunks) {
-					addTab(String.valueOf(n++), new JLabel(chunks.get(0)));
+				protected void process(List<SimpleEntry<String, ImageIcon>> chunks) {
+					addTab(chunks.get(0).getKey(), new JLabel(chunks.get(0).getValue()));
 				}
 				
 				@Override
@@ -54,7 +60,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 					l.entrySet().forEach(i->
 					{
 						try {
-							publish(new ImageIcon(resizeBooster(URLTools.extractImage(i.getValue()))));
+							publish(new SimpleEntry<>(i.getKey(),new ImageIcon(resizeBooster(URLTools.extractImage(i.getValue())))));
 							
 						}catch(Exception e)
 						{
