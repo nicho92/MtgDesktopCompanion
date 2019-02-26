@@ -894,8 +894,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			try {
-				CardSearchPanel.getInstance()
-						.open(MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition));
+				((MagicGUI)SwingUtilities.getRoot(this)).setSelectedTab(0);
+				CardSearchPanel.getInstance().open(MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition));
 			} catch (SQLException e1) {
 				logger.error(e1);
 			}
