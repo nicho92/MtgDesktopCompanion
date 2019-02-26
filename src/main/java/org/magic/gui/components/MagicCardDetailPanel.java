@@ -598,8 +598,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));
 					btnAlert.setEnabled(false);
 				} else {
-					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR",
-							magicCard.getName()));
+					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR",magicCard.getName()));
 					btnAlert.setEnabled(true);
 				}
 			}, "Get alerts for " + magicCard);
