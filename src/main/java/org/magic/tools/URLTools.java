@@ -106,7 +106,7 @@ public class URLTools {
 		return extractXML(new URL(url));
 	}
 	
-	private static org.w3c.dom.Document extractXML(URL url) throws IOException {
+	public static org.w3c.dom.Document extractXML(URL url) throws IOException {
 		try {
 			return XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(openConnection(url).getInputStream());
 		} catch (Exception e) {
