@@ -68,7 +68,9 @@ public abstract class MTGUIComponent extends JComponent {
 		j.getContentPane().add(c, BorderLayout.CENTER);
 		j.setTitle(c.getTitle());
 		j.setLocationRelativeTo(null);
-		j.setIconImage(c.getIcon().getImage());
+		if(c.getIcon()!=null)
+			j.setIconImage(c.getIcon().getImage());
+		
 		j.pack();
 		j.setModal(modal);
 		j.setResizable(resizable);
