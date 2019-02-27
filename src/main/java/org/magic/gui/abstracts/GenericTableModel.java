@@ -6,11 +6,12 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public abstract class GenericTableModel<T> extends DefaultTableModel {
+public class GenericTableModel<T> extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
 	protected transient List<T> items;
@@ -23,12 +24,31 @@ public abstract class GenericTableModel<T> extends DefaultTableModel {
 		columns = new String[]{"VALUE"};
 	}
 	
+	public GenericTableModel(String...columnName) {
+		items = new ArrayList<>();
+		columns = columnName;
+	}
+	
+	
 	public void setWritable(boolean writable) {
 		this.writable = writable;
 	}
 	
+	@Override
+	public Object getValueAt(int row, int column) {
+		T it = items.get(row);
+		try {
+			return BeanUtils.getProperty(it, columns[column]);
+		} catch (Exception e) {
+			logger.error("error",e);
+		} 
+		
+		return it; 
+		
+		
+	}
 	
-	public void setColumns(String[] columns)
+	public void setColumns(String... columns)
 	{
 		this.columns=columns;
 		fireTableStructureChanged();
