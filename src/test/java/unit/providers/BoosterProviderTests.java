@@ -19,14 +19,14 @@ public class BoosterProviderTests {
 		BoosterPicturesProvider prov = new BoosterPicturesProvider();
 		for(String id : prov.listEditionsID())
 		{
-			prov.getBoostersUrl(new MagicEdition(id)).entrySet().forEach(e->{
+			prov.getItemsFor(new MagicEdition(id)).forEach(e->{
 				
 				System.out.println("===================="+id);
 				try {
-					URLTools.extractImage(e.getValue());
-					System.out.println(e.getKey()+";OK;"+e.getValue());
+					URLTools.extractImage(e.getUrl());
+					System.out.println(e.getEdition()+";OK;"+e.getType());
 				} catch (IOException e1) {
-					System.out.println(e.getKey()+";"+e1);
+					System.out.println(e.getType() + " " + e+";"+e1);
 				}
 			});
 			

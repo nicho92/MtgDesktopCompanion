@@ -1,6 +1,5 @@
 package org.magic.services.extra;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -16,6 +16,8 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.TYPE;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
@@ -42,6 +44,52 @@ public class BoosterPicturesProvider {
 		}
 	}
 	
+	public static void main(String[] args) {
+		new BoosterPicturesProvider().getItemsFor(new MagicEdition("ICE"));
+	}
+	
+	
+	public List<Packaging> getItemsFor(MagicEdition me)
+	{
+		List<Packaging> ret = new ArrayList<>();
+		NodeList n = null ;
+		try {
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			NodeList nodeList = (NodeList) xPath.compile("//edition[contains(@id,'" + me.getId().toUpperCase() + "')]").evaluate(document, XPathConstants.NODESET);
+			n = nodeList.item(0).getChildNodes();
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving IDs ", e);
+		}
+		
+		if(n==null)
+			return ret;
+		
+		
+		for (int i = 0; i < n.getLength(); i++)
+		{
+			if(n.item(i).getNodeType()==1)
+			{
+				Packaging p = new Packaging();
+						  p.setType(TYPE.valueOf(n.item(i).getNodeName().toUpperCase()));
+						  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
+						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
+						  p.setEdition(me);
+						 try {
+						  p.setNum(Integer.parseInt(n.item(i).getAttributes().getNamedItem("num").getNodeValue()));
+						 }
+						 catch(Exception e)
+						 {
+							 p.setNum(1);
+						 }
+				
+				ret.add(p);
+			}
+		}
+		
+		
+		return ret;
+	}
 
 
 	public List<String> listEditionsID() {
@@ -51,7 +99,7 @@ public class BoosterPicturesProvider {
 
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//booster/@id";
+			String expression = "//edition/@id";
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList.getLength(); i++)
 				list.add(nodeList.item(i).getNodeValue());
@@ -62,36 +110,13 @@ public class BoosterPicturesProvider {
 		return list;
 	}
 
-	public Map<String, URL> getBoostersUrl(MagicEdition me)
+	public List<Packaging> get(MagicEdition me,TYPE t)
 	{
-		XPath xPath = XPathFactory.newInstance().newXPath();
-		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/pack";
-		logger.trace(expression);
-		
-		NodeList liste;
-		try {
-			liste = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-		} catch (XPathExpressionException e) {
-			logger.error(me.getId() + " not found :" + e);
-			return null;
-		}
-		
-		HashMap<String, URL> ret = new HashMap<>();
-		try {
-			for(int i=0;i<liste.getLength();i++)
-			{
-				String id = //liste.item(i).getAttributes().getNamedItem("lang").getNodeValue()+"-"+
-							liste.item(i).getAttributes().getNamedItem("num").getNodeValue();
-				
-				ret.put(id,new URL(liste.item(i).getAttributes().getNamedItem("url").getNodeValue()));
-			}
-		} catch (Exception e) {
-			logger.error("error loading", e);
-			return null;
-		}
-		return ret;
-
+		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());
 	}
+	
+	
+	
 	
 	public BufferedImage getBannerFor(MagicEdition me)
 	{
@@ -148,11 +173,11 @@ public class BoosterPicturesProvider {
 	
 
 	
-	private BufferedImage get(MagicEdition me,String k) {
+	public BufferedImage get(MagicEdition me,String k) {
 		String url = "";
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/"+k;
+			String expression = "//edition[contains(@id,'" + me.getId().toUpperCase() + "')]/"+k;
 			logger.trace(expression);
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);

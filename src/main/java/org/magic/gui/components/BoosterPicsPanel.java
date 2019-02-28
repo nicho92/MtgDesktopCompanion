@@ -16,6 +16,8 @@ import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.TYPE;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -28,7 +30,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	private transient BoosterPicturesProvider provider;
 	private static final long serialVersionUID = 1L;
 	static Logger logger = MTGLogger.getLogger(BoosterPicsPanel.class);
-	SwingWorker<ImageIcon, SimpleEntry<String, ImageIcon>> sw;
+	SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>> sw;
 	
 	public BoosterPicsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -47,24 +49,23 @@ public class BoosterPicsPanel extends JTabbedPane {
 		
 		if(ed!=null)
 		{
-			sw = new SwingWorker<ImageIcon, SimpleEntry<String, ImageIcon>>() {
+			sw = new SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>>() {
 				@Override
-				protected void process(List<SimpleEntry<String, ImageIcon>> chunks) {
-					addTab(chunks.get(0).getKey(), new JLabel(chunks.get(0).getValue()));
+				protected void process(List<SimpleEntry<Packaging, ImageIcon>> chunks) {
+					addTab(chunks.get(0).getKey().toString(), new JLabel(chunks.get(0).getValue()));
 				}
 				
 				@Override
 				protected ImageIcon doInBackground() {
 					
-					Map<String,URL> l = provider.getBoostersUrl(ed);
-					l.entrySet().forEach(i->
+					List<Packaging> l = provider.get(ed,TYPE.BOOSTER);
+					l.forEach(i->
 					{
 						try {
-							publish(new SimpleEntry<>(i.getKey(),new ImageIcon(resizeBooster(URLTools.extractImage(i.getValue())))));
-							
+								publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(URLTools.extractImage(i.getUrl())))));
 						}catch(Exception e)
 						{
-							logger.error(e);
+							logger.error("error",e);
 						}
 					});
 					return null;
