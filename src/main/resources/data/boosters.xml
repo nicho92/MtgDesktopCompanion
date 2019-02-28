@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<boosterUrls>
+<editionUrls>
 	<game>
 		<logo version="yellow" url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Magicthegathering-logo.svg/2000px-Magicthegathering-logo.svg.png"/>
 		<logo version="orange" url="https://www.puregamemedia.fr/wp-content/uploads/2017/09/logo_mtg.png"/>
@@ -8,1287 +8,1280 @@
 		<logo version="white" url="https://www.bkomstudios.com/wp-content/uploads/2016/11/pjt_magic_logo.png"/>
 	</game>
 	
-	<booster id='LEA'>
-		<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Alpha-EN-b.jpg"/>
-		<starter lang='en' url="http://erl00.chez.com/PacksImages/Alpha-EN-s.jpg"/>
+	<edition id='LEA'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Alpha-EN-b.jpg"/>
+		<starter lang='en' url="http://erl00.chez.com/boostersImages/Alpha-EN-s.jpg"/>
 		<banner lang='en' url="http://mtgen.net/lea/images/logo-word.png"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/116159.jpg"/>
-	</booster>
-	<booster id='LEB'>
-		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Beta-EN-b.jpg"/>
-		
-		<starter lang='en' url="http://erl00.chez.com/PacksImages/Beta-EN-s.jpg"/>
+	</edition>
+	<edition id='LEB'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Beta-EN-b.jpg"/>
+		<starter lang='en' url="http://erl00.chez.com/boostersImages/Beta-EN-s.jpg"/>
 		<banner lang='en' url="http://mtgen.net/leb/images/logo-word.png"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/80110.jpg"/>
-	</booster>
-	<booster id='2ED'>
-		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Unlimited-EN-b.jpg"/>
-		
+	</edition>
+	<edition id='2ED'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Unlimited-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/2ed/images/logo-word.png"/>
 		<box lang="en" url="https://www.wizardscupboard.com/images/un1.jpg"/>
 		<starter lang="en" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/90085.jpg"/>
-	</booster>
+	</edition>
 	
-	<booster id='ARN'>
-		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Arabian%20Nights-EN-b.jpg"/>
-		
+	<edition id='ARN'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Arabian%20Nights-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/arn/images/logo-word.png"/>
 		<box lang="en" url="https://i.ytimg.com/vi/o63DLorqB9c/maxresdefault.jpg"/>
-	</booster>
-	<booster id='ATQ'>
-		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Antiquities-EN-b.jpg"/>
-		
+	</edition>
+	<edition id='ATQ'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Antiquities-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/atq/images/logo-word.png"/>
-		<box lang='en' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/251855/350610/magic-the-gathering-antiquities-booster-box-60-packs-25__93837.1520611832.jpg"/>
-	</booster>
-	<booster id='LEG'>
-		<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Legends-EN-b.jpg"/>
-		<pack lang='it' num='1' url="http://erl00.chez.com/PacksImages/Legends-IT-b.jpg"/>
+		<box lang='en' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/251855/350610/magic-the-gathering-antiquities-edition-box-60-boosters-25__93837.1520611832.jpg"/>
+	</edition>
+	<edition id='LEG'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Legends-EN-b.jpg"/>
+		<booster lang='it' num='1' url="http://erl00.chez.com/boostersImages/Legends-IT-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/leg/images/logo-word.png"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1126129.jpg"/>
-	</booster>
-	<booster id='DRK'>
-		<pack lang='it' num='1' url="http://erl00.chez.com/PacksImages/The%20Dark-IT-b.jpg"/>
-		<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/The%20Dark-EN-b.jpg"/>
+	</edition>
+	<edition id='DRK'>
+		<booster lang='it' num='1' url="http://erl00.chez.com/boostersImages/The%20Dark-IT-b.jpg"/>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/The%20Dark-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/drk/images/logo-word.png"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/117074.jpg"/>
-	</booster>
-	<booster id='FEM'>
-		<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Fallen%20Empires-EN-b.jpg"/>
+	</edition>
+	<edition id='FEM'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Fallen%20Empires-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/fem/images/logo-word.png"/>
 		<box lang='en' url="https://i.pinimg.com/originals/c3/11/f2/c311f25c6c0399114a098d4fc2c0c3a5.jpg"/>
-	</booster>
+	</edition>
 	
 	
 	
-	<booster id='3ED'>
-		<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Revised-EN-b.JPG"/>
-		<pack lang='fr' num='1' url="http://erl00.chez.com/PacksImages/Revised%20WB-FR-b.jpg"/>
+	<edition id='3ED'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Revised-EN-b.JPG"/>
+		<booster lang='fr' num='1' url="http://erl00.chez.com/boostersImages/Revised%20WB-FR-b.jpg"/>
 		<box lang="en" url="http://pm1.narvii.com/6736/75c11de97adc6230ec2ea22f2b88b18378a7cefbv2_00.jpg"/>
 		<banner lang='en' url="http://mtgen.net/3ed/images/logo-word.png"/>
 		<starter lang='en' url="https://images-na.ssl-images-amazon.com/images/I/41mxEzIbg8L.jpg"/>
-	</booster>
+	</edition>
 	
 	
-	<booster id='4ED'>
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/4th-EN-b.jpg"/>
-			<pack lang='en' num='2' url="https://crystal-cdn3.crystalcommerce.com/photos/30694/CKV5WjM8tu5rcv6B.jpg"/>
-			<pack lang='en' num='3' url="http://cdn3.volusion.com/wvto4.46aoc/v/vspfiles/photos/WOCBST4TH-Site-2.jpg"/>
-			<pack lang='fr' num='1' url="http://erl00.chez.com/PacksImages/4th-FR-b.jpg"/>
+	<edition id='4ED'>
+			<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/4th-EN-b.jpg"/>
+			<booster lang='en' num='2' url="https://crystal-cdn3.crystalcommerce.com/photos/30694/CKV5WjM8tu5rcv6B.jpg"/>
+			<booster lang='en' num='3' url="http://cdn3.volusion.com/wvto4.46aoc/v/vspfiles/photos/WOCBST4TH-Site-2.jpg"/>
+			<booster lang='fr' num='1' url="http://erl00.chez.com/boostersImages/4th-FR-b.jpg"/>
 			<banner lang='en' url="http://mtgen.net/4ed/images/logo-word.png"/>
 			<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79215.jpg"/>
 			<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1130840.jpg"/>
 			<starter lang='fr' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1122759.jpg"/>
-	</booster>
+	</edition>
 	
 	
 	
-	<booster id='5ED'>
-			<pack lang='en' num='1' url="https://crystal-cdn4.crystalcommerce.com/photos/30693/zxx7xFbYzwRtkWS8.jpg"/>
-			<pack lang='en' num='2' url="http://erl00.chez.com/PacksImages/5th-EN-b.jpg"/>
-			<pack lang='fr' num='1' url="http://erl00.chez.com/PacksImages/5th-FR-b.jpg"/>
+	<edition id='5ED'>
+			<booster lang='en' num='1' url="https://crystal-cdn4.crystalcommerce.com/photos/30693/zxx7xFbYzwRtkWS8.jpg"/>
+			<booster lang='en' num='2' url="http://erl00.chez.com/boostersImages/5th-EN-b.jpg"/>
+			<booster lang='fr' num='1' url="http://erl00.chez.com/boostersImages/5th-FR-b.jpg"/>
 			<banner lang='en' url="http://mtgen.net/5ed/images/logo-word.png"/>
 			<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/141904.jpg"/>
 			<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79225.jpg"/>
-	</booster>
-	<booster id='6ED'>
+	</edition>
+	<edition id='6ED'>
 		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/6th-EN-b.jpg"/>
+			<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/6th-EN-b.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/6ed/images/logo-word.png"/>
 		<box lang='en' url="https://cdn10.bigcommerce.com/s-yiw8w10u/products/1603/images/413/Magic_the_Gathering_sixth__30992.1421519703.1280.1280.JPG?c=2"/>
 		<starter lang="en" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/113535.jpg"/>
-	</booster>
+	</edition>
 	
 	
-	<booster id='MIR'>
+	<edition id='MIR'>
 		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Mirage-EN-b.jpg"/>
-			<pack lang='en' num='2' url="https://d1466nnw0ex81e.cloudfront.net/n_iv/600/3234641.jpg"/>
-			<pack lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/51NUr4SSowL._SY450_.jpg" />
-			<pack lang='en' num='4' url="https://dacardworld1.imgix.net/mtgmiragepk1.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=9f1f1315dd034e0988433cb72ec96b9c"/>
-			<pack lang='en' num='5' url="https://dacardworld2.imgix.net/mtgmiragepk3.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=1c1d2e8d984c2393789356fcfaaf4330"/>
+			<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Mirage-EN-b.jpg"/>
+			<booster lang='en' num='2' url="https://d1466nnw0ex81e.cloudfront.net/n_iv/600/3234641.jpg"/>
+			<booster lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/51NUr4SSowL._SY450_.jpg" />
+			<booster lang='en' num='4' url="https://dacardworld1.imgix.net/mtgmiragepk1.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=9f1f1315dd034e0988433cb72ec96b9c"/>
+			<booster lang='en' num='5' url="https://dacardworld2.imgix.net/mtgmiragepk3.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=1c1d2e8d984c2393789356fcfaaf4330"/>
 		
 		<banner lang='en' url="http://www.digitalheroes.com/Magic/Mirage/Logo.gif"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/85666.jpg"/>
-		<starter lang='en' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/121397_200w.jpg"/>
-	</booster>
+		<starter lang='en' url="https://i.ebayimg.com/images/g/~qoAAOSwvWtbmqJe/s-l300.jpg"/>
+	</edition>
 	
-	<booster id='REN'>
+	<edition id='REN'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/119235.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/119235.jpg"/>
 		
 		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/a/ac/REN_logo.jpg"/>
-	</booster>
+	</edition>
 	
-	<booster id='CED'>
+	<edition id='CED'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgcei2.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgcei2.jpg"/>
 		
 		<banner lang='en' url="https://www.magiclibrarities.net/images/logos/1126.png"/>
-	</booster>
-	<booster id='ICE'>
+	</edition>
+	<edition id='ICE'>
 		
-			<pack lang='en' num='1' url="http://lib.store.yahoo.net/lib/inmint/magic-iceage-pack.jpg"/>
-			<pack lang='en' num='2' url="http://www.meeplemart.com/resize/Shared/Images/Product/Magic-Ice-Age-Booster-Pack/Ice-Age-Booster.jpg"/>
-			<pack lang='en' num='3' url="https://i.ytimg.com/vi/3W3BtFVlLpM/maxresdefault.jpg"/>
-			<pack lang='en' num='4' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/iceage_boosterpack.jpg"/>
-		
+			<booster lang='en' num='1' url="http://lib.store.yahoo.net/lib/inmint/magic-iceage-booster.jpg"/>
+			<booster lang='en' num='2' url="http://www.meeplemart.com/resize/Shared/Images/Product/Magic-Ice-Age-edition-booster/Ice-Age-edition.jpg"/>
+			<booster lang='en' num='3' url="https://img0.etsystatic.com/061/0/11040860/il_570xN.766831440_o1cs.jpg"/>
+			<booster lang='en' num='4' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/iceage_editionbooster.jpg"/>
+			<starter lang='fr' url="https://i.ebayimg.com/00/s/MTYwMFgxMzMw/z/BW4AAOSwVEFcFq9l/$_1.JPG"/>
+			<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/83857.jpg"/>
 		<banner lang='en' url="http://mtgen.net/ice/images/logo-word.png"/>
-	</booster>
-	<booster id='ALL'>
+	</edition>
+	<edition id='ALL'>
 		
-			<pack lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79439.jpg"/>
+			<booster lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79439.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/all/images/logo-word.png"/>
-	</booster>
-	<booster id='CSP'>
+	</edition>
+	<edition id='CSP'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGCOL/MTG_CSP_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGCOL/MTG_CSP_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/csp/images/logo-word.png"/>
-	</booster>
-	<booster id='CHR'>
+	</edition>
+	<edition id='CHR'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/80773.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/80773.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/chr/images/logo-word.png"/>
-	</booster>
-	<booster id='HML'>
+	</edition>
+	<edition id='HML'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/112139.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/112139.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/hml/images/logo-word.png"/>
-	</booster>
-	<booster id='P02'>
+	</edition>
+	<edition id='P02'>
 		
-			<pack lang='en' num='1' url="http://client-cdn.crystalcommerce.com/photo/ccghouse/file/10824/large/eqD7vGTA4rS38ZrA.jpg"/>
+			<booster lang='en' num='1' url="http://client-cdn.crystalcommerce.com/photo/ccghouse/file/10824/large/eqD7vGTA4rS38ZrA.jpg"/>
 		
 		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/5/5c/PO2_logo.png/250px-PO2_logo.png?version=d56abbf4d0041779ee5bc997ba9b9dfb"/>
-	</booster>
-	<booster id='POR'>
+	</edition>
+	<edition id='POR'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/86850.JPEG"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/86850.JPEG"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_POR_SetLogo.png"/>
-	</booster>
-	<booster id='STH'>
+	</edition>
+	<edition id='STH'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51Lgg1iCqFL.jpg"/>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51Lgg1iCqFL.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/sth/images/logo-word.png"/>
-	</booster>
-	<booster id='PGRU'>
+	</edition>
+	<edition id='PGRU'>
 		
-			<pack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/4198.png"/>
+			<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/4198.png"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Guru_large.png?v=1427025766"/>
-	</booster>
+	</edition>
 	
 	
-	<booster id='XLN'>
+	<edition id='XLN'>
 		
-			<pack lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1115670.jpg"/>
-			<pack lang='en' num='2' url="https://poromagia.com/media/images/products/2017/09/Ixalan-Booster-1-148585.jpg"/>
-			<pack lang='en' num='3' url="http://magiccards.nl/wp-content/uploads/2017/09/Ixalan-boosterpack-4.png?v=796834e7a283"/>
-			<pack lang='en' num='4' url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/ixalan_booster_pack_packung_box_deutsch_german_magic_the_gathering_mtg_3.png"/>
+			<booster lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1115670.jpg"/>
+			<booster lang='en' num='2' url="https://poromagia.com/media/images/products/2017/09/Ixalan-edition-1-148585.jpg"/>
+			<booster lang='en' num='3' url="http://magiccards.nl/wp-content/uploads/2017/09/Ixalan-editionbooster-4.png?v=796834e7a283"/>
+			<booster lang='en' num='4' url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/ixalan_edition_booster_boosterung_box_deutsch_german_magic_the_gathering_mtg_3.png"/>
 		
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/133/153/320/160/636390134824986390.png"/>
-	</booster>
-	<booster id='RQS'>
+	</edition>
+	<edition id='RQS'>
 		
-			<pack lang='en' num='1' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2f9x2f94x2fZqdita0.rx78ox3fdmzaqwvx3djj686ml00n2373917n3987k8j7lll6i6x26q98k.uizsx3dquiom_$/$/$/$/$"/>
+			<booster lang='en' num='1' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2f9x2f94x2fZqdita0.rx78ox3fdmzaqwvx3djj686ml00n2373917n3987k8j7lll6i6x26q98k.uizsx3dquiom_$/$/$/$/$"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
+	</edition>
 	
-	<booster id='MGB'>
+	<edition id='MGB'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-multiverse-gift-box.jpg"/>
-		
-		<banner lang='en' url=""/>
-	</booster>
-	<booster id='ITP'>
-		
-			<pack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/2184.png"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-multiverse-gift-box.jpg"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='VIS'>
+	</edition>
+	<edition id='ITP'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51unt1bcsQL.jpg"/>
+			<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/2184.png"/>
+		
+		<banner lang='en' url=""/>
+	</edition>
+	<edition id='VIS'>
+		
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51unt1bcsQL.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/vis/images/logo-word.png"/>
-	</booster>
-	<booster id='pPOD'>
+	</edition>
+	<edition id='pPOD'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg"/>
-		
-		<banner lang='en' url=""/>
-	</booster>
-	<booster id='VAN'>
-		
-			<pack lang='en' num='1' url="http://thumbs2.picclick.com/d/w1600/pict/311657110213_/Magic-The-Gathering-Vanguard-Gift-Box.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='WTH'>
+	</edition>
+	<edition id='VAN'>
 		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Weatherlight-EN-b.jpg"/>
+			<booster lang='en' num='1' url="http://thumbs2.picclick.com/d/w1600/pict/311657110213_/Magic-The-Gathering-Vanguard-Gift-Box.jpg"/>
+		
+		<banner lang='en' url=""/>
+	</edition>
+	<edition id='WTH'>
+		
+			<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Weatherlight-EN-b.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/wth/images/logo-word.png"/>
 		<box lang="en" url="https://thumbs.worthpoint.com/zoom/images1/1/0817/27/magic-gathering-mtg-weatherlight_1_3aa11439110f22b7e2250bc119544626.jpg"/>
-	</booster>
-	<booster id='TMP'>
+	</edition>
+	<edition id='TMP'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/89386.jpg"/>
-			<pack lang='en' num='2' url="http://assets.dacw.co/itemimages/magic-tempest-pack.jpg"/>
-			<pack lang='en' num='3' url="https://crystal-cdn4.crystalcommerce.com/photos/30676/large/3bUFJFtBmXd4L6y8.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/89386.jpg"/>
+			<booster lang='en' num='2' url="http://assets.dacw.co/itemimages/magic-tempest-booster.jpg"/>
+			<booster lang='en' num='3' url="https://crystal-cdn4.crystalcommerce.com/photos/30676/large/3bUFJFtBmXd4L6y8.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/tmp/images/logo-word.png"/>
 		<box lang="EN" url="https://images-na.ssl-images-amazon.com/images/I/51i%2BIf3BtvL._SX425_.jpg"/>
-	</booster>
-	<booster id='EXO'>
+	</edition>
+	<edition id='EXO'>
 		
-			<pack lang='en' num='1' url="http://erl00.chez.com/PacksImages/Exodus-EN-b.jpg"/>
+			<booster lang='en' num='1' url="http://erl00.chez.com/boostersImages/Exodus-EN-b.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/exo/images/logo-word.png"/>
 		<box lang="en"  url="https://dacardworld1.imgix.net/mtgexodus2a.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=f0fd9f4431f1ce7b098f8714225138a1"/>
-	</booster>
-	<booster id='UGL'>
+	</edition>
+	<edition id='UGL'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/MAGBOX214.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/MAGBOX214.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ugl/images/logo-word.png"/>
-	</booster>
-	<booster id='USG'>
+	</edition>
+	<edition id='USG'>
 		
-			<pack lang='en' num='1' url="http://crystal-cdn3.crystalcommerce.com/photos/30673/large/AhspWqB3qAGZQR43.jpg"/>
+			<booster lang='en' num='1' url="http://crystal-cdn3.crystalcommerce.com/photos/30673/large/AhspWqB3qAGZQR43.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/usg/images/logo-word.png"/>
-	</booster>
-	<booster id='ATH'>
+	</edition>
+	<edition id='ATH'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/77302_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/77302_200w.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ATH_SetLogo.png"/>
-	</booster>
-	<booster id='ULG'>
+	</edition>
+	<edition id='ULG'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Urza%2527s%2BLegacy%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Urza%2527s%2BLegacy%2Bedition%2B%255Bedition%255D.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ulg/images/logo-word.png"/>
-	</booster>
+	</edition>
 	
-	<booster id='PTK'>
+	<edition id='PTK'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-p3k-pack.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-p3k-booster.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PTK_SetLogo_0.png"/>
-	</booster>
-	<booster id='UDS'>
+	</edition>
+	<edition id='UDS'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/90151.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/90151.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/uds/images/logo-word.png"/>
-	</booster>
-	<booster id='S99'>
+	</edition>
+	<edition id='S99'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/132210.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/132210.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_S99_SetLogo.png"/>
-	</booster>
-	<booster id='MMQ'>
+	</edition>
+	<edition id='MMQ'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51qRYdUOYEL.jpg"/>
-			<pack lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/85499.jpg"/>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51qRYdUOYEL.jpg"/>
+			<booster lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/85499.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mmq/images/logo-word.png"/>
-	</booster>
-	<booster id='BRB'>
+	</edition>
+	<edition id='BRB'>
 		
-			<pack lang='en' num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/thumb/6/62/Battle_Royale_Box.jpg/500px-Battle_Royale_Box.jpg?version=22f594bab30efb38be7d9b2315153ff6"/>
+			<booster lang='en' num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/thumb/6/62/Battle_Royale_Box.jpg/500px-Battle_Royale_Box.jpg?version=22f594bab30efb38be7d9b2315153ff6"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_BRB_SetLogo.png"/>
-	</booster>
-	<booster id='NMS'>
+	</edition>
+	<edition id='NMS'>
 		
-			<pack lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20nemesis%20pack.jpg"/>
+			<booster lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20nemesis%20booster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/nms/images/logo-word.png"/>
-	</booster>
-	<booster id='S00'>
+	</edition>
+	<edition id='S00'>
 		
-			<pack lang='en' num='1' url="https://www.magiccardmarket.eu/img/9e0973dd7aacee600f82344ff3e0cf60/items/2/260970.jpg"/>
+			<booster lang='en' num='1' url="https://www.magiccardmarket.eu/img/9e0973dd7aacee600f82344ff3e0cf60/items/2/260970.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_S00_SetLogo.png"/>
-	</booster>
-	<booster id='PCY'>
+	</edition>
+	<edition id='PCY'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/prophecy_boosterpack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/prophecy_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/pcy/images/logo-word.png"/>
-	</booster>
-	<booster id='BTD'>
+	</edition>
+	<edition id='BTD'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/boxedset_beatdown.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/boxedset_beatdown.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_BTD_SetLogo.png"/>
-	</booster>
-	<booster id='INV'>
+	</edition>
+	<edition id='INV'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/invasion_boosterpack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/invasion_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/inv/images/logo-word.png"/>
-	</booster>
-	<booster id='PLS'>
+	</edition>
+	<edition id='PLS'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/114587.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/114587.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/pls/images/logo-word.png"/>
-	</booster>
-	<booster id='7ED'>
+	</edition>
+	<edition id='7ED'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_7thEdition.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/editionbooster_7thEdition.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/7ed/images/logo-word.png"/>
-	</booster>
-	<booster id='APC'>
+	</edition>
+	<edition id='APC'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/92410.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/92410.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/apc/images/logo-word.png"/>
-	</booster>
-	<booster id='ODY'>
+	</edition>
+	<edition id='ODY'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/96346.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/96346.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ody/images/logo-word.png"/>
-	</booster>
-	<booster id='TOR'>
+	</edition>
+	<edition id='TOR'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/101330.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/101330.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/tor/images/logo-word.png"/>
-	</booster>
-	<booster id='JUD'>
+	</edition>
+	<edition id='JUD'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/107761.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/107761.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/jud/images/logo-word.png"/>
-	</booster>
-	<booster id='ONS'>
+	</edition>
+	<edition id='ONS'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/104433.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/104433.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ons/images/logo-word.png"/>
-	</booster>
-	<booster id='LGN'>
+	</edition>
+	<edition id='LGN'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Legions%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Legions%2Bedition%2B%255Bedition%255D.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/lgn/images/logo-word.png"/>
-	</booster>
-	<booster id='SCG'>
+	</edition>
+	<edition id='SCG'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Scourge%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Scourge%2Bedition%2B%255Bedition%255D.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/scg/images/logo-word.png"/>
-	</booster>
-	<booster id='8ED'>
+	</edition>
+	<edition id='8ED'>
 		
-			<pack lang='en' num='1' url="https://www.wizardscupboard.com/images/other/8booster.gif"/>
+			<booster lang='en' num='1' url="https://www.wizardscupboard.com/images/other/8edition.gif"/>
 		
 		<banner lang='en' url="http://mtgen.net/8ed/images/logo-word.png"/>
-	</booster>
-	<booster id='MRD'>
+	</edition>
+	<edition id='MRD'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-mirrodin-pack.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-mirrodin-booster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mrd/images/logo-word.png"/>
-	</booster>
-	<booster id='DST'>
+	</edition>
+	<edition id='DST'>
 		
-			<pack lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20darksteel%20pack.jpg"/>
+			<booster lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20darksteel%20booster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/dst/images/logo-word.png"/>
-	</booster>
-	<booster id='5DN'>
+	</edition>
+	<edition id='5DN'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGMIS/Booster-Pack_FifthDawn.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGMIS/edition-booster_FifthDawn.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/5dn/images/logo-word.png"/>
-	</booster>
-	<booster id='CHK'>
+	</edition>
+	<edition id='CHK'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/118452.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/118452.jpg"/>
 		
 		<banner lang='en' url="http://www.rebornspoilers.cards/2018/001_expansions/2004_champions_of_kamigawa/en/champions_of_kamigawa_logo_EN.png"/>
-	</booster>
-	<booster id='UNH'>
+	</edition>
+	<edition id='UNH'>
 		
-			<pack lang='en' num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/e/e6/UNH_booster.jpg/300px-UNH_booster.jpg?version=ba78acfab01ceb2f1741972a64943f7c"/>
+			<booster lang='en' num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/e/e6/UNH_edition.jpg/300px-UNH_edition.jpg?version=ba78acfab01ceb2f1741972a64943f7c"/>
 		
 		<banner lang='en' url="http://mtgen.net/unh/images/logo-word.png"/>
-	</booster>
-	<booster id='BOK'>
+	</edition>
+	<edition id='BOK'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_BetrayersOfKamigawa.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/editionbooster_BetrayersOfKamigawa.jpg"/>
 		
 		<banner lang='en' url="https://ig2.cc/images/setlogo/bok.png"/>
-	</booster>
-	<booster id='SOK'>
+	</edition>
+	<edition id='SOK'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/123110.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/123110.jpg"/>
 		
 		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/5/5c/SOK_logo.png"/>
-	</booster>
-	<booster id='9ED'>
+	</edition>
+	<edition id='9ED'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/9ED/en/sealed/BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/9ED/en/sealed/editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/9ed/images/logo-word.png"/>
-	</booster>
-	<booster id='RAV'>
+	</edition>
+	<edition id='RAV'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgravpk.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgravpk.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/rav/images/logo-word.png"/>
-	</booster>
-	<booster id='GPT'>
+	</edition>
+	<edition id='GPT'>
 		
-			<pack lang='en' num='1' url="https://cdn6.bigcommerce.com/s-0kvv9/products/23279/images/8447/magic-the-gathering-guildpact-booster-pack-15-cards-8__67486.1460994699.500.750.jpg?c=2"/>
+			<booster lang='en' num='1' url="https://cdn6.bigcommerce.com/s-0kvv9/products/23279/images/8447/magic-the-gathering-guildpact-edition-booster-15-cards-8__67486.1460994699.500.750.jpg?c=2"/>
 		
 		<banner lang='en' url="http://mtgen.net/gpt/images/logo-word.png"/>
-	</booster>
-	<booster id='DIS'>
+	</edition>
+	<edition id='DIS'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/137771.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/137771.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/dis/images/logo-word.png"/>
-	</booster>
+	</edition>
 
-	<booster id='TSP'>
+	<edition id='TSP'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/TSP/TS_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/TSP/TS_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/tsp/images/logo-word.png"/>
-	</booster>
-	<booster id='TSB'>
+	</edition>
+	<edition id='TSB'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/TSP/TS_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/TSP/TS_editionbooster.jpg"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='PLC'>
+	</edition>
+	<edition id='PLC'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/141913.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/141913.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/plc/images/logo-word.png"/>
-	</booster>
-	<booster id='FUT'>
+	</edition>
+	<edition id='FUT'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Future%20Sight%20Booster%20Pack.jpg"/>
-			<pack lang='en' num='2' url="https://www.magicbazar.fr/img/product/l/booster_future_sight_vision_avenir_fr.png"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Future%20Sight%20edition%20booster.jpg"/>
+			<booster lang='en' num='2' url="https://www.magicbazar.fr/img/product/l/edition_future_sight_vision_avenir_fr.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/fut/images/logo-word.png"/>
-	</booster>
-	<booster id='10E'>
+	</edition>
+	<edition id='10E'>
 		
-			<pack lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20tenth%20ed%20pack-1.jpg"/>
+			<booster lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20tenth%20ed%20booster-1.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/10e/images/logo-word.png"/>
-	</booster>
-	<booster id='MED'>
+	</edition>
+	<edition id='MED'>
 		
-			<pack lang='en' num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/5/5e/Me_booster.jpg"/>
+			<booster lang='en' num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/5/5e/Me_edition.jpg"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='LRW'>
+	</edition>
+	<edition id='LRW'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/LRWboosterpack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/LRWeditionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/lrw/images/logo-word.png"/>
-	</booster>
-	<booster id='EVG'>
+	</edition>
+	<edition id='EVG'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Elvesvs.GoblinsDuelDecks.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Elvesvs.GoblinsDuelDecks.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_EVG_SetLogo.png"/>
-	</booster>
-	<booster id='MOR'>
+	</edition>
+	<edition id='MOR'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/MOR/BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/MOR/editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mor/images/logo-word.png"/>
-	</booster>
-	<booster id='SHM'>
+	</edition>
+	<edition id='SHM'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/MTGShadowmoorBB.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/MTGShadowmoorBB.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/shm/images/logo-word.png"/>
-	</booster>
-	<booster id='EVE'>
+	</edition>
+	<edition id='EVE'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/MTGEVEBoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/MTGEVEeditionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/eve/images/logo-word.png"/>
-	</booster>
-	<booster id='DRB'>
+	</edition>
+	<edition id='DRB'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FTVDragons2.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FTVDragons2.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Dragons_large.png?v=1426636511"/>
-	</booster>
-	<booster id='ME2'>
+	</edition>
+	<edition id='ME2'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Masters%2BEdition%2BII%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Masters%2BEdition%2BII%2Bedition%2B%255Bedition%255D.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ME2_SetLogo.png"/>
-	</booster>
-	<booster id='ALA'>
+	</edition>
+	<edition id='ALA'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/183783.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/183783.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ala/images/logo-word.png"/>
-	</booster>
-	<booster id='TD2'>
-			<pack lang='en' num='1' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2fjx2fjkx2fUqzzwlqv_Xczm_da_Vme_Xpgzmfqi.rx78ox3fdmzaqwvx3dlj7921j94i758500l4679k5l434k87ijx26q98k.uizsx3dquiom_$/$/$/$/$"/>
-	</booster>
+	</edition>
+	<edition id='TD2'>
+			<booster lang='en' num='1' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2fjx2fjkx2fUqzzwlqv_Xczm_da_Vme_Xpgzmfqi.rx78ox3fdmzaqwvx3dlj7921j94i758500l4679k5l434k87ijx26q98k.uizsx3dquiom_$/$/$/$/$"/>
+	</edition>
 	
-	<booster id='TFTH'>
-		<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg"/>
-	</booster>
+	<edition id='TFTH'>
+		<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg"/>
+	</edition>
 	
-	<booster id='THP1'>
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg"/>
-	</booster>
+	<edition id='THP1'>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg"/>
+	</edition>
 	
-	<booster id='THP2'>
-		<pack lang='en' num='1' url="https://cdn.shopify.com/s/files/1/2493/1456/products/2017-12-10_1601_600x600.png"/>
-	</booster>
+	<edition id='THP2'>
+		<booster lang='en' num='1' url="https://cdn.shopify.com/s/files/1/2493/1456/products/2017-12-10_1601_600x600.png"/>
+	</edition>
 	
-	<booster id='THP3'>
-		<pack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/1465.png"/>
-	</booster>
+	<edition id='THP3'>
+		<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/1465.png"/>
+	</edition>
 	
-	<booster id='DD2'>
+	<edition id='DD2'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/JVCBoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/JVCBoxSet.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Jace_vs._Chandra_70ae2965-a029-4197-8660-079c95746105_large.png?v=1427048446"/>
-	</booster>
-	<booster id='CON'>
+	</edition>
+	<edition id='CON'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/CON/en/sealed/MTG_CON_BP.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/CON/en/sealed/MTG_CON_BP.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/con_/images/logo-word.png"/>
-	</booster>
-	<booster id='DDC'>
+	</edition>
+	<edition id='DDC'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG_DVD/DVD_BoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG_DVD/DVD_BoxSet.jpg"/>
 		
 		<banner lang='en' url="https://www.magiclibrarities.net/images/logos/225.png"/>
-	</booster>
-	<booster id='ARB'>
+	</edition>
+	<edition id='ARB'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG_ARB/MTG_ARB_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG_ARB/MTG_ARB_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/arb/images/logo-word.png"/>
-	</booster>
-	<booster id='M10'>
+	</edition>
+	<edition id='M10'>
 		
-			<pack lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/207_booster1_yf1k0s67y4.jpg"/>
+			<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/207_edition1_yf1k0s67y4.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/m10/images/logo-word.png"/>
-	</booster>
-	<booster id='V09'>
+	</edition>
+	<edition id='V09'>
 		
-			<pack lang='en' num='1' url="http://www.magiccorporation.com/images/magic/editions/maxi/from_the_vault_exiled.png"/>
+			<booster lang='en' num='1' url="http://www.magiccorporation.com/images/magic/editions/maxi/from_the_vault_exiled.png"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Exiled_63256ce5-8603-4114-b8cd-53ef01986ee8_large.png?v=1426682556"/>
-	</booster>
-	<booster id='HOP'>
+	</edition>
+	<edition id='HOP'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/375633.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/375633.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/hop/images/logo-word.jpg"/>
-	</booster>
-	<booster id='ME3'>
+	</edition>
+	<edition id='ME3'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Masters%2BEdition%2BIII%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Masters%2BEdition%2BIII%2Bedition%2B%255Bedition%255D.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ME3_SetLogo.png"/>
-	</booster>
-	<booster id='ZEN'>
+	</edition>
+	<edition id='ZEN'>
 		
-			<pack lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster1.jpg"/>
-			<pack lang='en' num='2' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster2.jpg"/>
-			<pack lang='en' num='3' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster3.jpg"/>
-			<pack lang='en' num='4' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster4.jpg"/>
-			<pack lang='en' num='5' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster5.jpg"/>
+			<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENedition1.jpg"/>
+			<booster lang='en' num='2' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENedition2.jpg"/>
+			<booster lang='en' num='3' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENedition3.jpg"/>
+			<booster lang='en' num='4' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENedition4.jpg"/>
+			<booster lang='en' num='5' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENedition5.jpg"/>
 			
 			<banner lang='en' url="http://mtgen.net/zen/images/logo-word.png"/>
-	</booster>
-	<booster id='DDD'>
+	</edition>
+	<edition id='DDD'>
 		
-			<pack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/1532.png"/>
+			<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/1532.png"/>
 		
 		<banner lang='en' url="https://www.magiclibrarities.net/images/logos/246.png"/>
-	</booster>
-	<booster id='H09'>
+	</edition>
+	<edition id='H09'>
 		
-			<pack lang='en' num='1' url="http://www.cardport.de/images/4112_0.jpg"/>
+			<booster lang='en' num='1' url="http://www.cardport.de/images/4112_0.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_H09_SetLogo.png"/>
-	</booster>
-	<booster id='WWK'>
+	</edition>
+	<edition id='WWK'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_WWK/MTG_WWK_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_WWK/MTG_WWK_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/wwk/images/logo-word.png"/>
-	</booster>
-	<booster id='DDE'>
+	</edition>
+	<edition id='DDE'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_PVC/MTG_PVC_BoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_PVC/MTG_PVC_BoxSet.jpg"/>
 		
 		<banner lang='en' url="http://www.magic-ville.com/fr/graph/bigsetlogos/pvc.gif"/>
-	</booster>
-	<booster id='ROE'>
+	</edition>
+	<edition id='ROE'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_ROE/MTG_ROE_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_ROE/MTG_ROE_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/roe/images/logo-word.png"/>
-	</booster>
-	<booster id='ARC'>
+	</edition>
+	<edition id='ARC'>
 		
-			<pack lang='en' num='1' url="http://archive.wizards.com/mtg/images/daily/features/feature91_product.jpg"/>
+			<booster lang='en' num='1' url="http://archive.wizards.com/mtg/images/daily/features/feature91_product.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ARC_SetLogo.png"/>
-	</booster>
-	<booster id='M11'>
+	</edition>
+	<edition id='M11'>
 		
-			<pack lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/456_pack1.jpg"/>
+			<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/456_booster1.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/m11/images/logo-word.png"/>
-	</booster>
-	<booster id='V10'>
+	</edition>
+	<edition id='V10'>
 		
-			<pack lang='en' num='1' url="http://media-dominaria.cursecdn.com/attachments/94/167/635032496441546896.jpg"/>
+			<booster lang='en' num='1' url="http://media-dominaria.cursecdn.com/attachments/94/167/635032496441546896.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V10_SetLogo.png"/>
-	</booster>
-	<booster id='DDF'>
+	</edition>
+	<edition id='DDF'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_EVT/MTG_EVT_BoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_EVT/MTG_EVT_BoxSet.jpg"/>
 		
 		<banner lang='en' url="https://www.rebellion.es/img/magic/logo/dueldeck_elspethvstezzeret.png"/>
-	</booster>
-	<booster id='SOM'>
+	</edition>
+	<edition id='SOM'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SOM/MTG_SOM_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SOM/MTG_SOM_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/som/images/logo-word.png"/>
-	</booster>
-	<booster id='PD2'>
+	</edition>
+	<edition id='PD2'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FNL_BoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FNL_BoxSet.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PD2_SetLogo.png"/>
-	</booster>
-	<booster id='ME4'>
+	</edition>
+	<edition id='ME4'>
 		
-			<pack lang='en' num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/5/57/MTGO_booster.jpg?version=cbb40c7ee2752b9d13748bca5f4e75ac"/>
+			<booster lang='en' num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/5/57/MTGO_edition.jpg?version=cbb40c7ee2752b9d13748bca5f4e75ac"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ME4_SetLogo.png"/>
-	</booster>
-	<booster id='MBS'>
+	</edition>
+	<edition id='MBS'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51i-sGe7apL.jpg"/>
-			<pack lang='en' num='2' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/39108_200w.jpg"/>
-			<pack lang='en' num='3' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/219892/307333/magicbeseigedbooster__32979.1519954489.jpg"/>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51i-sGe7apL.jpg"/>
+			<booster lang='en' num='2' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/39108_200w.jpg"/>
+			<booster lang='en' num='3' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/219892/307333/magicbeseigededition__32979.1519954489.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mbs/images/logo-word.png"/>
-	</booster>
-	<booster id='DDG'>
+	</edition>
+	<edition id='DDG'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51H4JXCnu9L._SY355_.jpg"/>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51H4JXCnu9L._SY355_.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Knights_vs._Dragons_Customized_large.png?v=1427059468"/>
-	</booster>
-	<booster id='NPH'>
+	</edition>
+	<edition id='NPH'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/images/magic/daily/arcana/694_booster1.jpg"/>
-			<pack lang='en' num='2' url="http://media.wizards.com/images/magic/daily/arcana/694_booster2.jpg"/>
-			<pack lang='en' num='3' url="http://media.wizards.com/images/magic/daily/arcana/694_booster3.jpg"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/images/magic/daily/arcana/694_edition1.jpg"/>
+			<booster lang='en' num='2' url="http://media.wizards.com/images/magic/daily/arcana/694_edition2.jpg"/>
+			<booster lang='en' num='3' url="http://media.wizards.com/images/magic/daily/arcana/694_edition3.jpg"/>
 			
-		<box lang="en" url="http://www.planeswalkerslibrary.com/images/nph/New-Phyrexia-Booster-Box.gif"/>
-		<bundle lang="en" url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_NPHFatPack_Product.png"/>
+		<box lang="en" url="http://www.planeswalkerslibrary.com/images/nph/New-Phyrexia-edition-Box.gif"/>
+		<bundle lang="en" url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_NPHFatbooster_Product.png"/>
 		<banner lang='en' url="http://mtgen.net/nph/images/logo-word.png"/>
-	</booster>
-	<booster id='CMD'>
+	</edition>
+	<edition id='CMD'>
 		
-			<pack lang='en' num='1' url="http://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/stf/stf146_decks.jpg"/>
+			<booster lang='en' num='1' url="http://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/stf/stf146_decks.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/cmd/images/logo-word.png"/>
-	</booster>
-	<booster id='M12'>
+	</edition>
+	<edition id='M12'>
 		
-			<pack lang='en' num='1' url="http://d13z1xw8270sfc.cloudfront.net/origin/193310/2012boosterpack.jpg"/>
+			<booster lang='en' num='1' url="http://d13z1xw8270sfc.cloudfront.net/origin/193310/2012editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/m12/images/logo-word.png"/>
-	</booster>
-	<booster id='V11'>
+	</edition>
+	<edition id='V11'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_V11/MTG_V11_BoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_V11/MTG_V11_BoxSet.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V11_SetLogo.png"/>
-	</booster>
-	<booster id='DDH'>
+	</edition>
+	<edition id='DDH'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/71xKKVo8unL._SY450_.jpg"/>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/71xKKVo8unL._SY450_.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Ajani_vs._Nicol_Bolas_fee1545e-d664-4a8a-accb-6af744958f00_large.png?v=1427045831"/>
-	</booster>
-	<booster id='ISD'>
+	</edition>
+	<edition id='ISD'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/47787_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/47787_200w.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/isd/images/logo-word.png"/>
-	</booster>
-	<booster id='PD3'>
+	</edition>
+	<edition id='PD3'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/mtggraverbbx3.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtggraverbbx3.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PD3_SetLogo_0.png"/>
-	</booster>
-	<booster id='DKA'>
+	</edition>
+	<edition id='DKA'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_DKA/MTG_DKA_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_DKA/MTG_DKA_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/dka/images/logo-word.png"/>
-	</booster>
-	<booster id='DDI'>
+	</edition>
+	<edition id='DDI'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_VVK/MTG_VVK_BoxSet.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_VVK/MTG_VVK_BoxSet.jpg"/>
 		
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/106.png"/>
-	</booster>
-	<booster id='AVR'>
+	</edition>
+	<edition id='AVR'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_AVR/MTG_AVR_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_AVR/MTG_AVR_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/avr/images/logo-word.png"/>
-	</booster>
-	<booster id='PC2'>
+	</edition>
+	<edition id='PC2'>
 		
-			<pack lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51Ng%2B59qvWL._SX355_.jpg"/>
+			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51Ng%2B59qvWL._SX355_.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/pc2/images/logo-word.jpg"/>
-	</booster>
-	<booster id='M13'>
+	</edition>
+	<edition id='M13'>
 		
-			<pack lang='en' num='1' url="http://www.smfcorp.net/images/editions/boosters/large/109.jpg"/>
+			<booster lang='en' num='1' url="http://www.smfcorp.net/images/editions/editions/large/109.jpg"/>
 		
 		<banner lang='en' url="https://i.psnprofiles.com/games/47af6a/L47f275.png"/>
-	</booster>
-	<booster id='V12'>
+	</edition>
+	<edition id='V12'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/60149_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/60149_200w.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V12_SetLogo.png"/>
-	</booster>
-	<booster id='DDJ'>
+	</edition>
+	<edition id='DDJ'>
 		
-			<pack lang='en' num='1' url="http://t2.gstatic.com/images?q=tbn:ANd9GcSWoBVCya7hSBLOzrHjSnLo-4uvPUQjcxhQuhoeBqD4RW_bSpPPrWd-njA"/>
+			<booster lang='en' num='1' url="http://t2.gstatic.com/images?q=tbn:ANd9GcSWoBVCya7hSBLOzrHjSnLo-4uvPUQjcxhQuhoeBqD4RW_bSpPPrWd-njA"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Izzet_vs._Golgari_12fcdbe0-848c-48c0-8c54-3a909a9bca61_large.png?v=1427048928"/>
-	</booster>
-	<booster id='RTR'>
+	</edition>
+	<edition id='RTR'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_RTR/RTR_BoosterPack.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_RTR/RTR_editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/rtr/images/logo-sm.png"/>
-	</booster>
-	<booster id='CM1'>
+	</edition>
+	<edition id='CM1'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/71419_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/71419_200w.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_CM1_SetLogo.png"/>
-	</booster>
-	<booster id='GTC'>
+	</edition>
+	<edition id='GTC'>
 		
-			<pack lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/arcana/1137_3_1imutg088j.jpg"/>
+			<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/arcana/1137_3_1imutg088j.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/gtc/images/logo-word.png"/>
-	</booster>
-	<booster id='DDK'>
+	</edition>
+	<edition id='DDK'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SVT/DDSorinVsTibalt.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SVT/DDSorinVsTibalt.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Sorin_vs._Tibalt_62edd42f-d887-472a-a053-8168772b3b2b_large.png?v=1427047144"/>
-	</booster>
-	<booster id='DGM'>
+	</edition>
+	<edition id='DGM'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/67752_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/67752_200w.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/dgm/images/logo-word.png"/>
-	</booster>
-	<booster id='MMA'>
+	</edition>
+	<edition id='MMA'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/68105_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/68105_200w.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mma/images/logo-word.png"/>
-	</booster>
-	<booster id='M14'>
+	</edition>
+	<edition id='M14'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_M14.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/editionbooster_M14.jpg"/>
 		
 		<banner lang='en' url="http://www.img1.psthc.fr/2113/00_51cb323490324.PNG"/>
-	</booster>
-	<booster id='V13'>
+	</edition>
+	<edition id='V13'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/V13/FTVTwentyBox.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/V13/FTVTwentyBox.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V13_SetLogo.png"/>
-	</booster>
-	<booster id='DDL'>
+	</edition>
+	<edition id='DDL'>
 		
-			<pack lang='en' num='1' url="https://www.magic-feel.de/images/produkte/i61/Heroes-vs--Monsters-MtG-Magic-the-Gathering-Duel-Decks-e.jpg"/>
+			<booster lang='en' num='1' url="https://www.magic-feel.de/images/produkte/i61/Heroes-vs--Monsters-MtG-Magic-the-Gathering-Duel-Decks-e.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Heroes_vs._Monsters_693226f2-8ce4-4e3d-8ee4-6591cb3d2f4d_large.png?v=1427047676"/>
-	</booster>
-	<booster id='C13'>
+	</edition>
+	<edition id='C13'>
 		
-			<pack lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2013/07/Commander-2013-Decks-615x589.jpg"/>
+			<booster lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2013/07/Commander-2013-Decks-615x589.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/c13/images/logo-word.png"/>
-	</booster>
-	<booster id='THS'>
+	</edition>
+	<edition id='THS'>
 		
-			<pack lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/digital/magiconline/theros_booster.jpg"/>
+			<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/digital/magiconline/theros_edition.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ths/images/logo-word.png"/>
-		<box lang="en" url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_THSBooster_Product.png"/>
-	</booster>
-	<booster id='BNG'>
+		<box lang="en" url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_THSedition_Product.png"/>
+	</edition>
+	<edition id='BNG'>
 		
-			<pack lang='en' num='1' url="http://universegames.com/images/ccgpacks/magicthegathering/bngbooster.jpg"/>
+			<booster lang='en' num='1' url="http://universegames.com/images/ccgboosters/magicthegathering/bngedition.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/bng/images/logo-word.png"/>
-	</booster>
-	<booster id='DDM'>
+	</edition>
+	<edition id='DDM'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales//cardscans/MTG/JVV/en/JaceVsVraska_lg.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales//cardscans/MTG/JVV/en/JaceVsVraska_lg.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Jace_vs._Vraska_Alternate_large.png?v=1427049224"/>
-	</booster>
-	<booster id='JOU'>
+	</edition>
+	<edition id='JOU'>
 		
-			<pack lang='en' num='1' url="https://dyn0.media.forbiddenplanet.com/products/118749c.jpg.jpg"/>
+			<booster lang='en' num='1' url="https://dyn0.media.forbiddenplanet.com/products/118749c.jpg.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/jou/images/logo-word.png"/>
-	</booster>
-	<booster id='MD1'>
+	</edition>
+	<edition id='MD1'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/images/magic/daily/features/2014/featmd1_wk19_299_product.jpg"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/images/magic/daily/features/2014/featmd1_wk19_299_product.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_MD1_SetLogo.png"/>
-	</booster>
-	<booster id='CNS'>
+	</edition>
+	<edition id='CNS'>
 		
-			<pack lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgconspiracypk1.jpg"/>
+			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgconspiracypk1.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/cns/images/logo-word.png"/>
-	</booster>
-	<booster id='VMA'>
+	</edition>
+	<edition id='VMA'>
 		
-			<pack lang='en' num='1' url="http://www.mtgotraders.com/store/media/products/boosters/Vintage_Masters_Booster.jpg"/>
+			<booster lang='en' num='1' url="http://www.mtgotraders.com/store/media/products/editions/Vintage_Masters_edition.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_VMA_SetLogo.png"/>
-	</booster>
-	<booster id='M15'>
+	</edition>
+	<edition id='M15'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_Black.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/editionbooster_Black.jpg"/>
 		
 		<banner lang='en' url="http://3.bp.blogspot.com/-B_7BZrOs3iE/VBoaBL2z_cI/AAAAAAAACKw/48EWNWDvvgE/s1600/Logo_M15_EN.png"/>
-	</booster>
-	<booster id='V14'>
+	</edition>
+	<edition id='V14'>
 		
-			<pack lang='en' num='1' url="https://i.ytimg.com/vi/DK-Sqk3shlE/maxresdefault.jpg"/>
+			<booster lang='en' num='1' url="https://i.ytimg.com/vi/DK-Sqk3shlE/maxresdefault.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V14_SetLogo.png"/>
-	</booster>
-	<booster id='DDN'>
+	</edition>
+	<edition id='DDN'>
 		
-			<pack lang='en' num='1' url="http://www.cardkingdom.com/images/magic-the-gathering/duel-decks-speed-vs-cunning/duel-decks-speed-vs-cunning-40670-medium.jpg"/>
+			<booster lang='en' num='1' url="http://www.cardkingdom.com/images/magic-the-gathering/duel-decks-speed-vs-cunning/duel-decks-speed-vs-cunning-40670-medium.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Speed_vs._Cunning_Alternate_be408924-d157-4f48-a2b4-35e728cfb1e4_large.png?v=1427046833"/>
-	</booster>
-	<booster id='KTK'>
+	</edition>
+	<edition id='KTK'>
 		
-			<pack lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2014/09/Khans-of-Tarkir-Booster-04.jpg"/>
+			<booster lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2014/09/Khans-of-Tarkir-edition-04.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ktk/images/logo-word.png"/>
-	</booster>
-	<booster id='C14'>
+	</edition>
+	<edition id='C14'>
 		
-			<pack lang='en' num='1' url="http://geeklyinc.com/wp-content/uploads/2015/02/Commander2014Splash.jpg"/>
+			<booster lang='en' num='1' url="http://geeklyinc.com/wp-content/uploads/2015/02/Commander2014Splash.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/c14/images/logo-word.png"/>
-	</booster>
-	<booster id='DD3_DVD'>
+	</edition>
+	<edition id='DD3_DVD'>
 		
-			<pack lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
-		
-		<banner lang='en' url=""/>
-	</booster>
-	<booster id='DD3_EVG'>
-		
-			<pack lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
+			<booster lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='DD3_GVL'>
+	</edition>
+	<edition id='DD3_EVG'>
 		
-			<pack lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
-		
-		<banner lang='en' url=""/>
-	</booster>
-	<booster id='DD3_JVC'>
-		
-			<pack lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
+			<booster lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='FRF_UGIN'>
+	</edition>
+	<edition id='DD3_GVL'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_Ugin_Booster_01.png"/>
+			<booster lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
+		
+		<banner lang='en' url=""/>
+	</edition>
+	<edition id='DD3_JVC'>
+		
+			<booster lang='en' num='1' url="http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n"/>
+		
+		<banner lang='en' url=""/>
+	</edition>
+	<edition id='FRF_UGIN'>
+		
+			<booster lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_Ugin_edition_01.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/frf/images/logo-word.png"/>
-	</booster>
-	<booster id='FRF'>
+	</edition>
+	<edition id='FRF'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2014/ujehvsbfrf153/co5sseipua_en_bstr_01.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2014/ujehvsbfrf153/co5sseipua_en_bstr_01.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/frf/images/logo-word.png"/>
-	</booster>
-	<booster id='DDO'>
+	</edition>
+	<edition id='DDO'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2014/c14/aakdfnppleih2/thao3q9rp0_product_ddo_en.jpg"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2014/c14/aakdfnppleih2/thao3q9rp0_product_ddo_en.jpg"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Elspeth_vs._Kiora_large.png?v=1426880055"/>
-	</booster>
-	<booster id='DTK'>
+	</edition>
+	<edition id='DTK'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_p8gq9l4qup_b0ost3r_3.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_p8gq9l4qup_b0ost3r_3.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/dtk/images/logo-word.png"/>
-	</booster>
-	<booster id='TPR'>
+	</edition>
+	<edition id='TPR'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2015/mtgo/TPR_booster_pack.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2015/mtgo/TPR_edition_booster.png"/>
 		
 		<banner lang='en' url="http://media.wizards.com/2015/mtgo/TPR_logo.png"/>
-	</booster>
-	<booster id='MM2'>
+	</edition>
+	<edition id='MM2'>
 		
-			<pack lang='en' num='1' url="https://www.wizardscupboard.com/images/modernmasters2boosterpack.jpg"/>
+			<booster lang='en' num='1' url="https://www.wizardscupboard.com/images/modernmasters2editionbooster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mm2/images/logo-word.png"/>
-	</booster>
-	<booster id='ORI'>
+	</edition>
+	<edition id='ORI'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_rcg0o6xwzv_Bs7rS_02.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_rcg0o6xwzv_Bs7rS_02.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/ori/images/logo-word.png"/>
-	</booster>
-	<booster id='V15'>
+	</edition>
+	<edition id='V15'>
 		
-			<pack lang='en' num='1' url="https://assets1.mtggoldfish.com/assets/shop/v15-box-e076f4adf36c5df3c77fee97639f1ca5df31cd3ea40c9fb242a2d330feaa77d5.png"/>
+			<booster lang='en' num='1' url="https://assets1.mtggoldfish.com/assets/shop/v15-box-e076f4adf36c5df3c77fee97639f1ca5df31cd3ea40c9fb242a2d330feaa77d5.png"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V15_SetLogo.png"/>
-	</booster>
-	<booster id='DDP'>
+	</edition>
+	<edition id='DDP'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_6rvvchitua.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_6rvvchitua.png"/>
 		
 		<banner lang='en' url="http://www.magiccorporation.com/images/magic/editions/maxi/duel_decks_zendikar_vs_eldrazi.png"/>
-	</booster>
-	<booster id='BFZ'>
+	</edition>
+	<edition id='BFZ'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/102716_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/102716_200w.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/bfz/images/logo-word.png"/>
-	</booster>
-	<booster id='C15'>
+	</edition>
+	<edition id='C15'>
 		
-			<pack lang='en' num='1' url="https://assets1.mtggoldfish.com/assets/shop/c15-5pack-025dc83d4c030495ac3c7e72fb6da6cc7f21b5621f68eadaeb613d2aaa86fb82.jpg"/>
+			<booster lang='en' num='1' url="https://assets1.mtggoldfish.com/assets/shop/c15-5booster-025dc83d4c030495ac3c7e72fb6da6cc7f21b5621f68eadaeb613d2aaa86fb82.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/c15/images/logo-word.png"/>
-	</booster>
-	<booster id='OGW'>
+	</edition>
+	<edition id='OGW'>
 		
-			<pack lang='en' num='1' url="http://www.blackborder.com/images/prods/Magic-The-Gathering-Boosters-In-Print-Oath-of-the-Gatewatch-Booster-Pack.jpg"/>
+			<booster lang='en' num='1' url="http://www.blackborder.com/images/prods/Magic-The-Gathering-editions-In-Print-Oath-of-the-Gatewatch-edition-booster.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ogw/images/logo-word.png"/>
-	</booster>
-	<booster id='DDQ'>
+	</edition>
+	<edition id='DDQ'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/DDQ/en/sealed/DDQ_Box.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/DDQ/en/sealed/DDQ_Box.jpg"/>
 		
 		<banner lang='en' url="http://www.purplepawn.com/wp-content/uploads/2015/11/WOCB65160000-logo-500x235.png"/>
-	</booster>
-	<booster id='SOI'>
+	</edition>
+	<edition id='SOI'>
 		
-			<pack lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680463/large/SOI_pack1.png?1457740713"/>
-			<pack lang='en' num='2' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680483/large/SOI_pack2.png?1457740713"/>
-			<pack lang='en' num='3' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680503/large/SOI_pack3.png?1457740713"/>
-			<pack lang='en' num='4' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680523/large/SOI_pack4.png?1457740713"/>
-			<pack lang='en' num='5' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680543/large/SOI_pack5.png?1457740713"/>
+			<booster lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680463/large/SOI_booster1.png?1457740713"/>
+			<booster lang='en' num='2' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680483/large/SOI_booster2.png?1457740713"/>
+			<booster lang='en' num='3' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680503/large/SOI_booster3.png?1457740713"/>
+			<booster lang='en' num='4' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680523/large/SOI_booster4.png?1457740713"/>
+			<booster lang='en' num='5' url="https://d1rw89lz12ur5s.cloudfront.net/photo/cardtitan/file/680543/large/SOI_booster5.png?1457740713"/>
 			
 		
 		<banner lang='en' url="http://mtgen.net/soi/images/logo-word.png"/>
-	</booster>
-	<booster id='EMA'>
+	</edition>
+	<edition id='EMA'>
 		
-			<pack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/EMA/en/sealed/EMABoosterPack.jpg"/>
-			<pack lang='en' num='2' url="http://magicsur.cl/1536-large_default/mtg-magic-sobres-boosters-de-eternal-masters-edition-2016-santiago.jpg"/>
-			<pack lang='en' num='3' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/114833_200w.jpg"/>
+			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/EMA/en/sealed/EMAeditionbooster.jpg"/>
+			<booster lang='en' num='2' url="http://magicsur.cl/1536-large_default/mtg-magic-sobres-editions-de-eternal-masters-edition-2016-santiago.jpg"/>
+			<booster lang='en' num='3' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/114833_200w.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ema/images/logo-word.png"/>
 		<box lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_EMA_BstrDisp_carousel.png"/>
-	</booster>
-	<booster id='EMN'>
+	</edition>
+	<edition id='EMN'>
 		
-			<pack lang='en' num='1' url="https://www.svenskamagic.com/bilder/boosters/eldritchmoon.booster.jpg"/>
+			<booster lang='en' num='1' url="https://www.svenskamagic.com/bilder/editions/eldritchmoon.edition.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/emn/images/logo-word.png"/>
-	</booster>
-	<booster id='V16'>
+	</edition>
+	<edition id='V16'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/From%2Bthe%2BVault%253A%2BLore%2B%255BSEALED%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/From%2Bthe%2BVault%253A%2BLore%2B%255BSEALED%255D.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V16_Name.png"/>
-	</booster>
-	<booster id='CN2'>
+	</edition>
+	<edition id='CN2'>
 		
-			<pack lang='en' num='1' url="http://cdn1.philibertnet.com/281406-large/booster-magic-the-gathering-conspiracy-take-the-crown.jpg"/>
+			<booster lang='en' num='1' url="http://cdn1.philibertnet.com/281406-large/edition-magic-the-gathering-conspiracy-take-the-crown.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/cn2/images/logo-word.png"/>
-	</booster>
-	<booster id='KLD'>
+	</edition>
+	<edition id='KLD'>
 		
-			<pack lang='en' num='1' url="https://www.magicbazar.fr/img/product/booster_kaladesh_fr.png"/>
-			<pack lang='en' num='2' url="https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/79723d6e20bd411a9dc439fb33b54ef1_Large.png"/>
+			<booster lang='en' num='1' url="https://www.magicbazar.fr/img/product/edition_kaladesh_fr.png"/>
+			<booster lang='en' num='2' url="https://c1-ebgames.eb-cdn.com.au/merchandising/images/boostershots/79723d6e20bd411a9dc439fb33b54ef1_Large.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/kld/images/logo-word.png"/>
-	</booster>
-	<booster id='C16'>
+	</edition>
+	<edition id='C16'>
 		
-			<pack lang='en' num='1' url="http://www.manaleak.com/mtguk/files/2016/10/Commander-2016-Full-Decklists.jpg"/>
+			<booster lang='en' num='1' url="http://www.manaleak.com/mtguk/files/2016/10/Commander-2016-Full-Decklists.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/c16/images/logo-word.png"/>
-	</booster>
-	<booster id='AER'>
+	</edition>
+	<edition id='AER'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2016/images/daily/pIFZeAMYk1.png"/>
-			<pack lang='en' num='2' url="http://media.wizards.com/2016/images/daily/aUQRoBKJIc.png"/>
-			<pack lang='en' num='3' url="http://media.wizards.com/2016/images/daily/hxdj3Ajs1E.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2016/images/daily/pIFZeAMYk1.png"/>
+			<booster lang='en' num='2' url="http://media.wizards.com/2016/images/daily/aUQRoBKJIc.png"/>
+			<booster lang='en' num='3' url="http://media.wizards.com/2016/images/daily/hxdj3Ajs1E.png"/>
 		
 		<banner lang='en' url="http://mtgen.net/aer/images/logo-word.png"/>
-	</booster>
-	<booster id='PCA'>
+	</edition>
+	<edition id='PCA'>
 		
-			<pack lang='en' num='1' url="https://fr.magiccardmarket.eu/img/09add4538c5aa934fe9a8f46afea9792/items/8/290610.jpg"/>
+			<booster lang='en' num='1' url="https://fr.magiccardmarket.eu/img/09add4538c5aa934fe9a8f46afea9792/items/8/290610.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PCA_Name.png"/>
-	</booster>
-	<booster id='MM3'>
+	</edition>
+	<edition id='MM3'>
 		
-			<pack lang='en' num='1' url="http://i.tcgplayer.com/127068_200w.jpg"/>
+			<booster lang='en' num='1' url="http://i.tcgplayer.com/127068_200w.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/mm3/images/logo-word.png"/>
-	</booster>
-	<booster id='AKH'>
+	</edition>
+	<edition id='AKH'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/akh/images/logo-word.png"/>
-	</booster>
-	<booster id='DDS'>
+	</edition>
+	<edition id='DDS'>
 		
-			<pack lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2017/03/Duel-Decks-Mind-vs-Might-Packaging.png"/>
+			<booster lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2017/03/Duel-Decks-Mind-vs-Might-boosteraging.png"/>
 		
 		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/d/d4/MVM_logo.png"/>
-	</booster>
-	<booster id='HOU'>
+	</edition>
+	<edition id='HOU'>
 		
-			<pack lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Hour%2Bof%2BDevastation%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Hour%2Bof%2BDevastation%2Bedition%2B%255Bedition%255D.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/hou/images/logo-word.png"/>
-	</booster>
-	<booster id='CMA'>
+	</edition>
+	<edition id='CMA'>
 		
-			<pack lang='en' num='1' url="https://2nains.ch/images/com_hikashop/upload/magic-commander-anthology.png"/>
+			<booster lang='en' num='1' url="https://2nains.ch/images/com_hikashop/upload/magic-commander-anthology.png"/>
 		
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/204/790/320/160/636596051829736264.png"/>
-	</booster>
-	<booster id='E01'>
+	</edition>
+	<edition id='E01'>
 		
-			<pack lang='en' num='1' url="http://media.wizards.com/2017/images/daily/X4aEhWQxxy.png"/>
+			<booster lang='en' num='1' url="http://media.wizards.com/2017/images/daily/X4aEhWQxxy.png"/>
 		
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/170.jpg"/>
-	</booster>
-	<booster id='C17'>
+	</edition>
+	<edition id='C17'>
 		
-			<pack lang='en' num='1' url="https://images1.mtggoldfish.com/featured_images/1674/c16-decklists-featured.jpg"/>
+			<booster lang='en' num='1' url="https://images1.mtggoldfish.com/featured_images/1674/c16-decklists-featured.jpg"/>
 		
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/169.png"/>
-	</booster>
-	<booster id='IMA'>
+	</edition>
+	<edition id='IMA'>
 		
-			<pack lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/facetofacegames/file/1068653/large/babkwk.jpg?1505405864"/>
-			<pack lang='en' num='2' url="https://www.trader-online.de/out/pictures/generated/product/1/800_800_75/iconic_masters_2017_booster_packung_pack_box_magic_mtg_guenstig_kaufen.png"/>
-			<pack lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/71bR3cIj8nL._SY741_.jpg"/>
+			<booster lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/facetofacegames/file/1068653/large/babkwk.jpg?1505405864"/>
+			<booster lang='en' num='2' url="https://www.trader-online.de/out/pictures/generated/product/1/800_800_75/iconic_masters_2017_edition_boosterung_booster_box_magic_mtg_guenstig_kaufen.png"/>
+			<booster lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/71bR3cIj8nL._SY741_.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/ima/images/logo-word.png"/>
-	</booster>
-	<booster id='DDT'>
+	</edition>
+	<edition id='DDT'>
 		
-			<pack lang='en' num='1' url="https://www.parkage.com/files/img/publications/2017/datarule/1500x1500_4d9a03bf96c9b9949b2a2c3370f54b0be271ecb7fb7e3174a5dd64ef.jpg?1510261551821"/>
+			<booster lang='en' num='1' url="https://www.parkage.com/files/img/publications/2017/datarule/1500x1500_4d9a03bf96c9b9949b2a2c3370f54b0be271ecb7fb7e3174a5dd64ef.jpg?1510261551821"/>
 		
 		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/0/05/DDT_logo.png/1200px-DDT_logo.png"/>
-	</booster>
-	<booster id='E02'>
+	</edition>
+	<edition id='E02'>
 		
-			<pack lang='en' num='1' url="https://3.bp.blogspot.com/-jm13Z746z_Y/Wd0C6S7SHeI/AAAAAAAAfI8/VduWz6JAYe4fHt8FlDLTvLMWplAc1QeKwCLcBGAs/s1600/MTG%2Bexpolorers%2Bixalan%2Bboard%2Bgame%2B%25281%2529.png"/>
+			<booster lang='en' num='1' url="https://3.bp.blogspot.com/-jm13Z746z_Y/Wd0C6S7SHeI/AAAAAAAAfI8/VduWz6JAYe4fHt8FlDLTvLMWplAc1QeKwCLcBGAs/s1600/MTG%2Bexpolorers%2Bixalan%2Bboard%2Bgame%2B%25281%2529.png"/>
 		
 		<banner lang='en' url="https://images1.mtggoldfish.com/mtg_sets/explorers_of_ixalan_logo.png"/>
-	</booster>
-	<booster id='UST'>
+	</edition>
+	<edition id='UST'>
 		
-			<pack lang='en' num='1' url="http://www.manaleak.com/magic-the-gathering/images/mtg_unstable_booster_pack_1.jpg"/>
+			<booster lang='en' num='1' url="http://www.manaleak.com/magic-the-gathering/images/mtg_unstable_edition_booster_1.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/un3/images/logo-word.png"/>
-	</booster>
-	<booster id='RIX'>
+	</edition>
+	<edition id='RIX'>
 		
-			<pack lang='en' num='1' url="https://themanashop.ch/24406-thickbox_default/rivals-of-ixalan-booster-pack.jpg"/>
-			<pack lang='en' num='2' urm="https://cdn.shopify.com/s/files/1/0263/9009/products/305065_s0.jpg?v=1516645140"/>
+			<booster lang='en' num='1' url="https://themanashop.ch/24406-thickbox_default/rivals-of-ixalan-edition-booster.jpg"/>
+			<booster lang='en' num='2' urm="https://cdn.shopify.com/s/files/1/0263/9009/products/305065_s0.jpg?v=1516645140"/>
 		
 		<bundle lang="en" url="https://cdn8.bigcommerce.com/s-ua4dd/images/stencil/1280x1280/products/23398/55356/Rivals-of-Ixalan-Bundle__16642.1513578221.png"/>
 		<banner lang='en' url="http://mtgen.net/rix/images/logo-word.png"/>
-	</booster>
-	<booster id='A25'>
+	</edition>
+	<edition id='A25'>
 		
-			<pack lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1158680.jpg"/>
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1158680.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/m25/images/logo-word.png"/>
-	</booster>
-	<booster id='DDU'>
+	</edition>
+	<edition id='DDU'>
 		
-			<pack lang='en' num='1' url="https://ludiworld.com/newshop/25954/duel-decks-elves-vs-inventors-magic-the-gathering.jpg"/>
+			<booster lang='en' num='1' url="https://ludiworld.com/newshop/25954/duel-decks-elves-vs-inventors-magic-the-gathering.jpg"/>
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/en_P0b5vByBsx.png"/>
-	</booster>
-	<booster id='DOM'>
+	</edition>
+	<edition id='DOM'>
 		
-			<pack lang='en' num='1' url="https://media-dominaria.cursecdn.com/attachments/167/2/636549911039934266.png"/>
-			<pack lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1158686.jpg"/>
-			<pack lang='en' num='3' url="https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/w/i/wizc34890000a-magic-the-gathering-dominaria-booster-pack-15-cards-03_1.1524114507.png"/>
-			<pack lang='en' num='4' url="https://www.trader-online.de/out/pictures/generated/product/2/800_800_75/dominaria_booster_packung_pack_box_magic_the_gathering_mtg_trader_guenstig_deutsch_german_2.jpg"/>
+			<booster lang='en' num='1' url="https://media-dominaria.cursecdn.com/attachments/167/2/636549911039934266.png"/>
+			<booster lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1158686.jpg"/>
+			<booster lang='en' num='3' url="https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/w/i/wizc34890000a-magic-the-gathering-dominaria-edition-booster-15-cards-03_1.1524114507.png"/>
+			<booster lang='en' num='4' url="https://www.trader-online.de/out/pictures/generated/product/2/800_800_75/dominaria_edition_boosterung_booster_box_magic_the_gathering_mtg_trader_guenstig_deutsch_german_2.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/dom/images/logo-word.png"/>
-		<box lang='fr' url="https://www.magicmadhouse.co.uk/images/dominaria-booster-box-p278260-272809_medium.jpg"/>
-	</booster>
-	<booster id='BBD'>
+		<box lang='fr' url="https://www.magicmadhouse.co.uk/images/dominaria-edition-box-p278260-272809_medium.jpg"/>
+	</edition>
+	<edition id='BBD'>
 		
-			<pack lang='en' num='1' url="https://www.spielraum.co.at/Images/Produkte/Magic/BoosterENG/BattlebondBooster.jpg"/>
+			<booster lang='en' num='1' url="https://www.spielraum.co.at/Images/Produkte/Magic/editionENG/Battlebondedition.jpg"/>
 		
 		<banner lang='en' url="http://mtgen.net/bbd/images/logo-word.png"/>
 		<box lang='fr' url="https://images-na.ssl-images-amazon.com/images/I/51r8DZCMrKL._SX425_.jpg"/>
-	</booster>
-	<booster id='SS1'>
+	</edition>
+	<edition id='SS1'>
 		
-			<pack lang='en' num='1' url="https://media.wizards.com/2018/images/daily/d3piESj2ib.png"/>
+			<booster lang='en' num='1' url="https://media.wizards.com/2018/images/daily/d3piESj2ib.png"/>
 		
 		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/1/1c/SS1_logo.png"/>
-	</booster>
-	<booster id='CM2'>
+	</edition>
+	<edition id='CM2'>
 		
-			<pack lang='en' num='1' url="https://www.314gamestore.co.uk/pub/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/c/o/commander_anthology_ii-min.jpg"/>
+			<booster lang='en' num='1' url="https://www.314gamestore.co.uk/pub/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/c/o/commander_anthology_ii-min.jpg"/>
 		
 		<banner lang='en' url=""/>
-	</booster>
-	<booster id='GS1'>
+	</edition>
+	<edition id='GS1'>
 		
-			<pack lang='en' num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/b/b5/GS1_packaging_Chinese.png/300px-GS1_packaging_Chinese.png?version=8845862c2ac7004ac13c16fc7b1f35ea"/>
+			<booster lang='en' num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/b/b5/GS1_boosteraging_Chinese.png/300px-GS1_boosteraging_Chinese.png?version=8845862c2ac7004ac13c16fc7b1f35ea"/>
 		
 		<banner lang='en' url="https://media.wizards.com/2018/images/magic/Soon/event/GS1/EN_zxZaQpA.png"/>
-	</booster>
+	</edition>
 	
-	<booster id='M19'>
-			<pack lang='fr' num='1' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_01_02-1024x1024.png"/>
-			<pack lang='fr' num='2' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_02_02-1024x1024.png"/>
-			<pack lang='fr' num='3' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_03_02-1024x1024.png"/>
-			<pack lang='fr' num='4' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_04_02-1024x1024.png"/>
-			<pack lang='fr' num='5' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_05_02-1024x1024.png"/>
+	<edition id='M19'>
+			<booster lang='fr' num='1' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_01_02-1024x1024.png"/>
+			<booster lang='fr' num='2' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_02_02-1024x1024.png"/>
+			<booster lang='fr' num='3' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_03_02-1024x1024.png"/>
+			<booster lang='fr' num='4' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_04_02-1024x1024.png"/>
+			<booster lang='fr' num='5' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_05_02-1024x1024.png"/>
 			<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png"/>
-			<box lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg"/>
+			<box lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-editions-core-set-2019.jpg"/>
 			<bundle lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28628-jeux-de-cartes-magic-the-gathering-coffrets-core-set-2019-bundle.jpg"/>
-			<constructpack lang='fr' url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png"/>
-	</booster>
+			<constructbooster lang='fr' url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png"/>
+	</edition>
 	
-	<booster id='GRN'>
+	<edition id='GRN'>
 		
-			<pack lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-5.png"/>
-			<pack lang='en' num='2' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-4.png"/>
-			<pack lang='en' num='3' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-3.png"/>
-			<pack lang='en' num='4' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-2.png"/>
-			<pack lang='en' num='5' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-1.png"/>
+			<booster lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-edition-5.png"/>
+			<booster lang='en' num='2' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-edition-4.png"/>
+			<booster lang='en' num='3' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-edition-3.png"/>
+			<booster lang='en' num='4' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-edition-2.png"/>
+			<booster lang='en' num='5' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-edition-1.png"/>
 		
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0106/4013/0105/articles/636642489565717979_4d7f9555-60be-4e61-b50f-d6301f4268f6.png?v=1536104706"/>
 		<box lang='fr' url="https://www.vaultgames.com.au/assets/thumbL/TCG-10117.png"/>
 		<bundle lang='en' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Bundle.png"/>
-	</booster>
-	<booster id='C18'>
+	</edition>
+	<edition id='C18'>
 		
-			<pack lang='en' num='1' url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185"/>"
+			<booster lang='en' num='1' url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185"/>"
 		
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/191.png"/>
-	</booster>
-	<booster id="UMA">
+	</edition>
+	<edition id="UMA">
 		
-			<pack lang='en' num='1' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_01_02.png"/>
-			<pack lang='en' num='2' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_02_02.png"/>
-			<pack lang='en' num='3' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_03_02.png"/>
+			<booster lang='en' num='1' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_01_02.png"/>
+			<booster lang='en' num='2' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_02_02.png"/>
+			<booster lang='en' num='3' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_03_02.png"/>
 		
 		<box lang='en' url="https://media.wizards.com/2018/images/daily/NMCPJnPzTy.png"/>
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/271/468/320/160/636770515704626455.png"/>
-	</booster>
-	<booster id="RNA">
+	</edition>
+	<edition id="RNA">
 		
-			<pack lang='en' num='1' url="https://media.wizards.com/2018/images/daily/qpRrZqqSRh.png"/>
-			<pack lang='en' num='2' url="https://media.wizards.com/2018/images/daily/kO6YaJhMLX.png"/>
-			<pack lang='en' num='3' url="https://media.wizards.com/2018/images/daily/U8C8vtEwCy.png"/>
-			<pack lang='en' num='4' url="https://media.wizards.com/2018/images/daily/fx7iYm4CI5.png"/>
-			<pack lang='en' num='5'
+			<booster lang='en' num='1' url="https://media.wizards.com/2018/images/daily/qpRrZqqSRh.png"/>
+			<booster lang='en' num='2' url="https://media.wizards.com/2018/images/daily/kO6YaJhMLX.png"/>
+			<booster lang='en' num='3' url="https://media.wizards.com/2018/images/daily/U8C8vtEwCy.png"/>
+			<booster lang='en' num='4' url="https://media.wizards.com/2018/images/daily/fx7iYm4CI5.png"/>
+			<booster lang='en' num='5'
 	url="https://media.wizards.com/2018/images/daily/xTKJsGYXRA.png" />
 		
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/269/638/320/160/636642489678037096.png"/>
 		<banner lang='fr' url="https://www.magicbazar.fr/images/RNA_logo_name_fr_2.png"/>
 		<box lang='en' url="https://media.wizards.com/2018/images/daily/NB58X8ksjO.png"/>
 		<bundle lang='en' url="https://media.wizards.com/2018/images/daily/brTJzbJL5D.png"/>
- 	</booster>
+ 	</edition>
 	
 	
 	
 	
 	
-</boosterUrls>
+</editionUrls>
