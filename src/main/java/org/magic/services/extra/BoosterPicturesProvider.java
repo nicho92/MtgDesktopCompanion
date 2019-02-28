@@ -65,7 +65,7 @@ public class BoosterPicturesProvider {
 	public Map<String, URL> getBoostersUrl(MagicEdition me)
 	{
 		XPath xPath = XPathFactory.newInstance().newXPath();
-		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack";
+		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/pack";
 		logger.trace(expression);
 		
 		NodeList liste;
@@ -93,12 +93,36 @@ public class BoosterPicturesProvider {
 
 	}
 	
+	public BufferedImage getBannerFor(MagicEdition me)
+	{
+		return get(me,"banner");
+	}
 	
 	public BufferedImage getBannerFor(String idMe)
 	{
-		return getBannerFor(new MagicEdition(idMe));
+		return get(new MagicEdition(idMe),"banner");
 	}
 	
+	public BufferedImage getBoxFor(String idMe)
+	{
+		return getBoxFor(new MagicEdition(idMe));
+	}
+	
+	public BufferedImage getBoxFor(MagicEdition me) {
+		return get(me,"box");
+	}
+
+	public BufferedImage getStarterFor(String idMe)
+	{
+		return getStarterFor(new MagicEdition(idMe));
+	}
+	
+	public BufferedImage getStarterFor(MagicEdition me) {
+		return get(me,"starter");
+	}
+	
+
+
 	public BufferedImage getLogo(LOGO logo)
 	{
 		String url = "";
@@ -122,11 +146,13 @@ public class BoosterPicturesProvider {
 		}
 	}
 	
-	public BufferedImage getBannerFor(MagicEdition me) {
+
+	
+	private BufferedImage get(MagicEdition me,String k) {
 		String url = "";
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/banner";
+			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/"+k;
 			logger.trace(expression);
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);
