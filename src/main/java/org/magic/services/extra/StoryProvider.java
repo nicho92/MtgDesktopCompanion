@@ -2,8 +2,6 @@ package org.magic.services.extra;
 
 import java.awt.Image;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,26 +14,21 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 public class StoryProvider {
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private JsonParser parser;
 	private Locale local;
 	private int offset = 0;
 	private String baseURI = "https://magic.wizards.com";
 	// &fromDate=&toDate=&word=
 
 	public StoryProvider(Locale local) {
-		parser = new JsonParser();
 		this.local = local;
 	}
 
@@ -46,17 +39,9 @@ public class StoryProvider {
 	}
 
 	public List<MTGStory> next() throws IOException {
-		String url = baseURI + "/" + local.getLanguage() + "/section-articles-see-more-ajax?l=" + local.getLanguage()
-				+ "&sort=DESC&f=13961&offset=" + (offset++);
+		String url = baseURI + "/" + local.getLanguage() + "/section-articles-see-more-ajax?l=" + "en"+ "&sort=DESC&f=13961&offset=" + (offset++);
 		List<MTGStory> list = new ArrayList<>();
-		HttpURLConnection con = URLTools.openConnection(url);
-		JsonReader reader = null;
-		try {
-			reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-		} catch (Exception e1) {
-			logger.error("Error parsing URL", e1);
-		}
-		JsonElement el = parser.parse(reader);
+		JsonElement el = URLTools.extractJson(url);
 		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
 
 		for (int i = 0; i < arr.size(); i++) {

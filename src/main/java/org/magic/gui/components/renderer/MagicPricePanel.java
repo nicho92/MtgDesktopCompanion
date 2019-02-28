@@ -54,7 +54,7 @@ public class MagicPricePanel extends JPanel {
 		lblPrice.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
 		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
-		JLabel lblpriceValue = new JLabel(price.getValue() + " " +price.getCurrency());
+		JLabel lblpriceValue = new JLabel(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
 		add(lblpriceValue, UITools.createGridBagConstraints(null, GridBagConstraints.VERTICAL, 1, 1));
 
 		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER") + " :");
