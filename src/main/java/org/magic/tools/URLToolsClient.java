@@ -21,6 +21,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -29,7 +30,7 @@ import org.magic.services.MTGLogger;
 public class URLToolsClient {
 
 	private HttpClient httpclient;
-	private BasicHttpContext httpContext;
+	private HttpClientContext httpContext;
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
@@ -38,11 +39,20 @@ public class URLToolsClient {
 		return response;
 	}
 	
+	public HttpClient getHttpclient() {
+		return httpclient;
+	}
+	
+	public HttpClientContext getHttpContext() {
+		return httpContext;
+	}
+	
+	
 	public URLToolsClient() {
 		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
-		httpContext = new BasicHttpContext();
+		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();
-		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
+		httpContext.setCookieStore(cookieStore);
 	}
 	
 	public String doPost(String url, List<NameValuePair> entities, Map<String,String> headers) throws IOException
@@ -65,7 +75,15 @@ public class URLToolsClient {
 		return extractAndClose(response);
 	}
 	
-	private String extractAndClose(HttpResponse response) throws IOException
+	
+	public HttpResponse execute(HttpRequestBase req) throws IOException
+	{
+		logger.trace("executing" + req);
+		return httpclient.execute(req,httpContext);
+	}
+	
+	
+	public String extractAndClose(HttpResponse response) throws IOException
 	{
 		logger.trace("return " + response.getStatusLine().getStatusCode());
 		String ret = EntityUtils.toString(response.getEntity());
