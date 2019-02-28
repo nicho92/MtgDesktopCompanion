@@ -20,13 +20,19 @@ import org.magic.tools.UITools;
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
 
+	private static final String CHANGE_VALUE = "changeValue";
+	private static final String PRICE = "price";
+	private static final String YESTERDAY_PRICE = "yesterdayPrice";
+	private static final String YESTERDAY_STOCK = "yesterdayStock";
+	private static final String ED = "ed";
+	private static final String CARD_NAME = "cardName";
 	private static final long serialVersionUID = 1L;
 	private transient InsightService service ;
 	private GenericTableModel<InsightElement> model;
 	private JComboBox<INSIGHT_SELECTION> comboBox;
 	
 	
-	private enum INSIGHT_SELECTION  { STOCK_REDUCTION,BEST_BARGAIN };
+	private enum INSIGHT_SELECTION  { STOCK_REDUCTION,BEST_BARGAIN,TOP_CARDS,BIGGEST_START_PRICE,BIGGEST_START_PRICE_FOIL,BIGGEST_AVG_SALES,BIGGEST_AVG_SALES_FOIL }
 	
 	
 	
@@ -61,36 +67,51 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		
 		
-		comboBox.addItemListener(pcl->loadingItem());
+		comboBox.addItemListener(pcl->init());
 		
 	}
 
-	
-	private void loadingItem() {
+	@Override
+	public void init() {
 		try {
 			
 			switch((INSIGHT_SELECTION)comboBox.getSelectedItem())
 			{
 				case BEST_BARGAIN:
-					model.setColumns("cardName","ed","yesterdayPrice","price","changeValue");
-					model.init(service.getStartingPriceIncrease(false));
+					model.setColumns(CARD_NAME,ED,PRICE);
+					model.init(service.getBestBargain());
 					break;
-					
+				
 				case STOCK_REDUCTION:
-					model.setColumns("cardName","ed","yesterdayStock","stock","changeValue");
+					model.setColumns(CARD_NAME,ED,YESTERDAY_STOCK,"stock",CHANGE_VALUE);
 					model.init(service.getHighestPercentStockReduction());
 					break;
+				case BIGGEST_AVG_SALES:
+					model.setColumns(CARD_NAME,ED,YESTERDAY_PRICE,PRICE,CHANGE_VALUE);
+					model.init(service.getBiggestAvgSalesPriceIncrease(false));
+					break;
+				case BIGGEST_AVG_SALES_FOIL:
+					model.setColumns(CARD_NAME,ED,YESTERDAY_PRICE,PRICE,CHANGE_VALUE);
+					model.init(service.getBiggestAvgSalesPriceIncrease(true));
+					break;
+				case BIGGEST_START_PRICE:
+					model.setColumns(CARD_NAME,ED,YESTERDAY_PRICE,PRICE,CHANGE_VALUE);
+					model.init(service.getStartingPriceIncrease(false));
+					break;
+				case BIGGEST_START_PRICE_FOIL:
+					model.setColumns(CARD_NAME,ED,YESTERDAY_PRICE,PRICE,CHANGE_VALUE);
+					model.init(service.getStartingPriceIncrease(true));
+					break;
+				case TOP_CARDS:
+					model.setColumns(CARD_NAME,ED,PRICE);
+					model.init(service.getTopCards(1));
+					break;
+			default:
+				break;
 			}
 		} catch (IOException e) {
 		logger.error(e);
 		}
-	}
-
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
