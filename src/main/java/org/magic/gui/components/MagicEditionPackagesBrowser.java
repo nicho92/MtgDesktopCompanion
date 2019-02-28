@@ -33,6 +33,8 @@ public class MagicEditionPackagesBrowser extends JComponent {
 	private BufferedImage im;
 	private DefaultTreeModel model;
 	private JPanel panelDraw;
+	private JTree tree;
+	
 	
 	public MagicEditionPackagesBrowser() {
 		
@@ -48,7 +50,7 @@ public class MagicEditionPackagesBrowser extends JComponent {
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
-		JTree tree = new JTree(model);
+		tree = new JTree(model);
 		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
 		panelDraw = new JPanel() {
 			
@@ -70,8 +72,9 @@ public class MagicEditionPackagesBrowser extends JComponent {
 		tree.addTreeSelectionListener(e-> {
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 			if(selectedNode!=null) 
-			  load((Packaging)selectedNode.getUserObject());
+				load((Packaging)selectedNode.getUserObject());
 		});
+		
 		
 	}
 	
@@ -91,8 +94,8 @@ public class MagicEditionPackagesBrowser extends JComponent {
 	public void setMagicEdition(MagicEdition ed)
 	{
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
+		root.setUserObject(ed);
 		root.removeAllChildren();
-		List<Packaging> ret = provider.getItemsFor(ed);
 		Arrays.asList(Packaging.TYPE.values()).forEach(t->{
 			List<Packaging> pks = provider.get(ed, t);
 			if(!pks.isEmpty())
@@ -103,6 +106,13 @@ public class MagicEditionPackagesBrowser extends JComponent {
 			}
 		});
 		model.reload();
+		for (int i = 0; i < tree.getRowCount(); i++) {
+		    tree.expandRow(i);
+		}		
+		
+		
+		
+		
 		im=null;
 		
 	}
