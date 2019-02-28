@@ -2,27 +2,42 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Packaging;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
+import org.magic.tools.UITools;
+import org.magic.tools.URLTools;
+
+import com.google.common.collect.Lists;
 
 public class MagicEditionPackagesBrowser extends JComponent {
 	
 	
 	private BoosterPicturesProvider provider;
-	
-	private MagicEdition selected;
-	
-	
+	private BufferedImage im;
+	private DefaultTreeModel model;
+	private JPanel panelDraw;
 	
 	public MagicEditionPackagesBrowser() {
 		
+		
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		provider = new BoosterPicturesProvider();
 		
 		
@@ -32,33 +47,70 @@ public class MagicEditionPackagesBrowser extends JComponent {
 	
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		JTree tree = new JTree();
-		JPanel panelDraw = new JPanel() {
+		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
+		JTree tree = new JTree(model);
+		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
+		panelDraw = new JPanel() {
 			
 			 @Override
 			    protected void paintComponent(Graphics g) {
 			        super.paintComponent(g);
-			        
-			        if(selected!=null)
-			        	g.drawImage(provider.getBoxFor(selected), 0, 0, this);           
+			        if(im!=null)
+			        	g.drawImage(im, 0, 0, this);    
 			    }
 		} ;
 		add(new JScrollPane(tree), BorderLayout.WEST);
 		add(panelDraw, BorderLayout.CENTER);
 		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.NORTH);
+		panel.add(cboEditions);
+		cboEditions.addItemListener(it->setMagicEdition((MagicEdition)cboEditions.getSelectedItem()));
+		
+		tree.addTreeSelectionListener(e-> {
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+			if(selectedNode!=null) 
+			  load((Packaging)selectedNode.getUserObject());
+		});
+		
+	}
+	
+	public void load(Packaging p)
+	{
+		try {
+			im = URLTools.extractImage(p.getUrl());
+			panelDraw.revalidate();
+			panelDraw.repaint();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 	}
 
 
 	public void setMagicEdition(MagicEdition ed)
 	{
-		selected=ed;
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
+		root.removeAllChildren();
+		List<Packaging> ret = provider.getItemsFor(ed);
+		Arrays.asList(Packaging.TYPE.values()).forEach(t->{
+			List<Packaging> pks = provider.get(ed, t);
+			if(!pks.isEmpty())
+			{
+				DefaultMutableTreeNode dir = new DefaultMutableTreeNode(t);
+				pks.forEach(p->dir.add(new DefaultMutableTreeNode(p)));
+				root.add(dir);
+			}
+		});
+		model.reload();
+		im=null;
+		
 	}
 	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
 		
 		MagicEditionPackagesBrowser pane = new MagicEditionPackagesBrowser();
-		pane.setMagicEdition(new MagicEdition("EXO"));
 		
 		f.getContentPane().setLayout(new BorderLayout());
 		f.getContentPane().add(pane,BorderLayout.CENTER);

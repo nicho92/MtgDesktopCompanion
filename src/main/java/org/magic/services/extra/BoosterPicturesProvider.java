@@ -59,7 +59,7 @@ public class BoosterPicturesProvider {
 			n = nodeList.item(0).getChildNodes();
 			
 		} catch (Exception e) {
-			logger.error("Error retrieving IDs ", e);
+			logger.error("Error retrieving IDs "+ me + " : " + e.getMessage());
 		}
 		
 		if(n==null)
@@ -117,36 +117,6 @@ public class BoosterPicturesProvider {
 	
 	
 	
-	
-	public BufferedImage getBannerFor(MagicEdition me)
-	{
-		return get(me,"banner");
-	}
-	
-	public BufferedImage getBannerFor(String idMe)
-	{
-		return get(new MagicEdition(idMe),"banner");
-	}
-	
-	public BufferedImage getBoxFor(String idMe)
-	{
-		return getBoxFor(new MagicEdition(idMe));
-	}
-	
-	public BufferedImage getBoxFor(MagicEdition me) {
-		return get(me,"box");
-	}
-
-	public BufferedImage getStarterFor(String idMe)
-	{
-		return getStarterFor(new MagicEdition(idMe));
-	}
-	
-	public BufferedImage getStarterFor(MagicEdition me) {
-		return get(me,"starter");
-	}
-	
-
 
 	public BufferedImage getLogo(LOGO logo)
 	{
@@ -172,28 +142,6 @@ public class BoosterPicturesProvider {
 	}
 	
 
-	
-	public BufferedImage get(MagicEdition me,String k) {
-		String url = "";
-		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//edition[contains(@id,'" + me.getId().toUpperCase() + "')]/"+k;
-			logger.trace(expression);
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Node item = nodeList.item(0);
-			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return URLTools.extractImage(url);
-		} catch (IOException e) {
-			logger.error(me.getId() + " could not load : " + url,e);
-			return null;
-		} catch (XPathExpressionException e) {
-			logger.error(me.getId() + " is not found :" + e);
-			return null;
-		} catch (Exception e) {
-			logger.error(me.getId() + " error loading " + url,e);
-			return null;
-		}
-	}
 	
 
 }

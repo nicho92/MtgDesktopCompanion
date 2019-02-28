@@ -5,15 +5,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Packaging;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageTools;
+import org.magic.tools.URLTools;
 
 
 public class BinderTagsManager {
@@ -27,7 +31,8 @@ public class BinderTagsManager {
 	int height=1;
 	int width=1;
 	private int space;
-	
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	public Dimension getDimension() {
 		return d;
@@ -67,7 +72,12 @@ public class BinderTagsManager {
 		List<BufferedImage> ims = new ArrayList<>();
 		for(String id :ids)
 		{
-				BufferedImage im = prov.getBannerFor(id);
+				BufferedImage im=null;
+				try {
+					im = URLTools.extractImage(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0).getUrl());
+				} catch (IOException e) {
+					logger.error(e);
+				}
 				if(im!=null)
 					ims.add(im);
 		}
@@ -76,7 +86,12 @@ public class BinderTagsManager {
 	
 	public void add(MagicEdition ed)
 	{
-		BufferedImage img = prov.getBannerFor(ed);
+		BufferedImage img=null;
+		try {
+			img = URLTools.extractImage(prov.get(ed,Packaging.TYPE.BANNER).get(0).getUrl());
+		} catch (IOException e) {
+			logger.error(e);
+		}
 		if(img!=null)
 		{
 			ArrayList<BufferedImage> l = new ArrayList<>();
