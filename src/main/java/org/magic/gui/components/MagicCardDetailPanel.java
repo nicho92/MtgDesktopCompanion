@@ -586,7 +586,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				try {
 					listModelCollection.removeAllElements();
 					MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(magicCard).forEach(col->listModelCollection.addElement(col));
-					
 				} catch (Exception e) {
 					logger.error(e);
 				}

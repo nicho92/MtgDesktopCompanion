@@ -257,9 +257,10 @@
 	</booster>
 	<booster id='WTH'>
 		<packs lang='en'>
-			<pack num='1' url="http://assets.dacw.co/itemimages/magic-weatherlight-pack.jpg"/>
+			<pack num='1' url="http://erl00.chez.com/PacksImages/Weatherlight-EN-b.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/wth/images/logo-word.png"/>
+		<box lang="en" url="https://thumbs.worthpoint.com/zoom/images1/1/0817/27/magic-gathering-mtg-weatherlight_1_3aa11439110f22b7e2250bc119544626.jpg"/>
 	</booster>
 	<booster id='TMP'>
 		<packs lang='en'>
@@ -272,9 +273,10 @@
 	</booster>
 	<booster id='EXO'>
 		<packs lang='en'>
-			<pack num='1' url="https://crystal-cdn2.crystalcommerce.com/photos/30674/large/WPJQOZQPQxatCy74.jpg"/>
+			<pack num='1' url="http://erl00.chez.com/PacksImages/Exodus-EN-b.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/exo/images/logo-word.png"/>
+		<box lang="en"  url="https://dacardworld1.imgix.net/mtgexodus2a.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=f0fd9f4431f1ce7b098f8714225138a1"/>
 	</booster>
 	<booster id='UGL'>
 		<packs lang='en'>
