@@ -23,7 +23,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.ABANDONNED;
+		return STATUT.BUGGED;
 	}
 
 	

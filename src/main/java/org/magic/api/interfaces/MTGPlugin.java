@@ -16,7 +16,7 @@ public interface MTGPlugin {
 
 
 	public enum STATUT {
-		DEV, BETA, STABLE, ABANDONNED,DEPRECATED
+		DEV, BETA, STABLE, DEPRECATED,BUGGED
 	}
 	
 	public Properties getProperties();
