@@ -137,8 +137,10 @@
 			<booster lang='en' num='2' url="http://www.meeplemart.com/resize/Shared/Images/Product/Magic-Ice-Age-Booster-Pack/Ice-Age-Booster.jpg"/>
 			<booster lang='en' num='3' url="https://i.ytimg.com/vi/3W3BtFVlLpM/maxresdefault.jpg"/>
 			<booster lang='en' num='4' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/iceage_boosterpack.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/ice/images/logo-word.png"/>
+			<booster lang='en' num='5' url="https://images-na.ssl-images-amazon.com/images/I/51Q1RyDmcaL.jpg"/>
+			<banner lang='en' url="http://mtgen.net/ice/images/logo-word.png"/>
+			<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/83857.jpg"/>
+			<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/143266.jpg"/>
 	</edition>
 	<edition id='ALL'>
 		
