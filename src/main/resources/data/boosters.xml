@@ -130,10 +130,10 @@
 			<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/143266.jpg"/>
 	</edition>
 	<edition id='ALL'>
-		
-			<booster lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79439.jpg"/>
-		
+		<booster lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79439.jpg"/>
 		<banner lang='en' url="http://mtgen.net/all/images/logo-word.png"/>
+		<box lang="en" url="http://ecx.images-amazon.com/images/I/515yoq-I9LL.jpg"/>
+		
 	</edition>
 	<edition id='CSP'>
 		
@@ -202,28 +202,16 @@
 		<banner lang='en' url=""/>
 	</edition>
 	<edition id='ITP'>
-		
-			<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/2184.png"/>
-		
-		<banner lang='en' url=""/>
+		<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/2184.png"/>
 	</edition>
-	
 	<edition id='pPOD'>
-		
 			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg"/>
-		
-		<banner lang='en' url=""/>
 	</edition>
 	<edition id='VAN'>
-		
-			<booster lang='en' num='1' url="http://thumbs2.picclick.com/d/w1600/pict/311657110213_/Magic-The-Gathering-Vanguard-Gift-Box.jpg"/>
-		
-		<banner lang='en' url=""/>
+		<booster lang='en' num='1' url="http://thumbs2.picclick.com/d/w1600/pict/311657110213_/Magic-The-Gathering-Vanguard-Gift-Box.jpg"/>
 	</edition>
 	<edition id='WTH'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Weatherlight-EN-b.jpg"/>
-		
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Weatherlight-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/wth/images/logo-word.png"/>
 		<box lang="en" url="https://thumbs.worthpoint.com/zoom/images1/1/0817/27/magic-gathering-mtg-weatherlight_1_3aa11439110f22b7e2250bc119544626.jpg"/>
 	</edition>
