@@ -21,10 +21,12 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
+import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
+import java.awt.Dimension;
 
 public class MagicEditionPackagesBrowser extends JComponent {
 	
@@ -58,10 +60,12 @@ public class MagicEditionPackagesBrowser extends JComponent {
 			    protected void paintComponent(Graphics g) {
 			        super.paintComponent(g);
 			        if(im!=null)
-			        	g.drawImage(im, 0, 0, this);    
+			        	g.drawImage(ImageTools.trimAlpha(im), 0, 0, this);    
 			    }
 		} ;
-		add(new JScrollPane(tree), BorderLayout.WEST);
+		JScrollPane scrollPane = new JScrollPane(tree);
+		scrollPane.setPreferredSize(new Dimension(150, 322));
+		add(scrollPane, BorderLayout.WEST);
 		add(panelDraw, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
