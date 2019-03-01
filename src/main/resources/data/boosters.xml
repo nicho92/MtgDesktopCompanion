@@ -15,33 +15,24 @@
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/116159.jpg"/>
 	</edition>
 	<edition id='LEB'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Beta-EN-b.jpg"/>
-		
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Beta-EN-b.jpg"/>
 		<starter lang='en' url="http://erl00.chez.com/PacksImages/Beta-EN-s.jpg"/>
 		<banner lang='en' url="http://mtgen.net/leb/images/logo-word.png"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/80110.jpg"/>
 	</edition>
 	<edition id='2ED'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Unlimited-EN-b.jpg"/>
-		
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Unlimited-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/2ed/images/logo-word.png"/>
 		<box lang="en" url="https://www.wizardscupboard.com/images/un1.jpg"/>
 		<starter lang="en" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/90085.jpg"/>
 	</edition>
-	
 	<edition id='ARN'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Arabian%20Nights-EN-b.jpg"/>
-		
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Arabian%20Nights-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/arn/images/logo-word.png"/>
 		<box lang="en" url="https://i.ytimg.com/vi/o63DLorqB9c/maxresdefault.jpg"/>
 	</edition>
 	<edition id='ATQ'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Antiquities-EN-b.jpg"/>
-		
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Antiquities-EN-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/atq/images/logo-word.png"/>
 		<box lang='en' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/251855/350610/magic-the-gathering-antiquities-booster-box-60-packs-25__93837.1520611832.jpg"/>
 	</edition>
@@ -62,9 +53,6 @@
 		<banner lang='en' url="http://mtgen.net/fem/images/logo-word.png"/>
 		<box lang='en' url="https://i.pinimg.com/originals/c3/11/f2/c311f25c6c0399114a098d4fc2c0c3a5.jpg"/>
 	</edition>
-	
-	
-	
 	<edition id='3ED'>
 		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Revised-EN-b.JPG"/>
 		<booster lang='fr' num='1' url="http://erl00.chez.com/PacksImages/Revised%20WB-FR-b.jpg"/>
@@ -72,51 +60,50 @@
 		<banner lang='en' url="http://mtgen.net/3ed/images/logo-word.png"/>
 		<starter lang='en' url="https://images-na.ssl-images-amazon.com/images/I/41mxEzIbg8L.jpg"/>
 	</edition>
-	
-	
 	<edition id='4ED'>
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/4th-EN-b.jpg"/>
-			<booster lang='en' num='2' url="https://crystal-cdn3.crystalcommerce.com/photos/30694/CKV5WjM8tu5rcv6B.jpg"/>
-			<booster lang='en' num='3' url="http://cdn3.volusion.com/wvto4.46aoc/v/vspfiles/photos/WOCBST4TH-Site-2.jpg"/>
-			<booster lang='fr' num='1' url="http://erl00.chez.com/PacksImages/4th-FR-b.jpg"/>
-			<banner lang='en' url="http://mtgen.net/4ed/images/logo-word.png"/>
-			<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79215.jpg"/>
-			<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1130840.jpg"/>
-			<starter lang='fr' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1122759.jpg"/>
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/4th-EN-b.jpg"/>
+		<booster lang='en' num='2' url="https://crystal-cdn3.crystalcommerce.com/photos/30694/CKV5WjM8tu5rcv6B.jpg"/>
+		<booster lang='en' num='3' url="http://cdn3.volusion.com/wvto4.46aoc/v/vspfiles/photos/WOCBST4TH-Site-2.jpg"/>
+		<booster lang='fr' num='1' url="http://erl00.chez.com/PacksImages/4th-FR-b.jpg"/>
+		<banner lang='en' url="http://mtgen.net/4ed/images/logo-word.png"/>
+		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79215.jpg"/>
+		<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1130840.jpg"/>
+		<starter lang='fr' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1122759.jpg"/>
 	</edition>
-	
-	
-	
 	<edition id='5ED'>
-			<booster lang='en' num='1' url="https://crystal-cdn4.crystalcommerce.com/photos/30693/zxx7xFbYzwRtkWS8.jpg"/>
-			<booster lang='en' num='2' url="http://erl00.chez.com/PacksImages/5th-EN-b.jpg"/>
-			<booster lang='fr' num='1' url="http://erl00.chez.com/PacksImages/5th-FR-b.jpg"/>
-			<banner lang='en' url="http://mtgen.net/5ed/images/logo-word.png"/>
-			<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/141904.jpg"/>
-			<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79225.jpg"/>
+		<booster lang='en' num='1' url="https://crystal-cdn4.crystalcommerce.com/photos/30693/zxx7xFbYzwRtkWS8.jpg"/>
+		<booster lang='en' num='2' url="http://erl00.chez.com/PacksImages/5th-EN-b.jpg"/>
+		<booster lang='fr' num='1' url="http://erl00.chez.com/PacksImages/5th-FR-b.jpg"/>
+		<banner lang='en' url="http://mtgen.net/5ed/images/logo-word.png"/>
+		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/141904.jpg"/>
+		<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79225.jpg"/>
 	</edition>
-	<edition id='6ED'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/6th-EN-b.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/6ed/images/logo-word.png"/>
-		<box lang='en' url="https://cdn10.bigcommerce.com/s-yiw8w10u/products/1603/images/413/Magic_the_Gathering_sixth__30992.1421519703.1280.1280.JPG?c=2"/>
-		<starter lang="en" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/113535.jpg"/>
-	</edition>
-	
-	
 	<edition id='MIR'>
-		
-			<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Mirage-EN-b.jpg"/>
-			<booster lang='en' num='2' url="https://d1466nnw0ex81e.cloudfront.net/n_iv/600/3234641.jpg"/>
-			<booster lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/51NUr4SSowL._SY450_.jpg" />
-			<booster lang='en' num='4' url="https://dacardworld1.imgix.net/mtgmiragepk1.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=9f1f1315dd034e0988433cb72ec96b9c"/>
-			<booster lang='en' num='5' url="https://dacardworld2.imgix.net/mtgmiragepk3.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=1c1d2e8d984c2393789356fcfaaf4330"/>
-		
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/Mirage-EN-b.jpg"/>
+		<booster lang='en' num='2' url="https://d1466nnw0ex81e.cloudfront.net/n_iv/600/3234641.jpg"/>
+		<booster lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/51NUr4SSowL._SY450_.jpg" />
+		<booster lang='en' num='4' url="https://dacardworld1.imgix.net/mtgmiragepk1.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=9f1f1315dd034e0988433cb72ec96b9c"/>
+		<booster lang='en' num='5' url="https://dacardworld2.imgix.net/mtgmiragepk3.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;w=1800&amp;s=1c1d2e8d984c2393789356fcfaaf4330"/>
 		<banner lang='en' url="http://www.digitalheroes.com/Magic/Mirage/Logo.gif"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/85666.jpg"/>
 		<starter lang='en' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/121397_200w.jpg"/>
 	</edition>
+	<edition id='VIS'>
+		<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51unt1bcsQL.jpg"/>
+		<banner lang='en' url="http://mtgen.net/vis/images/logo-word.png"/>
+		<box lang="en" url="https://www.wizardscupboard.com/images/other/Vboosterbox.gif"/>
+	</edition>
+	
+	<edition id='6ED'>
+		<booster lang='en' num='1' url="http://erl00.chez.com/PacksImages/6th-EN-b.jpg"/>
+		<banner lang='en' url="http://mtgen.net/6ed/images/logo-word.png"/>
+		<box lang='en' url="https://cdn10.bigcommerce.com/s-yiw8w10u/products/1603/images/413/Magic_the_Gathering_sixth__30992.1421519703.1280.1280.JPG?c=2"/>
+		<starter lang="en" num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/113535.jpg"/>
+		<starter lang="en" num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/94542.jpg"/>
+	</edition>
+	
+	
+
 	
 	<edition id='REN'>
 		
@@ -197,7 +184,7 @@
 			<booster lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1115670.jpg"/>
 			<booster lang='en' num='2' url="https://poromagia.com/media/images/products/2017/09/Ixalan-Booster-1-148585.jpg"/>
 			<booster lang='en' num='3' url="http://magiccards.nl/wp-content/uploads/2017/09/Ixalan-boosterpack-4.png?v=796834e7a283"/>
-			<booster lang='en' num='4' url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/ixalan_booster_pack_packung_box_deutsch_german_magic_the_gathering_mtg_3.png"/>
+			<booster lang='de' num='4' url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/ixalan_booster_pack_packung_box_deutsch_german_magic_the_gathering_mtg_3.png"/>
 		
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/133/153/320/160/636390134824986390.png"/>
 	</edition>
@@ -220,12 +207,7 @@
 		
 		<banner lang='en' url=""/>
 	</edition>
-	<edition id='VIS'>
-		
-			<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51unt1bcsQL.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/vis/images/logo-word.png"/>
-	</edition>
+	
 	<edition id='pPOD'>
 		
 			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg"/>
@@ -481,10 +463,8 @@
 		<banner lang='en' url="http://mtgen.net/tsp/images/logo-word.png"/>
 	</edition>
 	<edition id='TSB'>
-		
 			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/TSP/TS_BoosterPack.jpg"/>
-		
-		<banner lang='en' url=""/>
+			<banner lang='en' url="http://mtgen.net/tsp/images/logo-word.png"/>
 	</edition>
 	<edition id='PLC'>
 		
@@ -1198,14 +1178,12 @@
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/en_P0b5vByBsx.png"/>
 	</edition>
 	<edition id='DOM'>
-		
-			<booster lang='en' num='1' url="https://media-dominaria.cursecdn.com/attachments/167/2/636549911039934266.png"/>
-			<booster lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1158686.jpg"/>
-			<booster lang='en' num='3' url="https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/w/i/wizc34890000a-magic-the-gathering-dominaria-booster-pack-15-cards-03_1.1524114507.png"/>
-			<booster lang='en' num='4' url="https://www.trader-online.de/out/pictures/generated/product/2/800_800_75/dominaria_booster_packung_pack_box_magic_the_gathering_mtg_trader_guenstig_deutsch_german_2.jpg"/>
-		
+		<booster lang='en' num='1' url="https://media-dominaria.cursecdn.com/attachments/167/2/636549911039934266.png"/>
+		<booster lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1158686.jpg"/>
+		<booster lang='en' num='3' url="https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/w/i/wizc34890000a-magic-the-gathering-dominaria-booster-pack-15-cards-03_1.1524114507.png"/>
+		<booster lang='de' num='4' url="https://www.trader-online.de/out/pictures/generated/product/2/800_800_75/dominaria_booster_packung_pack_box_magic_the_gathering_mtg_trader_guenstig_deutsch_german_2.jpg"/>
 		<banner lang='en' url="http://mtgen.net/dom/images/logo-word.png"/>
-		<box lang='fr' url="https://www.magicmadhouse.co.uk/images/dominaria-booster-box-p278260-272809_medium.jpg"/>
+		<box lang='en' url="https://www.magicmadhouse.co.uk/images/dominaria-booster-box-p278260-272809_medium.jpg"/>
 	</edition>
 	<edition id='BBD'>
 		
@@ -1240,7 +1218,7 @@
 			<booster lang='fr' num='4' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_04_02-1024x1024.png"/>
 			<booster lang='fr' num='5' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_05_02-1024x1024.png"/>
 			<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png"/>
-			<box lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg"/>
+			<box lang='en' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg"/>
 			<bundle lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28628-jeux-de-cartes-magic-the-gathering-coffrets-core-set-2019-bundle.jpg"/>
 			<constructpack lang='fr' url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png"/>
 	</edition>
@@ -1258,9 +1236,7 @@
 		<bundle lang='en' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Bundle.png"/>
 	</edition>
 	<edition id='C18'>
-		
-			<booster lang='en' num='1' url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185"/>"
-		
+		<booster lang='en' num='1' url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185"/>"
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/191.png"/>
 	</edition>
 	<edition id="UMA">
@@ -1278,8 +1254,7 @@
 			<booster lang='en' num='2' url="https://media.wizards.com/2018/images/daily/kO6YaJhMLX.png"/>
 			<booster lang='en' num='3' url="https://media.wizards.com/2018/images/daily/U8C8vtEwCy.png"/>
 			<booster lang='en' num='4' url="https://media.wizards.com/2018/images/daily/fx7iYm4CI5.png"/>
-			<booster lang='en' num='5'
-	url="https://media.wizards.com/2018/images/daily/xTKJsGYXRA.png" />
+			<booster lang='en' num='5' url="https://media.wizards.com/2018/images/daily/xTKJsGYXRA.png" />
 		
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/269/638/320/160/636642489678037096.png"/>
 		<banner lang='fr' url="https://www.magicbazar.fr/images/RNA_logo_name_fr_2.png"/>
