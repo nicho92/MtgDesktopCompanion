@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -19,6 +20,8 @@ import javax.swing.tree.DefaultTreeModel;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.tools.ImageTools;
@@ -28,23 +31,17 @@ import org.magic.tools.URLTools;
 import com.google.common.collect.Lists;
 import java.awt.Dimension;
 
-public class MagicEditionPackagesBrowser extends JComponent {
+public class MagicEditionPackagesBrowser extends MTGUIComponent{
 	
 	
 	private BoosterPicturesProvider provider;
-	private BufferedImage im;
 	private DefaultTreeModel model;
-	private JPanel panelDraw;
+	private ZoomableJPanel panelDraw;
 	private JTree tree;
 	
 	
 	public MagicEditionPackagesBrowser() {
-		
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		provider = new BoosterPicturesProvider();
-		
-		
 		initGUI();
 	}
 
@@ -54,15 +51,7 @@ public class MagicEditionPackagesBrowser extends JComponent {
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
 		tree = new JTree(model);
 		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
-		panelDraw = new JPanel() {
-			
-			 @Override
-			    protected void paintComponent(Graphics g) {
-			        super.paintComponent(g);
-			        if(im!=null)
-			        	g.drawImage(ImageTools.trimAlpha(im), 0, 0, this);    
-			    }
-		} ;
+		panelDraw = new ZoomableJPanel() ;
 		JScrollPane scrollPane = new JScrollPane(tree);
 		scrollPane.setPreferredSize(new Dimension(150, 322));
 		add(scrollPane, BorderLayout.WEST);
@@ -75,7 +64,8 @@ public class MagicEditionPackagesBrowser extends JComponent {
 		
 		tree.addTreeSelectionListener(e-> {
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-			if(selectedNode!=null) 
+			
+			if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
 				load((Packaging)selectedNode.getUserObject());
 		});
 		
@@ -84,7 +74,7 @@ public class MagicEditionPackagesBrowser extends JComponent {
 	
 	public void load(Packaging p)
 	{
-			im = provider.get(p);
+			panelDraw.setImg(provider.get(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
 		
@@ -109,11 +99,7 @@ public class MagicEditionPackagesBrowser extends JComponent {
 		for (int i = 0; i < tree.getRowCount(); i++) {
 		    tree.expandRow(i);
 		}		
-		
-		
-		
-		
-		im=null;
+		panelDraw.setImg(null);
 		
 	}
 	
@@ -128,5 +114,17 @@ public class MagicEditionPackagesBrowser extends JComponent {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();
 		f.setVisible(true);
+	}
+
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_PACKAGE;
+	}
+	
+
+	@Override
+	public String getTitle() {
+		return "Package Browser";
 	}
 }

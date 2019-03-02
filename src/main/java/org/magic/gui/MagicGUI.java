@@ -29,6 +29,7 @@ import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
+import org.magic.gui.components.MagicEditionPackagesBrowser;
 import org.magic.gui.components.ThreadMonitor;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.BinderTagsEditorComponent;
@@ -111,12 +112,14 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"),MTGConstants.ICON_OPEN);
 		JMenuItem mntmFileTagEditor = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		JMenuItem mntmFileChromePlugin = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
-		
+		JMenuItem mntmFilePackageExplorer = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("PACKAGE_EXPLORER"),MTGConstants.ICON_PACKAGE);
+			
 		
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileOpen);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
+		mnFile.add(mntmFilePackageExplorer);
 		mnFile.add(mntmExit);
 		mtgMnuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
@@ -130,6 +133,8 @@ public class MagicGUI extends JFrame {
 			ChromeDownloader dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
+		
+		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new MagicEditionPackagesBrowser(), true, false).setVisible(true)));
 		
 		
 		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true)));
