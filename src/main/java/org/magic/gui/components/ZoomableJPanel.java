@@ -125,11 +125,12 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
 
     @Override
     public void mouseMoved(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+    	//do nothing
     }
 
     @Override
@@ -146,12 +147,12 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+    	//do nothing
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+    	//do nothing
     }
 
 }

@@ -172,11 +172,16 @@
 		<constructpack lang='en' num='2' url="https://images-na.ssl-images-amazon.com/images/I/61UsxVgZOWL.jpg"/>
 		<constructpack lang='en' num='3' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/106942.jpg"/>
 	</edition>
-	
 	<edition id='UDS'>
 		<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/90151.jpg"/>
 		<banner lang='en' url="http://mtgen.net/uds/images/logo-word.png"/>
+		<constructpack lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/106950.jpg"/>
+		<constructpack lang='en' num='2' url="https://res.cloudinary.com/csicdn/image/upload/c_pad,fl_lossy,h_350,q_auto,w_350/v1/Images/Products/mtg%20art/Urzas%20Destiny/full/262435.jpg"/>
+		<constructpack lang='en' num='3' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/106934.JPG"/>
+		<constructpack lang='en' num='4' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/106948.jpg"/>
+		<box lang='en' url="https://thumbs.worthpoint.com/zoom/images2/1/0416/21/mtg-booster-box-urzas-destiny-english_1_33ece0205be90bc475ccd80c951f6ecd.jpg"/>
 	</edition>
+	
 	<edition id='ULG'>
 		<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Urza%2527s%2BLegacy%2BBooster%2B%255BBOOSTER%255D.jpg"/>
 		<banner lang='en' url="http://mtgen.net/ulg/images/logo-word.png"/>

@@ -104,8 +104,10 @@ public class MagicEditionPackagesBrowser extends MTGUIComponent{
 	}
 	
 	public static void main(String[] args) {
-		JFrame f = new JFrame();
 		
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		
+		JFrame f = new JFrame();
 		MagicEditionPackagesBrowser pane = new MagicEditionPackagesBrowser();
 		
 		f.getContentPane().setLayout(new BorderLayout());

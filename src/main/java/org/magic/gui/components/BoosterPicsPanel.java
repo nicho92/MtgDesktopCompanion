@@ -52,13 +52,14 @@ public class BoosterPicsPanel extends JTabbedPane {
 			sw = new SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>>() {
 				@Override
 				protected void process(List<SimpleEntry<Packaging, ImageIcon>> chunks) {
-					addTab(chunks.get(0).getKey().toString(), new JLabel(chunks.get(0).getValue()));
+					chunks.forEach(e->addTab(e.getKey().toString(), new JLabel(e.getValue())));
 				}
 				
 				@Override
 				protected ImageIcon doInBackground() {
 					
 					List<Packaging> l = provider.get(ed,TYPE.BOOSTER);
+					logger.debug("loading booster :" + l);
 					l.forEach(i->
 					{
 						try {
