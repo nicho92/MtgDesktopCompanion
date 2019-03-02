@@ -29,7 +29,7 @@ public class MagicEditionDetailPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
-	private org.magic.api.beans.MagicEdition magicEdition = new org.magic.api.beans.MagicEdition();
+	private MagicEdition magicEdition = new MagicEdition();
 	private JTextField borderJTextField;
 	private JTextField cardCountTextField;
 	private JTextField releaseDateJTextField;
@@ -256,6 +256,7 @@ public class MagicEditionDetailPanel extends JPanel {
 
 	public void setMagicEdition(MagicEdition newMagicEdition, boolean update) {
 		magicEdition = newMagicEdition;
+
 		if (update) {
 			if (mBindingGroup != null) {
 				mBindingGroup.unbind();
@@ -265,7 +266,8 @@ public class MagicEditionDetailPanel extends JPanel {
 				mBindingGroup = initDataBindings();
 			}
 		}
-		lblBoosterPic.setEdition(magicEdition);
+		
+		
 
 	}
 
@@ -318,6 +320,11 @@ public class MagicEditionDetailPanel extends JPanel {
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
 		autoBinding14.bind();
 
+		
+		if(!magicEdition.equals(lblBoosterPic.getEdition()))
+			lblBoosterPic.setEdition(magicEdition);
+		
+		
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//

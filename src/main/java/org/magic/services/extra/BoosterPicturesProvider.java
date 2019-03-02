@@ -53,17 +53,14 @@ public class BoosterPicturesProvider {
 	}
 	
 	
-	public static void main(String[] args) {
-		new BoosterPicturesProvider().caching(false);
-	}
-	
-	
 	public void caching(boolean force, String s)
 	{
-			getItemsFor(s).forEach(p->caching(force, p));
+		getItemsFor(s).forEach(p->caching(force, p));
 	}
 	
 	public BufferedImage caching(boolean force, Packaging p) {
+		
+		
 		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
 		File pkgFile = new File(f,p.toString()+".png");
 		

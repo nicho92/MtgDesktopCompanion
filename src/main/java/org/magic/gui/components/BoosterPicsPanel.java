@@ -31,13 +31,22 @@ public class BoosterPicsPanel extends JTabbedPane {
 	private static final long serialVersionUID = 1L;
 	static Logger logger = MTGLogger.getLogger(BoosterPicsPanel.class);
 	SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>> sw;
+	private MagicEdition ed;
 	
 	public BoosterPicsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		provider = new BoosterPicturesProvider();
 	}
 	
+
+	public MagicEdition getEdition() {
+		return ed;
+	}
+	
+	
 	public void setEdition(MagicEdition ed) {
+		
+		this.ed=ed;
 		removeAll();
 		revalidate();
 		
@@ -59,7 +68,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 				protected ImageIcon doInBackground() {
 					
 					List<Packaging> l = provider.get(ed,TYPE.BOOSTER);
-					logger.debug("loading booster :" + l);
+					logger.trace("loading booster :" + l);
 					l.forEach(i->
 					{
 						try {
@@ -82,5 +91,6 @@ public class BoosterPicsPanel extends JTabbedPane {
 		return ImageTools.resize(ImageTools.trimAlpha(boosterFor), (int)d.getHeight(), (int)d.getWidth()-15);
 		
 	}
+
 
 }

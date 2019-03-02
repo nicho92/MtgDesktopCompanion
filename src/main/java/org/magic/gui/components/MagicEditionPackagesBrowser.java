@@ -1,15 +1,12 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,12 +21,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
-import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
-
-import com.google.common.collect.Lists;
-import java.awt.Dimension;
 
 public class MagicEditionPackagesBrowser extends MTGUIComponent{
 	

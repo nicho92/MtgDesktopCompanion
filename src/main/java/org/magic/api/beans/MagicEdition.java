@@ -156,11 +156,10 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 
 		if (this.getClass() != obj.getClass())
 			return false;
-
 		
 		if(getId()==null)
 			return false;
-		
+	
 		return getId().equals(((MagicEdition) obj).getId());
 	}
 
