@@ -37,7 +37,8 @@ public class BoosterPicturesProvider {
 		
 		try {
 			logger.debug("Loading booster pics");
-			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_LOCAL_URI);
+			//document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_LOCAL_URI);
+			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();
 		} catch (Exception e) {
@@ -52,7 +53,7 @@ public class BoosterPicturesProvider {
 	
 	
 	public static void main(String[] args) {
-		new BoosterPicturesProvider().caching(true,"ICE");
+		new BoosterPicturesProvider().caching(false);
 	}
 	
 	
