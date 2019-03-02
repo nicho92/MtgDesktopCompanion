@@ -84,14 +84,10 @@ public class MagicEditionPackagesBrowser extends JComponent {
 	
 	public void load(Packaging p)
 	{
-		try {
-			im = URLTools.extractImage(p.getUrl());
+			im = provider.get(p);
 			panelDraw.revalidate();
 			panelDraw.repaint();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
+		
 	}
 
 

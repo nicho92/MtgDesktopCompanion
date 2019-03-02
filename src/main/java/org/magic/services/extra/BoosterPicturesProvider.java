@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -53,30 +54,50 @@ public class BoosterPicturesProvider {
 	
 	
 	public static void main(String[] args) {
-		new BoosterPicturesProvider().caching(false);
+		new BoosterPicturesProvider().caching(false,"USG");
 	}
 	
 	
 	public void caching(boolean force, String s)
 	{
-			getItemsFor(s).forEach(p->{
-				File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",s.replace("CON", "CON_"),p.getType().name()).toFile();
-				File pkgFile = new File(f,p.toString()+".png");
-				
-				try {
-					FileUtils.forceMkdir(f);
-					
-					if(force||!pkgFile.exists())
-					{
-						BufferedImage im = URLTools.extractImage(p.getUrl());
-						ImageTools.saveImage(im, pkgFile, "PNG");
-						logger.debug("[" + s +"] SAVED for " + p.getType()+"-"+p);
-					}
-				} catch (Exception e) {
-					logger.error("[" + s +"] ERROR for " + p.getType()+"-"+p +" :" +e);
-				}
-			});
+			getItemsFor(s).forEach(p->caching(force, p));
 	}
+	
+	public BufferedImage caching(boolean force, Packaging p) {
+		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
+		File pkgFile = new File(f,p.toString()+".png");
+		
+		try {
+			FileUtils.forceMkdir(f);
+			if(force||!pkgFile.exists())
+			{
+				BufferedImage im = URLTools.extractImage(p.getUrl());
+				ImageTools.saveImage(im, pkgFile, "PNG");
+				logger.debug("[" + p.getEdition().getId() +"] SAVED for " + p.getType()+"-"+p);
+				return im;
+			}
+		} catch (Exception e) {
+			logger.error("[" + p.getEdition().getId() +"] ERROR for " + p.getType()+"-"+p +" :" +e);
+		}
+		return null;
+		
+	}
+
+	public BufferedImage get(Packaging p)
+	{
+		try {
+			File b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
+			
+			if(b.exists())
+				return ImageIO.read(b);
+			else
+				return caching(false, p);
+		} catch (IOException e) {
+			logger.error(e);
+			return null;
+		}
+	}
+	
 	
 	
 	public void caching(boolean force)

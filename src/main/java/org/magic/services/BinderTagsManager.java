@@ -73,11 +73,8 @@ public class BinderTagsManager {
 		for(String id :ids)
 		{
 				BufferedImage im=null;
-				try {
-					im = URLTools.extractImage(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0).getUrl());
-				} catch (IOException e) {
-					logger.error(e);
-				}
+				im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0));
+				
 				if(im!=null)
 					ims.add(im);
 		}
@@ -86,12 +83,7 @@ public class BinderTagsManager {
 	
 	public void add(MagicEdition ed)
 	{
-		BufferedImage img=null;
-		try {
-			img = URLTools.extractImage(prov.get(ed,Packaging.TYPE.BANNER).get(0).getUrl());
-		} catch (IOException e) {
-			logger.error(e);
-		}
+		BufferedImage img= prov.get(prov.get(ed,Packaging.TYPE.BANNER).get(0));
 		if(img!=null)
 		{
 			ArrayList<BufferedImage> l = new ArrayList<>();
