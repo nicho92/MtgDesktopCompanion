@@ -1,12 +1,11 @@
 package org.magic.services.extra;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPath;
@@ -14,12 +13,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.TYPE;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -36,7 +37,7 @@ public class BoosterPicturesProvider {
 		
 		try {
 			logger.debug("Loading booster pics");
-			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
+			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_LOCAL_URI);
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();
 		} catch (Exception e) {
@@ -44,11 +45,45 @@ public class BoosterPicturesProvider {
 		}
 	}
 	
-	public static void main(String[] args) {
-		new BoosterPicturesProvider().getItemsFor(new MagicEdition("ICE"));
+	public List<Packaging> getItemsFor(String me)
+	{
+		return getItemsFor(new MagicEdition(me));
 	}
 	
 	
+	public static void main(String[] args) {
+		new BoosterPicturesProvider().caching(true,"ICE");
+	}
+	
+	
+	public void caching(boolean force, String s)
+	{
+			getItemsFor(s).forEach(p->{
+				File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",s.replace("CON", "CON_"),p.getType().name()).toFile();
+				File pkgFile = new File(f,p.toString()+".png");
+				
+				try {
+					FileUtils.forceMkdir(f);
+					
+					if(force||!pkgFile.exists())
+					{
+						BufferedImage im = URLTools.extractImage(p.getUrl());
+						ImageTools.saveImage(im, pkgFile, "PNG");
+						logger.debug("[" + s +"] SAVED for " + p.getType()+"-"+p);
+					}
+				} catch (Exception e) {
+					logger.error("[" + s +"] ERROR for " + p.getType()+"-"+p +" :" +e);
+				}
+			});
+	}
+	
+	
+	public void caching(boolean force)
+	{
+		listEditionsID().forEach(s->caching(force,s));
+	}
+	
+
 	public List<Packaging> getItemsFor(MagicEdition me)
 	{
 		List<Packaging> ret = new ArrayList<>();

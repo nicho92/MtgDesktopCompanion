@@ -2,6 +2,7 @@ package org.magic.tools;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -116,6 +117,17 @@ public class URLTools {
 			throw new IOException(e);
 		}
 	}
+	
+	public static org.w3c.dom.Document extractXML(File f) throws IOException {
+		try {
+			return XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(new FileInputStream(f));
+		} catch (Exception e) {
+			throw new IOException(e);
+		} 
+	}
+
+	
+	
 	
 	public static org.w3c.dom.Document extractXML(URL url) throws IOException {
 		try {

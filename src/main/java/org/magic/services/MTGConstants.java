@@ -41,7 +41,7 @@ public class MTGConstants {
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static final URL MTG_CHROME_PLUGIN = MTGConstants.class.getResource("/mtg-chrome-companion");
 	
-	public static final URL MTG_BOOSTERS_LOCAL_URI = MTGConstants.class.getResource("/data/boosters.xml");	
+	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());	
 	
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 	public static final String SET_ICON_DIR = "/icons/set/";
