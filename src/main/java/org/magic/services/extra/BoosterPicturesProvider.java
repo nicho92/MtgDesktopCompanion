@@ -54,7 +54,7 @@ public class BoosterPicturesProvider {
 	
 	
 	public static void main(String[] args) {
-		new BoosterPicturesProvider().caching(false,"USG");
+		new BoosterPicturesProvider().caching(false);
 	}
 	
 	
