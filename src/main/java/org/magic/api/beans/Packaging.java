@@ -5,7 +5,7 @@ import java.net.URL;
 
 public class Packaging implements Serializable{
 
-	public enum TYPE { BOX, BOOSTER, STARTER,BUNDLE,BANNER,CONSTRUCTPACK}
+	public enum TYPE { BOX, BOOSTER, STARTER,BUNDLE,BANNER,CONSTRUCTPACK,PRERELEASEPACK}
 	
 	private TYPE type;
 	private String lang;

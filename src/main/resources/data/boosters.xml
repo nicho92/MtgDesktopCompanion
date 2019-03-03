@@ -1209,6 +1209,7 @@
 		<booster lang='en' num='3' url="https://media.wizards.com/2018/images/daily/U8C8vtEwCy.png"/>
 		<booster lang='en' num='4' url="https://media.wizards.com/2018/images/daily/fx7iYm4CI5.png"/>
 		<booster lang='en' num='5' url="https://media.wizards.com/2018/images/daily/xTKJsGYXRA.png" />
+		<booster lang='en' num='6' url="http://www.boardgamebarrister.com/wp-content/uploads/2018/10/StandardShowdown_RNA.png"/>
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/269/638/320/160/636642489678037096.png"/>
 		<banner lang='fr' url="https://www.magicbazar.fr/images/RNA_logo_name_fr_2.png"/>
 		<banner lang='en' url="https://vignette.wikia.nocookie.net/magicarena/images/4/48/RNA_logo.png/revision/latest?cb=20180827192531"/>
@@ -1217,6 +1218,10 @@
 		<bundle lang='en' num='2' url="https://cdn.shopify.com/s/files/1/0672/1531/products/Ravnica_Allegiance_Deck_Builders_Kit.png?v=1545412921"/>
 		<constructpack lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/collectorscache/file/55fc47401f6711e98879b9f9682d85ae/RNA%20Dovin%20deck.jpg"/>
 		<constructpack lang='en' num='2' url="https://d1rw89lz12ur5s.cloudfront.net/photo/collectorscache/file/3080fb901f6811e98879b9f9682d85ae/large/RNA%20Domri%20deck.jpg"/>
+		<prereleasepack lang='en' num='1' url ="https://cdn.shopify.com/s/files/1/1704/1809/products/160f1a0ff377994e2b49b210c1a840d57111bea7_450x.png?v=1548266200"/>
+		<prereleasepack lang='en' num='2' url ="https://cdn.shopify.com/s/files/1/1704/1809/products/71d0349a19853c2b74732254ccdf793218241955_450x.png?v=1548266202"/>
+		<prereleasepack lang='en' num='3' url="https://cdn.shopify.com/s/files/1/1704/1809/products/8947f193663933376f22e021e5291450e663834f_450x.png?v=1548266209"/>
+		<prereleasepack lang='en' num='4' url="https://cdn.shopify.com/s/files/1/1704/1809/products/acfd8e15b642fb2429ee4e66f9bae08859271403_450x.png?v=1548266209"/>
  	</edition>
 	<edition id="WAR">
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/197.png"/>
