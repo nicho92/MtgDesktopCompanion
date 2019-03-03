@@ -23,7 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.tools.UITools;
 
-public class MagicEditionPackagesBrowser extends MTGUIComponent{
+public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	
 	private transient BoosterPicturesProvider provider;
@@ -32,7 +32,7 @@ public class MagicEditionPackagesBrowser extends MTGUIComponent{
 	private JTree tree;
 	
 	
-	public MagicEditionPackagesBrowser() {
+	public PackagesBrowserPanel() {
 		provider = new BoosterPicturesProvider();
 		initGUI();
 	}
@@ -100,7 +100,7 @@ public class MagicEditionPackagesBrowser extends MTGUIComponent{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
 		JFrame f = new JFrame();
-		MagicEditionPackagesBrowser pane = new MagicEditionPackagesBrowser();
+		PackagesBrowserPanel pane = new PackagesBrowserPanel();
 		
 		f.getContentPane().setLayout(new BorderLayout());
 		f.getContentPane().add(pane,BorderLayout.CENTER);

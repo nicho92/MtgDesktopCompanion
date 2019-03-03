@@ -29,7 +29,7 @@ import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
-import org.magic.gui.components.MagicEditionPackagesBrowser;
+import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.ThreadMonitor;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.BinderTagsEditorComponent;
@@ -134,7 +134,7 @@ public class MagicGUI extends JFrame {
 			dow.setVisible(true);
 		});
 		
-		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new MagicEditionPackagesBrowser(), true, false).setVisible(true)));
+		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new PackagesBrowserPanel(), true, false).setVisible(true)));
 		
 		
 		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true)));
