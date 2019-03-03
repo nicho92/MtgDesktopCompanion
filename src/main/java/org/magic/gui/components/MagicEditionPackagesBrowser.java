@@ -26,7 +26,7 @@ import org.magic.tools.UITools;
 public class MagicEditionPackagesBrowser extends MTGUIComponent{
 	
 	
-	private BoosterPicturesProvider provider;
+	private transient BoosterPicturesProvider provider;
 	private DefaultTreeModel model;
 	private ZoomableJPanel panelDraw;
 	private JTree tree;
