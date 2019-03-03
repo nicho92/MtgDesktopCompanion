@@ -55,6 +55,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String NAME = "name";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	
+	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
+	
 	private String baseURI = "";
 	private JsonParser parser;
 
@@ -163,9 +165,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI + CARDS + me.getId() + "/" + id;
-		URLConnection con = URLTools.openConnection(url);
-		JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonObject root =  URLTools.extractJson(url).getAsJsonObject();
 		return generateCard(root, true, null);
 	}
 
@@ -173,12 +173,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public List<MagicEdition> loadEditions() throws IOException {
 		if (cacheEditions.size() <= 0) {
 			String url = baseURI + "/sets";
-			URLConnection con = URLTools.openConnection(url);
-
-			JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-			JsonObject root = new JsonParser().parse(reader).getAsJsonObject(); 
+			JsonObject root = URLTools.extractJson(url).getAsJsonObject(); 
 			for (int i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
-
 				JsonObject e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				cacheEditions.put(ed.getId(), ed);
@@ -473,9 +469,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void generateRules(MagicCard mc) throws IOException {
 		String url = getString("URL")+CARDS + mc.getId() + "/rulings";
-		HttpURLConnection con = URLTools.openConnection(url);
-
-		JsonElement el = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING)));
+	
+		JsonElement el = URLTools.extractJson(url);
 		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
 
 		for (int i = 0; i < arr.size(); i++) {
@@ -589,6 +584,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get("released_at") != null)
 			ed.setReleaseDate(obj.get("released_at").getAsString());
 
+		notify(ed);
+		
 		return ed;
 	}
 
