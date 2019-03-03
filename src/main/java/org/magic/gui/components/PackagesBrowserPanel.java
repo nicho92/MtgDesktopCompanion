@@ -22,6 +22,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.tools.UITools;
+import java.awt.FlowLayout;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 	
@@ -41,18 +42,23 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
-		tree = new JTree(model);
 		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
 		panelDraw = new ZoomableJPanel() ;
-		JScrollPane scrollPane = new JScrollPane(tree);
-		scrollPane.setPreferredSize(new Dimension(150, 322));
-		add(scrollPane, BorderLayout.WEST);
 		add(panelDraw, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
-		add(panel, BorderLayout.NORTH);
-		panel.add(cboEditions);
-		cboEditions.addItemListener(it->setMagicEdition((MagicEdition)cboEditions.getSelectedItem()));
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		
+		panel.add(cboEditions,BorderLayout.NORTH);
+		
+		add(panel, BorderLayout.WEST);
+		
+		
+		
+		tree = new JTree(model);
+		tree.setShowsRootHandles(false);
+		panel.add(new JScrollPane(tree),BorderLayout.CENTER);
 		
 		tree.addTreeSelectionListener(e-> {
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
@@ -60,6 +66,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
 				load((Packaging)selectedNode.getUserObject());
 		});
+		cboEditions.addItemListener(it->setMagicEdition((MagicEdition)cboEditions.getSelectedItem()));
 		
 		
 	}

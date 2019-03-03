@@ -18,7 +18,10 @@ import org.magic.tools.ImageTools;
 
 public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
     
-    protected BufferedImage img=null;
+  
+	private static final long serialVersionUID = 1L;
+
+	protected transient BufferedImage img=null;
     
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
@@ -39,6 +42,7 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
     public void setImg(BufferedImage img)
     {
     	this.img=img;
+    	
     }
 
     private void initComponent() {
@@ -54,9 +58,9 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
         if(img==null)
         	return;
         
-        
         Graphics2D g2 = (Graphics2D) g;
-
+    
+        
         if (zoomer) {
             AffineTransform at = new AffineTransform();
 
@@ -90,9 +94,9 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
         }
 
         // All drawings go here
-        
         g2.drawImage(ImageTools.trimAlpha(img), 0, 0, this);
-
+        
+  
     }
 
     @Override
