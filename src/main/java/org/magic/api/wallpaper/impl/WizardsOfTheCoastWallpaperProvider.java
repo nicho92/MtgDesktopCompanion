@@ -1,6 +1,7 @@
 package org.magic.api.wallpaper.impl;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +55,13 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 			for (Element e : Jsoup.parse(doc).select("div.wrap")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.getElementsByTag("h3").text());
-				w.setUrl(new URL(e.select("a").first().attr("download")));
+				w.setUrl(new URI(e.select("a").first().attr("download")));
 				w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
 				list.add(w);
 				notify(w);
 			}
 			return list;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return list;
 		}

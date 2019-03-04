@@ -191,7 +191,7 @@ public class URLTools {
 				else
 				{
 					if(connection.getErrorStream()!=null)
-						logger.trace(IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+						logger.error(IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
 
 					return false;
 				}

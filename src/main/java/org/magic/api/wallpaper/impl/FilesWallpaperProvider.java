@@ -1,14 +1,15 @@
 package org.magic.api.wallpaper.impl;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
@@ -21,19 +22,18 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Collection<File> res = FileUtils.listFiles(getFile("DIRECTORY"), new String[] { "png", "jpg" },
-					true);
+			Collection<File> res = FileUtils.listFiles(getFile("DIRECTORY"),new WildcardFileFilter("*"+search+"*", IOCase.INSENSITIVE),TrueFileFilter.INSTANCE);
 
 			for (File f : res) {
 				Wallpaper w = new Wallpaper();
 				w.setName(f.getName());
-				w.setUrl(Paths.get(f.toURI()).toUri().toURL());
+				w.setUrl(f.toURI());
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 				notify(w);
 			}
 			return list;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return list;
 		}

@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import org.jfree.chart.imagemap.ImageMapUtils;
 import org.magic.tools.ImageTools;
 
 public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
@@ -41,7 +43,10 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
     
     public void setImg(BufferedImage img)
     {
-    	this.img=img;
+    	if(img!=null) {
+    	Image i = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+    	this.img=ImageTools.imageToBufferedImage(i);
+    	}
     	
     }
 

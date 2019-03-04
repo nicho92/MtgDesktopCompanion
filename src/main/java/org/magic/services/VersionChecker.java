@@ -5,18 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.magic.tools.URLTools;
-import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 public class VersionChecker {
 
@@ -46,21 +40,15 @@ public class VersionChecker {
 	public VersionChecker() {
 		actualVersion = getVersion();
 		try {
-			InputStream input =URLTools.openConnection(MTGConstants.MTG_DESKTOP_POM_URL).getInputStream();
-			onlineVersion = parseXML(input);
+			onlineVersion = parseXML(URLTools.extractXML(MTGConstants.MTG_DESKTOP_POM_URL));
 		} catch (Exception e) {
 			onlineVersion = "";
 			logger.error(e.getMessage());
 		}
 	}
 
-	private String parseXML(InputStream input)	throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
-		DocumentBuilderFactory docBuilderFactory = XMLTools.createSecureXMLFactory();
-		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-		Document doc = docBuilder.parse(input);
-		XPathFactory xpf = XPathFactory.newInstance();
-		XPath path = xpf.newXPath();
-		return path.evaluate("/project/version", doc.getDocumentElement());
+	private String parseXML(Document document)	throws XPathExpressionException {
+		return XPathFactory.newInstance().newXPath().evaluate("/project/version", document.getDocumentElement());
 	}
 
 	public boolean hasNewVersion() {

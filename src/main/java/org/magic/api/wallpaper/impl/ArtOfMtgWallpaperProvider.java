@@ -1,6 +1,8 @@
 package org.magic.api.wallpaper.impl;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,13 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 			for (Element e : d.select("article.result")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.select("h2 a").text());
-				w.setUrl(new URL(e.select("a img").attr("src")));
+				w.setUrl(new URI(e.select("a img").attr("src")));
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 				notify(w);
 			}
 			return list;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return list;
 		}
@@ -49,12 +51,12 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 			for (Element e : d.select("div.elastic-portfolio-item img")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.attr("title"));
-				w.setUrl(new URL(e.attr("src")));
+				w.setUrl(new URI(e.attr("src")));
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 			}
 			return list;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return list;
 		}

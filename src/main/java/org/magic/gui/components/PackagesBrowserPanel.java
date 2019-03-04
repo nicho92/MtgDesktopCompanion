@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,11 +21,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.tools.UITools;
-import java.awt.FlowLayout;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 	
-	
+	private static final long serialVersionUID = 1L;
 	private transient BoosterPicturesProvider provider;
 	private DefaultTreeModel model;
 	private ZoomableJPanel panelDraw;
@@ -43,6 +41,8 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		setLayout(new BorderLayout(0, 0));
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
 		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
+		
+		
 		panelDraw = new ZoomableJPanel() ;
 		add(panelDraw, BorderLayout.CENTER);
 		
@@ -57,7 +57,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		
 		
 		tree = new JTree(model);
-		tree.setShowsRootHandles(false);
+		
 		panel.add(new JScrollPane(tree),BorderLayout.CENTER);
 		
 		tree.addTreeSelectionListener(e-> {
