@@ -466,8 +466,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	public void setMagicLogo(final String set, final String rarity) {
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
-				lblLogoSet.setIcon(
-						new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getSetLogo(set, rarity)));
+				lblLogoSet.setIcon(new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getSetLogo(set, rarity)));
 			} catch (Exception e) {
 				lblLogoSet.setIcon(null);
 			}

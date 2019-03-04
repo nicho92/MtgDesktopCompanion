@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -23,7 +21,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 
 public class BoosterPicsPanel extends JTabbedPane {
 	

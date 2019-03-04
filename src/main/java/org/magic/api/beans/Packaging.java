@@ -1,7 +1,6 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
-import java.net.URL;
 
 public class Packaging implements Serializable{
 

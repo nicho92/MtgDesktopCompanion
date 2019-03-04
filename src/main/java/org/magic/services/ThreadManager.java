@@ -28,7 +28,7 @@ public class ThreadManager {
 	
 	public void executeThread(Runnable task, String name) {
 		this.name=name;
-		executor.submit(task);
+		executor.execute(task);
 		log();
 	}
 	

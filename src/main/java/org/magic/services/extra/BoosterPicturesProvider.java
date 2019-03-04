@@ -46,7 +46,7 @@ public class BoosterPicturesProvider {
 			logger.error(e);
 		}
 	}
-	
+
 	public List<Packaging> getItemsFor(String me)
 	{
 		return getItemsFor(new MagicEdition(me));
