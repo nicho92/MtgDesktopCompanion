@@ -99,7 +99,6 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 		setProperty(PASS, "mysql");
 		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
 		setProperty(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
-
 	}
 
 

@@ -5,19 +5,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 
 
 public class BinderTagsManager {
@@ -31,8 +28,6 @@ public class BinderTagsManager {
 	int height=1;
 	int width=1;
 	private int space;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-
 	
 	public Dimension getDimension() {
 		return d;

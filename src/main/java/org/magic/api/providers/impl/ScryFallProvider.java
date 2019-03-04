@@ -1,11 +1,11 @@
 package org.magic.api.providers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -54,7 +55,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BORDER = "border";
 	private static final String NAME = "name";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	
 	private String baseURI = "";
@@ -71,7 +71,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				logger.error(e1);
 			}
 		}
-
+	}
+	
+	
+	public void downloadBulkFile(File f) throws IOException
+	{
+		FileUtils.copyURLToFile(new URL(BULK_FILE_URL), f);
 	}
 
 	
