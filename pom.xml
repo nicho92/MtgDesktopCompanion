@@ -90,7 +90,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_57</version>
+			  <version>4.ALPHA.0_58</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -447,14 +447,6 @@
                      </execution>
                    </executions>
              </plugin>
-		        <plugin>
-		            <groupId>org.apache.maven.plugins</groupId>
-		            <artifactId>maven-compiler-plugin</artifactId>
-		            <version>3.7.0</version>
-		            <configuration>
-		                <release>${maven.compiler.source}</release>
-		            </configuration>
-		        </plugin>
 		</plugins>
 	</build>
 
