@@ -50,6 +50,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
+import org.magic.services.extra.PackagesProvider;
 import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
@@ -92,6 +93,7 @@ public class ConfigurationPanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JCheckBox chckbxWallpaper;
 	private JCheckBox chckbxHistory;
+	private JCheckBox chckbxPackages;
 
 	public void loading(boolean show, String text) {
 		if (show) {
@@ -245,6 +247,7 @@ public class ConfigurationPanel extends JPanel {
 		JCheckBox chkboxAutoAdd = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_ADD"));
 		chckbxIconset = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_CARD"));
+		chckbxPackages = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"));
 		JCheckBox chkboxAutoDelete = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_DELETE"));
 		JButton btnDefaultStock = new JButton("Default Stock");
 		JPanel panelAutoStock = new JPanel();
@@ -255,12 +258,16 @@ public class ConfigurationPanel extends JPanel {
 		
 		chckbxIconset.setSelected(true);
 		chckbxIconcards.setSelected(true);
+		chckbxPackages.setSelected(true);
+		
 		chkboxAutoAdd.setSelected(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"));
 		chkboxAutoDelete.setSelected(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"));
 		
 		
 		panelCheckCache.add(chckbxIconset);
 		panelCheckCache.add(chckbxIconcards);
+		panelCheckCache.add(chckbxPackages);
+		
 		panelAutoStock.add(chkboxAutoAdd);
 		panelAutoStock.add(chkboxAutoDelete);
 
@@ -556,6 +563,10 @@ public class ConfigurationPanel extends JPanel {
 				
 				if(chckbxIconcards.isSelected())
 					MTGControler.getInstance().getEnabled(MTGPicturesCache.class).clear();
+				
+				if(chckbxPackages.isSelected())
+					PackagesProvider.inst().clear();
+				
 				
 				loading(false, "");
 			} catch (Exception e) {

@@ -1,12 +1,11 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,11 +18,9 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
-import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.PackagesProvider;
-import org.magic.tools.UITools;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 	
@@ -64,6 +61,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
+		setPreferredSize(new Dimension(1024, 768));
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
 		panelDraw = new ZoomableJPanel() ;
 		add(panelDraw, BorderLayout.CENTER);
@@ -117,9 +115,8 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			});
 		});
 		model.reload();
-		for (int i = 0; i < 2; i++) {
-		    tree.expandRow(i);
-		}		
+
+		tree.expandRow(0);
 		panelDraw.setImg(null);
 		
 	}

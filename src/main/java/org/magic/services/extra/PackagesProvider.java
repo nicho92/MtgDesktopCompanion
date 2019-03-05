@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.hsqldb.lib.FileUtil;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.TYPE;
@@ -40,12 +42,10 @@ public class PackagesProvider {
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
 	private List<MagicEdition> list;
 	private static PackagesProvider inst;
-	public static final Dimension DEFAULT_DIM_BOOSTER = new Dimension(252, 450);
 	
 	private PackagesProvider() {
 		try {
 			logger.debug("Loading booster pics");
-			//document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_LOCAL_URI);
 			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();
@@ -111,7 +111,18 @@ public class PackagesProvider {
 		}
 	}
 	
+
+	public void clear() {
+		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging").toFile();
+		try {
+			FileUtils.cleanDirectory(f);
+		} catch (IOException e) {
+			logger.error("error removing data in "+f,e);
+		}
+		
+	}
 	
+
 	
 	public void caching(boolean force)
 	{
@@ -176,6 +187,7 @@ public class PackagesProvider {
 				list.add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));
 			}
 			
+			Collections.sort(list);
 		} catch (Exception e) {
 			logger.error("Error retrieving IDs ", e);
 		}
@@ -212,7 +224,6 @@ public class PackagesProvider {
 			return null;
 		}
 	}
-	
 
 	
 

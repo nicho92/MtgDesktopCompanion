@@ -42,7 +42,7 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
     public void setImg(BufferedImage img)
     {
     	if(img!=null) {
-    	this.img=img;
+    		this.img=img;
     	}
     	
     }
