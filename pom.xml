@@ -447,6 +447,14 @@
                      </execution>
                    </executions>
              </plugin>
+		        <plugin>
+		            <groupId>org.apache.maven.plugins</groupId>
+		            <artifactId>maven-compiler-plugin</artifactId>
+		            <version>3.7.0</version>
+		            <configuration>
+		                <release>${maven.compiler.source}</release>
+		            </configuration>
+		        </plugin>
 		</plugins>
 	</build>
 
