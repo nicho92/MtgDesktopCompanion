@@ -210,9 +210,22 @@
 		<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/86850.JPEG"/>
 		<box lang="en" num="1" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86858.jpg"/>
 		<box lang="en" num="2" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86849.jpg"/>
-		<constructpack lang="en" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86856.jpg"/>
+		<constructpack lang="en" num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86856.jpg"/>
+		<constructpack lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/113977.jpg"/>
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_POR_SetLogo.png"/>
 	</edition>
+	<edition id='PTK'>
+		<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-p3k-pack.jpg"/>
+		<booster lang='jp' num='2' url="http://www.bigweb.co.jp/new/imgc/002/497/249731.jpg"/>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PTK_SetLogo_0.png"/>
+		<constructpack lang="en" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/106945.jpg"/>
+		<constructpack lang='jp' url="http://img.hareruyamtg.com/img/goods/L/Theme/PTK_2playerStarter_CHS.jpg"/>
+		<box lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/118982.jpg"/>
+		<box lang='en' num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/106940.jpg"/>
+		
+		<!-- https://dacardworld2.imgix.net/mtgap3kingdomsbx2.jpg?auto=format%2Ccompress&fm=jpg&h=1800&ixlib=php-1.2.1&w=1800&s=745a8980f73b0a5ad383d197b9c357f4 -->
+	</edition>
+	
 	<edition id='PGRU'>
 		<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/4198.png"/>
 		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Guru_large.png?v=1427025766"/>
@@ -245,6 +258,10 @@
 	</edition>
 	
 	
+	
+	
+	
+	
 	<edition id='XLN'>
 		<booster lang='en' num='1' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1115670.jpg"/>
 		<booster lang='en' num='2' url="https://poromagia.com/media/images/products/2017/09/Ixalan-Booster-1-148585.jpg"/>
@@ -267,7 +284,7 @@
 			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg"/>
 	</edition>
 	<edition id='VAN'>
-		<booster lang='en' num='1' url="http://thumbs2.picclick.com/d/w1600/pict/311657110213_/Magic-The-Gathering-Vanguard-Gift-Box.jpg"/>
+		<booster lang='en' num='1' url="https://i.ytimg.com/vi/6veDXlq6Pr8/maxresdefault.jpg"/>
 	</edition>
 	
 	
@@ -278,13 +295,6 @@
 	</edition>
 	
 	
-	
-	<edition id='PTK'>
-		
-			<booster lang='en' num='1' url="http://assets.dacw.co/itemimages/magic-p3k-pack.jpg"/>
-		
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PTK_SetLogo_0.png"/>
-	</edition>
 	
 	
 	<edition id='S99'>
