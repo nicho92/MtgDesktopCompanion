@@ -2,7 +2,7 @@ title: MTG Desktop Companion
 description: Magic the Gathering cards manager
 google_analytics: UA-80494557-1
 show_downloads: true
-theme: jekyll-theme-minimal
+theme: jekyll-theme-dinky
 
 gems:
   - jekyll-mentions
