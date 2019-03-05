@@ -69,6 +69,7 @@
 		<booster lang='fr' num='1' url="http://erl00.chez.com/PacksImages/4th-FR-b.jpg"/>
 		<banner lang='en' url="http://mtgen.net/4ed/images/logo-word.png"/>
 		<box lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/79215.jpg"/>
+		<box lang='en' url="https://www.potomacdist.com/images/game/mtgr4gsb.jpg"/>
 		<starter lang='jp' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1130840.jpg"/>
 		<starter lang='fr' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1122759.jpg"/>
 		<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/94544.jpg"/>
@@ -308,10 +309,8 @@
 		<bundle lang="en" url="https://images-na.ssl-images-amazon.com/images/I/81GpMob5UNL._SX425_.jpg"/>
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_BRB_SetLogo.png"/>
 	</edition>
-	<edition id='NMS'>
-		
-			<booster lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20nemesis%20pack.jpg"/>
-		
+	<edition id='NEM'>
+		<booster lang='en' num='1' url="http://ahzzz.com/catalog/images/mtg%20nemesis%20pack.jpg"/>
 		<banner lang='en' url="http://mtgen.net/nms/images/logo-word.png"/>
 	</edition>
 	<edition id='S00'>
