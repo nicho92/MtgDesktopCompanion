@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.TYPE;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
@@ -27,14 +29,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class BoosterPicturesProvider {
+public class PackagesProvider {
 
 	private Document document;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
-	private List<String> list;
+	private List<MagicEdition> list;
+	private static PackagesProvider inst;
 	
-	public BoosterPicturesProvider() {
+	
+	private PackagesProvider() {
 		
 		try {
 			logger.debug("Loading booster pics");
@@ -46,6 +50,15 @@ public class BoosterPicturesProvider {
 			logger.error(e);
 		}
 	}
+	
+	public static PackagesProvider inst()
+	{
+		if(inst==null)
+			inst=new PackagesProvider();
+		
+		return inst;
+	}
+	
 
 	public List<Packaging> getItemsFor(String me)
 	{
@@ -53,7 +66,7 @@ public class BoosterPicturesProvider {
 	}
 	
 	
-	public void caching(boolean force, String s)
+	public void caching(boolean force, MagicEdition s)
 	{
 		getItemsFor(s).forEach(p->caching(force, p));
 	}
@@ -99,7 +112,7 @@ public class BoosterPicturesProvider {
 	
 	public void caching(boolean force)
 	{
-		listEditionsID().forEach(s->caching(force,s));
+		listEditions().forEach(s->caching(force,s));
 	}
 	
 
@@ -146,7 +159,7 @@ public class BoosterPicturesProvider {
 	}
 
 
-	public List<String> listEditionsID() {
+	public List<MagicEdition> listEditions() {
 
 		if (!list.isEmpty())
 			return list;
@@ -156,7 +169,9 @@ public class BoosterPicturesProvider {
 			String expression = "//edition/@id";
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList.getLength(); i++)
-				list.add(nodeList.item(i).getNodeValue());
+			{
+				list.add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));
+			}
 			
 		} catch (Exception e) {
 			logger.error("Error retrieving IDs ", e);

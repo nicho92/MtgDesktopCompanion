@@ -6,7 +6,7 @@ import org.apache.log4j.Level;
 import org.junit.Test;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGLogger;
-import org.magic.services.extra.BoosterPicturesProvider;
+import org.magic.services.extra.PackagesProvider;
 import org.magic.tools.URLTools;
 
 public class BoosterProviderTests {
@@ -16,10 +16,10 @@ public class BoosterProviderTests {
 	public void test()
 	{
 		MTGLogger.changeLevel(Level.OFF);
-		BoosterPicturesProvider prov = new BoosterPicturesProvider();
-		for(String id : prov.listEditionsID())
+		PackagesProvider prov = PackagesProvider.inst();
+		for(MagicEdition id : prov.listEditions())
 		{
-			prov.getItemsFor(new MagicEdition(id)).forEach(e->{
+			prov.getItemsFor(id).forEach(e->{
 				
 				System.out.println("===================="+id);
 				try {

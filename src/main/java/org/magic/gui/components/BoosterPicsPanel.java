@@ -19,20 +19,19 @@ import org.magic.api.beans.Packaging.TYPE;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.services.extra.BoosterPicturesProvider;
+import org.magic.services.extra.PackagesProvider;
 import org.magic.tools.ImageTools;
 
 public class BoosterPicsPanel extends JTabbedPane {
 	
-	private transient BoosterPicturesProvider provider;
 	private static final long serialVersionUID = 1L;
 	static Logger logger = MTGLogger.getLogger(BoosterPicsPanel.class);
-	SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>> sw;
+	private transient SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>> sw;
 	private MagicEdition ed;
 	
 	public BoosterPicsPanel() {
 		setLayout(new BorderLayout(0, 0));
-		provider = new BoosterPicturesProvider();
+
 	}
 	
 
@@ -64,12 +63,12 @@ public class BoosterPicsPanel extends JTabbedPane {
 				@Override
 				protected ImageIcon doInBackground() {
 					
-					List<Packaging> l = provider.get(ed,TYPE.BOOSTER);
+					List<Packaging> l = PackagesProvider.inst().get(ed,TYPE.BOOSTER);
 					logger.trace("loading booster :" + l);
 					l.forEach(i->
 					{
 						try {
-								publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(provider.get(i)))));
+								publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(PackagesProvider.inst().get(i)))));
 						}catch(Exception e)
 						{
 							logger.error("error",e);

@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
-import org.magic.services.extra.BoosterPicturesProvider;
-import org.magic.services.extra.BoosterPicturesProvider.LOGO;
+import org.magic.services.extra.PackagesProvider;
+import org.magic.services.extra.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
 
 
 public class BinderTagsManager {
 
-	private BoosterPicturesProvider prov;
+	private PackagesProvider prov;
 	private Color backColor=null;
 	private Dimension d;
 	private boolean border;
@@ -46,7 +46,7 @@ public class BinderTagsManager {
 	}
 
 	public BinderTagsManager(Dimension d){
-		prov = new BoosterPicturesProvider();
+		prov = PackagesProvider.inst();
 		addlogo=null;
 		border=true;
 		space=0;

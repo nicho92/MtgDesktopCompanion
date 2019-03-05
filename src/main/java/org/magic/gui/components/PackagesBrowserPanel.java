@@ -19,20 +19,20 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.extra.BoosterPicturesProvider;
+import org.magic.services.extra.PackagesProvider;
 import org.magic.tools.UITools;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	private static final long serialVersionUID = 1L;
-	private transient BoosterPicturesProvider provider;
+	private transient PackagesProvider provider;
 	private DefaultTreeModel model;
 	private ZoomableJPanel panelDraw;
 	private JTree tree;
 	
 	
 	public PackagesBrowserPanel() {
-		provider = new BoosterPicturesProvider();
+		provider = PackagesProvider.inst();
 		initGUI();
 	}
 
