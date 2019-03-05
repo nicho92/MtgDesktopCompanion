@@ -1,11 +1,15 @@
 package org.magic.services.extra;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -36,10 +40,9 @@ public class PackagesProvider {
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
 	private List<MagicEdition> list;
 	private static PackagesProvider inst;
-	
+	public static final Dimension DEFAULT_DIM_BOOSTER = new Dimension(252, 450);
 	
 	private PackagesProvider() {
-		
 		try {
 			logger.debug("Loading booster pics");
 			//document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_LOCAL_URI);

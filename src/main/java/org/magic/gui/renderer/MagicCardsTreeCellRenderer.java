@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Packaging;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.extra.IconSetProvider;
@@ -67,7 +68,11 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 				if (mc.getFullType().toLowerCase().contains("land")) {
 					setIcon(MTGConstants.ICON_MANA_INCOLOR);
 				}
-			} else {
+			} 
+			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof Packaging) {
+				setIcon(MTGConstants.ICON_PACKAGE_SMALL);
+			}
+			else {
 				setIcon(MTGConstants.ICON_BACK);
 			}
 			return c;

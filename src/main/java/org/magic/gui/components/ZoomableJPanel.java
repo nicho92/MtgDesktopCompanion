@@ -97,8 +97,6 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
 
         // All drawings go here
         g2.drawImage(ImageTools.trimAlpha(img), 0, 0, this);
-        
-  
     }
 
     @Override

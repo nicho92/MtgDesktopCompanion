@@ -93,6 +93,7 @@ public class UITools {
 
 
 	public static JComboBox<MagicEdition> createComboboxEditions(List<MagicEdition> value,SIZE s) {
+		Collections.sort(value);
 		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();
 		JComboBox<MagicEdition> combo = new JComboBox<>(model);
 		value.forEach(model::addElement);
@@ -100,12 +101,10 @@ public class UITools {
 		return combo;
 	}
 	
-	
 	public static JComboBox<MagicEdition> createComboboxEditions()
 	{
 		try {
 			List<MagicEdition> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
-			Collections.sort(list);
 			return createComboboxEditions(list,SIZE.MEDIUM);
 		} catch (IOException e) {
 			logger.error(e);
