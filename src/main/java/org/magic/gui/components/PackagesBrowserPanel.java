@@ -133,22 +133,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		
 	}
 
-	public static void main(String[] args) {
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		
-		JFrame f = new JFrame();
-		PackagesBrowserPanel pane = new PackagesBrowserPanel();
-		
-		f.getContentPane().setLayout(new BorderLayout());
-		f.getContentPane().add(pane,BorderLayout.CENTER);
-		
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
-		f.setVisible(true);
-	}
 
-	
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_PACKAGE;

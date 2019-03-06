@@ -44,7 +44,6 @@ public class ThreadManager {
 
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		this.name=name;
-		runnable.addPropertyChangeListener(pcl->logger.trace(pcl.getSource() +" : " + pcl.getPropertyName() +" " + pcl.getOldValue() +"->"+pcl.getNewValue()));
 		runnable.execute();
 	}
 	
