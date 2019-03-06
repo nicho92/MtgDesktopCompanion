@@ -55,6 +55,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		root.removeAllChildren();
 		Arrays.asList(Packaging.TYPE.values()).forEach(t->{
 			List<Packaging> pks = provider.get(ed, t);
+			logger.trace("loading " + ed + " " + pks);
 			if(!pks.isEmpty())
 			{
 				DefaultMutableTreeNode dir = new DefaultMutableTreeNode(t);
