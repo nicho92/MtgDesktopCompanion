@@ -29,7 +29,7 @@ public class MagicEditionDetailPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
-	private MagicEdition magicEdition = new MagicEdition();
+	private MagicEdition magicEdition;
 	private JTextField borderJTextField;
 	private JTextField cardCountTextField;
 	private JTextField releaseDateJTextField;

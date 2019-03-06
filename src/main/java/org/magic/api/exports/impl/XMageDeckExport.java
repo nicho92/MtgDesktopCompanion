@@ -60,8 +60,7 @@ public class XMageDeckExport extends AbstractCardExport {
 			while (line != null) {
 				if (!line.startsWith("NAME:")) {
 					if (!line.startsWith("SB:")) {
-						MagicEdition ed = new MagicEdition();
-						ed.setId(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
+						MagicEdition ed = new MagicEdition(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
 						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
@@ -71,8 +70,7 @@ public class XMageDeckExport extends AbstractCardExport {
 
 					} else {
 						line = line.replace("SB:", "").trim();
-						MagicEdition ed = new MagicEdition();
-						ed.setId(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
+						MagicEdition ed = new MagicEdition(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
 						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)

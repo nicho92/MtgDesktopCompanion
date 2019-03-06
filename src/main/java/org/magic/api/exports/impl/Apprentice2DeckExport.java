@@ -72,8 +72,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 					String[] elements = line.split(getString("SEPARATOR"));
 					MagicEdition ed = null;
 					try {
-						ed = new MagicEdition();
-						ed.setId(elements[3]);
+						ed = new MagicEdition(elements[3]);
 					} catch (Exception e) {
 						ed = null;
 						ecart = 1;

@@ -71,7 +71,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 							publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(PackagesProvider.inst().get(i)))));
 						}catch(Exception e)
 						{
-							logger.error("error" + e);
+							logger.error("error " + e);
 						}
 					});
 					return null;

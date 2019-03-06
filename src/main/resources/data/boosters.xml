@@ -1139,13 +1139,16 @@
 	<edition id='RIX'>
 		<booster lang='en' num='1' url="https://themanashop.ch/24406-thickbox_default/rivals-of-ixalan-booster-pack.jpg"/>
 		<booster lang='en' num='2' url="https://cdn.shopify.com/s/files/1/0263/9009/products/305065_s0.jpg?v=1516645140"/>
-		<bundle lang="en" url="https://cdn8.bigcommerce.com/s-ua4dd/images/stencil/1280x1280/products/23398/55356/Rivals-of-Ixalan-Bundle__16642.1513578221.png"/>
+		<bundle lang="en" url="https://duelkingdom.ca/wp-content/uploads/2017/12/Rivals-Ixalan-Bundle.png"/>
 		<banner lang='en' url="http://mtgen.net/rix/images/logo-word.png"/>
 	</edition>
+	
 	<edition id='A25'>
 		<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1158680.jpg"/>
 		<banner lang='en' url="http://mtgen.net/m25/images/logo-word.png"/>
 	</edition>
+	
+	
 	<edition id='DDU'>
 		
 			<booster lang='en' num='1' url="https://ludiworld.com/newshop/25954/duel-decks-elves-vs-inventors-magic-the-gathering.jpg"/>

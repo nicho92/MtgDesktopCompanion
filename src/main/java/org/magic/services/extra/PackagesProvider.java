@@ -130,7 +130,7 @@ public class PackagesProvider {
 	}
 	
 
-	public List<Packaging> getItemsFor(MagicEdition me)
+	public synchronized List<Packaging> getItemsFor(MagicEdition me)
 	{
 		List<Packaging> ret = new ArrayList<>();
 		
@@ -138,13 +138,14 @@ public class PackagesProvider {
 			return ret;
 		
 		NodeList n = null ;
+		NodeList nodeList = null;
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			NodeList nodeList = (NodeList) xPath.compile("//edition[contains(@id,'" + me.getId().toUpperCase() + "')]").evaluate(document, XPathConstants.NODESET);
+			nodeList = (NodeList) xPath.compile("//edition[contains(@id,'" + me.getId().toUpperCase() + "')]").evaluate(document, XPathConstants.NODESET);
 			n = nodeList.item(0).getChildNodes();
 			
 		} catch (Exception e) {
-			logger.error("Error retrieving IDs "+ me + " : " + e);
+			logger.error("Error retrieving IDs "+ me.getId() + "->" + me + " : " + e);
 		}
 		
 		if(n==null)
