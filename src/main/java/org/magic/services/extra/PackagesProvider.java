@@ -133,6 +133,10 @@ public class PackagesProvider {
 	public List<Packaging> getItemsFor(MagicEdition me)
 	{
 		List<Packaging> ret = new ArrayList<>();
+		
+		if(me==null)
+			return ret;
+		
 		NodeList n = null ;
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
@@ -140,7 +144,7 @@ public class PackagesProvider {
 			n = nodeList.item(0).getChildNodes();
 			
 		} catch (Exception e) {
-			logger.error("Error retrieving IDs "+ me + " : " + e.getMessage());
+			logger.error("Error retrieving IDs "+ me + " : " + e);
 		}
 		
 		if(n==null)
