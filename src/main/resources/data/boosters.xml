@@ -72,6 +72,9 @@
 		<starter lang='jp' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1130840.jpg"/>
 		<starter lang='fr' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1122759.jpg"/>
 		<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/94544.jpg"/>
+		<bundle lang='en' num="1" url="https://thumbs.worthpoint.com/zoom/images1/1/0518/09/4th-edition-gift-box-sealed_1_e77d191daa1b5bb4f03120ea79c3ae47.jpg"/>
+		<bundle lang='en' num="2" url="https://thumbs.worthpoint.com/zoom/images3/1/0518/09/4th-edition-gift-box-sealed_1_e77d191daa1b5bb4f03120ea79c3ae47.jpg"/>
+		<bundle lang='en' num="3" url="https://thumbs.worthpoint.com/zoom/images2/1/0518/09/4th-edition-gift-box-sealed_1_e77d191daa1b5bb4f03120ea79c3ae47.jpg"/>
 	</edition>
 	<edition id='5ED'>
 		<booster lang='en' num='1' url="https://crystal-cdn4.crystalcommerce.com/photos/30693/zxx7xFbYzwRtkWS8.jpg"/>
@@ -918,17 +921,9 @@
 		
 		<banner lang='en' url="http://mtgen.net/c14/images/logo-word.png"/>
 	</edition>
-	
-	<edition id='FRF_UGIN'>
-		
-			<booster lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_Ugin_Booster_01.png"/>
-		
-		<banner lang='en' url="http://mtgen.net/frf/images/logo-word.png"/>
-	</edition>
 	<edition id='FRF'>
-		
-			<booster lang='en' num='1' url="http://media.wizards.com/2014/ujehvsbfrf153/co5sseipua_en_bstr_01.png"/>
-		
+		<booster lang='en' num='1' url="http://media.wizards.com/2014/ujehvsbfrf153/co5sseipua_en_bstr_01.png"/>
+		<booster lang='en' num='2' url="http://media.wizards.com/2015/images/daily/EN_Ugin_Booster_01.png"/>
 		<banner lang='en' url="http://mtgen.net/frf/images/logo-word.png"/>
 	</edition>
 	<edition id='DDO'>
