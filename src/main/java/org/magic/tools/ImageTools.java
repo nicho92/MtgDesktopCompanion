@@ -102,6 +102,10 @@ public class ImageTools {
 
 	
 	public static BufferedImage trimAlpha(BufferedImage img) {
+		
+		if(img==null)
+			return img;
+		
 	    int width = img.getWidth();
 	    int height = img.getHeight();
 	    int x0;

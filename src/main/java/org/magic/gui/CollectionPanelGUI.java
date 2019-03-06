@@ -61,6 +61,7 @@ import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
+import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -113,7 +114,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JSplitPane splitListPanel;
 	private JSplitPane splitPane;
 	private List<MagicCard> listExport;
-	
+	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
 	
 	
@@ -149,6 +150,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		//////// INIT COMPONENTS
 		panneauHaut = new JPanel();
+		packagePanel = new PackagesBrowserPanel(false);
 		btnAdd = new JButton(MTGConstants.ICON_NEW);
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		btnRemove = new JButton(MTGConstants.ICON_DELETE);
@@ -248,7 +250,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setLeftComponent(panneauTreeTable);
 		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION"), MTGConstants.ICON_BACK,new JScrollPane(tree), null);
 		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
-		
+		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(scrollPane);
@@ -258,6 +260,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricePanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
@@ -507,7 +510,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			if (curr.getUserObject() instanceof MagicEdition) {
 				magicEditionDetailPanel.setMagicEdition((MagicEdition) curr.getUserObject());
-				
+				packagePanel.setMagicEdition((MagicEdition) curr.getUserObject());
 				statsPanel.enabledAdd(false);
 				ThreadManager.getInstance().executeThread(() -> {
 					try {
@@ -659,6 +662,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		    		 int row = tableEditions.getSelectedRow();
 					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
 					magicEditionDetailPanel.setMagicEdition(ed);
+					packagePanel.setMagicEdition(ed);
 					historyPricesPanel.init(null, ed, ed.getSet());
 					jsonPanel.show(ed);
 					btnRemove.setEnabled(false);

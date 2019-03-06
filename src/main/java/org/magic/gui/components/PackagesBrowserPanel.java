@@ -34,8 +34,19 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	public PackagesBrowserPanel() {
 		provider = PackagesProvider.inst();
 		initGUI();
+		initTree();
 	}
+	
+	public PackagesBrowserPanel(boolean load) {
+		provider = PackagesProvider.inst();
+		initGUI();
+		
+		if(load)
+			initTree();
+	}
+	
 
+	
 	
 	public void setMagicEdition(MagicEdition ed)
 	{
@@ -81,7 +92,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 				load((Packaging)selectedNode.getUserObject());
 		});
 		
-		initTree();
+		
 		
 	}
 	

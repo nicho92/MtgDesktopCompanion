@@ -181,8 +181,6 @@ public class URLTools {
 	public static boolean isCorrectConnection(HttpURLConnection connection) {
 			try {
 				
-				connection.getHeaderFields().entrySet().forEach(e->logger.trace(e.getKey() +" " + e.getValue()));
-				
 				int resp=connection.getResponseCode();
 				if(resp >= 200 && resp < 300)
 				{
