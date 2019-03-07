@@ -686,6 +686,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			logger.error(e);
 		}
 	}
+	
 
 
 	@Override

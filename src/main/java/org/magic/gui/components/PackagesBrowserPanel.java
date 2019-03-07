@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -15,11 +14,9 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.extra.PackagesProvider;
 
 public class PackagesBrowserPanel extends MTGUIComponent{

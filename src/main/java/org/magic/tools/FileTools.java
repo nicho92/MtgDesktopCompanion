@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -16,6 +17,25 @@ public class FileTools {
 	private static Logger logger = MTGLogger.getLogger(FileTools.class);
 
 	private FileTools() {	}
+	
+	
+	
+	public static void zip(File dir,File dest) throws IOException {
+		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest))) {
+			for (File doc : dir.listFiles()) {
+				if (!doc.getName().endsWith(".tmp")) {
+					try (FileInputStream in = new FileInputStream(doc)) {
+						out.putNextEntry(new ZipEntry(doc.getName()));
+						int len;
+						while ((len = in.read(new byte[4096])) > 0) {
+							out.write(new byte[4096], 0, len);
+						}
+						out.closeEntry();
+					}
+				}
+			}
+		}
+	}
 	
 	
 	public static void unZipIt(File src,File dst) {

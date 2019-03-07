@@ -54,7 +54,7 @@ public class CloudFlareParser {
     public static void main(String[] args) throws IOException, ScriptException {
 		
     	CloudFlareParser parse = new CloudFlareParser(URLTools.newClient());
-    	boolean r = parse.getAuthorizationResult("https://deckmaster.info/card.php?multiverseid=456360");
+    	parse.getAuthorizationResult("https://deckmaster.info/card.php?multiverseid=456360");
     	
 	}
     
@@ -104,6 +104,7 @@ public class CloudFlareParser {
 
         }catch(InterruptedException ie){
             log.error("Interrupted whilst waiting to perform CloudFlare authorization",ie);
+            Thread.currentThread().interrupt();
             return false;
         }
 
@@ -148,7 +149,7 @@ public class CloudFlareParser {
         return new Response(httpStatus,responseText);
     }
    
-	private String getJsAnswer(URL url, String responseHtml) throws ScriptException, MalformedURLException {
+	private String getJsAnswer(URL url, String responseHtml) throws ScriptException {
 
         //Credit to Anarov to the improved Regex JS parsing here from https://github.com/Anorov/cloudflare-scrape
 

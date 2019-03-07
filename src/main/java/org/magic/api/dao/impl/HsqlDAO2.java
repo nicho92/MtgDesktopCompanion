@@ -15,6 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.magic.services.MTGConstants;
+import org.magic.tools.FileTools;
 
 public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
@@ -63,21 +64,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
 	@Override
 	public void backup(File dir) throws IOException {
-		File base = getFile(SERVERNAME);
-		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir, "backup.zip")))) {
-			for (File doc : base.listFiles()) {
-				if (!doc.getName().endsWith(".tmp")) {
-					try (FileInputStream in = new FileInputStream(doc)) {
-						out.putNextEntry(new ZipEntry(doc.getName()));
-						int len;
-						while ((len = in.read(new byte[4096])) > 0) {
-							out.write(new byte[4096], 0, len);
-						}
-						out.closeEntry();
-					}
-				}
-			}
-		}
+		FileTools.zip(getFile(SERVERNAME), new File(dir, "backup.zip"));
 	}
 
 	@Override
