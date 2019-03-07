@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.UITools;
 
 public class MagicEditionDetailPanel extends JPanel {
 
@@ -75,136 +76,42 @@ public class MagicEditionDetailPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		panneauHaut.setLayout(gridBagLayout);
 
-		JLabel setLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION") + " :");
-		GridBagConstraints labelgbc8 = new GridBagConstraints();
-		labelgbc8.insets = new Insets(5, 5, 5, 5);
-		labelgbc8.gridx = 0;
-		labelgbc8.gridy = 0;
-		panneauHaut.add(setLabel, labelgbc8);
-
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
 		setJTextField = new JTextField();
+		panneauHaut.add(setJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
-		GridBagConstraints componentGbc8 = new GridBagConstraints();
-		componentGbc8.insets = new Insets(5, 0, 5, 5);
-		componentGbc8.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc8.gridx = 1;
-		componentGbc8.gridy = 0;
-		panneauHaut.add(setJTextField, componentGbc8);
-
-		JLabel typeLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE") + " :");
-		GridBagConstraints labelgbc11 = new GridBagConstraints();
-		labelgbc11.insets = new Insets(5, 5, 5, 5);
-		labelgbc11.gridx = 0;
-		labelgbc11.gridy = 1;
-		panneauHaut.add(typeLabel, labelgbc11);
-
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE") + " :"), UITools.createGridBagConstraints(null, null, 0, 1));
 		typeJTextField = new JTextField();
-		GridBagConstraints componentGbc11 = new GridBagConstraints();
-		componentGbc11.insets = new Insets(5, 0, 5, 5);
-		componentGbc11.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc11.gridx = 1;
-		componentGbc11.gridy = 1;
-		panneauHaut.add(typeJTextField, componentGbc11);
-
-		JLabel releaseDateLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE") + " :");
-		GridBagConstraints labelgbc7 = new GridBagConstraints();
-		labelgbc7.insets = new Insets(5, 5, 5, 5);
-		labelgbc7.gridx = 0;
-		labelgbc7.gridy = 2;
-		panneauHaut.add(releaseDateLabel, labelgbc7);
-
+		panneauHaut.add(typeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
+		
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE") + " :"), UITools.createGridBagConstraints(null, null, 0, 2));
 		releaseDateJTextField = new JTextField();
+		panneauHaut.add(releaseDateJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
-		GridBagConstraints componentGbc7 = new GridBagConstraints();
-		componentGbc7.insets = new Insets(5, 0, 5, 5);
-		componentGbc7.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc7.gridx = 1;
-		componentGbc7.gridy = 2;
-		panneauHaut.add(releaseDateJTextField, componentGbc7);
-
-		JLabel borderLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("EDITION_BORDER") + " :");
-		GridBagConstraints labelgbc2 = new GridBagConstraints();
-		labelgbc2.insets = new Insets(5, 5, 5, 5);
-		labelgbc2.gridx = 0;
-		labelgbc2.gridy = 3;
-		panneauHaut.add(borderLabel, labelgbc2);
-
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BORDER") + " :"),  UITools.createGridBagConstraints(null, null, 0, 3));
 		borderJTextField = new JTextField();
-		GridBagConstraints componentGbc2 = new GridBagConstraints();
-		componentGbc2.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc2.insets = new Insets(5, 0, 5, 5);
-		componentGbc2.gridx = 1;
-		componentGbc2.gridy = 3;
-		panneauHaut.add(borderJTextField, componentGbc2);
+		panneauHaut.add(borderJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 
-		JLabel cardCountLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("EDITION_CARD_COUNT") + " :");
-		GridBagConstraints labelgbc3 = new GridBagConstraints();
-		labelgbc3.insets = new Insets(5, 5, 5, 5);
-		labelgbc3.gridx = 0;
-		labelgbc3.gridy = 4;
-		panneauHaut.add(cardCountLabel, labelgbc3);
-
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_CARD_COUNT") + " :"), UITools.createGridBagConstraints(null, null, 0, 4));
 		cardCountTextField = new JTextField();
+		panneauHaut.add(cardCountTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 
-		GridBagConstraints componentGbc3 = new GridBagConstraints();
-		componentGbc3.insets = new Insets(5, 0, 5, 5);
-		componentGbc3.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc3.gridx = 1;
-		componentGbc3.gridy = 4;
-		panneauHaut.add(cardCountTextField, componentGbc3);
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK") + " :"), UITools.createGridBagConstraints(null, null, 0, 5));
+		blockJTextField = new JTextField(10);
+		panneauHaut.add(blockJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
 
-		lblBlock = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK") + " :");
-		GridBagConstraints gbclblBlock = new GridBagConstraints();
-		gbclblBlock.insets = new Insets(0, 0, 5, 5);
-		gbclblBlock.gridx = 0;
-		gbclblBlock.gridy = 5;
-		panneauHaut.add(lblBlock, gbclblBlock);
+		panneauHaut.add(new JLabel("ID :"), UITools.createGridBagConstraints(null, null, 0, 6));
+		idJtextField = new JTextField(10);
+		panneauHaut.add(idJtextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
-		blockJTextField = new JTextField();
-		GridBagConstraints gbcblockJTextField = new GridBagConstraints();
-		gbcblockJTextField.insets = new Insets(0, 0, 5, 5);
-		gbcblockJTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbcblockJTextField.gridx = 1;
-		gbcblockJTextField.gridy = 5;
-		panneauHaut.add(blockJTextField, gbcblockJTextField);
-		blockJTextField.setColumns(10);
-
-		lblId = new JLabel("ID :");
-		GridBagConstraints gbclblId = new GridBagConstraints();
-		gbclblId.insets = new Insets(0, 0, 5, 5);
-		gbclblId.gridx = 0;
-		gbclblId.gridy = 6;
-		panneauHaut.add(lblId, gbclblId);
-
-		idJtextField = new JTextField();
-
-		GridBagConstraints gbctxtID = new GridBagConstraints();
-		gbctxtID.insets = new Insets(0, 0, 5, 5);
-		gbctxtID.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtID.gridx = 1;
-		gbctxtID.gridy = 6;
-		panneauHaut.add(idJtextField, gbctxtID);
-		idJtextField.setColumns(10);
-
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
+		chkOnline = new JCheckBox("");
+		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 7));
+		
+		
 		add(panneauHaut,BorderLayout.CENTER);
 
-		lblOnlineSet = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE") + " :");
-		GridBagConstraints gbclblOnlineSet = new GridBagConstraints();
-		gbclblOnlineSet.insets = new Insets(0, 0, 5, 5);
-		gbclblOnlineSet.gridx = 0;
-		gbclblOnlineSet.gridy = 7;
-		panneauHaut.add(lblOnlineSet, gbclblOnlineSet);
-
-		chkOnline = new JCheckBox("");
-		GridBagConstraints gbcchkOnline = new GridBagConstraints();
-		gbcchkOnline.anchor = GridBagConstraints.WEST;
-		gbcchkOnline.insets = new Insets(0, 0, 5, 5);
-		gbcchkOnline.gridx = 1;
-		gbcchkOnline.gridy = 7;
-		panneauHaut.add(chkOnline, gbcchkOnline);
+	
 
 		panneauBooster = new JPanel();
 		add(panneauBooster, BorderLayout.EAST);

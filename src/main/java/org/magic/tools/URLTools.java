@@ -95,15 +95,14 @@ public class URLTools {
 			if (!isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
 				return getConnection(connection.getHeaderField("Location"));
 			}
-			logger.trace("get stream from " + url + " : " + connection.getResponseCode());
-			
-			return connection;
+			logger.debug("get stream from " + url + " : " + connection.getResponseCode());
 		}
 		catch(SSLHandshakeException e)
 		{
 			logger.error(url,e);
-			return connection;
 		}
+		
+		return connection;
 	}
 	
 	
