@@ -45,6 +45,9 @@ public class DeckCalculator {
 	}
 
 	public double getProbability(int turn, MagicCard mc) {
+		if(deck==null)
+			return 0;
+		
 		
 		if(mc==null)
 			return  0;

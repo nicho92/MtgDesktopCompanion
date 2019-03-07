@@ -55,7 +55,7 @@ public class CloudFlareParser {
 		
     	CloudFlareParser parse = new CloudFlareParser(URLTools.newClient());
     	boolean r = parse.getAuthorizationResult("https://deckmaster.info/card.php?multiverseid=456360");
-    	System.out.println(r);
+    	
 	}
     
     

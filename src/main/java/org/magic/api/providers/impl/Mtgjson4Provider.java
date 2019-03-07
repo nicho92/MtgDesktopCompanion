@@ -477,7 +477,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				try {
 					me.setMultiverseid(String.valueOf((int) (double) map.get(MULTIVERSE_ID)));
 				} catch (Exception e) {
-					logger.trace("multiverseNotFound for " + me);
+					//do nothing
 				}
 			}
 	}

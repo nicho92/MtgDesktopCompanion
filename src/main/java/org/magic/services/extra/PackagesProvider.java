@@ -37,6 +37,7 @@ import org.w3c.dom.NodeList;
 
 public class PackagesProvider {
 
+	private static final String PACKAGING_DIR_NAME = "packaging";
 	private Document document;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
@@ -77,7 +78,7 @@ public class PackagesProvider {
 	public BufferedImage caching(boolean force, Packaging p) {
 		
 		
-		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
+		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
 		File pkgFile = new File(f,p.toString()+".png");
 		
 		try {
@@ -99,7 +100,7 @@ public class PackagesProvider {
 	public BufferedImage get(Packaging p)
 	{
 		try {
-			File b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging",p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
+			File b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
 			
 			if(b.exists())
 				return ImageIO.read(b);
@@ -113,7 +114,7 @@ public class PackagesProvider {
 	
 
 	public void clear() {
-		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "packaging").toFile();
+		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME).toFile();
 		try {
 			FileUtils.cleanDirectory(f);
 		} catch (IOException e) {

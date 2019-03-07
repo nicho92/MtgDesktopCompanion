@@ -654,6 +654,9 @@ public class ConstructPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
 				
+				if(UITools.getTableSelection(table, 0).isEmpty())
+					return;
+				
 				MagicCard mc = (MagicCard) UITools.getTableSelection(table, 0).get(0);
 				magicCardDetailPanel.setMagicCard(mc);
 				

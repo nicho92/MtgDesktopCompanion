@@ -210,7 +210,6 @@ public class MTGConstants {
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
-	public static final String URLTOOL_CHECK_URI = "www.google.com";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190125.txt";
 	
 	

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Packaging implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
 	public enum TYPE { BOX, BOOSTER, STARTER,BUNDLE,BANNER,CONSTRUCTPACK,PRERELEASEPACK}
 	
 	private TYPE type;
@@ -11,11 +13,6 @@ public class Packaging implements Serializable{
 	private int num;
 	private String url;
 	private MagicEdition edition;
-	
-	
-	public Packaging() {
-		
-	}
 
 	public TYPE getType() {
 		return type;

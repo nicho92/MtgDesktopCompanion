@@ -59,8 +59,6 @@ public class CurrencyConverter {
 				ret= usdConvert("USD", to, 1)*usdConvert(from, "USD", 1)*value;
 			else
 				ret= usdConvert(from, to, value);
-			
-			logger.trace("converting " + value + from+ " from to " + to + "="+ret);
 	
 			return ret;
 		}
