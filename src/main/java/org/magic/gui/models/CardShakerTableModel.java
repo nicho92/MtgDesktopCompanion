@@ -49,10 +49,8 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 4:
 				return mp.getPercentDayChange();
 			case 5:
-				return mp.getPriceDayChange();
-			case 6:
 				return mp.getPriceWeekChange();
-			case 7:
+			case 6:
 				return mp.getPercentWeekChange();
 
 			default:

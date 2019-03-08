@@ -119,7 +119,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			cs.setCurrency(Currency.getInstance("USD"));
 			cs.setProviderName(getName());
 			try{
-				cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
+				double todayPrice = el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble();
+				double lastDayPrice = el.getAsJsonObject().get("previous_price").getAsDouble();
+				double lastWeekPrice = el.getAsJsonObject().get("last_week_price").getAsDouble();
+				cs.init(todayPrice, lastDayPrice, lastWeekPrice);
 			}
 			catch(Exception e)
 			{

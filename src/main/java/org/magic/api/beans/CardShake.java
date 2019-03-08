@@ -1,8 +1,11 @@
 package org.magic.api.beans;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Currency;
 import java.util.Date;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 public class CardShake  {
 
@@ -26,6 +29,19 @@ public class CardShake  {
 		priceWeekChange = 0;
 		percentWeekChange = 0;
 		currency=Currency.getInstance("USD");
+		dateUpdate=new Date();
+	}
+	
+	public void init(double price, double lastDayPrice,double lastWeekPrice) {
+		this.price=price;
+		priceDayChange = price-lastDayPrice;
+		percentDayChange = ((price-lastDayPrice)/lastDayPrice)*100;
+		
+		priceWeekChange = price-lastWeekPrice;
+		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice)*100;
+		
+		currency=Currency.getInstance("USD");
+		
 		dateUpdate=new Date();
 	}
 	
