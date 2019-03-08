@@ -148,7 +148,7 @@ public class MTGDeckManager extends Observable {
 	public Map<Integer, Integer> analyseCMC(List<MagicCard> cards) {
 		TreeMap<Integer, Integer> cmcs = new TreeMap<>();
 		cards.forEach(card->{
-			if ((card.getCmc() != null) && !card.getTypes().contains("Land"))
+			if ((card.getCmc() != null) && !card.isLand())
 				cmcs.put(card.getCmc(), cmcs.get(card.getCmc())==null ? 1 : cmcs.get(card.getCmc())+1);	
 		});
 		

@@ -28,7 +28,7 @@ public class ColorSorter implements MTGComparator<MagicCard> {
 		if (mc.getColors().size() > 1)
 			return 7;
 
-		if (mc.getColors().isEmpty() && mc.getFullType().toLowerCase().contains("land"))
+		if (mc.getColors().isEmpty() && mc.isLand())
 			return 8;
 
 		if (mc.getColors().isEmpty())

@@ -119,7 +119,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		if (getString(FILL_CONTINUED_LANDS).equalsIgnoreCase("true")) {
 			count = 0;
 			for (MagicCard mc : deck.getMap().keySet()) {
-				if (mc.getTypes().contains("Land")) {
+				if (mc.isLand()) {
 					cb.setTextMatrix(page.getWidth() / 1.7f, page.getHeight() - 185 - count);
 					cb.showText(deck.getMap().get(mc) + space + mc.getName());
 					count += 18;

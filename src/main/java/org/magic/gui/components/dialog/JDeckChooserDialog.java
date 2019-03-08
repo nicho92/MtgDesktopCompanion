@@ -75,13 +75,13 @@ public class JDeckChooserDialog extends JDialog {
 
 		if (selectedDeck != null) {
 			for (MagicCard mc : selectedDeck.getMap().keySet()) {
-				if (mc.getTypes().contains("Creature") && !mc.getTypes().contains("Artifact"))
+				if (mc.isCreature() && !mc.isArtifact())
 					creatureNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
-				else if (mc.getTypes().contains("Artifact"))
+				else if (mc.isArtifact())
 					artifactsNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
-				else if (mc.getTypes().contains("Land"))
+				else if (mc.isLand())
 					landsNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
-				else if (mc.getTypes().contains("Planeswalker"))
+				else if (mc.isPlaneswalker())
 					planeswalkerNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
 				else
 					spellsNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));

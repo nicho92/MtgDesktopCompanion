@@ -79,7 +79,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
 			if (mc.getTypes().toString().toLowerCase().contains("artifact")) {
 				return 6;
-			} else if (mc.getTypes().toString().toLowerCase().contains("land")) {
+			} else if (mc.isLand()) {
 				if (mc.isBasicLand()) {
 					return land(mc); // basic land order
 				} else {

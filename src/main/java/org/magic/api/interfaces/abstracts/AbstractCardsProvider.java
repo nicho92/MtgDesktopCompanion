@@ -94,8 +94,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 					rare.add(mc);
 				
 				
-				if (mc.getSupertypes().toString().toLowerCase().contains("basic")
-						&& mc.getTypes().toString().toLowerCase().contains("land"))
+				if (mc.isBasicLand())
 					lands.add(mc);
 
 			}

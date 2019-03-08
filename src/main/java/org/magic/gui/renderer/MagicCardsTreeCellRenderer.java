@@ -65,7 +65,7 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 				if (mc.getColors().size() > 1) {
 					setIcon(MTGConstants.ICON_MANA_GOLD);
 				}
-				if (mc.getFullType().toLowerCase().contains("land")) {
+				if (mc.isLand()) {
 					setIcon(MTGConstants.ICON_MANA_INCOLOR);
 				}
 			} 
