@@ -1,11 +1,8 @@
 package org.magic.api.beans;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Currency;
 import java.util.Date;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 public class CardShake  {
 
