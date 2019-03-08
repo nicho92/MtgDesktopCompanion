@@ -185,16 +185,14 @@ public class UITools {
 		}
 	}
 
-	
 	public static double roundDouble(double d)
 	{
 		return BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
 	}
 	
-	
 	public static String formatDouble(Object f)
 	{
-		return new DecimalFormat("#0.##").format(f);
+		return new DecimalFormat("#0.0#").format(f);
 	}
 
 	public static void initTableFilter(JTable table)

@@ -35,7 +35,6 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
-
 			CardShake mp = items.get(row);
 			switch (column) {
 			case 0:
@@ -45,16 +44,15 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 2:
 				return UITools.roundDouble(mp.getPrice());
 			case 3:
-				return mp.getPriceDayChange();
+				return UITools.roundDouble(mp.getPriceDayChange());
 			case 4:
-				return mp.getPercentDayChange();
+				return UITools.roundDouble(mp.getPercentDayChange());
 			case 5:
-				return mp.getPriceWeekChange();
+				return UITools.roundDouble(mp.getPriceWeekChange());
 			case 6:
-				return mp.getPercentWeekChange();
+				return UITools.roundDouble(mp.getPercentWeekChange());
 
-			default:
-				return 0;
+			default:return 0;
 			}
 		} catch (IndexOutOfBoundsException ioob) {
 			logger.error(ioob);
