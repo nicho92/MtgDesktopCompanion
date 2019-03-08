@@ -616,6 +616,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					progressBar.start(max);
 					MagicWebSiteGenerator gen = new MagicWebSiteGenerator(diag.getTemplate(),diag.getDest().getAbsolutePath());
 
+					//TODO !!! Freeze the UI
 					gen.addObserver(progressBar);
 					gen.generate(diag.getSelectedCollections(), diag.getPriceProviders());
 

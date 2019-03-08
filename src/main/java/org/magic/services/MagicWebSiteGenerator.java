@@ -74,7 +74,7 @@ public class MagicWebSiteGenerator extends Observable {
 		Template generatedColTemplate = cfg.getTemplate("page-col.html");
 
 		for (MagicCollection col : cols) {
-			Map rootEd = new HashMap<>();
+			Map<String,Object> rootEd = new HashMap<>();
 			rootEd.put("cols", cols);
 			rootEd.put("colName", col.getName());
 			Set<MagicEdition> eds = new HashSet<>();
@@ -96,7 +96,7 @@ public class MagicWebSiteGenerator extends Observable {
 
 	private void generateEditionsTemplate(Set<MagicEdition> eds, MagicCollection col)throws IOException, SQLException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-ed.html");
-		Map rootEd = new HashMap<>();
+		Map<String,Object> rootEd = new HashMap<>();
 		rootEd.put("cols", cols);
 		rootEd.put("editions", eds);
 		rootEd.put("col", col);
@@ -115,7 +115,7 @@ public class MagicWebSiteGenerator extends Observable {
 	private void generateCardsTemplate(MagicCard mc) throws IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
 
-		Map rootEd = new HashMap<>();
+		Map<String,Object> rootEd = new HashMap<>();
 		rootEd.put("card", mc);
 		rootEd.put("cols", cols);
 
