@@ -17,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,6 +24,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.fit.cssbox.swingbox.BrowserPane;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
@@ -43,7 +43,7 @@ import org.magic.tools.URLTools;
 public class RssGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JXTable table;
 	private MagicNewsTableModel model;
 	private BrowserPane editorPane;
 	private DefaultMutableTreeNode curr;
@@ -69,7 +69,7 @@ public class RssGUI extends MTGUIComponent {
 		
 		JScrollPane scrollTable = new JScrollPane();
 		model = new MagicNewsTableModel();
-		table = new JTable(model);
+		table = new JXTable(model);
 		tree = new JTree();
 		JSplitPane splitNews = new JSplitPane();
 		JScrollPane scrollEditor = new JScrollPane();

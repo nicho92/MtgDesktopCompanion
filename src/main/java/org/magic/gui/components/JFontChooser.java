@@ -10,8 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.magic.gui.abstracts.MTGUIComponent;
-
 public class JFontChooser extends JComponent {
 	
 	private enum Styles {

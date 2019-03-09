@@ -30,10 +30,10 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -67,7 +67,7 @@ import org.magic.tools.UITools;
 
 public class AlarmGUI extends MTGUIComponent {
 	
-	private JTable table;
+	private JXTable table;
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DefaultListModel<MagicPrice> resultListModel;
@@ -102,7 +102,7 @@ public class AlarmGUI extends MTGUIComponent {
 	public void initGUI() {
 		JSplitPane splitPanel = new JSplitPane();
 		JScrollPane scrollTable = new JScrollPane();
-		table = new JTable();
+		table = new JXTable();
 		model = new CardAlertTableModel();
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();

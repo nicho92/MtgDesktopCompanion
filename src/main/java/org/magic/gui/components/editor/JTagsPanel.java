@@ -25,7 +25,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class JTagsPanel extends JComponent {

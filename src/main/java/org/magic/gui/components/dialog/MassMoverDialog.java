@@ -11,10 +11,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -34,7 +34,7 @@ public class MassMoverDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTable tableCards;
+	private JXTable tableCards;
 	private MagicCardTableModel model;
 	private transient MTGDao dao;
 	private MagicCollection toSaveCol;
@@ -82,7 +82,7 @@ public class MassMoverDialog extends JDialog {
 			logger.error(e);
 		}
 
-		tableCards = new JTable(model);
+		tableCards = new JXTable(model);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 
 		scrollPane.setViewportView(tableCards);

@@ -24,11 +24,11 @@ import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
@@ -93,7 +93,7 @@ public class SealedPanel extends JPanel {
 		JSplitPane panelCenter;
 		JButton btnAddBoosters;
 		JScrollPane scrollTablePack;
-		JTable table;
+		JXTable table;
 		JPanel panelControl;
 		JPanel panelAnalyse;
 		JPanel panelSorters;
@@ -123,7 +123,7 @@ public class SealedPanel extends JPanel {
 
 		panelControl = new JPanel();
 		panelWest.add(panelControl, BorderLayout.NORTH);
-		table = new JTable(model);
+		table = new JXTable(model);
 		table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditor());
 		panelControl.setLayout(new BorderLayout(0, 0));
 

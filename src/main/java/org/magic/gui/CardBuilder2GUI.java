@@ -29,7 +29,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
@@ -81,7 +80,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private transient PersonalSetPicturesProvider picturesProvider;
 	private transient PrivateMTGSetProvider provider;
 	private JButton btnRefresh;
-	private JTable listNames;
+	private JXTable listNames;
 	private MagicCardNamesTableModel namesModel;
 
 	
@@ -167,7 +166,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			};
 
 			foreignNamesEditorPanel = new JPanel();
-			listNames = new JTable();
+			listNames = new JXTable();
 			magicCardEditorPanel = new MagicCardEditorPanel();
 			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 

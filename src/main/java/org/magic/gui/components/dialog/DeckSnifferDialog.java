@@ -8,9 +8,9 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -32,7 +32,7 @@ public class DeckSnifferDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JXTable table;
 	private JComboBox<MTGDeckSniffer> cboSniffers;
 	private JComboBox<String> cboFormats;
 	private DeckSnifferTableModel model;
@@ -56,7 +56,7 @@ public class DeckSnifferDialog extends JDialog {
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		table = new JTable();
+		table = new JXTable();
 		model = new DeckSnifferTableModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
@@ -141,7 +141,7 @@ public class DeckSnifferDialog extends JDialog {
 
 				@Override
 				protected MagicDeck doInBackground() throws Exception {
-					return plug.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0)); 
+					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0).get(0)); 
 				}
 
 				@Override

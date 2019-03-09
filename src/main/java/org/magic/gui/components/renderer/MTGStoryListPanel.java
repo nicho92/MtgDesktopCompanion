@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGStory;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MTGStoryListPanel extends JPanel {

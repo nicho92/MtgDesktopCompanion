@@ -15,10 +15,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
@@ -38,7 +38,7 @@ public class DeckPricePanel extends JComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
-	private JTable tablePrice;
+	private JXTable tablePrice;
 	private CardsPriceTableModel model;
 	private MagicDeck deck;
 	private JLabel lblPrice;
@@ -123,7 +123,7 @@ public class DeckPricePanel extends JComponent {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 		model = new CardsPriceTableModel();
-		tablePrice = new JTable(model);
+		tablePrice = new JXTable(model);
 		tablePrice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {

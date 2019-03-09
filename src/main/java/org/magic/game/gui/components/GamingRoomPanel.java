@@ -22,11 +22,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
@@ -55,7 +55,7 @@ public class GamingRoomPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JTextField txtPort;
-	private JTable table;
+	private JXTable table;
 	private transient MinaClient client;
 	private PlayerTableModel mod;
 	private JTextField txtName;
@@ -134,7 +134,7 @@ public class GamingRoomPanel extends JPanel {
 		txtPort = new JTextField();
 		txtName = new JTextField();
 		mod = new PlayerTableModel();
-		table = new JTable(mod);
+		table = new JXTable(mod);
 		JScrollPane scrollPane = new JScrollPane();
 		JPanel panneauBas = new JPanel();
 		btnDeck = new JButton("Change deck");

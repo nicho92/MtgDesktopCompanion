@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.IconSetProvider;
 
