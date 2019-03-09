@@ -611,7 +611,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
-
+		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
+		
+		
 		table.packAll();
 		UITools.initTableFilter(table);
 		scrollTable.setViewportView(table);

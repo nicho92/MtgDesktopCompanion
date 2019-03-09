@@ -136,6 +136,8 @@ public class AlarmGUI extends MTGUIComponent {
 		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
+		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
+
 		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
 		
 		panelRight.setLayout(new BorderLayout());
