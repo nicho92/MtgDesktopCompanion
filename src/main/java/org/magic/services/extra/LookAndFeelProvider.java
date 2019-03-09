@@ -39,7 +39,7 @@ public class LookAndFeelProvider {
 	        Object key = keys.nextElement();
 	        Object value = UIManager.get(key);
 	        if (value instanceof FontUIResource)
-	            UIManager.put(key, new FontUIResource(MTGConstants.FONT));
+	            UIManager.put(key, new FontUIResource(MTGControler.getInstance().getFont()));
 	    }
 	}
 	

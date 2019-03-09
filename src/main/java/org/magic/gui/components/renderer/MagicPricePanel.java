@@ -45,27 +45,27 @@ public class MagicPricePanel extends JPanel {
 			//do nothing
 		}
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		lblName.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
+		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		GridBagConstraints gbclblName = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0);
 		gbclblName.gridwidth = 2;
 		add(lblName, gbclblName);
 
 		JLabel lblPrice = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("PRICE") + " :");
-		lblPrice.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
+		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
 		JLabel lblpriceValue = new JLabel(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
 		add(lblpriceValue, UITools.createGridBagConstraints(null, GridBagConstraints.VERTICAL, 1, 1));
 
 		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER") + " :");
-		lblSeller.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
+		lblSeller.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblSeller, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
 
 		JLabel lblSellerinfo = new JLabel(price.getSeller());
 		add(lblSellerinfo, UITools.createGridBagConstraints(null, null, 1, 2));
 
 		JLabel lblInfos = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS") + " :");
-		lblInfos.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
+		lblInfos.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
 		JLabel lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""

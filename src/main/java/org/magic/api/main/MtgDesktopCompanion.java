@@ -63,7 +63,7 @@ public class MtgDesktopCompanion {
 		ThreadManager.getInstance().invokeLater(() -> {
 
 			MagicGUI gui = new MagicGUI();
-			MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGConstants.FONT));
+			MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGControler.getInstance().getFont()));
 			MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
 			gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			gui.setVisible(true);

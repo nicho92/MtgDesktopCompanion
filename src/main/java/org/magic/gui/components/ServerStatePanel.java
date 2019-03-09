@@ -83,7 +83,7 @@ public class ServerStatePanel extends JPanel {
 
 		JLabel lblName = new JLabel(server.getName(),server.getIcon(),SwingConstants.LEFT);
 		lblName.setToolTipText(server.description());
-		lblName.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 11));
+		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
 		gbclblName.anchor = GridBagConstraints.WEST;
 		gbclblName.insets = new Insets(0, 0, 0, 5);

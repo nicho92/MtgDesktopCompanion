@@ -111,7 +111,7 @@ public class OrdersGUI extends MTGUIComponent {
 		btnDeleteOrder.setEnabled(false);
 		panelComparator.setLayout(new BorderLayout(0, 0));
 		lblComparator.setHorizontalAlignment(SwingConstants.CENTER);
-		lblComparator.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 16));
+		lblComparator.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 16));
 	
 		
 		

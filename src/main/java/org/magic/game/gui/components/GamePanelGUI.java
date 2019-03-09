@@ -250,7 +250,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelHandLib.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		lblHandCount = new JLabel("0");
-		lblHandCount.setFont(new Font(MTGConstants.FONT.getFontName(), Font.BOLD, 18));
+		lblHandCount.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 18));
 		lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
 		lblHandCount.setIcon(MTGConstants.ICON_GAME_HAND);
 		panelHandLib.add(lblHandCount);
@@ -258,7 +258,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblLibraryCount = new JLabel("");
 		lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLibraryCount.setFont(new Font(MTGConstants.FONT.getFontName(), Font.BOLD, 18));
+		lblLibraryCount.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 18));
 		lblLibraryCount.setIcon(MTGConstants.ICON_GAME_LIBRARY);
 		panelHandLib.add(lblLibraryCount);
 
@@ -297,7 +297,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		spinLife = new JSpinner();
 		panel.add(spinLife);
-		spinLife.setFont(new Font(MTGConstants.FONT.getFontName(), Font.BOLD, 17));
+		spinLife.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 17));
 
 		JLabel lblPoison = new JLabel("");
 		panel.add(lblPoison);
@@ -306,7 +306,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		spinPoison = new JSpinner();
 		panel.add(spinPoison);
-		spinPoison.setFont(new Font(MTGConstants.FONT.getFontName(), Font.BOLD, 15));
+		spinPoison.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 15));
 
 		spinPoison.addChangeListener(e -> {
 			if (player != null)

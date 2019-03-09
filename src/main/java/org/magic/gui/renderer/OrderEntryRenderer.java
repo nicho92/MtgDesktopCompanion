@@ -11,6 +11,7 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class OrderEntryRenderer implements TableCellRenderer {
 
@@ -20,7 +21,7 @@ public class OrderEntryRenderer implements TableCellRenderer {
 		OrderEntry o = (OrderEntry)table.getValueAt(row, 0);
 		
 		JLabel comp = new JLabel(String.valueOf(value));
-		comp.setFont(MTGConstants.FONT.deriveFont(Font.PLAIN));
+		comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.PLAIN));
 		comp.setHorizontalAlignment(JLabel.CENTER);
 		comp.setOpaque(true);
 		

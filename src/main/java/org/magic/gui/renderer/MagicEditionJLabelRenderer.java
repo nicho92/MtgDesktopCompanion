@@ -12,11 +12,12 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionJLabelRenderer implements TableCellRenderer {
 
-	private Font f = MTGConstants.FONT.deriveFont(Font.PLAIN);
+	private Font f = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN);
 	
 	
 	public MagicEditionJLabelRenderer() {

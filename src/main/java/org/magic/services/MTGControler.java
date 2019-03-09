@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -155,6 +156,28 @@ public class MTGControler {
 			setProperty("collections/defaultStock/condition",st.getCondition().name());
 			setProperty("collections/defaultStock/qty",st.getQte());
 	}
+	
+	private Font f;
+	public Font getFont()
+	{
+		if(f!=null)
+			return f;
+		
+		
+		try {
+		String family = get("/ui/font/family");
+		int style = Integer.parseInt(get("/ui/font/style"));
+		int size = Integer.parseInt(get("/ui/font/size"));
+		f = new Font(family,style,size);
+		}
+		catch(Exception e)
+		{
+			f = MTGConstants.DEFAULT_FONT;	
+		}
+		
+		return f;
+	}
+	
 
 	public MagicCardStock getDefaultStock() {
 		String defaultBool = "false";

@@ -55,7 +55,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 		lblPrice = new JLabel();
-		lblPrice.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 13));
+		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 13));
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
 		

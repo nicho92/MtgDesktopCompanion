@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class MTGStoryListPanel extends JPanel {
 
@@ -41,7 +42,7 @@ public class MTGStoryListPanel extends JPanel {
 		add(lblicon, gbclblicon);
 
 		JLabel lblTitle = new JLabel(value.getTitle());
-		lblTitle.setFont(MTGConstants.FONT.deriveFont(Font.BOLD, 14));
+		lblTitle.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 14));
 		GridBagConstraints gbclblTitle = new GridBagConstraints();
 		gbclblTitle.insets = new Insets(0, 0, 5, 5);
 		gbclblTitle.anchor = GridBagConstraints.NORTHWEST;
@@ -50,7 +51,7 @@ public class MTGStoryListPanel extends JPanel {
 		add(lblTitle, gbclblTitle);
 
 		JLabel lblDate = new JLabel(value.getDate());
-		lblDate.setFont(MTGConstants.FONT.deriveFont(Font.PLAIN, 11));
+		lblDate.setFont(MTGControler.getInstance().getFont().deriveFont(Font.PLAIN, 11));
 		GridBagConstraints gbclblDate = new GridBagConstraints();
 		gbclblDate.anchor = GridBagConstraints.NORTH;
 		gbclblDate.insets = new Insets(0, 0, 5, 0);
@@ -59,7 +60,7 @@ public class MTGStoryListPanel extends JPanel {
 		add(lblDate, gbclblDate);
 
 		JLabel lblAuthor = new JLabel(value.getAuthor());
-		lblAuthor.setFont(MTGConstants.FONT.deriveFont( Font.ITALIC, 11));
+		lblAuthor.setFont(MTGControler.getInstance().getFont().deriveFont( Font.ITALIC, 11));
 		GridBagConstraints gbclblAuthor = new GridBagConstraints();
 		gbclblAuthor.anchor = GridBagConstraints.WEST;
 		gbclblAuthor.insets = new Insets(0, 0, 5, 5);

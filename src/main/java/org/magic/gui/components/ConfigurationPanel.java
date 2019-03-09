@@ -435,6 +435,10 @@ public class ConfigurationPanel extends JPanel {
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
 		JLabel lblFont = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("FONT") + " :");
 		JFontChooser chooseFontPanel = new JFontChooser();
+		chooseFontPanel.initFont(MTGControler.getInstance().getFont());
+		JButton btnSaveFont = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		
+		
 		
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
 		cbojsonView.getModel().setSelected(MTGControler.getInstance().get("debug-json-panel").equals("true"));
@@ -458,7 +462,7 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 6));
 		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
 		panelGUI.add(chooseFontPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
-		
+		panelGUI.add(btnSaveFont, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 7));
 		
 		
 		
@@ -556,6 +560,16 @@ public class ConfigurationPanel extends JPanel {
 			resizerPanel.setValue(0);
 			GamePanelGUI.getInstance().getHandPanel().setSize(gamePicsResizerPanel.getDimension());
 		});	
+		
+		
+		btnSaveFont.addActionListener(ae -> {
+			MTGControler.getInstance().setProperty("/ui/font/family", chooseFontPanel.getFont().getFamily());
+			MTGControler.getInstance().setProperty("/ui/font/style",chooseFontPanel.getFont().getStyle());
+			MTGControler.getInstance().setProperty("/ui/font/size",chooseFontPanel.getFont().getSize());
+		});	
+		
+		
+		
 		
 		btnClean.addActionListener(ae -> {
 
