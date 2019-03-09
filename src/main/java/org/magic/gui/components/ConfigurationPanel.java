@@ -433,6 +433,8 @@ public class ConfigurationPanel extends JPanel {
 		chkToolTip = new JCheckBox("");
 		JLabel lblToolPosition = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAB_POSITION") + " :");
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
+		JLabel lblFont = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("FONT") + " :");
+		JFontChooser chooseFontPanel = new JFontChooser();
 		
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
 		cbojsonView.getModel().setSelected(MTGControler.getInstance().get("debug-json-panel").equals("true"));
@@ -454,6 +456,8 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(chkToolTip, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 5));
 		panelGUI.add(lblToolPosition, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 6));
 		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 6));
+		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
+		panelGUI.add(chooseFontPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
 		
 		
 		

@@ -311,6 +311,10 @@
             <class>org.magic.api.dao.impl.MongoDbDAO</class>
             <enable>false</enable>
         </dao>
+         <dao>
+            <class>org.magic.api.dao.impl.SQLLiteDAO</class>
+            <enable>false</enable>
+        </dao>
     </daos>
     <pictures>
     	<picture>

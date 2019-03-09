@@ -27,6 +27,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
@@ -107,7 +108,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			return false;
 		}
 	
-		for (String s : new String[] { "Library", "Needed", "For Sell", "Favorites" })
+		for (String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
 		{
 			try {
 			saveCollection(s);

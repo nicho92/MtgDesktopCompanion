@@ -78,6 +78,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 
 public class CollectionPanelGUI extends MTGUIComponent {
@@ -407,17 +408,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 								File f = jf.getSelectedFile();
 						
 								if (result == JFileChooser.APPROVE_OPTION) {
-									
-									
-									
 									try {
+										if (ed == null)
+											listExport= dao.listCardsFromCollection(mc);
+										else
+											listExport= dao.listCardsFromCollection(mc, ed);
 										
-										
-									if (ed == null)
-										listExport= dao.listCardsFromCollection(mc);
-									else
-										listExport= dao.listCardsFromCollection(mc, ed);
-									
 									
 									AbstractObservableWorker<Void, MagicCard, MTGCardsExport> swExp = new AbstractObservableWorker<Void, MagicCard, MTGCardsExport>(progressBar,exp,listExport.size()){
 
@@ -608,25 +604,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.listCollections());
 				diag.setVisible(true);
 				if (diag.value()) {
-				
 					int max = 0;
 					for (MagicCollection col : diag.getSelectedCollections())
 						max += dao.getCardsCount(col, null);
 
 					progressBar.start(max);
-					MagicWebSiteGenerator gen = new MagicWebSiteGenerator(diag.getTemplate(),diag.getDest().getAbsolutePath());
-
-					//TODO !!! Freeze the UI
-					gen.addObserver(progressBar);
-					gen.generate(diag.getSelectedCollections(), diag.getPriceProviders());
-
-					int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
-
-					if (res == JOptionPane.YES_OPTION) {
-						Path p = Paths.get(diag.getDest().getAbsolutePath() + "/index.htm");
-						Desktop.getDesktop().browse(p.toUri());
-					}
-					progressBar.end();
+					WebsiteExportWorker sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), progressBar);
+					ThreadManager.getInstance().runInEdt(sw);
 				}
 
 			} catch (Exception e) {
