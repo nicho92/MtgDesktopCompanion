@@ -1,22 +1,29 @@
-package unit.providers;
+package test.providers;
 
-import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.dashboard.impl.MTGPriceDashBoard;
-import org.magic.api.dashboard.impl.MTGStockDashBoard;
-import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
+import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.decksniffer.impl.DeckstatsDeckSniffer;
+import org.magic.api.decksniffer.impl.LotusNoirDecks;
+import org.magic.api.decksniffer.impl.MTGDecksSniffer;
+import org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer;
+import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
+import org.magic.api.decksniffer.impl.MTGoldFishDeck;
+import org.magic.api.decksniffer.impl.MagicCorporationDecks;
+import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
+import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class DashboardsProviderTests {
+public class DeckSnifferProviderTests {
 
 	MagicCard mc;
 	MagicEdition ed;
@@ -25,7 +32,7 @@ public class DashboardsProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.DEBUG);
+		MTGLogger.changeLevel(Level.ERROR);
 	}
 
 	
@@ -61,16 +68,22 @@ public class DashboardsProviderTests {
 	{
 		
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		test(new DeckstatsDeckSniffer());
+		test(new LotusNoirDecks());
+		test(new MagicCorporationDecks());
+		test(new MTGoldFishDeck());
+		test(new MTGSalvationDeckSniffer());
+		test(new MTGTop8DeckSniffer());
+		test(new TCGPlayerDeckSniffer());
+		test(new MTGDecksSniffer());
+		test(new TappedOutDeckSniffer());
 		
 		
-		test(new MTGoldFishDashBoard());
-		test(new MTGPriceDashBoard());
-		test(new MTGStockDashBoard());
 	}
 	
 	
 	
-	public void test(MTGDashBoard p)
+	public void test(MTGDeckSniffer p)
 	{
 		
 			System.out.println("*****************************"+p.getName());
@@ -78,41 +91,22 @@ public class DashboardsProviderTests {
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
-			System.out.println("DOMI "+p.getDominanceFilters());	
-			System.out.println("DATE "+p.getUpdatedDate());
+			System.out.println("FILT "+p.listFilter());
 			System.out.println("VERS "+p.getVersion());
-			
+						
 			try {
-				p.getShakesForEdition(ed);
-				System.out.println("get Shakes for " + ed + " OK");
-			} catch (IOException e) {
-				System.out.println("get Shakes for " + ed + " ERROR "+e);
+				List<RetrievableDeck> decks = p.getDeckList();
+				System.out.println("Retrieve decklist OK");
+				RetrievableDeck d = decks.get(0);
+				MagicDeck deck = p.getDeck(d);
+				System.out.println("Retrieve " + deck.getName() +" ok");
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
-			try {
-				p.getBestCards(MTGFormat.STANDARD, p.getDominanceFilters()[0]);
-				System.out.println("get Best for " + MTGFormat.STANDARD + " OK");
-			} catch (IOException e) {
-				System.out.println("get Best for " + MTGFormat.STANDARD + " ERROR "+e);
-			}
+	
+	
 		
-			
-			try {
-				p.getPriceVariation(mc, ed);
-				System.out.println("get Variation for " + mc + "("+ed+") OK");
-			} catch (IOException e) {
-				System.out.println("get Variation for " + mc + "("+ed+") ERROR "+e);
-			}
-			
-			try {
-				p.getShakesForEdition(ed);
-				System.out.println("get Shake for ("+ed+") OK");
-			} catch (IOException e) {
-				System.out.println("get Shake for ("+ed+") ERROR "+e);
-			}
-			
+		
 	}
 	
 	

@@ -1,4 +1,4 @@
-package unit.cardanalyse;
+package test.cardanalyse;
 
 import java.io.IOException;
 import java.util.ArrayList;

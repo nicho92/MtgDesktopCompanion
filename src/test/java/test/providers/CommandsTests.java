@@ -1,4 +1,4 @@
-package unit.providers;
+package test.providers;
 
 import static org.junit.Assert.fail;
 

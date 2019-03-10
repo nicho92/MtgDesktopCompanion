@@ -1,6 +1,8 @@
-package unit.providers;
+package test.providers;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,14 +32,17 @@ import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.exports.impl.XMageDeckExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
+
+import test.data.LoadingData;
 
 public class ExportsProviderTests {
 
-	MagicCard mc;
-	MagicEdition ed;
-	
+	List<MagicCard> cards;
 	
 	@Before
 	public void initLogger()
@@ -47,54 +52,18 @@ public class ExportsProviderTests {
 
 	
 	@Before
-	public void createCards()
+	public void createCards() throws IOException, URISyntaxException
 	{
-		mc = new MagicCard();
-		mc.setName("Black Lotus");
-		mc.setLayout("normal");
-		mc.setCost("{0}");
-		mc.setCmc(0);
-		mc.getTypes().add("Artifact");
-		mc.setReserved(true);
-		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
-		mc.setRarity("Rare");
-		mc.setArtist("Christopher Rush");
-		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-					 ed = new MagicEdition();
-					 ed.setId("LEA");
-					 ed.setSet("Limited Edition Alpha");
-					 ed.setBorder("Black");
-					 ed.setRarity("Rare");
-					 ed.setArtist("Christopher Rush");
-					 ed.setMultiverseid("3");
-					 ed.setNumber("232");
-					 ed.setMkmid(1);
-					 ed.setMkmName("Alpha");
-		mc.getEditions().add(ed);
+		cards = new LoadingData().cardsTest();
 	}
 	
 	@Test
 	public void initTests()
 	{
-		
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		
-		
-		testExports(new Apprentice2DeckExport());
-		testExports(new CocatriceDeckExport());
-		testExports(new CSVExport());
-		testExports(new DCIDeckSheetExport());
-		testExports(new JsonExport());
-		testExports(new MKMFileWantListExport());
-		testExports(new MTGDesktopCompanionExport());
-		testExports(new MTGODeckExport());
-		testExports(new OCTGNDeckExport());
-		testExports(new PDFExport());
-		testExports(new XMageDeckExport());
-		testExports(new MagicWorkStationDeckExport());
-		testExports(new MTGStockExport());
-		testExports(new MkmOnlineExport());
-		
+		PluginRegistry.inst().listPlugins(MTGCardsExport.class).forEach(p->{
+			testExports(p);	
+		});
 	}
 	
 	
@@ -102,6 +71,7 @@ public class ExportsProviderTests {
 	public void testExports(MTGCardsExport p)
 	{
 		
+			MagicDeck d = AbstractCardExport.toDeck(cards);
 			System.out.println("*****************************"+p.getName());
 			System.out.println("EXT  "+p.getFileExtension());
 			System.out.println("STAT "+p.getStatut());
@@ -110,14 +80,9 @@ public class ExportsProviderTests {
 			System.out.println("ENAB "+p.isEnable());
 			System.out.println("ICON "+p.getIcon());
 			System.out.println("VERS "+p.getVersion());
+			System.out.println("NEED UI "+p.needDialogGUI());
 			
-			MagicDeck d = new MagicDeck();
-				d.setDescription("Test of " + p);
-				d.setTags(Arrays.asList("test",p.getName(),"mtgdesktopcompanion"));
-				d.setName("TEST " + p);
-				d.getMap().put(mc, 40);
-				d.getMapSideBoard().put(mc, 10);
-				
+			
 			File destD = new File("target",d.getName()+" DECK "+p.getFileExtension());
 			File destL = new File("target",d.getName()+" LIST "+p.getFileExtension());
 			try {
@@ -127,7 +92,7 @@ public class ExportsProviderTests {
 				System.out.println(p + " export Deck ERROR " +e);
 			}
 			try {
-				p.export(d.getAsList(), destL);
+				p.export(cards, destL);
 				System.out.println(p + " export List OK");
 			} catch (Exception e) {
 				System.out.println(p + " export List ERROR "+e);
@@ -137,7 +102,11 @@ public class ExportsProviderTests {
 			File destS = new File("target",d.getName()+" STOCK "+p.getFileExtension());
 			List<MagicCardStock> stocks = new ArrayList<>();
 			
-			MagicCardStock s = new MagicCardStock();
+			
+			
+			for(MagicCard mc : cards)
+			{ 
+				MagicCardStock s = new MagicCardStock();
 							s.setMagicCard(mc);
 							s.setAltered(false);
 							s.setFoil(false);
@@ -145,10 +114,11 @@ public class ExportsProviderTests {
 							s.setCondition(EnumCondition.LIGHTLY_PLAYED);
 							s.setLanguage("English");
 							s.setMagicCollection(new MagicCollection("TEST"));
-							s.setQte(8);
+							s.setQte(1);
 							s.setPrice(9999.0);
 							s.setComment("Test");
 							stocks.add(s);
+			}
 			try {
 				p.exportStock(stocks, destS);
 				System.out.println(p + " export Stock OK");

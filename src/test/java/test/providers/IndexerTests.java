@@ -1,4 +1,4 @@
-package unit.providers;
+package test.providers;
 
 import org.apache.log4j.Level;
 import org.junit.Before;

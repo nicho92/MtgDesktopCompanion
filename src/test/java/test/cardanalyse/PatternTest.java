@@ -1,4 +1,4 @@
-package unit.cardanalyse;
+package test.cardanalyse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
