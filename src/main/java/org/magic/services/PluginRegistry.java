@@ -89,14 +89,6 @@ public class PluginRegistry {
 			return null;
 		}
 	}
-	
-	
-	
-	public static void main(String[] args) {
-		PluginRegistry.inst().getEntryFor(new MysqlDAO());
-		PluginRegistry.inst().getEntryFor(new BestTrendingDashlet());
-		PluginRegistry.inst().getEntryFor(new MongoDbDAO());
-	}
 
 	public PluginEntry getEntryFor(Object k)
 	{
