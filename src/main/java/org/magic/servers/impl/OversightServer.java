@@ -44,7 +44,7 @@ public class OversightServer extends AbstractMTGServer {
 					try {
 						ret = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null);
 						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
-						Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
+						Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER")),false));
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
