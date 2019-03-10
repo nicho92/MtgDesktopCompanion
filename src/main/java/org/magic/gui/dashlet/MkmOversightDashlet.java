@@ -2,6 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 
 import javax.swing.Icon;
@@ -66,7 +67,12 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		service = new InsightService();
 		JXTable table = new JXTable(model);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		comboBox.addItemListener(pcl->init());
+		comboBox.addItemListener(pcl->{
+		
+			if (pcl.getStateChange() == ItemEvent.SELECTED) {
+				init();
+			}
+		});
 		
 		
 		if (getProperties().size() > 0) {

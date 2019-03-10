@@ -2,6 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -66,9 +67,16 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		UITools.initCardToolTipTable(table, 0, null);
 
-		cboFormat.addActionListener(ae -> init());
+		cboFormat.addItemListener(ie -> {
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				init();	
+		});
 
-		cboFilter.addActionListener(ae -> init());
+		cboFilter.addItemListener(ie -> {
+			
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				init();	
+		});
 
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),

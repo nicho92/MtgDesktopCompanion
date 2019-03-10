@@ -2,7 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
+import java.awt.event.ActionEvent;import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -165,7 +165,10 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 		spinner = new JSpinner();
 		spinner.addChangeListener(ce -> init());
-		cboSorter.addItemListener(ie -> init());
+		cboSorter.addItemListener(ie -> {
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				init();	
+		});
 		
 		
 		spinner.setModel(new SpinnerNumberModel(5, 1, null, 1));

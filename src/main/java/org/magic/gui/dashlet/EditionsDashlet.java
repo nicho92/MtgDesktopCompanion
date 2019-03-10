@@ -2,6 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,11 @@ public class EditionsDashlet extends AbstractJDashlet {
 		
 		
 
-		cboEditions.addActionListener(ae -> init());
+		cboEditions.addItemListener(ie -> {
+			
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				init();	
+		});
 
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
