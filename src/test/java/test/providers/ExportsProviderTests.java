@@ -48,7 +48,7 @@ public class ExportsProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.OFF);
+		//MTGLogger.changeLevel(Level.OFF);
 	}
 
 	
@@ -73,6 +73,8 @@ public class ExportsProviderTests {
 	{
 		
 			MagicDeck d = AbstractCardExport.toDeck(cards);
+				d.getMapSideBoard().put(cards.get(0), 3);
+			
 			System.out.println("*****************************"+p.getName());
 			System.out.println("EXT  "+p.getFileExtension());
 			System.out.println("STAT "+p.getStatut());
