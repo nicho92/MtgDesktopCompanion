@@ -33,6 +33,7 @@ import org.magic.api.exports.impl.XMageDeckExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -47,7 +48,7 @@ public class ExportsProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.ERROR);
+		MTGLogger.changeLevel(Level.OFF);
 	}
 
 	
@@ -85,63 +86,69 @@ public class ExportsProviderTests {
 			
 			File destD = new File("target",d.getName()+" DECK "+p.getFileExtension());
 			File destL = new File("target",d.getName()+" LIST "+p.getFileExtension());
-			try {
-				p.export(d, destD);
-				System.out.println(p + " export Deck OK");
-			} catch (Exception e) {
-				System.out.println(p + " export Deck ERROR " +e);
-			}
-			try {
-				p.export(cards, destL);
-				System.out.println(p + " export List OK");
-			} catch (Exception e) {
-				System.out.println(p + " export List ERROR "+e);
-			}
-			
-			
 			File destS = new File("target",d.getName()+" STOCK "+p.getFileExtension());
-			List<MagicCardStock> stocks = new ArrayList<>();
 			
 			
 			
-			for(MagicCard mc : cards)
-			{ 
-				MagicCardStock s = new MagicCardStock();
-							s.setMagicCard(mc);
-							s.setAltered(false);
-							s.setFoil(false);
-							s.setSigned(false);
-							s.setCondition(EnumCondition.LIGHTLY_PLAYED);
-							s.setLanguage("English");
-							s.setMagicCollection(new MagicCollection("TEST"));
-							s.setQte(1);
-							s.setPrice(9999.0);
-							s.setComment("Test");
-							stocks.add(s);
-			}
-			try {
-				p.exportStock(stocks, destS);
-				System.out.println(p + " export Stock OK");
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println(p + " export Stock ERROR"+e);
-			}
-	
-			MagicDeck d2;
-			try {
-				d2 = p.importDeck(destD);
-				System.out.println(d2 + " " + " import deck OK");
-			} catch (Exception e) {
-				System.out.println(p + " import deck ERROR "+e);
+			if(p.getMods()==MODS.BOTH || p.getMods()==MODS.EXPORT)
+			{
+					
+					try {
+						p.export(d, destD);
+						System.out.println(p + " export Deck OK");
+					} catch (Exception e) {
+						System.out.println(p + " export Deck ERROR " +e);
+					}
+					try {
+						p.export(cards, destL);
+						System.out.println(p + " export List OK");
+					} catch (Exception e) {
+						System.out.println(p + " export List ERROR "+e);
+					}
+					
+					List<MagicCardStock> stocks = new ArrayList<>();
+					
+					for(MagicCard mc : cards)
+					{ 
+						MagicCardStock s = new MagicCardStock();
+									s.setMagicCard(mc);
+									s.setAltered(false);
+									s.setFoil(false);
+									s.setSigned(false);
+									s.setCondition(EnumCondition.LIGHTLY_PLAYED);
+									s.setLanguage("English");
+									s.setMagicCollection(new MagicCollection("TEST"));
+									s.setQte(1);
+									s.setPrice(9999.0);
+									s.setComment("Test");
+									stocks.add(s);
+					}
+					try {
+						p.exportStock(stocks, destS);
+						System.out.println(p + " export Stock OK");
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println(p + " export Stock ERROR"+e);
+					}
 			}
 			
-			try {
-				System.out.println(p.importStock(destS));
-				System.out.println(p + " " + " import stock OK");
-			} catch (Exception e) {
-				System.out.println(p + " " + " import stock ERROR "+ e);
+			if(p.getMods()==MODS.BOTH || p.getMods()==MODS.IMPORT)
+			{
+				MagicDeck d2;
+				try {
+					d2 = p.importDeck(destD);
+					System.out.println(d2 + " " + " import deck OK");
+				} catch (Exception e) {
+					System.out.println(p + " import deck ERROR "+e);
+				}
+				
+				try {
+					System.out.println(p.importStock(destS));
+					System.out.println(p + " " + " import stock OK");
+				} catch (Exception e) {
+					System.out.println(p + " " + " import stock ERROR "+ e);
+				}
 			}
-	
 	
 		
 		
