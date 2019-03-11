@@ -22,7 +22,7 @@ public class CardsProviderTests {
 	{
 		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
 		MTGControler.getInstance();
-		MTGLogger.changeLevel(Level.OFF);
+		MTGLogger.changeLevel(Level.DEBUG);
 	}
 	
 	@Test
@@ -65,6 +65,7 @@ public class CardsProviderTests {
 				System.out.println("LOAD EDITION :OK");
 			} catch (Exception e) {
 				System.out.println("LOAD EDITION :ERROR " + e);
+				e.printStackTrace();
 			}
 			try {
 				p.searchCardByName( "Black Lotus", new MagicEdition("LEA"), true);
