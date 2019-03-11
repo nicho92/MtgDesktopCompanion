@@ -35,7 +35,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 		this.exp=exp;
 		this.buzy=buzy;
 		this.f=f;
-		this.export=AbstractCardExport.toDeck(export);
+		this.export=MagicDeck.toDeck(export);
 		err=null;
 		o=(Observable obs, Object c)->publish((MagicCard)c);
 		exp.addObserver(o);

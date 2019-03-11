@@ -180,5 +180,21 @@ public class MagicDeck implements Serializable {
 		this.name = name;
 
 	}
+	
+	public static MagicDeck toDeck(List<MagicCard> cards)
+	{
+		MagicDeck d = new MagicDeck();
+		d.setName("export");
+		d.setDescription("");
+		
+		if(cards==null)
+			return d;
+		
+		
+		for (MagicCard mc : cards) {
+			d.add(mc);
+		}
+		return d;
+	}
 
 }

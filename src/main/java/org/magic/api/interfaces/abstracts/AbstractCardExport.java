@@ -46,22 +46,10 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return false;
 	}
 	
-	
-	public static MagicDeck toDeck(List<MagicCard> cards)
-	{
-		MagicDeck d = new MagicDeck();
-		d.setName("export");
-		d.setDescription("");
-		for (MagicCard mc : cards) {
-			d.add(mc);
-		}
-		return d;
-	}
-
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
 		
-		MagicDeck d = toDeck(cards);
+		MagicDeck d = MagicDeck.toDeck(cards);
 		d.setName("export " + getName() + " cards");
 		d.setDescription(getName() + " export to " + f.getName());
 	

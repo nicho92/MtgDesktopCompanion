@@ -4,37 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.Apprentice2DeckExport;
-import org.magic.api.exports.impl.CSVExport;
-import org.magic.api.exports.impl.CocatriceDeckExport;
-import org.magic.api.exports.impl.DCIDeckSheetExport;
-import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.exports.impl.MKMFileWantListExport;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.api.exports.impl.MTGODeckExport;
-import org.magic.api.exports.impl.MTGStockExport;
-import org.magic.api.exports.impl.MagicWorkStationDeckExport;
-import org.magic.api.exports.impl.MkmOnlineExport;
-import org.magic.api.exports.impl.OCTGNDeckExport;
-import org.magic.api.exports.impl.PDFExport;
-import org.magic.api.exports.impl.XMageDeckExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
-import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
@@ -46,22 +28,17 @@ public class ExportsProviderTests {
 	List<MagicCard> cards;
 	
 	@Before
-	public void initLogger()
+	public void initTest() throws IOException, URISyntaxException
 	{
-		//MTGLogger.changeLevel(Level.OFF);
-	}
-
-	
-	@Before
-	public void createCards() throws IOException, URISyntaxException
-	{
+		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
+		MTGLogger.changeLevel(Level.OFF);
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		cards = new LoadingData().cardsTest();
 	}
 	
 	@Test
-	public void initTests()
+	public void testPlugins()
 	{
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		PluginRegistry.inst().listPlugins(MTGCardsExport.class).forEach(p->{
 			testExports(p);	
 		});
@@ -72,8 +49,8 @@ public class ExportsProviderTests {
 	public void testExports(MTGCardsExport p)
 	{
 		
-			MagicDeck d = AbstractCardExport.toDeck(cards);
-				d.getMapSideBoard().put(cards.get(0), 3);
+			MagicDeck d = MagicDeck.toDeck(cards);
+					  d.getMapSideBoard().put(cards.get(0), 3);
 			
 			System.out.println("*****************************"+p.getName());
 			System.out.println("EXT  "+p.getFileExtension());
@@ -84,11 +61,13 @@ public class ExportsProviderTests {
 			System.out.println("ICON "+p.getIcon());
 			System.out.println("VERS "+p.getVersion());
 			System.out.println("NEED UI "+p.needDialogGUI());
+			System.out.println("JMX NAME "+p.getObjectName());
+			System.out.println("CONF FILE " + p.getConfFile());
 			
 			
-			File destD = new File("target",d.getName()+" DECK "+p.getFileExtension());
-			File destL = new File("target",d.getName()+" LIST "+p.getFileExtension());
-			File destS = new File("target",d.getName()+" STOCK "+p.getFileExtension());
+			File destD = new File("target","TEST-"+p.getName()+"-DECK"+p.getFileExtension());
+			File destL = new File("target","TEST-"+p.getName()+"-LIST"+p.getFileExtension());
+			File destS = new File("target","TEST-"+p.getName()+"-STOCK"+p.getFileExtension());
 			
 			
 			
@@ -112,15 +91,9 @@ public class ExportsProviderTests {
 					
 					for(MagicCard mc : cards)
 					{ 
-						MagicCardStock s = new MagicCardStock();
+						MagicCardStock s = MTGControler.getInstance().getDefaultStock();
 									s.setMagicCard(mc);
-									s.setAltered(false);
-									s.setFoil(false);
-									s.setSigned(false);
-									s.setCondition(EnumCondition.LIGHTLY_PLAYED);
-									s.setLanguage("English");
 									s.setMagicCollection(new MagicCollection("TEST"));
-									s.setQte(1);
 									s.setPrice(9999.0);
 									s.setComment("Test");
 									stocks.add(s);
@@ -129,7 +102,6 @@ public class ExportsProviderTests {
 						p.exportStock(stocks, destS);
 						System.out.println(p + " export Stock OK");
 					} catch (Exception e) {
-						e.printStackTrace();
 						System.out.println(p + " export Stock ERROR"+e);
 					}
 			}
@@ -142,6 +114,7 @@ public class ExportsProviderTests {
 					System.out.println(d2 + " " + " import deck OK");
 				} catch (Exception e) {
 					System.out.println(p + " import deck ERROR "+e);
+					e.printStackTrace();
 				}
 				
 				try {

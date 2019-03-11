@@ -26,7 +26,7 @@ public class MTGConstants {
 	}
 	public static final String SSL_PROTO = "TLS";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
-	public static final File CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion/");
+	public static File CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.CONF_DIR, "decks");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");

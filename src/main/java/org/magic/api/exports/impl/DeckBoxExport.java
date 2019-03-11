@@ -122,7 +122,7 @@ public class DeckBoxExport extends AbstractCardExport {
 			String line = read.readLine();
 			while (line != null) {
 				line = read.readLine();
-				if(line.isEmpty())
+				if(line==null || line.isEmpty())
 					break;
 				
 				MagicCardStock mcs = new MagicCardStock();
