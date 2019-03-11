@@ -39,8 +39,11 @@ public class CurrencyConverter {
 			return Currency.getInstance(MTGControler.getInstance().getLocale());
 	}
 	
-	public Double convertTo(Currency from, double value)
+	public Double convertTo(Currency from, Double value)
 	{
+		if(value==null)
+			return 0.0;
+		
 		return convert(from.getCurrencyCode(),getCurrentCurrency().getCurrencyCode(), value);
 	}
 	

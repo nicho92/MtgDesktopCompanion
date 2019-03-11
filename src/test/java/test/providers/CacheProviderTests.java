@@ -1,5 +1,10 @@
 package test.providers;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,73 +14,60 @@ import org.magic.api.cache.impl.FileCache;
 import org.magic.api.cache.impl.JCSCache;
 import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.cache.impl.NoCache;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
+
+import test.data.LoadingData;
 
 public class CacheProviderTests {
 
-	MagicCard mc;
-	MagicEdition ed;
-	
-	@Before
-	public void removeCache()
-	{
-		MTGLogger.changeLevel(Level.ERROR);
-		
-		
-	}
+	private MagicCard mc;
 
-	
 	@Before
-	public void createCards()
+	public void initTest() throws IOException, URISyntaxException
 	{
-		mc = new MagicCard();
-		mc.setName("Black Lotus");
-		mc.setLayout("normal");
-		mc.setCost("{0}");
-		mc.setCmc(0);
-		mc.getTypes().add("Artifact");
-		mc.setReserved(true);
-		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
-		mc.setRarity("Rare");
-		mc.setArtist("Christopher Rush");
-		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-		
-		MagicEdition ed = new MagicEdition();
-					 ed.setId("lea");
-					 ed.setSet("Limited Edition Alpha");
-					 ed.setBorder("Black");
-					 ed.setRarity("Rare");
-					 ed.setArtist("Christopher Rush");
-					 ed.setMultiverseid("3");
-					 ed.setNumber("232");
-		
-		mc.getEditions().add(ed);
+		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
+		MTGLogger.changeLevel(Level.OFF);
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		mc = new LoadingData().cardsTest().get(0);
 	}
 	
 	
+	
+
 	@Test
-	public void test()
+	public void launch()
 	{
-		test(new NoCache());
-		test(new MemoryCache());
-		test(new FileCache());
-		test(new JCSCache());
-		
+		PluginRegistry.inst().listPlugins(MTGPicturesCache.class).forEach(p->{
+			testPlugin(p);	
+		});
 	}
 	
-	public void test(MTGPicturesCache p)
+	
+	
+	
+	
+	public void testPlugin(MTGPicturesCache p)
 	{
 		
-		
-		System.out.println("****************"+p);
-		System.out.println(p.getStatut());
-		System.out.println(p.getType());
+		System.out.println("*****************************"+p.getName());
+		System.out.println("STAT "+p.getStatut());
+		System.out.println("PROP "+p.getProperties());
+		System.out.println("TYPE "+p.getType());
+		System.out.println("ENAB "+p.isEnable());
+		System.out.println("ICON "+p.getIcon());
 		System.out.println("VERS "+p.getVersion());
+		System.out.println("JMX NAME "+p.getObjectName());
+		System.out.println("CONF FILE " + p.getConfFile());
 		
 		try {
-			p.put(new ScryFallPicturesProvider().getPicture(mc, ed), mc, ed);
+			p.put(new ScryFallPicturesProvider().getPicture(mc, mc.getCurrentSet()), mc, mc.getCurrentSet());
 			System.out.println("putPictures OK" );
 		}
 		catch(Exception e)
@@ -86,11 +78,31 @@ public class CacheProviderTests {
 		
 		try {
 			
-			p.getPic(mc, ed);
+			p.getPic(mc, mc.getCurrentSet());
 			System.out.println("getPictures OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures ERROR "+e );
 		}
+		
+	try {
+			
+			p.put(new ScryFallPicturesProvider().getPicture(mc, mc.getCurrentSet()),mc,null);
+			System.out.println("setPictures Null ed OK" );
+		} catch (Exception e) {
+			System.out.println("setPictures Null ed ERROR "+e );
+		}
+		
+		
+		try {
+			
+			p.getPic(mc, null);
+			System.out.println("getPictures Null ed OK" );
+		} catch (Exception e) {
+			System.out.println("getPictures Null ed ERROR "+e );
+		}
+		
+		
+		p.clear();
 
 	}
 	

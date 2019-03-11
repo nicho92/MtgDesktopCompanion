@@ -37,16 +37,16 @@ public class ExportsProviderTests {
 	}
 	
 	@Test
-	public void testPlugins()
+	public void launch()
 	{
 		PluginRegistry.inst().listPlugins(MTGCardsExport.class).forEach(p->{
-			testExports(p);	
+			testPlugin(p);	
 		});
 	}
 	
 	
 	
-	public void testExports(MTGCardsExport p)
+	public void testPlugin(MTGCardsExport p)
 	{
 		
 			MagicDeck d = MagicDeck.toDeck(cards);
@@ -63,7 +63,6 @@ public class ExportsProviderTests {
 			System.out.println("NEED UI "+p.needDialogGUI());
 			System.out.println("JMX NAME "+p.getObjectName());
 			System.out.println("CONF FILE " + p.getConfFile());
-			
 			
 			File destD = new File("target","TEST-"+p.getName()+"-DECK"+p.getFileExtension());
 			File destL = new File("target","TEST-"+p.getName()+"-LIST"+p.getFileExtension());

@@ -168,7 +168,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
-		String url = baseURI + CARDS + me.getId() + "/" + id;
+		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;
 		JsonObject root =  URLTools.extractJson(url).getAsJsonObject();
 		return generateCard(root, true, null);
 	}

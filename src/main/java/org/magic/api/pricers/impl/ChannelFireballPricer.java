@@ -24,7 +24,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
-
+		ArrayList<MagicPrice> list = new ArrayList<>();
 		String keyword = card.getName();
 		String url = getString("URL");
 
@@ -47,12 +47,12 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		mp.setSite(getName());
 		mp.setCurrency("USD");
 		try {
-		mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
+			mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
 		}catch(Exception e)
 		{
-			mp.setValue(null);
+			//do nothing
 		}
-		ArrayList<MagicPrice> list = new ArrayList<>();
+		
 		list.add(mp);
 
 		logger.info(getName() + " found " + list.size() + " item(s)");

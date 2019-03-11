@@ -1,5 +1,8 @@
 package test.providers;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -8,6 +11,8 @@ import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.pricers.impl.CardKingdomPricer;
 import org.magic.api.pricers.impl.ChannelFireballPricer;
@@ -21,84 +26,50 @@ import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.PriceMinisterPricer;
 import org.magic.api.pricers.impl.StarCityGamesPricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
+
+import test.data.LoadingData;
 
 public class PriceProviderTests {
 
 	MagicCard mc;
-	MagicEdition ed;
-	
 	
 	@Before
-	public void initLogger()
+	public void initTest() throws IOException, URISyntaxException
 	{
-		MTGLogger.changeLevel(Level.DEBUG);
-	}
-
-	
-	@Before
-	public void createCards()
-	{
-		mc = new MagicCard();
-		mc.setName("Black Lotus");
-		mc.setLayout("normal");
-		mc.setCost("{0}");
-		mc.setCmc(0);
-		mc.getTypes().add("Artifact");
-		mc.setReserved(true);
-		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
-		mc.setRarity("Rare");
-		mc.setArtist("Christopher Rush");
-		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-					 ed = new MagicEdition();
-					 ed.setId("LEA");
-					 ed.setSet("Limited Edition Alpha");
-					 ed.setBorder("Black");
-					 ed.setRarity("Rare");
-					 ed.setArtist("Christopher Rush");
-					 ed.setMultiverseid("3");
-					 ed.setNumber("232");
-					 ed.setMkmid(1);
-					 ed.setMkmName("Alpha");
-		mc.getEditions().add(ed);
+		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
+		MTGLogger.changeLevel(Level.OFF);
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		mc = new LoadingData().cardsTest().get(0);
 	}
 	
 	@Test
-	public void initTests()
+	public void launch()
 	{
-		
-		test(new CardKingdomPricer());
-		test(new ChannelFireballPricer());
-		test(new DeckTutorPricer());
-		test(new EbayPricer());
-		test(new MagicBazarPricer());
-		test(new MagicCardMarketPricer2());
-		test(new MagicTradersPricer());
-		test(new MagicVillePricer());
-		test(new MTGPricePricer());
-		test(new PriceMinisterPricer());
-		test(new StarCityGamesPricer());
-		test(new TCGPlayerPricer());
-		
+		PluginRegistry.inst().listPlugins(MTGPricesProvider.class).forEach(p->{
+			testPlugin(p);	
+		});
 	}
 	
-	
-	
-	public void test(MTGPricesProvider p)
+	public void testPlugin(MTGPricesProvider p)
 	{
 		
-			System.out.println("*****************************"+p.getName());
-			System.out.println("STAT "+p.getStatut());
-			System.out.println("PROP "+p.getProperties());
-			System.out.println("TYPE "+p.getType());
-			System.out.println("ENAB "+p.isEnable());
-			System.out.println("VERS "+p.getVersion());
+		System.out.println("*****************************"+p.getName());
+		System.out.println("STAT "+p.getStatut());
+		System.out.println("PROP "+p.getProperties());
+		System.out.println("TYPE "+p.getType());
+		System.out.println("ENAB "+p.isEnable());
+		System.out.println("ICON "+p.getIcon());
+		System.out.println("VERS "+p.getVersion());
+		System.out.println("JMX NAME "+p.getObjectName());
+		System.out.println("CONF FILE " + p.getConfFile());
 						
 			try {
-				List<MagicPrice> prices = p.getPrice(ed, mc);
+				List<MagicPrice> prices = p.getPrice(mc.getCurrentSet(), mc);
 				System.out.println(prices);
-				
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
