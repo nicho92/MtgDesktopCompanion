@@ -1,12 +1,13 @@
 package test.providers;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.EnumCondition;
@@ -18,65 +19,51 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
-import org.magic.api.dao.impl.HsqlDAO2;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGLogger;
+import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
+
+import test.TestTools;
 
 public class DAOProviderTests {
 
-	
+	MagicCollection col = new MagicCollection("TEST");
 	MagicCard mc;
 	MagicEdition ed;
-	MagicCollection col;
 	
 	@Before
-	public void createCards()
+	public void initTest() throws IOException, URISyntaxException
 	{
-		mc = new MagicCard();
-		mc.setName("Black Lotus");
-		mc.setLayout("normal");
-		mc.setCost("{0}");
-		mc.setCmc(0);
-		mc.getTypes().add("Artifact");
-		mc.setReserved(true);
-		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
-		mc.setRarity("Rare");
-		mc.setArtist("Christopher Rush");
-		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-		MagicEdition ed = new MagicEdition();
-					 ed.setId("lea");
-					 ed.setSet("Limited Edition Alpha");
-					 ed.setBorder("Black");
-					 ed.setRarity("Rare");
-					 ed.setArtist("Christopher Rush");
-					 ed.setMultiverseid("3");
-					 ed.setNumber("232");
-		
-		mc.getEditions().add(ed);
-		
-		col = new MagicCollection("TEST");
-		
-		MTGLogger.changeLevel(Level.ERROR);
-		
+		TestTools.initTest();
+		mc = TestTools.loadData().get(0);
+		ed = mc.getCurrentSet();
+		MTGControler.getInstance();
 	}
 	
 	@Test
-	public void test()
+	public void launch()
 	{
-		//testProviders(new FileDAO());
-		//estProviders(new MongoDbDAO());
-		//testProviders(new PostgresqlDAO());
-		//testProviders(new MysqlDAO());
-		testProviders(new HsqlDAO2());
+		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
+			testPlugin(p);	
+		});
 	}
 	
-	public void testProviders(MTGDao p)
+	
+	
+	public void testPlugin(MTGDao p)
 	{
 		
 		try {
 			p.init();
-			System.out.println("******************TESTING " + p);
-			System.out.println("STATUT " + p.getStatut());
+			System.out.println("*****************************"+p.getName());
+			System.out.println("STAT "+p.getStatut());
+			System.out.println("PROP "+p.getProperties());
+			System.out.println("TYPE "+p.getType());
+			System.out.println("ENAB "+p.isEnable());
+			System.out.println("ICON "+p.getIcon());
+			System.out.println("VERS "+p.getVersion());
+			System.out.println("JMX NAME "+p.getObjectName());
+			System.out.println("CONF FILE " + p.getConfFile());
 			System.out.println("LOCATION " + p.getDBLocation());
 			System.out.println("SIZE " + p.getDBSize()/1024/1024);
 			System.out.println("TYPE " + p.getType());
