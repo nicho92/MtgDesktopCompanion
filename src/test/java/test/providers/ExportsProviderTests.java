@@ -17,7 +17,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 
-import test.data.TestTools;
+import test.TestTools;
 
 public class ExportsProviderTests {
 

@@ -108,7 +108,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			return false;
 		}
 	
-		for (String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
+		for (String s : MTGConstants.getDefaultCollectionsNames())
 		{
 			try {
 			saveCollection(s);

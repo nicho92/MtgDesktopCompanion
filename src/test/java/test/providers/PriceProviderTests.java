@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.PluginRegistry;
 
-import test.data.TestTools;
+import test.TestTools;
 
 public class PriceProviderTests {
 

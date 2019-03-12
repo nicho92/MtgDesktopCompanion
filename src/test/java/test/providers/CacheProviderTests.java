@@ -10,7 +10,7 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.PluginRegistry;
 
-import test.data.TestTools;
+import test.TestTools;
 
 public class CacheProviderTests {
 

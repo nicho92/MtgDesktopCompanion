@@ -58,16 +58,11 @@ public class MagicEditionDetailPanel extends JPanel {
 	public void initGUI() {
 		JPanel panneauBooster;
 		JButton btnOpenBooster;
-		JLabel lblOnlineSet;
 		JPanel panneauHaut;
-		JLabel lblBlock;
-		JLabel lblId;
-		panneauHaut = new JPanel();
 
+		panneauHaut = new JPanel();
 		
 		setLayout(new BorderLayout(0, 0));
-
-
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

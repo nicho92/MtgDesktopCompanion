@@ -129,7 +129,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 			logger.debug("populate collections");
 			
-			for(String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
+			for(String s : MTGConstants.getDefaultCollectionsNames())
 				saveCollection(s);
 			
 			createIndex(stat);
@@ -656,18 +656,16 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void initOrders() {
-		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM orders"); ResultSet rs = pst.executeQuery();) {
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM orders"); ResultSet rs = pst.executeQuery();) 
+		{
 			while (rs.next()) {
 				OrderEntry state = new OrderEntry();
 				
 				state.setId(rs.getInt("id"));
 				state.setIdTransation(rs.getString("idTransaction"));
 				state.setDescription(rs.getString("description"));
-				try {
-					state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
-				} catch (Exception e) {
-					state.setEdition(null);
-				}
+				
+				setEdition(state,rs);
 				state.setCurrency(Currency.getInstance(rs.getString("currency")));
 				state.setTransationDate(rs.getDate("transactionDate"));
 				state.setItemPrice(rs.getDouble("itemPrice"));
@@ -689,6 +687,14 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 
 
+	private void setEdition(OrderEntry state, ResultSet rs) {
+		try {
+			state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
+		} catch (Exception e) {
+			state.setEdition(null);
+		}
+		
+	}
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
 		logger.debug("remove " + state.size() + " items in orders");

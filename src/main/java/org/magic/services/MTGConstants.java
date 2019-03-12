@@ -24,10 +24,18 @@ public class MTGConstants {
 
 	private MTGConstants() {
 	}
+	
+	
+	public static String[] getDefaultCollectionsNames() {
+		return DEFAULT_COLLECTIONS_NAMES;
+	}
+	
+	
+	
 	public static final String SSL_PROTO = "TLS";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
-	public static File CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion/");
-	public static File DATA_DIR = new File(CONF_DIR,"data");
+	public static final File CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion/");
+	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.DATA_DIR, "decks");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
@@ -102,7 +110,7 @@ public class MTGConstants {
 
 	
 	private static String iconPack="flat";
-	public static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
+	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 
 	
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/hand.png"));

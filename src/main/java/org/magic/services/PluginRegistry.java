@@ -16,8 +16,6 @@ import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.PluginEntry;
-import org.magic.api.dao.impl.MongoDbDAO;
-import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -37,7 +35,6 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.dashlet.BestTrendingDashlet;
 import org.reflections.Reflections;
 
 public class PluginRegistry {

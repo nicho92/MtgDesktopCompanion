@@ -1,28 +1,25 @@
 package test.providers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
+
+import test.TestTools;
 
 public class CardsProviderTests {
 
 	@Before
 	public void initTest() throws IOException, URISyntaxException
 	{
-		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
+		TestTools.initTest();
 		MTGControler.getInstance();
-		MTGLogger.changeLevel(Level.DEBUG);
 	}
 	
 	@Test

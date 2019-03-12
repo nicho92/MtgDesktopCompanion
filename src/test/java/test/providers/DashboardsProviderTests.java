@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.PluginRegistry;
 
-import test.data.TestTools;
+import test.TestTools;
 
 public class DashboardsProviderTests {
 
