@@ -1,29 +1,16 @@
 package test.providers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 
-import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.cache.impl.FileCache;
-import org.magic.api.cache.impl.JCSCache;
-import org.magic.api.cache.impl.MemoryCache;
-import org.magic.api.cache.impl.NoCache;
-import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
-import test.data.LoadingData;
+import test.data.TestTools;
 
 public class CacheProviderTests {
 
@@ -32,10 +19,8 @@ public class CacheProviderTests {
 	@Before
 	public void initTest() throws IOException, URISyntaxException
 	{
-		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
-		MTGLogger.changeLevel(Level.OFF);
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		mc = new LoadingData().cardsTest().get(0);
+		TestTools.initTest();
+		mc = TestTools.loadData().get(0);
 	}
 	
 	

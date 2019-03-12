@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
@@ -14,14 +13,11 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
-import test.data.LoadingData;
+import test.data.TestTools;
 
 public class ExportsProviderTests {
 
@@ -30,11 +26,10 @@ public class ExportsProviderTests {
 	@Before
 	public void initTest() throws IOException, URISyntaxException
 	{
-		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
-		MTGLogger.changeLevel(Level.OFF);
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		cards = new LoadingData().cardsTest();
+		TestTools.initTest();
+		cards = TestTools.loadData();
 	}
+	
 	
 	@Test
 	public void launch()

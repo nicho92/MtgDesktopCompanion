@@ -63,6 +63,8 @@ public class CollectionEvaluator extends Observable
 		if(!directory.exists())
 			FileUtils.forceMkdir(directory);
 
+		
+		
 		serialiser= new JsonExport();
 	}
 	
