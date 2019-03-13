@@ -9,6 +9,8 @@ import org.magic.api.indexer.impl.LuceneIndexer;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.services.MTGLogger;
 
+import com.google.common.collect.Lists;
+
 public class IndexerTests {
 
 	MagicCard mc;
@@ -57,7 +59,7 @@ public class IndexerTests {
 				
 				System.out.println("####### TESTING "+ p.getName());
 				System.out.println(p.getProperties());
-				System.out.println(p.listFields());
+				System.out.println(Lists.asList(String.class,p.listFields()));
 				
 				System.out.println("DATE:" + p.getIndexDate());
 				p.search(mc.getName()).forEach(c->{
