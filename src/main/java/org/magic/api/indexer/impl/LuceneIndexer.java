@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,13 +20,13 @@ import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.Fields;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queries.mlt.MoreLikeThis;
@@ -46,8 +47,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-
-import com.google.common.collect.Iterators;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {
@@ -86,8 +85,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		
 		try (IndexReader indexReader = DirectoryReader.open(dir))
 		{
-			Fields f = MultiFields.getFields(indexReader);
-			return Iterators.toArray(f.iterator(), String.class);
+			Collection<String> fields = FieldInfos.getIndexedFields(indexReader);
+			return fields.toArray(new String[fields.size()]);
 		} catch (IOException e) {
 			return new String[0];
 		}
@@ -136,7 +135,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 
 			 TopDocs top= searcher.search(query, Math.max(1, collector.getTotalHits()));
 			 
-			 for(int i =0;i<top.totalHits;i++)
+			 for(int i =0;i<top.totalHits.value;i++)
 				 ret.add(serializer.fromJson(searcher.doc(top.scoreDocs[i].doc).get("data"),MagicCard.class));
 			 
 			 
@@ -163,7 +162,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 
 		 try {
 			 IndexReader reader = DirectoryReader.open(dir);
-			 		Terms terms = MultiFields.getTerms(reader, field);
+			 		Terms terms = MultiTerms.getTerms(reader, field);
 		            TermsEnum it = terms.iterator();
 		            BytesRef term = it.next();
 		            while (term != null) {
@@ -198,7 +197,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 logger.trace(query);
 		 TopDocs top = searcher.search(query, 1);
 		 
-		 if(top.totalHits>0)
+		 if(top.totalHits.value>0)
 		 {
 			 MoreLikeThis mlt = new MoreLikeThis(indexReader);
 			  mlt.setFieldNames(getArray(FIELDS));
