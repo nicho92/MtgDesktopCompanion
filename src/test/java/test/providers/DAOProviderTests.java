@@ -19,6 +19,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.dao.impl.FileDAO;
+import org.magic.api.dao.impl.HsqlDAO2;
+import org.magic.api.dao.impl.MongoDbDAO;
+import org.magic.api.dao.impl.PostgresqlDAO;
+import org.magic.api.dao.impl.SQLLiteDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
@@ -43,9 +48,14 @@ public class DAOProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
-			testPlugin(p);	
-		});
+//		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
+//			testPlugin(p);	
+//		});
+		testPlugin(new PostgresqlDAO());
+		testPlugin(new HsqlDAO2());
+		testPlugin(new SQLLiteDAO());
+		testPlugin(new FileDAO());
+		testPlugin(new MongoDbDAO());
 	}
 	
 	
@@ -69,11 +79,11 @@ public class DAOProviderTests {
 			System.out.println("TYPE " + p.getType());
 			System.out.println("VERS "+p.getVersion());
 			
-			System.out.println("******************SAVING CARDS");
+			System.out.println("SAVING CARDS");
 			p.saveCollection(col);
 			p.saveCard(mc, col);
 			
-			System.out.println("******************LISTING COLLECTION");
+			System.out.println("LISTING COLLECTION");
 			System.out.println("list  " + p.listCards());
 			System.out.println("count " + p.getCardsCount(col, ed));
 			System.out.println(p.listCardsFromCollection(col));
@@ -85,7 +95,7 @@ public class DAOProviderTests {
 			System.out.println("test: " + p.getCollection("TEST"));
 			System.out.println("cols: " + p.listCollectionFromCards(mc));
 			
-			System.out.println("******************ALERTS");
+			System.out.println("ALERTS");
 			MagicCardAlert alert=new MagicCardAlert();
 						   alert.setCard(mc);
 						   alert.setPrice(10.0);
@@ -98,7 +108,7 @@ public class DAOProviderTests {
 			System.out.println(p.hasAlert(mc));
 			
 			
-			System.out.println("******************ORDERS");
+			System.out.println("ORDERS");
 			OrderEntry oe=new OrderEntry();
 						oe.setCurrency(Currency.getInstance("EUR"));
 						oe.setDescription("TEST FROM JUNIT");
@@ -119,7 +129,7 @@ public class DAOProviderTests {
 			
 			p.deleteOrderEntry(oe);
 			
-			System.out.println("******************STOCKS");
+			System.out.println("STOCKS");
 			MagicCardStock stock = new MagicCardStock();
 							stock.setMagicCard(mc);
 							stock.setComment("TEST");
@@ -131,6 +141,9 @@ public class DAOProviderTests {
 			p.saveOrUpdateStock(stock);
 			stock.setFoil(true);
 			p.saveOrUpdateStock(stock);
+			
+			
+			
 			System.out.println("Total stock :" + p.listStocks().size());
 			System.out.println("Get stocks strict " + p.listStocks(mc, col,true));
 			System.out.println("Get stocks nstrict " + p.listStocks(mc, col,false));
@@ -140,9 +153,9 @@ public class DAOProviderTests {
 			stocks.add(stock);
 			
 			
-			System.out.println("******************BACKUP");
+			System.out.println("BACKUP");
 			try{
-				p.backup(new File("d:/"));
+				p.backup(new File("d:/backup.sql"));
 			}
 			catch(Exception e)
 			{
@@ -150,9 +163,9 @@ public class DAOProviderTests {
 			}
 			
 			
-			System.out.println("******************DELETE");
+			System.out.println("DELETE");
 			p.deleteStock(stocks);
-		//	p.removeEdition(ed, col);
+			p.removeEdition(ed, col);
 			p.removeCard(mc, col);
 			p.removeCollection(col);
 			p.deleteAlert(alert);

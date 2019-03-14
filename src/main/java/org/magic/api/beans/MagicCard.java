@@ -447,20 +447,5 @@ public class MagicCard implements Serializable {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
 	
-	public MagicCard toForeign(MagicCardNames fn)
-	{
-		try {
-			MagicCard mc = (MagicCard)BeanUtils.cloneBean(this);
-			
-			mc.setName(fn.getName());
-			mc.setMultiverseid(fn.getGathererId());
-			mc.setFlavor(fn.getFlavor());
-			
-			return mc;
-		} catch (Exception e) {
-			return this;
-		}
-	}
-	
 
 }
