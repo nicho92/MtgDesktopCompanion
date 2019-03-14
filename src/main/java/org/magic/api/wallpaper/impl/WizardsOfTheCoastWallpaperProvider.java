@@ -73,11 +73,6 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	}
 
 	@Override
-	public List<Wallpaper> search(MagicCard card) {
-		return search(card.getName());
-	}
-
-	@Override
 	public String getName() {
 		return "Wizard Of The Coast";
 	}

@@ -60,7 +60,7 @@ public class AbilitiesFactory implements Serializable{
 	}
 	
 	
-	private List<ActivatedAbilities> getActivatedAbilities(MagicCard mc) {
+	public List<ActivatedAbilities> getActivatedAbilities(MagicCard mc) {
 		List<ActivatedAbilities> ret = new ArrayList<>();
 		if(!mc.isPlaneswalker())
 		{
@@ -70,6 +70,7 @@ public class AbilitiesFactory implements Serializable{
 				
 				if(s.indexOf(':')>1 && s.indexOf(':')<end)
 				{
+					
 					String[] costs = s.substring(0,s.indexOf(':')).split(",");
 					ActivatedAbilities abs = new ActivatedAbilities();
 					abs.setCard(mc);

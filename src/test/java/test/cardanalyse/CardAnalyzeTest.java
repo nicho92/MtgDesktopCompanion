@@ -18,7 +18,7 @@ public class CardAnalyzeTest {
 	{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
-		String[] test = new String[] {"Gonti, Lord of Luxury","Blinkmoth Nexus","Pawn of Ulamog","Ulamog, the Ceaseless Hunger","Liliana's Contract","Sorin, Grim Nemesis","Ring of Evos Isle","Tasigur, the Golden Fang","Wall of Air","Genju of the Fields","Drekavac","Balduvian Shaman"};
+		String[] test = new String[] {"Rix Maadi Reveler"};
 		
 		List<MagicCard> list = new ArrayList<>();
 		
@@ -31,6 +31,8 @@ public class CardAnalyzeTest {
 			System.out.println(list.get(index).getText());
 			System.out.println("----------------------------------------------------");
 			System.out.println(AbilitiesFactory.getInstance().getAbilities(list.get(index)));
+			
+			
 		}	
 	}
 	
