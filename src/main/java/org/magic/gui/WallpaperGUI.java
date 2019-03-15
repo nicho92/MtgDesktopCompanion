@@ -12,8 +12,11 @@ import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -35,6 +38,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
+import org.magic.tools.URLTools;
 
 public class WallpaperGUI extends MTGUIComponent {
 
@@ -123,7 +127,14 @@ public class WallpaperGUI extends MTGUIComponent {
 
 				@Override
 				protected List<Wallpaper> doInBackground() throws Exception {
-					return plug.search(txtSearch.getText());
+					return plug.search(txtSearch.getText()).stream().map(w -> {
+						try {
+							return w.load();
+						} catch (IOException e) {
+							logger.error(e);
+						}
+						return w;
+					}).collect(Collectors.toList());
 				}
 
 				@Override
@@ -224,7 +235,7 @@ class JWallThumb extends JLabel {
 			}
 			Image img = wall.getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH);
 			setIcon(new ImageIcon(img));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
@@ -244,9 +255,20 @@ class JWallThumb extends JLabel {
 		setVerticalTextPosition(JLabel.BOTTOM);
 		setText(w.getName());
 		setOpaque(true);
-		resizePic(400);
+		
+		if(w.getPicture()==null)
+			try {
+				w.load();
+				resizePic(400);
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		
+		
 	}
 
+	
+	
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(size, size + fontHeight);

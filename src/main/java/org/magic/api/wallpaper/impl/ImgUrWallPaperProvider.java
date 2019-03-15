@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
@@ -18,9 +20,12 @@ import com.google.gson.JsonArray;
 
 public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
+	private static final String IMAGES_TAG = "images";
+	private static final String TITLE_TAG = "title";
+
 	public static void main(String[] args){
 		
-		new ImgUrWallPaperProvider().search("liliana");
+		new ImgUrWallPaperProvider().search("liliana of the veil");
 	}
 
 	@Override
@@ -33,15 +38,47 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 		m.put("Authorization","Client-ID "+getString("CLIENTID"));
 		
 		try {
-			String s= c.doGet("https://api.imgur.com/3/gallery/search/time/all/1?q="+URLEncoder.encode(search,MTGConstants.DEFAULT_ENCODING), m);
-			JsonArray arr = URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray();
-			arr.forEach(je->{
-				Wallpaper w = new Wallpaper();
-				w.setName(je.getAsJsonObject().get("title").getAsString());
-				w.setUrl(URI.create("https://i.imgur.com/"+je.getAsJsonObject().get("id").getAsString()+".jpg"));
-				w.setFormat(".jpg");
-				ret.add(w);
-				notify(w);
+			
+			String query=search.trim().replaceAll(" ", " AND ");
+			String uri = "https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW").toLowerCase()+"/?q="+URLEncoder.encode(query,MTGConstants.DEFAULT_ENCODING)+"&mature=true";
+			String s= c.doGet(uri, m);
+			logger.debug(uri);
+			logger.trace(s);
+			
+			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
+				
+				String defaultTitle =je.getAsJsonObject().get(TITLE_TAG).getAsString();
+				
+				if(je.getAsJsonObject().get(IMAGES_TAG)!=null)
+				{
+					je.getAsJsonObject().get(IMAGES_TAG).getAsJsonArray().forEach(im->{
+						Wallpaper w = new Wallpaper();
+						
+						if(!im.getAsJsonObject().get(TITLE_TAG).isJsonNull())
+							w.setName(im.getAsJsonObject().get(TITLE_TAG).getAsString());
+						else
+							w.setName(defaultTitle);
+						
+						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));
+						w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
+						ret.add(w);
+						notify(w);
+					});
+				}
+				else
+				{
+					Wallpaper w = new Wallpaper();
+							w.setName(defaultTitle);
+							w.setUrl(URI.create(je.getAsJsonObject().get("link").getAsString()));
+							w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
+					
+					ret.add(w);
+					notify(w);
+				}
+				
+				
+				
+				
 			});
 		} catch (IOException e) {
 			logger.error(e);
@@ -60,5 +97,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public void initDefault() {
 		setProperty("CLIENTID", "");
+		setProperty("SORT", "time");
+		setProperty("WINDOW", "all");
 	}
 }

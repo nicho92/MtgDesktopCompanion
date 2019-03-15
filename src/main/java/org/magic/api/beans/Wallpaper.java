@@ -16,17 +16,24 @@ public class Wallpaper {
 	private String name;
 	private String format;
 
-	public BufferedImage getPicture() throws IOException {
-		if (picture == null) {
-			if(url.getScheme().startsWith("http"))
-				picture = URLTools.extractImage(url.toURL());
-			else
-				picture = ImageIO.read(url.toURL());
-			
-		}
+	public BufferedImage getPicture() {
 		return picture;
 	}
 
+
+	public Wallpaper load() throws IOException
+	{
+		if (getPicture() == null) {
+			if(getUrl().getScheme().startsWith("http"))
+				setPicture(URLTools.extractImage(getUrl().toURL()));
+			else
+				setPicture(ImageIO.read(getUrl().toURL()));
+		}
+		
+		return this;
+	}
+	
+	
 	public void setPicture(BufferedImage picture) {
 		this.picture = picture;
 	}
@@ -59,7 +66,7 @@ public class Wallpaper {
 	public Dimension getDimension() {
 		try {
 			return new Dimension(getPicture().getWidth(), getPicture().getHeight());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return new Dimension(0, 0);
 		}
 	}
