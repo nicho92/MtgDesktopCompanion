@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.wallpaper.impl;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Document;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
@@ -16,13 +15,12 @@ import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 
-public class TestImgUr extends AbstractWallpaperProvider {
+public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		
-		new TestImgUr().search("liliana");
+		new ImgUrWallPaperProvider().search("liliana");
 	}
 
 	@Override
@@ -40,11 +38,10 @@ public class TestImgUr extends AbstractWallpaperProvider {
 			arr.forEach(je->{
 				Wallpaper w = new Wallpaper();
 				w.setName(je.getAsJsonObject().get("title").getAsString());
-				w.setUrl(URI.create("https://imgur.com/gallery/"+je.getAsJsonObject().get("id").getAsString()));
-				
-				System.out.println(w.getName());
-				
+				w.setUrl(URI.create("https://i.imgur.com/"+je.getAsJsonObject().get("id").getAsString()+".jpg"));
+				w.setFormat(".jpg");
 				ret.add(w);
+				notify(w);
 			});
 		} catch (IOException e) {
 			logger.error(e);
