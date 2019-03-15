@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
@@ -75,6 +76,8 @@ public class WallpaperGUI extends MTGUIComponent {
 		c.gridx = c.gridx + 1;
 		panelThumnail.add(i, c);
 		index++;
+		
+		revalidate();
 
 	}
 
@@ -123,13 +126,15 @@ public class WallpaperGUI extends MTGUIComponent {
 			c.gridy = 0;
 			lblLoad.start();
 			
-			AbstractObservableWorker<List<Wallpaper>, Wallpaper,MTGWallpaperProvider> sw = new AbstractObservableWorker<List<Wallpaper>, Wallpaper,MTGWallpaperProvider>(lblLoad,selectedProvider) {
+			SwingWorker<List<Wallpaper>, Wallpaper> sw = new SwingWorker<List<Wallpaper>, Wallpaper>() {
 
 				@Override
 				protected List<Wallpaper> doInBackground() throws Exception {
-					return plug.search(txtSearch.getText()).stream().map(w -> {
+					return selectedProvider.search(txtSearch.getText()).stream().map(w -> {
 						try {
-							return w.load();
+							Wallpaper p= w.load();
+							publish(p);
+							return p;
 						} catch (IOException e) {
 							logger.error(e);
 						}
@@ -139,7 +144,6 @@ public class WallpaperGUI extends MTGUIComponent {
 
 				@Override
 				protected void process(List<Wallpaper> chunks) {
-					super.process(chunks);
 					for (Wallpaper w : chunks) {
 						JWallThumb thumb = new JWallThumb(w);
 						addComponent(thumb);
@@ -153,7 +157,11 @@ public class WallpaperGUI extends MTGUIComponent {
 						});
 				}
 				}
-				
+
+				@Override
+				protected void done() {
+					lblLoad.end();				
+				}
 			};
 			
 			
@@ -258,13 +266,12 @@ class JWallThumb extends JLabel {
 		
 		if(w.getPicture()==null)
 			try {
-				w.load();
-				resizePic(400);
+				wall = w.load();
 			} catch (IOException e) {
 				logger.error(e);
 			}
 		
-		
+		resizePic(400);
 	}
 
 	
