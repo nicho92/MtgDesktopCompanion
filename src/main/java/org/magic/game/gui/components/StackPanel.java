@@ -14,18 +14,18 @@ import org.apache.log4j.Logger;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.GameManager;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class StackPanel extends JPanel implements Observer {
+public class StackPanel extends MTGUIComponent implements Observer {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String START = "Start";
 	private static final String PAUSE = "Pause";
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JList<AbstractSpell> listStack;
 	private DefaultListModel<AbstractSpell> model;
 	private JLabel lblCounter;
@@ -33,11 +33,17 @@ public class StackPanel extends JPanel implements Observer {
 	private static final int SECONDE=10;
 	private long startTime=SECONDE;
 	private JButton btnPause;
+	private boolean enabledChrono = true;
 	
-	public StackPanel() {
+	
+	public StackPanel(boolean enableChrono) {
 		model = new DefaultListModel<>();
+		setLayout(new BorderLayout(0, 0));
+		this.enabledChrono=enableChrono;
 		
-		timer = new Timer(1000,e->{
+		if(enableChrono)
+		{
+			timer = new Timer(1000,e->{
 				startTime=startTime-1;
 				lblCounter.setText(String.valueOf(startTime));
 				
@@ -55,41 +61,49 @@ public class StackPanel extends JPanel implements Observer {
 						startTime=SECONDE;
 					}
 				}
+			});
 			
-		});
-
-		lblCounter = new JLabel(String.valueOf(startTime));
-		JPanel panel = new JPanel();
-		listStack = new JList<>(model);
+			lblCounter = new JLabel(String.valueOf(startTime));
+			JPanel panelChrono = new JPanel();
 		
-		setLayout(new BorderLayout(0, 0));
+			add(panelChrono, BorderLayout.NORTH);
+			panelChrono.add(lblCounter);
+		
+			btnPause = new JButton(PAUSE);
+			
+			btnPause.addActionListener(ae->{
+					
+					if(timer.isRunning())
+					{
+						timer.stop();
+						btnPause.setText(START);
+					}
+					else
+					{
+						timer.start();
+						btnPause.setText(PAUSE);
+					}
+			});
+			panelChrono.add(btnPause);
+		}
+		
+		listStack = new JList<>(model);
+	
 		listStack.setCellRenderer(new StackItemRenderer());
 		
 		add(new JScrollPane(listStack ), BorderLayout.CENTER);
-		add(panel, BorderLayout.NORTH);
-		panel.add(lblCounter);
 		
-		btnPause = new JButton(PAUSE);
 		
-		btnPause.addActionListener(ae->{
-				
-				if(timer.isRunning())
-				{
-					timer.stop();
-					btnPause.setText(START);
-				}
-				else
-				{
-					timer.start();
-					btnPause.setText(PAUSE);
-				}
-		});
-		panel.add(btnPause);
 	}
 	
 	
 	public void enableChrono(boolean b)
 	{
+		
+		if(!enabledChrono)
+			return;
+		
+		
 		startTime=SECONDE;
 		
 		if(b)
@@ -136,6 +150,12 @@ public class StackPanel extends JPanel implements Observer {
 			addStack((AbstractSpell)ob);
 		else
 			removeStack();
+	}
+
+
+	@Override
+	public String getTitle() {
+		return "STACK";
 	}
 }
 

@@ -61,6 +61,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return loadEditions().parallelStream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
 	}
 	
+	@Override
+	public List<MagicCard> listAllCards() throws IOException {
+		return searchCardByName("", null, false);
+	}
 
 	@Override
 	public PLUGINS getType() {

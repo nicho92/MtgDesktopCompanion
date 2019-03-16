@@ -244,7 +244,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		  				   iwc.setOpenMode(OpenMode.CREATE);
 	    IndexWriter indexWriter = new IndexWriter(dir, iwc);
 	    
-		for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName("", null, false))
+		for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listAllCards())
 		{
 			indexWriter.addDocument(toDocuments(mc));
 		}

@@ -98,6 +98,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
+	public List<MagicCard> listAllCards() throws IOException {
+		throw new IOException("Not Implemented");
+	}
+	
+	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
 		List<MagicCard> list = new ArrayList<>();
 

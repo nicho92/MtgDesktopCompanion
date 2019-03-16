@@ -123,7 +123,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		setLayout(new BorderLayout(0, 0));
 
 		panneauDroit = new JPanel();
-		stackPanel=new StackPanel();
+		stackPanel=new StackPanel(true);
 		
 		GameManager.getInstance().getStack().addObserver(stackPanel);
 		
