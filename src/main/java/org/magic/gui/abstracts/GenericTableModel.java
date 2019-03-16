@@ -3,10 +3,12 @@ package org.magic.gui.abstracts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -29,16 +31,40 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		columns = columnName;
 	}
 	
+	public GenericTableModel(T classe) {
+		items = new ArrayList<>();
+		Set<String> s;
+		try {
+			s = BeanUtils.describe(classe).keySet();
+			columns = Arrays.copyOf(s.toArray(), s.size(),String[].class);
+		} catch (Exception e) {
+			logger.error("error calculate columns for " + classe,e);
+		}
+	}
+	
+	
 	
 	public void setWritable(boolean writable) {
 		this.writable = writable;
 	}
 	
 	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+	
+		try {
+			T it = items.get(0);
+			return PropertyUtils.getProperty(it, columns[columnIndex]).getClass();
+		} catch (Exception e) {
+			return super.getColumnClass(columnIndex);	
+		} 
+		
+	}
+	
+	@Override
 	public Object getValueAt(int row, int column) {
 		T it = items.get(row);
 		try {
-			return BeanUtils.getProperty(it, columns[column]);
+			return PropertyUtils.getProperty(it, columns[column]);
 		} catch (Exception e) {
 			logger.error("error",e);
 		} 

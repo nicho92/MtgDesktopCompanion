@@ -40,9 +40,9 @@ public class KeyWordProvider {
 		JsonObject el;
 		try {
 			el = URLTools.extractJson(Mtgjson4Provider.URL_JSON_KEYWORDS).getAsJsonObject();
-			el.get("AbilityWords").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.WORD)));
-			el.get("KeywordAbilities").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.ABILITIES)));
-			el.get("KeywordActions").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.ACTION)));
+			el.get("abilityWords").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.WORD)));
+			el.get("keywordAbilities").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.ABILITIES)));
+			el.get("keywordActions").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.ACTION)));
 		
 		} catch (IOException e) {
 			logger.error(e);

@@ -69,7 +69,7 @@ public class ManaPanel extends JComponent {
 			JLabel lab = new JLabel();
 			Image img = getManaSymbol(m.group());
 			lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
-			lab.setHorizontalAlignment(SwingConstants.LEFT);
+			lab.setHorizontalAlignment(SwingConstants.CENTER);
 			add(lab);
 		}
 	}

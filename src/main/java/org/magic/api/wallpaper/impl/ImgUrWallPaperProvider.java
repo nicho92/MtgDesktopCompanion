@@ -9,14 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
-
-import com.google.gson.JsonArray;
 
 public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 

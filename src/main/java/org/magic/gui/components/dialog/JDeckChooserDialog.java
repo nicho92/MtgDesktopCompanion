@@ -141,6 +141,10 @@ public class JDeckChooserDialog extends JDialog {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
+				
+				if(UITools.getTableSelection(table, 0).isEmpty())
+					return;
+				
 				selectedDeck = (MagicDeck) UITools.getTableSelection(table, 0).get(0);
 				initTree();
 				tagsPanel.clean();
