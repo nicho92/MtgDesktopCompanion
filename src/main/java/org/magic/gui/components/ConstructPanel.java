@@ -159,8 +159,45 @@ public class ConstructPanel extends JPanel {
 		btnExports = new JButton();
 		stockPanel = new DeckStockComparatorPanel();
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
-		
+		JPanel panneauBas = new JPanel();
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JSplitPane panneauDeck = new JSplitPane();
+		magicCardDetailPanel = new MagicCardDetailPanel();
+		cardDrawProbaPanel = new DrawProbabilityPanel();
+		JXTable tableDeck = new JXTable();
+		JXTable tableSide = new JXTable();
+		final JTabbedPane tabbedDeckSide = new JTabbedPane(JTabbedPane.RIGHT);
+		JPanel panelInfoDeck = new JPanel();
+		cmcChartPanel = new CmcChartPanel();
+		manaRepartitionPanel = new ManaRepartitionPanel();
+		typeRepartitionPanel = new TypeRepartitionPanel();
+		rarityRepartitionPanel = new RarityRepartitionPanel();
+		drawProbabilityPanel = new DrawProbabilityPanel();
+		JPanel randomHandPanel = new JPanel();
+		JPanel statPanel = new JPanel();
+		deckPricePanel = new DeckPricePanel();
+		JPanel panel = new JPanel();
+		JButton btnDrawAHand = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DRAW_HAND"));
+		JPanel panneauResultFilter = new JPanel();
+		JToggleButton tglbtnStd = new JToggleButton("STD");
+		JToggleButton tglbtnMdn = new JToggleButton("MDN");
+		JToggleButton tglbtnLeg = new JToggleButton("LEG");
+		JToggleButton tglbtnVin = new JToggleButton("VIN");
+		JPanel panneauGauche = new JPanel();
+		listResult = new JList<>(new DefaultListModel<MagicCard>());
+		groupsFilterResult = new ButtonGroup() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void setSelected(ButtonModel model, boolean selected) {
+				if (selected) {
+					super.setSelected(model, selected);
+				} else {
+					clearSelection();
+				}
+			}
+		};
+
 		
 		thumbnail.setThumbnailSize(new Dimension(223, 311));
 		thumbnail.enableDragging(false);
@@ -168,24 +205,103 @@ public class ConstructPanel extends JPanel {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		txtSearch.setBackground(Color.WHITE);
-
+		txtSearch.setColumns(25);
+		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
+		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
+		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
+		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
+		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
+		btnExports.setEnabled(false);
+		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
+		btnExports.setIcon(MTGConstants.ICON_EXPORT);
+		panneauDeck.setDividerLocation(0.5);
+		panneauDeck.setResizeWeight(0.5);
+		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		magicCardDetailPanel.enableThumbnail(true);
+		panelBottom.setLayout(new BorderLayout(0, 0));
+		panelInfoDeck.setLayout(new BorderLayout(0, 0));
+		randomHandPanel.setLayout(new BorderLayout(0, 0));
+		statPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DECK_IMPORT_AS"));
+		panneauGauche.setLayout(new BorderLayout(0, 0));
+		listResult.setCellRenderer(new MagicCardListRenderer());
+		listResult.setMinimumSize(new Dimension(100, 0));
+		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tglbtnStd.setActionCommand("Standard");
+		tglbtnMdn.setActionCommand("Modern");
+		tglbtnLeg.setActionCommand("Legacy");
+		tglbtnVin.setActionCommand("Vintage");
+		
+		
 		
 		
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(cboAttributs);
-
-
 		panneauHaut.add(txtSearch);
 		panneauHaut.add(buzy);
-		
-		txtSearch.setColumns(25);
-
 		panneauHaut.add(lblCards);
-
-		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
-
 		panneauHaut.add(btnNewDeck);
+		panneauHaut.add(btnOpen);
+		panneauHaut.add(btnUpdate);
+		panneauHaut.add(btnSave);
+		panneauHaut.add(btnImport);
+		panneauHaut.add(btnExports);
+		panneauHaut.add(buzyLabel);
+		add(panneauBas, BorderLayout.SOUTH);
+		add(tabbedPane, BorderLayout.CENTER);
+		panelBottom.add(magicCardDetailPanel);
+		panneauDeck.setRightComponent(panelBottom);
+		panelBottom.add(cardDrawProbaPanel, BorderLayout.EAST);
+		panneauDeck.setLeftComponent(tabbedDeckSide);
+		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
+		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
+		
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), MTGConstants.ICON_TAB_DECK,panneauDeck, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
+	
+		panelInfoDeck.add(deckDetailsPanel, BorderLayout.NORTH);
+		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
+		statPanel.add(manaRepartitionPanel);
+		statPanel.add(typeRepartitionPanel);
+		statPanel.add(rarityRepartitionPanel);
+		statPanel.add(cmcChartPanel);
+		statPanel.add(drawProbabilityPanel);
+		statPanel.add(deckPricePanel);
+		randomHandPanel.add(panel, BorderLayout.NORTH);
+		panel.add(btnDrawAHand);
+		add(panneauGauche, BorderLayout.WEST);
+		panneauResultFilter.add(tglbtnStd);
+		panneauResultFilter.add(tglbtnMdn);
+		panneauResultFilter.add(tglbtnLeg);
+		panneauResultFilter.add(tglbtnVin);
+		groupsFilterResult.add(tglbtnStd);
+		groupsFilterResult.add(tglbtnMdn);
+		groupsFilterResult.add(tglbtnLeg);
+		groupsFilterResult.add(tglbtnVin);
+		panneauGauche.add(new JScrollPane(listResult));
+		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
+			
+		
+		
+		initTables(tableDeck,MAIN,deckmodel);
+		initTables(tableSide,SIDE,deckSidemodel);
+		deckDetailsPanel.setMagicDeck(deck);
+
+		
+	
+	
+
+		
+		
+		
+		
+	
+		
+//////////////////////////////////////////////////////////////////ACTIONS		
 		btnNewDeck.addActionListener(newDeckEvent -> {
 			MagicDeck newDeck = new MagicDeck();
 			setDeck(newDeck);
@@ -193,9 +309,7 @@ public class ConstructPanel extends JPanel {
 			deckSidemodel.init(newDeck);
 		});
 
-		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
-		panneauHaut.add(btnOpen);
-
+		
 		btnOpen.addActionListener(openEvent -> {
 			try {
 				JDeckChooserDialog choose = new JDeckChooserDialog();
@@ -216,7 +330,6 @@ public class ConstructPanel extends JPanel {
 
 		});
 
-		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
 		btnUpdate.addActionListener(updateEvent ->  {
 			Map<MagicCard, Integer> updateM = new HashMap<>();
 			Map<MagicCard, Integer> updateS = new HashMap<>();
@@ -276,14 +389,6 @@ public class ConstructPanel extends JPanel {
 			ThreadManager.getInstance().runInEdt(sw,"updating "+deck);
 		});
 		
-		
-		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
-
-		panneauHaut.add(btnUpdate);
-
-		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
-		panneauHaut.add(btnSave);
-
 		btnSave.addActionListener(e -> {
 			try {
 				logger.debug("saving " + deck);
@@ -302,102 +407,10 @@ public class ConstructPanel extends JPanel {
 
 		});
 
-			btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DECK_IMPORT_AS"));
+	
 
 		
-
-		panneauHaut.add(btnImport);
-
-		btnExports.setEnabled(false);
-		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
-		btnExports.setIcon(MTGConstants.ICON_EXPORT);
-
-		panneauHaut.add(btnExports);
-
-		panneauHaut.add(buzyLabel);
-
-		JPanel panneauBas = new JPanel();
-		add(panneauBas, BorderLayout.SOUTH);
-
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-
-		add(tabbedPane, BorderLayout.CENTER);
-
-		JSplitPane panneauDeck = new JSplitPane();
-		panneauDeck.setDividerLocation(0.5);
-		panneauDeck.setResizeWeight(0.5);
-
-		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), MTGConstants.ICON_TAB_DECK,
-				panneauDeck, null);
-		
-
-		magicCardDetailPanel = new MagicCardDetailPanel();
-		magicCardDetailPanel.enableThumbnail(true);
-		panelBottom.setLayout(new BorderLayout(0, 0));
-		panelBottom.add(magicCardDetailPanel);
-		panneauDeck.setRightComponent(panelBottom);
-
-		cardDrawProbaPanel = new DrawProbabilityPanel();
-		panelBottom.add(cardDrawProbaPanel, BorderLayout.EAST);
-
-		final JTabbedPane tabbedDeckSide = new JTabbedPane(JTabbedPane.RIGHT);
-
-		panneauDeck.setLeftComponent(tabbedDeckSide);
-		
-		
-
-		JXTable tableDeck = new JXTable();
-		JXTable tableSide = new JXTable();
-		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
-		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
-		
-		initTables(tableDeck,MAIN,deckmodel);
-		initTables(tableSide,SIDE,deckSidemodel);
-
-		
-
-		JPanel panelInfoDeck = new JPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"),
-				MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
-		panelInfoDeck.setLayout(new BorderLayout(0, 0));
-
-		panelInfoDeck.add(deckDetailsPanel, BorderLayout.NORTH);
-		deckDetailsPanel.setMagicDeck(deck);
-
-		cmcChartPanel = new CmcChartPanel();
-		manaRepartitionPanel = new ManaRepartitionPanel();
-		typeRepartitionPanel = new TypeRepartitionPanel();
-		rarityRepartitionPanel = new RarityRepartitionPanel();
-		drawProbabilityPanel = new DrawProbabilityPanel();
-
-		JPanel randomHandPanel = new JPanel();
-		JPanel statPanel = new JPanel();
-
-		randomHandPanel.setLayout(new BorderLayout(0, 0));
-		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
-
-		statPanel.setLayout(new GridLayout(3, 2, 0, 0));
-		statPanel.add(manaRepartitionPanel);
-		statPanel.add(typeRepartitionPanel);
-		statPanel.add(rarityRepartitionPanel);
-		statPanel.add(cmcChartPanel);
-		statPanel.add(drawProbabilityPanel);
-		
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"),
-				MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
-
-		deckPricePanel = new DeckPricePanel();
-		statPanel.add(deckPricePanel);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
-		
-
-		JPanel panel = new JPanel();
-		randomHandPanel.add(panel, BorderLayout.NORTH);
-
-		JButton btnDrawAHand = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DRAW_HAND"));
-		btnDrawAHand.addActionListener(ae -> {
+	btnDrawAHand.addActionListener(ae -> {
 			thumbnail.removeAll();
 			p.mixHandAndLibrary();
 			p.shuffleLibrary();
@@ -405,57 +418,7 @@ public class ConstructPanel extends JPanel {
 			thumbnail.initThumbnails(p.getHand().getCards(), false, false);
 
 		});
-		panel.add(btnDrawAHand);
-
-		JPanel panneauGauche = new JPanel();
-		add(panneauGauche, BorderLayout.WEST);
-		panneauGauche.setLayout(new BorderLayout(0, 0));
-
 	
-
-		listResult = new JList<>(new DefaultListModel<MagicCard>());
-		listResult.setCellRenderer(new MagicCardListRenderer());
-		listResult.setMinimumSize(new Dimension(100, 0));
-		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		panneauGauche.add(new JScrollPane(listResult));
-		
-		
-		JPanel panneauResultFilter = new JPanel();
-		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-
-		groupsFilterResult = new ButtonGroup() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setSelected(ButtonModel model, boolean selected) {
-				if (selected) {
-					super.setSelected(model, selected);
-				} else {
-					clearSelection();
-				}
-			}
-		};
-
-		JToggleButton tglbtnStd = new JToggleButton("STD");
-		tglbtnStd.setActionCommand("Standard");
-		panneauResultFilter.add(tglbtnStd);
-
-		JToggleButton tglbtnMdn = new JToggleButton("MDN");
-		tglbtnMdn.setActionCommand("Modern");
-		panneauResultFilter.add(tglbtnMdn);
-
-		JToggleButton tglbtnLeg = new JToggleButton("LEG");
-		tglbtnLeg.setActionCommand("Legacy");
-		panneauResultFilter.add(tglbtnLeg);
-
-		JToggleButton tglbtnVin = new JToggleButton("VIN");
-		tglbtnVin.setActionCommand("Vintage");
-		panneauResultFilter.add(tglbtnVin);
-
-		groupsFilterResult.add(tglbtnStd);
-		groupsFilterResult.add(tglbtnMdn);
-		groupsFilterResult.add(tglbtnLeg);
-		groupsFilterResult.add(tglbtnVin);
 
 		listResult.addMouseListener(new MouseAdapter() {
 			@Override
