@@ -62,6 +62,8 @@ public class FileCache extends AbstractCacheProvider {
 
 			return ImageIO.read(new File(save, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
 		} catch (IOException e) {
+			logger.trace("search in cache : " + mc + " " + ed +" not found :" + e);
+
 			return null;
 		}
 	}

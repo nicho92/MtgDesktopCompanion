@@ -20,6 +20,7 @@ import org.magic.tools.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String HTTP_API_SCRYFALL = "https://api.scryfall.com/cards/";
 	private static final String IMAGE_TAG = "?format=image";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Boolean scryfallProvider = null;
@@ -49,14 +50,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if (scryfallProvider == null)
 			scryfallProvider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class) instanceof ScryFallProvider;
 
-		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
+		String url = HTTP_API_SCRYFALL + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
 
 		if (scryfallProvider) {
-			url = "https://api.scryfall.com/cards/" + mc.getId() + IMAGE_TAG;
+			url = HTTP_API_SCRYFALL + mc.getId() + IMAGE_TAG;
 		}
 
 		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
-			url = "https://api.scryfall.com/cards/multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
+			url = HTTP_API_SCRYFALL+"/multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
 
 		if (crop)
 			url += "&version=art_crop";
@@ -66,11 +67,11 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		return new URL(url);
 	}
 	
-	@Override
+	/*@Override
 	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
-		return resizeCard(URLTools.extractImage("https://api.scryfall.com/cards/multiverse/" + fn.getGathererId() + IMAGE_TAG), newW, newH);
+		return resizeCard(URLTools.extractImage(HTTP_API_SCRYFALL+"/multiverse/" + fn.getGathererId() + IMAGE_TAG), newW, newH);
 	}
-	
+	*/
 
 	@Override
 	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
