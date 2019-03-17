@@ -454,6 +454,7 @@ public class MagicCard implements Serializable {
 			
 			mc.setName(fn.getName());
 			mc.setMultiverseid(fn.getGathererId());
+			mc.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc.setFlavor(fn.getFlavor());
 			mc.setText(fn.getText());
 			return mc;

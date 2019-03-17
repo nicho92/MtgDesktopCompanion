@@ -72,7 +72,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
-		return getPicture(mc,mc.getCurrentSet());
+		return getPicture(mc.toForeign(fn),mc.getCurrentSet());
 	}
 
 	@Override
