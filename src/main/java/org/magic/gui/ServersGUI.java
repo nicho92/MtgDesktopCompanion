@@ -1,6 +1,7 @@
 package org.magic.gui;
 
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -12,6 +13,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class ServersGUI extends MTGUIComponent {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -25,10 +28,14 @@ public class ServersGUI extends MTGUIComponent {
 	
 	
 	public ServersGUI() {
-		setLayout(new GridLayout(10, 1, 0, 0));
+		
+		List<MTGServer> list = MTGControler.getInstance().getPlugins(MTGServer.class);
+		
+		
+		setLayout(new GridLayout(list.size(), 1, 0, 0));
 		
 		ThreadManager.getInstance().invokeLater(()->{
-				for (MTGServer s : MTGControler.getInstance().getPlugins(MTGServer.class)) {
+				for (MTGServer s : list) {
 					add(new ServerStatePanel(s));
 				}
 		});

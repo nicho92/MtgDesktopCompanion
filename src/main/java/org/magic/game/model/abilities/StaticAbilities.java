@@ -25,6 +25,9 @@ public class StaticAbilities extends AbstractAbilities {
 		return "\nSTATIC: " + key.getKeyword();
 	}
 
+	public StaticAbilities(MTGKeyWord k) {
+		init(k);
+	}
 
 	
 }

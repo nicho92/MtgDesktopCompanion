@@ -640,9 +640,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 									{
 										loadPics(fn,magicCard);
 									}
-									
-									
-									
 								}
 							};
 							act.putValue(Action.NAME, fn.getLanguage());

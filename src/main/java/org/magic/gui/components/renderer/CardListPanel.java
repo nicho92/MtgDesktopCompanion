@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
@@ -15,7 +15,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.UITools;
 
-public class CardListPanel extends JComponent {
+public class CardListPanel extends JPanel {
 
 	/**
 	 * 
@@ -42,7 +42,6 @@ public class CardListPanel extends JComponent {
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-
 		lblName = new JLabel();
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblName, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 1, 0));

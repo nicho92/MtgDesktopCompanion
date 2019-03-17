@@ -1,7 +1,7 @@
 package test.cardanalyse;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.junit.Test;
@@ -10,21 +10,17 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 
+import test.TestTools;
+
 public class CardAnalyzeTest {
 
 	
 	@Test
-	public void test() throws IOException
+	public void test() throws IOException, URISyntaxException
 	{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
-		String[] test = new String[] {"Rix Maadi Reveler"};
-		
-		List<MagicCard> list = new ArrayList<>();
-		
-		for(String s : test)
-			list.add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria("name", s, null, false).get(0));
-		
+		List<MagicCard> list = TestTools.loadData();
 		
 		for(int index=0;index<list.size();index++) {
 			System.out.println("----------------------------------------------------"+list.get(index));

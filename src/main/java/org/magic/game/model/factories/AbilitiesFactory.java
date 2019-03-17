@@ -3,7 +3,10 @@ package org.magic.game.model.factories;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
@@ -12,13 +15,14 @@ import org.magic.game.model.abilities.StaticAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
 import org.magic.game.model.costs.LoyaltyCost;
+import org.magic.services.MTGControler;
+import org.magic.services.extra.KeyWordProvider;
 import org.magic.tools.CardsPatterns;
 
 public class AbilitiesFactory implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private static AbilitiesFactory inst;
-	
 	
 	public static AbilitiesFactory getInstance()
 	{
@@ -31,7 +35,7 @@ public class AbilitiesFactory implements Serializable{
 	
 	
 	private AbilitiesFactory() {
-	
+		
 	}
 	
 	private List<String> listSentences(MagicCard mc)
@@ -88,8 +92,6 @@ public class AbilitiesFactory implements Serializable{
 		return ret;
 	}
 
-
-
 	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
 		
 		List<LoyaltyAbilities> list = new ArrayList<>();
@@ -136,12 +138,9 @@ public class AbilitiesFactory implements Serializable{
 		
 	}
 
-
-
-	private List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
-		return new ArrayList<>();
+	public List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
+		return MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc, TYPE.WORD).stream().map(kw->new StaticAbilities(kw)).collect(Collectors.toList());
 	}
-
 
 	public List<TriggeredAbilities> getTriggeredAbility(MagicCard mc)
 	{
