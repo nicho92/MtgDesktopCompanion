@@ -43,7 +43,7 @@ public class MagicCard implements Serializable {
 	private List<String> colorIdentity;
 	private String watermarks;
 	private String layout="normal";
-	private Integer multiverseid;
+	@Deprecated private Integer multiverseid;
 	private List<MagicFormat> legalities;
 	private String rarity="";
 	private String gathererCode;
@@ -212,10 +212,11 @@ public class MagicCard implements Serializable {
 		this.legalities = legalities;
 	}
 
+	@Deprecated
 	public Integer getMultiverseid() {
 		return multiverseid;
 	}
-
+	@Deprecated
 	public void setMultiverseid(Integer multiverseid) {
 		this.multiverseid = multiverseid;
 	}

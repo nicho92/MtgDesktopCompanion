@@ -11,7 +11,6 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;

@@ -10,12 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
-import org.apache.log4j.Logger;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.GameManager;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
