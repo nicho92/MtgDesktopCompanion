@@ -55,12 +55,12 @@
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
-		    <version>2.4.0</version>
+		    <version>2.4.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.xerial</groupId>
 		    <artifactId>sqlite-jdbc</artifactId>
-		    <version>3.25.2</version>
+		    <version>3.27.2</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
@@ -90,7 +90,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_59</version>
+			  <version>4.ALPHA.0_64</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
