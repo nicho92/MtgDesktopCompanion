@@ -2,7 +2,6 @@ package test.cardanalyse;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
@@ -20,13 +19,11 @@ public class CardAnalyzeTest {
 	{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		
-		List<MagicCard> list = TestTools.loadData();
-		
-		for(int index=0;index<list.size();index++) {
-			System.out.println("----------------------------------------------------"+list.get(index));
-			System.out.println(list.get(index).getText());
+		for(MagicCard mc : TestTools.loadData()) {
+			System.out.println("----------------------------------------------------"+mc);
+			System.out.println(mc.getText());
 			System.out.println("----------------------------------------------------");
-			System.out.println(AbilitiesFactory.getInstance().getAbilities(list.get(index)));
+			System.out.println(AbilitiesFactory.getInstance().getAbilities(mc));
 			
 			
 		}	

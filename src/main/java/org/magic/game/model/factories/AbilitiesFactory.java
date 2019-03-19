@@ -137,7 +137,7 @@ public class AbilitiesFactory implements Serializable{
 	}
 
 	public List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
-		return MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc, TYPE.WORD).stream().map(StaticAbilities::new).collect(Collectors.toList());
+		return MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc, TYPE.ABILITIES).stream().map(StaticAbilities::new).collect(Collectors.toList());
 	}
 
 	public List<TriggeredAbilities> getTriggeredAbility(MagicCard mc)

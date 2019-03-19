@@ -355,6 +355,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			
 			if(getMagicCard().isPermanent()) {
 				List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getAbilities(getMagicCard());
+				
 					if(!abs.isEmpty()) 
 					{
 						JMenu mnuAbilities = new JMenu("Activate");
@@ -362,6 +363,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 									.filter(c->!c.isLoyalty())
 									.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
 						menu.add(mnuAbilities);
+					
 					}
 			}
 
@@ -376,7 +378,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			if (magicCard.isPlaneswalker()) {
 				JMenu mnuModifier = new JMenu("Loyalty");
-				
 				AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
 				menu.add(mnuModifier);
 			}
