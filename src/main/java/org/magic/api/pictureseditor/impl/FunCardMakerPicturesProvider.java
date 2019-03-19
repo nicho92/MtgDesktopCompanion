@@ -177,8 +177,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 							headers.put("Referer",WEBSITE);
 							
 							
-						    logger.debug(GENERATE_URL + " with " + nvps);
-						
+						    logger.debug(GENERATE_URL);
+						    logger.trace(GENERATE_URL + " with " + nvps);
+							
 						    String ret = httpclient.doPost(GENERATE_URL, nvps, headers);
 						    logger.trace("RESPONSE: "+ret);
 						    
