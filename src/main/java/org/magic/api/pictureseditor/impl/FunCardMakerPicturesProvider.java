@@ -234,7 +234,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	
 	@Override
 	public String getVersion() {
-		return "0.4.1 Alpha";
+		return "2.0";
 	}
 
 	@Override
@@ -244,7 +244,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 }
