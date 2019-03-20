@@ -477,8 +477,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		GameManager.getInstance().addPlayer(p);
 		playerGameBoard = new PlayerGameBoard();
 		playerGameBoard.setPlayer(p);
-		playerGameBoard.getPanelInfo()
-				.setPreferredSize(new Dimension(panelInfo.getWidth(), panneauDroit.getHeight() / 3));
+		playerGameBoard.getPanelInfo().setPreferredSize(new Dimension(panelInfo.getWidth(), panneauDroit.getHeight() / 3));
 		panneauDroit.add(playerGameBoard, BorderLayout.NORTH);
 
 	}

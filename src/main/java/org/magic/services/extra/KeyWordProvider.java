@@ -65,9 +65,8 @@ public class KeyWordProvider {
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,TYPE t) {
-		return list.stream()
+		return getKeywordsFrom(mc).stream()
 				   .filter(l->l.getType()==t)
-				   .filter(l->String.valueOf(mc.getText()).toLowerCase().contains(l.getKeyword().toLowerCase()))
 				   .collect(Collectors.toSet());
 	}
 	

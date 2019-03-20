@@ -2,6 +2,10 @@ package org.magic.tools;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
 
 public class XMLTools {
 
@@ -22,6 +26,12 @@ public class XMLTools {
 			return null;
 		}
 		
+	}
+	
+	
+	
+	public static String parseXML(Document document,String xpath)	throws XPathExpressionException {
+		return XPathFactory.newInstance().newXPath().evaluate(xpath, document.getDocumentElement());
 	}
 	
 	

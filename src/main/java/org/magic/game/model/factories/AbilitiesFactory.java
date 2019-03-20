@@ -62,8 +62,8 @@ public class AbilitiesFactory implements Serializable{
 	}
 	
 	
-	public List<ActivatedAbilities> getActivatedAbilities(MagicCard mc) {
-		List<ActivatedAbilities> ret = new ArrayList<>();
+	public List<AbstractAbilities> getActivatedAbilities(MagicCard mc) {
+		List<AbstractAbilities> ret = new ArrayList<>();
 		if(!mc.isPlaneswalker())
 		{
 			for(String s : listSentences(mc))
@@ -136,7 +136,7 @@ public class AbilitiesFactory implements Serializable{
 		
 	}
 
-	public List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
+	public List<AbstractAbilities> parseStaticAbilities(MagicCard mc) {
 		return MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc, TYPE.ABILITIES).stream().map(StaticAbilities::new).collect(Collectors.toList());
 	}
 

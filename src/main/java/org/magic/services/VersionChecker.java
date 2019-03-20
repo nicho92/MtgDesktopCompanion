@@ -5,12 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
 import org.apache.log4j.Logger;
 import org.magic.tools.URLTools;
-import org.w3c.dom.Document;
+import org.magic.tools.XMLTools;
 
 public class VersionChecker {
 
@@ -40,16 +37,13 @@ public class VersionChecker {
 	public VersionChecker() {
 		actualVersion = getVersion();
 		try {
-			onlineVersion = parseXML(URLTools.extractXML(MTGConstants.MTG_DESKTOP_POM_URL));
+			onlineVersion = XMLTools.parseXML(URLTools.extractXML(MTGConstants.MTG_DESKTOP_POM_URL),"/project/version");
 		} catch (Exception e) {
 			onlineVersion = "";
 			logger.error(e.getMessage());
 		}
 	}
 
-	private String parseXML(Document document)	throws XPathExpressionException {
-		return XPathFactory.newInstance().newXPath().evaluate("/project/version", document.getDocumentElement());
-	}
 
 	public boolean hasNewVersion() {
 		try {

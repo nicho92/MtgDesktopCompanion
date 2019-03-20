@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -58,6 +57,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
+import org.magic.tools.UITools;
 
 public class CardBuilder2GUI extends MTGUIComponent {
 
@@ -193,47 +193,23 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			gblPanelBooster.rowHeights = new int[] { 38, 41, 37, 0 };
 			gblPanelBooster.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 			gblPanelBooster.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-			GridBagConstraints gbcLblCommon = new GridBagConstraints();
-			gbcLblCommon.fill = GridBagConstraints.BOTH;
-			gbcLblCommon.insets = new Insets(0, 0, 5, 5);
-			gbcLblCommon.gridx = 0;
-			gbcLblCommon.gridy = 0;
-
-			GridBagConstraints gbcSpinCommon = new GridBagConstraints();
-			gbcSpinCommon.fill = GridBagConstraints.BOTH;
-			gbcSpinCommon.insets = new Insets(0, 0, 5, 0);
-			gbcSpinCommon.gridx = 1;
-			gbcSpinCommon.gridy = 0;
-
-			GridBagConstraints gbcLblUncommon = new GridBagConstraints();
-			gbcLblUncommon.fill = GridBagConstraints.BOTH;
-			gbcLblUncommon.insets = new Insets(0, 0, 5, 5);
-			gbcLblUncommon.gridx = 0;
-			gbcLblUncommon.gridy = 1;
-
-			GridBagConstraints gbcSpinUnco = new GridBagConstraints();
-			gbcSpinUnco.fill = GridBagConstraints.BOTH;
-			gbcSpinUnco.insets = new Insets(0, 0, 5, 0);
-			gbcSpinUnco.gridx = 1;
-			gbcSpinUnco.gridy = 1;
-
-			GridBagConstraints gbcLblRareMythic = new GridBagConstraints();
-			gbcLblRareMythic.fill = GridBagConstraints.BOTH;
-			gbcLblRareMythic.insets = new Insets(0, 0, 0, 5);
-			gbcLblRareMythic.gridx = 0;
-			gbcLblRareMythic.gridy = 2;
-			GridBagConstraints gbcSpinRare = new GridBagConstraints();
-			gbcSpinRare.fill = GridBagConstraints.BOTH;
-			gbcSpinRare.gridx = 1;
-			gbcSpinRare.gridy = 2;
-
+			GridBagConstraints gbcLblCommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0);
+			GridBagConstraints gbcSpinCommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 0);
+			GridBagConstraints gbcLblUncommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1);
+			GridBagConstraints gbcSpinUnco = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
+			GridBagConstraints gbcLblRareMythic = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2);
+			GridBagConstraints gbcSpinRare = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2);
+		
 			GridBagLayout gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
 			gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0};
 			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 			gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
 
 			panelBooster.setLayout(gblPanelBooster);
-
+			splitcardEdPanel.setDividerLocation(0.5);
+			splitcardEdPanel.setResizeWeight(0.5);
+			
+			
 			//////////////////////////////////////////////////// PANEL ADDS
 			add(tabbedPane);
 			panelCards.add(panelCardsHaut, BorderLayout.NORTH);

@@ -64,6 +64,7 @@ import org.magic.game.model.factories.CountersFactory;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -323,12 +324,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 		((DraggablePanel) getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);
 	}
 
-	private AbstractAction generateActionFromKey(MTGKeyWord k) throws ClassNotFoundException, NoSuchMethodException,
-			InstantiationException, IllegalAccessException, InvocationTargetException {
-			Class a = DisplayableCard.class.getClassLoader().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
+	private AbstractAction generateActionFromKey(MTGKeyWord k) throws ClassNotFoundException, NoSuchMethodException,InstantiationException, IllegalAccessException, InvocationTargetException {
+			Class a = PluginRegistry.inst().newInstance("org.magic.game.actions.cards." + k.toString() + "Actions");
 			Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
 			AbstractAction aaction = (AbstractAction) ctor.newInstance(this);
-		aaction.putValue(Action.LONG_DESCRIPTION, k.getKeyword());
+			aaction.putValue(Action.LONG_DESCRIPTION, k.getKeyword());
 		return aaction;
 	}
 
@@ -353,14 +353,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 				menu.add(mnuModifier);
 			}
 			
-			if(getMagicCard().isPermanent()) {
-				List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getAbilities(getMagicCard());
-				
+			if(getMagicCard().isPermanent()) 
+			{
+					List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
 					if(!abs.isEmpty()) 
 					{
 						JMenu mnuAbilities = new JMenu("Activate");
-						abs.stream().filter(AbstractAbilities::isActivated)
-									.filter(c->!c.isLoyalty())
+						abs.stream().filter(c->!c.isLoyalty())
 									.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
 						menu.add(mnuAbilities);
 					
@@ -389,13 +388,14 @@ public class DisplayableCard extends JLabel implements Draggable {
 			Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 			
 			if (!l.isEmpty()) {
-				JMenu actions = new JMenu("Keywords");
+				JMenu actions = new JMenu("Abilities");
 
 				for (final MTGKeyWord k : l) {
 					JMenuItem it;
 					try {
 						it = new JMenuItem(generateActionFromKey(k));
 					} catch (Exception e) {
+						logger.error("error to key" + k + " : " + e);
 						it = new JMenuItem(k.getKeyword());
 					}
 					actions.add(it);
@@ -409,14 +409,16 @@ public class DisplayableCard extends JLabel implements Draggable {
 				menu.add(mnuModifier);
 			}
 
-			menu.add(sep);
 			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isTokenizer(magicCard)) {
+				menu.add(sep);
 				menu.add(new JMenuItem(new CreateActions(this)));
 			}
 
-			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isEmblemizer(magicCard))
+			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isEmblemizer(magicCard)) {
 				menu.add(new JMenuItem(new EmblemActions(this)));
-
+			}
+			
+			
 			setComponentPopupMenu(menu);
 		}
 
