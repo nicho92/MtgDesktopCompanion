@@ -4,7 +4,6 @@ public class CardDominance {
 
 	private int position;
 	private String cardName;
-	private double dominance;
 	private double decksPercent;
 	private double players;
 
@@ -22,14 +21,6 @@ public class CardDominance {
 
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
-	}
-
-	public double getDominance() {
-		return dominance;
-	}
-
-	public void setDominance(double dominance) {
-		this.dominance = dominance;
 	}
 
 	public double getDecksPercent() {

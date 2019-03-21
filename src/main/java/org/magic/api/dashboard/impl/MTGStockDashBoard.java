@@ -273,8 +273,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			id = 2;
 			break;
 		// 1=Legacy 2=Vintage 3=Modern 4=Standard 7=Pauper
-		default:
-			break;
+		default:return new ArrayList<>();
 		}
 		String url = MTGSTOCK_API_URI + "/analytics/mostplayed/" + id;
 		JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
