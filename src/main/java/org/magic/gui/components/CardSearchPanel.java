@@ -716,7 +716,8 @@ public class CardSearchPanel extends MTGUIComponent {
 
 			detailCardPanel.setMagicCard(selectedCard, true);
 			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
-
+			cardsPicPanel.showPhoto(selectedCard, selectedEdition);
+			
 			for (MagicRuling mr : selectedCard.getRulings()) {
 				txtRulesArea.append(mr.toString());
 				txtRulesArea.append("\n");
