@@ -234,7 +234,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException {
 
 		// spells, creatures, all, lands
-		String u = getString(WEBSITE) + "/format-staples/" + f.toString().toLowerCase() + "/full/" + filter;
+		
+		String u = getString(WEBSITE) + "/format-staples/" + f.name().toLowerCase() + "/full/" + filter;
+		
+		if(f == MagicFormat.FORMATS.COMMANDER)
+			u=getString(WEBSITE) + "/format-staples/commander_1v1/full/" + filter;
+		
 		Document doc = URLTools.extractHtml(u);
 
 		logger.debug("get best cards : " + u);
@@ -250,9 +255,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				CardDominance d = new CardDominance();
 				d.setPosition(Integer.parseInt(tds.get(0).text()));
 				d.setCardName(tds.get(1).text());
-				d.setDominance(Double.parseDouble(tds.get(3 - correct).text().replaceAll("\\%", "")));
-				d.setDecksPercent(Double.parseDouble(tds.get(4 - correct).text().replaceAll("\\%", "")));
-				d.setPlayers(Double.parseDouble(tds.get(5 - correct).text()));
+				d.setDecksPercent(Double.parseDouble(tds.get(3 - correct).text().replaceAll("\\%", "")));
+				d.setPlayers(Double.parseDouble(tds.get(4 - correct).text().replaceAll("\\%", "")));
+				
 				ret.add(d);
 			} catch (Exception ex) {
 				logger.error("Error parsing " + tds, ex);

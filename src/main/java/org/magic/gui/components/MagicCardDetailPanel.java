@@ -719,12 +719,10 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object ob) {
 		setMagicCard((MagicCard) ob);
-
 	}
 
 	public void enableCollectionLookup(boolean b) {
 		enableCollectionLookup = b;
-
 	}
 
 }

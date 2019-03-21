@@ -20,11 +20,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	private static final String IMAGES_TAG = "images";
 	private static final String TITLE_TAG = "title";
 
-	public static void main(String[] args){
-		
-		new ImgUrWallPaperProvider().search("liliana of the veil");
-	}
-
+	
 	@Override
 	public List<Wallpaper> search(String search) {
 		
@@ -40,7 +36,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			String uri = "https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW").toLowerCase()+"/?q="+URLEncoder.encode(query,MTGConstants.DEFAULT_ENCODING)+"&mature=true";
 			String s= c.doGet(uri, m);
 			logger.debug(uri);
-			logger.trace(s);
+			logger.debug(s);
 			
 			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
 				

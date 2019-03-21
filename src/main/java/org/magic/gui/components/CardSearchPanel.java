@@ -102,7 +102,6 @@ public class CardSearchPanel extends MTGUIComponent {
 	private JSONPanel panelJson;
 	private JXSearchField txtSearch;
 	private JPopupMenu popupMenu = new JPopupMenu();
-	private JComboBox<MagicCardNames> cboLanguages;
 	private JComboBox<String> cboQuereableItems;
 	private JComboBox<MagicCollection> cboCollections;
 	private JXTable tableCards;
@@ -247,20 +246,12 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter = new JButton(MTGConstants.ICON_FILTER);
 		btnClear = new JButton(MTGConstants.ICON_CLEAR);
 		similarityPanel = new SimilarityCardPanel();
-		
-		
 		cboQuereableItems = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
-	
 		cboCollections = UITools.createComboboxCollection();
-		
-		cboLanguages = new JComboBox<>();
 		tableCards = new JXTable();
-		
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
-
 		listEdition = new JList<>();
-
 		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		txtSearch.setBackground(Color.WHITE);
 		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
@@ -365,7 +356,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(lblLoading);
-		panneauCard.add(cboLanguages, BorderLayout.NORTH);
 		panneauCard.add(scrollEditions, BorderLayout.SOUTH);
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
 
@@ -619,23 +609,19 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 		});
 	
-		cboLanguages.addItemListener(e -> {
+		/*detailCardPanel.addActionListener(e -> {
 
 			MagicCardNames selLang = (MagicCardNames) cboLanguages.getSelectedItem();
 			try {
-
-				if (e.getStateChange() == ItemEvent.SELECTED && selLang != null) {
 					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
-								 ed.setMultiverseid("" + selLang.getGathererId());
+								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
 
 					logger.trace("change lang to " + selLang + " for " + ed);
 					cardsPicPanel.showPhoto(selectedCard, ed);
-				}
-
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
-		});
+		});*/
 
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
@@ -721,13 +707,9 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	public void updateCards() {
 		try {
-			cboLanguages.removeAllItems();
 			txtRulesArea.setText("");
 
 			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();
-
-			for (MagicCardNames mcn : selectedCard.getForeignNames())
-				cboLanguages.addItem(mcn);
 
 			for (MagicEdition me : selectedCard.getEditions())
 				((DefaultListModel<MagicEdition>) listEdition.getModel()).addElement(me);

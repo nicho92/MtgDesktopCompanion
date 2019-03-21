@@ -10,9 +10,8 @@ public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 	public CardDominanceTableModel() {
 		columns=new String[] { "CARD",
 				"POSITION",
-				"PC_DOMINANCE",
 				"PC_DECKS",
-				"PLAYERS" };
+				"PLAYED" };
 	}
 
 	@Override
@@ -25,8 +24,6 @@ public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 		case 2:
 			return Double.class;
 		case 3:
-			return Double.class;
-		case 4:
 			return Double.class;
 		default:
 			return super.getColumnClass(columnIndex);
@@ -43,10 +40,8 @@ public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 		case 1:
 			return items.get(row).getPosition();
 		case 2:
-			return items.get(row).getDominance();
-		case 3:
 			return items.get(row).getDecksPercent();
-		case 4:
+		case 3:
 			return items.get(row).getPlayers();
 		default:
 			return "";
