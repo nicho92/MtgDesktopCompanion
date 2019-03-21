@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
@@ -46,6 +47,23 @@ public class MTGDeckManager extends Observable {
 		return magicDeck.isCompatibleFormat(mf);
 
 	}
+	
+	
+	public static boolean isCommander(MagicDeck magicDeck) {
+		
+		if(magicDeck.getAsList().size()!=100)
+			return false;
+		
+		for(Entry<MagicCard, Integer> entry : magicDeck.getMap().entrySet())
+		{
+			if(!entry.getKey().isBasicLand() && entry.getValue()>1)
+				return false;
+		}
+		
+		
+		return true;
+	}
+	
 
 	public MagicDeck getDeck(String name) throws IOException {
 		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());

@@ -183,6 +183,8 @@ public class ConstructPanel extends JPanel {
 		JToggleButton tglbtnMdn = new JToggleButton("MDN");
 		JToggleButton tglbtnLeg = new JToggleButton("LEG");
 		JToggleButton tglbtnVin = new JToggleButton("VIN");
+		JToggleButton tglbtnCmd = new JToggleButton("CMD");
+		
 		JPanel panneauGauche = new JPanel();
 		listResult = new JList<>(new DefaultListModel<MagicCard>());
 		groupsFilterResult = new ButtonGroup() {
@@ -231,7 +233,7 @@ public class ConstructPanel extends JPanel {
 		tglbtnMdn.setActionCommand("Modern");
 		tglbtnLeg.setActionCommand("Legacy");
 		tglbtnVin.setActionCommand("Vintage");
-		
+		tglbtnCmd.setActionCommand("Commander");
 		
 		
 		
@@ -277,10 +279,12 @@ public class ConstructPanel extends JPanel {
 		panneauResultFilter.add(tglbtnMdn);
 		panneauResultFilter.add(tglbtnLeg);
 		panneauResultFilter.add(tglbtnVin);
+		panneauResultFilter.add(tglbtnCmd);
 		groupsFilterResult.add(tglbtnStd);
 		groupsFilterResult.add(tglbtnMdn);
 		groupsFilterResult.add(tglbtnLeg);
 		groupsFilterResult.add(tglbtnVin);
+		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
