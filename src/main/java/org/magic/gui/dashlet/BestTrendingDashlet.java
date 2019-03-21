@@ -2,7 +2,8 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;import java.awt.event.ItemEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardShakerTableModel;
@@ -76,13 +77,13 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					List<CardShake> shakes = new ArrayList<>();
 
 					if (boxM.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.MODERN));
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.MODERN));
 					if (boxS.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.STANDARD));
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.STANDARD));
 					if (boxL.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.LEGACY));
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.LEGACY));
 					if (boxV.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.VINTAGE));
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.VINTAGE));
 					if(shakes.isEmpty())
 						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null));
 					

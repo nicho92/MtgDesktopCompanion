@@ -9,9 +9,9 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
@@ -92,7 +92,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 
 
-	public List<CardShake> getShakerFor(MTGFormat format)  throws IOException
+	public List<CardShake> getShakerFor(MagicFormat.FORMATS format)  throws IOException
 	{
 		List<CardShake> ret = getOnlineShakerFor(format);
 		convert(ret);
@@ -102,7 +102,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		
 	}
 	
-	protected abstract List<CardShake> getOnlineShakerFor(MTGFormat gameFormat) throws IOException;
+	protected abstract List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
 	protected abstract List<CardShake> getOnlineShakesForEdition(MagicEdition ed) throws IOException;
 	protected abstract CardPriceVariations getOnlinePricesVariation(MagicCard mc,MagicEdition ed) throws IOException;
 	
@@ -120,5 +120,5 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		});
 				
 	}
-	
+
 }

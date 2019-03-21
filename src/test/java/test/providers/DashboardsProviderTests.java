@@ -5,8 +5,8 @@ import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.PluginRegistry;
 
@@ -62,10 +62,10 @@ public class DashboardsProviderTests {
 			
 			
 			try {
-				p.getBestCards(MTGFormat.STANDARD, p.getDominanceFilters()[0]);
-				System.out.println("get Best for " + MTGFormat.STANDARD + " OK");
+				p.getBestCards(MagicFormat.FORMATS.STANDARD, p.getDominanceFilters()[0]);
+				System.out.println("get Best for " + MagicFormat.FORMATS.STANDARD + " OK");
 			} catch (IOException e) {
-				System.out.println("get Best for " + MTGFormat.STANDARD + " ERROR "+e);
+				System.out.println("get Best for " + MagicFormat.FORMATS.STANDARD + " ERROR "+e);
 			}
 		
 			

@@ -24,13 +24,13 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.CardPriceVariations;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -379,7 +379,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/dash/format/:format", getString(MIME), (request, response) -> MTGControler.getInstance()
-				.getEnabled(MTGDashBoard.class).getShakerFor(MTGFormat.valueOf(request.params(":format"))), transformer);
+				.getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.valueOf(request.params(":format"))), transformer);
 
 		get("/pics/cards/:idEd/:name", getString(MIME), (request, response) -> {
 

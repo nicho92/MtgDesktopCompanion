@@ -2,14 +2,25 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MagicFormat implements Serializable {
 
+	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER}
+	
+	public static String toString(FORMATS f)
+	{
+		return StringUtils.capitalize(f.name().toLowerCase());
+	}
+	
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	String format;
-	String legality;
+	private String format;
+	private String legality;
 
 	public String getFormat() {
 		return format;

@@ -8,9 +8,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
@@ -39,7 +39,7 @@ public class Dash extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 		
 		if (cl.hasOption("f")) {
-			MTGFormat f = MTGFormat.valueOf(cl.getOptionValue("f").toUpperCase());
+			MagicFormat.FORMATS f = MagicFormat.FORMATS.valueOf(cl.getOptionValue("f").toUpperCase());
 			return new ArrayResponse(CardShake.class, null, json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(f)));
 		}
 		

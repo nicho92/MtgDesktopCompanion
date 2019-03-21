@@ -17,7 +17,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -33,7 +33,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardShakerTableModel modStandard;
-	private JComboBox<MTGFormat> cboFormats;
+	private JComboBox<MagicFormat.FORMATS> cboFormats;
 	private AbstractBuzyIndicatorComponent lblLoading;
 
 	@Override
@@ -47,7 +47,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboFormats = UITools.createCombobox(MTGFormat.values());
+		cboFormats = UITools.createCombobox(MagicFormat.FORMATS.values());
 		cboFormats.addItemListener(ie -> init());
 		panneauHaut.add(cboFormats);
 
@@ -76,7 +76,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("h")));
 
 			try {
-				cboFormats.setSelectedItem(MTGFormat.valueOf(getString("FORMAT")));
+				cboFormats.setSelectedItem(MagicFormat.FORMATS.valueOf(getString("FORMAT")));
 
 			} catch (Exception e) {
 				logger.error(e);
@@ -101,7 +101,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 			
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
-				return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor((MTGFormat) cboFormats.getSelectedItem());
+				return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor((MagicFormat.FORMATS) cboFormats.getSelectedItem());
 			}
 			
 			@Override
@@ -114,7 +114,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 				} 
 				lblLoading.end();
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-				setProperty("FORMAT", ((MTGFormat) cboFormats.getSelectedItem()).toString());
+				setProperty("FORMAT", ((MagicFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 
 				List<SortKey> keys = new ArrayList<>();
 				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2

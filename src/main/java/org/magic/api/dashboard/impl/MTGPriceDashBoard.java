@@ -15,9 +15,9 @@ import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -39,7 +39,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	
 	@Override
-	public List<CardShake> getOnlineShakerFor(MTGFormat f) throws IOException {
+	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);
@@ -54,15 +54,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-		String gameFormat="";
-		
-		if (f.name().equalsIgnoreCase("STANDARD"))
-			gameFormat = "Standard";
-		else if (f.name().equalsIgnoreCase("MODERN"))
-			gameFormat = "Modern";
-		else if (f.name().equalsIgnoreCase("VINTAGE"))
-			gameFormat = "Vintage";
-		else if (f.name().equalsIgnoreCase("LEGACY"))
+		String gameFormat= MagicFormat.toString(f);
+		if (f == MagicFormat.FORMATS.LEGACY || f == MagicFormat.FORMATS.COMMANDER)
 			gameFormat = "All";
 
 		Element table = doc.getElementById("top50" + gameFormat);
@@ -223,7 +216,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException {
+	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException {
 		return new ArrayList<>();
 	}
 

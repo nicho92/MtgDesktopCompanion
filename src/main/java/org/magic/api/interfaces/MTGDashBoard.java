@@ -10,19 +10,19 @@ import javax.swing.Icon;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 
 public interface MTGDashBoard extends MTGPlugin {
 
-	public List<CardShake> getShakerFor(MTGFormat gameFormat) throws IOException;
+	public List<CardShake> getShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
 	
 	public List<CardShake> getShakesForEdition(MagicEdition edition) throws IOException;
 
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 
-	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException;
+	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException;
 
 	public Date getUpdatedDate();
 

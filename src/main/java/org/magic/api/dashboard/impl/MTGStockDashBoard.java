@@ -14,9 +14,9 @@ import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.tools.URLTools;
 
@@ -52,7 +52,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardShake> getOnlineShakerFor(MTGFormat f) throws IOException {
+	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		connect();
 
 		List<CardShake> ret = new ArrayList<>();
@@ -252,7 +252,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException {
+	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException {
 		if (!connected)
 			connect();
 

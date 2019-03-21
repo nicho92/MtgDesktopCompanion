@@ -14,7 +14,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -32,7 +32,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardDominanceTableModel models;
-	private JComboBox<MTGFormat> cboFormat;
+	private JComboBox<MagicFormat.FORMATS> cboFormat;
 	private JComboBox<String> cboFilter;
 	private AbstractBuzyIndicatorComponent lblLoading;
 
@@ -52,7 +52,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboFormat = UITools.createCombobox(MTGFormat.values());
+		cboFormat = UITools.createCombobox(MagicFormat.FORMATS.values());
 		
 		panneauHaut.add(cboFormat);
 
@@ -100,7 +100,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 			
 			List<CardDominance> list;
 			try {
-				list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getBestCards((MTGFormat) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
+				list = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getBestCards((MagicFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
 				models.init(list);
 				models.fireTableDataChanged();
 				table.packAll();
