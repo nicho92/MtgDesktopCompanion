@@ -7,7 +7,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;

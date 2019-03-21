@@ -12,12 +12,7 @@ public class MagicFormat implements Serializable {
 	{
 		return StringUtils.capitalize(f.name().toLowerCase());
 	}
-	
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String format;
 	private String legality;
