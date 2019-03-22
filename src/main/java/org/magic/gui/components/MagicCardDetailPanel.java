@@ -7,11 +7,11 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,6 +45,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.ListenedGroupButton;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -607,8 +608,16 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			for (MagicFormat mf : magicCard.getLegalities())
 				((DefaultListModel<MagicFormat>) lstFormats.getModel()).addElement(mf);
 
-		ButtonGroup group = new ButtonGroup();
-	
+		ListenedGroupButton group = new ListenedGroupButton();
+		
+		group.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				System.out.println(ae.getActionCommand());
+				
+			}
+		});
+		
 		
 		if(magicCard!=null)
 		{
@@ -637,9 +646,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 									fullTypeJTextField.setText(fn.getType());
 									txtFlavorArea.setText(fn.getFlavor());
 									if (thumbnail)
-									{
 										loadPics(fn,magicCard);
-									}
+									
 								}
 							};
 							act.putValue(Action.NAME, fn.getLanguage());
