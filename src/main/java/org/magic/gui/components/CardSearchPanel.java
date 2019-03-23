@@ -77,6 +77,8 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class CardSearchPanel extends MTGUIComponent {
 
@@ -609,9 +611,8 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 		});
 	
-		/*detailCardPanel.addActionListener(e -> {
-
-			MagicCardNames selLang = (MagicCardNames) cboLanguages.getSelectedItem();
+		detailCardPanel.addObserver((Observable o, Object obj)->{
+			MagicCardNames selLang = (MagicCardNames)obj;
 			try {
 					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
 								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
@@ -621,8 +622,9 @@ public class CardSearchPanel extends MTGUIComponent {
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
-		});*/
-
+			
+		});
+		
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 

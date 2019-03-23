@@ -7,11 +7,11 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,7 +45,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.ListenedGroupButton;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -91,7 +90,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private boolean enableCollectionLookup = true;
 	private DefaultListModel<MagicCollection> listModelCollection;
 	private JPanel panelSwitchLangage;
+	private transient Observable obs;
 	
+
 	public void setEditable(boolean b) {
 		txtWatermark.setEditable(b);
 		txtArtist.setEditable(b);
@@ -117,6 +118,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	public MagicCardDetailPanel() {
 
+		obs = new Observable();
 		gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 0, 77, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0, 0 };
@@ -226,7 +228,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		labelgbc1.gridx = 2;
 		labelgbc1.gridy = 1;
 		add(costLabel, labelgbc1);
-
+		
 		manaPanel = new ManaPanel();
 		GridBagConstraints componentgbc1 = new GridBagConstraints();
 		componentgbc1.insets = new Insets(5, 0, 5, 5);
@@ -608,16 +610,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			for (MagicFormat mf : magicCard.getLegalities())
 				((DefaultListModel<MagicFormat>) lstFormats.getModel()).addElement(mf);
 
-		ListenedGroupButton group = new ListenedGroupButton();
 		
-		group.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				System.out.println(ae.getActionCommand());
-				
-			}
-		});
 		
+		ButtonGroup groupLanguagesButtons = new ButtonGroup();
 		
 		if(magicCard!=null)
 		{
@@ -640,6 +635,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 								private static final long serialVersionUID = 1L;
 								@Override
 								public void actionPerformed(ActionEvent ae) {
+									obs.setChanged();
+									obs.notifyObservers(fn);
 									txtTextPane.setText(fn.getText());
 									txtTextPane.updateTextWithIcons();
 									nameJTextField.setText(fn.getName());
@@ -654,7 +651,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							
 							tglLangButton.setActionCommand(fn.getLanguage());
 							tglLangButton.setAction(act);
-							group.add(tglLangButton);
+							groupLanguagesButtons.add(tglLangButton);
 							panelSwitchLangage.add(tglLangButton);
 							
 							if(fn.getGathererId()>0 && fn.getLanguage().equalsIgnoreCase(MTGControler.getInstance().get("langage")))
@@ -733,4 +730,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		enableCollectionLookup = b;
 	}
 
+	public void addObserver(Observer o) {
+		obs.addObserver(o);
+	}
 }
