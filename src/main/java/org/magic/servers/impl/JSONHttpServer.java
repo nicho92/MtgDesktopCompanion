@@ -58,6 +58,7 @@ import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -420,13 +421,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 			JsonExport exp = new JsonExport();
 
 			for (MagicDeck d : manager.listDecks()) {
-				arr.add(exp.toJson(d));
+				JsonElement el = exp.toJsonDeck(d);
+				arr.add(el);
 			}
 			return arr;
 		}, transformer);
 
-		get("/deck/:name", getString(MIME),
-				(request, response) -> new JsonExport().toJson(manager.getDeck(request.params(NAME))), transformer);
+		get("/deck/:name", getString(MIME),(request, response) -> {
+			
+				MagicDeck d = manager.getDeck(request.params(NAME));
+				JsonElement el= new JsonExport().toJsonDeck(d);
+				el.getAsJsonObject().addProperty("colors", d.getColors());
+				
+				return el;
+		},transformer);
 
 		get("/deck/stats/:name", getString(MIME), (request, response) -> {
 
@@ -524,7 +532,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "2.8.0";
 	}
 
-	// TODO filter allowed header
 	private String getWhiteHeader(Request request) {
 		logger.debug("request :" + request.pathInfo() + " from " + request.ip());
 

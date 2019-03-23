@@ -62,9 +62,9 @@
 		                "width": "8%",
 		                "render": function(data, type, row, meta)
 		                {
-			                   if(type === 'display')
+			                   if(type === 'display'  && data !=null)
 			                   {
-			                		   var d=data.match(/[^{}]+(?=\})/g);
+			                	      var d=data.match(/[^{}]+(?=\})/g);
 				                	   if(d!=null)
 				                	   {
 				                		   var ret="";
@@ -74,6 +74,7 @@
 				                			}
 				                	   }
 			                   	   	   return ret;
+			                   		
 		                		}
 			            }
 		        	},
@@ -88,7 +89,7 @@
 		                "width": "10%",
 		                "render": function(data, type, row, meta)
 		                {
-		                	if(type === 'display')
+		                	if(type === 'display' && data !=null)
 		                   {
 		                		 var ret="";
 			                	 for (var i = 0; i < data.length; i++) {
