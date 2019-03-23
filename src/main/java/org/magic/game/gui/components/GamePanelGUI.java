@@ -140,79 +140,82 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(panelActions, BorderLayout.SOUTH);
 		GridBagLayout gblpanelActions = new GridBagLayout();
-		gblpanelActions.columnWidths = new int[] { 30, 20, 0 };
-		gblpanelActions.rowHeights = new int[] { 23, 0, 23, 0, 0, 0 };
-		gblpanelActions.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-		gblpanelActions.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gblpanelActions.columnWidths = new int[] { 30, 20, 0, 0 };
+		gblpanelActions.rowHeights = new int[] { 0, 23, 0, 0, 0 };
+		gblpanelActions.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gblpanelActions.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panelActions.setLayout(gblpanelActions);
+		
+				JButton btnStart = new JButton(MTGConstants.PLAY_ICON);
+				btnStart.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("START"));
+				btnStart.addActionListener(ae -> {
+					GameManager.getInstance().removePlayers();
+					GameManager.getInstance().addPlayer(player);
+					GameManager.getInstance().addPlayer(
+							new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER") + " 2", 20));
 
-		JButton btnNewGame = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
-		btnNewGame.addActionListener(ae -> {
-			JDeckChooserDialog choose = new JDeckChooserDialog();
-			choose.setVisible(true);
-			try {
-				MagicDeck deck = choose.getSelectedDeck();
-				if (deck != null) {
+					GameManager.getInstance().initGame();
+					manaPoolPanel.init(player.getManaPool());
+					((DefaultListModel) listActions.getModel()).removeAllElements();
+					player.shuffleLibrary();
+					turnsPanel.initTurn();
+					new DrawHandActions().actionPerformed(ae);
+					clean();
+				});
+						
+								JButton btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
+								btnSideboard.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD"));
+								btnSideboard.addActionListener(e -> {
+									DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
+									gui.setVisible(true);
+									player.setDeck(gui.getDeck());
+								});
+								
+										JButton btnNewGame = new JButton(MTGConstants.ICON_OPEN);
+										btnNewGame.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
+										btnNewGame.addActionListener(ae -> {
+											JDeckChooserDialog choose = new JDeckChooserDialog();
+											choose.setVisible(true);
+											try {
+												MagicDeck deck = choose.getSelectedDeck();
+												if (deck != null) {
 
-					Player p1 = MTGControler.getInstance().getProfilPlayer();
-					p1.setDeck(deck);
-					setPlayer(p1);
-				}
-			} catch (Exception e) {
-				logger.error("Error loading deck", e);
-			}
-		});
-		GridBagConstraints gbcbtnNewGame = new GridBagConstraints();
-		gbcbtnNewGame.fill = GridBagConstraints.BOTH;
-		gbcbtnNewGame.insets = new Insets(0, 0, 5, 5);
-		gbcbtnNewGame.gridx = 0;
-		gbcbtnNewGame.gridy = 0;
-		panelActions.add(btnNewGame, gbcbtnNewGame);
-
-		JButton btnSideboard = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD"));
-		btnSideboard.addActionListener(e -> {
-			DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
-			gui.setVisible(true);
-			player.setDeck(gui.getDeck());
-		});
-		GridBagConstraints gbcbtnSideboard = new GridBagConstraints();
-		gbcbtnSideboard.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnSideboard.insets = new Insets(0, 0, 5, 5);
-		gbcbtnSideboard.gridx = 0;
-		gbcbtnSideboard.gridy = 1;
-		panelActions.add(btnSideboard, gbcbtnSideboard);
-
-		JButton btnStart = new JButton(MTGControler.getInstance().getLangService().getCapitalize("START"));
-		btnStart.addActionListener(ae -> {
-			GameManager.getInstance().removePlayers();
-			GameManager.getInstance().addPlayer(player);
-			GameManager.getInstance().addPlayer(
-					new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER") + " 2", 20));
-
-			GameManager.getInstance().initGame();
-			manaPoolPanel.init(player.getManaPool());
-			((DefaultListModel) listActions.getModel()).removeAllElements();
-			player.shuffleLibrary();
-			turnsPanel.initTurn();
-			new DrawHandActions().actionPerformed(ae);
-			clean();
-		});
-
-		GridBagConstraints gbcbtnStart = new GridBagConstraints();
-		gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnStart.insets = new Insets(0, 0, 5, 0);
-		gbcbtnStart.gridx = 1;
-		gbcbtnStart.gridy = 1;
-		panelActions.add(btnStart, gbcbtnStart);
+													Player p1 = MTGControler.getInstance().getProfilPlayer();
+													p1.setDeck(deck);
+													setPlayer(p1);
+												}
+											} catch (Exception e) {
+												logger.error("Error loading deck", e);
+											}
+										});
+										GridBagConstraints gbcbtnNewGame = new GridBagConstraints();
+										gbcbtnNewGame.fill = GridBagConstraints.BOTH;
+										gbcbtnNewGame.insets = new Insets(0, 0, 5, 5);
+										gbcbtnNewGame.gridx = 0;
+										gbcbtnNewGame.gridy = 0;
+										panelActions.add(btnNewGame, gbcbtnNewGame);
+								GridBagConstraints gbcbtnSideboard = new GridBagConstraints();
+								gbcbtnSideboard.fill = GridBagConstraints.HORIZONTAL;
+								gbcbtnSideboard.insets = new Insets(0, 0, 5, 5);
+								gbcbtnSideboard.gridx = 1;
+								gbcbtnSideboard.gridy = 0;
+								panelActions.add(btnSideboard, gbcbtnSideboard);
+				
+						GridBagConstraints gbcbtnStart = new GridBagConstraints();
+						gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
+						gbcbtnStart.insets = new Insets(0, 0, 5, 0);
+						gbcbtnStart.gridx = 2;
+						gbcbtnStart.gridy = 0;
+						panelActions.add(btnStart, gbcbtnStart);
 
 		JPanel panel1 = new JPanel();
 		GridBagConstraints gbcpanel1 = new GridBagConstraints();
 		gbcpanel1.gridheight = 2;
-		gbcpanel1.gridwidth = 2;
+		gbcpanel1.gridwidth = 3;
 		gbcpanel1.insets = new Insets(0, 0, 5, 0);
 		gbcpanel1.fill = GridBagConstraints.BOTH;
 		gbcpanel1.gridx = 0;
-		gbcpanel1.gridy = 2;
+		gbcpanel1.gridy = 1;
 		panelActions.add(panel1, gbcpanel1);
 		panel1.setLayout(new BorderLayout(0, 0));
 

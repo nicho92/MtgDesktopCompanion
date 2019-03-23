@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.jdesktop.swingx.JXSearchField.SearchMode;
@@ -148,7 +149,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_STOCK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/stock.png"));
 	public static final ImageIcon ICON_STORY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/stories.png"));
 	public static final ImageIcon ICON_WALLPAPER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/wallpaper.png"));
-	
+	public static final ImageIcon PLAY_ICON = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/play.png"));
 	public static final ImageIcon ICON_EXPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/export.png"));
 	public static final ImageIcon ICON_FILTER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/filter.png"));
 	public static final ImageIcon ICON_CLEAR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/clear.png"));
@@ -220,6 +221,7 @@ public class MTGConstants {
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190125.txt";
+	
 	
 	
 		
