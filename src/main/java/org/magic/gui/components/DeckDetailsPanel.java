@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.text.DateFormat;
 import java.util.List;
@@ -54,7 +53,6 @@ public class DeckDetailsPanel extends JComponent {
 	private JLabel lbLeg;
 	private JProgressBar nbSideProgress;
 	private JPanel panel;
-	private JLabel lblTags;
 	private JTagsPanel tagsPanel;
 	private JLabel lblDate;
 	private JLabel lblDateInformation;
@@ -135,7 +133,6 @@ public class DeckDetailsPanel extends JComponent {
 
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 4));
 
-		lblTags = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAGS") + " :");
 		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAGS") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7));
 
 		tagsPanel = new JTagsPanel();

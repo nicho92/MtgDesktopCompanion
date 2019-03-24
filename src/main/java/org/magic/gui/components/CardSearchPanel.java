@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -78,7 +77,6 @@ import org.magic.services.workers.CardExportWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class CardSearchPanel extends MTGUIComponent {
 

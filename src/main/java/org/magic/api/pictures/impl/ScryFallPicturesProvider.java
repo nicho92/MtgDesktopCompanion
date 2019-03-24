@@ -66,12 +66,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		return new URL(url);
 	}
 	
-	/*@Override
-	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
-		return resizeCard(URLTools.extractImage(HTTP_API_SCRYFALL+"/multiverse/" + fn.getGathererId() + IMAGE_TAG), newW, newH);
-	}
-	*/
-
 	@Override
 	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
 		MagicEdition selected = ed;

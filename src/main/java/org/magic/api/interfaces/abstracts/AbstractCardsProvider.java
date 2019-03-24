@@ -85,7 +85,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 				cacheBoosterCards.put(me.getId(), searchCardByEdition(me));
 
 			for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
-				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))
+				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common") && !mc.isBasicLand())
 					common.add(mc);
 
 				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("uncommon"))

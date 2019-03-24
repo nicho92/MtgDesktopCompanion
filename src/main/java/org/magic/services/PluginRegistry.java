@@ -119,6 +119,13 @@ public class PluginRegistry {
 		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl"));
 	}
 	
+	public Class loadClass(String name) throws ClassNotFoundException
+	{
+		return classLoader.loadClass(name);
+	}
+	
+	
+	
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{
 		PluginEntry<T> entry = registry.get(classe);

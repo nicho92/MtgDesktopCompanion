@@ -41,12 +41,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card");
 	}
 
-	
-	/*@Override
-	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
-		return extractByMultiverseId(String.valueOf(fn.getGathererId()));
-	}
-	*/
+
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
 		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1));
