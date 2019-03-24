@@ -395,7 +395,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 					try {
 						it = new JMenuItem(generateActionFromKey(k));
 					} catch (Exception e) {
-						logger.error("error to key" + k + " : " + e);
+						logger.warn("error " + k + " : " + e);
 						it = new JMenuItem(k.getKeyword());
 					}
 					actions.add(it);
