@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -76,6 +77,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.CardExportWorker;
+import org.magic.services.workers.DeckImportWorker;
 import org.magic.tools.UITools;
 
 public class ConstructPanel extends JPanel {
@@ -458,11 +460,9 @@ public class ConstructPanel extends JPanel {
 			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
+					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(itEvent -> {
-						JFileChooser jf = new JFileChooser(".");
+						JFileChooser jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
@@ -483,11 +483,28 @@ public class ConstructPanel extends JPanel {
 							f = jf.getSelectedFile();
 						} else {
 							res = JFileChooser.APPROVE_OPTION;
-
+							//TODO External Dialog Import Box
 						}
 
-						if (res == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().invokeLater(() -> {
+						if (res == JFileChooser.APPROVE_OPTION) 
+						{
+							buzy.start();
+							DeckImportWorker importWork = new DeckImportWorker(exp, buzyLabel, f) {
+
+								@Override
+								protected void done() {
+									super.done();
+									try {
+										setDeck(get());
+										updatePanels();
+									} catch (Exception e) {
+										logger.error(e);
+									} 
+								}
+							};
+							ThreadManager.getInstance().runInEdt(importWork);
+							
+							/*ThreadManager.getInstance().invokeLater(() -> {
 								try {
 									buzyLabel.start();
 									buzyLabel.setText(MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
@@ -501,26 +518,23 @@ public class ConstructPanel extends JPanel {
 													exp.getName() + " "
 															+ MTGControler.getInstance().getLangService().get(FINISHED),
 													MESSAGE_TYPE.INFO));
-									setDeck(deck);
 									buzyLabel.end();
-								
 									setDeck(deck);
 									updatePanels();
 
 								} catch (Exception e) {
 									logger.error("error import", e);
 									buzyLabel.end();
-									MTGControler.getInstance().notify(new MTGNotification(
-											MTGControler.getInstance().getLangService().getError(), e));
+									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
 								}
 								finally {
 									exp.removeObserver(buzyLabel);
 								}
 
-							});
-
+							});*/
+						}
 					});
-
+				
 					menu.add(it);
 
 				}
@@ -540,9 +554,7 @@ public class ConstructPanel extends JPanel {
 
 			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
+					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(pluginExportEvent -> {
 						JFileChooser jf = new JFileChooser(".");
 						jf.setSelectedFile(new File(deck.getName() + exp.getFileExtension()));

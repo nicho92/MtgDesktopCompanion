@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
@@ -44,10 +46,16 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 	
+	
+	@Override
+	public JDialog getChooseComponent() {
+		return new ManualImportDialog();
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
-		ManualImportDialog diag = new ManualImportDialog();
+		ManualImportDialog diag = (ManualImportDialog)getChooseComponent();
 		diag.setVisible(true);
 		return diag.getAsDeck();
 

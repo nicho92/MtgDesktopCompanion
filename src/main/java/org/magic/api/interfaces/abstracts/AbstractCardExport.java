@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -41,9 +44,14 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 			save();
 		}
 	}
+	
+	@Override
+	public JDialog getChooseComponent() {
+		return null;
+	}
 
 	public boolean needDialogGUI() {
-		return false;
+		return getChooseComponent() !=null;
 	}
 	
 	@Override
@@ -73,7 +81,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 			content=FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING);
 		}catch(Exception e)
 		{
-			logger.error("error reading " + f.getAbsolutePath());
+			logger.error("error reading " + f);
 		}
 		
 		String name;

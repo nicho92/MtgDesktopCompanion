@@ -66,8 +66,6 @@ public class ManualImportDialog extends JDialog {
 
 		JLabel lblPastYourDeck = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_HELP"));
 		
-
-		
 		getContentPane().add(lblPastYourDeck, BorderLayout.NORTH);
 		
 		JPanel panelCenter = new JPanel();

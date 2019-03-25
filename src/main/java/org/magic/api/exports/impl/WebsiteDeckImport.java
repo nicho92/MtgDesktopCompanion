@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.JDialog;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
@@ -45,10 +46,15 @@ public class WebsiteDeckImport extends AbstractCardExport {
 		return importDeck(null);
 	}
 	
+	
+	@Override
+	public JDialog getChooseComponent() {
+		return new DeckSnifferDialog();
+	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
-		DeckSnifferDialog diag = new DeckSnifferDialog();
+		DeckSnifferDialog diag = (DeckSnifferDialog)getChooseComponent();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
 

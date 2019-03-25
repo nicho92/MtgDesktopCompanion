@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -30,6 +32,8 @@ public interface MTGCardsExport extends MTGPlugin {
 	public Icon getIcon();
 
 	public boolean needDialogGUI();
+	
+	public JDialog getChooseComponent();
 
 	public MODS getMods();
 
