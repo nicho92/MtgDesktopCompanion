@@ -6,14 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.services.MTGConstants;
 
@@ -30,11 +29,6 @@ public class ManualImportExport extends AbstractCardExport {
 	}
 
 	@Override
-	public boolean needDialogGUI() {
-		return true;
-	}
-
-	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
 
@@ -48,7 +42,7 @@ public class ManualImportExport extends AbstractCardExport {
 	
 	
 	@Override
-	public JDialog getChooseComponent() {
+	public AbstractDelegatedImporter getChooseComponent() {
 		return new ManualImportDialog();
 	}
 	
@@ -57,7 +51,7 @@ public class ManualImportExport extends AbstractCardExport {
 	public MagicDeck importDeck(File f) throws IOException {
 		ManualImportDialog diag = (ManualImportDialog)getChooseComponent();
 		diag.setVisible(true);
-		return diag.getAsDeck();
+		return diag.getSelectedDeck();
 
 	}
 

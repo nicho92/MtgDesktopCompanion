@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.services.MTGConstants;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
@@ -46,7 +44,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	}
 	
 	@Override
-	public JDialog getChooseComponent() {
+	public AbstractDelegatedImporter getChooseComponent() {
 		return null;
 	}
 

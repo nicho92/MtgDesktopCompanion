@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.abstracts.AbstractDelegatedImporter;
 
 public interface MTGCardsExport extends MTGPlugin {
 
@@ -33,7 +32,7 @@ public interface MTGCardsExport extends MTGPlugin {
 
 	public boolean needDialogGUI();
 	
-	public JDialog getChooseComponent();
+	public AbstractDelegatedImporter getChooseComponent();
 
 	public MODS getMods();
 

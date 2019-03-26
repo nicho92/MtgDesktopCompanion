@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,12 +21,13 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
+import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class ManualImportDialog extends JDialog {
+public class ManualImportDialog extends AbstractDelegatedImporter {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -138,7 +138,7 @@ public class ManualImportDialog extends JDialog {
 	}
 
 
-	public MagicDeck getAsDeck() {
+	public MagicDeck getSelectedDeck() {
 
 		if (editorPane.getText().isEmpty())
 			return new MagicDeck();

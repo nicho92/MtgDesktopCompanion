@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -58,6 +57,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -481,16 +481,18 @@ public class ConstructPanel extends JPanel {
 						if (!exp.needDialogGUI()) {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
-						} else {
-							res = JFileChooser.APPROVE_OPTION;
-							//TODO External Dialog Import Box
+						} 
+						else {
+							AbstractDelegatedImporter diag = exp.getChooseComponent();
+							diag.setVisible(true);
+							setDeck(diag.getSelectedDeck());
+							updatePanels();
 						}
 
 						if (res == JFileChooser.APPROVE_OPTION) 
 						{
-							buzy.start();
+							buzyLabel.start();
 							DeckImportWorker importWork = new DeckImportWorker(exp, buzyLabel, f) {
-
 								@Override
 								protected void done() {
 									super.done();
@@ -503,35 +505,6 @@ public class ConstructPanel extends JPanel {
 								}
 							};
 							ThreadManager.getInstance().runInEdt(importWork);
-							
-							/*ThreadManager.getInstance().invokeLater(() -> {
-								try {
-									buzyLabel.start();
-									buzyLabel.setText(MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
-									exp.addObserver(buzyLabel);
-									
-									deck = exp.importDeck(f);
-
-									MTGControler.getInstance()
-											.notify(new MTGNotification(
-													MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
-													exp.getName() + " "
-															+ MTGControler.getInstance().getLangService().get(FINISHED),
-													MESSAGE_TYPE.INFO));
-									buzyLabel.end();
-									setDeck(deck);
-									updatePanels();
-
-								} catch (Exception e) {
-									logger.error("error import", e);
-									buzyLabel.end();
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
-								}
-								finally {
-									exp.removeObserver(buzyLabel);
-								}
-
-							});*/
 						}
 					});
 				
