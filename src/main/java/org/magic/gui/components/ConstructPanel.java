@@ -483,10 +483,13 @@ public class ConstructPanel extends JPanel {
 							f = jf.getSelectedFile();
 						} 
 						else {
-							AbstractDelegatedImporter diag = exp.getChooseComponent();
-							diag.setVisible(true);
-							setDeck(diag.getSelectedDeck());
-							updatePanels();
+							try {
+								setDeck(exp.importDeck(null));
+								updatePanels();
+							} catch (IOException e1) {
+								logger.error(e1);
+							}
+							
 						}
 
 						if (res == JFileChooser.APPROVE_OPTION) 

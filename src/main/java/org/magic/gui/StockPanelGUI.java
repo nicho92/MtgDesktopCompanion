@@ -272,12 +272,16 @@ public class StockPanelGUI extends MTGUIComponent {
 						});
 
 						int res = -1;
-						
 						if (!exp.needDialogGUI()) {
 							res = jf.showOpenDialog(null);
 							fileImport = jf.getSelectedFile();
 						} else {
-							res = JFileChooser.APPROVE_OPTION;
+							try {
+								exp.importStock(null).forEach(ms->addStock(ms));
+								
+							} catch (IOException e1) {
+								logger.error(e1);
+							}
 
 						}
 
@@ -312,7 +316,7 @@ public class StockPanelGUI extends MTGUIComponent {
 									}
 								}
 							};
-							ThreadManager.getInstance().invokeLater(sw);
+							ThreadManager.getInstance().runInEdt(sw);
 							
 						}
 					});
