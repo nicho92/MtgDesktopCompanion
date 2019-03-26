@@ -25,7 +25,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 	protected List<MagicCard> cards = null;
 	protected AbstractBuzyIndicatorComponent buzy;
 	private File f;
-	private Exception err;
+	protected Exception err;
 	
 	public DeckImportWorker(MTGCardsExport exp,AbstractBuzyIndicatorComponent buzy,File f) {
 		this.exp=exp;
@@ -51,7 +51,10 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 	
 	@Override
 	protected void process(List<MagicCard> chunks) {
-		buzy.progressSmooth(chunks.size());
+		chunks.forEach(cs->{
+			buzy.setText(cs.toString());
+			buzy.progress();
+		});
 	}
 	
 	@Override

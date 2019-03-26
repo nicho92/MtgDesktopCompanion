@@ -21,11 +21,14 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
+import org.magic.services.workers.DeckImportWorker;
 
 public class ManualImportDialog extends AbstractDelegatedImporter {
 
@@ -36,6 +39,10 @@ public class ManualImportDialog extends AbstractDelegatedImporter {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private int start;
 	private int position;
+	private AbstractBuzyIndicatorComponent lblLoading;
+	private MagicDeck importedDeck;
+	
+	
 	
 	public String getStringDeck() {
 		return editorPane.getText();
@@ -53,7 +60,6 @@ public class ManualImportDialog extends AbstractDelegatedImporter {
 
 		JButton btnImport = new JButton(MTGConstants.ICON_SAVE);
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-		btnImport.addActionListener(e -> dispose());
 		panel.add(btnImport);
 
 		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
@@ -63,6 +69,9 @@ public class ManualImportDialog extends AbstractDelegatedImporter {
 			dispose();
 		});
 		panel.add(btnCancel);
+		
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
+		panel.add(lblLoading);
 
 		JLabel lblPastYourDeck = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_HELP"));
 		
@@ -132,7 +141,39 @@ public class ManualImportDialog extends AbstractDelegatedImporter {
 			}
 		});
 		
-		
+		btnImport.addActionListener(e ->{
+			
+			DeckImportWorker sw = new DeckImportWorker(MTGControler.getInstance().getPlugin(MTGConstants.MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
+										{
+			
+											@Override
+											protected MagicDeck doInBackground() {
+												
+												try {
+													importedDeck= exp.importDeck(editorPane.getText(),"manual");
+												} catch (Exception e) {
+													err=e;
+													logger.error("error export with " + exp,e);
+												}
+												return importedDeck;
+											}
+											
+											@Override
+											protected void done()
+											{
+												super.done();
+												dispose();
+											}
+											
+										};
+									lblLoading.start();
+									ThreadManager.getInstance().runInEdt(sw);
+			
+			
+			
+			
+		});
+
 		
 		
 	}
@@ -140,16 +181,7 @@ public class ManualImportDialog extends AbstractDelegatedImporter {
 
 	public MagicDeck getSelectedDeck() {
 
-		if (editorPane.getText().isEmpty())
-			return new MagicDeck();
-
-		try {
-			return MTGControler.getInstance().getPlugin(MTGConstants.MANUAL_IMPORT_SYNTAX, MTGCardsExport.class).importDeck(editorPane.getText(),"manual");
-		} catch (IOException e) {
-			logger.error(e);
-		}
-		
-		return new MagicDeck();
+		return importedDeck;
 	}
 
 }
