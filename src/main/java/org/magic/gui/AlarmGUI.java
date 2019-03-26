@@ -366,7 +366,12 @@ public class AlarmGUI extends MTGUIComponent {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
 						} else {
-							res = JFileChooser.APPROVE_OPTION;
+							
+							try {
+								exp.importDeck(null).getMap().keySet().forEach(mc->addCard(mc));
+							} catch (IOException e1) {
+								logger.error(e1);
+							}
 
 						}
 
@@ -389,7 +394,7 @@ public class AlarmGUI extends MTGUIComponent {
 											addCard(mc);
 								}
 							};
-							ThreadManager.getInstance().invokeLater(sw);
+							ThreadManager.getInstance().runInEdt(sw);
 						}
 					});
 
