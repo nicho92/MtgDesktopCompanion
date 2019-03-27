@@ -12,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.services.MTGConstants;
 
@@ -40,16 +39,10 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 	
-	
-	@Override
-	public AbstractDelegatedImporter getChooseComponent() {
-		return new ManualImportDialog();
-	}
-	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
-		ManualImportDialog diag = (ManualImportDialog)getChooseComponent();
+		ManualImportDialog diag = new ManualImportDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
 

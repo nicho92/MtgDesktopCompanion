@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,7 +21,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.AbstractDelegatedImporter;
+import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -30,7 +29,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
 
-public class ManualImportDialog extends AbstractDelegatedImporter {
+public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 
 	
 	private static final long serialVersionUID = 1L;

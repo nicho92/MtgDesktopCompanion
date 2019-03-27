@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.gui.abstracts.AbstractDelegatedImporter;
 import org.magic.services.MTGConstants;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
@@ -43,13 +42,8 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		}
 	}
 	
-	@Override
-	public AbstractDelegatedImporter getChooseComponent() {
-		return null;
-	}
-
 	public boolean needDialogGUI() {
-		return getChooseComponent() !=null;
+		return false;
 	}
 	
 	@Override

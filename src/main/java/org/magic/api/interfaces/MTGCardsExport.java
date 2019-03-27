@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
-import org.magic.gui.abstracts.AbstractDelegatedImporter;
 
 public interface MTGCardsExport extends MTGPlugin {
 
@@ -31,8 +30,6 @@ public interface MTGCardsExport extends MTGPlugin {
 	public Icon getIcon();
 
 	public boolean needDialogGUI();
-	
-	public AbstractDelegatedImporter getChooseComponent();
 
 	public MODS getMods();
 
