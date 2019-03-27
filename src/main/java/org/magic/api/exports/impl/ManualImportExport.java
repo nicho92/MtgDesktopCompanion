@@ -33,6 +33,12 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 	
+	
+	@Override
+	public boolean needDialogGUI() {
+		return true;
+	}
+	
 	@Override
 	public MagicDeck importDeck(String name,String f) throws IOException {
 		return importDeck(null);

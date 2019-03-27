@@ -35,6 +35,12 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 	}
 	
+	
+	@Override
+	public boolean needDialogGUI() {
+		return true;
+	}
+	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		return importDeck(null);
