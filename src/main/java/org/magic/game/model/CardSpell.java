@@ -33,12 +33,12 @@ public class CardSpell extends AbstractSpell {
 	
 	@Override
 	public boolean isStackable() {
-		return !c.getMagicCard().isLand();
+		return !getCard().isLand();
 	}
 
 	@Override
 	public String toString() {
-		return c.getMagicCard().toString();
+		return getCard().toString();
 	}
 	
 

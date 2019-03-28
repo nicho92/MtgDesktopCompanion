@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.DeckCalculator;
 import org.utils.patterns.observer.Observable;
@@ -41,6 +42,16 @@ public class MTGDeckManager extends Observable {
 	}
 	
 	public static boolean isLegal(MagicDeck magicDeck, MagicFormat.FORMATS format) {
+		
+		if(format==FORMATS.COMMANDER)
+			return isCommander(magicDeck);
+		
+		
+		if(magicDeck.getAsList().size()<60)
+			return false;
+		
+		
+		
 		MagicFormat mf = new MagicFormat();
 		mf.setFormat(MagicFormat.toString(format));
 		return magicDeck.isCompatibleFormat(mf);
