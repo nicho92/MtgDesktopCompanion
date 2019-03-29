@@ -339,22 +339,25 @@ public class DisplayableCard extends JLabel implements Draggable {
 			menu.removeAll();
 
 			menu.add(new JMenuItem(new SelectionActions(this)));
-			menu.add(new JMenuItem(new TapActions(this)));
-
-			if (magicCard.isCreature()) {
-				JMenu mnuModifier = new JMenu("P/T");
-				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
-				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
-				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
-				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
-				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 1)));
-				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, -1)));
-				mnuModifier.add(new FixCreaturePowerActions(this));
-				menu.add(mnuModifier);
-			}
+	
+		
 			
 			if(getMagicCard().isPermanent()) 
 			{
+					menu.add(new JMenuItem(new TapActions(this)));
+
+					if (magicCard.isCreature()) {
+						JMenu mnuModifier = new JMenu("P/T");
+						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
+						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
+						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
+						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
+						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 1)));
+						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, -1)));
+						mnuModifier.add(new FixCreaturePowerActions(this));
+						menu.add(mnuModifier);
+					}
+					
 					List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
 					if(!abs.isEmpty()) 
 					{
@@ -364,6 +367,37 @@ public class DisplayableCard extends JLabel implements Draggable {
 						menu.add(mnuAbilities);
 					
 					}
+					
+					Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
+					
+					if (!l.isEmpty()) {
+						JMenu actions = new JMenu("Abilities");
+
+						for (final MTGKeyWord k : l) {
+							JMenuItem it;
+							try {
+								it = new JMenuItem(generateActionFromKey(k));
+							} catch (Exception e) {
+								logger.warn("error " + k + " : " + e);
+								it = new JMenuItem(k.getKeyword());
+							}
+							actions.add(it);
+						}
+						menu.add(actions);
+					}
+
+					if (!counters.isEmpty()) {
+						JMenu mnuModifier = new JMenu("Remove Counter");
+						counters.forEach(count->mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count))));
+						menu.add(mnuModifier);
+					}
+					
+					if (magicCard.isPlaneswalker()) {
+						JMenu mnuModifier = new JMenu("Loyalty");
+						AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
+						menu.add(mnuModifier);
+					}	
+					
 			}
 
 			
@@ -375,39 +409,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 				menu.add(mnuCounter);
 			}
 
-			if (magicCard.isPlaneswalker()) {
-				JMenu mnuModifier = new JMenu("Loyalty");
-				AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
-				menu.add(mnuModifier);
-			}
+			
 
 			if (magicCard.getSubtypes().contains("Aura") || magicCard.getSubtypes().contains("Equipment")) {
 				menu.add(new JMenuItem(new AttachActions(this)));
 			}
 
-			Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 			
-			if (!l.isEmpty()) {
-				JMenu actions = new JMenu("Abilities");
-
-				for (final MTGKeyWord k : l) {
-					JMenuItem it;
-					try {
-						it = new JMenuItem(generateActionFromKey(k));
-					} catch (Exception e) {
-						logger.warn("error " + k + " : " + e);
-						it = new JMenuItem(k.getKeyword());
-					}
-					actions.add(it);
-				}
-				menu.add(actions);
-			}
-
-			if (!counters.isEmpty()) {
-				JMenu mnuModifier = new JMenu("Remove Counter");
-				counters.forEach(count->mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count))));
-				menu.add(mnuModifier);
-			}
 
 			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isTokenizer(magicCard)) {
 				menu.add(sep);
