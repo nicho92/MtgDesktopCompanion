@@ -529,7 +529,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public String getVersion() {
-		return "2.8.0";
+		return "2.9.0";
 	}
 
 	private String getWhiteHeader(Request request) {
