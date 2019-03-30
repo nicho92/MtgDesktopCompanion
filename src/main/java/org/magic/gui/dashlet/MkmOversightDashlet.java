@@ -22,6 +22,7 @@ import org.magic.tools.UITools;
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
 
+	private static final String INSIGHT_SELECTION_KEY = "INSIGHT_SELECTION";
 	private static final String CHANGE_VALUE = "changeValue";
 	private static final String PRICE = "price";
 	private static final String YESTERDAY_PRICE = "yesterdayPrice";
@@ -80,6 +81,9 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
+			
+			if(getString(INSIGHT_SELECTION_KEY)!=null)
+					comboBox.setSelectedItem(INSIGHT_SELECTION.valueOf(getString(INSIGHT_SELECTION_KEY)));
 		}
 		
 	}
@@ -87,6 +91,9 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		try {
+			
+			
+			setProperty(INSIGHT_SELECTION_KEY, comboBox.getSelectedItem().toString());
 			
 			switch((INSIGHT_SELECTION)comboBox.getSelectedItem())
 			{
