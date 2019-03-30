@@ -115,6 +115,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 				@Override
 				protected List<CardShake> doInBackground(){
 					MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
+					setProperty("EDITION", ed.getId());
 					try {
 						return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 					} catch (IOException e) {
@@ -129,6 +130,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 						modEdition.init(get());
 						table.packAll();
 						table.setRowSorter(new TableRowSorter(modEdition));
+						
 					} catch (Exception e) {
 						logger.error(e);
 					}

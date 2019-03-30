@@ -122,6 +122,8 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 				try (FileOutputStream fos = new FileOutputStream(f)) {
 					dash.getProperties().store(fos, "");
+					logger.trace("saving " + f + " :" + dash.getProperties());
+					
 				} catch (IOException e) {
 					logger.error(e);
 				}
