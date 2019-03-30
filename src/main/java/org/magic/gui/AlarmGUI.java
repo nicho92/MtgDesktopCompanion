@@ -368,7 +368,7 @@ public class AlarmGUI extends MTGUIComponent {
 						} else {
 							
 							try {
-								exp.importDeck(null).getMap().keySet().forEach(mc->addCard(mc));
+								exp.importDeck(null).getMap().keySet().forEach(this::addCard);
 							} catch (IOException e1) {
 								logger.error(e1);
 							}

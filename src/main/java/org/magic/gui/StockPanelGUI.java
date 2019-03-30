@@ -277,7 +277,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							fileImport = jf.getSelectedFile();
 						} else {
 							try {
-								exp.importStock(null).forEach(ms->addStock(ms));
+								exp.importStock(null).forEach(this::addStock);
 								
 							} catch (IOException e1) {
 								logger.error(e1);
