@@ -630,6 +630,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 						
 						chunks.forEach(fn->{
 							JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
+							tglLangButton.setContentAreaFilled(false);
 							tglLangButton.setActionCommand(fn.getLanguage());
 							AbstractAction act = new AbstractAction() {
 								private static final long serialVersionUID = 1L;
