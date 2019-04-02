@@ -593,10 +593,31 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}
 		
 		try {
+			ed.setMkmName(ctx.read(base + ".mcmName", String.class));
+		} catch (PathNotFoundException pnfe) {
+			// do nothing
+		}
+		
+		try {
+			ed.setMkmid(ctx.read(base + ".mcmId", Integer.class));
+		} catch (PathNotFoundException pnfe) {
+			// do nothing
+		}
+		
+		
+		try {
 			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
 		} catch (PathNotFoundException pnfe) {
 			// do nothing
 		}
+		
+		try {
+			ed.setKeyRuneCode(ctx.read(base+".keyruneCode",String.class));
+		}catch(PathNotFoundException pnfe)
+		{
+			//do nothing
+		}
+		
 		
 		
 		

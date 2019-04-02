@@ -30,6 +30,7 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String mkmname;
 	private String gathererCode;
 	private boolean foilOnly;
+	private String keyRuneCode;
 	
 	
 	
@@ -263,6 +264,15 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 
 	public void setGathererCode(String gathererCode) {
 		this.gathererCode = gathererCode;
+	}
+
+	public void setKeyRuneCode(String r) {
+		keyRuneCode=r;
+		
+	}
+	
+	public String getKeyRuneCode() {
+		return keyRuneCode;
 	}
 
 }

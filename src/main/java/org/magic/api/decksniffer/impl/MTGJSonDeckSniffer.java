@@ -39,6 +39,14 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 				  deck.setName(info.getName());
 		
+		try {
+			deck.getTags().add(el.getAsJsonObject().get("type").getAsString());
+		}catch(Exception e)
+		{
+			//do nothing
+		}
+		
+				  
 		
 		init(deck,mainBoard,false);
 		
@@ -56,7 +64,6 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 			String ed = element.getAsJsonObject().get("printings").getAsJsonArray().get(0).getAsString();
 			int qty = element.getAsJsonObject().get("count").getAsInt();
 			String name = element.getAsJsonObject().get("name").getAsString();
-			
 			try {
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), true).get(0);
 				if(!side)
