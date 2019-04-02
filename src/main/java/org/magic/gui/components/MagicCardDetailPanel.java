@@ -583,7 +583,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			}, "loadLogo");
 		}
 
-		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty())
+		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty()) {
 			ThreadManager.getInstance().executeThread(() -> {
 				try {
 					listModelCollection.removeAllElements();
@@ -592,6 +592,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 					logger.error(e);
 				}
 			}, "loadCollections");
+		}
 
 		if (magicCard != null && enableCollectionLookup)
 			ThreadManager.getInstance().executeThread(() -> {
