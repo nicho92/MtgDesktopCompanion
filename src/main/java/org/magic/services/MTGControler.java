@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -191,6 +192,7 @@ public class MTGControler {
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));
 		return st;
 	}
+	
 
 	public CurrencyConverter getCurrencyService() {
 		return currencyService;

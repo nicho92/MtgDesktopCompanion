@@ -132,6 +132,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			if (getString("USER_ARTICLE").equals(FALSE)) {
 				Product p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
 
+				
+				
+				
+				
 				if (p != null) {
 					p = pService.getProductById(p.getIdProduct());
 					MagicPrice mp = new MagicPrice();

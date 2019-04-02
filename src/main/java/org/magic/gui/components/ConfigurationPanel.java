@@ -89,6 +89,7 @@ public class ConfigurationPanel extends JPanel {
 	private JCheckBox chckbxRss;
 	private JCheckBox chckbxCardBuilder;
 	private JCheckBox chckbxStock;
+	private JLabel dateCurrencyCache;
 	private JResizerPanel resizerPanel;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JCheckBox chckbxWallpaper;
@@ -399,6 +400,7 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnSaveCode = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		JButton btnUpdateCurrency = new JButton("Update Currency");
 		JCheckBox chkEnablePriceConversion = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ENABLED"));
+		dateCurrencyCache = new JLabel(UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
 		
 		if (MTGControler.getInstance().get(CURRENCY).isEmpty())
 			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
@@ -412,7 +414,8 @@ public class ConfigurationPanel extends JPanel {
 		panelCurrency.add(txtCurrencyFieldApiCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
 		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 1));
 		panelCurrency.add(btnUpdateCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
-		
+		panelCurrency.add(dateCurrencyCache, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
+	
 		chkEnablePriceConversion.getModel().setSelected(MTGControler.getInstance().get("/currencylayer-converter-enable").equals("true"));
 		
 		
@@ -535,6 +538,7 @@ public class ConfigurationPanel extends JPanel {
 			try {
 				MTGControler.getInstance().getCurrencyService().clean();
 				MTGControler.getInstance().getCurrencyService().init();
+				dateCurrencyCache.setText(UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
 			} catch (IOException e) {
 				logger.error(e);
 			}

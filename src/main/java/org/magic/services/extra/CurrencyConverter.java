@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
@@ -47,7 +48,13 @@ public class CurrencyConverter {
 		return convert(from.getCurrencyCode(),getCurrentCurrency().getCurrencyCode(), value);
 	}
 	
-	
+	public Date getCurrencyDateCache()
+	{
+		if(cache.exists())
+			return new Date(cache.lastModified());
+		else
+			return null;
+	}
 	
 	public Double convert(Currency from, Currency to, double value)
 	{

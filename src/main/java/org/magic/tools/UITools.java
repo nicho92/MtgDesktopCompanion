@@ -288,6 +288,7 @@ public class UITools {
 		
 		if(indexDate==null)
 			return "";
+		
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).format(indexDate);
 	}
 
