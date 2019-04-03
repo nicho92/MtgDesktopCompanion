@@ -90,7 +90,7 @@ public class URLTools {
 			connection.setRequestProperty("User-Agent", userAgent);
 			connection.setAllowUserInteraction(true);
 			connection.setInstanceFollowRedirects(true);
-			
+			connection.setReadTimeout(MTGConstants.CONNECTION_TIMEOUT);
 			int status = connection.getResponseCode();
 			if (!isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
 				return getConnection(connection.getHeaderField("Location"));
