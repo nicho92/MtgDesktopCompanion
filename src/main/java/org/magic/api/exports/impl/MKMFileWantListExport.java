@@ -51,26 +51,23 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	public void export(MagicDeck deck, File dest) throws IOException {
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) {
+			
+			StringBuilder temp = new StringBuilder();
+			
 			for (MagicCard mc : deck.getMap().keySet()) {
-				StringBuilder temp = new StringBuilder();
-				temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (")
-						.append(mc.getCurrentSet().getSet()).append(")");
-				bw.write(temp.toString() + "\n");
+				temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")");
 				notify(mc);
 			}
+			
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-				StringBuilder temp = new StringBuilder();
-
 				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (")
-							.append(mc.getCurrentSet().getMkmName()).append(")");
+					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getMkmName()).append(")");
 				else
-					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (")
-							.append(mc.getCurrentSet().getSet()).append(")");
-
-				bw.write(temp.toString() + "\n");
+					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")");
 				notify(mc);
 			}
+			
+			bw.write(temp.toString() + "\n");
 		}
 	}
 
