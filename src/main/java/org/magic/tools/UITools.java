@@ -241,8 +241,10 @@ public class UITools {
 						popUp.show(table, e.getX(), e.getY());
 						popUp.setVisible(true);
 
-					} catch (Exception ex) {
-						logger.error("Error on " + cardName, ex);
+					} catch (IndexOutOfBoundsException ex) {
+						logger.error(cardName + "is not found");
+					} catch (IOException e1) {
+						logger.error("error loading " + cardName,e1);
 					}
 				}
 			}
