@@ -188,7 +188,10 @@ public class JDeckChooserDialog extends JDialog {
 		JButton btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DELETE"));
 		btnDelete.addActionListener(e -> {
-
+			
+			if(selectedDeck==null)
+				return;
+			
 			int res = JOptionPane.showConfirmDialog(null,
 					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE", selectedDeck.getName()),
 					MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION") + " ?",

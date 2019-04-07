@@ -1242,10 +1242,15 @@
 		<prereleasepack lang='en' num='3' url="https://cdn.shopify.com/s/files/1/1704/1809/products/8947f193663933376f22e021e5291450e663834f_450x.png?v=1548266209"/>
 		<prereleasepack lang='en' num='4' url="https://cdn.shopify.com/s/files/1/1704/1809/products/acfd8e15b642fb2429ee4e66f9bae08859271403_450x.png?v=1548266209"/>
  	</edition>
+ 	
+ 	
 	<edition id="WAR">
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/197.png"/>
 	</edition>
 	
+	<edition id="MH1">
+		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/272/707/320/160/636869967589881363.png"/>
+	</edition>
 	
 	
 	
