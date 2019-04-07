@@ -8,12 +8,17 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGLogger;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.URLTools;
 
 public class RulesParser {
 
+	protected static Logger logger = MTGLogger.getLogger(RulesParser.class);
+	
+	
 	private Integer parse(String s)
 	{
 		try {
@@ -49,7 +54,7 @@ public class RulesParser {
 		RulesParser parser = new RulesParser();
 		parser.read(URLTools.extractAsString(MTGConstants.URL_RULES_FILE, Charset.forName("ISO-8859-15")));
 		
-		parser.getRoot().getChildren().forEach(System.out::println);
+		parser.getRoot().getChildren().forEach(logger::info);
 		
 	}
 	

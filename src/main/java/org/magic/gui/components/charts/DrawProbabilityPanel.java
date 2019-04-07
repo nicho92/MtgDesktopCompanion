@@ -33,11 +33,9 @@ public class DrawProbabilityPanel extends JPanel {
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
+		
 		table = new JXTable();
-		scrollPane.setViewportView(table);
-
+		add(new JScrollPane(table), BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);

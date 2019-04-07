@@ -63,9 +63,8 @@ public class OrdersGUI extends MTGUIComponent {
 	
 	private void loadFinancialBook()
 	{
-			List<OrderEntry> l = MTGControler.getInstance().getEnabled(MTGDao.class).listOrders();
-			model.addItems(l);
-			calulate(l);
+			model.addItems(MTGControler.getInstance().getEnabled(MTGDao.class).listOrders());
+			calulate(model.getItems());
 			table.packAll();
 			UITools.initTableFilter(table);
 
