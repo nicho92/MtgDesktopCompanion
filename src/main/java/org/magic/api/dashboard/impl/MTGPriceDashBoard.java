@@ -114,7 +114,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		String name = convert(edition.getSet()).replaceAll(" ", "_");
 
-		String url = "http://www.mtgprice.com/spoiler_lists/" + name;
+		String url = getString("WEBSITE")+"/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
 
 		Document doc =URLTools.extractHtml(url);
@@ -183,7 +183,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		edition = edition.replaceAll(" ", "_");
 
-		String url = "http://www.mtgprice.com/sets/" + edition + "/" + name;
+		String url = getString("WEBSITE")+"/sets/" + edition + "/" + name;
 		Document d = URLTools.extractHtml(url);
 
 		logger.debug("get Prices for " + name + " " + url);

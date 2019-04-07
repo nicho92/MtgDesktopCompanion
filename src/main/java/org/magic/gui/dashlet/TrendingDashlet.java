@@ -2,7 +2,10 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -48,19 +51,24 @@ public class TrendingDashlet extends AbstractJDashlet {
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		cboFormats = UITools.createCombobox(MagicFormat.FORMATS.values());
-		cboFormats.addItemListener(ie -> init());
 		panneauHaut.add(cboFormats);
 
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(ae -> init());
+		
+		cboFormats.addItemListener(ie -> {
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				init();
+		});
+		
+		
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
 
 		modStandard = new CardShakerTableModel();
 		table = new JXTable();
@@ -68,8 +76,10 @@ public class TrendingDashlet extends AbstractJDashlet {
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 	
-		scrollPane.setViewportView(table);
-
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		
+		
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
@@ -85,7 +95,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 		}
 
 		UITools.initTableFilter(table);
-
 		UITools.initCardToolTipTable(table, 0, 1);
 
 		panel = new JPanel();
