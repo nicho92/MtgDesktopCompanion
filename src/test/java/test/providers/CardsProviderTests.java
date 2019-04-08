@@ -89,6 +89,15 @@ public class CardsProviderTests {
 			} catch (Exception e) {
 				System.out.println("CARD BY NUMBER :ERROR " + e);
 			}
+			
+			
+			try {
+				p.getCardByNumber("123", "LEA");
+				System.out.println("CARD BY NUMBER :OK");
+			} catch (Exception e) {
+				System.out.println("CARD BY NUMBER :ERROR " + e);
+			}
+
 		
 			try {
 				p.generateBooster(new MagicEdition("LEA"));

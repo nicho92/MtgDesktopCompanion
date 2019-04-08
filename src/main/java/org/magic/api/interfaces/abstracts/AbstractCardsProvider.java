@@ -38,6 +38,13 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	}
 	
+	
+	@Override
+	public MagicCard getCardByNumber(String id, String idMe) throws IOException {
+		return getCardByNumber(id, getSetById(idMe));
+	}
+	
+	
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
 		
