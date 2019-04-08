@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -567,7 +568,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		if (thumbnail && magicCard != null)
 		{
-			ThreadManager.getInstance().executeThread(() -> loadPics(magicCard),"load pics");
+			loadPics(magicCard,null);
 		}
 
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) {
@@ -633,6 +634,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
 							tglLangButton.setContentAreaFilled(false);
 							tglLangButton.setActionCommand(fn.getLanguage());
+							tglLangButton.setFont(tglLangButton.getFont().deriveFont(tglLangButton.getFont().getSize()-2));
 							AbstractAction act = new AbstractAction() {
 								private static final long serialVersionUID = 1L;
 								@Override
@@ -645,7 +647,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 									fullTypeJTextField.setText(fn.getType());
 									txtFlavorArea.setText(fn.getFlavor());
 									if (thumbnail)
-										loadPics(fn,magicCard);
+										loadPics(magicCard,fn);
 									
 								}
 							};
@@ -698,30 +700,43 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		return bindingGroup;
 	}
 
-	protected void loadPics(MagicCard mc) {
-		ImageIcon icon;
-		try {
-			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null));
-		} catch (Exception e) {
-			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
-			logger.error("Error loading pics for" + mc, e);
-		}
-		lblThumbnail.setIcon(icon);
-		repaint();
-	}
+	protected void loadPics(MagicCard mc,MagicCardNames fn) {
+		SwingWorker<ImageIcon, Void> sw = new SwingWorker<ImageIcon, Void>()
+		{
+			@Override
+			protected ImageIcon doInBackground() throws Exception {
+				ImageIcon icon;
+				try {
+					if(fn==null)
+						icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null));
+					else
+						icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
+				} catch (Exception e) {
+					icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
+					logger.error("Error loading pics for" + mc, e);
+				}
+				return icon;
+				
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					lblThumbnail.setIcon(get());
+					repaint();
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				
+			}
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw);
+		
+		
 	
-	protected void loadPics(MagicCardNames fn,MagicCard mc) {
-		ImageIcon icon;
-		try {
-			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
-		} catch (Exception e) {
-			icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
-			logger.error("Error loading pics for" + mc, e);
-		}
-		lblThumbnail.setIcon(icon);
-		repaint();
+		
 	}
-	
 	
 	@Override
 	public void update(Observable o, Object ob) {

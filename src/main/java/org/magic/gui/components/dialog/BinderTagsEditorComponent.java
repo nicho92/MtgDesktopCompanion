@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -107,7 +109,10 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		
 		try {
-			for(MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions())
+			
+			List<MagicEdition> lst = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			Collections.sort(lst);
+			for(MagicEdition ed : lst)
 				model.addElement(ed);
 				
 		} catch (IOException e2) {
@@ -115,9 +120,6 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		}
 		
 		previewPanel = new JPanel() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
