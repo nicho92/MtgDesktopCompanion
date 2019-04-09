@@ -362,7 +362,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			JsonArray arr = new JsonArray();
 			CardPriceVariations res = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc,mc.getCurrentSet());
 
-			for (Entry<Date, Double> val : res.entrySet()) {
+			for (Entry<Date, Double> val : res) {
 				JsonObject obj = new JsonObject();
 				obj.add("date", new JsonPrimitive(val.getKey().getTime()));
 				obj.add("value", new JsonPrimitive(val.getValue()));

@@ -139,7 +139,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 				try {
 					mapTime = d.getPriceVariation(mc, me);
 					if (mapTime != null) {
-						for (Entry<Date, Double> da : mapTime.entrySet())
+						for (Entry<Date, Double> da : mapTime)
 							series.add(new Day(da.getKey()), da.getValue().doubleValue());
 
 						dataset.addSeries(series);

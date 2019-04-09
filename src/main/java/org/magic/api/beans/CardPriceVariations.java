@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class CardPriceVariations {
+public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
 
 	private Map<Date,Double> variations;
 	private MagicCard card;
@@ -125,6 +126,11 @@ public class CardPriceVariations {
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+
+	@Override
+	public Iterator<Entry<Date, Double>> iterator() {
+		return variations.entrySet().iterator();
 	}
 	
 	
