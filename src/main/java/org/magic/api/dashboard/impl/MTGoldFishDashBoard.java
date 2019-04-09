@@ -185,7 +185,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		EditionPriceVariations list = new EditionPriceVariations();
 		list.setEdition(edition);
 		list.setProviderName(getName());
-		
+		list.setDate(new Date());
 		
 		if(edition==null)
 			return list;
@@ -218,11 +218,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPriceWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text()));
 				cs.setPercentWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
 				cs.setEd(oldID);
-				cs.setDateUpdate(new Date());
 				cs.setProviderName(getName());
 				notify(cs);
 				list.addShake(cs);
-				list.setDate(cs.getDateUpdate());
+				
 			}
 		}
 		catch(FileNotFoundException ex){
