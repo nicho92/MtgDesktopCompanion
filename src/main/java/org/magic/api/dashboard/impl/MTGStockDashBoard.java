@@ -14,6 +14,7 @@ import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -89,10 +90,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 	
 	@Override
-	protected List<CardShake> getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 		connect();
-		List<CardShake> list = new ArrayList<>();
+		EditionPriceVariations list = new EditionPriceVariations();
 
+		list.setProviderName(getName());
+		list.setEdition(edition);
+		list.setDate(new Date());
+		
 		String id = edition.getId();
 		
 		if(id.equals("CON_"))
@@ -129,7 +134,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				logger.error("Error adding :" + el +" :" + e);
 			}
 			notify(cs);
-			list.add(cs);
+			list.addShake(cs);
 		}
 		return list;
 	}

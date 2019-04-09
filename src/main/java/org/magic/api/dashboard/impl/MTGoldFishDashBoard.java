@@ -20,6 +20,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -179,10 +180,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	protected List<CardShake> getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
-		List<CardShake> list = new ArrayList<>();
-
+		EditionPriceVariations list = new EditionPriceVariations();
+		list.setEdition(edition);
+		list.setProviderName(getName());
+		
+		
 		if(edition==null)
 			return list;
 		
@@ -217,7 +221,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setDateUpdate(new Date());
 				cs.setProviderName(getName());
 				notify(cs);
-				list.add(cs);
+				list.addShake(cs);
+				list.setDate(cs.getDateUpdate());
 			}
 		}
 		catch(FileNotFoundException ex){

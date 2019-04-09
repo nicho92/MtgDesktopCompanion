@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -111,7 +112,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected List<CardShake> getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
 		String name = convert(edition.getSet()).replaceAll(" ", "_");
 
@@ -122,7 +123,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
-		List<CardShake> list = new ArrayList<>();
+		EditionPriceVariations list = new EditionPriceVariations();
+		list.setProviderName(getName());
+		list.setEdition(edition);
+		list.setDate(new Date());
+		
+		
 		String data = table.html();
 		data = data.substring(data.indexOf('['), data.indexOf(']') + 1);
 		JsonElement root = new JsonParser().parse(data);
@@ -147,7 +153,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
 			shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
 			notify(shake);
-			list.add(shake);
+			list.addShake(shake);
 		}
 
 		return list;

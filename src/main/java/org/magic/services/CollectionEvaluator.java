@@ -16,6 +16,7 @@ import java.util.Optional;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -85,7 +86,7 @@ public class CollectionEvaluator extends Observable
 		cache.clear();
 	}
 	
-	public void initCache(MagicEdition edition,List<CardShake> ret) throws IOException
+	public void initCache(MagicEdition edition,EditionPriceVariations ret) throws IOException
 	{
 		try {
 			if(!ret.isEmpty())
@@ -97,9 +98,9 @@ public class CollectionEvaluator extends Observable
 	}
 	
 	
-	public List<CardShake> initCache(MagicEdition edition,String provider) throws IOException
+	public EditionPriceVariations initCache(MagicEdition edition,String provider) throws IOException
 	{
-		List<CardShake> ret = new ArrayList<>();
+		EditionPriceVariations ret = new EditionPriceVariations();
 			try {
 				logger.debug("init cache for " + edition);
 				ret= MTGControler.getInstance().getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
@@ -111,7 +112,7 @@ public class CollectionEvaluator extends Observable
 	}
 	
 	
-	public List<CardShake> initCache(MagicEdition edition) throws IOException
+	public EditionPriceVariations initCache(MagicEdition edition) throws IOException
 	{
 		return initCache(edition,MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName());
 	}
@@ -157,9 +158,9 @@ public class CollectionEvaluator extends Observable
 		File fich = new File(directory,ed.getId()+PRICE_JSON);
 		if(fich.exists())
 		{
-			List<CardShake> r = loadFromCache(ed);
+			EditionPriceVariations r = loadFromCache(ed);
 			if(!r.isEmpty())
-				return r.get(0).getDateUpdate();
+				return r.getDate();
 		}
 		return null;
 	}
@@ -177,7 +178,7 @@ public class CollectionEvaluator extends Observable
 		Map<MagicCard,CardShake> ret = new HashMap<>();
 		try {
 			File fich = new File(directory,ed.getId()+PRICE_JSON);
-			List<CardShake> list;
+			EditionPriceVariations list;
 			if(fich.exists())
 			{
 				list=loadFromCache(ed);
@@ -185,13 +186,13 @@ public class CollectionEvaluator extends Observable
 			else
 			{
 				logger.trace(fich + " is not found for " + ed.getId() +" : " + ed.getSet());
-				list=new ArrayList<>();
+				list= new EditionPriceVariations();
 				
 			}	
 			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MagicCard mc : cards) 
 			{
-					Optional<CardShake> cs = list.stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
+					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
 					{
 						cs.get().setCard(mc);
@@ -218,13 +219,10 @@ public class CollectionEvaluator extends Observable
 		return ret;
 	}
 	
-	public List<CardShake> loadFromCache(MagicEdition ed) {
-		
-		List<CardShake> list = new ArrayList<>();
+	public EditionPriceVariations loadFromCache(MagicEdition ed) {
 		try {
 			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {	
-				JsonArray json= serialiser.fromJson(FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),JsonArray.class);
-				json.forEach(el->list.add(serialiser.fromJson(el.toString(),CardShake.class)));
+				return serialiser.fromJson(FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionPriceVariations.class);
 			}
 		}
 		catch(Exception e)
@@ -232,10 +230,11 @@ public class CollectionEvaluator extends Observable
 			logger.error("error loading " + ed, e);
 		}
 		
+		EditionPriceVariations eds = new EditionPriceVariations();
+		eds.setEdition(ed);
+		return eds;
 		
 		
-		
-		return list;
 	}
 
 	public void export(File f) throws IOException{

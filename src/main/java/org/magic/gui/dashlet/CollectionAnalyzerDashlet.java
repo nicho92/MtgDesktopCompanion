@@ -20,6 +20,7 @@ import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -125,12 +126,12 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				protected Void doInBackground() throws Exception {
 					for(MagicEdition ed : ret) {
 						try {
-							List<CardShake> css = evaluator.initCache(ed);
+							EditionPriceVariations css = evaluator.initCache(ed);
 							
 							if(!css.isEmpty())
 							{	
 								
-								publish(new DefaultMapEntry<>(ed, css.get(0).getDateUpdate()));
+								publish(new DefaultMapEntry<>(ed, css.getDate()));
 							}
 						} catch (Exception e) {
 							logger.error(e);

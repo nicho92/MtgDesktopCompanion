@@ -10,6 +10,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -18,7 +19,7 @@ public interface MTGDashBoard extends MTGPlugin {
 
 	public List<CardShake> getShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
 	
-	public List<CardShake> getShakesForEdition(MagicEdition edition) throws IOException;
+	public EditionPriceVariations getShakesForEdition(MagicEdition edition) throws IOException;
 
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 
