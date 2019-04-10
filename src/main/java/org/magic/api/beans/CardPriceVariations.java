@@ -23,9 +23,15 @@ public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
 		currency=Currency.getInstance("USD");
 	}
 	
+	
+	public boolean isEmpty()
+	{
+		return variations.isEmpty();
+	}
+	
 	private Date getLastValueAt(int val)
 	{
-		if(variations.isEmpty())
+		if(isEmpty())
 			return null;
 		
 		List<Entry<Date, Double>> res = asList();

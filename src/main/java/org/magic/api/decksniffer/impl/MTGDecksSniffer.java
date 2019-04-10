@@ -43,6 +43,20 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "MTGO", "Pauper", "Frontier",	"Peasant", "Highlander" };
 	}
+	
+	
+	public static void main(String[] args) throws URISyntaxException, IOException {
+		RetrievableDeck d = new RetrievableDeck();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		
+		
+				d.setUrl(new URI("https://mtgdecks.net/Legacy/grixis-control-decklist-by-jesus-castaneda-789932"));
+				
+				
+				
+				new MTGDecksSniffer().getDeck(d);
+	}
+	
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
@@ -59,7 +73,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 			deck.getTags().add(e.text());
 
 		Elements tables = d.select("div.wholeDeck table");
-
 		boolean isSideboard = false;
 
 		for (Element table : tables) {
@@ -67,7 +80,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 			for (Element tr : table.select("tr.cardItem")) {
 				Element td = tr.select("td.number").first();
-				String qte = td.html().substring(0, td.html().indexOf(' '));
+				String qte = td.text().substring(0, td.text().indexOf(' '));
 				String name = td.select("a").text();
 				if (name.contains("/"))
 					name = name.substring(0, name.indexOf('/')).trim();

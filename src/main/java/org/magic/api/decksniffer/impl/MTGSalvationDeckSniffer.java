@@ -61,9 +61,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
 		String url = info.getUrl() + "#Details:deck-export";
-
-		logger.debug("sniff url : " + url);
-
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 	
