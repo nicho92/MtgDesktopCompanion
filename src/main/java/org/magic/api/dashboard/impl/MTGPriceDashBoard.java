@@ -75,6 +75,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				set = set.replaceAll("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
 				list.add(cs);
+				notify(cs);
 
 			}
 
@@ -88,6 +89,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				set = set.replaceAll("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
 				list.add(cs);
+				notify(cs);
 			}
 		} catch (Exception e) {
 			logger.error("error retrieve cardshake for " + gameFormat, e);

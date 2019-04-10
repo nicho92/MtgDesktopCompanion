@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -732,10 +731,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw);
-		
-		
-	
-		
 	}
 	
 	@Override
