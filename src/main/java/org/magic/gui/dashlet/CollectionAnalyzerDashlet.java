@@ -19,7 +19,6 @@ import javax.swing.SwingWorker;
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;

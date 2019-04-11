@@ -335,12 +335,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 	public void initActions() {
 
 		if (rightActions) {
-
 			menu.removeAll();
-
 			menu.add(new JMenuItem(new SelectionActions(this)));
-	
-		
 			
 			if(getMagicCard().isPermanent()) 
 			{
@@ -378,7 +374,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 							try {
 								it = new JMenuItem(generateActionFromKey(k));
 							} catch (Exception e) {
-								logger.warn("error " + k + " : " + e);
+								logger.trace("error " + k + " : " + e);
 								it = new JMenuItem(k.getKeyword());
 							}
 							actions.add(it);
@@ -415,10 +411,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 				menu.add(new JMenuItem(new AttachActions(this)));
 			}
 
-			
+			menu.add(sep);
 
 			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isTokenizer(magicCard)) {
-				menu.add(sep);
 				menu.add(new JMenuItem(new CreateActions(this)));
 			}
 
