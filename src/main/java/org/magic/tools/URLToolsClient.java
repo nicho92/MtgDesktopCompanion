@@ -66,7 +66,7 @@ public class URLToolsClient {
 	
 	public String doGet(String url, Map<String,String> headers) throws IOException
 	{
-		logger.trace("GET " + url);
+		logger.debug("GET " + url);
 		HttpGet getReq = new HttpGet(url);
 		init(headers,getReq);
 		response  = httpclient.execute(getReq,httpContext);
@@ -98,7 +98,7 @@ public class URLToolsClient {
 	
 	public String doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
-			logger.trace("POST " + url);
+			logger.debug("POST " + url);
 		
 			HttpPost postReq = new HttpPost(url);
 			try {

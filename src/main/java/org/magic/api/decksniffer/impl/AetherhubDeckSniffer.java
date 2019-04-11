@@ -65,8 +65,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		
 		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
 		
-		logger.debug("get deck from " + info.getUrl());
-		Document d =URLTools.extractHtml(info.getUrl().toString());
+		Document d =URLTools.extractHtml(info.getUrl().toURL());
 		String data = URLTools.extractAsString(uri);
 		
 		MagicDeck deck = new MagicDeck();
@@ -109,7 +108,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		Map<String,String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
 		headers.put("user-agent",MTGConstants.USER_AGENT);
-		logger.debug("list decks at" + uriPost+formats.get(getString(FORMAT)));		 
 		String ret = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
 		
 		logger.trace(ret);
