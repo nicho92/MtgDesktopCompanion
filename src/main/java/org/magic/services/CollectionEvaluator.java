@@ -26,8 +26,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.utils.patterns.observer.Observable;
 
-import com.google.gson.JsonArray;
-
 public class CollectionEvaluator extends Observable
 {
 	private static final String PRICE_JSON = "_price.json";

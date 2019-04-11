@@ -44,20 +44,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "MTGO", "Pauper", "Frontier",	"Peasant", "Highlander" };
 	}
 	
-	
-	public static void main(String[] args) throws URISyntaxException, IOException {
-		RetrievableDeck d = new RetrievableDeck();
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		
-		
-				d.setUrl(new URI("https://mtgdecks.net/Legacy/grixis-control-decklist-by-jesus-castaneda-789932"));
-				
-				
-				
-				new MTGDecksSniffer().getDeck(d);
-	}
-	
-
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
