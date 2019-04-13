@@ -43,6 +43,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
@@ -100,7 +101,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private PricesTablePanel priceTablePanel;
 	private JTextArea txtRulesArea;
 	private JSONPanel panelJson;
-	private JXSearchField txtSearch;
+	private JTextField txtSearch;
 	private JPopupMenu popupMenu = new JPopupMenu();
 	private JComboBox<String> cboQuereableItems;
 	private JComboBox<MagicCollection> cboCollections;
@@ -252,9 +253,20 @@ public class CardSearchPanel extends MTGUIComponent {
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
-		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		
+		if(SystemUtils.IS_OS_MAC_OSX)
+		{
+			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		}
+		else
+		{	
+			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+			((JXSearchField)txtSearch).setSearchMode(MTGConstants.SEARCH_MODE);
+		}
+		
 		txtSearch.setBackground(Color.WHITE);
-		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
+		
+	
 		
 		txtRulesArea = new JTextArea();
 		

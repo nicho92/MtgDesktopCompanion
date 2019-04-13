@@ -32,6 +32,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -42,6 +43,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
@@ -138,7 +140,7 @@ public class ConstructPanel extends JPanel {
 		JButton btnUpdate;
 		HandPanel thumbnail;
 		JPanel panelBottom;
-		JXSearchField txtSearch;
+		JTextField txtSearch;
 		JComboBox<String> cboAttributs;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
@@ -150,7 +152,19 @@ public class ConstructPanel extends JPanel {
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
-		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		
+		if(SystemUtils.IS_OS_MAC_OSX)
+		{
+			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		}
+		else
+		{	
+			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+			((JXSearchField)txtSearch).setSearchMode(MTGConstants.SEARCH_MODE);
+		}
+		
+		
+		
 		lblCards = new JLabel();
 		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);
 		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
@@ -206,7 +220,6 @@ public class ConstructPanel extends JPanel {
 		thumbnail.enableDragging(false);
 		thumbnail.setMaxCardsRow(4);
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		txtSearch.setBackground(Color.WHITE);
 		txtSearch.setColumns(25);
 		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
