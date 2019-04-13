@@ -90,7 +90,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_66</version>
+			  <version>4.ALPHA.0_74</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
