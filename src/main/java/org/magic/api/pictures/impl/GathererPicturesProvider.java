@@ -64,10 +64,5 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	public String getVersion() {
 		return "2.0";
 	}
-	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(MTGConstants.IMAGE_LOGO);
-	}
 
 }
