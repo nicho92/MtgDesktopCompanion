@@ -4,12 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -36,12 +42,33 @@ public class WebManagerServer extends AbstractMTGServer {
 
 		ServletContextHandler ctx = new ServletContextHandler();
 		ctx.setContextPath("/");
-		DefaultServlet defaultServlet = new DefaultServlet();
-		ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
-		holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
-		holderPwd.setInitParameter("dirAllowed", getString(ALLOW_LIST_DIR));
+		
+		ServletHolder holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());
+					  holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
+					  holderPwd.setInitParameter("dirAllowed", getString(ALLOW_LIST_DIR));
 
+		ServletHolder holderJs = new ServletHolder("mtg-js-file", new DefaultServlet() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+				  response.setContentType("text/html;charset="+MTGConstants.DEFAULT_ENCODING);
+				  response.setStatus(HttpServletResponse.SC_OK);
+				  try { 
+					  response.getWriter().println("var restserver='" + getString(REST_BACKEND_URI) + "';");  
+				  }
+				  catch(Exception e)
+				  {
+					  logger.error(e);
+				  }
+			}
+		});
+	
+		ctx.addServlet(holderJs,"/dist/js/"+REST_JS_FILENAME);
 		ctx.addServlet(holderPwd, "/*");
+		
+		logger.trace(ctx.dump());
+		
+		
 		server.setHandler(ctx);
 	}
 
@@ -53,19 +80,6 @@ public class WebManagerServer extends AbstractMTGServer {
 	
 	@Override
 	public void start() throws IOException {
-		URL u = null;
-		
-		//TODO in jar file, we can't write file. So make code to read it from local directory
-		try {
-			u = this.getClass().getResource("/web-ui/dist/js/"+REST_JS_FILENAME);
-			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING);
-		} catch (Exception e) {
-			logger.error("couldn't write js rest file " + u, e);
-			logger.info("Create " + new File(".").getAbsolutePath()+"/"+REST_JS_FILENAME+". then, restart server");
-			FileUtils.writeStringToFile(new File(".",REST_JS_FILENAME), "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING);
-			
-		}
-
 		try {
 			server.start();
 			logger.info("Server start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);

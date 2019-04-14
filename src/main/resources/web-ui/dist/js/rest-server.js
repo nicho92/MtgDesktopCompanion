@@ -1,1 +1,0 @@
-var restserver='http://192.168.1.62:8080';
