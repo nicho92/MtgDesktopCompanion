@@ -170,10 +170,9 @@
 	   				    	dataSrc:""
 	   			   		 }).done(function(data) {
 	   			   			$('#edsPrices').DataTable().clear();
-	   			   			
-	   			   			for(var i=0;i<data.length;i++)
+	   			   			for(var i=0;i<data.shakes.length;i++)
 	   			   			{
-	   			   				$('#edsPrices').DataTable().row.add(data[i]);
+	   			   				$('#edsPrices').DataTable().row.add(data.shakes[i]);
 	   			   			}
 	   			   			
 	   			   			$('#edsPrices').DataTable().draw();
@@ -228,7 +227,7 @@
              <!-- /.row -->
             
 			<div class="row">
-			     <div class="col-lg-5">
+			     <div class="col-lg-6">
 	                 <div class="panel panel-red">
 	                 	<div class="panel-heading">
 	                      		Variations for
@@ -251,32 +250,7 @@
 	                    <div class="panel-footer"></div>
 	                 </div>
 	             </div>
-	             	<div class="col-lg-5">
-	                 <div class="panel panel-red">
-	                 	<div class="panel-heading">
-	                      		Trending for
-	        							<select id="listEditions" class="form-control"  data-live-search="true"><option value=""></option></select>
-						        	
-	                   	</div>
-	                    <div class="panel-body">
-	                       <table id="edsTrending" class="display" style="width: 100%">
-										<thead>
-											<tr>
-												<th>Card</th>
-												<th>Set</th>
-												<th>$</th>
-												<th>+/-</th>
-												<th>%</th>
-											</tr>
-										</thead>
-									</table>
-	                    </div>
-	                    <div class="panel-footer"></div>
-	                 </div>
-	             </div>
-			</div>
-			<div class="row">
-			     <div class="col-lg-5">
+			     <div class="col-lg-6">
 	                 <div class="panel panel-red">
 	                 	<div class="panel-heading">
 	                      		Winner/Looser for 
