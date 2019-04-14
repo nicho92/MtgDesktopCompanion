@@ -80,6 +80,16 @@ public class MagicCard implements Serializable {
 		return null;
 	}
 	
+	public boolean isInstant()
+	{
+		return getTypes().toString().toLowerCase().contains("instant");
+	}
+	
+	public boolean isRitual()
+	{
+		return getTypes().toString().toLowerCase().contains("sorcery");
+	}
+	
 	public boolean isCreature()
 	{
 		return getTypes().toString().toLowerCase().contains("creature");

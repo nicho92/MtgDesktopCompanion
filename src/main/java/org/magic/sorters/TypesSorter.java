@@ -26,18 +26,18 @@ public class TypesSorter implements MTGComparator<MagicCard> {
 	public int getWeight(MagicCard mc) {
 		if (mc.isCreature())
 			return 1;
-		if (mc.getTypes().toString().toLowerCase().contains("enchantment"))
+		if (mc.isEnchantment())
 			return 2;
-		if (mc.getTypes().toString().toLowerCase().contains("instant"))
+		if (mc.isInstant())
 			return 3;
-		if (mc.getTypes().toString().toLowerCase().contains("sorcery"))
+		if (mc.isRitual())
 			return 4;
-		if (mc.isPlaneswalker())
-			return 5;
-		if (mc.isArtifact())
-			return 6;
 		if (mc.isLand())
 			return 7;
+		if (mc.isArtifact())
+			return 6;
+		if (mc.isPlaneswalker())
+			return 5;
 
 		return 8;
 	}

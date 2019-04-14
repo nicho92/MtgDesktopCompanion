@@ -1,6 +1,5 @@
 package org.magic.servers.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -9,13 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
-import org.apache.commons.io.FileUtils;
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -28,6 +23,7 @@ public class WebManagerServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private static final String REST_JS_FILENAME="rest-server.js";
+	
 	private Server server;
 	private URL webRootLocation;
 
@@ -58,6 +54,7 @@ public class WebManagerServer extends AbstractMTGServer {
 				  }
 				  catch(Exception e)
 				  {
+					  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					  logger.error(e);
 				  }
 			}
@@ -65,10 +62,7 @@ public class WebManagerServer extends AbstractMTGServer {
 	
 		ctx.addServlet(holderJs,"/dist/js/"+REST_JS_FILENAME);
 		ctx.addServlet(holderPwd, "/*");
-		
 		logger.trace(ctx.dump());
-		
-		
 		server.setHandler(ctx);
 	}
 
@@ -128,11 +122,6 @@ public class WebManagerServer extends AbstractMTGServer {
 	@Override
 	public String getName() {
 		return "Web UI Server";
-	}
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
 	}
 
 	@Override
