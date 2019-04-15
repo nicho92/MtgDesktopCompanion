@@ -19,6 +19,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
+import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -89,7 +90,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MTGConstants.IMAGE_LOGO);
+		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/gatherer.png"));
 	}
 	
 	@Override
