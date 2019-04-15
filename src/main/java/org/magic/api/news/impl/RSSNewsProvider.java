@@ -82,10 +82,6 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		return STATUT.DEV;
 	}
 
-	@Override
-	public NEWS_TYPE getProviderType() {
-		return NEWS_TYPE.RSS;
-	}
 
 	@Override
 	public void initDefault() {

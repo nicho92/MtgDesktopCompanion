@@ -75,10 +75,6 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		return STATUT.DEV;
 	}
 
-	@Override
-	public NEWS_TYPE getProviderType() {
-		return NEWS_TYPE.TWITTER;
-	}
 
 	@Override
 	public void initDefault() {

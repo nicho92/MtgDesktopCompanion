@@ -125,8 +125,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GAME_COLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/colors.gif"));
 	
 	public static final ImageIcon ICON_CHROME = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/chrome.png"));
-	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/rss.png"));
-	public static final ImageIcon ICON_TWITTER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/twitter.png"));
 	public static final ImageIcon ICON_FORUM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/forum.png"));
 	
 	public static final ImageIcon ICON_SEARCH = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/search.png"));

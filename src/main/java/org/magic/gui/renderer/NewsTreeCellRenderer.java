@@ -19,19 +19,7 @@ public class NewsTreeCellRenderer extends DefaultTreeCellRenderer {
 
 		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicNews) {
 			try {
-			switch (((MagicNews) ((DefaultMutableTreeNode) value).getUserObject()).getProvider().getProviderType()) {
-			case RSS:
-				setIcon(MTGConstants.ICON_RSS);
-				break;
-			case TWITTER:
-				setIcon(MTGConstants.ICON_TWITTER);
-				break;
-			case FORUM:
-				setIcon(MTGConstants.ICON_FORUM);
-				break;
-			
-			default: setIcon(null);
-			}
+				setIcon(((MagicNews) ((DefaultMutableTreeNode) value).getUserObject()).getProvider().getIcon());
 			}
 			catch(Exception e)
 			{

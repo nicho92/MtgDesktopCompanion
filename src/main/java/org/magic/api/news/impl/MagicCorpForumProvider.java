@@ -58,10 +58,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 		return ret;
 	}
 
-	@Override
-	public NEWS_TYPE getProviderType() {
-		return NEWS_TYPE.FORUM;
-	}
+	
 
 	@Override
 	public String getName() {
