@@ -9,6 +9,7 @@ import java.util.List;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
+import org.magic.services.MTGConstants;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkAdapter;
@@ -25,7 +26,7 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 	
 	
 	public RedditNewsProvider() {
-		adapter = new OkHttpNetworkAdapter(new UserAgent("mtgdesktopCompanion"));
+		adapter = new OkHttpNetworkAdapter(new UserAgent(MTGConstants.MTG_APP_NAME));
 	}
 	
 	@Override
@@ -70,13 +71,4 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 	public String getName() {
 		return "Reddit";
 	}
-
-	public static void main(String[] args) throws IOException {
-		
-		MagicNews n = new MagicNews();
-		n.setName("mtgfinance");
-		
-		new RedditNewsProvider().listNews(n);
-	}
-
 }
