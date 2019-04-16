@@ -62,7 +62,6 @@ public class MTGSplashScreen extends JWindow implements Observer {
 		progressBar.setMinimum(0);
 		progressBar.setIndeterminate(true);
 		progressBar.setStringPainted(true);
-	//	progressBar.setBackground(new Color(223,123,8));
 		progressBar.setForeground(new Color(101,13,136));
 		pack();
 		setLocationRelativeTo(null);

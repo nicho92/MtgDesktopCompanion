@@ -81,6 +81,8 @@ import org.utils.patterns.observer.Observable;
 
 public class CardSearchPanel extends MTGUIComponent {
 
+	private static final String SEARCH_MODULE = "SEARCH_MODULE";
+
 	public static final int INDEX_THUMB = 1;
 
 	private MagicCard selectedCard;
@@ -124,7 +126,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE");
+		return MTGControler.getInstance().getLangService().getCapitalize(SEARCH_MODULE);
 	}
 	
 	public static CardSearchPanel getInstance() {
@@ -256,11 +258,11 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		if(SystemUtils.IS_OS_MAC_OSX)
 		{
-			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize(SEARCH_MODULE));
 		}
 		else
 		{	
-			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize(SEARCH_MODULE));
 			((JXSearchField)txtSearch).setSearchMode(MTGConstants.SEARCH_MODE);
 		}
 		
