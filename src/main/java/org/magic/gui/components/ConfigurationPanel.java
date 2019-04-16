@@ -30,11 +30,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -51,6 +54,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.services.extra.PackagesProvider;
+import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
@@ -253,7 +257,12 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnDefaultStock = new JButton("Default Stock");
 		JPanel panelAutoStock = new JPanel();
 		cboEditionLands = UITools.createComboboxEditions();
-
+		
+		JPanel panelBtnConfigBackup = new JPanel();
+		JButton btnExportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
+		JButton btnImportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		
+		
 		((FlowLayout) panelAutoStock.getLayout()).setAlignment(FlowLayout.LEFT);
 		
 		
@@ -271,7 +280,9 @@ public class ConfigurationPanel extends JPanel {
 		
 		panelAutoStock.add(chkboxAutoAdd);
 		panelAutoStock.add(chkboxAutoDelete);
-
+	
+		panelBtnConfigBackup.add(btnExportConfig);
+		panelBtnConfigBackup.add(btnImportConfig);
 		
 		panelConfig.add(lblMainCol, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -288,7 +299,10 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 5));
 		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 5));
 		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
+		panelConfig.add(new JLabel("CONFIG_BACKUP"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
+		
 		
 
 		
@@ -507,6 +521,47 @@ public class ConfigurationPanel extends JPanel {
 		
 		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
 
+		
+		btnExportConfig.addActionListener(ae->{
+			try {
+				File f =  new File(MTGConstants.DATA_DIR,"config.backup.zip");
+				
+				FileTools.extractConfig(f);
+				
+				MTGControler.getInstance().notify(new MTGNotification("EXPORT", "Export "+f, MESSAGE_TYPE.INFO));
+			} catch (IOException e2) {
+				MTGControler.getInstance().notify(new MTGNotification("ERROR", e2));
+			}
+		});
+		
+		btnImportConfig.addActionListener(ae->{
+			
+				JFileChooser chooser = new JFileChooser(MTGConstants.DATA_DIR);
+				int res = chooser.showOpenDialog(null);
+				chooser.setFileFilter(new FileFilter() {
+					
+					@Override
+					public String getDescription() {
+						return "Zip File";
+					}
+					
+					@Override
+					public boolean accept(File f) {
+						return FilenameUtils.isExtension(f.getName(), "zip");
+					}
+				});
+				
+				if(res == JFileChooser.APPROVE_OPTION)
+				{
+					try {
+						FileTools.importConfig(chooser.getSelectedFile());
+						MTGControler.getInstance().notify(new MTGNotification("IMPORT", "Import config done", MESSAGE_TYPE.INFO));
+					} catch (IOException e1) {
+						MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
+					}
+				}
+		});
+		
 
 		cboEditionLands.addItemListener(ie ->{
 			if (ie.getStateChange() == ItemEvent.SELECTED) 

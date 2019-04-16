@@ -58,7 +58,7 @@ public class UITools {
 		return s.split("[\\r\\n]+");
 	}
 	
-	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int gridx,int gridy)
+	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line)
 	{
 		GridBagConstraints cons = new GridBagConstraints();
 		
@@ -69,8 +69,8 @@ public class UITools {
 			cons.fill = fill;
 		
 		cons.insets = new Insets(0, 0, 5, 5);
-		cons.gridx = gridx;
-		cons.gridy = gridy;
+		cons.gridx = col;
+		cons.gridy = line;
 		
 		return cons;
 	}
