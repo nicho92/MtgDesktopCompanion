@@ -3,14 +3,10 @@ package org.magic.api.pictures.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 

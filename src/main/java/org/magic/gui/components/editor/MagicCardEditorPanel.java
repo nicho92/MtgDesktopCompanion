@@ -84,7 +84,7 @@ public class MagicCardEditorPanel extends JPanel {
 	private JLabel lblColorIndicator;
 	private JCheckBox chkColorIndicator;
 	private JLabel lblColorOrientation;
-	private JComboBox cboColorAccent;
+	private JComboBox<String> cboColorAccent;
 	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
@@ -702,7 +702,7 @@ public class MagicCardEditorPanel extends JPanel {
 	public JSpinner getSizeSpinner() {
 		return spinner;
 	}
-	public JComboBox getCboColorAccent() {
+	public JComboBox<String> getCboColorAccent() {
 		return cboColorAccent;
 	}
 	public CropImagePanel getImagePanel() {

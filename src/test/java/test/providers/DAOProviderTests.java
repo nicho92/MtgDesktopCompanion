@@ -26,7 +26,6 @@ import org.magic.api.dao.impl.PostgresqlDAO;
 import org.magic.api.dao.impl.SQLLiteDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
 
 import test.TestTools;
 

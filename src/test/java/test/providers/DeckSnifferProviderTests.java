@@ -4,26 +4,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.decksniffer.impl.DeckstatsDeckSniffer;
-import org.magic.api.decksniffer.impl.LotusNoirDecks;
-import org.magic.api.decksniffer.impl.MTGDecksSniffer;
-import org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer;
-import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
-import org.magic.api.decksniffer.impl.MTGoldFishDeck;
-import org.magic.api.decksniffer.impl.MagicCorporationDecks;
-import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
-import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
 import test.TestTools;
