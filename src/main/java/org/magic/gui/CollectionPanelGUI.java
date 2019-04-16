@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -735,18 +736,22 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	{
 		 
 		it.addActionListener(evt -> {
-			MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
+			List<MagicEdition> eds = UITools.getTableSelection(tableEditions, 1);
 
 			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize(
-					"CONFIRM_COLLECTION_ITEM_ADDITION", ed, it.getText()));
+					"CONFIRM_COLLECTION_ITEM_ADDITION", eds, it.getText()));
 
 			if (res == JOptionPane.YES_OPTION)
 			{	
 				try {
+					List<MagicCard> list = new ArrayList<>();
+					
+					for(MagicEdition e : eds)
+						for(MagicCard mc : provider.searchCardByEdition(e))
+							list.add(mc);
 						
-						List<MagicCard> list = provider.searchCardByEdition(ed);
 						progressBar.start(list.size());
-						logger.debug("save " + list.size() + " cards from " + ed.getId());
+						logger.debug("save " + list.size() + " cards from " + eds);
 						
 						
 						SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
