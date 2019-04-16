@@ -237,12 +237,8 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 /////////////CONFIG BOX
-		JLabel lblMainCol = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("MAIN_COLLECTION") + " :");
 		cboCollections = UITools.createComboboxCollection();
-		JLabel lblDefaultLandManuel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DEFAULT_LAND_IMPORT") + " :");
-		JLabel lblLogLevel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOG_LEVEL") + " :");
 		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
-		JLabel lblDontTakeAlert = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_LOW_PRICES") + " :");
 		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"),25);
 		JButton btnSavePrice = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		JLabel lblCleancache = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CLEAN_CACHE") + " :");
@@ -284,13 +280,13 @@ public class ConfigurationPanel extends JPanel {
 		panelBtnConfigBackup.add(btnExportConfig);
 		panelBtnConfigBackup.add(btnImportConfig);
 		
-		panelConfig.add(lblMainCol, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("MAIN_COLLECTION") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelConfig.add(lblDefaultLandManuel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
+		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DEFAULT_LAND_IMPORT") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
 		panelConfig.add(cboEditionLands, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-		panelConfig.add(lblLogLevel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
+		panelConfig.add( new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOG_LEVEL") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
 		panelConfig.add(cboLogLevels, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
-		panelConfig.add(lblDontTakeAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
+		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_LOW_PRICES") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
 		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
 		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
 		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
@@ -299,7 +295,7 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 5));
 		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 5));
 		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
-		panelConfig.add(new JLabel("CONFIG_BACKUP"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CONFIG_BACKUP")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
 		
