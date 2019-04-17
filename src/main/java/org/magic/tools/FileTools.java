@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
@@ -26,37 +25,55 @@ public class FileTools {
 
 	private FileTools() {	}
 
-	public static void main(String[] args) throws IOException {
-		importConfig(new File("d:/test.zip"));
-	}
-	
-	public static void extractConfig(File dir) throws IOException 
+	public static void extractConfig(File fzip) throws IOException 
 	{
 		IOFileFilter fileFilter1 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("logs", null));
 		IOFileFilter fileFilter2 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("data", null));
 		IOFileFilter exceptFilter =   FileFilterUtils.and(fileFilter1, fileFilter2 );
 		
 		
-		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dir))) {
+		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(fzip))) {
 			for(File f : FileUtils.listFilesAndDirs(MTGConstants.CONF_DIR, FileFileFilter.FILE, exceptFilter))
 				addFile(f,out);
 		}
 	
 	}
 	
-	public static void importConfig(File fileZip) throws IOException 
+	public static void main(String[] args) throws IOException {
+		importConfig(new File("C:\\Users\\Pihen\\Google Drive\\config.backup.zip"), new File("d:/"));
+	}
+	
+	public static void importConfig(File fileZip,File dest) throws IOException 
 	{
-//		ZipInputStream zis = new ZipInputStream(new FileInputStream(fileZip));
-//		ZipEntry zipEntry = zis.getNextEntry();
-//        while (zipEntry != null) {
-//            File newFile = newFile(new File("d:/"), zipEntry);
-//            FileOutputStream fos = new FileOutputStream(newFile);
-//            IOUtils.write(zis.readAllBytes(), fos);
-//            fos.close();
-//            zipEntry = zis.getNextEntry();
-//        }
-//        zis.closeEntry();
-//        zis.close();
+		
+		if(!dest.isDirectory())
+			throw new IOException(dest + " is not a directory");
+		
+		try(ZipFile zipFile = new ZipFile(fileZip)){
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			while (entries.hasMoreElements()) 
+			{
+				ZipEntry zipEntry = entries.nextElement();
+	        	File f = new File(dest, zipEntry.getName());
+	        	
+	        	if(zipEntry.isDirectory())
+	        	{
+	        		FileUtils.forceMkdir(f);
+	        	}
+	        	else
+	        	{
+	        		FileUtils.forceMkdirParent(f);
+	        		FileUtils.touch(f);
+	        	}
+	        	
+	        	
+		       	try(FileOutputStream fos = new FileOutputStream(f))
+		       	{
+		       		IOUtils.write(zipFile.getInputStream(zipEntry).readAllBytes(), fos);
+		       	}
+		         
+		    }
+		}
 	}
 	
 	private static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
