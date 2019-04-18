@@ -656,8 +656,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							tglLangButton.setAction(act);
 							groupLanguagesButtons.add(tglLangButton);
 							panelSwitchLangage.add(tglLangButton);
-							
-							if(fn.getGathererId()>0 && fn.getLanguage().equalsIgnoreCase(MTGControler.getInstance().get("langage")))
+
+							if(!MTGControler.getInstance().get("langage").equalsIgnoreCase("english") && fn.getGathererId()>0 && fn.getLanguage().equalsIgnoreCase(MTGControler.getInstance().get("langage")))
 								tglLangButton.doClick();
 							
 						});

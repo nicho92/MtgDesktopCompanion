@@ -71,7 +71,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	
 	
 	@Override
-	public EditionPriceVariations getShakesForEdition(MagicEdition edition) throws IOException {
+	public synchronized EditionPriceVariations getShakesForEdition(MagicEdition edition) throws IOException {
 		
 		Date c = evaluator.getCacheDate(edition);
 		Date d = new Date();
