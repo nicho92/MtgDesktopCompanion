@@ -165,9 +165,10 @@ public class MagicDeck implements Serializable {
 	}
 
 	public boolean isCompatibleFormat(MagicFormat mf) {
-		for (MagicCard mc : mapDeck.keySet()) {
-			if (!mc.getLegalities().contains(mf))
-				return false;
+		for (MagicCard mc : mapDeck.keySet()) 
+		{
+			if(mc.getLegalities().stream().filter(f->f.equals(mf)).noneMatch(MagicFormat::isLegal))
+					return false;
 		}
 		return true;
 	}

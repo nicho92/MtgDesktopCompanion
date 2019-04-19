@@ -49,8 +49,9 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				sideboard = true;
 
 			if (cont2.text().length() > 0) {
-				Integer qte = Integer.parseInt(cont2.text().substring(0, cont2.text().indexOf(' ')));
-				String cardName = cont2.text().substring(cont2.text().indexOf(' '), cont2.text().length()).trim();
+				
+				Integer qte = parseString(cont2.text()).getValue();
+				String cardName = parseString(cont2.text()).getKey();
 
 				if (cardName.contains("//")) // for transformatble cards
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();

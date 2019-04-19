@@ -326,7 +326,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {
 						MagicFormat mf = new MagicFormat();
 						mf.setFormat(String.valueOf(mapFormats.getKey()));
-						mf.setLegality(String.valueOf(mapFormats.getValue()).equalsIgnoreCase("legal"));
+						mf.setLegality(String.valueOf(mapFormats.getValue()).equalsIgnoreCase("legal")||String.valueOf(mapFormats.getValue()).equalsIgnoreCase("restricted"));
 						mc.getLegalities().add(mf);
 					}
 				}
