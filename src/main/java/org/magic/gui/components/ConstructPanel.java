@@ -388,7 +388,7 @@ public class ConstructPanel extends JPanel {
 									updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMap().get(mc));
 									publish(mc);
 								} catch (Exception e) {
-									logger.error(e);
+									logger.error("error update " + mc,e);
 								}
 							}
 							for (MagicCard mc : deck.getMapSideBoard().keySet()) {
@@ -396,7 +396,7 @@ public class ConstructPanel extends JPanel {
 									updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMapSideBoard().get(mc));
 									publish(mc);
 								} catch (Exception e) {
-									logger.error(e);
+									logger.error("error update " + mc,e);
 									
 								}
 							}
