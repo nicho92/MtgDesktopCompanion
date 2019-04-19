@@ -191,10 +191,8 @@ public class MagicDeck implements Serializable {
 		if(cards==null)
 			return d;
 		
+		cards.forEach(d::add);
 		
-		for (MagicCard mc : cards) {
-			d.add(mc);
-		}
 		return d;
 	}
 

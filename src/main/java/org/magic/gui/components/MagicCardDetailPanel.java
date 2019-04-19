@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
@@ -318,7 +320,21 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		rarityJTextField.setColumns(10);
 
 		lstFormats = new JList<>(new DefaultListModel<MagicFormat>());
-		lstFormats.setVisibleRowCount(4);
+		//lstFormats.setVisibleRowCount(4);
+		lstFormats.setCellRenderer(new ListCellRenderer<MagicFormat>() {
+			
+			@Override
+			public Component getListCellRendererComponent(JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4) {
+				JLabel l = new JLabel(obj.getFormat());
+					if(obj.isLegal())
+						l.setIcon(MTGConstants.ICON_SMALL_CHECK);
+					else
+						l.setIcon(MTGConstants.ICON_SMALL_DELETE);
+						
+						
+				return l;
+			}
+		});
 
 		scrollLegality = new JScrollPane();
 		GridBagConstraints gbcscrollLegality = new GridBagConstraints();

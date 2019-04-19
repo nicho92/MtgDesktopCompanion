@@ -46,18 +46,14 @@ public class MTGDeckManager extends Observable {
 		if(format==FORMATS.COMMANDER)
 			return isCommander(magicDeck);
 		
-		
 		if(magicDeck.getAsList().size()<60)
 			return false;
-		
-		
 		
 		MagicFormat mf = new MagicFormat();
 		mf.setFormat(MagicFormat.toString(format));
 		return magicDeck.isCompatibleFormat(mf);
 
 	}
-	
 	
 	public static boolean isCommander(MagicDeck magicDeck) {
 		
