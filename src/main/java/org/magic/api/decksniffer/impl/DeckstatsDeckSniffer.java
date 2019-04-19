@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
@@ -75,6 +77,18 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				"pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
 	}
 
+	
+	public static void main(String[] args) throws URISyntaxException, IOException {
+		DeckstatsDeckSniffer snif = new DeckstatsDeckSniffer();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		RetrievableDeck d = new RetrievableDeck();
+		d.setName("test");
+		d.setUrl(new URI("https://deckstats.net/decks/50707/1249065-titan-shift/fr/fr?get_code=1&code_type=bb_deck&code_extended=0&code_html_nl=off"));
+		
+		snif.getDeck(d);
+	}
+	
+	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		//
@@ -86,51 +100,44 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
-		for (Element a : d.select("a.deck_tags_list_tag"))
-			deck.getTags().add(a.text());
-
-		boolean side = false;
-		Elements e = d.select("div#deck_overview_cards").select("div.deck_overview_section_chunk");
-
-		for (Element block : e) {
-
-			if (block.hasClass("deck_overview_section_chunk__sideboard"))
-				side = true;
-			else
-				side = false;
-
-			for (Element cont : block.select("div.deck_overview_card_header")) {
-				Integer qte = Integer.parseInt(cont.getElementsByClass("deck_overview_card_amount").get(0).text());
-				String cardName = cont.getElementsByClass("deck_overview_card_name").get(0).text().trim();
-
-				if (cardName.contains("//"))
-					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-				
-				MagicCard mc = null;
-
-				if (MagicCard.isBasicLand(cardName)) {
-					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-							.searchCardByName(cardName, ed, true).get(0);
-				} else {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-							.searchCardByName(cardName, null, true).get(0);
-				}
-
-				if (side)
-					deck.getMapSideBoard().put(mc, qte);
-				else
-					deck.getMap().put(mc, qte);
-
-				notify(cardName);
-				
-			}
-
-		}
-
+		
 		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
 
+		
+		for (Element a : d.select("a.deck_tags_list_tag"))
+			deck.getTags().add(a.text());
+
+		Elements e = d.select("textarea#deck_code");
+		String content= e.html();
+		
+		String[] arr  = content.split("\n");
+		
+		arr = ArrayUtils.remove(arr, 0); //remove deck name
+		arr = ArrayUtils.remove(arr, 0); //remove //main
+		
+		for(String s : arr)
+		{
+			try {
+					if(s.startsWith("SB: "))
+					{
+						s=s.replaceFirst("SB: ", "").trim();
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(parseString(s).getKey(), null, true).get(0);
+						deck.getMapSideBoard().put(mc,parseString(s).getValue());
+						notify(mc);
+					}
+					else
+					{
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(parseString(s).getKey(), null, true).get(0);
+						deck.getMap().put(mc,parseString(s).getValue());
+						notify(mc);
+					}
+			}
+			catch(Exception ex)
+			{
+				logger.error("error parsing -> "+s);
+			}
+		}
 		return deck;
 	}
 
@@ -152,7 +159,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				String idColor = cont.select("img").get(0).attr("src");
 				idColor = idColor.substring(idColor.lastIndexOf('/') + 1, idColor.lastIndexOf('.'));
 				String name = info.text();
-				String url = info.attr("href");
+				String url = info.attr("href") + "/fr?get_code=1&code_type=bb_deck&code_extended=0&code_html_nl=off";
 				String auteur = cont.select("a").get(1).text();
 
 				deck.setName(name);

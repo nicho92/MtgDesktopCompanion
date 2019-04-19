@@ -158,31 +158,31 @@ public class DeckDetailsPanel extends JComponent {
 
 		MagicFormat mf = new MagicFormat();
 
-		mf.setFormat("Standard");
+		mf.setFormat(MagicFormat.FORMATS.STANDARD);
 		if (!magicDeck.isCompatibleFormat(mf))
 			lbstd.setBackground(Color.RED);
 		else
 			lbstd.setBackground(Color.GREEN);
 
-		mf.setFormat("Modern");
+		mf.setFormat(MagicFormat.FORMATS.MODERN);
 		if (!magicDeck.isCompatibleFormat(mf))
 			lbmnd.setBackground(Color.RED);
 		else
 			lbmnd.setBackground(Color.GREEN);
 
-		mf.setFormat("Legacy");
+		mf.setFormat(MagicFormat.FORMATS.LEGACY);
 		if (!magicDeck.isCompatibleFormat(mf))
 			lbLeg.setBackground(Color.RED);
 		else
 			lbLeg.setBackground(Color.GREEN);
 
-		mf.setFormat("Vintage");
+		mf.setFormat(MagicFormat.FORMATS.VINTAGE);
 		if (!magicDeck.isCompatibleFormat(mf))
 			lbvin.setBackground(Color.RED);
 		else
 			lbvin.setBackground(Color.GREEN);
 
-		mf.setFormat("Commander");
+		mf.setFormat(MagicFormat.FORMATS.COMMANDER);
 		if (!MTGDeckManager.isCommander(magicDeck) || !magicDeck.isCompatibleFormat(mf))
 			lbcmd.setBackground(Color.RED);
 		else

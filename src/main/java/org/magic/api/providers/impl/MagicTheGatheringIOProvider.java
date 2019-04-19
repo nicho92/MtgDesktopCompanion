@@ -194,7 +194,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 				JsonObject k = arr.get(i).getAsJsonObject();
 				MagicFormat format = new MagicFormat();
 				format.setFormat(k.get("format").getAsString());
-				format.setLegality(k.get("legality").getAsString());
+				format.setLegality(k.get("legality").getAsString().equalsIgnoreCase("legal"));
 				mc.getLegalities().add(format);
 			}
 		}

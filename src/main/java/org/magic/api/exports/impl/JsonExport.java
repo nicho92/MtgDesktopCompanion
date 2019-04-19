@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -26,6 +27,8 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
 
+	private static final String UPDATE_DATE = "updateDate";
+	private static final String CREATION_DATE = "creationDate";
 	private static final String COLORS = "colors";
 	private static final String NAME = "name";
 	private static final String TAGS = "tags";
@@ -70,13 +73,21 @@ public class JsonExport extends AbstractCardExport {
 
 		MagicDeck deck = new MagicDeck();
 			deck.setName(name);
-		
+			
 		if (!root.get(NAME).isJsonNull())
 			deck.setName(root.get(NAME).getAsString());
 
 		if (!root.get(DESCRIPTION).isJsonNull())
 			deck.setDescription(root.get(DESCRIPTION).getAsString());
 
+		if (!root.get(CREATION_DATE).isJsonNull())
+			deck.setCreationDate(new Date(root.get(CREATION_DATE).getAsLong()));
+
+		if (!root.get(UPDATE_DATE).isJsonNull())
+			deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
+
+		
+		
 		if (!root.get(TAGS).isJsonNull()) {
 			JsonArray arr = root.get(TAGS).getAsJsonArray();
 			for (int i = 0; i < arr.size(); i++)
@@ -88,7 +99,7 @@ public class JsonExport extends AbstractCardExport {
 		for (int i = 0; i < main.size(); i++) {
 			JsonObject line = main.get(i).getAsJsonObject();
 			int qte = line.get("qty").getAsInt();
-			MagicCard mc = new Gson().fromJson(line.get("card"), MagicCard.class);
+			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
 			notify(mc);
 			deck.getMap().put(mc, qte);
 		}
@@ -98,7 +109,7 @@ public class JsonExport extends AbstractCardExport {
 		for (int i = 0; i < side.size(); i++) {
 			JsonObject line = side.get(i).getAsJsonObject();
 			int qte = line.get("qty").getAsInt();
-			MagicCard mc = new Gson().fromJson(line.get("card"), MagicCard.class);
+			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
 			notify(mc);
 			deck.getMapSideBoard().put(mc, qte);
 
@@ -124,8 +135,8 @@ public class JsonExport extends AbstractCardExport {
 		json.addProperty(DESCRIPTION, deck.getDescription());
 		json.addProperty(COLORS, deck.getColors());
 		json.addProperty("averagePrice", deck.getAveragePrice());
-		json.add("creationDate", new JsonPrimitive(deck.getDateCreation().getTime()));
-		json.add("updateDate", new JsonPrimitive(deck.getDateUpdate().getTime()));
+		json.add(CREATION_DATE, new JsonPrimitive(deck.getDateCreation().getTime()));
+		json.add(UPDATE_DATE, new JsonPrimitive(deck.getDateUpdate().getTime()));
 		JsonArray tags = new JsonArray();
 		for (String s : deck.getTags())
 			tags.add(s);

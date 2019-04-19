@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import java.sql.Date;
+
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -10,7 +12,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 	private static final long serialVersionUID = 1L;
 	
 	public DeckSelectionTableModel() {
-		columns=new String[] {"DECK","CARD_COLOR","STANDARD","MODERN","LEGACY","VINTAGE","CARDS"};
+		columns=new String[] {"DECK","CARD_COLOR","STANDARD","MODERN","LEGACY","VINTAGE","CARDS","DATE"};
 	}
 	
 	@Override
@@ -30,6 +32,8 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 			return Boolean.class;
 		case 6:
 			return Integer.class;
+		case 7:
+			return Date.class;
 		default:
 			return super.getColumnClass(columnIndex);
 		}
@@ -52,6 +56,8 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 			return MTGDeckManager.isLegal(items.get(row), MagicFormat.FORMATS.valueOf(columns[column]));
 		case 6:
 			return items.get(row).getAsList().size();
+		case 7:
+			return items.get(row).getDateUpdate();
 
 		default:
 			return "";

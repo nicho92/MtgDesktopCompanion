@@ -15,26 +15,27 @@ public class MagicFormat implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String format;
-	private String legality;
+	private Boolean legality;
 
 	public String getFormat() {
 		return format;
+	}
+	
+	public boolean isLegal()
+	{
+		return legality;
 	}
 
 	public void setFormat(String format) {
 		this.format = format;
 	}
 
-	public String getLegality() {
-		return legality;
-	}
-
-	public void setLegality(String legality) {
+	public void setLegality(Boolean legality) {
 		this.legality = legality;
 	}
 
 	public String toString() {
-		return getFormat() + " " + getLegality();
+		return getFormat() + " " + isLegal();
 	}
 
 	@Override
@@ -52,5 +53,10 @@ public class MagicFormat implements Serializable {
 
 		return getFormat().equalsIgnoreCase(((MagicFormat) obj).getFormat());
 
+	}
+
+	public void setFormat(FORMATS standard) {
+		format = StringUtils.capitalize(standard.name().toLowerCase());
+		
 	}
 }

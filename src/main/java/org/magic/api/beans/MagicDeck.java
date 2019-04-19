@@ -197,4 +197,8 @@ public class MagicDeck implements Serializable {
 		return d;
 	}
 
+	public void setCreationDate(Date date) {
+		this.dateCreation=date;
+	}
+
 }

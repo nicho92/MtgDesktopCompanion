@@ -3,6 +3,8 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGConstants;
 
@@ -32,6 +34,15 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 		
 	}
 	
+	
+	
+	protected DefaultMapEntry<String,Integer> parseString(String s)
+	{
+		Integer qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
+		String cardName = s.substring(s.indexOf(' '), s.length()).trim();
+		
+		return new DefaultMapEntry<>(cardName, qte);
+	}
 
 	
 

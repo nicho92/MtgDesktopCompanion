@@ -361,7 +361,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				Entry<String, JsonElement> ent = it.next();
 				MagicFormat format = new MagicFormat();
 				format.setFormat(ent.getKey());
-				format.setLegality(ent.getValue().getAsString());
+				format.setLegality(ent.getValue().getAsString().equalsIgnoreCase("legal"));
 				mc.getLegalities().add(format);
 			}
 		}
