@@ -312,6 +312,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		pricePanel.init(mc,mc.getCurrentSet());
 		btnExport.setEnabled(false);
 		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
+		packagePanel.setMagicEdition(mc.getCurrentSet());
 		
 		try {
 			if(col==null)

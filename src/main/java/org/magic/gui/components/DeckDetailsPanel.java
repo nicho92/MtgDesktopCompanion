@@ -26,6 +26,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
@@ -156,34 +157,27 @@ public class DeckDetailsPanel extends JComponent {
 
 	public void setLegalities() {
 
-		MagicFormat mf = new MagicFormat();
-
-		mf.setFormat(MagicFormat.FORMATS.STANDARD);
-		if (!magicDeck.isCompatibleFormat(mf))
+		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.STANDARD))
 			lbstd.setBackground(Color.RED);
 		else
 			lbstd.setBackground(Color.GREEN);
 
-		mf.setFormat(MagicFormat.FORMATS.MODERN);
-		if (!magicDeck.isCompatibleFormat(mf))
+		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.MODERN))
 			lbmnd.setBackground(Color.RED);
 		else
 			lbmnd.setBackground(Color.GREEN);
 
-		mf.setFormat(MagicFormat.FORMATS.LEGACY);
-		if (!magicDeck.isCompatibleFormat(mf))
+		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.LEGACY))
 			lbLeg.setBackground(Color.RED);
 		else
 			lbLeg.setBackground(Color.GREEN);
 
-		mf.setFormat(MagicFormat.FORMATS.VINTAGE);
-		if (!magicDeck.isCompatibleFormat(mf))
+		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.VINTAGE))
 			lbvin.setBackground(Color.RED);
 		else
 			lbvin.setBackground(Color.GREEN);
 
-		mf.setFormat(MagicFormat.FORMATS.COMMANDER);
-		if (!MTGDeckManager.isCommander(magicDeck) || !magicDeck.isCompatibleFormat(mf))
+		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.COMMANDER))
 			lbcmd.setBackground(Color.RED);
 		else
 			lbcmd.setBackground(Color.GREEN);
