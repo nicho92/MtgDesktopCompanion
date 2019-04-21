@@ -11,7 +11,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;

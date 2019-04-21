@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -18,7 +17,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
@@ -77,18 +75,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				"pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
 	}
 
-	
-	public static void main(String[] args) throws URISyntaxException, IOException {
-		DeckstatsDeckSniffer snif = new DeckstatsDeckSniffer();
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		RetrievableDeck d = new RetrievableDeck();
-		d.setName("test");
-		d.setUrl(new URI("https://deckstats.net/decks/50707/1249065-titan-shift/fr/fr?get_code=1&code_type=bb_deck&code_extended=0&code_html_nl=off"));
-		
-		snif.getDeck(d);
-	}
-	
-	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		//
