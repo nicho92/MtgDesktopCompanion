@@ -315,7 +315,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	private void describe() {
 		obs.setChanged();
-		obs.notifyObservers(this.getMagicCard());
+		obs.notifyObservers(getMagicCard());
 		// TODO remove this code for observers in GamePanelGUI
 		GamePanelGUI.getInstance().describeCard(this);
 	}

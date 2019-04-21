@@ -9,6 +9,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -111,7 +114,7 @@ public class JDeckChooserDialog extends JDialog {
 	public JDeckChooserDialog() {
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
 		setIconImage(MTGConstants.ICON_DECK.getImage());
-		setSize(828, 500);
+		setSize(950, 600);
 		
 		model = new DefaultTreeModel(root);
 		manager = new MTGDeckManager();
@@ -131,8 +134,21 @@ public class JDeckChooserDialog extends JDialog {
 			}
 		});
 		
+		
+		SwingWorker<List<MagicDeck>, Void> sw = new SwingWorker<List<MagicDeck>, Void>()
+				{
 
-		ThreadManager.getInstance().executeThread(()->manager.listDecks(), "Loading Decks");
+					@Override
+					protected List<MagicDeck> doInBackground() throws Exception {
+						return manager.listDecks();
+					}
+					@Override
+					protected void done() {
+						table.packAll();
+					}
+				};
+		
+		ThreadManager.getInstance().runInEdt(sw);
 		
 		
 		table = new JXTable(decksModel);
