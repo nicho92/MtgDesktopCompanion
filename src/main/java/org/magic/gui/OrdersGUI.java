@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -63,11 +64,29 @@ public class OrdersGUI extends MTGUIComponent {
 	
 	private void loadFinancialBook()
 	{
-			model.addItems(MTGControler.getInstance().getEnabled(MTGDao.class).listOrders());
-			calulate(model.getItems());
-			table.packAll();
-			UITools.initTableFilter(table);
+		SwingWorker<List<OrderEntry>, OrderEntry> sw = new SwingWorker<List<OrderEntry>, OrderEntry>()
+				{
 
+					@Override
+					protected List<OrderEntry> doInBackground() throws Exception {
+						return MTGControler.getInstance().getEnabled(MTGDao.class).listOrders();
+					}
+					
+					@Override
+					protected void done() {
+						try {
+							model.addItems(get());
+							calulate(model.getItems());
+						} catch (Exception e) {
+							logger.error(e);
+						} 
+						table.packAll();
+						UITools.initTableFilter(table);
+					}
+			
+				};
+			
+			ThreadManager.getInstance().runInEdt(sw);
 	}
 	
 	
@@ -153,7 +172,7 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		table.setSortOrder(2, SortOrder.DESCENDING);
 
-		ThreadManager.getInstance().invokeLater(this::loadFinancialBook);
+		loadFinancialBook();
 		
 		
 		btnSaveOrder.addActionListener(ae->{

@@ -33,7 +33,8 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 		try {
 			
 			String query=search.trim().replaceAll(" ", " AND ");
-			String uri = "https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW").toLowerCase()+"/?q="+URLEncoder.encode(query,MTGConstants.DEFAULT_ENCODING)+"&mature=true";
+			String uri = "https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW").toLowerCase()+"/?q="+URLEncoder.encode(query,MTGConstants.DEFAULT_ENCODING.displayName())+"&mature=true";
+			
 			String s= c.doGet(uri, m);
 			logger.debug(uri);
 			logger.debug(s);
