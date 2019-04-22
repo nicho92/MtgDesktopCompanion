@@ -34,10 +34,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) {
 		try {
-
-			URL url = getPictureURL(mc);
-			return URLTools.extractImage(url);
-
+			return URLTools.extractImage(getPictureURL(mc));
 		} catch (Exception e) {
 			logger.error("Error reading pics for " + mc, e);
 			return null;

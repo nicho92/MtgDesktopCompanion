@@ -116,8 +116,13 @@ public class MagicDeck implements Serializable {
 			mapDeck.remove(mc);
 		else
 			mapDeck.put(mc, mapDeck.get(mc) - 1);
-
 	}
+	
+	public void delete(MagicCard mc)
+	{
+		mapDeck.remove(mc);
+	}
+	
 
 	public void add(MagicCard mc) {
 		if (mapDeck.get(mc) == null)

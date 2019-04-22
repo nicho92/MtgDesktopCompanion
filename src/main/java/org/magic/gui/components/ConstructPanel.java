@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -608,6 +609,7 @@ public class ConstructPanel extends JPanel {
 		});
 	}
 
+	private int i=1;
 	private void initTables(JXTable table, int f, DeckCardsTableModel model) {
 		table.setModel(model);
 		table.setRowSorter(new TableRowSorter<DefaultTableModel>(model));
@@ -633,14 +635,22 @@ public class ConstructPanel extends JPanel {
 				if(SwingUtilities.isRightMouseButton(ev))
 				{
 					JPopupMenu menu = new JPopupMenu();
+	
+					JMenuItem itemDel = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("DELETE"));
+					menu.add(itemDel);
+					itemDel.addActionListener(ae->{
+						
+						deck.delete(mc);
+						model.fireTableDataChanged();
+						
+					});
+					
 					JMenuItem item = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"));
 					menu.add(item);
 					item.addActionListener(ae->{
 						
 						resultListModel.removeAllElements();
 						listResult.updateUI();
-						
-						
 						try {
 							for(MagicCard card : MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).similarity(mc).keySet())
 								resultListModel.addElement(card);
