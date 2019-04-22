@@ -23,7 +23,6 @@ import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -45,7 +44,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -85,7 +83,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.services.workers.DeckImportWorker;
 import org.magic.tools.UITools;
-import javax.swing.table.DefaultTableCellRenderer;
 
 public class ConstructPanel extends JPanel {
 

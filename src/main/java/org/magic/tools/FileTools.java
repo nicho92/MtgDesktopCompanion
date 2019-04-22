@@ -38,10 +38,7 @@ public class FileTools {
 		}
 	
 	}
-	
-	public static void main(String[] args) throws IOException {
-		importConfig(new File("C:\\Users\\Pihen\\Google Drive\\config.backup.zip"), new File("d:/"));
-	}
+
 	
 	public static void importConfig(File fileZip,File dest) throws IOException 
 	{
