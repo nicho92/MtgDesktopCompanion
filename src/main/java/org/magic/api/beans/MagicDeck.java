@@ -24,6 +24,7 @@ public class MagicDeck implements Serializable {
 	private Date dateUpdate;
 	private double averagePrice;
 	private List<String> tags;
+	private MagicCard commander;
 
 	public List<String> getTags() {
 		return tags;
@@ -203,6 +204,14 @@ public class MagicDeck implements Serializable {
 
 	public void setCreationDate(Date date) {
 		this.dateCreation=date;
+	}
+
+	public void setCommander(MagicCard mc) {
+		this.commander=mc;
+	}
+
+	public MagicCard getCommander() {
+		return commander;
 	}
 
 }

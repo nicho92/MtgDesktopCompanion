@@ -25,7 +25,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -644,6 +643,18 @@ public class ConstructPanel extends JPanel {
 						model.fireTableDataChanged();
 						
 					});
+					
+					
+					JMenuItem itemSelCommander = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SELECT_COMMANDER"));
+						menu.add(itemSelCommander);
+						itemSelCommander.addActionListener(ae->{
+							
+							if(mc.isLegenday() && (mc.isCreature()||mc.isPlaneswalker()))
+								deck.setCommander(mc);
+							else
+								logger.error(mc + " couldn't be commander");
+						});
+					
 					
 					JMenuItem item = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"));
 					menu.add(item);

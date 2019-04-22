@@ -467,6 +467,11 @@ public class MagicCard implements Serializable {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
 	
+	public boolean isLegenday() {
+		return getSupertypes().toString().toLowerCase().contains("legendary");
+	}
+	
+	
 	public MagicCard toForeign(MagicCardNames fn)
 	{
 		try {
@@ -482,5 +487,7 @@ public class MagicCard implements Serializable {
 			return this;
 		}
 	}
+
+	
 
 }

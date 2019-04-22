@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
