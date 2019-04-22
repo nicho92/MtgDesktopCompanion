@@ -10,15 +10,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.ImageTools;
 
-public class ManaPanel extends JComponent {
+public class ManaPanel extends JPanel {
 	/**
 	 * 
 	 */

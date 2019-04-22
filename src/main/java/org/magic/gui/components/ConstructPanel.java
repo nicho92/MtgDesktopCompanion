@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
@@ -22,6 +23,7 @@ import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -32,6 +34,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
@@ -40,7 +43,9 @@ import javax.swing.SwingWorker;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -80,6 +85,7 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.services.workers.DeckImportWorker;
 import org.magic.tools.UITools;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class ConstructPanel extends JPanel {
 
@@ -608,7 +614,6 @@ public class ConstructPanel extends JPanel {
 		});
 	}
 
-	private int i=1;
 	private void initTables(JXTable table, int f, DeckCardsTableModel model) {
 		table.setModel(model);
 		table.setRowSorter(new TableRowSorter<DefaultTableModel>(model));
@@ -617,6 +622,18 @@ public class ConstructPanel extends JPanel {
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {
+
+			JLabel comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
+			comp.setText(((MagicCard)value).getName());
+
+			if((deck.getCommander()!=null) && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
+				comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
+
+			return comp;
+			
+		});
+		
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -645,15 +662,24 @@ public class ConstructPanel extends JPanel {
 					});
 					
 					
-					JMenuItem itemSelCommander = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SELECT_COMMANDER"));
-						menu.add(itemSelCommander);
-						itemSelCommander.addActionListener(ae->{
-							
-							if(mc.isLegenday() && (mc.isCreature()||mc.isPlaneswalker()))
-								deck.setCommander(mc);
+					if(mc.isLegenday() && (mc.isCreature()||mc.isPlaneswalker())) {
+					
+							if((deck.getCommander()!=null) && mc.getName().equals(deck.getCommander().getName()))
+							{
+								JMenuItem itemRemoveCommander = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REMOVE_COMMANDER"));
+								menu.add(itemRemoveCommander);
+								itemRemoveCommander.addActionListener(ae->deck.setCommander(null));	
+							}
 							else
-								logger.error(mc + " couldn't be commander");
-						});
+							{
+								JMenuItem itemSelCommander = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SELECT_COMMANDER"));
+								menu.add(itemSelCommander);
+								itemSelCommander.addActionListener(ae->deck.setCommander(mc));
+							
+							}
+					}
+					
+					
 					
 					
 					JMenuItem item = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"));
