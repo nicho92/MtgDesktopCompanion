@@ -46,7 +46,7 @@ public class ChromeDownloader extends JDialog {
 				MTGControler.getInstance().notify(new MTGNotification("Export", "Plugin copied in " + txtDirectory.getFile(), MESSAGE_TYPE.INFO));
 				dispose();
 			} catch (Exception e1) {
-				MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
+				MTGControler.getInstance().notify(e1);
 			}
 			
 		});

@@ -185,7 +185,7 @@ public class JDeckChooserDialog extends JDialog {
 		btnSelect.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 		btnSelect.addActionListener(e -> {
 			if (selectedDeck == null)
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"))));
+				MTGControler.getInstance().notify(new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK")));
 			else
 				dispose();
 		});
@@ -217,7 +217,7 @@ public class JDeckChooserDialog extends JDialog {
 					manager.remove(selectedDeck);
 					((DeckSelectionTableModel) table.getModel()).removeItem(selectedDeck);
 				} catch (IOException e1) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+					MTGControler.getInstance().notify(e1);
 				}
 			}
 		});

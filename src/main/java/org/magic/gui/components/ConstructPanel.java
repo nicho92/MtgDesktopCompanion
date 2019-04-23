@@ -345,8 +345,7 @@ public class ConstructPanel extends JPanel {
 				}
 			} catch (Exception ex) {
 				logger.error(ex);
-				MTGControler.getInstance()
-						.notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), ex));
+				MTGControler.getInstance().notify(ex);
 			}
 
 		});
@@ -422,8 +421,7 @@ public class ConstructPanel extends JPanel {
 				}
 			} catch (Exception ex) {
 				logger.error("error saving", ex);
-				MTGControler.getInstance()
-						.notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), ex));
+				MTGControler.getInstance().notify(ex);
 			}
 
 		});

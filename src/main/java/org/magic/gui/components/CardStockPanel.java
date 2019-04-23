@@ -93,8 +93,7 @@ public class CardStockPanel extends JPanel {
 						ms.setUpdate(false);
 						
 					} catch (SQLException e1) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
-						
+						MTGControler.getInstance().notify(e1);
 					}
 
 			model.fireTableDataChanged();

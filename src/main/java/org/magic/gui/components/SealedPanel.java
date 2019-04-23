@@ -448,7 +448,7 @@ public class SealedPanel extends JPanel {
 			deck.setName(name);
 			deckManager.saveDeck(deck);
 		} catch (IOException ex) {
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+			MTGControler.getInstance().notify(ex);
 		}
 	}
 }

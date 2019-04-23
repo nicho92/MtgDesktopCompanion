@@ -196,7 +196,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 					} catch (IOException e1) {
 						error = true;
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+						MTGControler.getInstance().notify(e1);
 					}
 				}
 			}

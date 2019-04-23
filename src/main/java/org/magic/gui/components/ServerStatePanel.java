@@ -163,7 +163,7 @@ public class ServerStatePanel extends JPanel {
 					server.start();
 				
 			} catch (Exception e1) {
-				MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
+				MTGControler.getInstance().notify(e1);
 			}
 
 			if(b)

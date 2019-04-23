@@ -71,23 +71,7 @@ public class PricesTablePanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		tablePrices.setColumnControlVisible(true);
 		tablePrices.setRowSorter(sorterPrice);
-//		tablePrices.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus, int row,int column)->{
-//				
-//				JLabel l = new JLabel();
-//				l.setText(value.toString());
-//				l.setIcon(PluginRegistry.inst().getPlugin(value.toString(), MTGPricesProvider.class).getIcon());
-//				l.setOpaque(false);
-//				if(isSelected)
-//					l.setBackground(table2.getSelectionBackground());
-//				else
-//					l.setBackground(table2.getBackground());
-//				
-//				
-//				return l;
-//			
-//
-//		});
-		
+
 		
 		
 		add(panel, BorderLayout.NORTH);

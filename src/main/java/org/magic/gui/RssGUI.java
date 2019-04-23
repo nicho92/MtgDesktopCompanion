@@ -140,7 +140,7 @@ public class RssGUI extends MTGUIComponent {
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error saving news", ex);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+				MTGControler.getInstance().notify(ex);
 			}
 		});
 
@@ -151,7 +151,7 @@ public class RssGUI extends MTGUIComponent {
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error delete news", ex);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+				MTGControler.getInstance().notify(ex);
 			}
 		});
 	

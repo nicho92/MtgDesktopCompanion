@@ -83,7 +83,7 @@ public class StoriesGUI extends MTGUIComponent {
 							editorPane.setText(URLTools.extractHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html());
 
 						} catch (Exception e) {
-							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+							MTGControler.getInstance().notify(e);
 						}
 						lblLoading.end();
 					}, "Load story");
@@ -91,7 +91,7 @@ public class StoriesGUI extends MTGUIComponent {
 					try {
 						Desktop.getDesktop().browse(listResult.getSelectedValue().getUrl().toURI());
 					} catch (Exception e) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						MTGControler.getInstance().notify(e);
 					}
 				}
 			}

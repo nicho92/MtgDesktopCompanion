@@ -526,7 +526,7 @@ public class ConfigurationPanel extends JPanel {
 				
 				MTGControler.getInstance().notify(new MTGNotification("EXPORT", "Export "+f, MESSAGE_TYPE.INFO));
 			} catch (IOException e2) {
-				MTGControler.getInstance().notify(new MTGNotification("ERROR", e2));
+				MTGControler.getInstance().notify(e2);
 			}
 		});
 		
@@ -553,7 +553,7 @@ public class ConfigurationPanel extends JPanel {
 						FileTools.importConfig(chooser.getSelectedFile(),MTGConstants.CONF_DIR);
 						MTGControler.getInstance().notify(new MTGNotification("IMPORT", "Import config done", MESSAGE_TYPE.INFO));
 					} catch (IOException e1) {
-						MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
+						MTGControler.getInstance().notify(e1);
 					}
 				}
 		});
@@ -600,8 +600,7 @@ public class ConfigurationPanel extends JPanel {
 			try {
 				InstallCert.installCert(txtWebSiteCertificate.getText());
 			} catch (Exception e) {
-				MTGControler.getInstance()
-						.notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
+				MTGControler.getInstance().notify(e);
 			}
 		});
 
@@ -657,8 +656,7 @@ public class ConfigurationPanel extends JPanel {
 					lblIndexSize.setText(UITools.formatDate(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).getIndexDate()));
 				} catch (Exception e) {
 					logger.error("error indexation", e);
-					MTGControler.getInstance()
-							.notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), e));
+					MTGControler.getInstance().notify(e);
 				} finally {
 					loading(false, "");
 					btnIndexation.setEnabled(true);

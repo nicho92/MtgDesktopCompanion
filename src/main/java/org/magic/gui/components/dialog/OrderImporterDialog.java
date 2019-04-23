@@ -110,7 +110,7 @@ public class OrderImporterDialog extends JDialog {
 						dispose();
 					} catch (Exception e1) {
 						logger.error("Error snif",e1);
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+						MTGControler.getInstance().notify(e1);
 						btnImport.setEnabled(true);
 					}
 					finally

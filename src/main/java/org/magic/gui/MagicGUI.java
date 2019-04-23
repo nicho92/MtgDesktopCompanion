@@ -72,7 +72,7 @@ public class MagicGUI extends JFrame {
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init GUI", e);
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+			MTGControler.getInstance().notify(e);
 		}
 		
 		addTab(new ConfigurationPanelGUI());
@@ -203,7 +203,7 @@ public class MagicGUI extends JFrame {
 					ThreadManager.getInstance().runInEdt(sw, "opening " + f);
 
 				} else {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),"NO EXPORT FOUND",MESSAGE_TYPE.ERROR));
+					MTGControler.getInstance().notify(new NullPointerException("NO EXPORT FOUND"));
 				}
 			}
 		});

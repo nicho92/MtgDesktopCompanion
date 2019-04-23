@@ -79,7 +79,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 		
 		if(err!=null)
 		{
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),err));
+			MTGControler.getInstance().notify(err);
 		}
 		else
 		{

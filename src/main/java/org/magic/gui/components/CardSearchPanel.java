@@ -167,7 +167,7 @@ public class CardSearchPanel extends MTGUIComponent {
 						MTGControler.getInstance().saveCard(mcCard, MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec),null);
 					} catch (SQLException e1) {
 						logger.error(e1);
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+						MTGControler.getInstance().notify(e1);
 					}
 
 				}
@@ -709,7 +709,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init", e);
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+			MTGControler.getInstance().notify(e);
 		}
 
 		logger.debug("construction of SearchGUI : done");

@@ -365,7 +365,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						initCard(new MagicCard());
 					}
 				} catch (IOException ex) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+					MTGControler.getInstance().notify(ex);
 				}
 			});
 
@@ -390,7 +390,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					editionModel.init(provider.loadEditions());
 					editionModel.fireTableDataChanged();
 				} catch (Exception ex) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+					MTGControler.getInstance().notify(ex);
 				}
 			});
 
@@ -419,7 +419,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						editionModel.init(provider.loadEditions());
 						editionModel.fireTableDataChanged();
 					} catch (Exception ex) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+						MTGControler.getInstance().notify(ex);
 					}
 				}
 
@@ -453,7 +453,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						cardsModel.init(provider.getCards(ed));
 						cardsModel.fireTableDataChanged();
 					} catch (IOException e) {
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						MTGControler.getInstance().notify(e);
 					}
 				}
 			});
@@ -484,7 +484,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					g.dispose();
 					picturesProvider.savePicture(bi, mc, me);
 				} catch (IOException ex) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+					MTGControler.getInstance().notify(ex);
 				}
 			});
 
@@ -502,13 +502,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 				} catch (Exception ex) {
 					logger.error("error painting",ex);
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+					MTGControler.getInstance().notify(ex);
 				}
 
 			});
 
 		} catch (Exception e) {
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+			MTGControler.getInstance().notify(e);
 		}
 	}
 

@@ -109,7 +109,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 					} catch (Exception e1) {
 						lblLoad.end();
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+						MTGControler.getInstance().notify(e1);
 					}
 				}, "Connection to " + selectedSniffer));
 				
@@ -155,7 +155,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 				
 				@Override
 				protected void error(Exception e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					MTGControler.getInstance().notify(e);
 				}
 				
 				

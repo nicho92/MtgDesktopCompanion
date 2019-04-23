@@ -67,7 +67,7 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 		catch(Exception e)
 		{
 			logger.error("error generating website",e);
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+			MTGControler.getInstance().notify(e);
 			buzy.end();
 			return;
 		}

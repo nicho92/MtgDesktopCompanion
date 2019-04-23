@@ -144,7 +144,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 					
 				} catch (Exception e) {
 					logger.error("error adding " + dash,e);
-					MTGControler.getInstance().notify(MTGNotification.newInstance(e));
+					MTGControler.getInstance().notify(e);
 				} 
 	}
 

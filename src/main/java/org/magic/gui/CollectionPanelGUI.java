@@ -431,7 +431,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 										@Override
 										protected void error(Exception e) {
-											MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+											MTGControler.getInstance().notify(e);
 										}
 									};
 									ThreadManager.getInstance().runInEdt(swExp);
@@ -439,7 +439,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 									}
 									catch(Exception e)
 									{
-										MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+										MTGControler.getInstance().notify(e);
 									}
 									
 									
@@ -613,7 +613,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			} catch (Exception e) {
 				logger.error("error generating website", e);
 				progressBar.end();
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+				MTGControler.getInstance().notify(e);
 			}
 		}));
 
@@ -672,7 +672,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				initPopupCollection();
 			} catch (Exception ex) {
 				logger.error(ex);
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
+				MTGControler.getInstance().notify(ex);
 			}
 		});
 		
@@ -692,7 +692,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						MTGControler.getInstance().removeCard(card, col);
 					}
 				} catch (SQLException e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					MTGControler.getInstance().notify(e);
 				}
 			}
 			if (curr.getUserObject() instanceof MagicEdition) {
@@ -705,7 +705,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						dao.removeEdition(me, col);
 					}
 				} catch (SQLException e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					MTGControler.getInstance().notify(e);
 				}
 			}
 			if (curr.getUserObject() instanceof MagicCollection) {
@@ -715,7 +715,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						dao.removeCollection(col);
 					}
 				} catch (SQLException e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					MTGControler.getInstance().notify(e);
 				}
 			}
 
@@ -723,7 +723,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				try {
 					tree.removeNodeFromParent(curr);
 				} catch (Exception e) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					MTGControler.getInstance().notify(e);
 				}
 				
 			}
@@ -791,7 +791,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						ThreadManager.getInstance().runInEdt(sw, "insert sets");
 					} catch (Exception e) {
 						logger.error(e);
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+						MTGControler.getInstance().notify(e);
 
 					}
 					

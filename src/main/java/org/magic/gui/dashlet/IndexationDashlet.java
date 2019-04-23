@@ -75,7 +75,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		indexModel.init(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));
 		}catch(Exception e)
 		{
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize("ERROR"), "Indexation is not initied", MESSAGE_TYPE.WARNING));
+			MTGControler.getInstance().notify(new NullPointerException("Indexation is not initied"));
 		}
 	}
 

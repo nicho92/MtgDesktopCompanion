@@ -828,7 +828,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				lblLoading.start();
 				model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
 			} catch (SQLException e1) {
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+				MTGControler.getInstance().notify(e1);
 			}
 			lblLoading.end();
 			updateCount();

@@ -209,7 +209,7 @@ public class AlarmGUI extends MTGUIComponent {
 						Desktop.getDesktop().browse(new URI(list.getSelectedValue().getUrl()));
 					}
 				} catch (Exception e1) {
-					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
+					MTGControler.getInstance().notify(e1);
 				}
 
 			}
@@ -305,7 +305,7 @@ public class AlarmGUI extends MTGUIComponent {
 						}
 						catch(Exception e)
 						{
-							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+							MTGControler.getInstance().notify(e);
 						}
 						
 						model.fireTableDataChanged();
