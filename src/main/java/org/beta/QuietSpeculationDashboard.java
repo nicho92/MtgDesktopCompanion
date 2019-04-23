@@ -54,8 +54,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 
 	@Override
 	protected List<CardShake> getOnlineShakerFor(FORMATS gameFormat) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -88,8 +87,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 
 	@Override
 	protected CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new CardPriceVariations(mc);
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -12,12 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultRowSorter;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
@@ -28,8 +32,10 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardsPriceTableModel;
+import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -65,6 +71,24 @@ public class PricesTablePanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		tablePrices.setColumnControlVisible(true);
 		tablePrices.setRowSorter(sorterPrice);
+//		tablePrices.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus, int row,int column)->{
+//				
+//				JLabel l = new JLabel();
+//				l.setText(value.toString());
+//				l.setIcon(PluginRegistry.inst().getPlugin(value.toString(), MTGPricesProvider.class).getIcon());
+//				l.setOpaque(false);
+//				if(isSelected)
+//					l.setBackground(table2.getSelectionBackground());
+//				else
+//					l.setBackground(table2.getBackground());
+//				
+//				
+//				return l;
+//			
+//
+//		});
+		
+		
 		
 		add(panel, BorderLayout.NORTH);
 		

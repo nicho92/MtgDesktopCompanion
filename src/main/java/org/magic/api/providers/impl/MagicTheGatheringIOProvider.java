@@ -311,7 +311,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		ed.setId(obj.get("code").getAsString());
 		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get(TYPE).getAsString());
-	//TODO bugfix border choice	ed.setBorder(obj.get("border").getAsString());
 		ed.setReleaseDate(obj.get("releaseDate").getAsString());
 
 		if (obj.get("mkm_id") != null) {

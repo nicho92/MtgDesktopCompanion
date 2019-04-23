@@ -320,7 +320,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		rarityJTextField.setColumns(10);
 
 		lstFormats = new JList<>(new DefaultListModel<MagicFormat>());
-		//lstFormats.setVisibleRowCount(4);
 		lstFormats.setCellRenderer(new ListCellRenderer<MagicFormat>() {
 			
 			@Override

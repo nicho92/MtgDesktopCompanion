@@ -196,15 +196,21 @@ public class IconSetProvider {
 		equiv.put("OHOP", "HOP");
 		equiv.put("OPCA", "PCA");
 		equiv.put("MED", "MPS_MED");
+		equiv.put("PS11", "PSALVAT11");
 		
 		
 	}
 	
 	private String getEquiv(String set) 
 	{
-
 		if(equiv.get(set)!=null)
 			return equiv.get(set);
+	
+
+		if(set.length()==4 && set.toLowerCase().startsWith("p"))
+			set=set.substring(1);
+		
+		
 		
 		return set;
 	}
