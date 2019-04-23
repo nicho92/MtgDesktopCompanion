@@ -85,7 +85,7 @@ public class OrdersGUI extends MTGUIComponent {
 			
 				};
 			
-			ThreadManager.getInstance().runInEdt(sw);
+			ThreadManager.getInstance().runInEdt(sw,"loading orders");
 	}
 	
 	
@@ -226,7 +226,7 @@ public class OrdersGUI extends MTGUIComponent {
 				
 				
 				if(res==JOptionPane.OK_OPTION)
-					ThreadManager.getInstance().runInEdt(sw);
+					ThreadManager.getInstance().runInEdt(sw,"delete "+states.size()+" orders");
 				
 				
 				

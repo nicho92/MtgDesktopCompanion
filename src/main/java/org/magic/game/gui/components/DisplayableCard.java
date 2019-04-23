@@ -510,7 +510,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw);
+		ThreadManager.getInstance().runInEdt(sw,"Init DisplayableCard:"+mc);
 		
 			
 	}
@@ -569,7 +569,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	public void addObserver(Observer panelDetail) {
 		obs.addObserver(panelDetail);
-
 	}
+	
+	
 
 }

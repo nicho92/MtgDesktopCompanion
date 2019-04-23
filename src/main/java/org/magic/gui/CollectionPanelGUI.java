@@ -372,7 +372,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw);
+		ThreadManager.getInstance().runInEdt(sw,"calculate collection");
 		});
 		
 		btnExport.addActionListener(ae -> {
@@ -434,7 +434,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 											MTGControler.getInstance().notify(e);
 										}
 									};
-									ThreadManager.getInstance().runInEdt(swExp);
+									ThreadManager.getInstance().runInEdt(swExp,"export collection");
 									
 									}
 									catch(Exception e)
@@ -607,7 +607,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 					progressBar.start(max);
 					WebsiteExportWorker sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), progressBar);
-					ThreadManager.getInstance().runInEdt(sw);
+					ThreadManager.getInstance().runInEdt(sw,"website generation");
 				}
 
 			} catch (Exception e) {

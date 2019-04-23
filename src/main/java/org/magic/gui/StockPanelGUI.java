@@ -316,7 +316,7 @@ public class StockPanelGUI extends MTGUIComponent {
 									}
 								}
 							};
-							ThreadManager.getInstance().runInEdt(sw);
+							ThreadManager.getInstance().runInEdt(sw,"import stocks from " + fileImport);
 							
 						}
 					});

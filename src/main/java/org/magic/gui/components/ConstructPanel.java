@@ -520,7 +520,7 @@ public class ConstructPanel extends JPanel {
 									} 
 								}
 							};
-							ThreadManager.getInstance().runInEdt(importWork);
+							ThreadManager.getInstance().runInEdt(importWork,"Deck imports from "+f);
 						}
 					});
 				

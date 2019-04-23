@@ -686,7 +686,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 						return null;
 					}
 				};
-				ThreadManager.getInstance().runInEdt(sw);
+				ThreadManager.getInstance().runInEdt(sw,"loading " + magicCard + " languages");
 				}
 		}
 		
@@ -744,7 +744,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			}
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw);
+		ThreadManager.getInstance().runInEdt(sw,"loading " + mc + " picture");
 	}
 	
 	@Override

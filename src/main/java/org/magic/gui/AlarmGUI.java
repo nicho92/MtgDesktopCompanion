@@ -393,7 +393,7 @@ public class AlarmGUI extends MTGUIComponent {
 											addCard(mc);
 								}
 							};
-							ThreadManager.getInstance().runInEdt(sw);
+							ThreadManager.getInstance().runInEdt(sw,"import alarms");
 						}
 					});
 

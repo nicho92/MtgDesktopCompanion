@@ -146,7 +146,7 @@ public class JDeckChooserDialog extends JDialog {
 					}
 				};
 		
-		ThreadManager.getInstance().runInEdt(sw);
+		ThreadManager.getInstance().runInEdt(sw,"loading decks");
 		
 		
 		table = new JXTable(decksModel);

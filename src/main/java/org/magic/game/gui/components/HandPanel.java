@@ -112,7 +112,7 @@ public class HandPanel extends DraggablePanel {
 			}
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw);
+		ThreadManager.getInstance().runInEdt(sw,"Init Thumbnail");
 	}
 
 	@Override

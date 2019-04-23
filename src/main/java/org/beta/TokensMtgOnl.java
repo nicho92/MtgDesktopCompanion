@@ -18,13 +18,11 @@ public class TokensMtgOnl extends AbstractTokensProvider {
 	
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

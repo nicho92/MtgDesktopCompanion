@@ -397,7 +397,7 @@ public class SealedPanel extends JPanel {
 			
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw);
+		ThreadManager.getInstance().runInEdt(sw,"opening boosters");
 	}
 
 	private DisplayableCard createCard(MagicCard mc) {

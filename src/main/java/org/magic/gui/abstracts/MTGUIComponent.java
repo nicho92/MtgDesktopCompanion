@@ -19,6 +19,12 @@ public abstract class MTGUIComponent extends JComponent {
 
 	public abstract String getTitle();
 	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	public MTGUIComponent()
 	{
 		logger.info("init GUI : " + getTitle());

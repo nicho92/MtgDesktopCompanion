@@ -1,5 +1,7 @@
 package org.magic.services;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -8,6 +10,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -35,16 +38,24 @@ public class ThreadManager {
 	public void invokeLater(Runnable task) {
 		SwingUtilities.invokeLater(task);
 	}
-	
-	public void runInEdt(SwingWorker<?, ?> runnable) {
-		runInEdt(runnable,"EDT-Thread");
-	}
-	
-		
 
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		this.name=name;
 		runnable.execute();
+		Chrono c = new Chrono();
+		
+		runnable.addPropertyChangeListener((PropertyChangeEvent ev)->{
+			if(ev.getNewValue().toString().equals("STARTED"))
+			{ 
+				c.start();
+				logger.trace(name+"\t"+ev.getSource()+"\t STARTED");
+			}
+			
+			if(ev.getNewValue().toString().equals("DONE"))
+			{ 
+				logger.trace(name+"\t"+ev.getSource().getClass()+"\t FINISHED IN "+c.stop()+"s.");
+			}
+		});
 	}
 	
 	private void log() {
