@@ -20,7 +20,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.LogTableModel;
 import org.magic.servers.impl.JSONHttpServer;

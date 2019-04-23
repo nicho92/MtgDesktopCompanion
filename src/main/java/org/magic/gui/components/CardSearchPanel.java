@@ -46,7 +46,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
@@ -80,6 +79,11 @@ import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 
 public class CardSearchPanel extends MTGUIComponent {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static final String SEARCH_MODULE = "SEARCH_MODULE";
 

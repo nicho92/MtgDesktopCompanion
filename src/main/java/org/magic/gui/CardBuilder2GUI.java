@@ -35,7 +35,6 @@ import javax.swing.border.TitledBorder;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;

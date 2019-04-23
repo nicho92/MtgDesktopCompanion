@@ -5,7 +5,6 @@ import java.util.List;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGControler;

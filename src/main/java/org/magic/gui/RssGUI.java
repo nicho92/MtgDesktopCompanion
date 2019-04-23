@@ -25,7 +25,6 @@ import javax.swing.tree.TreePath;
 
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGDao;

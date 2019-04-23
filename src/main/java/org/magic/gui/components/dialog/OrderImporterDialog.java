@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
