@@ -552,6 +552,19 @@ public class CardSearchPanel extends MTGUIComponent {
 			
 		});
 
+		tableCards.getSelectionModel().addListSelectionListener(event -> {
+			if (!event.getValueIsAdjusting()) {
+				try {
+					selectedCard = (MagicCard)UITools.getTableSelection(tableCards, 0).get(0);
+					selectedEdition = selectedCard.getCurrentSet();
+					updateCards();
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		});
+		
+		
 		tableCards.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
@@ -565,7 +578,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					popupMenu.show(tableCards, (int) point.getX(), (int) point.getY());
 				} else {
 					try {
-						selectedCard = (MagicCard) tableCards.getValueAt(tableCards.getSelectedRow(), 0);
+						selectedCard = (MagicCard)UITools.getTableSelection(tableCards, 0).get(0);
 						selectedEdition = selectedCard.getCurrentSet();
 						updateCards();
 					} catch (Exception e) {

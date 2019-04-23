@@ -629,6 +629,21 @@ public class ConstructPanel extends JPanel {
 			
 		});
 		
+		table.getSelectionModel().addListSelectionListener(event -> {
+			if (!event.getValueIsAdjusting()) {
+				try {
+					MagicCard mc = (MagicCard) UITools.getTableSelection(table, 0).get(0);
+					magicCardDetailPanel.setMagicCard(mc);
+					
+					if(f==MAIN)
+						cardDrawProbaPanel.init(deck, mc);
+					
+					
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		});
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
