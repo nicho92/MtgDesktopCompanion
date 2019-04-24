@@ -79,10 +79,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private JLabel lblLegal;
 	private JList<MagicFormat> lstFormats;
 	private JList<MagicCollection> listCollection;
-	private JScrollPane scrollLegality;
 	private JLabel lblWatermark;
 	private JTextField txtWatermark;
-	private JScrollPane scrollCollections;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTextField rarityJTextField;
 	private GridBagLayout gridBagLayout;
@@ -334,7 +332,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			}
 		});
 
-		scrollLegality = new JScrollPane();
+
 		GridBagConstraints gbcscrollLegality = new GridBagConstraints();
 		gbcscrollLegality.gridheight = 2;
 		gbcscrollLegality.gridwidth = 2;
@@ -342,8 +340,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gbcscrollLegality.fill = GridBagConstraints.BOTH;
 		gbcscrollLegality.gridx = 1;
 		gbcscrollLegality.gridy = 8;
-		add(scrollLegality, gbcscrollLegality);
-		scrollLegality.setViewportView(lstFormats);
+		add(new JScrollPane(lstFormats), gbcscrollLegality);
+		
 
 		JLabel textLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TEXT") + " :");
 		GridBagConstraints labelgbc8 = new GridBagConstraints();
@@ -425,7 +423,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gbclblLegal.gridy = 8;
 		add(lblLegal, gbclblLegal);
 
-		scrollCollections = new JScrollPane();
 		GridBagConstraints gbcscrollCollections = new GridBagConstraints();
 		gbcscrollCollections.gridheight = 2;
 		gbcscrollCollections.gridwidth = 3;
@@ -433,12 +430,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gbcscrollCollections.fill = GridBagConstraints.BOTH;
 		gbcscrollCollections.gridx = 4;
 		gbcscrollCollections.gridy = 8;
-		add(scrollCollections, gbcscrollCollections);
-
 		listModelCollection = new DefaultListModel<>();
-		
 		listCollection = new JList<>(listModelCollection);
-		scrollCollections.setViewportView(listCollection);
+		add(new JScrollPane(listCollection), gbcscrollCollections);		
 		
 		panelSwitchLangage = new JPanel();
 		FlowLayout flowLayout1 = (FlowLayout) panelSwitchLangage.getLayout();

@@ -52,15 +52,11 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-
 		table = new JXTable();
 		model = new DeckSnifferTableModel();
 		table.setModel(model);
-		scrollPane.setViewportView(table);
-		
-		
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);

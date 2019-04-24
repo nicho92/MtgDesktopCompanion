@@ -100,13 +100,12 @@ public class AlarmGUI extends MTGUIComponent {
 
 	public void initGUI() {
 		JSplitPane splitPanel = new JSplitPane();
-		JScrollPane scrollTable = new JScrollPane();
+
 		table = new JXTable();
 		model = new CardAlertTableModel();
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel(true);
-		JScrollPane scrollListOffers = new JScrollPane();
 		JPanel panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
 		list = new JList<>(resultListModel);
@@ -125,7 +124,6 @@ public class AlarmGUI extends MTGUIComponent {
 ///////CONFIG		
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		scrollTable.setPreferredSize(new Dimension(2, 200));
 		table.setModel(model);
 		table.getColumnModel().getColumn(3).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
@@ -142,11 +140,10 @@ public class AlarmGUI extends MTGUIComponent {
 		panelRight.setLayout(new BorderLayout());
 	
 ///////ADDS	
-		splitPanel.setLeftComponent(scrollTable);
+		splitPanel.setLeftComponent(new JScrollPane(table));
 		add(splitPanel, BorderLayout.CENTER);
-		scrollTable.setViewportView(table);
 		splitPanel.setRightComponent(tabbedPane);
-		panelRight.add(scrollListOffers,BorderLayout.CENTER);
+		
 		serversPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		serversPanel.add(oversightPanel);
 		serversPanel.add(serverPricePanel);
@@ -156,7 +153,7 @@ public class AlarmGUI extends MTGUIComponent {
 		pricesTablePanel = new PricesTablePanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
 		add(panelRight, BorderLayout.EAST);
-		scrollListOffers.setViewportView(list);
+		panelRight.add(new JScrollPane(list),BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
 		panel.add(btnDelete);
 		panel.add(btnImport);

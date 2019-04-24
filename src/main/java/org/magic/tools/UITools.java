@@ -29,6 +29,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -194,6 +195,20 @@ public class UITools {
 	{
 		return new DecimalFormat("#0.0#").format(f);
 	}
+	
+	
+	public static JXTable createJXTable()
+	{
+		JXTable table = new JXTable();
+		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
+		table.setColumnControlVisible(true);
+		
+		
+		return table;
+	}
+	
+	
+	
 
 	public static void initTableFilter(JTable table)
 	{

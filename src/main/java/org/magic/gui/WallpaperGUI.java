@@ -83,13 +83,12 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		setLayout(new BorderLayout(0, 0));
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(2, 200));
-		add(scrollPane, BorderLayout.CENTER);
+
 
 		panelThumnail = new JPanel();
-		scrollPane.setViewportView(panelThumnail);
-
+		add(new JScrollPane(panelThumnail), BorderLayout.CENTER);
+		
+		
 		c = new GridBagConstraints();
 		c.insets = new Insets(2, 2, 2, 2);
 		c.anchor = GridBagConstraints.NORTHWEST;

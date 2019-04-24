@@ -176,10 +176,9 @@ public class SealedPanel extends JPanel {
 		btnOpen.addActionListener(ae -> open());
 		btnAddBoosters.addActionListener(ae -> addBooster());
 
-		scrollTablePack = new JScrollPane();
+		scrollTablePack = new JScrollPane(table);
 		scrollTablePack.setPreferredSize(new Dimension(2, 100));
 		panelControl.add(scrollTablePack);
-		scrollTablePack.setViewportView(table);
 
 		panelAnalyse = new JPanel();
 		panelWest.add(panelAnalyse, BorderLayout.CENTER);
@@ -245,9 +244,7 @@ public class SealedPanel extends JPanel {
 		panelCenter.setResizeWeight(0.5);
 		panelCenter.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
-		JScrollPane paneBooster = new JScrollPane();
-		paneBooster.setViewportView(panelOpenedBooster);
-		panelCenter.setLeftComponent(paneBooster);
+		panelCenter.setLeftComponent(new JScrollPane(panelOpenedBooster));
 		panelCenter.setRightComponent(panelDetail);
 		add(panelCenter, BorderLayout.CENTER);
 

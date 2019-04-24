@@ -22,14 +22,11 @@ public class SearchCardFrame extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	HandPanel pane;
-	JScrollPane scPane;
-
 	DisplayableCard selectedCard;
 
 	private void init(Player p, final ZoneEnum source) {
 		setSize(new Dimension(800, 600));
 		setIconImage(MTGConstants.ICON_SEARCH.getImage());
-		scPane = new JScrollPane();
 		pane = new HandPanel() {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -56,9 +53,7 @@ public class SearchCardFrame extends JDialog {
 
 		};
 		pane.setPlayer(p);
-
-		scPane.setViewportView(pane);
-		getContentPane().add(scPane);
+		getContentPane().add(new JScrollPane(pane));
 	}
 
 	// used by SearchAction.

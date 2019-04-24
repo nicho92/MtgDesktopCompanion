@@ -66,12 +66,12 @@ public class RssGUI extends MTGUIComponent {
 	
 	public RssGUI() {
 		
-		JScrollPane scrollTable = new JScrollPane();
+
 		model = new MagicNewsTableModel();
 		table = new JXTable(model);
 		tree = new JTree();
 		JSplitPane splitNews = new JSplitPane();
-		JScrollPane scrollEditor = new JScrollPane();
+		
 		editorPane = new BrowserPane() {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -82,7 +82,6 @@ public class RssGUI extends MTGUIComponent {
 		
 		JSplitPane splitTreeTable = new JSplitPane();
 		JPanel leftPanel = new JPanel();
-		JScrollPane scrollTree = new JScrollPane();
 		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 		JPanel panelControl = new JPanel();
 		btnNewButton = new JButton(MTGConstants.ICON_NEW);
@@ -101,15 +100,13 @@ public class RssGUI extends MTGUIComponent {
 		tree.setCellRenderer(new NewsTreeCellRenderer());
 
 		
-		scrollEditor.setViewportView(editorPane);
-		splitNews.setLeftComponent(scrollTable);
-		splitNews.setRightComponent(scrollEditor);
-		scrollTable.setViewportView(table);
+		splitNews.setLeftComponent(new JScrollPane(table));
+		splitNews.setRightComponent(new JScrollPane(editorPane));
 		add(splitTreeTable, BorderLayout.CENTER);
 		splitTreeTable.setRightComponent(splitNews);
 		splitTreeTable.setLeftComponent(leftPanel);
-		leftPanel.add(scrollTree, BorderLayout.CENTER);
-		scrollTree.setViewportView(tree);
+		leftPanel.add(new JScrollPane(tree), BorderLayout.CENTER);
+		
 		leftPanel.add(panelControl, BorderLayout.NORTH);
 		panelControl.add(btnNewButton);
 		panelControl.add(btnSave);

@@ -22,7 +22,7 @@ import org.magic.tools.UITools;
 
 public class OrderEntryPanel extends MTGUIComponent {
 	
-	
+	private static final long serialVersionUID = 1L;
 	private JTextField txtDescription;
 	private JTextField txtPrice;
 	private JTextField txtSource;

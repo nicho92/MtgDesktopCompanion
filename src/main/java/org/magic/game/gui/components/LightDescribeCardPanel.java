@@ -41,9 +41,7 @@ public class LightDescribeCardPanel extends JPanel {
 	private JPanel panel;
 	private JLabel label;
 	private JTextField txtT;
-	private JScrollPane scrollPane;
 	private JTabbedPane tabbedPane;
-	private JScrollPane scrollPane1;
 	private JEditorPane rulesTextPane;
 
 	public LightDescribeCardPanel() {
@@ -165,20 +163,15 @@ public class LightDescribeCardPanel extends JPanel {
 		gbctabbedPane.gridy = 5;
 		add(tabbedPane, gbctabbedPane);
 
-		scrollPane = new JScrollPane();
-		tabbedPane.addTab("Text", null, scrollPane, null);
-
 		magicTextPane = new MagicTextPane();
-		scrollPane.setViewportView(magicTextPane);
-
+		tabbedPane.addTab("Text", null, new JScrollPane(magicTextPane), null);
 		magicTextPane.setMaximumSize(new Dimension(120, 200));
 		magicTextPane.setEditable(false);
 
-		scrollPane1 = new JScrollPane();
-		tabbedPane.addTab("Rules", null, scrollPane1, null);
-
 		rulesTextPane = new JEditorPane();
-		scrollPane1.setViewportView(rulesTextPane);
+		tabbedPane.addTab("Rules", null, new JScrollPane(rulesTextPane), null);
+
+
 
 		if (card != null) {
 			mBindingGroup = initDataBindings();

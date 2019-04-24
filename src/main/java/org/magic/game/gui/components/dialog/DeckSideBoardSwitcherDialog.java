@@ -48,21 +48,15 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 
 		init();
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.WEST);
 
 		listMain = new JList<>(modMain);
 
 		listMain.setCellRenderer(new MagicCardListRenderer());
-		scrollPane.setViewportView(listMain);
-
-		JScrollPane scrollPane1 = new JScrollPane();
-		getContentPane().add(scrollPane1, BorderLayout.EAST);
-
+		getContentPane().add(new JScrollPane(listMain), BorderLayout.WEST);
 		listSide = new JList<>(modSide);
 		listSide.setCellRenderer(new MagicCardListRenderer());
+		getContentPane().add(new JScrollPane(listSide), BorderLayout.EAST);
 
-		scrollPane1.setViewportView(listSide);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);

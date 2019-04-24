@@ -60,9 +60,6 @@ public class StoriesGUI extends MTGUIComponent {
 	}
 
 	private void initGUI() {
-		JScrollPane scrollList = new JScrollPane();
-		JScrollPane scrollEditor = new JScrollPane();
-
 		setLayout(new BorderLayout(0, 0));
 		resultListModel = new DefaultListModel<>();
 
@@ -96,7 +93,7 @@ public class StoriesGUI extends MTGUIComponent {
 			}
 		});
 
-		scrollList.setViewportView(listResult);
+		
 
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
@@ -116,11 +113,9 @@ public class StoriesGUI extends MTGUIComponent {
 		editorPane.setEditorKit(kit);
 		Document doc = kit.createDefaultDocument();
 		editorPane.setDocument(doc);
-		scrollEditor.setViewportView(editorPane);
-
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setLeftComponent(scrollList);
-		splitPane.setRightComponent(scrollEditor);
+		splitPane.setLeftComponent(new JScrollPane(listResult));
+		splitPane.setRightComponent(new JScrollPane(editorPane));
 		add(splitPane, BorderLayout.CENTER);
 	}
 

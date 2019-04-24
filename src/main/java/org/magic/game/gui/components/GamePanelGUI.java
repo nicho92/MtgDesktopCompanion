@@ -324,18 +324,16 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 
-		JScrollPane scrollActions = new JScrollPane();
-
-		scrollActions
-				.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions,
-				null);
 
 		listActions = new JList<>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listActions.setModel(new DefaultListModel<AbstractAction>());
-		scrollActions.setViewportView(listActions);
+		JScrollPane scrollActions = new JScrollPane(listActions);
+		scrollActions.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions,null);
 
+		
+		
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 
@@ -403,11 +401,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelBottom.setLayout(new BorderLayout(0, 0));
 		handPanel.setRupture(7);
 
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane(handPanel);
 		panelBottom.add(scrollPane);
 		scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
-
-		scrollPane.setViewportView(handPanel);
 
 		turnsPanel = new TurnsPanel();
 		panelBottom.add(turnsPanel, BorderLayout.NORTH);

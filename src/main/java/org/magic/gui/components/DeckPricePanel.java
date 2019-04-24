@@ -120,8 +120,7 @@ public class DeckPricePanel extends JComponent {
 		panel.add(lblPrice);
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont( Font.BOLD, 13));
 
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
+		
 		model = new CardsPriceTableModel();
 		tablePrice = new JXTable(model);
 		tablePrice.addMouseListener(new MouseAdapter() {
@@ -142,7 +141,7 @@ public class DeckPricePanel extends JComponent {
 			}
 		});
 
-		scrollPane.setViewportView(tablePrice);
+		add(new JScrollPane(tablePrice), BorderLayout.CENTER);
 	}
 
 }

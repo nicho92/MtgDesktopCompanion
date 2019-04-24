@@ -139,7 +139,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		JPanel panneauHaut;
 		
 		JPanel panneauGauche;
-		JScrollPane scrollPane;
 		JPanel panelTotal;
 		JPanel panneauDroite;
 		MagicCollectionTableCellRenderer render;
@@ -160,7 +159,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitListPanel = new JSplitPane();
 		splitPane = new JSplitPane();
 		panneauGauche = new JPanel();
-		scrollPane = new JScrollPane();
+		
 		panelTotal = new JPanel();
 		panneauDroite = new JPanel();
 		render = new MagicCollectionTableCellRenderer();
@@ -250,8 +249,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
-		panneauGauche.add(scrollPane);
-		scrollPane.setViewportView(tableEditions);
+		panneauGauche.add(new JScrollPane(tableEditions));
 		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
 		panelTotal.add(lblTotal);
 

@@ -68,9 +68,7 @@ public class MassMoverDialog extends JDialog {
 		panel.add(cboCollections);
 		panel.add(lblWaiting);
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-
+	
 		model = new MagicCardTableModel();
 		try {
 			if (ed == null)
@@ -83,8 +81,7 @@ public class MassMoverDialog extends JDialog {
 
 		tableCards = new JXTable(model);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-
-		scrollPane.setViewportView(tableCards);
+		getContentPane().add(new JScrollPane(tableCards), BorderLayout.CENTER);
 
 		UITools.initTableFilter(tableCards);
 

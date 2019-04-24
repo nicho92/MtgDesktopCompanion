@@ -248,10 +248,7 @@ public class JDeckChooserDialog extends JDialog {
 		tree = new JTree();
 		tree.setModel(model);
 
-		JScrollPane scrollPane1 = new JScrollPane();
-		panelTree.add(scrollPane1);
-		scrollPane1.setViewportView(tree);
-
+		panelTree.add(new JScrollPane(tree));
 		tagsPanel = new JTagsPanel();
 		tagsPanel.setFontSize(11);
 		tagsPanel.setColors(Color.DARK_GRAY, Color.WHITE);

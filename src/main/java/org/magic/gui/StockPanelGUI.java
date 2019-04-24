@@ -603,8 +603,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(btnshowMassPanel);
 		actionPanel.add(lblLoading);
 
-		JScrollPane scrollTable = new JScrollPane();
-
 		table = new JXTable(model);
 		StockTableRenderer render = new StockTableRenderer();
 
@@ -620,7 +618,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		
 		table.packAll();
 		UITools.initTableFilter(table);
-		scrollTable.setViewportView(table);
 
 		magicCardDetailPanel.enableThumbnail(true);
 
@@ -630,7 +627,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		centerPanel.add(splitPane, BorderLayout.CENTER);
-		splitPane.setLeftComponent(scrollTable);
+		splitPane.setLeftComponent(new JScrollPane(table));
 		
 		splitPane.setRightComponent(tabPanel);
 
