@@ -11,6 +11,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
+import com.google.common.collect.ImmutableMap;
+
 public class TCPGPlayerAPITest {
 
 	public static void main(String[] args) throws IOException {
@@ -26,11 +28,16 @@ public class TCPGPlayerAPITest {
 			String json = client.doPost("https://api.tcgplayer.com/token",entities,header);
 			String bearer = URLTools.toJson(json).getAsJsonObject().get("access_token").getAsString();
 			
-			
-		Map<String,String> values = new HashMap<>();
-		values.put("Authorization", "bearer "+bearer);
-			
-		String ret = client.doGet("http://api.tcgplayer.com/v1.19.0/catalog/categories/1/groups", values);
+		
+		entities.clear();
+		
+		String s = "[{name:'ProductName', values:'Black Lotus'}]}";
+		
+		entities.add(new BasicNameValuePair("filters", s));
+		entities.add(new BasicNameValuePair("json", "true"));
+		
+		
+		String ret = client.doPost("http://api.tcgplayer.com/v1.20.0/catalog/categories/1/search",entities, ImmutableMap.of("Authorization","bearer "+bearer));
 		
 		System.out.println(ret);
 		

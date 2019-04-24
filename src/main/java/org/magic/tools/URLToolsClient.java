@@ -3,9 +3,11 @@ package org.magic.tools;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,10 +22,14 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 
 public class URLToolsClient {
 
@@ -53,16 +59,30 @@ public class URLToolsClient {
 		httpContext.setCookieStore(cookieStore);
 	}
 	
+	public List<NameValuePair> add(String k, String v)
+	{
+		return new ArrayList<>();
+	}
+	
+	public Builder<String, String> build()
+	{
+		
+		return new ImmutableMap.Builder<>();
+	}
+	
+	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
+	{
+		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
+	}
+	
+	
+	@Deprecated
 	public String doPost(String url, List<NameValuePair> entities, Map<String,String> headers) throws IOException
 	{
 			return doPost(url,new UrlEncodedFormEntity(entities),headers);
 		
 	}
 	
-	public Map<String,String> buildMap()
-	{
-		return new HashMap<>();
-	}
 	
 	public String doGet(String url, Map<String,String> headers) throws IOException
 	{
@@ -72,7 +92,6 @@ public class URLToolsClient {
 		response  = httpclient.execute(getReq,httpContext);
 		return extractAndClose(response);
 	}
-	
 	
 	public HttpResponse execute(HttpRequestBase req) throws IOException
 	{
@@ -125,9 +144,6 @@ public class URLToolsClient {
 	{
 		return doGet(url,null);
 	}
-	
-	
-	
 
 	public String getCookieValue(String cookieName) {
 		String value = null;
@@ -144,6 +160,4 @@ public class URLToolsClient {
 	public List<Cookie> getCookies() {
 		return cookieStore.getCookies();
 	}
-	
-
 }

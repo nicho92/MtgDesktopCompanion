@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +73,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 				   jsonparams.addProperty("password", getString("PASS"));
 
 		
-		Map<String,String> headers = httpClient.buildMap();
+		Map<String,String> headers = new HashMap<>();
 		headers.put("content-type", URLTools.HEADER_JSON);
 		String response = httpClient.doPost(getString("URL") + "/account/login", new StringEntity(jsonparams.toString()), headers);
 		logger.debug(getName() + " connected with " + response);
@@ -81,7 +82,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		String authSecrectToken = root.getAsJsonObject().get("auth_token_secret").getAsString();
 		logger.info(getName() + " Looking for price " + getString("URL") + "/search/serp");
 
-		Map<String,String> reqSearch = httpClient.buildMap();
+		Map<String,String> reqSearch = new HashMap<>();
 		
 		
 		reqSearch.put("x-dt-Auth-Token", authToken);

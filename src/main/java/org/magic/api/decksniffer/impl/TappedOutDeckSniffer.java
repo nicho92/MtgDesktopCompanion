@@ -23,6 +23,7 @@ import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -77,11 +78,16 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 							nvps.add(new BasicNameValuePair("password", getString(PASS)));
 							nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken")));
 		
-		Map<String,String> map = httpclient.buildMap();
+							
+							
+							
+							
+		Map<String,String> map = new ImmutableMap.Builder<String, String>()
+		           .put("Referer", URI_BASE+"/accounts/login/?next=/")
+		           .put("Upgrade-Insecure-Requests", "1")
+		           .put("Origin", URI_BASE)
+		           .build();
 		
-		map.put("Referer", URI_BASE+"/accounts/login/?next=/");
-		map.put("Upgrade-Insecure-Requests", "1");
-		map.put("Origin", URI_BASE);
 		
 		httpclient.doPost(URI_BASE+"/accounts/login/", nvps, map);
 
