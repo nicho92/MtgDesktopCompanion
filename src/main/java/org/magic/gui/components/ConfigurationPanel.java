@@ -61,6 +61,7 @@ import org.magic.tools.UITools;
 
 public class ConfigurationPanel extends JPanel {
 
+	private static final String EXPORT = "EXPORT";
 	private static final String LANGAGE = "langage";
 	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String CURRENCY = "currency";
@@ -206,9 +207,9 @@ public class ConfigurationPanel extends JPanel {
 /////////////DAO BOX		
 		JLabel lblBackupDao = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DAO_BACKUP") + " : ");
 		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
-		JButton btnBackup = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
+		JButton btnBackup = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
 		JLabel lblDuplicateDb = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",MTGControler.getInstance().getEnabled(MTGDao.class)));
-		JButton btnDuplicate = new JButton((MTGControler.getInstance().getLangService().getCapitalize("EXPORT")));
+		JButton btnDuplicate = new JButton((MTGControler.getInstance().getLangService().getCapitalize(EXPORT)));
 		JLabel lblLocation = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCATION") + " : ");
 		JLabel lbldbLocationValue = new JLabel(MTGControler.getInstance().getEnabled(MTGDao.class).getDBLocation());
 		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE") + " : ");
@@ -255,7 +256,7 @@ public class ConfigurationPanel extends JPanel {
 		cboEditionLands = UITools.createComboboxEditions();
 		
 		JPanel panelBtnConfigBackup = new JPanel();
-		JButton btnExportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
+		JButton btnExportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
 		JButton btnImportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		
 		
@@ -524,7 +525,7 @@ public class ConfigurationPanel extends JPanel {
 				
 				FileTools.extractConfig(f);
 				
-				MTGControler.getInstance().notify(new MTGNotification("EXPORT", "Export "+f, MESSAGE_TYPE.INFO));
+				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export "+f, MESSAGE_TYPE.INFO));
 			} catch (IOException e2) {
 				MTGControler.getInstance().notify(e2);
 			}

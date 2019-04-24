@@ -311,23 +311,11 @@ public class ConstructPanel extends JPanel {
 		initTables(tableDeck,MAIN,deckmodel);
 		initTables(tableSide,SIDE,deckSidemodel);
 		deckDetailsPanel.setMagicDeck(deck);
-
-		
-	
-	
-
-		
-		
-		
-		
-	
 		
 //////////////////////////////////////////////////////////////////ACTIONS		
 		btnNewDeck.addActionListener(newDeckEvent -> {
 			MagicDeck newDeck = new MagicDeck();
 			setDeck(newDeck);
-			deckmodel.init(newDeck);
-			deckSidemodel.init(newDeck);
 		});
 
 		
@@ -431,6 +419,7 @@ public class ConstructPanel extends JPanel {
 		
 	btnDrawAHand.addActionListener(ae -> {
 			thumbnail.removeAll();
+			setDeck(deck);
 			p.mixHandAndLibrary();
 			p.shuffleLibrary();
 			p.drawCard(7);

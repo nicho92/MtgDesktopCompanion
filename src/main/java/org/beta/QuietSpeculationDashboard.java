@@ -77,7 +77,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 				cs.setEd(ed.getSet());
 				cs.setDateUpdate(new Date());
 				cs.setCurrency(Currency.getInstance("USD"));
-				System.out.println(cs.getName() + " " + cs.getPrice());
+				logger.debug(cs.getName() + " " + cs.getPrice());
 				
 				ret.addShake(cs);
 			

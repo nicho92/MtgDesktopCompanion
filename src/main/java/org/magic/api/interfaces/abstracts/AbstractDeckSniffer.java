@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap;
 
-import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGConstants;
 
