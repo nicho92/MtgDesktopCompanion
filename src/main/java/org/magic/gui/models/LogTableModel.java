@@ -38,6 +38,7 @@ public class LogTableModel extends GenericTableModel<LoggingEvent> {
 	public int getRowCount() {
 		if (app != null)
 			return app.getEvents().size();
+		
 		return 0;
 	}
 

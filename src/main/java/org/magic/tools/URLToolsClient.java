@@ -3,8 +3,6 @@ package org.magic.tools;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
@@ -59,28 +58,21 @@ public class URLToolsClient {
 		httpContext.setCookieStore(cookieStore);
 	}
 	
-	public List<NameValuePair> add(String k, String v)
-	{
-		return new ArrayList<>();
-	}
-	
 	public Builder<String, String> build()
 	{
 		
 		return new ImmutableMap.Builder<>();
 	}
 	
+	
 	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
 	{
 		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
 	}
 	
-	
-	@Deprecated
 	public String doPost(String url, List<NameValuePair> entities, Map<String,String> headers) throws IOException
 	{
-			return doPost(url,new UrlEncodedFormEntity(entities),headers);
-		
+		return doPost(url,new UrlEncodedFormEntity(entities),headers);
 	}
 	
 	

@@ -3,8 +3,6 @@ package org.magic.api.pictureseditor.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +10,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.message.BasicNameValuePair;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.PDFExport;
@@ -29,6 +25,7 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.gson.JsonElement;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
@@ -102,32 +99,33 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		
 		
 		
-		List<NameValuePair> nvps = new ArrayList<>();
-						    nvps.add(new BasicNameValuePair("width", "791"));
-						    nvps.add(new BasicNameValuePair("height", "1107"));
-						    nvps.add(new BasicNameValuePair("fields[title]", mc.getName()));
-						    nvps.add(new BasicNameValuePair("fields[type]", mc.getFullType()));
-						    nvps.add(new BasicNameValuePair("fields[capa]", mc.getText()));
-						    nvps.add(new BasicNameValuePair("fields[ta]", mc.getFlavor()));
-						    nvps.add(new BasicNameValuePair("fields[illustrator]", mc.getArtist()));
-						    nvps.add(new BasicNameValuePair("fields[copyright]",getString("COPYRIGHT")));
-						    nvps.add(new BasicNameValuePair("fields[cm]",mc.getCost()));
+		Builder<String, String> build= httpclient.build();
+		
+					 build.put("width", "791")
+						  .put("height", "1107")
+						  .put("fields[title]", mc.getName())
+						  .put("fields[type]", mc.getFullType())
+						  .put("fields[capa]", mc.getText())
+						  .put("fields[ta]", mc.getFlavor())
+						  .put("fields[illustrator]", mc.getArtist())
+						  .put("fields[copyright]",getString("COPYRIGHT"))
+						  .put("fields[cm]",mc.getCost());
 						   
 						    
 						    if(mc.isPlaneswalker())
 						    {
 						    	List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
-						    	nvps.add(new BasicNameValuePair("template", "modern-planeswalker"+abs.size()));
-						    	nvps.add(new BasicNameValuePair("fields[loyalty-base]", String.valueOf(mc.getLoyalty())));
+						    	build.put("template", "modern-planeswalker"+abs.size());
+						    	build.put("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
 						    	for(int i=0;i<abs.size();i++)
 						    	{
-						    		nvps.add(new BasicNameValuePair("fields[capa"+(i+1)+"-cost]", abs.get(i).getCost().toString().trim()));
-						    		nvps.add(new BasicNameValuePair("fields[capa"+(i+1)+"]", abs.get(i).getEffect().toString().trim()));
+						    		build.put("fields[capa"+(i+1)+"-cost]", abs.get(i).getCost().toString().trim());
+						    		build.put("fields[capa"+(i+1)+"]", abs.get(i).getEffect().toString().trim());
 						    	}
 						    }
 						    else
 						    {
-						    	nvps.add(new BasicNameValuePair("template", getString("LAYOUT_OLD_MODERN").toLowerCase()+"-basic"));
+						    	build.put("template", getString("LAYOUT_OLD_MODERN").toLowerCase()+"-basic");
 						    }
 						    
 						    String colorBase;
@@ -151,14 +149,14 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	colorBase=getString(HYBRIDE).toLowerCase();
 						    
 						    
-						    nvps.add(new BasicNameValuePair("fields[background-base]", colorBase));
-						    nvps.add(new BasicNameValuePair("fields[background-texture]", colorBase));
+						    build.put("fields[background-base]", colorBase);
+						    build.put("fields[background-texture]", colorBase);
 						    
 						    if(mc.isCreature())
-						    	nvps.add(new BasicNameValuePair("fields[fe]",mc.getPower()+"/"+mc.getToughness()));
+						    	build.put("fields[fe]",mc.getPower()+"/"+mc.getToughness());
 						    
 						    if(!mc.getRarity().isEmpty())
-						    	nvps.add(new BasicNameValuePair("fields[se-rarity]",mc.getRarity().substring(0,1).toLowerCase()));
+						    	build.put("fields[se-rarity]",mc.getRarity().substring(0,1).toLowerCase());
 							
 						    if(mc.getImageName()!=null && !mc.getImageName().startsWith("http"))
 						    {
@@ -166,21 +164,19 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	if(f.exists())
 						    	{
 						    		String filename=upload(f);
-						    		nvps.add(new BasicNameValuePair("fields[illustration]",filename));
+						    		build.put("fields[illustration]",filename);
 						    	}
 						    }
 
-						    Map<String,String> headers = new HashMap<>();
-						    
-							headers.put("Host", DOMAIN);
-							headers.put("Origin", WEBSITE);
-							headers.put("Referer",WEBSITE);
+						    Map<String,String> headers = httpclient.build().put("Host", DOMAIN)
+																		   .put("Origin", WEBSITE)
+																		   .put("Referer",WEBSITE).build();
 							
 							
 						    logger.debug(GENERATE_URL);
-						    logger.trace(GENERATE_URL + " with " + nvps);
+						    logger.trace(GENERATE_URL + " with " + build);
 							
-						    String ret = httpclient.doPost(GENERATE_URL, nvps, headers);
+						    String ret = httpclient.doPost(GENERATE_URL, build.build(), headers);
 						    logger.trace("RESPONSE: "+ret);
 						    
 						    JsonElement el = URLTools.toJson(ret);
@@ -203,11 +199,11 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 								builder.addTextBody("MAX_FILE_SIZE", "104857600");
 		
 		HttpEntity ent = builder.build();
-		Map<String,String> map = new HashMap<>();
-		map.put("Host", DOMAIN);
-		map.put("Origin", WEBSITE);
-		map.put("Referer",WEBSITE);
-		map.put("X-Requested-With","XMLHttpRequest");
+		Map<String,String> map = httpclient.build()
+									.put("Host", DOMAIN)
+									.put("Origin", WEBSITE)
+									.put("Referer",WEBSITE)
+									.put("X-Requested-With","XMLHttpRequest").build();
 	            
 				 JsonElement response = URLTools.toJson(httpclient.doPost(UPLOAD_URL, ent, map));
 				 logger.trace("response:"+response);
