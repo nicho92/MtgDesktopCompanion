@@ -2,14 +2,12 @@ package org.magic.tools;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -25,8 +23,8 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.RequestBuilder.METHOD;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
@@ -37,7 +35,7 @@ public class URLToolsClient {
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
-	
+
 	public HttpResponse getResponse() {
 		return response;
 	}
@@ -58,31 +56,11 @@ public class URLToolsClient {
 		httpContext.setCookieStore(cookieStore);
 	}
 	
-	public Builder<String, String> build()
+	public String extractAndClose(HttpResponse response) throws IOException
 	{
-		
-		return new ImmutableMap.Builder<>();
-	}
-	
-	
-	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
-	{
-		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
-	}
-	
-	public String doPost(String url, List<NameValuePair> entities, Map<String,String> headers) throws IOException
-	{
-		return doPost(url,new UrlEncodedFormEntity(entities),headers);
-	}
-	
-	
-	public String doGet(String url, Map<String,String> headers) throws IOException
-	{
-		logger.debug("GET " + url);
-		HttpGet getReq = new HttpGet(url);
-		init(headers,getReq);
-		response  = httpclient.execute(getReq,httpContext);
-		return extractAndClose(response);
+		String ret = EntityUtils.toString(response.getEntity());
+		EntityUtils.consume(response.getEntity());
+		return ret;
 	}
 	
 	public HttpResponse execute(HttpRequestBase req) throws IOException
@@ -91,34 +69,39 @@ public class URLToolsClient {
 		return httpclient.execute(req,httpContext);
 	}
 	
-	
-	public String extractAndClose(HttpResponse response) throws IOException
+
+
+	public String execute(RequestBuilder builder) throws IOException
 	{
-		logger.trace("return " + response.getStatusLine().getStatusCode());
-		String ret = EntityUtils.toString(response.getEntity());
-		EntityUtils.consume(response.getEntity());
-		return ret;
+		
+		if(builder.getMethod()== METHOD.GET)
+			return doGet(builder.getUrl(),builder.getHeaders());
+
+		if(builder.getMethod()== METHOD.POST)
+			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
+		
+		throw new IOException("Choose Get ou POST method");
+		
 	}
 	
-	private void init(Map<String,String> headers,HttpRequestBase req)
+	
+	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
 	{
-		if(headers!=null)
-			headers.entrySet().forEach(e->req.addHeader(e.getKey(), e.getValue()));
+		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
 	}
 	
 	
 	public String doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
-			logger.debug("POST " + url);
-		
 			HttpPost postReq = new HttpPost(url);
 			try {
 				if(entities!=null)
 					postReq.setEntity(entities);
 				
-				init(headers,postReq);
+				if(headers!=null)
+					headers.entrySet().forEach(e->postReq.addHeader(e.getKey(), e.getValue()));
 				
-				response  = httpclient.execute(postReq,httpContext);
+				response  = execute(postReq);
 				return extractAndClose(response);
 			} catch (UnsupportedEncodingException e1) {
 				throw new IOException(e1);
@@ -126,12 +109,18 @@ public class URLToolsClient {
 
 	}
 	
-	public String doGet(URI url) throws IOException
+	public String doGet(String url, Map<String,String> headers) throws IOException
 	{
-		return doGet(url.toString(),null);
+		HttpGet getReq = new HttpGet(url);
+
+		if(headers!=null)
+			headers.entrySet().forEach(e->getReq.addHeader(e.getKey(), e.getValue()));
+		
+		
+		response  = execute(getReq);
+		return extractAndClose(response);
 	}
-	
-	
+		
 	public String doGet(String url) throws IOException
 	{
 		return doGet(url,null);
@@ -152,4 +141,24 @@ public class URLToolsClient {
 	public List<Cookie> getCookies() {
 		return cookieStore.getCookies();
 	}
+
+
+
+	public Builder<String, String> buildMap() {
+		return new ImmutableMap.Builder<>();
+	}
+	
+	public RequestBuilder build()
+	{
+		return RequestBuilder.build();
+	}
+	
+	
+	
+	
 }
+
+
+
+
+

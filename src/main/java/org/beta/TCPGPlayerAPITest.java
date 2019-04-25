@@ -1,43 +1,37 @@
 package org.beta;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
-
-import com.google.common.collect.ImmutableMap;
 
 public class TCPGPlayerAPITest {
 
 	public static void main(String[] args) throws IOException {
 		URLToolsClient client = URLTools.newClient();
 		
-		Map<String,String> header = new HashMap<>();
-		header.put("Authorization", "");
+		RequestBuilder builder = client.build();
 		
-		List<NameValuePair> entities = new ArrayList<>();
-			entities.add(new BasicNameValuePair("grant_type","client_credentials"));
-			entities.add(new BasicNameValuePair("client_id",""));
-			entities.add(new BasicNameValuePair("client_secret",""));
-			String json = client.doPost("https://api.tcgplayer.com/token",entities,header);
-			String bearer = URLTools.toJson(json).getAsJsonObject().get("access_token").getAsString();
-			
+		builder.url("https://api.tcgplayer.com/token").method(METHOD.POST)
+			   .addContent("grant_type", "client_credentials")
+			   .addContent("client_id","8DECCD88-5B2D-454D-A346-5338FDEF3540")
+			   .addContent("client_secret","E298EB05-C493-486A-AF65-6B580D72E05E");
 		
-		entities.clear();
 		
+		String json = client.execute(builder);
+		String bearer = URLTools.toJson(json).getAsJsonObject().get("access_token").getAsString();
 		String s = "[{name:'ProductName', values:'Black Lotus'}]}";
 		
-		entities.add(new BasicNameValuePair("filters", s));
-		entities.add(new BasicNameValuePair("json", "true"));
+		builder.clearContents().clearHeaders().url("http://api.tcgplayer.com/v1.20.0/catalog/categories/1/search")
+												.addHeader("Authorization", "bearer "+bearer)
+												.addContent("filters", s)
+					  							.addContent("json", "true");
 		
+		System.out.println(builder);
 		
-		String ret = client.doPost("http://api.tcgplayer.com/v1.20.0/catalog/categories/1/search",entities, ImmutableMap.of("Authorization","bearer "+bearer));
+		String ret = client.execute(builder);
 		
 		System.out.println(ret);
 		

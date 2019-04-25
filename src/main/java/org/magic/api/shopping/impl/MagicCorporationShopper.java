@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
@@ -29,10 +28,11 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		
 		List<OrderEntry> entries = new ArrayList<>();
 		
-		List<NameValuePair> nvps = new ArrayList<>();
-							nvps.add(new BasicNameValuePair("email", getString("LOGIN")));
-							nvps.add(new BasicNameValuePair("pass", getString("PASS")));
-	
+		Map<String, String> nvps = client.buildMap()
+									 .put("email",  getString("LOGIN"))
+									 .put("pass", getString("PASS")).build();
+							
+							
 		client.doPost(urlLogin, nvps, null);
 	
 		Document doc = URLTools.toHtml(client.doGet(urlCommandes));

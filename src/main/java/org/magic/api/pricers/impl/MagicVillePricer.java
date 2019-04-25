@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -37,13 +35,8 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-		
-		List<NameValuePair> nvps = new ArrayList<>();
-							nvps.add(new BasicNameValuePair("recherche_titre", card.getName()));
-
-		
-		
-		String res = httpclient.doPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1", nvps, null);
+			
+		String res = httpclient.doPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null);
 		if(res.length()>100)
 		{
 			logger.error("too much result");

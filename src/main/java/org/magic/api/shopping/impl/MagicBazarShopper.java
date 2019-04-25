@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -34,10 +33,9 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		URLToolsClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
 		
-		List<NameValuePair> nvps = new ArrayList<>();
-		nvps.add(new BasicNameValuePair("_email", getString("LOGIN")));
-		nvps.add(new BasicNameValuePair("_pwd", getString("PASS")));
-		nvps.add(new BasicNameValuePair("_submit_login", "Me connecter"));
+		Map<String, String> nvps = client.buildMap().put("_email", getString("LOGIN"))
+															 .put("_pwd", getString("PASS"))
+															 .put("_submit_login", "Me connecter").build();
 		client.doPost(urlLogin, nvps, null);
 		
 		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders, null));

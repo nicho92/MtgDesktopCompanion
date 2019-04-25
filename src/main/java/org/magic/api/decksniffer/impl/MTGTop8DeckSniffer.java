@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -22,6 +20,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
+
+import com.google.common.collect.ImmutableMap.Builder;
 
 public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
@@ -101,25 +101,27 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		URLToolsClient httpClient = URLTools.newClient();
 		StringBuilder res = new StringBuilder();
 		for (int i = 0; i < getInt("MAX_PAGE"); i++) {
-			List<NameValuePair> nvps = new ArrayList<>();
-			nvps.add(new BasicNameValuePair("current_page", String.valueOf(i + 1)));
-			nvps.add(new BasicNameValuePair("event_titre", getString("EVENT_FILTER")));
-			nvps.add(new BasicNameValuePair("deck_titre", ""));
-			nvps.add(new BasicNameValuePair("player", ""));
-			nvps.add(new BasicNameValuePair("format", formats.get(getString("FORMAT"))));
-			nvps.add(new BasicNameValuePair("MD_check", "1"));
-			nvps.add(new BasicNameValuePair("cards", getString("CARD_FILTER")));
-			nvps.add(new BasicNameValuePair("date_start", getString("DATE_START_FILTER")));
-			nvps.add(new BasicNameValuePair("date_end", ""));
+			
+			Builder<String,String> nvps = httpClient.buildMap();
+			
+			nvps.put("current_page", String.valueOf(i + 1));
+			nvps.put("event_titre", getString("EVENT_FILTER"));
+			nvps.put("deck_titre", "");
+			nvps.put("player", "");
+			nvps.put("format", formats.get(getString("FORMAT")));
+			nvps.put("MD_check", "1");
+			nvps.put("cards", getString("CARD_FILTER"));
+			nvps.put("date_start", getString("DATE_START_FILTER"));
+			nvps.put("date_end", "");
 
 			if (getString(COMPETITION_FILTER) != null) {
 				for (String c : getArray(COMPETITION_FILTER))
-					nvps.add(new BasicNameValuePair(" compet_check[" + c.toUpperCase() + "]", "1"));
+					nvps.put(" compet_check[" + c.toUpperCase() + "]", "1");
 			}
 
 			logger.debug("snif decks : " + getString("URL") + "/search");
 
-			res.append(httpClient.doPost(getString("URL") + "/search", nvps, null));
+			res.append(httpClient.doPost(getString("URL") + "/search", nvps.build(), null));
 		}
 
 		Document d = URLTools.toHtml(res.toString());

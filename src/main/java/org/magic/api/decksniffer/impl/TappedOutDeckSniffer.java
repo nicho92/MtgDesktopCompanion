@@ -5,13 +5,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -20,10 +17,11 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -69,27 +67,19 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
-		
 		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
 
-		List<NameValuePair> nvps = new ArrayList<>();
-							nvps.add(new BasicNameValuePair("next", "/"));
-							nvps.add(new BasicNameValuePair("username", getString(LOGIN2)));
-							nvps.add(new BasicNameValuePair("password", getString(PASS)));
-							nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken")));
+		RequestBuilder b = httpclient.build().method(METHOD.POST)
+						  .url(URI_BASE+"/accounts/login/")
+						  .addContent("next", "/")
+						  .addContent("username", getString(LOGIN2))
+						  .addContent("password", getString(PASS))
+						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
+						  .addHeader("Referer", URI_BASE+"/accounts/login/?next=/")
+						  .addHeader("Upgrade-Insecure-Requests", "1")
+				          .addHeader("Origin", URI_BASE);
 		
-							
-							
-							
-							
-		Map<String,String> map = new ImmutableMap.Builder<String, String>()
-		           .put("Referer", URI_BASE+"/accounts/login/?next=/")
-		           .put("Upgrade-Insecure-Requests", "1")
-		           .put("Origin", URI_BASE)
-		           .build();
-		
-		
-		httpclient.doPost(URI_BASE+"/accounts/login/", nvps, map);
+		httpclient.execute(b);
 
 		logger.debug("Connection : " + getString(LOGIN2) + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
@@ -103,7 +93,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		logger.debug("sniff deck at " + info.getUrl());
 		
 
-		String responseBody = httpclient.doGet(info.getUrl());
+		String responseBody = httpclient.doGet(info.getUrl().toString());
 		logger.debug("sniff deck : "+ httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
 		MagicDeck deck = new MagicDeck();

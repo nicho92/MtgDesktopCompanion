@@ -31,6 +31,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 
+//TODO using URLToolClient instead httpClient apache
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private static final String ACCENT = "ACCENT";

@@ -22,10 +22,11 @@ import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.tools.ColorParser;
 import org.magic.tools.ImageTools;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.gson.JsonElement;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
@@ -99,33 +100,34 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		
 		
 		
-		Builder<String, String> build= httpclient.build();
+		RequestBuilder build= httpclient.build();
 		
-					 build.put("width", "791")
-						  .put("height", "1107")
-						  .put("fields[title]", mc.getName())
-						  .put("fields[type]", mc.getFullType())
-						  .put("fields[capa]", mc.getText())
-						  .put("fields[ta]", mc.getFlavor())
-						  .put("fields[illustrator]", mc.getArtist())
-						  .put("fields[copyright]",getString("COPYRIGHT"))
-						  .put("fields[cm]",mc.getCost());
+					 build.method(METHOD.POST).url(GENERATE_URL)
+					 	  .addContent("width", "791")
+						  .addContent("height", "1107")
+						  .addContent("fields[title]", mc.getName())
+						  .addContent("fields[type]", mc.getFullType())
+						  .addContent("fields[capa]", mc.getText())
+						  .addContent("fields[ta]", mc.getFlavor())
+						  .addContent("fields[illustrator]", mc.getArtist())
+						  .addContent("fields[copyright]",getString("COPYRIGHT"))
+						  .addContent("fields[cm]",mc.getCost());
 						   
 						    
 						    if(mc.isPlaneswalker())
 						    {
 						    	List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
-						    	build.put("template", "modern-planeswalker"+abs.size());
-						    	build.put("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
+						    	build.addContent("template", "modern-planeswalker"+abs.size());
+						    	build.addContent("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
 						    	for(int i=0;i<abs.size();i++)
 						    	{
-						    		build.put("fields[capa"+(i+1)+"-cost]", abs.get(i).getCost().toString().trim());
-						    		build.put("fields[capa"+(i+1)+"]", abs.get(i).getEffect().toString().trim());
+						    		build.addContent("fields[capa"+(i+1)+"-cost]", abs.get(i).getCost().toString().trim());
+						    		build.addContent("fields[capa"+(i+1)+"]", abs.get(i).getEffect().toString().trim());
 						    	}
 						    }
 						    else
 						    {
-						    	build.put("template", getString("LAYOUT_OLD_MODERN").toLowerCase()+"-basic");
+						    	build.addContent("template", getString("LAYOUT_OLD_MODERN").toLowerCase()+"-basic");
 						    }
 						    
 						    String colorBase;
@@ -149,14 +151,14 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	colorBase=getString(HYBRIDE).toLowerCase();
 						    
 						    
-						    build.put("fields[background-base]", colorBase);
-						    build.put("fields[background-texture]", colorBase);
+						    build.addContent("fields[background-base]", colorBase);
+						    build.addContent("fields[background-texture]", colorBase);
 						    
 						    if(mc.isCreature())
-						    	build.put("fields[fe]",mc.getPower()+"/"+mc.getToughness());
+						    	build.addContent("fields[fe]",mc.getPower()+"/"+mc.getToughness());
 						    
 						    if(!mc.getRarity().isEmpty())
-						    	build.put("fields[se-rarity]",mc.getRarity().substring(0,1).toLowerCase());
+						    	build.addContent("fields[se-rarity]",mc.getRarity().substring(0,1).toLowerCase());
 							
 						    if(mc.getImageName()!=null && !mc.getImageName().startsWith("http"))
 						    {
@@ -164,19 +166,17 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	if(f.exists())
 						    	{
 						    		String filename=upload(f);
-						    		build.put("fields[illustration]",filename);
+						    		build.addContent("fields[illustration]",filename);
 						    	}
 						    }
 
-						    Map<String,String> headers = httpclient.build().put("Host", DOMAIN)
-																		   .put("Origin", WEBSITE)
-																		   .put("Referer",WEBSITE).build();
+						    build.addHeader("Host", DOMAIN)
+							   	 .addHeader("Origin", WEBSITE)
+							     .addHeader("Referer",WEBSITE);
 							
-							
-						    logger.debug(GENERATE_URL);
-						    logger.trace(GENERATE_URL + " with " + build);
-							
-						    String ret = httpclient.doPost(GENERATE_URL, build.build(), headers);
+						
+						    
+						    String ret = httpclient.execute(build);
 						    logger.trace("RESPONSE: "+ret);
 						    
 						    JsonElement el = URLTools.toJson(ret);
@@ -199,7 +199,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 								builder.addTextBody("MAX_FILE_SIZE", "104857600");
 		
 		HttpEntity ent = builder.build();
-		Map<String,String> map = httpclient.build()
+		Map<String,String> map = httpclient.buildMap()
 									.put("Host", DOMAIN)
 									.put("Origin", WEBSITE)
 									.put("Referer",WEBSITE)
