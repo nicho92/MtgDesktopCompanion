@@ -80,7 +80,7 @@ public class URLToolsClient {
 		if(builder.getMethod()== METHOD.POST)
 			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
 		
-		throw new IOException("Choose Get ou POST method");
+		throw new IOException("choose Get or POST method");
 		
 	}
 	

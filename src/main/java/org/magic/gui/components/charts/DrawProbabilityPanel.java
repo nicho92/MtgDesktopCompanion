@@ -2,26 +2,32 @@ package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGControler;
-import org.magic.tools.DeckCalculator;
+import org.magic.services.MTGDeckManager;
+import org.magic.tools.UITools;
 
 public class DrawProbabilityPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private transient DeckCalculator calc;
+	private transient MTGDeckManager calc;
 	private AbstractTableModel model;
 	int maxTurn = 10;
+	private MagicDeck d;
 
 	public DrawProbabilityPanel() {
 		initGUI();
@@ -33,8 +39,10 @@ public class DrawProbabilityPanel extends JPanel {
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		
+		calc = new MTGDeckManager();
 		table = new JXTable();
+		
+		
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -46,13 +54,13 @@ public class DrawProbabilityPanel extends JPanel {
 	}
 
 	public void init(MagicDeck d) {
-		calc = new DeckCalculator(d);
+		this.d=d;
 		initDeck();
 	}
 
 	public void init(MagicDeck d, MagicCard c) {
-		calc = new DeckCalculator(d);
-
+		this.d=d;
+		
 		if (c != null)
 			initCard(c);
 	}
@@ -79,7 +87,7 @@ public class DrawProbabilityPanel extends JPanel {
 				if (c == 0) {
 					return "Turn " + (r);
 				} else {
-					return calc.format(calc.getProbability(r, card));
+					return UITools.roundDouble(calc.getProbability(d,r, card));
 				}
 			}
 
@@ -96,6 +104,7 @@ public class DrawProbabilityPanel extends JPanel {
 
 		table.setModel(model);
 		model.fireTableDataChanged();
+		table.getColumnModel().getColumn(1).setCellRenderer((JTable t, Object val, boolean b1, boolean b2, int r,int c)->new DefaultTableCellRenderer().getTableCellRendererComponent(t, ((double)val*100)+"%", b1, b2, r, c));
 		table.packAll();
 	}
 
@@ -118,15 +127,15 @@ public class DrawProbabilityPanel extends JPanel {
 			@Override
 			public Object getValueAt(int r, int c) {
 				if (c == 0) {
-					return calc.getUniqueCards().get(r);
+					return d.getUniqueCards().get(r);
 				} else {
-					return calc.format(calc.getProbability(c - 1, calc.getUniqueCards().get(r)));
+					return UITools.roundDouble(calc.getProbability(d,c - 1, d.getUniqueCards().get(r)));
 				}
 			}
 
 			@Override
 			public int getRowCount() {
-				return calc.getDeck().getMap().keySet().size();
+				return d.getMap().keySet().size();
 			}
 
 			@Override

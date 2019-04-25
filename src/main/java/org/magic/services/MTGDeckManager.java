@@ -11,13 +11,13 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.tools.DeckCalculator;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
@@ -209,14 +209,12 @@ public class MTGDeckManager extends Observable {
 	}
 	
 	public Map<MagicCard, List<Double>> analyseDrawing(MagicDeck d) {
-		DeckCalculator calc = new DeckCalculator(d);
-
 		Map<MagicCard, List<Double>> ret = new HashMap<>();
 
-		for (MagicCard mc : calc.getUniqueCards()) {
+		for (MagicCard mc : d.getUniqueCards()) {
 			List<Double> list = new ArrayList<>();
 			for (int i = 0; i < 10; i++) {
-				list.add(calc.getProbability(i, mc));
+				list.add(getProbability(d,i, mc));
 			}
 
 			ret.put(mc, list);
@@ -230,4 +228,38 @@ public class MTGDeckManager extends Observable {
 		return rarity;
 
 	}
+	
+	public double getProbability(MagicDeck deck, int turn, MagicCard mc) {
+		if(deck==null)
+			return 0;
+		
+		
+		if(mc==null)
+			return  0;
+		
+		int drawedCards = 7;
+
+		if (turn <= 0)
+			drawedCards = 7;
+		else
+			drawedCards = drawedCards + turn;
+		
+		int numberInDeck = 0;
+		try {
+			numberInDeck = deck.getMap().get(mc);
+		}catch(NullPointerException e)
+		{
+			logger.error(mc + " is not found in main deck");
+		}
+		int numberCardsInDeck = deck.getNbCards();
+		try {
+			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
+		} catch (Exception e) {
+			return 0;
+		}
+
+	}
+	
+	
+	
 }

@@ -11,6 +11,8 @@ import org.utils.patterns.observer.Observer;
 
 public abstract class AbstractBuzyIndicatorComponent extends JComponent implements Observer {
 
+	private static final long serialVersionUID = 1L;
+
 	public abstract void setText(String s);
 	public abstract void setValue(int i) ;
 	public abstract void start(int max);

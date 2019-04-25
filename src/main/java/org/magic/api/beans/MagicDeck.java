@@ -214,4 +214,12 @@ public class MagicDeck implements Serializable {
 		return commander;
 	}
 
+	public List<MagicCard> getUniqueCards() {
+		
+		if(getMap().isEmpty())
+			return new ArrayList<>();
+		
+		return new ArrayList<>(getMap().keySet());
+	}
+	
 }
