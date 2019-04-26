@@ -1,7 +1,10 @@
 package org.magic.tools;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.google.gson.JsonElement;
 
 public class RequestBuilder
 {
@@ -10,6 +13,7 @@ public class RequestBuilder
 	private METHOD method;
 	private Map<String,String> headers;
 	private Map<String,String> content;
+	private URLToolsClient client;
 	public enum METHOD { POST, GET}
 	
 	
@@ -111,4 +115,36 @@ public class RequestBuilder
 		content.put(k, c);
 		return this;
 	}
+
+	public RequestBuilder setClient(URLToolsClient client) {
+		this.client=client;
+		return this;
+	}
+	
+	public JsonElement toJson() throws IOException
+	{
+		return URLTools.toJson(execute());
+	}
+	
+	
+	public String execute() throws IOException
+	{
+		if(client!=null)
+			return client.execute(this);
+		
+		return null;
+	}
+
+	public RequestBuilder clean() {
+		
+		clearHeaders();
+		clearContents();
+		url(null);
+		method(null);
+		
+		return this;
+	}
+	
+	
+	
 }

@@ -3,6 +3,7 @@ package org.beta;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -12,15 +13,19 @@ import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
+
+import com.google.gson.JsonElement;
 
 public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 
 	public static void main(String[] args) throws IOException {
-		
-		new TCGPlayerAPITest().getLocalePrice(null,null);
-
-
+		MagicCard mc = new MagicCard();
+		mc.setTcgPlayerId(179466);
+		System.out.println(new TCGPlayerAPITest().getLocalePrice(null,mc));
+	}
+	
+	public TCGPlayerAPITest() {
+		super();
 	}
 
 	@Override
@@ -37,25 +42,40 @@ public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
-		URLToolsClient client = URLTools.newClient();
-		RequestBuilder build = RequestBuilder.build()
+		
+			RequestBuilder build = RequestBuilder.build()
+							  .setClient(URLTools.newClient())
 							  .url("https://api.tcgplayer.com/token")
 							  .method(METHOD.POST)
 							  .addContent("grant_type","client_credentials")
 							  .addContent("client_id",getString("CLIENT_ID"))
 							  .addContent("client_secret",getString("CLIENT_SECRET"));
-			String bearer = URLTools.toJson(client.execute(build)).getAsJsonObject().get("access_token").getAsString();
+			String bearer = build.toJson().getAsJsonObject().get("access_token").getAsString();
 
 
 			
-			build.url("http://api.tcgplayer.com/v1.19.0/pricing/product/11888").clearHeaders().clearContents()
-				 .method(METHOD.GET)
-				 .addHeader("Authorization", "bearer "+bearer);
+			JsonElement ret = build.clean()
+								   .url("http://api.tcgplayer.com/v1.20.0/pricing/product/"+card.getTcgPlayerId())
+								   .method(METHOD.GET)
+								   .addHeader("Authorization", "bearer "+bearer).toJson();
 		
-		logger.debug(client.execute(build));
+		List<MagicPrice> list = new ArrayList<>();
+		logger.debug(ret);
+		ret.getAsJsonObject().get("results").getAsJsonArray().forEach(el->{
+			
+			if(!el.getAsJsonObject().get("marketPrice").isJsonNull()) {
+				MagicPrice p = new MagicPrice();
+					   p.setCountry("USA");
+					   p.setCurrency("USD");
+					   p.setSite(getName());
+					   p.setFoil(el.getAsJsonObject().get("subTypeName").getAsString().equals("Foil"));
+					   p.setValue(el.getAsJsonObject().get("marketPrice").getAsDouble());
+					   list.add(p);
+			}
+		});
 		
 		
-		return new ArrayList<>();
+		return list;
 	}
 
 }
