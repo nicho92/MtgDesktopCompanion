@@ -336,6 +336,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 		
 		try {
+			mc.setTcgPlayerId(obj.get("tcgplayer_id").getAsInt());
+		} catch (NullPointerException e) {
+			logger.trace("tcgplayerid not found");
+		}
+		
+		try {
 			mc.setImageName(obj.get(ILLUSTRATION_ID).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("illustration_id not found");

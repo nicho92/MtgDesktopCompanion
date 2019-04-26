@@ -113,8 +113,6 @@ public class CardStockPanel extends JPanel {
 			logger.error(e);
 		}
 		}
-		
-		
 	}
 
 	public void addLine()

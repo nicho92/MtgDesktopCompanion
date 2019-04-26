@@ -54,8 +54,16 @@ public class MagicCard implements Serializable {
 	private boolean tranformable = false;
 	private boolean reserved;
 	private String frameVersion;
+	private int tcgPlayerId;
 	
-	
+
+	public int getTcgPlayerId() {
+		return tcgPlayerId;
+	}
+
+	public void setTcgPlayerId(int tcgPlayerId) {
+		this.tcgPlayerId = tcgPlayerId;
+	}
 
 	public String getFrameVersion() {
 		return frameVersion;

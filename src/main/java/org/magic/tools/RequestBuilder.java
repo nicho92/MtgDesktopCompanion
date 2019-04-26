@@ -57,13 +57,13 @@ public class RequestBuilder
 		builder.append(method).append(" ").append(url).append("\n");
 		
 		if(!headers.isEmpty()) {
-			builder.append("headers----------\n");
+			builder.append("headers:\n");
 			headers.entrySet().forEach(entry->builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
 		}
 		
 		
 		if(!content.isEmpty()) {
-			builder.append("body-------------\n");
+			builder.append("body:\n");
 			content.entrySet().forEach(entry->builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
 		}
 		

@@ -285,6 +285,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get(FLAVOR_TEXT) != null)
 					mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
 				
+				if (map.get("tcgplayerProductId") != null)
+					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
+				
 				if (map.get(ORIGINAL_TEXT) != null)
 					mc.setOriginalText(String.valueOf(map.get(ORIGINAL_TEXT)));
 				
