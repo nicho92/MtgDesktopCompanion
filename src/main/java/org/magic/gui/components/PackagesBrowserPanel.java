@@ -43,6 +43,10 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	}
 	
 
+	public JTree getTree() {
+		return tree;
+	}
+	
 	
 	
 	public void setMagicEdition(MagicEdition ed)
