@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
@@ -48,6 +49,7 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
+import org.magic.servers.impl.WebManagerServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -306,21 +308,28 @@ public class ConfigurationPanel extends JPanel {
 
 /////////////WEBSITE BOX		
 	
-		JLabel lblWebsiteDir = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DIRECTORY") + " :");
 		txtdirWebsite = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
+		JTextFieldFileChooser txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
 		JButton btnWebsiteSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		JLabel lblAddWebsiteCertificate = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ADD_CERTIFICATE") + " :");
+		JButton btnWebServerExport = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
+		
 		txtWebSiteCertificate = new JTextField("www.",10);
+		
 		JButton btnAdd = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		
 		
-		panelWebSite.add(lblWebsiteDir, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
+		panelWebSite.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DIRECTORY") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
 		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 0));
-		panelWebSite.add(lblAddWebsiteCertificate, UITools.createGridBagConstraints(null, null,  0, 1));
+		panelWebSite.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1));
 		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
 		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
 
+		panelWebSite.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("WEB_SERVER_UI") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
+		panelWebSite.add(txtdirWebsserver, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
+		panelWebSite.add(btnWebServerExport, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 2));
+		
+		
 		
 		
 /////////////PROFIL BOX		
@@ -707,6 +716,16 @@ public class ConfigurationPanel extends JPanel {
 							jf.getSelectedFile().getAbsolutePath());
 					loadIcon();
 				}
+			}
+		});
+		
+		
+		btnWebServerExport.addActionListener(ae->{
+			try {
+				new WebManagerServer().exportWeb(txtdirWebsserver.getFile());
+				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export ok : " + txtdirWebsserver.getFile(), MESSAGE_TYPE.INFO));
+			} catch (Exception e1) {
+				MTGControler.getInstance().notify(e1);
 			}
 		});
 		
