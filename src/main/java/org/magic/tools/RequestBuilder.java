@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jsoup.nodes.Document;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 public class RequestBuilder
@@ -143,6 +146,10 @@ public class RequestBuilder
 		method(null);
 		
 		return this;
+	}
+
+	public Document toHtml() throws IOException {
+		return URLTools.toHtml(execute());
 	}
 	
 	

@@ -200,8 +200,6 @@ public class PackagesProvider {
 		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());
 	}
 	
-	
-	
 
 	public BufferedImage getLogo(LOGO logo)
 	{

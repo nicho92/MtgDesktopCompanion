@@ -260,6 +260,10 @@
             <enable>false</enable>
         </pricer>
         <pricer>
+            <class>org.magic.api.pricers.impl.ParkagePricer</class>
+            <enable>false</enable>
+        </pricer>
+        <pricer>
             <class>org.magic.api.pricers.impl.StarCityGamesPricer</class>
             <enable>true</enable>
         </pricer>
