@@ -11,9 +11,11 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
@@ -68,11 +70,12 @@ public class PDFExport extends AbstractCardExport {
 			document = new Document(PageSize.A4, 5, 5, 10, 5);
 			document.addAuthor(getString("AUTHOR"));
 			document.addCreationDate();
-			document.addCreator("Magic Desktop Companion");
+			document.addCreator(MTGConstants.MTG_APP_NAME);
 			document.addTitle(deck.getName());
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
 			document.open();
+			document.add(new Chunk(""));
 			for (MagicCard card : deck.getAsList()) {
 				table.addCell(getCells(card));
 				notify(card);

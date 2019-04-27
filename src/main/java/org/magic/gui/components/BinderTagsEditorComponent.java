@@ -1,4 +1,4 @@
-package org.magic.gui.components.dialog;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -6,10 +6,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.SwingUtilities;
+import javax.swing.ListSelectionModel;
+import javax.swing.filechooser.FileFilter;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -39,16 +40,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
-
-import com.google.common.collect.Lists;
-
-import java.awt.Component;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.JSeparator;
-import java.awt.event.MouseEvent;
-import javax.swing.SwingConstants;
-import javax.swing.ListSelectionModel;
 
 public class BinderTagsEditorComponent extends MTGUIComponent {
 	
@@ -75,7 +66,6 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 	private JButton btnRefresh;
 	private JPanel panneauBas;
 	private JPanel panel;
-	private JLabel lblSeparator;
 
 	public void updateInfo() {
 		img = ImageTools.trimAlpha(tagMaker.generate());
@@ -83,7 +73,10 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		previewPanel.repaint();
 	}
 	
-	
+	public static void main(String[] args) {
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true);
+	}
 	
 	
 	private void init()
@@ -210,8 +203,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
 		panel.add(new JScrollPane(listEditions));
 		
-		lblSeparator = new JLabel(" ");
-		panel.add(lblSeparator);
+		panel.add(new JLabel(" "));
 		
 		panel.add(new JScrollPane(listSelected));
 		JPanel commandsPanel = new JPanel();
@@ -282,14 +274,31 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		});
 		
 		btnSave.addActionListener(e->{
-			JFileChooser choose = new JFileChooser();
-						int res= choose.showSaveDialog(null);
+			JFileChooser choose = new JFileChooser(MTGConstants.DATA_DIR);
+			
+			choose.setFileFilter(new FileFilter() {
+				
+				@Override
+				public String getDescription() {
+					return "*.png,*.PNG";
+				}
+				
+				@Override
+				public boolean accept(File f) {
+					return f.getName().toLowerCase().endsWith(".png");
+				}
+			});
+			
+			
+			
+			int res= choose.showSaveDialog(null);
 						 
 			if(res==JFileChooser.APPROVE_OPTION) {			 
 				File f = choose.getSelectedFile();
 				try {
 					ImageTools.saveImageInPng(img, f);
-				} catch (IOException e1) {
+				} catch (Exception e1) {
+					logger.error("error",e1);
 					MTGControler.getInstance().notify(e1);
 				}
 			}

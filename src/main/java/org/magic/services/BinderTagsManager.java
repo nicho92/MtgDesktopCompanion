@@ -5,16 +5,34 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.extra.PackagesProvider;
 import org.magic.services.extra.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 
 public class BinderTagsManager {
@@ -28,7 +46,7 @@ public class BinderTagsManager {
 	int height=1;
 	int width=1;
 	private int space;
-	
+
 	public Dimension getDimension() {
 		return d;
 	}
@@ -57,7 +75,7 @@ public class BinderTagsManager {
 	public void setEditions(List<MagicEdition> eds)
 	{
 		clear();
-		addList(eds);
+		addIds(eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
 	}
 	
 	
@@ -69,7 +87,12 @@ public class BinderTagsManager {
 		{
 				BufferedImage im=null;
 				
-				if(!prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).isEmpty())
+				if(!prov.get(new MagicEdition(id),Packaging.TYPE.BANNER,"en").isEmpty())
+				{
+					im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER,"en").get(0));
+					ims.add(im);
+				}
+				else
 				{
 					im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0));
 					ims.add(im);
@@ -77,29 +100,6 @@ public class BinderTagsManager {
 					
 		}
 		create(ims);
-	}
-	
-	public void add(MagicEdition ed)
-	{
-		BufferedImage img= prov.get(prov.get(ed,Packaging.TYPE.BANNER).get(0));
-		if(img!=null)
-		{
-			ArrayList<BufferedImage> l = new ArrayList<>();
-			l.add(img);
-			create(l);
-		}
-	}
-	
-	
-	public void addList(List<MagicEdition> eds)
-	{
-		addIds(eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
-	}
-	
-	
-	public void adds(String... ids)
-	{
-		addIds(Arrays.asList(ids));
 	}
 	
 	public void clear()
@@ -160,7 +160,7 @@ public class BinderTagsManager {
 		}
 		
 		
-		int x = 0;
+		int x = 10;
 		for (BufferedImage im : lst) {
 			g2.drawImage(im, null, 0, x);
 			x += im.getHeight()+space;
@@ -168,6 +168,8 @@ public class BinderTagsManager {
 		g2.dispose();
 		return newImage;
 	}
+	
+	
 
 	public void setSpace(int value) {
 		this.space=value*10;
