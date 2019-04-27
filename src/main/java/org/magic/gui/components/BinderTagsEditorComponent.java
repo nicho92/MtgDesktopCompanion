@@ -73,12 +73,6 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		previewPanel.repaint();
 	}
 	
-	public static void main(String[] args) {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true);
-	}
-	
-	
 	private void init()
 	{
 		Dimension d = new Dimension(567,2173);

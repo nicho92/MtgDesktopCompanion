@@ -150,6 +150,8 @@ public class JDeckChooserDialog extends JDialog {
 		
 		
 		table = new JXTable(decksModel);
+		UITools.initTableFilter(table);
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		table.addMouseListener(new MouseAdapter() {

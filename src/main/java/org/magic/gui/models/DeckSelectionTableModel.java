@@ -57,7 +57,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 		case 6:
 			return items.get(row).getAsList().size();
 		case 7:
-			return items.get(row).getDateUpdate();
+			return items.get(row).getDateCreation();
 
 		default:
 			return "";

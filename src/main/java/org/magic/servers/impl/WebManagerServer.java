@@ -1,13 +1,17 @@
 package org.magic.servers.impl;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -65,6 +69,16 @@ public class WebManagerServer extends AbstractMTGServer {
 		logger.trace(ctx.dump());
 		server.setHandler(ctx);
 	}
+	
+	public void exportWeb(File dest) throws IOException, URISyntaxException
+	{
+		FileUtils.copyDirectory(new File(MTGConstants.WEBUI_LOCATION.toURI()), dest);
+		File js = Paths.get(dest.getAbsolutePath(),"dist","js",REST_JS_FILENAME).toFile();
+		FileUtils.write(js, "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING,false);
+		
+		
+	}
+	
 
 	@Override
 	public String getVersion() {

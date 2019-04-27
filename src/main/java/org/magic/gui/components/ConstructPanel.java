@@ -558,7 +558,9 @@ public class ConstructPanel extends JPanel {
 		
 		
 		txtSearch.addActionListener(aeSearch -> {
-
+			
+			resultListModel.clear();
+			
 			if (txtSearch.getText().isEmpty())
 				return;
 
