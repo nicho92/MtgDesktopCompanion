@@ -1,3 +1,5 @@
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/logo_src.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/logo_src.png)
+
 # Magic The Gathering Desktop Companion
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
@@ -5,9 +7,8 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
 [![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
-[![GitHub stars](https://img.shields.io/badge/Download-1.93-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/tree/master/dist)
-
-
+[![GitHub stars](https://img.shields.io/badge/Release-2.4-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[Give me a tips !](https://www.paypal.me/nicolaspihen)
 
 
 Features :
@@ -16,17 +17,20 @@ Features :
 - Create and Manage decks
 - manage your collection
 - Generate a website of your collections with your own template.
-- get dashboard of cards prices variation
+- get dashboard of cards prices variation (MTGStock, MTGOldfish,...)
 - lookup for cards in auction websites
 - import / export decks and list cards in multiple format (mtgo,dci sheet, csv, cockatrice,MagicCardMarket wantlist..) 
 - get alerted for wanted cards !
-- import your deck from website (tappedout, deckstat,mtggoldfish,...)
-- manacurve, color and type repartition
+- import your deck from websites (tappedout, deckstat,mtggoldfish,mtgTop8,...)
+- manacurve, color and type repartition analysis
 - Standalone servers (game room, console server, http server, price checking).
-- New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart ! 
+- New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart's account ! 
 - Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
 - Get alerted with many notifier (Telegram, mail, Discord,....) 
-- NEW : Plugin for Chrome : select cardname in website to check in your collections.
+- Discord Bot 
+- Plugin for Chrome : select cardname in website to check in your collections.
+- Use MTGCompanion throught webpage or mobile.
+
 
 > Modularity : 
 - choose :
@@ -38,7 +42,8 @@ Features :
 - pictures providers
 - cache providers
 - News providers
-- wallpapers providers
+- Wallpapers providers
+- Indexation provider
 
 Main interface :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
@@ -64,9 +69,8 @@ Manage your dashboard with your interested "dashlet"
 Check for price variation :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png)
 
-
-lookup for cards in auction website :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png)
+Use "MoreLikeThis" Functionnality :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png)
 
 import or export your card list / deck :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png)
@@ -78,6 +82,8 @@ Manage your stock :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png)
 
+Store your financial movement and check your benefits :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/financial.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/financial.png)
 
 Try your deck in game simulator :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png)
@@ -90,7 +96,6 @@ get your companion in discord's channels :
 
 get your companion in chrome :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png)
-
 
 
 Generate Website of your collections :
@@ -106,5 +111,3 @@ Get news from your favorites sites :
 Manage your card with the reponsive web UI :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png)
-
-
