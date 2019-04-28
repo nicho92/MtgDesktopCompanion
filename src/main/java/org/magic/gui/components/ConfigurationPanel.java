@@ -724,6 +724,8 @@ public class ConfigurationPanel extends JPanel {
 				new WebManagerServer().exportWeb(txtdirWebsserver.getFile());
 				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export ok : " + txtdirWebsserver.getFile(), MESSAGE_TYPE.INFO));
 			} catch (Exception e1) {
+				
+				logger.error("error copy ",e1);
 				MTGControler.getInstance().notify(e1);
 			}
 		});

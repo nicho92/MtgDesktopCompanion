@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -70,9 +71,9 @@ public class WebManagerServer extends AbstractMTGServer {
 		server.setHandler(ctx);
 	}
 	
-	public void exportWeb(File dest) throws IOException, URISyntaxException
+	public void exportWeb(File dest) throws IOException
 	{
-		FileUtils.copyDirectory(new File(MTGConstants.WEBUI_LOCATION.toURI()), dest);
+		FileUtils.copyDirectory(FileUtils.toFile(MTGConstants.WEBUI_LOCATION), dest);
 		File js = Paths.get(dest.getAbsolutePath(),"dist","js",REST_JS_FILENAME).toFile();
 		FileUtils.write(js, "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING,false);
 		

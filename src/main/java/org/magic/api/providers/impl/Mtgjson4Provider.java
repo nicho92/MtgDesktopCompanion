@@ -288,6 +288,17 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get("tcgplayerProductId") != null)
 					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
 				
+				
+				if (map.get("mcmId") != null) {
+					mc.setMkmId((int)Double.parseDouble(map.get("mcmId").toString()));
+				}
+				
+				if (map.get("mtgstocksId") != null) {
+					mc.setMtgstocksId((int)Double.parseDouble(map.get("mtgstocksId").toString()));
+				}
+				
+				
+				
 				if (map.get(ORIGINAL_TEXT) != null)
 					mc.setOriginalText(String.valueOf(map.get(ORIGINAL_TEXT)));
 				
@@ -342,6 +353,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 						mc.getRulings().add(mr);
 					}
 				}
+				
+			
 				
 				MagicCardNames defnames = new MagicCardNames();
 							   if (mc.getMultiverseid() != null)

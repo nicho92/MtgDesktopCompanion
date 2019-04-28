@@ -55,7 +55,26 @@ public class MagicCard implements Serializable {
 	private boolean reserved;
 	private String frameVersion;
 	private int tcgPlayerId;
+	private int mtgstocksId;
+	private int mkmId;
 	
+	
+
+	public int getMtgstocksId() {
+		return mtgstocksId;
+	}
+
+	public void setMtgstocksId(int mtgstocksId) {
+		this.mtgstocksId = mtgstocksId;
+	}
+
+	public int getMkmId() {
+		return mkmId;
+	}
+
+	public void setMkmId(int mkmId) {
+		this.mkmId = mkmId;
+	}
 
 	public int getTcgPlayerId() {
 		return tcgPlayerId;
