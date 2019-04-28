@@ -78,6 +78,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 			mp.setValue(price);
 			mp.setSite(getName());
 			mp.setQuality(etat);
+			mp.setFoil(mp.getSeller().toLowerCase().contains("foil"));
 			prices.add(mp);
 		}
 

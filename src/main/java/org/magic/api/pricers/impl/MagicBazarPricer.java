@@ -51,7 +51,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				mp.setSite(getName());
 				mp.setUrl(url);
 				mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
-				mp.setFoil(!e.getElementsByClass("logo").isEmpty());
+				mp.setFoil(e.attr("data-foil").equals("O"));
 				list.add(mp);
 			}
 			logger.info(getName() + " found " + list.size() + " item(s)");

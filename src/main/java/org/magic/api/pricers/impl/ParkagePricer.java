@@ -22,6 +22,16 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 		return "Parkage";
 	}
 	
+	
+	public static void main(String[] args) throws IOException {
+		
+		
+		MagicCard mc = new MagicCard();
+		mc.setName("Darksteel colossus");
+		
+		new ParkagePricer().getLocalePrice(null, mc);
+	}
+	
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 
@@ -45,7 +55,7 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 				
 				String price = tr.select("td.col-price").text().replaceAll(",", ".").replaceAll("€","");
 				mp.setValue(Double.parseDouble(price));
-				mp.setFoil(tr.select("td").select("i.fa-star")!=null);
+				mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
 				
 				ret.add(mp);
 			}

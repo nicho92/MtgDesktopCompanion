@@ -42,7 +42,7 @@ public class PricesTablePanel extends JPanel {
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
-	
+	private SwingWorker<List<MagicPrice>, MagicPrice> sw ;
 	private MagicCard currentCard;
 	private MagicEdition currentEd;
 	
@@ -80,6 +80,7 @@ public class PricesTablePanel extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
+						
 						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.COLUMUM_URL).toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
@@ -115,11 +116,19 @@ public class PricesTablePanel extends JPanel {
 		if(isVisible()&&card!=null)
 		{
 			
+			if(sw!=null && !sw.isDone())
+			{
+				sw.cancel(true);
+				lblLoading.end();
+			}
+			
+			
+			
 			List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
 			
-			
-			SwingWorker<List<MagicPrice>, MagicPrice> sw = new SwingWorker<List<MagicPrice>, MagicPrice>()
+		
+			sw = new SwingWorker<List<MagicPrice>, MagicPrice>()
 			{
 				@Override
 				protected List<MagicPrice> doInBackground() throws Exception {
