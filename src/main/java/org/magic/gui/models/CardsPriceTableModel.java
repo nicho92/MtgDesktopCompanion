@@ -10,16 +10,18 @@ import org.magic.tools.UITools;
 public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
 	private static final long serialVersionUID = 1L;
-	public static final int COLUMUM_URL = 7;
+	public static final int COLUMUM_URL = 8;
 
 
 
 	public CardsPriceTableModel() {
-		columns=new String[] { "WEBSITE",
+		columns=new String[] { 
+				"WEBSITE",
 				"PRICE",
 				"CURRENCY",
 				"SELLER",
 				"QUALITY",
+				"FOIL",
 				"CARD_LANGUAGE",
 				"COUNTRY",
 				"URL"};
@@ -40,8 +42,10 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 		case 4:
 			return String.class;
 		case 5:
-			return String.class;
+			return Boolean.class;
 		case 6:
+			return String.class;
+		case 7:
 			return String.class;
 		default:
 			return URL.class;
@@ -66,10 +70,12 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 			case 4:
 				return mp.getQuality();
 			case 5:
-				return mp.getLanguage();
+				return mp.isFoil();
 			case 6:
-				return mp.getCountry();
+				return mp.getLanguage();
 			case 7:
+				return mp.getCountry();
+			case 8:
 				return mp.getUrl();
 			default:
 				return 0;

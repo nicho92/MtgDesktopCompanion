@@ -112,15 +112,16 @@ public class OrderEntryPanel extends MTGUIComponent {
 		add(cboTypeItem, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 		
 		JPanel panelPrice = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panelPrice.getLayout();
-		flowLayout.setVgap(0);
-		flowLayout.setHgap(0);
-		add(panelPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST,GridBagConstraints.VERTICAL, 1, 4));
-		txtPrice = new JTextField(10);
-		panelPrice.add(txtPrice);
+			
+			((FlowLayout)panelPrice.getLayout()).setAlignment(FlowLayout.LEFT);
+			txtPrice = new JTextField(5);
+			cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
+			
+			panelPrice.add(cboCurrency);
+			panelPrice.add(txtPrice);
 		
-		cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
-		panelPrice.add(cboCurrency);
+		add(panelPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, 1, 4));
+		
 		
 		txtSource = new JTextField(10);
 		add(txtSource, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));

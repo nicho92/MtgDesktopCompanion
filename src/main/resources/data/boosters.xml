@@ -1257,6 +1257,12 @@
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/272/707/320/160/636869967589881363.png"/>
 	</edition>
 	
+	<edition id="SS2">
+		<banner lang="en" url="https://www.mtgpics.com/graph/sets/logos_big/ss2.png"/>
+		<bundle lang="en" url="https://www.parkage.com/files/img/products/magic/coffrets/imgprdt_mtg_ss2_01.jpg"/>
+	
+	</edition>
+	
 	
 	
 </boosterUrls>

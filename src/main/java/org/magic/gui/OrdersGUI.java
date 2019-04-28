@@ -40,6 +40,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class OrdersGUI extends MTGUIComponent {
 	
@@ -112,6 +114,8 @@ public class OrdersGUI extends MTGUIComponent {
 		JButton btnDeleteOrder = new JButton(MTGConstants.ICON_DELETE);
 		JButton btnNewEntry = new JButton(MTGConstants.ICON_NEW);
 		panelComparator = new JPanel();
+		panelComparator.setPreferredSize(new Dimension(10, 30));
+		panelComparator.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblComparator = new JLabel("Values");
 		editionFinancialChartPanel = new EditionFinancialChartPanel();
 		
@@ -152,8 +156,8 @@ public class OrdersGUI extends MTGUIComponent {
 		panelButton.add(btnSaveOrder);
 		panelButton.add(btnNewEntry);
 
-		panneauRight.add(editorPanel, BorderLayout.NORTH);
-		panneauRight.add(panelComparator, BorderLayout.SOUTH);
+		panneauRight.add(editorPanel, BorderLayout.SOUTH);
+		panneauRight.add(panelComparator, BorderLayout.NORTH);
 			
 		panelComparator.add(lblComparator);
 		

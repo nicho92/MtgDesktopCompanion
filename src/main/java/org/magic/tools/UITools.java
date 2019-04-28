@@ -123,7 +123,8 @@ public class UITools {
 	{
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
-			items.stream().forEach(model::addElement);
+		
+		items.stream().forEach(model::addElement);
 			
 			combo.setRenderer((list,value, index,isSelected,cellHasFocus)->{
 					JLabel l ;
@@ -223,10 +224,15 @@ public class UITools {
 						cardName = cardName.substring(0, cardName.indexOf('(')).trim();
 
 					MagicEdition ed = null;
-					if (edPos != null) {
-						String edID = table.getValueAt(row, edPos).toString();
-						ed = new MagicEdition();
-						ed.setId(edID);
+					try {
+						if (edPos != null) {
+							String edID = table.getValueAt(row, edPos).toString();
+							ed = new MagicEdition();
+							ed.setId(edID);
+						}
+					}catch(Exception ex)
+					{
+						logger.error("no edition defined");
 					}
 
 					try {
