@@ -61,6 +61,9 @@ public class OrdersDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 
+			cboProperty.setSelectedItem(getString("PROPERTY"));
+			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
+			
 			setBounds(r);
 		}
 
@@ -68,6 +71,8 @@ public class OrdersDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
+		setProperty("PROPERTY", String.valueOf(cboProperty.getSelectedItem()));
+		setProperty("COUNT", String.valueOf(chkSumOrTotal.isSelected()));
 		chart.init(MTGControler.getInstance().getEnabled(MTGDao.class).listOrders(),cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
 	}
 
