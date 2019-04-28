@@ -75,7 +75,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				e.setCurrency(Currency.getInstance("EUR"));
 				e.setIdTransation(id);
 				e.setTypeTransaction(TYPE_TRANSACTION.BUY);
-				e.setTransationDate(UITools.parseDate(date));
+				e.setTransactionDate(UITools.parseDate(date));
 				e.setDescription(detail.get(i).select("td").get(0).text());
 				e.setItemPrice(UITools.parseDouble(detail.get(i).select("td").get(3).text().replaceAll("€", "")));
 				entries.add(e);

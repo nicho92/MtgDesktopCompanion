@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.jsoup.nodes.Document;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 public class RequestBuilder

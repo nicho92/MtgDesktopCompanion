@@ -117,7 +117,7 @@ public class DAOProviderTests {
 						oe.setSource("JUNIT TEST DAO");
 						oe.setEdition(new MagicEdition("UMA"));
 						oe.setType(TYPE_ITEM.LOTS);
-						oe.setTransationDate(new Date());
+						oe.setTransactionDate(new Date());
 						oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
 			p.saveOrUpdateOrderEntry(oe);
 			oe.setItemPrice(15.0);

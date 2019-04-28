@@ -39,7 +39,7 @@ public class ShoppingEntryTableModel extends GenericTableModel<OrderEntry> {
 		switch (column) { 
 			case 0 : return e;
 			case 1 : return e.getSource();
-			case 2 : return e.getTransationDate();
+			case 2 : return e.getTransactionDate();
 			case 3 : return e.getType();
 			case 4 : return e.getTypeTransaction();
 			case 5 : return e.getDescription();

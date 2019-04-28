@@ -11,6 +11,7 @@ public class OrderEntry implements Serializable {
 	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET,LOTS}
 	public enum TYPE_TRANSACTION {BUY,SELL}
 	
+	
 	private Integer id=-1;
 	private TYPE_ITEM type;
 	private String description;
@@ -18,7 +19,7 @@ public class OrderEntry implements Serializable {
 	private Double shippingPrice=0.0;
 	
 	private Currency currency;
-	private Date transationDate;
+	private Date transactionDate;
 	private String seller;
 	private String idTransation;
 	private TYPE_TRANSACTION typeTransaction;
@@ -61,7 +62,7 @@ public class OrderEntry implements Serializable {
 	}
 	
 	public OrderEntry() {
-		transationDate=new Date();
+		transactionDate=new Date();
 		itemPrice=0.0;
 		updated=true;
 	}
@@ -114,11 +115,11 @@ public class OrderEntry implements Serializable {
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-	public Date getTransationDate() {
-		return transationDate;
+	public Date getTransactionDate() {
+		return transactionDate;
 	}
-	public void setTransationDate(Date transationDate) {
-		this.transationDate = transationDate;
+	public void setTransactionDate(Date transationDate) {
+		this.transactionDate = transationDate;
 	}
 	public String getSeller() {
 		return seller;

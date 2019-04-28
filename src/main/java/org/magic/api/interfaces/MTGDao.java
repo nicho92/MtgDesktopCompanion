@@ -68,7 +68,6 @@ public interface MTGDao extends MTGPlugin {
 	public long getDBSize();
 	public void backup(File dir) throws SQLException, IOException;
 	public void duplicateTo(MTGDao dao) throws SQLException;
-
-
+	
 
 }

@@ -1,6 +1,7 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardPriceVariations;
@@ -40,8 +42,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class OrdersGUI extends MTGUIComponent {
 	

@@ -105,6 +105,10 @@
             <class>org.magic.gui.dashlet.CollectionAnalyzerDashlet</class>
              <enable>true</enable>
         </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.OrdersDashlet</class>
+             <enable>true</enable>
+        </dashlet>
     </dashlets>
     <tokens>
         <token>

@@ -40,7 +40,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		OrderEntry entrie = new OrderEntry();
 		entrie.setIdTransation(""+o.getIdOrder());
 		entrie.setCurrency(Currency.getInstance("EUR"));
-		entrie.setTransationDate(o.getState().getDatePaid());
+		entrie.setTransactionDate(o.getState().getDatePaid());
 		entrie.setTypeTransaction(t);
 		entrie.setSeller(o.getSeller().getUsername());
 		entrie.setShippingPrice(o.getTotalValue()-o.getArticleValue());

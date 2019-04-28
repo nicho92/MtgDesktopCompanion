@@ -75,7 +75,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 					entrie.setCurrency(Currency.getInstance("EUR"));
 					entrie.setSeller(getName());
 					entrie.setTypeTransaction(TYPE_TRANSACTION.BUY);
-					entrie.setTransationDate(date);
+					entrie.setTransactionDate(date);
 					entrie.setDescription(name);
 					if(iscard)
 					{

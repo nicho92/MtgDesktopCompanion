@@ -3,7 +3,6 @@ package org.beta;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;

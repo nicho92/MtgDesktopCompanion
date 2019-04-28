@@ -392,7 +392,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (Statement pst = con.createStatement()) {
 			pst.executeUpdate(sql);
 		}
-		
 	}
 
 	@Override
@@ -653,7 +652,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	}
 
-	
 	@Override
 	public void initOrders() {
 		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM orders"); ResultSet rs = pst.executeQuery();) 
@@ -667,7 +665,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				
 				setEdition(state,rs);
 				state.setCurrency(Currency.getInstance(rs.getString("currency")));
-				state.setTransationDate(rs.getDate("transactionDate"));
+				state.setTransactionDate(rs.getDate("transactionDate"));
 				state.setItemPrice(rs.getDouble("itemPrice"));
 				state.setShippingPrice(rs.getDouble("shippingPrice"));
 				state.setType(TYPE_ITEM.valueOf(rs.getString("typeItem")));
@@ -739,7 +737,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setDouble(4, state.getItemPrice());
 				pst.setDouble(5,state.getShippingPrice());
 				pst.setString(6,state.getCurrency().getCurrencyCode());
-				pst.setDate(7, new Date(state.getTransationDate().getTime()));
+				pst.setDate(7, new Date(state.getTransactionDate().getTime()));
 				pst.setString(8,state.getType().name());
 				pst.setString(9,state.getTypeTransaction().name());
 				pst.setString(10, state.getSource());
@@ -768,7 +766,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setDouble(4, state.getItemPrice());
 				pst.setDouble(5,state.getShippingPrice());
 				pst.setString(6,state.getCurrency().getCurrencyCode());
-				pst.setDate(7, new Date(state.getTransationDate().getTime()));
+				pst.setDate(7, new Date(state.getTransactionDate().getTime()));
 				pst.setString(8,state.getType().name());
 				pst.setString(9,state.getTypeTransaction().name());
 				pst.setString(10, state.getSource());

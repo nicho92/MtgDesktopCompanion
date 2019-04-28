@@ -5,6 +5,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -51,6 +52,16 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 
 	}
 	
+	
+	
+	
+	public void init(Set<T> items)
+	{
+		this.items = new ArrayList<>(items);
+	
+		if(isVisible())
+			refresh();
+	}
 	
 	public void init(List<T> items)
 	{

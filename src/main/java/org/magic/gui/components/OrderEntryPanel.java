@@ -55,7 +55,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		cboTransactionType.setSelectedItem(o.getTypeTransaction());
 		cboCurrency.setSelectedItem(o.getCurrency());
 		cboTypeItem.setSelectedItem(o.getType());
-		txtDateTransaction.setDate(o.getTransationDate());
+		txtDateTransaction.setDate(o.getTransactionDate());
 	}
 	
 	public OrderEntry getOrderEntry()
@@ -74,7 +74,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		o.setSource(txtSource.getText());
 		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		o.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
-		o.setTransationDate(txtDateTransaction.getDate());
+		o.setTransactionDate(txtDateTransaction.getDate());
 		o.setUpdated(true);
 	}
 	
@@ -145,7 +145,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		ord.setSource(txtSource.getText());
 		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		ord.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
-		ord.setTransationDate(txtDateTransaction.getDate());
+		ord.setTransactionDate(txtDateTransaction.getDate());
 		ord.setUpdated(true);
 		return ord;
 	}

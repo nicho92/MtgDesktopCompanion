@@ -86,7 +86,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 						entrie.setSource(getName());
 						entrie.setCurrency(Currency.getInstance("EUR"));
 						entrie.setTypeTransaction(TYPE_TRANSACTION.BUY);
-						entrie.setTransationDate(date);
+						entrie.setTransactionDate(date);
 						entrie.setType(TYPE_ITEM.CARD);
 						entrie.setDescription(e.select("td").get(1).text());
 						entrie.setItemPrice(UITools.parseDouble(e.select("td").get(6).html().replaceAll("\u0080", "").trim()));
