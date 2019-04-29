@@ -836,41 +836,56 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			});
 			
 			adds.addActionListener(e -> {
+				try {
 
-				final String destinationCollection = ((JMenuItem) e.getSource()).getText();
-				ThreadManager.getInstance().invokeLater(() -> {
-					try {
+						final String destinationCollection = ((JMenuItem) e.getSource()).getText();
+						
 						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
 						MagicEdition me = (MagicEdition) node.getUserObject();
-
+		
 						MagicCollection col = new MagicCollection(destinationCollection);
 						List<MagicCard> sets = provider.searchCardByEdition(me);
-
+		
 						MagicCollection sourceCol = new MagicCollection(node.getPath()[1].toString());
 						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
 						
 						logger.trace(list.size() + " items in " + sourceCol +"/"+me);
 						sets.removeAll(list);
 						logger.trace(sets.size() + " items to insert int " + col +"/"+me);
+				
+				progressBar.start(sets.size());
+				
+				
+				SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>(){
 						
-						
-						
-						progressBar.start(sets.size());
-						
-
-						for (MagicCard m : sets)
-						{
-							MTGControler.getInstance().saveCard(m, col,null);
-							progressBar.progress();
+						@Override
+						protected void done() {
+							progressBar.end();
+							tree.refresh(node);
+						}
+	
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							progressBar.progressSmooth(chunks.size());
 						}
 
-						tree.refresh(node);
-						progressBar.end();
-					} catch (Exception e1) {
-						logger.error(e1);
-						progressBar.end();
-					}
-				});
+						@Override
+						protected Void doInBackground() throws Exception {
+							for (MagicCard m : sets)
+							{
+								MTGControler.getInstance().saveCard(m, col,null);
+								publish(m);
+							}
+							return null;
+						}
+					};
+					ThreadManager.getInstance().runInEdt(sw,"move missing cards");
+					
+					
+				}catch(Exception ex)
+				{
+					MTGControler.getInstance().notify(ex);
+				}
 			});
 
 			menuItemAdd.add(adds);
