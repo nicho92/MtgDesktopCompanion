@@ -170,6 +170,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 					aatts.put(ARTICLES_ATT.minCondition, getString(MIN_CONDITION));
 
 				List<Article> articles = aServ.find(resultat, aatts);
+			
 				logger.debug(getName() + " found " + articles.size() + " items");
 
 				for (Article a : articles) 

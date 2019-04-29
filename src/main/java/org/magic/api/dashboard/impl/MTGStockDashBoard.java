@@ -150,7 +150,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		
 		connect();
-		logger.debug(mc + " " + me);
+
+		Integer id = mc.getMtgstocksId();
+		
+		if(id==null) {
 		int setId = -1;
 
 		if (me != null)
@@ -162,12 +165,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		logger.debug("get prices to " + url);
 		
-		JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
-		int id = arr.get(0).getAsJsonObject().get("id").getAsInt();
-
-		logger.trace("found " + id + " for " + mc.getName());
-
-		id = searchId(id, setId,URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id).getAsJsonObject());
+		
+		
+			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+			id = arr.get(0).getAsJsonObject().get("id").getAsInt();
+			logger.trace("found " + id + " for " + mc.getName());
+			id = searchId(id, setId,URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id).getAsJsonObject());
+		}
+		
 
 		return extractPrice(URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id + "/prices").getAsJsonObject(), mc);
 		
@@ -235,8 +240,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			logger.debug("init editions id done: " + correspondance.size() + " items");
 			
 		}
-		
-		
 		correspondance.put("FBB", 305);
 		correspondance.put("FWB", 306);
 		

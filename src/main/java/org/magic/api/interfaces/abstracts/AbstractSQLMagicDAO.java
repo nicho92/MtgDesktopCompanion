@@ -777,6 +777,18 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 	}
 
+	@Override
+	public void update(MagicCard c,MagicCard newC, MagicCollection col) throws SQLException {
+		try (PreparedStatement pst = con.prepareStatement("UPDATE cards SET mcard= ? WHERE id = ? and collection = ?"))
+		{
+			
+			storeCard(pst, 1, newC);
+			pst.setString(2, IDGenerator.generate(c));
+			pst.setString(3, col.getName());
+			pst.executeUpdate();
+		}
+		
+	}
 
 
 

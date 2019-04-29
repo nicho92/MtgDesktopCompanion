@@ -199,4 +199,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 			return new ArrayList<>(d);
 	}
+	
+	@Override
+	public void update(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {
+		saveCard(newC,col);
+		
+	}
+	
+
+	
 }
