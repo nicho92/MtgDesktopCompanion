@@ -49,6 +49,31 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
 		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
 		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
+		
+		
+		stat.executeUpdate("CREATE INDEX idx_idmc ON stocks (idmc);");
+		stat.executeUpdate("CREATE INDEX idx_col ON stocks (collection);");
+		stat.executeUpdate("CREATE INDEX idx_com ON stocks (comments);");
+		stat.executeUpdate("CREATE INDEX idx_con ON stocks (conditions);");
+		stat.executeUpdate("CREATE INDEX idx_lang ON stocks (langage);");
+		
+		stat.executeUpdate("CREATE INDEX idx_idt ON orders (idTransaction);");
+		stat.executeUpdate("CREATE INDEX idx_des ON orders (description);");
+		stat.executeUpdate("CREATE INDEX idx_ed ON orders (edition);");
+		stat.executeUpdate("CREATE INDEX idx_cur ON orders (currency);");
+		stat.executeUpdate("CREATE INDEX idx_ite ON orders (typeItem);");
+		stat.executeUpdate("CREATE INDEX idx_tra ON orders (typeTransaction);");
+		stat.executeUpdate("CREATE INDEX idx_src ON orders (sources);");
+		stat.executeUpdate("CREATE INDEX idx_sel ON orders (seller);");
+		
+		
+		stat.executeUpdate("CREATE INDEX idx_nam ON news (name);");
+		stat.executeUpdate("CREATE INDEX idx_url ON news (url);");
+		stat.executeUpdate("CREATE INDEX idx_ctg ON news (categorie);");
+		stat.executeUpdate("CREATE INDEX idx_typ ON news (typeNews);");
+		
+		
+		stat.executeUpdate("CREATE INDEX idx_ida ON alerts (id);");
 	}
 	
 	
@@ -108,6 +133,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			int res = 0;
+			
 			res = stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(250), description VARCHAR(250),edition VARCHAR(10),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(250),seller VARCHAR(250))");
 			logger.debug("Create table Orders : "+res);
 			
