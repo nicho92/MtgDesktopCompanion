@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;

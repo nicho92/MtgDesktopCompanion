@@ -162,6 +162,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			
 			createIndex(stat);
 			
+			
 			return true;
 		} catch (SQLException e) {
 			logger.error(e);

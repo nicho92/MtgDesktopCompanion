@@ -37,7 +37,6 @@ import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
-import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
 
