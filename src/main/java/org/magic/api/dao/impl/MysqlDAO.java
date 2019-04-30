@@ -21,12 +21,6 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 		return "INTEGER AUTO_INCREMENT";
 	}
 	
-	@Override
-	public void createIndex(Statement stat) throws SQLException {
-		super.createIndex(stat);
-		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
-		
-	}
 
 	@Override
 	protected String getjdbcnamedb() {

@@ -22,12 +22,6 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 		return "SERIAL";
 	}
 
-	@Override
-	public void createIndex(Statement stat) throws SQLException {
-		super.createIndex(stat);
-		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
-		
-	}
 	
 	@Override
 	protected String getjdbcnamedb() {

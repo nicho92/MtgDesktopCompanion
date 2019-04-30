@@ -73,6 +73,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 		
 		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
+		
+		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
+
 	}
 	
 	
