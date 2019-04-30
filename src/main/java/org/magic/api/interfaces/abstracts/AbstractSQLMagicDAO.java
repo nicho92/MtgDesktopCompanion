@@ -48,32 +48,31 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
 		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
-		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 		
 		
-		stat.executeUpdate("CREATE INDEX idx_idmc ON stocks (idmc);");
-		stat.executeUpdate("CREATE INDEX idx_col ON stocks (collection);");
-		stat.executeUpdate("CREATE INDEX idx_com ON stocks (comments);");
-		stat.executeUpdate("CREATE INDEX idx_con ON stocks (conditions);");
-		stat.executeUpdate("CREATE INDEX idx_lang ON stocks (langage);");
+		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc);");
+		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection);");
+		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments);");
+		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions);");
+		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage);");
 		
-		stat.executeUpdate("CREATE INDEX idx_idt ON orders (idTransaction);");
-		stat.executeUpdate("CREATE INDEX idx_des ON orders (description);");
-		stat.executeUpdate("CREATE INDEX idx_ed ON orders (edition);");
-		stat.executeUpdate("CREATE INDEX idx_cur ON orders (currency);");
-		stat.executeUpdate("CREATE INDEX idx_ite ON orders (typeItem);");
-		stat.executeUpdate("CREATE INDEX idx_tra ON orders (typeTransaction);");
-		stat.executeUpdate("CREATE INDEX idx_src ON orders (sources);");
-		stat.executeUpdate("CREATE INDEX idx_sel ON orders (seller);");
-		
-		
-		stat.executeUpdate("CREATE INDEX idx_nam ON news (name);");
-		stat.executeUpdate("CREATE INDEX idx_url ON news (url);");
-		stat.executeUpdate("CREATE INDEX idx_ctg ON news (categorie);");
-		stat.executeUpdate("CREATE INDEX idx_typ ON news (typeNews);");
+		stat.executeUpdate("CREATE INDEX idx_ord_idt ON orders (idTransaction);");
+		stat.executeUpdate("CREATE INDEX idx_ord_des ON orders (description);");
+		stat.executeUpdate("CREATE INDEX idx_ord_ed ON orders (edition);");
+		stat.executeUpdate("CREATE INDEX idx_ord_cur ON orders (currency);");
+		stat.executeUpdate("CREATE INDEX idx_ord_ite ON orders (typeItem);");
+		stat.executeUpdate("CREATE INDEX idx_ord_tra ON orders (typeTransaction);");
+		stat.executeUpdate("CREATE INDEX idx_ord_src ON orders (sources);");
+		stat.executeUpdate("CREATE INDEX idx_ord_sel ON orders (seller);");
 		
 		
-		stat.executeUpdate("CREATE INDEX idx_ida ON alerts (id);");
+		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name);");
+		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url);");
+		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie);");
+		stat.executeUpdate("CREATE INDEX idx_news_typ ON news (typeNews);");
+		
+		
+		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
 	}
 	
 	

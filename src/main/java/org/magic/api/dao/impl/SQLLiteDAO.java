@@ -41,16 +41,6 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	public void createIndex(Statement stat) throws SQLException {
-		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
-		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
-		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
-		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
-		stat.executeUpdate("CREATE UNIQUE INDEX pk_index_cards ON cards (ID,edition,collection);");
-	}
-	
-
-	@Override
 	public String getName() {
 		return "SQLite";
 	}
