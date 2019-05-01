@@ -34,6 +34,12 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 		setProperty(DB_NAME,"");
 	}
 	
+	
+	@Override
+	protected String getdbSizeQuery() {
+		return null;
+	}
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;

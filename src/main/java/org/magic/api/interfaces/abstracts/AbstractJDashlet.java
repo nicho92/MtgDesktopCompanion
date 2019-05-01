@@ -49,6 +49,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			@Override
 			public void internalFrameClosed(InternalFrameEvent e) {
 				AbstractJDashlet dash = (AbstractJDashlet) e.getInternalFrame();
+				dash.onDestroy();
 				if (dash.getProperties().get("id") != null)
 					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id") + ".conf"));
 			}
@@ -62,6 +63,11 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		setIconifiable(true);
 		setMaximizable(true);
 		setBounds(new Rectangle(5,5, 536,346));
+	}
+
+
+	protected void onDestroy() {
+		//do nothing;
 	}
 
 

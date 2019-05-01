@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.tools.SQLConnectionTools;
 import org.postgresql.util.PGobject;
 
 public class PostgresqlDAO extends AbstractSQLMagicDAO {
@@ -52,12 +54,14 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 		return serialiser.fromJson(((PGobject)rs.getObject("mcard")).getValue(), MagicCard.class);
 	}
 
+	@Override
+	protected String getdbSizeQuery() {
+		return "SELECT pg_database_size('"+getString(DB_NAME)+"');";
+	}
 
 	@Override
 	public long getDBSize() {
-		
-		String sql="SELECT pg_database_size('"+getString(DB_NAME)+"');";
-		try (PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = pst.executeQuery();) {
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(getdbSizeQuery(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = pst.executeQuery();) {
 			rs.first();
 			return (long) rs.getDouble(1);
 		} catch (SQLException e) {

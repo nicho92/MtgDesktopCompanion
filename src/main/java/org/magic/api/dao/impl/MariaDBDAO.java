@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.tools.SQLConnectionTools;
 
 public class MariaDBDAO extends AbstractSQLMagicDAO {
 
@@ -40,20 +41,11 @@ public class MariaDBDAO extends AbstractSQLMagicDAO {
 		return serialiser.fromJson(rs.getString("mcard"), MagicCard.class);
 	}
 	
-
 	@Override
-	public long getDBSize() {
-		String sql = "SELECT Round(Sum(data_length + index_length), 1) FROM information_schema.tables WHERE  table_schema = '"+getString(DB_NAME)+"'";
-		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
-			rs.first();
-			return (long) rs.getDouble(1);
-		} catch (SQLException e) {
-			logger.error(e);
-			return 0;
-		}
-
+	protected String getdbSizeQuery() {
+		return "SELECT Round(Sum(data_length + index_length), 1) FROM information_schema.tables WHERE  table_schema = '"+getString(DB_NAME)+"'";
 	}
-
+	
 	@Override
 	public String getName() {
 		return "MariaDB";

@@ -39,7 +39,11 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 		
-		
+	}
+	
+	@Override
+	protected String getdbSizeQuery() {
+		return null;
 	}
 	
 
