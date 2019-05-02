@@ -134,7 +134,7 @@ public class RequestBuilder
 		if(client!=null)
 			return client.execute(this);
 		
-		return null;
+		throw new IOException("You must set a httpClient with .setClient()");
 	}
 
 	public RequestBuilder clean() {
