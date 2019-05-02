@@ -64,6 +64,11 @@ public class CurrencyConverter {
 	public Double convert(String from, String to, double value)
 	{
 		double ret=value;
+		
+		if(from.equalsIgnoreCase(to))
+			return value;
+		
+		
 		try {
 			if(!from.equalsIgnoreCase("USD")&&!to.equalsIgnoreCase("USD"))
 				ret= usdConvert("USD", to, 1)*usdConvert(from, "USD", 1)*value;
