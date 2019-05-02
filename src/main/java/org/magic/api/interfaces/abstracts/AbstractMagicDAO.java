@@ -29,8 +29,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected static final String PARAMS = "PARAMS";
 	protected static final String SERVERPORT = "SERVERPORT";
 	protected static final String SERVERNAME = "SERVERNAME";
-
-	
 	
 	protected JsonExport serialiser;
 	
