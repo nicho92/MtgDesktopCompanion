@@ -15,6 +15,13 @@ import org.magic.tools.FileTools;
 
 public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
+	private static final String MODE = "MODE";
+
+	@Override
+	protected boolean enablePooling() {
+		return !getString(MODE).equals("file");
+	}
+	
 	@Override
 	protected String getAutoIncrementKeyWord() {
 		return "IDENTITY";
@@ -27,7 +34,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	
 	@Override
 	protected String getjdbcnamedb() {
-		return "hsqldb";
+		return "hsqldb"+(getString(MODE).isEmpty()?"":":"+getString(MODE));
 	}
 	
 	@Override
@@ -54,7 +61,16 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
 	@Override
 	public long getDBSize() {
-		return FileUtils.sizeOfDirectory(getFile(SERVERNAME));
+		
+		if(getString(MODE).equals("mem"))
+			return 0;
+		
+		if(getFile(SERVERNAME).exists())
+			return FileUtils.sizeOfDirectory(getFile(SERVERNAME));
+		else
+			return 0;
+		
+		
 	}
 
 
@@ -78,6 +94,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		setProperty(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"hsqldao").toFile().getAbsolutePath());
 		setProperty(LOGIN, "SA");
 		setProperty(PASS, "");
+		setProperty(MODE,"");
 	}
 	
 }

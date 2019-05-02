@@ -42,11 +42,15 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
 	protected abstract String createListStockSQL(MagicCard mc);
 	protected abstract String getdbSizeQuery();
-	
-
-	
 	protected static final int COLLECTION_COLUMN_SIZE=30;
 	protected static final int CARD_ID_SIZE=50;
+
+	protected boolean enablePooling()
+	{
+		return true;
+	}
+
+	
 
 
 	public void createIndex(Statement stat) throws SQLException {
@@ -113,6 +117,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public long getDBSize() {
 		String sql = getdbSizeQuery();
+		
+		if(sql==null)
+			return 0;
+		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			rs.first();
 			return (long) rs.getDouble(1);
@@ -135,7 +143,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		if(!getString(DB_NAME).isEmpty())
 			url.append("/").append(getString(DB_NAME));
 			
-			
 		if(!getString(PARAMS).isEmpty())	
 			url.append(getString(PARAMS));
 		
@@ -146,8 +153,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		logger.trace("Connexion to " + getjdbcUrl() + "/" + getString(DB_NAME) + getString(PARAMS));
-		pool = new SQLConnectionTools(getjdbcUrl(),getString(LOGIN), getString(PASS));
+		pool = new SQLConnectionTools(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}
 
