@@ -42,6 +42,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
 	protected abstract String createListStockSQL(MagicCard mc);
 	protected abstract String getdbSizeQuery();
+	
 	protected static final int COLLECTION_COLUMN_SIZE=30;
 	protected static final int CARD_ID_SIZE=50;
 
