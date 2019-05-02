@@ -310,10 +310,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pst.setString(1, collection.getName());
 			if (me != null)
 				pst.setString(2, me.getId());
-			logger.trace(sql +" begin query");
 			try (ResultSet rs = pst.executeQuery()) {
-				logger.trace(sql +" resultSet done");
-				
 				while (rs.next()) {
 					MagicCard mc = readCard(rs);
 					ret.add(mc);
@@ -327,9 +324,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		String sql = "SELECT distinct(edition) FROM cards where collection=?";
 		List<String> retour = new ArrayList<>();
-		Chrono chrono = new Chrono();
-		chrono.start();
-		logger.trace(sql + " begin query " + collection);
+		logger.trace(sql);
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
 			try (ResultSet rs = pst.executeQuery()) {
@@ -337,7 +332,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					retour.add(rs.getString("edition"));
 				}
-				logger.trace(sql +" query done in " + chrono.stop() + " sec");
 			}
 		}
 		return retour;

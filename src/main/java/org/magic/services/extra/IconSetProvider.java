@@ -199,7 +199,7 @@ public class IconSetProvider {
 		equiv.put("PSS1", "BFZ");
 		equiv.put("PS11", "PSALVAT11");
 		equiv.put("OCM1", "CM1");
-		
+		equiv.put("PBOK", "PBOOK");
 	}
 	
 	private String getEquiv(String set) 
