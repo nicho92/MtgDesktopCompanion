@@ -2,6 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ItemEvent;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -45,16 +46,19 @@ public class OrdersDashlet extends AbstractJDashlet {
 		chkSumOrTotal = new JCheckBox("Count");
 		panel.add(chkSumOrTotal);
 		
-		JButton btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		panel.add(btnRefresh);
-		
 		chart = new OrdersChartPanel();
 		
 		
 		getContentPane().add(chart,BorderLayout.CENTER);
 		
 		
-		btnRefresh.addActionListener(e->init());
+		chkSumOrTotal.addChangeListener(e->init());
+		cboProperty.addItemListener(ie -> {
+			
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				init();	
+		});
+		
 		
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),

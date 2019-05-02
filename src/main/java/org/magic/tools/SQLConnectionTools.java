@@ -31,7 +31,7 @@ public class SQLConnectionTools
 	
 	public Connection getConnection() throws SQLException {
 		Connection c = dataSource.getConnection();
-		logger.debug("Idle:"+dataSource.getNumIdle() +", Active :"+dataSource.getNumActive() + "/"  + dataSource.getMaxTotal());
+		logger.trace("Idle:"+dataSource.getNumIdle() +", Active :"+dataSource.getNumActive() + "/"  + dataSource.getMaxTotal());
 		return c;
 	}
 }
