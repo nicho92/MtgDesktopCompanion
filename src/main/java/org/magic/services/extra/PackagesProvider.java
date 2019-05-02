@@ -141,7 +141,7 @@ public class PackagesProvider {
 			n = nodeList.item(0).getChildNodes();
 			
 		} catch (Exception e) {
-			logger.error("Error retrieving IDs "+ me.getId() + "->" + me + " : " + e);
+			logger.trace("Error retrieving IDs "+ me.getId() + "->" + me + " : " + e);
 		}
 		
 		if(n==null)
