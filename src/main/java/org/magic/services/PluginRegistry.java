@@ -113,10 +113,11 @@ public class PluginRegistry {
 		registry.put(MTGShopper.class, new PluginEntry<MTGShopper>(true,"/shoppers","/shopper", "org.magic.api.shopping.impl"));
 		registry.put(MTGTokensProvider.class, new PluginEntry<MTGTokensProvider>(false,"/tokens","/token", "org.magic.api.tokens.impl"));
 		registry.put(MTGWallpaperProvider.class, new PluginEntry<MTGWallpaperProvider>(true,"/wallpapers","/wallpaper", "org.magic.api.wallpaper.impl"));
-		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet"));
 		registry.put(MTGPictureEditor.class, new PluginEntry<MTGPictureEditor>(false,"/editors", "/editor", "org.magic.api.pictureseditor.impl"));
 		registry.put(MTGCardsIndexer.class, new PluginEntry<MTGCardsIndexer>(false, "/indexers", "/index", "org.magic.api.indexer.impl"));
 		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl"));
+		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet"));
+
 	}
 	
 	public Class loadClass(String name) throws ClassNotFoundException
@@ -125,6 +126,10 @@ public class PluginRegistry {
 	}
 	
 	
+	public <T extends MTGPlugin> List<Class<T>> listClasses()
+	{
+		return new ArrayList<>(registry.keySet());
+	}
 	
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{

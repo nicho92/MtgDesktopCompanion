@@ -27,6 +27,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.Chrono;
 
 public class JMXServer extends AbstractMTGServer {
@@ -49,7 +50,26 @@ public class JMXServer extends AbstractMTGServer {
 		Chrono c = new Chrono();
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
-	
+		
+		/*
+		
+		PluginRegistry.inst().listClasses().forEach(cl->{
+			
+			MTGControler.getInstance().getPlugins(cl).forEach(o->{
+				try {
+					names.add(o.getObjectName());
+					mbs.registerMBean(new StandardMBean(o, cl),o.getObjectName());
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+			});
+			
+			
+		});
+			*/
+		
+		
+		
 			MTGControler.getInstance().getPlugins(MTGDao.class).forEach(o->{
 				try {
 					names.add(o.getObjectName());

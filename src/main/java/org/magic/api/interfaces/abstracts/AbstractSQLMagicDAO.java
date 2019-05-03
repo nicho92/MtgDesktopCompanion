@@ -156,25 +156,23 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (Connection cont =  pool.getConnection();Statement stat = cont.createStatement()) {
-			int res = 0;
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
+			logger.debug("Create table Orders");
 			
-			res = stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
-			logger.debug("Create table Orders : "+res);
+			stat.executeUpdate("create TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+cardStorage()+", edition varchar(5), cardprovider varchar(20),collection varchar("+COLLECTION_COLUMN_SIZE+"))");
+			logger.debug("Create table cards");
 			
-			res = stat.executeUpdate("create TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+cardStorage()+", edition varchar(5), cardprovider varchar(20),collection varchar("+COLLECTION_COLUMN_SIZE+"))");
-			logger.debug("Create table cards : "+res);
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
+			logger.debug("Create table collections");
 			
-			res = stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
-			logger.debug("Create table collections : "+res);
+			stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+cardStorage()+", collection varchar("+COLLECTION_COLUMN_SIZE+"),comments varchar(250), conditions varchar(30),foil boolean, signedcard boolean, langage varchar(20), qte integer,altered boolean,price DECIMAL(10,3))");
+			logger.debug("Create table stocks");
 			
-			res = stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+cardStorage()+", collection varchar("+COLLECTION_COLUMN_SIZE+"),comments varchar(250), conditions varchar(30),foil boolean, signedcard boolean, langage varchar(20), qte integer,altered boolean,price DECIMAL(10,3))");
-			logger.debug("Create table stocks : "+res);
+			stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+cardStorage()+", amount DECIMAL)");
+			logger.debug("Create table alerts");
 			
-			res = stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+cardStorage()+", amount DECIMAL)");
-			logger.debug("Create table alerts : " + res);
-			
-			res = stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews varchar(50))");
-			logger.debug("Create table news : "+res);
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews varchar(50))");
+			logger.debug("Create table news");
 			
 	
 			logger.debug("populate collections");
