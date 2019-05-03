@@ -527,7 +527,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	protected void initOrders() {
-		db.getCollection(colOrders, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> listOrders.add(deserialize(result.get(dbOrdersField).toString(), OrderEntry.class)));
+		db.getCollection(colOrders, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+				OrderEntry o = deserialize(result.get(dbOrdersField).toString(), OrderEntry.class);
+				listOrders.put(o.getId(),o);
+			});
 		
 	}
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import org.magic.api.beans.Booster;
@@ -14,12 +13,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.DAOCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
-	protected Map<String, MagicCard> cacheCards;
-	protected Map<String, List<MagicCard>> cacheBoosterCards;
-	protected Map<String, MagicEdition> cacheEditions;
+	protected DAOCache<MagicCard> cacheCards;
+	protected DAOCache<List<MagicCard>> cacheBoosterCards;
+	protected DAOCache<MagicEdition> cacheEditions;
 
 	public AbstractCardsProvider() {
 		super();
@@ -32,9 +32,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			initDefault();
 			save();
 		}
-		cacheCards = new HashMap<>();
-		cacheBoosterCards = new HashMap<>();
-		cacheEditions = new TreeMap<>();
+		cacheCards = new DAOCache<>();
+		cacheBoosterCards = new DAOCache<>();
+		cacheEditions = new DAOCache<>();
 
 	}
 	

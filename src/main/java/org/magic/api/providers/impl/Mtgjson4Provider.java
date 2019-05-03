@@ -138,7 +138,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		logger.info("init " + this);
 
 		chrono=new Chrono();
-		cacheBoosterCards = new HashMap<>();
 
 		Configuration.setDefaults(new Configuration.Defaults() {
 

@@ -719,7 +719,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				state.setSource(rs.getString("sources"));
 				state.setSeller(rs.getString("seller"));
 				state.setUpdated(false);
-				listOrders.add(state);
+				listOrders.put(state.getId(),state);
 			}
 			logger.debug("load " + listOrders.size() + " item(s) from orders");
 		}
@@ -756,8 +756,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 		if (listOrders != null)
 		{
-			boolean res = listOrders.removeAll(state);
-			logger.debug("delete orders FROM list " + res);
+			state.forEach(d->listOrders.remove(String.valueOf(d.getId())));
 		}
 		
 	}
@@ -790,7 +789,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(11, state.getSeller());
 				pst.executeUpdate();
 				state.setId(getGeneratedKey(pst));
-				listOrders.add(state);
+				listOrders.put(state.getId(),state);
 			} catch (Exception e) {
 				logger.error("error insert " + state.getDescription() , e);
 			}

@@ -34,7 +34,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected JsonExport serialiser;
 	
 	protected DAOCache<MagicCardAlert> listAlerts;
-	protected List<OrderEntry> listOrders;
+	protected DAOCache<OrderEntry> listOrders;
 
 	protected abstract void initAlerts();
 	protected abstract void initOrders();
@@ -56,7 +56,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			save();
 		}
 		listAlerts = new DAOCache<>();
-		listOrders = new ArrayList<>();
+		listOrders = new DAOCache<>();
 		serialiser=new JsonExport();
 	
 	}
@@ -118,7 +118,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		if (listOrders.isEmpty())
 			initOrders();
 		
-		return listOrders;
+		return listOrders.values();
 	}
 
 	@Override

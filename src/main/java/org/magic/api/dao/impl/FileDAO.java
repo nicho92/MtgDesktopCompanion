@@ -313,7 +313,8 @@ public class FileDAO extends AbstractMagicDAO {
 	public void initOrders(){
 		for (File f : FileUtils.listFiles(new File(directory, ORDERSDIR), null, false)) {
 			try {
-				listOrders.add(read(OrderEntry.class, f));
+				OrderEntry o = read(OrderEntry.class, f);
+				listOrders.put(o.getId(),o);
 			} catch (Exception e) {
 				logger.error("Error reading OrderEntry", e);
 			}
