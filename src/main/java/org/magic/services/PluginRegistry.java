@@ -174,6 +174,14 @@ public class PluginRegistry {
 		return registry.entrySet();
 	}
 
+	public List<MTGPlugin> listPlugins()
+	{
+		List<MTGPlugin> list = new ArrayList<>();
+		PluginRegistry.inst().listClasses().forEach(c->PluginRegistry.inst().listPlugins(c).forEach(p->list.add(p)));
+		return list;
+	}
+	
+	
 	public List<Class> getClasses(String packageName) {
 		ArrayList<Class> classes = new ArrayList<>();
 		Reflections classReflections = new Reflections(packageName);
@@ -222,6 +230,20 @@ public class PluginRegistry {
 		logger.error(name + " doesn't exist or is not enabled");
 		return null;
 	}
+	
+
+	public MTGPlugin getPlugin(String name) {
+		Optional<MTGPlugin> r = listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(name)).findFirst();
+		
+		if(r.isPresent())
+			return r.get();
+		
+		
+		logger.error(name + " doesn't exist");
+		return null;
+		
+	}
+	
 
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
 		return listPlugins(t).stream().filter(MTGPlugin::isEnable).collect(Collectors.toList());
@@ -236,6 +258,8 @@ public class PluginRegistry {
 		else
 			return null;
 	}
+
+
 	
 }
 

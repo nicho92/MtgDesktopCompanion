@@ -73,6 +73,7 @@ public class ArrayResponse extends AbstractResponse {
 			try {
 				return new ArrayList<>(BeanUtils.describe(classe.getConstructor().newInstance()).keySet());
 			} catch (Exception e) {
+				
 				return new ArrayList<>();
 			}
 		}

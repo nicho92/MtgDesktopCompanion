@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 
 import javax.swing.Icon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;

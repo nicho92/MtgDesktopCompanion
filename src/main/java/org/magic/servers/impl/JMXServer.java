@@ -27,7 +27,6 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
 import org.magic.tools.Chrono;
 
 public class JMXServer extends AbstractMTGServer {

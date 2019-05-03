@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 
@@ -212,4 +213,20 @@ public class JsonExport extends AbstractCardExport {
 		return "1.1";
 	}
 
+	
+	public <T extends MTGPlugin> JsonArray convert(List<T> l) {
+		JsonArray arr = new JsonArray();
+		for (MTGPlugin plug : l) {
+			JsonObject obj = new JsonObject();
+			obj.addProperty("name", plug.getName());
+			obj.addProperty("type", plug.getType().toString());
+			obj.addProperty("enabled", plug.isEnable());
+			obj.addProperty("version", plug.getVersion());
+			obj.addProperty("status", plug.getStatut().name());
+			obj.add("config", toJsonElement(plug.getProperties()));
+			arr.add(obj);
+		}
+		return arr;
+	}
+	
 }

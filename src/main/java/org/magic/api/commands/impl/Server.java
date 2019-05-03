@@ -6,16 +6,11 @@ import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.AbstractResponse;
-import org.magic.console.ArrayResponse;
 import org.magic.console.TextResponse;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
 
 public class Server extends AbstractCommand {
 
