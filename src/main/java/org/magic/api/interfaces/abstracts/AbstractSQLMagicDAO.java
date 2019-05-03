@@ -28,13 +28,12 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
-import org.magic.tools.SQLConnectionTools;
+import org.magic.tools.SQLTools;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
-	protected SQLConnectionTools pool;
+	protected SQLTools pool;
 	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
 	protected abstract String cardStorage();
@@ -50,10 +49,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	{
 		return true;
 	}
-
 	
-
-
 	public void createIndex(Statement stat) throws SQLException {
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
@@ -154,7 +150,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		pool = new SQLConnectionTools(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
+		pool = new SQLTools(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}
 
@@ -591,7 +587,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 
-					listAlerts.add(alert);
+					listAlerts.put(alert.getId(),alert);
 				}
 			}
 		} catch (Exception e) {
@@ -612,7 +608,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			logger.debug("save alert for " + alert.getCard()+ " ("+alert.getCard().getCurrentSet()+")");
-			listAlerts.add(alert);
+			listAlerts.put(alert.getId(),alert);
 		}
 	}
 
@@ -638,7 +634,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 
 		if (listAlerts != null)
-			listAlerts.remove(alert);
+			listAlerts.remove(alert.getId());
 	}
 
 	@Override

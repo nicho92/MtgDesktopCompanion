@@ -11,7 +11,6 @@ import java.sql.SQLException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
-import org.magic.tools.SQLConnectionTools;
 import org.postgresql.util.PGobject;
 
 public class PostgresqlDAO extends AbstractSQLMagicDAO {

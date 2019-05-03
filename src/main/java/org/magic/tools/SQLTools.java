@@ -7,13 +7,13 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 
-public class SQLConnectionTools
+public class SQLTools
 {
     private BasicDataSource dataSource;
-	private static Logger logger = MTGLogger.getLogger(SQLConnectionTools.class);
+	private static Logger logger = MTGLogger.getLogger(SQLTools.class);
+
 	
-	
-	public SQLConnectionTools(String url, String user,String pass, boolean enable)
+	public SQLTools(String url, String user,String pass, boolean enable)
 	{
 		
 		  logger.debug("init connection to " + url);
@@ -45,4 +45,5 @@ public class SQLConnectionTools
 		logger.trace("Idle:"+dataSource.getNumIdle() +", Active :"+dataSource.getNumActive() + "/"  + dataSource.getMaxTotal());
 		return c;
 	}
+
 }

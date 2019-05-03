@@ -351,7 +351,9 @@ public class FileDAO extends AbstractMagicDAO {
 	public void initAlerts() {
 		for (File f : FileUtils.listFiles(new File(directory, ALERTSDIR), null, false)) {
 			try {
-				listAlerts.add(read(MagicCardAlert.class, f));
+				MagicCardAlert a = read(MagicCardAlert.class, f);
+				
+				listAlerts.put(a.getId(),a);
 			} catch (Exception e) {
 				logger.error("Error reading alert", e);
 			}

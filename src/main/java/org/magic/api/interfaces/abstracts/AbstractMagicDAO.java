@@ -19,6 +19,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
+import org.magic.tools.DAOCache;
 
 
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
@@ -32,7 +33,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	protected JsonExport serialiser;
 	
-	protected List<MagicCardAlert> listAlerts;
+	protected DAOCache<MagicCardAlert> listAlerts;
 	protected List<OrderEntry> listOrders;
 
 	protected abstract void initAlerts();
@@ -54,7 +55,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			initDefault();
 			save();
 		}
-		listAlerts = new ArrayList<>();
+		listAlerts = new DAOCache<>();
 		listOrders = new ArrayList<>();
 		serialiser=new JsonExport();
 	
@@ -109,7 +110,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		if (listAlerts.isEmpty())
 			initAlerts();
 		
-		return listAlerts;
+		return listAlerts.values();
 	}
 	
 	@Override
