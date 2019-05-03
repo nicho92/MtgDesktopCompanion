@@ -252,7 +252,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private MagicCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
 		MagicCard mc = new MagicCard();
 
-		if (cacheCards.get(obj.get("id").getAsString()) != null) {
+		if (cacheCards.has(obj.get("id").getAsString())) {
 			logger.trace("card " + obj.get("id") + "found in cache");
 			return cacheCards.get(obj.get("id").getAsString());
 		}

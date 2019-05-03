@@ -127,7 +127,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			mc.setId(obj.get("id").getAsString());
 
 		
-		if(cacheCards.get(mc.getId())!=null)
+		if(cacheCards.has(mc.getId()))
 			return cacheCards.get(mc.getId());
 		
 		if (obj.get(NAME) != null)

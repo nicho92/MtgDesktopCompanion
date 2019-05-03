@@ -4,22 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.DAOCache;
+import org.magic.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
-	protected DAOCache<MagicCard> cacheCards;
-	protected DAOCache<List<MagicCard>> cacheBoosterCards;
-	protected DAOCache<MagicEdition> cacheEditions;
+	protected TCache<MagicCard> cacheCards;
+	protected TCache<List<MagicCard>> cacheCardsByEdition;
+	protected TCache<MagicEdition> cacheEditions;
 
 	public AbstractCardsProvider() {
 		super();
@@ -32,9 +32,11 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			initDefault();
 			save();
 		}
-		cacheCards = new DAOCache<>();
-		cacheBoosterCards = new DAOCache<>();
-		cacheEditions = new DAOCache<>();
+		
+		
+		cacheCards = new TCache<>();
+		cacheCardsByEdition = new TCache<>();
+		cacheEditions = new TCache<>();
 
 	}
 	
@@ -48,12 +50,18 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
 		
-		if(cacheBoosterCards.get(ed.getId()) != null)
-			return cacheBoosterCards.get(ed.getId());
-		
-		cacheBoosterCards.put(ed.getId(), searchCardByCriteria("set", ed.getId(), null, false));
-		
-		return cacheBoosterCards.get(ed.getId());
+		try {
+			return cacheCardsByEdition.get(ed.getId(), new Callable<List<MagicCard>>() {
+				
+				@Override
+				public List<MagicCard> call() throws Exception {
+					return searchCardByCriteria("set", ed.getId(), null, false);
+				}
+			});
+		} catch (ExecutionException e) {
+			throw new IOException(e);
+		}
+	
 	}
 	
 	
@@ -88,10 +96,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		Booster b = new Booster();
 	
 		try {
-			if (cacheBoosterCards.get(me.getId()) == null)
-				cacheBoosterCards.put(me.getId(), searchCardByEdition(me));
+			if (cacheCardsByEdition.get(me.getId()) == null)
+				cacheCardsByEdition.put(me.getId(), searchCardByEdition(me));
 
-			for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
+			for (MagicCard mc : cacheCardsByEdition.get(me.getId())) {
 				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common") && !mc.isBasicLand())
 					common.add(mc);
 

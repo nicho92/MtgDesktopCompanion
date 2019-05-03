@@ -208,9 +208,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 		if (att.equalsIgnoreCase("set")) 
 		{
-			if (cacheBoosterCards.get(crit) != null) {
+			if (cacheCardsByEdition.has(crit)) {
 				logger.debug(crit + " is already in cache. Loading from it");
-				return cacheBoosterCards.get(crit);
+				return cacheCardsByEdition.get(crit);
 			}
 			else {
 				jsquery = "$." + crit.toUpperCase() + ".cards";
@@ -501,7 +501,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public List<MagicEdition> loadEditions() throws IOException {
 		String jsquery = "$.*";
 
-		if (!cacheEditions.values().isEmpty()) {
+		if (!cacheEditions.isEmpty()) {
 			logger.trace("editions already loaded.Return cache");
 			return new ArrayList<>(cacheEditions.values());
 		}
@@ -526,6 +526,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				return null;
 
 			}).read(jsquery, List.class);
+			
+			
 			codeEd.forEach(codeedition->cacheEditions.put(codeedition, getSetById(codeedition)));
 
 			

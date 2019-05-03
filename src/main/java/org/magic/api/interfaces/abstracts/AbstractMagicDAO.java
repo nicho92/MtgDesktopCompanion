@@ -19,7 +19,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
-import org.magic.tools.DAOCache;
+import org.magic.tools.TCache;
 
 
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
@@ -33,8 +33,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	protected JsonExport serialiser;
 	
-	protected DAOCache<MagicCardAlert> listAlerts;
-	protected DAOCache<OrderEntry> listOrders;
+	protected TCache<MagicCardAlert> listAlerts;
+	protected TCache<OrderEntry> listOrders;
 
 	protected abstract void initAlerts();
 	protected abstract void initOrders();
@@ -55,8 +55,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			initDefault();
 			save();
 		}
-		listAlerts = new DAOCache<>();
-		listOrders = new DAOCache<>();
+		listAlerts = new TCache<>();
+		listOrders = new TCache<>();
 		serialiser=new JsonExport();
 	
 	}

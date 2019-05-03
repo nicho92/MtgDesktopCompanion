@@ -2,32 +2,30 @@ package org.magic.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
 
-public class DAOCache<T>{
+public class TCache<T>{
 
 	private Cache<String, T> loader;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public DAOCache() {
+	public TCache() {
 		loader = CacheBuilder.newBuilder()
-			//	.recordStats()
-				.build(new CacheLoader<String, T>() {
-							@Override
-							public T load(String key) throws Exception {
-								return loader.getIfPresent(key);
-							}
-					  });
+				.recordStats()
+				.build();
 	}
 	
-	public Cache<String, T> getCache()
+	
+	private Cache<String, T> getCache()
 	{
+		logger.debug(loader.stats());
 		return loader;
 	}
 	
@@ -41,10 +39,22 @@ public class DAOCache<T>{
 		getCache().invalidate(k);
 	}
 	
+	@Deprecated
 	public T get(String k)
 	{
 		return getCache().getIfPresent(k);
 	}
+	
+	public boolean has(String k)
+	{
+		return getCache().getIfPresent(k)!=null;
+	}
+	
+	public T get(String k, Callable<T> call) throws ExecutionException
+	{
+		return getCache().get(k,call);
+	}
+	
 	
 	public List<T> values()
 	{
