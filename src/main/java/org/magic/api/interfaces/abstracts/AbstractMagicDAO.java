@@ -55,8 +55,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			initDefault();
 			save();
 		}
-		listAlerts = new TCache<>();
-		listOrders = new TCache<>();
+		listAlerts = new TCache<>("alerts");
+		listOrders = new TCache<>("orders");
 		serialiser=new JsonExport();
 	
 	}

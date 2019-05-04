@@ -362,7 +362,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicEdition getSetById(String id) throws IOException {
-		if (cacheEditions.get(id) != null)
+		if (cacheEditions.has(id))
 			return cacheEditions.get(id);
 
 		logger.debug("get Set " + id);

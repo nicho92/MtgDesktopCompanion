@@ -18,8 +18,10 @@ import org.magic.tools.TCache;
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
 	protected TCache<MagicCard> cacheCards;
-	protected TCache<List<MagicCard>> cacheCardsByEdition;
+	private TCache<List<MagicCard>> cacheCardsByEdition;
 	protected TCache<MagicEdition> cacheEditions;
+	
+	
 
 	public AbstractCardsProvider() {
 		super();
@@ -34,9 +36,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		}
 		
 		
-		cacheCards = new TCache<>();
-		cacheCardsByEdition = new TCache<>();
-		cacheEditions = new TCache<>();
+		cacheCards = new TCache<>("cards");
+		cacheCardsByEdition = new TCache<>("cardsByEdition");
+		cacheEditions = new TCache<>("editions");
 
 	}
 	
@@ -96,10 +98,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		Booster b = new Booster();
 	
 		try {
-			if (cacheCardsByEdition.get(me.getId()) == null)
-				cacheCardsByEdition.put(me.getId(), searchCardByEdition(me));
-
-			for (MagicCard mc : cacheCardsByEdition.get(me.getId())) {
+			for (MagicCard mc : searchCardByEdition(me)) {
 				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common") && !mc.isBasicLand())
 					common.add(mc);
 

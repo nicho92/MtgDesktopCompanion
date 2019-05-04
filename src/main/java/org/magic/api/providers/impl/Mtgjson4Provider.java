@@ -208,13 +208,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 		if (att.equalsIgnoreCase("set")) 
 		{
-			if (cacheCardsByEdition.has(crit)) {
-				logger.debug(crit + " is already in cache. Loading from it");
-				return cacheCardsByEdition.get(crit);
-			}
-			else {
-				jsquery = "$." + crit.toUpperCase() + ".cards";
-			}
+			jsquery = "$." + crit.toUpperCase() + ".cards";
+			
 		}
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";

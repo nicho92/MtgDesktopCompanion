@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
@@ -144,12 +146,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				JsonElement el = parser.parse(reader);
 
 				if (att.equals("id")) {
-					list.add(generateCard(el.getAsJsonObject(), exact, crit));
+					list.add(loadCard(el.getAsJsonObject(), exact, crit));
 					hasMore = false;
 				} else {
 					JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
 					for (int i = 0; i < jsonList.size(); i++) {
-						MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject(), exact, crit);
+						MagicCard mc = loadCard(jsonList.get(i).getAsJsonObject(), exact, crit);
 						list.add(mc);
 						
 					}
@@ -175,7 +177,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;
 		JsonObject root =  URLTools.extractJson(url).getAsJsonObject();
-		return generateCard(root, true, null);
+		return loadCard(root, true, null);
 	}
 
 	@Override
@@ -247,15 +249,27 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return "Scryfall";
 	}
 
+	private MagicCard loadCard(JsonObject obj, boolean exact, String search){
+		
+		try {
+			return cacheCards.get(obj.get("id").getAsString(), new Callable<MagicCard>() {
+				
+				@Override
+				public MagicCard call() throws Exception {
+					return generateCard(obj, exact, search);
+				}
+			});
+		} catch (ExecutionException e) {
+			logger.error(e);
+			return null;
+		}
+		
+		
+	}
 	
 
 	private MagicCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
 		MagicCard mc = new MagicCard();
-
-		if (cacheCards.has(obj.get("id").getAsString())) {
-			logger.trace("card " + obj.get("id") + "found in cache");
-			return cacheCards.get(obj.get("id").getAsString());
-		}
 
 		mc.setId(obj.get("id").getAsString());
 		mc.setName(obj.get(NAME).getAsString());
@@ -476,8 +490,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}, "other editions");
 
 		notify(mc);
-		cacheCards.put(mc.getId(), mc);
-
 		return mc;
 
 	}

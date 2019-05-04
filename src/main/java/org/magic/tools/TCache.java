@@ -16,7 +16,19 @@ public class TCache<T>{
 	private Cache<String, T> loader;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
+	private String name;
+	
+	public TCache(String name) {
+		this.name=name;
+		init();
+	}
+	
 	public TCache() {
+		name="default cache";
+		init();
+	}
+	
+	public void init() {
 		loader = CacheBuilder.newBuilder()
 				.recordStats()
 				.build();
@@ -25,7 +37,7 @@ public class TCache<T>{
 	
 	private Cache<String, T> getCache()
 	{
-		logger.debug(loader.stats());
+		logger.trace(name+"-"+loader.stats());
 		return loader;
 	}
 	
