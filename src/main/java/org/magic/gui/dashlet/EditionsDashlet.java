@@ -63,7 +63,6 @@ public class EditionsDashlet extends AbstractJDashlet {
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 
 		
-		
 
 		cboEditions.addItemListener(ie -> {
 			

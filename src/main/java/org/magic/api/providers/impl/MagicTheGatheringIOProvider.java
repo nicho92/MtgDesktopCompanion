@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
@@ -108,7 +110,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			logger.trace(url);
 			JsonArray jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
 			for (int i = 0; i < jsonList.size(); i++) {
-				lists.add(generateCard(jsonList.get(i).getAsJsonObject()));
+				lists.add(loadCard(jsonList.get(i).getAsJsonObject()));
 			}
 			count += con.getHeaderFieldInt("Count", 0);
 		}
@@ -120,15 +122,31 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return searchCardByCriteria(NUMBER, id, me, true).get(0);
 	}
 
+
+	private MagicCard loadCard(JsonObject obj){
+		
+		try {
+			return cacheCards.get(obj.get("id").getAsString(), new Callable<MagicCard>() {
+				
+				@Override
+				public MagicCard call() throws Exception {
+					return generateCard(obj);
+				}
+			});
+		} catch (ExecutionException e) {
+			logger.error(e);
+			return null;
+		}
+		
+		
+	}
+	
+	
 	private MagicCard generateCard(JsonObject obj) throws IOException {
 		MagicCard mc = new MagicCard();
 
 		if (obj.get("id") != null)
 			mc.setId(obj.get("id").getAsString());
-
-		
-		if(cacheCards.has(mc.getId()))
-			return cacheCards.get(mc.getId());
 		
 		if (obj.get(NAME) != null)
 			mc.setName(obj.get(NAME).getAsString());
@@ -362,12 +380,21 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicEdition getSetById(String id) throws IOException {
-		if (cacheEditions.has(id))
-			return cacheEditions.get(id);
+		try {
+			return cacheEditions.get(id, new Callable<MagicEdition>() {
+				
+				@Override
+				public MagicEdition call() throws Exception {
+					logger.debug("get Set " + id);
+					JsonObject root = URLTools.extractJson(getString(JSON_URL) + "/sets/" + id).getAsJsonObject().get("set").getAsJsonObject();
+					return generateEdition(root);
+				}
+			});
+		} catch (ExecutionException e) {
+			throw new IOException(e);
+		}
 
-		logger.debug("get Set " + id);
-		JsonObject root = URLTools.extractJson(getString(JSON_URL) + "/sets/" + id).getAsJsonObject().get("set").getAsJsonObject();
-		return generateEdition(root);
+		
 	}
 
 	public String[] getLanguages() {

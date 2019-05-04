@@ -9,10 +9,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -494,15 +495,15 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		String jsquery = "$.*";
-
+		
 		if (!cacheEditions.isEmpty()) {
 			logger.trace("editions already loaded.Return cache");
 			return new ArrayList<>(cacheEditions.values());
 		}
-		logger.debug("load editions");
+		String jsquery = "$.*";
+
+		logger.debug("loading editions");
 		chrono.start();
-		
 		try {		
 		
 		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonArray().forEach(e->{
@@ -534,11 +535,26 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return new ArrayList<>(cacheEditions.values());
 	}
 
+	
 	@Override
 	public MagicEdition getSetById(String id) {
-		
-		if(id.startsWith("p"))
-			id=id.toUpperCase();
+		try {
+			return cacheEditions.get(id.toUpperCase(),new Callable<MagicEdition>() {
+				
+				@Override
+				public MagicEdition call() throws Exception {
+					return generateEdition(id);
+				}
+			});
+		} catch (ExecutionException e) {
+			logger.error("error generate "+id, e);
+			return new MagicEdition(id);
+		}
+	}
+	
+	
+	
+	public MagicEdition generateEdition(String id) {
 		
 		MagicEdition ed = new MagicEdition(id);
 		String base = "$." + id.toUpperCase();

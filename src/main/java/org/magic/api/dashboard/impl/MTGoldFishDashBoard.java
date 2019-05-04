@@ -160,8 +160,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				CardShake cs = new CardShake();
 				cs.setName(
 						e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setImg(new URL(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).getElementsByTag("a").get(0)
-						.attr("data-full-image")));
+				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text()));
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
@@ -211,7 +210,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				CardShake cs = new CardShake();
 
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setImg(new URL(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("data-full-image")));
+				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));

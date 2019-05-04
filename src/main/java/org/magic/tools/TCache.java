@@ -23,11 +23,6 @@ public class TCache<T>{
 		init();
 	}
 	
-	public TCache() {
-		name="default cache";
-		init();
-	}
-	
 	public void init() {
 		loader = CacheBuilder.newBuilder()
 				.recordStats()

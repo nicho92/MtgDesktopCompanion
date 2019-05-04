@@ -15,11 +15,13 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.TCache;
 
+import com.google.gson.JsonObject;
+
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
 	protected TCache<MagicCard> cacheCards;
-	private TCache<List<MagicCard>> cacheCardsByEdition;
 	protected TCache<MagicEdition> cacheEditions;
+	private TCache<List<MagicCard>> cacheCardsByEdition;
 	
 	
 
@@ -49,6 +51,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 	
 	
+	
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
 		
@@ -66,12 +69,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	}
 	
-	
 	@Override
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
 		return searchCardByCriteria("name",name, me, exact);
 	}
-	
 	
 	@Override
 	public MagicEdition getSetByName(String name) throws IOException {

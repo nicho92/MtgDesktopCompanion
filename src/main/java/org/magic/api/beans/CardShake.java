@@ -7,7 +7,7 @@ import java.util.Date;
 public class CardShake  {
 
 	private String name;
-	private URL img;
+	private String link;
 	private Double price;
 	private double priceDayChange;
 	private double percentDayChange;
@@ -75,12 +75,12 @@ public class CardShake  {
 		this.name = name;
 	}
 
-	public URL getImg() {
-		return img;
+	public String getLink() {
+		return link;
 	}
 
-	public void setImg(URL img) {
-		this.img = img;
+	public void setLink(String link) {
+		this.link=link;
 	}
 
 	public String getEd() {

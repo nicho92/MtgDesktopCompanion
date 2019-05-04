@@ -308,7 +308,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 				}
 				
 				
-			};
+			}
 		});
 				
 		listSelected.addMouseListener(new MouseAdapter() {

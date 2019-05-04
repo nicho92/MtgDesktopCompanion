@@ -1,6 +1,7 @@
 package org.magic.api.dashboard.impl;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -73,6 +74,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private CardShake extract(JsonElement el) {
+		logger.debug(el);
 		CardShake cs = new CardShake();
 		cs.setName(el.getAsJsonObject().get(PRINT).getAsJsonObject().get("name").getAsString());
 		cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
@@ -81,6 +83,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
 		cs.setCurrency(Currency.getInstance("USD"));
 		cs.setProviderName(getName());
+		cs.setLink("https://www.mtgstocks.com/prints/"+el.getAsJsonObject().get(PRINT).getAsJsonObject().get("id"));
 		correspondance.forEach((key, value) -> {
 			if (value == el.getAsJsonObject().get(PRINT).getAsJsonObject().get("set_id").getAsInt()) {
 				cs.setEd(key);
@@ -123,6 +126,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			cs.setEd(edition.getId());
 			cs.setCurrency(Currency.getInstance("USD"));
 			cs.setProviderName(getName());
+		
 			try{
 				double todayPrice = el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble();
 				double lastDayPrice = el.getAsJsonObject().get("previous_price").getAsDouble();
@@ -133,6 +137,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			{
 				logger.error("Error adding :" + el +" :" + e);
 			}
+			cs.setLink("https://www.mtgstocks.com/prints/"+el.getAsJsonObject().get("id"));
+			
 			notify(cs);
 			list.addShake(cs);
 		}
@@ -153,24 +159,25 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		Integer id = mc.getMtgstocksId();
 		
-		if(id==null) {
-		int setId = -1;
-
-		if (me != null)
-			setId = correspondance.get(me.getId());
-		else
-			setId = correspondance.get(mc.getCurrentSet().getId());
-
-		String url = MTGSTOCK_API_URI + "/search/autocomplete/" + RegExUtils.replaceAll(mc.getName(), " ", "%20");
-		
-		logger.debug("get prices to " + url);
-		
-		
-		
-			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
-			id = arr.get(0).getAsJsonObject().get("id").getAsInt();
-			logger.trace("found " + id + " for " + mc.getName());
-			id = searchId(id, setId,URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id).getAsJsonObject());
+		if(id==null) 
+		{
+			int setId = -1;
+	
+			if (me != null)
+				setId = correspondance.get(me.getId());
+			else
+				setId = correspondance.get(mc.getCurrentSet().getId());
+	
+			String url = MTGSTOCK_API_URI + "/search/autocomplete/" + RegExUtils.replaceAll(mc.getName(), " ", "%20");
+			
+			logger.debug("get prices to " + url);
+			
+			
+			
+				JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+				id = arr.get(0).getAsJsonObject().get("id").getAsInt();
+				logger.trace("found " + id + " for " + mc.getName());
+				id = searchId(id, setId,URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id).getAsJsonObject());
 		}
 		
 
