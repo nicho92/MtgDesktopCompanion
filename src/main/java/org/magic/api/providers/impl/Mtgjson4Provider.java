@@ -534,7 +534,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 		logger.debug("Loading editions OK in " + chrono.stop() + " sec.");
 		
-		return new ArrayList<>(cacheEditions.values());
+		return cacheEditions.values();
 	}
 
 	@Override

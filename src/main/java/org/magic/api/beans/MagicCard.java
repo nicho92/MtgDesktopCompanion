@@ -17,6 +17,10 @@ public class MagicCard implements Serializable {
 		WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR
 	}
 	
+	public enum RARITY {
+		COMMON,UNCOMMON,RARE,MYTHIC, SPECIAL, TIMESHIFTED
+	}
+	
 	private static final long serialVersionUID = 1L;
 	private String name="";
 	private String id;
