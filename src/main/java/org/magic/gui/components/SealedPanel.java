@@ -346,7 +346,6 @@ public class SealedPanel extends JPanel {
 		panelDeck.revalidate();
 		panelDeck.repaint();
 		
-		
 		lblLoading.start();
 		list = new ArrayList<>();
 		SwingWorker<Void, Booster> sw = new SwingWorker<Void,Booster>()

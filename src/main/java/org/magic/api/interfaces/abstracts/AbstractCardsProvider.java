@@ -21,7 +21,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	protected TCache<MagicCard> cacheCards;
 	protected TCache<MagicEdition> cacheEditions;
-	private TCache<List<MagicCard>> cacheCardsByEdition;
+	protected TCache<List<MagicCard>> cacheCardsByEdition;
 	
 	
 
@@ -54,7 +54,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
-		
 		try {
 			return cacheCardsByEdition.get(ed.getId(), new Callable<List<MagicCard>>() {
 				
@@ -76,7 +75,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public MagicEdition getSetByName(String name) throws IOException {
-		return loadEditions().parallelStream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
+		return loadEditions().stream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
 	}
 	
 	@Override
@@ -99,7 +98,8 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		Booster b = new Booster();
 	
 		try {
-			for (MagicCard mc : searchCardByEdition(me)) {
+			for (MagicCard mc : searchCardByEdition(me))
+			{
 				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common") && !mc.isBasicLand())
 					common.add(mc);
 
@@ -135,6 +135,8 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 		b.setCards(resList);
 		b.setEdition(me);
+		
+		logger.debug(b.getEdition() + ":" + b + ":" + b.getCards());
 
 		return b;
 	}
