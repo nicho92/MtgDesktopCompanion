@@ -101,7 +101,7 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	}
 
 	public String toString() {
-		return getSite() + ":" + getValue() + "" + getCurrency();
+		return getSite() + " :" + getValue() + " " + getCurrency() +" " + isFoil() + " " + getSeller();
 	}
 
 	public int compareTo(MagicPrice o) {

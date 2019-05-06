@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 
 public class OrdersDashlet extends AbstractJDashlet {
 	
+	private static final String PROPERTY = "PROPERTY";
 	private JCheckBox chkSumOrTotal;
 	private JComboBox<String> cboProperty;
 	private OrdersChartPanel chart;
@@ -64,7 +65,10 @@ public class OrdersDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 
-			cboProperty.setSelectedItem(getString("PROPERTY"));
+			if(!getString(PROPERTY).isEmpty())
+				cboProperty.setSelectedItem(getString(PROPERTY));
+			
+			
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
 			
 			setBounds(r);
@@ -74,7 +78,7 @@ public class OrdersDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		setProperty("PROPERTY", String.valueOf(cboProperty.getSelectedItem()));
+		setProperty(PROPERTY, String.valueOf(cboProperty.getSelectedItem()));
 		setProperty("COUNT", String.valueOf(chkSumOrTotal.isSelected()));
 		chart.init(MTGControler.getInstance().getEnabled(MTGDao.class).listOrders(),cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
 	}

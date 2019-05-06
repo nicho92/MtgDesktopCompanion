@@ -156,6 +156,9 @@ public class IconSetProvider {
 		equiv.put("PJSE", "PDCI");
 		equiv.put("PWP09", "PDCI");
 		equiv.put("PWP08", "PDCI");
+		equiv.put("PG08", "PDCI");
+		equiv.put("PG07", "PDCI");
+		equiv.put("P04", "PDCI");
 		equiv.put("FBB", "3ED");
 		equiv.put("OC13", "C13");
 		equiv.put("OC14", "C14");
@@ -186,6 +189,9 @@ public class IconSetProvider {
 		equiv.put("PF19", "PMEI");
 		equiv.put("PSS3", "PMEI");
 		equiv.put("HTR", "PMEI");
+		equiv.put("PNAT", "PMEI");
+		equiv.put("HTR17", "PMEI");
+		
 		equiv.put("DVD", "DDC");
 		equiv.put("EVG", "DD1");
 		equiv.put("GVL", "DDD");

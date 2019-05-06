@@ -22,16 +22,6 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 		return "Parkage";
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		
-		MagicCard mc = new MagicCard();
-		mc.setName("Darksteel colossus");
-		
-		new ParkagePricer().getLocalePrice(null, mc);
-	}
-	
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 

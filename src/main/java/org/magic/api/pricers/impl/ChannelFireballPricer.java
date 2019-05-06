@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -12,10 +14,11 @@ import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonElement;
-
 public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
+	private static String baseUrl="https://store.channelfireball.com";
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -25,35 +28,28 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		ArrayList<MagicPrice> list = new ArrayList<>();
-		String keyword = card.getName();
-		String url = getString("URL");
-
-		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING.displayName());
-
-		setProperty("KEYWORD", keyword);
-
-		if (me != null)
-			keyword += "&setname=" + URLEncoder.encode(me.getSet(), MTGConstants.DEFAULT_ENCODING.displayName());
-
-		String link = url.replaceAll("%CARDNAME%", keyword);
-
-		logger.info(getName() + " Looking for prices " + link);
-		JsonElement root = URLTools.extractJson(link);
-
-		String value = root.getAsJsonArray().get(0).getAsString();
-
-		MagicPrice mp = new MagicPrice();
-		mp.setUrl("http://store.channelfireball.com/products/search?query="+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()));
-		mp.setSite(getName());
-		mp.setCurrency("USD");
-		try {
-			mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
-		}catch(Exception e)
-		{
-			//do nothing
-		}
+	
+		Document root = URLTools.extractHtml(baseUrl+"/products/search?query="+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()));
 		
-		list.add(mp);
+		Elements lis = root.select("ul.products li div.meta");
+		
+		
+		lis.forEach(li->{
+			
+			if(!li.getElementsByTag("form").text().contains("Wishlist") && li.getElementsByTag("a").first().text().toLowerCase().startsWith(card.getName().toLowerCase())) 
+			{
+			
+			MagicPrice p = new MagicPrice();
+					   p.setCountry("USA");
+					   p.setCurrency("USD");
+					   p.setSite(getName());
+					   p.setUrl(baseUrl+li.getElementsByTag("a").first().attr("href"));
+					   p.setSeller(li.getElementsByTag("a").get(1).text());
+					   p.setValue(Double.parseDouble(li.select("span[itemprop].price").first().text().replaceAll("\\$","").trim()));
+					   p.setFoil(li.getElementsByTag("a").first().text().contains("- Foil"));
+					   list.add(p);
+			}
+		});
 
 		logger.info(getName() + " found " + list.size() + " item(s)");
 
@@ -65,15 +61,24 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		return "Channel Fireball";
 	}
 
+	public static void main(String[] args) {
+		ChannelFireballPricer p = new ChannelFireballPricer();
+		MagicCard mc = new MagicCard();
+		mc.setName("Liliana of the veil");
+		try {
+			p.getLocalePrice(null, mc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-
+	
+	
 	@Override
 	public void initDefault() {
 		setProperty("MAX", "5");
-		setProperty("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
-		setProperty("WEBSITE", "http://store.channelfireball.com/");
-		setProperty("KEYWORD", "");
-
+	
 	}
 
 

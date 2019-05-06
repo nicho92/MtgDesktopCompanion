@@ -12,7 +12,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
@@ -82,6 +85,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public static final String URL_JSON_ALL_SETS_ZIP ="https://mtgjson.com/json/AllSets.json.zip";
 	public static final String URL_JSON_DECKS_LIST = "https://mtgjson.com/json/DeckLists.json";
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
+	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
 	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
@@ -103,9 +107,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private boolean hasNewVersion() {
 		String temp = "";
 		
-			try (BufferedReader br = new BufferedReader(new FileReader(fversion))) 
+			try  
 			{
-				temp = br.readLine();
+				temp = FileUtils.readFileToString(fversion,MTGConstants.DEFAULT_ENCODING);
 			}
 			catch(FileNotFoundException ex)
 			{
@@ -529,11 +533,32 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return cacheEditions.values();
 	}
 
-	
-	
-	
 	@Override
 	public MagicEdition getSetById(String id) {
+
+		if(id==null)
+			return null;
+		
+		MagicEdition ed = new MagicEdition(id);
+		try {
+			ed = cacheEditions.get(id,new Callable<MagicEdition>() {
+				
+				@Override
+				public MagicEdition call() throws Exception {
+					return generateEdition(id);
+				}
+			});
+			return (MagicEdition) BeanUtils.cloneBean(ed);
+		} catch (Exception e) {
+			logger.error("error generate edition :"+id);
+		}
+		
+		return ed;
+		
+	}
+	
+	
+	public MagicEdition generateEdition(String id) {
 		
 		if(id.startsWith("p"))
 			id=id.toUpperCase();
