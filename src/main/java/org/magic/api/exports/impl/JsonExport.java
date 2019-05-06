@@ -28,6 +28,7 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
 
+	private static final String AVERAGE_PRICE = "averagePrice";
 	private static final String COMMANDER = "commander";
 	private static final String UPDATE_DATE = "updateDate";
 	private static final String CREATION_DATE = "creationDate";
@@ -91,6 +92,9 @@ public class JsonExport extends AbstractCardExport {
 		if (root.get(COMMANDER)!=null)
 			deck.setCommander(gson.fromJson(root.get(COMMANDER), MagicCard.class));
 
+		if (root.get(AVERAGE_PRICE)!=null)
+			deck.setAveragePrice(root.get(AVERAGE_PRICE).getAsDouble());
+
 		
 		if (!root.get(TAGS).isJsonNull()) {
 			JsonArray arr = root.get(TAGS).getAsJsonArray();
@@ -138,7 +142,7 @@ public class JsonExport extends AbstractCardExport {
 		json.addProperty(NAME, deck.getName());
 		json.addProperty(DESCRIPTION, deck.getDescription());
 		json.addProperty(COLORS, deck.getColors());
-		json.addProperty("averagePrice", deck.getAveragePrice());
+		json.addProperty(AVERAGE_PRICE, deck.getAveragePrice());
 		json.add(COMMANDER,toJsonElement(deck.getCommander()));
 		json.add(CREATION_DATE, new JsonPrimitive(deck.getDateCreation().getTime()));
 		json.add(UPDATE_DATE, new JsonPrimitive(deck.getDateUpdate().getTime()));

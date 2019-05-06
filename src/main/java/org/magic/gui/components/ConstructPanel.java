@@ -762,6 +762,6 @@ public class ConstructPanel extends JPanel {
 		deckPricePanel.initDeck(deck);
 		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(!deck.getAsList().isEmpty());
-
+		
 	}
 }

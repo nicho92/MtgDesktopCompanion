@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -208,13 +207,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 		if (att.equalsIgnoreCase("set")) 
 		{
-//			if (cacheCardsByEdition.get(crit) != null) {
-//				logger.debug(crit + " is already in cache. Loading from it");
-//				return cacheCardsByEdition.get(crit);
-//			}
-//			else {
 				jsquery = "$." + crit.toUpperCase() + ".cards";
-//			}
 		}
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
@@ -668,6 +661,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
+		
+		if(me==null)
+			throw new IOException("Edition must not be null");
+		
 		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
 		logger.debug("search " + jsquery);
 		try {
