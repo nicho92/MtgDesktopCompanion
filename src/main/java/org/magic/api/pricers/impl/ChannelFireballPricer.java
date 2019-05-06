@@ -61,25 +61,4 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		return "Channel Fireball";
 	}
 
-	public static void main(String[] args) {
-		ChannelFireballPricer p = new ChannelFireballPricer();
-		MagicCard mc = new MagicCard();
-		mc.setName("Liliana of the veil");
-		try {
-			p.getLocalePrice(null, mc);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	
-	
-	@Override
-	public void initDefault() {
-		setProperty("MAX", "5");
-	
-	}
-
-
 }
