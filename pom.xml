@@ -99,7 +99,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_79</version>
+			  <version>4.ALPHA.0_82</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -141,7 +141,7 @@
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
-		    <version>4.13-beta-2</version>
+		    <version>4.13-beta-3</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
