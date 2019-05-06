@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String gathererCode;
 	private boolean foilOnly;
 	private String keyRuneCode;
-	
+	private int tcgplayerGroupId;
 	
 	
 	
@@ -96,10 +97,12 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	{
 		this.id=idMe;
 		booster = new ArrayList<>();
+		translations = new HashMap<>();
 	}
 
 	public MagicEdition() {
 		booster = new ArrayList<>();
+		translations = new HashMap<>();
 	}
 
 	public List<Object> getBooster() {
@@ -273,6 +276,14 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	
 	public String getKeyRuneCode() {
 		return keyRuneCode;
+	}
+
+	public int getTcgplayerGroupId() {
+		return tcgplayerGroupId;
+	}
+
+	public void setTcgplayerGroupId(int tcgplayerGroupId) {
+		this.tcgplayerGroupId = tcgplayerGroupId;
 	}
 
 }

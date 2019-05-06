@@ -28,6 +28,7 @@ import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
@@ -289,8 +290,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					mc.setMtgstocksId((int)Double.parseDouble(map.get("mtgstocksId").toString()));
 				}
 				
-				
-				
 				if (map.get(ORIGINAL_TEXT) != null)
 					mc.setOriginalText(String.valueOf(map.get(ORIGINAL_TEXT)));
 				
@@ -530,6 +529,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return cacheEditions.values();
 	}
 
+	
+	
+	
 	@Override
 	public MagicEdition getSetById(String id) {
 		
@@ -620,12 +622,29 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}
 		
 		try {
+			ed.setTcgplayerGroupId(ctx.read(base + ".tcgplayerGroupId", Integer.class));
+		} catch (PathNotFoundException pnfe) {
+			// do nothing
+		}
+		
+		
+		try {
 			ed.setKeyRuneCode(ctx.read(base+".keyruneCode",String.class));
 		}catch(PathNotFoundException pnfe)
 		{
 			//do nothing
 		}
 		
+		try {
+			JsonObject o = ctx.read(base+".translations",JsonObject.class);
+			
+			o.keySet().forEach(key->{
+				ed.getTranslations().put(key, o.get(key).getAsString());
+			});
+		}catch(Exception pnfe)
+		{
+			logger.error(pnfe);
+		}
 		
 		
 		
@@ -635,8 +654,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			logger.warn("totalSetSize not found in " + ed.getId() + ", manual calculation");
 			if (ed.getCardCount() == 0)
 				try {
-					Integer i = ctx.read(base + ".cards.length()");
-					ed.setCardCount(i);
+					ed.setCardCount(ctx.read(base + ".cards.length()"));
 				} catch (Exception e) {
 					ed.setCardCount(0);
 				}
