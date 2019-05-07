@@ -73,7 +73,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private CardShake extract(JsonElement el) {
-		logger.debug(el);
+		logger.trace(el);
 		CardShake cs = new CardShake();
 		cs.setName(el.getAsJsonObject().get(PRINT).getAsJsonObject().get("name").getAsString());
 		cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
