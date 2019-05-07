@@ -63,7 +63,7 @@ public class CurrencyConverter {
 	
 	public Double convert(String from, String to, double value)
 	{
-		double ret=value;
+		double ret=0;
 		
 		if(from.equalsIgnoreCase(to))
 			return value;

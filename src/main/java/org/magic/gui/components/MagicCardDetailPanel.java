@@ -317,10 +317,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		rarityJTextField.setColumns(10);
 
 		lstFormats = new JList<>(new DefaultListModel<MagicFormat>());
-		lstFormats.setCellRenderer(new ListCellRenderer<MagicFormat>() {
-			
-			@Override
-			public Component getListCellRendererComponent(JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4) {
+		lstFormats.setCellRenderer((JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4)->{
 				JLabel l = new JLabel(obj.getFormat());
 					if(obj.isLegal())
 						l.setIcon(MTGConstants.ICON_SMALL_CHECK);
@@ -329,7 +326,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 						
 						
 				return l;
-			}
 		});
 
 

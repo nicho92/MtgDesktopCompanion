@@ -134,7 +134,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.setCards(resList);
 		b.setEdition(me);
 		
-		logger.debug(b.getEdition() + ":" + b + ":" + b.getCards());
+		logger.trace(b.getEdition() + ":" + b + ":" + b.getCards());
 
 		return b;
 	}

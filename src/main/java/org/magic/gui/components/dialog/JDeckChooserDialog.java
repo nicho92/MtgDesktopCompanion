@@ -161,7 +161,7 @@ public class JDeckChooserDialog extends JDialog {
 				if(UITools.getTableSelections(table, 0).isEmpty())
 					return;
 				
-				selectedDeck = (MagicDeck) UITools.getTableSelection(table, 0);
+				selectedDeck = UITools.getTableSelection(table, 0);
 				initTree();
 				tagsPanel.clean();
 				tagsPanel.addTags(selectedDeck.getTags());

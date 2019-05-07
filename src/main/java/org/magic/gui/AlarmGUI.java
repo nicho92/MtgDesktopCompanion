@@ -65,6 +65,7 @@ import org.magic.tools.UITools;
 
 public class AlarmGUI extends MTGUIComponent {
 	
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel;

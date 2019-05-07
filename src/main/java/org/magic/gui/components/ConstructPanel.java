@@ -623,7 +623,7 @@ public class ConstructPanel extends JPanel {
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
-					MagicCard mc = (MagicCard) UITools.getTableSelection(table, 0);
+					MagicCard mc = UITools.getTableSelection(table, 0);
 					magicCardDetailPanel.setMagicCard(mc);
 					
 					if(f==MAIN)
@@ -643,7 +643,7 @@ public class ConstructPanel extends JPanel {
 				if(UITools.getTableSelections(table, 0).isEmpty())
 					return;
 				
-				MagicCard mc = (MagicCard) UITools.getTableSelection(table, 0);
+				MagicCard mc = UITools.getTableSelection(table, 0);
 				magicCardDetailPanel.setMagicCard(mc);
 				
 				if(f==MAIN)

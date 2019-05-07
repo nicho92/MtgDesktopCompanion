@@ -660,9 +660,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		try {
 			JsonObject o = ctx.read(base+".translations",JsonObject.class);
 			
-			o.keySet().forEach(key->{
-				ed.getTranslations().put(key, o.get(key).getAsString());
-			});
+			o.keySet().forEach(key->ed.getTranslations().put(key, o.get(key).getAsString()));
 		}catch(Exception pnfe)
 		{
 			logger.error(pnfe);

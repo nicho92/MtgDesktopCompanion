@@ -431,7 +431,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					if(UITools.getTableSelections(cardsTable, 1).isEmpty())
 						return;
 					
-					MagicCard ed = (MagicCard) UITools.getTableSelection(cardsTable, 0);
+					MagicCard ed = UITools.getTableSelection(cardsTable, 0);
 					if (me.getClickCount() == 2) {
 						initCard(ed);
 						tabbedPane.setSelectedIndex(1);
