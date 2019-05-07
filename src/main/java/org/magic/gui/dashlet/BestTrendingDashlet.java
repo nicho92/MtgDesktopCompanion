@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -186,7 +187,6 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		
 		
 		UITools.initCardToolTipTable(table, 0, 1);
 

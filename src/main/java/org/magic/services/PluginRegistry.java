@@ -128,7 +128,9 @@ public class PluginRegistry {
 	
 	public <T extends MTGPlugin> List<Class<T>> listClasses()
 	{
-		return new ArrayList<>(registry.keySet());
+		List<Class<T>> ret = new ArrayList<>();
+		registry.keySet().forEach(ret::add);
+		return ret;
 	}
 	
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)

@@ -2,7 +2,6 @@ package org.magic.api.dashboard.impl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -151,7 +150,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		Element table = null;
 		try {
 
-			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag("tbody").get(0).appendChild(doc2
+			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag("tbody").first().appendChild(doc2
 					.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0));// combine
 																														// 2
 																														// results
