@@ -243,7 +243,7 @@ public class OrdersGUI extends MTGUIComponent {
 				OrderEntry o = UITools.getTableSelection(table, 0);
 				orderEntryPanel.setOrderEntry(o);
 				
-				calulate(UITools.getTableSelection(table, 0));
+				calulate(UITools.getTableSelections(table, 0));
 			
 				if(o.getEdition()!=null)
 					editionFinancialChartPanel.init(o.getEdition());

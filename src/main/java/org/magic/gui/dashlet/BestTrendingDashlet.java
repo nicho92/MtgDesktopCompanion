@@ -193,13 +193,14 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
+				CardShake cs=null;
 				try {
-					CardShake cs = UITools.getTableSelection(table, 0);
+					cs = UITools.getTableSelection(table, 0);
 					Desktop.getDesktop().browse(new URI(cs.getLink()));
 				
 				}catch(Exception ex)
 				{
-					logger.error("error", ex);
+					logger.error("error opening browser for " + cs + " :"+ ex);
 				}
 				return null;
 			}
