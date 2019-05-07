@@ -1,6 +1,5 @@
 package org.magic.api.beans;
 
-import java.net.URL;
 import java.util.Currency;
 import java.util.Date;
 

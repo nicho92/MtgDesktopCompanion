@@ -240,7 +240,7 @@ public class OrdersGUI extends MTGUIComponent {
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
-				OrderEntry o = (OrderEntry) UITools.getTableSelection(table, 0).get(0);
+				OrderEntry o = UITools.getTableSelection(table, 0);
 				orderEntryPanel.setOrderEntry(o);
 				
 				calulate(UITools.getTableSelection(table, 0));

@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -43,6 +44,7 @@ import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -208,56 +210,69 @@ public class UITools {
 			}
 	}
 	
-	public static void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos) {
+	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, Callable<V> dblClick) {
 		final JPopupMenu popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
+			
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row = table.rowAtPoint(e.getPoint());
-				MagicCardDetailPanel pane = new MagicCardDetailPanel();
-				pane.enableThumbnail(true);
-				if (row > -1) {
-					table.setRowSelectionInterval(row, row);
-					String cardName = table.getValueAt(row, cardPos.intValue()).toString();
-
-					if (cardName.indexOf('(') >= 0)
-						cardName = cardName.substring(0, cardName.indexOf('(')).trim();
-
-					MagicEdition ed = null;
-					try {
-						if (edPos != null) {
-							String edID = table.getValueAt(row, edPos).toString();
-							ed = new MagicEdition();
-							ed.setId(edID);
-						}
-					}catch(Exception ex)
+			public void mouseClicked(MouseEvent e) 
+			{
+					e.consume();
+					if(e.getClickCount()==2 && dblClick!=null)
 					{
-						logger.error("no edition defined");
+					
+						ThreadManager.getInstance().executeThread(dblClick);
 					}
-
-					try {
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
-						pane.setMagicCard(mc);
+					else 
+					{
 						
-						popUp.setBorder(new LineBorder(Color.black));
-						popUp.setVisible(false);
-						popUp.removeAll();
-						popUp.setLayout(new BorderLayout());
-						popUp.add(pane, BorderLayout.CENTER);
-						popUp.show(table, e.getX(), e.getY());
-						popUp.setVisible(true);
-
-					} catch (IndexOutOfBoundsException ex) {
-						logger.error(cardName + "is not found");
-					} catch (IOException e1) {
-						logger.error("error loading " + cardName,e1);
-					}
+						int row = table.rowAtPoint(e.getPoint());
+						MagicCardDetailPanel pane = new MagicCardDetailPanel();
+						pane.enableThumbnail(true);
+						table.setRowSelectionInterval(row, row);
+						String cardName = table.getValueAt(row, cardPos.intValue()).toString();
+	
+						if (cardName.indexOf('(') >= 0)
+							cardName = cardName.substring(0, cardName.indexOf('(')).trim();
+	
+						MagicEdition ed = null;
+						try {
+							if (edPos != null) {
+								String edID = table.getValueAt(row, edPos).toString();
+								ed = new MagicEdition();
+								ed.setId(edID);
+							}
+						}catch(Exception ex)
+						{
+							logger.error("no edition defined");
+						}
+						
+						
+						
+						try {
+								MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
+								pane.setMagicCard(mc);
+								
+								popUp.setBorder(new LineBorder(Color.black));
+								popUp.setVisible(false);
+								popUp.removeAll();
+								popUp.setLayout(new BorderLayout());
+								popUp.add(pane, BorderLayout.CENTER);
+								popUp.show(table, e.getX()+5, e.getY()+5);
+								popUp.setVisible(true);
+		
+							} catch (IndexOutOfBoundsException ex) {
+								logger.error(cardName + "is not found");
+							} catch (IOException e1) {
+								logger.error("error loading " + cardName,e1);
+							}
+						
 				}
 			}
 		});
 	}
 	
-	public static <T> List<T> getTableSelection(JTable tableCards,int columnID) {
+	public static <T> List<T> getTableSelections(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
 		for (int i : viewRow) {
@@ -268,6 +283,9 @@ public class UITools {
 		return listCards;
 	}
 
+	public static <T> T getTableSelection(JTable tableCards,int columnID) {
+		return (T) getTableSelections(tableCards, columnID).get(0);
+	}
 
 
 	public static void applyDefaultSelection(Component pane) {

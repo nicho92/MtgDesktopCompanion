@@ -136,7 +136,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 				@Override
 				protected MagicDeck doInBackground() throws Exception {
-					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0).get(0)); 
+					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0)); 
 				}
 
 				@Override

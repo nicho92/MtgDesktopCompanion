@@ -154,7 +154,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (!multiselection && !event.getValueIsAdjusting()) {
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
-					MagicCardStock selectedStock = (MagicCardStock) UITools.getTableSelection(table, 0).get(0);
+					MagicCardStock selectedStock = UITools.getTableSelection(table, 0);
 					btnDelete.setEnabled(true);
 					updatePanels(selectedStock);
 				}

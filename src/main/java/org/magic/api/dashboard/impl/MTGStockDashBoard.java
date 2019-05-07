@@ -1,7 +1,6 @@
 package org.magic.api.dashboard.impl;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;

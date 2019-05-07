@@ -1,9 +1,12 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
+import java.net.URI;
+import java.util.concurrent.Callable;
 
 import javax.swing.Icon;
 import javax.swing.JComboBox;
@@ -13,6 +16,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -28,9 +32,6 @@ import org.magic.tools.UITools;
 
 public class EditionsDashlet extends AbstractJDashlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private AbstractBuzyIndicatorComponent lblLoading;
@@ -57,8 +58,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		table = new JXTable(modEdition);
 		scrollPane.setViewportView(table);
-		UITools.initCardToolTipTable(table, 0, 1);
-
+	
 		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 
@@ -93,7 +93,20 @@ public class EditionsDashlet extends AbstractJDashlet {
 		}
 		
 		UITools.initTableFilter(table);
-
+		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				try {
+					CardShake cs = UITools.getTableSelection(table, 0);
+					Desktop.getDesktop().browse(new URI(cs.getLink()));
+				
+				}catch(Exception ex)
+				{
+					logger.error("error", ex);
+				}
+				return null;
+			}
+		});
 	}
 
 	@Override

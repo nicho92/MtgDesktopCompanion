@@ -1,13 +1,15 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.awt.event.MouseAdapter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -188,7 +190,20 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		
-		UITools.initCardToolTipTable(table, 0, 1);
+		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				try {
+					CardShake cs = UITools.getTableSelection(table, 0);
+					Desktop.getDesktop().browse(new URI(cs.getLink()));
+				
+				}catch(Exception ex)
+				{
+					logger.error("error", ex);
+				}
+				return null;
+			}
+		});
 
 		if (getProperties().size() > 0) {
 			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),

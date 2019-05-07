@@ -428,10 +428,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				@Override
 				public void mouseClicked(MouseEvent me) {
 					
-					if(UITools.getTableSelection(cardsTable, 1).isEmpty())
+					if(UITools.getTableSelections(cardsTable, 1).isEmpty())
 						return;
 					
-					MagicCard ed = (MagicCard) UITools.getTableSelection(cardsTable, 0).get(0);
+					MagicCard ed = (MagicCard) UITools.getTableSelection(cardsTable, 0);
 					if (me.getClickCount() == 2) {
 						initCard(ed);
 						tabbedPane.setSelectedIndex(1);
@@ -443,10 +443,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				@Override
 				public void mouseClicked(MouseEvent me) {
 					
-					if(UITools.getTableSelection(editionsTable, 1).isEmpty())
+					if(UITools.getTableSelections(editionsTable, 1).isEmpty())
 						return;
 					
-					MagicEdition ed =(MagicEdition) UITools.getTableSelection(editionsTable, 1).get(0);
+					MagicEdition ed =UITools.getTableSelection(editionsTable, 1);
 					try {
 						initEdition(ed);
 						cardsModel.init(provider.getCards(ed));

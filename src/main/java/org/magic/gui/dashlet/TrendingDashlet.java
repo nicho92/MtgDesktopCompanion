@@ -1,10 +1,13 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -93,7 +96,20 @@ public class TrendingDashlet extends AbstractJDashlet {
 		}
 
 		UITools.initTableFilter(table);
-		UITools.initCardToolTipTable(table, 0, 1);
+		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				try {
+					CardShake cs = UITools.getTableSelection(table, 0);
+					Desktop.getDesktop().browse(new URI(cs.getLink()));
+				
+				}catch(Exception ex)
+				{
+					logger.error("error", ex);
+				}
+				return null;
+			}
+		});
 
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);

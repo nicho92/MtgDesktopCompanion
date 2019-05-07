@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 public class ChannelFireballPricer extends AbstractMagicPricesProvider {
@@ -45,7 +46,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 					   p.setSite(getName());
 					   p.setUrl(baseUrl+li.getElementsByTag("a").first().attr("href"));
 					   p.setSeller(li.getElementsByTag("a").get(1).text());
-					   p.setValue(Double.parseDouble(li.select("span[itemprop].price").first().text().replaceAll("\\$","").trim()));
+					   p.setValue(UITools.parseDouble(li.select("span[itemprop].price").first().text().replaceAll("\\$","").trim()));
 					   p.setFoil(li.getElementsByTag("a").first().text().contains("- Foil"));
 					   list.add(p);
 			}

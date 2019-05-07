@@ -65,7 +65,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		models = new CardDominanceTableModel();
 		table = new JXTable(models);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		UITools.initCardToolTipTable(table, 0, null);
+		UITools.initCardToolTipTable(table, 0, null,null);
 
 		cboFormat.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)

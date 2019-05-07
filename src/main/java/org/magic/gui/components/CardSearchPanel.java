@@ -559,7 +559,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		tableCards.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
-					selectedCard = (MagicCard)UITools.getTableSelection(tableCards, 0).get(0);
+					selectedCard = UITools.getTableSelection(tableCards, 0);
 					selectedEdition = selectedCard.getCurrentSet();
 					updateCards();
 				} catch (Exception e) {
@@ -582,7 +582,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					popupMenu.show(tableCards, (int) point.getX(), (int) point.getY());
 				} else {
 					try {
-						selectedCard = (MagicCard)UITools.getTableSelection(tableCards, 0).get(0);
+						selectedCard = UITools.getTableSelection(tableCards, 0);
 						selectedEdition = selectedCard.getCurrentSet();
 						updateCards();
 					} catch (Exception e) {

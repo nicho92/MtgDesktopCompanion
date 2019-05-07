@@ -15,8 +15,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.TCache;
 
-import com.google.gson.JsonObject;
-
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
 	protected TCache<MagicCard> cacheCards;
