@@ -22,10 +22,6 @@ public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 		mc.setTcgPlayerId(179466);
 		System.out.println(new TCGPlayerAPITest().getLocalePrice(null,mc));
 	}
-	
-	public TCGPlayerAPITest() {
-		super();
-	}
 
 	@Override
 	public void initDefault() {

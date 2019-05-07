@@ -41,6 +41,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
+	private CollectionAnalyzerWorker sw;
+	
 	
 	@Override
 	public void initGUI() {
@@ -76,7 +78,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		JPanel panneauh = new JPanel();
 		panneauColl.add(panneauh, BorderLayout.NORTH);
 		
-		JButton btnRefresh = new JButton("Refresh");
+		JButton btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		
 		panneauh.add(btnRefresh);
 		
@@ -106,7 +108,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		{
 			List<MagicEdition> ret = UITools.getTableSelection(tableCache,0);
 			buzy.start(ret.size());
-			SwingWorker<Void, Map.Entry<MagicEdition,Date>> sw = new SwingWorker<Void, Map.Entry<MagicEdition,Date>>()
+			SwingWorker<Void, Map.Entry<MagicEdition,Date>> swC = new SwingWorker<Void, Map.Entry<MagicEdition,Date>>()
 			{
 
 				@Override
@@ -140,7 +142,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				}
 		
 			};
-			ThreadManager.getInstance().runInEdt(sw,"update cache date for "+ret);
+			ThreadManager.getInstance().runInEdt(swC,"update cache date for "+ret);
 		});
 		
 		btnRefresh.addActionListener(ae-> init());
@@ -151,9 +153,11 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	public void init() {
 		try {
 			evaluator = new CollectionEvaluator(new MagicCollection(MTGControler.getInstance().get("default-library")));
-			CollectionAnalyzerWorker sw = new CollectionAnalyzerWorker(evaluator,treeTable,modelCache,buzy,lblPrice);
+			sw = new CollectionAnalyzerWorker(evaluator,treeTable,modelCache,buzy,lblPrice);
 			ThreadManager.getInstance().runInEdt(sw,"init collection analysis dashlet");
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			logger.error("error init analyzer",e);
 		}
 	}
@@ -167,5 +171,16 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	@Override
 	public String getName() {
 		return "Collection Analyser";
+	}
+	
+	@Override
+	protected void onDestroy() {
+		if(sw!=null && !sw.isDone())
+		{
+			boolean ret = sw.cancel(true);
+			logger.debug(sw + " is canceled"+ret );
+		}
+		
+		
 	}
 }
