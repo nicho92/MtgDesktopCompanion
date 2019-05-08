@@ -168,7 +168,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			
 			if (res == JOptionPane.YES_OPTION) {
 				
-				List<MagicCardStock> stocks = UITools.getTableSelection(table, 0);
+				List<MagicCardStock> stocks = UITools.getTableSelections(table, 0);
 				model.removeItem(stocks);
 				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading,MTGControler.getInstance().getEnabled(MTGDao.class),stocks.size()) {
 					@Override
@@ -486,7 +486,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				
-				List<MagicCardStock> list = UITools.getTableSelection(table,0);
+				List<MagicCardStock> list = UITools.getTableSelections(table,0);
 				
 				for (MagicCardStock  s : list) {
 					s.setUpdate(true);

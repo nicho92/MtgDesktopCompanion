@@ -141,7 +141,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	}
 
 	public List<MagicCard> getMultiSelection() {
-		return UITools.getTableSelection(tableCards,0);
+		return UITools.getTableSelections(tableCards,0);
 	}
 
 	public MagicCard getSelected() {

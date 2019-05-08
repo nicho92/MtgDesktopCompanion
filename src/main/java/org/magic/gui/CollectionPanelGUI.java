@@ -734,7 +734,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	{
 		 
 		it.addActionListener(evt -> {
-			List<MagicEdition> eds = UITools.getTableSelection(tableEditions, 1);
+			List<MagicEdition> eds = UITools.getTableSelections(tableEditions, 1);
 
 			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize(
 					"CONFIRM_COLLECTION_ITEM_ADDITION", eds, it.getText()));

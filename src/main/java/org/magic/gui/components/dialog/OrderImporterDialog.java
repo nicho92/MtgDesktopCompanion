@@ -104,7 +104,7 @@ public class OrderImporterDialog extends JDialog {
 			ThreadManager.getInstance().invokeLater(() -> {
 					try {
 						btnImport.setEnabled(false);
-						selectedEntries = UITools.getTableSelection(table, 0);
+						selectedEntries = UITools.getTableSelections(table, 0);
 						btnImport.setEnabled(true);
 						dispose();
 					} catch (Exception e1) {
