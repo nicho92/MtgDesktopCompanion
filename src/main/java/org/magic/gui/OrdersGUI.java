@@ -106,7 +106,6 @@ public class OrdersGUI extends MTGUIComponent {
 		totalSelection = new JLabel();
 		selectionSell = new JLabel(MTGConstants.ICON_UP);
 		selectionBuy=new JLabel(MTGConstants.ICON_DOWN);
-		OrderEntryRenderer render = new OrderEntryRenderer();
 		editorPanel = new JPanel();
 		orderEntryPanel = new OrderEntryPanel();
 		JButton btnSaveOrder = new JButton(MTGConstants.ICON_SAVE);
@@ -124,7 +123,7 @@ public class OrdersGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 	
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
-		table.setDefaultRenderer(Double.class, render);
+		table.setDefaultRenderer(Double.class,  new OrderEntryRenderer());
 		panneauRight.setPreferredSize(new Dimension(500, 1));
 		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		editorPanel.setLayout(new BorderLayout(0, 0));
@@ -265,9 +264,11 @@ public class OrdersGUI extends MTGUIComponent {
 						Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
 						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
 						
+						Double pc = UITools.roundDouble(((actualValue-paidValue)/paidValue)*100);
+						String spc = ((pc>0) ? "+":"")+pc;
 						
 						
-						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() + " VALUE="+UITools.formatDouble(actualValue) + " " +o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue));
+						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() +" " + o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue) + " VALUE="+UITools.formatDouble(actualValue) + " : " + spc +"%");
 						if(actualValue<paidValue)
 							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
 						else if(actualValue>paidValue)

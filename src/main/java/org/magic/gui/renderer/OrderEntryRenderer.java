@@ -42,11 +42,11 @@ public class OrderEntryRenderer implements TableCellRenderer {
 			if(value instanceof Double)
 				if (o.getTypeTransaction()==TYPE_TRANSACTION.BUY)
 				{
-					comp.setIcon(MTGConstants.ICON_DOWN);
+					comp.setIcon(MTGConstants.ICON_OUT);
 				}
 				else
 				{
-					comp.setIcon(MTGConstants.ICON_UP);
+					comp.setIcon(MTGConstants.ICON_IN);
 				}
 				
 			return comp;

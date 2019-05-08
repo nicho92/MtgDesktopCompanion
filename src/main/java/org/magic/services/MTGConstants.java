@@ -165,6 +165,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SAVE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/save.png"));
 	public static final ImageIcon ICON_UP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/up.png"));
 	public static final ImageIcon ICON_DOWN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/down.png"));
+	public static final ImageIcon ICON_IN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/in.png"));
+	public static final ImageIcon ICON_OUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/out.png"));
+
 	public static final ImageIcon ICON_DOLLARS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/dollars.png"));
 	public static final ImageIcon ICON_OPEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/open.png"));
 	public static final ImageIcon ICON_ABOUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/about.jpg"));
@@ -223,7 +226,7 @@ public class MTGConstants {
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
-	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190125.txt";
+	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190503.txt";
 	public static final int CONNECTION_TIMEOUT = 0;
 
 	
