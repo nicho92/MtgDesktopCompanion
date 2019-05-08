@@ -193,7 +193,10 @@ public class CardsPicPanel extends JXPanel {
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			double quotien = 1.1;
-
+			
+			if(selectedShape==null)
+				return;
+			
 			if (selectedShape.contains(e.getPoint())) {
 				if (e.getWheelRotation() == -1)// zoom
 				{
