@@ -417,7 +417,7 @@ public class ConstructPanel extends JPanel {
 		
 	btnDrawAHand.addActionListener(ae -> {
 			thumbnail.removeAll();
-			setDeck(deck);
+			//setDeck(deck);
 			Player p = new Player(deck);
 			p.mixHandAndLibrary();
 			p.shuffleLibrary();
@@ -612,7 +612,7 @@ public class ConstructPanel extends JPanel {
 			JLabel comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
 			comp.setText(((MagicCard)value).getName());
 
-			if((deck.getCommander()!=null) && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
+			if(value!=null && deck.getCommander()!=null && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
 				comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
 
 			return comp;
