@@ -66,9 +66,6 @@ public class JMXServer extends AbstractMTGServer {
 			
 		});
 			*/
-		
-		
-		
 			MTGControler.getInstance().getPlugins(MTGDao.class).forEach(o->{
 				try {
 					names.add(o.getObjectName());

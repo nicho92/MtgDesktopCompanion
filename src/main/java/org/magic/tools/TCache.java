@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.log4j.Logger;
@@ -96,4 +99,14 @@ public class TCache<T>{
 		return ToStringBuilder.reflectionToString(loader,ToStringStyle.MULTI_LINE_STYLE);
 	}
 
+	public ObjectName getObjectName() {
+		try {
+			return new ObjectName("org.magic.api:type=cache,name="+name);
+		} catch (MalformedObjectNameException e) {
+			return null;
+		}
+	}
+	
+	
+	
 }

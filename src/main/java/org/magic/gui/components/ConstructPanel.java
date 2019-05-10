@@ -115,6 +115,8 @@ public class ConstructPanel extends JPanel {
 	private File f;
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;
+	private Player p;
+	
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -134,7 +136,7 @@ public class ConstructPanel extends JPanel {
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-
+		p = new Player();
 		
 		
 		JPanel panneauHaut = new JPanel();
@@ -404,6 +406,7 @@ public class ConstructPanel extends JPanel {
 				{
 					deck.setName(name);
 					deckManager.saveDeck(deck);
+					p.setDeck(deck);
 				}
 			} catch (Exception ex) {
 				logger.error("error saving", ex);
@@ -417,8 +420,7 @@ public class ConstructPanel extends JPanel {
 		
 	btnDrawAHand.addActionListener(ae -> {
 			thumbnail.removeAll();
-			//setDeck(deck);
-			Player p = new Player(deck);
+			p.setDeck(deck);
 			p.mixHandAndLibrary();
 			p.shuffleLibrary();
 			p.drawCard(7);

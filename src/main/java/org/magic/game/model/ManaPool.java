@@ -25,7 +25,7 @@ public class ManaPool extends Observable implements Serializable {
 
 	public ManaPool() {
 		pool = new HashMap<>();
-		addObserver(GamePanelGUI.getInstance().getManaPoolPanel());
+		
 	}
 
 	public int getMana(String color) {

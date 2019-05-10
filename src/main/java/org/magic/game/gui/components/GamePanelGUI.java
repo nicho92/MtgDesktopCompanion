@@ -116,6 +116,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
 		exilPanel.setPlayer(p1);
+		
 	}
 
 	private GamePanelGUI() {
@@ -151,11 +152,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 				btnStart.addActionListener(ae -> {
 					GameManager.getInstance().removePlayers();
 					GameManager.getInstance().addPlayer(player);
-					GameManager.getInstance().addPlayer(
-							new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER") + " 2", 20));
-
+					GameManager.getInstance().addPlayer(new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER") + " 2", 20));
 					GameManager.getInstance().initGame();
 					manaPoolPanel.init(player.getManaPool());
+					player.getManaPool().removeObserver(manaPoolPanel);
+					player.getManaPool().addObserver(manaPoolPanel);
 					((DefaultListModel) listActions.getModel()).removeAllElements();
 					player.shuffleLibrary();
 					turnsPanel.initTurn();

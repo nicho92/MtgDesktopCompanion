@@ -14,6 +14,8 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
@@ -31,16 +33,17 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	public List<OrderEntry> listOrders() throws IOException {
 		URLToolsClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
+	
+		RequestBuilder build = RequestBuilder.build().method(METHOD.POST)
+													.url(urlLogin)
+													.addContent("pseudo", getString("LOGIN"))
+													.addContent("pass", getString("PASS"))
+													.addContent("return_url", urlLogin)
+													.addContent("data", "1")
+													.addContent("x", "14")
+													.addContent("y", "11");
 		
-		Map<String, String> nvps = client.buildMap()
-											.put("pseudo", getString("LOGIN"))
-											.put("pass", getString("PASS"))
-											.put("return_url", urlLogin)
-											.put("data", "1")
-											.put("x", "14")
-											.put("y", "11").build();
-		
-		client.doPost(urlLogin, nvps, null);
+		client.execute(build);
 		
 		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders, null));
 		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
