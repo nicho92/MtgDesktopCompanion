@@ -113,7 +113,6 @@ public class ConstructPanel extends JPanel {
 	private File exportedFile;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
-	private Player p;
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;
 	
@@ -131,7 +130,6 @@ public class ConstructPanel extends JPanel {
 		deckmodel.init(deck);
 		deckSidemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
-		p = new Player(deck);
 	}
 
 	private void initGUI() {
@@ -420,6 +418,7 @@ public class ConstructPanel extends JPanel {
 	btnDrawAHand.addActionListener(ae -> {
 			thumbnail.removeAll();
 			setDeck(deck);
+			Player p = new Player(deck);
 			p.mixHandAndLibrary();
 			p.shuffleLibrary();
 			p.drawCard(7);

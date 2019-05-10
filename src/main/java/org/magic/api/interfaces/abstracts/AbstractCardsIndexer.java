@@ -20,6 +20,10 @@ public abstract class AbstractCardsIndexer extends AbstractMTGPlugin implements 
 		}
 	}
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.INDEXER;
+	}
 	
 	
 }

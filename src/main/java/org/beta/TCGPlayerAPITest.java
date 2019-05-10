@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -20,7 +22,7 @@ public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 	public static void main(String[] args) throws IOException {
 		MagicCard mc = new MagicCard();
 		mc.setTcgPlayerId(179466);
-		System.out.println(new TCGPlayerAPITest().getLocalePrice(null,mc));
+		new TCGPlayerAPITest().getLocalePrice(null,mc);
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 			}
 		});
 		
-		
+		logger.debug(list);
 		return list;
 	}
 
