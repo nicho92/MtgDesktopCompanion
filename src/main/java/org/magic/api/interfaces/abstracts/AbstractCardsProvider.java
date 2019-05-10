@@ -43,6 +43,23 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 	
 	
+	public TCache<MagicCard> getCacheCards()
+	{
+		return cacheCards;
+	}
+	
+	public TCache<MagicEdition> getCacheEditions()
+	{
+		return cacheEditions;
+	}
+	
+	public TCache<List<MagicCard>> getCacheCardsEdition()
+	{
+		return cacheCardsByEdition;
+	}
+	
+	
+	
 	@Override
 	public MagicCard getCardByNumber(String id, String idMe) throws IOException {
 		return getCardByNumber(id, getSetById(idMe));

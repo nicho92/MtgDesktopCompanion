@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 
@@ -88,5 +90,10 @@ public class TCache<T>{
 		
 	}
 
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(loader,ToStringStyle.MULTI_LINE_STYLE);
+	}
 
 }

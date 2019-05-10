@@ -282,6 +282,10 @@
             <enable>true</enable>
         </provider>
         <provider>
+            <class>org.magic.api.providers.impl.ScryFallProvider</class>
+            <enable>false</enable>
+        </provider>
+        <provider>
             <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
             <enable>false</enable>
         </provider>
@@ -289,10 +293,7 @@
             <class>org.magic.api.providers.impl.PrivateMTGSetProvider</class>
             <enable>false</enable>
         </provider>
-        <provider>
-            <class>org.magic.api.providers.impl.ScryFallProvider</class>
-            <enable>false</enable>
-        </provider>
+        
     </providers>
     <daos>
         <dao>
