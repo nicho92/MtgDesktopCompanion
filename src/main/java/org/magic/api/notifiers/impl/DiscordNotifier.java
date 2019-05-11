@@ -13,19 +13,34 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.utils.AttachmentOption;
 
 public class DiscordNotifier extends AbstractMTGNotifier {
 
 	public static final int MAXSIZE=2000;
 	
+	
+	public void sendIssues(MTGNotification not) throws IOException
+	{
+		sendMessage(not,576698603746230273L);
+		
+	}
+	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
+		sendMessage(notification,getLong("CHANNELID"));
+	}
+	
+	
+	
+	public void sendMessage(MTGNotification notification,long chanID) throws IOException {
 		 
 		JDA jda=null;
 		try {
 			
 			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).build().awaitReady();
-			TextChannel chan = jda.getTextChannelById(getLong("CHANNELID"));
+			TextChannel chan = jda.getTextChannelById(chanID);
 			notification.setSender(String.valueOf(jda.getSelfUser()));
 			StringBuilder msg = new StringBuilder();
 			
@@ -49,12 +64,19 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 				message=message.substring(0, MAXSIZE);
 			}
 			
-			logger.debug("send " + message);
+			logger.debug("send " + message +": File="+notification.getFile());
 	
 			if(notification.getFile()==null)
+			{
 				chan.sendMessage(message).queue();
+			}
 			else
-				chan.sendFile(notification.getFile(),msg.toString());
+			{
+				MessageAction ret=chan.sendFile(notification.getFile(),msg.toString());
+				chan.sendMessage(ret.complete()).queue();
+			}
+			
+			
 			
 			
 		} catch (LoginException e) {
