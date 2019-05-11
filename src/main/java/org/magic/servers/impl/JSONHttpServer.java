@@ -173,7 +173,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
 				transformer);
 		
-
+		get("/cards/suggest/:val", getString(MIME),
+				(request, response) -> MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(request.params(":val")),
+				transformer);
+		
 		get("/cards/light/:name", getString(MIME),(request, response) -> {
 			List<MagicCard> list= MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(request.params(NAME), null, true);
 			JsonArray arr = new JsonArray();
