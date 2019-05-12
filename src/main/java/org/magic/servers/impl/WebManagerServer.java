@@ -16,8 +16,11 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 
 public class WebManagerServer extends AbstractMTGServer {
 
@@ -26,6 +29,7 @@ public class WebManagerServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private static final String REST_JS_FILENAME="rest-server.js";
+	private static final String JSON_SERVER_START = "JSONSERVER_START";
 	
 	private Server server;
 	private URL webRootLocation;
@@ -89,6 +93,11 @@ public class WebManagerServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		try {
 			server.start();
+			
+			if(getBoolean(JSON_SERVER_START))
+				PluginRegistry.inst().getPlugin(new JSONHttpServer().getName(), MTGServer.class).start();
+			
+			
 			logger.info("Server start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);
 		} catch (Exception e) {
 			throw new IOException(e);
@@ -143,6 +152,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		setProperty(AUTOSTART, "false");
 		setProperty(ALLOW_LIST_DIR, "false");
 		setProperty(REST_BACKEND_URI, "http://localhost:8080");
+		setProperty(JSON_SERVER_START,"true");
 	}
 
 }
