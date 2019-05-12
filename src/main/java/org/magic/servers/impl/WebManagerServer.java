@@ -95,7 +95,11 @@ public class WebManagerServer extends AbstractMTGServer {
 			server.start();
 			
 			if(getBoolean(JSON_SERVER_START))
-				PluginRegistry.inst().getPlugin(new JSONHttpServer().getName(), MTGServer.class).start();
+			{
+				MTGServer jserv = PluginRegistry.inst().getPlugin(new JSONHttpServer().getName(), MTGServer.class);
+				if(!jserv.isAlive())
+					jserv.start();
+			}
 			
 			
 			logger.info("Server start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);

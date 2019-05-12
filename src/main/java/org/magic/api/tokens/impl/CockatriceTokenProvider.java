@@ -59,7 +59,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean isTokenizer(MagicCard mc) {
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
-		logger.debug("looking for token : " + expression);
+		logger.trace("looking for token : " + expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
