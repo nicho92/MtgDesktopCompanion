@@ -276,8 +276,11 @@ public class GamingRoomPanel extends JPanel {
 		
 		btnColorChoose.addActionListener(ae -> {
 			Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
+			
+			if(c!=null) {
 			editorPane.setForeground(c);
 			MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
+			}
 		});
 
 		editorPane.addFocusListener(new FocusAdapter() {

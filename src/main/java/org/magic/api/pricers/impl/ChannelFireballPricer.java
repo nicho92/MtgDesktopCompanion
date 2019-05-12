@@ -61,5 +61,10 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	public String getName() {
 		return "Channel Fireball";
 	}
+	
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
 
 }
