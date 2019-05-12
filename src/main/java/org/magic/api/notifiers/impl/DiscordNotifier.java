@@ -14,14 +14,13 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import net.dv8tion.jda.api.utils.AttachmentOption;
 
 public class DiscordNotifier extends AbstractMTGNotifier {
 
 	public static final int MAXSIZE=2000;
 	
 	
-	public void sendIssues(MTGNotification not) throws IOException
+	public void sendIssues(MTGNotification not)
 	{
 		sendMessage(not,576698603746230273L);
 		
@@ -34,7 +33,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	
 	
 	
-	public void sendMessage(MTGNotification notification,long chanID) throws IOException {
+	public void sendMessage(MTGNotification notification,long chanID) {
 		 
 		JDA jda=null;
 		try {

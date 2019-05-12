@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 

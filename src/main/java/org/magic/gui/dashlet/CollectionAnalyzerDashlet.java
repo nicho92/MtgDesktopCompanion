@@ -41,7 +41,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
-	private CollectionAnalyzerWorker sw;
+	private transient CollectionAnalyzerWorker sw;
 	
 	
 	@Override

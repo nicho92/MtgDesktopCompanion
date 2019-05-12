@@ -67,7 +67,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 
 	protected void onDestroy() {
-		//do nothing;
+		//do nothing
 	}
 
 
