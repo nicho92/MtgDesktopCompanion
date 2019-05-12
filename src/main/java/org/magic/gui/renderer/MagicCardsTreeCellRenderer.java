@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -18,7 +20,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ColorParser;
 
-public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
+public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 
 	/**
 	 * 
@@ -45,35 +47,35 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
-		Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
+		JLabel c = (JLabel)new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 		try {
 			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicEdition) {
 				MagicEdition ed = (MagicEdition) ((DefaultMutableTreeNode) value).getUserObject();
-				setIcon(IconSetProvider.getInstance().get16(ed.getId()));
+				c.setIcon(IconSetProvider.getInstance().get16(ed.getId()));
 			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicCard) {
 				MagicCard mc = (MagicCard) ((DefaultMutableTreeNode) value).getUserObject();
 
-				setOpaque(false);
-				setIcon(MTGConstants.ICON_MANA_INCOLOR);
+				c.setOpaque(false);
+				c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 
-				if (mc.getFullType().toLowerCase().contains("artifact")) {
-					setIcon(map.get("{X}"));
+				if (mc.isArtifact()) {
+					c.setIcon(map.get("{X}"));
 				}
 				if (mc.getColors().size() == 1) {
-					setIcon(map.get(ColorParser.getCodeByName(mc.getColors().get(0),true)));
+					c.setIcon(map.get(ColorParser.getCodeByName(mc.getColors().get(0),true)));
 				}
 				if (mc.getColors().size() > 1) {
-					setIcon(MTGConstants.ICON_MANA_GOLD);
+					c.setIcon(MTGConstants.ICON_MANA_GOLD);
 				}
 				if (mc.isLand()) {
-					setIcon(MTGConstants.ICON_MANA_INCOLOR);
+					c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 				}
 			} 
 			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof Packaging) {
-				setIcon(MTGConstants.ICON_PACKAGE_SMALL);
+				c.setIcon(MTGConstants.ICON_PACKAGE_SMALL);
 			}
 			else {
-				setIcon(MTGConstants.ICON_BACK);
+				c.setIcon(MTGConstants.ICON_BACK);
 			}
 			return c;
 		} catch (Exception e) {
