@@ -609,15 +609,22 @@ public class ConstructPanel extends JPanel {
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+	
+		
 		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {
 
 			JLabel comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
 			comp.setText(((MagicCard)value).getName());
 
-			if(value!=null && deck.getCommander()!=null && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
-				comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
-
+			try {
+				if(value!=null && deck.getCommander()!=null && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
+					comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
+				}
+				catch(Exception e){
+					logger.error("error applying font " + value + " "+ deck,e);
+				}
 			return comp;
+			
 			
 		});
 		
@@ -689,7 +696,6 @@ public class ConstructPanel extends JPanel {
 					item.addActionListener(ae->{
 						
 						resultListModel.removeAllElements();
-						listResult.updateUI();
 						try {
 							for(MagicCard card : MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).similarity(mc).keySet())
 								resultListModel.addElement(card);
