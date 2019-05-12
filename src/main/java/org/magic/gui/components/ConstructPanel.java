@@ -400,7 +400,7 @@ public class ConstructPanel extends JPanel {
 		btnSave.addActionListener(e -> {
 			try {
 				logger.debug("saving " + deck);
-				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " ?", deck.getName());
+				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " ?", deck);
 				
 				if(name!=null && !name.isEmpty())
 				{
@@ -536,7 +536,7 @@ public class ConstructPanel extends JPanel {
 					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(pluginExportEvent -> {
 						JFileChooser jf = new JFileChooser(".");
-						jf.setSelectedFile(new File(deck.getName() + exp.getFileExtension()));
+						jf.setSelectedFile(new File(deck + exp.getFileExtension()));
 						int result=jf.showSaveDialog(null);
 						exportedFile = jf.getSelectedFile();
 						if (result == JFileChooser.APPROVE_OPTION)

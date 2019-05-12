@@ -2,6 +2,7 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -134,6 +135,12 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		
 			AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer> sw = new AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer>(lblLoad,selectedSniffer) {
 
+				@Override
+				protected void process(List<MagicCard> chunks) {
+					buzy.progressSmooth(chunks.size());
+					buzy.setText(chunks.toString());
+				}
+				
 				@Override
 				protected MagicDeck doInBackground() throws Exception {
 					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0)); 
