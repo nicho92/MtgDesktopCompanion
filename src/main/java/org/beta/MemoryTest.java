@@ -1,22 +1,34 @@
 package org.beta;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import org.openjdk.jol.info.ClassLayout;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.services.MTGControler;
 import org.openjdk.jol.info.GraphLayout;
+import org.openjdk.jol.util.Multiset;
 
 public class MemoryTest {
 
-	public static void main(String[] args) {
-        int size = 10;
-        List<Integer> list = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            list.add(i);
-        }
-      
-        System.out.println("CLASSLAYOUT PARSE list\n" + ClassLayout.parseClass(ArrayList.class).toPrintable(list));        
-        System.out.println("GRAPHLAYOUT PARSE list\n" + GraphLayout.parseInstance(list).toPrintable());
-        System.out.println("GRAPHLAYOUT PARSE foot\n" + GraphLayout.parseInstance(list).toFootprint());
+	
+	
+	
+	public static void main(String[] args) throws IOException {
+		MTGCardsProvider prov = MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
+		
+		prov.init();
+		List<MagicCard> mcs = prov.searchCardByEdition(new MagicEdition("WAR"));
+		Multiset<Class<?>> size = GraphLayout.parseInstance(mcs.get(0)).getClassSizes();
+		Multiset<Class<?>> count =GraphLayout.parseInstance(mcs.get(0)).getClassCounts(); 
+		
+		size.keys().forEach(cl->{
+			
+			long s=size.count(cl);
+			long c=count.count(cl);
+			
+			System.out.println("SUM=" + s + "\tCOUNT=" + c + "\t"+cl);
+		});
     }
 }
