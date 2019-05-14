@@ -191,7 +191,6 @@ public class OrdersGUI extends MTGUIComponent {
 		btnDeleteOrder.addActionListener(ae->{
 			
 				List<OrderEntry> states = UITools.getTableSelections(table, 0);
-			
 
 				if(states.isEmpty())
 					return;

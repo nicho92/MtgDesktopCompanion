@@ -79,17 +79,17 @@
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-core</artifactId>
-		    <version>8.0.0</version>
+		    <version>8.1.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-queries</artifactId>
-		    <version>8.0.0</version>
+		    <version>8.1.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-queryparser</artifactId>
-		    <version>8.0.0</version>
+		    <version>8.1.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
@@ -99,7 +99,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_85</version>
+			  <version>4.ALPHA.0_86</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -302,7 +302,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.11.3</version>
+			<version>1.12.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
