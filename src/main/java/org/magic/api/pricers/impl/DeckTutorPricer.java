@@ -33,7 +33,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.DEPRECATED;
 	}
 
 	private static int sequence = 1;

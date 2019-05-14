@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MemoryInfo;
 import org.magic.services.MTGLogger;
 import org.openjdk.jol.info.ClassLayout;
@@ -35,9 +35,14 @@ public class MemoryTools {
 		return ClassLayout.parseClass(classe).toPrintable();
 	}
 	
+	public static String statInstanceToString(Object classe)
+	{
+		return ClassLayout.parseInstance(classe).toPrintable();
+	}
 	
 	public static void main(String[] args) {
-		System.out.println(MemoryTools.statClassToString(MagicCard.class));
+		logger.debug(MemoryTools.statInstanceToString(MagicEdition.class));
+		logger.debug(MemoryTools.statInstanceToString(new MagicEdition("TEST")));
 	}
 	
 }

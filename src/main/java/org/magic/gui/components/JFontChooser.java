@@ -61,8 +61,8 @@ public class JFontChooser extends JComponent {
 	
 	public void initFont(Font f)
 	{
-		cboFontFamilies.setSelectedItem(f.getFamily());
-		cboFontSize.setSelectedItem(f.getSize());
+		cboFontFamilies.getModel().setSelectedItem(f.getFamily());
+		cboFontSize.getModel().setSelectedItem(f.getSize());
 		cboFontStyles.setSelectedIndex(f.getStyle());
 	}
 	
