@@ -79,7 +79,12 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		return "Magic Traders";
 	}
 
-
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
+	
+	
 	@Override
 	public void initDefault() {
 		setProperty("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");

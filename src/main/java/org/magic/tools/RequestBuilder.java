@@ -36,10 +36,6 @@ public class RequestBuilder
 		return method;
 	}
 
-	public void setMethod(METHOD method) {
-		this.method = method;
-	}
-
 	public Map<String, String> getHeaders() {
 		return headers;
 	}
@@ -149,6 +145,11 @@ public class RequestBuilder
 
 	public Document toHtml() throws IOException {
 		return URLTools.toHtml(execute());
+	}
+
+	public URLToolsClient getClient() {
+		return client;
+		
 	}
 	
 	
