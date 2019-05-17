@@ -46,20 +46,32 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		initConcordance();
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		MagicEdition me = new MagicEdition();
+		me.setSet("Ultimate Masters");
+		me.setId("UMA");
+		
+		MagicCard mc = new MagicCard();
+		mc.setName("Liliana of the Veil");
+		
+		new MTGoldFishDashBoard().getOnlinePricesVariation(mc, me);
+	}
+	
+	
+	
 	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		stop = false;
 		String url = "";
 		CardPriceVariations historyPrice = new CardPriceVariations(mc);
 		historyPrice.setCurrency(getCurrency());
-		int index = 0;
 
 		if(mc==null && me==null)
 			return historyPrice;
 		
 		if (mc == null) {
 			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
-			index = 6;
 		} else {
 			
 			if (me == null)
@@ -78,18 +90,28 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			editionName = RegExUtils.replaceAll(editionName, ":", "");
 
 			url = getString(WEBSITE) + "/price/" + convert(editionName) + "/" + cardName + "#" + getString(FORMAT);
-			index = 8;
-
 		}
 
 		try {
-
-			logger.debug("get shakes from " + url);
-
 			Document d = URLTools.extractHtml(url);
-
-			Element js = d.getElementsByTag("script").get(index);
-
+			
+			Element js = null;
+			
+			for(Element j : d.getElementsByTag("script"))
+			{
+				if(j.toString().contains("var d = "))
+				{
+					js=j;
+					break;
+				}
+				
+			}
+			
+			if(js==null)
+			{
+				return null;
+			}
+			
 			AstNode root = new Parser().parse(js.html(), "", 1);
 			root.visit(visitedNode -> {
 
@@ -116,8 +138,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				}
 				return true;
 			});
-			
-			
 			return historyPrice;
 
 		} catch (Exception e) {
