@@ -39,6 +39,7 @@ public class MTGConstants {
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.DATA_DIR, "decks");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
+	
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
@@ -57,6 +58,7 @@ public class MTGConstants {
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36";
 	public static final String USER_AGENT_MOBILE="Mozilla/5.0 (Linux; Android 8.1.0; ONEPLUS A5010 Build/OPM1.171019.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 GSA/8.39.8.21.arm64";
+	
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
 
 	public static final int DEFAULT_PIC_WIDTH = 223;
@@ -72,7 +74,7 @@ public class MTGConstants {
 	public static final MTGCardsExport DEFAULT_SERIALIZER = new JsonExport();
 	
 	
-	public static final Color COLLECTION_100PC = Color.GREEN;
+	public static final Color COLLECTION_100PC = new Color(115, 230, 0);
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;
 	public static final Color COLLECTION_1PC = Color.YELLOW;
