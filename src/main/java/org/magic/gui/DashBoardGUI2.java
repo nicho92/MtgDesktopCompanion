@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
@@ -14,6 +15,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.SwingWorker;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -21,6 +23,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.services.ThreadManager;
 
 public class DashBoardGUI2 extends MTGUIComponent {
 
@@ -73,22 +76,31 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 		
 		
-		
-		for (File f : AbstractJDashlet.confdir.listFiles()) {
-			try {
-				Properties p = new Properties();
-				FileInputStream fis = new FileInputStream(f);
-				p.load(fis);
-				AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
-				dash.setProperties(p);
-				fis.close();
-				addDash(dash);
+		SwingWorker<Void, File> sw = new SwingWorker<>()
+				{
+					protected Void doInBackground() throws Exception {
+						publish(AbstractJDashlet.confdir.listFiles());
+						return null;
+					}
+					
+					@Override
+					protected void process(List<File> chunks) {
+						for (File f : chunks) {
+							try (FileInputStream fis = new FileInputStream(f)){
+								Properties p = new Properties();
+								p.load(fis);
+								AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
+								dash.setProperties(p);
+								addDash(dash);
 
-			} catch (Exception e) {
-				logger.error("Could not add " + f, e);
-			}
-		}
-		
+							} catch (Exception e) {
+								logger.error("Could not add " + f, e);
+							}
+						}
+					}
+				};
+				
+		ThreadManager.getInstance().runInEdt(sw, "Loading dashlets");
 		setLayout(new BorderLayout());
 		add(desktop,BorderLayout.CENTER);
 		
