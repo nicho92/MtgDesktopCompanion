@@ -65,8 +65,12 @@ public class URLToolsClient {
 	
 	public HttpResponse execute(HttpRequestBase req) throws IOException
 	{
-		logger.trace("executing" + req);
-		return httpclient.execute(req,httpContext);
+		logger.trace("execute " + req);
+		HttpResponse resp = httpclient.execute(req,httpContext);
+		
+		logger.trace("reponse " + resp);
+		
+		return resp;
 	}
 	
 

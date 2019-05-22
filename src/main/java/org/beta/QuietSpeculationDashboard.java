@@ -72,15 +72,20 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 		trs.forEach(tr->{
 			CardShake cs = new CardShake();
 				cs.setName(tr.getElementsByTag("td").get(0).text());
+				
+				try {
 				cs.setPrice(Double.parseDouble(tr.getElementsByTag("td").get(5).text().replaceAll("\\$", "")));
+				}
+				catch(Exception ex)
+				{
+					cs.setPrice(0.0);
+				}
+				
 				
 				cs.setEd(ed.getSet());
 				cs.setDateUpdate(new Date());
 				cs.setCurrency(Currency.getInstance("USD"));
-				logger.debug(cs.getName() + " " + cs.getPrice());
-				
 				ret.addShake(cs);
-			
 		});
 		return ret;
 	}

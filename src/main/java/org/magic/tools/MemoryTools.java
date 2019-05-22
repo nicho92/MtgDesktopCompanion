@@ -41,7 +41,7 @@ public class MemoryTools {
 	}
 	
 	public static void main(String[] args) {
-		logger.debug(MemoryTools.statInstanceToString(MagicEdition.class));
+		logger.debug(MemoryTools.statClassToString(MagicEdition.class));
 		logger.debug(MemoryTools.statInstanceToString(new MagicEdition("TEST")));
 	}
 	
