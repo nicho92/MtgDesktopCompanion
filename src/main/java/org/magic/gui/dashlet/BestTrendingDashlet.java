@@ -70,7 +70,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	public void init() {
 		
 		
-		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<List<CardShake>, Void>()
+		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<>()
 		{
 
 			@Override
@@ -141,11 +141,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		Action a = new AbstractAction() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				init();
