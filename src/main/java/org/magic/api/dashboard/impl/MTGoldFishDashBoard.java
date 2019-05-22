@@ -106,7 +106,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				}
 				
 			}
-			
 			if(js==null)
 			{
 				return null;
