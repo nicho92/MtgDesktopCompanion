@@ -198,44 +198,42 @@ public class OrdersGUI extends MTGUIComponent {
 							cutMenuItem.addActionListener(event->{
 								List<OrderEntry> entries = UITools.getTableSelections(table,0);
 								
-								int ret = JOptionPane.showConfirmDialog(this, "Add " + entries.size() +" items to " + c +" ?");
+								List<MagicCard> toSave = new ArrayList<>();
+								
+								entries.stream().filter(o->o.getType()==OrderEntry.TYPE_ITEM.CARD || o.getType()==OrderEntry.TYPE_ITEM.FULLSET).forEach(order->{
+									
+									try {
+											if(order.getType()==OrderEntry.TYPE_ITEM.CARD)
+											{
+												List<MagicCard> l = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(order.getDescription(), order.getEdition(), false);
+												if(l.size()>1)
+													logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
+												
+												toSave.add(l.get(0));
+											}
+											else if(order.getType()==OrderEntry.TYPE_ITEM.FULLSET)
+											{
+												toSave.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
+											}
+									} catch (Exception e) {
+										logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
+									}
+								});
+								
+								
+								int ret = JOptionPane.showConfirmDialog(this, "Add " + toSave.size() +" items to " + c +" ?");
 								
 								if(ret == JOptionPane.YES_OPTION) {
-									AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy, MTGControler.getInstance().getEnabled(MTGCardsProvider.class), entries.size()) {
+									AbstractObservableWorker<Void, MagicCard, MTGDao> sw = new AbstractObservableWorker<>(buzy, MTGControler.getInstance().getEnabled(MTGDao.class), toSave.size()) {
 										@Override
-										protected Void doInBackground() throws Exception {
-											entries.stream().filter(o->o.getType()==OrderEntry.TYPE_ITEM.CARD || o.getType()==OrderEntry.TYPE_ITEM.FULLSET).forEach(order->{
+										protected Void doInBackground() {
+											toSave.forEach(card->{
 												try {
-													List<MagicCard> l = plug.searchCardByName(order.getDescription(), order.getEdition(), false);
-													
-													if(l.size()>1)
-														logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
-													
-													MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(l.get(0), c);
-												} catch (IOException e) {
-													logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
+													plug.saveCard(card, c);
 												} catch (SQLException e) {
-													logger.error("error adding " + order.getDescription() +"/"+order.getEdition(),e);
+													logger.error(e);
 												}
 											});
-											
-											
-											entries.stream().filter(o->o.getType()==OrderEntry.TYPE_ITEM.FULLSET).forEach(order->{
-												try {
-													List<MagicCard> l = plug.searchCardByEdition(order.getEdition());
-													
-													if(l.size()>1)
-														logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
-													
-													MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(l.get(0), c);
-												} catch (IOException e) {
-													logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
-												} catch (SQLException e) {
-													logger.error("error adding " + order.getDescription() +"/"+order.getEdition(),e);
-												}
-											});
-											
-											
 											return null;
 										}
 									};
