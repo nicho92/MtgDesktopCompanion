@@ -89,7 +89,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			editionName = RegExUtils.replaceAll(editionName, ",", "");
 			editionName = RegExUtils.replaceAll(editionName, ":", "");
 
-			url = getString(WEBSITE) + "/price/" + convert(editionName) + "/" + cardName + "#" + getString(FORMAT);
+			String foil="";
+			
+			if(me.isFoilOnly())
+				foil=":Foil";
+			
+			url = getString(WEBSITE) + "/price/" + convert(editionName) + foil+"/" + cardName + "#" + getString(FORMAT);
 		}
 
 		try {
