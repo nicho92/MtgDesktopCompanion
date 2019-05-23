@@ -67,8 +67,8 @@ public class MassCollectionImporterDialog extends JDialog {
 			else
 				ret.removeIf(ca->without.contains(ca.getName()));
 			
-			
 			return ret;
+			
 		} catch (IOException e) {
 			return ret;
 		}
@@ -109,6 +109,27 @@ public class MassCollectionImporterDialog extends JDialog {
 				MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
 
 		JButton btnInverse = new JButton("Inverse");
+		
+		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
+
+		panneauBas.add(btnInverse);
+
+		panneauBas.add(checkNewOne);
+
+		panneauBas.add(btnImport);
+
+		panneauBas.add(progressBar);
+
+		txtNumbersInput = new JTextPane();
+
+		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
+
+
+		setModal(true);
+		setLocationRelativeTo(null);
+
+		
+		
 		btnInverse.addActionListener(e -> {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
 			StringBuilder temp = new StringBuilder();
@@ -117,11 +138,10 @@ public class MassCollectionImporterDialog extends JDialog {
 
 			txtNumbersInput.setText(temp.toString());
 		});
-		panneauBas.add(btnInverse);
+		
 
-		panneauBas.add(checkNewOne);
-
-		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
+		
+		
 		btnImport.addActionListener(e -> {
 			final MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
@@ -178,24 +198,9 @@ public class MassCollectionImporterDialog extends JDialog {
 					return null;
 				}
 			};
-			
-		
-			
-			
-			
+
 			ThreadManager.getInstance().runInEdt(sw, "btnImport importCards");
 		});
-		panneauBas.add(btnImport);
-
-		panneauBas.add(progressBar);
-
-		txtNumbersInput = new JTextPane();
-
-		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
-
-
-		setModal(true);
-		setLocationRelativeTo(null);
 
 	}
 

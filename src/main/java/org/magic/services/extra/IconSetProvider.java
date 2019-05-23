@@ -96,6 +96,7 @@ public class IconSetProvider {
 		equiv.put("NMS", "NEM");
 		equiv.put("PI13", "PIDW");
 		equiv.put("PI14", "PIDW");
+		equiv.put("PIDW", "PIDW");
 		equiv.put("PSOI", "SOI");
 		equiv.put("FNM", "PFNM");
 		equiv.put("F01", "PFNM");
@@ -118,6 +119,7 @@ public class IconSetProvider {
 		equiv.put("F18", "PFNM");
 		equiv.put("PO2", "P02");
 		equiv.put("CON_", "CON");
+		equiv.put("PARL", "PARL");
 		equiv.put("PAL01", "PARL");
 		equiv.put("PAL02", "PARL");
 		equiv.put("PAL03", "PARL");
@@ -158,8 +160,20 @@ public class IconSetProvider {
 		equiv.put("PWP08", "PDCI");
 		equiv.put("PG08", "PDCI");
 		equiv.put("PG07", "PDCI");
+		equiv.put("MPR", "PDCI");
+		equiv.put("PMPS","RAV");
+		equiv.put("PR2", "PDCI");
+		equiv.put("P03", "PDCI");
 		equiv.put("P04", "PDCI");
+		equiv.put("P05", "PDCI");
+		equiv.put("P06", "PDCI");
+		equiv.put("P07", "PDCI");
+		equiv.put("P08", "PDCI");
+		equiv.put("P09", "PDCI");
+		equiv.put("P10", "PDCI");
+		equiv.put("P11", "PDCI");
 		equiv.put("FBB", "3ED");
+		equiv.put("4BB", "4ED");
 		equiv.put("OC13", "C13");
 		equiv.put("OC14", "C14");
 		equiv.put("OC15", "C15");

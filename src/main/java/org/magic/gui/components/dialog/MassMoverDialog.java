@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -81,6 +82,7 @@ public class MassMoverDialog extends JDialog {
 
 		tableCards = new JXTable(model);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		getContentPane().add(new JScrollPane(tableCards), BorderLayout.CENTER);
 
 		UITools.initTableFilter(tableCards);
