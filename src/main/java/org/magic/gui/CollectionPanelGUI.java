@@ -345,7 +345,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		progressBar.start();
 		
-		SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>()
+		SwingWorker<Void, Void> sw = new SwingWorker<>()
 		{
 			@Override
 			protected void process(List<Void> chunks) {
@@ -806,16 +806,21 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		popupMenuCards = new JPopupMenu();
 
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD_MISSING_CARDS_IN"));
+		JMenu menuItemRemoveFrom = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("REMOVE_CARDS_IN"));
 		JMenu menuItemMove = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MOVE_CARD_TO"));
 		menuItemAdd.setIcon(MTGConstants.ICON_COLLECTION);
 		menuItemMove.setIcon(MTGConstants.ICON_COLLECTION);
+		menuItemRemoveFrom.setIcon(MTGConstants.ICON_COLLECTION);
+		
 		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
 		JMenuItem menuItemStocks = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
 		
 		for (MagicCollection mc : dao.listCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			JMenuItem movs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
-
+			JMenuItem rmvs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
+			
+			
 			movs.addActionListener(e -> {
 				DefaultMutableTreeNode nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
 				DefaultMutableTreeNode nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(3));
@@ -856,7 +861,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				progressBar.start(sets.size());
 				
 				
-				SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>(){
+				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
 						
 						@Override
 						protected void done() {
@@ -887,9 +892,58 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					MTGControler.getInstance().notify(ex);
 				}
 			});
+			
+			rmvs.addActionListener(e -> {
+				try {
+
+						final String selectedCols = ((JMenuItem) e.getSource()).getText();
+						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
+						MagicEdition me = (MagicEdition) node.getUserObject();
+						MagicCollection coldest = new MagicCollection(selectedCols);
+						MagicCollection colcurrent = new MagicCollection(node.getPath()[1].toString());
+						List<MagicCard> listtoDelete = dao.listCardsFromCollection(colcurrent, me);
+						logger.trace(listtoDelete.size() + " items to remove from " + coldest +"/"+me);
+				
+				progressBar.start(listtoDelete.size());
+				
+				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
+						
+						@Override
+						protected void done() {
+							progressBar.end();
+							tree.refresh(node);
+						}
+	
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							progressBar.progressSmooth(chunks.size());
+						}
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							for (MagicCard m : listtoDelete)
+							{
+								MTGControler.getInstance().removeCard(m, coldest);
+								publish(m);
+							}
+							return null;
+						}
+					};
+					ThreadManager.getInstance().runInEdt(sw,"remove duplicate cards");
+					
+					
+				}catch(Exception ex)
+				{
+					MTGControler.getInstance().notify(ex);
+				}
+			});
+			
+			
+			
 
 			menuItemAdd.add(adds);
 			menuItemMove.add(movs);
+			menuItemRemoveFrom.add(rmvs);
 		}
 
 		JMenuItem menuItemOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
@@ -959,6 +1013,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		popupMenuEdition.add(menuItemAlerts);
 		popupMenuEdition.add(menuItemStocks);
 		popupMenuEdition.add(menuItemAdd);
+		popupMenuEdition.add(menuItemRemoveFrom);
 		popupMenuCards.add(menuItemMove);
 	}
 

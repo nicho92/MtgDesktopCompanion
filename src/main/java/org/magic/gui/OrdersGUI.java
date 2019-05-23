@@ -6,14 +6,19 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
@@ -24,12 +29,14 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.OrderEntryPanel;
 import org.magic.gui.components.charts.EditionFinancialChartPanel;
@@ -41,6 +48,7 @@ import org.magic.gui.renderer.OrderEntryRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class OrdersGUI extends MTGUIComponent {
@@ -61,7 +69,7 @@ public class OrdersGUI extends MTGUIComponent {
 	private JPanel panelComparator;
 	private JPanel chartesContainerPanel;
 	private EditionFinancialChartPanel editionFinancialChartPanel;
-	
+	private AbstractBuzyIndicatorComponent buzy;
 	
 	private void loadFinancialBook()
 	{
@@ -117,11 +125,11 @@ public class OrdersGUI extends MTGUIComponent {
 		panelComparator.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblComparator = new JLabel("Values");
 		editionFinancialChartPanel = new EditionFinancialChartPanel();
-		
-		
+		JButton btnAddToCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		table.setModel(model);
 		setLayout(new BorderLayout(0, 0));
-	
+		btnAddToCollection.setEnabled(false);
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultRenderer(Double.class,  new OrderEntryRenderer());
 		panneauRight.setPreferredSize(new Dimension(500, 1));
@@ -132,7 +140,7 @@ public class OrdersGUI extends MTGUIComponent {
 		panelComparator.setLayout(new BorderLayout(0, 0));
 		lblComparator.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComparator.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 16));
-	
+		
 		
 		
 		panneauBas.add(totalBuy);
@@ -145,6 +153,8 @@ public class OrdersGUI extends MTGUIComponent {
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
 		panneauHaut.add(btnDeleteOrder);
+		panneauHaut.add(btnAddToCollection);
+		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauRight,BorderLayout.EAST);
@@ -154,7 +164,7 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		panelButton.add(btnSaveOrder);
 		panelButton.add(btnNewEntry);
-
+		
 		panneauRight.add(editorPanel, BorderLayout.SOUTH);
 		panneauRight.add(panelComparator, BorderLayout.NORTH);
 			
@@ -175,6 +185,78 @@ public class OrdersGUI extends MTGUIComponent {
 		table.setSortOrder(2, SortOrder.DESCENDING);
 
 		loadFinancialBook();
+		
+		btnAddToCollection.addActionListener(ae ->{
+				JPopupMenu popupMenu = new JPopupMenu("Title");
+				try {
+						for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections())
+						{
+							JMenuItem cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
+							popupMenu.add(cutMenuItem);
+							
+							
+							cutMenuItem.addActionListener(event->{
+								List<OrderEntry> entries = UITools.getTableSelections(table,0);
+								
+								int ret = JOptionPane.showConfirmDialog(this, "Add " + entries.size() +" items to " + c +" ?");
+								
+								if(ret == JOptionPane.YES_OPTION) {
+									AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy, MTGControler.getInstance().getEnabled(MTGCardsProvider.class), entries.size()) {
+										@Override
+										protected Void doInBackground() throws Exception {
+											entries.stream().filter(o->o.getType()==OrderEntry.TYPE_ITEM.CARD || o.getType()==OrderEntry.TYPE_ITEM.FULLSET).forEach(order->{
+												try {
+													List<MagicCard> l = plug.searchCardByName(order.getDescription(), order.getEdition(), false);
+													
+													if(l.size()>1)
+														logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
+													
+													MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(l.get(0), c);
+												} catch (IOException e) {
+													logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
+												} catch (SQLException e) {
+													logger.error("error adding " + order.getDescription() +"/"+order.getEdition(),e);
+												}
+											});
+											
+											
+											entries.stream().filter(o->o.getType()==OrderEntry.TYPE_ITEM.FULLSET).forEach(order->{
+												try {
+													List<MagicCard> l = plug.searchCardByEdition(order.getEdition());
+													
+													if(l.size()>1)
+														logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
+													
+													MTGControler.getInstance().getEnabled(MTGDao.class).saveCard(l.get(0), c);
+												} catch (IOException e) {
+													logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
+												} catch (SQLException e) {
+													logger.error("error adding " + order.getDescription() +"/"+order.getEdition(),e);
+												}
+											});
+											
+											
+											return null;
+										}
+									};
+									
+									ThreadManager.getInstance().runInEdt(sw, "saving orders in " + c);
+								}
+						});
+							
+							
+						}
+					} catch (Exception e1) {
+						logger.error(e1);
+				}
+				btnAddToCollection.setComponentPopupMenu(popupMenu);
+		    	Component b=(Component)ae.getSource();
+		    	Point p=b.getLocationOnScreen();
+		    	popupMenu.show(this,0,0);
+		    	popupMenu.setLocation(p.x,p.y+b.getHeight());
+		    });
+		
+		
 		
 		
 		btnSaveOrder.addActionListener(ae->{
@@ -201,7 +283,7 @@ public class OrdersGUI extends MTGUIComponent {
 				
 				
 				
-				SwingWorker<Void,OrderEntry> sw = new SwingWorker<Void, OrderEntry>()
+				SwingWorker<Void,OrderEntry> sw = new SwingWorker<>()
 				{
 
 					@Override
@@ -277,19 +359,14 @@ public class OrdersGUI extends MTGUIComponent {
 						} catch (IOException e1) {
 							//do nothing
 						}
-							
-						
-						
 						pricesPanel.init(mc, o.getEdition(), o.getDescription());
 						pricesPanel.revalidate();
 						
 				}, "loading prices for "+o.getDescription());
 				
-				
-				
 				btnDeleteOrder.setEnabled(true);
 				btnSaveOrder.setEnabled(true);
-				
+				btnAddToCollection.setEnabled(true);
 				}
 				catch(Exception e)
 				{

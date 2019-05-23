@@ -23,6 +23,7 @@ public interface MTGDao extends MTGPlugin {
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException;
 	public List<MagicCard> listCards() throws SQLException;
+
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException;
@@ -70,6 +71,7 @@ public interface MTGDao extends MTGPlugin {
 	public void duplicateTo(MTGDao dao) throws SQLException;
 
 	public void update(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
+
 	
 
 }
