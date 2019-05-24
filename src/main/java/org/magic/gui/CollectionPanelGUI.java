@@ -303,23 +303,19 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	public void initCardSelectionGui(MagicCard mc, MagicCollection col)
 	{
 		magicCardDetailPanel.setMagicCard(mc);
+		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
+		
 		deckPanel.init(mc);
 		pricePanel.init(mc, mc.getCurrentSet());
-		jsonPanel.show(mc);
-		pricePanel.init(mc,mc.getCurrentSet());
 		btnExport.setEnabled(false);
-		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
 		packagePanel.setMagicEdition(mc.getCurrentSet());
+		jsonPanel.show(mc);
 		
 		try {
 			if(col==null)
-			{
 				statsPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
-			}
 			else
-			{
 				statsPanel.initMagicCardStock(mc,col);
-			}
 		
 			statsPanel.enabledAdd(true);
 		}

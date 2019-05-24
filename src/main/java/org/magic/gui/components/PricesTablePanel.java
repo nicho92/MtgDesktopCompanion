@@ -106,12 +106,14 @@ public class PricesTablePanel extends JPanel {
 		currentCard = card;
 		currentEd=ed;
 		
+		
 		if(currentCard==null && currentEd==null)
 			return;
 		
 		
 		if(ed==null)
 			currentEd=card.getCurrentSet();
+		
 		
 		if(isVisible()&&card!=null)
 		{
@@ -128,11 +130,11 @@ public class PricesTablePanel extends JPanel {
 			lblLoading.start(providers.size());
 			
 		
-			sw = new SwingWorker<List<MagicPrice>, MagicPrice>()
+			sw = new SwingWorker<>()
 			{
 				@Override
 				protected List<MagicPrice> doInBackground() throws Exception {
-					model.clear();
+					
 					List<MagicPrice> list = new ArrayList<>();
 					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
 					for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
@@ -167,7 +169,7 @@ public class PricesTablePanel extends JPanel {
 			};
 			
 			
-			
+			model.clear();
 			ThreadManager.getInstance().runInEdt(sw,"loading prices");
 		}
 		

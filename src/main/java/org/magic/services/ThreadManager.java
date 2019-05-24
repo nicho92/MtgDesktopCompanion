@@ -58,7 +58,7 @@ public class ThreadManager {
 			
 			if(ev.getNewValue().toString().equals("DONE"))
 			{ 
-				logger.trace(name+"\t"+ev.getSource().getClass()+"\t FINISHED IN "+c.stop()+"s.");
+				logger.trace(name+"\t"+ev.getSource().getClass().getName()+"\t FINISHED IN "+c.stopInMillisecond()+"ms.");
 			}
 		});
 	}
