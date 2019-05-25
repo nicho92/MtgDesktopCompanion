@@ -8,6 +8,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +19,9 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.autocomplete.AbstractAutoCompleteAdaptor;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDocument;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -28,6 +33,10 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
+
+import com.google.common.collect.Lists;
+
+import ca.odell.glazedlists.swing.AutoCompleteSupport;
 
 public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 
@@ -81,6 +90,9 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		panelCenter.setLayout(new BorderLayout(0, 0));
 		editorPane = new JTextPane();
 		
+		
+	
+		
 		editorPane.setPreferredSize(new Dimension(106, 300));
 		panelCenter.add(new JScrollPane(editorPane));
 		panelCenter.add(tagsPanel, BorderLayout.SOUTH);
@@ -109,7 +121,6 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 			} 
 		});
 		
-		
 		editorPane.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
@@ -127,8 +138,10 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 					if(start>=0)
 					{
 						String currentName=editorPane.getText(start, (position-start)).trim();
-						if(currentName.length()>=4)
+						if(currentName.length()>=3)
+						{
 							tagsPanel.bind(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(currentName));
+						}
 					
 					}
 				}
