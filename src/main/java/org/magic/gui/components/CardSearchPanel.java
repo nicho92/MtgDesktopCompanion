@@ -260,18 +260,9 @@ public class CardSearchPanel extends MTGUIComponent {
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
 		
-		if(SystemUtils.IS_OS_MAC_OSX)
-		{
-			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize(SEARCH_MODULE));
-		}
-		else
-		{	
-			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize(SEARCH_MODULE));
-			((JXSearchField)txtSearch).setSearchMode(MTGConstants.SEARCH_MODE);
-		}
+		txtSearch = UITools.createSearchField(true);
 		
-		txtSearch.setBackground(Color.WHITE);
-		
+			
 	
 		
 		txtRulesArea = new JTextArea();

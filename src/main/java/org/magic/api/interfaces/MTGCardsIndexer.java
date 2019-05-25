@@ -19,4 +19,4 @@ public interface MTGCardsIndexer extends MTGPlugin {
 	public List<MagicCard> listCards();
 	public List<String> suggestCardName(String q);
 	public Date getIndexDate();
-}
+	}

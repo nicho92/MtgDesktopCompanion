@@ -7,7 +7,11 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -31,13 +35,19 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXSearchField.SearchMode;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
@@ -50,6 +60,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+
+import com.google.common.collect.Lists;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -80,6 +92,41 @@ public class UITools {
 		cons.gridy = line;
 		
 		return cons;
+	}
+	
+	public static JTextField createSearchField(boolean autocomplete)
+	{
+		JTextField txtSearch;
+		if(SystemUtils.IS_OS_MAC_OSX)
+		{
+		  txtSearch= new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		}
+		else
+		{	
+		  txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		  ((JXSearchField)txtSearch).setSearchMode(SearchMode.REGULAR);
+		  ((JXSearchField)txtSearch).setRecentSearchesSaveKey("K");
+		  ((JXSearchField)txtSearch).setBackground(Color.WHITE);
+		}
+		
+		
+		if(autocomplete) {
+		
+			  final List<String> res = new ArrayList<>();
+			  txtSearch.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					res.clear();
+					if(!txtSearch.getText().isEmpty())
+						res.addAll(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
+					
+				}
+			});
+			AutoCompleteDecorator.decorate(txtSearch,res,false); 
+		}
+		
+		
+		return txtSearch;
 	}
 	
 	

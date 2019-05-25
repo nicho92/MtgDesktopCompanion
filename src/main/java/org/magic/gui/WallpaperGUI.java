@@ -106,15 +106,8 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		panel.add(cboWallpapersProv);
 
-		if(SystemUtils.IS_OS_MAC_OSX)
-		{
-			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-		}
-		else
-		{	
-			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-			((JXSearchField)txtSearch).setSearchMode(MTGConstants.SEARCH_MODE);
-		}
+		txtSearch = UITools.createSearchField(false);
+		
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
 

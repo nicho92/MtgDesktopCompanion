@@ -46,9 +46,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
@@ -155,16 +153,7 @@ public class ConstructPanel extends JPanel {
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
-		
-		if(SystemUtils.IS_OS_MAC_OSX)
-		{
-			txtSearch = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-		}
-		else
-		{	
-			txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-			((JXSearchField)txtSearch).setSearchMode(MTGConstants.SEARCH_MODE);
-		}
+		txtSearch = UITools.createSearchField(true);
 		
 		
 		
