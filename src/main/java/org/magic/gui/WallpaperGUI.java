@@ -106,7 +106,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		panel.add(cboWallpapersProv);
 
-		txtSearch = UITools.createSearchField(false);
+		txtSearch = UITools.createSearchField();
 		
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);

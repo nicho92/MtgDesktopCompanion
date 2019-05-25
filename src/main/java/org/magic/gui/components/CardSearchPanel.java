@@ -260,7 +260,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
 		
-		txtSearch = UITools.createSearchField(true);
+		txtSearch = UITools.createSearchField();
 		
 			
 	

@@ -461,6 +461,10 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnSaveFont = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		
 		
+		JCheckBox chkEnabledAutocomplete = new JCheckBox();
+
+		
+		
 		
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
 		cbojsonView.getModel().setSelected(MTGControler.getInstance().get("debug-json-panel").equals("true"));
@@ -485,7 +489,8 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
 		panelGUI.add(chooseFontPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
 		panelGUI.add(btnSaveFont, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 7));
-		
+		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ENABLE_AUTOCOMPLETION")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
+		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
 		
 		
 /////////////EVENTS	
@@ -593,6 +598,9 @@ public class ConfigurationPanel extends JPanel {
 		chkEnablePriceConversion.addItemListener(ie -> MTGControler.getInstance().setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
 		
 		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
+		chkEnabledAutocomplete.addItemListener(ie -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
+		
+		
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(ae -> {
 			try {

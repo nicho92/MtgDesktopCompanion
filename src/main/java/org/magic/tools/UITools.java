@@ -94,7 +94,7 @@ public class UITools {
 		return cons;
 	}
 	
-	public static JTextField createSearchField(boolean autocomplete)
+	public static JTextField createSearchField()
 	{
 		JTextField txtSearch;
 		if(SystemUtils.IS_OS_MAC_OSX)
@@ -110,7 +110,7 @@ public class UITools {
 		}
 		
 		
-		if(autocomplete) {
+		if(MTGControler.getInstance().get("autocompletion").equals("true")) {
 		
 			  final List<String> res = new ArrayList<>();
 			  txtSearch.addKeyListener(new KeyAdapter() {

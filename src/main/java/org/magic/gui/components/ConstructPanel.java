@@ -153,7 +153,7 @@ public class ConstructPanel extends JPanel {
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
-		txtSearch = UITools.createSearchField(true);
+		txtSearch = UITools.createSearchField();
 		
 		
 		
