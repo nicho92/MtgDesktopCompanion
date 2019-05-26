@@ -56,5 +56,6 @@ public interface MTGPlugin {
 	
 	public ObjectName getObjectName();
 
+	public String termsAndCondition();
 	
 }

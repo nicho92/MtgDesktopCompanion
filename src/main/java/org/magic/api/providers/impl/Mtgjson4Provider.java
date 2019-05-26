@@ -730,11 +730,4 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public void initDefault() {
 		setProperty("LRU_CACHE", "400");
 	}
-	
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
-	
-
 }
