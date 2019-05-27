@@ -521,6 +521,10 @@
             <class>org.magic.api.exports.impl.DeckBoxExport</class>
             <enable>true</enable>
         </export>
+        <export>
+            <class>org.magic.api.exports.impl.EchoMTGExport</class>
+            <enable>true</enable>
+        </export>
     </deckexports>
     <newsProvider>
         <news>

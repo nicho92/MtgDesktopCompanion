@@ -10,8 +10,14 @@ import org.magic.services.MTGConstants;
 
 public class CardCastleExport extends AbstractCardExport {
 
-	private String header="Card Name,Set Name,Foil";
+	private String header="Count,Card Name,Set Name,Foil";
 	private char separator=',';
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 	
 	@Override
 	public String getFileExtension() {
@@ -36,11 +42,7 @@ public class CardCastleExport extends AbstractCardExport {
 			build.append(entry.getKey().getCurrentSet().getSet()).append(separator);
 			build.append("false").append("\n");
 		});
-		
-		
-		
 		FileUtils.write(dest, build.toString(),MTGConstants.DEFAULT_ENCODING);
-
 	}
 
 	@Override

@@ -22,7 +22,7 @@ import com.google.gson.JsonObject;
 public class EchoMTGExport extends AbstractCardExport {
 
 	private String authToken=null;
-	private static final String BASE_URL="https://www.echomtg.com";
+	public static final String BASE_URL="https://www.echomtg.com";
 	private URLToolsClient client;
 	
 	
