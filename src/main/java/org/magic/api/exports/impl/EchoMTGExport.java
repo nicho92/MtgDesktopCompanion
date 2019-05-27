@@ -2,31 +2,22 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardPriceVariations;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 public class EchoMTGExport extends AbstractCardExport {
 
