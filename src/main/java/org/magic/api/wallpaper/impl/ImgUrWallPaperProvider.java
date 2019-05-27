@@ -27,17 +27,19 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 		
 		List<Wallpaper> ret = new ArrayList<>();
 		URLToolsClient c = URLTools.newClient();
-		Map<String,String> m = new HashMap<>();
-		m.put("Authorization","Client-ID "+getString("CLIENTID"));
-		
+		Map<String,String> h = new HashMap<>();
+		Map<String,String> e = new HashMap<>();
+
 		try {
 			
 			String query=search.trim().replaceAll(" ", " AND ");
-			String uri = "https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW").toLowerCase()+"/?q="+URLEncoder.encode(query,MTGConstants.DEFAULT_ENCODING.displayName())+"&mature=true";
+	
+			e.put("q", query);
+			e.put("mature", "true");
+			h.put("Authorization","Client-ID "+getString("CLIENTID"));
 			
-			String s= c.doGet(uri, m);
-			logger.debug(uri);
-			logger.debug(s);
+			
+			String s= c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e);
 			
 			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
 				
@@ -74,8 +76,8 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 				
 				
 			});
-		} catch (IOException e) {
-			logger.error(e);
+		} catch (IOException ex) {
+			logger.error(ex);
 		}
 		
 		return ret;

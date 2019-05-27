@@ -38,7 +38,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 															 .put("_submit_login", "Me connecter").build();
 		client.doPost(urlLogin, nvps, null);
 		
-		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders, null));
+		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders));
 		Elements e = listOrders.select("div.total_list a");
 		
 		logger.debug("Found " + e.size() + " orders");

@@ -2,8 +2,10 @@ package org.magic.tools;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -12,8 +14,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
@@ -79,12 +83,12 @@ public class URLToolsClient {
 	{
 		
 		if(builder.getMethod()== METHOD.GET)
-			return doGet(builder.getUrl(),builder.getHeaders());
+			return doGet(builder.getUrl(),builder.getHeaders(),builder.getContent());
 
 		if(builder.getMethod()== METHOD.POST)
 			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
-		
-		throw new IOException("choose Get or POST method");
+			
+		throw new IOException("choose a method");
 		
 	}
 	
@@ -93,7 +97,7 @@ public class URLToolsClient {
 	{
 		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
 	}
-	
+
 	
 	public String doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
@@ -113,21 +117,37 @@ public class URLToolsClient {
 
 	}
 	
-	public String doGet(String url, Map<String,String> headers) throws IOException
+	public String doGet(String url, Map<String,String> headers,Map<String,String> entities) throws IOException
 	{
 		HttpGet getReq = new HttpGet(url);
-
-		if(headers!=null)
-			headers.entrySet().forEach(e->getReq.addHeader(e.getKey(), e.getValue()));
+		
+		if(entities!=null && !entities.isEmpty()) 
+		{
+			try {
+				URIBuilder builder = new URIBuilder(url);
+				entities.entrySet().forEach(e->builder.addParameter(e.getKey(),e.getValue()));
+				getReq = new HttpGet(builder.build());
+			} catch (URISyntaxException e1) {
+				throw new IOException(e1);
+			}
+		}
+		
+		
+		if(headers!=null && !headers.isEmpty())
+		{
+			for(Entry<String, String> e : headers.entrySet())
+				getReq.addHeader(e.getKey(), e.getValue());
+			
+		}
 		
 		
 		response  = execute(getReq);
 		return extractAndClose(response);
 	}
-		
+
 	public String doGet(String url) throws IOException
 	{
-		return doGet(url,null);
+		return doGet(url,null,null);
 	}
 
 	public String getCookieValue(String cookieName) {

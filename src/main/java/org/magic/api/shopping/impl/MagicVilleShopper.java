@@ -44,7 +44,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		
 		client.execute(build);
 		
-		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders, null));
+		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders));
 		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
 		try {
 			tableOrders.remove(0); //remove header

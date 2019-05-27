@@ -16,7 +16,7 @@ public class RequestBuilder
 	private Map<String,String> headers;
 	private Map<String,String> content;
 	private URLToolsClient client;
-	public enum METHOD { POST, GET}
+	public enum METHOD { POST, GET,PUT}
 	
 	
 	public RequestBuilder() {
