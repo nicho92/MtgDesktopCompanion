@@ -7,6 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -234,5 +236,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
+	
+	@Override
+	public String termsAndCondition() {
+		return "Copyright" + '\u00A9' + " "+ Calendar.getInstance().get(Calendar.YEAR) + " " + getName() + ", All rights reserved.";
+	}
+	
 	
 }

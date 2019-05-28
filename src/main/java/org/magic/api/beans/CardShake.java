@@ -28,6 +28,7 @@ public class CardShake  {
 		dateUpdate=new Date();
 	}
 	
+	
 	public void init(double price, double lastDayPrice,double lastWeekPrice) {
 		this.price=price;
 		priceDayChange = price-lastDayPrice;

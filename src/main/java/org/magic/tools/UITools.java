@@ -111,18 +111,7 @@ public class UITools {
 		
 		
 		if(MTGControler.getInstance().get("autocompletion").equals("true")) {
-		
-			  final List<String> res = new ArrayList<>();
-			  txtSearch.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyReleased(KeyEvent e) {
-					res.clear();
-					if(!txtSearch.getText().isEmpty())
-						res.addAll(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
-					
-				}
-			});
-			AutoCompleteDecorator.decorate(txtSearch,res,false); 
+			autocomplete(txtSearch);
 		}
 		
 		
@@ -131,6 +120,22 @@ public class UITools {
 	
 	
 	
+	public static void autocomplete(JTextField txtSearch) {
+
+		  final List<String> res = new ArrayList<>();
+		  txtSearch.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				res.clear();
+				if(!txtSearch.getText().isEmpty())
+					res.addAll(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
+				
+			}
+		});
+		AutoCompleteDecorator.decorate(txtSearch,res,false);
+		
+	}
+
 	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)
 	{
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();

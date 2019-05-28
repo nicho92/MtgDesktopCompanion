@@ -44,7 +44,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	private JCheckBox chckbxShowEditions;
 	private JCheckBox chckbxShowAllDashboard;
 	private transient CardPriceVariations cpVariations;
-	private String title;
+	private String title="";
 	private MagicCard mc;
 	private MagicEdition me;
 	

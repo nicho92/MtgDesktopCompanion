@@ -33,14 +33,13 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
-		int c = 0;
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("MD,");
 			temp.append(deck.getMap().get(mc) + ",");
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
-			notify(c);
+			notify(mc);
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB,");
@@ -48,7 +47,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
-			notify(c);
+			notify(mc);
 		}
 
 		try (FileWriter out = new FileWriter(dest)) {
