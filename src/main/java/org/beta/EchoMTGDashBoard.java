@@ -1,10 +1,12 @@
 package org.beta;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
@@ -18,6 +20,7 @@ import org.magic.api.exports.impl.EchoMTGExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -101,6 +104,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		prov.init();
 		MagicEdition ed = prov.getSetById("UMA");
 		
+		MTGLogger.changeLevel(Level.ALL);
 		new EchoMTGDashBoard().getOnlineShakesForEdition(ed);
 	}
 	
@@ -115,10 +119,6 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 		 .url(EchoMTGExport.BASE_URL+"/set/"+ed.getId().toUpperCase()+"/"+ed.getSet().replaceAll(" ", "-").toLowerCase()+"/")
-		 .addHeader(ACCEPT, "application/json, text/javascript, */*; q=0.01")
-		 .addHeader(ACCEPT_ENCODING, "gzip, deflate, br")
-		 .addHeader(ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
-		 .addHeader(X_REQUESTED_WITH, "XMLHttpRequest")
 		 .addHeader(HOST, "www.echomtg.com")
 		 .addHeader(REFERER, EchoMTGExport.BASE_URL)
 		 .toHtml();
@@ -141,10 +141,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 					  if(!tds.get(3).text().isEmpty())
 					  {
 						  double pc = Double.parseDouble(tds.get(3).text().replaceAll("%",""))/100;
-						  lastWeekPrice = price + (lastWeekPrice*pc);
-						  //TODO calculate week price
-						  System.out.println(cs + " " + price + " " + lastWeekPrice + " "+ (pc*100));
-						  
+						  lastWeekPrice = price - (lastWeekPrice*pc);
 					  }
 					  cs.init(price, price, lastWeekPrice);
 					  
@@ -158,11 +155,25 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 	
 	
+	@Override
+	public String[] getDominanceFilters() {
+		return new String[] { "magic-reserve-list", "lands", "creatures", "artifacts" };
+	}
+
 	
 	@Override
 	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
+				 .url(EchoMTGExport.BASE_URL+"/groups/"+filter+"/")
+				 .addHeader(HOST, "www.echomtg.com")
+				 .addHeader(REFERER, EchoMTGExport.BASE_URL)
+				 .toHtml();
+		
+		ArrayList<CardDominance> list = new ArrayList<>();
+		
+		
+		return list;
 	}
 
 	@Override
