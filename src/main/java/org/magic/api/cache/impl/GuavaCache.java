@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
+import org.magic.tools.MemoryTools;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -21,6 +22,12 @@ public class GuavaCache extends AbstractCacheProvider {
 				 			 .maximumSize(getInt("MAX_ITEM"))
 				 			 .expireAfterAccess(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
 				 			 .build();
+	}
+	
+	
+	@Override
+	public long size() {
+		return cache.asMap().entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
 	
 	

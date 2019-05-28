@@ -51,6 +51,7 @@ public class CacheProviderTests {
 		System.out.println("JMX NAME "+p.getObjectName());
 		System.out.println("CONF FILE " + p.getConfFile());
 		
+		
 		try {
 			p.put(new ScryFallPicturesProvider().getPicture(mc, mc.getCurrentSet()), mc, mc.getCurrentSet());
 			System.out.println("putPictures OK" );
@@ -84,6 +85,14 @@ public class CacheProviderTests {
 			System.out.println("getPictures Null ed OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures Null ed ERROR "+e );
+		}
+		
+		try {
+			System.out.println("Size " + p.size() );
+		}
+		catch(Exception e)
+		{
+			System.out.println("putPictures ERROR "+e );
 		}
 		
 		

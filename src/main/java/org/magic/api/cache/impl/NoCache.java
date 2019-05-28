@@ -41,4 +41,8 @@ public class NoCache extends AbstractCacheProvider {
 		return "1";
 	}
 
+	@Override
+	public long size() {
+		return 0;
+	}
 }
