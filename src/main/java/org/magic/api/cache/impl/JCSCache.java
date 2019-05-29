@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.jcs.JCS;
 import org.apache.commons.jcs.access.CacheAccess;
 import org.magic.api.beans.MagicCard;
@@ -90,7 +91,10 @@ public class JCSCache extends AbstractCacheProvider {
 		return "JCS";
 	}
 	
-	
+	@Override
+	public long size() {
+		return FileUtils.sizeOfDirectory(getFile("jcs.auxiliary.DC.attributes.DiskPath"));
+	}
 	
 
 }

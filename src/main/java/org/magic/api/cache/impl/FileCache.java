@@ -115,5 +115,15 @@ public class FileCache extends AbstractCacheProvider {
 	public String getVersion() {
 		return "1";
 	}
+	
+	@Override
+	public long size() {
+		
+		if(dir!=null)
+			return FileUtils.sizeOfDirectory(dir);
+		
+		
+		return 0;
+	}
 
 }

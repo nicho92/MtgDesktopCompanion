@@ -45,4 +45,10 @@ public class MemoryTools {
 		logger.debug(MemoryTools.statInstanceToString(new MagicEdition("TEST")));
 	}
 	
+	public static long sizeOf(Object classe)
+	{
+		return ClassLayout.parseInstance(classe).instanceSize();
+	}
+	
+	
 }
