@@ -45,6 +45,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	
+	private static final String FORCE_RELOAD = "FORCE_RELOAD";
 	private static final String PRINTINGS = "printings";
 	private static final String ARTIST = "artist";
 	private static final String TYPE = "type";
@@ -167,11 +168,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 			logger.debug("loading file " + fileSetJson);
 
-			if (hasNewVersion()||!fileSetJson.exists() || fileSetJson.length() == 0) {
+			if (hasNewVersion()||!fileSetJson.exists() || fileSetJson.length() == 0 || getBoolean(FORCE_RELOAD)) {
 				logger.info("Downloading "+version + " datafile");
 				URLTools.download(URL_JSON_ALL_SETS_ZIP, fileSetJsonTemp);
 				FileTools.unZipIt(fileSetJsonTemp,fileSetJson);
 				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
+				setProperty(FORCE_RELOAD, "false");
 			}
 			
 			logger.debug(this + " : parsing db file");
@@ -729,5 +731,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	@Override
 	public void initDefault() {
 		setProperty("LRU_CACHE", "400");
+		setProperty(FORCE_RELOAD,"false");
 	}
 }
