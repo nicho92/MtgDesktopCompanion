@@ -1255,6 +1255,7 @@
 	
 	<edition id="MH1">
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/272/707/320/160/636869967589881363.png"/>
+		<banner lang='fr' url="https://www.magicbazar.fr/images/logoFR.png"/>
 		<bundle lang='en' url="https://media.wizards.com/2019/images/daily/ED881nBJh4.png"/>
 		<box lang='en' url="https://www.miniaturemarket.com/media/catalog/product/w/o/wocc60270-box.png"/>
 		<booster lang='en' url="https://boutique.magiccorporation.com/images/produits/normal/30599-jeux-de-cartes-a-collectionner-magic-the-gathering-boosters.jpg?1558484660"/>
@@ -1263,7 +1264,7 @@
 	<edition id="SS2">
 		<banner lang="en" url="https://www.mtgpics.com/graph/sets/logos_big/ss2.png"/>
 		<bundle lang="en" url="https://www.parkage.com/files/img/products/magic/coffrets/imgprdt_mtg_ss2_01.jpg"/>
-	
+		<booster lang='en' url="https://cdn.shopify.com/s/files/1/1245/7893/products/MHBPacks_800x.png?v=1558994909"/>
 	</edition>
 	
 	
