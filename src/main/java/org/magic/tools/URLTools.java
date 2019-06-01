@@ -29,7 +29,17 @@ import com.google.gson.stream.JsonReader;
 public class URLTools {
 
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
+	
 	public static final String HEADER_JSON="application/json";
+	public static final String REFERER = "Referer";
+	public static final String HOST = "Host";
+	public static final String X_REQUESTED_WITH = "X-Requested-With";
+	public static final String ACCEPT_LANGUAGE = "Accept-Language";
+	public static final String ACCEPT_ENCODING = "Accept-Encoding";
+	public static final String ACCEPT = "Accept";
+	public static final String ORIGIN = "Origin";
+	public static final String UPGR_INSECURE_REQ= "Upgrade-Insecure-Requests";
+	
 	
 	private URLTools()	{}
 	

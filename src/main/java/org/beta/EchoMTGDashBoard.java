@@ -31,12 +31,6 @@ import com.google.gson.JsonObject;
 
 public class EchoMTGDashBoard extends AbstractDashBoard {
 
-	private static final String REFERER = "Referer";
-	private static final String HOST = "Host";
-	private static final String X_REQUESTED_WITH = "X-Requested-With";
-	private static final String ACCEPT_LANGUAGE = "Accept-Language";
-	private static final String ACCEPT_ENCODING = "Accept-Encoding";
-	private static final String ACCEPT = "Accept";
 	private URLToolsClient client;
 	
 	
@@ -55,12 +49,12 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		JsonArray list = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/data/ajax.getsearchresults.php")
 				 .addContent("term", c.getName())
-				 .addHeader(ACCEPT, "application/json, text/javascript, */*; q=0.01")
-				 .addHeader(ACCEPT_ENCODING, "gzip, deflate, br")
-				 .addHeader(ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
-				 .addHeader(X_REQUESTED_WITH, "XMLHttpRequest")
-				 .addHeader(HOST, "www.echomtg.com")
-				 .addHeader(REFERER, EchoMTGExport.BASE_URL)
+				 .addHeader(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01")
+				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
+				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
+				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
+				 .addHeader(URLTools.HOST, "www.echomtg.com")
+				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 				 .toJson().getAsJsonArray();
 		
 		for(int i = 0; i<list.getAsJsonArray().size();i++)
@@ -82,12 +76,12 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 							
 		JsonArray ret = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/cache/"+id.get("emid").getAsString()+".r.json")
-				 .addHeader(ACCEPT, "application/json, text/javascript, */*; q=0.01")
-				 .addHeader(ACCEPT_ENCODING, "gzip, deflate, br")
-				 .addHeader(ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
-				 .addHeader(X_REQUESTED_WITH, "XMLHttpRequest")
-				 .addHeader(HOST, "www.echomtg.com")
-				 .addHeader(REFERER, EchoMTGExport.BASE_URL+id.get("url").getAsString())
+				 .addHeader(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01")
+				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
+				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
+				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
+				 .addHeader(URLTools.HOST, "www.echomtg.com")
+				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL+id.get("url").getAsString())
 				 .toJson().getAsJsonArray();
 		
 		
@@ -119,8 +113,8 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 		 .url(EchoMTGExport.BASE_URL+"/set/"+ed.getId().toUpperCase()+"/"+ed.getSet().replaceAll(" ", "-").toLowerCase()+"/")
-		 .addHeader(HOST, "www.echomtg.com")
-		 .addHeader(REFERER, EchoMTGExport.BASE_URL)
+		 .addHeader(URLTools.HOST, "www.echomtg.com")
+		 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 		 .toHtml();
 		
 		
@@ -166,8 +160,8 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/groups/"+filter+"/")
-				 .addHeader(HOST, "www.echomtg.com")
-				 .addHeader(REFERER, EchoMTGExport.BASE_URL)
+				 .addHeader(URLTools.HOST, "www.echomtg.com")
+				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 				 .toHtml();
 		
 		ArrayList<CardDominance> list = new ArrayList<>();

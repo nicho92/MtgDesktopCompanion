@@ -170,9 +170,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	}
 						    }
 
-						    build.addHeader("Host", DOMAIN)
-							   	 .addHeader("Origin", WEBSITE)
-							     .addHeader("Referer",WEBSITE);
+						    build.addHeader(URLTools.HOST, DOMAIN)
+							   	 .addHeader(URLTools.ORIGIN, WEBSITE)
+							     .addHeader(URLTools.REFERER,WEBSITE);
 							
 						
 						    

@@ -75,9 +75,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 						  .addContent("username", getString(LOGIN2))
 						  .addContent("password", getString(PASS))
 						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
-						  .addHeader("Referer", URI_BASE+"/accounts/login/?next=/")
-						  .addHeader("Upgrade-Insecure-Requests", "1")
-				          .addHeader("Origin", URI_BASE);
+						  .addHeader(URLTools.REFERER, URI_BASE+"/accounts/login/?next=/")
+						  .addHeader(URLTools.UPGR_INSECURE_REQ, "1")
+				          .addHeader(URLTools.ORIGIN, URI_BASE);
 		
 		httpclient.execute(b);
 

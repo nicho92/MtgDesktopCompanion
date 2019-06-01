@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;
-import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
 

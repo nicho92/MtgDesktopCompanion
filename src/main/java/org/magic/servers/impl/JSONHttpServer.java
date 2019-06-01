@@ -124,7 +124,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 		exception(Exception.class, (Exception exception, Request req, Response res) -> {
-			logger.error("Error :" + req.headers("Referer") + ":" + exception.getMessage(), exception);
+			logger.error("Error :" + req.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
 			res.status(500);
 			res.body(error(exception.getMessage()));
 		});

@@ -75,9 +75,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 							nvps.add(new BasicNameValuePair("_token", token));
 		
 		login.setEntity(new UrlEncodedFormEntity(nvps));
-		login.addHeader("Referer", u);
-		login.addHeader("Upgrade-Insecure-Requests", "1");
-		login.addHeader("Origin", BASE_URI);
+		login.addHeader(URLTools.REFERER, u);
+		login.addHeader(URLTools.UPGR_INSECURE_REQ, "1");
+		login.addHeader(URLTools.ORIGIN, BASE_URI);
 		
 		HttpResponse resp = httpclient.execute(login, httpContext);
 		
