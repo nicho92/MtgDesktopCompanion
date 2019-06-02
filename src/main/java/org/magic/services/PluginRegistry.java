@@ -79,7 +79,7 @@ public class PluginRegistry {
 	
 	public <T> T newInstance(String classname) throws ClassNotFoundException {
 		try {
-			logger.debug("\tload plugin :  " + classname);
+			logger.trace("\tload plugin :  " + classname);
 			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
 		}  catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException| NoSuchMethodException | SecurityException e) {
 			logger.error("error loading " + classname, e);

@@ -27,7 +27,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	public MTGUIComponent()
 	{
-		logger.info("init GUI : " + getTitle());
+		logger.debug("init GUI : " + getTitle());
 	}
 	
 	public void onDestroy()

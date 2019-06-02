@@ -94,6 +94,10 @@ public class URLTools {
 	
 	
 	public static HttpURLConnection getConnection(URL url,String userAgent) throws IOException {
+		
+		Chrono c = new Chrono();
+		c.start();
+
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try{
 			
@@ -106,13 +110,12 @@ public class URLTools {
 			if (!isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
 				return getConnection(connection.getHeaderField("Location"));
 			}
-			logger.debug("GET " + url + " : " + connection.getResponseCode());
+			logger.debug("GET " + url + " : " + connection.getResponseCode() + " [" + c.stopInMillisecond() + "ms]");
 		}
 		catch(SSLHandshakeException e)
 		{
 			logger.error(url,e);
 		}
-		
 		return connection;
 	}
 	
