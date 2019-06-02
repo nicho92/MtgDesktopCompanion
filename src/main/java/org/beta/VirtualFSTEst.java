@@ -10,17 +10,16 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.sql.SQLException;
 
+import org.beta.fs.MTGFileSystem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
 
-public class FileSystemServer {
-
+public class VirtualFSTEst {
 	public static void main(String[] args) throws IOException, SQLException, InterruptedException {
 		FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
-		
 		Path data = fs.getPath("/collections");
 		Files.createDirectory(data);
  
@@ -49,7 +48,7 @@ public class FileSystemServer {
 		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		dao.init();
 		dao.listCollections().forEach(mc->{
-			Path hello = data.resolve(mc.getName()); // /data/test.txt
+			Path hello = data.resolve(mc.getName()); 
 			try {
 				Files.createDirectory(hello);
 			} catch (IOException e) {
@@ -57,8 +56,6 @@ public class FileSystemServer {
 				e.printStackTrace();
 			}
 		});
-		
-		
 		
 	}
 }
