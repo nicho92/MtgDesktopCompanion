@@ -8,8 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,9 +17,6 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.autocomplete.AbstractAutoCompleteAdaptor;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDocument;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -33,10 +28,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
-
-import com.google.common.collect.Lists;
-
-import ca.odell.glazedlists.swing.AutoCompleteSupport;
 
 public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 

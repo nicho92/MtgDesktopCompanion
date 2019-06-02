@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -43,8 +42,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;

@@ -5,10 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -22,8 +20,6 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
-
-import com.google.common.collect.Lists;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());

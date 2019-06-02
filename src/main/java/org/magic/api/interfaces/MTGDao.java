@@ -17,7 +17,7 @@ import org.magic.api.beans.OrderEntry;
 
 public interface MTGDao extends MTGPlugin {
 
-	public void init() throws ClassNotFoundException, SQLException;
+	public void init() throws SQLException;
 
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;

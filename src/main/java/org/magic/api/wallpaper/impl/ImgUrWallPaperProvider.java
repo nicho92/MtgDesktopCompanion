@@ -2,7 +2,6 @@ package org.magic.api.wallpaper.impl;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 

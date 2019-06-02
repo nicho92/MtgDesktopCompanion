@@ -19,7 +19,6 @@ import org.eclipse.jetty.util.Jetty;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 
 public class WebManagerServer extends AbstractMTGServer {

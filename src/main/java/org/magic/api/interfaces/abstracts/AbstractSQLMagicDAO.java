@@ -148,7 +148,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	
 	 
-	public void init() throws SQLException, ClassNotFoundException {
+	public void init() throws SQLException {
 		logger.info("init " + getName());
 		pool = new SQLTools(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();

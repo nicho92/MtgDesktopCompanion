@@ -35,8 +35,22 @@
 	    <id>jcenter</id>
 	    <url>http://jcenter.bintray.com</url>
 	  </repository>
+	  <repository>
+            <id>milton-repo</id>
+            <url>http://dl.bintray.com/milton/Milton</url>
+        </repository>  
 	</repositories>
 	<dependencies>
+		<dependency>
+            <groupId>io.milton</groupId>
+            <artifactId>milton-server-ce</artifactId>
+            <version>2.7.4.8</version>
+        </dependency>
+      	<dependency>
+		  <groupId>com.google.jimfs</groupId>
+		  <artifactId>jimfs</artifactId>
+		  <version>1.1</version>
+		</dependency>  
 		<dependency>
     		<groupId>net.dean.jraw</groupId>
     		<artifactId>JRAW</artifactId>
@@ -322,7 +336,7 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.11-RC2</version>
+			<version>1.7.11</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>

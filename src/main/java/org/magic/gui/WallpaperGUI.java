@@ -24,9 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.JXSearchField;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.Wallpaper;
