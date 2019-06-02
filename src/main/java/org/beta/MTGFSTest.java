@@ -17,9 +17,7 @@ public class MTGFSTest {
 
 			Path cols = fs.getPath("/");
 			
-			Files.list(cols).forEach(p->{
-				System.out.println(p);
-			});
+			Files.list(cols).forEach(System.out::println);
 			
 		}
 		

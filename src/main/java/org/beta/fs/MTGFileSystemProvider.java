@@ -2,6 +2,7 @@ package org.beta.fs;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.AccessMode;
 import java.nio.file.CopyOption;
@@ -9,6 +10,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
@@ -28,10 +30,13 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	private MTGDao dao;
 	private final Map<URI, MTGFileSystem> hosts = new HashMap<>();
-
-	public MTGFileSystemProvider() throws SQLException {
+	private FileSystem fs;
+	
+	
+	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem) throws SQLException {
 		dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		dao.init();
+		this.fs = mtgFileSystem;
 	}
 	
 	@Override
@@ -41,19 +46,18 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException {
-		return new MTGFileSystem();
+		return fs;
 	}
 
 	@Override
 	public FileSystem getFileSystem(URI uri) {
-		return new MTGFileSystem();
+		return fs;
 			
 	}
 
 	@Override
 	public Path getPath(URI uri) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MTGPath(fs, uri.getPath());
 	}
 
 	@Override
@@ -71,7 +75,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-		System.out.println(dir +" " + attrs);
+		System.out.println("create dir " + dir +" " + attrs);
 		
 	}
 

@@ -14,11 +14,11 @@ import java.util.Set;
 
 public class MTGFileSystem extends FileSystem {
 
-	private FileSystemProvider provider;
+	private FileSystemProvider fs;
 
 	public MTGFileSystem() {
 		try {
-			this.provider = new MTGFileSystemProvider();
+			this.fs = new MTGFileSystemProvider(this);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -28,7 +28,7 @@ public class MTGFileSystem extends FileSystem {
 	
 	@Override
 	public FileSystemProvider provider() {
-		return provider;
+		return fs;
 	}
 
 	@Override
@@ -74,8 +74,7 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public Path getPath(String first, String... more) {
-		System.out.println(first +" " + more);
-		return new MTGPath(first,more);
+		return new MTGPath(this,first,more);
 	}
 
 	@Override

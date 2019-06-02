@@ -9,16 +9,24 @@ import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchEvent.Modifier;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.nio.file.spi.FileSystemProvider;
 
 public class MTGPath implements Path {
 
-	public MTGPath(String first, String[] more) {
-		// TODO Auto-generated constructor stub
+	FileSystem fs;
+	
+	public MTGPath(FileSystem fs,String first, String[] more) {
+		this.fs=fs;
 	}
+
+	public MTGPath(FileSystem fs, String path) {
+		this.fs=fs;
+	}
+
 
 	@Override
 	public FileSystem getFileSystem() {
-		return new MTGFileSystem();
+		return fs;
 	}
 
 	@Override
