@@ -62,6 +62,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 
 	public String getProperty(String k, String defaultVal) {
+		
+		if(props.getProperty(k).isEmpty())
+			return defaultVal;
+		
+		
 		return props.getProperty(k, defaultVal);
 	}
 

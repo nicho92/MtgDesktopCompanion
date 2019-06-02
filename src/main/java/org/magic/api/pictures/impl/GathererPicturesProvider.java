@@ -38,10 +38,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 
 
-	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1));
-	}
+	
 
 	@Override
 	public String getName() {

@@ -15,6 +15,7 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
+import org.magic.tools.URLTools;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
@@ -68,6 +69,11 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		{
 			return getBackPicture();
 		}
+	}
+	
+	@Override
+	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
+		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getProperty("SET_SIZE","medium") + "&rarity=" + rarity.substring(0, 1));
 	}
 	
 	@Override

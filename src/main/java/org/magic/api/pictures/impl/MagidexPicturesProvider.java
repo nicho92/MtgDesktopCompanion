@@ -56,10 +56,6 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		}
 	}
 
-	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
-		return null;
-	}
 
 	@Override
 	public String getName() {

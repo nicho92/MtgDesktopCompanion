@@ -83,11 +83,6 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		return null;
-	}
-
-	@Override
 	public String getName() {
 		return "Personal Set Pictures";
 	}

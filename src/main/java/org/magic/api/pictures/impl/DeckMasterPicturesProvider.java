@@ -118,8 +118,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			break;
 		}
 
-		URL u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"
-				+ rarity.substring(0, 1).toUpperCase() + ".png");
+		URL u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png");
 		HttpURLConnection con = URLTools.openConnection(u);
 		BufferedImage im = ImageIO.read(con.getInputStream());
 		return resizeIconSet(im);
