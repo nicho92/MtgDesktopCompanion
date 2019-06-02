@@ -2,7 +2,6 @@ package org.beta.fs;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.AccessMode;
 import java.nio.file.CopyOption;
@@ -10,7 +9,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
-import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
@@ -57,7 +55,8 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public Path getPath(URI uri) {
-		return new MTGPath(fs, uri.getPath());
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-		System.out.println("create dir " + dir +" " + attrs);
+		System.out.println("create dir : " + dir +" " + attrs);
 		
 	}
 
