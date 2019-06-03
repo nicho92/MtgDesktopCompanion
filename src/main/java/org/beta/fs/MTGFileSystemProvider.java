@@ -17,23 +17,25 @@ import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGControler;
 
 public class MTGFileSystemProvider extends FileSystemProvider {
 
 	private MTGDao dao;
-	private final Map<URI, MTGFileSystem> hosts = new HashMap<>();
 	private FileSystem fs;
 	
 	
-	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem) throws SQLException {
-		dao = MTGControler.getInstance().getEnabled(MTGDao.class);
-		dao.init();
+	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem, MTGDao mtgDao) throws SQLException {
+		this.dao=mtgDao;
 		this.fs = mtgFileSystem;
 	}
 	
@@ -55,26 +57,84 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public Path getPath(URI uri) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MTGPath(fs,uri.getPath());
 	}
 
 	@Override
-	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs)
-			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		return new DirectoryStream<Path>() {
+		
+			private final AtomicBoolean closed = new AtomicBoolean();
+			private final AtomicBoolean iteratorReturned = new AtomicBoolean();
+  
+			@Override
+			public void close() throws IOException {
+				closed.set(true);
+				
+			}
+			
+			@Override
+			public Iterator<Path> iterator() {
+				if (closed.get()) {
+		            throw new IllegalStateException("Already closed");
+		        }
+				if (!iteratorReturned.compareAndSet(false, true)) {
+			        throw new IllegalStateException("Iterator already returned");
+			    }
+				List<Path> paths = new ArrayList<>();
+				
+				List<String> parts = ((MTGPath)dir).getParts();
+				
+				
+				if(parts.size()==1)
+				{
+					try {
+						dao.listCollections().forEach(c->paths.add(new MTGPath(fs, c.getName())));
+					} catch (SQLException e) {
+					}
+				}
+				else if(parts.size()==2)
+				{
+					try {
+						MagicCollection c = new MagicCollection(parts.get(1));
+						dao.listEditionsIDFromCollection(c).forEach(ed->paths.add(new MTGPath(fs, parts.get(0),c.getName(),ed)));
+					} catch (SQLException e) 
+					{
+					}
+				}
+				else if(parts.size()==3)
+				{
+					try {
+						MagicCollection c = new MagicCollection(parts.get(1));
+						String idEdition = parts.get(2);
+						dao.listCardsFromCollection(c,new MagicEdition(idEdition)).forEach(card->paths.add(new MTGPath(fs, parts.get(0),c.getName(),idEdition,card.getName())));
+					} catch (SQLException e) 
+					{
+					}
+				}
+				
+				
+				
+				return paths.iterator();
+			}
+		};
+		
 	}
 
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-		System.out.println("create dir : " + dir +" " + attrs);
+		try {
+			dao.saveCollection(((MTGPath)dir).getStringFileName());
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 		
 	}
 

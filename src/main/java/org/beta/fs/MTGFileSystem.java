@@ -5,22 +5,27 @@ import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.magic.api.interfaces.MTGDao;
+
+import com.google.common.collect.Lists;
 
 public class MTGFileSystem extends FileSystem {
 
-	private FileSystemProvider fs;
+	private FileSystemProvider provider;
 
-	public MTGFileSystem() {
+	public MTGFileSystem(MTGDao mtgDao) {
 		try {
-			this.fs = new MTGFileSystemProvider(this);
+			this.provider = new MTGFileSystemProvider(this,mtgDao);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -28,7 +33,7 @@ public class MTGFileSystem extends FileSystem {
 	
 	@Override
 	public FileSystemProvider provider() {
-		return fs;
+		return provider;
 	}
 
 	@Override
@@ -45,7 +50,6 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public boolean isReadOnly() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -56,7 +60,6 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public Iterable<Path> getRootDirectories() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
