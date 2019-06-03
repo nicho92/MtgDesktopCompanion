@@ -10,7 +10,6 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.sql.SQLException;
 
-import org.beta.fs.MTGFileSystem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 

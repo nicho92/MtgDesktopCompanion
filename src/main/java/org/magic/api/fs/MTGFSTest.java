@@ -1,4 +1,4 @@
-package org.beta.fs;
+package org.magic.api.fs;
 
 import java.io.IOException;
 import java.nio.file.FileSystem;
