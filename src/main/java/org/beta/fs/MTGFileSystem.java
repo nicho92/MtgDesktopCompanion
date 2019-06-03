@@ -9,14 +9,12 @@ import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.interfaces.MTGDao;
-
-import com.google.common.collect.Lists;
 
 public class MTGFileSystem extends FileSystem {
 
@@ -60,12 +58,20 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public Iterable<Path> getRootDirectories() {
-		return null;
+		
+		FileSystem fs = this;
+		return new Iterable<>() {
+			@Override
+			public Iterator<Path> iterator() {
+				List<Path> roots = new ArrayList<>();
+				List.of("Collections", "Alerts", "Stock", "News", "Shopping").forEach(s->roots.add(new MTGPath(fs, s)));
+				return roots.iterator();
+			}
+		};
 	}
 
 	@Override
 	public Iterable<FileStore> getFileStores() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

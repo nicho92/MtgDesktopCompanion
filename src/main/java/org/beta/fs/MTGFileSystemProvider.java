@@ -2,6 +2,7 @@ package org.beta.fs;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.AccessMode;
 import java.nio.file.CopyOption;
@@ -15,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
+import java.nio.file.attribute.FileStoreAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
@@ -62,13 +65,61 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-		throw new UnsupportedOperationException();
+		return new SeekableByteChannel() {
+		
+			private boolean closed=false;
+			
+			@Override
+			public boolean isOpen() {
+				return !closed;
+			}
+			
+			@Override
+			public void close() throws IOException {
+				this.closed=true;
+				
+			}
+			
+			@Override
+			public int write(ByteBuffer arg0) throws IOException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public SeekableByteChannel truncate(long arg0) throws IOException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public long size() throws IOException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public int read(ByteBuffer arg0) throws IOException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public SeekableByteChannel position(long arg0) throws IOException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public long position() throws IOException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
 	}
 
 	@Override
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException {
-		
-		
 		return new DirectoryStream<Path>() {
 		
 			private final AtomicBoolean closed = new AtomicBoolean();
@@ -140,68 +191,132 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void delete(Path path) throws IOException {
-		// TODO Auto-generated method stub
+		MTGPath from = (MTGPath)path;
+		
+		System.out.println("delete " + from);
+		
 		
 	}
 
 	@Override
 	public void copy(Path source, Path target, CopyOption... options) throws IOException {
-		// TODO Auto-generated method stub
+		
+		MTGPath from = (MTGPath)source;
+		MTGPath to = (MTGPath)target;
+		
+		
+		System.out.println("copy " + from + " to " + to);
+		
+		
 		
 	}
 
 	@Override
 	public void move(Path source, Path target, CopyOption... options) throws IOException {
-		// TODO Auto-generated method stub
+		MTGPath from = (MTGPath)source;
+		MTGPath to = (MTGPath)target;
+		
+		
+		System.out.println("move " + from + " to " + to);
+		
 		
 	}
 
 	@Override
 	public boolean isSameFile(Path path, Path path2) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		return path.equals(path2);
 	}
 
 	@Override
 	public boolean isHidden(Path path) throws IOException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public FileStore getFileStore(Path path) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new FileStore() {
+			
+			@Override
+			public String type() {
+				return dao.getType().toString();
+			}
+			
+			@Override
+			public boolean supportsFileAttributeView(String arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public boolean supportsFileAttributeView(Class<? extends FileAttributeView> arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public String name() {
+				return dao.getName();
+			}
+			
+			@Override
+			public boolean isReadOnly() {
+				return false;
+			}
+			
+			@Override
+			public long getUsableSpace() throws IOException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public long getUnallocatedSpace() throws IOException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public long getTotalSpace() throws IOException {
+				return dao.getDBSize();
+			}
+			
+			@Override
+			public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public Object getAttribute(String arg0) throws IOException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
 	}
 
 	@Override
 	public void checkAccess(Path path, AccessMode... modes) throws IOException {
-		// TODO Auto-generated method stub
+		throw new NotImplementedException("Not Implemented");
 		
 	}
 
 	@Override
 	public <V extends FileAttributeView> V getFileAttributeView(Path path, Class<V> type, LinkOption... options) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException("Not implemented");
 	}
 
 	@Override
-	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options)
-			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options)throws IOException {
+		return (A)((MTGPath)path).readAttributes();
 	}
 
 	@Override
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setAttribute(Path path, String attribute, Object value, LinkOption... options) throws IOException {
-		// TODO Auto-generated method stub
 		
 	}
 

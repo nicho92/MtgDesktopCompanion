@@ -10,9 +10,12 @@ import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchEvent.Modifier;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -186,6 +189,77 @@ public class MTGPath implements Path {
 	@Override
 	public int compareTo(Path other) {
 		return this.compareTo(other);
+	}
+
+	public boolean isCollection()
+	{
+		return parts.size()==2;
+	}
+
+	public boolean isEdition()
+	{
+		return parts.size()==3;
+	}
+	
+	public boolean isCard()
+	{
+		return parts.size()==4;
+	}
+
+	public BasicFileAttributes readAttributes() {
+		return new BasicFileAttributes() {
+			
+			@Override
+			public long size() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public FileTime lastModifiedTime() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public FileTime lastAccessTime() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public boolean isSymbolicLink() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public boolean isRegularFile() {
+				return isCard();
+			}
+			
+			@Override
+			public boolean isOther() {
+				return false;
+			}
+			
+			@Override
+			public boolean isDirectory() {
+				return isCollection()||isEdition();
+			}
+			
+			@Override
+			public Object fileKey() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public FileTime creationTime() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
 	}
 
 }

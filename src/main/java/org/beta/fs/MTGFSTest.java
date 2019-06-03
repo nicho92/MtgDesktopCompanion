@@ -20,15 +20,8 @@ public class MTGFSTest {
 		
 		try(FileSystem fs = new MTGFileSystem(dao))
 		{
-			Path root = fs.getPath("/Collections/Library/MIR");
-			Files.list(root).forEach(System.out::println);
-			
-			
-			Files.createDirectories(fs.getPath("Collections/Test"));
-			
-			
-			
-			
+			Path root = fs.getPath("/Collections/Library").resolve("VIS");
+			Files.isRegularFile(root);
 		}
 		
 		
