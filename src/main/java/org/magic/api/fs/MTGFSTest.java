@@ -21,7 +21,9 @@ public class MTGFSTest {
 		try(FileSystem fs = new MTGFileSystem(dao))
 		{
 			Path root = fs.getPath("/Collections/Library").resolve("VIS");
-			Files.isRegularFile(root);
+			Files.list(root).forEach(p->{
+				System.out.println(p.toFile());
+			});
 		}
 		
 		

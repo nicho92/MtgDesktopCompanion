@@ -1,5 +1,6 @@
 package org.magic.api.fs;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -81,6 +82,11 @@ public class MTGPath implements Path {
 	        return null;
         }
 		return new MTGPath(fs, parts.get(getNameCount()-1));
+	}
+	
+	@Override
+	public File toFile() {
+		return new File(toString());
 	}
 
 	@Override
