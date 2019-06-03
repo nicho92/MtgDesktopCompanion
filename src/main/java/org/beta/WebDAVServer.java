@@ -6,7 +6,9 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -28,14 +30,20 @@ public class WebDAVServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		server = new Server(getInt(SERVER_PORT));
 	
-		ServletContextHandler ctx = new ServletContextHandler();
+		ServletContextHandler ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		ctx.setContextPath("/");
-	
+		
+		ServletHandler handler = new ServletHandler();
 		ServletHolder holderDav = new ServletHolder("default", new MiltonServlet());
 		ctx.addServlet(holderDav,"/");
-		ctx.addFilter(MiltonFilter.class, "/*",EnumSet.of(DispatcherType.REQUEST));
+		FilterHolder fh = handler.addFilterWithMapping(MiltonFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+					 fh.setInitParameter("enableExpectContinue", "false");
 		
+		ctx.addFilter(fh, "/*", EnumSet.of(DispatcherType.REQUEST));
+					 
 		logger.trace(ctx.dump());
+		ctx.setHandler(handler);
+		
 		server.setHandler(ctx);
 		
 		try {
