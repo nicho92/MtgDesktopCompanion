@@ -20,7 +20,7 @@ public class MTGFSTest {
 		
 		try(FileSystem fs = new MTGFileSystem(dao))
 		{
-			Path root = fs.getPath("/Collections/Library").resolve("VIS");
+			Path root = fs.getPath("/");
 			Files.list(root).forEach(p->{
 				System.out.println(p.toFile());
 			});

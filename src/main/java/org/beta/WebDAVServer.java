@@ -11,6 +11,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
+import org.magic.api.dav.WebDavMTGFileResourceFactory;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
 import io.milton.servlet.MiltonFilter;
@@ -18,6 +19,7 @@ import io.milton.servlet.MiltonServlet;
 
 public class WebDAVServer extends AbstractMTGServer {
 
+	private static final String AUTOSTART = "AUTOSTART";
 	private Server server;
 	private static final String SERVER_PORT = "SERVER-PORT";
 
@@ -37,7 +39,7 @@ public class WebDAVServer extends AbstractMTGServer {
 		ServletHolder holderDav = new ServletHolder("default", new MiltonServlet());
 		ctx.addServlet(holderDav,"/");
 		FilterHolder fh = handler.addFilterWithMapping(MiltonFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
-					 fh.setInitParameter("enableExpectContinue", "false");
+					 fh.setInitParameter("resource.factory.class", WebDavMTGFileResourceFactory.class.getCanonicalName());
 		
 		ctx.addFilter(fh, "/*", EnumSet.of(DispatcherType.REQUEST));
 					 
@@ -70,8 +72,7 @@ public class WebDAVServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAutostart() {
-		// TODO Auto-generated method stub
-		return false;
+		return getBoolean(AUTOSTART);
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class WebDAVServer extends AbstractMTGServer {
 	@Override
 	public void initDefault() {
 		setProperty(SERVER_PORT, "8088");
-		setProperty("AUTOSTART", "false");
+		setProperty(AUTOSTART, "false");
 	}
 
 	
@@ -97,3 +98,7 @@ public class WebDAVServer extends AbstractMTGServer {
 		return Jetty.VERSION;
 	}
 }
+
+
+
+

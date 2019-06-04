@@ -197,6 +197,11 @@ public class MTGPath implements Path {
 		return this.compareTo(other);
 	}
 
+	public boolean isDirectory()
+	{
+		return parts.size()<=1;
+	}
+	
 	public boolean isCollection()
 	{
 		return parts.size()==2;
@@ -251,7 +256,7 @@ public class MTGPath implements Path {
 			
 			@Override
 			public boolean isDirectory() {
-				return isCollection()||isEdition();
+				return !isRegularFile();
 			}
 			
 			@Override
