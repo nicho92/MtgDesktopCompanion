@@ -14,17 +14,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.services.MTGLogger;
 
 public class MTGFileSystem extends FileSystem {
 
 	private FileSystemProvider provider;
+	protected Logger log = MTGLogger.getLogger(this.getClass());
+
 
 	public MTGFileSystem(MTGDao mtgDao) {
 		try {
 			this.provider = new MTGFileSystemProvider(this,mtgDao);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 	
@@ -42,8 +46,7 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public boolean isOpen() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class MTGFileSystem extends FileSystem {
 			@Override
 			public Iterator<Path> iterator() {
 				List<Path> roots = new ArrayList<>();
-				List.of("Collections", "Alerts", "Stock", "News", "Shopping").forEach(s->roots.add(new MTGPath(fs, s)));
+				List.of("Collections", "Alerts", "Stock", "News", "Shopping","Decks").forEach(s->roots.add(new MTGPath(fs, s)));
 				return roots.iterator();
 			}
 		};

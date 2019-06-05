@@ -18,11 +18,11 @@ public class WebDavMTGFileResourceFactory implements ResourceFactory
 	private MTGFileSystem fs;
 	protected Logger log = MTGLogger.getLogger(this.getClass());
 
+	
+	
     
 	public WebDavMTGFileResourceFactory() throws SQLException {
-		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
-		dao.init();
-		fs = new MTGFileSystem(dao);
+		fs = new MTGFileSystem(MTGControler.getInstance().getEnabled(MTGDao.class));
 	}
 	
 	

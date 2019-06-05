@@ -3,6 +3,7 @@ package org.magic.api.fs;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.AccessMode;
 import java.nio.file.CopyOption;
@@ -65,57 +66,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-		return new SeekableByteChannel() {
-		
-			private boolean closed=false;
-			
-			@Override
-			public boolean isOpen() {
-				return !closed;
-			}
-			
-			@Override
-			public void close() throws IOException {
-				this.closed=true;
-				
-			}
-			
-			@Override
-			public int write(ByteBuffer arg0) throws IOException {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			
-			@Override
-			public SeekableByteChannel truncate(long arg0) throws IOException {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public long size() throws IOException {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			
-			@Override
-			public int read(ByteBuffer arg0) throws IOException {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			
-			@Override
-			public SeekableByteChannel position(long arg0) throws IOException {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public long position() throws IOException {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-		};
+		return new MTGByteChannel((MTGPath)path);
 	}
 
 	@Override
@@ -182,7 +133,9 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
 		try {
-			dao.saveCollection(((MTGPath)dir).getStringFileName());
+			if(dir.startsWith("Collections"))
+				dao.saveCollection(((MTGPath)dir).getStringFileName());
+			
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

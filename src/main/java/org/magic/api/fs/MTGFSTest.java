@@ -3,7 +3,6 @@ package org.magic.api.fs;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 
 import org.magic.api.interfaces.MTGDao;
@@ -20,8 +19,12 @@ public class MTGFSTest {
 		
 		try(FileSystem fs = new MTGFileSystem(dao))
 		{
-			Path root = fs.getPath("/");
-			Files.list(root).forEach(System.out::println);
+			MTGPath p = (MTGPath)fs.getPath("Collections/Commandes/LRW/Purity");
+			
+			byte[] b = Files.readAllBytes(p);
+			
+			System.out.println(new String(b));
+			
 		}
 		
 		

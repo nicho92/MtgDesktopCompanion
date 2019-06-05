@@ -25,10 +25,6 @@ public class WebDAVServer extends AbstractMTGServer {
 	public static String LOG = "user";
 	public static String PAS = "password";
 	
-	public static void main(String[] args) throws IOException {
-		new WebDAVServer().start();
-	}
-	
 	@Override
 	public void start() throws IOException {
 		server = new Server(getInt(SERVER_PORT));
