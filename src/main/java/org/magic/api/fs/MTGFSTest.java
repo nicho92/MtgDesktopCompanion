@@ -21,9 +21,7 @@ public class MTGFSTest {
 		try(FileSystem fs = new MTGFileSystem(dao))
 		{
 			Path root = fs.getPath("/");
-			Files.list(root).forEach(p->{
-				System.out.println(p.toFile());
-			});
+			Files.list(root).forEach(System.out::println);
 		}
 		
 		

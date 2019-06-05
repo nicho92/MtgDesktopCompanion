@@ -1,6 +1,7 @@
-package org.beta;
+package org.magic.servers.impl;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
@@ -10,7 +11,6 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.Jetty;
 import org.magic.api.dav.WebDavMTGFileResourceFactory;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
@@ -22,7 +22,8 @@ public class WebDAVServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private Server server;
 	private static final String SERVER_PORT = "SERVER-PORT";
-
+	public static String LOG = "user";
+	public static String PAS = "password";
 	
 	public static void main(String[] args) throws IOException {
 		new WebDAVServer().start();
@@ -31,25 +32,36 @@ public class WebDAVServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		server = new Server(getInt(SERVER_PORT));
-	
+		
+		
+		LOG = getString("LOGIN");
+		PAS = getString("PASS");
+		
+		
 		ServletContextHandler ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		ctx.setContextPath("/");
 		
 		ServletHandler handler = new ServletHandler();
-		ServletHolder holderDav = new ServletHolder("default", new MiltonServlet());
-		ctx.addServlet(holderDav,"/");
+		
+		ctx.addServlet(new ServletHolder("default", new MiltonServlet()),"/");
+		
+		
 		FilterHolder fh = handler.addFilterWithMapping(MiltonFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 					 fh.setInitParameter("resource.factory.class", WebDavMTGFileResourceFactory.class.getCanonicalName());
-		
+					 
+					 
+					 
 		ctx.addFilter(fh, "/*", EnumSet.of(DispatcherType.REQUEST));
 					 
 		logger.trace(ctx.dump());
+	
 		ctx.setHandler(handler);
-		
 		server.setHandler(ctx);
 		
 		try {
 			server.start();
+			logger.info("Webdav start on port http://"+InetAddress.getLocalHost().getHostName() + ":"+getInt(SERVER_PORT));
+
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -67,7 +79,11 @@ public class WebDAVServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAlive() {
-		return server.isRunning();
+
+		if (server != null)
+			return server.isRunning();
+		else
+			return false;
 	}
 
 	@Override
@@ -77,25 +93,31 @@ public class WebDAVServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		// TODO Auto-generated method stub
-		return null;
+		return "WEBDAV access to collection";
 	}
 
 	@Override
 	public String getName() {
-		return "WebDAV Server";
+		return "WebDAV";
 	}
 	
 	@Override
 	public void initDefault() {
 		setProperty(SERVER_PORT, "8088");
 		setProperty(AUTOSTART, "false");
+		setProperty("LOGIN", LOG);
+		setProperty("PASS", PAS);
 	}
 
 	
 	@Override
 	public String getVersion() {
-		return Jetty.VERSION;
+		return "2.7.4.8";
+	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
 	}
 }
 

@@ -15,15 +15,16 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class MTGPath implements Path {
 
 	private FileSystem fs;
-	private URI uri;
 	private List<String> parts;
 
 	
@@ -96,7 +97,13 @@ public class MTGPath implements Path {
 	
 	public String getStringFileName()
 	{
-		return parts.get(parts.size()-1);
+		try {
+			return parts.get(parts.size()-1);
+		}
+		catch(Exception e)
+		{
+			return "/";
+		}
 	}
 
 	@Override
@@ -197,7 +204,7 @@ public class MTGPath implements Path {
 		return this.compareTo(other);
 	}
 
-	public boolean isDirectory()
+	public boolean isMtgPathRoot()
 	{
 		return parts.size()<=1;
 	}
@@ -228,19 +235,16 @@ public class MTGPath implements Path {
 			
 			@Override
 			public FileTime lastModifiedTime() {
-				// TODO Auto-generated method stub
-				return null;
+				return FileTime.fromMillis(new Date().getTime());
 			}
 			
 			@Override
 			public FileTime lastAccessTime() {
-				// TODO Auto-generated method stub
-				return null;
+				return FileTime.fromMillis(new Date().getTime());
 			}
 			
 			@Override
 			public boolean isSymbolicLink() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 			
@@ -267,8 +271,7 @@ public class MTGPath implements Path {
 			
 			@Override
 			public FileTime creationTime() {
-				// TODO Auto-generated method stub
-				return null;
+				return FileTime.fromMillis(new Date().getTime());
 			}
 		};
 	}
