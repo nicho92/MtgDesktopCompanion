@@ -21,8 +21,6 @@ public class MTGByteChannel implements SeekableByteChannel {
 	private byte[] content;
 	private long position;
 	protected Logger log = MTGLogger.getLogger(this.getClass());
-	private static final int CHUNK_SIZE = 1024;
-	
 	
 	public MTGByteChannel(MTGPath path, MTGDao dao) {
 		out = new ByteArrayOutputStream();
@@ -69,30 +67,23 @@ public class MTGByteChannel implements SeekableByteChannel {
 	@Override
 	public int read(ByteBuffer dst) throws IOException {
 		
-		int bytesRead = read(dst, position);
-	    if(bytesRead > 0) {
-	      position += bytesRead;
-	    }
-	    return bytesRead;
+		if (position > size()) {
+            position = size();
+        }
+		
+		int wanted = dst.remaining();
+        int possible = (int) (size() - position);
+        if (possible <= 0) {
+            return -1;
+        }
+       
+        if (wanted > possible) {
+            wanted = possible;
+        }
+        dst.put(content, (int)position, wanted);
+        position += wanted;
+        return wanted;
 	}
-	
-	private int read(ByteBuffer dst, long position) throws IOException {
-
-	    int numBytes = (int)Math.min(dst.remaining(), size() - position);
-	    int rem = numBytes;
-
-	    while(rem > 0) {
-	      int bytesRead = Math.min(rem, CHUNK_SIZE);
-	      dst.put(content, 0, bytesRead);
-	      rem -= bytesRead;
-	      position += bytesRead;
-	      
-	      System.out.println(rem);
-	      
-	    }
-	    
-	    return numBytes;
-	  }
 
 	
 
