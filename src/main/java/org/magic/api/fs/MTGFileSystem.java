@@ -8,13 +8,13 @@ import java.nio.file.PathMatcher;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 
@@ -22,12 +22,16 @@ public class MTGFileSystem extends FileSystem {
 
 	private FileSystemProvider provider;
 	protected Logger log = MTGLogger.getLogger(this.getClass());
-
+	private JsonExport serializer;
 
 	public MTGFileSystem(MTGDao mtgDao) {
+		serializer = new JsonExport();
 		this.provider = new MTGFileSystemProvider(this,mtgDao);
 	}
 	
+	public JsonExport getSerializer() {
+		return serializer;
+	}
 	
 	@Override
 	public FileSystemProvider provider() {

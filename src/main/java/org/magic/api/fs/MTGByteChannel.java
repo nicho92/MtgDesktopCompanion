@@ -11,17 +11,17 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 
 public class MTGByteChannel implements SeekableByteChannel {
 
 	private ByteArrayOutputStream out;
-	private ByteArrayInputStream in;
 	private byte[] content;
 	private long position;
 	protected Logger log = MTGLogger.getLogger(this.getClass());
-
+	private static final int CHUNK_SIZE = 1024;
 	
 	
 	public MTGByteChannel(MTGPath path, MTGDao dao) {
@@ -30,7 +30,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
 			
 			if(card.isPresent())
-				content = SerializationUtils.serialize(card.get());
+				content = ((MTGFileSystem)path.getFileSystem()).getSerializer().toJsonElement(card.get()).toString().getBytes();
 			else
 				content=new byte[0];
 			
@@ -65,19 +65,36 @@ public class MTGByteChannel implements SeekableByteChannel {
 		return this;
 	}
 
+	
 	@Override
 	public int read(ByteBuffer dst) throws IOException {
 		
-		while (dst.remaining()>0)
-		{
-			log.debug(dst.get(content));
-		}
-		
-		
-		return 1;
-			
-		
+		int bytesRead = read(dst, position);
+	    if(bytesRead > 0) {
+	      position += bytesRead;
+	    }
+	    return bytesRead;
 	}
+	
+	private int read(ByteBuffer dst, long position) throws IOException {
+
+	    int numBytes = (int)Math.min(dst.remaining(), size() - position);
+	    int rem = numBytes;
+
+	    while(rem > 0) {
+	      int bytesRead = Math.min(rem, CHUNK_SIZE);
+	      dst.put(content, 0, bytesRead);
+	      rem -= bytesRead;
+	      position += bytesRead;
+	      
+	      System.out.println(rem);
+	      
+	    }
+	    
+	    return numBytes;
+	  }
+
+	
 
 	@Override
 	public long size() throws IOException {

@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
+import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
 import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGLogger;
@@ -40,13 +41,13 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MTGPath mtgpath;
-	protected FileSystem fs;
+	protected MTGFileSystem fs;
 	protected boolean root;
 	protected String user;
 	protected String pass;
 	private List<Resource> children;
 	
-	public MTGDavFolderResource(MTGPath path, FileSystem fs, boolean root) {
+	public MTGDavFolderResource(MTGPath path, MTGFileSystem fs, boolean root) {
 		this.mtgpath=path;
 		this.fs=fs;
 		this.root=root;
@@ -159,12 +160,7 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 						
 				}
 		}
-		
-		System.out.println(getName() +" " + children);
-		
 		return children;
-		
-		
 	}
 
 	@Override

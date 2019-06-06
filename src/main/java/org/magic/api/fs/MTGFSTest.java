@@ -1,16 +1,15 @@
 package org.magic.api.fs;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.SeekableByteChannel;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.SerializationUtils;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
+
 
 public class MTGFSTest {
 
@@ -25,7 +24,17 @@ public class MTGFSTest {
 		{
 			MTGPath p = (MTGPath)fs.getPath("Collections/Library/WAR/Despark");
 			
-			SeekableByteChannel sbc = Files.newByteChannel(p, StandardOpenOption.READ);
+			try
+			{
+				byte[] b = Files.readAllBytes(p);
+				String mc = new String(b);
+				System.out.println(mc);
+				MagicCard c = new JsonExport().fromJson(mc,MagicCard.class);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 			
 		}
 		

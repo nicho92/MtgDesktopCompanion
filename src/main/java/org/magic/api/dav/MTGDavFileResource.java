@@ -10,9 +10,13 @@ import java.util.Map;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
+import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
 import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGLogger;
+
+import com.google.gson.JsonElement;
 
 import io.milton.http.Auth;
 import io.milton.http.FileItem;
@@ -33,12 +37,12 @@ public class MTGDavFileResource implements FileResource, DigestResource
 {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MTGPath mtgpath;
-	protected FileSystem fs;
+	protected MTGFileSystem fs;
 	protected boolean root;
 	protected String user;
 	protected String pass;
 	
-	public MTGDavFileResource(MTGPath path, FileSystem fs, boolean root) {
+	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, boolean root) {
 		this.mtgpath=path;
 		this.fs=fs;
 		this.root=root;
@@ -115,7 +119,7 @@ public class MTGDavFileResource implements FileResource, DigestResource
 	@Override
 	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException, NotAuthorizedException, BadRequestException, NotFoundException {
        
-		out.write("coucou".getBytes());
+		out.write(fs.getSerializer().toJsonElement(new String(Files.readAllBytes(mtgpath))).toString().getBytes());
 		
 	}
 
