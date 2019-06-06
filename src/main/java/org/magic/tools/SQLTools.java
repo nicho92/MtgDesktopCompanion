@@ -16,7 +16,7 @@ public class SQLTools
 	public SQLTools(String url, String user,String pass, boolean enable)
 	{
 		
-		  logger.debug("init connection to " + url);
+		  logger.debug("init connection to " + url + ", Pooling="+enable);
 		  dataSource =  new BasicDataSource();
           dataSource.setUrl(url);
           dataSource.setUsername(user);
@@ -30,6 +30,7 @@ public class SQLTools
           dataSource.setMaxIdle(8);
           dataSource.setInitialSize(3);
           dataSource.setMaxTotal(10);
+          
           
           if(!enable) {
 			  dataSource.setMinIdle(1);

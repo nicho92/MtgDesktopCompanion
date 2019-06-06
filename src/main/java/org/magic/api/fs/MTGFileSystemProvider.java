@@ -66,11 +66,14 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-		return new MTGByteChannel((MTGPath)path);
+		return new MTGByteChannel((MTGPath)path,dao);
 	}
 
 	@Override
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException {
+		if(((MTGPath)dir).isCard())
+			throw new IOException(dir + " is not a folder path");
+		
 		return new DirectoryStream<Path>() {
 		
 			private final AtomicBoolean closed = new AtomicBoolean();

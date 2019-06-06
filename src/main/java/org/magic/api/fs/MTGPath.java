@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.MagicCollection;
 
 public class MTGPath implements Path {
 
@@ -223,7 +224,22 @@ public class MTGPath implements Path {
 	{
 		return parts.size()==4;
 	}
-
+	
+	public MagicCollection getCollection()
+	{
+		return new MagicCollection(getParts().get(1));
+	}
+	
+	public String getIDEdition()
+	{
+		return getParts().get(2);
+	}
+	
+	public String getCardName()
+	{
+		return getParts().get(3);
+	}
+	
 	public BasicFileAttributes readAttributes() {
 		return new BasicFileAttributes() {
 			
