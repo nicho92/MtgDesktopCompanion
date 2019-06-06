@@ -1,28 +1,41 @@
 package org.magic.api.fs;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
+import java.util.Optional;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.services.MTGLogger;
 
 public class MTGByteChannel implements SeekableByteChannel {
 
-	ByteArrayOutputStream out;
-	byte[] content;
+	private ByteArrayOutputStream out;
+	private ByteArrayInputStream in;
+	private byte[] content;
 	private long position;
+	protected Logger log = MTGLogger.getLogger(this.getClass());
+
+	
 	
 	public MTGByteChannel(MTGPath path, MTGDao dao) {
 		out = new ByteArrayOutputStream();
 		try {
-			MagicCard card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst().get();
-			content = SerializationUtils.serialize(card);
+			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
+			
+			if(card.isPresent())
+				content = SerializationUtils.serialize(card.get());
+			else
+				content=new byte[0];
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		
 	}
@@ -57,7 +70,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 		
 		while (dst.remaining()>0)
 		{
-		
+			log.debug(dst.get(content));
 		}
 		
 		

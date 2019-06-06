@@ -2,8 +2,6 @@ package org.magic.api.fs;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.AccessMode;
 import java.nio.file.CopyOption;
@@ -38,7 +36,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 	private FileSystem fs;
 	
 	
-	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem, MTGDao mtgDao) throws SQLException {
+	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem, MTGDao mtgDao) {
 		this.dao=mtgDao;
 		this.fs = mtgFileSystem;
 	}
@@ -160,11 +158,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		MTGPath from = (MTGPath)source;
 		MTGPath to = (MTGPath)target;
 		
-		
 		System.out.println("copy " + from + " to " + to);
-		
-		
-		
 	}
 
 	@Override

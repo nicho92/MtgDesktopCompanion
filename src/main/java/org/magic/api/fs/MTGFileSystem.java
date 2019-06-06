@@ -25,11 +25,7 @@ public class MTGFileSystem extends FileSystem {
 
 
 	public MTGFileSystem(MTGDao mtgDao) {
-		try {
-			this.provider = new MTGFileSystemProvider(this,mtgDao);
-		} catch (SQLException e) {
-			log.error(e);
-		}
+		this.provider = new MTGFileSystemProvider(this,mtgDao);
 	}
 	
 	
