@@ -167,31 +167,31 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
        
 		
 		XmlWriter w = new XmlWriter(out);
-        w.open("html");
-        w.open("body");
-       	w.begin("h1").open().writeText(this.getName()).close();
-        w.open("table");
-        
-        if(!root)
-        	w.begin("tr").open().begin("a").writeAtt("href", "../").open().writeText("../").close();
-
-        for (Resource r : getChildren()) {
-            w.open("tr");
-            	w.open("td");
-		            if(root)
-		            {
-		            	w.begin("a").writeAtt("href", "/"+ r.getName()).open().writeText(r.getName()).close();	
-		            }
-		            else 
-		            {
-		           		w.begin("a").writeAtt("href", this.getName() +"/"+ r.getName()).open().writeText(r.getName()).close();
-		            }
-            w.close("td");
-            w.close("tr");
-        }
-        w.close("table");
-        w.close("body");
-        w.close("html");
+	        w.open("html");
+	        w.open("body");
+	       	w.begin("h1").open().writeText(this.getName()).close();
+	        w.open("table");
+	        
+	        if(!root)
+	        	w.begin("tr").open().begin("a").writeAtt("href", "../").open().writeText("../").close();
+	
+	        for (Resource r : getChildren()) {
+	            w.open("tr");
+	            	w.open("td");
+			            if(root)
+			            {
+			            	w.begin("a").writeAtt("href", "/"+ r.getName()).open().writeText(r.getName()).close();	
+			            }
+			            else 
+			            {
+			           		w.begin("a").writeAtt("href", this.getName() +"/"+ r.getName()).open().writeText(r.getName()).close();
+			            }
+	            w.close("td");
+	            w.close("tr");
+	        }
+	        w.close("table");
+	        w.close("body");
+	        w.close("html");
         w.flush();
 		
 	}

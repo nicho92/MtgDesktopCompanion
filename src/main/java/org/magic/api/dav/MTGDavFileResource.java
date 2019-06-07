@@ -106,12 +106,8 @@ public class MTGDavFileResource implements FileResource, DigestResource
 
 	@Override
 	public String checkRedirect(Request request) throws NotAuthorizedException, BadRequestException {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
-	
 
 	@Override
 	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException, NotAuthorizedException, BadRequestException, NotFoundException {
