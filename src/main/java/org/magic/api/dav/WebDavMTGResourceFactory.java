@@ -13,7 +13,7 @@ import io.milton.common.Path;
 import io.milton.http.ResourceFactory;
 import io.milton.resource.Resource;
 
-public class WebDavMTGFileResourceFactory implements ResourceFactory
+public class WebDavMTGResourceFactory implements ResourceFactory
 {
 	private MTGFileSystem fs;
 	protected Logger log = MTGLogger.getLogger(this.getClass());
@@ -21,7 +21,7 @@ public class WebDavMTGFileResourceFactory implements ResourceFactory
 	
 	
     
-	public WebDavMTGFileResourceFactory() throws SQLException {
+	public WebDavMTGResourceFactory() throws SQLException {
 		fs = new MTGFileSystem(MTGControler.getInstance().getEnabled(MTGDao.class));
 	}
 	

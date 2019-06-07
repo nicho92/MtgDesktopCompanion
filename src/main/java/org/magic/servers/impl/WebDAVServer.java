@@ -11,7 +11,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.magic.api.dav.WebDavMTGFileResourceFactory;
+import org.magic.api.dav.WebDavMTGResourceFactory;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
 import io.milton.servlet.MiltonFilter;
@@ -43,7 +43,7 @@ public class WebDAVServer extends AbstractMTGServer {
 		
 		
 		FilterHolder fh = handler.addFilterWithMapping(MiltonFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
-					 fh.setInitParameter("resource.factory.class", WebDavMTGFileResourceFactory.class.getCanonicalName());
+					 fh.setInitParameter("resource.factory.class", WebDavMTGResourceFactory.class.getCanonicalName());
 					 
 					 
 					 
