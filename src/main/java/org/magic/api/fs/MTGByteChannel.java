@@ -1,19 +1,19 @@
 package org.magic.api.fs;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Optional;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
+
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
+import kotlin.NotImplementedError;
 
 public class MTGByteChannel implements SeekableByteChannel {
 
@@ -23,6 +23,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 	protected Logger log = MTGLogger.getLogger(this.getClass());
 	
 	public MTGByteChannel(MTGPath path, MTGDao dao) {
+		
 		out = new ByteArrayOutputStream();
 		try {
 			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
@@ -94,8 +95,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 
 	@Override
 	public SeekableByteChannel truncate(long arg0) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IOException("truncate() not implemented");
 	}
 
 	@Override

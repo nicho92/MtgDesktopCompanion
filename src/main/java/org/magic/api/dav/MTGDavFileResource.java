@@ -2,7 +2,6 @@ package org.magic.api.dav;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.Map;
@@ -10,13 +9,11 @@ import java.util.Map;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
 import org.magic.servers.impl.WebDAVServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-
-import com.google.gson.JsonElement;
 
 import io.milton.http.Auth;
 import io.milton.http.FileItem;
@@ -118,9 +115,7 @@ public class MTGDavFileResource implements FileResource, DigestResource
 
 	@Override
 	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException, NotAuthorizedException, BadRequestException, NotFoundException {
-       
-		out.write(fs.getSerializer().toJsonElement(new String(Files.readAllBytes(mtgpath))).toString().getBytes());
-		
+		out.write(fs.getSerializer().toJsonElement(new String(Files.readAllBytes(mtgpath),MTGConstants.DEFAULT_ENCODING)).toString().getBytes());
 	}
 
 	

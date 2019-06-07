@@ -26,15 +26,18 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.services.MTGLogger;
 
 public class MTGFileSystemProvider extends FileSystemProvider {
 
 	private MTGDao dao;
 	private FileSystem fs;
-	
+	protected Logger log = MTGLogger.getLogger(this.getClass());
+
 	
 	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem, MTGDao mtgDao) {
 		this.dao=mtgDao;
@@ -262,6 +265,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
+		log.debug("reading " + attributes);
 		return null;
 	}
 
