@@ -12,9 +12,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
-import kotlin.NotImplementedError;
-
 public class MTGByteChannel implements SeekableByteChannel {
 
 	private ByteArrayOutputStream out;
