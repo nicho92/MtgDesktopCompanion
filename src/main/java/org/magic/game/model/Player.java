@@ -236,6 +236,11 @@ public class Player extends Observable implements Serializable {
 		logAction("Shuffle his library");
 
 	}
+	
+	public void drawHand()
+	{
+		drawCard(7);
+	}
 
 	public void drawCard(int number) {
 		for (int i = 0; i < number; i++) {
