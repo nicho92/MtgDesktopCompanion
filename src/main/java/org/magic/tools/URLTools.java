@@ -146,9 +146,9 @@ public class URLTools {
 	}
 	
 	
-	public static Document extractHtml(URL url) throws IOException
+	public static Document extractHtml(URL uri) throws IOException
 	{
-		return toHtml(extractAsString(url));
+		return toHtml(extractAsString(uri));
 	}
 	
 	public static org.w3c.dom.Document extractXML(URI url)  throws IOException

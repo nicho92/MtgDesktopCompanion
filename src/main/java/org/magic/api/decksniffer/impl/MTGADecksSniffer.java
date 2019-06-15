@@ -1,17 +1,22 @@
-package org.beta;
+package org.magic.api.decksniffer.impl;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGControler;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -23,12 +28,13 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 	private static final String TRUE = "true";
 	private static final String FALSE = "false";
 	private static final String FORMAT = "FORMAT";
-	private final String url="https://mtgadecks.net";
+	private static final String URL="https://mtgadecks.net";
 	
-	public static void main(String[] args) throws IOException {
-	 new MTGADecksSniffer().getDeckList();
-	} 
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
 	
 	@Override
 	public String[] listFilter() {
@@ -37,8 +43,37 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		MagicDeck d = new MagicDeck();
+				  d.setName(info.getName());
+				  d.setDescription("from " + getName() +" : " + info.getUrl());
+				  
+		Document doc = URLTools.extractHtml(info.getUrl().toURL());		  
+		
+		
+		Elements div = doc.select("p#mtga");
+		
+		
+		for(String s : div.html().split("<br>"))
+		{
+			if(!s.isEmpty())
+			{
+				
+				try {
+				AbstractMap.SimpleEntry<String,Integer> entry = (parseString(s));
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
+				d.getMap().put(mc, entry.getValue());
+				notify(mc);
+				}
+				catch(Exception e)
+				{
+					logger.error("error loading " + s + ":" +e);
+				}
+				
+			}
+		}
+		
+		
+		return d;
 	}
 
 	@Override
@@ -49,7 +84,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 		RequestBuilder e = RequestBuilder.build()
 				 .setClient(URLTools.newClient())
 				 .method(METHOD.GET)
-				 .url(url+"/serverSide")
+				 .url(URL+"/serverSide")
 				 .addHeader("x-requested-with", "XMLHttpRequest")
 				 .addContent("draw", "2")
 				 .addContent("start", "0")
@@ -92,21 +127,33 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				 arr.forEach(a->{
 					
 					 RetrievableDeck deck = new RetrievableDeck();
-					 
+					
+					 String name = URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").text();
+			 			name = name.substring(0,name.indexOf(" by "));
+			 			name = RegExUtils.replaceAll(name, "BO1","").trim();
+			 			deck.setName(name);
+				
 					 try {
-						deck.setUrl(new URI(url+URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").attr("href")));
+						deck.setUrl(new URI(URL+URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").attr("href")));
 					 } catch (URISyntaxException e1) {
 						logger.error(e1);
 					 }
 					 
+					 deck.setAuthor(URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("p").text());
+
 					 
-					 String name = URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").text();
-				 			name = name.substring(0,name.indexOf(" by "));
-				 			name = RegExUtils.replaceAll(name, "BO1","").trim();
+					 String colors = URLTools.toHtml(a.getAsJsonArray().get(1).getAsString()).select("img").attr("alt");
+					 StringBuilder deckColor = new StringBuilder();
+					
+					 for(int i=0;i<colors.length();i++)
+						 	deckColor.append("{").append(String.valueOf(colors.charAt(i)).toUpperCase()).append("}");
 					 
-					 deck.setName(name);
+					 deck.setColor(deckColor.toString());
 					 
-					 System.out.println(deck.getName());
+					 
+					 deck.setDescription(URLTools.toHtml(a.getAsJsonArray().get(2).getAsString()).text());
+
+					
 					 ret.add(deck);
 					 
 				 });
