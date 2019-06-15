@@ -1,88 +1,38 @@
 package org.beta;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.tools.RequestBuilder;
-import org.magic.tools.URLTools;
 import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.tools.URLTools;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
 
 public class MTGADecksSniffer extends AbstractDeckSniffer {
 
-	static String url="https://mtgadecks.net/serverSide?&draw=2"
-													 + "&columns[0][data]=0"
-													 + "&columns[0][name]=deckname"
-													 + "&columns[0][searchable]=false"
-													 + "&columns[0][orderable]=true"
-													 + "&columns[0][orderable]="
-													 + "&columns[0][search][regex]=false"
-													 + "&columns[1][data]=1"
-													 + "&columns[1][name]=colors"
-													 + "&columns[1][searchable]=false"
-													 + "&columns[1][orderable]=false"
-													 + "&columns[1][search][value]="
-													 + "&columns[1][search][regex]=false"
-													 + "&columns[2][data]=2"
-													 + "&columns[2][name]=archetype"
-													 + "&columns[2][searchable]=false"
-													 + "&columns[2][orderable]=false"
-													 + "&columns[2][search][value]="
-													 + "&columns[2][search][regex]=false"
-													 + "&columns[3][data]=3"
-													 + "&columns[3][name]=rares"
-													 + "&columns%5B3%5D%5Bsearchable%5D=false"
-													 + "&columns%5B3%5D%5Borderable%5D=true"
-													 + "&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D="
-													 + "&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false"
-													 + "&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=epics"
-													 + "&columns%5B4%5D%5Bsearchable%5D=false"
-													 + "&columns%5B4%5D%5Borderable%5D=true"
-													 + "&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D="
-													 + "&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false"
-													 + "&columns%5B5%5D%5Bdata%5D=5"
-													 + "&columns%5B5%5D%5Bname%5D=votes"
-													 + "&columns%5B5%5D%5Bsearchable%5D=false"
-													 + "&columns%5B5%5D%5Borderable%5D=true"
-													 + "&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D="
-													 + "&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false"
-													 + "&columns%5B6%5D%5Bdata%5D=6"
-													 + "&columns%5B6%5D%5Bname%5D=need"
-													 + "&columns%5B6%5D%5Bsearchable%5D=false"
-													 + "&columns%5B6%5D%5Borderable%5D=false"
-													 + "&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D="
-													 + "&columns%5B6%5D%5Bsearch%5D%5Bregex%5D=false"
-													 + "&columns%5B7%5D%5Bdata%5D=7"
-													 + "&columns%5B7%5D%5Bname%5D=real_update"
-													 + "&columns%5B7%5D%5Bsearchable%5D=false"
-													 + "&columns%5B7%5D%5Borderable%5D=true"
-													 + "&columns%5B7%5D%5Bsearch%5D%5Bvalue%5D="
-													 + "&columns%5B7%5D%5Bsearch%5D%5Bregex%5D=false"
-													 + "&order%5B0%5D%5Bcolumn%5D=7&order%5B0%5D%5Bdir%5D=desc"
-													 + "&start=0"
-													 + "&length=100"
-													 + "&search%5Bvalue%5D="
-													 + "&search%5Bregex%5D=false"
-													 + "&_token=tx65GvRoyo7PTpdnsIvnAtYr5trygtJY6qovUtWc"
-													 + "&data=_token%3Dtx65GvRoyo7PTpdnsIvnAtYr5trygtJY6qovUtWc%26title%3D%26rares%3D%26archetype%3D0%26epics%3D"
-													 + "&_=1559923966947";
-	
+	private static final String TRUE = "true";
+	private static final String FALSE = "false";
+	private static final String FORMAT = "FORMAT";
+	private final String url="https://mtgadecks.net";
 	
 	public static void main(String[] args) throws IOException {
-		JsonElement e = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(url).addHeader("x-requested-with", "XMLHttpRequest").toJson();
-		
-		System.out.println(e);
+	 new MTGADecksSniffer().getDeckList();
 	} 
 	
 	
 	@Override
 	public String[] listFilter() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] {"Control","Aggro","Combo","Midrange","Aggro-Control"};
 	}
 
 	@Override
@@ -93,14 +43,86 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<RetrievableDeck> ret = new ArrayList<>();
+		
+		RequestBuilder e = RequestBuilder.build()
+				 .setClient(URLTools.newClient())
+				 .method(METHOD.GET)
+				 .url(url+"/serverSide")
+				 .addHeader("x-requested-with", "XMLHttpRequest")
+				 .addContent("draw", "2")
+				 .addContent("start", "0")
+				 .addContent("length", "100")
+				 .addContent("search[value]", "")
+				 .addContent("search[regex]", FALSE)
+				 .addContent("draw", "2")
+				 .addContent("columns[0][data]","0")
+				 .addContent("columns[0][name]","deckname")
+				 .addContent("columns[0][searchable]",FALSE)
+				 .addContent("columns[0][orderable]",TRUE)
+				 .addContent("columns[0][orderable]","")
+				 .addContent("columns[0][search][regex]",FALSE)
+				 .addContent("columns[1][data]","1")
+				 .addContent("columns[1][name]","colors")
+				 .addContent("columns[1][searchable]",FALSE)
+				 .addContent("columns[1][orderable]",FALSE)
+				 .addContent("columns[1][search][value]","")
+				 .addContent("columns[1][search][regex]",FALSE)
+				 .addContent("columns[2][data]","2")
+				 .addContent("columns[2][name]","archetype")
+				 .addContent("columns[2][searchable]",FALSE)
+				 .addContent("columns[2][orderable]",FALSE)
+				 .addContent("columns[2][search][value]","")
+				 .addContent("columns[2][search][regex]",FALSE)
+				 .addContent("columns[3][name]","real_update")
+				 .addContent("columns[3][searchable]",FALSE)
+				 .addContent("columns[3][orderable]",TRUE)
+				 .addContent("columns[3][search][value]","")
+				 .addContent("columns[3][search][regex]",FALSE)
+				 .addContent("&order[0][column]","3")
+				 .addContent("&order[0][dir]","desc");
+				 
+				 if(!getString(FORMAT).isEmpty())
+					 e.addContent("data", "archetype="+ArrayUtils.indexOf(listFilter(), getString(FORMAT)));
+					 
+					 
+				 JsonArray arr = e.toJson().getAsJsonObject().get("data").getAsJsonArray();
+
+				 arr.forEach(a->{
+					
+					 RetrievableDeck deck = new RetrievableDeck();
+					 
+					 try {
+						deck.setUrl(new URI(url+URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").attr("href")));
+					 } catch (URISyntaxException e1) {
+						logger.error(e1);
+					 }
+					 
+					 
+					 String name = URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").text();
+				 			name = name.substring(0,name.indexOf(" by "));
+				 			name = RegExUtils.replaceAll(name, "BO1","").trim();
+					 
+					 deck.setName(name);
+					 
+					 System.out.println(deck.getName());
+					 ret.add(deck);
+					 
+				 });
+
+				return ret;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "MTGADecks";
 	}
 
+	@Override
+	public void initDefault() {
+		setProperty(FORMAT, "");
+	}
+
+	
 }
