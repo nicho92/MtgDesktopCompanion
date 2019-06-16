@@ -47,7 +47,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			String id = e.get(i).select("div.num_commande").text();
 			String link = e.get(i).attr("href");
 			String date = e.get(i).select("div.hide_mobile").first().html();
-			entries.addAll(parse(URLTools.toHtml(client.doGet(urlBase+link)),id,UITools.parseDate(date,"mm/dd/yy")));
+			entries.addAll(parse(URLTools.toHtml(client.doGet(urlBase+link)),id,UITools.parseDate(date,"MM/dd/yy")));
 			
 		}
 		return entries;
