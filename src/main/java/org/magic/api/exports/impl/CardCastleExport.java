@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -25,11 +24,7 @@ public class CardCastleExport extends AbstractCardExport {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		new CardCastleExport().importDeck(new File("D:\\Desktop\\export_cardcastle_1560684679.csv"));
-	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -68,7 +63,7 @@ public class CardCastleExport extends AbstractCardExport {
 		for(String s : lines)
 		{
 			try {
-			String columns[] = s.split(String.valueOf(separator));
+			String[] columns = s.split(String.valueOf(separator));
 			String  cardName = columns[0];
 			String editionName = columns[1];
 			if(columns[0].contains("\""))
