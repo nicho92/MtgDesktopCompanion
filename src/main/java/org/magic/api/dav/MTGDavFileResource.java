@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
-import org.jfree.util.Log;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
 import org.magic.servers.impl.WebDAVServer;
@@ -128,11 +127,7 @@ public class MTGDavFileResource implements FileResource, DigestResource
 
 	@Override
 	public Long getContentLength() {
-		try {
-			return Files.size(mtgpath);
-		} catch (IOException e) {
-			return 0L;
-		}
+		return null;
 	}
 	
 	@Override
@@ -145,7 +140,6 @@ public class MTGDavFileResource implements FileResource, DigestResource
 		try {
 			Files.deleteIfExists(mtgpath);
 		} catch (IOException e) {
-			Log.error("error delete()",e);
 			throw new BadRequestException(this);
 		}
 	}

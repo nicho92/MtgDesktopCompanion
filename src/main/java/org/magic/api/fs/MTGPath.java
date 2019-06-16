@@ -243,7 +243,6 @@ public class MTGPath implements Path {
 			
 			@Override
 			public long size() {
-				// TODO Auto-generated method stub
 				return 0;
 			}
 			
