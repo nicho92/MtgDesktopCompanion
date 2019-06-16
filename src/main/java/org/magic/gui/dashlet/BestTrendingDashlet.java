@@ -185,7 +185,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		
+		UITools.initTableFilter(table);
 		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
