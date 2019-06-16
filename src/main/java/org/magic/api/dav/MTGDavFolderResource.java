@@ -229,6 +229,7 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 
 	@Override
 	public Resource createNew(String newName, InputStream inputStream, Long length, String contentType)throws IOException, ConflictException, NotAuthorizedException, BadRequestException {
+		logger.debug("create new " + newName + " " + length + " " + contentType);
 		return null;
 	}
 

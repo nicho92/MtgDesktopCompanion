@@ -1,5 +1,6 @@
 package org.magic.api.fs;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
@@ -19,14 +20,17 @@ import java.nio.file.attribute.FileStoreAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
@@ -36,13 +40,13 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	private MTGDao dao;
 	private FileSystem fs;
-	protected Logger log = MTGLogger.getLogger(this.getClass());
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
 	public MTGFileSystemProvider(MTGFileSystem mtgFileSystem, MTGDao mtgDao) {
 		this.dao=mtgDao;
 		this.fs = mtgFileSystem;
 	}
+	
 	
 	@Override
 	public String getScheme() {
@@ -150,7 +154,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 	public void delete(Path path) throws IOException {
 		MTGPath from = (MTGPath)path;
 		
-		System.out.println("delete " + from);
+		logger.debug("delete " + from);
 		
 		
 	}
@@ -161,7 +165,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		MTGPath from = (MTGPath)source;
 		MTGPath to = (MTGPath)target;
 		
-		System.out.println("copy " + from + " to " + to);
+		logger.debug("copy " + from + " to " + to);
 	}
 
 	@Override
@@ -170,7 +174,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		MTGPath to = (MTGPath)target;
 		
 		
-		System.out.println("move " + from + " to " + to);
+		logger.debug("move " + from + " to " + to);
 		
 		
 	}
@@ -249,7 +253,52 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void checkAccess(Path path, AccessMode... modes) throws IOException {
-		throw new NotImplementedException("Not Implemented");
+		
+		MTGPath p = (MTGPath)path;
+		
+		if(p.isCollection())
+		{
+			try {
+				if(dao.getCollection(p.getStringFileName())==null)
+					throw new FileNotFoundException(path + " not exist");
+			} catch (SQLException e) {
+				throw new IOException(e.getMessage());
+			}
+			
+		}
+		
+		if(p.isEdition())
+		{
+			try {
+				List<String> eds = dao.listEditionsIDFromCollection(p.getCollection());
+				if(!eds.contains(p.getStringFileName()))
+					throw new FileNotFoundException(path + " not exist");
+				
+			} catch (SQLException e) {
+				throw new IOException(e.getMessage());
+			}
+			
+		}
+		
+		if(p.isCard())
+		{
+			try {
+				
+				List<MagicCard> cards = dao.listCardsFromCollection(p.getCollection(), new MagicEdition(p.getIDEdition()));
+				
+				Optional<MagicCard> mc = cards.stream().filter(c->c.getName().equalsIgnoreCase(p.getStringFileName())).findFirst();
+						
+				if(!mc.isPresent())
+					throw new FileNotFoundException(path + " not exist");
+				
+			} catch (SQLException e) {
+				throw new IOException(e.getMessage());
+			}
+			
+		}
+		
+		
+		
 		
 	}
 
@@ -265,7 +314,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-		log.debug("reading " + attributes);
+		logger.debug("reading " + attributes);
 		return null;
 	}
 

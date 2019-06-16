@@ -29,11 +29,15 @@ public class WebDavMTGResourceFactory implements ResourceFactory
 	
     @Override
     public Resource getResource(String host, String url) {
-        log.debug("getResource: host: " + host + " - url:" + url);
+        log.trace("getResource: host: " + host + " - url:" + url);
         
         Path ioPath = Path.path(url);
         MTGPath mtgpath = (MTGPath) fs.getPath(ioPath.toPath());
         
+        if(mtgpath.getStringFileName().equals("desktop.ini"))
+        	return null;
+        
+     
         if(mtgpath.isCard())
         	return new MTGDavFileResource(mtgpath,fs,ioPath.isRoot());
         else
@@ -41,6 +45,4 @@ public class WebDavMTGResourceFactory implements ResourceFactory
 
      }
     
-    
-	
 }
