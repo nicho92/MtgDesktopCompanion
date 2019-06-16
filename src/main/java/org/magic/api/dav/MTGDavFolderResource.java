@@ -234,23 +234,22 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 
 	@Override
 	public CollectionResource createCollection(String newName)throws NotAuthorizedException, ConflictException, BadRequestException {
-		System.out.println("create new " + newName);
+		logger.debug("create new " + newName);
 		
 		return null;
 	}
 
 	
 	@Override
-	public void copyTo(CollectionResource toCollection, String name)
-			throws NotAuthorizedException, BadRequestException, ConflictException {
-		// TODO Auto-generated method stub
+	public void copyTo(CollectionResource toCollection, String name)throws NotAuthorizedException, BadRequestException, ConflictException {
+		logger.debug("copyTo " + toCollection + " " + name);
 		
 	}
 
 	@Override
-	public void moveTo(CollectionResource rDest, String name)
-			throws ConflictException, NotAuthorizedException, BadRequestException {
-		// TODO Auto-generated method stub
+	public void moveTo(CollectionResource toCollection, String name)throws ConflictException, NotAuthorizedException, BadRequestException {
+		logger.debug("moveTo " + toCollection + " " + name);
+		
 		
 	}
 

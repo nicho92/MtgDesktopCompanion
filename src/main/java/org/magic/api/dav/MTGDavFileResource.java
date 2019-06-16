@@ -14,6 +14,7 @@ import org.magic.api.fs.MTGPath;
 import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 
 import io.milton.http.Auth;
 import io.milton.http.FileItem;
@@ -122,12 +123,16 @@ public class MTGDavFileResource implements FileResource, DigestResource
 
 	@Override
 	public String getContentType(String accepts) {
-		return "text/json";
+		return URLTools.HEADER_JSON;
 	}
 
 	@Override
 	public Long getContentLength() {
-		return null;
+		try {
+			return Files.size(mtgpath);
+		} catch (IOException e) {
+			return 0L;
+		}
 	}
 	
 	@Override
@@ -146,23 +151,22 @@ public class MTGDavFileResource implements FileResource, DigestResource
 	}
 	
 	@Override
-	public void copyTo(CollectionResource toCollection, String name)
-			throws NotAuthorizedException, BadRequestException, ConflictException {
-		// TODO Auto-generated method stub
+	public void copyTo(CollectionResource toCollection, String name)throws NotAuthorizedException, BadRequestException, ConflictException {
+		logger.debug("copyTo " + toCollection + " " + name);
 		
 	}
 
 	@Override
-	public void moveTo(CollectionResource rDest, String name)
-			throws ConflictException, NotAuthorizedException, BadRequestException {
-		// TODO Auto-generated method stub
+	public void moveTo(CollectionResource toCollection, String name)throws ConflictException, NotAuthorizedException, BadRequestException {
+		logger.debug("moveTo " + toCollection + " " + name);
+		
 		
 	}
 
 	@Override
-	public String processForm(Map<String, String> parameters, Map<String, FileItem> files)
-			throws BadRequestException, NotAuthorizedException, ConflictException {
-		// TODO Auto-generated method stub
+	public String processForm(Map<String, String> parameters, Map<String, FileItem> files) throws BadRequestException, NotAuthorizedException, ConflictException {
+		logger.debug("processForm " + parameters + " " + files);
+		
 		return null;
 	}
 

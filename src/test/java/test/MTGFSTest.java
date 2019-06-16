@@ -1,20 +1,23 @@
-package org.magic.api.fs;
+package test;
 
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.sql.SQLException;
 
+import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.fs.MTGFileSystem;
+import org.magic.api.fs.MTGPath;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 
 
 public class MTGFSTest {
 
-	
-	public static void main(String[] args) throws IOException, SQLException {
+	@Test
+	public void testFS() throws IOException, SQLException {
 		
 		
 		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
@@ -30,6 +33,7 @@ public class MTGFSTest {
 				String mc = new String(b);
 				System.out.println(mc);
 				MagicCard c = new JsonExport().fromJson(mc,MagicCard.class);
+				System.out.println(c);
 			}
 			catch(Exception e)
 			{
