@@ -34,7 +34,7 @@ public class CardTraderPricer extends AbstractMagicPricesProvider {
 		
 		String ret = RequestBuilder.build().setClient(URLTools.newClient()).url(URL).method(METHOD.GET).addContent("token", getString("TOKEN")).execute();
 		
-		System.out.println(ret);
+		logger.info(ret);
 		
 		return prices;
 		

@@ -86,6 +86,10 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 				cs.setDateUpdate(new Date());
 				cs.setCurrency(Currency.getInstance("USD"));
 				ret.addShake(cs);
+				
+				logger.debug(cs);
+				
+				notify(cs);
 		});
 		return ret;
 	}

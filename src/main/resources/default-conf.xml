@@ -191,6 +191,10 @@
         	<class>org.magic.servers.impl.JMXServer</class>
         	<enable>true</enable>
         </server>
+        <server>
+            <class>org.magic.servers.impl.WebDAVServer</class>
+            <enable>true</enable>
+        </server>
     </servers>
     <notifiers>
         <notifier>
@@ -523,6 +527,10 @@
         </export>
         <export>
             <class>org.magic.api.exports.impl.EchoMTGExport</class>
+            <enable>true</enable>
+        </export>
+        <export>
+            <class>org.magic.api.exports.impl.CardCastleExport</class>
             <enable>true</enable>
         </export>
     </deckexports>

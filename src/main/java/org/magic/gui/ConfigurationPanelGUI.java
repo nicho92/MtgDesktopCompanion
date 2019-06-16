@@ -36,12 +36,13 @@ import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import javax.swing.JLabel;
 
 public class ConfigurationPanelGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane subTabbedProviders ;
-	
+	private JLabel lblCopyright;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -70,6 +71,9 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 		subTabbedProviders = new JTabbedPane(JTabbedPane.TOP);
 		providerConfigPanel.add(subTabbedProviders);
+		
+		lblCopyright = new JLabel("New label");
+		providerConfigPanel.add(lblCopyright, BorderLayout.SOUTH);
 
 		
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD, false,MTGControler.getInstance().getPlugins(MTGCardsProvider.class));
@@ -122,6 +126,10 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		table.addTreeSelectionListener(e -> {
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
 				((PluginTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
+			
+			
+			lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition());
+			
 		});
 		table.packAll();
 
