@@ -140,9 +140,12 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
+		
+		MTGPath direct = (MTGPath)dir;
+		
 		try {
-			if(dir.startsWith("Collections"))
-				dao.saveCollection(((MTGPath)dir).getStringFileName());
+			if(dir.startsWith("Collections") && direct.isCollection())
+				dao.saveCollection(direct.getCollection());
 			
 		} catch (SQLException e) {
 			throw new IOException(e);

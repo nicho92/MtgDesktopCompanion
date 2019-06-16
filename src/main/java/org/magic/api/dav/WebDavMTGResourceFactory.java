@@ -1,5 +1,7 @@
 package org.magic.api.dav;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -11,6 +13,9 @@ import org.magic.services.MTGLogger;
 
 import io.milton.common.Path;
 import io.milton.http.ResourceFactory;
+import io.milton.http.exceptions.BadRequestException;
+import io.milton.http.exceptions.ConflictException;
+import io.milton.http.exceptions.NotAuthorizedException;
 import io.milton.resource.Resource;
 
 public class WebDavMTGResourceFactory implements ResourceFactory
@@ -34,10 +39,6 @@ public class WebDavMTGResourceFactory implements ResourceFactory
         Path ioPath = Path.path(url);
         MTGPath mtgpath = (MTGPath) fs.getPath(ioPath.toPath());
         
-        if(mtgpath.getStringFileName().equals("desktop.ini"))
-        	return null;
-        
-     
         if(mtgpath.isCard())
         	return new MTGDavFileResource(mtgpath,fs,ioPath.isRoot());
         else

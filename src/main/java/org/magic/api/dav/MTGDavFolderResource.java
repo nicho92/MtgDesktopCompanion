@@ -235,7 +235,8 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 
 	@Override
 	public CollectionResource createCollection(String newName)throws NotAuthorizedException, ConflictException, BadRequestException {
-		logger.debug("create new " + newName);
+		
+		logger.debug("createCollection " + mtgpath + "/" + newName);
 		
 		return null;
 	}
