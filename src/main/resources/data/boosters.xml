@@ -1266,6 +1266,16 @@
 		<bundle lang="en" url="https://www.parkage.com/files/img/products/magic/coffrets/imgprdt_mtg_ss2_01.jpg"/>
 	</edition>
 	<edition id="M20">
+		<box lang="en" url="https://media.wizards.com/2019/images/daily/iouBbUvcyn.png"/>
+		<booster num="1" lang="en" url="https://media.wizards.com/2019/images/daily/GS5aosx4dw.png"/>
+		<booster num="2" lang="en" url="https://media.wizards.com/2019/images/daily/ULsmnu22YW.png"/>
+		<booster num="3" lang="en" url="https://media.wizards.com/2019/images/daily/MlSXolmm4G.png"/>
+		<constructpack num="1" lang="en" url="https://media.wizards.com/2019/images/daily/BR2czMwyHU.png"/>
+		<constructpack num="2" lang="en" url="https://media.wizards.com/2019/images/daily/YB8xDEPqEL.png"/>
+		<constructpack num="3" lang="en" url="https://media.wizards.com/2019/images/daily/FOlBnwliA5.png"/>
+		<constructpack num="4" lang="en" url="https://media.wizards.com/2019/images/daily/RcUBA0DiyH.png"/>
+		<constructpack num="5" lang="en" url="https://media.wizards.com/2019/images/daily/MhLByWcwVS.png"/>
+		<bundle lang="en" url="https://media.wizards.com/2019/images/daily/Uo589miyJQ.png"/>
 		<banner lang="en" url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png"/>
 	</edition>
 	
