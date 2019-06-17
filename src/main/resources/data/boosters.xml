@@ -1265,7 +1265,9 @@
 		<banner lang="en" url="https://www.mtgpics.com/graph/sets/logos_big/ss2.png"/>
 		<bundle lang="en" url="https://www.parkage.com/files/img/products/magic/coffrets/imgprdt_mtg_ss2_01.jpg"/>
 	</edition>
-	
+	<edition id="M20">
+		<banner lang="en" url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png"/>
+	</edition>
 	
 	
 </boosterUrls>
