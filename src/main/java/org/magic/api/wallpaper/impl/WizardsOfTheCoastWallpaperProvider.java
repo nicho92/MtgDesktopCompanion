@@ -78,11 +78,6 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	}
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
-
-	@Override
 	public void initDefault() {
 		setProperty("URL", "https://magic.wizards.com/en/see-more-wallpaper");
 		

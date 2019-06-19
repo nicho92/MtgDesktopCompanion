@@ -21,10 +21,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		return "Email";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
+	
 
 	@Override
 	public void initDefault() {

@@ -78,7 +78,7 @@
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
-		    <version>2.4.1</version>
+		    <version>2.4.2</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.xerial</groupId>
@@ -113,7 +113,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.ALPHA.0_108</version>
+			  <version>4.BETA.0_3</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -381,7 +381,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-        <version>3.11.0-beta3</version>
+        <version>3.11.0-beta4</version>
     </dependency>
 	
 	</dependencies>

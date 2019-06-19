@@ -77,11 +77,6 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		return "RSS";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
-
 
 	@Override
 	public void initDefault() {

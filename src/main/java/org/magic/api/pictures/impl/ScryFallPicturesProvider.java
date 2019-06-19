@@ -24,11 +24,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Boolean scryfallProvider = null;
 	
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
-
 	public ScryFallPicturesProvider() {
 		super();
 		if(getBoolean(LOAD_CERTIFICATE))

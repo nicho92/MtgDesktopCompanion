@@ -70,10 +70,6 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		return "Art of Mtg";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
 
 	@Override
 	public void initDefault() {

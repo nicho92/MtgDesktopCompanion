@@ -63,10 +63,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	public String getVersion() {
 		return JDAInfo.VERSION;
 	}
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
+	
 	
 	private void initListener()
 	{
