@@ -575,8 +575,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		btnMassCollection.addActionListener(ae -> {
 			MassCollectionImporterDialog diag = new MassCollectionImporterDialog();
-	
-			if(magicEditionDetailPanel.getMagicEdition().getId()!=null)
+
+			if(magicEditionDetailPanel.getMagicEdition()!=null)
 				diag.setDefaultEdition(magicEditionDetailPanel.getMagicEdition());
 			
 			diag.setVisible(true);
