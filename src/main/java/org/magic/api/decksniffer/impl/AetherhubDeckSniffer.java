@@ -3,6 +3,7 @@ package org.magic.api.decksniffer.impl;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,12 +13,14 @@ import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.jsoup.nodes.Document;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
@@ -87,15 +90,25 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 			}
 			else if(!StringUtils.isBlank(line))
 			{
+			
+				SimpleEntry<String, Integer> entry = parseString(line);
 				
-				Integer qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
-				String cardName = line.substring(line.indexOf(' '), line.length()).trim();
 				
-				notify(cardName);
+				try {
+				
+				
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
+				
+				notify(mc);
 				if(sideboard)
-					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0), qte);
+					deck.getMapSideBoard().put(mc, entry.getValue());
 				else
-					deck.getMap().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0), qte);
+					deck.getMap().put(mc, entry.getValue());
+				}
+				catch(Exception e)
+				{
+					logger.error("couldn't not find " + entry.getKey());
+				}
 			}
 		}
 		return deck;
