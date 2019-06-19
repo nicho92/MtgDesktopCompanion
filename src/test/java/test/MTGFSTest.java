@@ -1,13 +1,12 @@
 package test;
 
 import java.io.IOException;
-import java.nio.file.FileSystem;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
 
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
 import org.magic.api.interfaces.MTGDao;
@@ -23,17 +22,26 @@ public class MTGFSTest {
 		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		dao.init();
 		
-		try(FileSystem fs = new MTGFileSystem(dao))
+		try(MTGFileSystem fs = new MTGFileSystem(dao))
 		{
-			MTGPath p = (MTGPath)fs.getPath("Collections/Library/WAR/Despark");
+			MTGPath pth = (MTGPath)fs.getPath("Collections/Library/WAR/Despark");
 			
 			try
 			{
-				byte[] b = Files.readAllBytes(p);
-				String mc = new String(b);
-				System.out.println(mc);
-				MagicCard c = new JsonExport().fromJson(mc,MagicCard.class);
-				System.out.println(c);
+				byte[] b = Files.readAllBytes(pth);
+				System.out.println(Files.exists(pth));
+				
+				MagicCard card = fs.getSerializer().fromJson(new String(b), MagicCard.class);
+				System.out.println(card);
+				
+				Path c = Files.createDirectory(new MTGPath(fs, "Collections", "Test"));
+				
+				Files.write(c.resolve("Despark 2"),Files.readAllBytes(pth));
+				
+				Files.list(c).forEach(p->{
+					System.out.println(p);
+				});
+				
 			}
 			catch(Exception e)
 			{

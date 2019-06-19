@@ -39,6 +39,7 @@ public class MTGDavFileResource implements FileResource, DigestResource
 	protected String user;
 	protected String pass;
 	
+	
 	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, boolean root) {
 		this.mtgpath=path;
 		this.fs=fs;
