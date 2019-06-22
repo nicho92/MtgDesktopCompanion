@@ -322,7 +322,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void setAttribute(Path path, String attribute, Object value, LinkOption... options) throws IOException {
-		
+		logger.debug("reading " + path + "atts :"+attribute + " " + value );
 	}
 
 }

@@ -12,7 +12,7 @@ import org.magic.services.MTGControler;
 
 public class WebUIServerLauncher {
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
+	public static void main(String[] args) throws SQLException, IOException {
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
 		MTGControler.getInstance().getPlugin(new JSONHttpServer().getName(), MTGServer.class).start();

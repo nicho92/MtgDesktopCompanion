@@ -229,7 +229,8 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	
 	@Override
 	public String termsAndCondition() {
-		return "Copyright" + '\u00A9' + " "+ Calendar.getInstance().get(Calendar.YEAR) + " " + getName() + ", All rights reserved.";
+		return "Copyright" + '\u00A9' + " "+ Calendar.getInstance().get(Calendar.YEAR) + ", All data are property of "+ getName();
+
 	}
 	
 	

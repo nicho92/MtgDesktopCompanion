@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 
 public class EchoMTGDashBoard extends AbstractDashBoard {
 
+	private static final String WEBSITE = "www.echomtg.com";
 	private URLToolsClient client;
 	
 	
@@ -53,7 +54,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
 				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
 				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
-				 .addHeader(URLTools.HOST, "www.echomtg.com")
+				 .addHeader(URLTools.HOST, WEBSITE)
 				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 				 .toJson().getAsJsonArray();
 		
@@ -80,7 +81,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
 				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
 				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
-				 .addHeader(URLTools.HOST, "www.echomtg.com")
+				 .addHeader(URLTools.HOST, WEBSITE)
 				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL+id.get("url").getAsString())
 				 .toJson().getAsJsonArray();
 		
@@ -113,7 +114,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 		 .url(EchoMTGExport.BASE_URL+"/set/"+ed.getId().toUpperCase()+"/"+ed.getSet().replaceAll(" ", "-").toLowerCase()+"/")
-		 .addHeader(URLTools.HOST, "www.echomtg.com")
+		 .addHeader(URLTools.HOST, WEBSITE)
 		 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 		 .toHtml();
 		
@@ -160,9 +161,12 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/groups/"+filter+"/")
-				 .addHeader(URLTools.HOST, "www.echomtg.com")
+				 .addHeader(URLTools.HOST, WEBSITE)
 				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 				 .toHtml();
+		
+		
+		logger.debug(d);
 		
 		ArrayList<CardDominance> list = new ArrayList<>();
 		
@@ -182,8 +186,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected List<CardShake> getOnlineShakerFor(FORMATS gameFormat) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return  new ArrayList<>();
 	}
 
 

@@ -9,6 +9,7 @@ import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -82,7 +83,7 @@ public class MTGFileSystem extends FileSystem {
 	@Override
 	public Set<String> supportedFileAttributeViews() {
 		// TODO Auto-generated method stub
-		return null;
+		return new HashSet<>();
 	}
 
 	@Override

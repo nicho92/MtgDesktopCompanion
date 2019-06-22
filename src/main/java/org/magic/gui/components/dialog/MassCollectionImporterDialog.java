@@ -38,7 +38,6 @@ public class MassCollectionImporterDialog extends JDialog {
 	private static final String NUMBER = "number";
 	private static final long serialVersionUID = 1L;
 	private String[] ids;
-	private JTextPane txtNumbersInput;
 	private MagicDeck deck;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JComboBox<MagicEdition> cboEditions;
@@ -120,7 +119,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		panneauBas.add(progressBar);
 
-		txtNumbersInput = new JTextPane();
+		JTextPane txtNumbersInput = new JTextPane();
 
 		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
 

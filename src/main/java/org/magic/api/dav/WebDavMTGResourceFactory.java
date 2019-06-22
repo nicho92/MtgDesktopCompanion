@@ -1,7 +1,5 @@
 package org.magic.api.dav;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -13,9 +11,6 @@ import org.magic.services.MTGLogger;
 
 import io.milton.common.Path;
 import io.milton.http.ResourceFactory;
-import io.milton.http.exceptions.BadRequestException;
-import io.milton.http.exceptions.ConflictException;
-import io.milton.http.exceptions.NotAuthorizedException;
 import io.milton.resource.Resource;
 
 public class WebDavMTGResourceFactory implements ResourceFactory

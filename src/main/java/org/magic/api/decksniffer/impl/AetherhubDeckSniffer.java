@@ -20,7 +20,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 

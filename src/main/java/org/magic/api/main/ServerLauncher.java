@@ -18,8 +18,20 @@ public class ServerLauncher {
 			MTGLogger.getLogger(ServerLauncher.class).info("Usage : ServerLauncher <server name>");
 			System.exit(-1);
 		}
+		
+		MTGServer serv = MTGControler.getInstance().getPlugin(args[0], MTGServer.class);
+		if(!serv.isEnable())
+		{
+			MTGLogger.getLogger(ServerLauncher.class).error(args[0] + " is not enabled");
+			System.exit(-1);
+		}
+	
+		
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		MTGControler.getInstance().getPlugin(args[0], MTGServer.class).start();
+		
+		serv.start();
+		
+		
 	}
 }

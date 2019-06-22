@@ -122,11 +122,6 @@ public class JTagsPanel extends JComponent {
 		tags.forEach(this::addLabel);
 
 	}
-	
-	public List<String> getTags() {
-		return tags;
-	}
-	
 
 	public void setColors(Color background, Color foreground) {
 		this.fontBackground = background;
