@@ -22,10 +22,8 @@ public interface MTGPlugin {
 
 	public void setProperty(String k, Object value);
 
-	public void setProperty(String k, String value);
-	
 	public String getString(String k);
-
+	
 	public boolean isEnable();
 
 	public void save();

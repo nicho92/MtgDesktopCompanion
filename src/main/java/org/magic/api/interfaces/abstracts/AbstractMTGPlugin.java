@@ -101,17 +101,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public Properties getProperties() {
 		return props;
 	}
-	
-	@Override
-	public void setProperty(String k, String value) {
-		logger.debug("setProperty " + k + "="+value);
-		if (value == null)
-			value = "";
-
-		props.put(k, value);
-		save();
-		
-	}
 
 	@Override
 	public void setProperty(String k, Object value) {
