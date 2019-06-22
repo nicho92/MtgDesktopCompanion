@@ -55,6 +55,8 @@ public class MTGControler {
 	private MTGControler() {
 		
 		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
+		
+		
 		if (!conf.exists())
 			try {
 				logger.info(conf+" file doesn't exist. creating one from default file");
@@ -74,7 +76,7 @@ public class MTGControler {
 		
 		
 		Parameters params = new Parameters();
-		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
+		builder = new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
 				.configure(params.xml()
 				.setFile(conf)
 				.setSchemaValidation(false)

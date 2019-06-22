@@ -29,12 +29,13 @@ public class MTGFSTest {
 			try
 			{
 				byte[] b = Files.readAllBytes(pth);
-				System.out.println(Files.exists(pth));
-				
 				MagicCard card = fs.getSerializer().fromJson(new String(b), MagicCard.class);
 				System.out.println(card);
 				
-				Path c = Files.createDirectory(new MTGPath(fs, "Collections", "Test"));
+				Path c = new MTGPath(fs, "Collections", "Test");
+				
+				if(!Files.exists(c))
+					Files.createDirectory(c);
 				
 				Files.write(c.resolve("Despark 2"),Files.readAllBytes(pth));
 				

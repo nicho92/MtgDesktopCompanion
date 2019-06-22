@@ -17,7 +17,7 @@ public class MemoryTools {
 
 	private MemoryTools() {	}
 	
-	public static List<MemoryInfo> getStat(Object classe)
+	public static List<MemoryInfo> getStats(Object classe)
 	{
 		logger.trace("Analyze " + classe);
 		Multiset<Class<?>> size = GraphLayout.parseInstance(classe).getClassSizes();
