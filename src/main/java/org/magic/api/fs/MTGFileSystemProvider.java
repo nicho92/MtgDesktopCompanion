@@ -70,7 +70,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-		return new MTGByteChannel((MTGPath)path,dao);
+		return new MTGByteChannel((MTGPath)path,dao,options,attrs);
 	}
 
 	@Override

@@ -4,8 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
+import java.nio.file.OpenOption;
+import java.nio.file.attribute.FileAttribute;
 import java.util.Optional;
+import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -15,25 +19,21 @@ import org.magic.services.MTGLogger;
 public class MTGByteChannel implements SeekableByteChannel {
 
 	private ByteArrayOutputStream out;
-	private byte[] content;
 	private long position;
-	protected Logger log = MTGLogger.getLogger(this.getClass());
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	private MTGPath path;
+	private MTGDao dao;
+	private byte[] content;
+	private FileAttribute<?>[] attrs;
 	
-	public MTGByteChannel(MTGPath path, MTGDao dao) {
+	public MTGByteChannel(MTGPath path, MTGDao dao, Set<? extends OpenOption> options, FileAttribute<?>[] attrs) {
 		
+		logger.debug("new ByteChannel for " + path + " opts : " + options + " " + ArrayUtils.toString(attrs));
 		out = new ByteArrayOutputStream();
-		try {
-			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
-			
-			if(card.isPresent())
-				content = ((MTGFileSystem)path.getFileSystem()).getSerializer().toJsonElement(card.get()).toString().getBytes();
-			else
-				content=new byte[0];
-			
-		} catch (Exception e) {
-			log.error(e);
-		}
-		
+		this.path=path;
+		this.dao=dao;
+		this.attrs = attrs;
+		content = new byte[0];
 	}
 
 	@Override
@@ -64,6 +64,14 @@ public class MTGByteChannel implements SeekableByteChannel {
 	
 	@Override
 	public int read(ByteBuffer dst) throws IOException {
+		
+		try {
+			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
+			if(card.isPresent())
+				content = ((MTGFileSystem)path.getFileSystem()).getSerializer().toJsonElement(card.get()).toString().getBytes();
+		} catch (Exception e) {
+			logger.error(e);
+		}
 		
 		if (position > size()) {
             position = size();
@@ -103,6 +111,16 @@ public class MTGByteChannel implements SeekableByteChannel {
 	      src.get(buf);
 	      out.write(buf);
 	    }
+	    
+		//((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(out , classe)
+		
+		
+		
+		
+		
+	    
+	    
+	    
 	    return len;
 	}
 
