@@ -2,12 +2,14 @@ package org.magic.api.beans;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -83,6 +85,17 @@ public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
 	{
 		return getLastValueAt(1);
 	}
+	
+	public Entry<Date, Double> getHigher()
+	{
+		return Collections.max(variations.entrySet(), (Entry<Date,Double> e1, Entry<Date,Double> e2) -> e1.getValue().compareTo(e2.getValue()));
+	}
+	
+	public Entry<Date, Double> getLower()
+	{
+		return Collections.min(variations.entrySet(), (Entry<Date,Double> e1, Entry<Date,Double> e2) -> e1.getValue().compareTo(e2.getValue()));
+	}
+	
 	
 	public List<Entry<Date, Double>> asList()
 	{
