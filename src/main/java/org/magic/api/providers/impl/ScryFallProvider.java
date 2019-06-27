@@ -129,20 +129,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (me != null)
 			url.append("%20").append(URLTools.encode("e:" + me.getId()));
 
-		HttpURLConnection con;
-		JsonReader reader;
 		boolean hasMore = true;
 		while (hasMore) {
 
 			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING.displayName()));
-			con = URLTools.openConnection(url.toString());
-
-			if (!URLTools.isCorrectConnection(con))
-				return list;
-
 			try {
-				reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-				JsonElement el = parser.parse(reader);
+				JsonElement el = URLTools.extractJson(url.toString()) ;
 
 				if (att.equals("id")) {
 					list.add(loadCard(el.getAsJsonObject(), exact, crit));
