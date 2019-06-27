@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
 import javax.imageio.ImageIO;
@@ -43,7 +44,10 @@ public class URLTools {
 	
 	private URLTools()	{}
 	
-	
+	public static String encode(String s)
+	{
+		return URLEncoder.encode(s, MTGConstants.DEFAULT_ENCODING);
+	}
 
 	public static String extractAsString(URL url,Charset enc) throws IOException
 	{

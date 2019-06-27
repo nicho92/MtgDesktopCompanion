@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 public class ParkagePricer extends AbstractMagicPricesProvider {
@@ -27,7 +25,7 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 
 		ArrayList<MagicPrice> ret= new ArrayList<>();
 		
-		URLTools.extractHtml(URL_BASE+"/en/search/?text="+URLEncoder.encode(card.getName(),MTGConstants.DEFAULT_ENCODING)+"&page=1&products_per_page=50&page_view=3")
+		URLTools.extractHtml(URL_BASE+"/en/search/?text="+URLTools.encode(card.getName())+"&page=1&products_per_page=50&page_view=3")
 		.select("table.table-condensed > tbody > tr")
 		.forEach(tr->{
 			

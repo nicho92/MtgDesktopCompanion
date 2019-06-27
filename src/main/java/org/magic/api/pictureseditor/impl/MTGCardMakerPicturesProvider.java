@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +12,6 @@ import java.util.regex.Pattern;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.URLTools;
 
@@ -88,7 +86,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		return new URL(
 				"http://www.mtgcardmaker.com/mcmaker/createcard.php?" + "name="
-						+ URLEncoder.encode(String.valueOf(mc.getName()), MTGConstants.DEFAULT_ENCODING.displayName()) + "&color=" + color + "&mana_r="
+						+ URLTools.encode(String.valueOf(mc.getName())) + "&color=" + color + "&mana_r="
 						+ (mc.getCost().contains("{R}") ? String.valueOf(count(mc.getCost(), "{R}")) : "0") + "&mana_u="
 						+ (mc.getCost().contains("{U}") ? String.valueOf(count(mc.getCost(), "{U}")) : "0") + "&mana_g="
 						+ (mc.getCost().contains("{G}") ? String.valueOf(count(mc.getCost(), "{G}")) : "0") + "&mana_b="
@@ -96,14 +94,13 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						+ (mc.getCost().contains("{W}") ? String.valueOf(count(mc.getCost(), "{W}")) : "0")
 						+ "&mana_colorless="
 						+ powerorloyalty(mc)
-						+ "&picture=" + "&supertype=" + "&cardtype=" + URLEncoder.encode(mc.getFullType(), MTGConstants.DEFAULT_ENCODING.displayName())
+						+ "&picture=" + "&supertype=" + "&cardtype=" + URLTools.encode(mc.getFullType())
 						+ "&subtype=" + "&expansion=" + "&rarity=" + mc.getRarity() + "&cardtext="
-						+ URLEncoder.encode(
-								String.valueOf(mc.getText()), MTGConstants.DEFAULT_ENCODING.displayName())
+						+ URLTools.encode(String.valueOf(mc.getText()))
 						+ "&power=" + mc.getPower() + "&toughness=" + mc.getToughness() + "&artist="
-						+ URLEncoder.encode(String.valueOf(mc.getArtist()), MTGConstants.DEFAULT_ENCODING.displayName()) + "&bottom="
-						+ URLEncoder.encode("\u2122 & \u00A9 1993-" + Calendar.getInstance().get(Calendar.YEAR)
-								+ " Wizards of the Coast LLC", MTGConstants.DEFAULT_ENCODING.displayName())
+						+ URLTools.encode(String.valueOf(mc.getArtist())) + "&bottom="
+						+ URLTools.encode("\u2122 & \u00A9 1993-" + Calendar.getInstance().get(Calendar.YEAR)
+								+ " Wizards of the Coast LLC")
 						+ "&set1=" + "&set2=" + "&setname=");
 
 	}
