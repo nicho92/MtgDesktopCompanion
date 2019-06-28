@@ -7,7 +7,8 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
 [![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
-[![GitHub stars](https://img.shields.io/badge/Release-2.6-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[![GitHub stars](https://img.shields.io/badge/download-2.7-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+
 [Give me a tips !](https://www.paypal.me/nicolaspihen)
 
 
@@ -111,3 +112,5 @@ Get news from your favorites sites :
 Manage your card with the reponsive web UI :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png)
+
+
