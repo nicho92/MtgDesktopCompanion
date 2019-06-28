@@ -569,6 +569,10 @@
             <class>org.magic.api.wallpaper.impl.ImgUrWallPaperProvider</class>
             <enable>false</enable>
         </wallpaper>
+        <wallpaper>
+            <class>org.magic.api.wallpaper.impl.DeviantArtWallpaperProvider</class>
+            <enable>false</enable>
+        </wallpaper>
     </wallpapers>
   
 </conf>

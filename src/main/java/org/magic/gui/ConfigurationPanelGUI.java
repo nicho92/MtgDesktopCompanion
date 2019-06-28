@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -36,7 +37,6 @@ import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import javax.swing.JLabel;
 
 public class ConfigurationPanelGUI extends MTGUIComponent {
 

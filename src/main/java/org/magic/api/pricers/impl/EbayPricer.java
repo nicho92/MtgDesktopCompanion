@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -32,7 +30,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 		setProperty("KEYWORD", keyword);
 
-		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING.displayName());
+		keyword = URLTools.encode(keyword);
 
 		String link = url.replaceAll("%KEYWORD%", keyword);
 		

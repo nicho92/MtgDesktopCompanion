@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
@@ -47,7 +45,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 						MagicPrice mp = new MagicPrice();
 						mp.setSeller(getName());
 						mp.setUrl("http://store.eudogames.com/products/search?query="
-								+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()));
+								+ URLTools.encode(card.getName()));
 						mp.setSite(getName());
 						mp.setValue(f);
 						mp.setCurrency("USD");

@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
@@ -30,7 +28,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		ArrayList<MagicPrice> list = new ArrayList<>();
 	
-		Document root = URLTools.extractHtml(baseUrl+"/products/search?query="+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()));
+		Document root = URLTools.extractHtml(baseUrl+"/products/search?query="+ URLTools.encode(card.getName()));
 		
 		Elements lis = root.select("ul.products li div.meta");
 		

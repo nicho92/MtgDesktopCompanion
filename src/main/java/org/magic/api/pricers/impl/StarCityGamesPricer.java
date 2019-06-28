@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 public class StarCityGamesPricer extends AbstractMagicPricesProvider {
@@ -24,7 +22,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
-		String cardName = URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName());
+		String cardName = URLTools.encode(card.getName());
 		
 		logger.debug(getName() + " looking for price " + getString("URL")+cardName);
 		

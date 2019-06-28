@@ -6,12 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 
@@ -30,7 +28,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");
-		String msg = URLEncoder.encode(notification.getMessage(),MTGConstants.DEFAULT_ENCODING.displayName());
+		String msg = URLTools.encode(notification.getMessage());
 		
 		if(msg.length()>4096)
 		{

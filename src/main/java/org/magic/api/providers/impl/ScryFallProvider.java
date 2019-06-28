@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -117,33 +116,25 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				url.append(CARDS);
 				
 		if (att.equals(NAME))
-			url.append(SEARCH_Q).append(URLEncoder.encode("++" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING.displayName()));
+			url.append(SEARCH_Q).append(URLTools.encode("++" + comparator + " include:extras"));
 		else if (att.equals("custom"))
-			url.append(SEARCH_Q).append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING.displayName()));
+			url.append(SEARCH_Q).append(URLTools.encode(crit));
 		else if (att.equals("set"))
-			url.append(SEARCH_Q).append(URLEncoder.encode("++e:" + crit, MTGConstants.DEFAULT_ENCODING.displayName()));
+			url.append(SEARCH_Q).append(URLTools.encode("++e:" + crit));
 		else if (att.equals("id"))
-			url.append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING.displayName()));
+			url.append(URLTools.encode(crit));
 		else
-			url.append(SEARCH_Q).append(URLEncoder.encode(att + ":" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING.displayName()));
+			url.append(SEARCH_Q).append(URLTools.encode(att + ":" + comparator + " include:extras"));
 
 		if (me != null)
-			url.append("%20").append(URLEncoder.encode("e:" + me.getId(), MTGConstants.DEFAULT_ENCODING.displayName()));
+			url.append("%20").append(URLTools.encode("e:" + me.getId()));
 
-		HttpURLConnection con;
-		JsonReader reader;
 		boolean hasMore = true;
 		while (hasMore) {
 
 			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING.displayName()));
-			con = URLTools.openConnection(url.toString());
-
-			if (!URLTools.isCorrectConnection(con))
-				return list;
-
 			try {
-				reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-				JsonElement el = parser.parse(reader);
+				JsonElement el = URLTools.extractJson(url.toString()) ;
 
 				if (att.equals("id")) {
 					list.add(loadCard(el.getAsJsonObject(), exact, crit));
@@ -539,7 +530,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void initOtherEdition(MagicCard mc) throws IOException {
 
-		String url = baseURI + "/cards/search?q=+" + URLEncoder.encode("++!\"" + mc.getName() + "\"", MTGConstants.DEFAULT_ENCODING.displayName())
+		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")
 				+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
 
 		logger.trace("initOtherEdition " + URLDecoder.decode(url, MTGConstants.DEFAULT_ENCODING.displayName()));

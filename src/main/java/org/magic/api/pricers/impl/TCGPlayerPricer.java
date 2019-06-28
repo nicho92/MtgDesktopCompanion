@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -36,9 +34,9 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		String set = "";
 
 		if (me == null)
-			set = URLEncoder.encode(card.getCurrentSet().getSet(), MTGConstants.DEFAULT_ENCODING.displayName());
+			set = URLTools.encode(card.getCurrentSet().getSet());
 		else
-			set = URLEncoder.encode(me.getSet(), MTGConstants.DEFAULT_ENCODING.displayName());
+			set = URLTools.encode(me.getSet());
 
 		if (set.contains("Edition"))
 			set = set.replaceAll("Edition", "");

@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -43,7 +42,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 				.append("&version=").append("2018-06-28")
 				.append("&scope=").append(getString("SCOPE"))
 				.append("&nbproductsperpage=").append(getString("NB_PRODUCT_PAGE"))
-				.append("&kw=").append(URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING.displayName()))
+				.append("&kw=").append(URLTools.encode(card.getName()))
 				.append("&nav=").append(getString("CATEGORIE"));
 
 			logger.debug(getName() + " parsing items from " + url);
