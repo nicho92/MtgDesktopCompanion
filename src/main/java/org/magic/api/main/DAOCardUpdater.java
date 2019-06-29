@@ -13,7 +13,7 @@ import org.magic.services.MTGLogger;
 public class DAOCardUpdater {
 	private static Logger logger = MTGLogger.getLogger(DAOCardUpdater.class);
 	
-	public static void main(String[] args) throws SQLException, ClassNotFoundException{
+	public static void main(String[] args) throws SQLException{
 		
 		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		dao.init();
