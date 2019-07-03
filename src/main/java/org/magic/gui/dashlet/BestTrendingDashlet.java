@@ -53,6 +53,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private JCheckBox boxM;
 	private JCheckBox boxV;
 	private JCheckBox boxL;
+	private JCheckBox boxP;
 	private JComboBox<PricesCardsShakeSorter.SORT> cboSorter;
 	
 
@@ -87,7 +88,10 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.LEGACY));
 					if (boxV.isSelected())
 						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.VINTAGE));
-					if(shakes.isEmpty())
+					if (boxP.isSelected())
+						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PAUPER));
+				
+					if(!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected() && !boxP.isSelected())
 						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null));
 					
 					
@@ -98,6 +102,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					setProperty("MDN", String.valueOf(boxM.isSelected()));
 					setProperty("LEG", String.valueOf(boxL.isSelected()));
 					setProperty("VIN", String.valueOf(boxV.isSelected()));
+					setProperty("PAU", String.valueOf(boxP.isSelected()));
 					setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
 					
 					
@@ -120,7 +125,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 					Collections.sort(ret, new PricesCardsShakeSorter((SORT)cboSorter.getSelectedItem(),false));
 					modStandard.init(ret);
-					table.setModel(modStandard);
+					//table.setModel(modStandard);
 					modStandard.fireTableDataChanged();
 					table.setRowSorter(new TableRowSorter(modStandard));
 					table.packAll();
@@ -162,6 +167,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		boxV = new JCheckBox("V");
 		boxV.setAction(a);
 		boxV.setText("VIN");
+		boxP = new JCheckBox("V");
+		boxP.setAction(a);
+		boxP.setText("PAU");
 
 		spinner = new JSpinner();
 		spinner.addChangeListener(ce -> init());
@@ -177,6 +185,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(boxM);
 		panneauHaut.add(boxL);
 		panneauHaut.add(boxV);
+		panneauHaut.add(boxP);
 		panneauHaut.add(cboSorter);
 		
 		modStandard = new CardShakerTableModel();
