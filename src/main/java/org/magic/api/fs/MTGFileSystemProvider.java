@@ -75,6 +75,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException {
+		
 		if(((MTGPath)dir).isCard())
 			throw new IOException(dir + " is not a folder path");
 		
@@ -139,6 +140,8 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
+		
+		logger.debug("createDirectory " + dir + " "  + attrs);
 		
 		MTGPath direct = (MTGPath)dir;
 		

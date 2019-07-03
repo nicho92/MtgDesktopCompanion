@@ -1,11 +1,11 @@
 package org.magic.api.fs;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.OpenOption;
 import java.nio.file.attribute.FileAttribute;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,37 +14,37 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class MTGByteChannel implements SeekableByteChannel {
 
-	private ByteArrayOutputStream out;
 	private long position;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGPath path;
 	private MTGDao dao;
 	private byte[] content;
-	private FileAttribute<?>[] attrs;
+	private boolean open;
 	
 	public MTGByteChannel(MTGPath path, MTGDao dao, Set<? extends OpenOption> options, FileAttribute<?>[] attrs) {
 		
 		logger.debug("new ByteChannel for " + path + " opts : " + options + " " + ArrayUtils.toString(attrs));
-		out = new ByteArrayOutputStream();
+		
 		this.path=path;
 		this.dao=dao;
-		this.attrs = attrs;
 		content = new byte[0];
+		open=true;
 	}
 
 	@Override
 	public void close() throws IOException {
-		out.close();
+		open=false;
 
 	}
 
 	@Override
 	public boolean isOpen() {
-		return out!=null;
+		return open;
 	}
 
 	@Override
@@ -91,8 +91,6 @@ public class MTGByteChannel implements SeekableByteChannel {
         return wanted;
 	}
 
-	
-
 	@Override
 	public long size() throws IOException {
 		return content.length;
@@ -109,18 +107,15 @@ public class MTGByteChannel implements SeekableByteChannel {
 	    byte[] buf = new byte[len];
 	    while (src.hasRemaining()) {
 	      src.get(buf);
-	      out.write(buf);
 	    }
 	    
-		//((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(out , classe)
+	    MagicCard mc = ((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(new String(buf) , MagicCard.class);
 		
-		
-		
-		
-		
-	    
-	    
-	    
+		try {
+			MTGControler.getInstance().saveCard(mc, path.getCollection(), null);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	    return len;
 	}
 
