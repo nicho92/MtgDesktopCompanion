@@ -26,20 +26,8 @@ public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements M
 	
 	@Override
 	public void send(String notification) throws IOException {
-		MTGNotification nt = new MTGNotification("",notification,MESSAGE_TYPE.INFO);
-		send(nt);
+		send(new MTGNotification("",notification,MESSAGE_TYPE.INFO));
 	}
-	
-	
-	public void notify(String title, String msg) throws IOException
-	{
-		MTGNotification notif = new MTGNotification();
-		notif.setMessage(msg);
-		notif.setTitle(title);
-		notif.setType(MESSAGE_TYPE.NONE);
-		send(notif);
-	}
-	
 
 	@Override
 	public PLUGINS getType() {
