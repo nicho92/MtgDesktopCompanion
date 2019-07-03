@@ -121,7 +121,7 @@ public class WallpaperGUI extends MTGUIComponent {
 			c.gridy = 0;
 			lblLoad.start();
 			
-			SwingWorker<List<Wallpaper>, Wallpaper> sw = new SwingWorker<List<Wallpaper>, Wallpaper>() {
+			SwingWorker<List<Wallpaper>, Wallpaper> sw = new SwingWorker<>() {
 
 				@Override
 				protected List<Wallpaper> doInBackground() throws Exception {
@@ -183,7 +183,7 @@ public class WallpaperGUI extends MTGUIComponent {
 				if (th.isSelected()) {
 					try {
 						MTGControler.getInstance().saveWallpaper(th.getWallpaper());
-
+						th.selected(false);
 					} catch (IOException e1) {
 						error = true;
 						MTGControler.getInstance().notify(e1);
