@@ -11,8 +11,13 @@ import org.magic.tools.MemoryTools;
 
 public class MemoryCache extends AbstractCacheProvider {
 
-	Map<String, BufferedImage> cache;
+	private Map<String, BufferedImage> cache;
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
+	
 	public MemoryCache() {
 		super();
 		cache = new HashMap<>();
