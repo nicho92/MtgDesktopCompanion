@@ -79,7 +79,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		if(((MTGPath)dir).isCard())
 			throw new IOException(dir + " is not a folder path");
 		
-		return new DirectoryStream<Path>() {
+		return new DirectoryStream<>() {
 		
 			private final AtomicBoolean closed = new AtomicBoolean();
 			private final AtomicBoolean iteratorReturned = new AtomicBoolean();
@@ -108,6 +108,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 					try {
 						dao.listCollections().forEach(c->paths.add(new MTGPath(fs, c.getName())));
 					} catch (SQLException e) {
+						logger.error(e);
 					}
 				}
 				else if(parts.size()==2)
@@ -117,6 +118,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 						dao.listEditionsIDFromCollection(c).forEach(ed->paths.add(new MTGPath(fs, parts.get(0),c.getName(),ed)));
 					} catch (SQLException e) 
 					{
+						logger.error(e);
 					}
 				}
 				else if(parts.size()==3)
@@ -127,6 +129,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 						dao.listCardsFromCollection(c,new MagicEdition(idEdition)).forEach(card->paths.add(new MTGPath(fs, parts.get(0),c.getName(),idEdition,card.getName())));
 					} catch (SQLException e) 
 					{
+						logger.error(e);
 					}
 				}
 				

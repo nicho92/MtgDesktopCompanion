@@ -2,13 +2,11 @@ package org.magic.api.wallpaper.impl;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.gui.WallpaperGUI;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
