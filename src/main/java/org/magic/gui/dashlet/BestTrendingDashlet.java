@@ -125,9 +125,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 					Collections.sort(ret, new PricesCardsShakeSorter((SORT)cboSorter.getSelectedItem(),false));
 					modStandard.init(ret);
-					//table.setModel(modStandard);
-					modStandard.fireTableDataChanged();
-					table.setRowSorter(new TableRowSorter(modStandard));
+					table.setRowSorter(new TableRowSorter<CardShakerTableModel>(modStandard));
 					table.packAll();
 					table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				} catch (Exception e) {
