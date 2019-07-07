@@ -83,7 +83,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 			
 		};
 
-		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
+		timer.scheduleAtFixedRate(tache, 0, getLong(TIMEOUT_MINUTE) * 60000);
 		logger.info("Server start with " + getString(TIMEOUT_MINUTE) + " min timeout");
 
 	}

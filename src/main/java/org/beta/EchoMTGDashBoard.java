@@ -158,6 +158,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	
 	@Override
 	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
+		ArrayList<CardDominance> list = new ArrayList<>();
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/groups/"+filter+"/")
@@ -168,7 +169,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		logger.debug(d);
 		
-		ArrayList<CardDominance> list = new ArrayList<>();
+		
 		
 		
 		return list;

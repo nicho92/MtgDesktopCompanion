@@ -46,20 +46,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		initConcordance();
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		MagicEdition me = new MagicEdition();
-		me.setSet("Ultimate Masters");
-		me.setId("UMA");
-		
-		MagicCard mc = new MagicCard();
-		mc.setName("Liliana of the Veil");
-		
-		new MTGoldFishDashBoard().getOnlinePricesVariation(mc, me);
-	}
-	
-	
-	
 	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		stop = false;
