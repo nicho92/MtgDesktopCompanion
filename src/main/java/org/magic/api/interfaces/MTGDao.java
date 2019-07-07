@@ -33,8 +33,6 @@ public interface MTGDao extends MTGPlugin {
 	public void saveCollection(MagicCollection c) throws SQLException;
 	public void saveCollection(String name) throws SQLException;
 	public void removeCollection(MagicCollection c) throws SQLException;
-
-	
 	public List<MagicCollection> listCollections() throws SQLException;
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException;
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException;

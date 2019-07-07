@@ -98,7 +98,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
 
 
-	public static final URL GROOVY_DIRECTORY = MTGConstants.class.getResource("/script/");
+	public static final URL SCRIPT_DIRECTORY = MTGConstants.class.getResource("/script/");
 	
 	public static final String HTML_TAG_TABLE = "table";
 	public static final String HTML_TAG_TBODY = "tbody";

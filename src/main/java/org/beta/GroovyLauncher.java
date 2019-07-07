@@ -1,11 +1,10 @@
 package org.beta;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
@@ -15,20 +14,29 @@ import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
 public class GroovyLauncher {
-
-	public static void main(String[] args) throws IOException, URISyntaxException, ResourceException, ScriptException {
-		Binding binding = new Binding();
-				binding.setProperty("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
-				binding.setProperty("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
-		
-				GroovyScriptEngine engine = new GroovyScriptEngine(new URL[] {MTGConstants.GROOVY_DIRECTORY});
-				engine.run("HelloWorld.gy", binding);
-				
-		//GroovyShell shell = new GroovyShell(GroovyLauncher.class.getClassLoader(), binding);
-		
-		//File script = new File(new File(MTGConstants.GROOVY_DIRECTORY.toURI()), "HelloWorld.gy");
-		//shell.evaluate(script);
+	
+	private Binding binding;
+	private GroovyScriptEngine engine;
+	
+	
+	public GroovyLauncher()
+	{
+		binding = new Binding();
+		binding.setVariable("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
+		binding.setVariable("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
+		binding.setVariable("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
+		engine = new GroovyScriptEngine(new URL[] {MTGConstants.SCRIPT_DIRECTORY});
 
 	}
-
+	
+	public String getName()
+	{
+		return "Groovy";
+	}
+	
+	public Object run(String scriptName) throws ResourceException, ScriptException
+	{
+		return engine.run(scriptName, binding);
+	}
+	
 }
