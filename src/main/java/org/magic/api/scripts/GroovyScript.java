@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.scripts;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,11 +24,8 @@ public class GroovyScript extends AbstractMTGScript {
 	public GroovyScript()
 	{
 		binding = new Binding();
-		binding.setVariable("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
-		binding.setVariable("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
-		binding.setVariable("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
 		engine = new GroovyScriptEngine(new URL[] {MTGConstants.SCRIPT_DIRECTORY});
-
+		
 	}
 	
 	@Override
@@ -46,6 +43,11 @@ public class GroovyScript extends AbstractMTGScript {
 	@Override
 	public Object run(String scriptName) throws ResourceException, ScriptException
 	{
+		
+		binding.setVariable("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
+		binding.setVariable("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
+		binding.setVariable("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
+		
 		return engine.run(scriptName+".groovy", binding);
 	}
 	
