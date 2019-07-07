@@ -3,6 +3,7 @@ static void main(String[] args) {
   {
   	 println item
   }
-
+	
+  return dao.listCollections()
 
 }
