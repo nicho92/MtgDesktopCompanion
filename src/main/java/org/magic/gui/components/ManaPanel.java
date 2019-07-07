@@ -4,8 +4,9 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +40,7 @@ public class ManaPanel extends JPanel {
 	int count = 0;
 
 	String manaCost;
-	private HashMap<String,Integer> map;
+	private Map<String,Integer> map;
 
 	public ManaPanel() {
 		fl.setAlignment(FlowLayout.LEFT);
@@ -76,7 +77,7 @@ public class ManaPanel extends JPanel {
 
 	private void init() {
 	
-		map = new HashMap<>();
+		map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		map.put("X", 21);
 		map.put("Y",22);
 		map.put("Z",23);
@@ -128,8 +129,7 @@ public class ManaPanel extends JPanel {
 			val = Integer.parseInt(el);
 		} catch (NumberFormatException ne) {
 			val= map.get(el);
-		
-		}
+		} 
 		List<Image> lst = new ArrayList<>();
 		
 		BufferedImage[] imgs = ImageTools.splitManaImage();
