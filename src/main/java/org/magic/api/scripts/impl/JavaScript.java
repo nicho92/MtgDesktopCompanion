@@ -1,4 +1,4 @@
-package org.magic.api.scripts;
+package org.magic.api.scripts.impl;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;

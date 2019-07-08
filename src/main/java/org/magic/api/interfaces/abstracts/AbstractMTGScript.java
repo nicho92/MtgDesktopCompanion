@@ -3,14 +3,10 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 
 import org.apache.commons.io.FileUtils;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGScript;
-import org.magic.api.scripts.GroovyScript;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;

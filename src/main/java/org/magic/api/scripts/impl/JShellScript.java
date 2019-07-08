@@ -1,4 +1,4 @@
-package org.magic.api.scripts;
+package org.magic.api.scripts.impl;
 
 import java.io.File;
 import java.io.IOException;

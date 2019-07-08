@@ -1,4 +1,4 @@
-package org.magic.api.scripts;
+package org.magic.api.scripts.impl;
 
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
