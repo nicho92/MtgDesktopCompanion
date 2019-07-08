@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 
 public class PluginEntry <T extends MTGPlugin>
 {
@@ -12,6 +13,7 @@ public class PluginEntry <T extends MTGPlugin>
 	private String element;
 	private boolean multiprovider;
 	private List<T> plugins;
+	private PLUGINS type;
 	
 	@Override
 	public String toString() {
@@ -28,8 +30,9 @@ public class PluginEntry <T extends MTGPlugin>
 
 	
 	
-	public PluginEntry (boolean multiprovider,String root, String element,String classpath)
+	public PluginEntry (boolean multiprovider,String root, String element,String classpath,PLUGINS type)
 	{
+		this.type=type;
 		this.root=root;
 		this.element=element;
 		this.classpath=classpath;
@@ -37,6 +40,9 @@ public class PluginEntry <T extends MTGPlugin>
 		plugins = new ArrayList<>();
 	}
 	
+	public PLUGINS getType() {
+		return type;
+	}
 	
 	public String getRoot() {
 		return root;

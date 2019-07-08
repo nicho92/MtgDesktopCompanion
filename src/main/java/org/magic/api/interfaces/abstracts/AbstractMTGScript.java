@@ -3,18 +3,31 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
+
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import org.apache.commons.io.FileUtils;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGScript;
+import org.magic.api.scripts.impl.JavaScript;
 import org.magic.services.MTGConstants;
-
-import groovy.util.ResourceException;
-import groovy.util.ScriptException;
+import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
 	
 	protected static final String DIR = "DIR";
+	
+	protected Bindings binds;
+	protected ScriptEngine engine;
+	
 	
 	public AbstractMTGScript() {
 		super();
@@ -36,11 +49,38 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 				logger.error("Error creating " + getFile(DIR),e);
 			}
 		
+	
+	}
+	
+	@Override
+	public boolean isJsr223() {
+		return true;
 	}
 	
 	
 	@Override
-	public Object run(File f) throws ResourceException, ScriptException {
+	public Object runContent(String content) throws ScriptException {
+		init();
+		return engine.eval(content,binds);
+	}
+	
+	protected void init() {
+		if(isJsr223()) {
+			engine = new ScriptEngineManager().getEngineByName(getName());
+			binds = engine.createBindings();
+			binds.put("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
+			binds.put("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
+			binds.put("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
+		}
+		else
+		{
+			logger.warn(getName() + " is not jsr223 compatible. engine property still null");
+		}
+	}
+
+
+	@Override
+	public Object run(File f) throws ScriptException {
 		try {
 			logger.debug("running " + f);
 			return runContent(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING));
@@ -51,7 +91,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	
 	
 	@Override
-	public Object run(String scriptName) throws ResourceException, ScriptException {
+	public Object run(String scriptName) throws ScriptException {
 		return run(Paths.get(getFile(DIR).getAbsolutePath(),scriptName+"."+getExtension()).toFile());
 	}
 
@@ -64,5 +104,4 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	public void initDefault() {
 		setProperty(DIR, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "scripts").toFile().getAbsolutePath());
 	}
-	
 }

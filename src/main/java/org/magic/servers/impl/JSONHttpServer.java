@@ -45,6 +45,7 @@ import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
@@ -53,6 +54,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
+import org.magic.services.PluginRegistry;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.URLTools;
 
@@ -154,6 +156,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 
 		before("/*", (request, response) -> {
@@ -455,25 +458,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/admin/plugins/list", getString(MIME), (request, response) -> {
-
 			JsonObject obj = new JsonObject();
-						obj.add(PLUGINS.PROVIDER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGCardsProvider.class)));
-						obj.add(PLUGINS.PICTURES.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGPictureProvider.class)));
-						obj.add(PLUGINS.PRICER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGPricesProvider.class)));
-						obj.add(PLUGINS.CACHE.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGPicturesCache.class)));
-						obj.add(PLUGINS.DAO.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGDao.class)));
-						obj.add(PLUGINS.DASHBOARD.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGDashBoard.class)));
-						obj.add(PLUGINS.DECKS.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGDeckSniffer.class)));
-						obj.add(PLUGINS.EXPORT.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGCardsExport.class)));
-						obj.add(PLUGINS.NEWS.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGNewsProvider.class)));
-						obj.add(PLUGINS.WALLPAPER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGWallpaperProvider.class)));
-						obj.add(PLUGINS.SHOPPER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGShopper.class)));
-						obj.add(PLUGINS.SERVER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGServer.class)));
-						obj.add(PLUGINS.NOTIFIER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGNotifier.class)));
-						obj.add(PLUGINS.EDITOR.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGPictureEditor.class)));
-						obj.add(PLUGINS.INDEXER.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGCardsIndexer.class)));
-						obj.add(PLUGINS.GENERATOR.name(), converter.convert(MTGControler.getInstance().getPlugins(MTGTextGenerator.class)));
-			
+			PluginRegistry.inst().entrySet().forEach(entry->obj.add(entry.getValue().getType().name(), converter.convert(MTGControler.getInstance().getPlugins(entry.getKey()))));
 			return obj;
 		}, transformer);
 		

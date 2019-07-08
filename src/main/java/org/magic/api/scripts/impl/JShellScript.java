@@ -1,16 +1,10 @@
 package org.magic.api.scripts.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGScript;
-import org.magic.services.MTGConstants;
-
-import groovy.util.ResourceException;
-import groovy.util.ScriptException;
+import javax.script.ScriptException;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 
@@ -27,12 +21,17 @@ public class JShellScript extends AbstractMTGScript {
 	}
 
 	@Override
-	public Object runContent(String content) throws ResourceException, ScriptException {
+	public Object runContent(String content) throws ScriptException {
 		JShell sh = JShell.create();
 			   sh.addToClasspath("org.magic.api.beans.*");
 		List<SnippetEvent> ret =  sh.eval(content);
 		logger.debug(ret);
 		return ret;
+	}
+	
+	@Override
+	public String getVersion() {
+		return SystemUtils.JAVA_VERSION;
 	}
 
 	@Override
@@ -40,5 +39,9 @@ public class JShellScript extends AbstractMTGScript {
 		return "Java";
 	}
 
+	@Override
+	public boolean isJsr223() {
+		return false;
+	}
 	
 }

@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.reflections.Reflections;
 
@@ -100,25 +101,25 @@ public class PluginRegistry {
 	
 	private void init()
 	{
-		registry.put(MTGNotifier.class, new PluginEntry<MTGNotifier>(true,"/notifiers","/notifier", "org.magic.api.notifiers.impl"));
-		registry.put(MTGDao.class, new PluginEntry<MTGDao>(false,"/daos","/dao", "org.magic.api.dao.impl"));
-		registry.put(MTGDashBoard.class, new PluginEntry<MTGDashBoard>(false,"/dashboards","/dashboard", "org.magic.api.dashboard.impl"));
-		registry.put(MTGDeckSniffer.class, new PluginEntry<MTGDeckSniffer>(true,"/decksniffer","/sniffer", "org.magic.api.decksniffer.impl"));
-		registry.put(MTGCardsExport.class, new PluginEntry<MTGCardsExport>(true,"/deckexports","/export", "org.magic.api.exports.impl"));
-		registry.put(MTGNewsProvider.class, new PluginEntry<MTGNewsProvider>(true,"/newsProvider","/news", "org.magic.api.news.impl"));
-		registry.put(MTGPicturesCache.class, new PluginEntry<MTGPicturesCache>(false,"/caches","/cache", "org.magic.api.cache.impl"));
-		registry.put(MTGPictureProvider.class, new PluginEntry<MTGPictureProvider>(false,"/pictures","/picture", "org.magic.api.pictures.impl"));
-		registry.put(MTGPricesProvider.class, new PluginEntry<MTGPricesProvider>(true,"/pricers","/pricer", "org.magic.api.pricers.impl"));
-		registry.put(MTGCardsProvider.class, new PluginEntry<MTGCardsProvider>(false,"/providers","/provider", "org.magic.api.providers.impl"));
-		registry.put(MTGServer.class, new PluginEntry<MTGServer>(true,"/servers","/server", "org.magic.servers.impl"));
-		registry.put(MTGShopper.class, new PluginEntry<MTGShopper>(true,"/shoppers","/shopper", "org.magic.api.shopping.impl"));
-		registry.put(MTGTokensProvider.class, new PluginEntry<MTGTokensProvider>(false,"/tokens","/token", "org.magic.api.tokens.impl"));
-		registry.put(MTGWallpaperProvider.class, new PluginEntry<MTGWallpaperProvider>(true,"/wallpapers","/wallpaper", "org.magic.api.wallpaper.impl"));
-		registry.put(MTGPictureEditor.class, new PluginEntry<MTGPictureEditor>(false,"/editors", "/editor", "org.magic.api.pictureseditor.impl"));
-		registry.put(MTGCardsIndexer.class, new PluginEntry<MTGCardsIndexer>(false, "/indexers", "/index", "org.magic.api.indexer.impl"));
-		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl"));
-		registry.put(MTGScript.class, new PluginEntry<MTGScript>(true, "/scripts", "/script", "org.magic.api.scripts.impl"));
-		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet"));
+		registry.put(MTGNotifier.class, new PluginEntry<MTGNotifier>(true,"/notifiers","/notifier", "org.magic.api.notifiers.impl",PLUGINS.NOTIFIER));
+		registry.put(MTGDao.class, new PluginEntry<MTGDao>(false,"/daos","/dao", "org.magic.api.dao.impl",PLUGINS.DAO));
+		registry.put(MTGDashBoard.class, new PluginEntry<MTGDashBoard>(false,"/dashboards","/dashboard", "org.magic.api.dashboard.impl",PLUGINS.DASHBOARD));
+		registry.put(MTGDeckSniffer.class, new PluginEntry<MTGDeckSniffer>(true,"/decksniffer","/sniffer", "org.magic.api.decksniffer.impl",PLUGINS.DECKS));
+		registry.put(MTGCardsExport.class, new PluginEntry<MTGCardsExport>(true,"/deckexports","/export", "org.magic.api.exports.impl",PLUGINS.EXPORT));
+		registry.put(MTGNewsProvider.class, new PluginEntry<MTGNewsProvider>(true,"/newsProvider","/news", "org.magic.api.news.impl",PLUGINS.NEWS));
+		registry.put(MTGPicturesCache.class, new PluginEntry<MTGPicturesCache>(false,"/caches","/cache", "org.magic.api.cache.impl",PLUGINS.CACHE));
+		registry.put(MTGPictureProvider.class, new PluginEntry<MTGPictureProvider>(false,"/pictures","/picture", "org.magic.api.pictures.impl",PLUGINS.PICTURES));
+		registry.put(MTGPricesProvider.class, new PluginEntry<MTGPricesProvider>(true,"/pricers","/pricer", "org.magic.api.pricers.impl",PLUGINS.PRICER));
+		registry.put(MTGCardsProvider.class, new PluginEntry<MTGCardsProvider>(false,"/providers","/provider", "org.magic.api.providers.impl",PLUGINS.PROVIDER));
+		registry.put(MTGServer.class, new PluginEntry<MTGServer>(true,"/servers","/server", "org.magic.servers.impl",PLUGINS.SERVER));
+		registry.put(MTGShopper.class, new PluginEntry<MTGShopper>(true,"/shoppers","/shopper", "org.magic.api.shopping.impl",PLUGINS.SHOPPER));
+		registry.put(MTGTokensProvider.class, new PluginEntry<MTGTokensProvider>(false,"/tokens","/token", "org.magic.api.tokens.impl",PLUGINS.TOKENS));
+		registry.put(MTGWallpaperProvider.class, new PluginEntry<MTGWallpaperProvider>(true,"/wallpapers","/wallpaper", "org.magic.api.wallpaper.impl",PLUGINS.WALLPAPER));
+		registry.put(MTGPictureEditor.class, new PluginEntry<MTGPictureEditor>(false,"/editors", "/editor", "org.magic.api.pictureseditor.impl",PLUGINS.EDITOR));
+		registry.put(MTGCardsIndexer.class, new PluginEntry<MTGCardsIndexer>(false, "/indexers", "/index", "org.magic.api.indexer.impl",PLUGINS.INDEXER));
+		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl",PLUGINS.GENERATOR));
+		registry.put(MTGScript.class, new PluginEntry<MTGScript>(true, "/scripts", "/script", "org.magic.api.scripts.impl",PLUGINS.SCRIPT));
+		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 
 	}
 	
