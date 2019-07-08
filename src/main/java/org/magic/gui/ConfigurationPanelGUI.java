@@ -26,6 +26,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
@@ -92,6 +93,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"), MTGConstants.ICON_TAB_CONSTRUCT, false, MTGControler.getInstance().getPlugins(MTGPictureEditor.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("INDEXER"), MTGConstants.ICON_TAB_SIMILARITY, false, MTGControler.getInstance().getPlugins(MTGCardsIndexer.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("SUGGESTION"), MTGConstants.ICON_TAB_SUGGESTION, false, MTGControler.getInstance().getPlugins(MTGTextGenerator.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("SCRIPT"), MTGConstants.ICON_TAB_RULES, true, MTGControler.getInstance().getPlugins(MTGScript.class));
 
 		
 		
