@@ -65,9 +65,10 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	}
 	
 	protected void init() {
-		if(isJsr223()) {
+		if(isJsr223() && engine==null) {
 			engine = new ScriptEngineManager().getEngineByName(getName());
 			binds = engine.createBindings();
+			
 			binds.put("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
 			binds.put("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
 			binds.put("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
