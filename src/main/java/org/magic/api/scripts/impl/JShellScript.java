@@ -1,5 +1,9 @@
 package org.magic.api.scripts.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.Writer;
 import java.util.List;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -10,6 +14,8 @@ import jdk.jshell.SnippetEvent;
 
 public class JShellScript extends AbstractMTGScript {
 
+	
+	private JShell sh;
 	@Override
 	public String getExtension() {
 		return "jsh";
@@ -22,8 +28,7 @@ public class JShellScript extends AbstractMTGScript {
 
 	@Override
 	public Object runContent(String content) throws ScriptException {
-		JShell sh = JShell.create();
-			   sh.addToClasspath("org.magic.api.beans.*");
+		sh = JShell.create();
 		List<SnippetEvent> ret =  sh.eval(content);
 		logger.debug(ret);
 		return ret;
@@ -44,4 +49,15 @@ public class JShellScript extends AbstractMTGScript {
 		return false;
 	}
 	
+	
+	@Override
+	public void setOutput(Writer w) {
+		sh=JShell.builder().out(new PrintStream(new OutputStream() {
+			
+			@Override
+			public void write(int b) throws IOException {
+				w.write(b);
+			}
+		})).build();
+	}
 }

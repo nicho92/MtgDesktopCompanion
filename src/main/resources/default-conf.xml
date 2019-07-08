@@ -64,6 +64,7 @@
             <avatar></avatar>
         </player-profil>
     </game>
+    <scripts></scripts>
     <dashlets>
         <dashlet>
             <class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class>

@@ -46,8 +46,6 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 			} catch (IOException e) {
 				logger.error("Error creating " + getFile(DIR),e);
 			}
-		
-		init();
 	}
 	
 	@Override
@@ -57,19 +55,36 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	
 	@Override
 	public void setOutput(Writer w) {
-		engine.getContext().setWriter(w);
 		
+		if(engine==null)
+			init();
+		
+		if(isJsr223())
+			engine.getContext().setWriter(w);
 	}
 	
 	
 	@Override
 	public Object runContent(String content) throws ScriptException {
+		
+		if(engine==null)
+			init();
+		
 		return engine.eval(content,binds);
 	}
 	
 	protected void init() {
 		if(isJsr223() && engine==null) {
-			engine = new ScriptEngineManager().getEngineByName(getName());
+			engine = new ScriptEngineManager().getEngineByName(getName().toLowerCase());
+			
+			if(engine==null)
+			{
+				logger.error(getName() + " is not found");
+				return;
+			}
+			
+			logger.debug("loading " + engine);
+			
 			binds = engine.createBindings();
 			binds.put("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
 			binds.put("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
@@ -92,6 +107,11 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		}
 	}
 	
+	
+	public void test()
+	{
+		new ScriptEngineManager().getEngineFactories().forEach(f->logger.debug(f.getNames()));
+	}
 	
 	@Override
 	public Object run(String scriptName) throws ScriptException {

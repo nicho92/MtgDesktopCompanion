@@ -7,6 +7,7 @@ import java.awt.SystemColor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import javax.script.ScriptException;
@@ -32,6 +33,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
+import javax.swing.JCheckBox;
 
 public class ScriptPanel extends MTGUIComponent {
 	
@@ -39,6 +41,8 @@ public class ScriptPanel extends MTGUIComponent {
 	private JEditorPane editorPane;
 	private JTextPane resultPane;
 	private JComboBox<MTGScript> cboScript;
+	private JCheckBox chkShowReturn ;
+	
 	
 	@Override
 	public String getTitle() {
@@ -55,7 +59,7 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
 		JPanel paneHaut = new JPanel();
 		cboScript = UITools.createCombobox(MTGScript.class, true);
-
+		chkShowReturn = new JCheckBox("Show return");
 		
 		setPreferredSize(new Dimension(800, 600));
 		
@@ -68,6 +72,9 @@ public class ScriptPanel extends MTGUIComponent {
 		paneHaut.add(btnOpen);
 		paneHaut.add(btnSaveButton);
 		paneHaut.add(btnRun);
+		paneHaut.add(chkShowReturn);
+		
+		
 		splitPane.setLeftComponent(new JScrollPane(editorPane));
 		splitPane.setRightComponent(new JScrollPane(resultPane));
 		splitPane.setDividerLocation(0.5);
@@ -87,30 +94,16 @@ public class ScriptPanel extends MTGUIComponent {
 			try {
 				
 				MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
-				
-//				scripter.setOutput(new Writer() {
-//					
-//					@Override
-//					public void write(char[] arg0, int arg1, int arg2) throws IOException {
-//						appendToPane(new String(arg0), SystemColor.info);
-//						
-//					}
-//					
-//					@Override
-//					public void flush() throws IOException {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//					
-//					@Override
-//					public void close() throws IOException {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//				});
+				StringWriter writer = new StringWriter();
+				scripter.setOutput(writer);
 				
 				Object ret = scripter.runContent(editorPane.getText());
-				appendToPane(String.valueOf(ret)+"\n",SystemColor.info);
+				
+				appendToPane(writer.toString()+"\n",SystemColor.info);
+				
+				if(chkShowReturn.isSelected())
+					appendToPane("Return :" + ret+"\n",SystemColor.info);
+				
 			} catch (ScriptException e) {
 				appendToPane(e.getMessage()+"\n",Color.RED);
 			}
