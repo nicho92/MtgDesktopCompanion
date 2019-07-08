@@ -389,6 +389,8 @@
 	    <version>3.0.0-beta-1</version>
 	    <type>pom</type>
 	</dependency>
+	
+		
 </dependencies>
 
 	<build>
