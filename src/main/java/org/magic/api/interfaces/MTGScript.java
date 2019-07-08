@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.File;
+import java.io.Writer;
 
 import javax.script.ScriptException;
 
@@ -15,5 +16,7 @@ public interface MTGScript extends MTGPlugin{
 	public Object runContent(String content) throws ScriptException;
 
 	public boolean isJsr223();
+	
+	public void setOutput(Writer w);
 	
 }

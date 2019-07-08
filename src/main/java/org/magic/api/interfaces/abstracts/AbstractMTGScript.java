@@ -2,8 +2,8 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -15,10 +15,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGScript;
-import org.magic.api.scripts.impl.JavaScript;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
@@ -49,7 +47,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 				logger.error("Error creating " + getFile(DIR),e);
 			}
 		
-	
+		init();
 	}
 	
 	@Override
@@ -57,10 +55,15 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		return true;
 	}
 	
+	@Override
+	public void setOutput(Writer w) {
+		engine.getContext().setWriter(w);
+		
+	}
+	
 	
 	@Override
 	public Object runContent(String content) throws ScriptException {
-		init();
 		return engine.eval(content,binds);
 	}
 	
@@ -68,7 +71,6 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		if(isJsr223() && engine==null) {
 			engine = new ScriptEngineManager().getEngineByName(getName());
 			binds = engine.createBindings();
-			
 			binds.put("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
 			binds.put("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
 			binds.put("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
