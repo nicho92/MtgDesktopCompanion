@@ -2,7 +2,6 @@ package org.magic.api.scripts.impl;
 
 import org.magic.api.interfaces.abstracts.AbstractMTGScript;
 
-import com.ziclix.python.sql.Jython22DataHandler;
 
 public class PythonScript extends AbstractMTGScript {
 
@@ -16,4 +15,8 @@ public class PythonScript extends AbstractMTGScript {
 		return "Python";
 	}
 
+	@Override
+	public String getVersion() {
+		return engine.getFactory().getEngineVersion();
+	}
 }
