@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Writer;
-import java.util.List;
+
+import javax.script.ScriptException;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGScript;
-import javax.script.ScriptException;
+
 import jdk.jshell.JShell;
-import jdk.jshell.SnippetEvent;
 
 public class JShellScript extends AbstractMTGScript {
 

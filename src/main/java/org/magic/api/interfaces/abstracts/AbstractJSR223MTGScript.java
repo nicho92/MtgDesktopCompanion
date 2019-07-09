@@ -7,11 +7,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.services.MTGControler;
-
 public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 
 	public abstract String getEngineName();

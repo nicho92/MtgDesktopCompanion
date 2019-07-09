@@ -8,9 +8,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.script.ScriptException;
 import javax.swing.ImageIcon;
@@ -24,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -31,8 +29,6 @@ import javax.swing.text.StyleContext;
 
 import org.apache.commons.io.FileUtils;
 import org.jfree.ui.ExtensionFileFilter;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -40,7 +36,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.UITools;
-import javax.swing.JToolBar;
 
 public class ScriptPanel extends MTGUIComponent {
 	
@@ -71,6 +66,7 @@ public class ScriptPanel extends MTGUIComponent {
 		chkShowReturn = new JCheckBox("Show return");
 		
 		setPreferredSize(new Dimension(800, 600));
+		
 		
 		
 		resultPane.setBackground(SystemColor.windowBorder);

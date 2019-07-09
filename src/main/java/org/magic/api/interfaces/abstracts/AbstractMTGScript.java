@@ -16,7 +16,6 @@ import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
