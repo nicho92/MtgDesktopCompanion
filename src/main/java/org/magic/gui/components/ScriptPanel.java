@@ -8,11 +8,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 
 import javax.script.ScriptException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -33,7 +33,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import javax.swing.JCheckBox;
 
 public class ScriptPanel extends MTGUIComponent {
 	
@@ -145,9 +144,9 @@ public class ScriptPanel extends MTGUIComponent {
 	
 	private void appendToPane(String msg, Color c)
     {
+
 		StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
         aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
         int len = resultPane.getDocument().getLength();
