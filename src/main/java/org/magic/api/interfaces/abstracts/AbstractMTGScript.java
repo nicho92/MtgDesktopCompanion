@@ -23,10 +23,6 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	
 	protected static final String DIR = "DIR";
 	
-	protected Bindings binds;
-	protected ScriptEngine engine;
-	
-	
 	public AbstractMTGScript() {
 		super();
 		
@@ -47,46 +43,19 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 				logger.error("Error creating " + getFile(DIR),e);
 			}
 		
-		init();
 	}
 	
 	@Override
 	public boolean isJsr223() {
-		return true;
+		return false;
 	}
 	
 	@Override
 	public void setOutput(Writer w) {
-		if(isJsr223())
-			engine.getContext().setWriter(w);
-	}
-	
-	
-	@Override
-	public Object runContent(String content) throws ScriptException {
-		return engine.eval(content,binds);
-	}
-	
-	protected void init() {
-		if(isJsr223() && engine==null) {
-			engine = new ScriptEngineManager().getEngineByName(getName().toLowerCase());
 			
-			if(engine==null)
-			{
-				logger.error(getName() + " is not found");
-				return;
-			}
-			binds = engine.createBindings();
-			binds.put("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
-			binds.put("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
-			binds.put("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
-		}
-		else
-		{
-			logger.warn(getName() + " is not jsr223 compatible. engine property still null");
-		}
 	}
-
+	
+	
 
 	@Override
 	public Object run(File f) throws ScriptException {
@@ -99,10 +68,6 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	}
 	
 	
-	public void test()
-	{
-		new ScriptEngineManager().getEngineFactories().forEach(f->logger.debug(f.getNames()));
-	}
 	
 	@Override
 	public Object run(String scriptName) throws ScriptException {
