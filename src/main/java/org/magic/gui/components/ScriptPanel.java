@@ -2,12 +2,17 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.script.ScriptException;
 import javax.swing.ImageIcon;
@@ -17,7 +22,10 @@ import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
@@ -29,11 +37,18 @@ import javax.swing.text.StyleContext;
 
 import org.apache.commons.io.FileUtils;
 import org.jfree.ui.ExtensionFileFilter;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.PluginEntry;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGScript;
+import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.models.MagicCardTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.services.ThreadManager;
+import org.magic.services.workers.CardExportWorker;
 import org.magic.tools.Chrono;
 import org.magic.tools.UITools;
 
@@ -52,7 +67,6 @@ public class ScriptPanel extends MTGUIComponent {
 	}
 	
 	public ScriptPanel() {
-		JToolBar toolBar = new JToolBar();
 		setLayout(new BorderLayout());
 		editorPane = new JEditorPane();
 		resultPane = new JTextPane();
@@ -60,6 +74,7 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
 		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
+		JButton btnInsertFunction = new JButton(MTGConstants.ICON_GAME_TRIGGER);
 		JPanel paneHaut = new JPanel();
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
@@ -71,17 +86,15 @@ public class ScriptPanel extends MTGUIComponent {
 		
 		resultPane.setBackground(SystemColor.windowBorder);
 		
-		paneHaut.add(cboScript);
 		add(paneHaut,BorderLayout.NORTH);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		
-		
-		paneHaut.add(toolBar);
+		paneHaut.add(cboScript);
 		paneHaut.add(btnOpen);
 		paneHaut.add(btnSaveButton);
 		paneHaut.add(btnRun);
 		paneHaut.add(chkShowReturn);
-		
+		paneHaut.add(btnInsertFunction);
 		
 		splitPane.setLeftComponent(new JScrollPane(editorPane));
 		splitPane.setRightComponent(new JScrollPane(resultPane));
@@ -100,6 +113,28 @@ public class ScriptPanel extends MTGUIComponent {
 			}
 
 		});
+		
+		
+		btnInsertFunction.addActionListener(ae -> {
+			JPopupMenu menu = new JPopupMenu();
+
+			for (Entry<Class, PluginEntry> exp : PluginRegistry.inst().entrySet()) {
+					JMenu it = new JMenu(exp.getKey().getSimpleName());
+					for(String s : PluginRegistry.inst().getStringMethod(exp.getKey()))
+					{
+						JMenuItem it2 = new JMenuItem(s);
+						it2.addActionListener(al->appendEditor("."+it2.getText()));
+						
+						it.add(it2);
+					}
+					menu.add(it);
+			}
+			Component b = (Component) ae.getSource();
+			Point p = b.getLocationOnScreen();
+			menu.show(b, 0, 0);
+			menu.setLocation(p.x, p.y + b.getHeight());
+		});
+		
 		
 		btnRun.addActionListener(al->{
 			
@@ -162,6 +197,10 @@ public class ScriptPanel extends MTGUIComponent {
 		
 	}
 	
+	private void appendEditor(String msg)
+    {
+        editorPane.replaceSelection(msg);
+    }
 	
 	private void appendResult(String msg, Color c)
     {

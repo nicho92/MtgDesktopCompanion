@@ -56,7 +56,7 @@ public class PluginRegistry {
 	}
 	
 	
-	public List<String> getStringMethod(Class<MTGPlugin> classe)
+	public List<String> getStringMethod(Class classe)
 	{
 		List<String> meths = new ArrayList<>();
 		Method[] mths = classe.getMethods();
@@ -72,7 +72,7 @@ public class PluginRegistry {
             }
             sb.append(')');
             meths.add(sb.toString());
-		}
+ 		}
 		return meths;
 	}
 	
