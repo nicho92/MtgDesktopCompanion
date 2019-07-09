@@ -49,6 +49,12 @@ public class JShellScript extends AbstractMTGScript {
 		return false;
 	}
 	
+	@Override
+	public void addVariable(String k, Object o) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 	@Override
 	public void setOutput(Writer w) {

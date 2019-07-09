@@ -49,6 +49,15 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		return engine.eval(content,binds);
 	}
 	
+	@Override
+	public void addVariable(String k, Object o) {
+		if(engine==null)
+			init();
+		
+		binds.put(k, o);
+	}
+	
+	
 	protected void init() {
 		if(engine==null) {
 			engine = new ScriptEngineManager().getEngineByName(getEngineName());
@@ -59,9 +68,7 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 				return;
 			}
 			binds = engine.createBindings();
-			binds.put("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
-			binds.put("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
-			binds.put("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
+		
 		}
 		else
 		{

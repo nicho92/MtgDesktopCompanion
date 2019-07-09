@@ -5,18 +5,18 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Paths;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.apache.commons.io.FileUtils;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGScript;
+import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
@@ -43,7 +43,13 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 				logger.error("Error creating " + getFile(DIR),e);
 			}
 		
+		addVariable("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
+		addVariable("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
+		addVariable("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
+		addVariable("indexer", MTGControler.getInstance().getEnabled(MTGCardsIndexer.class));
+		addVariable("generator", MTGControler.getInstance().getEnabled(MTGTextGenerator.class));
 	}
+	
 	
 	@Override
 	public boolean isJsr223() {

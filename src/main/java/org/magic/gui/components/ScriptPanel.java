@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -32,6 +33,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.Chrono;
 import org.magic.tools.UITools;
 
 public class ScriptPanel extends MTGUIComponent {
@@ -41,7 +43,7 @@ public class ScriptPanel extends MTGUIComponent {
 	private JTextPane resultPane;
 	private JComboBox<MTGScript> cboScript;
 	private JCheckBox chkShowReturn ;
-	
+	private JLabel lblInfo;
 	
 	@Override
 	public String getTitle() {
@@ -57,6 +59,7 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
 		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
 		JPanel paneHaut = new JPanel();
+		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
 		chkShowReturn = new JCheckBox("Show return");
 		
@@ -79,6 +82,9 @@ public class ScriptPanel extends MTGUIComponent {
 		splitPane.setDividerLocation(0.5);
 		splitPane.setResizeWeight(0.5);
 		add(splitPane,BorderLayout.CENTER);
+		add(lblInfo,BorderLayout.SOUTH);
+		
+		
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
@@ -90,22 +96,30 @@ public class ScriptPanel extends MTGUIComponent {
 		});
 		
 		btnRun.addActionListener(al->{
-			try {
+			
+			Chrono c = new Chrono();
+			c.start();
+			ThreadManager.getInstance().executeThread(()->{
+				try {
+					
+					MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
+					StringWriter writer = new StringWriter();
+					scripter.setOutput(writer);
+					
+					Object ret = scripter.runContent(editorPane.getText());
+					
+					appendToPane(writer.toString()+"\n",SystemColor.info);
+					
+					if(chkShowReturn.isSelected())
+						appendToPane("Return :" + ret+"\n",SystemColor.activeCaptionText);
+					
+				} catch (ScriptException e) {
+					appendToPane(e.getMessage()+"\n",Color.RED);
+				}
+					
+				lblInfo.setText("Running time : " + c.stop() +"ms");
 				
-				MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
-				StringWriter writer = new StringWriter();
-				scripter.setOutput(writer);
-				
-				Object ret = scripter.runContent(editorPane.getText());
-				
-				appendToPane(writer.toString()+"\n",SystemColor.info);
-				
-				if(chkShowReturn.isSelected())
-					appendToPane("Return :" + ret+"\n",SystemColor.info);
-				
-			} catch (ScriptException e) {
-				appendToPane(e.getMessage()+"\n",Color.RED);
-			}
+			}, "executing script");
 		});
 		
 		btnSaveButton.addActionListener(al->{
