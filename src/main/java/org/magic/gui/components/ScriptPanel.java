@@ -8,6 +8,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.script.ScriptException;
 import javax.swing.ImageIcon;
@@ -28,6 +31,8 @@ import javax.swing.text.StyleContext;
 
 import org.apache.commons.io.FileUtils;
 import org.jfree.ui.ExtensionFileFilter;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -35,6 +40,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.UITools;
+import javax.swing.JToolBar;
 
 public class ScriptPanel extends MTGUIComponent {
 	
@@ -51,6 +57,7 @@ public class ScriptPanel extends MTGUIComponent {
 	}
 	
 	public ScriptPanel() {
+		JToolBar toolBar = new JToolBar();
 		setLayout(new BorderLayout());
 		editorPane = new JEditorPane();
 		resultPane = new JTextPane();
@@ -71,6 +78,9 @@ public class ScriptPanel extends MTGUIComponent {
 		paneHaut.add(cboScript);
 		add(paneHaut,BorderLayout.NORTH);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		
+		
+		paneHaut.add(toolBar);
 		paneHaut.add(btnOpen);
 		paneHaut.add(btnSaveButton);
 		paneHaut.add(btnRun);
@@ -108,13 +118,13 @@ public class ScriptPanel extends MTGUIComponent {
 					
 					Object ret = scripter.runContent(editorPane.getText());
 					
-					appendToPane(writer.toString()+"\n",SystemColor.info);
+					appendResult(writer.toString()+"\n",SystemColor.info);
 					
 					if(chkShowReturn.isSelected())
-						appendToPane("Return :" + ret+"\n",SystemColor.activeCaptionText);
+						appendResult("Return :" + ret+"\n",SystemColor.activeCaptionText);
 					
 				} catch (ScriptException e) {
-					appendToPane(e.getMessage()+"\n",Color.RED);
+					appendResult(e.getMessage()+"\n",Color.RED);
 				}
 					
 				lblInfo.setText("Running time : " + c.stop() +"ms");
@@ -156,12 +166,13 @@ public class ScriptPanel extends MTGUIComponent {
 		
 	}
 	
-	private void appendToPane(String msg, Color c)
+	
+	private void appendResult(String msg, Color c)
     {
 
 		StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+        //aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
         int len = resultPane.getDocument().getLength();
         resultPane.setCaretPosition(len);
@@ -178,6 +189,7 @@ public class ScriptPanel extends MTGUIComponent {
 	
 	
 	public static void main(String[] args) {
+		
 		ThreadManager.getInstance().invokeLater(()->MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true));
 	}
 	

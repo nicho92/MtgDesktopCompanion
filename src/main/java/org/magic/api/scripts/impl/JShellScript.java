@@ -29,9 +29,7 @@ public class JShellScript extends AbstractMTGScript {
 	@Override
 	public Object runContent(String content) throws ScriptException {
 		sh = JShell.create();
-		List<SnippetEvent> ret =  sh.eval(content);
-		logger.debug(ret);
-		return ret;
+		return sh.eval(content);
 	}
 	
 	@Override

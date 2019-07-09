@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGServer;
@@ -35,7 +37,6 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
-import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.reflections.Reflections;
 
@@ -52,6 +53,27 @@ public class PluginRegistry {
 	
 	public Map<String,String> getPluginsToDelete() {
 		return pluginsToDelete;
+	}
+	
+	
+	public List<String> getStringMethod(Class<MTGPlugin> classe)
+	{
+		List<String> meths = new ArrayList<>();
+		Method[] mths = classe.getMethods();
+		for(Method m : mths)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(m.getName()).append('(');
+            Class<?>[] params = m.getParameterTypes();
+            for (int j = 0; j < params.length; j++) {
+                sb.append(params[j].getSimpleName());
+                if (j < (params.length - 1))
+                    sb.append(',');
+            }
+            sb.append(')');
+            meths.add(sb.toString());
+		}
+		return meths;
 	}
 	
 	
