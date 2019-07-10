@@ -16,6 +16,8 @@ public class JShellScript extends AbstractMTGScript {
 
 	
 	private JShell sh;
+	
+	
 	@Override
 	public String getExtension() {
 		return "jsh";

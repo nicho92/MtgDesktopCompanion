@@ -3,12 +3,12 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.SystemColor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -98,9 +98,7 @@ public class ScriptPanel extends MTGUIComponent {
 		add(lblInfo,BorderLayout.SOUTH);
 
 		
-		AutoCompletion  complet = new AutoCompletion(createCompletionProvider());
-		
-		complet.install(editorPane);
+		new AutoCompletion(createCompletionProvider()).install(editorPane);
 		
 		
 		btnNewButton.addActionListener(al->{
@@ -110,9 +108,7 @@ public class ScriptPanel extends MTGUIComponent {
 		});
 		
 		
-		cboScript.addItemListener(il->{
-			editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType());
-		});
+		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
 		
 		
 		btnRun.addActionListener(al->{
@@ -161,7 +157,7 @@ public class ScriptPanel extends MTGUIComponent {
 			int ret=0;
 			if(currentFile !=null)
 			{
-				ret=JFileChooser.CANCEL_OPTION;
+				ret=JFileChooser.APPROVE_OPTION;
 			}
 			else
 			{
@@ -173,7 +169,6 @@ public class ScriptPanel extends MTGUIComponent {
 					currentFile = choose.getSelectedFile();
 				}
 			}
-			
 			if(ret==JFileChooser.APPROVE_OPTION)
 			{
 				try {
@@ -211,9 +206,7 @@ public class ScriptPanel extends MTGUIComponent {
 		for (Entry<Class, PluginEntry> exp : PluginRegistry.inst().entrySet()) {
 			PluginRegistry.inst().getStringMethod(exp.getKey()).forEach(sets::add);
 		}
-		
 		sets.forEach(s->provider.addCompletion(new BasicCompletion(provider, s)));
-		
 		return provider;
 	}
 
@@ -230,6 +223,7 @@ public class ScriptPanel extends MTGUIComponent {
 	        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 	        resultPane.setCharacterAttributes(aset, false);
 		}
+				
         int len = resultPane.getDocument().getLength();
         resultPane.setCaretPosition(len);
         resultPane.replaceSelection(msg);
