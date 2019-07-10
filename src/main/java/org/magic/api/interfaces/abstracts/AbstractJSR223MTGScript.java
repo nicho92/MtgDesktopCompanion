@@ -14,18 +14,6 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 	protected ScriptEngine engine;
 	
 	
-	public AbstractJSR223MTGScript() {
-		super();
-	}
-	
-	@Override
-	public String getVersion() {
-		if(engine==null)
-			init();
-		
-		return engine.getFactory().getEngineVersion();
-	}
-	
 	
 	@Override
 	public void setOutput(Writer w) {
@@ -52,9 +40,11 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		binds.put(k, o);
 	}
 	
-	
-	protected void init() {
-		if(engine==null) {
+	@Override
+	public void init() {
+		
+		if(engine==null) 
+		{
 			engine = new ScriptEngineManager().getEngineByName(getEngineName());
 			
 			if(engine==null)
@@ -63,12 +53,8 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 				return;
 			}
 			binds = engine.createBindings();
-		
 		}
-		else
-		{
-			logger.warn(getName() + " is not jsr223 compatible. engine property still null");
-		}
+		super.init();
 	}
 	
 
@@ -76,5 +62,15 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 	{
 		new ScriptEngineManager().getEngineFactories().forEach(f->logger.debug(f.getNames()));
 	}
+	
+
+	@Override
+	public String getVersion() {
+		if(engine==null)
+			init();
+		
+		return engine.getFactory().getEngineVersion();
+	}
+	
 
 }

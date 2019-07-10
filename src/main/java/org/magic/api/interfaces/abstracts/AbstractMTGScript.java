@@ -11,7 +11,9 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
@@ -41,14 +43,20 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 			} catch (IOException e) {
 				logger.error("Error creating " + getFile(DIR),e);
 			}
-		
+	}
+	
+	
+	@Override 
+	public void init()
+	{
 		addVariable("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
 		addVariable("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
 		addVariable("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
 		addVariable("indexer", MTGControler.getInstance().getEnabled(MTGCardsIndexer.class));
 		addVariable("generator", MTGControler.getInstance().getEnabled(MTGTextGenerator.class));
+		addVariable("pricers", MTGControler.getInstance().getEnabled(MTGPricesProvider.class));
+		addVariable("dashboard",MTGControler.getInstance().getEnabled(MTGDashBoard.class));
 	}
-	
 	
 	@Override
 	public boolean isJsr223() {
@@ -60,6 +68,10 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 			
 	}
 	
+	@Override
+	public String getContentType() {
+		return "text/"+getName().toLowerCase();
+	}
 	
 
 	@Override

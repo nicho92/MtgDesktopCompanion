@@ -20,4 +20,9 @@ public class JavaScript extends AbstractJSR223MTGScript {
 		return "javascript";
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
+	
 }

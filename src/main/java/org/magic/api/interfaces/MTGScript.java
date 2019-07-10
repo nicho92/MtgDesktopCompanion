@@ -20,5 +20,9 @@ public interface MTGScript extends MTGPlugin{
 	public void setOutput(Writer w);
 	
 	public void addVariable(String k,Object o);
+
+	public String getContentType();
+	
+	void init();
 	
 }
