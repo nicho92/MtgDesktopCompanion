@@ -209,10 +209,7 @@ public class ScriptPanel extends MTGUIComponent {
 		DefaultCompletionProvider provider = new DefaultCompletionProvider();
 		Set<String> sets = new HashSet<>();
 		for (Entry<Class, PluginEntry> exp : PluginRegistry.inst().entrySet()) {
-			for(String s : PluginRegistry.inst().getStringMethod(exp.getKey()))
-			{
-				sets.add(s);
-			}
+			PluginRegistry.inst().getStringMethod(exp.getKey()).forEach(sets::add);
 		}
 		
 		sets.forEach(s->provider.addCompletion(new BasicCompletion(provider, s)));
@@ -243,7 +240,7 @@ public class ScriptPanel extends MTGUIComponent {
 	
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_RULES;
+		return MTGConstants.ICON_SCRIPT;
 	}
 	
 	
