@@ -212,18 +212,16 @@ public class ScriptPanel extends MTGUIComponent {
 
 	private void appendResult(String msg)
 	{
-		appendResult(msg, null);
+		appendResult(msg, defaultColor);
 	}
+	
+	private Color defaultColor=StyleContext.getDefaultStyleContext().getForeground(SimpleAttributeSet.EMPTY);
 	
 	private void appendResult(String msg, Color c)
     {
-		if(c!=null)
-		{
-			StyleContext sc = StyleContext.getDefaultStyleContext();
-	        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
-	        resultPane.setCharacterAttributes(aset, false);
-		}
-				
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+		resultPane.setCharacterAttributes(aset, false);
         int len = resultPane.getDocument().getLength();
         resultPane.setCaretPosition(len);
         resultPane.replaceSelection(msg);
