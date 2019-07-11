@@ -20,6 +20,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -130,7 +131,7 @@ public class ScriptPanel extends MTGUIComponent {
 					if(chkShowReturn.isSelected())
 						appendResult("Return :" + ret+"\n");
 					
-				} catch (ScriptException e) {
+				} catch (Exception e) {
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
 					
@@ -154,12 +155,18 @@ public class ScriptPanel extends MTGUIComponent {
 		
 		btnSaveButton.addActionListener(al->{
 			
-			int ret=0;
+			int ret=JFileChooser.CANCEL_OPTION;
 			if(currentFile !=null)
 			{
-				ret=JFileChooser.APPROVE_OPTION;
+				int overide = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("OVERRIDE"),MTGControler.getInstance().getLangService().get("SAVE"), JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				
+				if(overide==JOptionPane.OK_OPTION)
+					ret=JFileChooser.APPROVE_OPTION;
+				else
+					ret=JFileChooser.CANCEL_OPTION;
 			}
-			else
+			
+			if(ret==JFileChooser.CANCEL_OPTION)
 			{
 				JFileChooser choose = new JFileChooser(MTGConstants.DATA_DIR);
 				choose.setFileFilter(new ExtensionFileFilter(cboScript.getSelectedItem().toString(), ((MTGScript)cboScript.getSelectedItem()).getExtension()));
@@ -169,6 +176,7 @@ public class ScriptPanel extends MTGUIComponent {
 					currentFile = choose.getSelectedFile();
 				}
 			}
+			
 			if(ret==JFileChooser.APPROVE_OPTION)
 			{
 				try {
@@ -212,6 +220,7 @@ public class ScriptPanel extends MTGUIComponent {
 
 	private void appendResult(String msg)
 	{
+		
 		appendResult(msg, defaultColor);
 	}
 	
@@ -219,6 +228,7 @@ public class ScriptPanel extends MTGUIComponent {
 	
 	private void appendResult(String msg, Color c)
     {
+		logger.debug("print " + msg);
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 		resultPane.setCharacterAttributes(aset, false);
