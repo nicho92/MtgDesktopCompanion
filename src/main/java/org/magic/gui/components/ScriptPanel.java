@@ -78,7 +78,7 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
 		JButton btnClear = new JButton(MTGConstants.ICON_SMALL_CLEAR);
-
+		JButton btnKill = new JButton(MTGConstants.ICON_DELETE);
 		
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
@@ -100,6 +100,7 @@ public class ScriptPanel extends MTGUIComponent {
 		paneHaut.add(btnSaveButton);
 		paneHaut.add(chkShowReturn);
 		paneHaut.add(btnRun);
+		paneHaut.add(btnKill);
 		add(paneHaut,BorderLayout.NORTH);
 		add(splitPane,BorderLayout.CENTER);
 		add(paneBas,BorderLayout.SOUTH);
@@ -121,6 +122,9 @@ public class ScriptPanel extends MTGUIComponent {
 		
 		
 		btnClear.addActionListener(al->resultPane.setText(""));
+		
+		
+		//TODO btnKill.addActionListener(a);
 		
 		btnRun.addActionListener(al->{
 			
