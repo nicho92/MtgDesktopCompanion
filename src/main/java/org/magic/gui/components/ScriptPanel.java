@@ -56,6 +56,7 @@ public class ScriptPanel extends MTGUIComponent {
 	private JComboBox<MTGScript> cboScript;
 	private JCheckBox chkShowReturn ;
 	private JLabel lblInfo;
+	
 	private File currentFile;
 	
 	@Override
@@ -71,10 +72,13 @@ public class ScriptPanel extends MTGUIComponent {
 		resultPane = new JTextPane();
 		JSplitPane splitPane = new JSplitPane();
 		JPanel paneHaut = new JPanel();
+		JPanel paneBas = new JPanel();
 		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
 		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
 		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
+		JButton btnClear = new JButton(MTGConstants.ICON_SMALL_CLEAR);
+
 		
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
@@ -87,7 +91,9 @@ public class ScriptPanel extends MTGUIComponent {
 		splitPane.setDividerLocation(0.5);
 		splitPane.setResizeWeight(0.5);
 		editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType());
+		paneBas.setLayout(new BorderLayout(0, 0));
 		
+		paneBas.add(lblInfo, BorderLayout.WEST);
 		paneHaut.add(cboScript);
 		paneHaut.add(btnNewButton);
 		paneHaut.add(btnOpen);
@@ -96,7 +102,9 @@ public class ScriptPanel extends MTGUIComponent {
 		paneHaut.add(btnRun);
 		add(paneHaut,BorderLayout.NORTH);
 		add(splitPane,BorderLayout.CENTER);
-		add(lblInfo,BorderLayout.SOUTH);
+		add(paneBas,BorderLayout.SOUTH);
+		
+		paneBas.add(btnClear, BorderLayout.EAST);
 
 		
 		new AutoCompletion(createCompletionProvider()).install(editorPane);
@@ -112,10 +120,14 @@ public class ScriptPanel extends MTGUIComponent {
 		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
 		
 		
+		btnClear.addActionListener(al->resultPane.setText(""));
+		
 		btnRun.addActionListener(al->{
 			
 			Chrono c = new Chrono();
 			c.start();
+			lblInfo.setText("Running...");
+			btnRun.setEnabled(false);
 			ThreadManager.getInstance().executeThread(()->{
 				try {
 					
@@ -136,7 +148,7 @@ public class ScriptPanel extends MTGUIComponent {
 				}
 					
 				lblInfo.setText("Running time : " + c.stop() +"ms");
-				
+				btnRun.setEnabled(true);
 			}, "executing script");
 		});
 		
