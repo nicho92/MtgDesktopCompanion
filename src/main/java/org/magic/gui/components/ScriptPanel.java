@@ -8,7 +8,6 @@ import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -20,7 +19,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -56,7 +54,6 @@ public class ScriptPanel extends MTGUIComponent {
 	private JComboBox<MTGScript> cboScript;
 	private JCheckBox chkShowReturn ;
 	private JLabel lblInfo;
-	
 	private File currentFile;
 	
 	@Override
@@ -77,8 +74,6 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
 		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
-		JButton btnClear = new JButton(MTGConstants.ICON_SMALL_CLEAR);
-		JButton btnKill = new JButton(MTGConstants.ICON_DELETE);
 		
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
@@ -91,25 +86,26 @@ public class ScriptPanel extends MTGUIComponent {
 		splitPane.setDividerLocation(0.5);
 		splitPane.setResizeWeight(0.5);
 		editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType());
-		paneBas.setLayout(new BorderLayout(0, 0));
 		
-		paneBas.add(lblInfo, BorderLayout.WEST);
 		paneHaut.add(cboScript);
 		paneHaut.add(btnNewButton);
 		paneHaut.add(btnOpen);
 		paneHaut.add(btnSaveButton);
 		paneHaut.add(chkShowReturn);
 		paneHaut.add(btnRun);
-		paneHaut.add(btnKill);
 		add(paneHaut,BorderLayout.NORTH);
 		add(splitPane,BorderLayout.CENTER);
 		add(paneBas,BorderLayout.SOUTH);
+		paneBas.setLayout(new BorderLayout(0, 0));
+		paneBas.add(lblInfo, BorderLayout.WEST);
 		
+		JButton btnClear = new JButton(MTGConstants.ICON_SMALL_CLEAR);
 		paneBas.add(btnClear, BorderLayout.EAST);
-
 		
 		new AutoCompletion(createCompletionProvider()).install(editorPane);
 		
+		
+		btnClear.addActionListener(al->resultPane.setText(""));
 		
 		btnNewButton.addActionListener(al->{
 			currentFile=null;
@@ -121,20 +117,13 @@ public class ScriptPanel extends MTGUIComponent {
 		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
 		
 		
-		btnClear.addActionListener(al->resultPane.setText(""));
-		
-		
-		//TODO btnKill.addActionListener(a);
-		
 		btnRun.addActionListener(al->{
 			
 			Chrono c = new Chrono();
 			c.start();
-			lblInfo.setText("Running...");
-			btnRun.setEnabled(false);
 			ThreadManager.getInstance().executeThread(()->{
 				try {
-					
+					btnRun.setEnabled(false);
 					MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
 					scripter.init();
 					StringWriter writer = new StringWriter();
@@ -147,7 +136,7 @@ public class ScriptPanel extends MTGUIComponent {
 					if(chkShowReturn.isSelected())
 						appendResult("Return :" + ret+"\n");
 					
-				} catch (Exception e) {
+				} catch (ScriptException e) {
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
 					
@@ -171,18 +160,12 @@ public class ScriptPanel extends MTGUIComponent {
 		
 		btnSaveButton.addActionListener(al->{
 			
-			int ret=JFileChooser.CANCEL_OPTION;
+			int ret=0;
 			if(currentFile !=null)
 			{
-				int overide = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("OVERRIDE"),MTGControler.getInstance().getLangService().get("SAVE"), JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-				
-				if(overide==JOptionPane.OK_OPTION)
-					ret=JFileChooser.APPROVE_OPTION;
-				else
-					ret=JFileChooser.CANCEL_OPTION;
+				ret=JFileChooser.APPROVE_OPTION;
 			}
-			
-			if(ret==JFileChooser.CANCEL_OPTION)
+			else
 			{
 				JFileChooser choose = new JFileChooser(MTGConstants.DATA_DIR);
 				choose.setFileFilter(new ExtensionFileFilter(cboScript.getSelectedItem().toString(), ((MTGScript)cboScript.getSelectedItem()).getExtension()));
@@ -192,7 +175,6 @@ public class ScriptPanel extends MTGUIComponent {
 					currentFile = choose.getSelectedFile();
 				}
 			}
-			
 			if(ret==JFileChooser.APPROVE_OPTION)
 			{
 				try {
@@ -236,7 +218,6 @@ public class ScriptPanel extends MTGUIComponent {
 
 	private void appendResult(String msg)
 	{
-		
 		appendResult(msg, defaultColor);
 	}
 	
@@ -244,7 +225,6 @@ public class ScriptPanel extends MTGUIComponent {
 	
 	private void appendResult(String msg, Color c)
     {
-		logger.debug("print " + msg);
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 		resultPane.setCharacterAttributes(aset, false);
