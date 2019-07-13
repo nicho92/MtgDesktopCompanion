@@ -79,6 +79,12 @@ public class JCSCache extends AbstractCacheProvider {
 		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/apache.png"));
 	}
 	
+	
+	@Override
+	public void clear(MagicEdition ed) {
+		logger.error("not implemented");
+		
+	}
 
 	@Override
 	public void clear() {

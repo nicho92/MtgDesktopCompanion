@@ -35,6 +35,12 @@ public class NoCache extends AbstractCacheProvider {
 		// nothing to do
 
 	}
+	
+	@Override
+	public void clear(MagicEdition ed) {
+		// do nothing
+		
+	}
 
 	@Override
 	public String getVersion() {

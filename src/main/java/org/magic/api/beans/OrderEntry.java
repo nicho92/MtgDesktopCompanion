@@ -8,7 +8,7 @@ public class OrderEntry implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
-	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET,LOTS}
+	public enum TYPE_ITEM {CARD,BOX,BOOSTER,FULLSET,LOTS,BUNDLE}
 	public enum TYPE_TRANSACTION {BUY,SELL}
 	
 	

@@ -522,7 +522,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)
 				{
-					logger.error("error updating " + card + " in " + curr.getParent() );
+					logger.error("error updating " + card + " in " + curr.getParent());
 				}
 			}
 		});
@@ -748,7 +748,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						logger.debug("save " + list.size() + " cards from " + eds);
 						
 						
-						SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
+						SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
 						{
 
 							@Override
@@ -831,7 +831,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					nodeCol.add(new DefaultMutableTreeNode(card));
 					tree.refresh(((DefaultMutableTreeNode) path.getPathComponent(2)));
 				} catch (SQLException e1) {
-					logger.error(e1);
+					logger.error("error ",e1);
 				}
 
 			});

@@ -67,6 +67,16 @@ public class FileCache extends AbstractCacheProvider {
 			return null;
 		}
 	}
+	
+	@Override
+	public void clear(MagicEdition ed) {
+		try {
+			FileUtils.deleteDirectory(Paths.get(dir.getAbsolutePath(), ed.getId()).toFile());
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		
+	}
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {

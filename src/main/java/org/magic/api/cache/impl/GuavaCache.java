@@ -58,6 +58,12 @@ public class GuavaCache extends AbstractCacheProvider {
 	}
 
 	@Override
+	public void clear(MagicEdition ed) {
+		cache.invalidate(ed);
+	}
+	
+	
+	@Override
 	public void clear() {
 		cache.invalidateAll();
 

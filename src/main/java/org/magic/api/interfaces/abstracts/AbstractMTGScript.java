@@ -14,6 +14,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGTextGenerator;
@@ -58,6 +59,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		addVariable("pricers", MTGControler.getInstance().getEnabled(MTGPricesProvider.class));
 		addVariable("dashboard",MTGControler.getInstance().getEnabled(MTGDashBoard.class));
 		addVariable("sniffers",MTGControler.getInstance().listEnabled(MTGDeckSniffer.class));
+		addVariable("cache",MTGControler.getInstance().getEnabled(MTGPicturesCache.class));
 	}
 	
 	@Override

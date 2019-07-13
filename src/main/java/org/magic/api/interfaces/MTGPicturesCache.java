@@ -14,6 +14,8 @@ public interface MTGPicturesCache extends MTGPlugin {
 
 	public void clear();
 	
+	public void clear(MagicEdition ed);
+	
 	public long size();
 
 }

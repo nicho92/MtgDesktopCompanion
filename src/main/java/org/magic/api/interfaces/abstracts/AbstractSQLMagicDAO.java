@@ -218,14 +218,16 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
-		logger.debug("move " + mc+ " s=" + from + "d=" + to);
+		logger.debug("move " + mc+ " s=" + from + " d=" + to);
 		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where id=? and collection=?")) 
 		{
 			pst.setString(1, to.getName());
 			pst.setString(2, IDGenerator.generate(mc));
 			pst.setString(3, from.getName());
-			pst.executeUpdate();
+			int res = pst.executeUpdate();
+			
+			logger.debug("moving " + IDGenerator.generate(mc) + "=" + res);
 		}
 		
 		listStocks(mc, from,true).forEach(cs->{

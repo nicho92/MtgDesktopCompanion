@@ -502,7 +502,7 @@ public class MagicCard implements Serializable {
 		return getSupertypes().toString().toLowerCase().contains("legendary");
 	}
 	
-	
+	//TODO BUGFIX
 	public MagicCard toForeign(MagicCardNames fn)
 	{
 		try {
