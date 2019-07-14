@@ -229,7 +229,9 @@ public class URLTools {
 				else
 				{
 					if(connection.getErrorStream()!=null)
-						logger.error("Error " + connection.getRequestMethod()+":"+ IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+					{
+						logger.error("Error " + connection.getURL() +": " +  connection.getRequestMethod()+":"+ IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+					}
 
 					return false;
 				}
