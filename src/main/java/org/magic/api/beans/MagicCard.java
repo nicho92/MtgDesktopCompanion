@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.tools.IDGenerator;
@@ -502,23 +503,30 @@ public class MagicCard implements Serializable {
 		return getSupertypes().toString().toLowerCase().contains("legendary");
 	}
 	
-	//TODO BUGFIX
+	//TODO BUGFIX List Copy
 	public MagicCard toForeign(MagicCardNames fn)
 	{
 		try {
-			MagicCard mc = (MagicCard)BeanUtils.cloneBean(this);
+			MagicCard mc2 = new MagicCard();
+			MagicEdition ed = new MagicEdition();
 			
-			mc.setName(fn.getName());
-			mc.setMultiverseid(fn.getGathererId());
-			mc.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
-			mc.setFlavor(fn.getFlavor());
-			mc.setText(fn.getText());
-			return mc;
+			BeanUtils.copyProperties(mc2,this);
+			BeanUtils.copyProperties(ed,this.getCurrentSet());
+
+			mc2.setName(fn.getName());
+			mc2.setEditions(new ArrayList<>(getEditions()));
+			mc2.getEditions().set(0, ed);
+			mc2.setMultiverseid(fn.getGathererId());
+			mc2.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
+			mc2.setFlavor(fn.getFlavor());
+			mc2.setText(fn.getText());
+			return mc2;
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return this;
 		}
 	}
 
-	
 
 }

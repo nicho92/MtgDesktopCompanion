@@ -58,7 +58,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			logger.trace("cached " + mc + "(" + ed + ") found");
 			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed), newW, newH);
 		}
-
 		BufferedImage bufferedImage = getOnlinePicture(mc, ed);
 		if (bufferedImage != null)
 		{
@@ -78,7 +77,8 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
-		return getPicture(mc.toForeign(fn),mc.getCurrentSet());
+		MagicCard foreignCard = mc.toForeign(fn);
+		return getPicture(foreignCard,foreignCard.getCurrentSet());
 	}
 
 	@Override

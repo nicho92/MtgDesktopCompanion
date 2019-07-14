@@ -702,7 +702,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	}
 
 	protected void loadPics(MagicCard mc,MagicCardNames fn) {
-		SwingWorker<ImageIcon, Void> sw = new SwingWorker<ImageIcon, Void>()
+		SwingWorker<ImageIcon, Void> sw = new SwingWorker<>()
 		{
 			@Override
 			protected ImageIcon doInBackground() throws Exception {
