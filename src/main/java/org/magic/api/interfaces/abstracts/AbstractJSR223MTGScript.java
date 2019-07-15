@@ -7,12 +7,32 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.magic.api.scripts.impl.JavaScript;
+
 public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 
 	public abstract String getEngineName();
 	protected Bindings binds;
 	protected ScriptEngine engine;
 	
+	public static AbstractJSR223MTGScript build(String name, String engineName,String extension ) {
+		return new AbstractJSR223MTGScript() {
+			@Override
+			public String getName() {
+				return name;
+			}
+			
+			@Override
+			public String getExtension() {
+				return extension;
+			}
+			
+			@Override
+			public String getEngineName() {
+				return engineName;
+			}
+		};
+	}
 	
 	
 	@Override
@@ -58,12 +78,13 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 	}
 	
 
-	public void test()
+	public void test() throws ScriptException
 	{
 		new ScriptEngineManager().getEngineFactories().forEach(f->logger.debug(f.getNames()));
+		
 	}
 	
-
+	
 	@Override
 	public String getVersion() {
 		if(engine==null)
@@ -72,5 +93,4 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		return engine.getFactory().getEngineVersion();
 	}
 	
-
 }

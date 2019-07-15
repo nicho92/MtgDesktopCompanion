@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.PluginRegistry;
@@ -95,7 +96,7 @@ public class CacheProviderTests {
 			System.out.println("putPictures ERROR "+e );
 		}
 		
-		
+		p.clear(new MagicEdition("LEA"));
 		p.clear();
 
 	}

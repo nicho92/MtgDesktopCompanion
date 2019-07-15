@@ -125,6 +125,7 @@ public class ScriptPanel extends MTGUIComponent {
 			ThreadManager.getInstance().executeThread(()->{
 				try {
 					btnRun.setEnabled(false);
+					lblInfo.setText("Running");
 					MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
 					scripter.init();
 					StringWriter writer = new StringWriter();
@@ -137,7 +138,7 @@ public class ScriptPanel extends MTGUIComponent {
 					if(chkShowReturn.isSelected())
 						appendResult("Return :" + ret+"\n");
 					
-				} catch (ScriptException e) {
+				} catch (Exception e) {
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
 					
@@ -164,7 +165,7 @@ public class ScriptPanel extends MTGUIComponent {
 			int ret=JFileChooser.CANCEL_OPTION;
 			if(currentFile !=null)
 			{
-				int res= JOptionPane.showConfirmDialog(this, MTGControler.getInstance().getLangService().getCapitalize("ERASE"));
+				int res= JOptionPane.showConfirmDialog(this, MTGControler.getInstance().getLangService().getCapitalize("OVERRIDE") + " " + currentFile + " ?", MTGControler.getInstance().getLangService().getCapitalize("OVERRIDE"), JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					ret=JFileChooser.APPROVE_OPTION;
 			}
@@ -180,7 +181,7 @@ public class ScriptPanel extends MTGUIComponent {
 				}
 			}
 			
-			if(ret==JFileChooser.APPROVE_OPTION)
+			if(ret==JFileChooser.APPROVE_OPTION && currentFile!=null)
 			{
 				try {
 					FileUtils.writeStringToFile(currentFile, editorPane.getText(), MTGConstants.DEFAULT_ENCODING);

@@ -400,15 +400,11 @@
     	<version>2.7.1</version>
 	</dependency>
 	<dependency>
-    	<groupId>org.jetbrains.kotlin</groupId>
-    	<artifactId>kotlin-script-runtime</artifactId>
-    	<version>1.3.41</version>
+    	<groupId>org.jruby</groupId>
+    	<artifactId>jruby-complete</artifactId>
+    	<version>9.2.7.0</version>
 	</dependency>
-	<dependency>
-    	<groupId>org.jetbrains.kotlin</groupId>
-    	<artifactId>kotlin-stdlib</artifactId>
-    	<version>1.3.41</version>
-	</dependency>
+	
 </dependencies>
 
 	<build>

@@ -64,7 +64,24 @@
             <avatar></avatar>
         </player-profil>
     </game>
-    <scripts></scripts>
+    <<scripts>
+        <script>
+            <class>org.magic.api.scripts.impl.JShellScript</class>
+            <enable>true</enable>
+        </script>
+        <script>
+            <class>org.magic.api.scripts.impl.JavaScript</class>
+            <enable>true</enable>
+        </script>
+        <script>
+            <class>org.magic.api.scripts.impl.GroovyScript</class>
+            <enable>true</enable>
+        </script>
+        <script>
+            <class>org.magic.api.scripts.impl.PythonScript</class>
+            <enable>true</enable>
+        </script>
+    </scripts>
     <dashlets>
         <dashlet>
             <class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class>
