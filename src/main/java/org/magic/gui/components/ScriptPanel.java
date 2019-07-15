@@ -19,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -160,12 +161,15 @@ public class ScriptPanel extends MTGUIComponent {
 		
 		btnSaveButton.addActionListener(al->{
 			
-			int ret=0;
+			int ret=JFileChooser.CANCEL_OPTION;
 			if(currentFile !=null)
 			{
-				ret=JFileChooser.APPROVE_OPTION;
+				int res= JOptionPane.showConfirmDialog(this, MTGControler.getInstance().getLangService().getCapitalize("ERASE"));
+				if(res==JOptionPane.YES_OPTION)
+					ret=JFileChooser.APPROVE_OPTION;
 			}
-			else
+			
+			if(ret==JFileChooser.CANCEL_OPTION)
 			{
 				JFileChooser choose = new JFileChooser(MTGConstants.DATA_DIR);
 				choose.setFileFilter(new ExtensionFileFilter(cboScript.getSelectedItem().toString(), ((MTGScript)cboScript.getSelectedItem()).getExtension()));
@@ -175,6 +179,7 @@ public class ScriptPanel extends MTGUIComponent {
 					currentFile = choose.getSelectedFile();
 				}
 			}
+			
 			if(ret==JFileChooser.APPROVE_OPTION)
 			{
 				try {
