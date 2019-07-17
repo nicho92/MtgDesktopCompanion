@@ -404,7 +404,6 @@
     	<artifactId>jruby-complete</artifactId>
     	<version>9.2.7.0</version>
 	</dependency>
-	
 </dependencies>
 
 	<build>

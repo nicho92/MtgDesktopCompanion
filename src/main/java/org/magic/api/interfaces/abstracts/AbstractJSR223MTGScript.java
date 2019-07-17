@@ -76,12 +76,10 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		}
 		super.init();
 	}
-	
 
-	public void test() throws ScriptException
-	{
-		new ScriptEngineManager().getEngineFactories().forEach(f->logger.debug(f.getNames()));
-		
+	
+	public static void main(String[] args) throws ScriptException {
+		AbstractJSR223MTGScript.build("PHP", "php", "php").runContent("echo 'coucou'");
 	}
 	
 	
