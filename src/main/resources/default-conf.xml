@@ -64,7 +64,7 @@
             <avatar></avatar>
         </player-profil>
     </game>
-    <<scripts>
+    <scripts>
         <script>
             <class>org.magic.api.scripts.impl.JShellScript</class>
             <enable>true</enable>

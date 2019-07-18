@@ -449,7 +449,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblPicsSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL_SIZE") + ": ");
 		JButton btnSavePicSize = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
-		JLabel lblShowJsonPanel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_JSON_PANEL") + " :");
+		JLabel lblShowJsonPanel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_OBJECT_PANEL") + " :");
 		cbojsonView = new JCheckBox();
 		JLabel lblShowTooltip = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_TOOLTIP") + " :");
 		chkToolTip = new JCheckBox("");

@@ -40,11 +40,6 @@ public class MemoryTools {
 		return ClassLayout.parseInstance(classe).toPrintable();
 	}
 	
-	public static void main(String[] args) {
-		logger.debug(MemoryTools.statClassToString(MagicEdition.class));
-		logger.debug(MemoryTools.statInstanceToString(new MagicEdition("TEST")));
-	}
-	
 	public static long sizeOf(Object classe)
 	{
 		return ClassLayout.parseInstance(classe).instanceSize();

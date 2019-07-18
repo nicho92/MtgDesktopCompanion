@@ -43,8 +43,8 @@ import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
+import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
 import org.magic.gui.models.MagicCardNamesTableModel;
@@ -70,7 +70,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private JPanel panelPictures;
 	private JXTable cardsTable;
 	private MagicCardTableModel cardsModel;
-	private JSONPanel jsonPanel;
+	private ObjectViewerPanel jsonPanel;
 	private JTabbedPane tabbedPane;
 	private JSpinner spinCommon;
 	private JSpinner spinRare;
@@ -141,7 +141,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			spinRare = new JSpinner();
 			spinUnco = new JSpinner();
 			cardsModel = new MagicCardTableModel();
-			jsonPanel = new JSONPanel();
+			jsonPanel = new ObjectViewerPanel();
 			jsonPanel.setMaximumSize(new Dimension(400, 10));
 			editionsTable = new JXTable();
 			cardsTable = new JXTable();
@@ -227,7 +227,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			tabbedPane.addTab("Set", MTGConstants.ICON_BACK, panelSets, null);
 			tabbedPane.addTab("Cards", MTGConstants.ICON_TAB_DECK, panelCards, null);
 			tabbedResult.addTab("Pictures", MTGConstants.ICON_TAB_PICTURE, panelPictures, null);
-			tabbedResult.addTab("JSON",MTGConstants.ICON_TAB_JSON, jsonPanel,null);
+			tabbedResult.addTab("Object",MTGConstants.ICON_TAB_JSON, jsonPanel,null);
 			panelBooster.add(lblCommon, gbcLblCommon);
 			panelBooster.add(spinCommon, gbcSpinCommon);
 			panelBooster.add(lblUncommon, gbcLblUncommon);

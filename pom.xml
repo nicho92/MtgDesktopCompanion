@@ -448,6 +448,7 @@
 							<name>game-client</name>
 						</program>
 					</programs>
+					<environmentSetupFileName>setup-env</environmentSetupFileName>
 					<generateRepository>true</generateRepository>
 					<repositoryName>lib</repositoryName>
 					<repositoryLayout>flat</repositoryLayout>

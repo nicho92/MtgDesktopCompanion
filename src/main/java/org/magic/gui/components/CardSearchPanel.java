@@ -103,7 +103,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private MagicCardDetailPanel detailCardPanel;
 	private PricesTablePanel priceTablePanel;
 	private JTextArea txtRulesArea;
-	private JSONPanel panelJson;
+	private ObjectViewerPanel panelJson;
 	private JTextField txtSearch;
 	private JPopupMenu popupMenu = new JPopupMenu();
 	private JComboBox<String> cboQuereableItems;
@@ -242,7 +242,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelmana = new JPanel();
 		panelFilters = new JPanel();
 		ManaPanel pan = new ManaPanel();
-		panelJson = new JSONPanel();
+		panelJson = new ObjectViewerPanel();
 		tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
@@ -395,7 +395,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedCardsInfo.addTab("Json", MTGConstants.ICON_TAB_JSON, panelJson, null);
+			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
 
 		panneauStat.add(cmcChart);
 		panneauStat.add(manaRepartitionPanel);

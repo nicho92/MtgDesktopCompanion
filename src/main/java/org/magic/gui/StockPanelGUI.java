@@ -48,8 +48,8 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
-import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -79,7 +79,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricePanel;
 	private PricesTablePanel pricePanel;
-	private JSONPanel jsonPanel;
+	private ObjectViewerPanel jsonPanel;
 	private JButton btnReload;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private JPanel rightPanel;
@@ -594,7 +594,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(btnExport);
 
 		btnGeneratePrice = new JButton();
-		jsonPanel = new JSONPanel();
+		jsonPanel = new ObjectViewerPanel();
 		btnGeneratePrice.setIcon(MTGConstants.ICON_EURO);
 		btnGeneratePrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_PRICE"));
 		actionPanel.add(btnGeneratePrice);
@@ -638,7 +638,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabPanel.addTab("Json", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
+			tabPanel.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
 		
 		rightPanel = new JPanel();
