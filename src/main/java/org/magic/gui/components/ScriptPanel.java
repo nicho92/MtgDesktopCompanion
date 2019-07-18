@@ -122,9 +122,10 @@ public class ScriptPanel extends MTGUIComponent {
 			
 			Chrono c = new Chrono();
 			c.start();
+			btnRun.setEnabled(false);
 			ThreadManager.getInstance().executeThread(()->{
 				try {
-					btnRun.setEnabled(false);
+					
 					lblInfo.setText("Running");
 					MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
 					scripter.init();

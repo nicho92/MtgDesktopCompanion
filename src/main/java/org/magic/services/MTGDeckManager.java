@@ -75,6 +75,16 @@ public class MTGDeckManager extends Observable {
 		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
 		return serialis.importDeck(f);
 	}
+	
+	public boolean exist(String name)
+	{
+		return new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension()).exists();
+	}
+	
+	public boolean exist(MagicDeck d)
+	{
+		return exist(d.getName());
+	}
 
 	public List<MagicDeck> listDecks() {
 		List<MagicDeck> decks = new ArrayList<>();
