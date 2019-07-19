@@ -1,6 +1,5 @@
 package org.magic.api.scripts.impl;
 
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.magic.api.interfaces.abstracts.AbstractJSR223MTGScript;
 
 import groovy.lang.GroovySystem;

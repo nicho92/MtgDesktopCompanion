@@ -11,12 +11,16 @@ import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGScript;
 
 import jdk.jshell.JShell;
+import jdk.jshell.SourceCodeAnalysis;
 
 public class JShellScript extends AbstractMTGScript {
 
 	
 	private JShell sh;
 	
+	public JShellScript() {
+		sh = JShell.create();
+	}
 	
 	@Override
 	public String getExtension() {
@@ -30,7 +34,6 @@ public class JShellScript extends AbstractMTGScript {
 
 	@Override
 	public Object runContent(String content) throws ScriptException {
-		sh = JShell.create();
 		return sh.eval(content);
 	}
 	
@@ -45,21 +48,14 @@ public class JShellScript extends AbstractMTGScript {
 	}
 
 	@Override
-	public boolean isJsr223() {
-		return false;
-	}
-	
-	@Override
 	public void addVariable(String k, Object o) {
-		// TODO Auto-generated method stub
-		
+				
 	}
 	
 	
 	@Override
 	public void setOutput(Writer w) {
 		sh=JShell.builder().out(new PrintStream(new OutputStream() {
-			
 			@Override
 			public void write(int b) throws IOException {
 				w.write(b);
