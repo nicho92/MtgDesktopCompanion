@@ -3,6 +3,7 @@ package org.magic.services;
 import java.beans.PropertyChangeEvent;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -35,9 +36,15 @@ public class ThreadManager {
 		log();
 	}
 	
-	public <V> void executeThread(Callable<V> task) {
-		executor.submit(task);
+	public Future<?> submitThread(Runnable task, String name) {
+		this.name=name;
 		log();
+		return executor.submit(task);
+	}
+	
+	public <V> Future<V> executeThread(Callable<V> task) {
+		log();
+		return executor.submit(task);
 	}
 	
 	public void invokeLater(Runnable task) {

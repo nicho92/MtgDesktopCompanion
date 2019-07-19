@@ -11,8 +11,8 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.Future;
 
-import javax.script.ScriptException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -75,6 +75,7 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
 		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
+		JButton btnStop = new JButton(MTGConstants.ICON_DELETE);
 		
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
@@ -87,6 +88,7 @@ public class ScriptPanel extends MTGUIComponent {
 		splitPane.setDividerLocation(0.5);
 		splitPane.setResizeWeight(0.5);
 		editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType());
+		btnStop.setEnabled(false);
 		
 		paneHaut.add(cboScript);
 		paneHaut.add(btnNewButton);
@@ -94,6 +96,7 @@ public class ScriptPanel extends MTGUIComponent {
 		paneHaut.add(btnSaveButton);
 		paneHaut.add(chkShowReturn);
 		paneHaut.add(btnRun);
+		paneHaut.add(btnStop);
 		add(paneHaut,BorderLayout.NORTH);
 		add(splitPane,BorderLayout.CENTER);
 		add(paneBas,BorderLayout.SOUTH);
@@ -123,6 +126,9 @@ public class ScriptPanel extends MTGUIComponent {
 			Chrono c = new Chrono();
 			c.start();
 			btnRun.setEnabled(false);
+			btnStop.setEnabled(true);
+			
+			
 			ThreadManager.getInstance().executeThread(()->{
 				try {
 					
@@ -142,11 +148,12 @@ public class ScriptPanel extends MTGUIComponent {
 				} catch (Exception e) {
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
-					
 				lblInfo.setText("Running time : " + c.stop() +"ms");
 				btnRun.setEnabled(true);
+				btnStop.setEnabled(false);
 			}, "executing script");
 		});
+		
 		
 		
 		
