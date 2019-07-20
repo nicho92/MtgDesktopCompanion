@@ -130,7 +130,8 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 				((PluginTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
 			
 			
-			lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition());
+			if(e.getNewLeadSelectionPath()!=null)
+				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition());
 			
 		});
 		table.packAll();

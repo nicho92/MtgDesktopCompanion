@@ -120,6 +120,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		panneauBas.add(progressBar);
 
 		JTextPane txtNumbersInput = new JTextPane();
+		
 
 		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
 
@@ -127,8 +128,6 @@ public class MassCollectionImporterDialog extends JDialog {
 		setModal(true);
 		setLocationRelativeTo(null);
 
-		
-		
 		btnInverse.addActionListener(e -> {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
 			StringBuilder temp = new StringBuilder();
@@ -150,7 +149,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			else
 				ids = txtNumbersInput.getText().split("\n");
 		
-			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<Void, MagicCard, MTGCardsProvider>(progressBar,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),ids.length) {
+			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),ids.length) {
 
 				@Override
 				protected void notifyEnd() {
