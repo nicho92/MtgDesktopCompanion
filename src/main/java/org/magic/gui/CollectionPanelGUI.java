@@ -266,7 +266,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedPane.addTab("Json", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
+			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
 		///////// Labels
 		lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
