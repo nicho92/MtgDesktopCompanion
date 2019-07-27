@@ -46,6 +46,16 @@ Features :
 - Wallpapers providers
 - Indexation provider
 
+
+# SETUP
+```
+git clone https://github.com/nicho92/MtgDesktopCompanion.git
+mvn -DskipTest clean install
+cd target/executable/bin
+running mtg-desktop-companion.bat or mtg-desktop-companion.sh
+```
+
+
 Main interface :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png)
