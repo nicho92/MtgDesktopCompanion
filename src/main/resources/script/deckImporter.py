@@ -1,6 +1,5 @@
 from org.magic.services import MTGDeckManager
 
-provider.init();
 snifferName = "MTGoldFish"
 selectedSniffer = None
 for sniffer in sniffers :
@@ -8,6 +7,8 @@ for sniffer in sniffers :
 		selectedSniffer = sniffer
 
 print "Selected Sniffer : " + str(selectedSniffer)
+
+selectedSniffer.setProperty("FORMAT","Vintage")
 
 manager = MTGDeckManager()
 
