@@ -12,7 +12,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 [Give me a tips !](https://www.paypal.me/nicolaspihen)
 
-Features :
+# Features :
 
 - search for cards
 - Create and Manage decks
@@ -33,28 +33,17 @@ Features :
 - Use MTGCompanion throught webpage or mobile.
 
 
-> Modularity : 
-- choose :
-- prices provider
-- cards provider
-- dashboard provider
-- online shops
-- database providers
-- pictures providers
-- cache providers
-- News providers
-- Wallpapers providers
-- Indexation provider
-
-
-# SETUP
+# Setup from source
 ```
 git clone https://github.com/nicho92/MtgDesktopCompanion.git
+
 mvn -DskipTest clean install
-cd target/executable/bin
-running mtg-desktop-companion.bat or mtg-desktop-companion.sh
+
+cd target/executable/bin and running mtg-desktop-companion.bat or mtg-desktop-companion.sh
 ```
 
+
+# Portfolio
 
 Main interface :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
