@@ -7,7 +7,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
 [![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
-[![GitHub stars](https://img.shields.io/badge/download-2.7-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[![GitHub stars](https://img.shields.io/badge/download-2.8-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 [![GitHub stars](https://img.shields.io/twitter/url/https/shields.io.svg?style=social)](https://twitter.com/mtgdesktopcomp1)
 [![PayPal](https://img.shields.io/static/v1.svg?label=PayPal&message=Support%20MTGCompanion&color=Blue&logo=paypal)](https://www.paypal.me/nicolaspihen)
 
