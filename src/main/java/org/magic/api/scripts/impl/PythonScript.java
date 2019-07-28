@@ -1,7 +1,6 @@
 package org.magic.api.scripts.impl;
 
 import org.magic.api.interfaces.abstracts.AbstractJSR223MTGScript;
-
 import org.python.Version;
 
 public class PythonScript extends AbstractJSR223MTGScript {

@@ -11,7 +11,6 @@ import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGScript;
 
 import jdk.jshell.JShell;
-import jdk.jshell.SourceCodeAnalysis;
 
 public class JShellScript extends AbstractMTGScript {
 

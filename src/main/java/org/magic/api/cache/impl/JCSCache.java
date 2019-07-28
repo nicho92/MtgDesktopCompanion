@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.jcs.JCS;
 import org.apache.commons.jcs.access.CacheAccess;
-import org.apache.commons.jcs.admin.JCSAdminBean;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;

@@ -7,8 +7,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.magic.api.scripts.impl.JavaScript;
-
 public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 
 	public abstract String getEngineName();
