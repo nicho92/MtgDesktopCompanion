@@ -11,7 +11,9 @@ import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.MTGConstants;
 
+import net.dean.jraw.JrawUtils;
 import net.dean.jraw.RedditClient;
+import net.dean.jraw.Version;
 import net.dean.jraw.http.NetworkAdapter;
 import net.dean.jraw.http.OkHttpNetworkAdapter;
 import net.dean.jraw.http.UserAgent;
@@ -53,6 +55,11 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 		});
 		return ret;
 		
+	}
+	
+	@Override
+	public String getVersion() {
+		return Version.get();
 	}
 	
 	

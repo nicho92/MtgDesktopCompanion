@@ -15,6 +15,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.Version;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
@@ -75,6 +76,11 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		return STATUT.DEV;
 	}
 
+	
+	@Override
+	public String getVersion() {
+		return Version.getVersion();
+	}
 
 	@Override
 	public void initDefault() {

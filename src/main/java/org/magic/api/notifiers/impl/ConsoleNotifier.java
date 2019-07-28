@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
+import org.slf4j.log4j12.VersionUtil;
 
 public class ConsoleNotifier extends AbstractMTGNotifier {
 	
@@ -22,7 +23,6 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 		default : logger.debug(notification.getMessage());break;
 		}		
 	}
-	
 
 	@Override
 	public String getName() {

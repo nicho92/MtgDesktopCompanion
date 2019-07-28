@@ -16,6 +16,7 @@ import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -252,7 +253,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return MkmConstants.MKM_API_VERSION;
 	}
 
 }
