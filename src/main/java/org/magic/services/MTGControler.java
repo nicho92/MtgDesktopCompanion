@@ -38,6 +38,7 @@ import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageTools;
+import org.magic.tools.TCache;
 import org.utils.patterns.observer.Observer;
 
 public class MTGControler {
@@ -51,11 +52,13 @@ public class MTGControler {
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNotifier notifier;
+	private TCache<MagicCard> basket;
+	
 	
 	private MTGControler() {
 		
 		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
-		
+		basket = new TCache<>("basket");
 		
 		if (!conf.exists())
 			try {
@@ -109,6 +112,12 @@ public class MTGControler {
 		}
 		
 		
+	}
+	
+	
+	public TCache<MagicCard> getBasket()
+	{
+		return basket;
 	}
 	
 	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException

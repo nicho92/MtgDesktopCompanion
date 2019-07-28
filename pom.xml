@@ -349,6 +349,11 @@
 			<version>1.7.11</version>
 		</dependency>
 		<dependency>
+	        <groupId>cat.inspiracio</groupId>
+	        <artifactId>rhino-js-engine</artifactId>
+	        <version>1.7.10</version>
+   		</dependency>
+		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome</artifactId>
 			<version>1.12.1</version>

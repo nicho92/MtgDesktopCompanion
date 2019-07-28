@@ -17,12 +17,18 @@ public class JavaScript extends AbstractJSR223MTGScript {
 
 	@Override
 	public String getEngineName() {
-		return "javascript";
+		return getString("ENGINE");
 	}
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEPRECATED;
+		return STATUT.DEV;
+	}
+	
+	@Override
+	public void initDefault() {
+		super.initDefault();
+		setProperty("ENGINE", "nashorn");
 	}
 	
 }

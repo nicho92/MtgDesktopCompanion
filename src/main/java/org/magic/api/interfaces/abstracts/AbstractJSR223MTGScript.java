@@ -74,19 +74,20 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		}
 		super.init();
 	}
-
-	
-	public static void main(String[] args) throws ScriptException {
-		AbstractJSR223MTGScript.build("PHP", "php", "php").runContent("echo 'coucou'");
-	}
-	
 	
 	@Override
 	public String getVersion() {
 		if(engine==null)
 			init();
 		
-		return engine.getFactory().getEngineVersion();
+			try {
+				return engine.getFactory().getEngineVersion();
+			}
+			catch(Exception e)
+			{
+				return "-1";
+			}
+		
 	}
 	
 }

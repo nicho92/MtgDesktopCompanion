@@ -66,7 +66,7 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	public void init(List<T> items)
 	{
 		this.items = items;
-	
+		
 		if(isVisible())
 			refresh();
 	}
@@ -76,6 +76,9 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	public void refresh()
 	{
 
+		if(items==null)
+			return;
+		
 		JFreeChart chart = initChart();
 		chartPanel.setChart(chart);
 		
