@@ -13,6 +13,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
 import rita.RiMarkov;
+import rita.RiTa;
 
 public class MarkovGenerator extends AbstractMTGTextGenerator {
 
@@ -110,7 +111,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	
 	@Override
 	public String getVersion() {
-		return "1.0.92-SNAPSHOT";
+		return RiTa.VERSION;
 	}
 	
 }
