@@ -257,7 +257,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT edition, count(ID) FROM cards where collection=? group by edition");) {
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT edition, count(1) FROM cards where collection=? group by edition");) {
 			pst.setString(1, col.getName());
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next())
