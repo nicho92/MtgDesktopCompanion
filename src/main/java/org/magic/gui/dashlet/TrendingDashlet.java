@@ -119,7 +119,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		
 		
 		
-		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<List<CardShake>, CardShake>()
+		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<>()
 		{
 			
 			@Override

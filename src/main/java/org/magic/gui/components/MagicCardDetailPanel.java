@@ -44,6 +44,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -123,37 +124,16 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
-		GridBagConstraints labelgbc5 = new GridBagConstraints();
-		labelgbc5.insets = new Insets(5, 5, 5, 5);
-		labelgbc5.gridx = 0;
-		labelgbc5.gridy = 0;
-		add(nameLabel, labelgbc5);
-
+		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
+		
 		nameJTextField = new JTextField();
-
-		GridBagConstraints componentgbc5 = new GridBagConstraints();
-		componentgbc5.insets = new Insets(5, 0, 5, 5);
-		componentgbc5.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc5.gridx = 1;
-		componentgbc5.gridy = 0;
-		add(nameJTextField, componentgbc5);
-
-		JLabel cmcLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_COST") + " :");
-		GridBagConstraints labelgbc0 = new GridBagConstraints();
-		labelgbc0.anchor = GridBagConstraints.EAST;
-		labelgbc0.insets = new Insets(5, 5, 5, 5);
-		labelgbc0.gridx = 2;
-		labelgbc0.gridy = 0;
-		add(cmcLabel, labelgbc0);
+		add(nameJTextField, UITools.createGridBagConstraints(null,GridBagConstraints.HORIZONTAL,1,0));
+		
+		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_COST") + " :"), UITools.createGridBagConstraints(GridBagConstraints.EAST, null, 2, 0));
 
 		cmcJTextField = new JTextField();
-		GridBagConstraints componentgbc0 = new GridBagConstraints();
-		componentgbc0.insets = new Insets(5, 0, 5, 5);
-		componentgbc0.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc0.gridx = 4;
-		componentgbc0.gridy = 0;
-		add(cmcJTextField, componentgbc0);
+		add(cmcJTextField, UITools.createGridBagConstraints(null,GridBagConstraints.HORIZONTAL,4,0));
+		
 
 		lblLogoSet = new JLabel("");
 		GridBagConstraints gbclblLogoSet = new GridBagConstraints();
@@ -164,10 +144,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gbclblLogoSet.gridy = 0;
 		add(lblLogoSet, gbclblLogoSet);
 
-		btnAlert = new JButton("");
+		btnAlert = new JButton(MTGConstants.ICON_ALERT);
 		btnAlert.setEnabled(false);
-		Image b = MTGConstants.ICON_ALERT.getImage();
-		btnAlert.setIcon(new ImageIcon(b));
 		btnAlert.addActionListener(ae -> {
 
 			MagicCardAlert alert = new MagicCardAlert();
@@ -185,12 +163,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-
-		GridBagConstraints gbcbtnAlert = new GridBagConstraints();
-		gbcbtnAlert.insets = new Insets(0, 0, 5, 0);
-		gbcbtnAlert.gridx = 8;
-		gbcbtnAlert.gridy = 0;
-		add(btnAlert, gbcbtnAlert);
+		add(btnAlert, UITools.createGridBagConstraints(null, null, 8, 0));
 
 		lblThumbnail = new JLabel("");
 		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
@@ -202,13 +175,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gbclblThumbnail.gridy = 1;
 		add(lblThumbnail, gbclblThumbnail);
 
-		JLabel fullTypeLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES") + " :");
-		GridBagConstraints labelgbc2 = new GridBagConstraints();
-		labelgbc2.insets = new Insets(5, 5, 5, 5);
-		labelgbc2.gridx = 0;
-		labelgbc2.gridy = 1;
-		add(fullTypeLabel, labelgbc2);
+		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")), UITools.createGridBagConstraints(null, null, 0, 1));
 
 		fullTypeJTextField = new JTextField();
 		GridBagConstraints componentgbc2 = new GridBagConstraints();
@@ -218,29 +185,13 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		componentgbc2.gridy = 1;
 		add(fullTypeJTextField, componentgbc2);
 
-		JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA") + " :");
-		GridBagConstraints labelgbc1 = new GridBagConstraints();
-		labelgbc1.anchor = GridBagConstraints.EAST;
-		labelgbc1.insets = new Insets(5, 5, 5, 5);
-		labelgbc1.gridx = 2;
-		labelgbc1.gridy = 1;
-		add(costLabel, labelgbc1);
+		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA") + " :"),  UITools.createGridBagConstraints(GridBagConstraints.EAST, null, 2, 1));
 		
 		manaPanel = new ManaPanel();
-		GridBagConstraints componentgbc1 = new GridBagConstraints();
-		componentgbc1.insets = new Insets(5, 0, 5, 5);
-		componentgbc1.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc1.gridx = 4;
-		componentgbc1.gridy = 1;
-		add(manaPanel, componentgbc1);
+		add(manaPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 1));
 
-		JLabel loyaltyLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY") + " :");
-		GridBagConstraints gbcloyaltyLabel = new GridBagConstraints();
-		gbcloyaltyLabel.insets = new Insets(0, 0, 5, 5);
-		gbcloyaltyLabel.gridx = 0;
-		gbcloyaltyLabel.gridy = 2;
-		add(loyaltyLabel, gbcloyaltyLabel);
+		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY")+ " :"), UITools.createGridBagConstraints(null, null, 0, 2));
+		
 		loyaltyJTextField = new JTextField();
 		loyaltyJTextField.setColumns(5);
 		JLabel powerLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER") + " :");
@@ -573,9 +524,10 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		}
 
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) {
-
+			setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity());
+			
 			ThreadManager.getInstance().executeThread(() -> {
-				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity());
+				
 				
 				int showCount = magicCard.getCurrentSet().getCardCountOfficial();
 				if(showCount==0)

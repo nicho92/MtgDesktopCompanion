@@ -2,6 +2,7 @@ package org.magic.gui.components.charts;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.time.Day;
@@ -26,6 +32,7 @@ import org.magic.tools.UITools;
 
 public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 
+	private static final long serialVersionUID = 1L;
 	private String p;
 	private boolean count;
 
@@ -34,13 +41,21 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 	public JFreeChart initChart() {
 		
 		JFreeChart chart=null ;
-		
 		try {
 			if(PropertyUtils.getProperty(new OrderEntry(), p) instanceof Date)
 			{
 				chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", getTimeDataSet(), true, true,false);
 
 			}
+//			else if(p.equals("edition"))
+//			{
+//				chart = ChartFactory.createBarChart("Editions", "Name", "Value", getChartDataSet());
+//				chart.removeLegend();
+//				StandardCategoryToolTipGenerator generator =new StandardCategoryToolTipGenerator("{1}, {2}", NumberFormat.getInstance());
+//				chart.getCategoryPlot().getRenderer().setDefaultToolTipGenerator(generator);
+//				
+//				
+//			}
 			else
 			{
 				chart = ChartFactory.createPieChart3D("Orders", getPieDataSet(), false, true, true);
@@ -56,6 +71,17 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 	}
 	
 	
+	private CategoryDataset getChartDataSet() {
+		DefaultCategoryDataset data = new DefaultCategoryDataset();
+		
+		
+		for (Entry<Object, Double> e : groupOrdersBy().entrySet()) {
+			data.addValue(e.getValue(),String.valueOf(e.getKey()),String.valueOf(e.getKey()));
+		}
+		return data;
+	}
+
+
 	private TimeSeriesCollection getTimeDataSet() {
 		TimeSeriesCollection col = new TimeSeriesCollection();
 		
