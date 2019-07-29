@@ -85,6 +85,20 @@ public class UITools {
 		return cons;
 	}
 	
+	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line,Integer gridW, Integer gridH)
+	{
+		GridBagConstraints cons = createGridBagConstraints(anchor,fill,col,line);
+		
+		if(gridW!=null)
+			cons.gridwidth = gridW;
+		
+		if(gridH!=null)
+			cons.gridheight = gridH;
+		
+		return cons;
+	}
+	
+	
 	public static JTextField createSearchField()
 	{
 		JTextField txtSearch;
