@@ -47,7 +47,6 @@ public class MagicCard implements Serializable {
 	private List<String> colorIdentity;
 	private String watermarks;
 	private String layout="normal";
-	@Deprecated private Integer multiverseid;
 	private List<MagicFormat> legalities;
 	private String rarity="";
 	private String gathererCode;
@@ -260,15 +259,6 @@ public class MagicCard implements Serializable {
 
 	public void setLegalities(List<MagicFormat> legalities) {
 		this.legalities = legalities;
-	}
-
-	@Deprecated
-	public Integer getMultiverseid() {
-		return multiverseid;
-	}
-	@Deprecated
-	public void setMultiverseid(Integer multiverseid) {
-		this.multiverseid = multiverseid;
 	}
 
 	public String getWatermarks() {
@@ -514,15 +504,14 @@ public class MagicCard implements Serializable {
 			mc2.setName(fn.getName());
 			mc2.setEditions(new ArrayList<>(getEditions()));
 			mc2.getEditions().set(0, ed);
-			mc2.setMultiverseid(fn.getGathererId());
+			ed.setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.setFlavor(fn.getFlavor());
 			mc2.setText(fn.getText());
 			return mc2;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			return this;
+			return null;
 		}
 	}
 

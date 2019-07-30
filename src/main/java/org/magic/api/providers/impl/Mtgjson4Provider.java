@@ -251,9 +251,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				else
 					mc.setCost("");
 				
-				if (map.get(MULTIVERSE_ID) != null)
-					mc.setMultiverseid((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
-				
 				if (map.get(RARITY) != null)
 					mc.setRarity(String.valueOf(map.get(RARITY)));
 				
@@ -351,8 +348,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				
 				MagicCardNames defnames = new MagicCardNames();
-							   if (mc.getMultiverseid() != null)
-								   defnames.setGathererId(mc.getMultiverseid());			 
+				
+						if(map.get(MULTIVERSE_ID)!=null)
+							   defnames.setGathererId((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
+						
 							   defnames.setLanguage("English");
 							   defnames.setName(mc.getName());
 							   defnames.setText(mc.getText());
@@ -394,8 +393,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 							 me.setRarity(mc.getRarity());
 							 me.setNumber(mc.getNumber());
 							 me.setFlavor(mc.getFlavor());
-							 if(mc.getMultiverseid()!=null)
-								 me.setMultiverseid(String.valueOf(mc.getMultiverseid()));
+							 if(map.get(MULTIVERSE_ID)!=null)
+								   defnames.setGathererId((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
 							
 				mc.getEditions().add(me);
 				
@@ -485,7 +484,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				}
 
 				try {
-					me.setMultiverseid(String.valueOf((int) (double) map.get(MULTIVERSE_ID)));
+					me.setMultiverseid(String.valueOf((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString())));
 				} catch (Exception e) {
 					//do nothing
 				}

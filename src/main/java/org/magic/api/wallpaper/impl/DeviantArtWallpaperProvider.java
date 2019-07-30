@@ -20,6 +20,12 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private String bToken;
 	
 	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
+	@Override
 	public List<Wallpaper> search(String search) {
 		
 		List<Wallpaper> list = new ArrayList<>();

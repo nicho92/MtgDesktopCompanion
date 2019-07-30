@@ -267,11 +267,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setCmc(obj.get("cmc").getAsInt());
 		mc.setLayout(obj.get("layout").getAsString());
 
-		try {
-			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());
-		} catch (Exception e) {
-			logger.error("could not find multiverse_ids " + mc.getName());
-		}
+//		try {
+//			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());
+//		} catch (Exception e) {
+//			logger.error("could not find multiverse_ids " + mc.getName());
+//		}
 		try {
 			mc.setText(obj.get("oracle_text").getAsString());
 		} catch (NullPointerException e) {
@@ -406,11 +406,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					.getAsString());
 
 			try {
-				mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());
-			} catch (Exception e) {
-				logger.error(mc.getName() + " has no multiverseid :" + e);
-			}
-			try {
 				mc.setLoyalty(
 						obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(LOYALTY).getAsInt());
 			} catch (Exception e) {
@@ -457,8 +452,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		try {
 			ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 			ed.setArtist(mc.getArtist());
-			if (mc.getMultiverseid() != null)
-				ed.setMultiverseid(String.valueOf(mc.getMultiverseid()));
+			
+			if (obj.get("multiverse_ids") != null)
+				ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
 
 			ed.setRarity(obj.get(RARITY).getAsString());
 			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
