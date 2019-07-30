@@ -6,11 +6,18 @@ import java.io.IOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.TCache;
 
 public class ClipBoardExport extends AbstractCardExport {
 
+	private TCache<MagicCard> clipboard;
+	
+	
+	public ClipBoardExport() {
+		clipboard = new TCache<>("clipboard");
+	}
+	
 	@Override
 	public String getFileExtension() {
 		return "";
@@ -29,7 +36,7 @@ public class ClipBoardExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		for(MagicCard mc : deck.getAsList())
-			MTGControler.getInstance().getBasket().put(IDGenerator.generate(mc), mc);
+			clipboard.put(IDGenerator.generate(mc), mc);
 
 	}
 
@@ -38,11 +45,11 @@ public class ClipBoardExport extends AbstractCardExport {
 		MagicDeck d = new MagicDeck();
 		d.setName("ClipBoard");
 		
-		for(MagicCard mc : MTGControler.getInstance().getBasket().values())
+		for(MagicCard mc : clipboard.values())
 			d.add(mc);
 		
 		
-		MTGControler.getInstance().getBasket().clean();
+		clipboard.clean();
 		
 		return d;
 		

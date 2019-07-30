@@ -52,13 +52,11 @@ public class MTGControler {
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNotifier notifier;
-	private TCache<MagicCard> basket;
 	
 	
 	private MTGControler() {
 		
 		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
-		basket = new TCache<>("basket");
 		
 		if (!conf.exists())
 			try {
@@ -112,12 +110,6 @@ public class MTGControler {
 		}
 		
 		
-	}
-	
-	
-	public TCache<MagicCard> getBasket()
-	{
-		return basket;
 	}
 	
 	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException

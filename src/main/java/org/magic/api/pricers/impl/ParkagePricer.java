@@ -28,26 +28,31 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 		URLTools.extractHtml(URL_BASE+"/en/search/?text="+URLTools.encode(card.getName())+"&page=1&products_per_page=50&page_view=3")
 		.select("table.table-condensed > tbody > tr")
 		.forEach(tr->{
-			
-			if(!tr.select("select").hasAttr("disabled"))
+			try {
+				if(!tr.select("select").hasAttr("disabled"))
+				{
+					MagicPrice mp = new MagicPrice();
+					mp.setCountry("FR");
+					mp.setCurrency("EUR");
+					mp.setSite(getName());
+					mp.setUrl(tr.select("td").first().select("a").attr("href"));
+					mp.setSeller(tr.select("td").get(2).text());
+					
+					String urlFlag =tr.select("td").first().select("img").attr("src");
+					mp.setLanguage(urlFlag.substring(urlFlag.lastIndexOf('/')+1,urlFlag.lastIndexOf('.')));
+					
+					String price = tr.select("td.col-price").text().replaceAll(",", ".").replaceAll("€","");
+					mp.setValue(Double.parseDouble(price));
+					mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
+					
+					ret.add(mp);
+				}
+			}catch(Exception e)
 			{
-				MagicPrice mp = new MagicPrice();
-				mp.setCountry("FR");
-				mp.setCurrency("EUR");
-				mp.setSite(getName());
-				mp.setUrl(tr.select("td").first().select("a").attr("href"));
-				mp.setSeller(tr.select("td").get(2).text());
-				
-				String urlFlag =tr.select("td").first().select("img").attr("src");
-				mp.setLanguage(urlFlag.substring(urlFlag.lastIndexOf('/')+1,urlFlag.lastIndexOf('.')));
-				
-				String price = tr.select("td.col-price").text().replaceAll(",", ".").replaceAll("€","");
-				mp.setValue(Double.parseDouble(price));
-				mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
-				
-				ret.add(mp);
+				logger.error(e);
 			}
 		});
+		
 		
 		
 		
