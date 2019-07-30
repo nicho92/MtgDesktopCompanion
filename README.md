@@ -22,6 +22,9 @@ cd target/executable/bin and running mtg-desktop-companion.bat or mtg-desktop-co
 
 ```
 
+# Website : 
+[MTG Companion website](https://nicho92.github.io/MtgDesktopCompanion/)
+
 
 # Features :
 
