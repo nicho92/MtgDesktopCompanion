@@ -30,6 +30,9 @@ public interface MTGCardsExport extends MTGPlugin {
 	public Icon getIcon();
 
 	public boolean needDialogGUI();
+	
+	public boolean needFile();
+	
 
 	public MODS getMods();
 

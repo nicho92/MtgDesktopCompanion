@@ -27,6 +27,11 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return PLUGINS.EXPORT;
 	}
 	
+	@Override
+	public boolean needFile() {
+		return true;
+	}
+	
 
 
 	public AbstractCardExport() {

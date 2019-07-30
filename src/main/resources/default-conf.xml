@@ -476,6 +476,10 @@
             <enable>true</enable>
         </export>
          <export>
+            <class>org.magic.api.exports.impl.ClipBoardExport</class>
+            <enable>true</enable>
+        </export>
+         <export>
             <class>org.magic.api.exports.impl.PriceCatalogExport</class>
             <enable>true</enable>
         </export>

@@ -106,6 +106,11 @@ public class TCache<T>{
 			return null;
 		}
 	}
+
+	public void clean() {
+		loader.invalidateAll();
+		
+	}
 	
 	
 	

@@ -655,7 +655,7 @@ public class CardSearchPanel extends MTGUIComponent {
 						final File f = jf.getSelectedFile();
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
-							List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
+							List<MagicCard> export = UITools.getTableSelections(tableCards,0);
 							lblLoading.start(export.size()); 
 							ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, export, lblLoading, f), "export search " + exp);
 						}

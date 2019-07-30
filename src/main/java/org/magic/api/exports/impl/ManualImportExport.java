@@ -33,6 +33,12 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 	
+
+	@Override
+	public boolean needFile() {
+		return false;
+	}
+	
 	
 	@Override
 	public boolean needDialogGUI() {
