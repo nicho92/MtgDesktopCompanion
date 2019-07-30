@@ -643,13 +643,28 @@ public class CardSearchPanel extends MTGUIComponent {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
 					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {
-						JFileChooser jf = new JFileChooser(".");
-						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
-						int result = jf.showSaveDialog(null);
-						final File f = jf.getSelectedFile();
+						int result = JFileChooser.CANCEL_OPTION;
+						File f = null;
+						if(exp.needFile())
+						{
+							JFileChooser jf = new JFileChooser(".");
+							jf.setSelectedFile(new File("search" + exp.getFileExtension()));
+							result = jf.showSaveDialog(null);
+							f = jf.getSelectedFile();
+						}
+						else
+						{
+							result = JFileChooser.APPROVE_OPTION;
+						}
+						
+						
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
 							List<MagicCard> export = UITools.getTableSelections(tableCards,0);
+							
+							if(export.isEmpty())
+								export =  ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
+								
 							lblLoading.start(export.size()); 
 							ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, export, lblLoading, f), "export search " + exp);
 						}

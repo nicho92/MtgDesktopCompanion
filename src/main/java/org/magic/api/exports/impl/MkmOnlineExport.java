@@ -50,7 +50,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public boolean needFile() {
-		return false;
+		return true;
 	}
 	
 	private void init()

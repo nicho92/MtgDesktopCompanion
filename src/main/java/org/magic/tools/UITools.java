@@ -36,6 +36,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -378,6 +379,5 @@ public class UITools {
 		
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).format(indexDate);
 	}
-
 
 }
