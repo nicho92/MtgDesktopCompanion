@@ -220,10 +220,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		}
 
 		//////// INIT COMPONENTS
-		JScrollPane scrollEditions = new JScrollPane();
+
 		JScrollPane scrollThumbnails = new JScrollPane();
-		JScrollPane scrollPaneRules = new JScrollPane();
-		JScrollPane scrollCards = new JScrollPane();
 		JSplitPane panneauCentral = new JSplitPane();
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
@@ -321,7 +319,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		historyChartPanel.setPreferredSize(new Dimension(400, 10));
 		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
 		tabbedCardsInfo.setMinimumSize(new Dimension(23, 200));
-		scrollCards.setMinimumSize(new Dimension(0, 0));
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
 		txtSearch.setColumns(50);
@@ -350,9 +347,6 @@ public class CardSearchPanel extends MTGUIComponent {
 			panelmana.add(btnG);
 
 		}
-		scrollEditions.setViewportView(listEdition);
-		scrollCards.setViewportView(tableCards);
-		scrollPaneRules.setViewportView(txtRulesArea);
 		scrollThumbnails.setViewportView(thumbnailPanel);
 
 		panneauHaut.add(cboQuereableItems);
@@ -362,11 +356,11 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(lblLoading);
-		panneauCard.add(scrollEditions, BorderLayout.SOUTH);
+		panneauCard.add(new JScrollPane(listEdition), BorderLayout.SOUTH);
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
 
 		panelResultsCards.add(panelFilters, BorderLayout.NORTH);
-		panelResultsCards.add(scrollCards);
+		panelResultsCards.add(new JScrollPane(tableCards));
 		magicEditionDetailPanel = new MagicEditionDetailPanel();
 
 		editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
@@ -383,7 +377,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,
 				priceTablePanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("RULES"), MTGConstants.ICON_TAB_RULES,
-				scrollPaneRules, null);
+				new JScrollPane(txtRulesArea), null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,
 				historyChartPanel, null);
 

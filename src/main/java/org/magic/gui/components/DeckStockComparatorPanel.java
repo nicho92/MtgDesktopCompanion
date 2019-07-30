@@ -112,7 +112,7 @@ public class DeckStockComparatorPanel extends JComponent {
 			{
 				MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
 				buzyLabel.start(currentDeck.getMap().entrySet().size());
-				SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
+				SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
 						{
 						@Override
 						protected Void doInBackground() throws Exception {
