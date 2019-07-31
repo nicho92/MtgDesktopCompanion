@@ -48,7 +48,7 @@ public class JShellScript extends AbstractMTGScript {
 
 	@Override
 	public void addVariable(String k, Object o) {
-				
+			//do nothing
 	}
 	
 	

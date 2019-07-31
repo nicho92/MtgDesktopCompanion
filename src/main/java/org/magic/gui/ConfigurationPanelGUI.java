@@ -106,7 +106,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 	private <T extends MTGPlugin> void createTab(String label, Icon ic, boolean multi,List<T> list)
 	{
-		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<T>(multi, list));
+		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<>(multi, list));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
 		table.setDefaultRenderer(Boolean.class, (JTable table2, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{

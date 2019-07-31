@@ -53,12 +53,9 @@ public class EditionsDashlet extends AbstractJDashlet {
 		panel.add(cboEditions);
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-
 		table = new JXTable(modEdition);
-		scrollPane.setViewportView(table);
-	
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+
 		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 
