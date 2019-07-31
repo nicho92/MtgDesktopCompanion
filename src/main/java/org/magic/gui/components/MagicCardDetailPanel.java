@@ -237,7 +237,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		listModelCollection = new DefaultListModel<>();
 		listCollection = new JList<>(listModelCollection);
-		listCollection.setBorder(new LineBorder(Color.BLACK));
 		listCollection.setCellRenderer((JList<? extends MagicCollection> list, MagicCollection obj, int arg2,boolean arg3, boolean arg4)->{
 			return new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT);
 		});
