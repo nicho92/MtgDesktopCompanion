@@ -132,6 +132,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		this.dao = MTGControler.getInstance().getEnabled(MTGDao.class);
 		initGUI();
 	}
+	
+	@Override
+	public void onVisible() {
+		try {
+			model.init(provider.loadEditions());
+		} catch (IOException e) {
+			logger.error("error loading edition",e);
+		}
+	}
 
 	public void initGUI() throws IOException, SQLException, ClassNotFoundException {
 		
@@ -182,7 +191,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		//////// MODELS
 		model = new MagicEditionsTableModel();
 		DefaultRowSorter<DefaultTableModel, Integer> sorterEditions = new TableRowSorter<>(model);
-		model.init(provider.loadEditions());
+		
 		tableEditions.setModel(model);
 		
 		UITools.initTableFilter(tableEditions);

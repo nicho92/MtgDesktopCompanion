@@ -11,7 +11,6 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 
 import org.apache.log4j.Logger;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public abstract class MTGUIComponent extends JComponent {
@@ -35,6 +34,7 @@ public abstract class MTGUIComponent extends JComponent {
 			@Override
 			public void componentShown(ComponentEvent evt) {
 				onVisible();
+				removeComponentListener(this);
 			}
 		});
 	}
@@ -52,7 +52,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	public ImageIcon getIcon()
 	{
-		return MTGConstants.ICON_DASHBOARD;
+		return null;
 	}
 	
 	
@@ -76,12 +76,6 @@ public abstract class MTGUIComponent extends JComponent {
 		pane.add(c,BorderLayout.CENTER);
 		
 		return pane;
-	}
-	
-	
-	public void initWhenVisible()
-	{
-		
 	}
 	
 	

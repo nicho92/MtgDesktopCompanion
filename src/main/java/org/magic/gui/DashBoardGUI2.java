@@ -2,9 +2,6 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

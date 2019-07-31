@@ -31,7 +31,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		} catch (Exception e) {
 			logger.error("error calculate", e);
 		}
-
+		fireTableDataChanged();
 	}
 
 	public void calculate() {
