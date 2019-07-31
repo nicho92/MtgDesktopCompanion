@@ -135,6 +135,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	
 	@Override
 	public void onVisible() {
+		
+		splitListPanel.setDividerLocation(.45);
+		splitPane.setDividerLocation(.5);
+		
 		try {
 			model.init(provider.loadEditions());
 		} catch (IOException e) {
@@ -222,18 +226,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tableEditions.setRowHeight(25);
 		tableEditions.setRowSorter(sorterEditions);
 		
-		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				splitListPanel.setDividerLocation(.45);
-				splitPane.setDividerLocation(.5);
-				removeComponentListener(this);
-			}
-
-		});
-		
-		
 		///////// LAYOUT
 		setLayout(new BorderLayout(0, 0));
 		panneauDroite.setLayout(new BorderLayout());
@@ -300,10 +292,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tableEditions.packAll();
 
 		initPopupCollection();
-
-		
-		
-
 		initActions();
 
 	}

@@ -154,7 +154,14 @@ public class PackagesProvider {
 			{
 				Packaging p = new Packaging();
 						  p.setType(TYPE.valueOf(n.item(i).getNodeName().toUpperCase()));
-						  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
+						  try {
+							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
+						  }
+						  catch(Exception e)
+						  {
+							  logger.error("no lang found for " + p + n.item(i),e);
+						  }
+						  
 						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
 						  p.setEdition(me);
 						 try {
