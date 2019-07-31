@@ -5,8 +5,6 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -79,6 +77,8 @@ public class AlarmGUI extends MTGUIComponent {
 	private File f;
 	private PricesTablePanel pricesTablePanel;
 	private JButton btnSuggestPrice;
+	private JSplitPane splitPanel;
+	
 	
 	public AlarmGUI() {
 		initGUI();
@@ -99,7 +99,7 @@ public class AlarmGUI extends MTGUIComponent {
 	
 
 	public void initGUI() {
-		JSplitPane splitPanel = new JSplitPane();
+		splitPanel = new JSplitPane();
 
 		table = new JXTable();
 		model = new CardAlertTableModel();
@@ -161,20 +161,15 @@ public class AlarmGUI extends MTGUIComponent {
 		panel.add(btnSuggestPrice);
 		panel.add(lblLoading);
 		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				splitPanel.setDividerLocation(.5);
-				model.fireTableDataChanged();
-				removeComponentListener(this);
-			}
-
-		});
-		
-		
 	}
 
 
+	@Override
+	public void onVisible() {
+		splitPanel.setDividerLocation(.5);
+		model.fireTableDataChanged();
+		
+	}
 
 
 	private void initActions() {

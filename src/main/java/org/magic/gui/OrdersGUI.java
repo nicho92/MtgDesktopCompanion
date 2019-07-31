@@ -98,6 +98,11 @@ public class OrdersGUI extends MTGUIComponent {
 			ThreadManager.getInstance().runInEdt(sw,"loading orders");
 	}
 	
+	@Override
+	public void onVisible() {
+		loadFinancialBook();
+	}
+	
 	
 	public OrdersGUI() {
 		
@@ -184,7 +189,7 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		table.setSortOrder(2, SortOrder.DESCENDING);
 
-		loadFinancialBook();
+		
 		
 		btnAddToCollection.addActionListener(ae ->{
 				JPopupMenu popupMenu = new JPopupMenu("Title");

@@ -1,6 +1,8 @@
 package org.magic.gui.abstracts;
 
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -28,12 +30,25 @@ public abstract class MTGUIComponent extends JComponent {
 	public MTGUIComponent()
 	{
 		logger.debug("init GUI : " + getTitle());
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent evt) {
+				onVisible();
+			}
+		});
 	}
 	
 	public void onDestroy()
 	{
 		//do nothing
 	}
+
+	public void onVisible()
+	{
+		//do nothing
+	}
+	
 	
 	public ImageIcon getIcon()
 	{
@@ -61,6 +76,12 @@ public abstract class MTGUIComponent extends JComponent {
 		pane.add(c,BorderLayout.CENTER);
 		
 		return pane;
+	}
+	
+	
+	public void initWhenVisible()
+	{
+		
 	}
 	
 	

@@ -2,6 +2,9 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,7 +32,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 	private JMenuItem mntmSaveDisplay;
 	JDesktopPane desktop;
-	
+	private JMenu mnNewMenu;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -43,19 +46,24 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 	public DashBoardGUI2() {
 		desktop = new JDesktopPane();
-		
 		JMenuBar menuBar = new JMenuBar();
-		JMenu mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
+		mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
-
 		desktop.setBackground(SystemColor.activeCaption);
 		menuBar.setBounds(0, 0, 100, 21);
 		menuBar.add(mnNewMenu);
 		menuBar.add(mnWindow);
 		mnWindow.add(mntmSaveDisplay);
 		desktop.add(menuBar);
-		
+		setLayout(new BorderLayout());
+		add(desktop,BorderLayout.CENTER);
+		initActions();
+	}
+	
+	
+	@Override
+	public void onVisible() {
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getPlugins(AbstractJDashlet.class)) {
 				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
@@ -70,11 +78,9 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				mnNewMenu.add(mntmNewMenuItem);
 			}
 
-		} catch (Exception e) {
-			logger.error("Error", e);
+		} catch (Exception ex) {
+			logger.error("Error", ex);
 		}
-	
-		
 		
 		SwingWorker<Void, File> sw = new SwingWorker<>()
 				{
@@ -101,12 +107,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				};
 				
 		ThreadManager.getInstance().runInEdt(sw, "Loading dashlets");
-		setLayout(new BorderLayout());
-		add(desktop,BorderLayout.CENTER);
-		
-		
-		initActions();
-
 	}
 
 	private void initActions() {

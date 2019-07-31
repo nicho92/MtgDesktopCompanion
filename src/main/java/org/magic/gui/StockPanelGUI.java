@@ -820,6 +820,11 @@ public class StockPanelGUI extends MTGUIComponent {
 		bottomPanel.add(lblCount);
 
 		
+	}
+	
+	@Override
+	public void onVisible() {
+		
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				lblLoading.start();
@@ -833,6 +838,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		}, "init stock");
 
 	}
+	
 
 	public void updateCount() {
 		lblCount.setText(MTGControler.getInstance().getLangService().getCapitalize("ITEMS_IN_STOCK") + ": "+ table.getRowCount());
