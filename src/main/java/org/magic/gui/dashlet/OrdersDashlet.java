@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 
 public class OrdersDashlet extends AbstractJDashlet {
 	
+	private static final long serialVersionUID = 1L;
 	private static final String PROPERTY = "PROPERTY";
 	private JCheckBox chkSumOrTotal;
 	private JComboBox<String> cboProperty;

@@ -2,7 +2,6 @@ package org.magic.gui.components.charts;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +12,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -44,7 +40,7 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 		try {
 			if(PropertyUtils.getProperty(new OrderEntry(), p) instanceof Date)
 			{
-				chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", getTimeDataSet(), true, true,false);
+				chart = ChartFactory.createTimeSeriesChart("Orders", "Date", "Value", getTimeDataSet(), true, true,false);
 
 			}
 //			else if(p.equals("edition"))
