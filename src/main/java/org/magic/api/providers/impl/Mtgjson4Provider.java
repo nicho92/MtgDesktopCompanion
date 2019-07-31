@@ -393,8 +393,13 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 							 me.setRarity(mc.getRarity());
 							 me.setNumber(mc.getNumber());
 							 me.setFlavor(mc.getFlavor());
+							
+							 
 							 if(map.get(MULTIVERSE_ID)!=null)
-								   defnames.setGathererId((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
+							 {
+								 defnames.setGathererId((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
+								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString())));
+							 }
 							
 				mc.getEditions().add(me);
 				

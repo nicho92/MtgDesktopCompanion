@@ -1,8 +1,6 @@
 package org.magic.gui.abstracts;
 
 import java.awt.BorderLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +19,7 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 
 	
 	public MTGUIChartComponent() {
+		onlyOneRefresh=false;
 		init();
 	}
 	
@@ -31,15 +30,6 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		chartPanel = new ChartPanel(null,true);
 		add(chartPanel, BorderLayout.CENTER);
-
-		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(items);
-			}
-
-		});
 		
 		chartPanel.addMouseWheelListener(mwe -> {
 			if (mwe.getWheelRotation() > 0) {
@@ -52,7 +42,11 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 
 	}
 	
-	
+
+	@Override
+	public void onVisible() {
+		init(items);	
+	}
 	
 	
 	public void init(Set<T> items)

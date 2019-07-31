@@ -17,7 +17,7 @@ public abstract class MTGUIComponent extends JComponent {
 
 	protected static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	protected boolean onlyOneRefresh=true;
 	public abstract String getTitle();
 	
 	
@@ -34,7 +34,13 @@ public abstract class MTGUIComponent extends JComponent {
 			@Override
 			public void componentShown(ComponentEvent evt) {
 				onVisible();
-				removeComponentListener(this);
+				if(onlyOneRefresh)
+					removeComponentListener(this);
+			}
+			
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				onHide();
 			}
 		});
 	}
@@ -45,6 +51,11 @@ public abstract class MTGUIComponent extends JComponent {
 	}
 
 	public void onVisible()
+	{
+		//do nothing
+	}
+	
+	public void onHide()
 	{
 		//do nothing
 	}
