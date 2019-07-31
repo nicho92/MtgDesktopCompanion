@@ -197,9 +197,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		panelDetailCreature = new JPanel();
 		loyaltyJTextField = new JTextField(5);
-		powerJTextField = new JTextField();
-		toughnessJTextField = new JTextField();
-		toughnessJTextField.setColumns(5);
+	
+		powerJTextField = new JTextField(2);
+		toughnessJTextField = new JTextField(2);
 		FlowLayout flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panelDetailCreature.add(loyaltyJTextField);
