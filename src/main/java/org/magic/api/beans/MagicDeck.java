@@ -111,6 +111,11 @@ public class MagicDeck implements Serializable {
 		dateCreation=new Date();
 		dateUpdate=new Date();
 	}
+	
+	public boolean isEmpty()
+	{
+		return mapDeck.isEmpty() && mapSideBoard.isEmpty();
+	}
 
 	public void remove(MagicCard mc) {
 		if (mapDeck.get(mc) == 0)

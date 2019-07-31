@@ -33,7 +33,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	private JMenuItem mntmSaveDisplay;
 	private JDesktopPane desktop;
 	private JMenu mnNewMenu;
-	private JLabel bottomLabel;
 	
 	
 	@Override
@@ -48,7 +47,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 	public DashBoardGUI2() {
 		desktop = new JDesktopPane();
-		bottomLabel = new JLabel();
 		JMenuBar menuBar = new JMenuBar();
 		mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
@@ -62,7 +60,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		
 		add(desktop,BorderLayout.CENTER);
-		add(bottomLabel,BorderLayout.SOUTH);
 		
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getPlugins(AbstractJDashlet.class)) {
@@ -83,8 +80,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		}
 		
 		initActions();
-		
-		bottomLabel.setText(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName() + " : "+UITools.formatDateTime(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getUpdatedDate()));
 	}
 	
 	
