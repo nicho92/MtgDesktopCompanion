@@ -12,24 +12,29 @@ import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingWorker;
 
 import org.apache.commons.io.FileUtils;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.ThreadManager;
+import org.magic.tools.UITools;
 
 public class DashBoardGUI2 extends MTGUIComponent {
 
 	private JMenuItem mntmSaveDisplay;
-	JDesktopPane desktop;
+	private JDesktopPane desktop;
 	private JMenu mnNewMenu;
+	private JLabel bottomLabel;
+	
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -43,18 +48,21 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 	public DashBoardGUI2() {
 		desktop = new JDesktopPane();
+		bottomLabel = new JLabel();
 		JMenuBar menuBar = new JMenuBar();
 		mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
 		desktop.setBackground(SystemColor.activeCaption);
-		menuBar.setBounds(0, 0, 100, 21);
+		menuBar.setBounds(0, 0, 120, 21);
 		menuBar.add(mnNewMenu);
 		menuBar.add(mnWindow);
 		mnWindow.add(mntmSaveDisplay);
 		desktop.add(menuBar);
 		setLayout(new BorderLayout());
+		
 		add(desktop,BorderLayout.CENTER);
+		add(bottomLabel,BorderLayout.SOUTH);
 		
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getPlugins(AbstractJDashlet.class)) {
@@ -76,7 +84,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		
 		initActions();
 		
-		
+		bottomLabel.setText(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName() + " : "+UITools.formatDateTime(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getUpdatedDate()));
 	}
 	
 	

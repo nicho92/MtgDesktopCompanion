@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -36,7 +37,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "WEBSITE";
-	private Date updateTime;
 	private boolean stop;
 	private Map<String, String> mapConcordance;
 
@@ -150,12 +150,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		logger.trace("Loading Shake " + urlW + " and " + urlL);
 		Document doc = URLTools.extractHtml(urlW);
 		Document doc2 = URLTools.extractHtml(urlL);
-		try {
-			updateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-					.parse(doc.getElementsByClass("timeago").get(0).attr("title"));
-		} catch (ParseException e1) {
-			logger.error(e1);
-		}
 
 		Element table = null;
 		try {
@@ -387,7 +381,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	public Date getUpdatedDate() {
-		return updateTime;
+		try {
+			return UITools.parseDate(URLTools.extractHtml(getString(URL_MOVERS) + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+					
+		} catch (Exception e1) {
+			logger.error(e1);
+		}
+
+		return null;
 	}
 
 	@Override

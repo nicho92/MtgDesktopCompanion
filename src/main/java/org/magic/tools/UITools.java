@@ -378,5 +378,16 @@ public class UITools {
 		
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).format(indexDate);
 	}
+	
+public static String formatDateTime(Date indexDate) {
+		
+		if(indexDate==null)
+			return "";
+		
+		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT") +" HH:mm").format(indexDate);
+	}
+	
+	
+	
 
 }
