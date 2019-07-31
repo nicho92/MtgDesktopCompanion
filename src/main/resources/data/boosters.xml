@@ -1210,18 +1210,15 @@
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/191.png"/>
 	</edition>
 	<edition id="UMA">
-		
-			<booster lang='en' num='1' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_01_02.png"/>
-			<booster lang='en' num='2' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_02_02.png"/>
-			<booster lang='en' num='3' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_03_02.png"/>
-		
+		<booster lang='en' num='1' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_01_02.png"/>
+		<booster lang='en' num='2' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_02_02.png"/>
+		<booster lang='en' num='3' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_03_02.png"/>
 		<box lang='en' url="https://media.wizards.com/2018/images/daily/NMCPJnPzTy.png"/>
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/271/468/320/160/636770515704626455.png"/>
 	</edition>
-	
-	
-	
-	
+	<edition id="PUMA">
+		<booster lang="en" url="https://cdn.shopify.com/s/files/1/1267/1865/products/MTGUMA_EN_BxTppr_02_761x398.png"/>
+	</edition>	
 	
 	<edition id="RNA">
 		<booster lang='en' num='1' url="https://media.wizards.com/2018/images/daily/qpRrZqqSRh.png"/>
@@ -1277,6 +1274,14 @@
 		<constructpack num="5" lang="en" url="https://media.wizards.com/2019/images/daily/MhLByWcwVS.png"/>
 		<bundle lang="en" url="https://media.wizards.com/2019/images/daily/Uo589miyJQ.png"/>
 		<banner lang="en" url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png"/>
+	</edition>
+	<edition id="ELD">
+		<booster lang="en" num="1" url="https://media.wizards.com/2019/images/daily/gudy4flWSL.png"/>
+		<booster land="en" num="2" url="https://media.wizards.com/2019/images/daily/UokcU8p7Zl.png"/>
+		<booster lang="en" num="3" url="https://media.wizards.com/2019/images/daily/oKbeGz7ywC.png"/>
+		<bundle lang="en" url="https://media.wizards.com/2019/images/daily/OT9OLX6H0L.png"/>
+		<box lang="en" url="https://startspeler.com/pub/media/catalog/product/cache/9d08971813a040f8f96067a40f75c615/m/t/mtgeld_en_bstrdspcls_01.png"/>
+		<banner lang="en" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/e/ef/ELD_logo.png"/>
 	</edition>
 	
 	
