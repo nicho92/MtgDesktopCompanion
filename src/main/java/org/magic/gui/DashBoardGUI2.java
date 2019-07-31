@@ -55,12 +55,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		desktop.add(menuBar);
 		setLayout(new BorderLayout());
 		add(desktop,BorderLayout.CENTER);
-		initActions();
-	}
-	
-	
-	@Override
-	public void onVisible() {
+		
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getPlugins(AbstractJDashlet.class)) {
 				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
@@ -78,6 +73,16 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		} catch (Exception ex) {
 			logger.error("Error", ex);
 		}
+		
+		initActions();
+		
+		
+	}
+	
+	
+	@Override
+	public void onVisible() {
+		
 		
 		SwingWorker<Void, File> sw = new SwingWorker<>()
 				{

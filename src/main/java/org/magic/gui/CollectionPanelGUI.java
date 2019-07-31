@@ -138,12 +138,22 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		splitListPanel.setDividerLocation(.45);
 		splitPane.setDividerLocation(.5);
-		
-		try {
-			model.init(provider.loadEditions());
-		} catch (IOException e) {
-			logger.error("error loading edition",e);
-		}
+		progressBar.start();	
+		progressBar.setText("Loading");
+		SwingWorker<Void, Void> init = new SwingWorker<>() {
+				@Override
+				protected Void doInBackground() throws Exception {
+					model.init(provider.loadEditions());	
+					return null;
+				}
+				@Override
+				protected void done() {
+					progressBar.end();	
+					
+				}
+			};
+	
+			ThreadManager.getInstance().runInEdt(init, "loading collection");
 	}
 
 	public void initGUI() throws IOException, SQLException, ClassNotFoundException {
