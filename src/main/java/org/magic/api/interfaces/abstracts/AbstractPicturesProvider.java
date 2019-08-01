@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
 
@@ -15,13 +17,14 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
+import org.magic.tools.TCache;
 import org.magic.tools.URLTools;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
 	protected int newW=MTGConstants.DEFAULT_PIC_HEIGHT;
 	protected int newH=MTGConstants.DEFAULT_PIC_WIDTH;
-	
+	protected TCache<BufferedImage> setCache;
 	
 	@Override
 	public PLUGINS getType() {
@@ -31,6 +34,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	public AbstractPicturesProvider() {
 		super();
+		setCache = new TCache<>("setIcons");
 		confdir = new File(MTGConstants.CONF_DIR, "pictures");
 		if (!confdir.exists())
 			confdir.mkdir();
@@ -72,7 +76,20 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getProperty("SET_SIZE","medium") + "&rarity=" + rarity.substring(0, 1));
+		
+		
+		try {
+			return setCache.get(set+rarity, new Callable<BufferedImage>() {
+				@Override
+				public BufferedImage call() throws Exception {
+					return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getProperty("SET_SIZE","medium") + "&rarity=" + rarity.substring(0, 1));
+				}
+			});
+		} catch (ExecutionException e) {
+			logger.error(e);
+		}
+		
+		return null;
 	}
 	
 	@Override
