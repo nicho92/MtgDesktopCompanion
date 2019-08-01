@@ -10,7 +10,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class ServerLauncher {
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException 
+	public static void main(String[] args) throws SQLException, IOException 
 	{
 	
 		if(args.length==0)
