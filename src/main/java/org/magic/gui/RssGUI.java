@@ -21,6 +21,7 @@ import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.fit.cssbox.swingbox.BrowserPane;
@@ -150,11 +151,6 @@ public class RssGUI extends MTGUIComponent {
 				MTGControler.getInstance().notify(ex);
 			}
 		});
-	
-		
-		
-
-		
 
 		tree.addTreeSelectionListener(tse -> {
 			TreePath path = tse.getPath();
@@ -287,7 +283,7 @@ public class RssGUI extends MTGUIComponent {
 	}
 
 	private DefaultMutableTreeNode getNodeCateg(String cat) {
-		Enumeration e = rootNode.breadthFirstEnumeration();
+		Enumeration<TreeNode> e = rootNode.breadthFirstEnumeration();
 		while (e.hasMoreElements()) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.nextElement();
 			if (node.getUserObject().toString().equalsIgnoreCase(cat)) {

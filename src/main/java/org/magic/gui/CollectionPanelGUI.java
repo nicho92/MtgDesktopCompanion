@@ -143,13 +143,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		SwingWorker<Void, Void> init = new SwingWorker<>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-					model.init(provider.loadEditions());	
+					model.init(provider.loadEditions());
 					return null;
 				}
 				@Override
 				protected void done() {
 					progressBar.end();	
-					
+					tableEditions.packAll();
 				}
 			};
 	
@@ -299,7 +299,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		{
 			logger.error(e);
 		}
-		tableEditions.packAll();
+
 
 		initPopupCollection();
 		initActions();

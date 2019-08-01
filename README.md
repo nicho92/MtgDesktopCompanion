@@ -17,7 +17,7 @@ git clone https://github.com/nicho92/MtgDesktopCompanion.git
 
 mvn -DskipTest clean install
 
-cd target/executable/bin and running mtg-desktop-companion.bat or mtg-desktop-companion.sh
+cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-companion.sh
 
 
 ```
