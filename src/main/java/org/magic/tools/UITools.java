@@ -59,6 +59,8 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class UITools {
 
+	private static final String DATE_FORMAT = "DATE_FORMAT";
+
 	private UITools() {}
 	
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
@@ -356,7 +358,7 @@ public class UITools {
 
 	public static Date parseDate(String indexDate) {
 		
-		return parseDate(indexDate, MTGControler.getInstance().getLangService().get("DATE_FORMAT"));
+		return parseDate(indexDate, MTGControler.getInstance().getLangService().get(DATE_FORMAT));
 	}
 	
 	public static Date parseDate(String indexDate,String format) {
@@ -376,7 +378,7 @@ public class UITools {
 		if(indexDate==null)
 			return "";
 		
-		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT")).format(indexDate);
+		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)).format(indexDate);
 	}
 	
 public static String formatDateTime(Date indexDate) {
@@ -384,7 +386,7 @@ public static String formatDateTime(Date indexDate) {
 		if(indexDate==null)
 			return "";
 		
-		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get("DATE_FORMAT") +" HH:mm").format(indexDate);
+		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) +" HH:mm").format(indexDate);
 	}
 	
 	

@@ -268,7 +268,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		{
 			try {
 				if(dao.getCollection(p.getStringFileName())==null)
-					throw new FileNotFoundException(path + " not exist");
+					throw new FileNotFoundException(path.toString());
 			} catch (SQLException e) {
 				throw new IOException(e.getMessage());
 			}

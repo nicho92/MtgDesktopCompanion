@@ -56,7 +56,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String REGEX = "\\{(.*?)\\}";
 	private JDA jda;
 	private ListenerAdapter listener;
-	private List<MagicCard> liste;
 	
 	
 	@Override
@@ -82,7 +81,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	
 	private void analyseCard(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
-		
+		final List<MagicCard> liste = new ArrayList<>();
 		Pattern p = Pattern.compile(REGEX);
 		Matcher m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
@@ -95,14 +94,15 @@ public class DiscordBotServer extends AbstractMTGServer {
 				ed.setId(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
 				name=name.substring(0, name.indexOf('|')).trim();
 			}
+			
 			MessageChannel channel = event.getChannel();
 				channel.sendTyping().queue();
+
 				try {
-					liste = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, false);
+					liste.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, false));
 				}
 				catch(Exception e)
 				{
-					liste=new ArrayList<>();
 					logger.error(e);
 				}
 				

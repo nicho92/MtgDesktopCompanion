@@ -51,11 +51,6 @@ public class TCache<T>{
 		getCache().invalidate(k);
 	}
 	
-	@Deprecated
-	public T get(String k)
-	{
-		return getCache().getIfPresent(k);
-	}
 	
 	public boolean has(String k)
 	{

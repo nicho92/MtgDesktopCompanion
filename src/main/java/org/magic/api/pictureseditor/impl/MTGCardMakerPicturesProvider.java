@@ -2,7 +2,6 @@ package org.magic.api.pictureseditor.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
@@ -72,7 +71,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	}
 	
 
-	private URL getPictureURL(MagicCard mc) throws MalformedURLException, UnsupportedEncodingException {
+	private URL getPictureURL(MagicCard mc) throws MalformedURLException {
 
 		String color = "colorless";
 		if (!mc.getColors().isEmpty())

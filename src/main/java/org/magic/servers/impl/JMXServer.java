@@ -51,22 +51,6 @@ public class JMXServer extends AbstractMTGServer {
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
 		
-		/*
-		
-		PluginRegistry.inst().listClasses().forEach(cl->{
-			
-			MTGControler.getInstance().getPlugins(cl).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, cl),o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			
-		});
-			*/
 			MTGControler.getInstance().getPlugins(MTGDao.class).forEach(o->{
 				try {
 					names.add(o.getObjectName());

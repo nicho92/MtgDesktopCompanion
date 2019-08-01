@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
 import org.magic.api.exports.impl.JsonExport;
@@ -82,7 +83,6 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public Set<String> supportedFileAttributeViews() {
-		// TODO Auto-generated method stub
 		return new HashSet<>();
 	}
 

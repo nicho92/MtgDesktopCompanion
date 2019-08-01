@@ -14,8 +14,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.time.Day;
@@ -43,15 +41,6 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 				chart = ChartFactory.createTimeSeriesChart("Orders", "Date", "Value", getTimeDataSet(), true, true,false);
 
 			}
-//			else if(p.equals("edition"))
-//			{
-//				chart = ChartFactory.createBarChart("Editions", "Name", "Value", getChartDataSet());
-//				chart.removeLegend();
-//				StandardCategoryToolTipGenerator generator =new StandardCategoryToolTipGenerator("{1}, {2}", NumberFormat.getInstance());
-//				chart.getCategoryPlot().getRenderer().setDefaultToolTipGenerator(generator);
-//				
-//				
-//			}
 			else
 			{
 				chart = ChartFactory.createPieChart3D("Orders", getPieDataSet(), false, true, true);
@@ -64,17 +53,6 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 			logger.error(e);
 		}
 		return chart;
-	}
-	
-	
-	private CategoryDataset getChartDataSet() {
-		DefaultCategoryDataset data = new DefaultCategoryDataset();
-		
-		
-		for (Entry<Object, Double> e : groupOrdersBy().entrySet()) {
-			data.addValue(e.getValue(),String.valueOf(e.getKey()),String.valueOf(e.getKey()));
-		}
-		return data;
 	}
 
 

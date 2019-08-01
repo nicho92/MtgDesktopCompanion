@@ -237,9 +237,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		listModelCollection = new DefaultListModel<>();
 		listCollection = new JList<>(listModelCollection);
-		listCollection.setCellRenderer((JList<? extends MagicCollection> list, MagicCollection obj, int arg2,boolean arg3, boolean arg4)->{
-			return new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT);
-		});
+		listCollection.setCellRenderer((JList<? extends MagicCollection> list, MagicCollection obj, int arg2,boolean arg3, boolean arg4)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
 		
 		add(new JScrollPane(listCollection), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 4, 8,3,2));		
 		

@@ -267,11 +267,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setCmc(obj.get("cmc").getAsInt());
 		mc.setLayout(obj.get("layout").getAsString());
 
-//		try {
-//			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());
-//		} catch (Exception e) {
-//			logger.error("could not find multiverse_ids " + mc.getName());
-//		}
 		try {
 			mc.setText(obj.get("oracle_text").getAsString());
 		} catch (NullPointerException e) {
