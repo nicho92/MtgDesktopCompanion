@@ -27,9 +27,6 @@ public class FileCache extends AbstractCacheProvider {
 		return dir;
 	}
 
-
-	
-
 	public FileCache() {
 		super();
 

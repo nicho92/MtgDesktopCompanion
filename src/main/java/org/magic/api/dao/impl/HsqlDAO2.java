@@ -94,7 +94,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		setProperty(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"hsqldao").toFile().getAbsolutePath());
 		setProperty(LOGIN, "SA");
 		setProperty(PASS, "");
-		setProperty(MODE,"");
+		setProperty(MODE,"mem");
 	}
 	
 }

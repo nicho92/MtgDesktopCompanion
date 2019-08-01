@@ -76,7 +76,7 @@ public class GuavaCache extends AbstractCacheProvider {
 	
 	@Override
 	public String getVersion() {
-		return "27.0";
+		return "28.0";
 	}
 	
 
