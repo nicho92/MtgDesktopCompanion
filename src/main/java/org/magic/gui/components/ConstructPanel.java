@@ -113,8 +113,7 @@ public class ConstructPanel extends JPanel {
 	private File f;
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;
-	private Player p;
-	
+
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -134,7 +133,7 @@ public class ConstructPanel extends JPanel {
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		p = new Player();
+		Player p = new Player();
 		
 		
 		JPanel panneauHaut = new JPanel();
