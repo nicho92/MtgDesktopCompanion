@@ -38,6 +38,7 @@ import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageTools;
+import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observer;
 
 public class MTGControler {
@@ -109,6 +110,13 @@ public class MTGControler {
 		}
 		
 		
+	}
+	
+	
+	public void closeApp()
+	{
+		PluginRegistry.inst().listPlugins().forEach(MTGPlugin::unload);
+		System.exit(0);
 	}
 	
 	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException

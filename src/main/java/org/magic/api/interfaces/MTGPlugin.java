@@ -29,6 +29,8 @@ public interface MTGPlugin {
 	public void save();
 
 	public void load();
+	
+	public void unload();
 
 	public void enable(boolean t);
 

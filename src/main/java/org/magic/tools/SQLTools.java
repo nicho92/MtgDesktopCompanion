@@ -22,8 +22,6 @@ public class SQLTools
           dataSource.setUsername(user);
           dataSource.setPassword(pass);
           dataSource.setJmxName("org.magic.api:type=Pool,name=DBCP2");
-      
-          
           dataSource.setMaxWaitMillis(5000);
           dataSource.setPoolPreparedStatements(true);
           dataSource.setMinIdle(1);
@@ -31,15 +29,22 @@ public class SQLTools
           dataSource.setInitialSize(3);
           dataSource.setMaxTotal(10);
           
-          
           if(!enable) {
 			  dataSource.setMinIdle(1);
 	          dataSource.setMaxIdle(1);
 	          dataSource.setInitialSize(0);
 	          dataSource.setMaxTotal(1);
 		  }
-        
  	}
+	
+	public void close()
+	{
+		try {
+			dataSource.close();
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+	}
 	
 	public Connection getConnection() throws SQLException {
 		Connection c = dataSource.getConnection();

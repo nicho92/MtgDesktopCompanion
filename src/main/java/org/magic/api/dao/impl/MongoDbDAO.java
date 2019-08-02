@@ -82,6 +82,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return STATUT.BETA;
 	}
 
+	@Override
+	public void unload() {
+		if(client!=null)
+			client.close();
+	}
 	
 	public void init() throws SQLException {
 

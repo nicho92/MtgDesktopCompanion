@@ -5,6 +5,8 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -94,7 +96,20 @@ public class MagicGUI extends JFrame {
 		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + serviceUpdate.getVersion() + ")");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+	//	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				MTGControler.getInstance().closeApp();
+				
+			}
+		});
+			
+		
+		
 		setIconImage(MTGConstants.IMAGE_LOGO);
 		getContentPane().setLayout(new BorderLayout());
 	
@@ -149,7 +164,7 @@ public class MagicGUI extends JFrame {
 
 		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true)));
 
-		mntmExit.addActionListener(e -> System.exit(0));
+		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
 
 		mntmHelp.addActionListener(e -> {
 			String url = MTGConstants.MTG_DESKTOP_WIKI_URL;
@@ -170,7 +185,6 @@ public class MagicGUI extends JFrame {
 				logger.error(e);
 			}
 		});
-
 		mntmFileOpen.addActionListener(ae -> {
 			
 			

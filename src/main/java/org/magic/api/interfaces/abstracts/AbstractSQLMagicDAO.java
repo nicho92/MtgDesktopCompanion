@@ -49,6 +49,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	{
 		return true;
 	}
+
 	
 	public void createIndex(Statement stat) throws SQLException {
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
@@ -85,6 +86,12 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	}
 	
+	@Override
+	public void unload() {
+		super.unload();
+		if(pool!=null)
+			pool.close();
+	}
 	
 	@Override
 	public void initDefault() {

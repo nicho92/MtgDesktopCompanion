@@ -38,26 +38,28 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		return STATUT.BETA;
 	}
 
-	private DocumentBuilderFactory builderFactory;
-	private DocumentBuilder builder;
 	private Document document;
 	private XPath xPath;
 
-	public CockatriceTokenProvider() {
-		super();
+	private void init()
+	{
 		try {
-			builderFactory = XMLTools.createSecureXMLFactory();
-			builder = builderFactory.newDocumentBuilder();
+			DocumentBuilderFactory	builderFactory = XMLTools.createSecureXMLFactory();
+			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			document = builder.parse(URLTools.openConnection(getURL("URL")).getInputStream());
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
 			logger.error(e);
 		}
-
 	}
-
+	
+	
 	@Override
 	public boolean isTokenizer(MagicCard mc) {
+		
+		if(xPath==null)
+			init();
+		
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		logger.trace("looking for token : " + expression);
 		try {
@@ -70,6 +72,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
+		
+		if(xPath==null)
+			init();
+		
+		
 		if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString()))
 			return false;
 
@@ -84,6 +91,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
+		
+		if(xPath==null)
+			init();
+		
+		
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -152,6 +164,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
+		
+		if(xPath==null)
+			init();
+		
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'emblem')]";
 		logger.debug(expression);
 		try {
@@ -180,7 +196,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public BufferedImage getPictures(MagicCard tok) throws IOException {
-
+		
+		if(xPath==null)
+			init();
+		
+		
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
 		if (tok.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString()))

@@ -216,6 +216,13 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		
 	}
 	
+	
+	@Override
+	public void unload() {
+		logger.trace("Unloading " + getName());
+		
+	}
+	
 	@Override
 	public Icon getIcon() {
 		try {

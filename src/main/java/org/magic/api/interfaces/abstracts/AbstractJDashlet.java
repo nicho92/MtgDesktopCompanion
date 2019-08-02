@@ -39,6 +39,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return null;
 	}
 	
+	@Override
+	public void unload() {
+		// do nothing
+		
+	}
+	
 	
 	public AbstractJDashlet() {
 		props = new Properties();
