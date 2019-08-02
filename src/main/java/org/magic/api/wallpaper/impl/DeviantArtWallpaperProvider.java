@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	
+	private static final String LIMIT = "LIMIT";
 	private RequestBuilder build;
 	private String bToken;
 	
@@ -24,13 +25,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		return STATUT.DEV;
 	}
 	
-	
 	@Override
 	public List<Wallpaper> search(String search) {
 		
 		List<Wallpaper> list = new ArrayList<>();
-		
-		
 		try {
 			build = RequestBuilder.build();
 		    bToken = build.setClient(URLTools.newClient())
@@ -40,12 +38,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 								   .addContent("client_id", getString("CLIENT_ID"))
 								   .addContent("client_secret", getString("CLIENT_SECRET"))
 								   .toJson().getAsJsonObject().get("access_token").getAsString();
-			
-		    
-		    
 		    
 		    int offset = 0;
-		    
 		    JsonObject ret= readOffset(offset,search);
 				    while(ret.get("has_more").getAsBoolean()) 
 				    {
@@ -63,6 +57,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 								logger.error("Error for " + el.getAsJsonObject().get("title"),e);
 							}
 					    });
+					    
+					    if(list.size()>=getInt(LIMIT))
+			    			break;
+			    		
 					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
 				    }
 		    
@@ -78,7 +76,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				  .method(METHOD.GET)
 				  .url("https://www.deviantart.com/api/v1/oauth2/browse/newest")
 				  .addContent("q", search)
-				  .addContent("limit", getString("LIMIT"))
+				  .addContent("limit", getString(LIMIT))
 				  .addContent("offset", String.valueOf(offset))
 				  .addContent("mature_content", getString("MATURE"))
 				  .addContent("access_token", bToken)
@@ -95,7 +93,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		setProperty("CLIENT_ID", "");
 		setProperty("CLIENT_SECRET", "");
 		setProperty("MATURE","false");
-		setProperty("LIMIT","50");
+		setProperty(LIMIT,"50");
 	}
 
 }

@@ -77,6 +77,12 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		return "RSS";
 	}
 
+	
+	@Override
+	public String getVersion() {
+		return "1.12.2";
+	}
+	
 
 	@Override
 	public void initDefault() {

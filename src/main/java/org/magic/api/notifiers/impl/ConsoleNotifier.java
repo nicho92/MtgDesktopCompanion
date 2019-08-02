@@ -28,5 +28,4 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 		return "Console";
 	}
 
-
 }
