@@ -1,6 +1,6 @@
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/logo_src.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/logo_src.png)
 
-# Magic The Gathering Desktop Companion
+# Magic The Gathering Companion
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 [![GitHub issues](https://img.shields.io/github/issues/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/issues)
