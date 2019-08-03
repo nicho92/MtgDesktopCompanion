@@ -235,7 +235,7 @@ public class MagicGUI extends JFrame {
 							+ serviceUpdate.getOnlineVersion());
 			newversion.addActionListener(e -> {
 				try {
-					Desktop.getDesktop().browse(new URI(MTGConstants.MTG_DESKTOP_APP_ZIP));
+					Desktop.getDesktop().browse(new URI(MTGConstants.MTG_DESKTOP_APP_ZIP+"tag/"+serviceUpdate.getOnlineVersion()));
 				} catch (Exception e1) {
 					logger.error(e1.getMessage());
 				}

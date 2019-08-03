@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,8 +18,10 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.gui.components.JTextFieldFileChooser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 
 public class SpeedConfigurator extends JFrame {
@@ -30,16 +32,6 @@ public class SpeedConfigurator extends JFrame {
 	private JComboBox<MTGDashBoard> cboDashboard;
 	private JComboBox<MTGPicturesCache> cboCaches;
 	private JComboBox<MTGCardsProvider> cboProvider;
-	private JCheckBox checkBox;
-	private JCheckBox checkBox2;
-	private JCheckBox checkBox4;
-	private JCheckBox checkBox6;
-	private JCheckBox checkBox8;
-	private JCheckBox checkBox1;
-	private JCheckBox checkBox3;
-	private JCheckBox checkBox5;
-	private JCheckBox checkBox7;
-	private JCheckBox checkBox9;
 	
 	public static void main(String[] args) {
 		new SpeedConfigurator().setVisible(true);
@@ -155,104 +147,50 @@ public class SpeedConfigurator extends JFrame {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(e -> save());
 		panel.add(btnSave);
-
+		
 		JPanel panneau2 = new JPanel();
-		tabbedPane.addTab("Modules", null, panneau2, null);
-		GridBagLayout gblpanneau2 = new GridBagLayout();
-		gblpanneau2.columnWidths = new int[] { 0, 0, 0, 103, 0 };
-		gblpanneau2.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gblpanneau2.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gblpanneau2.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panneau2.setLayout(gblpanneau2);
-
-		checkBox = new JCheckBox("Search ");
-		checkBox.setSelected(false);
-		GridBagConstraints gbccheckBox = new GridBagConstraints();
-		gbccheckBox.anchor = GridBagConstraints.WEST;
-		gbccheckBox.insets = new Insets(0, 0, 5, 5);
-		gbccheckBox.gridx = 1;
-		gbccheckBox.gridy = 0;
-		panneau2.add(checkBox, gbccheckBox);
-
-		checkBox1 = new JCheckBox("Collection");
-		checkBox1.setSelected(false);
-		GridBagConstraints gbccheckBox1 = new GridBagConstraints();
-		gbccheckBox1.anchor = GridBagConstraints.WEST;
-		gbccheckBox1.insets = new Insets(0, 0, 5, 0);
-		gbccheckBox1.gridx = 3;
-		gbccheckBox1.gridy = 0;
-		panneau2.add(checkBox1, gbccheckBox1);
-
-		checkBox2 = new JCheckBox("DashBoard");
-		checkBox2.setSelected(false);
-		GridBagConstraints gbccheckBox2 = new GridBagConstraints();
-		gbccheckBox2.anchor = GridBagConstraints.WEST;
-		gbccheckBox2.insets = new Insets(0, 0, 5, 5);
-		gbccheckBox2.gridx = 1;
-		gbccheckBox2.gridy = 1;
-		panneau2.add(checkBox2, gbccheckBox2);
-
-		checkBox3 = new JCheckBox("Game");
-		checkBox3.setSelected(false);
-		GridBagConstraints gbccheckBox3 = new GridBagConstraints();
-		gbccheckBox3.anchor = GridBagConstraints.WEST;
-		gbccheckBox3.insets = new Insets(0, 0, 5, 0);
-		gbccheckBox3.gridx = 3;
-		gbccheckBox3.gridy = 1;
-		panneau2.add(checkBox3, gbccheckBox3);
-
-		checkBox4 = new JCheckBox("Deck Builder");
-		checkBox4.setSelected(false);
-		GridBagConstraints gbccheckBox4 = new GridBagConstraints();
-		gbccheckBox4.anchor = GridBagConstraints.WEST;
-		gbccheckBox4.insets = new Insets(0, 0, 5, 5);
-		gbccheckBox4.gridx = 1;
-		gbccheckBox4.gridy = 2;
-		panneau2.add(checkBox4, gbccheckBox4);
-
-		checkBox5 = new JCheckBox("Shopper");
-		checkBox5.setSelected(false);
-		GridBagConstraints gbccheckBox5 = new GridBagConstraints();
-		gbccheckBox5.anchor = GridBagConstraints.WEST;
-		gbccheckBox5.insets = new Insets(0, 0, 5, 0);
-		gbccheckBox5.gridx = 3;
-		gbccheckBox5.gridy = 2;
-		panneau2.add(checkBox5, gbccheckBox5);
-
-		checkBox6 = new JCheckBox("Alert");
-		checkBox6.setSelected(false);
-		GridBagConstraints gbccheckBox6 = new GridBagConstraints();
-		gbccheckBox6.anchor = GridBagConstraints.WEST;
-		gbccheckBox6.insets = new Insets(0, 0, 5, 5);
-		gbccheckBox6.gridx = 1;
-		gbccheckBox6.gridy = 3;
-		panneau2.add(checkBox6, gbccheckBox6);
-
-		checkBox7 = new JCheckBox("Rss");
-		checkBox7.setSelected(false);
-		GridBagConstraints gbccheckBox7 = new GridBagConstraints();
-		gbccheckBox7.anchor = GridBagConstraints.WEST;
-		gbccheckBox7.insets = new Insets(0, 0, 5, 0);
-		gbccheckBox7.gridx = 3;
-		gbccheckBox7.gridy = 3;
-		panneau2.add(checkBox7, gbccheckBox7);
-
-		checkBox8 = new JCheckBox("Card Builder");
-		checkBox8.setSelected(false);
-		GridBagConstraints gbccheckBox8 = new GridBagConstraints();
-		gbccheckBox8.anchor = GridBagConstraints.WEST;
-		gbccheckBox8.insets = new Insets(0, 0, 0, 5);
-		gbccheckBox8.gridx = 1;
-		gbccheckBox8.gridy = 4;
-		panneau2.add(checkBox8, gbccheckBox8);
-
-		checkBox9 = new JCheckBox("Stock");
-		checkBox9.setSelected(false);
-		GridBagConstraints gbccheckBox9 = new GridBagConstraints();
-		gbccheckBox9.anchor = GridBagConstraints.WEST;
-		gbccheckBox9.gridx = 3;
-		gbccheckBox9.gridy = 4;
-		panneau2.add(checkBox9, gbccheckBox9);
+		tabbedPane.addTab("Update", null, panneau2, null);
+		GridBagLayout gbl_panneau2 = new GridBagLayout();
+		gbl_panneau2.columnWidths = new int[]{272, 272, 0, 0};
+		gbl_panneau2.rowHeights = new int[]{47, 47, 0};
+		gbl_panneau2.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panneau2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panneau2.setLayout(gbl_panneau2);
+		
+		JLabel lblNewLabel = new JLabel("Update Zip File :");
+		GridBagConstraints gbclblNewLabel = new GridBagConstraints();
+		gbclblNewLabel.fill = GridBagConstraints.BOTH;
+		gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbclblNewLabel.gridx = 0;
+		gbclblNewLabel.gridy = 0;
+		panneau2.add(lblNewLabel, gbclblNewLabel);
+		
+		JTextFieldFileChooser textFieldFileChooser = new JTextFieldFileChooser();
+		textFieldFileChooser.getTextField().setColumns(25);
+		GridBagConstraints gbctextFieldFileChooser = new GridBagConstraints();
+		gbctextFieldFileChooser.fill = GridBagConstraints.BOTH;
+		gbctextFieldFileChooser.insets = new Insets(0, 0, 5, 5);
+		gbctextFieldFileChooser.gridx = 1;
+		gbctextFieldFileChooser.gridy = 0;
+		panneau2.add(textFieldFileChooser, gbctextFieldFileChooser);
+		
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(e->FileTools.unZipIt(textFieldFileChooser.getFile(), new File("..")));
+		GridBagConstraints gbcbtnUpdate = new GridBagConstraints();
+		gbcbtnUpdate.insets = new Insets(0, 0, 5, 0);
+		gbcbtnUpdate.fill = GridBagConstraints.BOTH;
+		gbcbtnUpdate.gridx = 2;
+		gbcbtnUpdate.gridy = 0;
+		panneau2.add(btnUpdate, gbcbtnUpdate);
+		
+		JLabel lblNewLabel1 = new JLabel(new File("..").getAbsolutePath());
+		GridBagConstraints gbclblNewLabel1 = new GridBagConstraints();
+		gbclblNewLabel1.gridwidth = 3;
+		gbclblNewLabel1.insets = new Insets(0, 0, 0, 5);
+		gbclblNewLabel1.fill = GridBagConstraints.BOTH;
+		gbclblNewLabel1.gridx = 0;
+		gbclblNewLabel1.gridy = 1;
+		panneau2.add(lblNewLabel1, gbclblNewLabel1);
 
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

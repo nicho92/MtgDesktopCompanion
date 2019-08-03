@@ -565,7 +565,7 @@ public class ConfigurationPanel extends JPanel {
 				if(res == JFileChooser.APPROVE_OPTION)
 				{
 					try {
-						FileTools.importConfig(chooser.getSelectedFile(),MTGConstants.CONF_DIR);
+						FileTools.unzip(chooser.getSelectedFile(),MTGConstants.CONF_DIR);
 						MTGControler.getInstance().notify(new MTGNotification("IMPORT", "Import config done", MESSAGE_TYPE.INFO));
 					} catch (IOException e1) {
 						MTGControler.getInstance().notify(e1);

@@ -40,7 +40,7 @@ public class FileTools {
 	}
 
 	
-	public static void importConfig(File fileZip,File dest) throws IOException 
+	public static void unzip(File fileZip,File dest) throws IOException 
 	{
 		
 		if(!dest.isDirectory())

@@ -17,18 +17,19 @@ public class VersionChecker {
 
 	public String getVersion() {
 		InputStream input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
-		BufferedReader read = new BufferedReader(new InputStreamReader(input));
-		try {
+		try (BufferedReader read = new BufferedReader(new InputStreamReader(input)))
+		{
 			String version = read.readLine();
 
 			if (version.startsWith("${"))
 				return "0.0";
 			else
 				return version;
-
 		} catch (IOException e) {
 			return "";
 		}
+		
+		
 
 	}
 
@@ -46,6 +47,7 @@ public class VersionChecker {
 
 
 	public boolean hasNewVersion() {
+		
 		try {
 			boolean res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
 			logger.info("check update:" + actualVersion + " found:" + onlineVersion);
