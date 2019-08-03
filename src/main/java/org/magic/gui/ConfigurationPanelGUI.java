@@ -1,6 +1,11 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -11,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -38,6 +44,7 @@ import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class ConfigurationPanelGUI extends MTGUIComponent {
 
@@ -121,6 +128,23 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 					p.setBackground(table.getBackground());
 				
 				return p;
+		});
+		
+		table.addMouseListener(new MouseAdapter() {
+		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount()==2)
+				{
+					try {
+						Desktop.getDesktop().browse(((MTGPlugin)UITools.getTableSelection(table, 0)).getDocumentation().toURI());
+					} catch (ClassCastException e1) {
+						//do nothing not a plugin
+					} catch (IOException|URISyntaxException e2) {
+						logger.error(e2);
+					} 
+				}
+			}
 		});
 		
 		

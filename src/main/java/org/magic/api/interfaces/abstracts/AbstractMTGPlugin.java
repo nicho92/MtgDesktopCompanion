@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {
@@ -39,6 +40,18 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		} catch (MalformedObjectNameException e) {
 			return null;
 		}
+	}
+	
+	@Override
+	public URL getDocumentation() {
+		try {
+			return new URL(MTGConstants.MTG_DESKTOP_WIKI_URL+"/"+getName().replaceAll(" ", "%20"));	
+		}
+		catch(Exception e)
+		{
+			return null;	
+		}
+		
 	}
 	
 

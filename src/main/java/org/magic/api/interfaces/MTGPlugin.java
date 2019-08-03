@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Properties;
 
 import javax.management.ObjectName;
@@ -57,5 +58,7 @@ public interface MTGPlugin {
 	public ObjectName getObjectName();
 
 	public String termsAndCondition();
+	
+	public URL getDocumentation();
 	
 }

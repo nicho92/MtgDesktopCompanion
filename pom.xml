@@ -83,7 +83,7 @@
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
-		    <version>2.4.2</version>
+		    <version>2.4.3</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.xerial</groupId>
@@ -118,7 +118,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.BETA.0_29</version>
+			  <version>4.BETA.0_32</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -203,11 +203,6 @@
 		    <artifactId>jol-core</artifactId>
 		    <version>0.9</version>
 		</dependency>
-		<!-- <dependency>
-		    <groupId>com.mchange</groupId>
-		    <artifactId>c3p0</artifactId>
-		    <version>0.9.5.4</version>
-		</dependency> -->
 		<dependency>
 			<groupId>commons-cli</groupId>
 			<artifactId>commons-cli</artifactId>
@@ -526,6 +521,53 @@
                      </execution>
                    </executions>
              </plugin>
+            
+    	<!--  <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.25</version>
+                <executions>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/Project.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <dontWrapJar>false</dontWrapJar>
+                            <errTitle>Error in launch4j plugin</errTitle>
+                            <classPath>
+                                <mainClass>org.magic.api.main.MtgDesktopCompanion</mainClass>
+                                <addDependencies>true</addDependencies>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <icon>target/logo.ico</icon>
+                            <jre>
+                                <minVersion>1.10.000</minVersion>
+                                <maxVersion>1.13.999</maxVersion>
+                                <initialHeapSize>512</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                                <runtimeBits>64/32</runtimeBits>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>1.0.0.0</txtFileVersion>
+                                <fileDescription>des</fileDescription>
+                                <copyright>Copyright (c) 2019 </copyright>
+                                <companyName>comp</companyName>
+                                <productVersion>${project.version}.0.0</productVersion>
+                                <txtProductVersion>${project.version}.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <internalName>${project.artifactId}</internalName>
+                                <originalFilename>${project.name}.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
             
 		</plugins>
 	</build>

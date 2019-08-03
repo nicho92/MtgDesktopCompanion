@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.net.URL;
 import java.util.Properties;
 
 import javax.management.MalformedObjectNameException;
@@ -15,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observer;
 
 public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet{
@@ -42,6 +44,19 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	@Override
 	public void unload() {
 		// do nothing
+		
+	}
+	
+	@Override
+	public URL getDocumentation() {
+		try {
+			return new URL(MTGConstants.MTG_DESKTOP_WIKI_URL+"/"+getName().replaceAll(" ", "%20"));	
+
+		}
+		catch(Exception e)
+		{
+			return null;	
+		}
 		
 	}
 	
