@@ -55,6 +55,14 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		return new String[] { "" };
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
 	
 	@Override
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition ed) throws IOException {

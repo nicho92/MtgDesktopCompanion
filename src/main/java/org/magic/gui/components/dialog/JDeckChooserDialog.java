@@ -101,7 +101,7 @@ public class JDeckChooserDialog extends JDialog {
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
 			for (Enumeration<? extends TreeNode>e = node.children(); e.hasMoreElements();) {
-				TreeNode n = (TreeNode) e.nextElement();
+				TreeNode n =  e.nextElement();
 				TreePath path = parent.pathByAddingChild(n);
 				expandAll(path);
 			}

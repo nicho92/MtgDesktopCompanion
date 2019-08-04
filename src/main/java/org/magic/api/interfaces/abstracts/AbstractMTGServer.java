@@ -31,4 +31,13 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	public PLUGINS getType() {
 		return PLUGINS.SERVER;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
 }

@@ -99,7 +99,20 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	@Override
 	public void quit() {
 		// nothing to do
-
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return (getType()+getName()).hashCode();
 	}
 
 }

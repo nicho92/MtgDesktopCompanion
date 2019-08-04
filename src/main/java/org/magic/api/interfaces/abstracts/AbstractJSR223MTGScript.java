@@ -32,6 +32,15 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		};
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 	
 	@Override
 	public void setOutput(Writer w) {

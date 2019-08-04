@@ -43,6 +43,20 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 	
 	
+	@Override
+	public int hashCode() {
+		return (getType()+getName()).hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 	public TCache<MagicCard> getCacheCards()
 	{
 		return cacheCards;

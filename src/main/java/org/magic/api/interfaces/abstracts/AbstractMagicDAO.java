@@ -199,6 +199,15 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 
 	
 }

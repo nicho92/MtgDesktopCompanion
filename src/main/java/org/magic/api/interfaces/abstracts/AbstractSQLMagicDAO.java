@@ -844,6 +844,21 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 	}
 
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return (getType()+getName()).hashCode();
+	}
+
 
 
 }

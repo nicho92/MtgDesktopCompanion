@@ -36,7 +36,7 @@ public class ThreadManager {
 		log();
 	}
 	
-	public Future<?> submitThread(Runnable task, String name) {
+	public Future submitThread(Runnable task, String name) {
 		this.name=name;
 		log();
 		return executor.submit(task);

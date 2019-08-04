@@ -123,5 +123,20 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return null;
 		return ImageTools.resize(img, newH, newW);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return (getType()+getName()).hashCode();
+	}
+
 
 }
