@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
-import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGLogger;
 
 import io.milton.http.Auth;

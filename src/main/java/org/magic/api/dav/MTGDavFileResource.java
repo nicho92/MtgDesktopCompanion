@@ -10,7 +10,6 @@ import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
-import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
