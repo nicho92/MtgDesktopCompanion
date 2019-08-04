@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGCardsExport;

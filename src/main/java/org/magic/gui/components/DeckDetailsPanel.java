@@ -203,7 +203,7 @@ public class DeckDetailsPanel extends JComponent {
 		
 		
 		panel.removeAll();
-		SwingWorker<Void, BufferedImage> sw = new SwingWorker<Void, BufferedImage>()
+		SwingWorker<Void, BufferedImage> sw = new SwingWorker<>()
 		{
 
 			@Override

@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observer;
 
 public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet{

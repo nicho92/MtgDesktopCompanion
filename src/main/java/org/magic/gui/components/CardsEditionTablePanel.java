@@ -36,6 +36,10 @@ import org.magic.tools.UITools;
 
 
 public class CardsEditionTablePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicCardTableModel model;
 	private MagicEdition currentEdition;
@@ -94,7 +98,7 @@ public class CardsEditionTablePanel extends JPanel {
 			{
 				buzy.start(list.size());
 				
-				SwingWorker<Void, MagicCard> swImp = new SwingWorker<Void, MagicCard>()
+				SwingWorker<Void, MagicCard> swImp = new SwingWorker<>()
 				{
 				@Override
 					protected void done() {
@@ -172,7 +176,7 @@ public class CardsEditionTablePanel extends JPanel {
 		}
 		
 		
-		sw = new AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),currentEdition.getCardCount()) {
+		sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),currentEdition.getCardCount()) {
 			
 			@Override
 			protected List<MagicCard> doInBackground() {

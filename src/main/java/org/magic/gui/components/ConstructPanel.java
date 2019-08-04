@@ -331,7 +331,7 @@ public class ConstructPanel extends JPanel {
 			Map<MagicCard, Integer> updateS = new HashMap<>();
 			btnUpdate.setEnabled(false);
 			buzyLabel.start(deck.getMap().size() + deck.getMapSideBoard().size());
-			SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>()
+			SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
 					{
 						@Override
 						protected void done() {
@@ -553,7 +553,7 @@ public class ConstructPanel extends JPanel {
 			if (txtSearch.getText().isEmpty())
 				return;
 
-			AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider> sw = new AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class))
+			AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class))
 			{
 				@Override
 				protected List<MagicCard> doInBackground() throws Exception {
@@ -574,7 +574,6 @@ public class ConstructPanel extends JPanel {
 						}
 					}
 				}
-
 				@Override
 				protected void done() {
 					super.done();

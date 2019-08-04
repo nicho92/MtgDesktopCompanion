@@ -104,7 +104,7 @@ public class LazyLoadingTree extends JTree {
 		}
 
 		private void loadCollection() {
-			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
+			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() throws Exception {
 
@@ -133,7 +133,7 @@ public class LazyLoadingTree extends JTree {
 
 		private void loadCardsFromEdition(final MagicCollection col, final MagicEdition ed) {
 
-			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
+			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() {
 					logger.trace("loading cards from " + col + "/" + ed);
@@ -172,7 +172,7 @@ public class LazyLoadingTree extends JTree {
 
 		private void loadEditionFromCollection(final MagicCollection c) {
 
-			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
+			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() throws Exception {
 					logger.debug("loading editions from " + c);

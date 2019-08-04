@@ -54,7 +54,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 		
 		if(ed!=null)
 		{
-			sw = new SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>>() {
+			sw = new SwingWorker<>() {
 				@Override
 				protected void process(List<SimpleEntry<Packaging, ImageIcon>> chunks) {
 					chunks.forEach(e->addTab(e.getKey().toString(), new JLabel(e.getValue())));

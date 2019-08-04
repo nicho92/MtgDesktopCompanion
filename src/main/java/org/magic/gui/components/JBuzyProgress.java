@@ -9,6 +9,10 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 
 public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JProgressBar progress;
 	
 	public JBuzyProgress() {

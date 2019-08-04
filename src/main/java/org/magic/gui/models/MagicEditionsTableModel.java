@@ -16,6 +16,11 @@ import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Map<MagicEdition, Integer> mapCount;
 
 	int countTotal = 0;

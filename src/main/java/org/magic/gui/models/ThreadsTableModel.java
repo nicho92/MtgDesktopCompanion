@@ -9,6 +9,11 @@ import org.magic.gui.abstracts.GenericTableModel;
 
 public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ThreadsTableModel() {
 		columns = new String[] {"ID","NAME","CPU (s.)","STATE","PRIORITY","LOCK INFO","BLOCKED COUNT","DEADLOCKED","MEMORY (KB.)"};
 	}

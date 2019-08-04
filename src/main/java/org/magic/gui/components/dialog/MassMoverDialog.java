@@ -91,7 +91,7 @@ public class MassMoverDialog extends JDialog {
 			btnMove.setEnabled(false);
 
 			
-			SwingWorker<Void, MagicCard> sw = new SwingWorker<Void, MagicCard>() {
+			SwingWorker<Void, MagicCard> sw = new SwingWorker<>() {
 				
 				@Override
 				protected void done() {

@@ -43,7 +43,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 			
 			return dept.getProperties().entrySet().toArray()[index];
 		}
-		return new ArrayList<T>(listElements).get(index);
+		return new ArrayList<>(listElements).get(index);
 	}
 
 

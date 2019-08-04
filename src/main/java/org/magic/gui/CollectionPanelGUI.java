@@ -79,6 +79,10 @@ import org.magic.tools.UITools;
 
 public class CollectionPanelGUI extends MTGUIComponent {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable tableEditions;
 	private transient MTGCardsProvider provider;
 	private transient MTGDao dao;
@@ -413,7 +417,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 											listExport= dao.listCardsFromCollection(mc, ed);
 										
 									
-									AbstractObservableWorker<Void, MagicCard, MTGCardsExport> swExp = new AbstractObservableWorker<Void, MagicCard, MTGCardsExport>(progressBar,exp,listExport.size()){
+									AbstractObservableWorker<Void, MagicCard, MTGCardsExport> swExp = new AbstractObservableWorker<>(progressBar,exp,listExport.size()){
 
 										@Override
 										protected Void doInBackground() throws Exception {

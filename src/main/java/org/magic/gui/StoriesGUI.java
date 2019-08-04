@@ -121,7 +121,7 @@ public class StoriesGUI extends MTGUIComponent {
 
 	public void initStories() {
 		
-		SwingWorker<Void, MTGStory> sw = new SwingWorker<Void, MTGStory>() {
+		SwingWorker<Void, MTGStory> sw = new SwingWorker<>() {
 			
 			@Override
 			protected Void doInBackground(){

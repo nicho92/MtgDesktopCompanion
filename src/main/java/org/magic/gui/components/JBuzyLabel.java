@@ -11,6 +11,10 @@ import org.magic.services.MTGConstants;
 
 public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel label;
 	private int max;
 	private int currentVal;

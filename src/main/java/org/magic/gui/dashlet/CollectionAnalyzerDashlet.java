@@ -108,7 +108,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		{
 			List<MagicEdition> ret = UITools.getTableSelections(tableCache,0);
 			buzy.start(ret.size());
-			SwingWorker<Void, Map.Entry<MagicEdition,Date>> swC = new SwingWorker<Void, Map.Entry<MagicEdition,Date>>()
+			SwingWorker<Void, Map.Entry<MagicEdition,Date>> swC = new SwingWorker<>()
 			{
 
 				@Override

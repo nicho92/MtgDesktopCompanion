@@ -86,7 +86,7 @@ public class HandPanel extends DraggablePanel {
 		this.removeAll();
 		index = 0;
 		
-		sw = new SwingWorker<Void, MagicCard>()
+		sw = new SwingWorker<>()
 		{
 
 			@Override

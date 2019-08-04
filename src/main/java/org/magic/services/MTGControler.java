@@ -38,7 +38,6 @@ import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observer;
 
 public class MTGControler {
@@ -393,7 +392,6 @@ public class MTGControler {
 	
 
 
-	@SuppressWarnings("unchecked")
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		return PluginRegistry.inst().getPlugin(name,type);
 	}

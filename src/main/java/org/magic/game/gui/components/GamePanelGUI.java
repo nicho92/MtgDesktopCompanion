@@ -157,7 +157,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					manaPoolPanel.init(player.getManaPool());
 					player.getManaPool().removeObserver(manaPoolPanel);
 					player.getManaPool().addObserver(manaPoolPanel);
-					((DefaultListModel) listActions.getModel()).removeAllElements();
+					((DefaultListModel<AbstractAction>) listActions.getModel()).removeAllElements();
 					player.shuffleLibrary();
 					turnsPanel.initTurn();
 					new DrawHandActions().actionPerformed(ae);

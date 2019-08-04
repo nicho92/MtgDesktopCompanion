@@ -495,7 +495,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			String searchName = txtSearch.getText().trim();
 			cardsModeltable.clear();
 			
-			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin>(lblLoading,plug) {
+			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
 				@Override
 				protected List<MagicCard> doInBackground() throws Exception {
 					List<MagicCard> cards;
@@ -581,7 +581,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				selectedEdition = listEdition.getSelectedValue();
 				
 				
-				SwingWorker<MagicCard, MagicCard> sw = new SwingWorker<MagicCard, MagicCard>()
+				SwingWorker<MagicCard, MagicCard> sw = new SwingWorker<>()
 						{
 							
 							@Override

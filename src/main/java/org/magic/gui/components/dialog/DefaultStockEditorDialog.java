@@ -27,6 +27,10 @@ import org.magic.services.MTGControler;
 
 public class DefaultStockEditorDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String CHECKBOX_PROPERTIES = "selected";
 	private transient BindingGroup mbindingGroup;
 	private JPanel mcontentPane;

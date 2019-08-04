@@ -9,6 +9,11 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DeckStockComparisonModel() {
 		
 		columns = new String[] { 

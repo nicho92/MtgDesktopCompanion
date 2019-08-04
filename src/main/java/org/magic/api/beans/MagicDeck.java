@@ -150,11 +150,11 @@ public class MagicDeck implements Serializable {
 	}
 
 	public MagicCard getValueAt(int pos) {
-		return new ArrayList<MagicCard>(mapDeck.keySet()).get(pos);
+		return new ArrayList<>(mapDeck.keySet()).get(pos);
 	}
 
 	public MagicCard getSideValueAt(int pos) {
-		return new ArrayList<MagicCard>(mapSideBoard.keySet()).get(pos);
+		return new ArrayList<>(mapSideBoard.keySet()).get(pos);
 	}
 
 	public List<MagicCard> getAsList() {

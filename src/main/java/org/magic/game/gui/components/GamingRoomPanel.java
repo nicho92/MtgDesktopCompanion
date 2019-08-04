@@ -73,7 +73,7 @@ public class GamingRoomPanel extends JPanel {
 	private transient Observer obs = new Observer() {
 
 		private void printMessage(AbstractNetworkAction sa) {
-			((DefaultListModel) list.getModel()).addElement(sa);
+			((DefaultListModel<AbstractNetworkAction>) list.getModel()).addElement(sa);
 		}
 
 		@Override
@@ -143,7 +143,7 @@ public class GamingRoomPanel extends JPanel {
 		JPanel panel1 = new JPanel();
 		btnShareDeck = new JButton(MTGConstants.ICON_DECK);
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = new JComboBox<>(new DefaultComboBoxModel<STATE>(STATE.values()));
+		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATE.values()));
 		JPanel panelChatBox = new JPanel();
 		
 		txtServer.setText("");
@@ -170,6 +170,7 @@ public class GamingRoomPanel extends JPanel {
 		} catch (Exception e) {
 			editorPane.setForeground(Color.BLACK);
 		}
+		
 		list.setCellRenderer(new DefaultListCellRenderer() {
 			/**
 			 * 

@@ -73,7 +73,7 @@ public class OrdersGUI extends MTGUIComponent {
 	
 	private void loadFinancialBook()
 	{
-		SwingWorker<List<OrderEntry>, OrderEntry> sw = new SwingWorker<List<OrderEntry>, OrderEntry>()
+		SwingWorker<List<OrderEntry>, OrderEntry> sw = new SwingWorker<>()
 				{
 
 					@Override

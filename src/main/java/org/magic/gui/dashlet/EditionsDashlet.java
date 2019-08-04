@@ -117,7 +117,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		if (cboEditions.getSelectedItem() != null)
 		{	
 			lblLoading.start();
-			SwingWorker<EditionPriceVariations, Void> sw = new SwingWorker<EditionPriceVariations, Void>()
+			SwingWorker<EditionPriceVariations, Void> sw = new SwingWorker<>()
 			{
 				@Override
 				protected EditionPriceVariations doInBackground(){

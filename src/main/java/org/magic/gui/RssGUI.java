@@ -158,7 +158,7 @@ public class RssGUI extends MTGUIComponent {
 
 			if (curr.getUserObject() instanceof MagicNews)
 			{	
-				SwingWorker<List<MagicNewsContent>, MagicNews> sw = new SwingWorker<List<MagicNewsContent>, MagicNews>()
+				SwingWorker<List<MagicNewsContent>, MagicNews> sw = new SwingWorker<>()
 				{
 
 					@Override
@@ -204,7 +204,7 @@ public class RssGUI extends MTGUIComponent {
 					}
 				} else {
 					
-					SwingWorker<Void, URL> sw = new SwingWorker<Void, URL>()
+					SwingWorker<Void, URL> sw = new SwingWorker<>()
 					{
 						@Override
 						protected void done() {
@@ -244,7 +244,7 @@ public class RssGUI extends MTGUIComponent {
 		rootNode.removeAllChildren();
 		
 		
-		SwingWorker<Void, MagicNews> sw = new SwingWorker<Void, MagicNews>() {
+		SwingWorker<Void, MagicNews> sw = new SwingWorker<>() {
 			
 			@Override
 			protected void process(List<MagicNews> chunks) {

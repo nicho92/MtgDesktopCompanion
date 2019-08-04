@@ -79,7 +79,7 @@ public class OrderImporterDialog extends JDialog {
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 	
 		btnLoad.addActionListener(ae->{
-			AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper> sw = new AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper>(lblLoad,selectedSniffer) {
+			AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 				@Override
 				protected List<OrderEntry> doInBackground() throws Exception {
 					return plug.listOrders();

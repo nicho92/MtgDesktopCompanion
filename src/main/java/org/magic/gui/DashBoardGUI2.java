@@ -27,6 +27,10 @@ import org.magic.services.ThreadManager;
 
 public class DashBoardGUI2 extends MTGUIComponent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JMenuItem mntmSaveDisplay;
 	private JDesktopPane desktop;
 	private JMenu mnNewMenu;

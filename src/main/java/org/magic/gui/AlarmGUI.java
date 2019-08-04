@@ -216,7 +216,7 @@ public class AlarmGUI extends MTGUIComponent {
 			
 			
 			lblLoading.start(table.getSelectedRows().length);
-			SwingWorker<Void, MagicCardAlert> sw = new SwingWorker<Void, MagicCardAlert>()
+			SwingWorker<Void, MagicCardAlert> sw = new SwingWorker<>()
 					{
 						@Override
 						protected void done() {
@@ -275,7 +275,7 @@ public class AlarmGUI extends MTGUIComponent {
 				lblLoading.start(selected.length);
 				
 				
-				SwingWorker<List<MagicCardAlert>, MagicCardAlert> sw = new SwingWorker<List<MagicCardAlert>, MagicCardAlert>()
+				SwingWorker<List<MagicCardAlert>, MagicCardAlert> sw = new SwingWorker<>()
 				{
 
 					@Override
@@ -369,7 +369,7 @@ public class AlarmGUI extends MTGUIComponent {
 						if (res == JFileChooser.APPROVE_OPTION)
 						{	
 							
-							AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport>(lblLoading,exp) {
+							AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) {
 
 								@Override
 								protected MagicDeck doInBackground() throws Exception {

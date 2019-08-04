@@ -179,7 +179,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			spinRare.setModel(new SpinnerNumberModel(0, 0, null, 1));
 
 			List<MagicEdition> eds = provider.loadEditions();
-			cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
+			cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
 			
 			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
@@ -383,7 +383,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					provider.saveEdition(ed);
 
 					cboSets.removeAllItems();
-					cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(
+					cboSets.setModel(new DefaultComboBoxModel<>(
 							provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 
 					editionModel.init(provider.loadEditions());

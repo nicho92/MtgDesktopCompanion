@@ -475,7 +475,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		}
 
 		
-		SwingWorker<Image, Image> sw = new SwingWorker<Image, Image>()
+		SwingWorker<Image, Image> sw = new SwingWorker<>()
 		{
 			Image temp = null;
 			@Override

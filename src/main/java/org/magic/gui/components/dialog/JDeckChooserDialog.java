@@ -100,7 +100,7 @@ public class JDeckChooserDialog extends JDialog {
 	private void expandAll(TreePath parent) {
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
-			for (Enumeration e = node.children(); e.hasMoreElements();) {
+			for (Enumeration<? extends TreeNode>e = node.children(); e.hasMoreElements();) {
 				TreeNode n = (TreeNode) e.nextElement();
 				TreePath path = parent.pathByAddingChild(n);
 				expandAll(path);
@@ -133,7 +133,7 @@ public class JDeckChooserDialog extends JDialog {
 		});
 		
 		
-		SwingWorker<List<MagicDeck>, Void> sw = new SwingWorker<List<MagicDeck>, Void>()
+		SwingWorker<List<MagicDeck>, Void> sw = new SwingWorker<>()
 				{
 
 					@Override

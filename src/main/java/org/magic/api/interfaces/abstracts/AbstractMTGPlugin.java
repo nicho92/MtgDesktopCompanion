@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {

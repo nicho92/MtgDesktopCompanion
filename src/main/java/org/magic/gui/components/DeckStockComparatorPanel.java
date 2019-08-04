@@ -32,6 +32,10 @@ import org.magic.tools.UITools;
 
 public class DeckStockComparatorPanel extends JComponent {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicCollection> cboCollections;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicDeck currentDeck;

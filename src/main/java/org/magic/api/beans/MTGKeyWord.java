@@ -6,6 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 
 public class MTGKeyWord implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum TYPE {
 		ABILITIES, ACTION, WORD
 	}

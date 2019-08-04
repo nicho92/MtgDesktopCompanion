@@ -12,6 +12,12 @@ import javax.swing.JList;
 
 public class JFontChooser extends JComponent {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	private enum Styles {
 		PLAIN(Font.PLAIN),
 		BOLD(Font.BOLD),

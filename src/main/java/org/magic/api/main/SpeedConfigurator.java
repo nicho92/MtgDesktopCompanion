@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -153,12 +152,12 @@ public class SpeedConfigurator extends JFrame {
 		
 		JPanel panneau2 = new JPanel();
 		tabbedPane.addTab("Update", null, panneau2, null);
-		GridBagLayout gbl_panneau2 = new GridBagLayout();
-		gbl_panneau2.columnWidths = new int[]{272, 272, 0, 0};
-		gbl_panneau2.rowHeights = new int[]{47, 47, 0};
-		gbl_panneau2.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panneau2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panneau2.setLayout(gbl_panneau2);
+		GridBagLayout gblpanneau2 = new GridBagLayout();
+		gblpanneau2.columnWidths = new int[]{272, 272, 0, 0};
+		gblpanneau2.rowHeights = new int[]{47, 47, 0};
+		gblpanneau2.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gblpanneau2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panneau2.setLayout(gblpanneau2);
 		
 		JLabel lblNewLabel = new JLabel("Update Zip File :");
 		GridBagConstraints gbclblNewLabel = new GridBagConstraints();

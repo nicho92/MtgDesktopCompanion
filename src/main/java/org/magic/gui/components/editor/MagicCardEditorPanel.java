@@ -269,7 +269,7 @@ public class MagicCardEditorPanel extends JPanel {
 		add(rarityLabel, labelgbc14);
 
 		rarityJComboBox = new JComboBox<>();
-		rarityJComboBox.setModel(new DefaultComboBoxModel<String>(
+		rarityJComboBox.setModel(new DefaultComboBoxModel<>(
 				new String[] { "Common", "Uncommon", "Rare", "Mythic Rare", "Special" }));
 		GridBagConstraints componentgbc14 = new GridBagConstraints();
 		componentgbc14.insets = new Insets(5, 0, 5, 0);
@@ -411,7 +411,7 @@ public class MagicCardEditorPanel extends JPanel {
 		labelgbc6.gridy = 8;
 		add(layoutLabel, labelgbc6);
 
-		layoutJComboBox = new JComboBox();
+		layoutJComboBox = new JComboBox<>();
 		layoutJComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "normal", "split", "flip", "double-faced",
 				"token", "plane", "scheme", "phenomenon", "leveler", "vanguard", "meld", "token", "aftermath" }));
 
@@ -619,7 +619,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbclblColorOrientation.gridy = 13;
 		add(lblColorOrientation, gbclblColorOrientation);
 		
-		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<String>(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
+		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
 		
 		GridBagConstraints gbccomboBox = new GridBagConstraints();
 		gbccomboBox.anchor = GridBagConstraints.NORTH;

@@ -123,7 +123,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnSave.addActionListener(e ->{
 			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdate).collect(Collectors.toList());
-			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock,MTGDao>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class),updates.size())
+			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class),updates.size())
 			{
 				@Override
 				protected void done() {
@@ -170,7 +170,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				
 				List<MagicCardStock> stocks = UITools.getTableSelections(table, 0);
 				model.removeItem(stocks);
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading,MTGControler.getInstance().getEnabled(MTGDao.class),stocks.size()) {
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,MTGControler.getInstance().getEnabled(MTGDao.class),stocks.size()) {
 					@Override
 					protected Void doInBackground(){
 						stocks.removeIf(st->st.getIdstock()==-1);
@@ -210,7 +210,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION)
 			{
 				logger.debug("reload collection");
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class), -1) {
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class), -1) {
 					@Override
 					protected Void doInBackground() throws Exception {
 						model.init(plug.listStocks());
@@ -287,7 +287,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 						if (res == JFileChooser.APPROVE_OPTION)
 						{
-							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport>(lblLoading,exp) 
+							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) 
 							{
 								@Override
 								protected List<MagicCardStock> doInBackground() throws Exception {
@@ -359,7 +359,7 @@ public class StockPanelGUI extends MTGUIComponent {
 						if (res == JFileChooser.APPROVE_OPTION)
 						{	
 							
-							AbstractObservableWorker<Void, MagicCardStock, MTGCardsExport> sw = new AbstractObservableWorker<Void, MagicCardStock, MTGCardsExport>(lblLoading,exp,model.getItems().size()) {
+							AbstractObservableWorker<Void, MagicCardStock, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp,model.getItems().size()) {
 
 								@Override
 								protected Void doInBackground() throws Exception {
@@ -400,7 +400,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnGeneratePrice.addActionListener(ae -> {
 			lblLoading.start(table.getSelectedRows().length);
 			
-			SwingWorker<Void,MagicCardStock> sw = new SwingWorker<Void, MagicCardStock>() {
+			SwingWorker<Void,MagicCardStock> sw = new SwingWorker<>() {
 				
 				@Override
 				public void done() {

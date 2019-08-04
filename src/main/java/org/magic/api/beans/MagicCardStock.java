@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class MagicCardStock implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idstock;
 	private MagicCard magicCard;
 	private MagicCollection magicCollection;

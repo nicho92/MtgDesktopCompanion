@@ -53,7 +53,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	public void addRow(K key, V value)
 	{
 		
-		keys.add(new AbstractMap.SimpleEntry<K, V>(key,value));
+		keys.add(new AbstractMap.SimpleEntry<>(key,value));
 		fireTableDataChanged();
 			
 	}

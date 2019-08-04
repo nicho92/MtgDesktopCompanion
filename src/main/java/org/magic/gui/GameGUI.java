@@ -14,6 +14,10 @@ import org.magic.services.MTGControler;
 public class GameGUI extends MTGUIComponent {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_GAME;

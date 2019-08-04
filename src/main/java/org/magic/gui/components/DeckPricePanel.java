@@ -69,7 +69,7 @@ public class DeckPricePanel extends JComponent {
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
-			SwingWorker<Void, MagicPrice> sw = new SwingWorker<Void, MagicPrice>() {
+			SwingWorker<Void, MagicPrice> sw = new SwingWorker<>() {
 				@Override
 				protected void done() {
 					lblPrice.setText(String.valueOf(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());

@@ -133,7 +133,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		
 		btnImport.addActionListener(e ->{
 		
-			AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer> sw = new AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer>(lblLoad,selectedSniffer) {
+			AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 
 				@Override
 				protected void process(List<MagicCard> chunks) {
