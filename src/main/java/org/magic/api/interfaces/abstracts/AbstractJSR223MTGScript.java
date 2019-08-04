@@ -32,6 +32,12 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 		};
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		

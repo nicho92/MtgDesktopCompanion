@@ -56,6 +56,11 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 	
 	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		
 		if(obj ==null)
