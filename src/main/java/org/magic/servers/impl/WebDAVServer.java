@@ -22,16 +22,17 @@ public class WebDAVServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private Server server;
 	private static final String SERVER_PORT = "SERVER-PORT";
-	public static String LOG = "user";
-	public static String PAS = "password";
+	
+	private String log="login";
+	private String pas="pass";
 	
 	@Override
 	public void start() throws IOException {
 		server = new Server(getInt(SERVER_PORT));
 		
 		
-		LOG = getString("LOGIN");
-		PAS = getString("PASS");
+		log = getString("LOGIN");
+		pas = getString("PASS");
 		
 		
 		ServletContextHandler ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -45,8 +46,7 @@ public class WebDAVServer extends AbstractMTGServer {
 		FilterHolder fh = handler.addFilterWithMapping(MiltonFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 					 fh.setInitParameter("resource.factory.class", WebDavMTGResourceFactory.class.getCanonicalName());
 					 
-					 
-					 
+
 		ctx.addFilter(fh, "/*", EnumSet.of(DispatcherType.REQUEST));
 					 
 		logger.trace(ctx.dump());
@@ -101,8 +101,8 @@ public class WebDAVServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty(SERVER_PORT, "8088");
 		setProperty(AUTOSTART, "false");
-		setProperty("LOGIN", LOG);
-		setProperty("PASS", PAS);
+		setProperty("LOGIN", log);
+		setProperty("PASS", pas);
 	}
 
 	
@@ -114,6 +114,14 @@ public class WebDAVServer extends AbstractMTGServer {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+
+	public String getLogin() {
+		return getString("LOGIN");
+	}
+
+	public String getPassword() {
+		return getString("PASS");
 	}
 }
 

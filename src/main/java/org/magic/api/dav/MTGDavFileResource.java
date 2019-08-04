@@ -40,10 +40,12 @@ public class MTGDavFileResource implements FileResource, DigestResource
 	protected String pass;
 	
 	
-	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, boolean root) {
+	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, boolean root, String log, String pass) {
 		this.mtgpath=path;
 		this.fs=fs;
 		this.root=root;
+		this.user=log;
+		this.pass=pass;
 	}
 	
 	@Override
@@ -53,9 +55,9 @@ public class MTGDavFileResource implements FileResource, DigestResource
 	
 	@Override
 	public Object authenticate(DigestResponse digestRequest) {
-		if (digestRequest.getUser().equals(WebDAVServer.LOG)) {
+		if (digestRequest.getUser().equals(user)) {
             DigestGenerator gen = new DigestGenerator();
-            String actual = gen.generateDigest(digestRequest, WebDAVServer.PAS);
+            String actual = gen.generateDigest(digestRequest, pass);
             if (actual.equals(digestRequest.getResponseDigest())) {
                 return digestRequest.getUser();
             } else {
@@ -84,7 +86,7 @@ public class MTGDavFileResource implements FileResource, DigestResource
 
 	@Override
 	public Object authenticate(String user, String passw) {
-		if( user.equals(WebDAVServer.LOG) && passw.equals(WebDAVServer.PAS)) {
+		if( user.equals(user) && passw.equals(pass)) {
 	            return user;
 	    }
 	    return null;

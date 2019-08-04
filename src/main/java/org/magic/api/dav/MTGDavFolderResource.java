@@ -46,12 +46,15 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 	protected String pass;
 	private List<Resource> children;
 	
-	public MTGDavFolderResource(MTGPath path, MTGFileSystem fs, boolean root) {
+	public MTGDavFolderResource(MTGPath path, MTGFileSystem fs, boolean root,String login, String password) {
 		this.mtgpath=path;
 		this.fs=fs;
 		this.root=root;
+		this.user=login;
+		this.pass=password;
 	}
 	
+
 	@Override
 	public String toString() {
 		return getName();
@@ -59,9 +62,9 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 	
 	@Override
 	public Object authenticate(DigestResponse digestRequest) {
-		if (digestRequest.getUser().equals(WebDAVServer.LOG)) {
+		if (digestRequest.getUser().equals(user)) {
             DigestGenerator gen = new DigestGenerator();
-            String actual = gen.generateDigest(digestRequest, WebDAVServer.PAS);
+            String actual = gen.generateDigest(digestRequest, pass);
             if (actual.equals(digestRequest.getResponseDigest())) {
                 return digestRequest.getUser();
             } else {
@@ -90,7 +93,7 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 
 	@Override
 	public Object authenticate(String user, String passw) {
-		if( user.equals(WebDAVServer.LOG) && passw.equals(WebDAVServer.PAS)) {
+		if( user.equals(user) && passw.equals(pass)) {
 	            return user;
 	    }
 	    return null;
@@ -140,7 +143,7 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 				
 				if(root)
 				{
-					fs.getRootDirectories().forEach(p->children.add(new MTGDavFolderResource((MTGPath)p, fs, false)));
+					fs.getRootDirectories().forEach(p->children.add(new MTGDavFolderResource((MTGPath)p, fs, false,user,pass)));
 					return children;
 				}
 				else
@@ -149,9 +152,9 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 					{
 						s.forEach(p->{
 							if(((MTGPath)p).isCard())
-								children.add(new MTGDavFileResource((MTGPath)p, fs, false));
+								children.add(new MTGDavFileResource((MTGPath)p, fs, false,user,pass));
 							else
-								children.add(new MTGDavFolderResource((MTGPath)p, fs, false));
+								children.add(new MTGDavFolderResource((MTGPath)p, fs, false,user,pass));
 						});
 					} catch (IOException e) {
 						logger.error(e);

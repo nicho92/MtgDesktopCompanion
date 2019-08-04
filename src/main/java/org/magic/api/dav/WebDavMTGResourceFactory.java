@@ -6,8 +6,11 @@ import org.apache.log4j.Logger;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPlugin;
+import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
 
 import io.milton.common.Path;
 import io.milton.http.ResourceFactory;
@@ -17,12 +20,14 @@ public class WebDavMTGResourceFactory implements ResourceFactory
 {
 	private MTGFileSystem fs;
 	protected Logger log = MTGLogger.getLogger(this.getClass());
-
+	protected WebDAVServer serv;
 	
 	
     
 	public WebDavMTGResourceFactory() throws SQLException {
 		fs = new MTGFileSystem(MTGControler.getInstance().getEnabled(MTGDao.class));
+		
+		serv=(WebDAVServer)PluginRegistry.inst().getPlugin("WebDAV");
 	}
 	
 	
@@ -35,9 +40,9 @@ public class WebDavMTGResourceFactory implements ResourceFactory
         MTGPath mtgpath = (MTGPath) fs.getPath(ioPath.toPath());
         
         if(mtgpath.isCard())
-        	return new MTGDavFileResource(mtgpath,fs,ioPath.isRoot());
+        	return new MTGDavFileResource(mtgpath,fs,ioPath.isRoot(),serv.getLogin(),serv.getPassword());
         else
-        	return new MTGDavFolderResource(mtgpath,fs,ioPath.isRoot());
+        	return new MTGDavFolderResource(mtgpath,fs,ioPath.isRoot(),serv.getLogin(),serv.getPassword());
 
      }
     
