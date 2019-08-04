@@ -40,4 +40,9 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 		
 		return hashCode()==obj.hashCode();
 	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

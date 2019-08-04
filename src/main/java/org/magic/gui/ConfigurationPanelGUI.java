@@ -136,7 +136,9 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 				if(e.getClickCount()==2)
 				{
 					try {
-						Desktop.getDesktop().browse(((MTGPlugin)UITools.getTableSelection(table, 0)).getDocumentation().toURI());
+						
+						MTGPlugin plug = UITools.getTableSelection(table, 0);
+						Desktop.getDesktop().browse(plug.getDocumentation().toURI());
 					} catch (ClassCastException e1) {
 						//do nothing not a plugin
 					} catch (IOException|URISyntaxException e2) {

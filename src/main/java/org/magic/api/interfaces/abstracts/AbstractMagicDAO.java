@@ -208,6 +208,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return hashCode()==obj.hashCode();
 	}
 	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 
 	
 }

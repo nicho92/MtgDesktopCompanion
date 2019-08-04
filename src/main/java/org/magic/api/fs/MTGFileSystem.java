@@ -9,10 +9,13 @@ import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.apache.log4j.Logger;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
@@ -62,16 +65,7 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public Iterable<Path> getRootDirectories() {
-		
-		FileSystem fs = this;
-		return new Iterable<>() {
-			@Override
-			public Iterator<Path> iterator() {
-				List<Path> roots = new ArrayList<>();
-				List.of("Collections", "Alerts", "Stock", "News", "Shopping","Decks").forEach(s->roots.add(new MTGPath(fs, s)));
-				return roots.iterator();
-			}
-		};
+		return List.of("Collections", "Alerts", "Stock", "News", "Shopping","Decks").stream().map(s->new MTGPath(this, s)).collect(Collectors.toList());
 	}
 
 	@Override
