@@ -337,7 +337,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				}
 				
 				if (map.get(RULINGS) != null) {
-					for (Map<String, Object> mapRules : (List<Map>) map.get(RULINGS)) {
+					for (Map<String, Object> mapRules : (List<Map<String,Object>>) map.get(RULINGS)) {
 						MagicRuling mr = new MagicRuling();
 						mr.setDate(String.valueOf(mapRules.get("date")));
 						mr.setText(String.valueOf(mapRules.get(TEXT)));

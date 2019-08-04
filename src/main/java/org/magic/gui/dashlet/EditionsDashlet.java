@@ -136,7 +136,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					try {
 						modEdition.init(get().getShakes());
 						table.packAll();
-						table.setRowSorter(new TableRowSorter(modEdition));
+						table.setRowSorter(new TableRowSorter<>(modEdition));
 						
 					} catch (Exception e) {
 						logger.error(e);

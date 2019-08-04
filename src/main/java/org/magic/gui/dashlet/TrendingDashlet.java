@@ -143,8 +143,8 @@ public class TrendingDashlet extends AbstractJDashlet {
 				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
 				keys.add(sortKey);
 				try {
-					table.setRowSorter(new TableRowSorter(modStandard));
-					((TableRowSorter) table.getRowSorter()).setSortKeys(keys);
+					table.setRowSorter(new TableRowSorter<>(modStandard));
+					table.getRowSorter().setSortKeys(keys);
 					((TableRowSorter) table.getRowSorter()).sort();
 					modStandard.fireTableDataChanged();
 					table.packAll();
