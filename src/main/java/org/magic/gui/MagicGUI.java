@@ -97,9 +97,6 @@ public class MagicGUI extends JFrame {
 		setSize(new Dimension(1420, 900));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + serviceUpdate.getVersion() + ")");
 		
-		
-	//	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -201,7 +198,7 @@ public class MagicGUI extends JFrame {
 
 				if (exp != null) {
 					CardSearchPanel.getInstance().getLblLoading().setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE", f.getName(), exp));
-					AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport>(CardSearchPanel.getInstance().getLblLoading(),exp) {
+					AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(CardSearchPanel.getInstance().getLblLoading(),exp) {
 						@Override
 						protected MagicDeck doInBackground() throws IOException {
 							return plug.importDeck(f);

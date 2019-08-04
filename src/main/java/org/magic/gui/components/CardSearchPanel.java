@@ -317,7 +317,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		thumbnailPanel.setThumbnailSize(new Dimension(179, 240));
 		tabbedCardsInfo.setPreferredSize(new Dimension(0, 350));
 		historyChartPanel.setPreferredSize(new Dimension(400, 10));
-		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
+		cardsPicPanel.setPreferredSize(new Dimension(500, 10));
 		tabbedCardsInfo.setMinimumSize(new Dimension(23, 200));
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);

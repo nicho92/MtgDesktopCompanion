@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -183,7 +185,7 @@ public class SpeedConfigurator extends JFrame {
 		gbcbtnUpdate.gridy = 0;
 		panneau2.add(btnUpdate, gbcbtnUpdate);
 		
-		JLabel lblNewLabel1 = new JLabel(new File("..").getAbsolutePath());
+		JLabel lblNewLabel1 = new JLabel(Paths.get("..").toAbsolutePath().normalize().toString());
 		GridBagConstraints gbclblNewLabel1 = new GridBagConstraints();
 		gbclblNewLabel1.gridwidth = 3;
 		gbclblNewLabel1.insets = new Insets(0, 0, 0, 5);
@@ -195,6 +197,15 @@ public class SpeedConfigurator extends JFrame {
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		
+		btnUpdate.addActionListener(e->{
+			try {
+				FileTools.unzip(textFieldFileChooser.getFile(), new File(lblNewLabel1.getText()));
+			} catch (IOException e1) {
+				MTGControler.getInstance().notify(e1);
+			}
+		});
+		
 	}
 
 	protected void save() {
