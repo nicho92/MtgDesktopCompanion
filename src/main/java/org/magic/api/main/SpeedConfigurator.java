@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -177,7 +178,6 @@ public class SpeedConfigurator extends JFrame {
 		panneau2.add(textFieldFileChooser, gbctextFieldFileChooser);
 		
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.addActionListener(e->FileTools.unZipIt(textFieldFileChooser.getFile(), new File("..")));
 		GridBagConstraints gbcbtnUpdate = new GridBagConstraints();
 		gbcbtnUpdate.insets = new Insets(0, 0, 5, 0);
 		gbcbtnUpdate.fill = GridBagConstraints.BOTH;
@@ -185,7 +185,7 @@ public class SpeedConfigurator extends JFrame {
 		gbcbtnUpdate.gridy = 0;
 		panneau2.add(btnUpdate, gbcbtnUpdate);
 		
-		JLabel lblNewLabel1 = new JLabel(Paths.get("..").toAbsolutePath().normalize().toString());
+		JTextFieldFileChooser lblNewLabel1 = new JTextFieldFileChooser(Paths.get("..").toAbsolutePath().normalize().toString(),JFileChooser.SAVE_DIALOG);
 		GridBagConstraints gbclblNewLabel1 = new GridBagConstraints();
 		gbclblNewLabel1.gridwidth = 3;
 		gbclblNewLabel1.insets = new Insets(0, 0, 0, 5);
@@ -200,7 +200,7 @@ public class SpeedConfigurator extends JFrame {
 		
 		btnUpdate.addActionListener(e->{
 			try {
-				FileTools.unzip(textFieldFileChooser.getFile(), new File(lblNewLabel1.getText()));
+				FileTools.unzip(textFieldFileChooser.getFile(), lblNewLabel1.getFile());
 			} catch (IOException e1) {
 				MTGControler.getInstance().notify(e1);
 			}

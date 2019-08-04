@@ -36,6 +36,11 @@ public class JTextFieldFileChooser extends JComponent {
 		textField.setText(def);
 	}
 	
+	public JTextFieldFileChooser(String def,int mode) {
+		init();
+		this.mode=mode;
+		textField.setText(def);
+	}
 	
 	public void setMode(int mode) {
 		this.mode = mode;
@@ -45,7 +50,6 @@ public class JTextFieldFileChooser extends JComponent {
 	private void init()
 	{
 		setLayout(new BorderLayout(0, 0));
-		
 		JButton btnOpenDialog = new JButton("...");
 		btnOpenDialog.addActionListener(ae->{
 			JFileChooser f = new JFileChooser(textField.getText());
@@ -57,6 +61,9 @@ public class JTextFieldFileChooser extends JComponent {
 			
 			
 		});
+		
+		
+		
 		add(btnOpenDialog, BorderLayout.EAST);
 		
 		textField = new JTextField();
