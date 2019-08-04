@@ -360,7 +360,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				mc.getForeignNames().add(defnames);
 				
 				if (map.get(FOREIGN_DATA) != null) {
-					for (Map<String, Object> mapNames : (List<Map>) map.get(FOREIGN_DATA)) {
+					for (Map<String, Object> mapNames : (List<Map<String, Object>>) map.get(FOREIGN_DATA)) {
 						MagicCardNames fnames = new MagicCardNames();
 									   fnames.setLanguage(String.valueOf(mapNames.get("language")));
 									   fnames.setName(String.valueOf(mapNames.get(NAME)));

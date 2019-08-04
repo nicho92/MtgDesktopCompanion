@@ -142,7 +142,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 					} catch (IOException|URISyntaxException e2) {
 						logger.error(e2);
 					} 
-				}
+				} 
 			}
 		});
 		
