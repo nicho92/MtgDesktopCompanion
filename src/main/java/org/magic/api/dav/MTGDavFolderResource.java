@@ -12,113 +12,32 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.apache.commons.codec.digest.Md5Crypt;
-import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.magic.api.fs.MTGFileSystem;
 import org.magic.api.fs.MTGPath;
-import org.magic.services.MTGLogger;
 
 import io.milton.http.Auth;
 import io.milton.http.Range;
 import io.milton.http.Request;
-import io.milton.http.Request.Method;
 import io.milton.http.XmlWriter;
 import io.milton.http.exceptions.BadRequestException;
 import io.milton.http.exceptions.ConflictException;
 import io.milton.http.exceptions.NotAuthorizedException;
 import io.milton.http.exceptions.NotFoundException;
-import io.milton.http.http11.auth.DigestGenerator;
-import io.milton.http.http11.auth.DigestResponse;
 import io.milton.resource.CollectionResource;
-import io.milton.resource.DigestResource;
 import io.milton.resource.FolderResource;
 import io.milton.resource.Resource;
 
-public class MTGDavFolderResource implements FolderResource, DigestResource
+public class MTGDavFolderResource extends AbstractMTGDavResource implements FolderResource
 {
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected MTGPath mtgpath;
-	protected MTGFileSystem fs;
-	protected boolean root;
-	protected String user;
-	protected String pass;
-	private List<Resource> children;
+	private List<AbstractMTGDavResource> children;
 	
-	public MTGDavFolderResource(MTGPath path, MTGFileSystem fs, boolean root,String login, String password) {
-		this.mtgpath=path;
-		this.fs=fs;
-		this.root=root;
-		this.user=login;
-		this.pass=password;
+	
+	public MTGDavFolderResource(MTGPath path, MTGFileSystem fs, boolean root, String log, String pass) {
+		super(path, fs, root, log, pass);
+	
 	}
 	
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-	
-	@Override
-	public Object authenticate(DigestResponse digestRequest) {
-		if (digestRequest.getUser().equals(user)) {
-            DigestGenerator gen = new DigestGenerator();
-            String actual = gen.generateDigest(digestRequest, pass);
-            if (actual.equals(digestRequest.getResponseDigest())) {
-                return digestRequest.getUser();
-            } else {
-            	logger.warn("that password is incorrect");
-            }
-        } else {
-        	logger.warn("user not found: " + digestRequest.getUser());
-        }
-        return null;
-	}
-
-	@Override
-	public boolean isDigestAllowed() {
-		return true;
-	}
-
-	@Override
-	public String getUniqueId() {
-		return Md5Crypt.md5Crypt(mtgpath.toString().getBytes());
-	}
-
-	@Override
-	public String getName() {
-		return mtgpath.getStringFileName();
-	}
-
-	@Override
-	public Object authenticate(String user, String passw) {
-		if( user.equals(user) && passw.equals(pass)) {
-	            return user;
-	    }
-	    return null;
-	}
-
-	@Override
-	public boolean authorise(Request request, Method method, Auth auth) {
-		return auth != null;
-	}
-
-	@Override
-	public String getRealm() {
-		return "mtg";
-	}
-
-	@Override
-	public Date getModifiedDate() {
-		return null;
-	}
-
-	@Override
-	public String checkRedirect(Request request) throws NotAuthorizedException, BadRequestException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public Resource child(String childName) throws NotAuthorizedException, BadRequestException {
 		if(children==null)
@@ -198,7 +117,7 @@ public class MTGDavFolderResource implements FolderResource, DigestResource
 		
 	}
 
-	
+
 	@Override
 	public Long getMaxAgeSeconds(Auth auth) {
 		return null;
