@@ -208,13 +208,12 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 			
 			@Override
 			public boolean supportsFileAttributeView(String arg0) {
-				// TODO Auto-generated method stub
+
 				return false;
 			}
 			
 			@Override
 			public boolean supportsFileAttributeView(Class<? extends FileAttributeView> arg0) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 			
@@ -230,13 +229,11 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 			
 			@Override
 			public long getUsableSpace() throws IOException {
-				// TODO Auto-generated method stub
 				return 0;
 			}
 			
 			@Override
 			public long getUnallocatedSpace() throws IOException {
-				// TODO Auto-generated method stub
 				return 0;
 			}
 			
@@ -247,13 +244,11 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 			
 			@Override
 			public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> arg0) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public Object getAttribute(String arg0) throws IOException {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		};

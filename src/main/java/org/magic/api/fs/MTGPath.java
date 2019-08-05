@@ -168,7 +168,6 @@ public class MTGPath implements Path {
 
 	@Override
 	public Path relativize(Path other) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -188,13 +187,11 @@ public class MTGPath implements Path {
 
 	@Override
 	public Path toRealPath(LinkOption... options) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public WatchKey register(WatchService watcher, Kind<?>[] events, Modifier... modifiers) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -278,7 +275,6 @@ public class MTGPath implements Path {
 			
 			@Override
 			public Object fileKey() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
