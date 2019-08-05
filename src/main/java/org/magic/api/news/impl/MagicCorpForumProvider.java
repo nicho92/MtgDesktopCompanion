@@ -86,5 +86,20 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	public String getVersion() {
 		return "0.5b";
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 
 }

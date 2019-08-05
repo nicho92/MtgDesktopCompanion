@@ -539,4 +539,18 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		
 	}
 	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

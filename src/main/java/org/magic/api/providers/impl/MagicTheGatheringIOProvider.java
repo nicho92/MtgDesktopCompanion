@@ -426,4 +426,18 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return STATUT.DEV;
 	}
 
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

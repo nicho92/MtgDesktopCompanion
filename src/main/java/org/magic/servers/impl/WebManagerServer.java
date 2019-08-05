@@ -157,5 +157,20 @@ public class WebManagerServer extends AbstractMTGServer {
 		setProperty(REST_BACKEND_URI, "http://localhost:8080");
 		setProperty(JSON_SERVER_START,"true");
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 
 }

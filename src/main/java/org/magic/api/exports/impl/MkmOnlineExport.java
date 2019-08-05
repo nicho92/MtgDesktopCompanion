@@ -19,6 +19,7 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -339,6 +340,21 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public String getVersion() {
-		return "3.1";
+		return MkmConstants.MKM_API_VERSION;
+	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
 	}
 }

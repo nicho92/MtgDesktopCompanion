@@ -1,6 +1,5 @@
 package org.magic.game.model.factories;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +7,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;

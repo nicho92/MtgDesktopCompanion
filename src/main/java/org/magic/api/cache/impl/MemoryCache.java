@@ -67,4 +67,18 @@ public class MemoryCache extends AbstractCacheProvider {
 		return cache.entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
 	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

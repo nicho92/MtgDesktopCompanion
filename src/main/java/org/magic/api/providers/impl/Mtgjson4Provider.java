@@ -737,4 +737,19 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		setProperty("LRU_CACHE", "400");
 		setProperty(FORCE_RELOAD,"false");
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

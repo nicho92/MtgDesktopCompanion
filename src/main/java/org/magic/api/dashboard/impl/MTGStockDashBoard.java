@@ -319,5 +319,20 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public String getVersion() {
 		return "1";
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 
 }

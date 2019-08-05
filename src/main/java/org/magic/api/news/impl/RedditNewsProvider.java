@@ -77,4 +77,19 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 	public String getName() {
 		return "Reddit";
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 }

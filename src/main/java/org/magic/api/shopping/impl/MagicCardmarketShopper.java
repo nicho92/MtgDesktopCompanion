@@ -87,6 +87,21 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 
 	@Override
 	public String getName() {
-	return "MagicCardMarket";
+		return "MagicCardMarket";
+	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
 	}
 }
