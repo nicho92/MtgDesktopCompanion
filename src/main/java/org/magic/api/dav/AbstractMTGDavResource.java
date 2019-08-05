@@ -71,8 +71,8 @@ public class AbstractMTGDavResource implements DigestResource  {
 	}
 
 	@Override
-	public Object authenticate(String user, String passw) {
-		if( user.equals(user) && passw.equals(pass)) {
+	public Object authenticate(String u, String passw) {
+		if( user.equals(u) && passw.equals(pass)) {
 	            return user;
 	    }
 	    return null;

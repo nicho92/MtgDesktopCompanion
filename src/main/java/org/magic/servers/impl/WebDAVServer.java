@@ -19,6 +19,8 @@ import io.milton.servlet.MiltonServlet;
 
 public class WebDAVServer extends AbstractMTGServer {
 
+	private static final String PASS = "PASS";
+	private static final String LOGIN = "LOGIN";
 	private static final String AUTOSTART = "AUTOSTART";
 	private Server server;
 	private static final String SERVER_PORT = "SERVER-PORT";
@@ -31,8 +33,8 @@ public class WebDAVServer extends AbstractMTGServer {
 		server = new Server(getInt(SERVER_PORT));
 		
 		
-		log = getString("LOGIN");
-		pas = getString("PASS");
+		log = getString(LOGIN);
+		pas = getString(PASS);
 		
 		
 		ServletContextHandler ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -101,8 +103,8 @@ public class WebDAVServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty(SERVER_PORT, "8088");
 		setProperty(AUTOSTART, "false");
-		setProperty("LOGIN", log);
-		setProperty("PASS", pas);
+		setProperty(LOGIN, log);
+		setProperty(PASS, pas);
 	}
 
 	
@@ -117,11 +119,11 @@ public class WebDAVServer extends AbstractMTGServer {
 	}
 
 	public String getLogin() {
-		return getString("LOGIN");
+		return getString(LOGIN);
 	}
 
 	public String getPassword() {
-		return getString("PASS");
+		return getString(PASS);
 	}
 }
 

@@ -25,7 +25,6 @@ public class WebDavMTGResourceFactory implements ResourceFactory
     
 	public WebDavMTGResourceFactory() throws SQLException {
 		fs = new MTGFileSystem(MTGControler.getInstance().getEnabled(MTGDao.class));
-		
 		serv=(WebDAVServer)PluginRegistry.inst().getPlugin("WebDAV");
 	}
 	
