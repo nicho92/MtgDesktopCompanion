@@ -76,7 +76,6 @@ public class AbilitiesFactory implements Serializable{
 				
 				if(s.indexOf(':')>1 && s.indexOf(':')<end)
 				{
-					
 					String[] costs = s.substring(0,s.indexOf(':')).split(",");
 					ActivatedAbilities abs = new ActivatedAbilities();
 					abs.setCard(mc);
@@ -95,20 +94,6 @@ public class AbilitiesFactory implements Serializable{
 		return ret;
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		MTGCardsProvider prov = MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
-		
-		prov.init();
-		
-		
-		MagicCard mc = prov.searchCardByName("Nissa, Who Shakes the World", new MagicEdition("WAR"), true).get(0);
-		System.out.println(AbilitiesFactory.getInstance().getLoyaltyAbilities(mc));
-		
-	}
-	
-	
-	
 	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
 		List<LoyaltyAbilities> list = new ArrayList<>();
 		if(mc.isPlaneswalker())

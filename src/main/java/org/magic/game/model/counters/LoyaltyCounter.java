@@ -24,7 +24,6 @@ public class LoyaltyCounter extends AbstractCounter {
 		
 		this.label=la.getEffects().get(0).getEffectDescription();
 		this.value=(LoyaltyCost)la.getCost();
-		
 	}
 
 	@Override
