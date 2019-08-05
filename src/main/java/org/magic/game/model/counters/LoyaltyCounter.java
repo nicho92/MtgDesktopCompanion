@@ -63,4 +63,20 @@ public class LoyaltyCounter extends AbstractCounter {
 	public String describe() {
 		return value + ": " + label;
 	}
+	
+
+	@Override
+	public int hashCode() {
+		return "loyalty".hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 }

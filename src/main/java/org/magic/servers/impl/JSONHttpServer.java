@@ -517,6 +517,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return getString(ACCESS_CONTROL_ALLOW_ORIGIN);
 	}
 
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 	
 
 }

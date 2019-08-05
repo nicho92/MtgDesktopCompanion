@@ -80,4 +80,19 @@ public class GuavaCache extends AbstractCacheProvider {
 	}
 	
 
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+
 }

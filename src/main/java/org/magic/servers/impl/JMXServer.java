@@ -243,4 +243,19 @@ public class JMXServer extends AbstractMTGServer {
 		return new ImageIcon(JMXServer.class.getResource("/icons/plugins/bean.png"));
 	}
 	
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 }

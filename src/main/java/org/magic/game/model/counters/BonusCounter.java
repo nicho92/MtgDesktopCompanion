@@ -84,5 +84,21 @@ public class BonusCounter extends AbstractCounter {
 		return build.toString();
 
 	}
+	
+
+	@Override
+	public int hashCode() {
+		return "bonus".hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
 
 }

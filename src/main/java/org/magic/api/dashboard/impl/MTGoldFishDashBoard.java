@@ -36,7 +36,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "WEBSITE";
-	private boolean stop;
 	private Map<String, String> mapConcordance;
 
 
@@ -45,9 +44,24 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		initConcordance();
 	}
 
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj ==null)
+			return false;
+		
+		return hashCode()==obj.hashCode();
+	}
+	
+	
 	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
-		stop = false;
 		String url = "";
 		CardPriceVariations historyPrice = new CardPriceVariations(mc);
 		historyPrice.setCurrency(getCurrency());
@@ -103,7 +117,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			AstNode root = new Parser().parse(js.html(), "", 1);
 			root.visit(visitedNode -> {
-
+				boolean stop = false;
 				if (!stop && visitedNode.toSource().startsWith("d")) {
 					String val = visitedNode.toSource();
 					val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
