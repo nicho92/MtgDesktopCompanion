@@ -156,7 +156,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 			
 			
 			if(e.getNewLeadSelectionPath()!=null)
-				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition() +"  - (Double Click for help)");
+				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition() +"  - Double click : " + MTGControler.getInstance().getLangService().getCapitalize("VIEW HELP"));
 			
 		});
 		table.packAll();
