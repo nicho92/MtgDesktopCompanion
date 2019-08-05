@@ -39,7 +39,7 @@ public class WebDavMTGResourceFactory implements ResourceFactory
         MTGPath mtgpath = (MTGPath) fs.getPath(ioPath.toPath());
         
         if(mtgpath.isCard())
-        	return new MTGDavFileResource(mtgpath,fs,ioPath.isRoot(),serv.getLogin(),serv.getPassword());
+        	return new MTGDavFileResource(mtgpath,fs,serv.getLogin(),serv.getPassword());
         else
         	return new MTGDavFolderResource(mtgpath,fs,ioPath.isRoot(),serv.getLogin(),serv.getPassword());
 

@@ -18,7 +18,6 @@ import org.magic.api.fs.MTGPath;
 
 import io.milton.http.Auth;
 import io.milton.http.Range;
-import io.milton.http.Request;
 import io.milton.http.XmlWriter;
 import io.milton.http.exceptions.BadRequestException;
 import io.milton.http.exceptions.ConflictException;
@@ -31,10 +30,12 @@ import io.milton.resource.Resource;
 public class MTGDavFolderResource extends AbstractMTGDavResource implements FolderResource
 {
 	private List<AbstractMTGDavResource> children;
-	
+	private boolean root;
+
 	
 	public MTGDavFolderResource(MTGPath path, MTGFileSystem fs, boolean root, String log, String pass) {
-		super(path, fs, root, log, pass);
+		super(path, fs, log, pass);
+		this.root=root;
 	
 	}
 	
@@ -70,7 +71,7 @@ public class MTGDavFolderResource extends AbstractMTGDavResource implements Fold
 					{
 						s.forEach(p->{
 							if(((MTGPath)p).isCard())
-								children.add(new MTGDavFileResource((MTGPath)p, fs, false,user,pass));
+								children.add(new MTGDavFileResource((MTGPath)p, fs, user,pass));
 							else
 								children.add(new MTGDavFolderResource((MTGPath)p, fs, false,user,pass));
 						});

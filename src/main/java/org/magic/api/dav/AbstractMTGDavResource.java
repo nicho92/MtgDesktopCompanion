@@ -23,15 +23,13 @@ public class AbstractMTGDavResource implements DigestResource  {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MTGPath mtgpath;
 	protected MTGFileSystem fs;
-	protected boolean root;
 	protected String user;
 	protected String pass;
 	
 	
-	public AbstractMTGDavResource(MTGPath path, MTGFileSystem fs, boolean root, String log, String pass) {
+	public AbstractMTGDavResource(MTGPath path, MTGFileSystem fs, String log, String pass) {
 		this.mtgpath=path;
 		this.fs=fs;
-		this.root=root;
 		this.user=log;
 		this.pass=pass;
 	}

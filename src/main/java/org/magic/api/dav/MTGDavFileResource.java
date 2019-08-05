@@ -24,8 +24,8 @@ import io.milton.resource.FileResource;
 public class MTGDavFileResource extends AbstractMTGDavResource implements FileResource
 {
 	
-	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, boolean root, String log, String pass) {
-		super(path, fs, root, log, pass);
+	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, String log, String pass) {
+		super(path, fs, log, pass);
 	
 	}
 	
