@@ -106,7 +106,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return "1.13.0";
 	}
 
 }
