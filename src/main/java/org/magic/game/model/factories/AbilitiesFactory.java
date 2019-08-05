@@ -1,12 +1,16 @@
 package org.magic.game.model.factories;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGKeyWord.TYPE;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -76,6 +80,7 @@ public class AbilitiesFactory implements Serializable{
 					String[] costs = s.substring(0,s.indexOf(':')).split(",");
 					ActivatedAbilities abs = new ActivatedAbilities();
 					abs.setCard(mc);
+					
 					for(String c : costs)
 						abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
 					
@@ -90,45 +95,60 @@ public class AbilitiesFactory implements Serializable{
 		return ret;
 	}
 
-	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
+	
+	public static void main(String[] args) throws IOException {
+		MTGCardsProvider prov = MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
 		
+		prov.init();
+		
+		
+		MagicCard mc = prov.searchCardByName("Nissa, Who Shakes the World", new MagicEdition("WAR"), true).get(0);
+		System.out.println(AbilitiesFactory.getInstance().getLoyaltyAbilities(mc));
+		
+	}
+	
+	
+	
+	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
 		List<LoyaltyAbilities> list = new ArrayList<>();
 		if(mc.isPlaneswalker())
 		{
+			
 			for(String s : listSentences(mc))
 			{
-				if(s.contains(":")) {
-					LoyaltyAbilities abilities = new LoyaltyAbilities();
-					abilities.setCard(mc);
-					
-						String subs = s.substring(0,s.indexOf(':')+1);
-						if(subs.startsWith("+"))
-						{
-							try{
-								abilities.setCost(new LoyaltyCost(Integer.parseInt(subs.substring(1,subs.indexOf(':')))));
-							}
-							catch(Exception e)
-							{
-								abilities.setCost(new LoyaltyCost("+"));
-							}
-						}
-						else if(subs.startsWith("0"))
-						{
-							abilities.setCost(new LoyaltyCost(0));
-						}
-						else
-						{
-							try{
-								abilities.setCost(new LoyaltyCost(Integer.parseInt("-"+subs.substring(1,subs.indexOf(':')))));
-							}
-							catch(Exception e)
-							{
-								abilities.setCost(new LoyaltyCost("-"));
-							}	
-						}
-						
-						abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,s.substring(subs.length())));
-						list.add(abilities);
+				
+				Matcher m  = CardsPatterns.extract(s, CardsPatterns.LOYALTY_PATTERN);
+				if(m.matches()) {
+				
+				LoyaltyAbilities abilities = new LoyaltyAbilities();
+				abilities.setCard(mc);
+				String c = m.group(1);
+				if(c.startsWith("+"))
+				{
+					try{
+						abilities.setCost(new LoyaltyCost(Integer.parseInt(c.substring(1))));
+					}
+					catch(Exception e)
+					{
+						abilities.setCost(new LoyaltyCost("+"));
+					}
+				}
+				else if(c.startsWith("0"))
+				{
+					abilities.setCost(new LoyaltyCost(0));
+				}
+				else
+				{
+					try{
+						abilities.setCost(new LoyaltyCost(-Integer.parseInt(c.substring(1))));
+					}
+					catch(Exception e)
+					{
+						abilities.setCost(new LoyaltyCost("-"));
+					}	
+				}
+				abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,m.group(2)));
+				list.add(abilities);
 				}
 			}
 		}
