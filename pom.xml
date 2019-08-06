@@ -42,6 +42,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>com.atlassian.commonmark</groupId>
+		    <artifactId>commonmark</artifactId>
+		    <version>0.13.0</version>
+		</dependency>
+		<dependency>
             <groupId>io.milton</groupId>
             <artifactId>milton-server-ce</artifactId>
             <version>2.7.4.8</version>

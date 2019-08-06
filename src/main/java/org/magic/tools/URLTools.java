@@ -18,6 +18,9 @@ import javax.net.ssl.SSLHandshakeException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
@@ -44,6 +47,9 @@ public class URLTools {
 	
 	private URLTools()	{}
 	
+	
+	
+	
 	public static String encode(String s)
 	{
 		return URLEncoder.encode(s, MTGConstants.DEFAULT_ENCODING);
@@ -56,6 +62,15 @@ public class URLTools {
 		close(con);
 		return ret;
 	}
+	
+	public static String extractMarkDownAsString(String url) throws IOException
+	{
+		Parser parser = Parser.builder().build();
+		Node document = parser.parse(extractAsString(url));
+		HtmlRenderer renderer = HtmlRenderer.builder().build();
+		return renderer.render(document); 
+	}
+	
 	
 	public static BufferedImage extractImage(URL url) throws IOException
 	{

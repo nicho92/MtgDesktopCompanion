@@ -1,6 +1,7 @@
 package org.beta;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.services.MTGConstants;
@@ -10,7 +11,7 @@ import org.magic.services.PluginRegistry;
 public class GenerateDocFile {
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		MTGControler.getInstance();
 		
