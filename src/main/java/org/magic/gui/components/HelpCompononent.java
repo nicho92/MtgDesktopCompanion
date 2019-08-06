@@ -18,6 +18,8 @@ public class HelpCompononent extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 
 	private JEditorPane pane;
+
+	private MTGPlugin plug;
 	
 	public HelpCompononent() {
 		pane = new JEditorPane();
@@ -29,32 +31,35 @@ public class HelpCompononent extends MTGUIComponent {
 	
 	public void init(MTGPlugin mtg)
 	{
-			SwingWorker<Document,Void> sw = new SwingWorker<>() {
-				@Override
-				protected void done() {
-					try {
-						
-						Document d= get();
-						int width = (int)getSize().getWidth();
-						
-						if(width<=0)
-							width=450;
-						
-						d.select("img").attr("width", String.valueOf(width));
-						pane.setText(d.html());
-					} catch (Exception e) {
-						logger.error("error loading help",e);
-						pane.setText(e.getLocalizedMessage());
-					} 
-				}
-				
-				@Override
-				protected Document doInBackground() throws Exception {
-					return URLTools.extractMarkDownAsDocument(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+mtg.getName().replaceAll(" ", "%20")+".md");
-				}
-			};
+		this.plug = mtg;
+	
+		SwingWorker<Document,Void> sw = new SwingWorker<>() {
+			@Override
+			protected void done() {
+				try {
+					
+					Document d= get();
+					int width = (int)getSize().getWidth();
+					
+					if(width<=0)
+						width=450;
+					
+					d.select("img").attr("width", String.valueOf(width));
+					pane.setText(d.html());
+				} catch (Exception e) {
+					logger.error("error loading help",e);
+					pane.setText(e.getLocalizedMessage());
+				} 
+			}
 			
-			ThreadManager.getInstance().runInEdt(sw, "loading help for " + mtg);
+			@Override
+			protected Document doInBackground() throws Exception {
+				return URLTools.extractMarkDownAsDocument(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+plug.getName().replaceAll(" ", "%20")+".md");
+			}
+		};
+		
+		if(isVisible())
+			ThreadManager.getInstance().runInEdt(sw, "loading help for " + plug);
 	}
 	
 	@Override
