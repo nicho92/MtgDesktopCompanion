@@ -2,6 +2,7 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -38,6 +39,7 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ConfigurationPanel;
+import org.magic.gui.components.HelpCompononent;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
@@ -50,6 +52,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane subTabbedProviders ;
 	private JLabel lblCopyright;
+	private HelpCompononent helpComponent;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -79,9 +82,13 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		subTabbedProviders = new JTabbedPane(JTabbedPane.TOP);
 		providerConfigPanel.add(subTabbedProviders);
 		
-		lblCopyright = new JLabel("New label");
+		lblCopyright = new JLabel("");
+		helpComponent = new HelpCompononent();
+		helpComponent.setPreferredSize(new Dimension(400, 0));
+		
 		providerConfigPanel.add(lblCopyright, BorderLayout.SOUTH);
-
+		providerConfigPanel.add(helpComponent,BorderLayout.EAST);
+		
 		
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD, false,MTGControler.getInstance().getPlugins(MTGCardsProvider.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, false,MTGControler.getInstance().getPlugins(MTGPictureProvider.class));
@@ -151,12 +158,21 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		
 		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
 		table.addTreeSelectionListener(e -> {
+			
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
 				((PluginTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
 			
 			
 			if(e.getNewLeadSelectionPath()!=null)
-				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition() +"  - Double click : " + MTGControler.getInstance().getLangService().getCapitalize("VIEW HELP"));
+			{
+				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition());
+				
+				if(e.getNewLeadSelectionPath().getLastPathComponent() instanceof MTGPlugin)
+					helpComponent.init(((T) e.getNewLeadSelectionPath().getPathComponent(1)));
+			}
+			
+			
+			
 			
 		});
 		table.packAll();

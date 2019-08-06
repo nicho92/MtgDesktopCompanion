@@ -237,7 +237,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String getName() {
-		return "Scryfall";
+		return "ScryFall";
 	}
 
 	private MagicCard loadCard(JsonObject obj, boolean exact, String search){

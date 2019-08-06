@@ -17,6 +17,7 @@ import javax.net.ssl.SSLHandshakeException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -63,12 +64,21 @@ public class URLTools {
 		return ret;
 	}
 	
+	public static Document extractMarkDownAsDocument(String url) throws IOException
+	{
+		return Jsoup.parse(extractMarkDownAsString(url));
+	}
+	
+	
 	public static String extractMarkDownAsString(String url) throws IOException
 	{
 		Parser parser = Parser.builder().build();
 		Node document = parser.parse(extractAsString(url));
-		HtmlRenderer renderer = HtmlRenderer.builder().build();
-		return renderer.render(document); 
+		String ret = HtmlRenderer.builder().build().render(document);
+		
+		ret=ret.replaceAll("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
+		ret=ret.replaceAll("\\$USER_HOME", SystemUtils.USER_HOME);
+		return ret; 
 	}
 	
 	

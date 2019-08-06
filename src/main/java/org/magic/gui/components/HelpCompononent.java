@@ -2,14 +2,20 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
+import org.jsoup.nodes.Document;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
+import org.magic.services.ThreadManager;
 import org.magic.tools.URLTools;
+
+import ca.odell.glazedlists.matchers.ThreadedMatcherEditor;
 
 public class HelpCompononent extends MTGUIComponent {
 
@@ -26,11 +32,27 @@ public class HelpCompononent extends MTGUIComponent {
 	
 	public void init(MTGPlugin mtg)
 	{
-		try {
-			pane.setText(URLTools.extractMarkDownAsString(MTGConstants.MTG_DESKTOP_WIKI_URL+mtg.getName()+".md"));
-		} catch (IOException e) {
-			logger.error(e);
-		}
+			SwingWorker<Document,Void> sw = new SwingWorker<>() {
+				@Override
+				protected void done() {
+					try {
+						
+						Document d= get();
+						d.select("img").attr("width", String.valueOf((int)getSize().getWidth()));
+						pane.setText(d.html());
+					} catch (Exception e) {
+						logger.error("error loading help",e);
+						pane.setText(e.getLocalizedMessage());
+					} 
+				}
+				
+				@Override
+				protected Document doInBackground() throws Exception {
+					return URLTools.extractMarkDownAsDocument(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+mtg.getName().replaceAll(" ", "%20")+".md");
+				}
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw, "loading help for " + mtg);
 	}
 	
 	@Override
