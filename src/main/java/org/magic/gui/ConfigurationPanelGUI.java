@@ -87,7 +87,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		lblCopyright = new JLabel("");
 		btnHelp = new JLabel(MTGConstants.ICON_SMALL_HELP);
 		helpComponent = new HelpCompononent();
-		helpComponent.setPreferredSize(new Dimension(400, 0));
+		helpComponent.setPreferredSize(new Dimension(500, 0));
 		helpComponent.setVisible(false);
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(lblCopyright,BorderLayout.WEST);
