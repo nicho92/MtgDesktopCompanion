@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;

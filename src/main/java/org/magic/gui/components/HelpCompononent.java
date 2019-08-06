@@ -1,8 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -14,8 +12,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 import org.magic.tools.URLTools;
-
-import ca.odell.glazedlists.matchers.ThreadedMatcherEditor;
 
 public class HelpCompononent extends MTGUIComponent {
 
