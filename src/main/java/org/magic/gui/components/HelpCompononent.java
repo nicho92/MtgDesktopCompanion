@@ -27,6 +27,7 @@ public class HelpCompononent extends MTGUIComponent {
 		pane = new JEditorPane();
 		pane.setContentType("text/html");
 		setLayout(new BorderLayout());
+		pane.setEditable(false);
 		add(new JScrollPane(pane),BorderLayout.CENTER);
 	}
 	
@@ -38,7 +39,12 @@ public class HelpCompononent extends MTGUIComponent {
 					try {
 						
 						Document d= get();
-						d.select("img").attr("width", String.valueOf((int)getSize().getWidth()));
+						int width = (int)getSize().getWidth();
+						
+						if(width<=0)
+							width=450;
+						
+						d.select("img").attr("width", String.valueOf(width));
 						pane.setText(d.html());
 					} catch (Exception e) {
 						logger.error("error loading help",e);

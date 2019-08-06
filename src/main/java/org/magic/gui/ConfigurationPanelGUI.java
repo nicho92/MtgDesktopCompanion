@@ -52,6 +52,8 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane subTabbedProviders ;
 	private JLabel lblCopyright;
+	private JLabel btnHelp;
+	private JPanel bottomPanel;
 	private HelpCompononent helpComponent;
 	
 	@Override
@@ -75,19 +77,31 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel providerConfigPanel = new JPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN,
-				providerConfigPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN,providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 
 		subTabbedProviders = new JTabbedPane(JTabbedPane.TOP);
 		providerConfigPanel.add(subTabbedProviders);
 		
+		bottomPanel = new JPanel();
 		lblCopyright = new JLabel("");
+		btnHelp = new JLabel(MTGConstants.ICON_SMALL_HELP);
 		helpComponent = new HelpCompononent();
 		helpComponent.setPreferredSize(new Dimension(400, 0));
-		
-		providerConfigPanel.add(lblCopyright, BorderLayout.SOUTH);
+		helpComponent.setVisible(false);
+		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.add(lblCopyright,BorderLayout.WEST);
+		bottomPanel.add(btnHelp,BorderLayout.EAST);
+		providerConfigPanel.add(bottomPanel, BorderLayout.SOUTH);
 		providerConfigPanel.add(helpComponent,BorderLayout.EAST);
+		
+		
+		btnHelp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				helpComponent.setVisible(!helpComponent.isVisible());
+			}
+		});
 		
 		
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD, false,MTGControler.getInstance().getPlugins(MTGCardsProvider.class));

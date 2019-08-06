@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -142,7 +143,7 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmHelp);
 		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
-		
+	
 		
 		mntmFileChromePlugin.addActionListener(ae->{
 			ChromeDownloader dow = new ChromeDownloader();
