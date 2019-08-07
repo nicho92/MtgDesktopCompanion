@@ -13,9 +13,9 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 # Launch
 ```
-Need to have Java > 11 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
+Need to have Java > 11 installed : (https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
-download and unzip latest release here https://github.com/nicho92/MtgDesktopCompanion/releases
+download and unzip latest release [here](https://github.com/nicho92/MtgDesktopCompanion/releases)
 
 go to /bin directory and launch mtg-desktop-companion.bat (for windows) or mtg-desktop-companion.sh (for unix)
 
@@ -23,7 +23,7 @@ go to /bin directory and launch mtg-desktop-companion.bat (for windows) or mtg-d
 
 # Setup from source
 ```
-git clone https://github.com/nicho92/MtgDesktopCompanion.git
+git clone (https://github.com/nicho92/MtgDesktopCompanion.git)
 
 mvn -DskipTest clean install
 
