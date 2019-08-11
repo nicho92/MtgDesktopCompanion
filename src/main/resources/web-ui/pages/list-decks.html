@@ -30,13 +30,16 @@
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
 
-	
+	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/rest-server.js"></script>
   	<script src="../dist/js/js-var.js"></script>
   	<script src="../dist/js/js-btnActions.js"></script>
     <script src="../dist/js/mtgcompanion-ui.js"></script>
+	
+	
 
     <script>
 		var set = restserver+"/decks/list";
@@ -76,6 +79,7 @@
 		                {
 			                   if(type === 'display'  && data !=null)
 			                   {
+			                	   
 			                	      var d=data.match(/[^{}]+(?=\})/g);
 				                	   if(d!=null)
 				                	   {

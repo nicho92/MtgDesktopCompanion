@@ -52,10 +52,16 @@
    	<script src="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.min.js"/></script>
    	<script src="//cdn.jsdelivr.net/npm/raphael@latest/raphael.min.js"/></script>
   
+  	<script src="//cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
   
   	<script>
   	$(document).ready(function() {
 	 
+  		new ClipboardJS('.btn');
+  		
+  		$('#url').val(window.location);
+  		
+  		
   		 $("nav").load("menu.html");
 
   	    $.ajax({
@@ -333,6 +339,7 @@
 					<div class="col-lg-12">
 						<h1 class="page-header">
 							<span id="title">title</span> <span id="colors"></span>
+							
 						</h1>
 					</div>
 				</div>
@@ -398,6 +405,17 @@
 					</div>
 					
 					<div class="col-lg-3">
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">Share</div>
+								<input id="url" value="">
+								<button class="btn" data-clipboard-target="#url">
+								    <i class="fa fa-copy"></i>
+								</button>
+						<div class="panel-footer">
+								
+							</div>
+						</div>
 						
 						<div class="panel panel-default">
 							<div class="panel-heading">Mana Curve</div>
