@@ -206,7 +206,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		if (tok.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString()))
 			expression = "//card[name=\"" + tok.getName() + " (emblem)\"]";
 
-		logger.debug(expression + " for " + tok);
+		logger.trace(expression + " for " + tok);
 
 		NodeList nodeList;
 		try {

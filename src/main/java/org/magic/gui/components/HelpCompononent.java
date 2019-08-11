@@ -19,7 +19,7 @@ public class HelpCompononent extends MTGUIComponent {
 
 	private JEditorPane pane;
 
-	private MTGPlugin plug;
+	private transient MTGPlugin plug;
 	
 	public HelpCompononent() {
 		pane = new JEditorPane();
