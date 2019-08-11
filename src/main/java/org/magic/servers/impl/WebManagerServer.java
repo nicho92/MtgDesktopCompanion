@@ -38,7 +38,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		super();
 		server = new Server(getInt(SERVER_PORT));
 
-		webRootLocation = MTGConstants.class.getResource(MTGConstants.WEBUI_LOCATION);
+		webRootLocation = MTGConstants.class.getResource("/"+MTGConstants.WEBUI_LOCATION);
 		if (webRootLocation == null) {
 			throw new IllegalStateException("Unable to determine webroot URL location");
 		}
@@ -77,7 +77,12 @@ public class WebManagerServer extends AbstractMTGServer {
 	{
 		
 		FileTools.copyDirJarToDirectory(MTGConstants.WEBUI_LOCATION, dest);
-		File js = Paths.get(dest.getAbsolutePath(),"dist","js",REST_JS_FILENAME).toFile();
+		logger.debug("copying " + MTGConstants.WEBUI_LOCATION + " to " + dest);
+		
+		File js = Paths.get(dest.getAbsolutePath(),MTGConstants.WEBUI_LOCATION,"dist","js",REST_JS_FILENAME).toFile();
+		
+		logger.debug("copying " + js + " to " + dest);
+		
 		FileUtils.write(js, "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING,false);
 	}
 	
