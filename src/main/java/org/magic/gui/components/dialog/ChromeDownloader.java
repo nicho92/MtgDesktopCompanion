@@ -10,15 +10,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.gui.components.JTextFieldFileChooser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
+import org.magic.tools.FileTools;
 
 public class ChromeDownloader extends JDialog {
 
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public ChromeDownloader() {
 		
 		setTitle("Chrome Plugin");
@@ -42,10 +46,11 @@ public class ChromeDownloader extends JDialog {
 		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnExport.addActionListener(e-> {
 			try {
-				FileUtils.copyDirectoryToDirectory(new File(MTGConstants.MTG_CHROME_PLUGIN.toURI()), txtDirectory.getFile());
+				FileTools.copyDirJarToDirectory(MTGConstants.MTG_CHROME_PLUGIN_DIR, txtDirectory.getFile());
 				MTGControler.getInstance().notify(new MTGNotification("Export", "Plugin copied in " + txtDirectory.getFile(), MESSAGE_TYPE.INFO));
 				dispose();
 			} catch (Exception e1) {
+				logger.error("error extracting files ",e1);
 				MTGControler.getInstance().notify(e1);
 			}
 			

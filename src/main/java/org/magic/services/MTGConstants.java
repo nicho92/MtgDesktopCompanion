@@ -50,7 +50,7 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/releases/";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static final String MTG_DESKTOP_WEBSITE = "https://nicho92.github.io/MtgDesktopCompanion/";
-	public static final URL MTG_CHROME_PLUGIN = MTGConstants.class.getResource("/mtg-chrome-companion");
+	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
 	
 	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());	
 	
@@ -83,7 +83,7 @@ public class MTGConstants {
 	public static final String KEYSTORE_NAME = "jssecacerts";
 	public static final String KEYSTORE_PASS = "changeit";
 
-	public static final URL WEBUI_LOCATION = MTGConstants.class.getResource("/web-ui");
+	public static final String WEBUI_LOCATION = "/web-ui";
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final String ICON_DIR="/icons";

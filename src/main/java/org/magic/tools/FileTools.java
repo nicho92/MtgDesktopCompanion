@@ -1,10 +1,19 @@
 package org.magic.tools;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -18,6 +27,7 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.python.google.common.io.Files;
 
 public class FileTools {
 
@@ -118,4 +128,31 @@ public class FileTools {
  		boolean del = FileUtils.deleteQuietly(src);
 		logger.debug("removing " + src + "=" + del);
  	}
+
+	public static void copyDirJarToDirectory(String path, File writeDirectory) throws IOException {
+		
+		try(JarFile jarFile = new JarFile(FileTools.class.getProtectionDomain().getCodeSource().getLocation().getPath()))
+		{
+		    final Enumeration<JarEntry> entries = jarFile.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		        final JarEntry entry = entries.nextElement();
+		        final String name = entry.getName();
+		        if (name.startsWith(path + "/")) { //filter according to the path
+		        	
+		        	
+		        	File f = new File(writeDirectory,name);
+		        	
+		        	logger.debug("writing " + f);
+		        	
+		        	if(entry.isDirectory())
+		        		FileUtils.forceMkdir(f);
+		        	else
+		        		FileUtils.copyInputStreamToFile(jarFile.getInputStream(entry),f );
+		        }
+		    }
+		}
+		
+		
+	}
+		
 }
