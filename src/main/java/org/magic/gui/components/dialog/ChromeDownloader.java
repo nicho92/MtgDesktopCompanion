@@ -1,7 +1,6 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -9,7 +8,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
