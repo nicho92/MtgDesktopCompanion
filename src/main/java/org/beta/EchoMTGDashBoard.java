@@ -50,7 +50,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		JsonArray list = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/data/ajax.getsearchresults.php")
 				 .addContent("term", c.getName())
-				 .addHeader(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01")
+				 .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON+", text/javascript, */*; q=0.01")
 				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
 				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
 				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
@@ -77,7 +77,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 							
 		JsonArray ret = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/cache/"+id.get("emid").getAsString()+".r.json")
-				 .addHeader(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01")
+				 .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON+", text/javascript, */*; q=0.01")
 				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
 				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
 				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")

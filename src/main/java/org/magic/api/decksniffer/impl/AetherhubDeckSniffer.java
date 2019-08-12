@@ -133,7 +133,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		Map<String,String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
+		headers.put("Content-Type", URLTools.HEADER_JSON);
 		headers.put("user-agent",MTGConstants.USER_AGENT);
 		String ret = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
 		

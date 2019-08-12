@@ -193,7 +193,7 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEV;
 	}
 
 	@Override

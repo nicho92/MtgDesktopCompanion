@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -149,26 +150,6 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 				
 				return p;
 		});
-		
-		table.addMouseListener(new MouseAdapter() {
-		
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount()==2)
-				{
-					try {
-						
-						MTGPlugin plug = UITools.getTableSelection(table, 0);
-						Desktop.getDesktop().browse(plug.getDocumentation().toURI());
-					} catch (ClassCastException e1) {
-						//do nothing not a plugin
-					} catch (IOException|URISyntaxException e2) {
-						logger.error(e2);
-					} 
-				} 
-			}
-		});
-		
 		
 		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
 		table.addTreeSelectionListener(e -> {
