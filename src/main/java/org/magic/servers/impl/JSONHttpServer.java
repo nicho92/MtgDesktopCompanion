@@ -9,6 +9,8 @@ import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.put;
+import static spark.Spark.threadPool;
+
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -55,6 +57,7 @@ import com.google.gson.JsonPrimitive;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
+import spark.Service;
 import spark.Spark;
 
 public class JSONHttpServer extends AbstractMTGServer {
@@ -107,6 +110,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	private void initVars() {
 
+		
+		Spark.
+		
+		threadPool(getInt("THREADS"));
+		
 		port(getInt(SERVER_PORT));
 
 		initExceptionHandler(e -> {
@@ -501,6 +509,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
 		setProperty(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		setProperty(PASSTOKEN, "");
+		setProperty("THREADS","8");
 	}
 
 	@Override
