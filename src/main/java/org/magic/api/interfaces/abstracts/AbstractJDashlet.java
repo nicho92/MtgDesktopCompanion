@@ -46,11 +46,11 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		
 	}
 	
+	
 	@Override
 	public URL getDocumentation() {
 		try {
-			return new URL(MTGConstants.MTG_DESKTOP_WIKI_URL+"/"+getName().replaceAll(" ", "%20"));	
-
+			return new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replaceAll(" ", "-")+".md");	
 		}
 		catch(Exception e)
 		{

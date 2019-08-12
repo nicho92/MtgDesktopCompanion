@@ -54,7 +54,7 @@ public class HelpCompononent extends MTGUIComponent {
 			
 			@Override
 			protected Document doInBackground() throws Exception {
-				return URLTools.extractMarkDownAsDocument(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+plug.getName().replaceAll(" ", "%20")+".md");
+				return URLTools.extractMarkDownAsDocument(plug.getDocumentation());
 			}
 		};
 		
