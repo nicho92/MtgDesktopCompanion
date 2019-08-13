@@ -31,7 +31,7 @@ public class SQLTools
           dataSource.setTimeBetweenEvictionRunsMillis(60000);
           dataSource.setNumTestsPerEvictionRun(3);
           dataSource.setMinEvictableIdleTimeMillis(600000);
-          dataSource.setValidationQuery("SELECT 1");
+          //dataSource.setValidationQuery("SELECT 1");
           
           if(!enable) {
 			  dataSource.setMinIdle(1);
