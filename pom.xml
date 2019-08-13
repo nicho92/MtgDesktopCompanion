@@ -123,7 +123,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.BETA.0_32</version>
+			  <version>4.0.0_39</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -407,7 +407,7 @@
 	<dependency>
     	<groupId>org.jruby</groupId>
     	<artifactId>jruby-complete</artifactId>
-    	<version>9.2.7.0</version>
+    	<version>9.2.8.0</version>
 	</dependency>
 </dependencies>
 
