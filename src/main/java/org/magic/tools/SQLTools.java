@@ -28,6 +28,11 @@ public class SQLTools
           dataSource.setMaxIdle(8);
           dataSource.setInitialSize(3);
           dataSource.setMaxTotal(10);
+          dataSource.setTimeBetweenEvictionRunsMillis(60000);
+          dataSource.setNumTestsPerEvictionRun(3);
+          dataSource.setMinEvictableIdleTimeMillis(600000);
+          dataSource.setValidationQuery("SELECT 1");
+          
           if(!enable) {
 			  dataSource.setMinIdle(1);
 	          dataSource.setMaxIdle(1);
@@ -39,6 +44,7 @@ public class SQLTools
 	public void close()
 	{
 		try {
+			
 			dataSource.close();
 		} catch (SQLException e) {
 			logger.error(e);
