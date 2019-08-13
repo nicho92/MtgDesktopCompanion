@@ -710,7 +710,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			throw new IOException("Edition must not be null");
 		
 		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
-		logger.debug("search " + jsquery);
 		try {
 			MagicCard mc = search(jsquery).get(0);
 			mc.getEditions().add(me);

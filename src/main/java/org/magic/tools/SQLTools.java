@@ -28,7 +28,6 @@ public class SQLTools
           dataSource.setMaxIdle(8);
           dataSource.setInitialSize(3);
           dataSource.setMaxTotal(10);
-          
           if(!enable) {
 			  dataSource.setMinIdle(1);
 	          dataSource.setMaxIdle(1);
@@ -47,9 +46,8 @@ public class SQLTools
 	}
 	
 	public Connection getConnection() throws SQLException {
-		Connection c = dataSource.getConnection();
 		logger.trace("Idle:"+dataSource.getNumIdle() +", Active :"+dataSource.getNumActive() + "/"  + dataSource.getMaxTotal());
-		return c;
+		return dataSource.getConnection();
 	}
 
 }
