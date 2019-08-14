@@ -1,7 +1,9 @@
 package org.magic.tools;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
@@ -12,7 +14,6 @@ public class SQLTools
     private BasicDataSource dataSource;
 	private static Logger logger = MTGLogger.getLogger(SQLTools.class);
 
-	
 	public SQLTools(String url, String user,String pass, boolean enable)
 	{
 		
@@ -28,17 +29,24 @@ public class SQLTools
           dataSource.setMaxIdle(8);
           dataSource.setInitialSize(3);
           dataSource.setMaxTotal(10);
-          dataSource.setTimeBetweenEvictionRunsMillis(60000);
-          dataSource.setNumTestsPerEvictionRun(3);
-          dataSource.setMinEvictableIdleTimeMillis(600000);
-          //dataSource.setValidationQuery("SELECT 1");
-          
+//          dataSource.setRemoveAbandonedOnBorrow(true);
+//          dataSource.setRemoveAbandonedOnMaintenance(true);
+//          dataSource.setRemoveAbandonedTimeout(3);
+//          dataSource.setTimeBetweenEvictionRunsMillis(TimeUnit.MINUTES.toMicros(1L));
+//          dataSource.setNumTestsPerEvictionRun(3);
+//          dataSource.setMinEvictableIdleTimeMillis(TimeUnit.MINUTES.toMicros(1L));
+//          dataSource.setValidationQuery("select 1");
+//			dataSource.setAbandonedUsageTracking(true);
+//          dataSource.setAbandonedLogWriter(new PrintWriter(System.err));
+//          dataSource.setLogAbandoned(true);
+ 
           if(!enable) {
 			  dataSource.setMinIdle(1);
 	          dataSource.setMaxIdle(1);
 	          dataSource.setInitialSize(0);
 	          dataSource.setMaxTotal(1);
 		  }
+          
  	}
 	
 	public void close()
