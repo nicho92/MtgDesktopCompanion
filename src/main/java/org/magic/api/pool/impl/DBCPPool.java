@@ -3,7 +3,11 @@ package org.magic.api.pool.impl;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractPool;
 
 public class DBCPPool extends AbstractPool {
@@ -67,6 +71,12 @@ public class DBCPPool extends AbstractPool {
 	@Override
 	public String getName() {
 		return "DBCP2";
+	}
+	
+
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/apache.png"));
 	}
 	
 }

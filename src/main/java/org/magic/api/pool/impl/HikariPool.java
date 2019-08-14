@@ -43,6 +43,12 @@ public class HikariPool extends AbstractPool {
 		datasource.addDataSourceProperty("prepStmtCacheSize", getString("STMT_CACHE_SIZE"));
 		datasource.addDataSourceProperty("prepStmtCacheSqlLimit", getString("STMT_CACHE_LIMIT"));
 		
+		
+		  if(!enable) {
+			  datasource.setMinimumIdle(1);
+	          datasource.setMaximumPoolSize(1);
+		  }
+		
 	}
 
 	@Override
