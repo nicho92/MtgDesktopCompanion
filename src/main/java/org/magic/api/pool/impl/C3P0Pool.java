@@ -30,6 +30,9 @@ public class C3P0Pool extends AbstractPool {
 		datasource.setUser(user);
 		datasource.setPassword(pass);
 		datasource.setJdbcUrl(url);
+		
+		datasource.setMaxPoolSize(getInt("POOL_MAX_SIZE"));
+		datasource.setMinPoolSize(getInt("POOL_INIT_SIZE"));
 
 	}
 
