@@ -91,6 +91,14 @@
             <class>org.magic.api.pool.impl.HikariPool</class>
             <enable>false</enable>
         </pool>
+        <pool>
+            <class>org.magic.api.pool.impl.NoPool</class>
+            <enable>false</enable>
+        </pool>
+        <pool>
+            <class>org.magic.api.pool.impl.C3P0Pool</class>
+            <enable>false</enable>
+        </pool>
     </pools>
     <dashlets>
         <dashlet>
