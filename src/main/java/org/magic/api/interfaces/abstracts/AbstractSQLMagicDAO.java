@@ -27,8 +27,7 @@ import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
-import org.magic.api.pool.impl.DBCPPool;
-import org.magic.api.pool.impl.HikariPool;
+import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
@@ -163,7 +162,22 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	 
 	public void init() throws SQLException {
 		logger.info("init " + getName());
-		pool = MTGControler.getInstance().getEnabled(MTGPool.class);
+		
+		
+		
+		try {
+			pool = MTGControler.getInstance().getEnabled(MTGPool.class);
+		}
+		catch(Exception e)
+		{
+			logger.error("error loading selected pool. Use default",e);
+			pool = new NoPool();
+			
+		}
+		
+		
+		
+		
 		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}
