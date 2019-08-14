@@ -82,6 +82,16 @@
             <enable>true</enable>
         </script>
     </scripts>
+    <pools>
+        <pool>
+            <class>org.magic.api.pool.impl.DBCPPool</class>
+            <enable>true</enable>
+        </pool>
+        <pool>
+            <class>org.magic.api.pool.impl.HikariPool</class>
+            <enable>false</enable>
+        </pool>
+    </pools>
     <dashlets>
         <dashlet>
             <class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class>

@@ -85,6 +85,10 @@ public class ThreadManager {
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}
 
+	public ThreadFactory getFactory() {
+		return factory;
+	}
+
 }
 
 

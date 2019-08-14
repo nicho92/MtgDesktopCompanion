@@ -423,6 +423,6 @@ public class MTGControler {
 			}
 		 }
 	}
-	
+
 
 }

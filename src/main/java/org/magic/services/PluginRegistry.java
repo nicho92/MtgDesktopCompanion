@@ -29,6 +29,7 @@ import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
@@ -141,6 +142,7 @@ public class PluginRegistry {
 		registry.put(MTGCardsIndexer.class, new PluginEntry<MTGCardsIndexer>(false, "/indexers", "/index", "org.magic.api.indexer.impl",PLUGINS.INDEXER));
 		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl",PLUGINS.GENERATOR));
 		registry.put(MTGScript.class, new PluginEntry<MTGScript>(true, "/scripts", "/script", "org.magic.api.scripts.impl",PLUGINS.SCRIPT));
+		registry.put(MTGPool.class, new PluginEntry<MTGPool>(false, "/pools", "/pool", "org.magic.api.pool.impl",PLUGINS.POOL));
 		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 
 	}

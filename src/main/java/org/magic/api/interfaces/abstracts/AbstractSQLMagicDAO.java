@@ -26,14 +26,16 @@ import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.api.interfaces.MTGPool;
+import org.magic.api.pool.impl.DBCPPool;
+import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
-import org.magic.tools.SQLTools;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
-	protected SQLTools pool;
+	protected MTGPool pool;
 	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
 	protected abstract String cardStorage();
@@ -90,7 +92,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void unload() {
 		super.unload();
 		if(pool!=null)
-			pool.close();
+			try {
+				pool.close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 	}
 	
 	@Override
@@ -157,7 +163,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	 
 	public void init() throws SQLException {
 		logger.info("init " + getName());
-		pool = new SQLTools(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
+		pool = MTGControler.getInstance().getEnabled(MTGPool.class);
+		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}
 
