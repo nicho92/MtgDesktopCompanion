@@ -59,7 +59,7 @@
 		<dependency>
 		    <groupId>com.fifesoft</groupId>
 		    <artifactId>autocomplete</artifactId>
-		    <version>3.0.0</version>
+		    <version>3.0.1</version>
 		</dependency>
      	<dependency>
     		<groupId>net.dean.jraw</groupId>
@@ -191,7 +191,7 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.3</version>
+			<version>1.9.4</version>
 		</dependency>
 		<dependency>
     		<groupId>org.reflections</groupId>
@@ -391,7 +391,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-       		<version>3.11.0-rc0</version>
+       		<version>3.11.0</version>
     </dependency>
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>
