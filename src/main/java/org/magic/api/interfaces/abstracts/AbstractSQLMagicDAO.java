@@ -163,20 +163,12 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void init() throws SQLException {
 		logger.info("init " + getName());
 		
-		
-		
-		try {
-			pool = MTGControler.getInstance().getEnabled(MTGPool.class);
-		}
-		catch(Exception e)
-		{
-			logger.error("error loading selected pool. Use default",e);
-			pool = new NoPool();
-			
-		}
-		
-		
-		
+		pool = MTGControler.getInstance().getEnabled(MTGPool.class);
+			if(pool==null)
+			{
+				pool=new NoPool();
+				logger.error("error loading selected pool. Use default");
+			}
 		
 		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
