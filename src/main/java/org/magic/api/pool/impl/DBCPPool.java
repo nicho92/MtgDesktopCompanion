@@ -55,7 +55,10 @@ public class DBCPPool extends AbstractPool {
 		
 	}
 
-	
+	@Override
+	public String getVersion() {
+		return "2.7.0";
+	}
 	
 	@Override
 	public Connection getConnection() throws SQLException {

@@ -58,6 +58,11 @@ public class HikariPool extends AbstractPool {
 
 	
 	@Override
+	public String getVersion() {
+		return "3.3.1";
+	}
+	
+	@Override
 	public void initDefault() {
 		super.initDefault();
 		setProperty("STMT_CACHE_SIZE", "250");
