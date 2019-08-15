@@ -40,27 +40,12 @@ public class HikariPool extends AbstractPool {
 	
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
-		
-		//remove ds. properties from File.
-		Map<String,String> suppProps = new HashMap<>();
-		props.entrySet().forEach(ks->{
-			if(ks.getKey().toString().startsWith("ds.")) {
-				suppProps.put(ks.getKey().toString().substring(3),ks.getValue().toString());
-				props.remove(ks.getKey());
-			}
-		});
-		
-
-		
 		HikariConfig c = new HikariConfig(props);
 					 c.setJdbcUrl(url);
 					 c.setUsername(user);
 					 c.setPassword(pass);
 					 c.setThreadFactory(ThreadManager.getInstance().getFactory());
-					 suppProps.entrySet().forEach(ks->{
-						 c.addDataSourceProperty(ks.getKey(),ks.getValue());
-					 });
-						
+	
 		datasource = new HikariDataSource(c);
 		
 		  if(!enable) {
@@ -99,12 +84,12 @@ public class HikariPool extends AbstractPool {
 		setProperty("connectionTestQuery", "");
 		setProperty("idleTimeout", "600000");
 		setProperty("maximumPoolSize", "10");
-		setProperty("ds.prepStmtCacheSqlLimit","2048");
-		setProperty("ds.cachePrepStmts","true");
-		setProperty("ds.allowMultiQueries","true");
-		setProperty("ds.prepStmtCacheSize","250");
-		setProperty("ds.useServerPrepStmts","true");
-		setProperty("ds.useLocalSessionState","true");
+		setProperty("dataSource.prepStmtCacheSqlLimit","2048");
+		setProperty("dataSource.cachePrepStmts","true");
+		setProperty("dataSource.allowMultiQueries","true");
+		setProperty("dataSource.prepStmtCacheSize","250");
+		setProperty("dataSource.useServerPrepStmts","true");
+		setProperty("dataSource.useLocalSessionState","true");
 		
 	}
 	
