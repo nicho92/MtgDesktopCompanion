@@ -2,10 +2,12 @@ package org.magic.api.pool.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import java.util.HashMap;
+import java.util.Map;
 import org.magic.api.interfaces.abstracts.AbstractPool;
 import org.magic.services.ThreadManager;
 
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class HikariPool extends AbstractPool {
@@ -23,26 +25,31 @@ public class HikariPool extends AbstractPool {
 		datasource.close();
 		
 	}
-
+	
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
-		datasource = new HikariDataSource();
 		
-		datasource.setJdbcUrl(url);
-		datasource.setUsername(user);
-		datasource.setPassword(pass);
-		datasource.setThreadFactory(ThreadManager.getInstance().getFactory());
+		//remove ds. properties from File.
+		Map<String,String> suppProps = new HashMap<>();
+		props.entrySet().forEach(ks->{
+			if(ks.getKey().toString().startsWith("ds.")) {
+				suppProps.put(ks.getKey().toString().substring(3),ks.getValue().toString());
+				props.remove(ks.getKey());
+			}
+		});
 		
+
 		
-		datasource.setMaximumPoolSize(getInt("POOL_MAX_SIZE"));
-		datasource.setMinimumIdle(getInt("POOL_MIN_IDLE"));
-		datasource.addDataSourceProperty("cachePrepStmts", getBoolean("POOL_PREPARED_STATEMENT"));
-		
-		datasource.setRegisterMbeans(true);
-		datasource.setPoolName(getName());
-		datasource.addDataSourceProperty("prepStmtCacheSize", getString("STMT_CACHE_SIZE"));
-		datasource.addDataSourceProperty("prepStmtCacheSqlLimit", getString("STMT_CACHE_LIMIT"));
-		
+		HikariConfig c = new HikariConfig(props);
+					 c.setJdbcUrl(url);
+					 c.setUsername(user);
+					 c.setPassword(pass);
+					 c.setThreadFactory(ThreadManager.getInstance().getFactory());
+					 suppProps.entrySet().forEach(ks->{
+						 c.addDataSourceProperty(ks.getKey(),ks.getValue());
+					 });
+						
+		datasource = new HikariDataSource(c);
 		
 		  if(!enable) {
 			  datasource.setMinimumIdle(1);
@@ -64,9 +71,28 @@ public class HikariPool extends AbstractPool {
 	
 	@Override
 	public void initDefault() {
-		super.initDefault();
-		setProperty("STMT_CACHE_SIZE", "250");
-		setProperty("STMT_CACHE_LIMIT", "2048");
+		setProperty("validationTimeout", "5000");
+		setProperty("connectionInitSql", "");
+		setProperty("minimumIdle", "1");
+		setProperty("autoCommit", "true");
+		setProperty("connectionTimeout", "30000");
+		setProperty("poolName", "hikari-pool");
+		setProperty("initializationFailTimeout", "1");
+		setProperty("readOnly", "false");
+		setProperty("registerMbeans", "true");
+		setProperty("isolateInternalQueries", "false");
+		setProperty("leakDetectionThreshold", "0");
+		setProperty("maxLifetime", "1800000");
+		setProperty("allowPoolSuspension", "false");
+		setProperty("connectionTestQuery", "");
+		setProperty("idleTimeout", "600000");
+		setProperty("maximumPoolSize", "10");
+		setProperty("ds.prepStmtCacheSqlLimit","2048");
+		setProperty("ds.cachePrepStmts","true");
+		setProperty("ds.allowMultiQueries","true");
+		setProperty("ds.prepStmtCacheSize","250");
+		setProperty("ds.useServerPrepStmts","true");
+		setProperty("ds.useLocalSessionState","true");
 		
 	}
 	

@@ -28,14 +28,6 @@ public abstract class AbstractPool extends AbstractMTGPlugin implements MTGPool 
 	}
 	
 	
-	@Override
-	public void initDefault() {
-		setProperty("POOL_INIT_SIZE", "3");
-		setProperty("POOL_MIN_IDLE", "3");
-		setProperty("POOL_MAX_IDLE", "10");
-		setProperty("POOL_MAX_SIZE", "10");
-		setProperty("POOL_PREPARED_STATEMENT", "true");
-	}
 	
 	
 }
