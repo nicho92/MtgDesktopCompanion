@@ -82,15 +82,6 @@ public class DBCPPool extends AbstractPool {
 		setProperty("fastFailValidation","false");
 	}
 	
-	public static void main(String[] args) throws SQLException {
-		DBCPPool ds = new DBCPPool();
-		ds.init("jdbc:mysql://192.168.0.27:3307/mtgdesktopclient", "mtgdesktopclient", "mtgdesktopclient", true);
-		ds.getConnection();
-		ds.close();
-	}
-
-	
-	
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
 
