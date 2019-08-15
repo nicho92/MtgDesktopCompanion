@@ -54,7 +54,11 @@ public class HelpCompononent extends MTGUIComponent {
 			
 			@Override
 			protected Document doInBackground() throws Exception {
-				return URLTools.extractMarkDownAsDocument(plug.getDocumentation());
+				
+				if(plug.getDocumentation().toString().endsWith(".md"))
+					return URLTools.extractMarkDownAsDocument(plug.getDocumentation());
+				else
+					return URLTools.extractHtml(plug.getDocumentation());
 			}
 		};
 		

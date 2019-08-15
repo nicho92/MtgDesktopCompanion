@@ -1,5 +1,7 @@
 package org.magic.api.pool.impl;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -34,6 +36,15 @@ public class C3P0Pool extends AbstractPool {
 		datasource.setJdbcUrl(url);
 		
 	}
+	
+	@Override
+	public URL getDocumentation() {
+		try {
+			return new URL("https://www.mchange.com/projects/c3p0/#configuration");
+		} catch (MalformedURLException e) {
+			return super.getDocumentation();
+		}
+	}
 
 	@Override
 	public String getName() {
@@ -55,7 +66,7 @@ public class C3P0Pool extends AbstractPool {
 		setProperty("debugUnreturnedConnectionStackTraces",FALSE);
 		setProperty("maxStatements","0");
 		setProperty("breakAfterAcquireFailure",FALSE);
-		setProperty("maxIdleTime","0");
+		setProperty("maxIdleTime","60");
 		setProperty("minPoolSize","3");
 		setProperty("threadPoolSize","3");
 		setProperty("maxPoolSize","15");

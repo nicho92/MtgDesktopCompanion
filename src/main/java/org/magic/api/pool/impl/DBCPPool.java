@@ -1,5 +1,7 @@
 package org.magic.api.pool.impl;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -116,6 +118,16 @@ public class DBCPPool extends AbstractPool {
 	public Connection getConnection() throws SQLException {
 		return dataSource.getConnection();
 	}
+	
+	@Override
+	public URL getDocumentation() {
+		try {
+			return new URL("https://commons.apache.org/proper/commons-dbcp/configuration.html");
+		} catch (MalformedURLException e) {
+			return super.getDocumentation();
+		}
+	}
+	
 
 	@Override
 	public void close() throws SQLException {
