@@ -4,8 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+
 import org.magic.api.interfaces.abstracts.AbstractPool;
 import org.magic.services.ThreadManager;
 
