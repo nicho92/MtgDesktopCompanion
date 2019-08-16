@@ -44,7 +44,7 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	
 
 	@Override
-	public void onVisible() {
+	public void onFirstShowing() {
 		init(items);	
 	}
 	

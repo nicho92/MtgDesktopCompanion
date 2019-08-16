@@ -9,7 +9,6 @@ import javax.swing.SwingWorker;
 import org.jsoup.nodes.Document;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 import org.magic.tools.URLTools;
 
@@ -32,39 +31,58 @@ public class HelpCompononent extends MTGUIComponent {
 	public void init(MTGPlugin mtg)
 	{
 		this.plug = mtg;
-	
-		SwingWorker<Document,Void> sw = new SwingWorker<>() {
-			@Override
-			protected void done() {
-				try {
-					
-					Document d= get();
-					int width = (int)getSize().getWidth();
-					
-					if(width<=0)
-						width=450;
-					
-					d.select("img").attr("width", String.valueOf(width));
-					pane.setText(d.html());
-				} catch (Exception e) {
-					logger.error("error loading help",e);
-					pane.setText(e.getLocalizedMessage());
-				} 
-			}
+		
+		loadDoc();
 			
-			@Override
-			protected Document doInBackground() throws Exception {
-				
-				if(plug.getDocumentation().toString().endsWith(".md"))
-					return URLTools.extractMarkDownAsDocument(plug.getDocumentation());
-				else
-					return URLTools.extractHtml(plug.getDocumentation());
-			}
-		};
+	}
+	
+	@Override
+	public void onFirstShowing() {
+		if(plug!=null)
+			onVisible();
+	}
+	
+	
+	@Override
+	public void onVisible() {
+		if(plug!=null)
+			loadDoc();
+	}
+	
+	
+	private void loadDoc()
+	{
 		
 		if(isVisible())
-			ThreadManager.getInstance().runInEdt(sw, "loading help for " + plug);
+			ThreadManager.getInstance().runInEdt(new SwingWorker<Document,Void>() {
+				@Override
+				protected void done() {
+					try {
+						
+						Document d= get();
+						int width = (int)getSize().getWidth();
+						
+						if(width<=0)
+							width=450;
+						
+						d.select("img").attr("width", String.valueOf(width));
+						pane.setText(d.html());
+					} catch (Exception e) {
+						logger.error("error loading help",e);
+						pane.setText(e.getLocalizedMessage());
+					} 
+				}
+				
+				@Override
+				protected Document doInBackground() throws Exception {
+					if(plug.getDocumentation().toString().endsWith(".md"))
+						return URLTools.extractMarkDownAsDocument(plug.getDocumentation());
+					else
+						return URLTools.extractHtml(plug.getDocumentation());
+				}
+			}, "Loading doc for "+ plug);
 	}
+	
 	
 	@Override
 	public String getTitle() {

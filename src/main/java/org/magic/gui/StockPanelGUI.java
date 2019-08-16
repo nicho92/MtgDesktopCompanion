@@ -823,7 +823,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 	
 	@Override
-	public void onVisible() {
+	public void onFirstShowing() {
 		
 		ThreadManager.getInstance().executeThread(() -> {
 			try {

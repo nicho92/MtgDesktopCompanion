@@ -19,7 +19,7 @@ public abstract class MTGUIComponent extends JComponent {
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean onlyOneRefresh=true;
 	public abstract String getTitle();
-	
+	private boolean alreadyShow=false;
 	
 	@Override
 	public String toString() {
@@ -33,16 +33,34 @@ public abstract class MTGUIComponent extends JComponent {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent evt) {
-				onVisible();
-				if(onlyOneRefresh)
-					removeComponentListener(this);
+				
+				if(!alreadyShow)
+				{
+					onFirstShowing();
+					alreadyShow=true;
+				}
+				else
+				{
+					onVisible();
+				}
 			}
 			
 			@Override
 			public void componentHidden(ComponentEvent e) {
 				onHide();
 			}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				onResize();
+			}
 		});
+		
+	}
+	
+	public void onVisible()
+	{
+		//do nothing
 	}
 	
 	public void onDestroy()
@@ -50,12 +68,17 @@ public abstract class MTGUIComponent extends JComponent {
 		//do nothing
 	}
 
-	public void onVisible()
+	public void onFirstShowing()
 	{
 		//do nothing
 	}
 	
 	public void onHide()
+	{
+		//do nothing
+	}
+	
+	public void onResize()
 	{
 		//do nothing
 	}

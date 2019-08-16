@@ -138,7 +138,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	}
 	
 	@Override
-	public void onVisible() {
+	public void onFirstShowing() {
 		
 		splitListPanel.setDividerLocation(.45);
 		splitPane.setDividerLocation(.5);

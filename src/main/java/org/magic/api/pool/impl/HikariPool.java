@@ -44,7 +44,6 @@ public class HikariPool extends AbstractPool {
 					 c.setUsername(user);
 					 c.setPassword(pass);
 					 c.setThreadFactory(ThreadManager.getInstance().getFactory());
-	
 		datasource = new HikariDataSource(c);
 		
 		  if(!enable) {

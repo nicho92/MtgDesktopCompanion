@@ -165,7 +165,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 
 	@Override
-	public void onVisible() {
+	public void onFirstShowing() {
 		splitPanel.setDividerLocation(.5);
 		model.fireTableDataChanged();
 		

@@ -84,7 +84,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 	
 	@Override
-	public void onVisible() {
+	public void onFirstShowing() {
 		
 		
 		SwingWorker<Void, File> sw = new SwingWorker<>()

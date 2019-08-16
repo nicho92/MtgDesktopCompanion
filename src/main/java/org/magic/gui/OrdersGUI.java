@@ -99,7 +99,7 @@ public class OrdersGUI extends MTGUIComponent {
 	}
 	
 	@Override
-	public void onVisible() {
+	public void onFirstShowing() {
 		loadFinancialBook();
 	}
 	

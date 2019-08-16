@@ -40,6 +40,7 @@
     <logger name="org.fit"><level value="ERROR"/></logger>
     <logger name="org.eclipse.jetty"><level value="ERROR"/></logger>
     <logger name="io.milton"><level value="ERROR"/></logger>
+    <logger name="com.zaxxer.hikari"><level value="ERROR"/></logger>
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
