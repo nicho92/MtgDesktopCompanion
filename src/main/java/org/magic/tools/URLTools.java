@@ -76,13 +76,17 @@ public class URLTools {
 		return extractMarkDownAsDocument(documentation.toString());
 	}
 	
+	public static String toHtmlStringFromMarkdown(String c)
+	{
+		Parser parser = Parser.builder().build();
+		Node document = parser.parse(c);
+		return HtmlRenderer.builder().build().render(document);
+	}
 	
 	
 	public static String extractMarkDownAsString(String url) throws IOException
 	{
-		Parser parser = Parser.builder().build();
-		Node document = parser.parse(extractAsString(url));
-		String ret = HtmlRenderer.builder().build().render(document);
+		String ret = toHtmlStringFromMarkdown(extractAsString(url));
 		
 		ret=ret.replaceAll("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
 		ret=ret.replaceAll("\\$USER_HOME", SystemUtils.USER_HOME);
