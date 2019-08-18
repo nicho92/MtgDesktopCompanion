@@ -121,15 +121,6 @@ public class DBCPPool extends AbstractPool {
 		return dataSource.getConnection();
 	}
 	
-	@Override
-	public MTGDocumentation getDocumentation() {
-		try {
-			return new MTGDocumentation(new URL("https://commons.apache.org/proper/commons-dbcp/configuration.html"),FORMAT_NOTIFICATION.HTML);
-		} catch (MalformedURLException e) {
-			return super.getDocumentation();
-		}
-	}
-	
 
 	@Override
 	public void close() throws SQLException {

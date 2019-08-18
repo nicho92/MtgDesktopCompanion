@@ -40,15 +40,6 @@ public class C3P0Pool extends AbstractPool {
 	}
 	
 	@Override
-	public MTGDocumentation getDocumentation() {
-		try {
-			return new MTGDocumentation(new URL("https://www.mchange.com/projects/c3p0/#configuration"),FORMAT_NOTIFICATION.HTML);
-		} catch (MalformedURLException e) {
-			return super.getDocumentation();
-		}
-	}
-
-	@Override
 	public String getName() {
 		return "C3P0";
 	}
