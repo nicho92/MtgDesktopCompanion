@@ -13,6 +13,8 @@ import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGDocumentation;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -48,9 +50,9 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	
 	
 	@Override
-	public URL getDocumentation() {
+	public MTGDocumentation getDocumentation() {
 		try {
-			return new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replaceAll(" ", "-")+".md");	
+			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replaceAll(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);	
 		}
 		catch(Exception e)
 		{

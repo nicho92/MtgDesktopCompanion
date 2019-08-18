@@ -13,6 +13,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.pool2.impl.BaseObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.magic.api.beans.MTGDocumentation;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractPool;
 
@@ -120,9 +122,9 @@ public class DBCPPool extends AbstractPool {
 	}
 	
 	@Override
-	public URL getDocumentation() {
+	public MTGDocumentation getDocumentation() {
 		try {
-			return new URL("https://commons.apache.org/proper/commons-dbcp/configuration.html");
+			return new MTGDocumentation(new URL("https://commons.apache.org/proper/commons-dbcp/configuration.html"),FORMAT_NOTIFICATION.HTML);
 		} catch (MalformedURLException e) {
 			return super.getDocumentation();
 		}

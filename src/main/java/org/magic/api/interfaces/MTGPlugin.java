@@ -7,6 +7,7 @@ import java.util.Properties;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 
+import org.magic.api.beans.MTGDocumentation;
 import org.utils.patterns.observer.Observer;
 
 public interface MTGPlugin {
@@ -59,6 +60,6 @@ public interface MTGPlugin {
 
 	public String termsAndCondition();
 	
-	public URL getDocumentation();
+	public MTGDocumentation getDocumentation();
 	
 }

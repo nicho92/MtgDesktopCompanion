@@ -16,6 +16,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGDocumentation;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -42,9 +44,9 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 	
 	@Override
-	public URL getDocumentation() {
+	public MTGDocumentation getDocumentation() {
 		try {
-			return new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replaceAll(" ", "-")+".md");	
+			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replaceAll(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);	
 		}
 		catch(Exception e)
 		{

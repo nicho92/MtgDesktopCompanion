@@ -7,6 +7,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jsoup.nodes.Document;
+import org.magic.api.beans.MTGDocumentation;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.ThreadManager;
@@ -75,10 +77,10 @@ public class HelpCompononent extends MTGUIComponent {
 				
 				@Override
 				protected Document doInBackground() throws Exception {
-					if(plug.getDocumentation().toString().endsWith(".md"))
-						return URLTools.extractMarkDownAsDocument(plug.getDocumentation());
+					if(plug.getDocumentation().getContentType().equals(FORMAT_NOTIFICATION.MARKDOWN))
+						return URLTools.extractMarkDownAsDocument(plug.getDocumentation().getUrl());
 					else
-						return URLTools.extractHtml(plug.getDocumentation());
+						return URLTools.extractHtml(plug.getDocumentation().getUrl());
 				}
 			}, "Loading doc for "+ plug);
 	}
