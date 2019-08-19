@@ -83,20 +83,6 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		
 		return deck;
 	}
-
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		ArchidektDeckSniffer snif =  new ArchidektDeckSniffer();
-		
-		RetrievableDeck d = snif.getDeckList().get(1);
-		
-		snif.getDeck(d);
-		
-		
-		
-	}
 	
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
