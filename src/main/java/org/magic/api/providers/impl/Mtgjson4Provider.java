@@ -1,5 +1,8 @@
 package org.magic.api.providers.impl;
 
+import static com.jayway.jsonpath.JsonPath.parse;
+import static com.jayway.jsonpath.Criteria.where;
+import static com.jayway.jsonpath.Filter.filter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
@@ -27,9 +31,13 @@ import org.magic.tools.ColorParser;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
@@ -85,7 +93,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
-	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
+	private static File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
 	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
 	
 	private String version;
@@ -100,6 +108,48 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static void main(String[] args) throws IOException {
+		
+		Configuration.setDefaults(new Configuration.Defaults() {
+
+			private final JsonProvider jsonProvider = new GsonJsonProvider();
+			private final MappingProvider mappingProvider = new GsonMappingProvider();
+
+			@Override
+			public JsonProvider jsonProvider() {
+				return jsonProvider;
+			}
+
+			@Override
+			public MappingProvider mappingProvider() {
+				return mappingProvider;
+			}
+
+			@Override
+			public Set<Option> options() {
+				return EnumSet.noneOf(Option.class);
+			}
+
+		});
+		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+		DocumentContext ctx = JsonPath.parse(fileSetJson);
+		
+		
+		Filter cheapFictionFilter = filter(where("text").regex(Pattern.compile(".*Faerie.*",Pattern.CASE_INSENSITIVE)));
+		System.out.println(cheapFictionFilter);
+		
+		List<Map<String, Object>> cardsElement =  ctx.read("$..cards[?]",List.class, cheapFictionFilter);
+		//List<Map<String, Object>> cardsElement = ctx.read("$..cards[?(@['text'] =~ /.*Faerie.*/i)]", List.class);
+		
+		
+		for(Map<String, Object> el : cardsElement)
+		{
+			if(el.get("name")!=null)
+				System.out.println(el.get("name"));
+		}
+		
+	}
 	
 
 	private boolean hasNewVersion() {
@@ -237,11 +287,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		int indexSet = 0;
 		for (Map<String, Object> map : cardsElement) 
 		{
-						MagicCard mc = new MagicCard();
-						  mc.setFlippable(false);
-						  mc.setTranformable(false);
-						  mc.setId(String.valueOf(map.get("uuid").toString()));
-						  mc.setText(String.valueOf(map.get(TEXT)));
+				MagicCard mc = new MagicCard();
+				  mc.setFlippable(false);
+				  mc.setTranformable(false);
+				  mc.setId(String.valueOf(map.get("uuid").toString()));
+				  mc.setText(String.valueOf(map.get(TEXT)));
 						  
 				if (map.get(NAME) != null)
 					mc.setName(String.valueOf(map.get(NAME)));

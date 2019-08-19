@@ -85,11 +85,11 @@
     <pools>
         <pool>
             <class>org.magic.api.pool.impl.DBCPPool</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </pool>
         <pool>
             <class>org.magic.api.pool.impl.HikariPool</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </pool>
         <pool>
             <class>org.magic.api.pool.impl.NoPool</class>
