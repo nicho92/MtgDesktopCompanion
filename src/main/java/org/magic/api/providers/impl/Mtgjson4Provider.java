@@ -37,11 +37,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.EvaluationListener;
 import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.ReadContext;
+import com.jayway.jsonpath.EvaluationListener.EvaluationContinuation;
+import com.jayway.jsonpath.EvaluationListener.FoundResult;
 import com.jayway.jsonpath.spi.cache.CacheProvider;
 import com.jayway.jsonpath.spi.cache.LRUCache;
 import com.jayway.jsonpath.spi.json.GsonJsonProvider;
@@ -93,7 +96,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
-	private static File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
+	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
 	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
 	
 	private String version;
@@ -107,10 +110,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
 		
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
-		
 		Configuration.setDefaults(new Configuration.Defaults() {
 
 			private final JsonProvider jsonProvider = new GsonJsonProvider();
@@ -128,26 +130,33 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 			@Override
 			public Set<Option> options() {
-				return EnumSet.noneOf(Option.class);
+				return EnumSet.of(Option.DEFAULT_PATH_LEAF_TO_NULL);
 			}
 
 		});
-		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
-		DocumentContext ctx = JsonPath.parse(fileSetJson);
+		
+		DocumentContext ctx = JsonPath.parse(new File(MTGConstants.DATA_DIR, "AllSets-x4.json"));
 		
 		
-		Filter cheapFictionFilter = filter(where("text").regex(Pattern.compile(".*Faerie.*",Pattern.CASE_INSENSITIVE)));
+		Filter cheapFictionFilter = filter(where(TEXT).regex(Pattern.compile(".*faerie.*",Pattern.CASE_INSENSITIVE)));
 		System.out.println(cheapFictionFilter);
 		
-		List<Map<String, Object>> cardsElement =  ctx.read("$..cards[?]",List.class, cheapFictionFilter);
-		//List<Map<String, Object>> cardsElement = ctx.read("$..cards[?(@['text'] =~ /.*Faerie.*/i)]", List.class);
 		
+		ReadContext reader = ctx.withListeners(fr -> {
+			if (fr.path().startsWith("$")) {
+				System.out.println(fr.path());
+			}
+			return null;
+		});
+		
+		
+		
+		List<Map<String, Object>> cardsElement =  reader.read("$..cards[?]",List.class, cheapFictionFilter);
+		//List<Map<String, Object>> cardsElement = reader.read("$..cards[?(@['text'] =~ /.*Faerie.*/i)]", List.class);
+		//List<Map<String, Object>> cardsElement = reader.read("$.HML.cards", List.class);
 		
 		for(Map<String, Object> el : cardsElement)
-		{
-			if(el.get("name")!=null)
-				System.out.println(el.get("name"));
-		}
+				System.out.println(el.get(NAME) + " " + el.get(TEXT));
 		
 	}
 	
@@ -275,6 +284,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 		List<String> currentSet = new ArrayList<>();
 		ArrayList<MagicCard> ret = new ArrayList<>();
+		
 		List<Map<String, Object>> cardsElement = ctx.withListeners(fr -> {
 			if (fr.path().startsWith("$")) {
 				currentSet.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf("]") - 1));
@@ -609,7 +619,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return ed;
 		
 	}
-	
 	
 	public MagicEdition generateEdition(String id) {
 		
