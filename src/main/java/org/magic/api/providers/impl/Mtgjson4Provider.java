@@ -1,8 +1,5 @@
 package org.magic.api.providers.impl;
 
-import static com.jayway.jsonpath.JsonPath.parse;
-import static com.jayway.jsonpath.Criteria.where;
-import static com.jayway.jsonpath.Filter.filter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
@@ -31,20 +27,13 @@ import org.magic.tools.ColorParser;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
 import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.EvaluationListener;
-import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.ReadContext;
-import com.jayway.jsonpath.EvaluationListener.EvaluationContinuation;
-import com.jayway.jsonpath.EvaluationListener.FoundResult;
 import com.jayway.jsonpath.spi.cache.CacheProvider;
 import com.jayway.jsonpath.spi.cache.LRUCache;
 import com.jayway.jsonpath.spi.json.GsonJsonProvider;
@@ -111,48 +100,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void main(String[] args) throws IOException {
-		Configuration.setDefaults(new Configuration.Defaults() {
-
-			private final JsonProvider jsonProvider = new GsonJsonProvider();
-			private final MappingProvider mappingProvider = new GsonMappingProvider();
-
-			@Override
-			public JsonProvider jsonProvider() {
-				return jsonProvider;
-			}
-
-			@Override
-			public MappingProvider mappingProvider() {
-				return mappingProvider;
-			}
-
-			@Override
-			public Set<Option> options() {
-				return EnumSet.of(Option.DEFAULT_PATH_LEAF_TO_NULL);
-			}
-
-		});
-		
-		DocumentContext ctx = JsonPath.parse(new File(MTGConstants.DATA_DIR, "AllSets-x4.json"));
-		
-		
-		Filter cheapFictionFilter = filter(where(TEXT).regex(Pattern.compile(".*faerie.*",Pattern.CASE_INSENSITIVE)));
-		System.out.println(cheapFictionFilter);
-		List<Map<String, Object>> cardsElement =  ctx.read("$..cards[?]",List.class, cheapFictionFilter);
-		//List<Map<String, Object>> cardsElement = ctx.read("$..cards[?(@['text'] =~ /.*Faerie.*/i)]", List.class);
-		//List<Map<String, Object>> cardsElement = ctx.read("$.HML.cards", List.class);
-		
-		for(Map<String, Object> el : cardsElement)
-				System.out.println(el.get(NAME) + " " + el.get(TEXT));
-		
-	}
-	
-
 	private boolean hasNewVersion() {
 		String temp = "";
-		
 			try  
 			{
 				temp = FileUtils.readFileToString(fversion,MTGConstants.DEFAULT_ENCODING);
@@ -165,14 +114,14 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			}
 			
 			try {
-			logger.debug("check new version of " + toString() + " (" + temp + ")");
-
-			JsonElement d = URLTools.extractJson(URL_JSON_VERSION);
-			version = d.getAsJsonObject().get("version").getAsString();
-			if (!version.equals(temp)) {
-				logger.info("new version datafile exist (" + version + "). Downloading it");
-				return true;
-			}
+				logger.debug("check new version of " + toString() + " (" + temp + ")");
+	
+				JsonElement d = URLTools.extractJson(URL_JSON_VERSION);
+				version = d.getAsJsonObject().get("version").getAsString();
+				if (!version.equals(temp)) {
+					logger.info("new version datafile exist (" + version + "). Downloading it");
+					return true;
+				}
 
 			logger.debug("check new version of " + this + ": up to date");
 			return false;
@@ -251,7 +200,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			filterEdition = filterEdition + ed.getId().toUpperCase();
 		}
 
-		
 		String jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
 
 		if (exact)

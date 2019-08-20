@@ -30,10 +30,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected File confdir;
 	protected File confFile;
 
-	public void setProps(Properties props) {
-		this.props = props;
-	}
-	
 	@Override
 	public ObjectName getObjectName() {
 		try {
@@ -52,9 +48,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		{
 			return null;	
 		}
-		
 	}
-	
 
 	public void notify(Object obj) {
 		setChanged();
@@ -89,23 +83,21 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 
 	public void load() {
-		try {
 			confFile = new File(confdir, getName() + ".conf");
 			if (confFile.exists()) {
-				FileInputStream fis = new FileInputStream(confFile);
-				props.load(fis);
-				fis.close();
+				
+				try (FileInputStream fis = new FileInputStream(confFile)) {	
+					props.load(fis);	
+				} catch (Exception e) {
+					logger.error("couln't load properties " + confFile, e);
+				}
 			}
-		} catch (Exception e) {
-			logger.error("couln't load properties " + confFile, e);
-		}
+		
 	}
 
 	public void save() {
-		try {
-			FileOutputStream fos = new FileOutputStream(confFile);
+		try (FileOutputStream fos = new FileOutputStream(confFile)){
 			props.store(fos, "");
-			fos.close();
 		} catch (Exception e) {
 			logger.error("error writing file " + confFile, e);
 		}
