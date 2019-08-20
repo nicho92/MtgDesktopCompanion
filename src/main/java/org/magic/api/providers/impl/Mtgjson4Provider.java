@@ -140,20 +140,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 		Filter cheapFictionFilter = filter(where(TEXT).regex(Pattern.compile(".*faerie.*",Pattern.CASE_INSENSITIVE)));
 		System.out.println(cheapFictionFilter);
-		
-		
-		ReadContext reader = ctx.withListeners(fr -> {
-			if (fr.path().startsWith("$")) {
-				System.out.println(fr.path());
-			}
-			return null;
-		});
-		
-		
-		
-		List<Map<String, Object>> cardsElement =  reader.read("$..cards[?]",List.class, cheapFictionFilter);
-		//List<Map<String, Object>> cardsElement = reader.read("$..cards[?(@['text'] =~ /.*Faerie.*/i)]", List.class);
-		//List<Map<String, Object>> cardsElement = reader.read("$.HML.cards", List.class);
+		List<Map<String, Object>> cardsElement =  ctx.read("$..cards[?]",List.class, cheapFictionFilter);
+		//List<Map<String, Object>> cardsElement = ctx.read("$..cards[?(@['text'] =~ /.*Faerie.*/i)]", List.class);
+		//List<Map<String, Object>> cardsElement = ctx.read("$.HML.cards", List.class);
 		
 		for(Map<String, Object> el : cardsElement)
 				System.out.println(el.get(NAME) + " " + el.get(TEXT));
@@ -271,6 +260,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		if (att.equalsIgnoreCase("set")) 
 		{
 				jsquery = "$." + crit.toUpperCase() + ".cards";
+		}
+		else if(att.equals("jsonpath"))
+		{
+			jsquery = crit;
 		}
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
@@ -570,8 +563,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		try {		
 		
 		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonArray().forEach(e->{
-			String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
-			cacheEditions.put(codeedition, getSetById(codeedition));
+				String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
+				cacheEditions.put(codeedition, getSetById(codeedition));
 		});
 		
 		}catch(Exception ex)
@@ -749,7 +742,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { NAME,"set",ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil"};
+		return new String[] { NAME,"set",ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","jsonpath"};
 	}
 
 	@Override

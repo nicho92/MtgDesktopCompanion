@@ -154,6 +154,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				protected void done() {
 					progressBar.end();	
 					tableEditions.packAll();
+					lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
+					
 				}
 			};
 	
@@ -284,7 +286,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
 		///////// Labels
-		lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
 		btnAdd.setToolTipText(MTGControler.getInstance().getLangService().get("COLLECTION_ADD"));
 		btnRefresh.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_REFRESH"));
 		btnRemove.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ITEM_SELECTED_REMOVE"));

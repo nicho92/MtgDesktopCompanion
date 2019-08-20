@@ -27,15 +27,20 @@ public class JCSCache extends AbstractCacheProvider {
 		picturesCache = JCS.getInstance("default");
 	}
 	
+	@Override
+	public void unload() {
+		JCS.shutdown();
+	}
+	
 	
 	@Override
 	public void initDefault() {
 
 		setProperty("jcs.default","DC");
 		setProperty("jcs.default.cacheattributes", "org.apache.commons.jcs.engine.CompositeCacheAttributes");
-		setProperty("jcs.default.cacheattributes.MaxObjects","1000");
+		setProperty("jcs.default.cacheattributes.MaxObjects","200");
 		setProperty("jcs.default.cacheattributes.MemoryCacheName","org.apache.commons.jcs.engine.memory.lru.LRUMemoryCache");
-		setProperty("jcs.default.cacheattributes.UseMemoryShrinker","false");
+		setProperty("jcs.default.cacheattributes.UseMemoryShrinker","true");
 		setProperty("jcs.default.cacheattributes.MaxMemoryIdleTimeSeconds","3600");
 		setProperty("jcs.default.cacheattributes.ShrinkerIntervalSeconds","60");
 		setProperty("jcs.default.elementattributes","org.apache.commons.jcs.engine.ElementAttributes");
@@ -49,8 +54,8 @@ public class JCSCache extends AbstractCacheProvider {
 		setProperty("jcs.auxiliary.DC","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory");
 		setProperty("jcs.auxiliary.DC.attributes","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes");
 		setProperty("jcs.auxiliary.DC.attributes.DiskPath",MTGConstants.DATA_DIR + "/jcsCache");
-		setProperty("jcs.auxiliary.DC.attributes.MaxPurgatorySize","10000000");
-		setProperty("jcs.auxiliary.DC.attributes.MaxKeySize","1000000");
+		setProperty("jcs.auxiliary.DC.attributes.MaxPurgatorySize","10000");
+		setProperty("jcs.auxiliary.DC.attributes.MaxKeySize","10000");
 		setProperty("jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount","300000");
 		setProperty("jcs.auxiliary.DC.attributes.ShutdownSpoolTimeLimit","60");
 	}
@@ -66,10 +71,13 @@ public class JCSCache extends AbstractCacheProvider {
 	@Override
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
 		logger.debug("put " + mc + " in cache");
+		
 		if (ed == null)
 			picturesCache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageTools.toByteArray(im));
 		else
 			picturesCache.put(generateIdIndex(mc, ed), ImageTools.toByteArray(im));
+		
+		logger.debug(picturesCache.getStats());
 	}
 	
 	@Override

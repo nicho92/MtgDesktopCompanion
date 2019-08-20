@@ -30,10 +30,10 @@
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c %L %x - %m%n"/>
         </layout>
     </appender>
-   
-    <logger name="com.jayway.jsonpath.internal.path"><level value="ERROR"/></logger>
     <logger name="org.apache.http"><level value="ERROR"/></logger>
     <logger name="org.apache.commons"><level value="ERROR"/></logger>
+    <logger name="org.apache.commons.jcs"><level value="ERROR"/></logger>
+    <logger name="com.jayway.jsonpath.internal.path"><level value="ERROR"/></logger>
     <logger name="org.api.mkm"><level value="ERROR"/></logger>
     <logger name="twitter4j"><level value="ERROR"/></logger>
     <logger name="cz.vutbr"><level value="ERROR"/></logger>

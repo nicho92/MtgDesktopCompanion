@@ -140,7 +140,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<>(multi, list));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
-		table.setDefaultRenderer(Boolean.class, (JTable table2, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
+		table.setDefaultRenderer(Boolean.class, (JTable t, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 				JPanel p = new JPanel();
 				JCheckBox cbox = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 				cbox.setOpaque(false);
