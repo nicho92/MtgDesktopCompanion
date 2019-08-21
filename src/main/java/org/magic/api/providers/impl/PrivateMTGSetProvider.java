@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
@@ -245,6 +246,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
 			
 			String[] ret =keys.toArray(new String[keys.size()]) ;
+			ret = ArrayUtils.add(ret, "set");
+			
 			Arrays.sort(ret);
 			
 			return ret;
