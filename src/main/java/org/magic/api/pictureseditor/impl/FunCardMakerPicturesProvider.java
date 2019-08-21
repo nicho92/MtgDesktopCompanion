@@ -33,10 +33,11 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	
 	private static final String HYBRIDE = "HYBRIDE";
-	private static final String GENERATE_URL ="http://funcardmaker.thaledric.fr/generate.php";
-	private static final String UPLOAD_URL ="http://funcardmaker.thaledric.fr/upload.php";
 	private static final String DOMAIN="funcardmaker.thaledric.fr";
 	private static final String WEBSITE="http://"+DOMAIN;
+	private static final String GENERATE_URL =WEBSITE+"/generate.php";
+	private static final String UPLOAD_URL =WEBSITE+"/upload.php";
+
 	private URLToolsClient httpclient;
 
 	
@@ -174,7 +175,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 							   	 .addHeader(URLTools.ORIGIN, WEBSITE)
 							     .addHeader(URLTools.REFERER,WEBSITE);
 							
-						
+						    logger.trace(build);
 						    
 						    String ret = httpclient.execute(build);
 						    logger.trace("RESPONSE: "+ret);
@@ -218,7 +219,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	@Override
 	public void initDefault() {
-		setProperty("COPYRIGHT", "(c)2018-Wizards of the coast");
+		setProperty("COPYRIGHT", "(c)2019-Wizards of the coast");
 		setProperty("LAYOUT_OLD_MODERN","modern");
 		setProperty(HYBRIDE,"");
 	}
@@ -230,7 +231,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return "0.4.1-alpha";
 	}
 
 	@Override

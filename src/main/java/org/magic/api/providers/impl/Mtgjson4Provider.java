@@ -288,7 +288,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				}
 				
 				if (map.get("mtgstocksId") != null) {
-					mc.setMtgstocksId((int)Double.parseDouble(map.get("mtgstocksId").toString()));
+					mc.setMtgstocksId(Double.valueOf(map.get("mtgstocksId").toString()).intValue());
+				}
+				
+				if (map.get("edhrecRank") != null) {
+					mc.setEdhrecRank(Double.valueOf(map.get("edhrecRank").toString()).intValue());
 				}
 				
 				if (map.get(ORIGINAL_TEXT) != null)

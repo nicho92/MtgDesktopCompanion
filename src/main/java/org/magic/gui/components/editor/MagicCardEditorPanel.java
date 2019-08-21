@@ -665,28 +665,24 @@ public class MagicCardEditorPanel extends JPanel {
 		magicCard.setTypes(cboTypes.getSelectedElements());
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
+		magicCard.setText(textJEditorPane.getText());
 		return magicCard;
 	}
-
-	public void setMagicCard(MagicCard newMagicCard) {
-		setMagicCard(newMagicCard, true);
-	}
 	
-	public void setMagicCard(MagicCard newMagicCard, boolean update) {
+	public void setMagicCard(MagicCard newMagicCard) {
 		magicCard = newMagicCard;
 		cboSuperType.unselectAll();
 		cboTypes.unselectAll();
 		cboSubtypes.unselectAll();
 
-		if (update) {
-			if (mbindingGroup != null) {
+		if (mbindingGroup != null) {
 				mbindingGroup.unbind();
 				mbindingGroup = null;
 			}
 			if (magicCard != null) {
 				mbindingGroup = initDataBindings();
 			}
-		}
+
 		if (magicCard != null) {
 			cboSuperType.setSelectedElements(magicCard.getSupertypes());
 			cboTypes.setSelectedElements(magicCard.getTypes());

@@ -31,8 +31,8 @@ public class MagicTextPane extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private transient KeyAdapter translation;
 	
-	ManaPanel manaPanel;
-	JTextPane textPane;
+	private ManaPanel manaPanel;
+	private JTextPane textPane;
 	
 	public MagicTextPane() {
 		init();

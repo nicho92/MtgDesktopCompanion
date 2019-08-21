@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
 import org.jsoup.nodes.Document;
 
 import com.google.gson.JsonElement;
@@ -124,6 +125,12 @@ public class RequestBuilder
 		return URLTools.toJson(execute());
 	}
 	
+	public HttpResponse toResponse() throws IOException
+	{
+		execute();
+		return client.getResponse();
+		
+	}
 	
 	public String execute() throws IOException
 	{

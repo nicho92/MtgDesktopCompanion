@@ -123,11 +123,15 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getSupertypes().isEmpty())
 			build.addParameter("super-type", String.join(" ", mc.getSupertypes()));
 		
-		if(!mc.getTypes().isEmpty() && !mc.getSubtypes().isEmpty())
-			build.addParameter("type", String.join(" ", mc.getTypes()) + " - "+ String.join(" ", mc.getSubtypes()));
-		else
+		if(!mc.getTypes().isEmpty())
 			build.addParameter("type", String.join(" ", mc.getTypes()));
 
+		if(!mc.getSubtypes().isEmpty())
+			build.addParameter("sub-type", String.join(" ", mc.getSubtypes()));
+
+		
+		
+		
 		build.addParameter("text-size", getString("SIZE"));
 		
 		if(!mc.getRarity().isEmpty())
