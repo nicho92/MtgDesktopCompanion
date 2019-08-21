@@ -2,7 +2,6 @@ package org.magic.api.beans;
 
 import java.net.URL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 
 public class MTGDocumentation {

@@ -1,12 +1,8 @@
 package org.magic.api.pool.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.magic.api.beans.MTGDocumentation;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractPool;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;

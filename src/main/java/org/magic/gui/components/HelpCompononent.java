@@ -7,7 +7,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jsoup.nodes.Document;
-import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;

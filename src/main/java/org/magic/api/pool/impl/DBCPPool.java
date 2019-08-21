@@ -1,7 +1,5 @@
 package org.magic.api.pool.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -13,8 +11,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.pool2.impl.BaseObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.magic.api.beans.MTGDocumentation;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractPool;
 

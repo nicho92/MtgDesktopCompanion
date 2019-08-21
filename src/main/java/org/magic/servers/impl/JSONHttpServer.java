@@ -9,8 +9,6 @@ import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.put;
-import static spark.Spark.threadPool;
-
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -57,7 +55,6 @@ import com.google.gson.JsonPrimitive;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
-import spark.Service;
 import spark.Spark;
 
 public class JSONHttpServer extends AbstractMTGServer {
