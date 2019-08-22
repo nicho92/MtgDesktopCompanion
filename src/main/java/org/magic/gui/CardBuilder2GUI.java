@@ -146,7 +146,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			editionsTable = new JXTable();
 			cardsTable = new JXTable();
 			tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-			cboSets = new JComboBox<>();
+			cboSets = UITools.createComboboxEditions();
 			namesModel = new MagicCardNamesTableModel();
 			panelPictures = new JPanel() {
 				private static final long serialVersionUID = 1L;
@@ -177,9 +177,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			spinCommon.setModel(new SpinnerNumberModel(0, 0, null, 1));
 			spinUnco.setModel(new SpinnerNumberModel(0, 0, null, 1));
 			spinRare.setModel(new SpinnerNumberModel(0, 0, null, 1));
-
-			List<MagicEdition> eds = provider.loadEditions();
-			cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
 			
 			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
