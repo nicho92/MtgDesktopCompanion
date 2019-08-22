@@ -29,7 +29,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 		String url = getString("URL");
-		url = url.replaceAll("%API_KEY%", getString("API_KEY"));
+		url = url.replace("%API_KEY%", getString("API_KEY"));
 
 		String set = "";
 
@@ -39,17 +39,17 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			set = URLTools.encode(me.getSet());
 
 		if (set.contains("Edition"))
-			set = set.replaceAll("Edition", "");
+			set = set.replace("Edition", "");
 
 		String name = card.getName();
 		name = name.replaceAll(" \\(.*$", "");
-		name = name.replaceAll("'", "%27");
-		name = name.replaceAll(" ", "+");
+		name = name.replace("'", "%27");
+		name = name.replace(" ", "+");
 
 		setProperty("KEYWORD", "s=" + set + "p=" + name);
 
-		String link = url.replaceAll("%SET%", set);
-		link = link.replaceAll("%CARTE%", name);
+		String link = url.replace("%SET%", set);
+		link = link.replace("%CARTE%", name);
 
 		logger.info(getName() + " looking " + " for " + link);
 

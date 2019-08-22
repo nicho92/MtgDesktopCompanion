@@ -33,7 +33,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		String cardSet = edition.getId();
 
 		if (mc.getName().contains("//")) {
-			cardName = cardName.replaceAll("//", "");
+			cardName = cardName.replace("//", "");
 		}
 
 		// This will properly escape the url

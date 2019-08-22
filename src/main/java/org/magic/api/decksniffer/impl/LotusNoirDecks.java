@@ -88,7 +88,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				RetrievableDeck deck = new RetrievableDeck();
 				Element info = cont.select("a").get(0);
 
-				String name = info.attr("title").replaceAll("Lien vers ", "").trim();
+				String name = info.attr("title").replace("Lien vers ", "").trim();
 				String url = info.attr("href");
 				String auteur = cont.select("small").select("a").text();
 

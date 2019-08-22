@@ -46,7 +46,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		String url = HTTP_API_SCRYFALL + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
 
-		if (scryfallProvider) {
+		if (scryfallProvider.booleanValue()) {
 			url = HTTP_API_SCRYFALL + mc.getId() + IMAGE_TAG;
 		}
 

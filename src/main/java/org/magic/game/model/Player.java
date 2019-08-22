@@ -247,6 +247,7 @@ public class Player extends Observable implements Serializable {
 			hand.add(library.getCards().get(i));
 			library.getCards().remove(i);
 		}
+		
 		if (number > 1)
 			logAction("Draw " + number + " cards");
 		else

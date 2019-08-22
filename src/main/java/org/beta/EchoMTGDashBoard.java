@@ -113,7 +113,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		variations.setProviderName(getName());
 		
 		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
-		 .url(EchoMTGExport.BASE_URL+"/set/"+ed.getId().toUpperCase()+"/"+ed.getSet().replaceAll(" ", "-").toLowerCase()+"/")
+		 .url(EchoMTGExport.BASE_URL+"/set/"+ed.getId().toUpperCase()+"/"+ed.getSet().replace(" ", "-").toLowerCase()+"/")
 		 .addHeader(URLTools.HOST, WEBSITE)
 		 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 		 .toHtml();
@@ -135,7 +135,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 					  
 					  if(!tds.get(3).text().isEmpty())
 					  {
-						  double pc = Double.parseDouble(tds.get(3).text().replaceAll("%",""))/100;
+						  double pc = Double.parseDouble(tds.get(3).text().replace("%",""))/100;
 						  lastWeekPrice = price - (lastWeekPrice*pc);
 					  }
 					  cs.init(price, price, lastWeekPrice);

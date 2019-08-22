@@ -63,7 +63,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
 	private String getCorrectName(String cname) {
 		if (cname.contains("AE")) {
-			cname = cname.replaceAll("AE", "Æ");
+			cname = cname.replace("AE", "Æ");
 		}
 		int sl = cname.indexOf('/');
 		if (sl >= 0) {

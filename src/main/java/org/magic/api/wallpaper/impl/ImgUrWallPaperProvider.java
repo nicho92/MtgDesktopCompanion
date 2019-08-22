@@ -30,7 +30,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
 		try {
 			
-			String query=search.trim().replaceAll(" ", " AND ");
+			String query=search.trim().replace(" ", " AND ");
 	
 			e.put("q", query);
 			e.put("mature", "true");

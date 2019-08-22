@@ -63,7 +63,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	}
 
 	private String clean(String html) {
-		return StringEscapeUtils.escapeHtml3(html).replaceAll(",", ".").replaceAll(" ", "").replaceAll("€", "");
+		return StringEscapeUtils.escapeHtml3(html).replace(",", ".").replace(" ", "").replace("€", "");
 	}
 
 	@Override

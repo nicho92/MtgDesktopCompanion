@@ -129,7 +129,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		setLocationRelativeTo(null);
 
 		btnInverse.addActionListener(e -> {
-			List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
+			List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replace("  ", " ").trim().split(" "));
 			StringBuilder temp = new StringBuilder();
 			for (MagicCard s : ids(elements))
 				temp.append(s.getCurrentSet().getNumber()).append(" ");
@@ -145,7 +145,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
 
 			if (cboByType.getSelectedItem().equals(NUMBER))
-				ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
+				ids = txtNumbersInput.getText().replaceAll("\n", " ").replace("  ", " ").trim().split(" ");
 			else
 				ids = txtNumbersInput.getText().split("\n");
 		
@@ -181,7 +181,7 @@ public class MassCollectionImporterDialog extends JDialog {
 							if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
 								mc = plug.getCardByNumber(id.trim(), ed);
 							else
-								mc = plug.searchCardByName( id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
+								mc = plug.searchCardByName( id.replaceAll("\n", " ").replace("  ", " ").trim(),
 												(MagicEdition) cboEditions.getSelectedItem(), true)
 										.get(0);
 

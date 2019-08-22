@@ -41,7 +41,7 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 					String urlFlag =tr.select("td").first().select("img").attr("src");
 					mp.setLanguage(urlFlag.substring(urlFlag.lastIndexOf('/')+1,urlFlag.lastIndexOf('.')));
 					
-					String price = tr.select("td.col-price").text().replaceAll(",", ".").replaceAll("€","");
+					String price = tr.select("td.col-price").text().replace(",", ".").replace("€","");
 					mp.setValue(Double.parseDouble(price));
 					mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
 					

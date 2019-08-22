@@ -61,7 +61,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		EditDistance<Double> d = new JaccardDistance();
 		for (String s : eds) {
 			double dist = d.apply(set.toLowerCase(), s.toLowerCase());
-			logger.trace(s + " leven=" + dist + "(save=" + leven + ")");
 			if (dist < leven) {
 				leven = dist;
 				name = s;

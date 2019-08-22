@@ -26,8 +26,8 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 		String cardSet = edition.getId();
 
-		String cardName = mc.getName().toLowerCase().replaceAll(" ", "").replaceAll("-", "").replaceAll("'", "")
-				.replaceAll(",", "").replaceAll("/", "");
+		String cardName = mc.getName().toLowerCase().replace(" ", "").replace("-", "").replace("'", "")
+				.replace(",", "").replace("/", "");
 
 		// This will properly escape the url
 		URI uri;

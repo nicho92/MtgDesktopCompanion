@@ -32,7 +32,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		if (ed == null)
 			selected = card.getCurrentSet();
 
-		String set = selected.getSet().replaceAll(" ", "_");
+		String set = selected.getSet().replace(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
 		InputStream stream = URLTools.openConnection(url).getInputStream();

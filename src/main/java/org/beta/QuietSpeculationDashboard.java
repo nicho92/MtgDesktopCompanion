@@ -59,7 +59,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 
 	@Override
 	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition ed) throws IOException {
-		String uri = "https://www.quietspeculation.com/tradertools/prices/sets/"+ed.getSet().replaceAll(" ", "%20");
+		String uri = "https://www.quietspeculation.com/tradertools/prices/sets/"+ed.getSet().replace(" ", "%20");
 		EditionPriceVariations ret = new EditionPriceVariations();
 			ret.setEdition(ed);
 			ret.setDate(new Date());

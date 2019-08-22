@@ -63,7 +63,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		{
 			String date = tr.select("td").get(0).html();
 			String link = tr.select("td").get(2).select("a").attr("href");
-			String id =tr.select("td").get(2).text().replaceAll("# ", "");
+			String id =tr.select("td").get(2).text().replace("# ", "");
 			entries.addAll(parse(URLTools.toHtml(client.doGet(urlDetailOrder+link)),id,UITools.parseDate(date,"dd/mm/yy")));
 		}
 			

@@ -24,7 +24,7 @@ import com.google.gson.JsonObject;
 public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 	
-	private static final String BASE_URI="https://archidekt.com/api/decks/cards/";
+	private static final String BASE_URI="https://archidekt.com/api";
 	
 	@Override
 	public String[] listFilter() {
@@ -91,7 +91,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		
 		JsonArray arr = RequestBuilder.build()
 						.setClient(URLTools.newClient())
-						.url(BASE_URI).method(METHOD.GET)
+						.url(BASE_URI+"/decks/cards/").method(METHOD.GET)
 						.addContent("orderBy", "-createdAt")
 						.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), getString("FORMAT"))+1))
 						.addContent("pageSize", getString("PAGE_SIZE"))
@@ -107,7 +107,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				RetrievableDeck d = new RetrievableDeck();
 							d.setAuthor(el.getAsJsonObject().get("owner").getAsJsonObject().get("username").getAsString());
 							d.setName(el.getAsJsonObject().get("name").getAsString());
-							d.setUrl(new URI("https://archidekt.com/api/decks/"+el.getAsJsonObject().get("id").getAsInt()+"/"));
+							d.setUrl(new URI(BASE_URI+"/decks/"+el.getAsJsonObject().get("id").getAsInt()+"/"));
 							StringBuilder tmp = new StringBuilder("");
 							
 							for(String s : el.getAsJsonObject().get("colors").getAsJsonObject().keySet())

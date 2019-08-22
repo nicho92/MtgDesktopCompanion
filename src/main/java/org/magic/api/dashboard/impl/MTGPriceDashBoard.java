@@ -49,8 +49,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		Document doc = URLTools.extractHtml(url);
 		try {
 			
-			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "")
-					.replaceAll("UTC ", "").trim();
+			String date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "")
+					.replace("UTC ", "").trim();
 			SimpleDateFormat forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
 			updateTime = forma.parse(date);
 		} catch (ParseException e1) {
@@ -116,7 +116,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
-		String name = convert(edition.getSet()).replaceAll(" ", "_");
+		String name = convert(edition.getSet()).replace(" ", "_");
 
 		String url = getString(WEBSITE)+"/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
@@ -181,7 +181,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			return historyPrice;
 		}
 
-		name = mc.getName().replaceAll(" ", "_");
+		name = mc.getName().replace(" ", "_");
 
 		String edition = "";
 
@@ -190,7 +190,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		else
 			edition = me.getSet();
 
-		edition = edition.replaceAll(" ", "_");
+		edition = edition.replace(" ", "_");
 
 		String url = getString(WEBSITE)+"/sets/" + edition + "/" + name;
 		Document d = URLTools.extractHtml(url);

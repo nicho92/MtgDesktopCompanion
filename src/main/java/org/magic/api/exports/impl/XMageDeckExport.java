@@ -79,7 +79,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						deck.getMap().put(mc, qte);
 					}
 				} else {
-					deck.setName(line.replaceAll("NAME: ", ""));
+					deck.setName(line.replace("NAME: ", ""));
 				}
 
 				line = read.readLine();

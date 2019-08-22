@@ -85,7 +85,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 
 	@Override
 	public String createListStockSQL(MagicCard mc) {
-		return "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replaceAll("'", "\\\\'")+"\"%'";
+		return "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replace("'", "\\\\'")+"\"%'";
 	}
 
 	@Override

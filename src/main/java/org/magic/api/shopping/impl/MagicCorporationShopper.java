@@ -77,7 +77,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				e.setTypeTransaction(TYPE_TRANSACTION.BUY);
 				e.setTransactionDate(UITools.parseDate(date,"dd/MM/yy"));
 				e.setDescription(detail.get(i).select("td").get(0).text());
-				e.setItemPrice(UITools.parseDouble(detail.get(i).select("td").get(3).text().replaceAll("€", "")));
+				e.setItemPrice(UITools.parseDouble(detail.get(i).select("td").get(3).text().replace("€", "")));
 				entries.add(e);
 				notify(e);
 			}

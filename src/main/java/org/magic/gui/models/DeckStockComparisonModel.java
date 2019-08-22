@@ -55,7 +55,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		case 0:return items.get(row).getMc();
 		case 1:return items.get(row).getNeeded();
 		case 2:return items.get(row).getStocks().size();
-		case 3: return items.get(row).getHas() ? 1: 0;
+		case 3: return items.get(row).getHas().booleanValue() ? 1: 0;
 		case 4:return items.get(row).getResult();
 		
 		default:return "";
@@ -63,7 +63,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	}
 
 	private Integer calculate(Line line) {
-		if(line.getHas() && line.getStocks().isEmpty())
+		if(line.getHas().booleanValue() && line.getStocks().isEmpty())
 		{
 			return line.getNeeded()-1;
 		}

@@ -243,7 +243,7 @@ public class UITools {
 	
 	public static Double parseDouble(String text) {
 		try {
-			text=text.replaceAll(",", ".").trim();
+			text=text.replace(",", ".").trim();
 			return Double.parseDouble(text);
 		} catch (Exception e) {
 			logger.error("error parsing " + text,e);

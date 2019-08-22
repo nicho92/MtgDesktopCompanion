@@ -384,7 +384,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private double parseDouble(String number) {
-		return Double.parseDouble(number.replaceAll(",", "").replaceAll("%", ""));
+		return Double.parseDouble(number.replace(",", "").replace("%", ""));
 	}
 
 	@Override

@@ -20,9 +20,9 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		List<MagicPrice> prices = new ArrayList<>();
 
 		String url = getString("URL");
-		url = url.replaceAll("%API_KEY%", getString("API_KEY"));
-		url = url.replaceAll("%COUNTRY%", getString("COUNTRY"));
-		url = url.replaceAll("%MAX%", getString("MAX"));
+		url = url.replace("%API_KEY%", getString("API_KEY"));
+		url = url.replace("%COUNTRY%", getString("COUNTRY"));
+		url = url.replace("%MAX%", getString("MAX"));
 		String keyword = card.getName();
 
 		if (me != null)
@@ -32,7 +32,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 		keyword = URLTools.encode(keyword);
 
-		String link = url.replaceAll("%KEYWORD%", keyword);
+		String link = url.replace("%KEYWORD%", keyword);
 		
 		if(getBoolean("FIXEDPRICE_ONLY"))
 			link+="&itemFilter(0).name=ListingType&itemFilter(0).value(1)=FixedPrice";

@@ -370,7 +370,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void saveCollection(MagicCollection col) throws SQLException {
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into collections values (?)")) {
-			pst.setString(1, col.getName().replaceAll("'", "\'"));
+			pst.setString(1, col.getName().replace("'", "\'"));
 			pst.executeUpdate();
 		}
 	}

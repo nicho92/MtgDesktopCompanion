@@ -32,9 +32,9 @@ public class TokensMtgOnl extends AbstractTokensProvider {
 		StringBuilder uri = new StringBuilder("http://tokens.mtg.onl/tokens/");
 					  uri.append(tok.getCurrentSet().getId())
 					  	 .append("_")
-					     .append(tok.getNumber().replaceAll(" ", "-"))
+					     .append(tok.getNumber().replace(" ", "-"))
 					     .append("-")
-					     .append(tok.getName().replaceAll(" ", "-"))
+					     .append(tok.getName().replace(" ", "-"))
 					     .append(".jpg");
 		
 		
