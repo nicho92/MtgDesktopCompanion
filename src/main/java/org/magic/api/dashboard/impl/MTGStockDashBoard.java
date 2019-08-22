@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,7 +18,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.tools.RequestBuilder;
 import org.magic.tools.URLTools;
+import org.magic.tools.RequestBuilder.METHOD;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -196,7 +197,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		CardPriceVariations prices = new CardPriceVariations(mc);
 		prices.setCurrency(Currency.getInstance("USD"));
-		Calendar cal = GregorianCalendar.getInstance();
+		Calendar cal = Calendar.getInstance();
 
 		for (JsonElement el : arr) {
 			long timest = el.getAsJsonArray().get(0).getAsLong();
@@ -228,7 +229,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private void initInterests() throws IOException {
 
 		if (interests == null) {
-			interests = URLTools.extractJson(MTGSTOCK_API_URI + "/interests").getAsJsonObject();
+			interests = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(MTGSTOCK_API_URI + "/interests").toJson().getAsJsonObject();
 		}
 	}
 
@@ -236,7 +237,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		if(correspondance.isEmpty()) 
 		{
-			JsonArray arr = URLTools.extractJson(MTGSTOCK_API_URI + "/card_sets").getAsJsonArray();
+			JsonArray arr = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(MTGSTOCK_API_URI + "/card_sets").toJson().getAsJsonArray();
 			arr.forEach(el->{
 				if (!el.getAsJsonObject().get("abbreviation").isJsonNull())
 					correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(),el.getAsJsonObject().get("id").getAsInt());
