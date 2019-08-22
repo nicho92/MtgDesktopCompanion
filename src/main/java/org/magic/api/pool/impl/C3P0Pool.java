@@ -9,8 +9,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class C3P0Pool extends AbstractPool {
 
-	
-	private static final String FALSE = "false";
 	private ComboPooledDataSource datasource;
 	
 	

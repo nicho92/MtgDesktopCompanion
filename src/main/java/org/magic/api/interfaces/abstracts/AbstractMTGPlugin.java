@@ -30,6 +30,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected File confdir;
 	protected File confFile;
 
+	protected static final String TRUE = "true";
+	protected static final String FALSE = "false";
+
+	
+	
 	@Override
 	public ObjectName getObjectName() {
 		try {

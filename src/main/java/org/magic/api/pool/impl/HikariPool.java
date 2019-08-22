@@ -71,25 +71,25 @@ public class HikariPool extends AbstractPool {
 		setProperty("validationTimeout", "5000");
 		setProperty("connectionInitSql", "");
 		setProperty("minimumIdle", "1");
-		setProperty("autoCommit", "true");
+		setProperty("autoCommit", TRUE);
 		setProperty("connectionTimeout", "30000");
 		setProperty("poolName", "hikari-pool");
 		setProperty("initializationFailTimeout", "1");
-		setProperty("readOnly", "false");
-		setProperty("registerMbeans", "true");
-		setProperty("isolateInternalQueries", "false");
+		setProperty("readOnly", FALSE);
+		setProperty("registerMbeans", TRUE);
+		setProperty("isolateInternalQueries", FALSE);
 		setProperty("leakDetectionThreshold", "0");
 		setProperty("maxLifetime", "1800000");
-		setProperty("allowPoolSuspension", "false");
+		setProperty("allowPoolSuspension", FALSE);
 		setProperty("connectionTestQuery", "");
 		setProperty("idleTimeout", "600000");
 		setProperty("maximumPoolSize", "10");
 		setProperty("dataSource.prepStmtCacheSqlLimit","2048");
-		setProperty("dataSource.cachePrepStmts","true");
-		setProperty("dataSource.allowMultiQueries","true");
+		setProperty("dataSource.cachePrepStmts",TRUE);
+		setProperty("dataSource.allowMultiQueries",TRUE);
 		setProperty("dataSource.prepStmtCacheSize","250");
-		setProperty("dataSource.useServerPrepStmts","true");
-		setProperty("dataSource.useLocalSessionState","true");
+		setProperty("dataSource.useServerPrepStmts",TRUE);
+		setProperty("dataSource.useLocalSessionState",TRUE);
 		
 	}
 	

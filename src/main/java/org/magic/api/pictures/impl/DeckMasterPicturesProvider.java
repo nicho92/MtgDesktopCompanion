@@ -141,7 +141,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		
 		setProperty("URL", "https://deckmaster.info/");
 		setProperty("ICON_SET_SIZE", "medium");
-		setProperty(LOAD_CERTIFICATE, "true");
+		setProperty(LOAD_CERTIFICATE, TRUE);
 	}
 
 	@Override
