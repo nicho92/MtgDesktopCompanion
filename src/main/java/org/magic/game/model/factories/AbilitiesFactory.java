@@ -2,6 +2,7 @@ package org.magic.game.model.factories;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -39,10 +40,7 @@ public class AbilitiesFactory implements Serializable{
 	
 	private List<String> listSentences(MagicCard mc)
 	{
-		List<String> arr = new ArrayList<>();
-		for(String s :  mc.getText().split("\n"))
-			arr.add(s);
-		return arr;
+		return Arrays.asList(mc.getText().split("\n"));
 	}
 	
 	public List<AbstractAbilities> getAbilities(MagicCard mc)

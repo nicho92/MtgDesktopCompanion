@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -54,7 +55,7 @@ public class DefaultStockEditorDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public DefaultStockEditorDialog() {
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(MTGConstants.ICON_STOCK.getImage());
 		setLocationRelativeTo(null);
 		mcontentPane = new JPanel();

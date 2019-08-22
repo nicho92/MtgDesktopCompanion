@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.services.MTGConstants;
@@ -14,7 +15,7 @@ public class CardShakeRenderer implements TableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		JLabel comp = new JLabel();
-		comp.setHorizontalAlignment(JLabel.CENTER);
+		comp.setHorizontalAlignment(SwingConstants.CENTER);
 		comp.setOpaque(true);
 		
 		if (isSelected) {

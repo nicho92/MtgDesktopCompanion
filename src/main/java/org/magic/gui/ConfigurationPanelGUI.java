@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -70,14 +71,14 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 		setLayout(new BorderLayout(0, 0));
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel providerConfigPanel = new JPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN,providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 
-		subTabbedProviders = new JTabbedPane(JTabbedPane.TOP);
+		subTabbedProviders = new JTabbedPane(SwingConstants.TOP);
 		providerConfigPanel.add(subTabbedProviders);
 		
 		bottomPanel = new JPanel();

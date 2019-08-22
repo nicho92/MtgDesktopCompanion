@@ -20,6 +20,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;
@@ -97,7 +98,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		JButton btnCalculate = new JButton("Open");
 		panneauBas.add(btnCalculate);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.EAST);
 
 		txtDetailBox = new JTextPane();

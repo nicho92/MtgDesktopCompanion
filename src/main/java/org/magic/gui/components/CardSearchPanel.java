@@ -36,6 +36,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
@@ -200,8 +201,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		sorterCards = new TableRowSorter<>(cardsModeltable);
 		sorterCards.setComparator(7, (String num1, String num2) -> {
 			try {
-				num1 = num1.replaceAll("a", "").replaceAll("b", "").trim();
-				num2 = num2.replaceAll("a", "").replaceAll("b", "").trim();
+				num1 = num1.replace("a", "").replace("b", "").trim();
+				num2 = num2.replace("a", "").replace("b", "").trim();
 				if (Integer.parseInt(num1) > Integer.parseInt(num2))
 					return 1;
 				else
@@ -226,7 +227,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
-		JTabbedPane tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedCardsInfo = new JTabbedPane(SwingConstants.TOP);
 		editionDetailPanel = new JPanel();
 		panelResultsCards = new JPanel();
 		cmcChart = new CmcChartPanel();
@@ -241,7 +242,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelFilters = new JPanel();
 		ManaPanel pan = new ManaPanel();
 		panelJson = new ObjectViewerPanel();
-		tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
+		tabbedCardsView = new JTabbedPane(SwingConstants.TOP);
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
 		btnExport = new JButton(MTGConstants.ICON_EXPORT);

@@ -29,6 +29,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
@@ -193,7 +194,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauDroite = new JPanel();
 		render = new MagicCollectionTableCellRenderer();
 		panneauTreeTable = new JTabbedPane();
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		lblTotal = new JLabel();
 		magicEditionDetailPanel = new MagicEditionDetailPanel(false);

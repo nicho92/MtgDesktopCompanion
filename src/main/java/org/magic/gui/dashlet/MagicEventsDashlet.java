@@ -6,7 +6,6 @@ import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +69,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 
 		scrollPane.setViewportView(table);
 
-		c = GregorianCalendar.getInstance();
+		c = Calendar.getInstance();
 		c.setTime(new Date());
 
 		for (int i = c.get(Calendar.YEAR) - 1; i <= c.get(Calendar.YEAR) + 1; i++)

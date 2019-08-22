@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -130,7 +129,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_FORUM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/forum.png"));
 	
 	public static final ImageIcon ICON_SEARCH = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/search.png"));
-	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 
 	public static final ImageIcon ICON_EXIT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/exit.png"));
 	public static final ImageIcon ICON_HELP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/help.png"));
@@ -199,33 +198,33 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_IMPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/import.png"));
 	public static final ImageIcon ICON_TAB_SERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/servers.png"));
 	public static final ImageIcon ICON_TAB_ACTIVESERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/active-server.png"));
-	public static final ImageIcon ICON_TAB_RESULTS=new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_DECK = new ImageIcon(ICON_DECK.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_CHAT = new ImageIcon(ICON_FORUM.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_GAME = new ImageIcon(ICON_GAME.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_STOCK = new ImageIcon(ICON_STOCK.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_MANA = new ImageIcon(ICON_GAME_COLOR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_SHOP = new ImageIcon(ICON_SHOP.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_WALLPAPER = new ImageIcon(ICON_WALLPAPER.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_RESULTS=new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_DECK = new ImageIcon(ICON_DECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_CHAT = new ImageIcon(ICON_FORUM.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_GAME = new ImageIcon(ICON_GAME.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_STOCK = new ImageIcon(ICON_STOCK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_MANA = new ImageIcon(ICON_GAME_COLOR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_SHOP = new ImageIcon(ICON_SHOP.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_WALLPAPER = new ImageIcon(ICON_WALLPAPER.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_POOL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/pool.png"));
 	
 	
 	
-	public static final ImageIcon ICON_SMALL_CHECK = new ImageIcon(ICON_CHECK.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_DELETE = new ImageIcon(ICON_DELETE.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_CLEAR = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_HELP = new ImageIcon(ICON_HELP.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SMALL_CHECK = new ImageIcon(ICON_CHECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SMALL_DELETE = new ImageIcon(ICON_DELETE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SMALL_CLEAR = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SMALL_HELP = new ImageIcon(ICON_HELP.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	
 	
 	
 	public static final ImageIcon ICON_PACKAGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/package.png"));
-	public static final ImageIcon ICON_PACKAGE_SMALL = new ImageIcon(ICON_PACKAGE.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	public static final ImageIcon ICON_PACKAGE_SMALL = new ImageIcon(ICON_PACKAGE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 	
-	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 
 	

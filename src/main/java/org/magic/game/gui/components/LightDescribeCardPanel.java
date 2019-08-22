@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -153,7 +154,7 @@ public class LightDescribeCardPanel extends JPanel {
 		add(txtLoyalty, gbctxtLoyalty);
 		txtLoyalty.setColumns(10);
 
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		GridBagConstraints gbctabbedPane = new GridBagConstraints();
 		gbctabbedPane.gridheight = 2;
 		gbctabbedPane.gridwidth = 2;

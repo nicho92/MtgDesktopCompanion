@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -46,7 +48,7 @@ public class SpeedConfigurator extends JFrame {
 		setIconImage(MTGConstants.ICON_CONFIG.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane);
 
 		JPanel panneau1 = new JPanel();
@@ -194,7 +196,7 @@ public class SpeedConfigurator extends JFrame {
 		panneau2.add(lblNewLabel1, gbclblNewLabel1);
 
 		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		
 		btnUpdate.addActionListener(e->{

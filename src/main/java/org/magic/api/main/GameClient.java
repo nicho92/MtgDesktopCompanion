@@ -1,6 +1,7 @@
 package org.magic.api.main;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.GameGUI;
@@ -20,7 +21,7 @@ public class GameClient {
 			f.getContentPane().add(new GameGUI());
 			f.setVisible(true);
 			f.pack();
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		});
 		
 		

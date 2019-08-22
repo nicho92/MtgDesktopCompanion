@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -35,7 +36,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	DefaultListModel<MagicCard> modSide;
 
 	public DeckSideBoardSwitcherDialog(MagicDeck deck) {
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		this.savedDeck = deck;
 		this.bckDeck = deck;

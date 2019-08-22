@@ -27,6 +27,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
@@ -103,7 +104,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 		table = new JXTable();
 		model = new CardAlertTableModel();
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel(true);
 		JPanel panelRight = new JPanel();

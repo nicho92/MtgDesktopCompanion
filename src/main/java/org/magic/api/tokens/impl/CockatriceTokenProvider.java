@@ -227,7 +227,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 					pic = sets.item(s).getAttributes().getNamedItem("picURL").getNodeValue();
 
 				if (pic.startsWith("http://"))
-					pic = pic.replaceAll("http://", "https://");
+					pic = pic.replace("http://", "https://");
 
 				map.put(set, new URL(pic));
 			}

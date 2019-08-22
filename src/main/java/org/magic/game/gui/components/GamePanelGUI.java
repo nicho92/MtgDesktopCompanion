@@ -9,11 +9,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
@@ -255,7 +255,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		lblHandCount = new JLabel("0");
 		lblHandCount.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 18));
-		lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
+		lblHandCount.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblHandCount.setIcon(MTGConstants.ICON_GAME_HAND);
 		panelHandLib.add(lblHandCount);
 
@@ -322,7 +322,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				player.setLife((int) spinLife.getValue());
 		});
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 
 
@@ -470,7 +470,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public void describeCard(DisplayableCard mc) {
 		
 		panneauHaut.setCard(mc.getMagicCard());
-		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, BufferedImage.SCALE_SMOOTH)));
+		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
 	}
 
 	public void addPlayer(Player p) {

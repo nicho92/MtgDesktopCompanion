@@ -30,6 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
@@ -112,7 +113,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			JButton btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
 			JButton btnAddName = new JButton("add Languages");
-			JTabbedPane tabbedResult = new JTabbedPane(JTabbedPane.TOP);
+			JTabbedPane tabbedResult = new JTabbedPane(SwingConstants.TOP);
 			JButton btnRemoveCard = new JButton("");
 			JButton btnNewCard = new JButton("");
 			JPanel panelBooster = new JPanel();
@@ -120,7 +121,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			JLabel lblUncommon = new JLabel("Uncommon :");
 			JLabel lblRareMythic = new JLabel("Rare/Mythic :");
 
-			JTabbedPane tabbedCards = new JTabbedPane(JTabbedPane.TOP);
+			JTabbedPane tabbedCards = new JTabbedPane(SwingConstants.TOP);
 			JPanel panelMisc = new JPanel();
 			JPanel panelCardEditions = new JPanel();
 			JPanel legalitiesPanel = new JPanel();
@@ -145,7 +146,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			jsonPanel.setMaximumSize(new Dimension(400, 10));
 			editionsTable = new JXTable();
 			cardsTable = new JXTable();
-			tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+			tabbedPane = new JTabbedPane(SwingConstants.TOP);
 			cboSets = UITools.createComboboxEditions();
 			namesModel = new MagicCardNamesTableModel();
 			panelPictures = new JPanel() {

@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.OrderEntry;
@@ -22,7 +23,7 @@ public class OrderEntryRenderer implements TableCellRenderer {
 		
 		JLabel comp = new JLabel(String.valueOf(value));
 		comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.PLAIN));
-		comp.setHorizontalAlignment(JLabel.CENTER);
+		comp.setHorizontalAlignment(SwingConstants.CENTER);
 		comp.setOpaque(true);
 		
 		if (((OrderEntry) table.getValueAt(row, 0)).isUpdated()) {
@@ -40,6 +41,7 @@ public class OrderEntryRenderer implements TableCellRenderer {
 		
 		try {
 			if(value instanceof Double)
+			{	
 				if (o.getTypeTransaction()==TYPE_TRANSACTION.BUY)
 				{
 					comp.setIcon(MTGConstants.ICON_OUT);
@@ -48,7 +50,7 @@ public class OrderEntryRenderer implements TableCellRenderer {
 				{
 					comp.setIcon(MTGConstants.ICON_IN);
 				}
-				
+			}	
 			return comp;
 		} catch (Exception e) {
 			comp.setText(e.getMessage());

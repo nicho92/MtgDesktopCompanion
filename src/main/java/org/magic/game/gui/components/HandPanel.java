@@ -5,7 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
-import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MagicCard;
@@ -59,8 +59,8 @@ public class HandPanel extends DraggablePanel {
 			index = 0;
 		}
 		c.gridx = c.gridx + 1;
-		i.setHorizontalTextPosition(JLabel.CENTER);
-		i.setVerticalTextPosition(JLabel.BOTTOM);
+		i.setHorizontalTextPosition(SwingConstants.CENTER);
+		i.setVerticalTextPosition(SwingConstants.BOTTOM);
 		i.enableDrag(dragging);
 
 		if (i.isTapped())

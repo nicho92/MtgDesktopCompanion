@@ -7,7 +7,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragSource;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
@@ -64,11 +63,7 @@ public class CardTransfertHandler extends TransferHandler {
 
 			@Override
 			public DataFlavor[] getTransferDataFlavors() {
-				ArrayList<DataFlavor> list = new ArrayList<>();
-				for (DataFlavor f : dh.getTransferDataFlavors()) {
-					list.add(f);
-				}
-				return list.toArray(dh.getTransferDataFlavors());
+				return dh.getTransferDataFlavors();
 			}
 
 			@Override

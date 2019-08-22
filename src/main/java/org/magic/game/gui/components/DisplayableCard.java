@@ -27,6 +27,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.TransferHandler;
@@ -271,8 +272,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 		setSize(d);
 		setPreferredSize(d);
-		setHorizontalAlignment(JLabel.CENTER);
-		setVerticalAlignment(JLabel.CENTER);
+		setHorizontalAlignment(SwingConstants.CENTER);
+		setVerticalAlignment(SwingConstants.CENTER);
 		setMagicCard(mc);
 		
 		

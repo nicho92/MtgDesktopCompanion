@@ -57,14 +57,14 @@ public class SealedPackTableModel extends DefaultTableModel {
 
 		if (column == 0)
 			pack.set((MagicEdition) aValue, 0);
-		else if (column == 1)
+		else if (column == 1) {
 			if (Integer.parseInt(aValue.toString()) > 0) {
 				pack.set(ed, Integer.parseInt(aValue.toString()));
 			} else {
 				pack.remove(ed);
 
 			}
-
+		}
 		fireTableDataChanged();
 	}
 

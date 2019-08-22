@@ -379,12 +379,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (mc.getName().contains("//")) {
 			String[] names = mc.getName().split(" // ");
 			if (exact)
+			{
 				if (names[0].equals(search)) {
 					idface = 0;
 				} else {
 					idface = 1;
 				}
-
+			}
 		}
 		if (obj.get(CARD_FACES) != null) {
 			mc.setText(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text")

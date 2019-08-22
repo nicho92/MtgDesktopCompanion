@@ -1,8 +1,8 @@
 package org.magic.game.actions.cards;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,7 +79,7 @@ public class MorphActions extends AbstractAction {
 			card.initActions();
 			try {
 				card.setImage(new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture()
-						.getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
+						.getScaledInstance(card.getWidth(), card.getHeight(), Image.SCALE_SMOOTH)));
 			} catch (Exception e1) {
 				logger.error(e1);
 			}

@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
@@ -253,9 +254,9 @@ class JWallThumb extends JLabel {
 
 	public JWallThumb(Wallpaper w) {
 		wall = w;
-		setHorizontalTextPosition(JLabel.CENTER);
-		setHorizontalAlignment(JLabel.CENTER);
-		setVerticalTextPosition(JLabel.BOTTOM);
+		setHorizontalTextPosition(SwingConstants.CENTER);
+		setHorizontalAlignment(SwingConstants.CENTER);
+		setVerticalTextPosition(SwingConstants.BOTTOM);
 		setText(w.getName());
 		setOpaque(true);
 		

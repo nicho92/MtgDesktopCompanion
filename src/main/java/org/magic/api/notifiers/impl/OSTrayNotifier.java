@@ -1,9 +1,9 @@
 package org.magic.api.notifiers.impl;
 
+import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.magic.api.beans.MTGNotification;
@@ -45,7 +45,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		try {
 			if(trayNotifier==null)
 			{
-				trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+				trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 				tray = SystemTray.getSystemTray();
 				if (SystemTray.isSupported()) {
 					tray.add(trayNotifier);

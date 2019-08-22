@@ -259,7 +259,7 @@ public class MTGControler {
 			
 			if(config.childConfigurationsAt("/"+root).isEmpty())
 			{
-				System.out.println("add config root: /" + root);
+				logger.debug("add config root: /" + root);
 				config.addProperty("/"+root,"");
 			}
 			

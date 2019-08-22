@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
@@ -61,7 +62,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panneauColl = new JPanel();

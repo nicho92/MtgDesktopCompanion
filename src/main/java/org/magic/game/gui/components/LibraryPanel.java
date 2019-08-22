@@ -3,7 +3,6 @@ package org.magic.game.gui.components;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JMenuItem;
 
@@ -40,7 +39,7 @@ public class LibraryPanel extends DraggablePanel {
 		try {
 			i = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture().getScaledInstance(
 					(int) MTGControler.getInstance().getCardsGameDimension().getWidth(),
-					(int) MTGControler.getInstance().getCardsGameDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
+					(int) MTGControler.getInstance().getCardsGameDimension().getHeight(), Image.SCALE_SMOOTH);
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 
 		} catch (Exception e) {

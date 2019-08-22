@@ -71,7 +71,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	}
 
 	public String format(String s) {
-		return s.replaceAll("'s", "s").replaceAll(",", "").replaceAll(" ", "-").toLowerCase();
+		return s.replace("'s", "s").replace(",", "").replace(" ", "-").toLowerCase();
 	}
 
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {

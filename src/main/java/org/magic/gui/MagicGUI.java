@@ -19,6 +19,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -245,11 +246,11 @@ public class MagicGUI extends JFrame {
 		int position=0;
 		switch(pos)
 		{
-		case "TOP": position = JTabbedPane.TOP;break;
-		case "LEFT": position = JTabbedPane.LEFT;break;
-		case "RIGHT": position = JTabbedPane.RIGHT;break;
-		case "BOTTOM": position = JTabbedPane.BOTTOM;break;
-		default : position=JTabbedPane.LEFT;break;
+		case "TOP": position = SwingConstants.TOP;break;
+		case "LEFT": position = SwingConstants.LEFT;break;
+		case "RIGHT": position = SwingConstants.RIGHT;break;
+		case "BOTTOM": position = SwingConstants.BOTTOM;break;
+		default : position=SwingConstants.LEFT;break;
 		}
 
 		tabbedPane = new JTabbedPane(position);

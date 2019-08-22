@@ -140,7 +140,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			price.setValue(
 					Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency().getCurrencyCode(), "").trim()));
 			price.setUrl("https://mtg.decktutor.com/insertions/" + item.get("code").getAsString() + "/"
-					+ item.get("title").getAsString().replaceAll(" - ", "-").replaceAll(" ", "-") + ".html");
+					+ item.get("title").getAsString().replace(" - ", "-").replace(" ", "-") + ".html");
 			price.setShopItem(item);
 			JsonArray attrs = item.get("attrs").getAsJsonArray();
 			if (attrs.size() < 0) {

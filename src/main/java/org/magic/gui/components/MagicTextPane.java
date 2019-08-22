@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.DefaultStyledDocument;
@@ -100,7 +101,7 @@ public class MagicTextPane extends JComponent {
 					width = 30;
 
 				JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
-				label.setAlignmentY(JLabel.TOP);
+				label.setAlignmentY(SwingConstants.TOP);
 
 				StyleConstants.setComponent(labelStyle, label);
 

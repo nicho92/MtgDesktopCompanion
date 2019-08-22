@@ -107,7 +107,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 
 		lblHandCount = new JLabel("0");
 		lblHandCount.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 18));
-		lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
+		lblHandCount.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblHandCount.setIcon(MTGConstants.ICON_GAME_HAND);
 		panelHandLib.add(lblHandCount);
 

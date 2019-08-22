@@ -43,7 +43,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = URLTools.extractHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replaceAll(" ", "-"));
+			Document d = URLTools.extractHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replace(" ", "-"));
 					
 			for (Element e : d.select("div.elastic-portfolio-item img")) {
 				Wallpaper w = new Wallpaper();

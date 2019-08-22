@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.CardSearchPanel;
@@ -30,7 +31,7 @@ public class CardSearchImportDialog extends JDialog {
 		getContentPane().add(panel, BorderLayout.CENTER);
 		getContentPane().add(selectCard, BorderLayout.SOUTH);
 
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		pack();
 	}
 

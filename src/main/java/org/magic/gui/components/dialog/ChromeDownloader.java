@@ -5,8 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -25,7 +25,7 @@ public class ChromeDownloader extends JDialog {
 		
 		setTitle("Chrome Plugin");
 		setIconImage(MTGConstants.ICON_CHROME.getImage());
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
 		JPanel panelCenter = new JPanel();

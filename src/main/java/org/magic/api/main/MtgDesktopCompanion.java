@@ -1,8 +1,8 @@
 package org.magic.api.main;
 
+import java.awt.Frame;
 import java.io.IOException;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.FontUIResource;
 
@@ -65,7 +65,7 @@ public class MtgDesktopCompanion {
 			MagicGUI gui = new MagicGUI();
 			MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGControler.getInstance().getFont()));
 			MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
-			gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			gui.setExtendedState(Frame.MAXIMIZED_BOTH);
 			gui.setVisible(true);
 			
 			MTGControler.getInstance().cleaning();
