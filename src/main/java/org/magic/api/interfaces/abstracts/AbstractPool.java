@@ -25,7 +25,7 @@ public abstract class AbstractPool extends AbstractMTGPlugin implements MTGPool 
 			initDefault();
 			save();
 		}
-	}
+		}
 	
 	
 	

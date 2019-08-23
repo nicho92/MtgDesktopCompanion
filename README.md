@@ -29,7 +29,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 ```
 git clone https://github.com/nicho92/MtgDesktopCompanion.git
 
-mvn -DskipTest clean install
+mvn -DskipTests clean install
 
 cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-companion.sh
 

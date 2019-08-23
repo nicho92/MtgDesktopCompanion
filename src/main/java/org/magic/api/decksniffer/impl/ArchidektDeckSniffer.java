@@ -107,7 +107,11 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				RetrievableDeck d = new RetrievableDeck();
 							d.setAuthor(el.getAsJsonObject().get("owner").getAsJsonObject().get("username").getAsString());
 							d.setName(el.getAsJsonObject().get("name").getAsString());
-							d.setUrl(new URI(BASE_URI+"/decks/"+el.getAsJsonObject().get("id").getAsInt()+"/"));
+							
+							StringBuilder build = new StringBuilder();						
+								build.append(BASE_URI).append("/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
+							
+							d.setUrl(new URI(build.toString()));
 							StringBuilder tmp = new StringBuilder("");
 							
 							for(String s : el.getAsJsonObject().get("colors").getAsJsonObject().keySet())
