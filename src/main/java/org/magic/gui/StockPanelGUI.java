@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import javax.swing.DefaultComboBoxModel;
@@ -48,6 +49,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
+import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PricesTablePanel;
@@ -70,7 +72,6 @@ public class StockPanelGUI extends MTGUIComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String FINISHED = "FINISHED";
 	private JXTable table;
 	private CardStockTableModel model;
 	private JButton btnDelete = new JButton();
@@ -97,7 +98,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JComboBox<EnumCondition> cboQuality;
 	private JButton btnImport;
 	private JComboBox<MagicCollection> cboCollection;
-	private JButton btnExport;
+	private JExportButton btnExport;
 	private JButton btnGeneratePrice;
 	private JLabel lblCount;
 
@@ -297,8 +298,8 @@ public class StockPanelGUI extends MTGUIComponent {
 								@Override
 								protected void notifyEnd() {
 									MTGControler.getInstance().notify(new MTGNotification(
-										MTGControler.getInstance().getLangService().combine("IMPORT", FINISHED),
-										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+										MTGControler.getInstance().getLangService().combine("IMPORT", "FINISHED"),
+										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
 										MESSAGE_TYPE.INFO
 									));
 								}
@@ -329,71 +330,16 @@ public class StockPanelGUI extends MTGUIComponent {
 			menu.show(b, 0, 0);
 			menu.setLocation(p.x, p.y + b.getHeight());
 		});
-
-		btnExport.addActionListener(event -> {
-			JPopupMenu menu = new JPopupMenu();
-
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
-					it.addActionListener(itEvent -> {
-						JFileChooser jf = new JFileChooser(".");
-						jf.setFileFilter(new FileFilter() {
-
-							@Override
-							public String getDescription() {
-								return exp.getName();
-							}
-
-							@Override
-							public boolean accept(File f) {
-								return (f.isDirectory() || (f.getName().endsWith(exp.getFileExtension())));
-							}
-						});
-						int res = jf.showSaveDialog(null);
-						final File fileExport = jf.getSelectedFile();
-
-						if (res == JFileChooser.APPROVE_OPTION)
-						{	
-							
-							AbstractObservableWorker<Void, MagicCardStock, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp,model.getItems().size()) {
-
-								@Override
-								protected Void doInBackground() throws Exception {
-									plug.exportStock(model.getItems(), fileExport);
-									return null;
-								}
-
-								@Override
-								protected void notifyEnd() {
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),exp.getName() + " "
-											+ MTGControler.getInstance().getLangService()
-											.getCapitalize(FINISHED),MESSAGE_TYPE.INFO));
-									
-								}
-								
-								
-							};
-							
-							
-							ThreadManager.getInstance().runInEdt(sw, "export " + exp);
-						}
-					});
-					menu.add(it);
-				}
-			}
-
-			Component b = (Component) event.getSource();
-			Point p = b.getLocationOnScreen();
-			menu.show(b, 0, 0);
-			menu.setLocation(p.x, p.y + b.getHeight());
-
-		});
-
 		
+		
+		btnExport.initStockExport(new Callable<List<MagicCardStock>>() {
+			
+			@Override
+			public List<MagicCardStock> call() throws Exception {
+				return model.getItems();
+			}
+		}, lblLoading);
+
 		
 		
 		
@@ -587,10 +533,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		actionPanel.add(btnImport);
 
-		btnExport = new JButton("");
+		btnExport = new JExportButton(MODS.EXPORT);
 
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
-		btnExport.setIcon(MTGConstants.ICON_EXPORT);
 		actionPanel.add(btnExport);
 
 		btnGeneratePrice = new JButton();

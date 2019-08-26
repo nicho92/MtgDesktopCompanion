@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -11,18 +10,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -47,9 +45,9 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
@@ -71,7 +69,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.services.workers.CardExportWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
@@ -110,7 +107,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private JComboBox<String> cboQuereableItems;
 	private JComboBox<MagicCollection> cboCollections;
 	private JXTable tableCards;
-	private JButton btnExport;
+	private JExportButton btnExport;
 	private JList<MagicEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
 
@@ -245,7 +242,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsView = new JTabbedPane(SwingConstants.TOP);
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
-		btnExport = new JButton(MTGConstants.ICON_EXPORT);
+		btnExport = new JExportButton(MODS.EXPORT);
 		btnFilter = new JButton(MTGConstants.ICON_FILTER);
 		btnClear = new JButton(MTGConstants.ICON_CLEAR);
 		similarityPanel = new SimilarityCardPanel();
@@ -637,50 +634,17 @@ public class CardSearchPanel extends MTGUIComponent {
 			
 		});
 		
-		btnExport.addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
-
-			for (MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
-					it.addActionListener(exportEvent -> {
-						int result = JFileChooser.CANCEL_OPTION;
-						File f = null;
-						if(exp.needFile())
-						{
-							JFileChooser jf = new JFileChooser(".");
-							jf.setSelectedFile(new File("search" + exp.getFileExtension()));
-							result = jf.showSaveDialog(null);
-							f = jf.getSelectedFile();
-						}
-						else
-						{
-							result = JFileChooser.APPROVE_OPTION;
-						}
-						
-						
-						if (result == JFileChooser.APPROVE_OPTION)
-						{
-							List<MagicCard> export = UITools.getTableSelections(tableCards,0);
-							
-							if(export.isEmpty())
-								export =  ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
-								
-							lblLoading.start(export.size()); 
-							ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, export, lblLoading, f), "export search " + exp);
-						}
-					});
-
-					menu.add(it);
-				}
+		btnExport.initCardsExport(new Callable<MagicDeck>() {
+			@Override
+			public MagicDeck call() throws Exception {
+				List<MagicCard> export = UITools.getTableSelections(tableCards,0);
 				
+				if(export.isEmpty())
+					export =  ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
+				
+				return MagicDeck.toDeck(export);
 			}
-
-			Component b = (Component) ae.getSource();
-			Point p = b.getLocationOnScreen();
-			menu.show(b, 0, 0);
-			menu.setLocation(p.x, p.y + b.getHeight());
-		});
+		}, lblLoading);
 
 		txtFilter.addActionListener(ae -> {
 			String text = txtFilter.getText();

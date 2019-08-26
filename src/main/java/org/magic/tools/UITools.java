@@ -57,6 +57,7 @@ import org.magic.services.ThreadManager;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
+@SuppressWarnings("unchecked")
 public class UITools {
 
 	private static final String DATE_FORMAT = "DATE_FORMAT";
@@ -350,6 +351,16 @@ public class UITools {
 		return (T) getTableSelections(tableCards, columnID).get(0);
 	}
 
+	
+	public static <T> List<T> getTablesItems(JTable tableCards, int columnID)
+	{
+		List<T> listCards = new ArrayList<>();
+		for (int count = 0; count < tableCards.getModel().getRowCount(); count++){
+			listCards.add((T) tableCards.getValueAt(count, columnID));
+		}
+		
+		return listCards;
+	}
 
 	public static void applyDefaultSelection(Component pane) {
 			pane.setForeground(SystemColor.textHighlightText);

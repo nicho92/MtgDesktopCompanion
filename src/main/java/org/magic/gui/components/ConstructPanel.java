@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -79,7 +80,6 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.services.workers.CardExportWorker;
 import org.magic.services.workers.DeckImportWorker;
 import org.magic.tools.UITools;
 
@@ -101,7 +101,7 @@ public class ConstructPanel extends JPanel {
 	private DeckCardsTableModel deckSidemodel;
 	private DeckCardsTableModel deckmodel;
 	private MagicDeck deck;
-	private JButton btnExports;
+	private JExportButton btnExports;
 	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 	private JList<MagicCard> listResult;
@@ -163,7 +163,7 @@ public class ConstructPanel extends JPanel {
 		btnUpdate = new JButton();
 		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
 		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
-		btnExports = new JButton();
+		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		JPanel panneauBas = new JPanel();
@@ -221,7 +221,7 @@ public class ConstructPanel extends JPanel {
 		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
-		btnExports.setIcon(MTGConstants.ICON_EXPORT);
+		
 		panneauDeck.setDividerLocation(0.5);
 		panneauDeck.setResizeWeight(0.5);
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -518,37 +518,13 @@ public class ConstructPanel extends JPanel {
 		});
 		
 		
-
-		btnExports.addActionListener(exportsAction -> {
-			JPopupMenu menu = new JPopupMenu();
-
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
-					it.addActionListener(pluginExportEvent -> {
-						JFileChooser jf = new JFileChooser(".");
-						jf.setSelectedFile(new File(deck + exp.getFileExtension()));
-						int result=jf.showSaveDialog(null);
-						exportedFile = jf.getSelectedFile();
-						if (result == JFileChooser.APPROVE_OPTION)
-						{
-							buzyLabel.start(deck.getAsList().size()); 
-							ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, deck, buzyLabel, exportedFile), "export "+ deck +" to " + exp);
-						}
-	
-					});
-					menu.add(it);
-				}
+		btnExports.initCardsExport(new Callable<MagicDeck>() {
+			@Override
+			public MagicDeck call() throws Exception {
+				return deck;
 			}
-
-			Component b = (Component) exportsAction.getSource();
-			Point point = b.getLocationOnScreen();
-			menu.show(b, 0, 0);
-			menu.setLocation(point.x, point.y + b.getHeight());
-
-		});
-		
-		
+		}, buzyLabel);
+				
 		txtSearch.addActionListener(aeSearch -> {
 			
 			resultListModel.clear();

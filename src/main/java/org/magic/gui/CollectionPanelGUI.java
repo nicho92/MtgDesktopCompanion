@@ -8,16 +8,15 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -38,14 +37,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
@@ -55,6 +52,7 @@ import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.CardsEditionTablePanel;
+import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
@@ -74,7 +72,6 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 
@@ -110,7 +107,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JButton btnRefresh;
 	private JButton btnRemove;
 	private JButton btnAddAllSet;
-	private JButton btnExport;
+	private JExportButton btnExport;
 	private JButton btnMassCollection;
 	private JButton btnGenerateWebSite;
 	private JSplitPane splitListPanel;
@@ -181,7 +178,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		btnRemove = new JButton(MTGConstants.ICON_DELETE);
 		btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
-		btnExport = new JButton(MTGConstants.ICON_EXPORT);
+		btnExport = new JExportButton(MODS.EXPORT);
 		btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
 		btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
 		cardsSetPanel = new CardsEditionTablePanel();
@@ -382,90 +379,37 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		ThreadManager.getInstance().runInEdt(sw,"calculate collection");
 		});
 		
-		btnExport.addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) 
-			{
-				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
-					it.addActionListener(al -> {
-
-						
-								DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-								JFileChooser jf = new JFileChooser();
-		
-								MagicCollection mc = null;
-								MagicEdition ed = null;
-		
-								if (curr.getUserObject() instanceof MagicEdition) {
-									ed = (MagicEdition) curr.getUserObject();
-									mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-								} else {
-									mc = (MagicCollection) curr.getUserObject();
-								}
-		
-								jf.setSelectedFile(new File(mc.getName() + exp.getFileExtension()));
-								int result = jf.showSaveDialog(null);
-								File f = jf.getSelectedFile();
-						
-								if (result == JFileChooser.APPROVE_OPTION) {
-									try {
-										if (ed == null)
-											listExport= dao.listCardsFromCollection(mc);
-										else
-											listExport= dao.listCardsFromCollection(mc, ed);
-										
-									
-									AbstractObservableWorker<Void, MagicCard, MTGCardsExport> swExp = new AbstractObservableWorker<>(progressBar,exp,listExport.size()){
-
-										@Override
-										protected Void doInBackground() throws Exception {
-											plug.export(listExport, f);
-											return null;
-										}
-
-										@Override
-										protected void notifyEnd() {
-											MTGControler.getInstance().notify(new MTGNotification(
-													MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-													MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-													MESSAGE_TYPE.INFO
-													));
-										}
-
-										@Override
-										protected void error(Exception e) {
-											MTGControler.getInstance().notify(e);
-										}
-									};
-									ThreadManager.getInstance().runInEdt(swExp,"export collection");
-									
-									}
-									catch(Exception e)
-									{
-										MTGControler.getInstance().notify(e);
-									}
-									
-									
-								}
-						
-													
-					
-					});
-					menu.add(it);
+		btnExport.initCardsExport(new Callable<MagicDeck>() {
+			@Override
+			public MagicDeck call() throws Exception {
+				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+				MagicCollection mc = null;
+				MagicEdition ed = null;
+				
+				if (curr.getUserObject() instanceof MagicEdition) {
+					ed = (MagicEdition) curr.getUserObject();
+					mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+				} else {
+					mc = (MagicCollection) curr.getUserObject();
 				}
 				
+				try {
+					if (ed == null)
+						listExport= dao.listCardsFromCollection(mc);
+					else
+						listExport= dao.listCardsFromCollection(mc, ed);
+				}
+				catch(Exception e)
+				{
+					MTGControler.getInstance().notify(e);
+					
+				}
+				return MagicDeck.toDeck(listExport);
 			}
-
-			Component b = (Component) ae.getSource();
-			Point p = b.getLocationOnScreen();
-			menu.show(b, 0, 0);
-			menu.setLocation(p.x, p.y + b.getHeight());
-
-		});
+		}, progressBar);
+		
+	
 
 		splitPane.addComponentListener(new ComponentAdapter() {
 
