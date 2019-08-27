@@ -66,6 +66,7 @@ public class JExportButton extends JButton {
 							jf.setSelectedFile(new File(export.getName() + exp.getFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
+							export.setName(f.getName());
 						}
 						else
 						{
@@ -74,7 +75,6 @@ public class JExportButton extends JButton {
 						
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
-							
 								lblLoading.start(export.getAsList().size()); 
 								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, export, lblLoading, f), "export search " + exp);
 						}

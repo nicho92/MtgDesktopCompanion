@@ -30,10 +30,6 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 	
 	
 	
-	public CardExportWorker(MTGCardsExport exp,List<MagicCard> export,AbstractBuzyIndicatorComponent buzy,File f) {
-		init(exp,MagicDeck.toDeck(export),buzy,f);
-	}
-	
 	public CardExportWorker(MTGCardsExport exp,MagicDeck export,AbstractBuzyIndicatorComponent buzy,File f) {
 		init(exp,export,buzy,f);
 	}

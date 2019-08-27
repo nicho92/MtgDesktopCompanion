@@ -109,7 +109,7 @@ public class ConstructPanel extends JPanel {
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
 	protected int selectedIndex = 0;
-	private File exportedFile;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
 	private JLabel lblCards;
