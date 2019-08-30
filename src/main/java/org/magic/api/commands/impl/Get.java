@@ -57,7 +57,7 @@ public class Get extends AbstractCommand {
 		if(name!=null)
 		{
 			try {
-				return new ArrayResponse(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
+				return new ArrayResponse(MagicCard.class, null,json.toJsonArray(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
 			}catch(Exception e)
 			{
 				logger.error(e);

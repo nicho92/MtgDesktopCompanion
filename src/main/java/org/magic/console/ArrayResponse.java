@@ -23,6 +23,7 @@ public class ArrayResponse extends AbstractResponse {
 		this.classe=cls;
 		this.attributes=attributes;
 		this.element=element;
+		logger.debug("REPONSE:" + element);
 	}
 	
 
@@ -33,18 +34,42 @@ public class ArrayResponse extends AbstractResponse {
 		at.addRule();
 		at.addRow(getAttributes());
 		at.addRule();
-		for(int i=0;i<getElement().getAsJsonArray().size();i++)
+		
+		
+		
+		
+		if(element.isJsonArray())
+		{	
+			for(int i=0;i<getElement().getAsJsonArray().size();i++)
+			{
+				JsonObject obj = getElement().getAsJsonArray().get(i).getAsJsonObject();
+				List<String> values = new ArrayList<>();
+				for(String k : getAttributes())
+				{
+					if(obj.get(k)!=null)
+					{
+						if(obj.get(k).isJsonPrimitive())
+							values.add(obj.get(k).getAsString());
+						else
+							values.add(obj.get(k).toString());
+					}
+					else
+						values.add("");
+				}
+				at.addRow(values);
+			}
+		}
+		else
 		{
-			JsonObject obj = getElement().getAsJsonArray().get(i).getAsJsonObject();
 			List<String> values = new ArrayList<>();
 			for(String k : getAttributes())
 			{
-				if(obj.get(k)!=null)
+				if(element.getAsJsonObject().get(k)!=null)
 				{
-					if(obj.get(k).isJsonPrimitive())
-						values.add(obj.get(k).getAsString());
+					if(element.getAsJsonObject().get(k).isJsonPrimitive())
+						values.add(element.getAsJsonObject().get(k).getAsString());
 					else
-						values.add(obj.get(k).toString());
+						values.add(element.getAsJsonObject().get(k).toString());
 				}
 				else
 					values.add("");
@@ -53,13 +78,6 @@ public class ArrayResponse extends AbstractResponse {
 		}
 		return at.render();
 	}
-	
-
-	public boolean isList()
-	{
-		return element.isJsonArray();
-	}
-	
 	
 	public JsonElement getElement() {
 		return element;
