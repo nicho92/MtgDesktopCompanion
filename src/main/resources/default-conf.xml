@@ -81,6 +81,10 @@
             <class>org.magic.api.scripts.impl.PythonScript</class>
             <enable>true</enable>
         </script>
+        <script>
+        	<class>org.magic.api.scripts.impl.RubyScript</class>
+        	<enable>true</enable>
+        </script>
     </scripts>
     <pools>
         <pool>

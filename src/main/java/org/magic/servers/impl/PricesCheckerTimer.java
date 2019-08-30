@@ -126,20 +126,5 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 	public Icon getIcon() {
 		return MTGConstants.ICON_EURO;
 	}
-	
 
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-	
 }

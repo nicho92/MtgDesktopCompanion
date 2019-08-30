@@ -252,20 +252,5 @@ public class JMXServer extends AbstractMTGServer {
 	public Icon getIcon() {
 		return new ImageIcon(JMXServer.class.getResource("/icons/plugins/bean.png"));
 	}
-	
 
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
 }

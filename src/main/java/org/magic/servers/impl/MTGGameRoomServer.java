@@ -217,18 +217,4 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		return "2.0.21";
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
 }
