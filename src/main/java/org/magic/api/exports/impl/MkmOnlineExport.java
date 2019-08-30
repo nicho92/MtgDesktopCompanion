@@ -343,18 +343,4 @@ public class MkmOnlineExport extends AbstractCardExport {
 		return MkmConstants.MKM_API_VERSION;
 	}
 	
-
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
 }
