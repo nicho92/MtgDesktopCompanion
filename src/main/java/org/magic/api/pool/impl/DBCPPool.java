@@ -24,7 +24,6 @@ public class DBCPPool extends AbstractPool {
 	@Override
 	public void initDefault() {
 		setProperty("defaultAutoCommit",TRUE);
-		setProperty("defaultQueryTimeoutSeconds","");
 		setProperty("cacheState",TRUE);
 		setProperty("lifo",String.valueOf(BaseObjectPoolConfig.DEFAULT_LIFO));
 		setProperty("maxTotal",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_TOTAL));
@@ -34,9 +33,6 @@ public class DBCPPool extends AbstractPool {
 		setProperty("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS));
 		setProperty("poolPreparedStatements",FALSE);
 		setProperty("maxOpenPreparedStatements",String.valueOf(GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL));
-		setProperty("testOnCreate",FALSE);
-		setProperty("testOnBorrow",TRUE);
-		setProperty("testOnReturn",FALSE);
 		setProperty("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS));
 		setProperty("numTestsPerEvictionRun",String.valueOf(BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN));
 		setProperty("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS));
@@ -55,30 +51,9 @@ public class DBCPPool extends AbstractPool {
 		setProperty("defaultReadOnly",FALSE);
 		setProperty("defaultQueryTimeoutSeconds","");
 		setProperty("cacheState",TRUE);
-		setProperty("lifo",String.valueOf(BaseObjectPoolConfig.DEFAULT_LIFO));
-		setProperty("maxTotal",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_TOTAL));
-		setProperty("maxIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_IDLE));
-		setProperty("minIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MIN_IDLE));
-		setProperty("initialSize","0");
-		setProperty("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS));
-		setProperty("poolPreparedStatements",FALSE);
-		setProperty("maxOpenPreparedStatements",String.valueOf(GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL));
 		setProperty("testOnCreate",FALSE);
 		setProperty("testOnBorrow",TRUE);
 		setProperty("testOnReturn",FALSE);
-		setProperty("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS));
-		setProperty("numTestsPerEvictionRun",String.valueOf(BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN));
-		setProperty("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS));
-		setProperty("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME_MILLIS));
-		setProperty("evictionPolicyClassName",String.valueOf(BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME));
-		setProperty("testWhileIdle",FALSE);
-		setProperty("validationQuery","");
-		setProperty("validationQueryTimeoutSeconds","-1");
-		setProperty("accessToUnderlyingConnectionAllowed",FALSE);
-		setProperty("maxConnLifetimeMILLIS","-1");
-		setProperty("logExpiredConnections",TRUE);
-		setProperty("autoCommitOnReturn",TRUE);
-		setProperty("rollbackOnReturn",TRUE);
 		setProperty("fastFailValidation",FALSE);
 	}
 	

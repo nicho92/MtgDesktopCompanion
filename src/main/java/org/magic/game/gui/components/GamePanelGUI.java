@@ -68,7 +68,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
-	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
@@ -475,16 +474,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 	public void addPlayer(Player p) {
 		GameManager.getInstance().addPlayer(p);
-		playerGameBoard = new PlayerGameBoard();
-		playerGameBoard.setPlayer(p);
-		playerGameBoard.getPanelInfo().setPreferredSize(new Dimension(panelInfo.getWidth(), panneauDroit.getHeight() / 3));
-		panneauDroit.add(playerGameBoard, BorderLayout.NORTH);
-
 	}
 
-	public void removePlayer() {
-		panneauDroit.remove(playerGameBoard);
-	}
 
 	public JLabel getLblHandCount() {
 		return lblHandCount;
