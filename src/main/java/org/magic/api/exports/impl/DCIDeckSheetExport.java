@@ -189,25 +189,9 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		setProperty(FORCED_DATE, "");
 		setProperty(FILL_CONTINUED_LANDS, "true");
 		setProperty(PDF_URL,
-				"https://wpn.wizards.com/sites/wpn/files/attachements/mtg_constructed_deck_registration_sheet_pdf11.pdf");
+				"https://www.wizards.com/contentresources/wizards/wpn/main/documents/mtg_constructed_deck_registration_sheet_pdf1.pdf");
 
 	}
 	
-
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-
 	
 }
