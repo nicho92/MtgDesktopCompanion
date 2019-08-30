@@ -68,17 +68,16 @@ public class HikariPool extends AbstractPool {
 	
 	@Override
 	public void initDefault() {
-		setProperty("validationTimeout", "5000");
-		setProperty("connectionInitSql", "");
-		setProperty("minimumIdle", "1");
 		setProperty("autoCommit", TRUE);
 		setProperty("connectionTimeout", "30000");
 		setProperty("poolName", "hikari-pool");
 		setProperty("initializationFailTimeout", "1");
 		setProperty("readOnly", FALSE);
 		setProperty("registerMbeans", TRUE);
+		setProperty("minimumIdle", "1");
 		setProperty("isolateInternalQueries", FALSE);
 		setProperty("leakDetectionThreshold", "0");
+		setProperty("validationTimeout", "5000");
 		setProperty("maxLifetime", "1800000");
 		setProperty("allowPoolSuspension", FALSE);
 		setProperty("connectionTestQuery", "");
@@ -90,6 +89,8 @@ public class HikariPool extends AbstractPool {
 		setProperty("dataSource.prepStmtCacheSize","250");
 		setProperty("dataSource.useServerPrepStmts",TRUE);
 		setProperty("dataSource.useLocalSessionState",TRUE);
+		setProperty("connectionInitSql", "");
+
 		
 	}
 	

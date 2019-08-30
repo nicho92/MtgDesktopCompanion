@@ -110,18 +110,4 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		return "2.0";
 	}
 
-
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
 }
