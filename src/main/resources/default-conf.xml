@@ -66,10 +66,6 @@
     </game>
     <scripts>
         <script>
-            <class>org.magic.api.scripts.impl.JShellScript</class>
-            <enable>true</enable>
-        </script>
-        <script>
             <class>org.magic.api.scripts.impl.JavaScript</class>
             <enable>true</enable>
         </script>
@@ -327,10 +323,6 @@
         </provider>
         <provider>
             <class>org.magic.api.providers.impl.ScryFallProvider</class>
-            <enable>false</enable>
-        </provider>
-        <provider>
-            <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
             <enable>false</enable>
         </provider>
         <provider>

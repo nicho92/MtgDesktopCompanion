@@ -1,4 +1,4 @@
-package org.magic.api.providers.impl;
+package org.beta;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -258,7 +258,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 				String k = arr.get(i).getAsString();
 				if (!k.equals(currentSet)) {
 					MagicEdition ed = getSetById(k);
-					initOtherEdVariable(mc, ed);
+					//initOtherEdVariable(mc, ed);
 					mc.getEditions().add(ed);
 				}
 			}
