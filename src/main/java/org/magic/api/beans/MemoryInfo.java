@@ -64,18 +64,4 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 	}
 	
 
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public int hashCode() {
-		return (classe+"meminfo").hashCode();
-	}
-	
 }
