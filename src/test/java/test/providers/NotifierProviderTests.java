@@ -5,14 +5,17 @@ import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.services.PluginRegistry;
 
 import test.TestTools;
 
-public class DashboardsProviderTests {
+public class NotifierProviderTests {
 
 	private MagicCard mc;
 
@@ -29,7 +32,7 @@ public class DashboardsProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGDashBoard.class).forEach(p->{
+		PluginRegistry.inst().listPlugins(MTGNotifier.class).forEach(p->{
 			testPlugin(p);	
 		});
 	}
@@ -37,7 +40,7 @@ public class DashboardsProviderTests {
 	
 	
 	
-	public void testPlugin(MTGDashBoard p)
+	public void testPlugin(MTGNotifier p)
 	{
 		
 		System.out.println("*****************************"+p.getName());
@@ -49,31 +52,24 @@ public class DashboardsProviderTests {
 		System.out.println("VERS "+p.getVersion());
 		System.out.println("JMX NAME "+p.getObjectName());
 		System.out.println("CONF FILE " + p.getConfFile());
-		System.out.println("CURRENCY " + p.getCurrency());
+		System.out.println("CURRENCY " + p.getFormat());
 		
 		
 			try {
-				p.getShakesForEdition(mc.getCurrentSet());
-				System.out.println("get Shakes for " + mc.getCurrentSet() + " OK");
+				p.send(new MTGNotification("test", "send from JUnit", MESSAGE_TYPE.WARNING));
+				System.out.println("send  OK");
 			} catch (IOException e) {
-				System.out.println("get Shakes for " + mc.getCurrentSet() + " ERROR "+e);
+				System.out.println("send ERROR "+e);
 				e.printStackTrace();
 			}
 			
-			
+
 			try {
-				p.getBestCards(MagicFormat.FORMATS.STANDARD, p.getDominanceFilters()[0]);
-				System.out.println("get Best for " + MagicFormat.FORMATS.STANDARD + " OK");
+				p.send("send from JUnit String");
+				System.out.println("send  OK");
 			} catch (IOException e) {
-				System.out.println("get Best for " + MagicFormat.FORMATS.STANDARD + " ERROR "+e);
-			}
-		
-			
-			try {
-				p.getPriceVariation(mc, mc.getCurrentSet());
-				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") OK");
-			} catch (IOException e) {
-				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") ERROR "+e);
+				System.out.println("send ERROR "+e);
+				e.printStackTrace();
 			}
 			
 	}
