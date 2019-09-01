@@ -29,7 +29,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class DCIDeckSheetExport extends AbstractCardExport {
 
-	private static final String PDF_URL = "PDF_URL";
 	private static final String FILL_CONTINUED_LANDS = "FILL_CONTINUED_LANDS";
 	private static final String FORCED_DATE = "FORCED_DATE";
 	private static final String DATE_FORMAT = "DATE_FORMAT";
@@ -59,7 +58,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		PdfReader reader = new PdfReader(new URL(getString(PDF_URL)));
+		PdfReader reader = new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet_pdf1.pdf"));
 
 		Document document = new Document(reader.getPageSize(1));
 		PdfWriter writer;
@@ -188,8 +187,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		setProperty(DATE_FORMAT, "dd/MM/YYYY");
 		setProperty(FORCED_DATE, "");
 		setProperty(FILL_CONTINUED_LANDS, "true");
-		setProperty(PDF_URL,
-				"https://www.wizards.com/contentresources/wizards/wpn/main/documents/mtg_constructed_deck_registration_sheet_pdf1.pdf");
 
 	}
 	
