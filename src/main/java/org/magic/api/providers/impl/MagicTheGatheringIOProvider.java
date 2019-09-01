@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,8 +52,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private static final String TEXT = "text";
 	private static final String ORIGINAL_TEXT = "originalText";
 	private static final String ARTIST = "artist";
-	
-	
 	private File fcacheCount = new File(MTGConstants.DATA_DIR, "mtgio.cache");
 	private Properties propsCache;
 	
@@ -297,7 +295,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return mc;
 	}
 
-	private void initOtherEdVariable(MagicCard mc, MagicEdition ed) {
+	public void initOtherEdVariable(MagicCard mc, MagicEdition ed) {
 		JsonReader reader;
 		JsonObject root = null;
 		JsonObject temp = null;
