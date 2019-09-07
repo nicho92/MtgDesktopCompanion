@@ -10,7 +10,7 @@ import org.magic.tools.URLTools;
 public class TokensMtgOnl extends AbstractTokensProvider {
 
 	
-	static String jsonStandard="http://tokens.mtg.onl/data/SetsWithTokens.json?v-142";
+	static String jsonStandard="http://mtg.onl/data/SetsWithTokens.json?v-142";
 	static String jsonAllToken="http://mtg.onl/token-list/data/ProxyTokens.json?v=105";
 	static String jsonAlternative="http://alternative.mtg.onl/data/AlternativeTokens.json?v=0.8";
 	

@@ -180,6 +180,7 @@ public class IconSetProvider {
 		equiv.put("OC16", "C16");
 		equiv.put("OC17", "C17");
 		equiv.put("OC18", "C18");
+		equiv.put("OC19", "C19");
 		equiv.put("OCMD", "CMD");
 		equiv.put("SUM", "PSUM");
 		equiv.put("CP1", "PMEI");
