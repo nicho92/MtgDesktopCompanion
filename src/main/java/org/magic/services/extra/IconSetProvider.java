@@ -223,6 +223,7 @@ public class IconSetProvider {
 		equiv.put("PBOK", "PBOOK");
 		equiv.put("PGRU","PGRU");
 		equiv.put("PPP1", "PMEI");
+		equiv.put("CELD", "ELD");
 	}
 	
 	private String getEquiv(String set) 
