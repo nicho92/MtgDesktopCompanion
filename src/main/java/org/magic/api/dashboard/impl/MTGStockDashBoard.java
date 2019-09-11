@@ -115,8 +115,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(id);
-		logger.debug("loading edition cardshake from " + url);
-		JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
+
+		JsonObject obj = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient()).url(url).toJson().getAsJsonObject();
 
 		JsonArray arr = obj.get("prints").getAsJsonArray();
 

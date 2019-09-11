@@ -139,7 +139,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 						table.setRowSorter(new TableRowSorter<>(modEdition));
 						
 					} catch (Exception e) {
-						logger.error(e);
+						logger.error("error parsing",e);
 					}
 					lblLoading.end();
 				}
