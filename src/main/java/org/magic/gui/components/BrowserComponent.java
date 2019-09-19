@@ -24,24 +24,30 @@ public class BrowserComponent extends MTGUIComponent {
 		PandomiumSettings.getDefaultSettings();
 		PandomiumSettings setts = PandomiumSettings.getDefaultSettingsBuilder()
 										.nativeDirectory(MTGConstants.NATIVE_DIR.getAbsolutePath())
+										.loadAsync(false)
 										.build();
 		
 		System.setProperty("java.library.path", MTGConstants.NATIVE_DIR.getAbsolutePath() );
-		 Field fieldSysPath;
 		try {
-			fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
-		
-		 fieldSysPath.setAccessible( true );
-		 fieldSysPath.set( null, null );
+			Field fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
+			fieldSysPath.setAccessible( true );
+			fieldSysPath.set( null, null );
+
 		} catch (Exception e) {
-			logger.error("error loading navtives chromium",e);
+			logger.error("error settings natives " + e + ": " + System.getProperty("java.library.path"));
 		} 
+		
+		try {
+		
 		Pandomium pandomium = new Pandomium(setts);
 		pandomium.initialize();
 		
 		client = pandomium.createClient();
 		browser = client.loadURL("about:blank");
 		add(browser.toAWTComponent(),BorderLayout.CENTER);
+		} catch (Exception e) {
+			logger.error("error init chromium ", e);
+		} 
 			
 	}
 
