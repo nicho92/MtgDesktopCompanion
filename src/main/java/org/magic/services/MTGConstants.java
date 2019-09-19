@@ -234,6 +234,7 @@ public class MTGConstants {
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190503.txt";
 	public static final int CONNECTION_TIMEOUT =0;
+	public static final File NATIVE_DIR = new File(MTGConstants.DATA_DIR,"cef-natives");
 	
 
 	

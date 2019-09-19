@@ -5,8 +5,6 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -24,13 +22,13 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.fit.cssbox.swingbox.BrowserPane;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.BrowserComponent;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
@@ -38,14 +36,16 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
+
+
+
 
 public class RssGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicNewsTableModel model;
-	private BrowserPane editorPane;
+	private BrowserComponent editorPane;
 	private DefaultMutableTreeNode curr;
 	private NewsEditorPanel newsPanel;
 	private DefaultMutableTreeNode rootNode;
@@ -54,6 +54,7 @@ public class RssGUI extends MTGUIComponent {
 	private JButton btnNewButton;
 	private JButton btnSave;
 	private JButton btnDelete;
+	
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -72,15 +73,7 @@ public class RssGUI extends MTGUIComponent {
 		table = new JXTable(model);
 		tree = new JTree();
 		JSplitPane splitNews = new JSplitPane();
-		
-		editorPane = new BrowserPane() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			protected InputStream getStream(URL page) throws IOException {
-				return URLTools.getConnection(page,MTGConstants.USER_AGENT).getInputStream();
-			}
-		};
-		
+		editorPane = new BrowserComponent();
 		JSplitPane splitTreeTable = new JSplitPane();
 		JPanel leftPanel = new JPanel();
 		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
@@ -94,8 +87,6 @@ public class RssGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		tree.setPreferredSize(new Dimension(150, 64));
 		splitNews.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		editorPane.setEditable(false);
-		editorPane.setContentType("text/html");
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		tree.setModel(new DefaultTreeModel(rootNode));
 		tree.setCellRenderer(new NewsTreeCellRenderer());
@@ -209,16 +200,14 @@ public class RssGUI extends MTGUIComponent {
 						@Override
 						protected void done() {
 							lblLoading.end();
-							editorPane.setCaretPosition(0);
-							
 							
 						}
 						
 						@Override
 						protected void process(java.util.List<URL> chunks) {
 							try {
-								editorPane.setPage(chunks.get(0));
-							} catch (IOException e) {
+								editorPane.loadURL(chunks.get(0).toString());
+							} catch (Exception e) {
 								logger.error("error loading " + chunks.get(0),e);
 							}
 							
