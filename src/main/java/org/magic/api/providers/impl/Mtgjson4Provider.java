@@ -673,7 +673,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			o.keySet().forEach(key->ed.getTranslations().put(key, o.get(key).getAsString()));
 		}catch(Exception pnfe)
 		{
-			logger.error(pnfe);
+			//do nothing
 		}
 		
 		
