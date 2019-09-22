@@ -31,6 +31,7 @@
 	</properties>
 
 	<repositories>
+		
 		<repository>
 		    <id>panda-repository</id>
 		    <url>https://repo.panda-lang.org/</url>
@@ -45,6 +46,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
+	<dependency>
+		    <groupId>org.xhtmlrenderer</groupId>
+		    <artifactId>flying-saucer-core</artifactId>
+		    <version>9.1.18</version>
+		</dependency>
 		<dependency>
 		    <groupId>org.panda-lang</groupId>
 		    <artifactId>pandomium</artifactId>
@@ -128,7 +134,7 @@
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
 		    <artifactId>JTattoo</artifactId>
-		    <version>1.6.11</version>
+		    <version>1.6.12</version>
 		</dependency>
 		<dependency>
 		    <groupId>net.dv8tion</groupId>

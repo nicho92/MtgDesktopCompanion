@@ -1,25 +1,22 @@
-package org.magic.gui.components;
+package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
 import java.lang.reflect.Field;
 
-import javax.swing.ImageIcon;
-
-import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
 import org.panda_lang.pandomium.Pandomium;
 import org.panda_lang.pandomium.settings.PandomiumSettings;
 import org.panda_lang.pandomium.wrapper.PandomiumBrowser;
 import org.panda_lang.pandomium.wrapper.PandomiumClient;
 
-public class BrowserComponent extends MTGUIComponent {
+public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 
 	private static final long serialVersionUID = 1L;
 	private transient PandomiumClient client;
 	private transient PandomiumBrowser browser;
 	
-	public BrowserComponent() {
-		super();
+	public ChromiumBrowserComponent() {
 		setLayout(new BorderLayout());
 		PandomiumSettings.getDefaultSettings();
 		PandomiumSettings setts = PandomiumSettings.getDefaultSettingsBuilder()
@@ -51,17 +48,8 @@ public class BrowserComponent extends MTGUIComponent {
 			
 	}
 
-	
-	@Override
-	public ImageIcon getIcon() {
-		return MTGConstants.ICON_CHROME;
-	}
 
 	@Override
-	public String getTitle() {
-		return "Browser";
-	}
-
 	public void loadURL(String url) {
 		logger.debug("browse to " + url);
 		browser.getCefBrowser().loadURL(url);
