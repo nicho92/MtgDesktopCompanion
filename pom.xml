@@ -46,11 +46,6 @@
 		</repository>
 	</repositories>
 	<dependencies>
-	<dependency>
-		    <groupId>org.xhtmlrenderer</groupId>
-		    <artifactId>flying-saucer-core</artifactId>
-		    <version>9.1.18</version>
-		</dependency>
 		<dependency>
 		    <groupId>org.panda-lang</groupId>
 		    <artifactId>pandomium</artifactId>

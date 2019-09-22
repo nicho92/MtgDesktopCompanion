@@ -14,7 +14,6 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	private static final long serialVersionUID = 1L;
 	private JEditorPane browse;
 	
-	//sample https://github.com/flyingsaucerproject/flyingsaucer/blob/master/flying-saucer-examples/src/main/java/BrowsePanel.java
 	public JEditorPaneBrowser() {
 		setLayout(new BorderLayout());
 		browse = new JEditorPane() ;
@@ -30,20 +29,16 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	public void loadURL(String url) {
 		logger.debug("loading " + url);
 		
-		ThreadManager.getInstance().executeThread(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().executeThread(()->{
 				try {
 					browse.setText(URLTools.extractHtml(url).html());
-					browse.setCaretPosition(1);
+					browse.setCaretPosition(0);
 				}
 				catch(Exception e)
 				{
 					browse.setText("Error " + e);
 				}
 				
-			}
 		}, "loading " + url);
 		
 		
