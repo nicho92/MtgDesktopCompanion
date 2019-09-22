@@ -75,7 +75,7 @@ public class RssGUI extends MTGUIComponent {
 		table = new JXTable(model);
 		tree = new JTree();
 		JSplitPane splitNews = new JSplitPane();
-		editorPane = new JEditorPaneBrowser();
+		editorPane = MTGUIBrowserComponent.createBrowser();
 		JSplitPane splitTreeTable = new JSplitPane();
 		JPanel leftPanel = new JPanel();
 		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));

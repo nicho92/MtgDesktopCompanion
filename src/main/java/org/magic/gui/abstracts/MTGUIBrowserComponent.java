@@ -4,6 +4,8 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
+import org.magic.gui.components.browser.ChromiumBrowserComponent;
+import org.magic.gui.components.browser.JEditorPaneBrowser;
 import org.magic.services.MTGConstants;
 
 public abstract class MTGUIBrowserComponent extends MTGUIComponent {
@@ -28,6 +30,19 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 	@Override
 	public String getTitle() {
 		return "Browser";
+	}
+
+
+	public static MTGUIBrowserComponent createBrowser()
+	{
+		try {
+			return new ChromiumBrowserComponent();
+		}
+		catch(Exception e)
+		{
+			logger.error("error loading chromium. Loading default",e);
+			return new JEditorPaneBrowser();
+		}
 	}
 
 

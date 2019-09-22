@@ -5,10 +5,13 @@ import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
 
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
+import org.magic.services.ThreadManager;
+import org.magic.tools.URLTools;
 
 
 public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 
+	private static final long serialVersionUID = 1L;
 	private JEditorPane browse;
 	
 	//sample https://github.com/flyingsaucerproject/flyingsaucer/blob/master/flying-saucer-examples/src/main/java/BrowsePanel.java
@@ -25,17 +28,26 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	
 	@Override
 	public void loadURL(String url) {
-	
 		logger.debug("loading " + url);
-		try {
-		browse.setPage(url);
-		}
-		catch(Exception e)
-		{
-			browse.setText("Error " + e);
-		}
+		
+		ThreadManager.getInstance().executeThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					browse.setText(URLTools.extractHtml(url).html());
+					browse.setCaretPosition(1);
+				}
+				catch(Exception e)
+				{
+					browse.setText("Error " + e);
+				}
+				
+			}
+		}, "loading " + url);
+		
+		
 		
 	}
-
 	
 }

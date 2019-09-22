@@ -1,6 +1,7 @@
 package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
@@ -16,7 +17,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 	private transient PandomiumClient client;
 	private transient PandomiumBrowser browser;
 	
-	public ChromiumBrowserComponent() {
+	public ChromiumBrowserComponent() throws IOException {
 		setLayout(new BorderLayout());
 		PandomiumSettings.getDefaultSettings();
 		PandomiumSettings setts = PandomiumSettings.getDefaultSettingsBuilder()
@@ -35,15 +36,15 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 		} 
 		
 		try {
-		
-		Pandomium pandomium = new Pandomium(setts);
-		pandomium.initialize();
-		
-		client = pandomium.createClient();
-		browser = client.loadURL("about:blank");
-		add(browser.toAWTComponent(),BorderLayout.CENTER);
+			
+			Pandomium pandomium = new Pandomium(setts);
+			pandomium.initialize();
+			
+			client = pandomium.createClient();
+			browser = client.loadURL("about:blank");
+			add(browser.toAWTComponent(),BorderLayout.CENTER);
 		} catch (Exception e) {
-			logger.error("error init chromium ", e);
+			throw new IOException(e);
 		} 
 			
 	}
