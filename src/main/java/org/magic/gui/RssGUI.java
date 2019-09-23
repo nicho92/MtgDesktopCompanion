@@ -187,6 +187,10 @@ public class RssGUI extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				List<MagicNewsContent> sels = UITools.getTableSelections(table, 0);
+				
+				if(sels.isEmpty())
+					return;
+				
 				MagicNewsContent sel = sels.get(0);
 				if (me.getClickCount() == 2) {
 					try {
