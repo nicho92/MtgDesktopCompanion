@@ -2,7 +2,6 @@ package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
@@ -27,8 +26,10 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 										.build();
 		
 		System.setProperty("java.library.path", MTGConstants.NATIVE_DIR.getAbsolutePath() );
-
+		
 		try {
+			
+			
 			
 			Pandomium pandomium = new Pandomium(setts);
 			logger.debug("loading pandomium for " + PandomiumOS.getOS());
@@ -38,7 +39,8 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 			client = pandomium.createClient();
 			browser = client.loadURL("about:blank");
 			add(browser.toAWTComponent(),BorderLayout.CENTER);
-		} catch (Exception e) {
+		} catch (UnsatisfiedLinkError e) {
+			logger.error("maybe add : -Djava.library.path=\""+MTGConstants.NATIVE_DIR+"\" at jvm startup args");
 			throw new IOException(e);
 		} 
 			
