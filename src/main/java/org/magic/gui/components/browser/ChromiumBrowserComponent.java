@@ -25,8 +25,6 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 										.loadAsync(false)
 										.build();
 		
-		System.setProperty("java.library.path", MTGConstants.NATIVE_DIR.getAbsolutePath() );
-		
 		try {
 			
 			
