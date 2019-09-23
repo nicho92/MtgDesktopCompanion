@@ -19,7 +19,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JEditorPane browse;
-	private URLToolsClient client;
+	private transient URLToolsClient client;
 	
 	public JEditorPaneBrowser() {
 		setLayout(new BorderLayout());
