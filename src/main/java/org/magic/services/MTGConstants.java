@@ -37,7 +37,9 @@ public class MTGConstants {
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.DATA_DIR, "decks");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
+	public static final File NATIVE_DIR = new File("./cef-natives");
 	
+
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
@@ -234,9 +236,7 @@ public class MTGConstants {
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190503.txt";
 	public static final int CONNECTION_TIMEOUT =0;
-	public static final File NATIVE_DIR = new File("./cef-natives");
 	
-
 	
 		
 
