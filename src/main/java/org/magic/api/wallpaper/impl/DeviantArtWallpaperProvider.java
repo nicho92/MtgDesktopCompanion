@@ -17,6 +17,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	
 	private static final String LIMIT = "LIMIT";
+	private static final String BASE_URL = "https://www.deviantart.com";
 	private RequestBuilder build;
 	private String bToken;
 	
@@ -33,7 +34,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			build = RequestBuilder.build();
 		    bToken = build.setClient(URLTools.newClient())
 								   .method(METHOD.GET)
-								   .url("https://www.deviantart.com/oauth2/token")
+								   .url(BASE_URL+"/oauth2/token")
 								   .addContent("grant_type", "client_credentials")
 								   .addContent("client_id", getString("CLIENT_ID"))
 								   .addContent("client_secret", getString("CLIENT_SECRET"))
@@ -74,7 +75,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private JsonObject readOffset(int offset,String search) throws IOException {
 		return  build.clean()
 				  .method(METHOD.GET)
-				  .url("https://www.deviantart.com/api/v1/oauth2/browse/newest")
+				  .url(BASE_URL+"/api/v1/oauth2/browse/newest")
 				  .addContent("q", search)
 				  .addContent("limit", getString(LIMIT))
 				  .addContent("offset", String.valueOf(offset))
