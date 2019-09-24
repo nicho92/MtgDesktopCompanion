@@ -30,8 +30,6 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.NewsEditorPanel;
-import org.magic.gui.components.browser.ChromiumBrowserComponent;
-import org.magic.gui.components.browser.JEditorPaneBrowser;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
 import org.magic.services.MTGConstants;

@@ -16,7 +16,7 @@ import org.magic.services.MTGLogger;
 public abstract class MTGUIComponent extends JComponent {
 
 	protected static final long serialVersionUID = 1L;
-	protected transient static Logger logger = MTGLogger.getLogger(MTGUIComponent.class);
+	protected static transient Logger logger = MTGLogger.getLogger(MTGUIComponent.class);
 	protected boolean onlyOneRefresh=true;
 	public abstract String getTitle();
 	private boolean alreadyShow=false;
