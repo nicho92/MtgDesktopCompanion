@@ -59,7 +59,7 @@ public class GamingRoomPanel extends JPanel {
 	private transient MinaClient client;
 	private PlayerTableModel mod;
 	private JTextField txtName;
-	private JList list = new JList<>(new DefaultListModel<>());
+	private JList<AbstractNetworkAction> list = new JList<>(new DefaultListModel<>());
 	private JButton btnPlayGame;
 	private JButton btnConnect;
 	private JButton btnLogout;
