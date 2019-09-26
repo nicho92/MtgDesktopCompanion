@@ -64,12 +64,12 @@
         <dependency>
 		    <groupId>com.fifesoft</groupId>
 		    <artifactId>rsyntaxtextarea</artifactId>
-		    <version>3.0.3</version>
+		    <version>3.0.4</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.fifesoft</groupId>
 		    <artifactId>autocomplete</artifactId>
-		    <version>3.0.1</version>
+		    <version>3.0.2</version>
 		</dependency>
      	<dependency>
     		<groupId>net.dean.jraw</groupId>
@@ -134,7 +134,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.0.0_46</version>
+			  <version>4.0.0_48</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
