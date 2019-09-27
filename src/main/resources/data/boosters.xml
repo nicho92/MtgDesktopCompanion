@@ -1275,14 +1275,26 @@
 		<bundle lang="en" url="https://media.wizards.com/2019/images/daily/Uo589miyJQ.png"/>
 		<banner lang="en" url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png"/>
 	</edition>
-	<edition id="ELD">
-		<booster lang="en" num="1" url="https://media.wizards.com/2019/images/daily/gudy4flWSL.png"/>
+	<edition id="CELD">
+		<booster lang="en" num="1" url="https://cdn2.philibertnet.com/456425/magic-the-gathering-throne-of-eldraine-collector-booster.jpg"/>
 		<booster lang="en" num="2" url="https://media.wizards.com/2019/images/daily/UokcU8p7Zl.png"/>
-		<booster lang="en" num="3" url="https://media.wizards.com/2019/images/daily/oKbeGz7ywC.png"/>
+		<banner lang="en" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/e/ef/ELD_logo.png"/>
+		<box lang="en" num="1" url="https://www.magicbazar.fr/img/product/boite_12_boosters_collector_throne_of_eldraine_en.jpg"/>
+	</edition>
+	<edition id="ELD">
+		<booster lang="en" num="1" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_01_01.png"/>
+		<booster lang="en" num="2" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_03_01.png"/>
+		<booster lang="en" num="3" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_02_01.png"/>
 		<bundle lang="en" url="https://media.wizards.com/2019/images/daily/OT9OLX6H0L.png"/>
 		<box lang="en" url="https://startspeler.com/pub/media/catalog/product/cache/9d08971813a040f8f96067a40f75c615/m/t/mtgeld_en_bstrdspcls_01.png"/>
 		<banner lang="en" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/e/ef/ELD_logo.png"/>
-	</edition>
+		<constructpack lang="en" num="1" url="https://cdn10.bigcommerce.com/s-0h3wk/products/34594/images/55730/MTGELDPWDRowan__56194.1569443663.1280.1280.png?c=2"/>
+		<constructpack lang="en" num="2" url="https://cdn10.bigcommerce.com/s-0h3wk/products/34595/images/55732/MTGELDPWDOKO__43856.1569443834.500.750.png?c=2"/>
+		<constructpack lang="en" num="3" url="https://themanashop.ch/35809-large_default/le-trone-deldraine-set-brawl-decks-4-decks.jpg"/>
+	</edition>	
+	
+	
+	
 	<edition id="C19">
 		<constructpack lang="en" num="1" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/d/d7/C19_Faceless_Menace.png/300px-C19_Faceless_Menace.png?version=6070455e124e4244d8791153e1884e14"/>
 		<constructpack lang="en" num="2" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/2/22/Primal_Genesis.jpg/300px-Primal_Genesis.jpg?version=fde85a750db063977456dce0217e5596"/>
