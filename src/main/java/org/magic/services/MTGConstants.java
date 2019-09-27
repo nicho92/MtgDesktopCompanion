@@ -37,7 +37,7 @@ public class MTGConstants {
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.DATA_DIR, "decks");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
-	public static final File NATIVE_DIR = new File("./cef-natives");
+	public static final File NATIVE_DIR = new File("./natives");
 	
 
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
