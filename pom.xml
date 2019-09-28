@@ -479,7 +479,7 @@
 					<binFileExtensions>
 						<unix>.sh</unix>
 					</binFileExtensions>
-					<extraJvmArguments>-Xmx1128m -XX:+UseStringDeduplication -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2" -Djava.library.path="./cef-natives"</extraJvmArguments>
+					<extraJvmArguments>-Xmx1128m -XX:+UseStringDeduplication -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2" -Djava.library.path="./natives"</extraJvmArguments>
 					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 				<executions>
