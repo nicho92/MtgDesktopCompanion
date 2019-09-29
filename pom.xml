@@ -47,11 +47,6 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-		    <groupId>com.microsoft.sqlserver</groupId>
-		    <artifactId>mssql-jdbc</artifactId>
-		    <version>7.4.1.jre11</version>
-		</dependency>
-		<dependency>
 		    <groupId>org.panda-lang</groupId>
 		    <artifactId>pandomium</artifactId>
 		    <version>67.0.6</version>
