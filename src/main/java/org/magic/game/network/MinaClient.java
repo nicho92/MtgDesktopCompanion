@@ -47,8 +47,7 @@ public class MinaClient  extends Observable implements NetworkClient {
 		return p;
 	}
 
-	@Override
-	public IoSession getSession() {
+	private IoSession getSession() {
 		return session;
 	}
 

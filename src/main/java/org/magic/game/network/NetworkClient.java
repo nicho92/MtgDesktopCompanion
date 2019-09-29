@@ -15,8 +15,6 @@ public interface NetworkClient {
 
 	Player getPlayer();
 
-	IoSession getSession();
-
 	void join();
 
 	void updateDeck(MagicDeck d);
