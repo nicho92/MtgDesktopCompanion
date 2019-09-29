@@ -2,17 +2,16 @@ package org.magic.game.network;
 
 import java.awt.Color;
 
-import org.apache.mina.core.session.IoSession;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
-import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
-import org.utils.patterns.observer.Observable;
+import org.magic.game.network.actions.RequestPlayAction;
 import org.utils.patterns.observer.Observer;
 
 public interface NetworkClient {
 
+	
 	Player getPlayer();
 
 	void join();

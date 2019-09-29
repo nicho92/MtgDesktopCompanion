@@ -25,7 +25,6 @@ import io.netty.handler.logging.LoggingHandler;
 public class NettyServer extends AbstractMTGServer {
 
 	private static final String SERVER_PORT = "SERVER-PORT";
-	private static final String PLAYER = "PLAYER";
 	private static final String MAX_CLIENT = "MAX_CLIENT";
 	private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 	private EventLoopGroup workerGroup = new NioEventLoopGroup();

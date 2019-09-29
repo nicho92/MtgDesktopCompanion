@@ -3,31 +3,32 @@ package org.magic.game.network;
 import java.awt.Color;
 import java.net.InetSocketAddress;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.CharsetUtil;
 
 public class NettyClient implements NetworkClient {
 
 	private Player p;
 	private Bootstrap clientBootstrap ;
 	
-	
+	Logger logger = MTGLogger.getLogger(getClass());
+
 	public NettyClient(String server, int port) {
 		p = new Player();
 		clientBootstrap = new Bootstrap();
@@ -41,12 +42,12 @@ public class NettyClient implements NetworkClient {
 
 		            @Override
 		            public void channelActive(ChannelHandlerContext channelHandlerContext){
-		                channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer("Netty Rocks!", CharsetUtil.UTF_8));
+		                channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer("Netty Rocks!", MTGConstants.DEFAULT_ENCODING));
 		            }
 
 		            @Override
 		            public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable cause){
-		                cause.printStackTrace();
+		                logger.error(cause);
 		                channelHandlerContext.close();
 		            }
 		        });
@@ -67,7 +68,7 @@ public class NettyClient implements NetworkClient {
 
 	@Override
 	public void updateDeck(MagicDeck d) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
