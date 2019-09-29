@@ -23,7 +23,7 @@ import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.utils.patterns.observer.Observable;
 
-public class MinaClient extends Observable {
+public class MinaClient  extends Observable implements NetworkClient {
 
 	private IoConnector connector;
 	private IoSession session;
@@ -42,10 +42,12 @@ public class MinaClient extends Observable {
 		}
 	};
 
-	public Player getP() {
+	@Override
+	public Player getPlayer() {
 		return p;
 	}
 
+	@Override
 	public IoSession getSession() {
 		return session;
 	}
@@ -62,46 +64,63 @@ public class MinaClient extends Observable {
 		session = connFuture.getSession();
 	}
 
+	@Override
 	public void join() {
 		session.write(new JoinAction(p));
 	}
 
+	@Override
 	public void updateDeck(MagicDeck d) {
 		p.setDeck(d);
 		session.write(new ChangeDeckAction(p, d));
 	}
 
+	@Override
 	public void sendMessage(String text) {
 		SpeakAction act = new SpeakAction(p, text);
 		session.write(act);
 	}
 
+	@Override
 	public void sendDeck(MagicDeck d, Player to) {
 		session.write(new ShareDeckAction(p, d, to));
 	}
 
+	@Override
 	public void sendMessage(String text, Color c) {
 		SpeakAction act = new SpeakAction(p, text);
 		act.setColor(c);
 		session.write(act);
 	}
 
+	@Override
 	public void logout() {
 		session.closeOnFlush();
 	}
 
+	@Override
 	public void requestPlay(Player otherplayer) {
 		session.write(new RequestPlayAction(p, otherplayer));
 
 	}
 
+	@Override
 	public void reponse(RequestPlayAction pa, CHOICE c) {
 		session.write(new ReponseAction(pa, c));
 	}
 
+	@Override
 	public void changeStatus(STATE selectedItem) {
 		p.setState(selectedItem);
 		session.write(new ChangeStatusAction(p));
+	}
+
+	@Override
+	public boolean isActive() {
+		if(getSession()==null)
+			return false;
+		
+		return getSession().isActive();
 	}
 
 }

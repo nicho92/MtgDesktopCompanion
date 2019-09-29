@@ -32,6 +32,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.MinaClient;
+import org.magic.game.network.NetworkClient;
 import org.magic.game.network.actions.AbstractNetworkAction;
 import org.magic.game.network.actions.ListPlayersAction;
 import org.magic.game.network.actions.ReponseAction;
@@ -56,7 +57,7 @@ public class GamingRoomPanel extends JPanel {
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JXTable table;
-	private transient MinaClient client;
+	private transient NetworkClient client;
 	private PlayerTableModel mod;
 	private JTextField txtName;
 	private JList<AbstractNetworkAction> list = new JList<>(new DefaultListModel<>());
@@ -110,7 +111,7 @@ public class GamingRoomPanel extends JPanel {
 					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(),
 							MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_ACCEPTED")));
 					client.changeStatus(STATE.GAMING);
-					GamePanelGUI.getInstance().setPlayer(client.getP());
+					GamePanelGUI.getInstance().setPlayer(client.getPlayer());
 					GamePanelGUI.getInstance().addPlayer(resp.getRequest().getAskedPlayer());
 					GamePanelGUI.getInstance().initGame();
 				} else {
@@ -221,14 +222,14 @@ public class GamingRoomPanel extends JPanel {
 			try {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
 				client.addObserver(obs);
-				client.getP().setName(txtName.getText());
+				client.getPlayer().setName(txtName.getText());
 				client.join();
 
 				ThreadManager.getInstance().executeThread(() -> {
-					while (client.getSession().isActive()) {
-						txtName.setEnabled(!client.getSession().isActive());
-						txtServer.setEnabled(!client.getSession().isActive());
-						txtPort.setEnabled(!client.getSession().isActive());
+					while (client.isActive()) {
+						txtName.setEnabled(!client.isActive());
+						txtServer.setEnabled(!client.isActive());
+						txtPort.setEnabled(!client.isActive());
 						btnConnect.setEnabled(false);
 						btnLogout.setEnabled(true);
 					}
