@@ -86,7 +86,6 @@ public class URLTools {
 		String ret = toHtmlStringFromMarkdown(extractAsString(url));
 		
 		ret=ret.replace("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
-		ret=ret.replace("\\$USER_HOME", SystemUtils.USER_HOME);
 		return ret; 
 	}
 	

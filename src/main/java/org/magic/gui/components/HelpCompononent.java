@@ -6,12 +6,14 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.ThreadManager;
 import org.magic.tools.URLTools;
+
 
 public class HelpCompononent extends MTGUIComponent {
 
@@ -67,7 +69,7 @@ public class HelpCompononent extends MTGUIComponent {
 							width=450;
 						
 						d.select("img").attr("width", String.valueOf(width));
-						pane.setText(d.html());
+						pane.setText(d.html().replace("$USER_HOME", SystemUtils.USER_HOME));
 					} catch (Exception e) {
 						logger.error("error loading help",e);
 						pane.setText(e.getLocalizedMessage());
