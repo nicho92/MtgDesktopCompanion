@@ -68,9 +68,6 @@ public class URLTools {
 	{
 		return Jsoup.parse(extractMarkDownAsString(url));
 	}
-	
-
-
 
 	public static Document extractMarkDownAsDocument(URL documentation) throws IOException {
 		return extractMarkDownAsDocument(documentation.toString());
