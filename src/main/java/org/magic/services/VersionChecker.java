@@ -38,7 +38,7 @@ public class VersionChecker {
 	public VersionChecker() {
 		actualVersion = getVersion();
 		try {
-			onlineVersion = XMLTools.parseXML(URLTools.extractXML(MTGConstants.MTG_DESKTOP_POM_URL),"/project/version");
+			onlineVersion = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_URL).getAsJsonObject().get("name").getAsString();
 		} catch (Exception e) {
 			onlineVersion = "";
 			logger.error(e.getMessage());
