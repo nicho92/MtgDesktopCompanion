@@ -14,10 +14,12 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -38,8 +40,8 @@ public class NettyClient implements NetworkClient {
 		clientBootstrap.handler(new ChannelInitializer<SocketChannel>() {
 		    protected void initChannel(SocketChannel socketChannel) throws Exception 
 		    {
-		        socketChannel.pipeline().addLast(new ChannelHandlerAdapter() {
-
+		        socketChannel.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
+				
 		            @Override
 		            public void channelActive(ChannelHandlerContext channelHandlerContext){
 		                channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer("Netty Rocks!", MTGConstants.DEFAULT_ENCODING));
@@ -50,6 +52,12 @@ public class NettyClient implements NetworkClient {
 		                logger.error(cause);
 		                channelHandlerContext.close();
 		            }
+
+					@Override
+					protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+						 logger.debug("Client received: " + in.toString(MTGConstants.DEFAULT_ENCODING));
+						
+					}
 		        });
 		    }
 		});

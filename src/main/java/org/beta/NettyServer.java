@@ -1,25 +1,21 @@
 package org.beta;
 
 import java.io.IOException;
-import java.net.SocketAddress;
 
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
-import io.netty.channel.ChannelPromise;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
+
 
 
 public class NettyServer extends AbstractMTGServer {
@@ -36,12 +32,11 @@ public class NettyServer extends AbstractMTGServer {
                b.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 100)
-                .handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                   @Override
                     public void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline p = ch.pipeline();
-                        p.addLast(new ChannelHandlerAdapter() {
+                        p.addLast(new ChannelInboundHandlerAdapter() {
                         	
                         		  @Override
                         	       public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -58,11 +53,7 @@ public class NettyServer extends AbstractMTGServer {
                         	           logger.error(cause);
                         	           ctx.close();
                         	       }
-                        	       
-                        	       @Override
-	                        	   public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-	                        	    	 logger.debug("connection from " + remoteAddress + " "+ ctx);  
-	                        	   }
+                        	     
                         });
                     }
                 });
