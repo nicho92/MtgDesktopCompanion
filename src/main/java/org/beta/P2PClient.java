@@ -28,7 +28,7 @@ public class P2PClient {
 	private static Logger logger = MTGLogger.getLogger(P2PClient.class);
 
 	
-	public static void main(String[] args) throws NoPeerConnectionException, InvalidProcessStateException, ProcessExecutionException, UnknownHostException, NoSessionException, IllegalArgumentException {
+	public static void main(String[] args) throws NoPeerConnectionException, InvalidProcessStateException, ProcessExecutionException, UnknownHostException, NoSessionException {
 		
 		
 		IH2HNode nodeClient = H2HNode.createNode(FileConfiguration.createDefault());

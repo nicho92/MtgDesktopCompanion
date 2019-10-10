@@ -114,7 +114,7 @@ public class P2PServer extends AbstractMTGServer {
 		for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles())
 			try {
 					serverNode.getFileManager().createAddProcess(f).executeAsync();
-					logger.debug("sharing " + f);
+					logger.info("sharing " + f);
 			} catch (Exception e) {
 				logger.debug("error with " + f,e);
 			}

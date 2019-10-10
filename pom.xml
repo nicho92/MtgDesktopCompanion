@@ -483,6 +483,10 @@
 							<mainClass>org.magic.api.main.GameClient</mainClass>
 							<name>game-client</name>
 						</program>
+						<program>
+							<mainClass>org.magic.api.main.ServerLauncher</mainClass>
+							<name>server-launch</name>
+						</program>
 					</programs>
 					<generateRepository>true</generateRepository>
 					<repositoryName>lib</repositoryName>
