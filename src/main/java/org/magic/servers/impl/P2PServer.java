@@ -38,7 +38,6 @@ public class P2PServer extends AbstractMTGServer {
 			logger.info( "Server started Listening to: " + DiscoverNetworks.discoverInterfaces(serverNode.connectionBean().resourceConfiguration().bindings()).existingAddresses());
 	   
 			
-			
 		 
 		} catch (Exception e) {
 			throw new IOException(e);
