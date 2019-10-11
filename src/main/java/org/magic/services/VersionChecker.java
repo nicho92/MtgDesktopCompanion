@@ -28,9 +28,6 @@ public class VersionChecker {
 		} catch (IOException e) {
 			return "";
 		}
-		
-		
-
 	}
 
 	

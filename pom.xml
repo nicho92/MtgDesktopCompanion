@@ -48,17 +48,21 @@
 		  <id>hive2hive.org</id>
 		  <url>http://repo.hive2hive.org</url>
 		</repository>
+		  <repository>
+		    <id>tomp2p.net</id>
+		    <url>http://tomp2p.net/dev/mvn/</url>
+		  </repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+		  <groupId>net.tomp2p</groupId>
+		  <artifactId>tomp2p-all</artifactId>
+		  <version>5.0-Beta8</version>
+		</dependency>
 		<dependency>
 		  <groupId>org.hive2hive</groupId>
 		  <artifactId>org.hive2hive.core</artifactId>
 		  <version>1.2.2</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.hive2hive</groupId>
-		    <artifactId>org.hive2hive.client</artifactId>
-		    <version>1.2.2</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.panda-lang</groupId>
@@ -394,11 +398,11 @@
 			<artifactId>rome-utils</artifactId>
 			<version>1.12.2</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
 		    <version>2.0.0-alpha1</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
