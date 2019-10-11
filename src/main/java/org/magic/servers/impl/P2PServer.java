@@ -3,23 +3,31 @@ package org.magic.servers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.UUID;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.hive2hive.core.H2HSession;
 import org.hive2hive.core.api.H2HNode;
 import org.hive2hive.core.api.configs.FileConfiguration;
 import org.hive2hive.core.api.configs.NetworkConfiguration;
-import org.hive2hive.core.api.interfaces.IFileConfiguration;
 import org.hive2hive.core.api.interfaces.IH2HNode;
 import org.hive2hive.core.api.interfaces.INetworkConfiguration;
 import org.hive2hive.core.api.interfaces.IUserManager;
+import org.hive2hive.core.events.framework.interfaces.IFileEventListener;
+import org.hive2hive.core.events.framework.interfaces.file.IFileAddEvent;
+import org.hive2hive.core.events.framework.interfaces.file.IFileDeleteEvent;
+import org.hive2hive.core.events.framework.interfaces.file.IFileMoveEvent;
+import org.hive2hive.core.events.framework.interfaces.file.IFileShareEvent;
+import org.hive2hive.core.events.framework.interfaces.file.IFileUpdateEvent;
 import org.hive2hive.core.exceptions.NoPeerConnectionException;
 import org.hive2hive.core.exceptions.NoSessionException;
 import org.hive2hive.core.file.IFileAgent;
+import org.hive2hive.core.network.data.DataManager;
+import org.hive2hive.core.processes.files.list.GetFileListStep;
+import org.hive2hive.core.processes.login.SessionParameters;
 import org.hive2hive.core.security.UserCredentials;
 import org.hive2hive.processframework.exceptions.InvalidProcessStateException;
 import org.hive2hive.processframework.exceptions.ProcessExecutionException;
@@ -28,37 +36,45 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.POMReader;
 
+import net.tomp2p.dht.FutureGet;
+import net.tomp2p.dht.GetBuilder;
+import net.tomp2p.peers.Number160;
+import net.tomp2p.peers.PeerAddress;
+import net.tomp2p.peers.PeerMapChangeListener;
+import net.tomp2p.peers.PeerStatistic;
+
 public class P2PServer extends AbstractMTGServer {
 
-	private IH2HNode serverNode ;
+	private IH2HNode serverNode;
 	private String version="";
 	
 	@Override
 	public void start() throws IOException {
 		
-		try {
+		try 
+		{
 			serverNode = createAgent(NetworkConfiguration.createInitial(), MTGConstants.MTG_DECK_DIRECTORY,SystemUtils.USER_NAME+"-server","password","pin");
+		
+			createAgent(NetworkConfiguration.create(InetAddress.getByName("localhost")), MTGConstants.MTG_DECK_DIRECTORY, "bob", "password", "pin");
+			createAgent(NetworkConfiguration.create(InetAddress.getByName("localhost")), MTGConstants.MTG_DECK_DIRECTORY, "clara", "password", "pin");
+			
+			serverNode.getPeer().peerBean().peerMap().all().forEach(pa->{
+				System.out.println("Peer connected :" + pa.peerId());
+			});
 			
 			
 			
-			IH2HNode node2 = createAgent(NetworkConfiguration.create(InetAddress.getByName("localhost")), new File("D:/"), UUID.randomUUID().toString(), "password", "pin");
-			IH2HNode node3 = createAgent(NetworkConfiguration.create(InetAddress.getByName("localhost")), new File("C:\\Users\\Nicolas\\.jmc\\6.0.0\\.metadata"), UUID.randomUUID().toString(), "password", "pin");
-			
-			
-			System.out.println("Node Server is connected: " + serverNode.isConnected());
-			System.out.println("Node 2 is connected: " + node2.isConnected() + " " + node2.getPeer().peerBean().localMap());
-			System.out.println("Node 3 is connected: " + node3.isConnected() + " " + node3.getPeer().peerBean().localMap());
-			
-			
-			
-			
-			
+		
 			
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 	
 	
 	@Override
@@ -74,7 +90,6 @@ public class P2PServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		if(serverNode!=null)
 			serverNode.disconnect();
-
 	}
 
 	@Override
@@ -120,10 +135,13 @@ public class P2PServer extends AbstractMTGServer {
 	private IH2HNode createAgent(INetworkConfiguration config, File root, String client, String pass, String pin) throws NoPeerConnectionException, InvalidProcessStateException, ProcessExecutionException, NoSessionException, IOException {
 		
 		
-		IH2HNode nodeClient = H2HNode.createNode(FileConfiguration.createDefault());
+		FileUtils.forceMkdir(new File(root,client));
+		
+		
+		IH2HNode node = H2HNode.createNode(FileConfiguration.createDefault());
 		INetworkConfiguration node2Conf = config;
-		nodeClient.connect(node2Conf);
-		IUserManager userManager = nodeClient.getUserManager();
+		node.connect(node2Conf);
+		IUserManager userManager = node.getUserManager();
 
 		try {
 			UserCredentials user = new UserCredentials(client, pass, pin);
@@ -156,13 +174,56 @@ public class P2PServer extends AbstractMTGServer {
 				
 				@Override
 				public File getRoot() {
-					return root;
+					return new File(root,client);
 				}
 			}).execute();
+			
+			node.getFileManager().subscribeFileEvents(new IFileEventListener() {
+
+				@Override
+				public void onFileAdd(IFileAddEvent fileEvent) {
+					logger.info(node +" onFileAdd " + fileEvent);
+				}
+
+				@Override
+				public void onFileDelete(IFileDeleteEvent fileEvent) {
+					logger.info(node +" onFileDelete " + fileEvent);
+					
+				}
+
+				@Override
+				public void onFileMove(IFileMoveEvent fileEvent) {
+					logger.info(node +" onFileMove " + fileEvent);
+					
+				}
+
+				@Override
+				public void onFileShare(IFileShareEvent fileEvent) {
+					logger.info(node +" onFileShare " + fileEvent);
+					
+				}
+
+				@Override
+				public void onFileUpdate(IFileUpdateEvent fileEvent) {
+					logger.info(node +" onFileUpdate " + fileEvent);
+					
+				}
+				
+			});
+			
+			
+			for(File f : new File(root,client).listFiles())
+			{
+				logger.info("Adding " + f + " to share");
+				node.getFileManager().createAddProcess(f).executeAsync();
+			}
+			
+	
+			
 		} catch (NoPeerConnectionException | InvalidProcessStateException | ProcessExecutionException e) {
 			logger.error("error client",e);
 		}
-		return nodeClient;
+		return node;
 		
 		
 		
