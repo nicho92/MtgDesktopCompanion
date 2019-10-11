@@ -60,11 +60,6 @@
 		  <version>5.0-Beta8</version>
 		</dependency>
 		<dependency>
-		  <groupId>org.hive2hive</groupId>
-		  <artifactId>org.hive2hive.core</artifactId>
-		  <version>1.2.2</version>
-		</dependency>
-		<dependency>
 		    <groupId>org.panda-lang</groupId>
 		    <artifactId>pandomium</artifactId>
 		    <version>67.0.6</version>
