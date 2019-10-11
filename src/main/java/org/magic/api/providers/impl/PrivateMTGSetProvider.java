@@ -1,7 +1,6 @@
 package org.magic.api.providers.impl;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -18,14 +17,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
@@ -46,8 +44,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	public boolean removeCard(MagicEdition me, MagicCard mc) throws IOException {
 		File f = new File(setDirectory, me.getId() + ext);
-		JsonReader reader = new JsonReader(new FileReader(f));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonObject root = URLTools.toJson(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 		JsonArray cards = root.get(CARDS).getAsJsonArray();
 
 		for (int i = 0; i < cards.size(); i++) {
@@ -62,20 +59,15 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	public List<MagicCard> getCards(MagicEdition me) throws IOException {
-		FileReader fr = new FileReader(new File(setDirectory, me.getId() + ext));
-		JsonReader reader = new JsonReader(fr);
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonObject root = URLTools.toJson(FileUtils.readFileToString(new File(setDirectory, me.getId() + ext), MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 		JsonArray arr = (JsonArray) root.get(CARDS);
 		Type listType = new TypeToken<ArrayList<MagicCard>>() {}.getType();
-		fr.close();
-		reader.close();
 		return new Gson().fromJson(arr, listType);
 	}
 
 	public void addCard(MagicEdition me, MagicCard mc) throws IOException {
 		File f = new File(setDirectory, me.getId() + ext);
-		JsonReader reader = new JsonReader(new FileReader(f));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonObject root = URLTools.toJson(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 		JsonArray cards = root.get(CARDS).getAsJsonArray();
 
 		int index = indexOf(mc, cards);
@@ -87,7 +79,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}
-		reader.close();
 		FileUtils.writeStringToFile(f, root.toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 
@@ -101,9 +92,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	private MagicEdition getEdition(File f) throws IOException {
-		JsonReader reader = new JsonReader(new FileReader(f));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		reader.close();
+		JsonObject root = URLTools.toJson(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 		return new Gson().fromJson(root.get("main"), MagicEdition.class);
 	}
 

@@ -26,7 +26,6 @@ import org.magic.tools.URLToolsClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
@@ -138,7 +137,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		String ret = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
 		
 		logger.trace(ret);
-		JsonObject el = new JsonParser().parse(ret).getAsJsonObject();
+		JsonObject el = URLTools.toJson(ret).getAsJsonObject();
 		JsonArray arr = el.get("metadecks").getAsJsonArray();
 		
 		for(JsonElement je : arr)

@@ -16,7 +16,6 @@ import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 
 public class CurrencyConverter {
@@ -127,7 +126,7 @@ public class CurrencyConverter {
 			}
 			else
 			{
-				obj = new JsonParser().parse(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
+				obj = URLTools.toJson(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 			}
 			obj.entrySet().forEach(entry->map.put(entry.getKey().substring(3),entry.getValue().getAsDouble()));
 		

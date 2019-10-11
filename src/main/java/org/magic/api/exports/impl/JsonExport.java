@@ -1,10 +1,8 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,15 +14,14 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
 
@@ -81,8 +78,7 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {
-		JsonReader reader = new JsonReader(new StringReader(f));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonObject root = URLTools.toJson(f).getAsJsonObject();
 
 		MagicDeck deck = new MagicDeck();
 			deck.setName(name);
@@ -208,8 +204,7 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
-		JsonReader reader = new JsonReader(new FileReader(f));
-		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
+		JsonArray root = URLTools.toJson(FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING)).getAsJsonArray();
 		List<MagicCardStock> list = new ArrayList<>();
 		for (int i = 0; i < root.size(); i++) {
 			JsonObject line = root.get(i).getAsJsonObject();

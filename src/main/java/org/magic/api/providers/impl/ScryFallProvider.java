@@ -2,8 +2,6 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -30,8 +28,6 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
@@ -58,8 +54,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	
 	private String baseURI = "";
-	private JsonParser parser;
-
 	public ScryFallProvider() {
 		super();
 		if(getBoolean(LOAD_CERTIFICATE))
@@ -89,7 +83,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	@Override
 	public void init() {
-		parser = new JsonParser();
 		baseURI=getString("URL");
 	}
 
@@ -526,16 +519,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
 
 		logger.trace("initOtherEdition " + URLDecoder.decode(url, MTGConstants.DEFAULT_ENCODING.displayName()));
-		HttpURLConnection con;
 
-		JsonReader reader;
 		boolean hasMore = true;
 		while (hasMore) {
-			con = URLTools.openConnection(url);
-
+	
 			try {
-				reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING.displayName()));
-				JsonElement el = parser.parse(reader);
+				JsonElement el = URLTools.extractJson(url);
 
 				JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
 				for (int i = 0; i < jsonList.size(); i++) {

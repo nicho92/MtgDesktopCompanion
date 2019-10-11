@@ -24,8 +24,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonParser;
-
 public class MTGEventProvider {
 
 	private String url = MTGConstants.WIZARD_EVENTS_URL;
@@ -55,7 +53,7 @@ public class MTGEventProvider {
 
 		String json = read(link);
 
-		String e = new JsonParser().parse(json).getAsJsonObject().get("data").getAsString();
+		String e = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
 		Elements trs = Jsoup.parse(e).select("tr.multi-day,tr.single-day");
 		for (Element td : trs.select(MTGConstants.HTML_TAG_TD)) {
 

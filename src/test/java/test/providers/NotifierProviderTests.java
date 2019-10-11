@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.services.PluginRegistry;
 

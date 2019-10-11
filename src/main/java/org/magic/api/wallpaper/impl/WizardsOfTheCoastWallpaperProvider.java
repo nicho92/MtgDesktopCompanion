@@ -24,8 +24,6 @@ import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonParser;
-
 public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvider {
 
 	private String read(String url) throws IOException {
@@ -49,7 +47,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		try {
 			String json = read(url);
 
-			String doc = new JsonParser().parse(json).getAsJsonObject().get("data").getAsString();
+			String doc = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
 
 			for (Element e : Jsoup.parse(doc).select("div.wrap")) {
 				Wallpaper w = new Wallpaper();

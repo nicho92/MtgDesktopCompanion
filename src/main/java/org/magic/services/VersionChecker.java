@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 import org.magic.tools.URLTools;
-import org.magic.tools.XMLTools;
 
 public class VersionChecker {
 

@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.hive2hive.core.H2HSession;
 import org.hive2hive.core.api.H2HNode;
 import org.hive2hive.core.api.configs.FileConfiguration;
 import org.hive2hive.core.api.configs.NetworkConfiguration;
@@ -25,9 +24,6 @@ import org.hive2hive.core.events.framework.interfaces.file.IFileUpdateEvent;
 import org.hive2hive.core.exceptions.NoPeerConnectionException;
 import org.hive2hive.core.exceptions.NoSessionException;
 import org.hive2hive.core.file.IFileAgent;
-import org.hive2hive.core.network.data.DataManager;
-import org.hive2hive.core.processes.files.list.GetFileListStep;
-import org.hive2hive.core.processes.login.SessionParameters;
 import org.hive2hive.core.security.UserCredentials;
 import org.hive2hive.processframework.exceptions.InvalidProcessStateException;
 import org.hive2hive.processframework.exceptions.ProcessExecutionException;
@@ -35,13 +31,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.POMReader;
-
-import net.tomp2p.dht.FutureGet;
-import net.tomp2p.dht.GetBuilder;
-import net.tomp2p.peers.Number160;
-import net.tomp2p.peers.PeerAddress;
-import net.tomp2p.peers.PeerMapChangeListener;
-import net.tomp2p.peers.PeerStatistic;
 
 public class P2PServer extends AbstractMTGServer {
 
@@ -58,9 +47,7 @@ public class P2PServer extends AbstractMTGServer {
 			createAgent(NetworkConfiguration.create(InetAddress.getByName("localhost")), MTGConstants.MTG_DECK_DIRECTORY, "bob", "password", "pin");
 			createAgent(NetworkConfiguration.create(InetAddress.getByName("localhost")), MTGConstants.MTG_DECK_DIRECTORY, "clara", "password", "pin");
 			
-			serverNode.getPeer().peerBean().peerMap().all().forEach(pa->{
-				System.out.println("Peer connected :" + pa.peerId());
-			});
+			serverNode.getPeer().peerBean().peerMap().all().forEach(pa->System.out.println("Peer connected :" + pa.peerId()));
 			
 			
 			
@@ -132,12 +119,7 @@ public class P2PServer extends AbstractMTGServer {
 	}
 	
 	
-	private IH2HNode createAgent(INetworkConfiguration config, File root, String client, String pass, String pin) throws NoPeerConnectionException, InvalidProcessStateException, ProcessExecutionException, NoSessionException, IOException {
-		
-		
-		FileUtils.forceMkdir(new File(root,client));
-		
-		
+	private IH2HNode createAgent(INetworkConfiguration config, File root, String client, String pass, String pin) throws NoPeerConnectionException, InvalidProcessStateException, ProcessExecutionException, NoSessionException {
 		IH2HNode node = H2HNode.createNode(FileConfiguration.createDefault());
 		INetworkConfiguration node2Conf = config;
 		node.connect(node2Conf);

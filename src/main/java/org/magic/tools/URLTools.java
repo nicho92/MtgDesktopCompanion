@@ -17,7 +17,6 @@ import javax.net.ssl.SSLHandshakeException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -102,7 +101,7 @@ public class URLTools {
 	{
 		HttpURLConnection con = openConnection(url);
 		JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream()));
-		JsonElement e= new JsonParser().parse(reader);
+		JsonElement e= JsonParser.parseReader(reader);
 		reader.close();
 		close(con);
 		return e;
@@ -179,7 +178,7 @@ public class URLTools {
 	
 	public static JsonElement toJson(String s)
 	{
-		return new JsonParser().parse(s);
+		return JsonParser.parseString(s);
 	}
 	
 	

@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -30,8 +29,6 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
@@ -296,15 +293,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	public void initOtherEdVariable(MagicCard mc, MagicEdition ed) {
-		JsonReader reader;
 		JsonObject root = null;
 		JsonObject temp = null;
 		try {
-			reader = new JsonReader(new InputStreamReader(URLTools.openConnection(
-					getString(JSON_URL) + "/cards?set=" + ed.getId() + "&name=" + URLTools.encode(mc.getName()))
-							.getInputStream(),
-					MTGConstants.DEFAULT_ENCODING));
-			root = new JsonParser().parse(reader).getAsJsonObject();
+			root = URLTools.extractJson(getString(JSON_URL) + "/cards?set=" + ed.getId() + "&name=" + URLTools.encode(mc.getName())).getAsJsonObject();
 
 			temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
 

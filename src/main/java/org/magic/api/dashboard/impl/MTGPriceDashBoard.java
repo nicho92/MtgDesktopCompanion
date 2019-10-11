@@ -28,7 +28,6 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class MTGPriceDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE = "WEBSITE";
@@ -133,7 +132,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		String data = table.html();
 		data = data.substring(data.indexOf('['), data.indexOf(']') + 1);
-		JsonElement root = new JsonParser().parse(data);
+		JsonElement root = URLTools.toJson(data);
 		JsonArray arr = root.getAsJsonArray();
 		for (int i = 0; i < arr.size(); i++) {
 			JsonObject card = arr.get(i).getAsJsonObject();

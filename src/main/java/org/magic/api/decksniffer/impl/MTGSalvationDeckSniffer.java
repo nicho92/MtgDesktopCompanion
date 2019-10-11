@@ -26,7 +26,6 @@ import org.mozilla.javascript.ast.AstNode;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
@@ -155,7 +154,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		manajson = manajson.substring(manajson.indexOf("series") + "series: ".length(), manajson.length() - 8);
 
-		JsonArray arr = new JsonParser().parse(manajson).getAsJsonArray();
+		JsonArray arr = URLTools.toJson(manajson).getAsJsonArray();
 		manajson = "";
 		boolean hascolor = false;
 		StringBuilder build = new StringBuilder(manajson);
