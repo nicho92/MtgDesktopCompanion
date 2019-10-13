@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -13,17 +14,64 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.POMReader;
 
 import net.tomp2p.connection.DiscoverNetworks;
+import net.tomp2p.dht.FutureGet;
+import net.tomp2p.dht.FuturePut;
+import net.tomp2p.dht.PeerBuilderDHT;
+import net.tomp2p.dht.PeerDHT;
 import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
+import net.tomp2p.storage.Data;
 
 
 
 public class P2PServer extends AbstractMTGServer {
 
-	private Peer serverNode;
+	private PeerDHT serverNode;
 	private String version="";
 
+	private static final String DOMAIN = MTGConstants.MTG_APP_NAME;
+	
+	private Number160 add(PeerDHT node,File f) throws IOException
+	{
+		Number160 k = Number160.createHash(f.getName());
+		byte[] content = FileUtils.readFileToByteArray(f);
+		FuturePut fadd = serverNode.add(k).data(new Data(content)).domainKey( Number160.createHash( DOMAIN ) ).start();
+		logger.info("Peer "+ node.peerID() + " add [key: " + k + ", value: "+ content + "]");
+		fadd.awaitUninterruptibly();
+		
+		return k;
+	}
+
+	
+	private FutureGet get(PeerDHT node,Number160 k) throws IOException
+	{
+		FutureGet fget = node.get(k).all().domainKey( Number160.createHash(DOMAIN) ).start();
+		return fget.awaitUninterruptibly();
+		
+	}
+	
+
+	private PeerDHT createAgent(File root,String id,int port, PeerDHT masterPeer) throws IOException {
+		
+		PeerBuilder b=  new PeerBuilder(new Number160(id.getBytes())).ports(port);
+		
+		if(masterPeer!=null)
+			b.masterPeer(masterPeer.peer());
+		
+		
+		PeerBuilderDHT bdht = new PeerBuilderDHT(b.start());
+		
+		
+		logger.info("init peer " + id);						
+		return bdht.start();
+		
+		
+		
+		
+	}
+
+	
 	
 	@Override
 	public void start() throws IOException {
@@ -32,13 +80,21 @@ public class P2PServer extends AbstractMTGServer {
 		{
 			serverNode = createAgent(MTGConstants.MTG_DECK_DIRECTORY,"Nicolas",7700,null);
 		
-			createAgent(MTGConstants.MTG_DECK_DIRECTORY, "bob",7701,serverNode);
-			createAgent(MTGConstants.MTG_DECK_DIRECTORY, "clara",7702,serverNode);
-			
-			logger.info( "Server started Listening to: " + DiscoverNetworks.discoverInterfaces(serverNode.connectionBean().resourceConfiguration().bindings()).existingAddresses());
+			logger.info( "Server started Listening to: " + DiscoverNetworks.discoverInterfaces(serverNode.peer().connectionBean().resourceConfiguration().bindings()).existingAddresses());
 	   
+			for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles())
+			{
+				add(serverNode,f);
+			}
+		
+			PeerDHT n1 = createAgent(MTGConstants.MTG_DECK_DIRECTORY, "bob",7700,serverNode);
+			PeerDHT n2 = createAgent(MTGConstants.MTG_DECK_DIRECTORY, "clara",7700,serverNode);
+				
 			
-		 
+			
+			
+			
+			 
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 
@@ -68,7 +124,7 @@ public class P2PServer extends AbstractMTGServer {
 	@Override
 	public boolean isAlive() {
 		if(serverNode!=null)
-			return serverNode.isShutdown();
+			return serverNode.peer().isShutdown();
 		
 		return false;
 	}
@@ -105,18 +161,4 @@ public class P2PServer extends AbstractMTGServer {
 	}
 	
 	
-	private Peer createAgent(File root,String id,int port, Peer masterPeer) throws IOException {
-		PeerBuilder b=  new PeerBuilder(new Number160(id.getBytes())).ports(port);
-		
-		if(masterPeer!=null)
-			b.masterPeer(masterPeer);
-		
-		logger.info("init peer " + id);						
-		return b.start();
-		
-		
-		
-		
-	}
-
 }
