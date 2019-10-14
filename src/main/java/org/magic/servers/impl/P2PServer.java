@@ -1,11 +1,7 @@
 package org.magic.servers.impl;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-import java.security.PublicKey;
-import java.util.Collection;
-import java.util.NavigableMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -22,13 +18,9 @@ import net.tomp2p.dht.FutureGet;
 import net.tomp2p.dht.FuturePut;
 import net.tomp2p.dht.PeerBuilderDHT;
 import net.tomp2p.dht.PeerDHT;
-import net.tomp2p.dht.Storage;
 import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
-import net.tomp2p.peers.Number320;
-import net.tomp2p.peers.Number480;
-import net.tomp2p.peers.Number640;
 import net.tomp2p.storage.Data;
 
 
@@ -59,7 +51,20 @@ public class P2PServer extends AbstractMTGServer {
 		
 	}
 	
-
+	private Number160 find(PeerDHT node, Number160 keyKeyword) throws ClassNotFoundException, IOException 
+	{
+		FutureGet fget = get(node,keyKeyword);
+		Data data = fget.data();
+		
+		if(!data.isEmpty() && data.object()!=null) {
+    		return (Number160) data.object();
+    	} 
+		
+		return null;
+	}
+	
+	
+	
 	private PeerDHT createAgent(File root,String id,int port, PeerDHT masterPeer) throws IOException {
 		
 		PeerBuilder b=  new PeerBuilder(new Number160(id.getBytes())).ports(port);
@@ -71,12 +76,15 @@ public class P2PServer extends AbstractMTGServer {
 		PeerBuilderDHT bdht = new PeerBuilderDHT(b.start());
 		PeerDHT peerdht = bdht.start();
 	
-		
 		if(root!=null)
 		{
 			for(File f : root.listFiles((File p)->!p.isDirectory()))
 				add(peerdht,f);
 		}
+		
+		if(masterPeer!=null)
+			peerdht.peer().bootstrap().peerAddress(masterPeer.peerAddress());
+		
 		
 		logger.info("init peer " + id);						
 		return peerdht;
@@ -97,10 +105,9 @@ public class P2PServer extends AbstractMTGServer {
 		
 			logger.info( "Server started Listening to: " + DiscoverNetworks.discoverInterfaces(serverNode.peer().connectionBean().resourceConfiguration().bindings()).existingAddresses());
 	   
-			
 			PeerDHT n1 = createAgent(new File("D:\\programmation"), "bob",7700,serverNode);
 			
-			
+			 Number160 key1Keyword = Number160.createHash("UG.json");
 			
 			
 		} catch (Exception e) {
