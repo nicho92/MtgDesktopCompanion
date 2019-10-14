@@ -1,7 +1,11 @@
 package org.magic.servers.impl;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.security.PublicKey;
+import java.util.Collection;
+import java.util.NavigableMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -18,9 +22,13 @@ import net.tomp2p.dht.FutureGet;
 import net.tomp2p.dht.FuturePut;
 import net.tomp2p.dht.PeerBuilderDHT;
 import net.tomp2p.dht.PeerDHT;
+import net.tomp2p.dht.Storage;
 import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
+import net.tomp2p.peers.Number320;
+import net.tomp2p.peers.Number480;
+import net.tomp2p.peers.Number640;
 import net.tomp2p.storage.Data;
 
 
@@ -36,7 +44,7 @@ public class P2PServer extends AbstractMTGServer {
 	{
 		Number160 k = Number160.createHash(f.getName());
 		byte[] content = FileUtils.readFileToByteArray(f);
-		FuturePut fadd = serverNode.add(k).data(new Data(content)).domainKey( Number160.createHash( DOMAIN ) ).start();
+		FuturePut fadd = node.add(k).data(new Data(content)).domainKey( Number160.createHash( DOMAIN ) ).start();
 		logger.info("Peer "+ node.peerID() + " add [key: " + k + ", value: "+ content + "]");
 		fadd.awaitUninterruptibly();
 		
@@ -61,10 +69,17 @@ public class P2PServer extends AbstractMTGServer {
 		
 		
 		PeerBuilderDHT bdht = new PeerBuilderDHT(b.start());
+		PeerDHT peerdht = bdht.start();
+	
 		
+		if(root!=null)
+		{
+			for(File f : root.listFiles((File p)->!p.isDirectory()))
+				add(peerdht,f);
+		}
 		
 		logger.info("init peer " + id);						
-		return bdht.start();
+		return peerdht;
 		
 		
 		
@@ -82,19 +97,12 @@ public class P2PServer extends AbstractMTGServer {
 		
 			logger.info( "Server started Listening to: " + DiscoverNetworks.discoverInterfaces(serverNode.peer().connectionBean().resourceConfiguration().bindings()).existingAddresses());
 	   
-			for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles())
-			{
-				add(serverNode,f);
-			}
-		
-			PeerDHT n1 = createAgent(MTGConstants.MTG_DECK_DIRECTORY, "bob",7700,serverNode);
-			PeerDHT n2 = createAgent(MTGConstants.MTG_DECK_DIRECTORY, "clara",7700,serverNode);
-				
+			
+			PeerDHT n1 = createAgent(new File("D:\\programmation"), "bob",7700,serverNode);
 			
 			
 			
 			
-			 
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 
@@ -148,6 +156,7 @@ public class P2PServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty("AUTO_START", "false");
 		setProperty("USERNAME",SystemUtils.USER_NAME);
+		setProperty("PORT","7700");
 	}
 	
 	@Override
