@@ -2,6 +2,8 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,11 +15,15 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.POMReader;
 
+import com.google.common.collect.Lists;
+
 import net.tomp2p.connection.DiscoverNetworks;
 import net.tomp2p.dht.FutureGet;
 import net.tomp2p.dht.FuturePut;
 import net.tomp2p.dht.PeerBuilderDHT;
 import net.tomp2p.dht.PeerDHT;
+import net.tomp2p.futures.FutureBootstrap;
+import net.tomp2p.futures.FutureDiscover;
 import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
@@ -42,7 +48,6 @@ public class P2PServer extends AbstractMTGServer {
 		
 		return k;
 	}
-
 	
 	private FutureGet get(PeerDHT node,Number160 k) throws IOException
 	{
@@ -50,21 +55,7 @@ public class P2PServer extends AbstractMTGServer {
 		return fget.awaitUninterruptibly();
 		
 	}
-	
-	private Number160 find(PeerDHT node, Number160 keyKeyword) throws ClassNotFoundException, IOException 
-	{
-		FutureGet fget = get(node,keyKeyword);
-		Data data = fget.data();
 		
-		if(!data.isEmpty() && data.object()!=null) {
-    		return (Number160) data.object();
-    	} 
-		
-		return null;
-	}
-	
-	
-	
 	private PeerDHT createAgent(File root,String id,int port, PeerDHT masterPeer) throws IOException {
 		
 		PeerBuilder b=  new PeerBuilder(new Number160(id.getBytes())).ports(port);
@@ -93,7 +84,28 @@ public class P2PServer extends AbstractMTGServer {
 		
 		
 	}
+	
+	private void bootstrap(Peer[] peers,Peer master )
+    {
+        List<FutureBootstrap> futures1 = new ArrayList<>();
+        List<FutureDiscover> futures2 = new ArrayList<>();
+        
+        for ( Peer p : peers )
+            futures2.add( p.discover().peerAddress( master.peerAddress() ).start() );
+        
+        for ( FutureDiscover future : futures2 )
+       		future.awaitUninterruptibly();
+        
+        for (Peer p : peers)
+            futures1.add( p.bootstrap().peerAddress( master.peerAddress() ).start() );
+       
+        for (Peer p : peers)
+            futures1.add( master.bootstrap().peerAddress( p.peerAddress() ).start() );
+        
+        for ( FutureBootstrap future : futures1 )
+        	future.awaitUninterruptibly();
 
+    }
 	
 	
 	@Override
@@ -106,8 +118,19 @@ public class P2PServer extends AbstractMTGServer {
 			logger.info( "Server started Listening to: " + DiscoverNetworks.discoverInterfaces(serverNode.peer().connectionBean().resourceConfiguration().bindings()).existingAddresses());
 	   
 			PeerDHT n1 = createAgent(new File("D:\\programmation"), "bob",7700,serverNode);
+			PeerDHT n2 = createAgent(new File("D:\\conf"), "clara",7700,serverNode);
+
+			bootstrap(new Peer[] {n1.peer(),n2.peer()}, serverNode.peer());
 			
-			 Number160 key1Keyword = Number160.createHash("UG.json");
+			Number160 key1Keyword = Number160.createHash("UG.json");
+			
+			FutureGet fg = get(serverNode,key1Keyword);
+			
+			while(!fg.isCompleted())
+				logger.debug("waiting...");
+			
+			System.out.println(fg.data());
+			
 			
 			
 		} catch (Exception e) {
