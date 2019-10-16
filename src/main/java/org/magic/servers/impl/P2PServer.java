@@ -53,7 +53,6 @@ public class P2PServer extends AbstractMTGServer {
 	{
 		FutureGet fget = node.get(k).all().domainKey( Number160.createHash(DOMAIN) ).start();
 		return fget.awaitUninterruptibly();
-		
 	}
 		
 	private PeerDHT createAgent(File root,String id,int port, PeerDHT masterPeer) throws IOException {

@@ -112,7 +112,7 @@
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
-		    <version>2.5.0</version>
+		    <version>2.5.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.xerial</groupId>
@@ -147,7 +147,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.0.0_51</version>
+			  <version>4.0.0_52</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -366,7 +366,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.17</version>
+			<version>8.0.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -421,7 +421,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-       		<version>3.11.0</version>
+       		<version>3.11.1</version>
     </dependency>
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>
