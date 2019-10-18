@@ -15,8 +15,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.POMReader;
 
-import com.google.common.collect.Lists;
-
 import net.tomp2p.connection.DiscoverNetworks;
 import net.tomp2p.dht.FutureGet;
 import net.tomp2p.dht.FuturePut;
@@ -49,7 +47,7 @@ public class P2PServer extends AbstractMTGServer {
 		return k;
 	}
 	
-	private FutureGet get(PeerDHT node,Number160 k) throws IOException
+	private FutureGet get(PeerDHT node,Number160 k)
 	{
 		FutureGet fget = node.get(k).all().domainKey( Number160.createHash(DOMAIN) ).start();
 		return fget.awaitUninterruptibly();
@@ -78,10 +76,6 @@ public class P2PServer extends AbstractMTGServer {
 		
 		logger.info("init peer " + id);						
 		return peerdht;
-		
-		
-		
-		
 	}
 	
 	private void bootstrap(Peer[] peers,Peer master )
@@ -108,8 +102,8 @@ public class P2PServer extends AbstractMTGServer {
 	
 	
 	@Override
-	public void start() throws IOException {
-		
+	public void start() throws IOException 
+	{
 		try 
 		{
 			serverNode = createAgent(MTGConstants.MTG_DECK_DIRECTORY,"Nicolas",7700,null);
@@ -124,13 +118,6 @@ public class P2PServer extends AbstractMTGServer {
 			Number160 key1Keyword = Number160.createHash("UG.json");
 			
 			FutureGet fg = get(serverNode,key1Keyword);
-			
-			while(!fg.isCompleted())
-				logger.debug("waiting...");
-			
-			System.out.println(fg.data());
-			
-			
 			
 		} catch (Exception e) {
 			throw new IOException(e);
