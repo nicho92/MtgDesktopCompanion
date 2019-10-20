@@ -55,30 +55,10 @@
 		  </repository>
 	</repositories>
 	<dependencies>
-	<!-- <dependency>
-			<groupId>com.github.atomashpolskiy</groupId>
-		    <artifactId>bt-core</artifactId>
-		    <version>1.8</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.atomashpolskiy</groupId>
-		    <artifactId>bt-http-tracker-client</artifactId>
-		    <version>1.8</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.atomashpolskiy</groupId>
-		    <artifactId>bt-dht</artifactId>
-		    <version>1.8</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.atomashpolskiy</groupId>
-		    <artifactId>bt-upnp</artifactId>
-		    <version>1.8</version>
-		</dependency> -->
-		<dependency>
-		  <groupId>net.tomp2p</groupId>
-		  <artifactId>tomp2p-all</artifactId>
-		  <version>5.0-Beta8</version>
+	<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-all</artifactId>
+		    <version>4.1.42.Final</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.panda-lang</groupId>

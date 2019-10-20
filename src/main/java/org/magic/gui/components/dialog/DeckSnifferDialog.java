@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -123,7 +124,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		setLocationRelativeTo(null);
 
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
-		
+		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		
