@@ -41,7 +41,7 @@ public class P2PServer extends AbstractMTGServer {
 		
 		 client.startAsync(state -> {
 	            logger.debug("Peers: " + state.getConnectedPeers().size() + "; Downloaded: " + (((double)state.getPiecesComplete()) / state.getPiecesTotal()) * 100 + "%");
-	        }, 1000).join();
+	        }, 5000).join();
 	}
 
 	@Override
