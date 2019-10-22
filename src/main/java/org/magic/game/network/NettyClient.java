@@ -53,8 +53,8 @@ public class NettyClient implements NetworkClient {
 		            }
 
 					@Override
-					protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-						 logger.debug("Client received: " + in.toString(MTGConstants.DEFAULT_ENCODING));
+					protected void messageReceived(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+						 logger.debug("Client received: " + msg.toString(MTGConstants.DEFAULT_ENCODING));
 						
 					}
 		        });
