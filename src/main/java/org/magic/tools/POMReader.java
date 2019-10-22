@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 
 public class POMReader {
-	private static Logger logger = MTGLogger.getLogger(POMReader.class);
 
 	private POMReader() {
 		// prevent instances
@@ -23,7 +22,7 @@ public class POMReader {
 	 */
 	public static synchronized String readVersionFromPom(Class<?> clazz, String pomProperties) {
 		String version = null;
-
+		Logger logger = MTGLogger.getLogger(POMReader.class);
 		// try reading the pom.properties file from the jar
 		try {
 			Properties p = new Properties();

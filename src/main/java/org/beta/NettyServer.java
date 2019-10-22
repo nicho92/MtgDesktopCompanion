@@ -6,6 +6,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
@@ -36,7 +37,7 @@ public class NettyServer extends AbstractMTGServer {
                   @Override
                     public void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline p = ch.pipeline();
-                        p.addLast(new ChannelInboundHandlerAdapter() {
+                        p.addLast(new ChannelHandlerAdapter() {
                         	
                         		  @Override
                         	       public void channelRead(ChannelHandlerContext ctx, Object msg) {

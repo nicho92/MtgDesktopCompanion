@@ -13,21 +13,18 @@ public class P2PServer extends AbstractMTGServer {
 
 	@Override
 	public void start() throws IOException {
-		
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void stop() throws IOException {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean isAlive() {
-	
-		
 		return false;
-
 	}
 
 	@Override
