@@ -126,9 +126,6 @@ public class URLTools {
 		} 
 	}
 	
-	
-	
-	
 	public static HttpURLConnection getConnection(URL url,String userAgent) throws IOException {
 		
 		Chrono c = new Chrono();
