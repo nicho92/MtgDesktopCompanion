@@ -11,6 +11,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.NetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.actions.ChangeDeckAction;

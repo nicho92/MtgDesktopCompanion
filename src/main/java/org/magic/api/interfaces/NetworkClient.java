@@ -1,4 +1,4 @@
-package org.magic.game.network;
+package org.magic.api.interfaces;
 
 import java.awt.Color;
 
