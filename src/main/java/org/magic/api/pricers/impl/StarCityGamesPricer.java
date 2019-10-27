@@ -46,10 +46,18 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 				
 				mp.setFoil(mp.getSeller().contains("(Foil)"));
 				
+				try {
 				if(tr.select("td").get(8).select("span").size()>1)
 					mp.setValue(Double.parseDouble(tr.select("td").get(8).select("span").get(1).text().replace('$', ' ').trim()));
 				else
 					mp.setValue(Double.parseDouble(tr.select("td").get(8).text().replace('$', ' ').trim()));
+				
+				}
+				catch(Exception e)
+				{
+					logger.error("error retrieving price for " + card,e);
+				}
+				
 				ret.add(mp);
 			}
 		}
