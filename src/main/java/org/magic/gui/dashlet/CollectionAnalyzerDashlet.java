@@ -30,7 +30,7 @@ import org.magic.gui.renderer.CardShakeTreeCellRenderer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.CollectionAnalyzerWorker;
 import org.magic.tools.UITools;
 

@@ -24,7 +24,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
 
 public class LazyLoadingTree extends JTree {

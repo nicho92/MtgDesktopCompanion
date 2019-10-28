@@ -27,7 +27,7 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.UITools;
 

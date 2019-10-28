@@ -49,7 +49,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;

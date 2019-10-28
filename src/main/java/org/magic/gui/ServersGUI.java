@@ -10,7 +10,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 public class ServersGUI extends MTGUIComponent {
 

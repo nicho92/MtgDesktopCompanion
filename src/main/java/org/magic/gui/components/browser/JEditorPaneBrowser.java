@@ -8,7 +8,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;

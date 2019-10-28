@@ -11,6 +11,8 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,7 +44,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.UITools;
 
@@ -75,6 +77,7 @@ public class ScriptPanel extends MTGUIComponent {
 		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
 		JButton btnStop = new JButton(MTGConstants.ICON_DELETE);
+		
 		
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
@@ -120,6 +123,10 @@ public class ScriptPanel extends MTGUIComponent {
 		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
 		
 		
+		btnStop.addActionListener(e->{
+				
+		});
+		
 		btnRun.addActionListener(al->{
 			
 			Chrono c = new Chrono();
@@ -136,9 +143,7 @@ public class ScriptPanel extends MTGUIComponent {
 					scripter.init();
 					StringWriter writer = new StringWriter();
 					scripter.setOutput(writer);
-					
 					Object ret = scripter.runContent(editorPane.getText());
-					
 					appendResult(writer.toString()+"\n");
 					
 					if(chkShowReturn.isSelected())
@@ -152,6 +157,7 @@ public class ScriptPanel extends MTGUIComponent {
 				btnStop.setEnabled(false);
 			}, "executing script");
 		});
+		
 		
 		
 		

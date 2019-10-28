@@ -18,8 +18,8 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.TYPE;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
 import org.magic.services.extra.PackagesProvider;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 
 public class BoosterPicsPanel extends JTabbedPane {

@@ -27,7 +27,6 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ast.Name;
 import org.mozilla.javascript.ast.AstNode;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
@@ -62,17 +61,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
-		
-		MagicCard mc = new MagicCard();
-		mc.setName("Gaea's Cradle");
-		
-		MagicEdition ed = new MagicEdition("URZ");
-			ed.setSet("Urza's Saga");
-			
-		new MTGoldFishDashBoard().getOnlinePricesVariation(mc, ed).forEach(System.out::println);
-		
-	}	
 	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		String url = "";

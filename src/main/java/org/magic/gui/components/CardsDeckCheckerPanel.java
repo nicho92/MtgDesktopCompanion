@@ -14,7 +14,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 public class CardsDeckCheckerPanel extends JComponent {
 	

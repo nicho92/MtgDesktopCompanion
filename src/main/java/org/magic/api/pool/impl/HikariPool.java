@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractPool;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

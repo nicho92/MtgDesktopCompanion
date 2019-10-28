@@ -29,7 +29,7 @@ import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 public class TrendingDashlet extends AbstractJDashlet {

@@ -10,7 +10,7 @@ import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.ZoneEnum;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 public class HandPanel extends DraggablePanel {
 

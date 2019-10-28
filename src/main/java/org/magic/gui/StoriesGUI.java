@@ -25,8 +25,8 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
 import org.magic.services.extra.StoryProvider;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.URLTools;
 
 public class StoriesGUI extends MTGUIComponent {

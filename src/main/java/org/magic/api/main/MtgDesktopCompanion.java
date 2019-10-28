@@ -17,7 +17,7 @@ import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 
 public class MtgDesktopCompanion {

@@ -71,7 +71,7 @@ import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 

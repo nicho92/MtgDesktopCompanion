@@ -15,7 +15,7 @@ import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 	

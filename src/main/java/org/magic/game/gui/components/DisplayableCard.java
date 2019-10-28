@@ -66,7 +66,7 @@ import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
-import org.magic.services.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

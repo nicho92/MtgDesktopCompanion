@@ -1,7 +1,10 @@
-package org.magic.services;
+package org.magic.services.threads;
 
 import java.beans.PropertyChangeEvent;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
@@ -11,6 +14,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -22,7 +26,7 @@ public class ThreadManager {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
 	private String name="";
-
+	
 	public static ThreadManager getInstance() {
 		if (inst == null)
 			inst = new ThreadManager();
@@ -36,11 +40,7 @@ public class ThreadManager {
 		log();
 	}
 	
-	public Future submitThread(Runnable task, String name) {
-		this.name=name;
-		log();
-		return executor.submit(task);
-	}
+	
 	
 	public <V> Future<V> executeThread(Callable<V> task) {
 		log();
@@ -50,7 +50,7 @@ public class ThreadManager {
 	public void invokeLater(Runnable task) {
 		SwingUtilities.invokeLater(task);
 	}
-
+	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		this.name=name;
 		runnable.execute();
@@ -71,7 +71,7 @@ public class ThreadManager {
 	}
 	
 	private void log() {
-		logger.trace(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
+		logger.debug(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
 				executor.getActiveCount(), 
@@ -81,14 +81,18 @@ public class ThreadManager {
 	}
 
 	private ThreadManager() {
-		factory = new ThreadFactoryBuilder().setNameFormat("mtg-threadpool-%d").setDaemon(true).build();
+		factory = new ThreadFactoryBuilder()
+						.setNameFormat("mtg-threadpool-%d")
+						.setDaemon(true)
+						.build();
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}
 
 	public ThreadFactory getFactory() {
 		return factory;
 	}
-
+	
+	
 }
 
 
