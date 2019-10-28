@@ -1,10 +1,7 @@
 package org.magic.services.threads;
 
 import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
@@ -40,9 +37,12 @@ public class ThreadManager {
 		log();
 	}
 	
+	public Future<?> submitThread(Runnable task, String name) {
+		return executeCallable(Executors.callable(task), name);
+	}
 	
 	
-	public <V> Future<V> executeThread(Callable<V> task) {
+	public <V> Future<V> executeCallable(Callable<V> task,String name) {
 		log();
 		return executor.submit(task);
 	}
@@ -52,7 +52,6 @@ public class ThreadManager {
 	}
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
-		this.name=name;
 		runnable.execute();
 		Chrono c = new Chrono();
 		
@@ -64,14 +63,13 @@ public class ThreadManager {
 			}
 			
 			if(ev.getNewValue().toString().equals("DONE"))
-			{ 
 				logger.trace(name+"\t"+ev.getSource().getClass().getName()+"\t FINISHED IN "+c.stopInMillisecond()+"ms.");
-			}
+			
 		});
 	}
 	
 	private void log() {
-		logger.debug(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
+		logger.trace(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
 				executor.getActiveCount(), 
@@ -85,6 +83,7 @@ public class ThreadManager {
 						.setNameFormat("mtg-threadpool-%d")
 						.setDaemon(true)
 						.build();
+		
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 	}
 

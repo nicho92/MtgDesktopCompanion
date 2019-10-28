@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+import javax.script.ScriptException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -48,6 +49,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.UITools;
 
+import com.google.common.util.concurrent.Futures;
+
 public class ScriptPanel extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -57,7 +60,7 @@ public class ScriptPanel extends MTGUIComponent {
 	private JCheckBox chkShowReturn ;
 	private JLabel lblInfo;
 	private File currentFile;
-	
+	private Future f;
 	@Override
 	public String getTitle() {
 		return "Script";
@@ -124,7 +127,11 @@ public class ScriptPanel extends MTGUIComponent {
 		
 		
 		btnStop.addActionListener(e->{
-				
+			if(f!=null)
+			{
+				f.cancel(true);
+				logger.debug("Canceling " + f);
+			}
 		});
 		
 		btnRun.addActionListener(al->{
@@ -135,7 +142,8 @@ public class ScriptPanel extends MTGUIComponent {
 			btnStop.setEnabled(true);
 			
 			
-			ThreadManager.getInstance().executeThread(()->{
+			f = ThreadManager.getInstance().submitThread(()->
+			{
 				try {
 					
 					lblInfo.setText("Running");
@@ -149,9 +157,11 @@ public class ScriptPanel extends MTGUIComponent {
 					if(chkShowReturn.isSelected())
 						appendResult("Return :" + ret+"\n");
 					
-				} catch (Exception e) {
+				} 
+				catch (Exception e) {
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
+				
 				lblInfo.setText("Running time : " + c.stop() +"ms");
 				btnRun.setEnabled(true);
 				btnStop.setEnabled(false);

@@ -285,7 +285,7 @@ public class UITools {
 					if(e.getClickCount()==2 && dblClick!=null)
 					{
 					
-						ThreadManager.getInstance().executeThread(dblClick);
+						ThreadManager.getInstance().executeCallable(dblClick,"initTooltip");
 					}
 					else 
 					{
