@@ -27,6 +27,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.ast.Name;
 import org.mozilla.javascript.ast.AstNode;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
@@ -37,6 +38,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "WEBSITE";
 	private Map<String, String> mapConcordance;
+	boolean isPaperparsing=true;
 
 
 	public MTGoldFishDashBoard() {
@@ -60,6 +62,17 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		
+		MagicCard mc = new MagicCard();
+		mc.setName("Gaea's Cradle");
+		
+		MagicEdition ed = new MagicEdition("URZ");
+			ed.setSet("Urza's Saga");
+			
+		new MTGoldFishDashBoard().getOnlinePricesVariation(mc, ed).forEach(System.out::println);
+		
+	}	
 	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		String url = "";
@@ -116,24 +129,38 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			}
 			
 			AstNode root = new Parser().parse(js.html(), "", 1);
+			isPaperparsing=true;
 			root.visit(visitedNode -> {
 				boolean stop = false;
-				if (!stop && visitedNode.toSource().startsWith("d")) {
+				
+				if (!stop && visitedNode.toSource().startsWith("d"))
+				{
 					String val = visitedNode.toSource();
+					
+					if(val.startsWith("document.getElementById"))
+						isPaperparsing=false;
+					
 					val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
 					val = RegExUtils.replaceAll(val, "\\\\n", "");
 					val = RegExUtils.replaceAll(val, ";", "");
 					val = RegExUtils.replaceAll(val, "\"", "");
 					String[] res = val.split(",");
-
+					
 					try {
 						Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
 						if (historyPrice.get(date) == null)
-							historyPrice.put(date, Double.parseDouble(res[1]));
-
-					} catch (Exception e) {
+						{
+							
+							if(getString(FORMAT).equals("paper") && isPaperparsing)
+								historyPrice.put(date, Double.parseDouble(res[1]));
+							
+							if(getString(FORMAT).equals("online") && !isPaperparsing)
+								historyPrice.put(date, Double.parseDouble(res[1]));
+						}
+						
+						} catch (Exception e) {
 						// do nothing
-					}
+						}
 				}
 
 				if (visitedNode.toSource().startsWith("g =")) {
