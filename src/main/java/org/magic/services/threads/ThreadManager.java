@@ -68,14 +68,16 @@ public class ThreadManager {
 		});
 	}
 	
-	private void log() {
-		logger.trace(String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
+	public String log() {
+		String s = String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
 				executor.getActiveCount(), 
 				executor.getCompletedTaskCount(),
 				executor.getTaskCount(),
-				name));
+				name);
+		logger.trace(s);
+		return s;
 	}
 
 	private ThreadManager() {
@@ -87,8 +89,27 @@ public class ThreadManager {
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 		
 		
+	}
+	
+	public void launchMonitor()
+	{
+		executor.execute(()->{
+			
+			while(true) {
+				logger.debug(log());
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+				
+		});
+		
 		
 	}
+	
 
 	public ThreadFactory getFactory() {
 		return factory;
