@@ -45,14 +45,6 @@
 			<id>milton-repo</id>
 			<url>http://dl.bintray.com/milton/Milton</url>
 		</repository>
-		<repository>
-		  <id>hive2hive.org</id>
-		  <url>http://repo.hive2hive.org</url>
-		</repository>
-		  <repository>
-		    <id>tomp2p.net</id>
-		    <url>http://tomp2p.net/dev/mvn/</url>
-		  </repository>
 	</repositories>
 	<dependencies>
 		<dependency>

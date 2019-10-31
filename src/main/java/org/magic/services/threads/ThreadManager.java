@@ -14,6 +14,8 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 public class ThreadManager {
@@ -38,11 +40,11 @@ public class ThreadManager {
 	}
 	
 	public Future<?> submitThread(Runnable task, String name) {
-		return executeCallable(Executors.callable(task), name);
+		return submitCallable(Executors.callable(task), name);
 	}
 	
 	
-	public <V> Future<V> executeCallable(Callable<V> task,String name) {
+	public <V> Future<V> submitCallable(Callable<V> task,String name) {
 		log();
 		return executor.submit(task);
 	}
@@ -88,20 +90,19 @@ public class ThreadManager {
 		
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
 		
-		
+	
 	}
 	
 	public void launchMonitor()
 	{
 		executor.execute(()->{
-			
 			while(true) {
 				logger.debug(log());
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Thread.currentThread().interrupt();
+					logger.error(e);
 				}
 			}
 				
