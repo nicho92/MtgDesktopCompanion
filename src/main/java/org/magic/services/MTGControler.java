@@ -37,6 +37,7 @@ import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
 
@@ -115,6 +116,7 @@ public class MTGControler {
 	public void closeApp()
 	{
 		PluginRegistry.inst().listPlugins().forEach(MTGPlugin::unload);
+		ThreadManager.getInstance().stop();
 		System.exit(0);
 	}
 	

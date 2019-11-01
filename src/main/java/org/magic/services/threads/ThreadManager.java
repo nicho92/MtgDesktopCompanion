@@ -14,8 +14,6 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 public class ThreadManager {
@@ -89,8 +87,12 @@ public class ThreadManager {
 						.build();
 		
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
-		
+	}
 	
+	
+	public void stop()
+	{
+		executor.shutdown();
 	}
 	
 	public void launchMonitor()
