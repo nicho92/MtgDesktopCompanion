@@ -459,10 +459,8 @@ public class ConfigurationPanel extends JPanel {
 		JFontChooser chooseFontPanel = new JFontChooser();
 		chooseFontPanel.initFont(MTGControler.getInstance().getFont());
 		JButton btnSaveFont = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		
-		
 		JCheckBox chkEnabledAutocomplete = new JCheckBox();
-
+		JCheckBox chkEnabledChrome = new JCheckBox();
 		
 		
 		
@@ -471,6 +469,7 @@ public class ConfigurationPanel extends JPanel {
 		chkToolTip.getModel().setSelected(MTGControler.getInstance().get("tooltip").equals("true"));
 		cboToolPosition.getModel().setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
 		chkEnabledAutocomplete.getModel().setSelected( MTGControler.getInstance().get("autocompletion").equals("true"));
+		chkEnabledChrome.getModel().setSelected( MTGControler.getInstance().get("ui/chromedisabled").equals("true"));
 		
 		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -492,6 +491,8 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(btnSaveFont, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 7));
 		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ENABLE_AUTOCOMPLETION")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
 		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
+		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DISABLE_CHROME_RENDERING")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
+		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
 		
 		
 /////////////EVENTS	
@@ -600,6 +601,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
 		chkEnabledAutocomplete.addItemListener(ie -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
+		chkEnabledChrome.addItemListener(ie -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
 		
 		
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));

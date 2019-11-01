@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import org.magic.gui.components.browser.ChromiumBrowserComponent;
 import org.magic.gui.components.browser.JEditorPaneBrowser;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
@@ -35,6 +36,10 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
 	public static MTGUIBrowserComponent createBrowser()
 	{
+		
+		if(MTGControler.getInstance().get("ui/chromedisabled").equals("true"))
+			return new JEditorPaneBrowser();
+		
 		try {
 			return new ChromiumBrowserComponent();
 		}
