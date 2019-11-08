@@ -197,7 +197,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
 		panel.add(new JScrollPane(listEditions));
 		
-		panel.add(new JLabel(" "));
+		panel.add(new JLabel("\u2193"));
 		
 		panel.add(new JScrollPane(listSelected));
 		JPanel commandsPanel = new JPanel();
