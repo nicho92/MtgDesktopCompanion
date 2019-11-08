@@ -90,6 +90,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		return deck;
 	}
 
+	
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url = "";
 		metagames = getString("METAGAME").equals("true");
@@ -128,7 +129,19 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				StringBuilder deckColor = new StringBuilder();
 
 				for (Element c : colors)
-					deckColor.append("{").append(c.attr("alt").toUpperCase()).append("}");
+				{
+					switch (c.attr("alt")) 
+					{
+					case "white":deckColor.append("{W}");break;
+					case "blue":deckColor.append("{U}");break;
+					case "black":deckColor.append("{B}");break;
+					case "red":deckColor.append("{R}");break;
+					case "green":deckColor.append("{G}");break;
+					default:break;
+					} 
+
+					
+				}
 
 				RetrievableDeck deck = new RetrievableDeck();
 				deck.setName(desc.get(0).text());
