@@ -2,6 +2,7 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -204,7 +205,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getLanguages() {
-		return new String[] { "en","es","fr","de","it","pt","ja","ru","zhs","he","ar" };
+		return new String[] { "en","es","fr","de","it","pt","ja","ru","zhs","he","ar"};
 	}
 
 	@Override
@@ -244,7 +245,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 			});
 		} catch (ExecutionException e) {
-			logger.error(e);
+			logger.error("error loading cards", e);
 			return null;
 		}
 		
@@ -437,23 +438,30 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setRotatedCardName(arr.get(0).getAsJsonObject().get(NAME).getAsString());
 		}
 
-		MagicEdition ed;
-		try {
-			ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
-			ed.setArtist(mc.getArtist());
+		MagicEdition ed = null;
+		
+			try {
+				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
+				ed.setRarity(obj.get(RARITY).getAsString());
+				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
+				ed.setNumber(mc.getNumber());
+				ed.setArtist(mc.getArtist());
+				mc.getEditions().add(ed);
+			} catch (Exception e2) {
+				throw new IOException(e2);
+			} 
+
 			
-			if (obj.get("multiverse_ids") != null)
-				ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
+			if (obj.get("multiverse_ids") != null) {
+				try {
+					ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
+				} catch (Exception e1) {
+					logger.error(e1);
+				}
 
-			ed.setRarity(obj.get(RARITY).getAsString());
-			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
-			ed.setNumber(mc.getNumber());
-			mc.getEditions().add(ed);
-
-		} catch (Exception e1) {
-			throw new IOException(e1);
-		}
-
+			}
+		
+		
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (!mc.isBasicLand())

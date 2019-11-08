@@ -140,7 +140,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.0.0_55</version>
+			  <version>4.0.0_56</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -409,7 +409,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-       		<version>3.11.1</version>
+       		<version>3.11.2</version>
     </dependency>
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>

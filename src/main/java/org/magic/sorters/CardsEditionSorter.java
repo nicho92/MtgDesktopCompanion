@@ -15,6 +15,8 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
 		
+		try {
+			
 		boolean o1NullNumber=StringUtils.isEmpty(o1.getCurrentSet().getNumber());
 		boolean o2NullNumber=StringUtils.isEmpty(o2.getCurrentSet().getNumber());
 		
@@ -34,6 +36,13 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 			ret = name(o1, o2);
 
 		return ret;
+		
+		}
+		catch(Exception e)
+		{
+			return 0;
+		}
+		
 	}
 
 	private int test(MagicCard o1, MagicCard o2) {
