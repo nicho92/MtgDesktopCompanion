@@ -43,7 +43,9 @@ public class ThreadManager {
 	
 	
 	public <V> Future<V> submitCallable(Callable<V> task,String name) {
+		this.name=name;
 		log();
+		
 		return executor.submit(task);
 	}
 	
