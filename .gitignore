@@ -50,3 +50,5 @@ Temporary Items
 .project
 /bin/
 /target/
+/natives/
+/debug.log
