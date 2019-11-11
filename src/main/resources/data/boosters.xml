@@ -1293,8 +1293,6 @@
 		<constructpack lang="en" num="3" url="https://themanashop.ch/35809-large_default/le-trone-deldraine-set-brawl-decks-4-decks.jpg"/>
 	</edition>	
 	
-	
-	
 	<edition id="C19">
 		<constructpack lang="en" num="1" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/d/d7/C19_Faceless_Menace.png/300px-C19_Faceless_Menace.png?version=6070455e124e4244d8791153e1884e14"/>
 		<constructpack lang="en" num="2" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/2/22/Primal_Genesis.jpg/300px-Primal_Genesis.jpg?version=fde85a750db063977456dce0217e5596"/>
@@ -1312,12 +1310,13 @@
 	<edition id="MYSTPT">
 		<booster lang="en" num="1" url="https://media.wizards.com/2019/images/daily/ABfb7VQuaQ.png"/>
 	</edition>
+	
 	<edition id="GNT">
 		<bundle lang="en" num="1" url="https://images.fr.shopping.rakuten.com/photo/1220467677.jpg"/>
 	</edition>
 	
 	<edition id="GN2">
-		<bundle lang="en" num="1" url="https://boutique.magiccorporation.com/images/produits/normal/31241-jeux-de-cartes-a-collectionner-magic-the-gathering-coffrets.jpg?1571260362"></bundle>
+		<bundle lang="en" num="1" url="https://boutique.magiccorporation.com/images/produits/normal/31241-jeux-de-cartes-a-collectionner-magic-the-gathering-coffrets.jpg?1571260362"/>
 	</edition>
 	
 </boosterUrls>
