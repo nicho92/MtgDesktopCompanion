@@ -43,6 +43,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.VersionChecker;
+import org.magic.services.extra.GithubUtils;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.mkm.gui.MkmPanel;
@@ -233,7 +234,7 @@ public class MagicGUI extends JFrame {
 							+ serviceUpdate.getOnlineVersion());
 			newversion.addActionListener(e -> {
 				try {
-					Desktop.getDesktop().browse(new URI(MTGConstants.MTG_DESKTOP_APP_ZIP+"tag/"+serviceUpdate.getOnlineVersion()));
+					Desktop.getDesktop().browse(new URI(GithubUtils.inst().getReleaseURL()));
 				} catch (Exception e1) {
 					logger.error(e1.getMessage());
 				}

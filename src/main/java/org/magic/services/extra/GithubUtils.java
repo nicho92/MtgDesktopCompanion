@@ -1,8 +1,9 @@
-package org.magic.services;
+package org.magic.services.extra;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonObject;
@@ -25,9 +26,14 @@ public class GithubUtils {
 	
 	
 	private GithubUtils() throws IOException {
-		obj = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_URL).getAsJsonObject();
+		obj = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonObject();
 	}
 	
+	
+	public String getReleaseURL()
+	{
+		return obj.get("html_url").getAsString();
+	}
 	
 	public String getAuthor()
 	{

@@ -48,10 +48,9 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_WIKI_RAW_URL = "https://raw.githubusercontent.com/wiki/nicho92/MtgDesktopCompanion";
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
-	public static final String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/releases/";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static final String MTG_DESKTOP_WEBSITE = "https://nicho92.github.io/MtgDesktopCompanion/";
-	public static final String MTG_DESKTOP_GITHUB_RELEASE_URL = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases/latest";
+	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases/latest";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190503.txt";
 
