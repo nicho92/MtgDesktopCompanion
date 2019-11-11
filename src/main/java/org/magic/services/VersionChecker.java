@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
-import org.magic.tools.URLTools;
 
 public class VersionChecker {
 
@@ -14,6 +13,7 @@ public class VersionChecker {
 	private String onlineVersion;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
+	
 	public String getVersion() {
 		InputStream input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
 		try (BufferedReader read = new BufferedReader(new InputStreamReader(input)))
@@ -34,7 +34,7 @@ public class VersionChecker {
 	public VersionChecker() {
 		actualVersion = getVersion();
 		try {
-			onlineVersion = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_URL).getAsJsonObject().get("name").getAsString();
+			onlineVersion = GithubUtils.inst().getVersion();
 		} catch (Exception e) {
 			onlineVersion = "";
 			logger.error(e.getMessage());
