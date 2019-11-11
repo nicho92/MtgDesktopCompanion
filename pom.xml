@@ -18,8 +18,10 @@
 	</organization>
 	
 	<scm>
-		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
-		<developerConnection>Nicho</developerConnection>
+		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</connection>
+   		<developerConnection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
+   		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
+   		<tag>HEAD</tag>
 	</scm>
 	<ciManagement>
 		<system>Travis CI</system>
