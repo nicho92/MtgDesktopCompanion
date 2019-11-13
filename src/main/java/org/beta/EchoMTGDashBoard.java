@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -105,9 +105,9 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	
 	
 	@Override
-	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition ed) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
 		
-		EditionPriceVariations variations = new EditionPriceVariations();
+		EditionsShakers variations = new EditionsShakers();
 		variations.setDate(new Date());
 		variations.setEdition(ed);
 		variations.setProviderName(getName());

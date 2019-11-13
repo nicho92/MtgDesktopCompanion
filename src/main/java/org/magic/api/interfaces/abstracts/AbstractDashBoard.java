@@ -8,7 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -84,7 +85,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	
 	
 	@Override
-	public synchronized EditionPriceVariations getShakesForEdition(MagicEdition edition) throws IOException {
+	public synchronized EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException {
 		
 		Date c = evaluator.getCacheDate(edition);
 		Date d = new Date();
@@ -96,7 +97,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			logger.debug(edition + " not in cache.Loading it");
 			evaluator.initCache(edition,getOnlineShakesForEdition(edition));	
 		}
-		EditionPriceVariations ret = evaluator.loadFromCache(edition);
+		EditionsShakers ret = evaluator.loadFromCache(edition);
 		
 		
 		convert(ret.getShakes());
@@ -117,7 +118,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 	
 	protected abstract List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
-	protected abstract EditionPriceVariations getOnlineShakesForEdition(MagicEdition ed) throws IOException;
+	protected abstract EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException;
 	protected abstract HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,MagicEdition ed) throws IOException;
 	
 	

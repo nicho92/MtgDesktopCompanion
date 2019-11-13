@@ -17,7 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -209,9 +209,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
-		EditionPriceVariations list = new EditionPriceVariations();
+		EditionsShakers list = new EditionsShakers();
 		list.setEdition(edition);
 		list.setProviderName(getName());
 		list.setDate(new Date());

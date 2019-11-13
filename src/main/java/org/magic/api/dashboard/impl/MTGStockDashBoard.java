@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -93,9 +93,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 	
 	@Override
-	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 		connect();
-		EditionPriceVariations list = new EditionPriceVariations();
+		EditionsShakers list = new EditionsShakers();
 
 		list.setProviderName(getName());
 		list.setEdition(edition);

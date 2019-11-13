@@ -17,7 +17,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -117,17 +117,17 @@ public class EditionsDashlet extends AbstractJDashlet {
 		if (cboEditions.getSelectedItem() != null)
 		{	
 			lblLoading.start();
-			SwingWorker<EditionPriceVariations, Void> sw = new SwingWorker<>()
+			SwingWorker<EditionsShakers, Void> sw = new SwingWorker<>()
 			{
 				@Override
-				protected EditionPriceVariations doInBackground(){
+				protected EditionsShakers doInBackground(){
 					MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 					setProperty("EDITION", ed.getId());
 					try {
 						return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 					} catch (IOException e) {
 						logger.error(e);
-						return new EditionPriceVariations();
+						return new EditionsShakers();
 					}
 				}
 				

@@ -135,10 +135,9 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 			CardShake cs = new CardShake();
 			
 			if(pack instanceof MagicCard) {
-			
-					  cs.setCard((MagicCard)pack);
-					  cs.setName(cs.getCard().getName());
-					  cs.setEd(cs.getCard().getCurrentSet().getSet());
+				cs.setCard((MagicCard)pack);
+				cs.setName(cs.getCard().getName());
+				cs.setEd(cs.getCard().getCurrentSet().getSet());
 			}
 			cs.setDateUpdate(new Date());
 			cs.setPercentDayChange(pcDay);

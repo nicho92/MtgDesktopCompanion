@@ -25,7 +25,7 @@ import javax.swing.SwingConstants;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -115,7 +115,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 
 		btnCalculate.addActionListener(e -> ThreadManager.getInstance().executeThread(() -> {
 			try {
-				EditionPriceVariations prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
+				EditionsShakers prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
 				boostersModel.clear();
 				double total = 0;
 				Map<String, Double> priceRarity = new HashMap<>();

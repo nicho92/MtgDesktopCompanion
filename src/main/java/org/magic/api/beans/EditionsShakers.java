@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class EditionPriceVariations implements Iterable<CardShake> {
+public class EditionsShakers implements Iterable<CardShake> {
 
 	private List<CardShake> shakes;
 	private String providerName;
 	private Date date;
 	private MagicEdition edition;
 	
-	public EditionPriceVariations() {
+	public EditionsShakers() {
 		shakes = new ArrayList<>();
 	}
 	

@@ -11,7 +11,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
@@ -53,7 +53,7 @@ public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> 
 		try {
 			MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
 			items = MTGControler.getInstance().getEnabled(MTGDao.class).listOrderForEdition(ed);
-			EditionPriceVariations price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
+			EditionsShakers price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.getShakes().stream().mapToDouble(CardShake::getPrice).sum();
 			
 			if(!items.isEmpty()) {

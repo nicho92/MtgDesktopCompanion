@@ -20,7 +20,7 @@ import javax.swing.SwingWorker;
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -128,7 +128,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				protected Void doInBackground() throws Exception {
 					for(MagicEdition ed : ret) {
 						try {
-							EditionPriceVariations css = evaluator.initCache(ed);
+							EditionsShakers css = evaluator.initCache(ed);
 							
 							if(!css.isEmpty())
 							{	

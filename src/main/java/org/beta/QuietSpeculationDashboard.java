@@ -10,7 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -58,9 +58,9 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition ed) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
 		String uri = "https://www.quietspeculation.com/tradertools/prices/sets/"+ed.getSet().replace(" ", "%20");
-		EditionPriceVariations ret = new EditionPriceVariations();
+		EditionsShakers ret = new EditionsShakers();
 			ret.setEdition(ed);
 			ret.setDate(new Date());
 			ret.setProviderName(getName());

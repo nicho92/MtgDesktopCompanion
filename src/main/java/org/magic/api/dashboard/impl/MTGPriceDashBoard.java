@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -113,7 +113,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected EditionPriceVariations getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 
 		String name = convert(edition.getSet()).replace(" ", "_");
 
@@ -124,7 +124,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
-		EditionPriceVariations list = new EditionPriceVariations();
+		EditionsShakers list = new EditionsShakers();
 		list.setProviderName(getName());
 		list.setEdition(edition);
 		list.setDate(new Date());
