@@ -12,18 +12,21 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
+public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 
 	private Map<Date,Double> variations;
-	private MagicCard card;
+	private T pack;
 	private Currency currency;
 	
-	public CardPriceVariations(MagicCard card) {
-		this.card=card;
+	public HistoryPrice(T pack) {
+		this.pack=pack;
 		variations = new TreeMap<>();
 		currency=Currency.getInstance("USD");
 	}
 	
+	public T getItem() {
+		return pack;
+	}
 	
 	public boolean isEmpty()
 	{
@@ -37,37 +40,6 @@ public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
 		
 		List<Entry<Date, Double>> res = asList();
 		return res.get(res.size()-val).getKey();
-	}
-	
-	public CardShake toCardShake()
-	{
-		
-		if(!variations.isEmpty())
-		{
-			Date now = getLastDay();
-			Date yesterday = getYesterday();
-			Date week = getLastWeek();
-	
-			double valDay = get(now) - get(yesterday);
-			double valWeek = get(now) - get(week);		 
-			double pcWeek = (get(now) - get(week))/get(week)*100;
-			double pcDay = (get(now) - get(yesterday))/get(yesterday)*100;
-			
-			CardShake cs = new CardShake();
-					  cs.setCard(card);
-					  cs.setName(cs.getCard().getName());
-					  
-			cs.setEd(cs.getCard().getCurrentSet().getSet());
-			cs.setDateUpdate(new Date());
-			cs.setPercentDayChange(pcDay);
-			cs.setPercentWeekChange(pcWeek);
-			cs.setPriceDayChange(valDay);
-			cs.setPriceWeekChange(valWeek);
-			cs.setPrice(get(now));
-			return cs;
-		}
-		
-		return null;
 	}
 	
 	public Date getLastWeek()
@@ -134,10 +106,6 @@ public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
 		return variations.entrySet();
 	}
 
-	public MagicCard getCard() {
-		return card;
-	}
-
 	public Currency getCurrency() {
 		return currency;
 	}
@@ -151,5 +119,37 @@ public class CardPriceVariations implements Iterable<Map.Entry<Date,Double>> {
 		return variations.entrySet().iterator();
 	}
 	
+	public CardShake toCardShake()
+	{
+		
+		if(!variations.isEmpty())
+		{
+			Date now = getLastDay();
+			Date yesterday = getYesterday();
+			Date week = getLastWeek();
+	
+			double valDay = get(now) - get(yesterday);
+			double valWeek = get(now) - get(week);		 
+			double pcWeek = (get(now) - get(week))/get(week)*100;
+			double pcDay = (get(now) - get(yesterday))/get(yesterday)*100;
+			CardShake cs = new CardShake();
+			
+			if(pack instanceof MagicCard) {
+			
+					  cs.setCard((MagicCard)pack);
+					  cs.setName(cs.getCard().getName());
+					  cs.setEd(cs.getCard().getCurrentSet().getSet());
+			}
+			cs.setDateUpdate(new Date());
+			cs.setPercentDayChange(pcDay);
+			cs.setPercentWeekChange(pcWeek);
+			cs.setPriceDayChange(valDay);
+			cs.setPriceWeekChange(valWeek);
+			cs.setPrice(get(now));
+			return cs;
+		}
+		
+		return null;
+	}
 	
 }

@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -54,7 +54,7 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return new ArrayResponse(CardPriceVariations.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, ed)).getAsJsonObject().get("variations").getAsJsonObject());
+			return new ArrayResponse(HistoryPrice.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, ed)).getAsJsonObject().get("variations").getAsJsonObject());
 		}
 		
 		

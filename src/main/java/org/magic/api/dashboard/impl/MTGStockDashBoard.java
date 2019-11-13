@@ -11,9 +11,9 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -146,12 +146,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 		
 		if(mc==null)
 		{
 			logger.error("couldn't calculate edition only");
-			return new CardPriceVariations(mc);
+			return new HistoryPrice<>(mc);
 		}
 
 		
@@ -185,7 +185,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 	}
 
-	private CardPriceVariations extractPrice(JsonObject obj,MagicCard mc) {
+	private HistoryPrice<MagicCard> extractPrice(JsonObject obj,MagicCard mc) {
 		
 		logger.trace("extract " + obj);
 		
@@ -195,7 +195,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			arr = obj.get("foil").getAsJsonArray();
 		
 		
-		CardPriceVariations prices = new CardPriceVariations(mc);
+		HistoryPrice<MagicCard> prices = new HistoryPrice<>(mc);
 		prices.setCurrency(Currency.getInstance("USD"));
 		Calendar cal = Calendar.getInstance();
 

@@ -10,9 +10,9 @@ import org.apache.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
@@ -69,9 +69,9 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 	
 	@Override
-	protected CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
 		JsonObject id = getCardId(mc,ed);
-		CardPriceVariations history = new CardPriceVariations(mc);
+		HistoryPrice<MagicCard> history = new HistoryPrice<>(mc);
 							history.setCurrency(Currency.getInstance("USD"));
 							
 							

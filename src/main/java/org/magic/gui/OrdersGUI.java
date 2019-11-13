@@ -26,7 +26,7 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.CardPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -341,7 +341,7 @@ public class OrdersGUI extends MTGUIComponent {
 						{
 							//do nothing
 						}	
-						CardPriceVariations e;
+						HistoryPrice<MagicCard> e;
 						try {
 							e = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, o.getEdition());
 						

@@ -23,7 +23,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
-import org.magic.api.beans.CardPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -43,7 +43,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	boolean showAll = false;
 	private JCheckBox chckbxShowEditions;
 	private JCheckBox chckbxShowAllDashboard;
-	private transient CardPriceVariations cpVariations;
+	private transient HistoryPrice<?> cpVariations;
 	private String title="";
 	private MagicCard mc;
 	private MagicEdition me;
@@ -98,7 +98,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		
 	}
 	
-	public CardPriceVariations getVariations() {
+	public HistoryPrice<?> getVariations() {
 		return cpVariations;
 	}
 	
@@ -135,7 +135,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 			for (MTGDashBoard d : MTGControler.getInstance().getPlugins(MTGDashBoard.class)) 
 			{
 				TimeSeries series = new TimeSeries(d.getName());
-				CardPriceVariations mapTime;
+				HistoryPrice<?> mapTime;
 				try {
 					mapTime = d.getPriceVariation(mc, me);
 					if (mapTime != null) {

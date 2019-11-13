@@ -16,9 +16,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -61,10 +61,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 	
 	
-	public CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		String url = "";
-		CardPriceVariations historyPrice = new CardPriceVariations(mc);
+		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 
 		if(mc==null && me==null)

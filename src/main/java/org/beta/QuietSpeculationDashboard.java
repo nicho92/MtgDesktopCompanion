@@ -9,9 +9,9 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
@@ -92,8 +92,8 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected CardPriceVariations getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
-		return new CardPriceVariations(mc);
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
+		return new HistoryPrice<>(mc);
 	}
 
 }

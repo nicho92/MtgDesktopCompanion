@@ -8,9 +8,9 @@ import java.util.List;
 import javax.swing.Icon;
 
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -21,7 +21,7 @@ public interface MTGDashBoard extends MTGPlugin {
 	
 	public EditionPriceVariations getShakesForEdition(MagicEdition edition) throws IOException;
 
-	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
+	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 
 	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException;
 

@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.CardPriceVariations;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -359,7 +359,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 
 			JsonArray arr = new JsonArray();
-			CardPriceVariations res = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc,mc.getCurrentSet());
+			HistoryPrice<MagicCard> res = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc,mc.getCurrentSet());
 
 			for (Entry<Date, Double> val : res) {
 				JsonObject obj = new JsonObject();
