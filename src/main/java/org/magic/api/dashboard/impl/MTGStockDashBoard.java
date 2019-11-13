@@ -320,6 +320,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public String getVersion() {
 		return "1";
 	}
+
+	@Override
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

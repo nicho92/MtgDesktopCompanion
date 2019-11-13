@@ -96,4 +96,11 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 		return new HistoryPrice<>(mc);
 	}
 
+
+	@Override
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -190,4 +190,11 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		return  new ArrayList<>();
 	}
 
+
+	@Override
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

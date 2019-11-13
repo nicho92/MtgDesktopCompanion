@@ -23,6 +23,8 @@ public interface MTGDashBoard extends MTGPlugin {
 
 	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException;
+	
 	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException;
 
 	public Date getUpdatedDate();

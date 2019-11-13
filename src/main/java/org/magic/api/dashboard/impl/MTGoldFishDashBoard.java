@@ -439,4 +439,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return "2.0";
 	}
 
+
+	@Override
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

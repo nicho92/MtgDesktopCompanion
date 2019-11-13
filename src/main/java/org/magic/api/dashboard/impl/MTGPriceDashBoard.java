@@ -240,6 +240,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public String getVersion() {
 		return "0.2";
 	}
+
+
+	@Override
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }
