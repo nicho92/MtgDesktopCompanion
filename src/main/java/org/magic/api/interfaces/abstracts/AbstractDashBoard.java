@@ -83,7 +83,19 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		return var;
 	}
 	
-	
+	@Override
+	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
+		HistoryPrice<Package> var = getOnlinePricesVariation(packaging);
+		
+		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		{
+			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
+			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+				
+		}
+		return var;
+	}
+
 	@Override
 	public synchronized EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException {
 		
@@ -117,6 +129,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		
 	}
 	
+	
+	protected abstract HistoryPrice<Package> getOnlinePricesVariation(Package packaging) throws IOException;
 	protected abstract List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
 	protected abstract EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException;
 	protected abstract HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,MagicEdition ed) throws IOException;

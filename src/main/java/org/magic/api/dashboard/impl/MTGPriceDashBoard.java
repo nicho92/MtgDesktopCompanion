@@ -243,9 +243,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public HistoryPrice<Package> getOnlinePricesVariation(Package packaging) throws IOException {
+		return new HistoryPrice<>(packaging);
 	}
 	
 

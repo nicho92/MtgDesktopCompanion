@@ -61,6 +61,63 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 	
 	
+	private void parsing(Element js, HistoryPrice<?> historyPrice)
+	{
+		AstNode root = new Parser().parse(js.html(), "", 1);
+		isPaperparsing=true;
+		root.visit(visitedNode -> {
+			boolean stop = false;
+			
+			if (!stop && visitedNode.toSource().startsWith("d"))
+			{
+				String val = visitedNode.toSource();
+				
+				if(val.startsWith("document.getElementById"))
+					isPaperparsing=false;
+				
+				val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
+				val = RegExUtils.replaceAll(val, "\\\\n", "");
+				val = RegExUtils.replaceAll(val, ";", "");
+				val = RegExUtils.replaceAll(val, "\"", "");
+				String[] res = val.split(",");
+				
+				try {
+					Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
+					if (historyPrice.get(date) == null)
+					{
+						
+						if(getString(FORMAT).equals("paper") && isPaperparsing)
+							historyPrice.put(date, Double.parseDouble(res[1]));
+						
+						if(getString(FORMAT).equals("online") && !isPaperparsing)
+							historyPrice.put(date, Double.parseDouble(res[1]));
+					}
+					
+					} catch (Exception e) {
+					// do nothing
+					}
+			}
+
+			if (visitedNode.toSource().startsWith("g =")) {
+				stop = true;
+			}
+			return true;
+		});
+	}
+	
+
+	@Override
+	public HistoryPrice<Package> getOnlinePricesVariation(Package packaging) throws IOException {
+		HistoryPrice<Package> history =  new HistoryPrice<>(packaging);
+							  history.setCurrency(getCurrency());
+
+							  
+		String url = getString(WEBSITE) +"/prices/sealed";					  
+							  
+		
+		return history;
+	}
+	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		String url = "";
@@ -70,9 +127,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(mc==null && me==null)
 			return historyPrice;
 		
-		if (mc == null) {
+		if (mc == null)
+		{
 			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
-		} else {
+		}
+		else 
+		{
 			
 			if (me == null)
 				me = mc.getCurrentSet();
@@ -116,46 +176,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				return null;
 			}
 			
-			AstNode root = new Parser().parse(js.html(), "", 1);
-			isPaperparsing=true;
-			root.visit(visitedNode -> {
-				boolean stop = false;
-				
-				if (!stop && visitedNode.toSource().startsWith("d"))
-				{
-					String val = visitedNode.toSource();
-					
-					if(val.startsWith("document.getElementById"))
-						isPaperparsing=false;
-					
-					val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
-					val = RegExUtils.replaceAll(val, "\\\\n", "");
-					val = RegExUtils.replaceAll(val, ";", "");
-					val = RegExUtils.replaceAll(val, "\"", "");
-					String[] res = val.split(",");
-					
-					try {
-						Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
-						if (historyPrice.get(date) == null)
-						{
-							
-							if(getString(FORMAT).equals("paper") && isPaperparsing)
-								historyPrice.put(date, Double.parseDouble(res[1]));
-							
-							if(getString(FORMAT).equals("online") && !isPaperparsing)
-								historyPrice.put(date, Double.parseDouble(res[1]));
-						}
-						
-						} catch (Exception e) {
-						// do nothing
-						}
-				}
-
-				if (visitedNode.toSource().startsWith("g =")) {
-					stop = true;
-				}
-				return true;
-			});
+			parsing(js,historyPrice);
+			
 			return historyPrice;
 
 		} catch (Exception e) {
@@ -440,10 +462,5 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 
-	@Override
-	public HistoryPrice<Package> getPriceVariation(Package packaging) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
