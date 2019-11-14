@@ -19,6 +19,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -243,7 +244,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public HistoryPrice<Package> getOnlinePricesVariation(Package packaging) throws IOException {
+	public HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
 		return new HistoryPrice<>(packaging);
 	}
 	

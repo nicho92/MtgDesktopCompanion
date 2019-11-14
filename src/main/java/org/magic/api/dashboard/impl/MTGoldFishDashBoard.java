@@ -19,9 +19,11 @@ import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -61,8 +63,27 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 	
 	
-	private void parsing(Element js, HistoryPrice<?> historyPrice)
+	private void parsing(Document d, HistoryPrice<?> historyPrice)
 	{
+
+		Element js = null;
+		
+		for(Element j : d.getElementsByTag("script"))
+		{
+			if(j.toString().contains("var d = "))
+			{
+				js=j;
+				break;
+			}
+			
+		}
+		if(js==null)
+		{
+			return;
+		}
+		
+		
+		
 		AstNode root = new Parser().parse(js.html(), "", 1);
 		isPaperparsing=true;
 		root.visit(visitedNode -> {
@@ -105,15 +126,26 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		});
 	}
 	
+	
+	public static void main(String[] args) throws IOException {
+		
+		Packaging p = new Packaging();
+		
+		p.setType(Packaging.TYPE.BOX);
+		p.setEdition(new MagicEdition());
+		
+		
+		new MTGoldFishDashBoard().getPriceVariation(p);
+	}
 
 	@Override
-	public HistoryPrice<Package> getOnlinePricesVariation(Package packaging) throws IOException {
-		HistoryPrice<Package> history =  new HistoryPrice<>(packaging);
+	public HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
+		HistoryPrice<Packaging> history =  new HistoryPrice<>(packaging);
 							  history.setCurrency(getCurrency());
-
 							  
-		String url = getString(WEBSITE) +"/prices/sealed";					  
-							  
+		String url = getString(WEBSITE) +"/price/Sealed+Product/Tenth+Edition+Booster+Box#paper";					  
+		Document d = URLTools.extractHtml(url);
+		parsing(d, history);
 		
 		return history;
 	}
@@ -159,25 +191,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		try {
 			Document d = URLTools.extractHtml(url);
-			
-			Element js = null;
-			
-			for(Element j : d.getElementsByTag("script"))
-			{
-				if(j.toString().contains("var d = "))
-				{
-					js=j;
-					break;
-				}
-				
-			}
-			if(js==null)
-			{
-				return null;
-			}
-			
-			parsing(js,historyPrice);
-			
+			parsing(d,historyPrice);
 			return historyPrice;
 
 		} catch (Exception e) {
