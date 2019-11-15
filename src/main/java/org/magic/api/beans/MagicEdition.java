@@ -99,6 +99,14 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		booster = new ArrayList<>();
 		translations = new HashMap<>();
 	}
+	
+	public MagicEdition(String idMe,String name)
+	{
+		setId(idMe);
+		setSet(name);
+		booster = new ArrayList<>();
+		translations = new HashMap<>();
+	}
 
 	public MagicEdition() {
 		booster = new ArrayList<>();

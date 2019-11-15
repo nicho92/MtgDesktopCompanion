@@ -130,20 +130,26 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public static void main(String[] args) throws IOException {
 		
 		Packaging p = new Packaging();
-		
+		p.setEdition(new MagicEdition("ELD", "Throne of Eldraine"));
 		p.setType(Packaging.TYPE.BOX);
-		p.setEdition(new MagicEdition());
 		
 		
-		new MTGoldFishDashBoard().getPriceVariation(p);
+		new MTGoldFishDashBoard().getPriceVariation(p).forEach(e->{
+			System.out.println(e.getKey() + " " + e.getValue());
+		});
 	}
 
 	@Override
 	public HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
+		
 		HistoryPrice<Packaging> history =  new HistoryPrice<>(packaging);
 							  history.setCurrency(getCurrency());
+
+		if(packaging==null || packaging.getEdition()==null)
+			return history;
 							  
-		String url = getString(WEBSITE) +"/price/Sealed+Product/Tenth+Edition+Booster+Box#paper";					  
+							  
+		String url = getString(WEBSITE) +"/price/Sealed+Product/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+"+Booster+Box"+ "#"+ getString(FORMAT);					  
 		Document d = URLTools.extractHtml(url);
 		parsing(d, history);
 		
