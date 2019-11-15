@@ -126,19 +126,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		});
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		Packaging p = new Packaging();
-		p.setEdition(new MagicEdition("ELD", "Throne of Eldraine"));
-		p.setType(Packaging.TYPE.BOX);
-		
-		
-		new MTGoldFishDashBoard().getPriceVariation(p).forEach(e->{
-			System.out.println(e.getKey() + " " + e.getValue());
-		});
-	}
-
 	@Override
 	public HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
 		
