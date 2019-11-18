@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.SeleadStock;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -68,6 +69,27 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	private MongoClient client;
 
+
+	@Override
+	public void deleteStock(SeleadStock state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<SeleadStock> listSeleadStocks() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
 	private <T> T deserialize(Object o, Class<T> classe) {
 		return serialiser.fromJson(o.toString(), classe);
 

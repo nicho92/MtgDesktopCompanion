@@ -1,5 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Driver;
@@ -22,8 +23,10 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.SeleadStock;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
@@ -194,6 +197,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews varchar(50))");
 			logger.debug("Create table news");
 			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct varchar(25),conditionProduct varchar(25))");
+			logger.debug("Create table selead");
+
 	
 			logger.debug("populate collections");
 			
@@ -210,6 +216,81 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 
 	}
+	
+	@Override
+	public void deleteStock(SeleadStock state) throws SQLException {
+		logger.debug("del " + state + " in sealed stock");
+		String sql = "DELETE FROM sealed where id = ?";
+		try (Connection c = pool.getConnection();Statement pst = c.prepareStatement(sql)) {
+			pst.executeUpdate(sql);
+		}
+		
+	}
+	
+	@Override
+	public List<SeleadStock> listSeleadStocks() throws SQLException {
+		List<SeleadStock> colls = new ArrayList<>();
+		
+		try (Connection c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = pst.executeQuery()) 
+		{
+				while (rs.next()) {
+					SeleadStock state = new SeleadStock();
+					
+					state.setComment(rs.getString("comment"));
+					state.setId(rs.getInt("id"));
+					state.setQte(rs.getInt("qte"));
+					Packaging p = new Packaging();
+					 		  p.setLang(rs.getString("lang"));
+							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
+							  try 
+							  {
+								p.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
+							  } 
+							  catch (IOException e) 
+							  {
+								logger.error(e);
+								throw new SQLException(e);
+							  }
+					state.setProduct(p);
+					colls.add(state);
+				}
+				logger.trace("loading " + colls.size() + " item FROM sealed");
+		}
+		return colls;
+	}
+	
+	@Override
+	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
+
+		if (state.getId() < 0) {
+
+			logger.debug("save stock " + state);
+			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
+					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct) VALUES (?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
+				pst.setInt(2, state.getQte());
+				pst.setString(3, state.getComment());
+				
+				pst.executeUpdate();
+				state.setId(getGeneratedKey(pst));
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		} else {
+			logger.debug("update Stock " + state);
+			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
+					"update sealed set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=? where idstock=?")) {
+				pst.setString(1, state.getComment());
+				pst.executeUpdate();
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+		notify(state);
+		
+	}
+	
+	
 
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {

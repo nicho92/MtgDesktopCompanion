@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.SeleadStock;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -36,6 +37,28 @@ public class FileDAO extends AbstractMagicDAO {
 	private static final String NEWSDIR = "news";
 	private static final String ORDERSDIR = "orders";
 
+	
+
+	@Override
+	public void deleteStock(SeleadStock state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<SeleadStock> listSeleadStocks() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
