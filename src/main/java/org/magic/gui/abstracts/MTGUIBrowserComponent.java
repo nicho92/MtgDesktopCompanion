@@ -36,7 +36,7 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
 	public static MTGUIBrowserComponent createBrowser()
 	{
-		
+		logger.debug("loading browser component");
 		if(MTGControler.getInstance().get("ui/chromedisabled").equals("true"))
 			return new JEditorPaneBrowser();
 		
