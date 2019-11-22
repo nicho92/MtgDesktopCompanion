@@ -36,24 +36,48 @@ public class FileDAO extends AbstractMagicDAO {
 	private static final String ALERTSDIR = "alerts";
 	private static final String NEWSDIR = "news";
 	private static final String ORDERSDIR = "orders";
-
+	private static final String PACKAGESSDIR = "sealed";
 	
 
 	@Override
-	public void deleteStock(SeleadStock state) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void deleteStock(SeleadStock s) throws SQLException {
+			File f = Paths.get(directory.getAbsolutePath(), PACKAGESSDIR,String.valueOf(s.getId())).toFile();
+			logger.debug("Delete " + f);
+			FileUtils.deleteQuietly(f);
+			notify(s);
 	}
 	
 	@Override
 	public List<SeleadStock> listSeleadStocks() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<SeleadStock> st = new ArrayList<>();
+		File f = new File(directory, PACKAGESSDIR);
+		for (File fstock : f.listFiles()) {
+			try {
+				SeleadStock s = read(SeleadStock.class, fstock);
+				st.add(s);
+
+			} catch (Exception e) {
+				throw new SQLException(e);
+			}
+		}
+
+		return st;
 	}
 	
 	@Override
 	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
-		// TODO Auto-generated method stub
+		File f = new File(directory, PACKAGESSDIR);
+
+		if (state.getId() == -1)
+			state.setId(f.listFiles().length + 1);
+
+		f = new File(f, String.valueOf(state.getId()));
+		try {
+			save(state, f);
+			notify(state);
+		} catch (Exception e) {
+			throw new SQLException(e);
+		}
 		
 	}
 	
@@ -85,7 +109,7 @@ public class FileDAO extends AbstractMagicDAO {
 		new File(directory, STOCKDIR).mkdir();
 		new File(directory, NEWSDIR).mkdir();
 		new File(directory, ORDERSDIR).mkdir();
-		
+		new File(directory,PACKAGESSDIR).mkdir();
 		
 		new File(new File(directory, CARDSDIR), MTGControler.getInstance().get("default-library")).mkdir();
 		logger.debug("File DAO init");

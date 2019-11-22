@@ -58,7 +58,8 @@ public class PackagesProvider {
 		return inst;
 	}
 	
-
+	
+	
 	public List<Packaging> getItemsFor(String me)
 	{
 		return getItemsFor(new MagicEdition(me));
@@ -91,6 +92,30 @@ public class PackagesProvider {
 		return null;
 		
 	}
+	
+	public BufferedImage getLogo(LOGO logo)
+	{
+		String url = "";
+		try {
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			String expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
+			logger.trace(expression);
+			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			Node item = nodeList.item(0);
+			url = item.getAttributes().getNamedItem("url").getNodeValue();
+			return URLTools.extractImage(url);
+		} catch (IOException e) {
+			logger.error(logo + " could not load : " + url,e);
+			return null;
+		} catch (XPathExpressionException e) {
+			logger.error(logo + " is not found :" + e);
+			return null;
+		} catch (Exception e) {
+			logger.error(logo + " error loading " + url,e);
+			return null;
+		}
+	}
+
 
 	public BufferedImage get(Packaging p)
 	{
@@ -212,29 +237,7 @@ public class PackagesProvider {
 		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());
 	}
 
-	public BufferedImage getLogo(LOGO logo)
-	{
-		String url = "";
-		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
-			logger.trace(expression);
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Node item = nodeList.item(0);
-			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return URLTools.extractImage(url);
-		} catch (IOException e) {
-			logger.error(logo + " could not load : " + url,e);
-			return null;
-		} catch (XPathExpressionException e) {
-			logger.error(logo + " is not found :" + e);
-			return null;
-		} catch (Exception e) {
-			logger.error(logo + " error loading " + url,e);
-			return null;
-		}
-	}
-
+	
 	
 
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.magic.api.beans.EnumCondition;
+import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -26,8 +27,11 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SeleadStock;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.pool.impl.NoPool;
@@ -83,6 +87,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie);");
 		stat.executeUpdate("CREATE INDEX idx_news_typ ON news (typeNews);");
 		
+		stat.executeUpdate("CREATE INDEX idx_sld_edition ON sealed (edition);");
+		stat.executeUpdate("CREATE INDEX idx_sld_comment ON sealed (comment);");
+		stat.executeUpdate("CREATE INDEX idx_sld_lang ON sealed (lang);");
+		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct);");
+		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct);");
 		
 		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
 		
@@ -217,6 +226,31 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	}
 	
+	
+	public static void main(String[] args) throws SQLException {
+		
+		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
+		
+		dao.init();
+		
+		
+		Packaging p = new Packaging();
+		p.setEdition(new MagicEdition("ROE"));
+		p.setLang("FR");
+		p.setType(TYPE.BUNDLE);
+		
+		SeleadStock ss = new SeleadStock(p);
+		ss.setCondition(EnumStock.SELEAD);
+		ss.setQte(2);
+		dao.saveOrUpdateStock(ss);
+		ss.setQte(3);
+		dao.saveOrUpdateStock(ss);
+		dao.listSeleadStocks().forEach(ss2->{
+			System.out.println(ss2);
+		});
+	}
+	
+	
 	@Override
 	public void deleteStock(SeleadStock state) throws SQLException {
 		logger.debug("del " + state + " in sealed stock");
@@ -270,7 +304,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
-				
+				pst.setString(4, state.getProduct().getLang());
+				pst.setString(5, state.getProduct().getType().name());
+				pst.setString(6, state.getCondition().name());
 				pst.executeUpdate();
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {
@@ -279,8 +315,14 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock " + state);
 			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update sealed set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=? where idstock=?")) {
-				pst.setString(1, state.getComment());
+					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=? where id=?")) {
+				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
+				pst.setInt(2, state.getQte());
+				pst.setString(3, state.getComment());
+				pst.setString(4, state.getProduct().getLang());
+				pst.setString(5, state.getProduct().getType().name());
+				pst.setString(6, state.getCondition().name());
+				pst.setInt(7, state.getId());
 				pst.executeUpdate();
 			} catch (Exception e) {
 				logger.error(e);

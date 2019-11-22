@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 public class SeleadStock {
 
-	private int id;
+	private int id=-1;
 	private Packaging product;
 	private int qte=1;
 	private String comment;
@@ -33,6 +33,11 @@ public class SeleadStock {
 		
 		setProduct(product);
 		
+	}
+	
+	@Override
+	public String toString() {
+		return getId()+"-"+getProduct();
 	}
 	
 	
