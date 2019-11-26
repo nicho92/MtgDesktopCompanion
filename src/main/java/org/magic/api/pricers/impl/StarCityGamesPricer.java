@@ -39,8 +39,6 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search.php?search_query="+cardName+"&page=1&section=product");
 		
 		Document d = build.toHtml();
-		
-		logger.debug(d);
 		List<MagicPrice> ret = new ArrayList<>();
 		Elements trs = d.select("article.productList table tbody tr");
 
