@@ -48,7 +48,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 				String idProduct = tr.attr("data-id");
 				String urlDetails = "https://newstarcityconnector.herokuapp.com/eyApi/products/"+idProduct+"/variants";
 				String dataName = tr.attr("data-name");				
-				
+			
 				if(dataName.toLowerCase().startsWith(card.getName().toLowerCase())) 
 				{
 					JsonElement el = build.clean().url(urlDetails).method(METHOD.GET).toJson();
@@ -66,7 +66,11 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 									mp.setUrl(tr.select("h4.listItem-title a").attr("href"));
 									mp.setValue(item.get("price").getAsDouble());
 									mp.setQuality(item.get("option_values").getAsJsonArray().get(0).getAsJsonObject().get("label").getAsString());
+									mp.setLanguage(tr.select("p.category-language").text());
+									mp.setFoil(tr.select("span.category-row-name-search").html().contains("(Foil)"));
 							ret.add(mp);
+							
+							
 						}
 					}
 				}
