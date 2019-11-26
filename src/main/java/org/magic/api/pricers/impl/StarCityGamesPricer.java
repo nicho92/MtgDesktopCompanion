@@ -12,6 +12,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import org.magic.tools.URLTools;
 
 public class StarCityGamesPricer extends AbstractMagicPricesProvider {
@@ -19,47 +26,54 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 	
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	
+	public static void main(String[] args) throws IOException {
+		MagicCard c = new MagicCard();
+		c.setName("Oko, Thief of Crowns");
+		new StarCityGamesPricer().getLocalePrice(null, c);
+	}
 	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
-		String cardName = URLTools.encode(card.getName());
 		
-		logger.debug(getName() + " looking for price " + getString("URL")+cardName);
+		String cardName = URLTools.encode("\""+card.getName()+"\"");
+		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search.php?search_query="+cardName+"&page=1&section=product");
 		
-		Document d = URLTools.extractHtml(getString("URL")+cardName);
+		Document d = build.toHtml();
+		
 		List<MagicPrice> ret = new ArrayList<>();
-		Elements trs = d.getElementById("search_results_table").select("tr");
-		trs.remove(0);//remove empty tr
-		trs.remove(0);//remove header
+		Elements trs = d.select("article.productList table tbody tr");
+
 		for(Element tr : trs)
 		{
-			
-			if(!tr.select("td").get(7).text().equalsIgnoreCase("Out of Stock"))
-			{
-				MagicPrice mp = new MagicPrice();
-				mp.setSite(getName());
-				mp.setCountry("USA");
-				mp.setCurrency("USD");
-				mp.setUrl(tr.select("td").get(0).select("a").attr("href"));
-				mp.setSeller(tr.select("td").get(1).text());
-				mp.setQuality(tr.select("td").get(6).text());
+				String idProduct = tr.attr("data-id");
+				String urlDetails = "https://newstarcityconnector.herokuapp.com/eyApi/products/"+idProduct+"/variants";
+				String dataName = tr.attr("data-name");				
 				
-				mp.setFoil(mp.getSeller().contains("(Foil)"));
-				
-				try {
-				if(tr.select("td").get(8).select("span").size()>1)
-					mp.setValue(Double.parseDouble(tr.select("td").get(8).select("span").get(1).text().replace('$', ' ').trim()));
-				else
-					mp.setValue(Double.parseDouble(tr.select("td").get(8).text().replace('$', ' ').trim()));
-				
-				}
-				catch(Exception e)
+				if(dataName.toLowerCase().startsWith(card.getName().toLowerCase())) 
 				{
-					logger.error("error retrieving price for " + card,e);
+					JsonElement el = build.clean().url(urlDetails).method(METHOD.GET).toJson();
+					JsonArray data = el.getAsJsonObject().get("response").getAsJsonObject().get("data").getAsJsonArray();
+					
+					for(JsonElement obj : data)
+					{
+						JsonObject item = obj.getAsJsonObject();
+						if(item.get("inventory_level").getAsInt()>0)
+						{
+							MagicPrice mp = new MagicPrice();
+									mp.setSite(getName());
+									mp.setCountry("USA");
+									mp.setCurrency("USD");
+									mp.setUrl(tr.select("h4.listItem-title a").attr("href"));
+									mp.setValue(item.get("price").getAsDouble());
+									mp.setQuality(item.get("option_values").getAsJsonArray().get(0).getAsJsonObject().get("label").getAsString());
+							ret.add(mp);
+						}
+					}
 				}
-				
-				ret.add(mp);
-			}
+				else
+				{
+					//No Bracket... not a card product
+				}
 		}
 		logger.debug(getName() + " found " + ret.size() + " items");
 		return ret;
@@ -79,7 +93,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL", "http://www.starcitygames.com/results?name=");
+		setProperty("NB_PAGE", "1");
 
 	}
 
