@@ -40,6 +40,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 		
 		Document d = build.toHtml();
 		
+		logger.debug(d);
 		List<MagicPrice> ret = new ArrayList<>();
 		Elements trs = d.select("article.productList table tbody tr");
 
@@ -68,8 +69,9 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 									mp.setQuality(item.get("option_values").getAsJsonArray().get(0).getAsJsonObject().get("label").getAsString());
 									mp.setLanguage(tr.select("p.category-language").text());
 									mp.setFoil(tr.select("span.category-row-name-search").html().contains("(Foil)"));
+									mp.setSeller(tr.select("span.category-row-name-search").html());
 							ret.add(mp);
-							
+							notify(mp);
 							
 						}
 					}
