@@ -271,6 +271,10 @@ public class MagicGUI extends JFrame {
 
 		if (MTGControler.getInstance().get("modules/collection").equals("true"))
 			addTab(new CollectionPanelGUI()); 
+		
+		if (MTGControler.getInstance().get("modules/sealed").equals("true"))
+			addTab(new SealedStockGUI());
+		
 
 		if (MTGControler.getInstance().get("modules/stock").equals("true"))
 			addTab(new StockPanelGUI()); 
@@ -299,6 +303,8 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
 			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", MTGConstants.ICON_SHOP));
 
+		
+		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		

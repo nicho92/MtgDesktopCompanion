@@ -1,6 +1,6 @@
 package org.magic.api.beans;
 
-public class SeleadStock {
+public class SealedStock {
 
 	private int id=-1;
 	private Packaging product;
@@ -8,23 +8,23 @@ public class SeleadStock {
 	private String comment;
 	private EnumStock condition;
 	
-	public SeleadStock()
+	public SealedStock()
 	{
 		
 	}
 	
-	public SeleadStock(Packaging p)
+	public SealedStock(Packaging p)
 	{
 		setProduct(p);
 	}
 	
-	public SeleadStock(Packaging p, int qte)
+	public SealedStock(Packaging p, int qte)
 	{
 		setProduct(p);
 		setQte(qte);
 	}
 	
-	public SeleadStock(MagicEdition e, Packaging.TYPE type,String lang)
+	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang)
 	{
 		product = new Packaging();
 		product.setEdition(e);

@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.magic.api.beans.EnumCondition;
-import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -24,14 +23,11 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.SeleadStock;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
-import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.beans.Packaging;
-import org.magic.api.beans.Packaging.TYPE;
+import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.pool.impl.NoPool;
@@ -226,33 +222,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	}
 	
-	
-	public static void main(String[] args) throws SQLException {
-		
-		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
-		
-		dao.init();
-		
-		
-		Packaging p = new Packaging();
-		p.setEdition(new MagicEdition("ROE"));
-		p.setLang("FR");
-		p.setType(TYPE.BUNDLE);
-		
-		SeleadStock ss = new SeleadStock(p);
-		ss.setCondition(EnumStock.SELEAD);
-		ss.setQte(2);
-		dao.saveOrUpdateStock(ss);
-		ss.setQte(3);
-		dao.saveOrUpdateStock(ss);
-		dao.listSeleadStocks().forEach(ss2->{
-			System.out.println(ss2);
-		});
-	}
-	
-	
 	@Override
-	public void deleteStock(SeleadStock state) throws SQLException {
+	public void deleteStock(SealedStock state) throws SQLException {
 		logger.debug("del " + state + " in sealed stock");
 		String sql = "DELETE FROM sealed where id = ?";
 		try (Connection c = pool.getConnection();Statement pst = c.prepareStatement(sql)) {
@@ -262,13 +233,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public List<SeleadStock> listSeleadStocks() throws SQLException {
-		List<SeleadStock> colls = new ArrayList<>();
+	public List<SealedStock> listSeleadStocks() throws SQLException {
+		List<SealedStock> colls = new ArrayList<>();
 		
 		try (Connection c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = pst.executeQuery()) 
 		{
 				while (rs.next()) {
-					SeleadStock state = new SeleadStock();
+					SealedStock state = new SealedStock();
 					
 					state.setComment(rs.getString("comment"));
 					state.setId(rs.getInt("id"));
@@ -294,7 +265,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
+	public void saveOrUpdateStock(SealedStock state) throws SQLException {
 
 		if (state.getId() < 0) {
 

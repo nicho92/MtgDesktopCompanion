@@ -22,7 +22,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.SeleadStock;
+import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -40,7 +40,7 @@ public class FileDAO extends AbstractMagicDAO {
 	
 
 	@Override
-	public void deleteStock(SeleadStock s) throws SQLException {
+	public void deleteStock(SealedStock s) throws SQLException {
 			File f = Paths.get(directory.getAbsolutePath(), PACKAGESSDIR,String.valueOf(s.getId())).toFile();
 			logger.debug("Delete " + f);
 			FileUtils.deleteQuietly(f);
@@ -48,12 +48,12 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public List<SeleadStock> listSeleadStocks() throws SQLException {
-		List<SeleadStock> st = new ArrayList<>();
+	public List<SealedStock> listSeleadStocks() throws SQLException {
+		List<SealedStock> st = new ArrayList<>();
 		File f = new File(directory, PACKAGESSDIR);
 		for (File fstock : f.listFiles()) {
 			try {
-				SeleadStock s = read(SeleadStock.class, fstock);
+				SealedStock s = read(SealedStock.class, fstock);
 				st.add(s);
 
 			} catch (Exception e) {
@@ -65,7 +65,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
+	public void saveOrUpdateStock(SealedStock state) throws SQLException {
 		File f = new File(directory, PACKAGESSDIR);
 
 		if (state.getId() == -1)

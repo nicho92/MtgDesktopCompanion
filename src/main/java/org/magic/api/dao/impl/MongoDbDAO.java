@@ -25,7 +25,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.SeleadStock;
+import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -71,19 +71,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public void deleteStock(SeleadStock state) throws SQLException {
+	public void deleteStock(SealedStock state) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public List<SeleadStock> listSeleadStocks() throws SQLException {
+	public List<SealedStock> listSeleadStocks() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public void saveOrUpdateStock(SeleadStock state) throws SQLException {
+	public void saveOrUpdateStock(SealedStock state) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}

@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.SeleadStock;
+import org.magic.api.beans.SealedStock;
 
 public interface MTGDao extends MTGPlugin {
 
@@ -45,9 +45,9 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteStock(MagicCardStock state) throws SQLException;
 	public List<MagicCardStock> listStocks() throws SQLException;
 	
-	public List<SeleadStock> listSeleadStocks() throws SQLException;
-	public void saveOrUpdateStock(SeleadStock state) throws SQLException;
-	public void deleteStock(SeleadStock state) throws SQLException;
+	public List<SealedStock> listSeleadStocks() throws SQLException;
+	public void saveOrUpdateStock(SealedStock state) throws SQLException;
+	public void deleteStock(SealedStock state) throws SQLException;
 	
 	
 	
