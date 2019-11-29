@@ -207,6 +207,7 @@ public class IconSetProvider {
 		equiv.put("PNAT", "PMEI");
 		equiv.put("HTR17", "PMEI");
 		equiv.put("PSS2", "PMEI");
+		equiv.put("SLD", "PMEI");
 		equiv.put("DVD", "DDC");
 		equiv.put("EVG", "DD1");
 		equiv.put("GVL", "DDD");
