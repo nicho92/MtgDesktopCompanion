@@ -13,6 +13,7 @@ import java.net.URI;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -151,7 +152,15 @@ public class MagicGUI extends JFrame {
 			dow.setVisible(true);
 		});
 		
-		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new PackagesBrowserPanel(), true, false).setVisible(true)));
+		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> {
+			
+			PackagesBrowserPanel pane = new PackagesBrowserPanel(true);
+			pane.initTree();
+			JDialog j = MTGUIComponent.createJDialog(pane, true, false);
+			pane.setPreferredSize(new Dimension(1024, 768));
+			j.setVisible(true);
+			
+		}));
 		
 		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true)));
 		

@@ -26,20 +26,14 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private DefaultTreeModel model;
 	private ZoomableJPanel panelDraw;
 	private JTree tree;
+	private boolean view;
+
 	
-	
-	public PackagesBrowserPanel() {
+	public PackagesBrowserPanel(boolean viewThumbnail) {
 		provider = PackagesProvider.inst();
+		this.view = viewThumbnail;
 		initGUI();
-		initTree();
-	}
-	
-	public PackagesBrowserPanel(boolean load) {
-		provider = PackagesProvider.inst();
-		initGUI();
-		
-		if(load)
-			initTree();
+
 	}
 	
 
@@ -67,21 +61,34 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		model.reload();
 		for (int i = 0; i < tree.getRowCount(); i++) {
 		    tree.expandRow(i);
-		}		
-		panelDraw.setImg(null);
+		}
+		
+		if(view)
+			panelDraw.setImg(null);
 		
 	}
 	
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		setPreferredSize(new Dimension(1024, 768));
+
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
-		panelDraw = new ZoomableJPanel() ;
-		add(panelDraw, BorderLayout.CENTER);
+		
+		if(view) {
+			panelDraw = new ZoomableJPanel() ;
+			add(panelDraw, BorderLayout.CENTER);
+		}
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
-		add(panel, BorderLayout.WEST);
+		if(!view)
+		{
+			add(panel, BorderLayout.CENTER);
+		}
+		else
+		{
+			add(panel, BorderLayout.WEST);	
+		}
+		
 		tree = new JTree(model);
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 
@@ -100,10 +107,11 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	public void load(Packaging p)
 	{
+		if(view) {
 			panelDraw.setImg(provider.get(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
-		
+		}
 	}
 	
 	
@@ -130,7 +138,9 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		model.reload();
 
 		tree.expandRow(0);
-		panelDraw.setImg(null);
+		
+		if(view)
+			panelDraw.setImg(null);
 		
 	}
 

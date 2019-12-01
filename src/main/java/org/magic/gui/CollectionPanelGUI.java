@@ -173,7 +173,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		//////// INIT COMPONENTS
 		panneauHaut = new JPanel();
-		packagePanel = new PackagesBrowserPanel(false);
+		packagePanel = new PackagesBrowserPanel(true);
 		btnAdd = new JButton(MTGConstants.ICON_NEW);
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		btnRemove = new JButton(MTGConstants.ICON_DELETE);
