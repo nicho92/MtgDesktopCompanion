@@ -281,7 +281,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.executeUpdate();
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error("error insert", e);
 			}
 		} else {
 			logger.debug("update Stock " + state);

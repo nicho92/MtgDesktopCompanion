@@ -6,7 +6,7 @@ public class SealedStock {
 	private Packaging product;
 	private int qte=1;
 	private String comment;
-	private EnumStock condition;
+	private EnumStock condition = EnumStock.SELEAD;
 	
 	public SealedStock()
 	{

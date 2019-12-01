@@ -94,14 +94,16 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 		panel.add(new JScrollPane(tree),BorderLayout.CENTER);
 		
-		tree.addTreeSelectionListener(e-> {
-			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-			
-			if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
-				load((Packaging)selectedNode.getUserObject());
-		});
 		
 		
+		if(view) {
+			tree.addTreeSelectionListener(e-> {
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+				
+				if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
+					load((Packaging)selectedNode.getUserObject());
+			});
+		}
 		
 	}
 	
