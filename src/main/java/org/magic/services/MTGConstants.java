@@ -49,6 +49,7 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_WIKI_RAW_URL = "https://raw.githubusercontent.com/wiki/nicho92/MtgDesktopCompanion";
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
+	public static final String MTG_SUPPORTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/supporters.json";
 	public static final String MTG_DESKTOP_WEBSITE = "https://nicho92.github.io/MtgDesktopCompanion/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases/latest";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
@@ -61,7 +62,7 @@ public class MTGConstants {
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
-	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36";
+	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 	public static final String USER_AGENT_MOBILE="Mozilla/5.0 (Linux; Android 8.1.0; ONEPLUS A5010 Build/OPM1.171019.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 GSA/8.39.8.21.arm64";
 	
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
