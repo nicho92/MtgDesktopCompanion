@@ -33,7 +33,6 @@ public abstract class MTGUIComponent extends JComponent {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent evt) {
-				
 				if(!alreadyShow)
 				{
 					onFirstShowing();

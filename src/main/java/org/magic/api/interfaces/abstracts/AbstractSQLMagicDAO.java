@@ -226,7 +226,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void deleteStock(SealedStock state) throws SQLException {
 		logger.debug("del " + state + " in sealed stock");
 		String sql = "DELETE FROM sealed where id = ?";
-		try (Connection c = pool.getConnection();Statement pst = c.prepareStatement(sql)) {
+		try (Connection c = pool.getConnection();PreparedStatement pst = c.prepareStatement(sql)) {
+			pst.setInt(1, state.getId());
 			pst.executeUpdate(sql);
 		}
 		
