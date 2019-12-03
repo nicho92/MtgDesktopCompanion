@@ -122,17 +122,17 @@
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-core</artifactId>
-		    <version>8.3.0</version>
+		    <version>8.3.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-queries</artifactId>
-		    <version>8.3.0</version>
+		    <version>8.3.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-queryparser</artifactId>
-		    <version>8.3.0</version>
+		    <version>8.3.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
@@ -142,7 +142,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.0.0_67</version>
+			  <version>4.0.0_70</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
