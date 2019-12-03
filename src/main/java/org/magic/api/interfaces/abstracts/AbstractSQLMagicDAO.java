@@ -219,16 +219,16 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			logger.error(e);
 			return false;
 		}
-
 	}
 	
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
-		logger.debug("del " + state + " in sealed stock");
-		String sql = "DELETE FROM sealed where id = ?";
-		try (Connection c = pool.getConnection();PreparedStatement pst = c.prepareStatement(sql)) {
+		logger.debug("del " + state.getId() + " in sealed stock");
+		String sql = "DELETE FROM sealed WHERE id=?";
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
+		{
 			pst.setInt(1, state.getId());
-			pst.executeUpdate(sql);
+			pst.executeUpdate();
 		}
 		
 	}

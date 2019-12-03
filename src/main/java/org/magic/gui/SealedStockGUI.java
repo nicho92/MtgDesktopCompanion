@@ -18,7 +18,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.PackagesBrowserPanel;
-import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.SealedStockModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -30,17 +29,15 @@ public class SealedStockGUI extends MTGUIComponent {
 	private PackagesBrowserPanel packagePanel;
 	private SealedStockModel model;
 	private Packaging selectedItem;
-	private JXTable table;
-	
 	
 	public SealedStockGUI() {
 		initGUI();
 	}
 	
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException 
+	{
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		
 		SealedStockGUI s = new SealedStockGUI();
 		MTGUIComponent.createJDialog(s, true, false).setVisible(true);
 		s.onFirstShowing();
@@ -48,13 +45,12 @@ public class SealedStockGUI extends MTGUIComponent {
 	
 	private void initGUI() {
 		model = new SealedStockModel();
-		table = new JXTable(model);
+		JXTable table = new JXTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		JPanel toolsPanel = new JPanel();
 		JPanel centerPanel = new JPanel();
 		JTabbedPane panneauDetail = new JTabbedPane();
 		
-		panneauDetail.add(new HistoryPricesPanel(false));
 		
 		JButton buttonNew = new JButton(MTGConstants.ICON_NEW);
 		JButton buttonDelete = new JButton(MTGConstants.ICON_DELETE);
@@ -62,8 +58,6 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		centerPanel.setLayout(new BorderLayout());
 		setLayout(new BorderLayout());
-
-		
 		
 		toolsPanel.add(buttonNew);
 		toolsPanel.add(buttonDelete);
@@ -88,7 +82,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		buttonDelete.addActionListener(el->{
 			SealedStock it = UITools.getTableSelection(table, 0);
 			
-			int res = JOptionPane.showConfirmDialog(null, "sure ?");
+			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", it.getProduct()), MTGControler.getInstance().getLangService().get("DELETE"),JOptionPane.YES_NO_OPTION);
 			
 			if(res==JOptionPane.YES_OPTION)
 			{
@@ -100,6 +94,15 @@ public class SealedStockGUI extends MTGUIComponent {
 				}
 			}
 			
+			
+		});
+		
+		buttonUpdate.addActionListener(el->{
+			try {
+				model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listSeleadStocks());
+			} catch (SQLException e1) {
+				MTGControler.getInstance().notify(e1);
+			}			
 			
 		});
 		
@@ -123,7 +126,7 @@ public class SealedStockGUI extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_PACKAGE_SMALL;
+		return MTGConstants.ICON_PACKAGE;
 	}
 	
 	@Override

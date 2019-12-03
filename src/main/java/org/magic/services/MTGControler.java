@@ -382,7 +382,7 @@ public class MTGControler {
 	
 	public void notify(Exception e)
 	{
-		
+		logger.error("error",e);
 		MTGNotification notif = new MTGNotification(getLangService().getCapitalize(getLangService().getError()),e);
 		notify(notif);
 	}

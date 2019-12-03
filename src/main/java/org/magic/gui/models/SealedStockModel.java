@@ -15,7 +15,6 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 		setColumns("ID","Type","Edition","Quality","Qty");
 	}
 	
-	
 	@Override
 	public Object getValueAt(int row, int column) {
 		
@@ -23,16 +22,14 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 		
 		switch(column)
 		{
-		case 0: return it;
-		case 1: return it.getProduct().getType();
-		case 2: return it.getProduct().getEdition();
-		case 3: return it.getCondition();
-		case 4 : return it.getQte();
+			case 0: return it;
+			case 1: return it.getProduct().getType();
+			case 2: return it.getProduct().getEdition();
+			case 3: return it.getCondition();
+			case 4 : return it.getQte();
+			default : return super.getValueAt(row, column);
 		}
 		
-		
-		
-		return super.getValueAt(row, column);
 	}
 	
 }
