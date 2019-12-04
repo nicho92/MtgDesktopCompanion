@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 
@@ -64,6 +65,8 @@ public class MTGConstants {
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 	public static final String USER_AGENT_MOBILE="Mozilla/5.0 (Linux; Android 8.1.0; ONEPLUS A5010 Build/OPM1.171019.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 GSA/8.39.8.21.arm64";
+	
+	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
 	
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
 
