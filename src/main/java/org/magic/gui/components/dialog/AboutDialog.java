@@ -27,6 +27,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.VersionChecker;
+import org.magic.services.extra.GithubUtils;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
@@ -45,10 +46,15 @@ public class AboutDialog extends MTGUIComponent {
 		
 		setLayout(new BorderLayout(0, 0));
 		setPreferredSize(new Dimension(600, 400));
-		StringBuilder developper = new StringBuilder("<html>"); 
+		StringBuilder developper = new StringBuilder("<html><center>"); 
 			developper.append(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
-			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>website</a>");
-			developper.append("</html>");
+			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
+			try {
+				developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+			developper.append("</center></html>");
 		
 		JLabel icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
 				icon.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -67,12 +73,13 @@ public class AboutDialog extends MTGUIComponent {
 	
 		JPanel centers = new JPanel();
 			   centers.setLayout(new BorderLayout());
-			  
 			   centers.add(new JLabel("Special thanks to my supporters:"),BorderLayout.NORTH);
+			   
+			   
 		JPanel supporters = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) supporters.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-			   supporters.setForeground(SystemColor.activeCaption);
+		((FlowLayout) supporters.getLayout()).setAlignment(FlowLayout.LEFT);
+		
+		 supporters.setForeground(SystemColor.activeCaption);
 			   
 			   try {
 				JsonArray obj = URLTools.extractJson(MTGConstants.MTG_SUPPORTERS_URI).getAsJsonArray();
@@ -87,11 +94,11 @@ public class AboutDialog extends MTGUIComponent {
 							lab.setHorizontalTextPosition(SwingConstants.CENTER);
 							lab.addMouseListener(new MouseAdapter() {
 								@Override
-								public void mouseClicked(MouseEvent arg0) {
+								public void mouseClicked(MouseEvent e) {
 									try {
 										Desktop.getDesktop().browse(new URI(supp.get("url").getAsString()));
-									} catch (Exception e) {
-										logger.error(e);
+									} catch (Exception e2) {
+										logger.error(e2);
 									}
 								}
 							});
@@ -120,7 +127,22 @@ public class AboutDialog extends MTGUIComponent {
 		});
 		
 		panneauHaut.add(button,BorderLayout.EAST);
-		panneauHaut.add(new JLabel(developper.toString()),BorderLayout.SOUTH);
+		JLabel label = new JLabel(developper.toString());
+		
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI(MTGConstants.MTG_DESKTOP_WEBSITE));
+				} catch (Exception e1) {
+					logger.error(e1);
+				}
+			}
+		});
+		
+		
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		panneauHaut.add(label,BorderLayout.SOUTH);
 		centers.add(supporters,BorderLayout.CENTER);
 		add(panneauHaut,BorderLayout.NORTH);
 		add(copyText,BorderLayout.SOUTH);
