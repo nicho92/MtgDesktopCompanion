@@ -48,19 +48,21 @@ public class StoryProvider {
 			JsonElement e = arr.get(i);
 			String finale = StringEscapeUtils.unescapeJava(e.toString());
 			Document d = Jsoup.parse(finale);
-			try {
+			
 				MTGStory story = new MTGStory();
 				story.setTitle(d.select("div.title h3").html());
 				story.setAuthor(StringEscapeUtils.unescapeHtml3(d.select("span.author").html()));
 				story.setDescription(StringEscapeUtils.unescapeHtml3(d.select("div.description").html()));
 				story.setUrl(new URL(baseURI + d.select("a").first().attr("href")));
 				story.setDate(d.select("span.date").text());
+			try {
 				String bgImage = d.select("div.image").attr("style");
-				story.setIcon(loadPics(new URL(bgImage.substring(bgImage.indexOf("url(") + 4, bgImage.indexOf(");")))));
-				list.add(story);
+				story.setIcon(loadPics(new URL(bgImage.substring(bgImage.indexOf("url(") + 5, bgImage.indexOf("');")))));
+				
 			} catch (Exception e2) {
-				logger.error("Error loading story " + finale, e2);
+				logger.error("Error loading story ", e2);
 			}
+			list.add(story);
 		}
 
 		return list;

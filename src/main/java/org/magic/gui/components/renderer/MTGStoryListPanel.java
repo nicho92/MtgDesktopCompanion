@@ -32,7 +32,11 @@ public class MTGStoryListPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		lblicon = new JLabel(new ImageIcon(value.getIcon()));
+		lblicon = new JLabel();
+		
+		if(value.getIcon()!=null)
+			lblicon.setIcon(new ImageIcon(value.getIcon()));
+		
 		GridBagConstraints gbclblicon = new GridBagConstraints();
 		gbclblicon.gridheight = 3;
 		gbclblicon.insets = new Insets(0, 0, 0, 5);
