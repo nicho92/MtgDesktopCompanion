@@ -1,14 +1,12 @@
 package org.magic.gui.models;
 
+import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.SealedStock;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class SealedStockModel extends GenericTableModel<SealedStock> {
 
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public SealedStockModel() {
@@ -31,7 +29,6 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 			case 4 : return it.getQte();
 			default : return super.getValueAt(row, column);
 		}
-		
 	}
 	
 	
@@ -43,6 +40,8 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 		switch(column)
 		{
 			case 4: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
+			case 3: it.setCondition(EnumStock.SELEAD);break;
+			default:break;
 		}
 		
 		
