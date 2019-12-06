@@ -56,6 +56,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colDecks = "decks";
 	private String colNews = "news";
 	private String colOrders = "orders";
+	private String colSealed = "sealed";
 	
 	private String dbIDField = "db_id";
 	private String dbCardIDField = "card_id";
@@ -66,20 +67,23 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbStockField = "stockItem";
 	private String dbColIDField = "collection.name";
 	private String dbTypeNewsField = "typeNews";
-
 	private MongoClient client;
 
 
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
-		// TODO Auto-generated method stub
+		Bson filter = new Document("sealed.id", state.getId());
+		db.getCollection(colSealed).deleteOne(filter);
+		notify(state);
 		
 	}
 	
 	@Override
 	public List<SealedStock> listSeleadStocks() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<SealedStock> stocks = new ArrayList<>();
+		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks
+				.add(deserialize(result.get("id").toString(), SealedStock.class)));
+		return stocks;
 	}
 	
 	@Override
@@ -130,6 +134,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.createCollection(colDecks);
 			db.createCollection(colNews);
 			db.createCollection(colOrders);
+			db.createCollection(colSealed);
 		} catch (Exception e) {
 			logger.debug(e);
 			return false;

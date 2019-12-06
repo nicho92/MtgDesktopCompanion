@@ -48,7 +48,6 @@ public class AboutDialog extends MTGUIComponent {
 		setPreferredSize(new Dimension(600, 400));
 		StringBuilder developper = new StringBuilder("<html><center>"); 
 			developper.append(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
-			developper.append("<br/>").append(check.getVersion());
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
 			try {
 				developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
@@ -63,7 +62,7 @@ public class AboutDialog extends MTGUIComponent {
 				icon.setFont(new Font("Tahoma", Font.BOLD, 16));
 				icon.setVerticalTextPosition(SwingConstants.BOTTOM);
 				icon.setHorizontalTextPosition(SwingConstants.CENTER);
-				icon.setText(MTGConstants.MTG_APP_NAME);
+				icon.setText(MTGConstants.MTG_APP_NAME +" ("+ check.getVersion()+")");
 		
 				
 		JPanel panneauHaut = new JPanel();
