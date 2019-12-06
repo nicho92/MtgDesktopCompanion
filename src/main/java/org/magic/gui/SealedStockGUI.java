@@ -84,6 +84,14 @@ public class SealedStockGUI extends MTGUIComponent {
 			}
 		});
 		
+		table.getSelectionModel().addListSelectionListener(l->{
+			
+			SealedStock ss = UITools.getTableSelection(table, 0);
+			historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
+			
+			
+		});
+		
 		buttonDelete.addActionListener(el->{
 			SealedStock it = UITools.getTableSelection(table, 0);
 			
