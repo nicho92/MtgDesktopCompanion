@@ -61,7 +61,7 @@ public class MTGControler {
 		if (!conf.exists())
 			try {
 				logger.info(conf+" file doesn't exist. creating one from default file");
-				FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"),conf);
+				FileUtils.copyURLToFile(getClass().getResource("/data/default-conf.xml"),conf);
 				logger.info("conf file created");
 			} catch (IOException e1) {
 				logger.error(e1);
