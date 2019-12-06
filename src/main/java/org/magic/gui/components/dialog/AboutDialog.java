@@ -43,17 +43,20 @@ public class AboutDialog extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() {
-		
+		VersionChecker check = new VersionChecker();
 		setLayout(new BorderLayout(0, 0));
 		setPreferredSize(new Dimension(600, 400));
 		StringBuilder developper = new StringBuilder("<html><center>"); 
 			developper.append(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
+			developper.append("<br/>").append(check.getVersion());
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
 			try {
 				developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
+			
+			
 			developper.append("</center></html>");
 		
 		JLabel icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
@@ -115,7 +118,7 @@ public class AboutDialog extends MTGUIComponent {
 		panneauHaut.add(icon,BorderLayout.NORTH);
 		JButton button = new JButton("UPDATE");
 		button.addActionListener(e->{
-				VersionChecker check = new VersionChecker();
+				
 				if(check.hasNewVersion())
 				{
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().get(NEW_VERSION), MTGControler.getInstance().getLangService().get(NEW_VERSION) + " " + MTGControler.getInstance().getLangService().get("AVAILABLE"), MESSAGE_TYPE.WARNING));
