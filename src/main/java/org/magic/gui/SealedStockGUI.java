@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -20,6 +21,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.models.SealedStockModel;
+import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
@@ -50,46 +52,56 @@ public class SealedStockGUI extends MTGUIComponent {
 		JXTable table = new JXTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		JPanel toolsPanel = new JPanel();
-		JPanel centerPanel = new JPanel();
+		JSplitPane centerPanel = new JSplitPane();
+		centerPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		centerPanel.setDividerLocation(0.5);
+		centerPanel.setResizeWeight(0.5);
 		JTabbedPane panneauDetail = new JTabbedPane();
 		SealedHistoryPricesPanel historyPricePanel= new SealedHistoryPricesPanel();
 		
 		JButton buttonNew = new JButton(MTGConstants.ICON_NEW);
+		buttonNew.setEnabled(false);
 		JButton buttonDelete = new JButton(MTGConstants.ICON_DELETE);
 		JButton buttonUpdate = new JButton(MTGConstants.ICON_REFRESH);
 		
-		centerPanel.setLayout(new BorderLayout());
 		setLayout(new BorderLayout());
 		
 		toolsPanel.add(buttonNew);
 		toolsPanel.add(buttonDelete);
 		toolsPanel.add(buttonUpdate);
 		
-		panneauDetail.addTab(historyPricePanel.getName(),historyPricePanel);
+		panneauDetail.addTab(historyPricePanel.getTitle(),historyPricePanel.getIcon(),historyPricePanel);
 		
 		add(packagePanel,BorderLayout.WEST);
-		centerPanel.add(new JScrollPane(table),BorderLayout.CENTER);
-		centerPanel.add(panneauDetail,BorderLayout.SOUTH);
+		centerPanel.setLeftComponent(new JScrollPane(table));
+		centerPanel.setRightComponent(panneauDetail);
 		add(centerPanel,BorderLayout.CENTER);
 		add(toolsPanel,BorderLayout.NORTH);
+		
+		
+		model.setWritable(true);
+		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+		
+		
 		
 		
 		packagePanel.getTree().addTreeSelectionListener(e-> {
 			
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)packagePanel.getTree().getLastSelectedPathComponent();
-			if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
+			boolean isPackage = selectedNode.getUserObject() instanceof Packaging;
+			buttonNew.setEnabled(isPackage);
+			
+			if(selectedNode!=null && isPackage)
 			{
+				
 				selectedItem = (Packaging)selectedNode.getUserObject();
 				historyPricePanel.init(selectedItem, selectedItem.getEdition()+"-"+selectedItem.getType());
 			}
 		});
 		
 		table.getSelectionModel().addListSelectionListener(l->{
-			
 			SealedStock ss = UITools.getTableSelection(table, 0);
 			historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
-			
-			
 		});
 		
 		buttonDelete.addActionListener(el->{

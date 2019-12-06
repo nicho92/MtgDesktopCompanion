@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 
 import org.apache.log4j.Logger;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public abstract class MTGUIComponent extends JComponent {
@@ -85,7 +86,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	public ImageIcon getIcon()
 	{
-		return null;
+		return MTGConstants.ICON_PACKAGE_SMALL;
 	}
 	
 	

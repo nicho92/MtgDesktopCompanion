@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Map.Entry;
 
+import javax.swing.SwingWorker;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Day;
@@ -16,6 +18,7 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGControler;
+import org.magic.services.threads.ThreadManager;
 
 public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
 
@@ -53,13 +56,24 @@ public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
 		this.pack=pack;
 		this.title = title;
 		
-		if(isVisible()) {
-			try {
-				this.cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(pack);
-				refresh();
-			} catch (IOException e) {
-				logger.error("error init " + pack, e);
-			}
+		if(isVisible()) 
+		{
+				SwingWorker<Void, Void> s=  new SwingWorker<>(){
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(pack);
+						return null;
+					}
+					
+					@Override
+					protected void done() {
+						refresh();
+					}
+					
+				};
+						
+				ThreadManager.getInstance().runInEdt(s, "loading history price booster");
 		}
 	}
 

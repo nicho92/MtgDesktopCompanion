@@ -15,6 +15,8 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 		setColumns("ID","Type","Edition","Quality","Qty");
 	}
 	
+	
+	
 	@Override
 	public Object getValueAt(int row, int column) {
 		
@@ -32,4 +34,17 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 		
 	}
 	
+	
+	@Override
+	public void setValueAt(Object aValue, int row, int column) {
+		
+		SealedStock it = items.get(row);
+		
+		switch(column)
+		{
+			case 4: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
+		}
+		
+		
+	}
 }
