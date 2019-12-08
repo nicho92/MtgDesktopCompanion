@@ -3,16 +3,19 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Matcher;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
-public class Apprentice2DeckExport extends AbstractCardExport {
+public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public STATUT getStatut() {
@@ -60,15 +63,14 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 	public MagicDeck importDeck(String f,String name) throws IOException {
 			MagicDeck deck = new MagicDeck();
 			deck.setName(name);
-
 			int ecart = 0;
-			
 			int count=0;
-			for(String line : UITools.stringLineSplit(f)) 
+			for(String line : splitLines(f)) 
 			{
 				line = line.trim();
-				if (!line.startsWith("//")) {
-					String[] elements = line.split(getString("SEPARATOR"));
+				if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
+					
+					String[] elements = line.split(getSeparator());
 					MagicEdition ed = null;
 					try {
 						ed = new MagicEdition(elements[3]);
@@ -95,16 +97,24 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 
 	}
 
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("VERSION", "2.0");
-		setProperty("SEPARATOR", ",");
-
+	public String getVersion() {
+		return "2.0";
 	}
 
 	@Override
-	public String getVersion() {
-		return getProperty("VERSION", "2.0");
+	public String[] skipLinesStartWith() {
+		return new String[] {"//"};
+	}
+
+	@Override
+	public String getStringPattern() {
+		return "(MD|SB)"+getSeparator()+"([0-9])"+getSeparator()+"(\"[^\"]*\")"+getSeparator()+"([^\"]*)";
+	}
+
+	@Override
+	public String getSeparator() {
+		return getString("SEPARATOR");
 	}
 }
