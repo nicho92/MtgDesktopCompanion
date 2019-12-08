@@ -149,7 +149,7 @@ public class DeckBoxExport extends AbstractCardExport {
 				line=line.substring(line.indexOf(',')+1,line.length());
 				line=line.substring(line.indexOf(',')+1,line.length()); //don't care of number
 				
-				if(name.contains("////"))
+				if(name.contains("//"))
 					name=name.substring(0,name.indexOf('/')).trim();
 				
 				
