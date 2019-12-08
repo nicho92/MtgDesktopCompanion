@@ -80,6 +80,9 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	public static Product getProductFromCard(MagicCard mc, List<Product> list) {
 		
+		if(list.size()==1)
+			return list.get(0);
+		
 		String edName = mc.getCurrentSet().getSet();
 		Product resultat = null;
 		for (Product p : list) {

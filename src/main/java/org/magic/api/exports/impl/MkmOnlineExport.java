@@ -146,15 +146,29 @@ public class MkmOnlineExport extends AbstractCardExport {
 		for (MagicCard mc : deck.getMap().keySet()) 
 		{
 			Product p = null;
-			try {
-				p = MagicCardMarketPricer2.getProductFromCard(mc, pService.findProduct(mc.getName(), atts));
+			try 
+			{
+				if(mc.getMkmId()!=null)
+				{
+					
+					p = pService.getProductById(mc.getMkmId());
+				}
+				else
+				{
+					List<Product> list = pService.findProduct(mc.getName(), atts);
+					if(!list.isEmpty())
+					{
+						logger.debug("found multiple product for " + mc +" : " + list.size());
+						p = MagicCardMarketPricer2.getProductFromCard(mc,list);
+					}
+				}
 			}
 			catch(Exception ex)
 			{
 				logger.error("could not export " + mc,ex);
 				p=null;
 			}	
-			
+		
 			if (p != null) {
 				WantItem w = new WantItem();
 				w.setProduct(p);
