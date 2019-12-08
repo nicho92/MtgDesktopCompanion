@@ -45,7 +45,6 @@ public class MassCollectionImporterDialog extends JDialog {
 	
 
 	public MassCollectionImporterDialog() {
-		setSize(new Dimension(646, 328));
 		setIconImage(MTGConstants.ICON_MASS_IMPORT.getImage());
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
 		try {
@@ -121,12 +120,16 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		JTextPane txtNumbersInput = new JTextPane();
 		
+		txtNumbersInput.setPreferredSize(new Dimension(600, 300));
+		
 
 		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
 
 
 		setModal(true);
 		setLocationRelativeTo(null);
+		
+		pack();
 
 		btnInverse.addActionListener(e -> {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replace("  ", " ").trim().split(" "));
