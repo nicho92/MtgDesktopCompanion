@@ -23,6 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
+import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -30,6 +31,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
+import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.BinderTagsEditorComponent;
 import org.magic.gui.components.CardSearchPanel;
@@ -310,7 +312,16 @@ public class MagicGUI extends JFrame {
 			addTab(new WallpaperGUI());
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
+		{
+			try {
+			MkmAPIConfig.getInstance().init(new MagicCardMarketPricer2().getConfFile());
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
 			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", MTGConstants.ICON_SHOP));
+		}
 
 		
 		
