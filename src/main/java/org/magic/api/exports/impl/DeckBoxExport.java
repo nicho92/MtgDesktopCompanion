@@ -113,7 +113,8 @@ public class DeckBoxExport extends AbstractCardExport {
 		}
 
 	}
-
+	
+	
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		
@@ -147,6 +148,10 @@ public class DeckBoxExport extends AbstractCardExport {
 				MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(line.substring(0, line.indexOf(',')));
 				line=line.substring(line.indexOf(',')+1,line.length());
 				line=line.substring(line.indexOf(',')+1,line.length()); //don't care of number
+				
+				if(name.contains("////"))
+					name=name.substring(0,name.indexOf('/')).trim();
+				
 				
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 				mcs.setMagicCard(mc);

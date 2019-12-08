@@ -58,7 +58,7 @@ public class MagicCard implements Serializable {
 	private boolean reserved;
 	private String frameVersion;
 	private Integer tcgPlayerId;
-	private int mtgstocksId;
+	private Integer mtgstocksId;
 	private Integer mkmId;
 	private Integer edhrecRank;
 	
@@ -84,7 +84,7 @@ public class MagicCard implements Serializable {
 		this.mkmId = mkmId;
 	}
 
-	public int getMtgstocksId() {
+	public Integer getMtgstocksId() {
 		return mtgstocksId;
 	}
 
