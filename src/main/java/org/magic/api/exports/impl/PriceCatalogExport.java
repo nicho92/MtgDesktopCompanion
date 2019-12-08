@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
@@ -97,7 +98,7 @@ public class PriceCatalogExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {
-		return new MagicDeck();
+		throw new NotImplementedException("not implemented");
 	}
 
 	@Override
