@@ -145,13 +145,13 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		for (MagicCard mc : deck.getMap().keySet()) 
 		{
-			Product p = null;
+			Integer p = null;
 			try 
 			{
 				if(mc.getMkmId()!=null)
 				{
 					
-					p = pService.getProductById(mc.getMkmId());
+					p = mc.getMkmId();
 				}
 				else
 				{
@@ -159,7 +159,10 @@ public class MkmOnlineExport extends AbstractCardExport {
 					if(!list.isEmpty())
 					{
 						logger.debug("found multiple product for " + mc +" : " + list.size());
-						p = MagicCardMarketPricer2.getProductFromCard(mc,list);
+						Product prod = MagicCardMarketPricer2.getProductFromCard(mc,list);
+						
+						if(prod!=null)
+							p=prod.getIdProduct();
 					}
 				}
 			}
@@ -171,7 +174,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 			if (p != null) {
 				WantItem w = new WantItem();
-				w.setProduct(p);
+				w.setIdProduct(p);
 				w.setCount(deck.getMap().get(mc));
 				w.setFoil(new MkmBoolean(false));
 				w.setMinCondition(getString(QUALITY));

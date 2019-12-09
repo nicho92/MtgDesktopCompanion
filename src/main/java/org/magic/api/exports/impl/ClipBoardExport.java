@@ -46,7 +46,10 @@ public class ClipBoardExport extends AbstractCardExport {
 		d.setName("ClipBoard");
 		
 		for(MagicCard mc : clipboard.values())
+		{
 			d.add(mc);
+			notify(mc);
+		}
 		
 		
 		clipboard.clean();

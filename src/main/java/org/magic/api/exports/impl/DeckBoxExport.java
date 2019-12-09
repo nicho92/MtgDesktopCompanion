@@ -17,11 +17,16 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.CardsPatterns;
 
-public class DeckBoxExport extends AbstractCardExport {
+public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
+	private String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
+	
+	
 	
 	@Override
 	public STATUT getStatut() {
@@ -55,32 +60,43 @@ public class DeckBoxExport extends AbstractCardExport {
 		return EnumCondition.valueOf(condition.toUpperCase());
 	}
 	
+	public static void main(String[] args) throws IOException {
+	
+			new DeckBoxExport().matches(new File("D:\\Téléchargements\\deckbox.csv")).forEach(m->{
+			
+				System.out.println(m.group());
+				
+			});
+			
+			
+	}
+	
+	
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
-		String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
 		for(MagicCardStock mc : stock)
 		{
 			String name=mc.getMagicCard().getName();
-			if(mc.getMagicCard().getName().contains(","))
+			if(mc.getMagicCard().getName().contains(getSeparator()))
 				name="\""+mc.getMagicCard().getName()+"\"";
 			
 			StringBuilder line = new StringBuilder();
-			line.append(mc.getQte()).append(",");
-			line.append(mc.getQte()).append(",");
-			line.append(name).append(",");
-			line.append(mc.getMagicCard().getCurrentSet().getSet()).append(",");
-			line.append(mc.getMagicCard().getCurrentSet().getNumber()).append(",");
-			line.append(translate(mc.getCondition())).append(",");
-			line.append(mc.getLanguage()).append(",");
-			line.append(mc.isFoil()?"foil":"").append(",");
-			line.append(mc.isSigned()?"signed":"").append(",");
-			line.append(",");
-			line.append(mc.isAltered()?"altered":"").append(",");
-			line.append(",");
-			line.append(",");
-			line.append(",");
+			line.append(mc.getQte()).append(getSeparator());
+			line.append(mc.getQte()).append(getSeparator());
+			line.append(name).append(getSeparator());
+			line.append(mc.getMagicCard().getCurrentSet().getSet()).append(getSeparator());
+			line.append(mc.getMagicCard().getCurrentSet().getNumber()).append(getSeparator());
+			line.append(translate(mc.getCondition())).append(getSeparator());
+			line.append(mc.getLanguage()).append(getSeparator());
+			line.append(mc.isFoil()?"foil":"").append(getSeparator());
+			line.append(mc.isSigned()?"signed":"").append(getSeparator());
+			line.append(getSeparator());
+			line.append(mc.isAltered()?"altered":"").append(getSeparator());
+			line.append(getSeparator());
+			line.append(getSeparator());
+			line.append(getSeparator());
 			line.append(mc.getPrice()).append("\n");
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
 			notify(mc);
@@ -90,8 +106,6 @@ public class DeckBoxExport extends AbstractCardExport {
 	
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		
-		String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
 		
 		for(MagicCard mc : deck.getMap().keySet())
@@ -101,11 +115,11 @@ public class DeckBoxExport extends AbstractCardExport {
 				name="\""+mc.getName()+"\"";
 			
 			StringBuilder line = new StringBuilder();
-			line.append(deck.getMap().get(mc)).append(",");
-			line.append(deck.getMap().get(mc)).append(",");
-			line.append(name).append(",");
-			line.append(mc.getCurrentSet().getSet()).append(",");
-			line.append(mc.getCurrentSet().getNumber()).append(",");
+			line.append(deck.getMap().get(mc)).append(getSeparator());
+			line.append(deck.getMap().get(mc)).append(getSeparator());
+			line.append(name).append(getSeparator());
+			line.append(mc.getCurrentSet().getSet()).append(getSeparator());
+			line.append(mc.getCurrentSet().getNumber()).append(getSeparator());
 			line.append("Near Mint,,,,,,,,,0\n");
 			
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
@@ -157,7 +171,7 @@ public class DeckBoxExport extends AbstractCardExport {
 				mcs.setMagicCard(mc);
 				
 		
-				if(!line.startsWith(","))
+				if(!line.startsWith(getSeparator()))
 				{
 					String condition = line.substring(0, line.indexOf(','));
 					mcs.setCondition(reverse(condition));
@@ -180,32 +194,73 @@ public class DeckBoxExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MagicDeck importDeck(String content, String name) throws IOException {
 		
-		File file = new File(name);
-		FileUtils.write(file, f,MTGConstants.DEFAULT_ENCODING);
-		return importDeck(file);
-	}
-	
-	
-
-	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		List<MagicCardStock> list = importStock(f);
-		MagicDeck d = new MagicDeck();
+		MagicDeck deck = new MagicDeck();
+		deck.setName(name);
 		
-		for(MagicCardStock st : list)
+		
+		for(Matcher m : matches(content))
 		{
-			d.getMap().put(st.getMagicCard(), st.getQte());
+			MagicEdition ed = null;
+			try {
+				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(4));
+			} catch (Exception e) {
+				ed = null;
+				
+			}
+			String cname = m.group(3).replaceAll("\"", "");
+			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+			Integer qte = Integer.parseInt(m.group(1));
+			
+			deck.getMap().put(mc, qte);
+			
 		}
-		
-		return d;
-		
+		return deck;
 	}
+	
+	
 
 	@Override
 	public String getName() {
 		return "DeckBox";
+	}
+
+	@Override
+	protected boolean skipFirstLine() {
+		return true;
+	}
+
+	@Override
+	protected String[] skipLinesStartWith() {
+		return new String[0];
+	}
+
+	@Override
+	protected String getStringPattern() {
+		//Count,
+		//Tradelist Count
+		//Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price
+		return new StringBuilder().append(CardsPatterns.ANYNUMBER).append(getSeparator())
+						   .append(CardsPatterns.ANYNUMBER).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
+						   .append(CardsPatterns.ANYTEXT).toString();
+	}
+
+	@Override
+	public String getSeparator() {
+		return ",";
 	}
 
 }

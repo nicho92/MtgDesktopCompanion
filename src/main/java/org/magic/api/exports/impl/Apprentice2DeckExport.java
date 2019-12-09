@@ -5,13 +5,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.m;
+import org.hsqldb.lib.FileUtil;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
@@ -32,13 +36,17 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 		return ".dec";
 	}
 
+	@Override
+	public boolean skipFirstLine() {
+		return false;
+	}
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("MD,");
-			temp.append(deck.getMap().get(mc) + ",");
+			temp.append(deck.getMap().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
@@ -46,55 +54,43 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB,");
-			temp.append(deck.getMapSideBoard().get(mc) + ",");
+			temp.append(deck.getMapSideBoard().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
 			notify(mc);
 		}
-
-		try (FileWriter out = new FileWriter(dest)) {
-			out.write(temp.toString());
-		}
-
+		
+		FileUtils.write(dest, temp.toString(),MTGConstants.DEFAULT_ENCODING);
+		
 	}
-
+	
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {
 			MagicDeck deck = new MagicDeck();
 			deck.setName(name);
-			int ecart = 0;
-			int count=0;
-			for(String line : splitLines(f)) 
+			
+			
+			for(Matcher m : matches(f))
 			{
-				line = line.trim();
-				if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
+				MagicEdition ed = null;
+				try {
+					ed = new MagicEdition(m.group(4));
+				} catch (Exception e) {
+					ed = null;
 					
-					String[] elements = line.split(getSeparator());
-					MagicEdition ed = null;
-					try {
-						ed = new MagicEdition(elements[3]);
-					} catch (Exception e) {
-						ed = null;
-						ecart = 1;
-					}
-					String cname = elements[2 - ecart].replaceAll("\"", "");
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
-					Integer qte = Integer.parseInt(elements[1 - ecart]);
-					notify(mc);
-					
-					if (line.startsWith("SB"))
-						deck.getMapSideBoard().put(mc, qte);
-					else
-						deck.getMap().put(mc, qte);
-					
-					notify(count++);
-
 				}
+				String cname = m.group(3).replaceAll("\"", "");
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+				Integer qte = Integer.parseInt(m.group(2));
+				
+				if (m.group(1).startsWith("SB"))
+					deck.getMapSideBoard().put(mc, qte);
+				else
+					deck.getMap().put(mc, qte);
+				
 			}
 			return deck;
-		
-
 	}
 
 	
@@ -110,7 +106,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public String getStringPattern() {
-		return "(MD|SB)"+getSeparator()+"([0-9])"+getSeparator()+"(\"[^\"]*\")"+getSeparator()+"([^\"]*)";
+		return "(MD|SB)"+getSeparator()+"(\\d+)"+getSeparator()+"(\"[^\"]*\")"+getSeparator()+"{0,1}([^\"]*){0,1}$";
 	}
 
 	@Override

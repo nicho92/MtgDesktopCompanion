@@ -1,7 +1,16 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
 public abstract class AbstractFormattedFileCardExport extends AbstractCardExport {
@@ -21,21 +30,52 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return true;
 	}
 	
+	protected abstract boolean skipFirstLine();
 	
-	public abstract String[] skipLinesStartWith();
+	protected abstract String[] skipLinesStartWith();
 
-	public abstract String getStringPattern();
+	protected abstract String getStringPattern();
 	
-	public abstract String getSeparator();
+	protected abstract String getSeparator();
 	
-	public String[] splitLines(String content)
+	private String[] splitLines(String content)
 	{
-		return UITools.stringLineSplit(content);
+		String[] arr = UITools.stringLineSplit(content);
+		
+		if(skipFirstLine())
+			arr = ArrayUtils.remove(arr,0);
+		return arr;
+	}
+	
+	public List<Matcher> matches(File f) throws IOException
+	{
+		return matches(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING));
 	}
 	
 	
+	public List<Matcher> matches(String content)
+	{
+		logger.debug("Parsing content with pattern : " + getStringPattern());
+		List<Matcher> ret = new ArrayList<>();
+		for(String line : splitLines(content)) 
+		{
+			line = line.trim();
+			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
+				
+				Matcher m = getPattern().matcher(line);
+				
+				if(m.find())
+					ret.add(m);
+				else
+					logger.error("no match for " + line);
+			}
+			
+		}
+		return ret;
+	}
 	
-	public Pattern getPattern()
+	
+	private Pattern getPattern()
 	{
 		return Pattern.compile(getStringPattern());
 	}
