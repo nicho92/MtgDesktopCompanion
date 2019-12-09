@@ -238,7 +238,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "(\\d+),(\\d+),(.*?),(.*?),(.*?),(.*?),(.*)?,(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(\\d+)";
+		return "(\\d+),(\\d+),((?=^\")(\\\"*)|(.*?)),(.*?),(.*?),(.*?),(.*)?,(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(\\d+)";
 	}
 
 	@Override
