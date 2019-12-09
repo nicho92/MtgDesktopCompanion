@@ -133,6 +133,20 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		
 		List<MagicCardStock> list = new ArrayList<>();
+		
+//		
+//		
+//		matches(f).forEach(m->{
+//			MagicCardStock mcs = new MagicCardStock();
+//			mcs.setQte(Integer.parseInt(m.group(1)));
+//		});
+//		
+//		
+//		
+//		
+//		
+		
+		
 		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
 			String line = read.readLine();
 			while (line != null) {
@@ -238,7 +252,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "(\\d+),(\\d+),((?=^\")(\\\"*)|(.*?)),(.*?),(.*?),(.*?),(.*)?,(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(\\d+)";
+		return "(\\d+),(\\d+),((?=\\\")\"(.*?)\"|(.*?)),(.*?),(\\d+),(.*)?,(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(\\d+)";
 	}
 
 	@Override
