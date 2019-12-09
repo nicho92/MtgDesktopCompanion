@@ -181,9 +181,9 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				mcs.setLanguage(line.substring(line.indexOf(',')+1,line.length()));
 				line=line.substring(line.indexOf(',')+1,line.length());
 				
-				mcs.setAltered(line.contains("Altered Art"));
-				mcs.setFoil(line.contains("Foiled"));
-				mcs.setSigned(line.contains("Signed"));
+				mcs.setAltered(line.contains("altered"));
+				mcs.setFoil(line.contains("foiled"));
+				mcs.setSigned(line.contains("signed"));
 				
 				
 				list.add(mcs);
@@ -238,24 +238,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		//Count,
-		//Tradelist Count
-		//Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price
-		return new StringBuilder().append(CardsPatterns.ANYNUMBER).append(getSeparator())
-						   .append(CardsPatterns.ANYNUMBER).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).append(getSeparator())
-						   .append(CardsPatterns.ANYTEXT).toString();
+		return "(\\d+),(\\d+),(.*?),(.*?),(.*?),(.*?),(.*)?,(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(\\d+)";
 	}
 
 	@Override
