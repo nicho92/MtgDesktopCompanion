@@ -9,20 +9,20 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
-public class CardCastleExport extends AbstractCardExport {
+public class CardCastleExport extends AbstractFormattedFileCardExport {
 
 	private String header="Count,Card Name,Set Name,Foil";
-	private char separator=',';
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 	@Override
@@ -30,6 +30,11 @@ public class CardCastleExport extends AbstractCardExport {
 		return ".csv";
 	}
 
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+	
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder build = new StringBuilder();
@@ -43,44 +48,45 @@ public class CardCastleExport extends AbstractCardExport {
 				name="\""+name+"\"";
 			
 			
-			build.append(entry.getValue()).append(separator);
-			build.append(name).append(separator);
-			build.append(entry.getKey().getCurrentSet().getSet()).append(separator);
+			build.append(entry.getValue()).append(getSeparator());
+			build.append(name).append(getSeparator());
+			build.append(entry.getKey().getCurrentSet().getSet()).append(getSeparator());
 			build.append("false").append("\n");
 		});
 		FileUtils.write(dest, build.toString(),MTGConstants.DEFAULT_ENCODING);
 	}
-
+	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(name);
 
-		String[] lines = UITools.stringLineSplit(f);
-		lines= ArrayUtils.remove(lines,0); // remove header
 		
-		
-		for(String s : lines)
-		{
-			try {
-			String[] columns = s.split(String.valueOf(separator));
-			String  cardName = columns[0];
-			String editionName = columns[1];
-			if(columns[0].contains("\""))
-			{
-				cardName = String.join(String.valueOf(separator), columns[0],columns[1]);
-				cardName = RegExUtils.removeAll(cardName, "\"");
-				editionName = columns[2];
+		matches(f).forEach(m->{
+			
+			String cname = cleanName(m.group(1));
+			MagicEdition ed = null;
+			try {			   
+				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
-			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(editionName), true);
-			deck.add(cards.get(0));
-			}catch(Exception e)
+			catch(Exception e)
 			{
-				logger.error("error adding " + s, e);
+				logger.error("Edition not found for " + m.group(4));
 			}
-		}
-		
-		
+			
+			
+			MagicCard mc = null;
+			try 
+			{
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
+			} catch (Exception e) {
+				logger.error("no card found for" + cname + "/"+ ed);
+			}
+			
+			if(mc!=null)
+				deck.add(mc);
+			
+		});
 		
 		
 		return deck;
@@ -91,5 +97,34 @@ public class CardCastleExport extends AbstractCardExport {
 		return "CardCastle";
 	}
 
+	@Override
+	protected boolean skipFirstLine() {
+		return true;
+	}
+
+	@Override
+	protected String[] skipLinesStartWith() {
+		return new String[0];
+	}
+
+	@Override
+	protected String getStringPattern() {
+		return "((?=\")\".*?\"|.*?)"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(true|false)"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(\\d+)"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(\\d+.\\d+?)";
+	}
+
+	@Override
+	protected String getSeparator() {
+		return ",";
+	}
+
+	
+	
 
 }

@@ -14,9 +14,7 @@ public enum CardsPatterns {
 	CREATE_TOKEN 				("[Cc]reate[s]? (.*?) token[s]?"),
 	CREATE_EMBLEM 				("You get an emblem with (.*?)"),
 	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?([a-z])?"),
-	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"), 
-	ANYTEXT						("(.*?)"),
-	ANYNUMBER					("(\\d+)");
+	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"); 
 
 	
 	

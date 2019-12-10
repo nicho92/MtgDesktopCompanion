@@ -135,9 +135,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				logger.error("Edition not found for " + m.group(4));
 			}
 			
-			String cname = m.group(3).replace("\"","").trim();
-			if(cname.indexOf('/') > 1)
-				cname=cname.substring(0,cname.indexOf('/')).trim();
+			String cname = cleanName(m.group(3));
 			
 			String number=null;
 			try {
@@ -211,7 +209,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				ed = null;
 				
 			}
-			String cname = m.group(3).replaceAll("\"", "");
+			String cname = cleanName(m.group(3));
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 			Integer qte = Integer.parseInt(m.group(1));
 			
@@ -221,8 +219,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		return deck;
 	}
 	
-	
-
 	@Override
 	public String getName() {
 		return "DeckBox";
