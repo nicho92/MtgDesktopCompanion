@@ -22,10 +22,14 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	private String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 	
 	
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	@Override
