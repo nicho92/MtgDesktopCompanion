@@ -1,13 +1,10 @@
 package org.magic.api.exports.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.EnumCondition;
@@ -16,11 +13,9 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.CardsPatterns;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
@@ -51,27 +46,17 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	private EnumCondition reverse(String condition)
 	{
+		
+		
 		switch (condition)
 		{
 		 case "Good (Lightly Played)": return EnumCondition.LIGHTLY_PLAYED;
-		 case "Near Mint":  return EnumCondition.NEAR_MINT; 
+		 case "Near Mint":  return EnumCondition.NEAR_MINT;
+		 case "": return null;
 		 default : EnumCondition.valueOf(condition.toUpperCase());
 		}
 		return EnumCondition.valueOf(condition.toUpperCase());
 	}
-	
-	public static void main(String[] args) throws IOException {
-	
-			new DeckBoxExport().matches(new File("D:\\Téléchargements\\deckbox.csv")).forEach(m->{
-			
-				System.out.println(m.group());
-				
-			});
-			
-			
-	}
-	
-	
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
@@ -133,86 +118,85 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		
 		List<MagicCardStock> list = new ArrayList<>();
-		
-//		
-//		
-//		matches(f).forEach(m->{
-//			MagicCardStock mcs = new MagicCardStock();
-//			mcs.setQte(Integer.parseInt(m.group(1)));
-//		});
-//		
-//		
-//		
-//		
-//		
-		
-		
-		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
-			String line = read.readLine();
-			while (line != null) {
-				line = read.readLine();
-				if(line==null || line.isEmpty())
-					break;
-				
-				MagicCardStock mcs = new MagicCardStock();
-				
-				mcs.setQte(Integer.parseInt(line.substring(0, line.indexOf(','))));
-				
-				line=line.substring(line.indexOf(',')+1,line.length());
-				line=line.substring(line.indexOf(',')+1,line.length()); //don't care the next one
-				Pattern p = Pattern.compile("\"([^\"]*)\"");
-				Matcher m = p.matcher(line);
-				String name=null;
-				if(m.find())
-				{
-					name=m.group(1);
-					line=line.substring(line.lastIndexOf('"')+2,line.length());
-				}
-				else
-				{
-					name=line.substring(0, line.indexOf(','));
-					line=line.substring(line.indexOf(',')+1,line.length());
-				}
-				MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(line.substring(0, line.indexOf(',')));
-				line=line.substring(line.indexOf(',')+1,line.length());
-				line=line.substring(line.indexOf(',')+1,line.length()); //don't care of number
-				
-				if(name.contains("//"))
-					name=name.substring(0,name.indexOf('/')).trim();
-				
-				
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
-				mcs.setMagicCard(mc);
-				
-		
-				if(!line.startsWith(getSeparator()))
-				{
-					String condition = line.substring(0, line.indexOf(','));
-					mcs.setCondition(reverse(condition));
-				}
-				line=line.substring(line.indexOf(',')+1,line.length());
-				
-				mcs.setLanguage(line.substring(line.indexOf(',')+1,line.length()));
-				line=line.substring(line.indexOf(',')+1,line.length());
-				
-				mcs.setAltered(line.contains("altered"));
-				mcs.setFoil(line.contains("foiled"));
-				mcs.setSigned(line.contains("signed"));
-				
-				
-				list.add(mcs);
+	
+		matches(f).forEach(m->{
+			
+			MagicEdition ed = null;
+			
+			try {			   
+				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(4));
 			}
-		}
+			catch(Exception e)
+			{
+				logger.error("Edition not found for " + m.group(4));
+			}
+			
+			String cname = m.group(3).replace("\"","").trim();
+			if(cname.indexOf('/') > 1)
+				cname=cname.substring(0,cname.indexOf('/')).trim();
+			
+			String number=null;
+			try {
+				number = m.group(5);
+			}
+			catch(IndexOutOfBoundsException e)
+			{
+				//do nothing
+			}
+			
+			MagicCard mc=null;
+			
+			if(number!=null && ed !=null)
+			{
+				try {
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(number, ed);
+				} catch (Exception e) {
+					logger.error("no card found with number " + number + "/"+ ed);
+				}
+			}
+			
+			if(mc==null)
+			{
+				try {
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
+				} catch (Exception e) {
+					logger.error("no card found for" + cname + "/"+ ed);
+				}
+			}
+
+			if(mc!=null) {
+				MagicCardStock mcs = new MagicCardStock();
+					   mcs.setQte(Integer.parseInt(m.group(1)));
+					   mcs.setMagicCard(mc);
+					   mcs.setCondition(reverse(m.group(6)));
+					   
+					   if(!m.group(7).isEmpty())
+						   mcs.setLanguage(m.group(7));
+					   
+					   mcs.setFoil(m.group(8)!=null);	
+					   mcs.setSigned(m.group(9)!=null);
+					   mcs.setAltered(m.group(11)!=null);
+					   
+					   if(!m.group(15).isEmpty())
+						   mcs.setPrice(Double.parseDouble(m.group(15)));
+		
+			   list.add(mcs);
+			}
+			else
+			{
+				logger.error("No cards found for " + cname);
+			}
+			
+			
+		});
 		
 		return list;
 	}
 	
 	@Override
 	public MagicDeck importDeck(String content, String name) throws IOException {
-		
 		MagicDeck deck = new MagicDeck();
 		deck.setName(name);
-		
 		
 		for(Matcher m : matches(content))
 		{
@@ -252,7 +236,21 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "(\\d+),(\\d+),((?=\\\")\"(.*?)\"|(.*?)),(.*?),(\\d+),(.*)?,(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(\\d+)";
+		return "(\\d+)"+getSeparator()+
+			   "(\\d+)"+getSeparator()+
+			   "((?=\")\".*?\"|.*?)"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(\\d+)?"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(.*?)"+getSeparator()+
+			   "(foil)?"+getSeparator()+
+			   "(signed)?"+getSeparator()+
+			   "(proof)?"+getSeparator()+
+			   "(altered)?"+getSeparator()+
+			   "(misprint)?"+getSeparator()+
+			   "(promo)?"+getSeparator()+
+			   "(textless)?"+getSeparator()+
+			   "(\\d+(\\.\\d{1,2})?)";
 	}
 
 	@Override
