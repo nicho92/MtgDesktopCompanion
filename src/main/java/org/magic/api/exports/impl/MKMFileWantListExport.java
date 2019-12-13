@@ -10,10 +10,12 @@ import java.io.StringReader;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MKMFileWantListExport extends AbstractCardExport {
@@ -50,25 +52,22 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) {
-			
 			StringBuilder temp = new StringBuilder();
 			
 			for (MagicCard mc : deck.getMap().keySet()) {
-				temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")");
+				temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")\n");
 				notify(mc);
 			}
 			
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getMkmName()).append(")");
+					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getMkmName()).append(")\n");
 				else
-					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")");
+					temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")\n");
 				notify(mc);
 			}
-			
-			bw.write(temp.toString() + "\n");
-		}
+			FileUtils.write(dest, temp.toString(),MTGConstants.DEFAULT_ENCODING);
+		
 	}
 
 	@Override
