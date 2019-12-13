@@ -17,7 +17,10 @@ import org.magic.services.MTGControler;
 public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport {
 
 	
-	
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
 	
 	@Override
 	public String getFileExtension() {
@@ -90,10 +93,6 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 				} catch (Exception e) {
 					logger.error("no card found for " + cname);
 				}
-				
-				System.out.println(m.group());
-				
-				
 			});
 			
 			return deck;
