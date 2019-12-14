@@ -117,7 +117,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		if(!init)
 			init();
 
@@ -210,7 +210,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			for (MagicCardStock mcs : stock) {
 				d.getMap().put(mcs.getMagicCard(), mcs.getQte());
 			}
-			export(d, f);
+			exportDeck(d, f);
 		} else {
 
 			StockService serv = new StockService();

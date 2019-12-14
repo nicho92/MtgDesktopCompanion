@@ -56,7 +56,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		PdfReader reader = new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet_pdf1.pdf"));
 
 		Document document = new Document(reader.getPageSize(1));
@@ -171,7 +171,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new NotImplementedException("Can't import stock from DCI Sheet");
 	}
 

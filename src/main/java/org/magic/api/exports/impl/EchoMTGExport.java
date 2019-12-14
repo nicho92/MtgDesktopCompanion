@@ -59,7 +59,7 @@ public class EchoMTGExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		if(client==null)
 			connect();
 		

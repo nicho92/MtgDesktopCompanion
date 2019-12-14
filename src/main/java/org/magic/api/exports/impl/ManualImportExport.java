@@ -28,7 +28,7 @@ public class ManualImportExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
 
 	}
@@ -66,22 +66,7 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 
-	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		MagicDeck d = importDeckFromFile(f);
-		List<MagicCardStock> ret = new ArrayList<>();
-
-		for (MagicCard mc : d.getMap().keySet()) {
-			MagicCardStock stock = new MagicCardStock();
-			stock.setMagicCard(mc);
-			stock.setQte(d.getMap().get(mc));
-			stock.setUpdate(true);
-			stock.setIdstock(-1);
-			ret.add(stock);
-			notify(stock);
-		}
-		return ret;
-	}
+	
 
 	@Override
 	public Icon getIcon() {

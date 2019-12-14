@@ -36,7 +36,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder build = new StringBuilder();
 		build.append(header).append("\n");
 		

@@ -35,7 +35,7 @@ public class MTGArenaExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
 		StringBuilder temp = new StringBuilder();
 		

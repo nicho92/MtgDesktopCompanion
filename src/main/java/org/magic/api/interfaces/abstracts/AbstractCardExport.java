@@ -68,7 +68,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
 		}
-		export(d, f);
+		exportDeck(d, f);
 	}
 
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck) {
@@ -90,7 +90,6 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		return importFromDeck(importDeck(content, "defaultImport from " + getName()));
-		
 	}
 	
 	

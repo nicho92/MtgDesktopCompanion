@@ -94,7 +94,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
 		
 		for(MagicCard mc : deck.getMap().keySet())
@@ -117,13 +117,12 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	}
 	
-	
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MagicCardStock> importStock(String content) throws IOException {
 		
 		List<MagicCardStock> list = new ArrayList<>();
 	
-		matches(f).forEach(m->{
+		matches(content).forEach(m->{
 			
 			MagicEdition ed = null;
 			

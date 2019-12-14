@@ -17,13 +17,6 @@ import org.magic.services.MTGControler;
 
 public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
-	
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new MKMFileWantListExport().importDeckFromFile(new File("D:\\Desktop\\export.txt"));
-	}
-
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
 
@@ -70,7 +63,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 
 			StringBuilder temp = new StringBuilder();
 			

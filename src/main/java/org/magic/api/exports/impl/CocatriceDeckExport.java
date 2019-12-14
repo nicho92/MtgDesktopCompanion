@@ -35,7 +35,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		return ".cod";
 	}
 
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		String endZoneTag = "</zone>";
 

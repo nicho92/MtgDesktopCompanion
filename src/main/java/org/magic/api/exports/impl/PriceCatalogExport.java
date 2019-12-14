@@ -38,7 +38,7 @@ public class PriceCatalogExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) 
 		{
 			String[] exportedPricesProperties = getArray("PROPERTIES_PRICE");

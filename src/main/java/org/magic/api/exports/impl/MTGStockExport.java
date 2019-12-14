@@ -30,7 +30,7 @@ public class MTGStockExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			String name=mc.getName();

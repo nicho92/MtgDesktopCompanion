@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class WebsiteDeckImport extends AbstractCardExport {
 
@@ -30,7 +31,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
 
 	}
@@ -58,23 +59,6 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		throw new NotImplementedException("not implemented");
 
-	}
-
-	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		MagicDeck d = importDeckFromFile(f);
-		List<MagicCardStock> ret = new ArrayList<>();
-
-		for (MagicCard mc : d.getMap().keySet()) {
-			MagicCardStock stock = new MagicCardStock();
-			stock.setMagicCard(mc);
-			stock.setQte(d.getMap().get(mc));
-			stock.setUpdate(true);
-			stock.setIdstock(-1);
-			ret.add(stock);
-			notify(stock);
-		}
-		return ret;
 	}
 
 	@Override

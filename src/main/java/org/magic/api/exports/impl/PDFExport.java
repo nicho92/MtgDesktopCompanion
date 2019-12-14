@@ -63,7 +63,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File f) throws IOException {
+	public void exportDeck(MagicDeck deck, File f) throws IOException {
 		PdfPTable table = new PdfPTable(3);
 		table.setHorizontalAlignment(Element.ALIGN_CENTER);
 
@@ -100,7 +100,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new NotImplementedException("Can't import stock from PDF");
 	}
 

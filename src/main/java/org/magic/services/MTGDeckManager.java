@@ -137,7 +137,7 @@ public class MTGDeckManager extends Observable {
 			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
 
 		deck.setDateUpdate(new Date());
-		serialis.export(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + serialis.getFileExtension()));
+		serialis.exportDeck(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + serialis.getFileExtension()));
 
 	}
 
@@ -145,7 +145,7 @@ public class MTGDeckManager extends Observable {
 		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())
 			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
 
-		exp.export(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + exp.getFileExtension()));
+		exp.exportDeck(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + exp.getFileExtension()));
 
 	}
 

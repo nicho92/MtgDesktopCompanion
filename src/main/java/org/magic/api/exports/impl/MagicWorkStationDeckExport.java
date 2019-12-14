@@ -28,7 +28,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		temp.append("// MAIN\n");
 		for (MagicCard mc : deck.getMap().keySet()) {

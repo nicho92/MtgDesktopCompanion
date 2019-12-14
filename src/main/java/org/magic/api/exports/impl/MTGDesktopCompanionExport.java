@@ -27,7 +27,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 		return "MTGDesktopCompanion";
 	}
 
-	public void export(MagicDeck deck, File name) throws IOException {
+	public void exportDeck(MagicDeck deck, File name) throws IOException {
 		deck.setDateUpdate(new Date());
 
 		FileOutputStream fos = new FileOutputStream(name);

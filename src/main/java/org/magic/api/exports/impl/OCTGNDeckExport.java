@@ -30,7 +30,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		return ".o8d";
 	}
 
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");

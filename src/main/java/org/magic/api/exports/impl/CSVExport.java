@@ -101,7 +101,7 @@ public class CSVExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File f) throws IOException {
+	public void exportDeck(MagicDeck deck, File f) throws IOException {
 
 		String[] exportedDeckProperties= getArray("exportedDeckProperties");
 

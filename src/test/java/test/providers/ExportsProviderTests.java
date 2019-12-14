@@ -69,7 +69,7 @@ public class ExportsProviderTests {
 			{
 					
 					try {
-						p.export(d, destD);
+						p.exportDeck(d, destD);
 						System.out.println(p + " export Deck OK");
 					} catch (Exception e) {
 						System.out.println(p + " export Deck ERROR " +e);

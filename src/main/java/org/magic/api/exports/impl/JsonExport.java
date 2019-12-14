@@ -138,7 +138,7 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		FileUtils.writeStringToFile(dest, toJsonDeck(deck).toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 

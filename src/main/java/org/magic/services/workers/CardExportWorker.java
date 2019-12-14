@@ -49,7 +49,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 	@Override
 	protected Void doInBackground(){
 		try {
-			exp.export(export, f);
+			exp.exportDeck(export, f);
 		} catch (Exception e) {
 			err=e;
 			logger.error("error export with " + exp,e);

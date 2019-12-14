@@ -34,7 +34,7 @@ public class ClipBoardExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		for(MagicCard mc : deck.getAsList())
 			clipboard.put(IDGenerator.generate(mc), mc);
 
