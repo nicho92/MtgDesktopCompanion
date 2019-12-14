@@ -21,7 +21,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	
 	public static void main(String[] args) throws IOException {
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new MKMFileWantListExport().importDeck(new File("D:\\Desktop\\export.txt"));
+		new MKMFileWantListExport().importDeckFromFile(new File("D:\\Desktop\\export.txt"));
 	}
 
 	@Override

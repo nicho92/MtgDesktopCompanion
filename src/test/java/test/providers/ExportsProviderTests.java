@@ -74,12 +74,7 @@ public class ExportsProviderTests {
 					} catch (Exception e) {
 						System.out.println(p + " export Deck ERROR " +e);
 					}
-					try {
-						p.export(cards, destL);
-						System.out.println(p + " export List OK");
-					} catch (Exception e) {
-						System.out.println(p + " export List ERROR "+e);
-					}
+					
 					
 					List<MagicCardStock> stocks = new ArrayList<>();
 					
@@ -104,7 +99,7 @@ public class ExportsProviderTests {
 			{
 				MagicDeck d2;
 				try {
-					d2 = p.importDeck(destD);
+					d2 = p.importDeckFromFile(destD);
 					System.out.println(d2 + " " + " import deck OK");
 				} catch (Exception e) {
 					System.out.println(p + " import deck ERROR "+e);
@@ -112,7 +107,7 @@ public class ExportsProviderTests {
 				}
 				
 				try {
-					System.out.println(p.importStock(destS));
+					System.out.println(p.importStockFromFile(destS));
 					System.out.println(p + " " + " import stock OK");
 				} catch (Exception e) {
 					System.out.println(p + " " + " import stock ERROR "+ e);

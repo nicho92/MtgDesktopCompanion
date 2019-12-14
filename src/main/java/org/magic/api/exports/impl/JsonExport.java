@@ -203,7 +203,7 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		JsonArray root = URLTools.toJson(FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING)).getAsJsonArray();
 		List<MagicCardStock> list = new ArrayList<>();
 		for (int i = 0; i < root.size(); i++) {

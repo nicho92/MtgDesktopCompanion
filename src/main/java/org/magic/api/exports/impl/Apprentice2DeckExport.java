@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.FileUtils;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.units.qual.m;
 import org.hsqldb.lib.FileUtil;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -113,4 +115,5 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	public String getSeparator() {
 		return getString("SEPARATOR");
 	}
+
 }

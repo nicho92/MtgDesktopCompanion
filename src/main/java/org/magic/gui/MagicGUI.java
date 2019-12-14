@@ -214,7 +214,7 @@ public class MagicGUI extends JFrame {
 					AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(CardSearchPanel.getInstance().getLblLoading(),exp) {
 						@Override
 						protected MagicDeck doInBackground() throws IOException {
-							return plug.importDeck(f);
+							return plug.importDeckFromFile(f);
 						}
 
 						@Override

@@ -110,25 +110,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		return d;
 	}
 
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		
-		if(!init)
-			init();
-
-		
-		MagicDeck d = new MagicDeck();
-		for (MagicCard mc : cards)
-		{
-			d.getMap().put(mc, getInt(DEFAULT_QTE));
-		
-		}
-
-		d.setName(f.getName());
-
-		export(d, f);
-	}
-
+	
 	@Override
 	public String getFileExtension() {
 		return "";
@@ -260,12 +242,12 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		if(!init)
 			init();
 
 		if (!getString(STOCK_USE).equals("true"))
-			return importFromDeck(importDeck(f));
+			return importFromDeck(importDeckFromFile(f));
 
 		StockService serv = new StockService();
 		List<Article> list = serv.getStock();

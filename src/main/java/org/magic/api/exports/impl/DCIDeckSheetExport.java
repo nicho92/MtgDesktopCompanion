@@ -171,7 +171,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		throw new NotImplementedException("Can't import stock from DCI Sheet");
 	}
 

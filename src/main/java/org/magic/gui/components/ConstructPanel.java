@@ -478,7 +478,7 @@ public class ConstructPanel extends JPanel {
 						} 
 						else {
 							try {
-								setDeck(exp.importDeck(null));
+								setDeck(exp.importDeckFromFile(null));
 								updatePanels();
 							} catch (IOException e1) {
 								logger.error(e1);

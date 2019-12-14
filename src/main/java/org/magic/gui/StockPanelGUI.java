@@ -278,7 +278,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							fileImport = jf.getSelectedFile();
 						} else {
 							try {
-								exp.importStock(null).forEach(this::addStock);
+								exp.importStockFromFile(null).forEach(this::addStock);
 								
 							} catch (IOException e1) {
 								logger.error(e1);
@@ -292,7 +292,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							{
 								@Override
 								protected List<MagicCardStock> doInBackground() throws Exception {
-									return plug.importStock(fileImport);
+									return plug.importStockFromFile(fileImport);
 								}
 
 								@Override

@@ -360,7 +360,7 @@ public class AlarmGUI extends MTGUIComponent {
 						} else {
 							
 							try {
-								exp.importDeck(null).getMap().keySet().forEach(this::addCard);
+								exp.importDeckFromFile(null).getMap().keySet().forEach(this::addCard);
 							} catch (IOException e1) {
 								logger.error(e1);
 							}
@@ -374,7 +374,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 								@Override
 								protected MagicDeck doInBackground() throws Exception {
-									return plug.importDeck(f);
+									return plug.importDeckFromFile(f);
 								}
 								
 								@Override

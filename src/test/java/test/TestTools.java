@@ -16,7 +16,7 @@ public class TestTools {
 
 	public static List<MagicCard> loadData() throws IOException, URISyntaxException
 	{
-		return new JsonExport().importDeck(new File(TestTools.class.getResource("/sample.json").toURI())).getAsList();
+		return new JsonExport().importDeckFromFile(new File(TestTools.class.getResource("/sample.json").toURI())).getAsList();
 		
 	}
 	

@@ -73,7 +73,7 @@ public class MTGDeckManager extends Observable {
 
 	public MagicDeck getDeck(String name) throws IOException {
 		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
-		return serialis.importDeck(f);
+		return serialis.importDeckFromFile(f);
 	}
 	
 	public boolean exist(String name)
@@ -91,7 +91,7 @@ public class MTGDeckManager extends Observable {
 		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase()))) 
 		{
 			try {
-				MagicDeck deck = serialis.importDeck(f);
+				MagicDeck deck = serialis.importDeckFromFile(f);
 				decks.add(deck);
 				setChanged();
 				notifyObservers(deck);

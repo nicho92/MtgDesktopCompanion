@@ -119,7 +119,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		
 		List<MagicCardStock> list = new ArrayList<>();
 	

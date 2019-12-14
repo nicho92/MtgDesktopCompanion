@@ -55,7 +55,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	
 	
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeckFromFile(File f) throws IOException {
 		try {
 			return read(f);
 		} catch (ClassNotFoundException e) {

@@ -43,11 +43,11 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		return importDeck(null);
+		return importDeckFromFile(null);
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeckFromFile(File f) throws IOException {
 		DeckSnifferDialog diag = new DeckSnifferDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
@@ -61,8 +61,8 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		MagicDeck d = importDeck(f);
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+		MagicDeck d = importDeckFromFile(f);
 		List<MagicCardStock> ret = new ArrayList<>();
 
 		for (MagicCard mc : d.getMap().keySet()) {

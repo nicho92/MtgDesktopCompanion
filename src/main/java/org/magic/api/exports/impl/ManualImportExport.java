@@ -47,13 +47,13 @@ public class ManualImportExport extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String name,String f) throws IOException {
-		return importDeck(null);
+		return importDeckFromFile(null);
 
 	}
 	
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
+	public MagicDeck importDeckFromFile(File f) throws IOException {
 		ManualImportDialog diag = new ManualImportDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
@@ -67,8 +67,8 @@ public class ManualImportExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		MagicDeck d = importDeck(f);
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+		MagicDeck d = importDeckFromFile(f);
 		List<MagicCardStock> ret = new ArrayList<>();
 
 		for (MagicCard mc : d.getMap().keySet()) {

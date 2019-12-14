@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
@@ -58,15 +60,6 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return false;
 	}
 	
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		
-		MagicDeck d = MagicDeck.toDeck(cards);
-		d.setName("export " + getName() + " cards");
-		d.setDescription(getName() + " export to " + f.getName());
-	
-		export(d, f);
-	}
 	
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
@@ -78,37 +71,11 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		export(d, f);
 	}
 
-	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		String content="";
-		try {
-			content=FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING);
-		}catch(Exception e)
-		{
-			logger.error("error reading " + f);
-		}
-		
-		String name;
-		try {
-			name=f.getName().substring(0, f.getName().indexOf('.'));
-		}catch(Exception e)
-		{
-			name=f.getName();
-		}
-		
-		return importDeck(content,name);
-	}
-	
-	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		return importFromDeck(importDeck(f));
-	}
-	
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck) {
 		List<MagicCardStock> mcs = new ArrayList<>();
 
 		for (MagicCard mc : deck.getMap().keySet()) {
-			MagicCardStock stock = new MagicCardStock();
+			MagicCardStock stock = MTGControler.getInstance().getDefaultStock();
 			stock.setMagicCard(mc);
 			stock.setQte(deck.getMap().get(mc));
 			stock.setComment("import from " + deck.getName());
@@ -118,6 +85,23 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 			notify(stock);
 		}
 		return mcs;
+	}
+	
+	@Override
+	public List<MagicCardStock> importStock(String content) throws IOException {
+		return importFromDeck(importDeck(content, "defaultImport from " + getName()));
+		
+	}
+	
+	
+	@Override
+	public MagicDeck importDeckFromFile(File f) throws IOException {
+		return importDeck(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING),FilenameUtils.getBaseName(f.getName()));
+	}
+	
+	@Override
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+		return importStock(FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING));
 	}
 	
 	

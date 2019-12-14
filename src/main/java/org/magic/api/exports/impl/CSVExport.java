@@ -30,7 +30,7 @@ public class CSVExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
 			List<MagicCardStock> stock = new ArrayList<>();
 			String line = read.readLine();
@@ -98,32 +98,6 @@ public class CSVExport extends AbstractCardExport {
 			}
 		}
 
-	}
-
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-
-		String[] exportedProperties = getArray("exportedProperties");
-
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
-			for (String k : exportedProperties)
-				bw.write(k + ";");
-
-			bw.write("\n");
-
-			for (MagicCard mc : cards) {
-				for (String k : exportedProperties) {
-					String val = BeanUtils.getProperty(mc, k);
-					if (val == null)
-						val = "";
-					bw.write(val.replaceAll("\n", "") + ";");
-				}
-				bw.write("\n");
-				notify(mc);
-			}
-		} catch (Exception e) {
-			throw new IOException(e);
-		}
 	}
 
 	@Override
