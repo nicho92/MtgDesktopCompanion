@@ -235,7 +235,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				a.setProduct(p);
 				a.setIdProduct(p.getIdProduct());
 				list.add(a);
-				notify(mcs);
+				notify(mcs.getMagicCard());
 			}
 			serv.addArticles(list);
 		}
@@ -277,7 +277,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
 			stock.add(mcs);
-			notify(mcs);
+			notify(mcs.getMagicCard());
 
 		}
 		return stock;

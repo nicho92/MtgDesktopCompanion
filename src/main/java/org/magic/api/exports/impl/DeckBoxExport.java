@@ -88,7 +88,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(getSeparator());
 			line.append(mc.getPrice()).append("\n");
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
-			notify(mc);
+			notify(mc.getMagicCard());
 		}
 	}
 	

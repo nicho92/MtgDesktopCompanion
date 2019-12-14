@@ -2,19 +2,16 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 public class WebsiteDeckImport extends AbstractCardExport {
 

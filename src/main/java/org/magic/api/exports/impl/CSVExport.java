@@ -94,7 +94,7 @@ public class CSVExport extends AbstractCardExport {
 				bw.write(mcs.getPrice() + ";");
 				bw.write(mcs.getComment() + ";");
 				bw.write("\n");
-				notify(mcs);
+				notify(mcs.getMagicCard());
 			}
 		}
 

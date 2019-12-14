@@ -195,7 +195,7 @@ public class JsonExport extends AbstractCardExport {
 
 		for (MagicCardStock mc : stock) {
 			jsonparams.add(new Gson().toJsonTree(mc));
-			notify(mc);
+			notify(mc.getMagicCard());
 		}
 		try (FileWriter out = new FileWriter(f)) {
 			out.write(jsonparams.toString());
@@ -203,13 +203,13 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		JsonArray root = URLTools.toJson(FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING)).getAsJsonArray();
+	public List<MagicCardStock> importStock(String content) throws IOException {
+		JsonArray root = URLTools.toJson(content).getAsJsonArray();
 		List<MagicCardStock> list = new ArrayList<>();
 		for (int i = 0; i < root.size(); i++) {
 			JsonObject line = root.get(i).getAsJsonObject();
 			MagicCardStock mc = new Gson().fromJson(line, MagicCardStock.class);
-			notify(mc);
+			notify(mc.getMagicCard());
 			list.add(mc);
 		}
 

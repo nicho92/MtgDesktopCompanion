@@ -17,7 +17,7 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class StockExportWorker extends SwingWorker<Void, MagicCardStock> {
+public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
@@ -40,7 +40,7 @@ public class StockExportWorker extends SwingWorker<Void, MagicCardStock> {
 		this.f=f;
 		this.export=export;
 		err=null;
-		o=(Observable obs, Object c)->publish((MagicCardStock)c);
+		o=(Observable obs, Object c)->publish((MagicCard)c);
 		exp.addObserver(o);
 	}
 	
@@ -58,7 +58,7 @@ public class StockExportWorker extends SwingWorker<Void, MagicCardStock> {
 	}
 	
 	@Override
-	protected void process(List<MagicCardStock> chunks) {
+	protected void process(List<MagicCard> chunks) {
 		buzy.progressSmooth(chunks.size());
 	}
 	

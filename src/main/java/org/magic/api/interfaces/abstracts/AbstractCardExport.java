@@ -68,7 +68,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
 		}
-		exportDeck(d, f);
+		exportDeck(d, f); //TODO error with notify
 	}
 
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck) {
@@ -82,7 +82,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 			stock.setIdstock(-1);
 			stock.setUpdate(true);
 			mcs.add(stock);
-			notify(stock);
+			notify(stock.getMagicCard());
 		}
 		return mcs;
 	}
