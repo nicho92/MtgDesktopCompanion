@@ -57,10 +57,6 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 	}
 
-	@Override
-	public String getFileExtension() {
-		return ".txt";
-	}
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
@@ -68,7 +64,10 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 			StringBuilder temp = new StringBuilder();
 			
 			for (MagicCard mc : deck.getMap().keySet()) {
-				temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getCurrentSet().getSet()).append(")\n");
+				if (mc.getCurrentSet().getMkmName() != null)
+					temp.append(deck.getMap().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
+				else
+					temp.append(deck.getMapSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
 				notify(mc);
 			}
 			
@@ -84,6 +83,14 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		
 	}
 
+	
+
+	@Override
+	public String getFileExtension() {
+		return ".txt";
+	}
+	
+	
 	@Override
 	public String getName() {
 		return "MKM File WantList";
