@@ -87,11 +87,6 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			return deck;
 	}
 
-	
-	@Override
-	public String getVersion() {
-		return "2.0";
-	}
 
 	@Override
 	public String[] skipLinesStartWith() {

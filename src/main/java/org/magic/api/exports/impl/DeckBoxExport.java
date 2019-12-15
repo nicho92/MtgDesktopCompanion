@@ -23,11 +23,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public String getVersion() {
-		return "2.0";
-	}
-	
-	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}

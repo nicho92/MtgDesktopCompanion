@@ -25,11 +25,6 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".csv";
 	}
-
-	@Override
-	public String getVersion() {
-		return "2.0";
-	}
 	
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
@@ -75,7 +70,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 			MagicCard mc = null;
 			try 
 			{
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
+				mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
 			} catch (Exception e) {
 				logger.error("no card found for" + cname + "/"+ ed);
 			}

@@ -17,11 +17,6 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 
 	
 	@Override
-	public String getVersion() {
-		return "2.0";
-	}
-	
-	@Override
 	public String getFileExtension() {
 		return ".mwDeck";
 	}

@@ -85,4 +85,11 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	public void initDefault() {
 		setProperty("SEPARATOR", ",");
 	}
+	
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+	
+	
 }
