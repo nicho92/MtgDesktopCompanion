@@ -274,19 +274,19 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/search").equals("true"))
 			addTab(CardSearchPanel.getInstance()); 
 
-		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
-			addTab(new DeckBuilderGUI()); 
-
-		if (MTGControler.getInstance().get("modules/game").equals("true"))
-			addTab(new GameGUI()); 
-
 		if (MTGControler.getInstance().get("modules/collection").equals("true"))
 			addTab(new CollectionPanelGUI()); 
 		
 		if (MTGControler.getInstance().get("modules/sealed").equals("true"))
 			addTab(new SealedStockGUI());
-		
 
+		
+		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
+			addTab(new DeckBuilderGUI()); 
+
+		if (MTGControler.getInstance().get("modules/game").equals("true"))
+			addTab(new GameGUI()); 
+	
 		if (MTGControler.getInstance().get("modules/stock").equals("true"))
 			addTab(new StockPanelGUI()); 
 
