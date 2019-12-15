@@ -65,6 +65,40 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		return EnumCondition.valueOf(condition.toUpperCase());
 	}
 	
+	private String reverse(EnumCondition condition)
+	{
+		switch (condition)
+		{
+		 case LIGHTLY_PLAYED: return "GD";
+		 case MINT : return "M";
+		 case NEAR_MINT : return "NM";
+		 case POOR : return "PR";
+		 case PLAYED : return "FIN";
+		 default : return "NM";
+		}
+		
+	}
+	
+	
+	@Override
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+		
+		StringBuilder temp = new StringBuilder();
+					  temp.append(columns).append("\n");
+		
+		stock.forEach(st->{
+			temp.append("\"").append(st.getMagicCard().getName()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getMagicCard().getCurrentSet().getSet()).append("\"").append(getSeparator());
+			temp.append(st.getQte()).append(getSeparator());
+			temp.append(st.getPrice()).append(getSeparator());
+			temp.append(reverse(st.getCondition())).append(getSeparator());
+			temp.append(st.getLanguage()).append(getSeparator());
+			temp.append(st.isFoil()).append(getSeparator());
+			temp.append(st.isSigned()).append("\n");
+			notify(st.getMagicCard());
+		});
+		FileUtils.write(f, temp.toString(),MTGConstants.DEFAULT_ENCODING);
+	}
 	
 	
 	@Override
