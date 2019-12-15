@@ -15,10 +15,6 @@ import org.magic.services.MTGControler;
 
 public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
 
 	@Override
 	public String getName() {

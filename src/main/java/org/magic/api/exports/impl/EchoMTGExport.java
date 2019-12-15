@@ -32,12 +32,6 @@ public class EchoMTGExport extends AbstractCardExport {
 		setProperty("PASS", "");
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		new EchoMTGExport().importDeck(null, "test");
-		
-	}
-	
 	
 	private void connect() throws IOException
 	{

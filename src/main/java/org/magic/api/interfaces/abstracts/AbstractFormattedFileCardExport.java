@@ -91,5 +91,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return "2.0";
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
 	
 }
