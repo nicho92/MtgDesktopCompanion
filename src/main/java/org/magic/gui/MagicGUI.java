@@ -127,7 +127,6 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmLogsItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("LOGS"),MTGConstants.ICON_CONFIG);
 		JMenuItem mntmAboutMagicDesktop = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
 		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
-		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"),MTGConstants.ICON_OPEN);
 		JMenuItem mntmFileTagEditor = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		JMenuItem mntmFileChromePlugin = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
 		JMenuItem mntmFilePackageExplorer = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE);
@@ -135,7 +134,6 @@ public class MagicGUI extends JFrame {
 			
 		
 		mtgMnuBar.add(mnFile);
-		mnFile.add(mntmFileOpen);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
 		mnFile.add(mntmFilePackageExplorer);
@@ -195,46 +193,6 @@ public class MagicGUI extends JFrame {
 				logger.error(e);
 			}
 		});
-		mntmFileOpen.addActionListener(ae -> {
-			
-			
-			if (CardSearchPanel.getInstance() == null)
-				throw new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
-
-			
-			
-			JFileChooser choose = new JFileChooser();
-			int returnVal = choose.showOpenDialog(null);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File f = choose.getSelectedFile();
-				MTGCardsExport exp = MTGControler.getInstance().getAbstractExporterFromExt(f);
-
-				if (exp != null) {
-					CardSearchPanel.getInstance().getLblLoading().setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE", f.getName(), exp));
-					AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(CardSearchPanel.getInstance().getLblLoading(),exp) {
-						@Override
-						protected MagicDeck doInBackground() throws IOException {
-							return plug.importDeckFromFile(f);
-						}
-
-						@Override
-						protected void done() {
-							super.done();
-							try {
-								CardSearchPanel.getInstance().open(get().getAsList());
-								tabbedPane.setSelectedIndex(0);
-							} catch (Exception e) {
-								logger.error(e);
-							} 
-						}
-					};
-					ThreadManager.getInstance().runInEdt(sw, "opening " + f);
-
-				} else {
-					MTGControler.getInstance().notify(new NullPointerException("NO EXPORT FOUND"));
-				}
-			}
-		});
 		
 		boolean update=serviceUpdate.hasNewVersion();
 
@@ -279,7 +237,6 @@ public class MagicGUI extends JFrame {
 		
 		if (MTGControler.getInstance().get("modules/sealed").equals("true"))
 			addTab(new SealedStockGUI());
-
 		
 		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
 			addTab(new DeckBuilderGUI()); 
