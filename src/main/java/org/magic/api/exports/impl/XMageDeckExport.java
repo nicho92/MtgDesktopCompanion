@@ -1,19 +1,18 @@
 package org.magic.api.exports.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class XMageDeckExport extends AbstractCardExport {
+public class XMageDeckExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
@@ -25,6 +24,9 @@ public class XMageDeckExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".dck";
 	}
+	
+	
+	
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
@@ -43,56 +45,91 @@ public class XMageDeckExport extends AbstractCardExport {
 					.append("]").append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
-
-		try (FileWriter out = new FileWriter(dest)) {
-			out.write(temp.toString());
-		}
+		FileUtils.write(dest, temp.toString(),MTGConstants.DEFAULT_ENCODING);
 	}
-
+	
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
-		try (BufferedReader read = new BufferedReader(new StringReader(f))) {
 			MagicDeck deck = new MagicDeck();
 			deck.setName(dname);
 
-			String line = read.readLine();
-
-			while (line != null) {
-				if (!line.startsWith("NAME:")) {
-					if (!line.startsWith("SB:")) {
-						MagicEdition ed = new MagicEdition(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
-						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
-						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-								.searchCardByName( cardName, ed, true).get(0);
-						notify(mc);
-						deck.getMap().put(mc, qte);
-
-					} else {
-						line = line.replace("SB:", "").trim();
-						MagicEdition ed = new MagicEdition(line.substring(line.indexOf('[') + 1, line.indexOf(':')));
-						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
-						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-								.searchCardByName( cardName, ed, true).get(0);
-						notify(mc);
-						deck.getMap().put(mc, qte);
-					}
-				} else {
-					deck.setName(line.replace("NAME: ", ""));
+			matches(f).forEach(m->{
+			
+				String cname = cleanName(m.group(5));
+				MagicEdition ed = null;
+				try {			   
+					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(3));
 				}
-
-				line = read.readLine();
-			}
+				catch(Exception e)
+				{
+					logger.error("Edition not found for " + m.group(3));
+				}
+				
+				String number=null;
+				try {
+					number = m.group(4);
+				}
+				catch(IndexOutOfBoundsException e)
+				{
+					//do nothing
+				}
+				
+				MagicCard mc = null;
+				if(number!=null && ed !=null)
+				{
+					try {
+						mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(number, ed);
+					} catch (Exception e) {
+						logger.error("no card found with number " + number + "/"+ ed);
+					}
+				}
+				
+				if(mc==null)
+				{
+					try {
+						mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
+					} catch (Exception e) {
+						logger.error("no card found for" + cname + "/"+ ed);
+					}
+				
+				}
+				
+				
+				if(m.group(1)!=null)
+				{
+					deck.getMapSideBoard().put(mc, Integer.parseInt(m.group(2)));
+				}
+				else
+				{
+					deck.getMap().put(mc, Integer.parseInt(m.group(2)));
+				}
+				
+				notify(mc);
+			});
+			
 			return deck;
-		}
+		
 
 	}
 
 	@Override
-	public void initDefault() {
-		// Nothing to do
+	protected boolean skipFirstLine() {
+		return false;
+	}
 
+	@Override
+	protected String[] skipLinesStartWith() {
+		return new String[] {"LAYOUT ","NAME:"};
+	}
+
+	@Override
+	protected String getStringPattern() {
+		return "(SB: )?(\\d+) \\[(.*?):(\\d+)\\] (.*?)$";
+	}
+
+	@Override
+	protected String getSeparator() {
+		return null;
 	}
 
 }

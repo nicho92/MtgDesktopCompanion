@@ -10,8 +10,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	public String getFileExtension() {
-		// TODO Auto-generated method stub
-		return null;
+		return ".csv";
 	}
 
 	@Override
@@ -28,8 +27,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "DelverLens";
 	}
 
 	@Override
@@ -52,8 +50,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	protected String getSeparator() {
-		// TODO Auto-generated method stub
-		return null;
+		return getString("SEPARATOR");
 	}
 	
 	@Override
