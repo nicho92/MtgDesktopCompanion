@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -26,12 +27,9 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	}
 	
 	
-	
-
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
-
 		temp.append("NAME: " + deck.getName() + "\n");
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append(deck.getMap().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
@@ -53,7 +51,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 			MagicDeck deck = new MagicDeck();
 			deck.setName(dname);
 
-			matches(f).forEach(m->{
+			matches(f,true).forEach(m->{
 			
 				String cname = cleanName(m.group(5));
 				MagicEdition ed = null;

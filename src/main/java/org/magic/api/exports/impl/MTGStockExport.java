@@ -36,17 +36,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		for(MagicCard mc : deck.getMap().keySet())
-		{
-			String name=mc.getName();
-			if(mc.getName().contains("'"))
-				name="\""+mc.getName()+"\"";
-			
-			String line= deck.getMap().get(mc) + " " + name+","+mc.getCurrentSet().getId()+"\n";
-			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
-			notify(mc);
-		}
-		
+		exportStock(importFromDeck(deck), dest);
 	}
 	
 	private EnumCondition reverse(String condition)
@@ -93,8 +83,8 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			temp.append(st.getPrice()).append(getSeparator());
 			temp.append(reverse(st.getCondition())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
-			temp.append(st.isFoil()).append(getSeparator());
-			temp.append(st.isSigned()).append("\n");
+			temp.append(st.isFoil()?"Yes":"No").append(getSeparator());
+			temp.append(st.isSigned()?"Yes":"No").append("\n");
 			notify(st.getMagicCard());
 		});
 		FileUtils.write(f, temp.toString(),MTGConstants.DEFAULT_ENCODING);
@@ -106,7 +96,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		
 		List<MagicCardStock> ret = new ArrayList<>();
 		
-		matches(content).forEach(m->{
+		matches(content,true).forEach(m->{
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;
 			try {			   
@@ -152,7 +142,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(dname);
 		
-		matches(f).forEach(m->{
+		matches(f,true).forEach(m->{
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;
 			try {			   

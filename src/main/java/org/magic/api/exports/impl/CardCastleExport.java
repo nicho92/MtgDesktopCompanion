@@ -50,7 +50,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 		deck.setName(name);
 
 		
-		matches(f).forEach(m->{
+		matches(f,true).forEach(m->{
 			
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;

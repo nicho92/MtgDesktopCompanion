@@ -56,7 +56,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 		try (BufferedReader read = new BufferedReader(new StringReader(f))) {
 			MagicDeck deck = new MagicDeck();
 			deck.setName(name);
-			matches(f).forEach(m->{
+			matches(f,true).forEach(m->{
 				
 				MagicEdition ed = null;
 				try {			   

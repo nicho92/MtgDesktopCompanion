@@ -66,9 +66,12 @@ public class UITools {
 	
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
 	
-	public static String[] stringLineSplit(String s)
+	public static String[] stringLineSplit(String s,boolean removeBlank)
 	{
-		return s.split("[\\r\\n]+");
+		if(removeBlank)
+			return s.split("["+System.lineSeparator()+"]+");
+			
+		return s.split(System.lineSeparator());
 	}
 	
 	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line)

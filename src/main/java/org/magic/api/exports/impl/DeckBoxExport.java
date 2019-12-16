@@ -86,25 +86,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
-		
-		for(MagicCard mc : deck.getMap().keySet())
-		{
-			String name=mc.getName();
-			if(mc.getName().contains(","))
-				name="\""+mc.getName()+"\"";
-			
-			StringBuilder line = new StringBuilder();
-			line.append(deck.getMap().get(mc)).append(getSeparator());
-			line.append(deck.getMap().get(mc)).append(getSeparator());
-			line.append(name).append(getSeparator());
-			line.append(mc.getCurrentSet().getSet()).append(getSeparator());
-			line.append(mc.getCurrentSet().getNumber()).append(getSeparator());
-			line.append("Near Mint,,,,,,,,,0\n");
-			
-			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
-			notify(mc);
-		}
+		exportStock(importFromDeck(deck), dest);
 
 	}
 	
@@ -113,7 +95,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		
 		List<MagicCardStock> list = new ArrayList<>();
 	
-		matches(content).forEach(m->{
+		matches(content,true).forEach(m->{
 			
 			MagicEdition ed = null;
 			
@@ -190,7 +172,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(name);
 		
-		for(Matcher m : matches(content))
+		for(Matcher m : matches(content,true))
 		{
 			MagicEdition ed = null;
 			try {
@@ -202,7 +184,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			String cname = cleanName(m.group(3));
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 			Integer qte = Integer.parseInt(m.group(1));
-			
+			notify(mc);
 			deck.getMap().put(mc, qte);
 			
 		}

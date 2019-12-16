@@ -3,17 +3,20 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
-public class MTGODeckExport extends AbstractCardExport {
+public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
@@ -45,41 +48,39 @@ public class MTGODeckExport extends AbstractCardExport {
 		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 	
-	
 	@Override
 	public MagicDeck importDeck(String f, String deckName) throws IOException {
 			MagicDeck deck = new MagicDeck();
 			deck.setName(deckName);
 			boolean side=false;
-			for(String line : UITools.stringLineSplit(f)) 
+			
+			for(Matcher m : matches(f,false))
 			{
-				if (!line.startsWith("//") && line.length() > 0) {
-					int sep = line.indexOf(' ');
-					if (line.toLowerCase().startsWith("sideboard"))
-					{
-						side=true;
-					}
-					else if (side) 
+				if(m.group().isEmpty())
+				{
+					side=true;
+				}
+				else
+				{
+					String cname = cleanName(m.group(2));
+					try{
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, null, true).get(0);
+						int qty = Integer.parseInt(m.group(1));
+						
+						if(side)
 						{
-						String name = line.substring(sep, line.length()).trim();
+							deck.getMapSideBoard().put(mc, qty);
+						}
+						else
+						{
+							deck.getMap().put(mc, qty);
+						}
 						
-						if(name.indexOf("//")>-1)
-							name=name.substring(0, name.indexOf("//")).trim();
-						
-						String qte = line.substring(0, sep).trim();
-						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, (name.indexOf("//")==-1));
-						deck.getMapSideBoard().put(list.get(0), Integer.parseInt(qte));
-						notify(list.get(0));
-					} else {
-						String name = line.substring(sep, line.length()).trim().trim();
-						String qte = line.substring(0, sep).trim();
-						if(name.indexOf("//")>-1)
-							name=name.substring(0, name.indexOf("//"));
-						
-						
-						List<MagicCard> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, (name.indexOf("//")==-1));
-						deck.getMap().put(list.get(0), Integer.parseInt(qte));
-						notify(list.get(0));
+						notify(mc);
+					}
+					catch(Exception e)
+					{
+						logger.error(cname + " is not found : " + e.getMessage());
 					}
 				}
 			}
@@ -89,9 +90,23 @@ public class MTGODeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("VERSION", "1.0");
+	protected boolean skipFirstLine() {
+		return false;
+	}
 
+	@Override
+	protected String[] skipLinesStartWith() {
+		return new String[] {"//"};
+	}
+
+	@Override
+	protected String getStringPattern() {
+		return "^\\s*$|(\\d+) (.*?)$";
+	}
+
+	@Override
+	protected String getSeparator() {
+		return " ";
 	}
 
 	

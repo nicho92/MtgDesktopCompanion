@@ -61,7 +61,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			deck.setName(name);
 			
 			
-			for(Matcher m : matches(f))
+			for(Matcher m : matches(f,true))
 			{
 				MagicEdition ed = null;
 				try {

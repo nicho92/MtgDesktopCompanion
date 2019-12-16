@@ -23,7 +23,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(dname);
 		
-		matches(f).forEach(m->{
+		matches(f,true).forEach(m->{
 			
 			
 			Integer qty = Integer.parseInt(m.group(1));

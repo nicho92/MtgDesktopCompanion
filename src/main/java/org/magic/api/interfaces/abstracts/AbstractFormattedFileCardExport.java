@@ -38,26 +38,26 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 	protected abstract String getSeparator();
 	
-	private String[] splitLines(String content)
+	private String[] splitLines(String content,boolean removeBlank)
 	{
-		String[] arr = UITools.stringLineSplit(content);
+		String[] arr = UITools.stringLineSplit(content,removeBlank);
 		
 		if(skipFirstLine())
 			arr = ArrayUtils.remove(arr,0);
 		return arr;
 	}
 	
-	public List<Matcher> matches(File f) throws IOException
+	public List<Matcher> matches(File f,boolean removeBlank) throws IOException
 	{
-		return matches(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING));
+		return matches(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING),removeBlank);
 	}
 	
 	
-	public List<Matcher> matches(String content)
+	public List<Matcher> matches(String content,boolean removeBlank)
 	{
 		logger.debug("Parsing content with pattern : " + getStringPattern());
 		List<Matcher> ret = new ArrayList<>();
-		for(String line : splitLines(content)) 
+		for(String line : splitLines(content,removeBlank)) 
 		{
 			line = line.trim();
 			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
