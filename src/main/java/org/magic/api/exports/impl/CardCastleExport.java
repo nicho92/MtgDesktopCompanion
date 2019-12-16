@@ -14,7 +14,7 @@ import org.magic.services.MTGControler;
 
 public class CardCastleExport extends AbstractFormattedFileCardExport {
 
-	private String header="Count,Card Name,Set Name,Foil";
+	private String header="Count"+getSeparator()+"Card Name"+getSeparator()+"Set Name"+getSeparator()+"Foil";
 
 
 	@Override
