@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
@@ -18,50 +19,53 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.tools.UITools;
 
 public class CSVExport extends AbstractFormattedFileCardExport {
 
+	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment";
+
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 			List<MagicCardStock> stock = new ArrayList<>();
-			for(String line : UITools.stringLineSplit(content, true)) 
+			for(Matcher part : matches(content, true)) 
 			{
-				String[] part = line.split(getSeparator());
 				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 				
 				MagicEdition ed = null;
 				
 				try {
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(part[2]);
+					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(part.group(2));
 				}
 				catch(Exception e)
 				{
-					logger.error("edition " + part[2] + " is not found");
+					logger.error("edition " + part.group(2) + " is not found");
 				}
 				
 				MagicCard mc = null;
 				
 				try {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( part[1], ed, true).get(0);
+					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( part.group(1), ed, true).get(0);
 				}
 				catch(Exception e)
 				{
-					logger.error("card " + part[1]+ " is not found");
+					logger.error("card " + part.group(1)+ " is not found");
 				}
 				
 				if(mc!=null) {
 				
 					mcs.setMagicCard(mc);
-					mcs.setLanguage(part[2]);
-					mcs.setQte(Integer.parseInt(part[3]));
-					mcs.setCondition(EnumCondition.valueOf(part[4]));
-					mcs.setFoil(Boolean.valueOf(part[5]));
-					mcs.setAltered(Boolean.valueOf(part[6]));
-					mcs.setSigned(Boolean.valueOf(part[7]));
-					mcs.setMagicCollection(new MagicCollection(part[8]));
-					mcs.setPrice(Double.valueOf(part[9]));
-					mcs.setComment(part[10]);
+					mcs.setLanguage(part.group(3));
+					mcs.setQte(Integer.parseInt(part.group(4)));
+					mcs.setCondition(EnumCondition.valueOf(part.group(5)));
+					mcs.setFoil(Boolean.valueOf(part.group(6)));
+					mcs.setAltered(Boolean.valueOf(part.group(7)));
+					mcs.setSigned(Boolean.valueOf(part.group(8)));
+					mcs.setMagicCollection(new MagicCollection(part.group(9)));
+					mcs.setPrice(Double.valueOf(part.group(10)));
+					mcs.setComment(part.group(11));
 					mcs.setIdstock(-1);
 					mcs.setUpdate(true);
 					stock.add(mcs);
@@ -82,13 +86,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				String name = cleanName(part[0]);
 				String qte = part[1];
 				String set = part[2];
-				MagicEdition ed = null;
-				try {
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(set);
-				} catch (Exception e) {
-					ed = null;
-					
-				}
+				MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(set);
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 				notify(mc);
 				deck.getMap().put(mc, Integer.parseInt(qte));
@@ -101,7 +99,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 			StringBuilder bw = new StringBuilder();
 		
-			bw.append("Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment");
+			bw.append(columns);
 			bw.append(System.lineSeparator());
 			for (MagicCardStock mcs : stock) 
 			{
@@ -187,19 +185,20 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		return ".csv";
 	}
 
-
 	@Override
 	public String getName() {
 		return "CSV";
 	}
 
-	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		new CSVExport().exportDeck(new MTGDeckManager().getDeck("Gruul Aggro"),new File("D:\\Desktop\\deck.csv"));
+	}
 
 	@Override
 	protected String getStringPattern() {
 		return "(.*?);(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+");(true|false);(true|false);(true|false);(.*?);(\\d+(\\.\\d{1,2})?)";
 	}
-
 
 	@Override
 	public void initDefault() {
