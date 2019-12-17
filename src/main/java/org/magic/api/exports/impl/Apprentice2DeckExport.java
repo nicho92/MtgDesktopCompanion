@@ -65,7 +65,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			{
 				MagicEdition ed = null;
 				try {
-					ed = new MagicEdition(m.group(4));
+					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(4));
 				} catch (Exception e) {
 					ed = null;
 					
