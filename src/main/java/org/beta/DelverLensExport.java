@@ -32,14 +32,12 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	protected boolean skipFirstLine() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[0];
 	}
 
 	@Override
