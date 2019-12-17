@@ -25,6 +25,8 @@ import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
+import javax.swing.JLabel;
+import java.awt.Color;
 
 public class SealedStockGUI extends MTGUIComponent {
 
@@ -65,6 +67,10 @@ public class SealedStockGUI extends MTGUIComponent {
 		JButton buttonUpdate = new JButton(MTGConstants.ICON_REFRESH);
 		
 		setLayout(new BorderLayout());
+		
+		JLabel lblNewLabel = new JLabel("WARNING THIS MODULE IS NOT YET STABLE");
+		lblNewLabel.setForeground(Color.RED);
+		toolsPanel.add(lblNewLabel);
 		
 		toolsPanel.add(buttonNew);
 		toolsPanel.add(buttonDelete);
