@@ -79,6 +79,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		setProperty(LOAD_CERTIFICATE, "true");
 		setProperty("URL", "https://api.scryfall.com");
 		setProperty("MULTILANG","false");
+		setProperty("LOAD_RULING","true");
 	}
 	
 	@Override
@@ -455,7 +456,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				try {
 					ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
 				} catch (Exception e1) {
-					logger.error(e1);
+					logger.error("No multiverseID found for " + mc.getName() + " face : " + idface);
 				}
 
 			}
@@ -478,18 +479,22 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	private void generateRules(MagicCard mc) throws IOException {
-		String url = getString("URL")+CARDS + mc.getId() + "/rulings";
+		
+		if(getBoolean("LOAD_RULING"))
+		{
+			String url = getString("URL")+CARDS + mc.getId() + "/rulings";
+		
+			JsonElement el = URLTools.extractJson(url);
+			JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
 	
-		JsonElement el = URLTools.extractJson(url);
-		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
-
-		for (int i = 0; i < arr.size(); i++) {
-			JsonObject obr = arr.get(i).getAsJsonObject();
-			MagicRuling rul = new MagicRuling();
-			rul.setDate(obr.get("published_at").getAsString());
-			rul.setText(obr.get("comment").getAsString());
-
-			mc.getRulings().add(rul);
+			for (int i = 0; i < arr.size(); i++) {
+				JsonObject obr = arr.get(i).getAsJsonObject();
+				MagicRuling rul = new MagicRuling();
+				rul.setDate(obr.get("published_at").getAsString());
+				rul.setText(obr.get("comment").getAsString());
+	
+				mc.getRulings().add(rul);
+			}
 		}
 	}
 

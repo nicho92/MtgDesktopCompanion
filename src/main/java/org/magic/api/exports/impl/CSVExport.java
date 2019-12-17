@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -76,23 +78,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	}
 
-	@Override
-	public MagicDeck importDeck(String content,String n) throws IOException {
-		MagicDeck deck = new MagicDeck();
-		deck.setName(n);
-		
-		for(String line : UITools.stringLineSplit(content, true)) {
-				String[] part = line.split(getSeparator());
-				String name = cleanName(part[0]);
-				String qte = part[1];
-				String set = part[2];
-				MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(set);
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
-				notify(mc);
-				deck.getMap().put(mc, Integer.parseInt(qte));
-		}
-		return deck;
-	}
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
@@ -125,61 +110,105 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
 
-		String[] exportedDeckProperties= getArray("exportedDeckProperties");
-
+		
 		StringBuilder bw = new StringBuilder();
-		bw.append("Main list\n");
+		String[] extraProperties = getArray("extraProperties");
+		
+		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qte");
+		
+		if(extraProperties.length>0)
+			bw.append(getSeparator());
+		
+		
+		for (String k : extraProperties)
+			bw.append(k).append(getSeparator());
 
-			bw.append("Qte;");
-			for (String k : exportedDeckProperties)
-				bw.append(k).append(getSeparator());
+		bw.append(System.lineSeparator());
 
-			bw.append("\n");
-
-			for (MagicCard mc : deck.getMap().keySet()) {
-				bw.append(deck.getMap().get(mc) + getSeparator());
-				for (String k : exportedDeckProperties) {
-					String val = null;
-					try {
-						val = BeanUtils.getProperty(mc, k);
-					} catch (Exception e) {
-						logger.error("Error reading bean", e);
-					}
-					if (val == null)
-						val = "";
-					bw.append(val.replaceAll("\n", "") + getSeparator());
-				}
-				bw.append("\n");
-				notify(mc);
-			}
-
-			bw.append("SideBoard\n");
-			bw.append("Qte;");
-			for (String k : exportedDeckProperties)
-				bw.append(k + ";");
-
-			bw.append("\n");
-			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-				bw.append(deck.getMapSideBoard().get(mc) +getSeparator());
-				for (String k : exportedDeckProperties) {
-					String val = null;
-					try {
-						val = BeanUtils.getProperty(mc, k);
-					} catch (Exception e) {
-						logger.error("Error reading bean ", e);
-					}
-					if (val == null)
-						val = "";
-					bw.append(val.replaceAll("\n", "") + ";");
-				}
-				bw.append("\n");
-				notify(mc);
-			}
-			
-			FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
+		
+		
+		writeMap(deck.getMap(),bw,extraProperties);
+		bw.append(System.lineSeparator());
+		writeMap(deck.getMapSideBoard(),bw,extraProperties);
+		FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
 		
 	}
 
+
+	private void writeMap(Map<MagicCard, Integer> deck, StringBuilder bw, String[] exportedDeckProperties) {
+		
+		for (Entry<MagicCard, Integer> entry : deck.entrySet()) {
+			bw.append(entry.getKey().getName()).append(getSeparator());
+			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
+			bw.append(entry.getValue()).append(getSeparator());
+			for (String k : exportedDeckProperties) 
+			{
+				String val = null;
+				try {
+					val = BeanUtils.getProperty(entry.getKey(), k);
+				} catch (Exception e) {
+					logger.error("Error reading bean", e);
+				}
+				
+				if (val == null)
+					val = "";
+				
+				bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
+			}
+			bw.append(System.lineSeparator());
+			notify(entry.getKey());
+		}
+		
+	}
+
+
+	@Override
+	public MagicDeck importDeck(String content,String n) throws IOException {
+		MagicDeck deck = new MagicDeck();
+		deck.setName(n);
+		boolean isSide=false;
+		
+		for(String line : UITools.stringLineSplit(content, false)) {
+				
+				if(line.isBlank())
+				{
+					isSide=true;
+				}
+				else
+				{
+
+					String[] part = line.split(getSeparator());
+					String name = cleanName(part[0]);
+					String qte = part[2];
+					String set = part[1];
+					MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(set);
+					MagicCard mc = null;
+					
+					try {
+					
+						mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
+					}
+					catch(Exception e)
+					{
+						logger.error("no cards found for " + name +" " + set);
+					}
+					
+					if(mc!=null) {
+						
+						if(isSide)
+							deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
+						else
+							deck.getMap().put(mc, Integer.parseInt(qte));
+						
+						notify(mc);
+					}
+					
+				
+				}
+		}
+		return deck;
+	}
+	
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -190,11 +219,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		return "CSV";
 	}
 
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new CSVExport().exportDeck(new MTGDeckManager().getDeck("Gruul Aggro"),new File("D:\\Desktop\\deck.csv"));
-	}
-
 	@Override
 	protected String getStringPattern() {
 		return "(.*?);(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+");(true|false);(true|false);(true|false);(.*?);(\\d+(\\.\\d{1,2})?)";
@@ -202,7 +226,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void initDefault() {
-		setProperty("exportedDeckProperties", "name,editions[0].id,editions[0].number,cost,supertypes,types,subtypes");
+		setProperty("extraProperties", "editions[0].number,cost,supertypes,types,subtypes");
 		setProperty("SEPARATOR", ";");
 
 	}

@@ -416,7 +416,7 @@
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>
 	    <artifactId>groovy-all</artifactId>
-	    <version>3.0.0-rc-2</version>
+	    <version>3.0.0-rc-1</version>
 	    <type>pom</type>
 	</dependency>
 	<dependency>
