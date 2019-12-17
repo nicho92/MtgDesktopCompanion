@@ -123,8 +123,4 @@ public class MinaClient  extends Observable implements NetworkClient {
 		return getSession().isActive();
 	}
 	
-	public static void main(String[] args) {
-		new MinaClient("localhost", 18567);
-	}
-
 }

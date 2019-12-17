@@ -26,12 +26,6 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 	
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	
-	public static void main(String[] args) throws IOException {
-		MagicCard c = new MagicCard();
-		c.setName("Oko, Thief of Crowns");
-		new StarCityGamesPricer().getLocalePrice(null, c);
-	}
-	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		

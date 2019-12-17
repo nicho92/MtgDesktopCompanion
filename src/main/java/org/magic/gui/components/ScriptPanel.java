@@ -267,11 +267,4 @@ public class ScriptPanel extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_SCRIPT;
 	}
-	
-	
-	public static void main(String[] args) {
-		ThreadManager.getInstance().invokeLater(()->MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true));
-	}
-	
-
 }
