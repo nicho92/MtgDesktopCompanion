@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 
@@ -21,7 +20,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.UITools;
 
 public class CSVExport extends AbstractFormattedFileCardExport {
@@ -84,8 +82,13 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 			StringBuilder bw = new StringBuilder();
 		
-			bw.append(columns);
+			bw.append(columns).append(getSeparator());
+			
+			for (String k : getArray("extraProperties"))
+				bw.append(k).append(getSeparator());
+			
 			bw.append(System.lineSeparator());
+			
 			for (MagicCardStock mcs : stock) 
 			{
 				bw.append(mcs.getMagicCard().getName()).append(getSeparator());
@@ -100,8 +103,11 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getPrice()).append(getSeparator());
-				bw.append(mcs.getComment()==null ? ""  :mcs.getComment());
+				bw.append(mcs.getComment()==null ? ""  :mcs.getComment()).append(getSeparator());
+				
+				writeExtraMap(mcs.getMagicCard(),mcs.getQte(),bw);
 				bw.append(System.lineSeparator());
+				
 				notify(mcs.getMagicCard());
 			}
 			FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
@@ -113,11 +119,11 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		
 		StringBuilder bw = new StringBuilder();
 		String[] extraProperties = getArray("extraProperties");
-		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qte");
+		
+		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qty");
 		
 		if(extraProperties.length>0)
 			bw.append(getSeparator());
-		
 		
 		for (String k : extraProperties)
 			bw.append(k).append(getSeparator());
@@ -125,26 +131,40 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		bw.append(System.lineSeparator());
 
 		
-		
-		writeMap(deck.getMap(),bw,extraProperties);
+		for (Entry<MagicCard, Integer> entry : deck.getMap().entrySet())
+		{
+			bw.append(entry.getKey()).append(getSeparator());
+			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
+			bw.append(entry.getValue()).append(getSeparator());
+			writeExtraMap(entry.getKey(),entry.getValue(),bw);
+			bw.append(System.lineSeparator());
+		}
+			
+			
 		bw.append(System.lineSeparator());
-		writeMap(deck.getMapSideBoard(),bw,extraProperties);
+		
+		for (Entry<MagicCard, Integer> entry : deck.getMapSideBoard().entrySet())
+		{
+			bw.append(entry.getKey()).append(getSeparator());
+			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
+			bw.append(entry.getValue()).append(getSeparator());
+			writeExtraMap(entry.getKey(),entry.getValue(),bw);
+			bw.append(System.lineSeparator());
+		}
+			
+		
+		
 		FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
 		
 	}
 
 
-	private void writeMap(Map<MagicCard, Integer> deck, StringBuilder bw, String[] exportedDeckProperties) {
-		
-		for (Entry<MagicCard, Integer> entry : deck.entrySet()) {
-			bw.append(entry.getKey().getName()).append(getSeparator());
-			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
-			bw.append(entry.getValue()).append(getSeparator());
-			for (String k : exportedDeckProperties) 
+	private void writeExtraMap(MagicCard mc, Integer qty, StringBuilder bw) {
+			for (String k : getArray("extraProperties")) 
 			{
 				String val = null;
 				try {
-					val = BeanUtils.getProperty(entry.getKey(), k);
+					val = BeanUtils.getProperty(mc, k);
 				} catch (Exception e) {
 					logger.error("Error reading bean", e);
 				}
@@ -154,10 +174,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				
 				bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
 			}
-			bw.append(System.lineSeparator());
-			notify(entry.getKey());
-		}
-		
+			notify(mc);
 	}
 
 
@@ -166,10 +183,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(n);
 		boolean isSide=false;
-		
-		
-		
-		
 		
 		for(String line : UITools.stringLineSplit(content, false)) {
 				
