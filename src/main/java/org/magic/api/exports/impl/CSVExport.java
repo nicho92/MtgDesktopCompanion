@@ -113,7 +113,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		
 		StringBuilder bw = new StringBuilder();
 		String[] extraProperties = getArray("extraProperties");
-		
 		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qte");
 		
 		if(extraProperties.length>0)
@@ -167,6 +166,10 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(n);
 		boolean isSide=false;
+		
+		
+		
+		
 		
 		for(String line : UITools.stringLineSplit(content, false)) {
 				
