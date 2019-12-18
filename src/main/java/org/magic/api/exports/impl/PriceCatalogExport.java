@@ -1,24 +1,24 @@
 package org.magic.api.exports.impl;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.Icon;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class PriceCatalogExport extends AbstractCardExport {
+public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 	private static final String PRICER = "PRICER";
 
@@ -39,18 +39,18 @@ public class PriceCatalogExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) 
-		{
 			String[] exportedPricesProperties = getArray("PROPERTIES_PRICE");
 			String[] exportedCardsProperties = getArray("PROPERTIES_CARD");
+			StringBuilder bw = new StringBuilder();
+			
 			
 			for (String k : exportedCardsProperties)
-				bw.write(k + ";");
+				bw.append(k).append(getSeparator());
 			
 			for (String k : exportedPricesProperties)
-				bw.write(k + ";");
+				bw.append(k).append(getSeparator());
 
-			bw.write("\n");
+			bw.append(System.lineSeparator());
 			
 			if(getString(PRICER).isEmpty())
 				throw new IOException("PRICER parameter must be set");
@@ -58,7 +58,7 @@ public class PriceCatalogExport extends AbstractCardExport {
 			
 			for(String pricer : getArray(PRICER))
 			{	
-				MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
+					MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
 			
 					for (MagicCard mc : deck.getMap().keySet()) 
 					{
@@ -69,7 +69,7 @@ public class PriceCatalogExport extends AbstractCardExport {
 									val = BeanUtils.getProperty(mc, k);
 									if (val == null)
 										val = "";
-									bw.write(val.replaceAll("\n", "") + ";");
+									bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
 								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 									throw new IOException(e);
 								}
@@ -81,18 +81,19 @@ public class PriceCatalogExport extends AbstractCardExport {
 									val = BeanUtils.getProperty(prices, p);
 									if (val == null)
 										val = "";
-									bw.write(val.replaceAll("\n", "") + ";");
+									bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
 								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 									throw new IOException(e);
 								}
 		
 							}
-							bw.write("\n");
+							bw.append(System.lineSeparator());
 						}
 						notify(mc);
 					}
 			}
-		}
+			FileUtils.write(dest, bw.toString(),MTGConstants.DEFAULT_ENCODING);
+			
 
 	}
 
@@ -111,6 +112,26 @@ public class PriceCatalogExport extends AbstractCardExport {
 		setProperty(PRICER, "");
 		setProperty("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");
 		setProperty("PROPERTIES_PRICE", "site,seller,value,currency,language,quality,foil");
+	}
+
+	@Override
+	protected boolean skipFirstLine() {
+		return true;
+	}
+
+	@Override
+	protected String[] skipLinesStartWith() {
+		return new String[0];
+	}
+
+	@Override
+	protected String getStringPattern() {
+		return null;
+	}
+
+	@Override
+	protected String getSeparator() {
+		return ";";
 	}
 
 
