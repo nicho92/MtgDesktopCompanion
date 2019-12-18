@@ -6,11 +6,14 @@ import java.io.IOException;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class GithubUtils {
 
-	private JsonObject obj;
+	private JsonObject latest;
+	private JsonArray releases;
 	private static GithubUtils inst;
 	
 	
@@ -23,37 +26,36 @@ public class GithubUtils {
 		return inst;
 	}
 	
-	
-	
 	private GithubUtils() throws IOException {
-		obj = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonObject();
+		releases = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
+		latest = releases.get(0).getAsJsonObject();
 	}
 	
 	
 	public String getReleaseURL()
 	{
-		return obj.get("html_url").getAsString();
+		return latest.get("html_url").getAsString();
 	}
 	
 	public String getAuthor()
 	{
-		return obj.get("author").getAsJsonObject().get("login").getAsString();
+		return latest.get("author").getAsJsonObject().get("login").getAsString();
 	}
 	
 	public String getVersion()
 	{
-		return obj.get("tag_name").getAsString();
+		return latest.get("tag_name").getAsString();
 	}
 	
 	public String getVersionName()
 	{
-		return obj.get("name").getAsString();
+		return latest.get("name").getAsString();
 	}
 	
 	public BufferedImage getAvatar()
 	{
 		try {
-			return URLTools.extractImage(obj.get("author").getAsJsonObject().get("avatar_url").getAsString());
+			return URLTools.extractImage(latest.get("author").getAsJsonObject().get("avatar_url").getAsString());
 		} catch (IOException e) {
 			return null;
 		}
@@ -61,12 +63,18 @@ public class GithubUtils {
 	
 	public int downloadCount()
 	{
-		return obj.get("assets").getAsJsonArray().get(0).getAsJsonObject().get("download_count").getAsInt();
+		int count=0;
+		for(JsonElement obj : releases)
+		{
+			if(obj.getAsJsonObject().get("assets").getAsJsonArray().size()>0)
+				count += obj.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("download_count").getAsInt();
+		}
+		return count;
 	}
 	
 	public String downloadUrl()
 	{
-		return obj.get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
+		return latest.get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
 	}
 	
 	
