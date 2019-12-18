@@ -2,6 +2,7 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -76,7 +77,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	}
 
-
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 
@@ -140,7 +140,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			bw.append(System.lineSeparator());
 		}
 			
-			
 		bw.append(System.lineSeparator());
 		
 		for (Entry<MagicCard, Integer> entry : deck.getMapSideBoard().entrySet())
@@ -151,15 +150,14 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			writeExtraMap(entry.getKey(),entry.getValue(),bw);
 			bw.append(System.lineSeparator());
 		}
-			
-		
-		
+
 		FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
 		
 	}
 
 
-	private void writeExtraMap(MagicCard mc, Integer qty, StringBuilder bw) {
+	private void writeExtraMap(MagicCard mc, Integer qty, StringBuilder bw) 
+	{
 			for (String k : getArray("extraProperties")) 
 			{
 				String val = null;
@@ -244,7 +242,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	public void initDefault() {
 		setProperty("extraProperties", "editions[0].number,cost,supertypes,types,subtypes");
 		setProperty("SEPARATOR", ";");
-
 	}
 
 	@Override
