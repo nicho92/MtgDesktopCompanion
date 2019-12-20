@@ -420,6 +420,10 @@
             <class>org.magic.api.shopping.impl.MagicVilleShopper</class>
             <enable>true</enable>
         </shopper>
+        <shopper>
+            <class>org.magic.api.shopping.impl.CardTraderShopper</class>
+            <enable>true</enable>
+        </shopper>
     </shoppers>
     <dashboards>
         <dashboard>
