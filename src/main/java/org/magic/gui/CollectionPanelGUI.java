@@ -17,6 +17,7 @@ import java.util.concurrent.Callable;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -65,6 +66,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.MassCollectionImporterDialog;
 import org.magic.gui.components.dialog.MassMoverDialog;
+import org.magic.gui.components.dialog.StockSyncDialog;
 import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
@@ -512,8 +514,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					if (node.getUserObject() instanceof MagicCollection) {
 						JPopupMenu p = new JPopupMenu();
 						JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
+						JMenuItem itSync = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SYNCHRONIZE_WITH",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
+						
 						
 						p.add(it);
+						p.add(itSync);
 
 						it.addActionListener(ae -> {
 							MassMoverDialog d = new MassMoverDialog((MagicCollection) node.getUserObject(), null);
@@ -523,6 +528,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							
 							logger.trace("closing mass import with change =" + d.hasChange());
 						});
+						
+						itSync.addActionListener(ae->{
+							
+							StockSyncDialog syncComponent = new StockSyncDialog();
+							JDialog d = MTGUIComponent.createJDialog(syncComponent, true, true);
+							d.setVisible(true);
+						});
+						
+						
 						p.show(e.getComponent(), e.getX(), e.getY());
 					}
 
