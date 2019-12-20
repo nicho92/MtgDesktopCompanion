@@ -17,7 +17,6 @@ import java.util.concurrent.Callable;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -66,7 +65,6 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.MassCollectionImporterDialog;
 import org.magic.gui.components.dialog.MassMoverDialog;
-import org.magic.gui.components.dialog.StockSyncDialog;
 import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
@@ -514,7 +512,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					if (node.getUserObject() instanceof MagicCollection) {
 						JPopupMenu p = new JPopupMenu();
 						JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
-						JMenuItem itSync = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SYNCHRONIZE_WITH",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
+						JMenuItem itSync = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
 						
 						
 						p.add(it);
@@ -531,9 +529,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						
 						itSync.addActionListener(ae->{
 							
-							StockSyncDialog syncComponent = new StockSyncDialog();
-							JDialog d = MTGUIComponent.createJDialog(syncComponent, true, true);
-							d.setVisible(true);
+							try {
+								List<MagicCard> ret=  MTGControler.getInstance().getEnabled(MTGDao.class).synchronizeCollection((MagicCollection) node.getUserObject());
+								
+								JOptionPane.showMessageDialog(null, "OK : " + ret.size() + " items","Synchronized", JOptionPane.INFORMATION_MESSAGE);
+								
+							} catch (SQLException e1) {
+								MTGControler.getInstance().notify(e1);
+							}
+							
 						});
 						
 						

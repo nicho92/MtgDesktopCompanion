@@ -49,8 +49,8 @@ public interface MTGDao extends MTGPlugin {
 	public void saveOrUpdateStock(SealedStock state) throws SQLException;
 	public void deleteStock(SealedStock state) throws SQLException;
 	
-	
-	
+	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException;
+		
 	public List<OrderEntry> listOrders();
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException;
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException;

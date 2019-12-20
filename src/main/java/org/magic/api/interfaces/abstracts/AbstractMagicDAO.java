@@ -19,6 +19,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.TCache;
 
 
@@ -172,6 +173,39 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 	}
 
+	
+	public static void main(String[] args) throws SQLException {
+		MTGControler.getInstance().getEnabled(MTGDao.class).init();
+		MTGControler.getInstance().getEnabled(MTGDao.class).synchronizeCollection(new MagicCollection("Needed"));
+		
+	}
+	
+	
+	@Override
+	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException {
+		
+		List<MagicCard> cols = listCardsFromCollection(col);
+		
+		List<MagicCard> toSave = listStocks().stream()
+				  .filter(st->st.getMagicCollection().equals(col))
+				  .filter(st->!cols.contains(st.getMagicCard()))
+				  .map(MagicCardStock::getMagicCard)
+				  .collect(Collectors.toList());
+		
+		List<MagicCard> ret = new ArrayList<>();
+		
+		toSave.forEach(mc->{
+			try {
+				saveCard(mc, col);
+				ret.add(mc);
+			} catch (SQLException e) {
+				logger.error("error saving " + mc , e);
+			}
+		});
+		
+		return ret;
+		
+	}
 	
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed) 
