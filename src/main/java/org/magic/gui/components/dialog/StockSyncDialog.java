@@ -1,12 +1,11 @@
 package org.magic.gui.components.dialog;
 
+import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 public class StockSyncDialog  extends MTGUIComponent{
 

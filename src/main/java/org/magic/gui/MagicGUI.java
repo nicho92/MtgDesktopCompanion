@@ -7,14 +7,12 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,9 +24,6 @@ import org.apache.log4j.Logger;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -48,7 +43,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.VersionChecker;
 import org.magic.services.extra.GithubUtils;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.workers.AbstractObservableWorker;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {

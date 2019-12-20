@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 
 public class GithubUtils {
 
+	private static final String ASSETS = "assets";
 	private JsonObject latest;
 	private JsonArray releases;
 	private static GithubUtils inst;
@@ -66,15 +67,15 @@ public class GithubUtils {
 		int count=0;
 		for(JsonElement obj : releases)
 		{
-			if(obj.getAsJsonObject().get("assets").getAsJsonArray().size()>0)
-				count += obj.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("download_count").getAsInt();
+			if(obj.getAsJsonObject().get(ASSETS).getAsJsonArray().size()>0)
+				count += obj.getAsJsonObject().get(ASSETS).getAsJsonArray().get(0).getAsJsonObject().get("download_count").getAsInt();
 		}
 		return count;
 	}
 	
 	public String downloadUrl()
 	{
-		return latest.get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
+		return latest.get(ASSETS).getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
 	}
 	
 	

@@ -37,6 +37,7 @@ import org.magic.tools.IDGenerator;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
+	private static final String EDITION = "edition";
 	protected MTGPool pool;
 	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
@@ -250,7 +251,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
 							  try 
 							  {
-								p.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
+								p.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
 							  } 
 							  catch (IOException e) 
 							  {
@@ -441,7 +442,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				
 				while (rs.next()) {
-					retour.add(rs.getString("edition"));
+					retour.add(rs.getString(EDITION));
 				}
 			}
 		}
@@ -850,7 +851,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	private void setEdition(OrderEntry state, ResultSet rs) {
 		try {
-			state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString("edition")));
+			state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
 		} catch (Exception e) {
 			state.setEdition(null);
 		}

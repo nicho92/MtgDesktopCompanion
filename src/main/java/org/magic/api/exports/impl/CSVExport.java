@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -25,6 +24,7 @@ import org.magic.tools.UITools;
 
 public class CSVExport extends AbstractFormattedFileCardExport {
 
+	private static final String EXTRA_PROPERTIES = "extraProperties";
 	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment";
 
 
@@ -84,7 +84,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		
 			bw.append(columns).append(getSeparator());
 			
-			for (String k : getArray("extraProperties"))
+			for (String k : getArray(EXTRA_PROPERTIES))
 				bw.append(k).append(getSeparator());
 			
 			bw.append(System.lineSeparator());
@@ -118,7 +118,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 		
 		StringBuilder bw = new StringBuilder();
-		String[] extraProperties = getArray("extraProperties");
+		String[] extraProperties = getArray(EXTRA_PROPERTIES);
 		
 		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qty");
 		
@@ -158,7 +158,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private void writeExtraMap(MagicCard mc, Integer qty, StringBuilder bw) 
 	{
-			for (String k : getArray("extraProperties")) 
+			for (String k : getArray(EXTRA_PROPERTIES)) 
 			{
 				String val = null;
 				try {
@@ -240,7 +240,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void initDefault() {
-		setProperty("extraProperties", "editions[0].number,cost,supertypes,types,subtypes");
+		setProperty(EXTRA_PROPERTIES, "editions[0].number,cost,supertypes,types,subtypes");
 		setProperty("SEPARATOR", ";");
 	}
 

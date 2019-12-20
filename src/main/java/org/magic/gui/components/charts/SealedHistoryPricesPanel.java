@@ -2,7 +2,6 @@ package org.magic.gui.components.charts;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Map.Entry;
 

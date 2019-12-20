@@ -42,7 +42,6 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteStock(SealedStock s) throws SQLException {
 			File f = Paths.get(directory.getAbsolutePath(), PACKAGESSDIR,String.valueOf(s.getId())).toFile();
-			logger.debug("Delete " + f);
 			FileUtils.deleteQuietly(f);
 			notify(s);
 	}

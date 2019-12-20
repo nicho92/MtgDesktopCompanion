@@ -1,10 +1,12 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,8 +27,6 @@ import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
-import javax.swing.JLabel;
-import java.awt.Color;
 
 public class SealedStockGUI extends MTGUIComponent {
 
