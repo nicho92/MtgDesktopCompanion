@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -18,12 +19,10 @@ public class IncapsulaParser {
 
 	private static String getIncapsulaCookie(String url) throws IOException {
 
-		if (incapsulaCookie != null)
-			return incapsulaCookie;
-
-		HttpURLConnection cookieConnection = URLTools.getConnection(url);
+		HttpURLConnection cookieConnection = (HttpURLConnection) new URL(url).openConnection();
 		cookieConnection.setRequestMethod("GET");
 		cookieConnection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
+		cookieConnection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		cookieConnection.setRequestProperty("Connection", "close");
 
 		String visid = null;
@@ -54,9 +53,10 @@ public class IncapsulaParser {
 		StringBuilder response = new StringBuilder();
 		BufferedReader in = null;
 
-		HttpURLConnection connection = URLTools.getConnection(url);
+		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.setRequestProperty("Cookie", getIncapsulaCookie(url));
 
 		in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
