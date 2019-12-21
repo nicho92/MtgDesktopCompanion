@@ -91,7 +91,37 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				String name = info.attr("title").replace("Lien vers ", "").trim();
 				String url = info.attr("href");
 				String auteur = cont.select("small").select("a").text();
-
+				Elements value = URLTools.extractHtml(url).select("span.card_title_us");
+				StringBuilder deckColor = new StringBuilder();
+				for (Element element : value)
+				{
+					String land = element.text().split(" ")[1];
+					switch (land) 
+					{
+						case "Plain":
+						case "Plains":
+							deckColor.append("{W}");
+							break;
+						case "Island":
+						case "Islands":
+							deckColor.append("{U}");
+							break;
+						case "Swamp":
+						case "Swamps":
+							deckColor.append("{B}");
+							break;
+						case "Mountain":
+						case "Mountains":
+							deckColor.append("{R}");
+							break;
+						case "Forest":
+						case "Forests":
+							deckColor.append("{G}");
+							break;
+						default:
+							break;
+					} 
+				}
 				deck.setName(name);
 				try {
 					deck.setUrl(new URI(url));
@@ -99,7 +129,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 					deck.setUrl(null);
 				}
 				deck.setAuthor(auteur);
-				deck.setColor("");
+				deck.setColor(deckColor.toString());
 
 				list.add(deck);
 			}
