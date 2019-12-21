@@ -1,3 +1,4 @@
+
 package org.magic.services.extra;
 
 import java.awt.image.BufferedImage;
@@ -13,7 +14,7 @@ import com.google.gson.JsonObject;
 public class GithubUtils {
 
 	private static final String ASSETS = "assets";
-	private JsonObject latest;
+	private JsonObject selectedRelease;
 	private JsonArray releases;
 	private static GithubUtils inst;
 	
@@ -29,34 +30,46 @@ public class GithubUtils {
 	
 	private GithubUtils() throws IOException {
 		releases = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
-		latest = releases.get(0).getAsJsonObject();
+		setSelectedRelease(0);
 	}
 	
+	public JsonArray getReleases() {
+		return releases;
+	}
+	
+	public JsonObject getSelectedRelease() {
+		return selectedRelease;
+	}
+	
+	public void setSelectedRelease(int index)
+	{
+		selectedRelease = releases.get(index).getAsJsonObject();
+	}
 	
 	public String getReleaseURL()
 	{
-		return latest.get("html_url").getAsString();
+		return selectedRelease.get("html_url").getAsString();
 	}
 	
 	public String getAuthor()
 	{
-		return latest.get("author").getAsJsonObject().get("login").getAsString();
+		return selectedRelease.get("author").getAsJsonObject().get("login").getAsString();
 	}
 	
 	public String getVersion()
 	{
-		return latest.get("tag_name").getAsString();
+		return selectedRelease.get("tag_name").getAsString();
 	}
 	
 	public String getVersionName()
 	{
-		return latest.get("name").getAsString();
+		return selectedRelease.get("name").getAsString();
 	}
 	
 	public BufferedImage getAvatar()
 	{
 		try {
-			return URLTools.extractImage(latest.get("author").getAsJsonObject().get("avatar_url").getAsString());
+			return URLTools.extractImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
 		} catch (IOException e) {
 			return null;
 		}
@@ -75,7 +88,7 @@ public class GithubUtils {
 	
 	public String downloadUrl()
 	{
-		return latest.get(ASSETS).getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
+		return selectedRelease.get(ASSETS).getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
 	}
 	
 	
