@@ -22,6 +22,8 @@ import org.magic.tools.IncapsulaParser;
 import org.magic.tools.URLTools;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
+	private static final String PAUPER = "pauper";
+	private static final String PIONNEER = "pionneer";
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String URL = "URL";
 	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
@@ -35,17 +37,17 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { STANDARD, MODERN, LEGACY, VINTAGE, COMMANDER };
+		return new String[] { STANDARD, MODERN, LEGACY, VINTAGE, COMMANDER,PIONNEER,PAUPER};
 	}
-
+	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at " + info.getUrl());
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
-		Document d = URLTools.extractHtml(info.getUrl().toString());
-
+		Document d = URLTools.toHtml(IncapsulaParser.readUrl(info.getUrl().toString()));
+		logger.debug(d);
 		for (Element e : d.select("span.singleTag")) {
 			deck.getTags().add(e.text());
 		}
@@ -107,7 +109,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		for (int i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + i;
 			Document d = Jsoup.parse(IncapsulaParser.readUrl(url));
-			logger.debug(d);
+			
 			for (Element tr : d.getElementsByClass("gradeA")) {
 				RetrievableDeck deck = new RetrievableDeck();
 
@@ -126,14 +128,15 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 					mana += "{G}";
 
 				String deckName = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				String link = getString(url)
-						+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
+				String link = getString(URL) + tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
 				String deckPlayer = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 				String deckDesc = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text();
+				
 				deck.setColor(mana);
 				deck.setAuthor(deckPlayer);
 				deck.setName(deckName);
 				deck.setDescription(deckDesc);
+				
 				try {
 					deck.setUrl(new URI(link));
 				} catch (URISyntaxException e) {

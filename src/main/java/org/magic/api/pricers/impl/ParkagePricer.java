@@ -32,16 +32,16 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 				if(!tr.select("select").hasAttr("disabled"))
 				{
 					MagicPrice mp = new MagicPrice();
-					mp.setCountry("FR");
-					mp.setCurrency("EUR");
-					mp.setSite(getName());
-					mp.setUrl(tr.select("td").first().select("a").attr("href"));
-					mp.setSeller(tr.select("td").get(2).text());
+							mp.setCountry("FR");
+							mp.setCurrency("EUR");
+							mp.setSite(getName());
+							mp.setUrl(tr.select("td").first().select("a").attr("href"));
+							mp.setSeller(tr.select("td").get(2).text());
 					
 					String urlFlag =tr.select("td").first().select("img").attr("src");
 					mp.setLanguage(urlFlag.substring(urlFlag.lastIndexOf('/')+1,urlFlag.lastIndexOf('.')));
 					
-					String price = tr.select("td.col-price").text().replace(",", ".").replace("€","");
+					String price = tr.select("td.col-price").text().replace(',', '.').replace("€","");
 					mp.setValue(Double.parseDouble(price));
 					mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
 					
