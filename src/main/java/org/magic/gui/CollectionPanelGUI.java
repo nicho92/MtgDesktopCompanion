@@ -3,6 +3,7 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -529,15 +531,30 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						
 						itSync.addActionListener(ae->{
 							
-							try {
-								List<MagicCard> ret=  MTGControler.getInstance().getEnabled(MTGDao.class).synchronizeCollection((MagicCollection) node.getUserObject());
-								
-								JOptionPane.showMessageDialog(null, "OK : " + ret.size() + " items","Synchronized", JOptionPane.INFORMATION_MESSAGE);
-								
-							} catch (SQLException e1) {
-								MTGControler.getInstance().notify(e1);
-							}
-							
+								progressBar.start();
+								SwingWorker<List<MagicCard>, MagicCard> sw = new SwingWorker<>(){
+										
+										@Override
+										protected void done() {
+											progressBar.end();
+											try {
+												JOptionPane.showMessageDialog(null, "OK : " + get().size() + " items added in collection","Synchronized", JOptionPane.INFORMATION_MESSAGE);
+											} catch (Exception e) {
+												MTGControler.getInstance().notify(e);
+											} 
+										}
+					
+										@Override
+										protected void process(List<MagicCard> chunks) {
+											progressBar.progressSmooth(chunks.size());
+										}
+
+										@Override
+										protected List<MagicCard> doInBackground() throws Exception {
+											return MTGControler.getInstance().getEnabled(MTGDao.class).synchronizeCollection((MagicCollection) node.getUserObject());
+										}
+									};
+									ThreadManager.getInstance().runInEdt(sw,"synchronize stocks and collection");
 						});
 						
 						

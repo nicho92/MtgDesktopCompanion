@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -47,6 +48,14 @@ public class ManualImportExport extends AbstractCardExport {
 	public MagicDeck importDeck(String name,String f) throws IOException {
 		return importDeckFromFile(null);
 
+	}
+	
+	@Override
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+		ManualImportDialog diag = new ManualImportDialog();
+		diag.setVisible(true);
+		MagicDeck d =  diag.getSelectedDeck();
+		return importFromDeck(d);
 	}
 	
 

@@ -11,6 +11,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
+import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.services.MTGConstants;
 
 public class WebsiteDeckImport extends AbstractCardExport {
@@ -43,6 +44,16 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		return importDeckFromFile(null);
 	}
+	
+	@Override
+	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+		DeckSnifferDialog diag = new DeckSnifferDialog();
+		diag.setVisible(true);
+		MagicDeck d = diag.getSelectedDeck();
+
+		return importFromDeck(d);
+	}
+	
 
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
