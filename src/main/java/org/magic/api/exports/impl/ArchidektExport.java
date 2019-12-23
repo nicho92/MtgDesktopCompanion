@@ -26,12 +26,6 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		exportStock(importFromDeck(deck), dest);
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new ArchidektExport().importStockFromFile(new File("D:\\Téléchargements\\ArchidektCollection-Mon Dec 23 2019.csv"));
-	}
-
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
