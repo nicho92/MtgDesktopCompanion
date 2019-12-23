@@ -90,6 +90,21 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	}
 	
+
+	@Override
+	public MagicDeck importDeck(String f, String name) throws IOException {
+		MagicDeck d = new MagicDeck();
+		d.setName(name);
+		
+		for(MagicCardStock st : importStock(f))
+		{
+			d.getMap().put(st.getMagicCard(), st.getQte());
+		}
+		return d;
+	}
+
+	
+	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		
@@ -165,30 +180,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		});
 		
 		return list;
-	}
-	
-	@Override
-	public MagicDeck importDeck(String content, String name) throws IOException {
-		MagicDeck deck = new MagicDeck();
-		deck.setName(name);
-		
-		for(Matcher m : matches(content,true))
-		{
-			MagicEdition ed = null;
-			try {
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(4));
-			} catch (Exception e) {
-				ed = null;
-				
-			}
-			String cname = cleanName(m.group(3));
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
-			Integer qte = Integer.parseInt(m.group(1));
-			notify(mc);
-			deck.getMap().put(mc, qte);
-			
-		}
-		return deck;
 	}
 	
 	@Override

@@ -47,7 +47,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			temp.append(deck.getMapSideBoard().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
-			temp.append("\n");
+			temp.append(System.lineSeparator());
 			notify(mc);
 		}
 		

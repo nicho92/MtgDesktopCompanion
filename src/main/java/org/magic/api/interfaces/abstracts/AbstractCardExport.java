@@ -86,6 +86,8 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return mcs;
 	}
 	
+
+	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		return importFromDeck(importDeck(content, "defaultImport from " + getName()));
