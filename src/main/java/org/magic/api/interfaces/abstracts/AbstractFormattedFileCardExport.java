@@ -40,6 +40,8 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 	protected abstract String getSeparator();
 	
+	
+	
 	private String[] splitLines(String content,boolean removeBlank)
 	{
 		String[] arr = UITools.stringLineSplit(content,removeBlank);
