@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 

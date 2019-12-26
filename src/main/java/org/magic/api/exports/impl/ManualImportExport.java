@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
