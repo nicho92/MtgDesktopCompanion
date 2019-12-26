@@ -36,10 +36,12 @@ public class MTGLogger {
 		return Logger.getRootLogger().getAppender(name);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Logger> getLoggers() {
 		return Collections.list(LogManager.getCurrentLoggers());
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Appender> getAppenders() {
 		return Collections.list(LogManager.getRootLogger().getAllAppenders());
 	}

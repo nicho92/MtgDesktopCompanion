@@ -15,13 +15,10 @@ import test.TestTools;
 
 public class NotifierProviderTests {
 
-	private MagicCard mc;
-
 	@Before
 	public void initTest() throws IOException, URISyntaxException
 	{
 		TestTools.initTest();
-		mc = TestTools.loadData().get(0);
 	}
 	
 	
