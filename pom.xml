@@ -142,7 +142,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.0_86</version>
+			  <version>4.1.0_87</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -163,7 +163,7 @@
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
-		    <version>28.1-jre</version>
+		    <version>28.2-jre</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
