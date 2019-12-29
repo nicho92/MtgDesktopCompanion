@@ -7,7 +7,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -89,7 +88,7 @@ public class CurrencyConverter {
 	
 	public void clean() throws IOException
 	{
-		FileUtils.forceDelete(cache);
+		FileTools.deleteFile(cache);
 		init();
 	}
 	

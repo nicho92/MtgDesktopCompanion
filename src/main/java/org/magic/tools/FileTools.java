@@ -38,21 +38,19 @@ public class FileTools {
 		logger.debug("deleting file " + f);
 		FileUtils.forceDelete(f);
 	}
-	
-	
-	
+		
 	public static String readFile(File f) throws IOException
 	{
 		logger.debug("opening file " + f);
 		return FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING);
 	}
 	
+	
+	
 	public static JsonElement readJson(File f) throws IOException
 	{
 		return URLTools.toJson(readFile(f));
 	}
-	
-	
 	
 	private FileTools() {	}
 

@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
@@ -167,7 +168,7 @@ public class MTGDeckManager extends Observable {
 		}
 		
 		logger.debug("remove "+selectedDeck +":"+f.getAbsolutePath());
-		FileUtils.forceDelete(f);
+		FileTools.deleteFile(f);
 	}
 
 	public Map<String, Boolean> analyseLegalities(MagicDeck d) {
