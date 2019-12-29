@@ -42,7 +42,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteStock(SealedStock s) throws SQLException {
 			File f = Paths.get(directory.getAbsolutePath(), PACKAGESSDIR,String.valueOf(s.getId())).toFile();
-			FileUtils.deleteQuietly(f);
+			FileTools.deleteFile(f);
 			notify(s);
 	}
 	
@@ -334,7 +334,7 @@ public class FileDAO extends AbstractMagicDAO {
 			File f = Paths.get(directory.getAbsolutePath(), STOCKDIR,
 					s.getIdstock() + "-" + IDGenerator.generate(s.getMagicCard())).toFile();
 			logger.debug("Delete " + f);
-			FileUtils.deleteQuietly(f);
+			FileTools.deleteFile(f);
 			notify(s);
 		}
 	}
@@ -387,7 +387,7 @@ public class FileDAO extends AbstractMagicDAO {
 		for (OrderEntry s : state) {
 			File f = Paths.get(directory.getAbsolutePath(), ORDERSDIR,String.valueOf(s.getId())).toFile();
 			logger.debug("Delete " + f);
-			FileUtils.deleteQuietly(f);
+			FileTools.deleteFile(f);
 		}
 		
 	}
@@ -467,7 +467,7 @@ public class FileDAO extends AbstractMagicDAO {
 	public void deleteNews(MagicNews n) {
 		File dir = new File(new File(directory, ALERTSDIR), n.getCategorie());
 		File f = new File(dir, n.getId() + "-" + n.getName());
-		FileUtils.deleteQuietly(f);
+		FileTools.deleteFile(f);
 	}
 
 	@Override
