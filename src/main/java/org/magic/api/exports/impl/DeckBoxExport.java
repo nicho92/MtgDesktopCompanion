@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -13,8 +12,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
@@ -54,14 +53,15 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
-		FileUtils.write(dest, columns, MTGConstants.DEFAULT_ENCODING,false);
+		StringBuilder line = new StringBuilder(columns);
+		line.append(System.lineSeparator());
 		for(MagicCardStock mc : stock)
 		{
 			String name=mc.getMagicCard().getName();
 			if(mc.getMagicCard().getName().contains(getSeparator()))
 				name="\""+mc.getMagicCard().getName()+"\"";
 			
-			StringBuilder line = new StringBuilder();
+			
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(name).append(getSeparator());
@@ -76,10 +76,10 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(getSeparator());
 			line.append(getSeparator());
 			line.append(getSeparator());
-			line.append(mc.getPrice()).append("\n");
-			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
+			line.append(mc.getPrice()).append(System.lineSeparator());
 			notify(mc.getMagicCard());
 		}
+		FilesTools.saveFile(dest, line.toString());
 	}
 	
 	

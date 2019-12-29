@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
@@ -18,8 +17,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 import org.magic.tools.UITools;
 
 public class CSVExport extends AbstractFormattedFileCardExport {
@@ -110,7 +109,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				
 				notify(mcs.getMagicCard());
 			}
-			FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
+			FilesTools.saveFile(f, bw.toString());
 	}
 
 	@Override
@@ -151,7 +150,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			bw.append(System.lineSeparator());
 		}
 
-		FileUtils.write(f, bw.toString(),MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(f, bw.toString());
 		
 	}
 

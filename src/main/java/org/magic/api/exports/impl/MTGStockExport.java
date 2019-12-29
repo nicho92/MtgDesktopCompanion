@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -13,8 +12,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 
 public class MTGStockExport extends AbstractFormattedFileCardExport {
 
@@ -87,7 +86,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			temp.append(st.isSigned()?"Yes":"No").append("\n");
 			notify(st.getMagicCard());
 		});
-		FileUtils.write(f, temp.toString(),MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(f, temp.toString());
 	}
 	
 	

@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -16,6 +15,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 
 public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
@@ -91,7 +91,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 						notify(mc);
 					}
 			}
-			FileUtils.write(dest, bw.toString(),MTGConstants.DEFAULT_ENCODING);
+			FilesTools.saveFile(dest, bw.toString());
 			
 
 	}

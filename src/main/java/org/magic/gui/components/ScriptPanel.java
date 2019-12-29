@@ -45,6 +45,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
+import org.magic.tools.FilesTools;
 import org.magic.tools.UITools;
 
 public class ScriptPanel extends MTGUIComponent {
@@ -205,7 +206,7 @@ public class ScriptPanel extends MTGUIComponent {
 			if(ret==JFileChooser.APPROVE_OPTION && currentFile!=null)
 			{
 				try {
-					FileUtils.writeStringToFile(currentFile, editorPane.getText(), MTGConstants.DEFAULT_ENCODING);
+					FilesTools.saveFile(currentFile, editorPane.getText());
 					appendResult(currentFile.getAbsolutePath() + " is saved", Color.CYAN);
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);

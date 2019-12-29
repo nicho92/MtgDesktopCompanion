@@ -25,6 +25,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.ColorParser;
 import org.magic.tools.FileTools;
+import org.magic.tools.FilesTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
@@ -169,7 +170,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				logger.info("Downloading "+version + " datafile");
 				URLTools.download(URL_JSON_ALL_SETS_ZIP, fileSetJsonTemp);
 				FileTools.unZipIt(fileSetJsonTemp,fileSetJson);
-				FileUtils.writeStringToFile(fversion,version,MTGConstants.DEFAULT_ENCODING,false);
+				FilesTools.saveFile(fversion,version);
 				setProperty(FORCE_RELOAD, "false");
 			}
 			

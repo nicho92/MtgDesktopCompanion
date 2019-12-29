@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -21,6 +20,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.FileTools;
+import org.magic.tools.FilesTools;
 
 public class WebManagerServer extends AbstractMTGServer {
 
@@ -83,7 +83,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		
 		logger.debug("copying " + js + " to " + dest);
 		
-		FileUtils.write(js, "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING,false);
+		FilesTools.saveFile(js, "var restserver='" + getString(REST_BACKEND_URI) + "';");
 	}
 	
 

@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 
 public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
@@ -51,7 +50,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			notify(mc);
 		}
 		
-		FileUtils.write(dest, temp.toString(),MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(dest, temp.toString());
 		
 	}
 	

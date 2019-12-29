@@ -9,13 +9,13 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -55,7 +55,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 		temp.append("</deck>");
 
-		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(dest, temp.toString());
 
 	}
 

@@ -3,14 +3,13 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FilesTools;
 
 public class CardCastleExport extends AbstractFormattedFileCardExport {
 
@@ -41,7 +40,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 			build.append("false").append("\n");
 			notify(entry.getKey());
 		});
-		FileUtils.write(dest, build.toString(),MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(dest, build.toString());
 	}
 	
 	@Override

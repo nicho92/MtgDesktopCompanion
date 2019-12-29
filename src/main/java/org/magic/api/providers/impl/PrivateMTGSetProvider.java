@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.FilesTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
@@ -51,7 +52,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			JsonElement el = cards.get(i);
 			if (el.getAsJsonObject().get("id").getAsString().equals(mc.getId())) {
 				cards.remove(el);
-				FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), root.toString(), MTGConstants.DEFAULT_ENCODING);
+				FilesTools.saveFile(new File(setDirectory, me.getId() + ext), root.toString());
 				return true;
 			}
 		}
@@ -79,7 +80,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}
-		FileUtils.writeStringToFile(f, root.toString(), MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(f, root.toString());
 	}
 
 	private int indexOf(MagicCard mc, JsonArray arr) {
@@ -132,7 +133,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		else
 			jsonparams.add(CARDS, new Gson().toJsonTree(getCards(me)));
 
-		FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), jsonparams.toString(), MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(new File(setDirectory, me.getId() + ext), jsonparams.toString());
 
 	}
 

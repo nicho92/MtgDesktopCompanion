@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGConstants;
+import org.magic.tools.FilesTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
@@ -139,7 +138,7 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		FileUtils.writeStringToFile(dest, toJsonDeck(deck).toString(), MTGConstants.DEFAULT_ENCODING);
+		FilesTools.saveFile(dest, toJsonDeck(deck).toString());
 	}
 
 
