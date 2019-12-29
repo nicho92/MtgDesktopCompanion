@@ -51,6 +51,12 @@ public class GithubUtils {
 		return selectedRelease.get("html_url").getAsString();
 	}
 	
+	public String getReleaseContent()
+	{
+		return selectedRelease.get("body").getAsString();
+	}
+	
+	
 	public String getAuthor()
 	{
 		return selectedRelease.get("author").getAsJsonObject().get("login").getAsString();

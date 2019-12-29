@@ -61,7 +61,11 @@ public class AboutDialog extends MTGUIComponent {
 				icon.setVerticalTextPosition(SwingConstants.BOTTOM);
 				icon.setHorizontalTextPosition(SwingConstants.CENTER);
 				icon.setText(MTGConstants.MTG_APP_NAME +" ("+ check.getVersion()+")");
-		
+				try {
+					icon.setToolTipText("<html>"+GithubUtils.inst().getReleaseContent().replaceAll(System.lineSeparator(), "<br/>")+"</html>");
+				} catch (IOException e3) {
+					logger.error(e3);
+				}
 				
 		JPanel panneauHaut = new JPanel();
 			panneauHaut.setLayout(new BorderLayout());
@@ -147,7 +151,7 @@ public class AboutDialog extends MTGUIComponent {
 		add(panneauHaut,BorderLayout.NORTH);
 		add(copyText,BorderLayout.SOUTH);
 		add(centers,BorderLayout.CENTER);
-		
+
 	}
 
 	@Override

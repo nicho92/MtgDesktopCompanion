@@ -65,6 +65,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbOrdersField = "orderItem";
 	private String dbNewsField = "newsItem";
 	private String dbStockField = "stockItem";
+	private String dbStockSealedField = "stockSealedItem";
 	private String dbColIDField = "collection.name";
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
@@ -88,7 +89,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void saveOrUpdateStock(SealedStock state) throws SQLException {
-		// TODO Auto-generated method stub
+	
 		
 	}
 	
