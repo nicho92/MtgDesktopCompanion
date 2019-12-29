@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -104,7 +103,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		String temp = "";
 			try  
 			{
-				temp = FileUtils.readFileToString(fversion,MTGConstants.DEFAULT_ENCODING);
+				temp = FileTools.readFile(fversion);
 			}
 			catch(FileNotFoundException ex)
 			{

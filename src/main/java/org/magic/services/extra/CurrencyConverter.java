@@ -127,7 +127,7 @@ public class CurrencyConverter {
 			}
 			else
 			{
-				obj = URLTools.toJson(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
+				obj = FileTools.readJson(cache).getAsJsonObject();
 			}
 			obj.entrySet().forEach(entry->map.put(entry.getKey().substring(3),entry.getValue().getAsDouble()));
 		

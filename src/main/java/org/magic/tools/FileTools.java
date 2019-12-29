@@ -33,6 +33,14 @@ public class FileTools {
 		FileUtils.write(f, data,MTGConstants.DEFAULT_ENCODING);
 	}
 	
+	public static void deleteFile(File f) throws IOException
+	{
+		logger.debug("deleting file " + f);
+		FileUtils.forceDelete(f);
+	}
+	
+	
+	
 	public static String readFile(File f) throws IOException
 	{
 		logger.debug("opening file " + f);

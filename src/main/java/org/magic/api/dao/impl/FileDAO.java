@@ -2,7 +2,6 @@ package org.magic.api.dao.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -90,7 +89,7 @@ public class FileDAO extends AbstractMagicDAO {
 	
 
 	public <T> T read(Class<T> c, File f) throws IOException {
-		return serialiser.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), c);
+		return serialiser.fromJson(FileTools.readFile(f), c);
 	}
 
 	public void save(Object o, File f) throws IOException {

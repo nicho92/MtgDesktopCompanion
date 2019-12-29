@@ -29,7 +29,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.apache.commons.io.FileUtils;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
@@ -224,7 +223,7 @@ public class ScriptPanel extends MTGUIComponent {
 			{
 				try {
 					currentFile = choose.getSelectedFile();
-					editorPane.setText(FileUtils.readFileToString(currentFile, MTGConstants.DEFAULT_ENCODING));
+					editorPane.setText(FileTools.readFile(currentFile));
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);
 				}

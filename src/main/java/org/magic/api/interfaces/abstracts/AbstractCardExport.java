@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -13,6 +12,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FileTools;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
@@ -96,12 +96,12 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
-		return importDeck(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING),FilenameUtils.getBaseName(f.getName()));
+		return importDeck(FileTools.readFile(f),FilenameUtils.getBaseName(f.getName()));
 	}
 	
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		return importStock(FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING));
+		return importStock(FileTools.readFile(f));
 	}
 	
 	
