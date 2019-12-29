@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class MTGStockExport extends AbstractFormattedFileCardExport {
 
@@ -86,7 +86,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			temp.append(st.isSigned()?"Yes":"No").append("\n");
 			notify(st.getMagicCard());
 		});
-		FilesTools.saveFile(f, temp.toString());
+		FileTools.saveFile(f, temp.toString());
 	}
 	
 	

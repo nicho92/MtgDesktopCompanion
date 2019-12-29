@@ -16,7 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class MTGArenaExport extends AbstractCardExport {
 	
@@ -68,7 +68,7 @@ public class MTGArenaExport extends AbstractCardExport {
 				notify(entry.getKey());
 			}
 
-		FilesTools.saveFile(dest, temp.toString());
+		FileTools.saveFile(dest, temp.toString());
 		
 		
 		StringSelection selection = new StringSelection(temp.toString());

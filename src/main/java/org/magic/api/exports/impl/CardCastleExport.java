@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class CardCastleExport extends AbstractFormattedFileCardExport {
 
@@ -40,7 +40,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 			build.append("false").append("\n");
 			notify(entry.getKey());
 		});
-		FilesTools.saveFile(dest, build.toString());
+		FileTools.saveFile(dest, build.toString());
 	}
 	
 	@Override

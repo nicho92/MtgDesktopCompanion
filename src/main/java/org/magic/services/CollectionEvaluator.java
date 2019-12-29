@@ -24,6 +24,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 public class CollectionEvaluator extends Observable
@@ -88,7 +89,7 @@ public class CollectionEvaluator extends Observable
 	{
 		try {
 			if(!ret.isEmpty())
-				FileUtils.write(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString(),MTGConstants.DEFAULT_ENCODING,false);
+				FileTools.saveFile(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString());
 		} catch (IOException e) {
 			logger.error(edition.getId() + " is not found",e);
 		}
@@ -237,18 +238,21 @@ public class CollectionEvaluator extends Observable
 
 	public void export(File f) throws IOException{
 		
-		FileUtils.write(f, "EDITION;CARDNAME;PRICE\n",MTGConstants.DEFAULT_ENCODING, true);
+		StringBuilder temp = new StringBuilder("EDITION;CARDNAME;PRICE");
+		temp.append(System.lineSeparator());
 		for(Entry<MagicCard, CardShake> e : prices().entrySet())
 		{
 			if(e.getValue()!=null) 
 			{
-				FileUtils.write(f, e.getKey().getCurrentSet()+";"+e.getKey().getName()+";"+e.getValue().getPrice()+"\n",MTGConstants.DEFAULT_ENCODING, true);
+				temp.append(e.getKey().getCurrentSet()).append(";").append(e.getKey().getName()).append(";").append(e.getValue().getPrice()).append(System.lineSeparator());
 			}
 			else 
 			{
-				FileUtils.write(f, e.getKey().getCurrentSet()+";"+e.getKey().getName()+";NC\n",MTGConstants.DEFAULT_ENCODING, true);
+				temp.append(e.getKey().getCurrentSet()).append(";").append(e.getKey().getName()).append(";").append("NC").append(System.lineSeparator());
 			}
 		}
+		FileTools.saveFile(f, temp.toString());
+		
 	}
 	
 	

@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
@@ -122,7 +122,7 @@ public class CurrencyConverter {
 				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from website");
 				JsonElement parse = URLTools.extractJson("http://apilayer.net/api/live?access_key="+token);
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
-				FilesTools.saveFile(cache, obj.toString());
+				FileTools.saveFile(cache, obj.toString());
 				logger.debug(cache.getAbsolutePath() + " created");
 			}
 			else

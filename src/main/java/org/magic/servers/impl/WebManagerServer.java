@@ -20,7 +20,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.FileTools;
-import org.magic.tools.FilesTools;
 
 public class WebManagerServer extends AbstractMTGServer {
 
@@ -83,7 +82,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		
 		logger.debug("copying " + js + " to " + dest);
 		
-		FilesTools.saveFile(js, "var restserver='" + getString(REST_BACKEND_URI) + "';");
+		FileTools.saveFile(js, "var restserver='" + getString(REST_BACKEND_URI) + "';");
 	}
 	
 

@@ -21,10 +21,31 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
+import com.google.gson.JsonElement;
+
 public class FileTools {
 
 	private static Logger logger = MTGLogger.getLogger(FileTools.class);
 
+	public static void saveFile(File f,String data) throws IOException
+	{
+		logger.debug("saving file " + f);
+		FileUtils.write(f, data,MTGConstants.DEFAULT_ENCODING);
+	}
+	
+	public static String readFile(File f) throws IOException
+	{
+		logger.debug("opening file " + f);
+		return FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING);
+	}
+	
+	public static JsonElement readJson(File f) throws IOException
+	{
+		return URLTools.toJson(readFile(f));
+	}
+	
+	
+	
 	private FileTools() {	}
 
 	public static void extractConfig(File fzip) throws IOException 

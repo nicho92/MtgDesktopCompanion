@@ -18,7 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 
 public class CSVExport extends AbstractFormattedFileCardExport {
@@ -109,7 +109,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				
 				notify(mcs.getMagicCard());
 			}
-			FilesTools.saveFile(f, bw.toString());
+			FileTools.saveFile(f, bw.toString());
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			bw.append(System.lineSeparator());
 		}
 
-		FilesTools.saveFile(f, bw.toString());
+		FileTools.saveFile(f, bw.toString());
 		
 	}
 

@@ -10,7 +10,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 import rita.RiMarkov;
 import rita.RiTa;
@@ -82,7 +82,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	private void saveCache(String s) throws IOException
 	{
 		logger.debug("saving cache to " + cache);
-		FilesTools.saveFile(cache, s);		
+		FileTools.saveFile(cache, s);		
 	}
 
 	@Override

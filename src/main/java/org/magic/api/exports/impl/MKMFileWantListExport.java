@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
@@ -78,7 +78,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 					temp.append(deck.getMapSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
 				notify(mc);
 			}
-			FilesTools.saveFile(dest, temp.toString());
+			FileTools.saveFile(dest, temp.toString());
 		
 	}
 

@@ -15,7 +15,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
@@ -91,7 +91,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 						notify(mc);
 					}
 			}
-			FilesTools.saveFile(dest, bw.toString());
+			FileTools.saveFile(dest, bw.toString());
 			
 
 	}

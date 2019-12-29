@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
@@ -79,7 +79,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(mc.getPrice()).append(System.lineSeparator());
 			notify(mc.getMagicCard());
 		}
-		FilesTools.saveFile(dest, line.toString());
+		FileTools.saveFile(dest, line.toString());
 	}
 	
 	

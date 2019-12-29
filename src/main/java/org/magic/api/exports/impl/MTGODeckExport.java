@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 
 public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
@@ -40,7 +40,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 			notify(mc);
 		}
 
-		FilesTools.saveFile(dest, temp.toString());
+		FileTools.saveFile(dest, temp.toString());
 	}
 	
 	@Override

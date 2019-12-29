@@ -15,7 +15,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -59,7 +59,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		temp.append(endZoneTag);
 		temp.append("</cockatrice_deck>");
 
-		FilesTools.saveFile(dest, temp.toString());
+		FileTools.saveFile(dest, temp.toString());
 
 	}
 	

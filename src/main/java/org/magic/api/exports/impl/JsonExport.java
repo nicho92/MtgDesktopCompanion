@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.tools.FilesTools;
+import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
@@ -138,7 +138,7 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		FilesTools.saveFile(dest, toJsonDeck(deck).toString());
+		FileTools.saveFile(dest, toJsonDeck(deck).toString());
 	}
 
 
