@@ -335,7 +335,7 @@
     <daos>
         <dao>
             <class>org.magic.api.dao.impl.HsqlDAO2</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </dao>
         <dao>
             <class>org.magic.api.dao.impl.MysqlDAO</class>
@@ -359,7 +359,7 @@
         </dao>
          <dao>
             <class>org.magic.api.dao.impl.SQLLiteDAO</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </dao>
     </daos>
     <pictures>
