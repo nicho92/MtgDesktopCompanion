@@ -21,6 +21,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.FileTools;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
@@ -84,7 +85,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	public Object run(File f) throws ScriptException {
 		try {
 			logger.debug("running " + f);
-			return runContent(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING));
+			return runContent(FileTools.readFile(f));
 		} catch (IOException e) {
 			throw new ScriptException(e);
 		}

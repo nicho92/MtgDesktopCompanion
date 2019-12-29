@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.FileTools;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
@@ -39,7 +40,12 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void removePicture(MagicEdition ed, MagicCard mc) {
 		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir, ed.getId());
-		FileUtils.deleteQuietly(new File(edDir, mc.getId() + "." + getString(FORMAT)));
+		
+		try {
+			FileTools.deleteFile(new File(edDir, mc.getId() + "." + getString(FORMAT)));
+		} catch (IOException e) {
+			logger.error("error removing " + new File(edDir, mc.getId() + "." + getString(FORMAT)),e);
+		}
 	}
 
 	public PersonalSetPicturesProvider() {
