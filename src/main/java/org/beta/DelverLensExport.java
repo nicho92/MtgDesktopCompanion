@@ -30,18 +30,12 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		
 		for(Matcher m : matches(content,true))
 		{
-			MagicEdition ed = null;
-			try {
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(4));
-			} catch (Exception e) {
-				ed = null;
-				
-			}
-			String cname = cleanName(m.group(3));
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+			MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, false);
 			Integer qte = Integer.parseInt(m.group(1));
-			notify(mc);
-			deck.getMap().put(mc, qte);
+			if(mc!=null) {
+				notify(mc);
+				deck.getMap().put(mc, qte);
+			}
 			
 		}
 		return deck;

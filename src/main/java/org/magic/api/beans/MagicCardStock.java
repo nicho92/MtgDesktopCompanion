@@ -22,7 +22,6 @@ public class MagicCardStock implements Serializable{
 	private double price=0.0;
 	private boolean oversize=false;
 	
-	
 	public double getPrice() {
 		return price;
 	}

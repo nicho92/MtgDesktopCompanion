@@ -153,7 +153,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			}
 
 			if(mc!=null) {
-				MagicCardStock mcs = new MagicCardStock();
+				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setMagicCard(mc);
 					   mcs.setCondition(reverse(m.group(6)));
