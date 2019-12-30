@@ -69,7 +69,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		return name;
 	}
 
-	public String format(String s) {
+	private String format(String s) {
 		return s.replace("'s", "s").replace(",", "").replace(" ", "-").toLowerCase();
 	}
 

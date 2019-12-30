@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -67,7 +68,29 @@ public class FileTools {
 		}
 	
 	}
-
+	
+	public static void decompressGzipFile(File fileZip,File dest) {
+		
+		if(dest.isDirectory())
+			dest=new File(dest,fileZip.getName());
+		
+        try (
+            FileInputStream fis = new FileInputStream(fileZip);
+            GZIPInputStream gis = new GZIPInputStream(fis);
+            FileOutputStream fos = new FileOutputStream(dest);
+        	)
+        	{
+            byte[] buffer = new byte[1024];
+            int len;
+            while((len = gis.read(buffer)) != -1){
+                fos.write(buffer, 0, len);
+            }
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        
+    }
+	
 	
 	public static void unzip(File fileZip,File dest) throws IOException 
 	{
