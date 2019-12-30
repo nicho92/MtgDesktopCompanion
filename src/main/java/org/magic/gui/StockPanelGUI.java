@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,6 +57,7 @@ import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.CardStockTableModel;
+import org.magic.gui.renderer.DoubleCellEditor;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
@@ -63,6 +65,7 @@ import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.extra.GraderServices;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
@@ -556,6 +559,10 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
+		table.getColumnModel().getColumn(13).setCellEditor(new DoubleCellEditor());
+		table.getColumnModel().getColumn(12).setCellEditor(new DefaultCellEditor(UITools.createCombobox(GraderServices.inst().listGraders())));
+
+		
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);

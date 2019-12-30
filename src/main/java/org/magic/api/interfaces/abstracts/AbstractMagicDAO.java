@@ -41,6 +41,11 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected abstract void initOrders();
 	
 	@Override
+	public boolean isSQL() {
+		return false;
+	}
+	
+	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DAO;
 	}
@@ -228,9 +233,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 	
 	@Override
-	public void update(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {
+	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {
 		saveCard(newC,col);
-		
 	}
 	
 	@Override

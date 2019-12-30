@@ -567,6 +567,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		
 	}
 	
+	@Override
+	public void executeQuery(String query) throws SQLException {
+		throw new SQLException("Not implemented");
+		
+	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

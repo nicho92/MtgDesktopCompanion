@@ -30,7 +30,7 @@ public class DAOCardUpdater {
 							try {
 								
 								MagicCard newC = prov.searchCardByCriteria("number", c.getCurrentSet().getNumber(), new MagicEdition(set), true).get(0);
-								dao.update(c,newC, col);
+								dao.updateCard(c,newC, col);
 								logger.info("Update " + c + " " + c.getCurrentSet() +" "+ col +" DONE");
 							} catch (Exception e) {
 								logger.error(col + " " + set + " " + c + "->" + e);

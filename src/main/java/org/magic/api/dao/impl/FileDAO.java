@@ -517,6 +517,12 @@ public class FileDAO extends AbstractMagicDAO {
 	public String getVersion() {
 		return "1";
 	}
+
+	@Override
+	public void executeQuery(String query) throws SQLException {
+		throw new SQLException("Execute query is not possible");
+		
+	}
 	
 	
 }

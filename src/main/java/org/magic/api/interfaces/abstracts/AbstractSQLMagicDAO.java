@@ -954,7 +954,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void update(MagicCard card,MagicCard newC, MagicCollection col) throws SQLException {
+	public void updateCard(MagicCard card,MagicCard newC, MagicCollection col) throws SQLException {
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE cards SET mcard= ? WHERE id = ? and collection = ?"))
 		{
 			
@@ -965,7 +965,21 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 		
 	}
+	
 
+	@Override
+	public void executeQuery(String query) throws SQLException {
+		try (Connection c = pool.getConnection(); Statement pst = c.createStatement())
+		{
+			pst.execute(query);
+		}
+		
+	}
+
+	@Override
+	public boolean isSQL() {
+		return true;
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
