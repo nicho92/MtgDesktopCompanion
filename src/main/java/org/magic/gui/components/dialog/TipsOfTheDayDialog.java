@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
 import org.jdesktop.swingx.tips.TipOfTheDayModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class TipsOfTheDayDialog extends JXTipOfTheDay {
@@ -14,14 +15,13 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 
 	public TipsOfTheDayDialog() throws IOException {
 		Properties tips = new Properties();
-		tips.load(TipsOfTheDayDialog.class.getResource("/data/tips.properties").openStream());
+		tips.load(MTGConstants.TOOLTIPS_FILE.openStream());
 		TipOfTheDayModel model = TipLoader.load(tips);
 		setModel(model);
 
 	}
-
-	@Override
-	public void show() {
+	
+	public void shows() {
 		String key = "tooltip";
 		showDialog(null, new JXTipOfTheDay.ShowOnStartupChoice() {
 			public boolean isShowingOnStartup() {

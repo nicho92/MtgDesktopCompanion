@@ -308,7 +308,7 @@ public class MagicGUI extends JFrame {
 			}
 			ThreadManager.getInstance().invokeLater(() -> {
 				try {
-					new TipsOfTheDayDialog().show();
+					new TipsOfTheDayDialog().shows();
 				} catch (IOException e) {
 					logger.error(e);
 				}
