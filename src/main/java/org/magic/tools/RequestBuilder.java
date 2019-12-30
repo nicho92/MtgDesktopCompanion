@@ -3,6 +3,7 @@ package org.magic.tools;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.http.HttpResponse;
 import org.jsoup.nodes.Document;
@@ -22,7 +23,7 @@ public class RequestBuilder
 	
 	public RequestBuilder() {
 		headers = new HashMap<>();
-		content= new HashMap<>();
+		content= new TreeMap<>();
 	}
 	
 	public String getUrl() {

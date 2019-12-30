@@ -2,12 +2,15 @@ package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -18,32 +21,32 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 	
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
-
-		String url = getString("URL");
-		url = url.replace("%API_KEY%", getString("API_KEY"));
-		url = url.replace("%COUNTRY%", getString("COUNTRY"));
-		url = url.replace("%MAX%", getString("MAX"));
 		String keyword = card.getName();
 
 		if (me != null)
 			keyword += " " + me.getSet();
-
-		setProperty("KEYWORD", keyword);
-
-		keyword = URLTools.encode(keyword);
-
-		String link = url.replace("%KEYWORD%", keyword);
+		
+		
+		RequestBuilder b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
+				.url("https://svcs.ebay.com/services/search/FindingService/v1")
+				.addContent("SECURITY-APPNAME", getString("API_KEY"))
+				.addContent("OPERATION-NAME", "findItemsByKeywords")
+				.addContent("RESPONSE-DATA-FORMAT", "JSON")
+				.addContent("GLOBAL-ID", getString("COUNTRY"))
+				.addContent("paginationInput.entriesPerPage", getString("MAX"))
+				.addContent("keywords", URLTools.encode(keyword));
 		
 		if(getBoolean("FIXEDPRICE_ONLY"))
-			link+="&itemFilter(0).name=ListingType&itemFilter(0).value(1)=FixedPrice";
+		{	
+			b.addContent("itemFilter(0).name", "ListingType");
+			b.addContent("itemFilter(0).value(1)", "FixedPrice");
+		}
+	
+		logger.info(getName() + " looking for " + keyword + " (" + b.getUrl()+")");
 		
+		JsonElement root = b.toJson();
 
-		logger.info(getName() + " looking for " + keyword + " (" + link+")");
-		
-		JsonElement root = URLTools.extractJson(link);
-
-		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0)
-				.getAsJsonObject().get("searchResult");
+		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0).getAsJsonObject().get("searchResult");
 
 		if (articles.getAsJsonArray().get(0).getAsJsonObject().get("item") == null) {
 			logger.info(getName() + " find nothing");
@@ -59,6 +62,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 			String etat = "";
 			String title = el.getAsJsonObject().get("title").getAsString();
 			String consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
+			String country = el.getAsJsonObject().get("location").getAsJsonArray().toString();
 			double price = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
 					.get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("__value__").getAsDouble();
 			String currency = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
@@ -69,7 +73,10 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 			} catch (NullPointerException e) {
 				etat = "";
 			}
-
+			
+			
+			
+			mp.setCountry(country);
 			mp.setSeller(title);
 			mp.setUrl(consultURL);
 			mp.setCurrency(currency);
@@ -81,8 +88,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		}
 
 		logger.info(getName() + " find " + prices.size() + " item(s)");
-
-		java.util.Collections.sort(prices);
+		
 		return prices;
 	}
 
@@ -97,7 +103,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		setProperty("MAX", "10");
 		setProperty("COUNTRY", "EBAY-FR");
 		setProperty("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
-		setProperty("URL","https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
+		setProperty("URL","https://svcs.ebay.com/services/search/FindingService/v1");
 		setProperty("WEBSITE", "http://www.ebay.com/");
 		setProperty("KEYWORD", "");
 		setProperty("FIXEDPRICE_ONLY","false");
