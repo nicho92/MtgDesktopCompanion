@@ -2,7 +2,6 @@ package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -19,6 +18,8 @@ import com.google.gson.JsonElement;
 public class EbayPricer extends AbstractMagicPricesProvider {
 
 	
+	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";
+
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 		String keyword = card.getName();
@@ -28,7 +29,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		
 		
 		RequestBuilder b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
-				.url("https://svcs.ebay.com/services/search/FindingService/v1")
+				.url(URL_BASE)
 				.addContent("SECURITY-APPNAME", getString("API_KEY"))
 				.addContent("OPERATION-NAME", "findItemsByKeywords")
 				.addContent("RESPONSE-DATA-FORMAT", "JSON")
@@ -103,9 +104,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		setProperty("MAX", "10");
 		setProperty("COUNTRY", "EBAY-FR");
 		setProperty("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
-		setProperty("URL","https://svcs.ebay.com/services/search/FindingService/v1");
-		setProperty("WEBSITE", "http://www.ebay.com/");
-		setProperty("KEYWORD", "");
+		setProperty("WEBSITE", "https://www.ebay.com/");
 		setProperty("FIXEDPRICE_ONLY","false");
 
 	}
