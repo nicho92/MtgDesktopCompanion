@@ -35,22 +35,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 						   st.setQte(Integer.parseInt(m.group(1)));
 						   
-						   
-			 MagicEdition ed = null;
-			 try {
-				 ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(8));
-			 }catch(Exception e)
-			 {
-				 logger.error(m.group(8) + " not found");
-			 }
-
-			 MagicCard mc = null;
-			 try {
-				 mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cleanName(m.group(2)), ed, true).get(0);
-			 }catch(Exception e)
-			 {
-				 logger.error(m.group(2) + " not found");
-			 }
+			 MagicCard mc = parseMatcherWithGroup(m, 2, 8, true, true);
 			 
 			 if(mc!=null)
 			 {

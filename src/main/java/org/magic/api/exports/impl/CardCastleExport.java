@@ -48,39 +48,14 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(name);
 
-		
 		matches(f,true).forEach(m->{
-			
-			String cname = cleanName(m.group(1));
-			MagicEdition ed = null;
-			try {			   
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(2));
-			}
-			catch(Exception e)
-			{
-				logger.error("Edition not found for " + m.group(4));
-			}
-			
-			
-			MagicCard mc = null;
-			try 
-			{
-				mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
-			} catch (Exception e) {
-				logger.error("no card found for" + cname + "/"+ ed);
-			}
-			
+			MagicCard mc = parseMatcherWithGroup(m, 1, 2, true, false);
 			if(mc!=null)
 			{
 				deck.add(mc);
 				notify(mc);
 			}
-			
-			
-			
 		});
-		
-		
 		return deck;
 	}
 

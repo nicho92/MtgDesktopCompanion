@@ -146,7 +146,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			if(mc==null)
 			{
 				try {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
+					mc = parseMatcherWithGroup(m, 3, 4, true, false);
 				} catch (Exception e) {
 					logger.error("no card found for" + cname + "/"+ ed);
 				}

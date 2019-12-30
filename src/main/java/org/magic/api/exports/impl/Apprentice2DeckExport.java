@@ -62,22 +62,15 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			
 			for(Matcher m : matches(f,true))
 			{
-				MagicEdition ed = null;
-				try {
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(4));
-				} catch (Exception e) {
-					ed = null;
-					
-				}
-				String cname = m.group(3).replaceAll("\"", "");
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, true);
 				Integer qte = Integer.parseInt(m.group(2));
 				
-				if (m.group(1).startsWith("SB"))
-					deck.getMapSideBoard().put(mc, qte);
-				else
-					deck.getMap().put(mc, qte);
-				
+				if(mc!=null) {
+					if (m.group(1).startsWith("SB"))
+						deck.getMapSideBoard().put(mc, qte);
+					else
+						deck.getMap().put(mc, qte);
+				}
 			}
 			return deck;
 	}

@@ -57,36 +57,17 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			MagicDeck deck = new MagicDeck();
 			deck.setName(name);
 			matches(f,true).forEach(m->{
-				
-				MagicEdition ed = null;
-				try {			   
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(3));
-				}
-				catch(Exception e)
-				{
-					logger.error("Edition not found for " + m.group(3));
-				}
-				
-				String cname=cleanName(m.group(4));
-				
-				try {
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
+					MagicCard mc = parseMatcherWithGroup(m, 4, 3, true, true); 
 					int qte = Integer.parseInt(m.group("2"));
-					
-					if(m.group(1).trim().startsWith("SB"))
-					{
-						deck.getMapSideBoard().put(mc, qte);
+			
+					if(mc!=null) {
+						if(m.group(1).trim().startsWith("SB"))
+							deck.getMapSideBoard().put(mc, qte);
+						else
+							deck.getMap().put(mc, qte);
+						
+						notify(mc);
 					}
-					else
-					{
-						deck.getMap().put(mc, qte);
-					}
-					
-					notify(mc);
-					
-				} catch (Exception e) {
-					logger.error("no card found for " + cname);
-				}
 			});
 			
 			return deck;

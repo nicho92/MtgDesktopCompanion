@@ -23,29 +23,8 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		deck.setName(dname);
 		
 		matches(f,true).forEach(m->{
-			
-			
 			Integer qty = Integer.parseInt(m.group(1));
-			String cname = m.group(2);
-			
-			MagicEdition ed = null;
-			try {			   
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(3));
-			}
-			catch(Exception e)
-			{
-				logger.error("Edition not found for " + m.group(3));
-			}
-			
-			
-			MagicCard mc = null;
-			try 
-			{
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
-			} catch (Exception e) {
-				logger.error("no card found for" + cname + "/"+ ed);
-			}
-			
+			MagicCard mc = parseMatcherWithGroup(m, 2, 3, false, false);
 			if(mc!=null)
 			{
 				deck.getMap().put(mc, qty);
