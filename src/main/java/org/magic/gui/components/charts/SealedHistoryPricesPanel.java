@@ -47,7 +47,7 @@ public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
 		
 	}
 	
-	public HistoryPrice<?> getVariations() {
+	public HistoryPrice getVariations() {
 		return cpVariations;
 	}
 	

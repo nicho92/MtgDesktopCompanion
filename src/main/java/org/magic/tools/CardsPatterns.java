@@ -17,6 +17,7 @@ public enum CardsPatterns {
 	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"); 
 
 	
+	public static final String REGEX_ANY_STRING = "(.*?)";
 	
 	
 	

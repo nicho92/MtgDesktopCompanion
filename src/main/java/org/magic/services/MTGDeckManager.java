@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;

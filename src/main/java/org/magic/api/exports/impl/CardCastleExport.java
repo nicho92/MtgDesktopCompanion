@@ -5,10 +5,8 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGControler;
+import org.magic.tools.CardsPatterns;
 import org.magic.tools.FileTools;
 
 public class CardCastleExport extends AbstractFormattedFileCardExport {
@@ -77,12 +75,12 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	@Override
 	protected String getStringPattern() {
 		return "((?=\")\".*?\"|.*?)"+getSeparator()+
-			   "(.*?)"+getSeparator()+
-			   "(.*?)"+getSeparator()+
+				CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				CardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(true|false)"+getSeparator()+
-			   "(.*?)"+getSeparator()+
+			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(\\d+)"+getSeparator()+
-			   "(.*?)"+getSeparator()+
+			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(\\d+.\\d+?)";
 	}
 

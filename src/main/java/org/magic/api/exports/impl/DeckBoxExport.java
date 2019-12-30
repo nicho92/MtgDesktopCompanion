@@ -13,10 +13,12 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
+import org.magic.tools.CardsPatterns;
 import org.magic.tools.FileTools;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
+	
 	private String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 	
 	
@@ -201,10 +203,10 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		return "(\\d+)"+getSeparator()+
 			   "(\\d+)"+getSeparator()+
 			   "((?=\")\".*?\"|.*?)"+getSeparator()+
-			   "(.*?)"+getSeparator()+
+			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(\\d+)?"+getSeparator()+
-			   "(.*?)"+getSeparator()+
-			   "(.*?)"+getSeparator()+
+			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(foil)?"+getSeparator()+
 			   "(signed)?"+getSeparator()+
 			   "(proof)?"+getSeparator()+

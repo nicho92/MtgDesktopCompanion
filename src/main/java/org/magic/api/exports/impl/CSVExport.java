@@ -104,7 +104,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getPrice()).append(getSeparator());
 				bw.append(mcs.getComment()==null ? ""  :mcs.getComment()).append(getSeparator());
 				
-				writeExtraMap(mcs.getMagicCard(),mcs.getQte(),bw);
+				writeExtraMap(mcs.getMagicCard(),bw);
 				bw.append(System.lineSeparator());
 				
 				notify(mcs.getMagicCard());
@@ -135,7 +135,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			bw.append(entry.getKey()).append(getSeparator());
 			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
 			bw.append(entry.getValue()).append(getSeparator());
-			writeExtraMap(entry.getKey(),entry.getValue(),bw);
+			writeExtraMap(entry.getKey(),bw);
 			bw.append(System.lineSeparator());
 		}
 			
@@ -146,7 +146,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			bw.append(entry.getKey()).append(getSeparator());
 			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
 			bw.append(entry.getValue()).append(getSeparator());
-			writeExtraMap(entry.getKey(),entry.getValue(),bw);
+			writeExtraMap(entry.getKey(),bw);
 			bw.append(System.lineSeparator());
 		}
 
@@ -155,7 +155,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private void writeExtraMap(MagicCard mc, Integer qty, StringBuilder bw) 
+	private void writeExtraMap(MagicCard mc, StringBuilder bw) 
 	{
 			for (String k : getArray(EXTRA_PROPERTIES)) 
 			{

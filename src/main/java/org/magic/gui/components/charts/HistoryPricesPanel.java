@@ -98,7 +98,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		
 	}
 	
-	public HistoryPrice<?> getVariations() {
+	public HistoryPrice getVariations() {
 		return cpVariations;
 	}
 	
