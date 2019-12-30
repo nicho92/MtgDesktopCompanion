@@ -1,0 +1,23 @@
+[
+	{ 
+		"name":"PSA",
+		"url":"https://www.psacard.com/"
+	},
+	{ 
+		"name":"BGS",
+		"url":"https://www.beckett.com/grading"
+	},
+	{ 
+		"name":"European Grading",
+		"url":"https://www.europeangrading.com/en/"
+	},
+	{ 
+		"name":"MTG Grade",
+		"url":"https://www.mtggrade.com/"
+	},
+	{ 
+		"name":"PCA",
+		"url":"https://www.pcagrade.com/"
+	}
+	
+]

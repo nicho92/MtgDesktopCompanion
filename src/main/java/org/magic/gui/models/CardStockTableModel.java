@@ -28,6 +28,9 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 				"SIGNED",
 				"ALTERED",
 				"PRICE",
+				"GRADED",
+				"GRADER",
+				"GRADE NOTE",
 				"COMMENTS" };
 	}
 
@@ -57,6 +60,12 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 10:
 			return Double.class;
 		case 11:
+			return Boolean.class;
+		case 12:
+			return String.class;
+		case 13:
+			return Double.class;
+		case 14:
 			return String.class;
 
 		default:
@@ -96,6 +105,12 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 10:
 			return UITools.roundDouble(items.get(row).getPrice());
 		case 11:
+			return items.get(row).isGrade();
+		case 12:
+			return items.get(row).getGradeName();
+		case 13:
+			return UITools.roundDouble(items.get(row).getGradeNote());
+		case 14:
 			return items.get(row).getComment();
 
 		default:
@@ -135,8 +150,18 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
 			break;
 		case 11:
+			items.get(row).setGrade(Boolean.parseBoolean(aValue.toString()));
+			break;
+		case 12:
+			items.get(row).setGradeName(String.valueOf(aValue));
+			break;
+		case 13:
+			items.get(row).setGradeNote(Double.valueOf(String.valueOf(aValue)));
+			break;
+		case 14:
 			items.get(row).setComment(String.valueOf(aValue));
 			break;
+			
 		default:
 			break;
 		}

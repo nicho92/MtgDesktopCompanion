@@ -21,7 +21,38 @@ public class MagicCardStock implements Serializable{
 	private boolean update;
 	private double price=0.0;
 	private boolean oversize=false;
+	private boolean grade=false;
+	private Double gradeNote=0.0;
+	private String gradeName;
 	
+	
+	
+	
+	
+	public boolean isGrade() {
+		return grade;
+	}
+
+	public void setGrade(boolean grade) {
+		this.grade = grade;
+	}
+
+	public Double getGradeNote() {
+		return gradeNote;
+	}
+
+	public void setGradeNote(Double gradeNote) {
+		this.gradeNote = gradeNote;
+	}
+
+	public String getGradeName() {
+		return gradeName;
+	}
+
+	public void setGradeName(String gradeName) {
+		this.gradeName = gradeName;
+	}
+
 	public double getPrice() {
 		return price;
 	}
