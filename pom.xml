@@ -470,10 +470,6 @@
 							<name>web-ui</name>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.SpeedConfigurator</mainClass>
-							<name>speed-configurator</name>
-						</program>
-						<program>
 							<mainClass>org.magic.api.main.GameClient</mainClass>
 							<name>game-client</name>
 						</program>

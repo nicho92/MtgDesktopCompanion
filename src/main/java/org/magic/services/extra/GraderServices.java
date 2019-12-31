@@ -45,10 +45,8 @@ public class GraderServices {
 		if(el==null)
 			return grades;
 		
-		el.getAsJsonArray().forEach(e->{
-			
-			grades.add(new Grader(e.getAsJsonObject().get("name").getAsString(), e.getAsJsonObject().get("url").getAsString()));
-		});
+		grades.add(new Grader());
+		el.getAsJsonArray().forEach(e->grades.add(new Grader(e.getAsJsonObject().get("name").getAsString(), e.getAsJsonObject().get("url").getAsString())));
 		
 		
 		return grades;

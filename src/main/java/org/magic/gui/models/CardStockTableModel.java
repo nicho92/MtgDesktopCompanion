@@ -153,7 +153,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			items.get(row).setGrade(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 12:
-			items.get(row).setGradeName(String.valueOf(aValue));
+				items.get(row).setGradeName(String.valueOf(aValue));
 			break;
 		case 13:
 			items.get(row).setGradeNote(Double.valueOf(String.valueOf(aValue)));
