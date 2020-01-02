@@ -67,7 +67,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		
 		matches(content,true).forEach(m->{
 			
-MagicEdition ed = null;
+			MagicEdition ed = null;
 			
 			try {			   
 				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(4));
@@ -118,7 +118,7 @@ MagicEdition ed = null;
 				st.setSigned(m.group(9)!=null);
 				st.setAltered(m.group(11)!=null);
 				
-				if(m.group(15)!=null)
+				if(!m.group(15).isEmpty())
 					st.setPrice(Double.parseDouble(m.group(15)));
 				
 				list.add(st);
