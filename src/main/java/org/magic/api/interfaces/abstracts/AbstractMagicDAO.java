@@ -155,7 +155,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 					dao.saveCard(mc, col);
 				}catch(Exception e)
 				{
-					logger.error("error saving " + mc + " in "+ col + " :",e);
+					logger.error("error saving " + mc + " in "+ col + " :"+e);
 				}
 			}
 		}
