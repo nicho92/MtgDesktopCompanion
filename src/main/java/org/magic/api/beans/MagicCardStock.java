@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
-public class MagicCardStock implements Serializable{
+public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 
 	/**
 	 * 
@@ -164,6 +164,11 @@ public class MagicCardStock implements Serializable{
 
 	public void setOversize(boolean oversize) {
 		this.oversize = oversize;
+	}
+
+	@Override
+	public int compareTo(MagicCardStock o) {
+		return getIdstock()-o.getIdstock();
 	}
 
 }
