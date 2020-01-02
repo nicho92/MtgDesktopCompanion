@@ -18,8 +18,8 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPool;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.TCache;
 
 
@@ -49,6 +49,15 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public PLUGINS getType() {
 		return PLUGINS.DAO;
 	}
+	
+
+	
+	@Override
+	public void init(MTGPool pool) throws SQLException {
+		logger.debug("Pool isn't necessary");
+		init();
+	}
+
 
 	public AbstractMagicDAO() {
 		super();
@@ -130,7 +139,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	@Override
 	public void duplicateTo(MTGDao dao) throws SQLException {
 		
-		
+		dao.init(null);
 		logger.debug("duplicate collection");
 		for (MagicCollection col : listCollections())
 		{
@@ -178,13 +187,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 	}
 
-	
-	public static void main(String[] args) throws SQLException {
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		MTGControler.getInstance().getEnabled(MTGDao.class).synchronizeCollection(new MagicCollection("Needed"));
-		
-	}
-	
 	
 	@Override
 	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException {

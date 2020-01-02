@@ -19,7 +19,8 @@ import org.magic.api.beans.SealedStock;
 public interface MTGDao extends MTGPlugin {
 
 	public void init() throws SQLException;
-
+	public void init(MTGPool pool) throws SQLException;
+	
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException;

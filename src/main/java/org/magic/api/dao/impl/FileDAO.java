@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -100,7 +101,7 @@ public class FileDAO extends AbstractMagicDAO {
 	public void save(Object o, File f) throws IOException {
 		FileTools.saveFile(f, serialiser.toJson(o));
 	}
-
+	
 	@Override
 	public void init() {
 		directory = getFile("URL");
@@ -479,7 +480,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteNews(MagicNews n) {
-		File dir = new File(new File(directory, ALERTSDIR), n.getCategorie());
+		File dir = new File(new File(directory, NEWSDIR), n.getCategorie());
 		File f = new File(dir, n.getId() + "-" + n.getName());
 		try {
 			FileTools.deleteFile(f);
@@ -490,7 +491,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveOrUpdateNews(MagicNews n) throws SQLException {
-		File dir = new File(new File(directory, ALERTSDIR), n.getCategorie());
+		File dir = new File(new File(directory, NEWSDIR), n.getCategorie());
 		if (!dir.exists())
 			dir.mkdir();
 

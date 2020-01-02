@@ -688,22 +688,24 @@ public class ConfigurationPanel extends JPanel {
 			}, "Indexation")
 		);
 		
-		btnDuplicate.addActionListener(ae -> ThreadManager.getInstance().executeThread(() -> {
+		btnDuplicate.addActionListener(ae ->{ 
+			
+			btnDuplicate.setEnabled(false);
+			ThreadManager.getInstance().executeThread(() -> {
 			try {
 				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
-				dao.init();
-
-				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",
-						MTGControler.getInstance().getEnabled(MTGDao.class)) + " " + dao);
-
+				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",MTGControler.getInstance().getEnabled(MTGDao.class)) + " " + dao);
 				MTGControler.getInstance().getEnabled(MTGDao.class).duplicateTo(dao);
-
-				loading(false, "");
 			} catch (Exception e) {
-				loading(false, "");
 				logger.error(e);
 			}
-		}, "duplicate " + MTGControler.getInstance().getEnabled(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem())
+			finally {
+				loading(false, "");
+				btnDuplicate.setEnabled(true);
+			}
+			
+		}, "duplicate " + MTGControler.getInstance().getEnabled(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
+		}
 
 		);
 		
