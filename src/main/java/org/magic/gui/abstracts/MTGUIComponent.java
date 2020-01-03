@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -110,6 +112,25 @@ public abstract class MTGUIComponent extends JComponent {
 		pane.add(c,BorderLayout.CENTER);
 		
 		return pane;
+	}
+	
+	
+	public static JFrame createJFrame(MTGUIComponent p, boolean resizable,boolean modal, boolean exitOnClose)
+	{
+		JFrame f = new JFrame(p.getTitle());
+		f.setIconImage(p.getIcon().getImage());
+		f.getContentPane().add(p);
+		f.pack();
+		f.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				p.onDestroy();
+				
+				if(exitOnClose)
+					System.exit(0);
+			}
+		});
+		return f;
 	}
 	
 	
