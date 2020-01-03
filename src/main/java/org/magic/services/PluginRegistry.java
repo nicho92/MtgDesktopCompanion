@@ -20,6 +20,7 @@ import org.magic.api.beans.PluginEntry;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
@@ -143,6 +144,7 @@ public class PluginRegistry {
 		registry.put(MTGTextGenerator.class, new PluginEntry<MTGTextGenerator>(false, "/textGenerators", "/textGenerator", "org.magic.api.generators.impl",PLUGINS.GENERATOR));
 		registry.put(MTGScript.class, new PluginEntry<MTGScript>(true, "/scripts", "/script", "org.magic.api.scripts.impl",PLUGINS.SCRIPT));
 		registry.put(MTGPool.class, new PluginEntry<MTGPool>(false, "/pools", "/pool", "org.magic.api.pool.impl",PLUGINS.POOL));
+		registry.put(MTGComboProvider.class, new PluginEntry<MTGComboProvider>(true, "/combos", "/combo", "org.magic.api.combo.impl",PLUGINS.COMBO));
 		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 
 	}

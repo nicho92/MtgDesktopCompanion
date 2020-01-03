@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -220,7 +221,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_POOL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/pool.png"));
-	
+	public static final ImageIcon ICON_TAB_COMBO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/combo.png"));
 	
 	
 	public static final ImageIcon ICON_SMALL_CHECK = new ImageIcon(ICON_CHECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
@@ -242,6 +243,7 @@ public class MTGConstants {
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final int CONNECTION_TIMEOUT =0;
+	
 	
 	
 		

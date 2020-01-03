@@ -20,6 +20,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
@@ -120,7 +121,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("SUGGESTION"), MTGConstants.ICON_TAB_SUGGESTION, false, MTGControler.getInstance().getPlugins(MTGTextGenerator.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("SCRIPT"), MTGConstants.ICON_TAB_RULES, true, MTGControler.getInstance().getPlugins(MTGScript.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("POOL"), MTGConstants.ICON_TAB_POOL, false, MTGControler.getInstance().getPlugins(MTGPool.class));
-
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("COMBO"), MTGConstants.ICON_TAB_COMBO, true, MTGControler.getInstance().getPlugins(MTGComboProvider.class));
 
 		
 		
