@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,10 @@ public class MTGCombo {
 		this.comment = comment;
 	}
 	
+	public MTGCombo() {
+		cards = new ArrayList<>();
+	}
+	
 	public String getColors() {
 		Set<String> cmap = new LinkedHashSet<>();
 		for (MagicCard mc : getCards()) {
@@ -42,5 +47,14 @@ public class MTGCombo {
 		return cmap.toString();
 	}
 	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	public void addCard(MagicCard card) {
+		cards.add(card);
+		
+	}
 	
 }

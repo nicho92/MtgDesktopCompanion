@@ -70,9 +70,7 @@ public class URLToolsClient {
 	{
 		logger.trace("execute " + req);
 		HttpResponse resp = httpclient.execute(req,httpContext);
-		
 		logger.trace("reponse " + resp);
-		
 		return resp;
 	}
 	

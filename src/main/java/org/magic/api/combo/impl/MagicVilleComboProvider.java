@@ -1,4 +1,4 @@
-package org.magic.api.combo;
+package org.magic.api.combo.impl;
 
 import java.util.List;
 
