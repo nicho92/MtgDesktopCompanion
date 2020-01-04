@@ -86,6 +86,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 					}
 					tr.select("a").remove();
 					cbo.setComment(tr.text().replace("(Submitted by ) Rating:","").trim());
+					notify(cbo);
 					ret.add(cbo);
 				}
 			});

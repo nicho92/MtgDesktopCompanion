@@ -80,8 +80,8 @@ public class ComboFinderPanel extends MTGUIComponent {
 		add(panneauCenter,BorderLayout.CENTER);
 		panneauCenter.add(panneauHaut, BorderLayout.NORTH);
 		
-		panneauBas.enableDragging(true);
-		panneauBas.setPreferredSize(new Dimension(10, 100));
+		panneauBas.enableDragging(false);
+		panneauBas.setPreferredSize(MTGControler.getInstance().getCardsGameDimension());
 		panneauBas.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 		
 		panneauBas.setLayout(new FlowLayout(FlowLayout.LEFT));

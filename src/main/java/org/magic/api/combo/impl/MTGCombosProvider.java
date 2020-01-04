@@ -41,6 +41,7 @@ public class MTGCombosProvider extends AbstractComboProvider {
 							 cbo.setName(elsTitles.get(i).html().replace("Combo Name:", "").trim());
 							 cbo.setPlugin(this);
 							 cbo.setComment(elsContent.get(i).text().trim());
+							 notify(cbo);
 							 ret.add(cbo);
 						}
 						catch(IndexOutOfBoundsException ioobe)
