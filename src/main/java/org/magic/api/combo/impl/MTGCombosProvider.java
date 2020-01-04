@@ -18,6 +18,7 @@ public class MTGCombosProvider extends AbstractComboProvider {
 	
 	private static final String BASE ="https://mtgcombos.com/";
 	
+	
 	@Override
 	public List<MTGCombo> getComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
@@ -33,19 +34,19 @@ public class MTGCombosProvider extends AbstractComboProvider {
 			
 			Elements elsTitles = d.select("td span.text15");
 			Elements elsContent = d.select("td[bgcolor=#CFDEDA]");
-			
 			for(int i=0;i<elsTitles.size();i++)
 			{
-				MTGCombo cbo = new MTGCombo();
-						 cbo.setName(elsTitles.get(i).html().replace("Combo Name:", "").trim());
 						try {
-						 cbo.setComment(elsContent.get(i).text().trim());
+							MTGCombo cbo = new MTGCombo();
+							 cbo.setName(elsTitles.get(i).html().replace("Combo Name:", "").trim());
+							 cbo.setPlugin(this);
+							 cbo.setComment(elsContent.get(i).text().trim());
+							 ret.add(cbo);
 						}
 						catch(IndexOutOfBoundsException ioobe)
 						{
 							logger.error("No content at " + i);
 						}
-				ret.add(cbo);
 			}
 		
 		return ret;

@@ -10,6 +10,7 @@ import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.ZoneEnum;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 
 public class HandPanel extends DraggablePanel {
@@ -86,13 +87,17 @@ public class HandPanel extends DraggablePanel {
 		this.removeAll();
 		index = 0;
 		
+		
+		if(d==null)
+			d=MTGControler.getInstance().getCardsGameDimension();
+		
 		sw = new SwingWorker<>()
 		{
 
 			@Override
 			protected void process(List<MagicCard> cards) {
 				for(MagicCard mc : cards) {
-						DisplayableCard lab = new DisplayableCard(mc, getCardsDimension(), activateCards, rightClick);
+						DisplayableCard lab = new DisplayableCard(mc, d, activateCards, rightClick);
 						lab.setTappable(activateCards);
 						addComponent(lab);
 						revalidate();

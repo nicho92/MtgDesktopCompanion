@@ -324,6 +324,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		((DraggablePanel) getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private AbstractAction generateActionFromKey(MTGKeyWord k) throws NoSuchMethodException,InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
 			Class a = PluginRegistry.inst().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
 			Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);

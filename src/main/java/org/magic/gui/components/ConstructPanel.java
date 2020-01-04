@@ -100,6 +100,7 @@ public class ConstructPanel extends JPanel {
 	private DeckPricePanel deckPricePanel;
 	private DeckCardsTableModel deckSidemodel;
 	private DeckCardsTableModel deckmodel;
+	private ComboFinderPanel comboPanel;
 	private MagicDeck deck;
 	private JExportButton btnExports;
 	private transient MTGDeckManager deckManager;
@@ -140,7 +141,7 @@ public class ConstructPanel extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		JButton btnUpdate;
 		HandPanel thumbnail;
-		JPanel panelBottom;
+		JTabbedPane panelBottom;
 		JTextField txtSearch;
 		JComboBox<String> cboAttributs;
 		JTabbedPane tabbedPane;
@@ -149,12 +150,12 @@ public class ConstructPanel extends JPanel {
 		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
 		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
-		panelBottom = new JPanel();
+		panelBottom = new JTabbedPane();
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
 		txtSearch = UITools.createSearchField();
-		
+		comboPanel = new ComboFinderPanel();
 		
 		
 		lblCards = new JLabel();
@@ -257,9 +258,10 @@ public class ConstructPanel extends JPanel {
 		panneauHaut.add(buzyLabel);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(tabbedPane, BorderLayout.CENTER);
-		panelBottom.add(magicCardDetailPanel);
+		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAIL"),MTGConstants.ICON_TAB_CARD,magicCardDetailPanel);
+		panelBottom.addTab("Combos",comboPanel.getIcon(),comboPanel);
 		panneauDeck.setRightComponent(panelBottom);
-		panelBottom.add(cardDrawProbaPanel, BorderLayout.EAST);
+		panelBottom.addTab("Drawing",MTGConstants.ICON_TAB_DECK,cardDrawProbaPanel);
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
@@ -587,7 +589,7 @@ public class ConstructPanel extends JPanel {
 					comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
 				}
 				catch(Exception e){
-					logger.error("error applying font " + value + " "+ deck,e);
+					logger.error("error applying font " + value + " "+ deck +":"+e);
 				}
 			return comp;
 			
@@ -599,6 +601,7 @@ public class ConstructPanel extends JPanel {
 				try {
 					MagicCard mc = UITools.getTableSelection(table, 0);
 					magicCardDetailPanel.setMagicCard(mc);
+					comboPanel.init(mc);
 					
 					if(f==MAIN)
 						cardDrawProbaPanel.init(deck, mc);

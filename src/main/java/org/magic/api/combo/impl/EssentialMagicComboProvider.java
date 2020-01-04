@@ -68,6 +68,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 			trs.forEach(tr->{
 				
 				MTGCombo cbo = new MTGCombo();
+				cbo.setPlugin(this);
 				cbo.setName(tr.select("div.Label").text());
 				
 				if(!cbo.getName().isEmpty())

@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -35,7 +34,8 @@ public abstract class MTGUIComponent extends JComponent {
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override
-			public void componentShown(ComponentEvent evt) {
+			public void componentShown(ComponentEvent evt) 
+			{
 				if(!alreadyShow)
 				{
 					onFirstShowing();
@@ -72,7 +72,7 @@ public abstract class MTGUIComponent extends JComponent {
 
 	public void onFirstShowing()
 	{
-		//do nothing
+		onVisible();
 	}
 	
 	public void onHide()

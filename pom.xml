@@ -72,7 +72,7 @@
         <dependency>
 		    <groupId>com.fifesoft</groupId>
 		    <artifactId>rsyntaxtextarea</artifactId>
-		    <version>3.0.6</version>
+		    <version>3.0.8</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.fifesoft</groupId>
@@ -147,7 +147,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.0_88</version>
+			  <version>4.1.0_95</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -240,7 +240,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.13</version>
+			<version>1.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

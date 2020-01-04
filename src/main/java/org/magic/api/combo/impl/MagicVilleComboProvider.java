@@ -21,8 +21,6 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 	public static void main(String[] args) {
 		MagicCard mc = new MagicCard();
 		mc.setName("Black Lotus");
-		
-		
 		new MagicVilleComboProvider().getComboWith(mc);
 	}
 	
@@ -42,37 +40,26 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 		}
 		
 		try {
-			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
-			
+			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
 			req.select("tr[id]").forEach(tr->{
 				MTGCombo cbo = new MTGCombo();
 						 cbo.setName(tr.child(1).text());
-						 
+						 cbo.setPlugin(this);
 			
-			try {
-				Document cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
-				cbo.setComment(cboDetail.select("div[align=justify]").text());
-
-				
-				
-			} catch (IOException e) {
-				logger.error("error getting detail for " + cbo, e);
-			}
-	 
-						 
-						 
-						 
-				
+				try {
+					Document cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
+					cbo.setComment(cboDetail.select("div[align=justify]").text());
+					
+					ret.add(cbo);
+				} catch (IOException e) {
+					logger.error("error getting detail for " + cbo, e);
+				}
 			});
 			
 		} catch (IOException e) {
 			logger.error("error looking for card " + mc +" with id = "+id,e);
 			return ret;
 		}
-		
-		
-		
-		
 		return ret;
 	}
 

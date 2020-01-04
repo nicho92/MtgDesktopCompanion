@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.tools.ColorParser;
 
 public class MTGCombo {
@@ -12,7 +13,16 @@ public class MTGCombo {
 	private List<MagicCard> cards;
 	private String name;
 	private String comment;
+	private MTGComboProvider plugin;
 	
+	
+	public void setPlugin(MTGComboProvider plugin) {
+		this.plugin = plugin;
+	}
+	
+	public MTGComboProvider getPlugin() {
+		return plugin;
+	}
 	
 	public List<MagicCard> getCards() {
 		return cards;
