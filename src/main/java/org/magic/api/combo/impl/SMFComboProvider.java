@@ -71,7 +71,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 				
 				MTGCombo cbo = new MTGCombo();
 						 cbo.setName(el.getElementsByTag("h4").text());
-						 
+						 cbo.setPlugin(this);
 					 try {
 						Document details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
 						Elements article = details.getElementsByTag("article");
