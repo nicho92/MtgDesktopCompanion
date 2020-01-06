@@ -18,13 +18,6 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 	private static final String BASE_URL="https://www.smfcorp.net";
 	
-	public static void main(String[] args) {
-		MagicCard mc = new MagicCard();
-		mc.setName("Black Lotus");
-		
-		new SMFComboProvider().getComboWith(mc);
-	}
-	
 	@Override
 	public List<MTGCombo> getComboWith(MagicCard mc) {
 		
