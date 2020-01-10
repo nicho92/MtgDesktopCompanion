@@ -20,7 +20,7 @@ public class MTGCombosProvider extends AbstractComboProvider {
 	
 	
 	@Override
-	public List<MTGCombo> getComboWith(MagicCard mc) {
+	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
 		
 		

@@ -1,17 +1,49 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
+import org.magic.api.beans.MTGCombo;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.TCache;
 
 public abstract class AbstractComboProvider extends AbstractMTGPlugin implements MTGComboProvider {
 
+	protected TCache<List<MTGCombo>> cache;
+	
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.COMBO;
 	}
 
+	
+	@Override
+	public List<MTGCombo> getComboWith(MagicCard mc) {
+		
+		try {
+			return cache.get(mc.getName(),new Callable<List<MTGCombo>>() {
+				
+				@Override
+				public List<MTGCombo> call() throws Exception {
+					return loadComboWith(mc);
+				}
+			});
+		} catch (ExecutionException e) {
+			logger.error("Error loading combo cache for " + getName(),e);
+			return new ArrayList<>();
+		}
+	}
+	
+	
+	public abstract List<MTGCombo> loadComboWith(MagicCard mc);
+	
+	
 	
 	public AbstractComboProvider() {
 		super();
@@ -26,5 +58,6 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 
 		}
 		
+		cache = new TCache<>("combos");
 	}
 }

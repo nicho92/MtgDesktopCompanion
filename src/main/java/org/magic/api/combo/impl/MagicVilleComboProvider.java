@@ -18,14 +18,9 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 	
 	private static final String BASE_URL="https://www.magic-ville.com/fr/combos/";
 	
-	public static void main(String[] args) {
-		MagicCard mc = new MagicCard();
-		mc.setName("Black Lotus");
-		new MagicVilleComboProvider().getComboWith(mc);
-	}
 	
 	@Override
-	public List<MTGCombo> getComboWith(MagicCard mc) {
+	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
 		
 		URLToolsClient c = URLTools.newClient();

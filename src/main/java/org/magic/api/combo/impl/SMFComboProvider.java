@@ -19,7 +19,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 	private static final String BASE_URL="https://www.smfcorp.net";
 	
 	@Override
-	public List<MTGCombo> getComboWith(MagicCard mc) {
+	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		
 		List<MTGCombo> cbos = new ArrayList<>();
 		URLToolsClient c = URLTools.newClient();

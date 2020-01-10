@@ -23,7 +23,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 	private static final String BASE ="http://www.essentialmagic.com/";
 	
 	@Override
-	public List<MTGCombo> getComboWith(MagicCard mc) {
+	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
 		Document d;
 		try {
