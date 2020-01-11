@@ -48,6 +48,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	private JComboBox<EnumCondition> cboSubGrade;
 	private JButton btnSave;
 	private JCheckBox chbGradded;
+	private JLabel lblCertified= new JLabel(MTGConstants.ICON_CHECK);
 	
 	public void initGUI(Grading grade) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -65,10 +66,16 @@ public class GradingEditorPane extends MTGUIComponent {
 		cboSubGrade = UITools.createCombobox(EnumCondition.values());
 		spinnerSurface = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 		spinnerCentering = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
-		spinnerThickness = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 		spinnerCorner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
-		spinnerWeight = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 		spinnerEdges = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
+		
+		
+		spinnerThickness = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.1));
+		((JSpinner.NumberEditor)spinnerThickness.getEditor()).getFormat().setMaximumFractionDigits(3);
+		spinnerWeight = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.1));
+		((JSpinner.NumberEditor)spinnerWeight.getEditor()).getFormat().setMaximumFractionDigits(2);
+		
+		
 		txtSerialNumber = new JTextField(10);
 		JButton btnLoad = new JButton(MTGControler.getInstance().getLangService().getCapitalize("LOAD"));
 		btnSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
@@ -77,8 +84,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		
 		add(new JLabel("Note :"), UITools.createGridBagConstraints(null, null, 2, 1));
 		add(new JLabel("Grading :"), UITools.createGridBagConstraints(null, null, 0, 2));
-		add(new JLabel("SubGrading :"), UITools.createGridBagConstraints(null, null, 2, 2));
-		add(new JLabel("Surface :"), UITools.createGridBagConstraints(null, null, 0, 3));
+		
 		add(new JLabel("Centering :"), UITools.createGridBagConstraints(null, null, 2, 3));
 		add(new JLabel("Thickness :"), UITools.createGridBagConstraints(null, null, 0, 4));
 		add(new JLabel("Corners :"), UITools.createGridBagConstraints(null, null, 2, 4));
@@ -87,18 +93,24 @@ public class GradingEditorPane extends MTGUIComponent {
 		add(new JLabel("Serial :"), UITools.createGridBagConstraints(null, null, 0, 6));
 		
 		add(chbGradded,UITools.createGridBagConstraints(null, null, 0, 0));
+		add(lblCertified,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		add(cboGraders,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 		add(spinnerGradeNote, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 1));
 		add(cboMainGrade, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
-		add(cboSubGrade, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 2));
-		add(spinnerSurface, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
+		
+		add(new JLabel("SubGrading :"), UITools.createGridBagConstraints(null, null, 0, 3));
+		add(cboSubGrade, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1,3));
+		
+		add(new JLabel("Surface :"), UITools.createGridBagConstraints(null, null, 2, 2));
+		add(spinnerSurface, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 2));
+		
 		add(spinnerCentering, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 3));
 		add(spinnerThickness, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 		add(spinnerCorner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 4));
 		add(spinnerWeight, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
 		add(spinnerEdges, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 5));
-		add(txtSerialNumber, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6,2,null));
-		add(btnLoad, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 6));
+		add(txtSerialNumber, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
+		add(btnLoad, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 6));
 		add(btnSave, UITools.createGridBagConstraints(null, null, 0, 7,4,null));
 		
 		setGrading(grade);
@@ -181,6 +193,7 @@ public class GradingEditorPane extends MTGUIComponent {
 				g.setSurface((Double)spinnerSurface.getValue());
 				g.setThickness((Double)spinnerThickness.getValue());
 				g.setWeight((Double)spinnerWeight.getValue());
+				g.setCertified(lblCertified.isVisible());
 		return g;
 	}
 	
@@ -206,6 +219,7 @@ public class GradingEditorPane extends MTGUIComponent {
 			spinnerSurface.setValue(grade.getSurface());
 			spinnerThickness.setValue(grade.getThickness());
 			spinnerWeight.setValue(grade.getWeight());
+			lblCertified.setVisible(grade.isCertified());
 	}
 	
 	
