@@ -6,8 +6,13 @@ import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 public class MTGGradeGrader extends AbstractGradersProvider {
 
 	@Override
+	public String getWebSite() {
+		return "https://www.mtggrade.com";
+	}
+	
+	@Override
 	public Grading loadGrading(String identifier) {
-		String url="https://www.mtggrade.com/en/#verifier2";
+		String url=getWebSite()+"/en/#verifier2";
 		
 		return null;
 	}
@@ -17,6 +22,11 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 		return "MTGGrade";
 	}
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 	
 	@Override
 	public void initDefault() {

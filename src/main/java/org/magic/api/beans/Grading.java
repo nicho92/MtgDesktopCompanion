@@ -1,7 +1,10 @@
 package org.magic.api.beans;
 
-public class Grading {
+import java.io.Serializable;
 
+public class Grading   implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String graderName;
 	private String numberID;
 	private Double gradeNote=0.0;
@@ -13,13 +16,21 @@ public class Grading {
 	private Double corners=0.0;
 	private Double edges=0.0;
 	private Double surface=0.0;
+	private boolean certified=false;
+	
 	
 	@Override
 	public String toString() {
 		return getGraderName() +" " + getGradeNote();
 	}
 	
+	public void setCertified(boolean certified) {
+		this.certified = certified;
+	}
 	
+	public boolean isCertified() {
+		return certified;
+	}
 	
 	public String getGraderName() {
 		return graderName;

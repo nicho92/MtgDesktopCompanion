@@ -18,6 +18,8 @@ import javax.swing.SpinnerNumberModel;
 
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.PluginEntry;
 import org.magic.api.interfaces.MTGGraders;
@@ -102,9 +104,31 @@ public class GradingEditorPane extends MTGUIComponent {
 		
 		btnLoad.addActionListener(al->{
 			MTGGraders g = (MTGGraders) cboGraders.getSelectedItem();
+			
+			if(g==null)
+			{
+				MTGControler.getInstance().notify(new MTGNotification("ERROR", "Choose a Grader", MESSAGE_TYPE.ERROR));
+				return;
+			}
+			
+			
+			
+			
 			try {
-				setGrading(g.loadGrading(txtSerialNumber.getText()));
-			} catch (IOException e) {
+				Grading grad = g.loadGrading(txtSerialNumber.getText());
+				
+				if(grad!=null)
+				{
+					grad.setCertified(true);
+					setGrading(grad);
+				}
+				else
+				{
+					MTGControler.getInstance().notify(new MTGNotification("Not Found", txtSerialNumber.getText() +" is not found at " + cboGraders.getSelectedItem(), MESSAGE_TYPE.WARNING));
+				}
+				
+				
+			} catch (Exception e) {
 				MTGControler.getInstance().notify(e);
 			}
 		});

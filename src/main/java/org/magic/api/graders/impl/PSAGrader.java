@@ -5,10 +5,16 @@ import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 
 public class PSAGrader extends AbstractGradersProvider {
 
+	
+	@Override
+	public String getWebSite() {
+		return "https://www.psacard.com";
+	}
+	
 	@Override
 	public Grading loadGrading(String identifier) {
 	
-		String url="https://www.psacard.com/cert/"+identifier;
+		String url=getWebSite()+"/cert/"+identifier;
 		
 		return null;
 	}
@@ -18,4 +24,9 @@ public class PSAGrader extends AbstractGradersProvider {
 		return "PSA";
 	}
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 }
