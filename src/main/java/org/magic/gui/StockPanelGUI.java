@@ -778,9 +778,15 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		
 		gradePanel.getBtnSave().addActionListener(al->{
-			MagicCardStock st = UITools.getTableSelection(table, 0);
-			gradePanel.saveTo(st);
-			model.fireTableDataChanged();
+			try{
+				MagicCardStock st = UITools.getTableSelection(table, 0);
+				gradePanel.saveTo(st);
+				model.fireTableDataChanged();
+			}
+			catch(Exception e)
+			{
+				MTGControler.getInstance().notify(new MTGNotification("ERROR", "Choose a stock", MESSAGE_TYPE.ERROR));
+			}
 		});
 		
 	}

@@ -7,6 +7,8 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 
 	@Override
 	public Grading loadGrading(String identifier) {
+		String url="https://www.mtggrade.com/en/#verifier2";
+		
 		return null;
 	}
 
@@ -15,4 +17,10 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 		return "MTGGrade";
 	}
 
+	
+	@Override
+	public void initDefault() {
+		setProperty("EMAIL", "");
+		setProperty("PASS", "");
+	}
 }

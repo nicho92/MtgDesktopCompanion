@@ -7,7 +7,10 @@ public class EuropeanGrader extends AbstractGradersProvider {
 
 	@Override
 	public Grading loadGrading(String identifier) {
-		// TODO Auto-generated method stub
+		
+		String url="https://www.europeangrading.com/es/card-verifier.html?certificate="+identifier;
+		
+		
 		return null;
 	}
 

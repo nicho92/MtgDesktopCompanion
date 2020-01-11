@@ -7,7 +7,9 @@ public class BeckettGrader extends AbstractGradersProvider{
 
 	@Override
 	public Grading loadGrading(String identifier) {
-		// TODO Auto-generated method stub
+		
+		String url = " https://www.beckett.com/grading/card-lookup?item_type=BGS&submit=Submit&&item_id="+identifier;
+		
 		return null;
 	}
 
@@ -15,5 +17,11 @@ public class BeckettGrader extends AbstractGradersProvider{
 	public String getName() {
 		return "BGS";
 	}
-
+	
+	
+	@Override
+	public void initDefault() {
+		setProperty("EMAIL", "");
+		setProperty("PASS", "");
+	}
 }

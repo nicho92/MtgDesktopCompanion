@@ -14,12 +14,11 @@ public class Grading {
 	private Double edges=0.0;
 	private Double surface=0.0;
 	
-	
-	
 	@Override
 	public String toString() {
 		return getGraderName() +" " + getGradeNote();
 	}
+	
 	
 	
 	public String getGraderName() {
@@ -91,7 +90,10 @@ public class Grading {
 		this.surface = surface;
 	}
 	
-	
+	public boolean isGradded()
+	{
+		return getGraderName()!=null;
+	}
 	
 	
 }
