@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.Grading;
@@ -27,6 +29,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 public class GradingEditorPane extends MTGUIComponent {
@@ -103,34 +106,45 @@ public class GradingEditorPane extends MTGUIComponent {
 		chbGradded.setSelected(false);
 		
 		btnLoad.addActionListener(al->{
-			MTGGraders g = (MTGGraders) cboGraders.getSelectedItem();
+			MTGGraders grader = (MTGGraders) cboGraders.getSelectedItem();
 			
-			if(g==null)
+			if(grader==null)
 			{
 				MTGControler.getInstance().notify(new MTGNotification("ERROR", "Choose a Grader", MESSAGE_TYPE.ERROR));
 				return;
 			}
 			
 			
+			btnLoad.setEnabled(false);
+			
+			SwingWorker<Grading, Grading> sw = new SwingWorker<>(){
+
+				@Override
+				protected Grading doInBackground() throws Exception {
+					return grader.loadGrading(txtSerialNumber.getText());
+				}
+
+				@Override
+				protected void done() {
+					Grading grad;
+					btnLoad.setEnabled(true);
+					
+					try {
+						grad = get();
+						if(grad!=null)
+						{
+							grad.setCertified(true);
+							setGrading(grad);
+						}
+					} catch (Exception e) {
+						MTGControler.getInstance().notify(e);
+					} 
+				}
+			};
 			
 			
-			try {
-				Grading grad = g.loadGrading(txtSerialNumber.getText());
-				
-				if(grad!=null)
-				{
-					grad.setCertified(true);
-					setGrading(grad);
-				}
-				else
-				{
-					MTGControler.getInstance().notify(new MTGNotification("Not Found", txtSerialNumber.getText() +" is not found at " + cboGraders.getSelectedItem(), MESSAGE_TYPE.WARNING));
-				}
-				
-				
-			} catch (Exception e) {
-				MTGControler.getInstance().notify(e);
-			}
+			
+			ThreadManager.getInstance().runInEdt(sw, "checking grading");
 		});
 		
 		/*
