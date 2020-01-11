@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 public class Grading {
 
-	private Grader grader;
+	private String graderName;
 	private String numberID;
 	private Double gradeNote=0.0;
 	private EnumCondition grade;
@@ -15,17 +15,21 @@ public class Grading {
 	private Double surface=0.0;
 	
 	
+	
 	@Override
 	public String toString() {
-		return getGrader() +" " + getGradeNote();
+		return getGraderName() +" " + getGradeNote();
 	}
 	
-	public Grader getGrader() {
-		return grader;
+	
+	public String getGraderName() {
+		return graderName;
 	}
-	public void setGrader(Grader grader) {
-		this.grader = grader;
+	
+	public void setGraderName(String graderName) {
+		this.graderName = graderName;
 	}
+	
 	public String getNumberID() {
 		return numberID;
 	}

@@ -24,6 +24,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureEditor;
@@ -145,6 +146,7 @@ public class PluginRegistry {
 		registry.put(MTGScript.class, new PluginEntry<MTGScript>(true, "/scripts", "/script", "org.magic.api.scripts.impl",PLUGINS.SCRIPT));
 		registry.put(MTGPool.class, new PluginEntry<MTGPool>(false, "/pools", "/pool", "org.magic.api.pool.impl",PLUGINS.POOL));
 		registry.put(MTGComboProvider.class, new PluginEntry<MTGComboProvider>(true, "/combos", "/combo", "org.magic.api.combo.impl",PLUGINS.COMBO));
+		registry.put(MTGGraders.class, new PluginEntry<MTGGraders>(true, "/graders", "/grader", "org.magic.api.graders.impl",PLUGINS.GRADING));
 		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 
 	}

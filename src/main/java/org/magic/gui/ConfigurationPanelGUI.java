@@ -24,6 +24,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureEditor;
@@ -122,6 +123,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("SCRIPT"), MTGConstants.ICON_TAB_RULES, true, MTGControler.getInstance().getPlugins(MTGScript.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("POOL"), MTGConstants.ICON_TAB_POOL, false, MTGControler.getInstance().getPlugins(MTGPool.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("COMBO"), MTGConstants.ICON_TAB_COMBO, true, MTGControler.getInstance().getPlugins(MTGComboProvider.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("GRADING"), MTGConstants.ICON_TAB_GRADING, true, MTGControler.getInstance().getPlugins(MTGGraders.class));
 
 		
 		

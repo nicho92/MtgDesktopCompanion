@@ -615,5 +615,44 @@
             <enable>false</enable>
         </wallpaper>
     </wallpapers>
-  
+   <combos>
+        <combo>
+            <class>org.magic.api.combo.impl.MagicVilleComboProvider</class>
+            <enable>true</enable>
+        </combo>
+        <combo>
+            <class>org.magic.api.combo.impl.EssentialMagicComboProvider</class>
+            <enable>true</enable>
+        </combo>
+        <combo>
+            <class>org.magic.api.combo.impl.MTGCombosProvider</class>
+            <enable>true</enable>
+        </combo>
+        <combo>
+            <class>org.magic.api.combo.impl.SMFComboProvider</class>
+            <enable>true</enable>
+        </combo>
+    </combos>
+    <graders>
+        <grader>
+            <class>org.magic.api.graders.impl.PCAGrader</class>
+            <enable>true</enable>
+        </grader>
+        <grader>
+            <class>org.magic.api.graders.impl.PSAGrader</class>
+            <enable>true</enable>
+        </grader>
+        <grader>
+            <class>org.magic.api.graders.impl.MTGGradeGrader</class>
+            <enable>true</enable>
+        </grader>
+        <grader>
+            <class>org.magic.api.graders.impl.EuropeanGrader</class>
+            <enable>true</enable>
+        </grader>
+        <grader>
+            <class>org.magic.api.graders.impl.BeckettGrader</class>
+            <enable>true</enable>
+        </grader>
+    </graders>
 </conf>

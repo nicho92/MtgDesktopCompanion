@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,7 +22,6 @@ import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.extra.GraderServices;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
