@@ -1,7 +1,8 @@
 [
 	{ 
 		"name":"PSA",
-		"url":"https://www.psacard.com/"
+		"url":"https://www.psacard.com/",
+		"registryUri" : "https://www.psacard.com/cert/"
 	},
 	{ 
 		"name":"BGS",
@@ -9,15 +10,18 @@
 	},
 	{ 
 		"name":"European Grading",
-		"url":"https://www.europeangrading.com/en/"
+		"url":"https://www.europeangrading.com/en/",
+		"registryUri":"https://www.europeangrading.com/en/card-verifier.html?certificate="
 	},
 	{ 
 		"name":"MTG Grade",
-		"url":"https://www.mtggrade.com/"
+		"url":"https://www.mtggrade.com/",
+		"registryUri":"https://www.mtggrade.com/en/#verifier2"
 	},
 	{ 
 		"name":"PCA",
-		"url":"https://www.pcagrade.com/"
+		"url":"https://www.pcagrade.com/",
+		"registryUri":"https://www.pcagrade.com/verif/0"
 	}
 	
 ]

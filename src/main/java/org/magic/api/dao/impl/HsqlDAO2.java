@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.io.FileUtils;
+import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.magic.services.MTGConstants;
@@ -28,7 +29,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	}
 	
 	@Override
-	protected String cardStorage() {
+	protected String beanStorage() {
 		return "LONGVARCHAR";
 	}
 	
@@ -45,8 +46,18 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
-		
 	}
+	
+	@Override
+	protected Grading readGrading(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("grading"), Grading.class);
+	}
+	
+	@Override
+	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(grd).toString());
+	}
+	
 	
 	@Override
 	protected String getdbSizeQuery() {

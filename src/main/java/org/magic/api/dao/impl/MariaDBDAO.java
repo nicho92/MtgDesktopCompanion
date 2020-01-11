@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 
@@ -26,7 +27,7 @@ public class MariaDBDAO extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	protected String cardStorage() {
+	protected String beanStorage() {
 		return "TEXT";
 	}
 
@@ -35,6 +36,17 @@ public class MariaDBDAO extends AbstractSQLMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
+	@Override
+	protected Grading readGrading(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("grading"), Grading.class);
+	}
+	
+	@Override
+	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(grd).toString());
+	}
+	
+	
 	@Override
 	protected MagicCard readCard(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("mcard"), MagicCard.class);

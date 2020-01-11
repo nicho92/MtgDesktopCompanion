@@ -56,8 +56,8 @@ import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.editor.GradingEditorPane;
 import org.magic.gui.models.CardStockTableModel;
-import org.magic.gui.renderer.DoubleCellEditor;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellEditor;
@@ -96,6 +96,8 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JButton btnshowMassPanel;
 	private JButton btnApplyModification;
 	private CardsDeckCheckerPanel deckPanel;
+	private GradingEditorPane gradePanel;
+	
 	
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
@@ -464,11 +466,15 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	private void updatePanels(MagicCardStock selectedStock) {
+		
+		if(selectedStock!=null) {
 		magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
 		historyPricePanel.init(selectedStock.getMagicCard(), null, selectedStock.getMagicCard().getName());
 		pricePanel.init(selectedStock.getMagicCard(), selectedStock.getMagicCard().getCurrentSet());
 		jsonPanel.show(selectedStock);
 		deckPanel.init(selectedStock.getMagicCard());
+		gradePanel.setGrading(selectedStock.getGrade());
+		}
 	}
 
 	public void addStock(MagicCardStock mcs) {
@@ -500,6 +506,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		JLabel lblQte;
 		JLabel lblLanguage;
 		JLabel lblComment;
+		gradePanel = new GradingEditorPane();
+		
 		JTabbedPane tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
 
@@ -559,10 +567,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-		table.getColumnModel().getColumn(13).setCellEditor(new DoubleCellEditor());
-		table.getColumnModel().getColumn(12).setCellEditor(new DefaultCellEditor(UITools.createCombobox(GraderServices.inst().listGraders())));
-
-		
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
@@ -585,10 +589,13 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("DETAILS"),MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel);
+		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("GRADING"), MTGConstants.ICON_TAB_GRADING,gradePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICES"),MTGConstants.ICON_TAB_PRICES, pricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
-
+		
+		
+		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabPanel.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
@@ -771,6 +778,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		lblCount = new JLabel();
 		bottomPanel.add(lblCount);
 
+		
+		gradePanel.getBtnSave().addActionListener(al->{
+			MagicCardStock st = UITools.getTableSelection(table, 0);
+			gradePanel.saveTo(st);
+			model.fireTableDataChanged();
+		});
 		
 	}
 	

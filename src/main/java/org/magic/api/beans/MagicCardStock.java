@@ -21,38 +21,24 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private boolean update;
 	private double price=0.0;
 	private boolean oversize=false;
-	private boolean grade=false;
-	private Double gradeNote=0.0;
-	private String gradeName;
-	
+	private Grading grade;
 	
 	
 	
 	
 	public boolean isGrade() {
-		return grade;
+		return grade!=null;
 	}
 
-	public void setGrade(boolean grade) {
+	public void setGrade(Grading grade) {
 		this.grade = grade;
 	}
 
-	public Double getGradeNote() {
-		return gradeNote;
+	
+	public Grading getGrade() {
+		return grade;
 	}
-
-	public void setGradeNote(Double gradeNote) {
-		this.gradeNote = gradeNote;
-	}
-
-	public String getGradeName() {
-		return gradeName;
-	}
-
-	public void setGradeName(String gradeName) {
-		this.gradeName = gradeName;
-	}
-
+	
 	public double getPrice() {
 		return price;
 	}

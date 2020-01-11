@@ -17,7 +17,6 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.models.CardStockTableModel;
-import org.magic.gui.renderer.DoubleCellEditor;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.StockTableRenderer;
@@ -58,8 +57,6 @@ public class CardStockPanel extends JPanel {
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-		table.getColumnModel().getColumn(12).setCellEditor(new DefaultCellEditor(UITools.createCombobox(GraderServices.inst().listGraders())));
-		table.getColumnModel().getColumn(13).setCellEditor(new DoubleCellEditor());
 		
 		table.getColumnExt(model.getColumnName(1)).setVisible(false);
 		table.getColumnExt(model.getColumnName(2)).setVisible(false);

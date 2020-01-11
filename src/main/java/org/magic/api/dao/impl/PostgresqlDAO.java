@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.postgresql.util.PGobject;
@@ -29,7 +30,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	protected String cardStorage() {
+	protected String beanStorage() {
 		return "json";
 	}
 
@@ -47,6 +48,21 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 		jsonObject.setValue(serialiser.toJsonElement(mc).toString());
 		pst.setObject(position, jsonObject);
 	}
+	
+	@Override
+	protected Grading readGrading(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("grading"), Grading.class);
+	}
+	
+	@Override
+	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
+		PGobject jsonObject = new PGobject();
+		jsonObject.setType("json");
+		jsonObject.setValue(serialiser.toJsonElement(grd).toString());
+		pst.setObject(position, jsonObject);
+	}
+	
+	
 
 	@Override
 	protected MagicCard readCard(ResultSet rs) throws SQLException {
