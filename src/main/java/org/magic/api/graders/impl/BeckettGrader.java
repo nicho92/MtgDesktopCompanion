@@ -48,7 +48,6 @@ public class BeckettGrader extends AbstractGradersProvider{
 		
 			d=RequestBuilder.build().url(urlCheking).setClient(c).method(METHOD.GET)
 					.addContent("item_type", "BGS")
-					.addContent("submit", "Submit")
 					.addContent("item_id", identifier)
 					 .toHtml();
 			
@@ -63,6 +62,8 @@ public class BeckettGrader extends AbstractGradersProvider{
 			Grading grad = new Grading();
 			grad.setGraderName(getName());
 			grad.setNumberID(identifier);
+			grad.setUrlInfo(getWebSite()+"?item_id="+identifier);
+			
 			trs.forEach(tr->{
 				if(tr.text().startsWith("Centering"))
 					grad.setCentering(Double.parseDouble(tr.text().replace("Centering Grade : ","").trim()));

@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Grading   implements Serializable{
 
@@ -17,7 +18,8 @@ public class Grading   implements Serializable{
 	private Double edges=0.0;
 	private Double surface=0.0;
 	private boolean certified=false;
-	
+	private Date certificationDate;
+	private String urlInfo;
 	
 	@Override
 	public String toString() {
@@ -104,6 +106,22 @@ public class Grading   implements Serializable{
 	public boolean isGradded()
 	{
 		return getGraderName()!=null;
+	}
+
+	public Date getCertificationDate() {
+		return certificationDate;
+	}
+
+	public void setCertificationDate(Date certificationDate) {
+		this.certificationDate = certificationDate;
+	}
+
+	public String getUrlInfo() {
+		return urlInfo;
+	}
+
+	public void setUrlInfo(String urlInfo) {
+		this.urlInfo = urlInfo;
 	}
 	
 	

@@ -38,7 +38,8 @@ public class EuropeanGrader extends AbstractGradersProvider {
 		Grading grad = new Grading();
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
-		
+				grad.setUrlInfo(url+"?certificate="+identifier);
+				
 		logger.debug("Found " + trs.text());
 		
 		trs.forEach(tr->{

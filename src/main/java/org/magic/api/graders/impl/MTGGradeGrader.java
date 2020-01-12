@@ -25,10 +25,12 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		
+		String url=getWebSite()+"/produit/"+identifier;
+		
 		
 		Document d = RequestBuilder.build().method(METHOD.GET)
 				   .setClient(URLTools.newClient())
-				   .url(getWebSite()+"/produit/"+identifier)
+				   .url(url)
 				   .toHtml();
 		
 		Elements trs = d.select("table.table-product tr");
@@ -41,7 +43,8 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 		Grading grad = new Grading();
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
-		
+				grad.setUrlInfo(url);
+				
 		trs.remove(0);
 		
 		logger.debug("found " + trs.text());

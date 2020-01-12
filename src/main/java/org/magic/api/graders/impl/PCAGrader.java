@@ -19,9 +19,11 @@ public class PCAGrader extends AbstractGradersProvider {
 	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
+		
+		String url=getWebSite()+"/resumeBdd/"+identifier+"/1";
 		Document d = RequestBuilder.build().method(METHOD.GET)
 				   .setClient(URLTools.newClient())
-				   .url(getWebSite()+"/resumeBdd/"+identifier+"/1")
+				   .url(url)
 				   .toHtml();
 		
 		
@@ -39,6 +41,7 @@ public class PCAGrader extends AbstractGradersProvider {
 		g.setGraderName(getName());
 		g.setNumberID(identifier);
 		g.setGradeNote(Double.parseDouble(els.get(3).text()));
+		g.setUrlInfo(url);
 		return g;
 	}
 
