@@ -22,6 +22,7 @@ public class PSAGrader extends AbstractGradersProvider {
 	
 		String url=getWebSite()+"/cert/"+identifier;
 		
+		//need to parsing cloudFlare protection
 
 		return null;
 	}

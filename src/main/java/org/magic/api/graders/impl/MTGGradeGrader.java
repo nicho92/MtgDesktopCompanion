@@ -59,16 +59,5 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 	public String getName() {
 		return "MTGGrade";
 	}
-
 	
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
-	
-	@Override
-	public void initDefault() {
-		setProperty("EMAIL", "");
-		setProperty("PASS", "");
-	}
 }

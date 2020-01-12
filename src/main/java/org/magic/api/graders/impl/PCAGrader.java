@@ -1,6 +1,8 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -36,11 +38,17 @@ public class PCAGrader extends AbstractGradersProvider {
 		}
 		
 		els.get(3).select("strong").remove();
-		
+		els.get(5).select("strong").remove();
+	
 		Grading g = new Grading();
 		g.setGraderName(getName());
 		g.setNumberID(identifier);
 		g.setGradeNote(Double.parseDouble(els.get(3).text()));
+		try {
+			g.setGradeDate(new SimpleDateFormat("yyyy").parse(els.get(5).text()));
+		} catch (ParseException e) {
+			logger.error(e);
+		}
 		g.setUrlInfo(url);
 		return g;
 	}
@@ -50,4 +58,7 @@ public class PCAGrader extends AbstractGradersProvider {
 		return "PCA";
 	}
 
+	public static void main(String[] args) throws IOException {
+		new PCAGrader().loadGrading("63101543");
+	}
 }

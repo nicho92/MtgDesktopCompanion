@@ -1,6 +1,9 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -59,12 +62,18 @@ public class EuropeanGrader extends AbstractGradersProvider {
 			if(tr.text().startsWith("Final"))
 				grad.setGradeNote(Double.parseDouble(tr.text().replace("Final grade : ","").replace(',', '.').trim()));
 			
+			if(tr.text().startsWith("Grading date"))
+			{
+				try {
+					grad.setGradeDate(new SimpleDateFormat("dd/MM/yyyy").parse(tr.text().replace("Grading date : ","").replace(',', '.').trim()));
+				} catch (ParseException e) {
+					logger.error(e);
+				}
+			}
+				
+			
 		});
-				
-				
-				
 		return grad;
-		
 	}
 
 	@Override

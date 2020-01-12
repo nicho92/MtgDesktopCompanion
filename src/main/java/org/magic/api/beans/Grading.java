@@ -18,7 +18,7 @@ public class Grading   implements Serializable{
 	private Double edges=0.0;
 	private Double surface=0.0;
 	private boolean certified=false;
-	private Date certificationDate;
+	private Date gradeDate;
 	private String urlInfo;
 	
 	@Override
@@ -108,20 +108,20 @@ public class Grading   implements Serializable{
 		return getGraderName()!=null;
 	}
 
-	public Date getCertificationDate() {
-		return certificationDate;
-	}
-
-	public void setCertificationDate(Date certificationDate) {
-		this.certificationDate = certificationDate;
-	}
-
 	public String getUrlInfo() {
 		return urlInfo;
 	}
 
 	public void setUrlInfo(String urlInfo) {
 		this.urlInfo = urlInfo;
+	}
+
+	public Date getGradeDate() {
+		return gradeDate;
+	}
+
+	public void setGradeDate(Date gradeDate) {
+		this.gradeDate = gradeDate;
 	}
 	
 	

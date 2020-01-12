@@ -1,6 +1,9 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -79,10 +82,23 @@ public class BeckettGrader extends AbstractGradersProvider{
 
 				if(tr.text().startsWith("Final"))
 					grad.setGradeNote(Double.parseDouble(tr.text().replace("Final Grade : ","").trim()));
+				
+				if(tr.text().startsWith("Date"))
+				{
+					try {
+						grad.setGradeDate(new SimpleDateFormat("EEEEE, MMMMM dd, yyyy",Locale.US).parse(tr.text().replace("Date Graded : ","").trim()));
+					}
+					catch(ParseException e)
+					{
+						logger.error(e);
+					}
+				}
+				
+				
 			});
 		return grad;
 	}
-
+	
 	@Override
 	public String getName() {
 		return "BGS";
