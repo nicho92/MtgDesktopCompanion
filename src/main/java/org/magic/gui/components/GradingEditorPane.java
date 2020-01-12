@@ -1,10 +1,13 @@
 package org.magic.gui.components;
 
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
@@ -31,6 +34,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
+
+import com.jogamp.newt.event.MouseAdapter;
+import com.jogamp.newt.event.MouseEvent;
 
 public class GradingEditorPane extends MTGUIComponent {
 	
@@ -194,6 +200,7 @@ public class GradingEditorPane extends MTGUIComponent {
 				g.setThickness((Double)spinnerThickness.getValue());
 				g.setWeight((Double)spinnerWeight.getValue());
 				g.setCertified(lblCertified.isVisible());
+				g.setGradeDate(UITools.parseDate(lblCertified.getText()));
 		return g;
 	}
 	
@@ -220,8 +227,14 @@ public class GradingEditorPane extends MTGUIComponent {
 			spinnerThickness.setValue(grade.getThickness());
 			spinnerWeight.setValue(grade.getWeight());
 			lblCertified.setVisible(grade.isCertified());
+			
+			if(grade.isCertified()) {
+				lblCertified.setText(UITools.formatDate(grade.getGradeDate()));
+				lblCertified.setToolTipText("Certified by " + grade.getGraderName()+ " : " + grade.getUrlInfo());
+			}
+			
 	}
-	
+	 
 	
 	public void saveTo(MagicCardStock stock)
 	{

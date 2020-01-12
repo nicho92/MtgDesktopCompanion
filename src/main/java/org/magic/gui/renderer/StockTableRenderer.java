@@ -4,12 +4,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
+import javax.swing.Icon;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.interfaces.MTGGraders;
+import org.magic.services.PluginRegistry;
 
 public class StockTableRenderer extends DefaultTableRenderer {
 
@@ -33,6 +39,25 @@ public class StockTableRenderer extends DefaultTableRenderer {
 			((JPanel)pane).setLayout(flowLayout);
 			((JPanel)pane).add(jcbox);
 		}
+		
+		
+		if(value instanceof Grading)
+		{
+			Grading g = (Grading)value;
+			
+			try {
+			Icon c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
+			pane= new JLabel(g.toString(),c,SwingConstants.LEFT);
+			((JLabel)pane).setOpaque(true);
+			}
+			catch(Exception e)
+			{
+				pane = new JLabel(g.toString());
+				((JLabel)pane).setOpaque(true);
+			}
+		}
+		
+		
 		
 		
 		if (((MagicCardStock) table.getValueAt(row, 0)).isUpdate()) {

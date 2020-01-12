@@ -37,6 +37,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.EnumCondition;
+import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -567,6 +568,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
+		
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		
 		
