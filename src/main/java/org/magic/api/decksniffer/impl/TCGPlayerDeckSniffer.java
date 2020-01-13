@@ -47,7 +47,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
 		Document d = URLTools.toHtml(IncapsulaParser.readUrl(info.getUrl().toString()));
-		logger.debug(d);
 		for (Element e : d.select("span.singleTag")) {
 			deck.getTags().add(e.text());
 		}
