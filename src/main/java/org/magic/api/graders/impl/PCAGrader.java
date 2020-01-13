@@ -9,8 +9,8 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.tools.RequestBuilder;
-import org.magic.tools.URLTools;
 import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.tools.URLTools;
 
 public class PCAGrader extends AbstractGradersProvider {
 	

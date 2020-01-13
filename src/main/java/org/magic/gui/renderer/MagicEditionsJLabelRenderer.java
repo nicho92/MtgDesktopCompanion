@@ -24,6 +24,7 @@ public class MagicEditionsJLabelRenderer implements TableCellRenderer {
 
 	JPanel pane = new JPanel();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane.removeAll();

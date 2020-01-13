@@ -1,21 +1,14 @@
 package org.magic.gui.components;
 
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.net.URI;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -26,7 +19,6 @@ import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.PluginEntry;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -34,9 +26,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
-import com.jogamp.newt.event.MouseAdapter;
-import com.jogamp.newt.event.MouseEvent;
 
 public class GradingEditorPane extends MTGUIComponent {
 	

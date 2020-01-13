@@ -3,7 +3,6 @@ package org.magic.api.graders.impl;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

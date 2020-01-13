@@ -430,6 +430,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		return panelGrave;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void update(Observable o, Object arg) {
 		((DefaultListModel) listActions.getModel()).addElement(arg);

@@ -37,7 +37,6 @@ import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.EnumCondition;
-import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;

@@ -13,9 +13,6 @@ import org.magic.services.MTGDeckManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
-
-import com.google.gson.JsonElement;
-
 import org.magic.tools.URLTools;
 
 public class CardTraderExport extends AbstractCardExport {

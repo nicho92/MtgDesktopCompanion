@@ -29,6 +29,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,int size) {
 		this.buzy=buzy;
 		this.plug=plug;
@@ -41,6 +42,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			buzy.start();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug) {
 		this.buzy=buzy;
 		this.plug=plug;

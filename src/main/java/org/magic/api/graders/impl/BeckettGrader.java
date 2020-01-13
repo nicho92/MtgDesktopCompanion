@@ -11,9 +11,9 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
-import org.magic.tools.RequestBuilder.METHOD;
 
 public class BeckettGrader extends AbstractGradersProvider{
 
