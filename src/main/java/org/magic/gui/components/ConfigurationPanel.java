@@ -586,7 +586,7 @@ public class ConfigurationPanel extends JPanel {
 
 		cboCollections.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
-				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,(MagicCollection) cboCollections.getSelectedItem());
+				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,cboCollections.getSelectedItem());
 		});
 		
 		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getFile().getAbsolutePath()));

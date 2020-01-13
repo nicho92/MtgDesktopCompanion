@@ -210,7 +210,7 @@ public class PluginRegistry {
 	public List<MTGPlugin> listPlugins()
 	{
 		List<MTGPlugin> list = new ArrayList<>();
-		PluginRegistry.inst().listClasses().forEach(c->PluginRegistry.inst().listPlugins(c).forEach(p->list.add(p)));
+		PluginRegistry.inst().listClasses().forEach(c->PluginRegistry.inst().listPlugins(c).forEach(list::add));
 		return list;
 	}
 	

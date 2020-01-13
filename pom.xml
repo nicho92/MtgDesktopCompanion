@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>2.13</version>
+	<version>2.14</version>
 	<packaging>jar</packaging>
 	<organization>
 		<name>Nicolas Pihen</name>
@@ -122,22 +122,22 @@
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-core</artifactId>
-		    <version>8.4.0</version>
+		    <version>8.4.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-queries</artifactId>
-		    <version>8.4.0</version>
+		    <version>8.4.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-queryparser</artifactId>
-		    <version>8.4.0</version>
+		    <version>8.4.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-backward-codecs</artifactId>
-		    <version>8.4.0</version>
+		    <version>8.4.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
@@ -315,7 +315,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.4.12</version>
+			<version>4.4.13</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -360,7 +360,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.18</version>
+			<version>8.0.19</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
