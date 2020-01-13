@@ -8,10 +8,6 @@ import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 public class PSAGrader extends AbstractGradersProvider {
 
 	
-	public static void main(String[] args) throws IOException {
-		new PSAGrader().loadGrading("15687369");
-	}
-	
 	@Override
 	public String getWebSite() {
 		return "https://www.psacard.com";
