@@ -41,7 +41,7 @@
 		</repository>
 		<repository>
 			<id>jcenter</id>
-			<url>http://jcenter.bintray.com</url>
+			<url>https://jcenter.bintray.com</url>
 		</repository>
 		<repository>
 			<id>milton-repo</id>
@@ -147,7 +147,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.0_95</version>
+			  <version>4.1.0_96</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -370,7 +370,7 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.11</version>
+			<version>1.7.12</version>
 		</dependency>
 		<dependency>
 	        <groupId>cat.inspiracio</groupId>
@@ -421,7 +421,7 @@
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>
 	    <artifactId>groovy-all</artifactId>
-	    <version>3.0.0-rc-1</version>
+	    <version>3.0.0-rc-2</version>
 	    <type>pom</type>
 	</dependency>
 	<dependency>

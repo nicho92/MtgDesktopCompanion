@@ -23,7 +23,7 @@ import org.magic.tools.URLTools;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String PAUPER = "pauper";
-	private static final String PIONNEER = "pionneer";
+	private static final String PIONEER = "pioneer";
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String URL = "URL";
 	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
@@ -37,7 +37,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { STANDARD, MODERN, LEGACY, VINTAGE, COMMANDER,PIONNEER,PAUPER};
+		return new String[] { STANDARD, MODERN, LEGACY, VINTAGE, COMMANDER,PIONEER,PAUPER};
 	}
 	
 	@Override
