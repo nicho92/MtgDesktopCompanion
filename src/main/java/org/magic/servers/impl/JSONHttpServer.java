@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -45,6 +44,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.sorters.CardsEditionSorter;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -389,7 +389,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 					.searchCardByName( request.params(NAME), ed, true).get(0);
 			BufferedImage im = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
-			ImageIO.write(im, "png", baos);
+			ImageTools.write(im, "png", baos);
 			
 			baos.flush();
 			byte[] imageInByte = baos.toByteArray();
@@ -405,7 +405,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 					.searchCardByName( request.params(NAME), null, true).get(0);
 			BufferedImage im = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
-			ImageIO.write(im, "png", baos);
+			ImageTools.write(im, "png", baos);
 			baos.flush();
 			byte[] imageInByte = baos.toByteArray();
 			baos.close();

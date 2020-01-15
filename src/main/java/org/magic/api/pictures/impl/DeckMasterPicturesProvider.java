@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
@@ -16,6 +14,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.PluginRegistry;
+import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
@@ -120,7 +119,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 		URL u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png");
 		HttpURLConnection con = URLTools.openConnection(u);
-		BufferedImage im = ImageIO.read(con.getInputStream());
+		BufferedImage im = ImageTools.read(con.getInputStream());
 		return resizeIconSet(im);
 	}
 

@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.imageio.ImageIO;
-
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 public class Wallpaper {
@@ -27,7 +26,7 @@ public class Wallpaper {
 			if(getUrl().getScheme().startsWith("http"))
 				setPicture(URLTools.extractImage(getUrl().toURL()));
 			else
-				setPicture(ImageIO.read(getUrl().toURL()));
+				setPicture(ImageTools.readLocal(getUrl().toURL()));
 		}
 		
 		return this;

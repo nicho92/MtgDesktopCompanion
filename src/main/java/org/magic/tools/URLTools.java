@@ -12,7 +12,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
-import javax.imageio.ImageIO;
 import javax.net.ssl.SSLHandshakeException;
 
 import org.apache.commons.io.FileUtils;
@@ -92,10 +91,12 @@ public class URLTools {
 	public static BufferedImage extractImage(URL url) throws IOException
 	{
 		HttpURLConnection con = openConnection(url);
-		BufferedImage im = ImageIO.read(con.getInputStream());
+		BufferedImage im = ImageTools.read(con.getInputStream());
 		close(con);
 		return im;
 	}
+	
+	
 	
 	public static JsonElement extractJson(String url) throws IOException
 	{

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,6 +47,7 @@ import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 public class MagicCardEditorPanel extends JPanel {
@@ -642,7 +642,7 @@ public class MagicCardEditorPanel extends JPanel {
 			if(magicCard.getImageName().startsWith("http"))
 				buff = URLTools.extractImage(magicCard.getImageName());
 			else
-				buff = ImageIO.read(new File(magicCard.getImageName()));
+				buff = ImageTools.read(new File(magicCard.getImageName()));
 			
 			if(buff!=null) {
 				Image i = new ImageIcon(buff).getImage();

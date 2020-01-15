@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -337,7 +335,7 @@ public class MTGControler {
 
 		String url = config.getString("/game/player-profil/avatar");
 		try {
-			p.setIcon(ImageIO.read(new File(url)));
+			p.setIcon(ImageTools.read(new File(url)));
 		} catch (Exception e) {
 			logger.error("error loading icon player " + p + " "+e);
 		}

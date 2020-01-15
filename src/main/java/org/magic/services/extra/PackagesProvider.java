@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.imageio.ImageIO;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -123,7 +122,7 @@ public class PackagesProvider {
 			File b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
 			
 			if(b.exists())
-				return ImageIO.read(b);
+				return ImageTools.read(b);
 			else
 				return caching(false, p);
 		} catch (IOException e) {

@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 
@@ -15,6 +14,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageTools;
 
 public class ChangeBackGroundActions extends AbstractAction {
 
@@ -45,7 +45,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 			
 			BufferedImage im;
 			try {
-				im = ImageIO.read(choose.getSelectedFile());
+				im = ImageTools.read(choose.getSelectedFile());
 				GamePanelGUI.getInstance().getPanelBattleField().setBackgroundPicture(im);
 				GamePanelGUI.getInstance().getPanelBattleField().repaint();
 
