@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +41,21 @@ public class ImageTools {
 	
 	private ImageTools() {
 	}
+	
+
+	public static boolean isImage(File f)
+	{
+		if(f==null)
+			return false;
+		
+		
+			try {
+				return Files.probeContentType(f.toPath()).startsWith("image");
+			} catch (Exception e) {
+				return false;
+			}
+	}
+	
 	
 	public static BufferedImage[] splitManaImage()
 	{

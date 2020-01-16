@@ -28,7 +28,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.IDGenerator;
 
-public class FileDAO extends AbstractMagicDAO {
+public class FileDAO extends AbstractMagicDAO{
 
 	private File directory;
 	private static final String CARDSDIR = "cards";
@@ -523,6 +523,6 @@ public class FileDAO extends AbstractMagicDAO {
 		throw new SQLException("Execute query is not possible");
 		
 	}
-	
+
 	
 }

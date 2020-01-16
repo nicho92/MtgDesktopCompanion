@@ -2,12 +2,14 @@ package org.magic.gui.components;
 
 import java.io.File;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileSystemView;
 
-import org.magic.gui.decorators.FileDropDecorator;
+import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.dao.impl.FileDAO;
+import org.magic.api.interfaces.MTGGedStorage;
+import org.magic.gui.components.renderer.GedEntryComponent;
+import org.magic.gui.tools.FileDropDecorator;
 
 public class FileUploadPanel extends JPanel {
 
@@ -18,14 +20,12 @@ public class FileUploadPanel extends JPanel {
 
 			for(File f : files)
 			{
-				
-				JLabel l = new JLabel(f.getName(),FileSystemView.getFileSystemView().getSystemIcon(f),SwingConstants.CENTER);
-				l.setVerticalTextPosition(SwingConstants.BOTTOM);
-				add(l);
+				GedEntry<MagicCard> entry = new GedEntry<>(f);
+				add(new GedEntryComponent<>(entry));
 			}
 			
 			revalidate();
-
+			
 		});
 	}
 

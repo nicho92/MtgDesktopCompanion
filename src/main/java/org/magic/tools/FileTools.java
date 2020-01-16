@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -45,8 +46,6 @@ public class FileTools {
 		logger.debug("opening file " + f);
 		return FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING);
 	}
-	
-	
 	
 	public static JsonElement readJson(File f) throws IOException
 	{

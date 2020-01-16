@@ -1,4 +1,4 @@
-package org.magic.gui.decorators;
+package org.magic.gui.tools;
 
 
 import java.awt.Color;
