@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.io.File;
+import java.io.Serializable;
 
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
@@ -9,8 +10,9 @@ import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
 
-public class GedEntry<T> {
+public class GedEntry<T> implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private T entity;
 	private File file;
