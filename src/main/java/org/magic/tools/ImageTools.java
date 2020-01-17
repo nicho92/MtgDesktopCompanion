@@ -10,8 +10,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +41,21 @@ public class ImageTools {
 	
 	private ImageTools() {
 	}
+	
+
+	public static boolean isImage(File f)
+	{
+		if(f==null)
+			return false;
+		
+		
+			try {
+				return Files.probeContentType(f.toPath()).startsWith("image");
+			} catch (Exception e) {
+				return false;
+			}
+	}
+	
 	
 	public static BufferedImage[] splitManaImage()
 	{
@@ -279,6 +298,28 @@ public class ImageTools {
 			root.appendChild(dim);
 			metadata.mergeTree("javax_imageio_1.0", root);
 	 }
+
+	public static BufferedImage readLocal(URL url) throws IOException {
+			return ImageIO.read(url);
+	}
+
+	public static BufferedImage read(File file) throws IOException {
+		return ImageIO.read(file);
+	}
+
+	public static BufferedImage read(InputStream inputStream) throws IOException {
+		return ImageIO.read(inputStream);
+	}
+
+	public static void write(BufferedImage bi, String formatName, File file) throws IOException {
+		ImageIO.write(bi, formatName, file);
+		
+	}
+
+	public static void write(BufferedImage bi, String formatName, ByteArrayOutputStream baos) throws IOException {
+		ImageIO.write(bi, formatName, baos);
+		
+	}
 
 
 	

@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -71,7 +70,7 @@ public class StoryProvider {
 	private Image loadPics(URL url) {
 		Image tmp;
 		try {
-			tmp = ImageIO.read(url).getScaledInstance(200, 110, Image.SCALE_SMOOTH);
+			tmp = URLTools.extractImage(url).getScaledInstance(200, 110, Image.SCALE_SMOOTH);
 			return tmp;
 		} catch (IOException e) {
 			logger.error("could not load" + url, e);

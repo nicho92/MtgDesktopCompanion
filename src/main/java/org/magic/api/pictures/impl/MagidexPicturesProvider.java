@@ -6,11 +6,10 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 public class MagidexPicturesProvider extends AbstractPicturesProvider {
@@ -49,7 +48,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		HttpURLConnection connection = URLTools.openConnection(uri.toURL());
 	
 		try {
-			return ImageIO.read(connection.getInputStream());
+			return ImageTools.read(connection.getInputStream());
 		} catch (Exception e) {
 			logger.error(e);
 			return null;

@@ -5,13 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
+import org.magic.tools.ImageTools;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
@@ -32,7 +31,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		if (!edDir.exists())
 			edDir.mkdir();
 
-		ImageIO.write(bi, getString(FORMAT),
+		ImageTools.write(bi, getString(FORMAT),
 				Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile());
 	}
 
@@ -78,7 +77,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if (edDir.exists())
 		{
-			return ImageIO.read(new File(edDir, mc.getId() + "." + getString(FORMAT)));
+			return ImageTools.read(new File(edDir, mc.getId() + "." + getString(FORMAT)));
 		}
 		else
 		{

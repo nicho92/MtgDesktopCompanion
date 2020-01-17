@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -57,7 +55,7 @@ public class FileCache extends AbstractCacheProvider {
 			if (!save.exists())
 				save.mkdir();
 
-			return ImageIO.read(new File(save, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
+			return ImageTools.read(new File(save, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
 		} catch (IOException e) {
 			logger.trace("search in cache : " + mc + " " + ed +" not found :" + e);
 

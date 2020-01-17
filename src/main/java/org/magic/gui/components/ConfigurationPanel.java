@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -812,7 +811,7 @@ public class ConfigurationPanel extends JPanel {
 	private void loadIcon() {
 		try {
 			lblIconAvatar.setIcon(new ImageIcon(ImageTools.resize(
-					ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
+					ImageTools.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
 
 		} catch (Exception e) {
 			lblIconAvatar.setIcon(null);

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -23,6 +22,7 @@ import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageTools;
 
 public class BattleFieldPanel extends DraggablePanel {
 
@@ -69,8 +69,7 @@ public class BattleFieldPanel extends DraggablePanel {
 
 		if (MTGControler.getInstance().get("/game/player-profil/background") != null)
 			try {
-				BufferedImage im = ImageIO
-						.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
+				BufferedImage im = ImageTools.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
 				setBackgroundPicture(im);
 			} catch (IOException e1) {
 				logger.error(e1);

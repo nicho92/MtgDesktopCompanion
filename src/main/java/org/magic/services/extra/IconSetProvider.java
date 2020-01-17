@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
@@ -70,7 +69,7 @@ public class IconSetProvider {
 		File iconFile = new File(localDirectory, id + EXT);
 		if (iconFile.exists()) {
 			logger.trace("load from cache " + iconFile);
-			return ImageIO.read(iconFile);
+			return ImageTools.read(iconFile);
 		} 
 		else {
 			BufferedImage im = null;
@@ -78,11 +77,11 @@ public class IconSetProvider {
 
 			try {
 				String equivSet = getEquiv(id);
-				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
+				im = ImageTools.readLocal(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageTools.saveImage(im, iconFile, "png");
 			} catch (Exception ex) {
 				logger.trace("couldnt load icons for " + id +"=" + getEquiv(id));
-				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
+				im = ImageTools.readLocal(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 			}
 			return im;
 		}

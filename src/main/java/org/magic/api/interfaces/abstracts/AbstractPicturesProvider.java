@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -107,7 +105,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	@Override
 	public BufferedImage getBackPicture() {
 		try {
-			return ImageIO.read(MTGConstants.DEFAULT_BACK_CARD);
+			return ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD);
 		} catch (IOException e) {
 			logger.error(e);
 			return null;

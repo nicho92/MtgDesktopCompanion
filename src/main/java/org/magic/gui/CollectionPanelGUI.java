@@ -52,6 +52,7 @@ import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.CardsEditionTablePanel;
+import org.magic.gui.components.FileUploadPanel;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -115,7 +116,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private List<MagicCard> listExport;
 	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
-	
+	private FileUploadPanel filesPanel;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -169,7 +170,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		JPanel panelTotal;
 		JPanel panneauDroite;
 		MagicCollectionTableCellRenderer render;
-
+		filesPanel = new FileUploadPanel();
 
 		//////// INIT COMPONENTS
 		panneauHaut = new JPanel();
@@ -278,7 +279,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_PICTURE,filesPanel, null);
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);

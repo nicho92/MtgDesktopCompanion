@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,14 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
+import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
-
+	
+	private static final String API_URI="https://api.cardkingdom.com/api/pricelist";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Document doc;
 	private List<String> eds;
@@ -26,6 +30,20 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
+	
+	public static void main(String[] args) {
+		new CardKingdomPricer().cachingPriceList();
+	}
+	
+	public void cachingPriceList()
+	{
+		try {
+			FileTools.saveFile(new File(MTGConstants.DATA_DIR,"mtgkingdom.json"), URLTools.extractJson(API_URI).toString());
+		} catch (IOException e) {
+			logger.error("error getting cache priceguide",e);
+		}
+	}
+	
 
 	public CardKingdomPricer() {
 		super();

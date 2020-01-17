@@ -6,14 +6,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
@@ -88,7 +87,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		logger.debug("load pics " + connection.getURL().toString());
 
 		try {
-			return ImageIO.read(connection.getInputStream());
+			return ImageTools.read(connection.getInputStream());
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture();

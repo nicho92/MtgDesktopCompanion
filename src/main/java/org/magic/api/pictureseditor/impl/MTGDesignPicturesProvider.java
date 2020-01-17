@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -29,6 +27,7 @@ import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
+import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 //TODO using URLToolClient instead httpClient apache
@@ -242,7 +241,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			HttpGet get = new HttpGet(build.build());
 			HttpResponse resp = httpclient.execute(get, httpContext);
 			logger.debug("generate " + resp.getStatusLine().getReasonPhrase());
-			BufferedImage im = ImageIO.read(resp.getEntity().getContent());
+			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;
 		} catch (Exception e) {
