@@ -109,7 +109,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 			mp.setCurrency("USD");
 			mp.setSeller("Card Kingdom");
 			mp.setSite(getName());
-			mp.setUrl(url);
+			mp.setUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion");
 			mp.setQuality(qualities.get(i).html());
 			mp.setLanguage("English");
 
