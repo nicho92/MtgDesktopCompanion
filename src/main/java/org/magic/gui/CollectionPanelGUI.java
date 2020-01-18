@@ -279,7 +279,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_PICTURE,filesPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,filesPanel, null);
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);

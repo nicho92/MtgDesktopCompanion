@@ -126,7 +126,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("SCRIPT"), MTGConstants.ICON_TAB_RULES, PluginRegistry.inst().getEntry(MTGScript.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("POOL"), MTGConstants.ICON_TAB_POOL, PluginRegistry.inst().getEntry(MTGPool.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("COMBO"), MTGConstants.ICON_TAB_COMBO, PluginRegistry.inst().getEntry(MTGComboProvider.class));
-		createTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_PICTURE, PluginRegistry.inst().getEntry(MTGGedStorage.class));
+		createTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED, PluginRegistry.inst().getEntry(MTGGedStorage.class));
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("GRADING"), MTGConstants.ICON_TAB_GRADING, PluginRegistry.inst().getEntry(MTGGraders.class));
 		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new ConfigurationPanel(), null);

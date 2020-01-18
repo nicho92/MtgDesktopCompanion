@@ -165,6 +165,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_IMPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/import.png"));
 	public static final ImageIcon ICON_MASS_IMPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/massImport.png"));
 	public static final ImageIcon ICON_GRADING = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/grade.png"));
+	public static final ImageIcon ICON_GED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ged.png"));
 	
 	
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));
@@ -220,7 +221,10 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_GRADING = new ImageIcon(ICON_GRADING.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-
+	public static final ImageIcon ICON_TAB_GED = new ImageIcon(ICON_GED.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	
+	
+	
 	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_POOL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/pool.png"));
 	public static final ImageIcon ICON_TAB_COMBO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/combo.png"));

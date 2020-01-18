@@ -655,4 +655,14 @@
             <enable>true</enable>
         </grader>
     </graders>
+    <storages>
+        <storage>
+            <class>org.magic.api.fs.impl.MemoryFileStorage</class>
+            <enable>false</enable>
+        </storage>
+        <storage>
+            <class>org.magic.api.fs.impl.ZipFileSystemStorage</class>
+            <enable>true</enable>
+        </storage>
+    </storages>
 </conf>

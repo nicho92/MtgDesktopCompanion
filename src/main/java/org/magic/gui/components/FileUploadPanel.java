@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -16,6 +17,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
 import org.magic.gui.tools.FileDropDecorator;
 import org.magic.services.GedService;
+import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 
@@ -85,6 +87,11 @@ public class FileUploadPanel extends MTGUIComponent {
 	@Override
 	public String getTitle() {
 		return "GED";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_GED;
 	}
 
 }
