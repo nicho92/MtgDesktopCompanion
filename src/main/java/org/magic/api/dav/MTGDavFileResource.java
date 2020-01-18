@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.util.Date;
 import java.util.Map;
 
-import org.magic.api.fs.MTGFileSystem;
-import org.magic.api.fs.MTGPath;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 

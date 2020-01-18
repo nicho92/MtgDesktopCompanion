@@ -1,4 +1,4 @@
-package org.magic.api.fs;
+package org.magic.api.dav;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

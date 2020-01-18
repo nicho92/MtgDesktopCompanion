@@ -1,12 +1,10 @@
 package org.magic.api.interfaces;
 
-import java.util.List;
-
-import org.magic.api.beans.GedEntry;
+import java.io.IOException;
+import java.nio.file.FileSystem;
 
 public interface MTGGedStorage extends MTGPlugin{
 
-	public <T> String store(GedEntry<T> entry);
-	public <T> GedEntry<T> getEntryById(String id);
-	public <T> List<GedEntry<T>> listEntryFor(Class<T> classe);
+	public FileSystem getFilesSystem() throws IOException;
+	public void initFileSystem() throws IOException;
 }

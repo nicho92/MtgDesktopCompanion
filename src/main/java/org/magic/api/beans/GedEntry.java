@@ -1,11 +1,13 @@
 package org.magic.api.beans;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
+import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
@@ -15,34 +17,74 @@ public class GedEntry<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private T entity;
-	private File file;
-	
+	private String name;
+	private String ext;
+	private byte[] content;
+	private boolean isImage;
+	private Icon icon;
 	
 	@Override
 	public String toString() {
-		return super.toString();
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public byte[] getContent() {
+		return content;
+	}
+	
+	public String getExt() {
+		return ext;
 	}
 	
 	public Icon getIcon()
 	{
-		return FileSystemView.getFileSystemView().getSystemIcon(file);
+		return icon;
 	}
 	
 	public String getName()
 	{
-		if(file!=null)
-			return Files.getNameWithoutExtension(file.getAbsolutePath());
-		
-		return null;
+		return name;
 	}
 	
-	public GedEntry(File f) {
-		this.file=f;
+	public void setExt(String ext) {
+		this.ext = ext;
+	}
+	
+	public void setContent(byte[] content) {
+		this.content = content;
+	}
+	
+	public File toFile() throws IOException
+	{
+		File f = new File(name+"."+ext);
+		FileTools.saveFile(f, content);
+		return f;
+	}
+	
+	public void setIsImage(boolean isImage) {
+		this.isImage = isImage;
+	}
+	
+	public void setIcon(Icon icon) {
+		this.icon = icon;
+	}
+	
+	public GedEntry(File f) throws IOException {
+		setName(Files.getNameWithoutExtension(f.getName()));
+		setExt(Files.getFileExtension(f.getName()));
+		setContent(Files.toByteArray(f));
+		setIsImage(ImageTools.isImage(f));
+		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
+		setId(FileTools.checksum(f));
 	}
 	
 	public boolean isImage()
 	{
-		return ImageTools.isImage(file);
+		return isImage;
 	}
 	
 	public String getId() {
@@ -54,14 +96,9 @@ public class GedEntry<T> implements Serializable {
 	public T getEntity() {
 		return entity;
 	}
-	public void setEntity(T entity) {
-		this.entity = entity;
-	}
-	public File getFile() {
-		return file;
-	}
-	public void setFile(File file) {
-		this.file = file;
+
+	public String getFullName() {
+		return getName()+"."+getExt();
 	}
 	
 }

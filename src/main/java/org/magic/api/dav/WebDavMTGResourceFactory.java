@@ -3,8 +3,6 @@ package org.magic.api.dav;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
-import org.magic.api.fs.MTGFileSystem;
-import org.magic.api.fs.MTGPath;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.servers.impl.WebDAVServer;
 import org.magic.services.MTGControler;

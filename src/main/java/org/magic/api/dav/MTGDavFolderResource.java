@@ -13,8 +13,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.jfree.util.Log;
-import org.magic.api.fs.MTGFileSystem;
-import org.magic.api.fs.MTGPath;
 
 import io.milton.http.Auth;
 import io.milton.http.Range;

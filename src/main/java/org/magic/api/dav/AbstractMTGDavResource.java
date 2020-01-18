@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
-import org.magic.api.fs.MTGFileSystem;
-import org.magic.api.fs.MTGPath;
 import org.magic.services.MTGLogger;
 
 import io.milton.http.Auth;

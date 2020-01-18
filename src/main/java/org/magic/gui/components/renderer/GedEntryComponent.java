@@ -61,7 +61,7 @@ public class GedEntryComponent<T> extends JLabel {
 		   if(entry.isImage()) 
 		   {
 			   try {
-				   return new ImageIcon(ImageTools.read(entry.getFile()).getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+				   return new ImageIcon(ImageTools.read(entry.getContent()).getScaledInstance(50, 50, Image.SCALE_SMOOTH));
 			   } catch (IOException e) {
 				   return null;
 			   }

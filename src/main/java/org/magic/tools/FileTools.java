@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -23,6 +22,8 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 
 public class FileTools {
@@ -66,6 +67,11 @@ public class FileTools {
 				addFile(f,out);
 		}
 	
+	}
+	
+	public static String checksum(File f) throws IOException
+	{
+		return Files.asByteSource(f).hash(Hashing.sha256()).toString();
 	}
 	
 	public static void decompressGzipFile(File fileZip,File dest) {
@@ -194,6 +200,16 @@ public class FileTools {
 		}
 		
 		
+	}
+
+	public static void saveFile(File f, byte[] content) throws IOException {
+		
+		Files.touch(f);
+		
+		 try (FileOutputStream fileOuputStream = new FileOutputStream(f)) 
+		 {
+	            fileOuputStream.write(content);
+		 } 
 	}
 		
 }

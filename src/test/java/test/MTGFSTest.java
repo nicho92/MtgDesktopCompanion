@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.fs.MTGFileSystem;
-import org.magic.api.fs.MTGPath;
+import org.magic.api.dav.MTGFileSystem;
+import org.magic.api.dav.MTGPath;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 
