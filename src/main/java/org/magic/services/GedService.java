@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -47,31 +48,45 @@ public class GedService {
 	public <T> void store(GedEntry<T> entry) throws IOException
 	{
 		Path p = fileSystem.getPath(entry.getFullName());
-		
 		p = Files.write(p, entry.getContent(),StandardOpenOption.CREATE);
 		logger.info("store :"+ p.toAbsolutePath());
-		
-		fileSystem.getRootDirectories().forEach(r->{
-			try {
-				Files.list(r).forEach(p2->{
-					System.out.println(p2);
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-		
 	}
 	
 	public List<Path> list(Path dir)
 	{
-		Path p = fileSystem.getPath(dir.toAbsolutePath().toString());
-		try (Stream<Path> s = Files.list(p))
+		try (Stream<Path> s = Files.list(dir))
 		{
 			return s.collect(Collectors.toList());
 		} catch (IOException e) {
 			return new ArrayList<>();
 		}
+		
 	}
+	
+	private void printRoot()
+	{
+		fileSystem.getRootDirectories().forEach(r->{
+			try {
+				Files.list(r).forEach(p2->{
+					logger.info(p2);
+				});
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		});
+		
+	}
+	
+	
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		GedService.inst().store(new GedEntry<>(new File("D:\\Téléchargements\\node-v12.14.1-win-x64.zip")));
+		GedService.inst().printRoot();
+		
+		MTGControler.getInstance().closeApp();
+	}
+	
 	
 }

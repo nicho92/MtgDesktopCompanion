@@ -18,9 +18,6 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 	public void initFileSystem() throws IOException {
 		Map<String, Object> env = new HashMap<>();
 		  env.put("create", "true");
-		  env.put("capacity", "16G");
-		  env.put("blockSize", "4k");
-		  
 		fs = FileSystems.newFileSystem(getFile("ROOT").toPath(),env);
 	}
 
@@ -35,4 +32,13 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 		setProperty("ROOT", Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip").toAbsolutePath().toString());
 	}
 
+	@Override
+	public void unload() {
+		try {
+			fs.close();
+		} catch (IOException e) {
+			logger.error("Error closing fs",e);
+		}
+	}
+	
 }
