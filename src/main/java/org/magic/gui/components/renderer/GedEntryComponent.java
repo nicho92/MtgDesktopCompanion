@@ -16,17 +16,17 @@ import org.magic.api.beans.GedEntry;
 import org.magic.tools.ImageTools;
 
 
-public class GedEntryComponent<T> extends JLabel {
+public class GedEntryComponent extends JLabel {
 
 	private static final long serialVersionUID = 1L;
-	private GedEntry<T> entry;
+	private GedEntry entry;
 	private boolean selected = false;
 	private Color defaultColor;
 	public boolean isSelected() {
 		return selected;
 	}
 	
-	public GedEntryComponent(GedEntry<T> e) 
+	public GedEntryComponent(GedEntry e) 
 	{
 		this.entry = e;
 		setText(entry.getName());

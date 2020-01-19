@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
 
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
@@ -12,16 +13,20 @@ import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
 
-public class GedEntry<T> implements Serializable {
+public class GedEntry implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String id;
-	private T entity;
 	private String name;
 	private String ext;
 	private byte[] content;
 	private boolean isImage;
 	private Icon icon;
+	private transient Path path;
+	
+	public Path getPath() {
+		return path;
+	}
 	
 	@Override
 	public String toString() {
@@ -80,7 +85,23 @@ public class GedEntry<T> implements Serializable {
 		setIsImage(ImageTools.isImage(f));
 		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
 		setId(FileTools.checksum(f));
+		path = f.toPath();
 	}
+	
+	public GedEntry(Path p) throws IOException {
+		
+		System.out.println(p.getName(1));
+		
+//		
+//		setName(Files.getNameWithoutExtension(p.getName().toString()));
+//		setExt(Files.getFileExtension(p.getName(-1).toString()));
+//		setContent(java.nio.file.Files.readAllBytes(p));
+//		setIsImage(ImageTools.isImage(p.toFile()));
+//		setIcon(FileSystemView.getFileSystemView().getSystemIcon(p.toFile()));
+//		setId(FileTools.checksum(p.toFile()));
+		path =p;
+	}
+	
 	
 	public boolean isImage()
 	{
@@ -93,10 +114,7 @@ public class GedEntry<T> implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public T getEntity() {
-		return entity;
-	}
-
+	
 	public String getFullName() {
 		return getName()+"."+getExt();
 	}

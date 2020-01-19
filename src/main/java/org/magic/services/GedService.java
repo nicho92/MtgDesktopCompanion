@@ -1,6 +1,5 @@
 package org.magic.services;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -8,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,16 +45,18 @@ public class GedService {
 		return fileSystem;
 	}
 	
-	public <T> void store(GedEntry<T> entry) throws IOException
+	public <T> void store(GedEntry entry) throws IOException
 	{
 		Path p = fileSystem.getPath(entry.getFullName());
 		p = Files.write(p, entry.getContent(),StandardOpenOption.CREATE);
 		logger.info("store :"+ p.toAbsolutePath());
+		
+		
 	}
 	
-	public List<Path> list(Path dir)
+	public List<Path> list(String dir)
 	{
-		try (Stream<Path> s = Files.list(dir))
+		try (Stream<Path> s = Files.list(fileSystem.getPath(dir)))
 		{
 			return s.collect(Collectors.toList());
 		} catch (IOException e) {
@@ -63,27 +65,32 @@ public class GedService {
 		
 	}
 	
-	private void printRoot()
+	public List<Path> listRoot()
 	{
-		fileSystem.getRootDirectories().forEach(r->{
-			try {
-				Files.list(r).forEach(p2->{
-					logger.info(p2);
-				});
-			} catch (IOException e) {
-				logger.error(e);
-			}
-		});
-		
+		return list("/").stream().collect(Collectors.toList());
 	}
 	
 	
 	
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		
-		GedService.inst().store(new GedEntry<>(new File("D:\\Téléchargements\\node-v12.14.1-win-x64.zip")));
-		GedService.inst().printRoot();
+		//GedService.inst().store(new GedEntry<>(new File("D:\\Téléchargements\\node-v12.14.1-win-x64.zip")));
+		//GedService.inst().store(new GedEntry<>(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\data\\markov.gen")));
+		
+		GedService.inst().listRoot().forEach(p->{
+			
+			if(!Files.isDirectory(p))
+			{
+				try {
+					new GedEntry(p);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		
 		MTGControler.getInstance().closeApp();
 	}

@@ -74,6 +74,7 @@ public class FileTools {
 		return Files.asByteSource(f).hash(Hashing.sha256()).toString();
 	}
 	
+	
 	public static void decompressGzipFile(File fileZip,File dest) {
 		
 		if(dest.isDirectory())

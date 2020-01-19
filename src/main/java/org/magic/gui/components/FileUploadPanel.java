@@ -27,12 +27,25 @@ import java.awt.SystemColor;
 public class FileUploadPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
+	private JPanel panneauCenter;
+	
+	@Override
+	public void onFirstShowing() {
+
+		GedService.inst().listRoot().forEach(p->{
+			try {
+				panneauCenter.add(new GedEntryComponent(new GedEntry(p)));
+			} catch (IOException e) {
+			}
+		});
+		
+	}
 	
 	public FileUploadPanel() {
 		setLayout(new BorderLayout());
 		
 		JPanel panneauHaut = new JPanel();
-		JPanel panneauCenter = new JPanel();
+		panneauCenter = new JPanel();
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 		add(panneauHaut, BorderLayout.NORTH);
@@ -46,14 +59,14 @@ public class FileUploadPanel extends MTGUIComponent {
 			
 			buzy.start(files.length);
 			
-			SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
+			SwingWorker<Void, GedEntry> sw = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
 					for(File f : files)
 					{
 						try {
-							GedEntry<MagicCard> entry = new GedEntry<>(f);
+							GedEntry entry = new GedEntry(f);
 							GedService.inst().store(entry);
 							publish(entry);
 							
@@ -73,9 +86,9 @@ public class FileUploadPanel extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<GedEntry<?>> chunks) {
+				protected void process(List<GedEntry> chunks) {
 					chunks.forEach(c->{
-						panneauCenter.add(new GedEntryComponent<>(c));
+						panneauCenter.add(new GedEntryComponent(c));
 						buzy.progressSmooth(1);
 					});
 				}
