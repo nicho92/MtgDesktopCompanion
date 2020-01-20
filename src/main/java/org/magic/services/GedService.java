@@ -5,9 +5,9 @@ import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,13 +45,11 @@ public class GedService {
 		return fileSystem;
 	}
 	
-	public <T> void store(GedEntry entry) throws IOException
+	public void store(GedEntry entry) throws IOException
 	{
 		Path p = fileSystem.getPath(entry.getFullName());
 		p = Files.write(p, entry.getContent(),StandardOpenOption.CREATE);
 		logger.info("store :"+ p.toAbsolutePath());
-		
-		
 	}
 	
 	public List<Path> list(String dir)
@@ -74,18 +72,14 @@ public class GedService {
 	
 	
 	public static void main(String[] args){
-		
-		//GedService.inst().store(new GedEntry<>(new File("D:\\Téléchargements\\node-v12.14.1-win-x64.zip")));
-		//GedService.inst().store(new GedEntry<>(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\data\\markov.gen")));
-		
 		GedService.inst().listRoot().forEach(p->{
 			
 			if(!Files.isDirectory(p))
 			{
 				try {
+					System.out.println(p);
 					new GedEntry(p);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

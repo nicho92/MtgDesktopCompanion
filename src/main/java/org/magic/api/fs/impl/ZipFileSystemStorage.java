@@ -34,6 +34,11 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public void unload() {
+		
+		if(fs==null)
+			return;
+		
+		
 		try {
 			if(fs.isOpen())
 				fs.close();

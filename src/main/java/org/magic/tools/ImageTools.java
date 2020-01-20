@@ -16,6 +16,7 @@ import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -42,15 +43,20 @@ public class ImageTools {
 	private ImageTools() {
 	}
 	
-
 	public static boolean isImage(File f)
+	{
+		return isImage(f.toPath());
+	}
+	
+	
+	public static boolean isImage(Path f)
 	{
 		if(f==null)
 			return false;
 		
 		
 			try {
-				return Files.probeContentType(f.toPath()).startsWith("image");
+				return Files.probeContentType(f).startsWith("image");
 			} catch (Exception e) {
 				return false;
 			}

@@ -35,6 +35,7 @@ public class FileUploadPanel extends MTGUIComponent {
 		GedService.inst().listRoot().forEach(p->{
 			try {
 				panneauCenter.add(new GedEntryComponent(new GedEntry(p)));
+				panneauCenter.revalidate();
 			} catch (IOException e) {
 			}
 		});
