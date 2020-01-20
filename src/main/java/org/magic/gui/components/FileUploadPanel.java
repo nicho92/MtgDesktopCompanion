@@ -32,13 +32,38 @@ public class FileUploadPanel extends MTGUIComponent {
 	@Override
 	public void onFirstShowing() {
 
-		GedService.inst().listRoot().forEach(p->{
-			try {
-				panneauCenter.add(new GedEntryComponent(new GedEntry(p)));
-				panneauCenter.revalidate();
-			} catch (IOException e) {
+		
+		SwingWorker<Void, GedEntry> sw = new SwingWorker<>() {
+			protected Void doInBackground() throws Exception {
+				
+				GedService.inst().listRoot().forEach(p->{
+					try {
+						publish(new GedEntry(p));
+					}
+					catch (IOException e) 
+					{
+						logger.error(e);
+					}
+				});
+				return null;
 			}
-		});
+			
+			@Override
+			protected void process(List<GedEntry> chunks) {
+				for(GedEntry g : chunks)
+					panneauCenter.add(new GedEntryComponent(g));
+			}
+			
+			@Override
+			protected void done()
+			{
+				panneauCenter.revalidate();
+			}
+			
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "loading ged elements");
 		
 	}
 	
@@ -68,6 +93,9 @@ public class FileUploadPanel extends MTGUIComponent {
 					{
 						try {
 							GedEntry entry = new GedEntry(f);
+							
+							
+							
 							GedService.inst().store(entry);
 							publish(entry);
 							
