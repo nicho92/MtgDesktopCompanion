@@ -394,7 +394,7 @@ public class MTGControler {
 				notifier=getPlugin(MTGConstants.DEFAULT_NOTIFIER_NAME, MTGNotifier.class);
 			
 			notifier.send(notif);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(notif.getMessage());
 		}
 	}

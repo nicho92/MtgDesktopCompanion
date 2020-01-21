@@ -53,6 +53,15 @@
         	<qty>1</qty>
         </defaultStock>
     </collections>
+    <ui>
+        <moduleTabPosition>LEFT</moduleTabPosition>
+        <chromedisabled>true</chromedisabled>
+        <font>
+            <family>SansSerif</family>
+            <style>0</style>
+            <size>14</size>
+        </font>
+    </ui>
     <game>
         <cards>
             <card-width>154</card-width>
