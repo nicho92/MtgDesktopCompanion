@@ -89,15 +89,11 @@ public class GedEntry implements Serializable {
 	}
 	
 	public GedEntry(Path p) throws IOException {
-		
-		System.out.println(p.getName(1));
-		
-//		
-//		setName(Files.getNameWithoutExtension(p.getName().toString()));
-//		setExt(Files.getFileExtension(p.getName(-1).toString()));
-//		setContent(java.nio.file.Files.readAllBytes(p));
-//		setIsImage(ImageTools.isImage(p.toFile()));
-//		setIcon(FileSystemView.getFileSystemView().getSystemIcon(p.toFile()));
+		setName(Files.getNameWithoutExtension(p.getFileName().toString()));
+		setExt(Files.getFileExtension(p.getFileName().toString()));
+		setContent(java.nio.file.Files.readAllBytes(p));
+		setIsImage(ImageTools.isImage(p));
+//		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
 //		setId(FileTools.checksum(p.toFile()));
 		path =p;
 	}

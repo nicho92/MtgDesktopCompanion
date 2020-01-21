@@ -260,7 +260,8 @@ public class URLTools {
 				{
 					if(connection.getErrorStream()!=null)
 					{
-						logger.error("Error " + connection.getURL() +": " +  connection.getRequestMethod()+":"+ IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
+						logger.error("Error " + connection.getURL() +": " +  connection.getRequestMethod());
+						logger.trace("Error Trace : " + IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
 					}
 
 					return false;
