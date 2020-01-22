@@ -92,7 +92,14 @@ public class GedService {
 	public boolean delete(GedEntry entry) {
 		logger.info("removing " + entry);
 		
-		return true;
+		try {
+			Files.delete(entry.getPath());
+			return true;
+		} catch (IOException e) {
+			logger.error(e);
+			return false;
+		}
+		
 		
 	}
 	
