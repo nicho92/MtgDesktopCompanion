@@ -13,10 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.GedEntry;
 import org.magic.services.GedService;
 import org.magic.tools.ImageTools;
 import java.awt.BorderLayout;
+import javax.swing.border.LineBorder;
 
 
 public class GedEntryComponent extends JPanel {
@@ -32,6 +34,7 @@ public class GedEntryComponent extends JPanel {
 	
 	public GedEntryComponent(GedEntry e) 
 	{
+		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		
 		
@@ -42,11 +45,11 @@ public class GedEntryComponent extends JPanel {
 		add(lblDelete, BorderLayout.NORTH);
 		
 		
-		JLabel l = new JLabel();
+		JXLabel l = new JXLabel();
 		this.entry = e;
 		l.setText(entry.getName());
 		l.setIcon(entry.getIcon());
-		
+		l.setLineWrap(true);
 		defaultColor = getBackground();
 		
 		if(entry.isImage())

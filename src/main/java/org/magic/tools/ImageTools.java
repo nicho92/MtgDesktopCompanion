@@ -30,6 +30,7 @@ import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.Icon;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -93,8 +94,7 @@ public class ImageTools {
 			return imgs;
 		
 	}
-	
-	
+		
 	public static byte[] toByteArray(BufferedImage o) {
         if(o != null) {
             BufferedImage image = o;
@@ -225,16 +225,38 @@ public class ImageTools {
 		return newImage;
 	}
 	
+
+	public static String toBase64(Image img) {
+		if(img==null)
+			return null;
+	
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream())
+		{
+		    ImageIO.write((BufferedImage)img, "png", os);
+		    return Base64.getEncoder().encodeToString(os.toByteArray());
+		}
+		catch (IOException ioe)
+		{
+		   logger.error(ioe);
+		   return null;
+		}
+	}
+
+	
 	public static BufferedImage readBase64(String base) throws IOException
 	{
 		BufferedImage image = null;
 		byte[] imageByte;
-
+		
+		if(base==null)
+			return null;
+		
 		imageByte = Base64.getDecoder().decode(base);
 		
-		ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-		image = ImageIO.read(bis);
-		bis.close();
+		try(ByteArrayInputStream bis = new ByteArrayInputStream(imageByte))
+		{
+			image = ImageIO.read(bis);	
+		}
 		
 		return image;
 	}

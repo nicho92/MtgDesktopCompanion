@@ -62,14 +62,7 @@ public class GedEntry implements Serializable {
 	public void setContent(byte[] content) {
 		this.content = content;
 	}
-	
-	public File toFile() throws IOException
-	{
-		File f = new File(name+"."+ext);
-		FileTools.saveFile(f, content);
-		return f;
-	}
-	
+
 	public void setIsImage(boolean isImage) {
 		this.isImage = isImage;
 	}
