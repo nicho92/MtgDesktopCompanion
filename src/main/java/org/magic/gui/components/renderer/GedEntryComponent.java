@@ -57,7 +57,7 @@ public class GedEntryComponent extends JPanel {
 		
 		setToolTipText(e.getName());
 		setOpaque(true);
-		setPreferredSize(new Dimension(75,75));
+		setPreferredSize(new Dimension(150,75));
 		l.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {

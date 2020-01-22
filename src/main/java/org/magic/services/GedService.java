@@ -68,9 +68,6 @@ public class GedService {
 		return list("/").stream().collect(Collectors.toList());
 	}
 	
-	
-	
-	
 	public static void main(String[] args){
 		GedService.inst().listRoot().forEach(p->{
 			
