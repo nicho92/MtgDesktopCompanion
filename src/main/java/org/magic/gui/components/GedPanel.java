@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -67,9 +68,10 @@ public class GedPanel extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		
 		JPanel panneauHaut = new JPanel();
-		panneauCenter = new JPanel();
-		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
+		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
+		
+		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
@@ -134,9 +136,6 @@ public class GedPanel extends MTGUIComponent {
 					}
 			}
 		});
-		
-		
-		
 		
 	}
 	

@@ -35,17 +35,15 @@ public class GedEntryComponent extends JPanel {
 	public GedEntryComponent(GedEntry e) 
 	{
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		
-		
-		
 		setLayout(new BorderLayout(0, 0));
-
+		
 		lblDelete = new JLabel("X");
 		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblDelete, BorderLayout.NORTH);
 		
 		
 		JXLabel l = new JXLabel();
+		l.setHorizontalAlignment(SwingConstants.CENTER);
 		this.entry = e;
 		l.setText(entry.getName());
 		l.setIcon(entry.getIcon());
