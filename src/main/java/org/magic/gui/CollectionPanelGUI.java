@@ -52,7 +52,7 @@ import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.CardsEditionTablePanel;
-import org.magic.gui.components.FileUploadPanel;
+import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -116,7 +116,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private List<MagicCard> listExport;
 	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
-	private FileUploadPanel filesPanel;
+	private GedPanel filesPanel;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -170,7 +170,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		JPanel panelTotal;
 		JPanel panneauDroite;
 		MagicCollectionTableCellRenderer render;
-		filesPanel = new FileUploadPanel();
+		filesPanel = new GedPanel();
 
 		//////// INIT COMPONENTS
 		panneauHaut = new JPanel();

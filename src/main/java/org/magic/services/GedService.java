@@ -88,6 +88,13 @@ public class GedService {
 		
 		MTGControler.getInstance().closeApp();
 	}
+
+	public boolean delete(GedEntry entry) {
+		logger.info("removing " + entry);
+		
+		return true;
+		
+	}
 	
 	
 }

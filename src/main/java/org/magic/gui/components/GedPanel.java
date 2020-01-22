@@ -1,17 +1,17 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.GedEntry;
-import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
@@ -19,12 +19,8 @@ import org.magic.gui.tools.FileDropDecorator;
 import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.FileTools;
 
-import java.awt.BorderLayout;
-import java.awt.SystemColor;
-
-public class FileUploadPanel extends MTGUIComponent {
+public class GedPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panneauCenter;
@@ -51,7 +47,7 @@ public class FileUploadPanel extends MTGUIComponent {
 			@Override
 			protected void process(List<GedEntry> chunks) {
 				for(GedEntry g : chunks)
-					panneauCenter.add(new GedEntryComponent(g));
+					addEntry(g);
 			}
 			
 			@Override
@@ -67,7 +63,7 @@ public class FileUploadPanel extends MTGUIComponent {
 		
 	}
 	
-	public FileUploadPanel() {
+	public GedPanel() {
 		setLayout(new BorderLayout());
 		
 		JPanel panneauHaut = new JPanel();
@@ -93,9 +89,6 @@ public class FileUploadPanel extends MTGUIComponent {
 					{
 						try {
 							GedEntry entry = new GedEntry(f);
-							
-							
-							
 							GedService.inst().store(entry);
 							publish(entry);
 							
@@ -111,21 +104,42 @@ public class FileUploadPanel extends MTGUIComponent {
 				protected void done() {
 					buzy.end();
 					revalidate();
-					
 				}
 
 				@Override
 				protected void process(List<GedEntry> chunks) {
 					chunks.forEach(c->{
-						panneauCenter.add(new GedEntryComponent(c));
+						addEntry(c);
 						buzy.progressSmooth(1);
 					});
 				}
+
 			};
 			ThreadManager.getInstance().runInEdt(sw, "Upload File");
 		});
 	}
 
+
+	private void addEntry(GedEntry c) {
+		GedEntryComponent e = new GedEntryComponent(c);
+		panneauCenter.add(e);
+
+		e.getRemoveComponent().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent ev) {
+					if(GedService.inst().delete(c)) {
+						panneauCenter.remove(e);
+						panneauCenter.revalidate();
+						panneauCenter.repaint();
+					}
+			}
+		});
+		
+		
+		
+		
+	}
+	
 	@Override
 	public String getTitle() {
 		return "GED";

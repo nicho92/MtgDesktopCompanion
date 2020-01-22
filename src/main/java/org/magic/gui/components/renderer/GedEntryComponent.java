@@ -10,40 +10,55 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.GedEntry;
+import org.magic.services.GedService;
 import org.magic.tools.ImageTools;
+import java.awt.BorderLayout;
 
 
-public class GedEntryComponent extends JLabel {
+public class GedEntryComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private GedEntry entry;
 	private boolean selected = false;
 	private Color defaultColor;
+	private JLabel lblDelete;
 	public boolean isSelected() {
 		return selected;
 	}
 	
 	public GedEntryComponent(GedEntry e) 
 	{
+		
+		
+		
+		setLayout(new BorderLayout(0, 0));
+
+		lblDelete = new JLabel("X");
+		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(lblDelete, BorderLayout.NORTH);
+		
+		
+		JLabel l = new JLabel();
 		this.entry = e;
-		setText(entry.getName());
-		setIcon(entry.getIcon());
+		l.setText(entry.getName());
+		l.setIcon(entry.getIcon());
 		
 		defaultColor = getBackground();
 		
 		if(entry.isImage())
-			setIcon(getThumbnail());
+			l.setIcon(getThumbnail());
 		
-		setVerticalTextPosition(SwingConstants.BOTTOM);
-		setHorizontalTextPosition(SwingConstants.CENTER);
+		l.setVerticalTextPosition(SwingConstants.BOTTOM);
+		l.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		setToolTipText(e.getName());
 		setOpaque(true);
 		setPreferredSize(new Dimension(75,75));
-		addMouseListener(new MouseAdapter() {
+		l.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				selected=!selected;
@@ -54,8 +69,14 @@ public class GedEntryComponent extends JLabel {
 					setBackground(defaultColor);
 			}
 		});
+		add(l);
+		
 	}
 	
+	protected void delete() {
+		GedService.inst().delete(entry);
+	}
+
 	public ImageIcon getThumbnail()
 	{
 		   if(entry.isImage()) 
@@ -70,4 +91,7 @@ public class GedEntryComponent extends JLabel {
 		   return null;
 	}
 	
+	public JLabel getRemoveComponent() {
+		return lblDelete;
+	}
 }
