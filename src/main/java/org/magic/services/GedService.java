@@ -5,12 +5,12 @@ import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
@@ -45,10 +45,10 @@ public class GedService {
 		return fileSystem;
 	}
 	
-	public void store(GedEntry entry) throws IOException
+	public void store(GedEntry<?> entry) throws IOException
 	{
-		Path p = fileSystem.getPath(entry.getFullName());
-		p = Files.write(p, entry.getContent(),StandardOpenOption.CREATE);
+		Path p = fileSystem.getPath(entry.getId());
+		p = Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
 		logger.info("store :"+ p.toAbsolutePath());
 	}
 	
@@ -67,26 +67,8 @@ public class GedService {
 	{
 		return list("/").stream().collect(Collectors.toList());
 	}
-	
-	public static void main(String[] args){
-		GedService.inst().listRoot().forEach(p->{
-			
-			if(!Files.isDirectory(p))
-			{
-				try {
-					System.out.println(p);
-					new GedEntry(p);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
-		
-		MTGControler.getInstance().closeApp();
-	}
 
-	public boolean delete(GedEntry entry) {
+	public boolean delete(GedEntry<?> entry) {
 		logger.info("removing " + entry);
 		
 		try {

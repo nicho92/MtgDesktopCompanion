@@ -8,12 +8,18 @@ import java.nio.file.Path;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
+import org.apache.commons.lang3.SerializationUtils;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-public class GedEntry implements Serializable {
+import groovy.json.JsonException;
+
+public class GedEntry <T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String id;
@@ -22,6 +28,8 @@ public class GedEntry implements Serializable {
 	private byte[] content;
 	private boolean isImage;
 	private Icon icon;
+	private Class<T> classe;
+	private String object;
 	private transient Path path;
 	
 	public Path getPath() {
@@ -71,7 +79,17 @@ public class GedEntry implements Serializable {
 		this.icon = icon;
 	}
 	
-	public GedEntry(File f) throws IOException {
+	public void setObject(T object) {
+		this.object = new JsonExport().toJson(object);
+	}
+	
+	public T getObject() {
+		return new JsonExport().fromJson(object, classe);
+	}
+	
+	
+	public GedEntry(File f,Class<T> classe) throws IOException {
+		this.classe=classe;
 		setName(Files.getNameWithoutExtension(f.getName()));
 		setExt(Files.getFileExtension(f.getName()));
 		setContent(Files.toByteArray(f));
@@ -80,17 +98,10 @@ public class GedEntry implements Serializable {
 		setId(FileTools.checksum(f));
 		path = f.toPath();
 	}
-	
-	public GedEntry(Path p) throws IOException {
-		setName(Files.getNameWithoutExtension(p.getFileName().toString()));
-		setExt(Files.getFileExtension(p.getFileName().toString()));
-		setContent(java.nio.file.Files.readAllBytes(p));
-		setIsImage(ImageTools.isImage(p));
-//		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
-//		setId(FileTools.checksum(p.toFile()));
-		path =p;
+
+	public Class<T> getClasse() {
+		return classe;
 	}
-	
 	
 	public boolean isImage()
 	{

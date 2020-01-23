@@ -6,13 +6,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
@@ -30,14 +33,15 @@ public class GedPanel extends MTGUIComponent {
 	public void onFirstShowing() {
 
 		
-		SwingWorker<Void, GedEntry> sw = new SwingWorker<>() {
+		SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
 			protected Void doInBackground() throws Exception {
 				
 				GedService.inst().listRoot().forEach(p->{
 					try {
-						publish(new GedEntry(p));
+						GedEntry<?> entry= read(p);
+						publish(entry);
 					}
-					catch (IOException e) 
+					catch (Exception e) 
 					{
 						logger.error(e);
 					}
@@ -46,8 +50,8 @@ public class GedPanel extends MTGUIComponent {
 			}
 			
 			@Override
-			protected void process(List<GedEntry> chunks) {
-				for(GedEntry g : chunks)
+			protected void process(List<GedEntry<?>> chunks) {
+				for(GedEntry<?> g : chunks)
 					addEntry(g);
 			}
 			
@@ -83,14 +87,14 @@ public class GedPanel extends MTGUIComponent {
 			
 			buzy.start(files.length);
 			
-			SwingWorker<Void, GedEntry> sw = new SwingWorker<>() {
+			SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
 					for(File f : files)
 					{
 						try {
-							GedEntry entry = new GedEntry(f);
+							GedEntry<?> entry = new GedEntry<>(f,MagicCard.class);
 							GedService.inst().store(entry);
 							publish(entry);
 							
@@ -109,7 +113,7 @@ public class GedPanel extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<GedEntry> chunks) {
+				protected void process(List<GedEntry<?>> chunks) {
 					chunks.forEach(c->{
 						addEntry(c);
 						buzy.progressSmooth(1);
@@ -121,8 +125,14 @@ public class GedPanel extends MTGUIComponent {
 		});
 	}
 
+	public GedEntry<?> read(Path p) throws IOException
+	{
+		GedEntry<?> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
+		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getFullName());
+		return ged;
+	}
 
-	private void addEntry(GedEntry c) {
+	private void addEntry(GedEntry<?> c) {
 		GedEntryComponent e = new GedEntryComponent(c);
 		panneauCenter.add(e);
 
@@ -136,7 +146,6 @@ public class GedPanel extends MTGUIComponent {
 					}
 			}
 		});
-		
 	}
 	
 	@Override
