@@ -96,7 +96,6 @@ public class GedEntry <T> implements Serializable {
 		setIsImage(ImageTools.isImage(f));
 		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
 		setId(FileTools.checksum(f));
-		path = f.toPath();
 	}
 
 	public Class<T> getClasse() {
@@ -117,6 +116,10 @@ public class GedEntry <T> implements Serializable {
 	
 	public String getFullName() {
 		return getName()+"."+getExt();
+	}
+
+	public void setPath(Path p) {
+		this.path=p;
 	}
 	
 }

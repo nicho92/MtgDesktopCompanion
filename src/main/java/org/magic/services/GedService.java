@@ -48,6 +48,7 @@ public class GedService {
 	public void store(GedEntry<?> entry) throws IOException
 	{
 		Path p = fileSystem.getPath(entry.getId());
+		entry.setPath(p);
 		p = Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
 		logger.info("store :"+ p.toAbsolutePath());
 	}
@@ -69,7 +70,7 @@ public class GedService {
 	}
 
 	public boolean delete(GedEntry<?> entry) {
-		logger.info("removing " + entry);
+		logger.info("removing " + entry.getPath());
 		
 		try {
 			Files.delete(entry.getPath());
