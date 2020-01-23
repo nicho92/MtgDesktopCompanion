@@ -76,6 +76,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 
+@SuppressWarnings("rawtypes")
 public class CollectionPanelGUI extends MTGUIComponent {
 	
 	/**
@@ -116,7 +117,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private List<MagicCard> listExport;
 	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
-	private GedPanel filesPanel;
+	
+	private GedPanel gedPanel;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -170,7 +172,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		JPanel panelTotal;
 		JPanel panneauDroite;
 		MagicCollectionTableCellRenderer render;
-		filesPanel = new GedPanel();
+		gedPanel = new GedPanel<>();
 
 		//////// INIT COMPONENTS
 		panneauHaut = new JPanel();
@@ -279,7 +281,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,filesPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel, null);
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
@@ -315,12 +317,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	{
 		magicCardDetailPanel.setMagicCard(mc);
 		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
-		
+		gedPanel.init(MagicCard.class,mc);
 		deckPanel.init(mc);
 		pricePanel.init(mc, mc.getCurrentSet());
 		btnExport.setEnabled(false);
 		packagePanel.setMagicEdition(mc.getCurrentSet());
 		jsonPanel.show(mc);
+		
+		
+		
 		
 		try {
 			if(col==null)
@@ -345,6 +350,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void initActions()
 	{
 		
@@ -437,6 +443,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			if (curr.getUserObject() instanceof MagicCollection) {
 				selectedcol = (MagicCollection) curr.getUserObject();
 				statsPanel.enabledAdd(false);
+				gedPanel.init(MagicCollection.class,selectedcol);
 				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
@@ -457,6 +464,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				magicEditionDetailPanel.setMagicEdition((MagicEdition) curr.getUserObject());
 				packagePanel.setMagicEdition((MagicEdition) curr.getUserObject());
 				statsPanel.enabledAdd(false);
+				gedPanel.init(MagicEdition.class,(MagicEdition) curr.getUserObject());
 				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
@@ -475,7 +483,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 
 			if (curr.getUserObject() instanceof MagicCard) {
+				
 				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+				gedPanel.init(MagicCard.class,card);
 				try {
 					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)

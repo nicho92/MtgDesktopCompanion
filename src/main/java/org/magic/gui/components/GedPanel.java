@@ -15,7 +15,6 @@ import javax.swing.SwingWorker;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.magic.api.beans.GedEntry;
-import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
@@ -24,22 +23,28 @@ import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 
-public class GedPanel extends MTGUIComponent {
+public class GedPanel<T> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panneauCenter;
+	private Class<T> classe;
+	private transient T instance;
+	
+	public void init(Class<T> t, T instance)
+	{
+		logger.debug("Show ged for " + t);
+		this.classe=t;
+		this.instance=instance;
+	}
 	
 	@Override
 	public void onFirstShowing() {
-
-		
 		SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
 			protected Void doInBackground() throws Exception {
 				
 				GedService.inst().listRoot().forEach(p->{
 					try {
-						GedEntry<?> entry= read(p);
-						publish(entry);
+						publish(read(p));
 					}
 					catch (Exception e) 
 					{
@@ -94,7 +99,9 @@ public class GedPanel extends MTGUIComponent {
 					for(File f : files)
 					{
 						try {
-							GedEntry<?> entry = new GedEntry<>(f,MagicCard.class);
+							GedEntry<T> entry = new GedEntry<>(f,classe);
+										entry.setObject(instance);
+							
 							GedService.inst().store(entry);
 							publish(entry);
 							
