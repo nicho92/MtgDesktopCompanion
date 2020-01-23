@@ -313,19 +313,17 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public void initCardSelectionGui(MagicCard mc, MagicCollection col)
 	{
 		magicCardDetailPanel.setMagicCard(mc);
 		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
-		gedPanel.init(MagicCard.class,mc);
 		deckPanel.init(mc);
 		pricePanel.init(mc, mc.getCurrentSet());
 		btnExport.setEnabled(false);
 		packagePanel.setMagicEdition(mc.getCurrentSet());
 		jsonPanel.show(mc);
-		
-		
-		
+		gedPanel.init(MagicCard.class,mc);
 		
 		try {
 			if(col==null)
@@ -461,19 +459,22 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 
 			if (curr.getUserObject() instanceof MagicEdition) {
-				magicEditionDetailPanel.setMagicEdition((MagicEdition) curr.getUserObject());
-				packagePanel.setMagicEdition((MagicEdition) curr.getUserObject());
+			
+				MagicEdition ed = (MagicEdition) curr.getUserObject();
+				
+				magicEditionDetailPanel.setMagicEdition(ed);
+				packagePanel.setMagicEdition(ed);
 				statsPanel.enabledAdd(false);
-				gedPanel.init(MagicEdition.class,(MagicEdition) curr.getUserObject());
+				gedPanel.init(MagicEdition.class,ed);
 				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
 						MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-						List<MagicCard> list = dao.listCardsFromCollection(collec, (MagicEdition) curr.getUserObject());
+						List<MagicCard> list = dao.listCardsFromCollection(collec,ed);
 						rarityRepartitionPanel.init(list);
 						typeRepartitionPanel.init(list);
 						manaRepartitionPanel.init(list);
-						historyPricesPanel.init(null, (MagicEdition) curr.getUserObject(),curr.getUserObject().toString());
+						historyPricesPanel.init(null, ed,curr.getUserObject().toString());
 						jsonPanel.show(curr.getUserObject());
 
 					} catch (Exception e) {
@@ -484,8 +485,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			if (curr.getUserObject() instanceof MagicCard) {
 				
-				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-				gedPanel.init(MagicCard.class,card);
+				MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 				try {
 					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)
