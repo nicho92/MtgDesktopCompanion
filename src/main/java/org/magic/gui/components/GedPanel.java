@@ -6,8 +6,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -35,50 +37,19 @@ public class GedPanel<T> extends MTGUIComponent {
 		logger.debug("Show ged for " + t);
 		this.classe=t;
 		this.instance=instance;
+		list(GedService.inst().getFileSystem().getPath(classe.getSimpleName()));
 	}
 	
 	@Override
 	public void onFirstShowing() {
-		SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
-			protected Void doInBackground() throws Exception {
-				
-				GedService.inst().listRoot().forEach(p->{
-					try {
-						publish(read(p));
-					}
-					catch (Exception e) 
-					{
-						logger.error(e);
-					}
-				});
-				return null;
-			}
-			
-			@Override
-			protected void process(List<GedEntry<?>> chunks) {
-				for(GedEntry<?> g : chunks)
-					addEntry(g);
-			}
-			
-			@Override
-			protected void done()
-			{
-				panneauCenter.revalidate();
-			}
-			
-			
-		};
-		
-		ThreadManager.getInstance().runInEdt(sw, "loading ged elements");
-		
+		list(GedService.inst().getFileSystem().getPath("/"));
 	}
 	
 	public GedPanel() {
 		setLayout(new BorderLayout());
-		
+
 		JPanel panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
 		
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
@@ -89,9 +60,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		
 		
 		new FileDropDecorator().init(panneauCenter, (File[] files) -> {
-			
 			buzy.start(files.length);
-			
 			SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
 
 				@Override
@@ -155,6 +124,8 @@ public class GedPanel<T> extends MTGUIComponent {
 		});
 	}
 	
+	
+	
 	@Override
 	public String getTitle() {
 		return "GED";
@@ -164,5 +135,51 @@ public class GedPanel<T> extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_GED;
 	}
+	
+	private void list(Path p)
+	{
+		panneauCenter.removeAll();
+		panneauCenter.revalidate();
+	
+		SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() 
+		{
+			protected Void doInBackground() throws Exception {
+				
+				try(Stream<Path> s = Files.list(p))
+				{
+					s.forEach(p->{
+						try 
+						{
+							if(!Files.isDirectory(p))
+								publish(read(p));
+						}
+						catch (Exception e) 
+						{
+							logger.error(e);
+						}
+					});
+					return null;
+				}
+				
+				
+				
+			}
+			
+			@Override
+			protected void process(List<GedEntry<?>> chunks) {
+				for(GedEntry<?> g : chunks)
+					addEntry(g);
+			}
+			
+			@Override
+			protected void done()
+			{
+				panneauCenter.revalidate();
+			}
+			
+		};
+		ThreadManager.getInstance().runInEdt(sw, "loading ged elements for " + p);
+	}
+	
 
 }

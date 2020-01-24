@@ -3,21 +3,15 @@ package org.magic.api.beans;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
 
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import groovy.json.JsonException;
 
 public class GedEntry <T> implements Serializable {
 
@@ -30,11 +24,6 @@ public class GedEntry <T> implements Serializable {
 	private Icon icon;
 	private Class<T> classe;
 	private String object;
-	private transient Path path;
-	
-	public Path getPath() {
-		return path;
-	}
 	
 	@Override
 	public String toString() {
@@ -118,8 +107,4 @@ public class GedEntry <T> implements Serializable {
 		return getName()+"."+getExt();
 	}
 
-	public void setPath(Path p) {
-		this.path=p;
-	}
-	
 }

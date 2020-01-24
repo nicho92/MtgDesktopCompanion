@@ -47,8 +47,10 @@ public class GedService {
 	
 	public void store(GedEntry<?> entry) throws IOException
 	{
-		Path p = fileSystem.getPath(entry.getId());
-		entry.setPath(p);
+		Path p = getPath(entry);
+		if(!Files.exists(p))
+			Files.createDirectories(p.getParent());
+			
 		p = Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
 		logger.info("store :"+ p.toAbsolutePath());
 	}
@@ -68,12 +70,20 @@ public class GedService {
 	{
 		return list("/").stream().collect(Collectors.toList());
 	}
+	
+	private Path getPath(GedEntry<?> entry)
+	{
+		if(entry.getClasse()==null)
+			return fileSystem.getPath(entry.getId());
+		else
+			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getId());
+	}
 
 	public boolean delete(GedEntry<?> entry) {
-		logger.info("removing " + entry.getPath());
+		logger.info("removing " + entry);
 		
 		try {
-			Files.delete(entry.getPath());
+			Files.delete(getPath(entry));
 			return true;
 		} catch (IOException e) {
 			logger.error(e);
