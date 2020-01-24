@@ -48,7 +48,7 @@ public class GedService {
 	public void store(GedEntry<?> entry) throws IOException
 	{
 		Path p = getPath(entry);
-		if(!Files.exists(p))
+		if(!Files.exists(p.getParent()))
 			Files.createDirectories(p.getParent());
 			
 		p = Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
