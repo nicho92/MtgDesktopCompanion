@@ -109,7 +109,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	}
 
 	private void addEntry(GedEntry<?> c) {
-		GedEntryComponent e = new GedEntryComponent(c);
+		GedEntryComponent e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 
 		e.getRemoveComponent().addMouseListener(new MouseAdapter() {
@@ -140,7 +140,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	{
 		panneauCenter.removeAll();
 		panneauCenter.revalidate();
-	
+		panneauCenter.repaint();
 		SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() 
 		{
 			protected Void doInBackground() throws Exception {
@@ -175,6 +175,7 @@ public class GedPanel<T> extends MTGUIComponent {
 			protected void done()
 			{
 				panneauCenter.revalidate();
+				panneauCenter.repaint();
 			}
 			
 		};

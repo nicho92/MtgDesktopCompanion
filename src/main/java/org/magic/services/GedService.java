@@ -48,11 +48,14 @@ public class GedService {
 	public void store(GedEntry<?> entry) throws IOException
 	{
 		Path p = getPath(entry);
-		if(!Files.exists(p.getParent()))
+		logger.info("store :"+ p.toAbsolutePath());
+		
+		
+		if(p.getParent()!=null && !Files.exists(p.getParent()))
 			Files.createDirectories(p.getParent());
 			
-		p = Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
-		logger.info("store :"+ p.toAbsolutePath());
+		Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
+		
 	}
 	
 	public List<Path> list(String dir)

@@ -20,7 +20,7 @@ import org.magic.tools.ImageTools;
 import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
 
-
+@SuppressWarnings("rawtypes") 
 public class GedEntryComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -28,15 +28,19 @@ public class GedEntryComponent extends JPanel {
 	private boolean selected = false;
 	private Color defaultColor;
 	private JLabel lblDelete;
+	private int w=150;
+	private int h=100;
+	
 	public boolean isSelected() {
 		return selected;
 	}
 	
-	public GedEntryComponent(GedEntry e) 
+	public GedEntryComponent(GedEntry e, int w,int h) 
 	{
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		setLayout(new BorderLayout(0, 0));
-		
+		this.w=w;
+		this.h=h;
 		lblDelete = new JLabel("X");
 		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblDelete, BorderLayout.NORTH);
@@ -58,7 +62,7 @@ public class GedEntryComponent extends JPanel {
 		
 		setToolTipText(e.getName());
 		setOpaque(true);
-		setPreferredSize(new Dimension(150,75));
+		setPreferredSize(new Dimension(w,h));
 		l.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
@@ -83,7 +87,7 @@ public class GedEntryComponent extends JPanel {
 		   if(entry.isImage()) 
 		   {
 			   try {
-				   return new ImageIcon(ImageTools.read(entry.getContent()).getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+				   return new ImageIcon(ImageTools.read(entry.getContent()).getScaledInstance(w, h, Image.SCALE_SMOOTH));
 			   } catch (IOException e) {
 				   return null;
 			   }

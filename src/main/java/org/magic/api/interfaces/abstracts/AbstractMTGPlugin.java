@@ -32,8 +32,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	protected static final String TRUE = "true";
 	protected static final String FALSE = "false";
-
-	
+	private boolean loaded = false;
 	
 	@Override
 	public ObjectName getObjectName() {
@@ -53,6 +52,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		{
 			return null;	
 		}
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 
 	public void notify(Object obj) {
@@ -89,7 +93,8 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	public void load() {
 			confFile = new File(confdir, getName() + ".conf");
-			if (confFile.exists()) {
+			if (confFile.exists()) 
+			{
 				
 				try (FileInputStream fis = new FileInputStream(confFile)) {	
 					props.load(fis);	
@@ -97,7 +102,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 					logger.error("couln't load properties " + confFile, e);
 				}
 			}
-		
+		loaded=true;
 	}
 
 	public void save() {

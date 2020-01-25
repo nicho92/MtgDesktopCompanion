@@ -26,7 +26,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public static final File confdir= new File(MTGConstants.DATA_DIR, "dashlets");
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
+	private boolean loaded=false;
 	
 	@Override
 	public ObjectName getObjectName() {
@@ -46,6 +46,11 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public void unload() {
 		// do nothing
 		
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 	
 	
@@ -82,7 +87,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			}
 		});
 		
-		
+		loaded=true;
 		setFrameIcon(getIcon());
 		setTitle(getName());
 		setResizable(true);

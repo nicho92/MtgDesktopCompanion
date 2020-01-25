@@ -31,6 +31,8 @@ public interface MTGPlugin {
 
 	public void load();
 	
+	public boolean isLoaded();
+	
 	public void unload();
 
 	public void enable(boolean t);
