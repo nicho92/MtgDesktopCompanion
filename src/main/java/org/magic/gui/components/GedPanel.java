@@ -49,13 +49,13 @@ public class GedPanel<T> extends MTGUIComponent {
 		if(classe==null)
 			return;
 		
-		list(GedService.inst().getFileSystem().getPath(classe.getSimpleName()));
+		listDirectory(GedService.inst().getPath(classe,instance));
 
 	}
 	
 	@Override
 	public void onFirstShowing() {
-		list(GedService.inst().root());
+		listDirectory(GedService.inst().root());
 	}
 	
 	public GedPanel() {
@@ -149,7 +149,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		return MTGConstants.ICON_GED;
 	}
 	
-	private void list(Path p)
+	private void listDirectory(Path p)
 	{
 		panneauCenter.removeAll();
 		panneauCenter.revalidate();
@@ -173,9 +173,6 @@ public class GedPanel<T> extends MTGUIComponent {
 					});
 					return null;
 				}
-				
-				
-				
 			}
 			
 			@Override

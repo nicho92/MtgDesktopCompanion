@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.GedEntry;
@@ -79,6 +78,8 @@ public class GedService {
 	{
 		if(entry.getClasse()==null)
 			return fileSystem.getPath(entry.getName());
+		else if(entry.getObject()!=null)
+			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getObject().toString(),entry.getName());
 		else
 			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getName());
 	}
@@ -96,6 +97,17 @@ public class GedService {
 		
 		
 	}
-	
+
+	public <T> Path getPath(Class<T> classe, T instance) {
+		
+		
+		if(classe==null)
+			return root();
+		
+		if(instance==null)
+			return fileSystem.getPath(classe.getSimpleName());
+		
+		return fileSystem.getPath(classe.getSimpleName(),instance.toString());
+	}
 	
 }
