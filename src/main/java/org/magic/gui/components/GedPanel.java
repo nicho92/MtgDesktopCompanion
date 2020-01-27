@@ -34,10 +34,19 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	public void init(Class<T> t, T instance)
 	{
-		logger.debug("Show ged for " + t);
 		this.classe=t;
 		this.instance=instance;
+		
+		if(isVisible())
+			onVisible();
+	
+	}
+	
+	@Override
+	public void onVisible() {
+		logger.debug("Show ged for " + classe);
 		list(GedService.inst().getFileSystem().getPath(classe.getSimpleName()));
+
 	}
 	
 	@Override

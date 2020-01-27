@@ -15,7 +15,7 @@ public class GedTest {
 		
 		JFrame f = new JFrame();
 		f.setSize(new Dimension(640, 480));
-		GedPanel p = new GedPanel<>();
+		GedPanel<Object> p = new GedPanel<>();
 		p.onFirstShowing();
 		f.getContentPane().add(p);
 		f.setVisible(true);

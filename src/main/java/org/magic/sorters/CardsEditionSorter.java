@@ -19,11 +19,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 			
 		boolean o1NullNumber=StringUtils.isEmpty(o1.getCurrentSet().getNumber());
 		boolean o2NullNumber=StringUtils.isEmpty(o2.getCurrentSet().getNumber());
-		
-		
-		
-		
-		
+	
 		if (!o1NullNumber && !o2NullNumber && (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
 			int n1 = calculate(o1.getCurrentSet().getNumber());
 			int n2 = calculate(o2.getCurrentSet().getNumber());
