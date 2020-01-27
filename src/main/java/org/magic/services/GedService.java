@@ -19,18 +19,12 @@ public class GedService {
 
 	private static GedService inst;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	private FileSystem fileSystem ;
+	private MTGGedStorage storage ;
 	
 	private GedService() {
 		
-		try {
-			fileSystem = MTGControler.getInstance().getEnabled(MTGGedStorage.class).getFilesSystem();
-			logger.info("Loading FS :" + fileSystem +" (o="+fileSystem.isOpen()+", ro="+fileSystem.isReadOnly()+"), Provider="+fileSystem.provider());
-		} catch (IOException e) {
-			logger.error("Error init FS ",e);
-		}
-		
-		
+			storage = MTGControler.getInstance().getEnabled(MTGGedStorage.class);
+			logger.info("Loading FS :" + getFileSystem() +" (o="+getFileSystem().isOpen()+", ro="+getFileSystem().isReadOnly()+"), Provider="+getFileSystem().provider());
 	}
 	
 	public static GedService inst()
@@ -42,14 +36,18 @@ public class GedService {
 	}
 	
 	public FileSystem getFileSystem() {
-		return fileSystem;
+		try {
+			return storage.getFilesSystem();
+		} catch (IOException e) {
+			logger.error(e);
+			return null;
+		}
 	}
 	
 	public void store(GedEntry<?> entry) throws IOException
 	{
 		Path p = getPath(entry);
 		logger.info("store :"+ p.toAbsolutePath());
-		
 		
 		if(p.getParent()!=null && !Files.exists(p.getParent()))
 			Files.createDirectories(p.getParent());
@@ -60,7 +58,7 @@ public class GedService {
 	
 	public List<Path> list(String dir)
 	{
-		try (Stream<Path> s = Files.list(fileSystem.getPath(dir)))
+		try (Stream<Path> s = Files.list(getFileSystem().getPath(dir)))
 		{
 			return s.collect(Collectors.toList());
 		} catch (IOException e) {
@@ -71,17 +69,17 @@ public class GedService {
 	
 	public Path root()
 	{
-		return fileSystem.getPath("/");
+		return storage.getRoot();
 	}
 	
 	private Path getPath(GedEntry<?> entry)
 	{
 		if(entry.getClasse()==null)
-			return fileSystem.getPath(entry.getName());
+			return getFileSystem().getPath(entry.getName());
 		else if(entry.getObject()!=null)
-			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getObject().toString(),entry.getName());
+			return getFileSystem().getPath(entry.getClasse().getSimpleName(),entry.getObject().toString(),entry.getName());
 		else
-			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getName());
+			return getFileSystem().getPath(entry.getClasse().getSimpleName(),entry.getName());
 	}
 	
 	public boolean delete(GedEntry<?> entry) {
@@ -105,9 +103,9 @@ public class GedService {
 			return root();
 		
 		if(instance==null)
-			return fileSystem.getPath(classe.getSimpleName());
+			return getFileSystem().getPath(classe.getSimpleName());
 		
-		return fileSystem.getPath(classe.getSimpleName(),instance.toString());
+		return getFileSystem().getPath(classe.getSimpleName(),instance.toString());
 	}
 	
 }

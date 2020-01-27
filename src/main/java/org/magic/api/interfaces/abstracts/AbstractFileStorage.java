@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystem;
+import java.nio.file.Path;
 
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.services.MTGConstants;
@@ -11,7 +12,10 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 
 	protected FileSystem fs;
 	
-	
+	@Override
+	public Path getRoot() {
+		return fs.getPath("/");
+	}
 	
 	
 	@Override
