@@ -45,13 +45,17 @@ public class GedPanel<T> extends MTGUIComponent {
 	@Override
 	public void onVisible() {
 		logger.debug("Show ged for " + classe);
+		
+		if(classe==null)
+			return;
+		
 		list(GedService.inst().getFileSystem().getPath(classe.getSimpleName()));
 
 	}
 	
 	@Override
 	public void onFirstShowing() {
-		list(GedService.inst().getFileSystem().getPath("/"));
+		list(GedService.inst().root());
 	}
 	
 	public GedPanel() {

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.GedEntry;
@@ -69,19 +70,19 @@ public class GedService {
 		
 	}
 	
-	public List<Path> listRoot()
+	public Path root()
 	{
-		return list("/").stream().collect(Collectors.toList());
+		return fileSystem.getPath("/");
 	}
 	
 	private Path getPath(GedEntry<?> entry)
 	{
 		if(entry.getClasse()==null)
-			return fileSystem.getPath(entry.getId());
+			return fileSystem.getPath(entry.getName());
 		else
-			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getId());
+			return fileSystem.getPath(entry.getClasse().getSimpleName(),entry.getName());
 	}
-
+	
 	public boolean delete(GedEntry<?> entry) {
 		logger.info("removing " + entry);
 		
