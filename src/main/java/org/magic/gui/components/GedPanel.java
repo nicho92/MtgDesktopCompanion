@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
@@ -31,6 +33,9 @@ public class GedPanel<T> extends MTGUIComponent {
 	private JPanel panneauCenter;
 	private Class<T> classe;
 	private transient T instance;
+	private ZoomableJPanel viewPanel;
+	
+	
 	
 	public void init(Class<T> t, T instance)
 	{
@@ -44,11 +49,13 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	@Override
 	public void onVisible() {
-		logger.debug("Show ged for " + classe);
+	
 		
 		if(classe==null)
 			return;
 		
+		
+		logger.debug("Show ged for " + classe.getSimpleName() );
 		listDirectory(GedService.inst().getPath(classe,instance));
 
 	}
@@ -63,10 +70,13 @@ public class GedPanel<T> extends MTGUIComponent {
 
 		JPanel panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		viewPanel = new ZoomableJPanel();
+		
 		
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
+		add(viewPanel,BorderLayout.EAST);
 		
 		panneauHaut.add(buzy);
 		
@@ -125,7 +135,14 @@ public class GedPanel<T> extends MTGUIComponent {
 		GedEntryComponent e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 		
-		
+		e.setCallable(new Callable<Void>() {
+			
+			@Override
+			public Void call() throws Exception {
+				viewPanel.setImg(e.getPicture());
+				return null;
+			}
+		});
 		
 		
 		e.getRemoveComponent().addMouseListener(new MouseAdapter() {

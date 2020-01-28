@@ -7,7 +7,9 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -65,17 +67,7 @@ public class GedEntryComponent extends JPanel {
 		setToolTipText(e.getName());
 		setOpaque(true);
 		setPreferredSize(new Dimension(w,h));
-		l.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent me) {
-				selected=!selected;
-				
-				if(selected)
-					setBackground(SystemColor.activeCaption);
-				else
-					setBackground(defaultColor);
-			}
-		});
+		
 		add(l);
 		
 	}
@@ -88,8 +80,21 @@ public class GedEntryComponent extends JPanel {
 	{
 		   if(entry.isImage()) 
 		   {
+			   BufferedImage buff = getPicture();
+			   
+			   if(buff!=null)
+				   return new ImageIcon(getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH));
+		   }
+		   
+		   return null;
+	}
+	
+	public BufferedImage getPicture()
+	{
+		   if(entry.isImage()) 
+		   {
 			   try {
-				   return new ImageIcon(ImageTools.read(entry.getContent()).getScaledInstance(w, h, Image.SCALE_SMOOTH));
+				   return ImageTools.read(entry.getContent());
 			   } catch (IOException e) {
 				   return null;
 			   }
@@ -97,6 +102,31 @@ public class GedEntryComponent extends JPanel {
 		   
 		   return null;
 	}
+
+	
+	
+	public void setCallable(Callable<Void> callable)
+	{
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent me) {
+				selected=!selected;
+				
+				if(selected)
+					setBackground(SystemColor.activeCaption);
+				else
+					setBackground(defaultColor);
+				
+				try {
+					callable.call();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+	}
+	
 	
 	public JLabel getRemoveComponent() {
 		return lblDelete;
