@@ -124,10 +124,14 @@ public class GedPanel<T> extends MTGUIComponent {
 	private void addEntry(GedEntry<?> c) {
 		GedEntryComponent e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
-
+		
+		
+		
+		
 		e.getRemoveComponent().addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent ev) {
+			public void mouseClicked(MouseEvent ev) 
+			{
 					if(GedService.inst().delete(c)) {
 						panneauCenter.remove(e);
 						panneauCenter.revalidate();

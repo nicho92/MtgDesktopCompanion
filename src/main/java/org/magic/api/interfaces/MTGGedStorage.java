@@ -7,6 +7,5 @@ import java.nio.file.Path;
 public interface MTGGedStorage extends MTGPlugin{
 
 	public FileSystem getFilesSystem() throws IOException;
-	public void initFileSystem() throws IOException;
 	public Path getRoot();
 }

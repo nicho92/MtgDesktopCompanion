@@ -49,6 +49,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
+import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.GradingEditorPane;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -95,7 +96,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JButton btnApplyModification;
 	private CardsDeckCheckerPanel deckPanel;
 	private GradingEditorPane gradePanel;
-	
+	private GedPanel gedPanel;
 	
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
@@ -472,6 +473,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		jsonPanel.show(selectedStock);
 		deckPanel.init(selectedStock.getMagicCard());
 		gradePanel.setGrading(selectedStock.getGrade());
+		gedPanel.init(MagicCardStock.class, selectedStock);
 		}
 	}
 
@@ -505,7 +507,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		JLabel lblLanguage;
 		JLabel lblComment;
 		gradePanel = new GradingEditorPane();
-		
+		gedPanel = new GedPanel<>();
 		JTabbedPane tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
 
@@ -592,6 +594,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICES"),MTGConstants.ICON_TAB_PRICES, pricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
+		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
 		
 		
 		

@@ -11,6 +11,9 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractFileStorage extends AbstractMTGPlugin implements MTGGedStorage {
 
 	protected FileSystem fs;
+	public abstract void initFileSystem() throws IOException;
+
+	
 	
 	@Override
 	public Path getRoot() {

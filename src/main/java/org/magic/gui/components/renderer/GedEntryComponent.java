@@ -1,6 +1,7 @@
 package org.magic.gui.components.renderer;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.SystemColor;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.GedEntry;
