@@ -39,6 +39,10 @@ public class GedEntryComponent extends JPanel {
 		return selected;
 	}
 	
+	public GedEntry getEntry() {
+		return entry;
+	}
+	
 	public GedEntryComponent(GedEntry e, int w,int h) 
 	{
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));

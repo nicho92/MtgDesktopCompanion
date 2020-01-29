@@ -49,11 +49,8 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	@Override
 	public void onVisible() {
-	
-		
 		if(classe==null)
 			return;
-		
 		
 		logger.debug("Show ged for " + classe.getSimpleName() );
 		listDirectory(GedService.inst().getPath(classe,instance));
@@ -139,7 +136,13 @@ public class GedPanel<T> extends MTGUIComponent {
 			
 			@Override
 			public Void call() throws Exception {
-				viewPanel.setImg(e.getPicture());
+				
+				if(e.getEntry().isImage()) {
+					viewPanel.setImg(e.getPicture());
+					viewPanel.setPreferredSize(new Dimension(getWidth()/2, getHeight()));
+					viewPanel.revalidate();
+					viewPanel.repaint();
+				}
 				return null;
 			}
 		});
