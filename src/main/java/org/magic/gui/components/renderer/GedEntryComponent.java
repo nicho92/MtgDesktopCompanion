@@ -17,9 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.GedEntry;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.GedService;
+import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
 import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
@@ -34,6 +37,8 @@ public class GedEntryComponent extends JPanel {
 	private JLabel lblDelete;
 	private int w=150;
 	private int h=100;
+	protected transient Logger logger = MTGLogger.getLogger(GedEntryComponent.class);
+
 	
 	public boolean isSelected() {
 		return selected;
@@ -114,18 +119,29 @@ public class GedEntryComponent extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				selected=!selected;
 				
-				if(selected)
-					setBackground(SystemColor.activeCaption);
-				else
-					setBackground(defaultColor);
-				
-				try {
-					callable.call();
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(me.getClickCount()==2)
+				{
+					try {
+						callable.call();
+					} catch (Exception e) {
+						logger.error(e);
+					}
+					
 				}
+				else
+				{
+					selected=!selected;
+
+					if(selected)
+						setBackground(SystemColor.activeCaption);
+					else
+						setBackground(defaultColor);
+				}
+				
+				
+				
+				
 				
 			}
 		});

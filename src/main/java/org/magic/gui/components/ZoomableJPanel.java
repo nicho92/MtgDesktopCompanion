@@ -12,11 +12,14 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGConstants;
 import org.magic.tools.ImageTools;
 
-public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
+public class ZoomableJPanel extends MTGUIComponent implements MouseWheelListener, MouseListener, MouseMotionListener {
     
   
 	private static final long serialVersionUID = 1L;
@@ -158,5 +161,15 @@ public class ZoomableJPanel extends JPanel implements MouseWheelListener, MouseL
     public void mouseExited(MouseEvent e) {
     	//do nothing
     }
+
+	@Override
+	public String getTitle() {
+		return "Picture";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_PICTURE;
+	}
 
 }

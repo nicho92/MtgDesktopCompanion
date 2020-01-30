@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -26,6 +27,7 @@ import org.magic.gui.tools.FileDropDecorator;
 import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.FileTools;
 
 public class GedPanel<T> extends MTGUIComponent {
 
@@ -49,10 +51,11 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	@Override
 	public void onVisible() {
+		
 		if(classe==null)
 			return;
 		
-		logger.debug("Show ged for " + classe.getSimpleName() );
+		logger.debug("Show ged for " + classe.getSimpleName());
 		listDirectory(GedService.inst().getPath(classe,instance));
 
 	}
@@ -73,7 +76,6 @@ public class GedPanel<T> extends MTGUIComponent {
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
-		add(viewPanel,BorderLayout.EAST);
 		
 		panneauHaut.add(buzy);
 		
@@ -136,12 +138,22 @@ public class GedPanel<T> extends MTGUIComponent {
 			
 			@Override
 			public Void call() throws Exception {
-				
 				if(e.getEntry().isImage()) {
 					viewPanel.setImg(e.getPicture());
-					viewPanel.setPreferredSize(new Dimension(getWidth()/2, getHeight()));
-					viewPanel.revalidate();
-					viewPanel.repaint();
+					viewPanel.setPreferredSize(new Dimension(e.getPicture().getWidth(),e.getPicture().getHeight()));
+					MTGUIComponent.createJDialog(viewPanel, true, true).setVisible(true);
+				}
+				else
+				{
+					try {
+						File tmp = File.createTempFile(e.getEntry().getName(), e.getEntry().getExt());
+						FileTools.saveFile(tmp, e.getEntry().getContent());
+						
+						Desktop.getDesktop().open(tmp);
+					}catch(Exception e)
+					{
+						logger.error(e);
+					}
 				}
 				return null;
 			}
