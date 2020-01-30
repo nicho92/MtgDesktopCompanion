@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
@@ -191,7 +192,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 					mp.setLanguage(a.getLanguage().toString());
 					mp.setShopItem(a);
 					
-					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || mp.getCountry().equalsIgnoreCase(getString(FILTER_COUNTRY)))
+					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || ArrayUtils.contains(getArray(FILTER_COUNTRY),mp.getCountry()))
 						lists.add(mp);
 						
 				}
@@ -249,7 +250,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("MAX", "10");
 		setProperty("USER_ARTICLE", FALSE);
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", FALSE);
-		setProperty(FILTER_COUNTRY, Locale.getDefault().getCountry());
+		setProperty(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
 		setProperty(LOAD_CERTIFICATE,"true");
 
 	}
