@@ -146,9 +146,8 @@ public class GedPanel<T> extends MTGUIComponent {
 				else
 				{
 					try {
-						File tmp = File.createTempFile(e.getEntry().getName(), e.getEntry().getExt());
+						File tmp = File.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
 						FileTools.saveFile(tmp, e.getEntry().getContent());
-						
 						Desktop.getDesktop().open(tmp);
 					}catch(Exception e)
 					{
