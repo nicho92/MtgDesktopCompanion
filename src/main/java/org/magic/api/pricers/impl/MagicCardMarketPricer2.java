@@ -192,7 +192,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 					mp.setLanguage(a.getLanguage().toString());
 					mp.setShopItem(a);
 					
-					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || ArrayUtils.contains(getArray(FILTER_COUNTRY),mp.getCountry()))
+					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || ArrayUtils.contains(getArray(FILTER_COUNTRY),mp.getCountry().toUpperCase()))
 						lists.add(mp);
 						
 				}
