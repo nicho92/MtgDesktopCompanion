@@ -89,7 +89,23 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void saveOrUpdateStock(SealedStock state) throws SQLException {
-	
+		logger.debug("saving stock " + state);
+		if (state.getId() == -1) {
+			state.setId(Integer.parseInt(getNextSequence().toString()));
+			BasicDBObject obj = new BasicDBObject();
+			obj.put(dbStockSealedField, state);
+			db.getCollection(colSealed, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
+
+		} else {
+			Bson filter = new Document("stockSealedItem.id", state.getId());
+			BasicDBObject obj = new BasicDBObject();
+			obj.put(dbStockSealedField, state);
+			logger.debug(filter);
+			UpdateResult res = db.getCollection(colSealed, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
+			logger.trace(res);
+		}
+		
+		notify(state);
 		
 	}
 	
