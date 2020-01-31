@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JPanel;
@@ -42,7 +43,7 @@ public class PricesTablePanel extends JPanel {
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
-	private transient SwingWorker<List<MagicPrice>, MagicPrice> sw ;
+//	private transient SwingWorker<List<MagicPrice>, MagicPrice> sw ;
 	private MagicCard currentCard;
 	private MagicEdition currentEd;
 	
@@ -118,59 +119,71 @@ public class PricesTablePanel extends JPanel {
 		if(isVisible()&&card!=null)
 		{
 			
-			if(sw!=null && !sw.isDone())
-			{
-				sw.cancel(true);
-				lblLoading.end();
-			}
-			
+//			if(sw!=null && !sw.isDone())
+//			{
+//				sw.cancel(true);
+//				lblLoading.end();
+//			}
+//			
+			model.clear();
 			
 			
 			List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
 			
-		
-			sw = new SwingWorker<>()
+			CountDownLatch cdl = new CountDownLatch(MTGControler.getInstance().listEnabled(MTGPricesProvider.class).size());
+	
+			
+			for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
 			{
-				@Override
-				protected List<MagicPrice> doInBackground() throws Exception {
-					
-					List<MagicPrice> list = new ArrayList<>();
-					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
-					for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
-					{
-						try {
+				SwingWorker<List<MagicPrice>, MagicPrice> sw = new SwingWorker<>()
+				{
+					@Override
+					protected List<MagicPrice> doInBackground() throws Exception {
 						
-						List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
-						publish(l.toArray(new MagicPrice[l.size()]));
-						list.addAll(l);
-						}
-						catch(Exception e)
+						List<MagicPrice> list = new ArrayList<>();
+						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
+						
 						{
-							logger.error("error with " + prov + ":" + e);
+							try {
+							
+							List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
+							publish(l.toArray(new MagicPrice[l.size()]));
+							list.addAll(l);
+							}
+							catch(Exception e)
+							{
+								logger.error("error with " + prov + ":" + e);
+							}
 						}
+						return list;
 					}
-					return list;
-				}
-				
-				
-				@Override
-				protected void process(List<MagicPrice> chunks) {
 					
-					model.addItems(chunks);
-					lblLoading.progress();
-				}
+					
+					@Override
+					protected void process(List<MagicPrice> chunks) {
+						
+						model.addItems(chunks);
+						
+					}
+					
+					@Override
+					protected void done() {
+						lblLoading.progress();
+						cdl.countDown();
+						
+						if(cdl.getCount()==0)
+							lblLoading.end();
+						
+					}
+			
+				};
+				ThreadManager.getInstance().runInEdt(sw,"loading prices");
 				
-				@Override
-				protected void done() {
-					lblLoading.end();
-				}
-		
-			};
+			}
 			
 			
-			model.clear();
-			ThreadManager.getInstance().runInEdt(sw,"loading prices");
+			
 		}
 		
 	}
