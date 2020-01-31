@@ -445,7 +445,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		JLabel lblGuiLocal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCALISATION") + " :");
 		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
-		JLabel lblCardsLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARDS_LANGUAGE") + " :");
+		JLabel lblCardsLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE") + " :");
 		JComboBox<String> cboLanguages = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
 		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK") + " :");
 		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());

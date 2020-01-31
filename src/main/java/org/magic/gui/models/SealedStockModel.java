@@ -10,7 +10,7 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 	private static final long serialVersionUID = 1L;
 
 	public SealedStockModel() {
-		setColumns("ID","Type","Edition","Quality","Qty");
+		setColumns("ID","Type","Edition","LANGUAGE","Quality","Qty");
 	}
 	
 	
@@ -25,8 +25,9 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 			case 0: return it;
 			case 1: return it.getProduct().getType();
 			case 2: return it.getProduct().getEdition();
-			case 3: return it.getCondition();
-			case 4 : return it.getQte();
+			case 3: return it.getProduct().getLang();
+			case 4: return it.getCondition();
+			case 5 : return it.getQte();
 			default : return super.getValueAt(row, column);
 		}
 	}
@@ -39,8 +40,9 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 		
 		switch(column)
 		{
-			case 4: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
-			case 3: it.setCondition(EnumStock.SELEAD);break;
+			case 3: it.getProduct().setLang(String.valueOf(aValue));break;
+			case 4: it.setCondition(EnumStock.SELEAD);break;
+			case 5: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
 			default:break;
 		}
 		

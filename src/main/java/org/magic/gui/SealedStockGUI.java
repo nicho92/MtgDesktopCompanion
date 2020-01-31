@@ -95,7 +95,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)packagePanel.getTree().getLastSelectedPathComponent();
 			
-			if(selectedNode.getUserObject()==null)
+			if(selectedNode==null || selectedNode.getUserObject()==null)
 				return;
 			
 			boolean isPackage = selectedNode.getUserObject() instanceof Packaging;
