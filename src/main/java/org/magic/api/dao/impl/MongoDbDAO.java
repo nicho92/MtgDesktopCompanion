@@ -73,7 +73,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
-		Bson filter = new Document("sealed.id", state.getId());
+		Bson filter = new Document("stockSealedItem.id", state.getId());
 		db.getCollection(colSealed).deleteOne(filter);
 		notify(state);
 		
@@ -83,7 +83,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<SealedStock> listSeleadStocks() throws SQLException {
 		List<SealedStock> stocks = new ArrayList<>();
 		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks
-				.add(deserialize(result.get("id").toString(), SealedStock.class)));
+				.add(deserialize(result.get(dbStockSealedField).toString(), SealedStock.class)));
 		return stocks;
 	}
 	

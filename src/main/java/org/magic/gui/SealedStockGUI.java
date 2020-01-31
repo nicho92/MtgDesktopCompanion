@@ -40,15 +40,6 @@ public class SealedStockGUI extends MTGUIComponent {
 		initGUI();
 	}
 	
-	public static void main(String[] args) throws SQLException 
-	{
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		SealedStockGUI s = new SealedStockGUI();
-		MTGUIComponent.createJDialog(s, true, false).setVisible(true);
-		s.onFirstShowing();
-	}
-	
 	private void initGUI() {
 		model = new SealedStockModel();
 		JXTable table = new JXTable(model);
@@ -86,7 +77,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		
 		model.setWritable(true);
-		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+		table.getColumnModel().getColumn(5).setCellEditor(new IntegerCellEditor());
 		
 		
 		
