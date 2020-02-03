@@ -63,4 +63,6 @@ public interface MTGPlugin {
 	
 	public MTGDocumentation getDocumentation();
 	
+	public boolean isPartner();
+	
 }

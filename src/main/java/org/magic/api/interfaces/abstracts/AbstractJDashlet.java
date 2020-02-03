@@ -49,6 +49,11 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	}
 	
 	@Override
+	public boolean isPartner() {
+		return false;
+	}
+	
+	@Override
 	public boolean isLoaded() {
 		return loaded;
 	}
