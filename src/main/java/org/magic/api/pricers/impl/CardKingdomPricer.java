@@ -165,5 +165,10 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		
 		return hashCode()==obj.hashCode();
 	}
+
+	@Override
+	public boolean isPartner() {
+		return true;
+	}
 	
 }

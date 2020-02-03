@@ -250,13 +250,4 @@ public class MTGConstants {
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final int CONNECTION_TIMEOUT =0;
 	
-	
-	
-		
-
-	
-	
-	
-	
-	
 }

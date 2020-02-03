@@ -34,6 +34,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected static final String FALSE = "false";
 	private boolean loaded = false;
 	
+	public boolean isPartner()
+	{
+		return false;
+	}
+	
+	
 	@Override
 	public ObjectName getObjectName() {
 		try {
@@ -195,6 +201,9 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	@Override
 	public boolean isEnable() {
+		if(isPartner())
+			return true;
+		
 		return enable;
 	}
 
