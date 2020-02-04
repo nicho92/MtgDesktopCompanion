@@ -31,6 +31,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.Chrono;
 
 public class JMXServer extends AbstractMTGServer {
@@ -53,172 +54,18 @@ public class JMXServer extends AbstractMTGServer {
 		Chrono c = new Chrono();
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
-			MTGControler.getInstance().getPlugins(MTGDao.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGDao.class),o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
 			
-			MTGControler.getInstance().getPlugins(MTGCardsProvider.class).forEach(o->{
+		PluginRegistry.inst().listClasses().forEach(entry->{
+			MTGControler.getInstance().getPlugins(entry).forEach(o->{
 				try {
 					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGCardsProvider.class), o.getObjectName());
+					mbs.registerMBean(new StandardMBean(o, entry),o.getObjectName());
 				} catch (Exception e) {
 					logger.error(e);
 				} 
 			});
-			
-			MTGControler.getInstance().getPlugins(MTGPictureProvider.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGPictureProvider.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-		
-
-			MTGControler.getInstance().getPlugins(MTGCardsExport.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGCardsExport.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGDeckSniffer.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGDeckSniffer.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGNotifier.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGNotifier.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-
-			MTGControler.getInstance().getPlugins(MTGNewsProvider.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGNewsProvider.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-
-			MTGControler.getInstance().getPlugins(MTGServer.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGServer.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGCardsIndexer.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGCardsIndexer.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGTextGenerator.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGTextGenerator.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGDashBoard.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGDashBoard.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGPicturesCache.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGPicturesCache.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-
-			MTGControler.getInstance().getPlugins(MTGPricesProvider.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGPricesProvider.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGShopper.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGShopper.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGScript.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGScript.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGPool.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGPool.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGGedStorage.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGGedStorage.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			MTGControler.getInstance().getPlugins(MTGGraders.class).forEach(o->{
-				try {
-					names.add(o.getObjectName());
-					mbs.registerMBean(new StandardMBean(o, MTGGraders.class), o.getObjectName());
-				} catch (Exception e) {
-					logger.error(e);
-				} 
-			});
-			
-			logger.debug(getName() +" started in " + c.stop() +"s.");
+		});
+		logger.debug(getName() +" started in " + c.stop() +"s.");
 	}
 
 	@Override
