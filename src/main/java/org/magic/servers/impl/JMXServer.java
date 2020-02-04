@@ -17,6 +17,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGGedStorage;
+import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -51,7 +53,6 @@ public class JMXServer extends AbstractMTGServer {
 		Chrono c = new Chrono();
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
-		
 			MTGControler.getInstance().getPlugins(MTGDao.class).forEach(o->{
 				try {
 					names.add(o.getObjectName());
@@ -194,6 +195,24 @@ public class JMXServer extends AbstractMTGServer {
 				try {
 					names.add(o.getObjectName());
 					mbs.registerMBean(new StandardMBean(o, MTGPool.class), o.getObjectName());
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+			});
+			
+			MTGControler.getInstance().getPlugins(MTGGedStorage.class).forEach(o->{
+				try {
+					names.add(o.getObjectName());
+					mbs.registerMBean(new StandardMBean(o, MTGGedStorage.class), o.getObjectName());
+				} catch (Exception e) {
+					logger.error(e);
+				} 
+			});
+			
+			MTGControler.getInstance().getPlugins(MTGGraders.class).forEach(o->{
+				try {
+					names.add(o.getObjectName());
+					mbs.registerMBean(new StandardMBean(o, MTGGraders.class), o.getObjectName());
 				} catch (Exception e) {
 					logger.error(e);
 				} 
