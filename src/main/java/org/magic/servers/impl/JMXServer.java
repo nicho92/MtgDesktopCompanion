@@ -5,7 +5,10 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.MBeanRegistrationException;
 import javax.management.MBeanServer;
+import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.StandardMBean;
 import javax.swing.Icon;
@@ -55,16 +58,18 @@ public class JMXServer extends AbstractMTGServer {
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
 			
-		PluginRegistry.inst().listClasses().forEach(entry->{
+		PluginRegistry.inst().listClasses().forEach(entry->
 			MTGControler.getInstance().getPlugins(entry).forEach(o->{
 				try {
-					names.add(o.getObjectName());
 					mbs.registerMBean(new StandardMBean(o, entry),o.getObjectName());
+					names.add(o.getObjectName());
+				} catch (NotCompliantMBeanException e) {
+					logger.trace(e);
 				} catch (Exception e) {
 					logger.error(e);
 				} 
-			});
-		});
+			})
+		);
 		logger.debug(getName() +" started in " + c.stop() +"s.");
 	}
 
