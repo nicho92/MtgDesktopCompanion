@@ -15,9 +15,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.editor.ComboBoxEditor;
+import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.CardStockTableModel;
-import org.magic.gui.renderer.EnumConditionEditor;
-import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -44,6 +44,7 @@ public class CardStockPanel extends JPanel {
 		btnAdd.setEnabled(b);
 	}
 
+	@SuppressWarnings("unchecked")
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();
@@ -53,7 +54,7 @@ public class CardStockPanel extends JPanel {
 		table.setDefaultRenderer(Object.class, render);
 		table.setDefaultRenderer(Boolean.class, render);
 		table.setDefaultRenderer(Double.class, render);
-		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
+		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 		
 		table.getColumnExt(model.getColumnName(1)).setVisible(false);

@@ -1,4 +1,4 @@
-package org.magic.gui.renderer;
+package org.magic.gui.editor;
 
 import java.awt.Component;
 import java.util.List;

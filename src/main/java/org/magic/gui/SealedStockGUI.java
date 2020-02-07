@@ -15,15 +15,18 @@ import javax.swing.JTabbedPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.EnumCondition;
+import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
+import org.magic.gui.editor.ComboBoxEditor;
+import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.SealedStockModel;
-import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
@@ -75,11 +78,11 @@ public class SealedStockGUI extends MTGUIComponent {
 		add(centerPanel,BorderLayout.CENTER);
 		add(toolsPanel,BorderLayout.NORTH);
 		
-		
 		model.setWritable(true);
-		table.getColumnModel().getColumn(5).setCellEditor(new IntegerCellEditor());
-		
-		
+	
+		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
+		table.setDefaultEditor(Packaging.TYPE.class, new ComboBoxEditor<>(TYPE.values()));
+		table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
 		
 		
 		packagePanel.getTree().addTreeSelectionListener(e-> {
