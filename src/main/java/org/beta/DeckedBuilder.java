@@ -52,7 +52,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			if(mc==null)
 			{
 				logger.warn("MULTIVID not found, trying with cardname");
-				mc = parseMatcherWithGroup(m, 5, 5, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
+				mc = parseMatcherWithGroup(m, 4, 5, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 			}
 			
 			

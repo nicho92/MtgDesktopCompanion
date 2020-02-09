@@ -89,13 +89,23 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardById(String id) throws IOException {
-		return searchCardByCriteria("id", id, null, true).get(0);
+		try {
+			return searchCardByCriteria("id", id, null, true).get(0);
+		}catch(IndexOutOfBoundsException e)
+		{
+			return null;
+		}
 	}
 
 
 	@Override
 	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException {
-		return searchCardByCriteria("multiverseid", id, ed, true).get(0);
+		try { 
+			return searchCardByCriteria("multiverseid", id, ed, true).get(0);
+		}catch(IndexOutOfBoundsException e)
+		{
+			return null;
+		}
 	}
 	
 	@Override
