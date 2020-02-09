@@ -42,6 +42,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 	protected abstract String getSeparator();
 	
+	protected enum FORMAT_SEARCH { ID, NAME, MULTIVID}
 	
 	
 	private String[] splitLines(String content,boolean removeBlank)

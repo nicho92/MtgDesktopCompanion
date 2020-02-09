@@ -5,8 +5,11 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class DeckedBuilder extends AbstractFormattedFileCardExport {
 
@@ -24,6 +27,8 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	}
 	
 	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		new DeckedBuilder().importDeckFromFile(new File("D:\\Téléchargements\\ELD.csv"));
 	}
 
@@ -44,12 +49,12 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			System.out.println(m.group());
 			
 			Integer qty = Integer.parseInt(m.group(1));
-//			MagicCard mc = parseMatcherWithGroup(m, 2, 3, true, false);
-//			if(mc!=null)
-//			{
-//				deck.getMap().put(mc, qty);
-//				notify(mc);
-//			}
+			MagicCard mc = parseMatcherWithGroup(m, 4, 5, true, false);
+			if(mc!=null)
+			{
+				deck.getMap().put(mc, qty);
+				notify(mc);
+			}
 		});
 		return deck;
 	}
