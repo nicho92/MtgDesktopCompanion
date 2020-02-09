@@ -13,10 +13,6 @@ import org.magic.tools.URLTools;
 public class MTGGradeGrader extends AbstractGradersProvider {
 
 	
-	public static void main(String[] args) throws IOException {
-		new MTGGradeGrader().loadGrading("1064241");
-	}
-	
 	@Override
 	public String getWebSite() {
 		return "https://www.mtggrade.com";

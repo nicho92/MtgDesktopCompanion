@@ -55,7 +55,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	}
 	
 	
-	protected MagicCard parseMatcherWithGroup(Matcher m,int gCard,int gEdition,boolean cleaning,boolean setById)
+	protected MagicCard parseMatcherWithGroup(Matcher m,int gCard,int gEdition,boolean cleaning,boolean setById, FORMAT_SEARCH cardSearch)
 	{
 		MagicEdition ed = null;
 		try {
@@ -73,7 +73,15 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			cname = cleanName(cname);
 		
 		try {
-			return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+			
+			switch (cardSearch)
+			{
+				case NAME :return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+				case ID : return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(cname);
+				case MULTIVID:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByMultiverseId(cname);
+				default:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);  		
+			}
+			
 		} catch (IOException e) {
 			logger.error("Couldn't find card "+ cname + " ["+ed+"] :" + e);
 			return null;

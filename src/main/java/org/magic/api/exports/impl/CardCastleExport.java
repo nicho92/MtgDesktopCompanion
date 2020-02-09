@@ -47,7 +47,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 		deck.setName(name);
 
 		matches(f,true).forEach(m->{
-			MagicCard mc = parseMatcherWithGroup(m, 1, 2, true, false);
+			MagicCard mc = parseMatcherWithGroup(m, 1, 2, true, false,FORMAT_SEARCH.NAME);
 			if(mc!=null)
 			{
 				deck.add(mc);

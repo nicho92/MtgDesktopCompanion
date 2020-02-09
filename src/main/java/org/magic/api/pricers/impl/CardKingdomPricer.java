@@ -31,10 +31,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		return STATUT.DEV;
 	}
 	
-	public static void main(String[] args) {
-		new CardKingdomPricer().cachingPriceList();
-	}
-	
 	public void cachingPriceList()
 	{
 		try {

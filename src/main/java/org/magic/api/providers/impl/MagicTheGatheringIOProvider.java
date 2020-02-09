@@ -85,6 +85,13 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	public MagicCard getCardById(String id) throws IOException {
 		return searchCardByCriteria("id", id, null, true).get(0);
 	}
+	
+
+	@Override
+	public MagicCard getCardByMultiverseId(String id) throws IOException {
+		return searchCardByCriteria(MULTIVERSEID, id, null, true).get(0);
+	}
+	
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
@@ -430,4 +437,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	public int hashCode() {
 		return getName().hashCode();
 	}
+
+
 }

@@ -186,6 +186,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		return searchCardByCriteria("uuid", id, null, true).get(0);
 	}
 	
+
+	@Override
+	public MagicCard getCardByMultiverseId(String id) throws IOException {
+		return searchCardByCriteria(MULTIVERSE_ID, id, null, true).get(0);
+	}
+	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
 		

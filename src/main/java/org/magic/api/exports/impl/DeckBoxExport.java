@@ -148,7 +148,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			if(mc==null)
 			{
 				try {
-					mc = parseMatcherWithGroup(m, 3, 4, true, false);
+					mc = parseMatcherWithGroup(m, 3, 4, true, false,FORMAT_SEARCH.NAME);
 				} catch (Exception e) {
 					logger.error("no card found for" + cname + "/"+ ed);
 				}

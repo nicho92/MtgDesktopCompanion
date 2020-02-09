@@ -58,7 +58,4 @@ public class PCAGrader extends AbstractGradersProvider {
 		return "PCA";
 	}
 
-	public static void main(String[] args) throws IOException {
-		new PCAGrader().loadGrading("63101543");
-	}
 }

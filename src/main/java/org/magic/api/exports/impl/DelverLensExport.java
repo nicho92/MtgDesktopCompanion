@@ -29,11 +29,6 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		exportStock(importFromDeck(deck), dest);
 	}
 	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new DelverLensExport().importStockFromFile(new File("C:\\Users\\Pihen\\Google Drive\\testdelver.csv"));
-	}
-	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder(columns);
@@ -100,7 +95,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 			if(mc==null)
 			{
 				try {
-					mc = parseMatcherWithGroup(m, 3, 4, true, false);
+					mc = parseMatcherWithGroup(m, 3, 4, true, false,FORMAT_SEARCH.NAME);
 				} catch (Exception e) {
 					logger.error("no card found for" + cname + "/"+ ed);
 				}

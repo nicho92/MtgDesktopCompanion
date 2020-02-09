@@ -33,7 +33,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 						   st.setQte(Integer.parseInt(m.group(1)));
 						   
-			 MagicCard mc = parseMatcherWithGroup(m, 2, 8, true, true);
+			 MagicCard mc = parseMatcherWithGroup(m, 2, 8, true, true,FORMAT_SEARCH.NAME);
 			 
 			 if(mc!=null)
 			 {
