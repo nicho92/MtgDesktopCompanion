@@ -21,7 +21,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		
 		matches(f,true).forEach(m->{
 			Integer qty = Integer.parseInt(m.group(1));
-			MagicCard mc = parseMatcherWithGroup(m, 2, 3, false, false,FORMAT_SEARCH.NAME);
+			MagicCard mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 			if(mc!=null)
 			{
 				deck.getMap().put(mc, qty);

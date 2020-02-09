@@ -88,8 +88,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	
 
 	@Override
-	public MagicCard getCardByMultiverseId(String id) throws IOException {
-		return searchCardByCriteria(MULTIVERSEID, id, null, true).get(0);
+	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException {
+		return searchCardByCriteria(MULTIVERSEID, id, ed, true).get(0);
 	}
 	
 

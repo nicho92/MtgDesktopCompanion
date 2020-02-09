@@ -47,7 +47,15 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			System.out.println(m.group());
 			
 			Integer qty = Integer.parseInt(m.group(1));
-			MagicCard mc = parseMatcherWithGroup(m, 4, 5, true, false,FORMAT_SEARCH.MULTIVID);
+			MagicCard mc = parseMatcherWithGroup(m, 10, 5, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.MULTIVID);
+			
+			if(mc==null)
+			{
+				logger.warn("MULTIVID not found, trying with cardname");
+				mc = parseMatcherWithGroup(m, 5, 5, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
+			}
+			
+			
 			if(mc!=null)
 			{
 				deck.getMap().put(mc, qty);

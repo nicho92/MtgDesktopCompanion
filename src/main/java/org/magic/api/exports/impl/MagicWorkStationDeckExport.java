@@ -54,7 +54,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			MagicDeck deck = new MagicDeck();
 			deck.setName(name);
 			matches(f,true).forEach(m->{
-					MagicCard mc = parseMatcherWithGroup(m, 4, 3, true, true,FORMAT_SEARCH.NAME); 
+					MagicCard mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME); 
 					int qte = Integer.parseInt(m.group("2"));
 			
 					if(mc!=null) {

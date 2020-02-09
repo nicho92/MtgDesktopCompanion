@@ -59,7 +59,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			
 			for(Matcher m : matches(f,true))
 			{
-				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, true, FORMAT_SEARCH.NAME);
+				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				Integer qte = Integer.parseInt(m.group(2));
 				
 				if(mc!=null) {

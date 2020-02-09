@@ -164,8 +164,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	
 	@Override
-	public MagicCard getCardByMultiverseId(String id) throws IOException {
-		return searchCardByCriteria("multiverse_id", id, null, true).get(0);
+	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException {
+		return searchCardByCriteria("multiverse_id", id, ed, true).get(0);
 	}
 	
 	

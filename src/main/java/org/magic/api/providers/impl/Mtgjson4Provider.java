@@ -188,8 +188,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	
 
 	@Override
-	public MagicCard getCardByMultiverseId(String id) throws IOException {
-		return searchCardByCriteria(MULTIVERSE_ID, id, null, true).get(0);
+	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException {
+		return searchCardByCriteria(MULTIVERSE_ID, id, ed, true).get(0);
 	}
 	
 	@Override

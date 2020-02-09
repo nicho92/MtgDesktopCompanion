@@ -55,14 +55,16 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	}
 	
 	
-	protected MagicCard parseMatcherWithGroup(Matcher m,int gCard,int gEdition,boolean cleaning,boolean setById, FORMAT_SEARCH cardSearch)
+	protected MagicCard parseMatcherWithGroup(Matcher m,int gCard,int gEdition,boolean cleaning,FORMAT_SEARCH setSearch, FORMAT_SEARCH cardSearch)
 	{
 		MagicEdition ed = null;
 		try {
-			if(setById)
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(gEdition));
-			else
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(gEdition));
+			switch(setSearch) 
+			{
+				case ID : ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(gEdition));break;
+				case NAME : ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(gEdition));break;
+				case MULTIVID :break;
+			}
 		} catch (Exception e) {
 			ed = null;
 		}
@@ -78,7 +80,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			{
 				case NAME :return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 				case ID : return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(cname);
-				case MULTIVID:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByMultiverseId(cname);
+				case MULTIVID:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByMultiverseId(cname,ed);
 				default:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);  		
 			}
 			
