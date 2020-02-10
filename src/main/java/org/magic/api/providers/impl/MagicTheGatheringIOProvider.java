@@ -92,16 +92,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 	
 
-	@Override
-	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException {
-		try{ 
-			return searchCardByCriteria(MULTIVERSEID, id, ed, true).get(0);
-		}catch(IndexOutOfBoundsException e)
-		{
-			return null;
-		}
-	}
-	
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {

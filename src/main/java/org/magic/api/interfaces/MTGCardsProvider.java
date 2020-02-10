@@ -42,7 +42,5 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public URL getWebSite() throws MalformedURLException;
 
-	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException;
-
 
 }

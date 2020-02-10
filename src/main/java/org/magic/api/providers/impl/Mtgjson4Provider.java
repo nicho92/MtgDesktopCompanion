@@ -191,17 +191,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}
 	}
 	
-
-	@Override
-	public MagicCard getCardByMultiverseId(String id,MagicEdition ed) throws IOException {
-		try{
-			return searchCardByCriteria(MULTIVERSE_ID, id, ed, true).get(0);
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			return null;
-		}
-	}
 	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
@@ -231,11 +220,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		}
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
-			
-			if(att.equals(MULTIVERSE_ID) ) 
-			{
-				jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + "foreignData.multiverseId == " + crit + ")]";
-			}
 		}
 		
 		return search(jsquery);

@@ -42,7 +42,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 	protected abstract String getSeparator();
 	
-	protected enum FORMAT_SEARCH { ID, NAME, MULTIVID}
+	protected enum FORMAT_SEARCH { ID, NAME}
 	
 	
 	private String[] splitLines(String content,boolean removeBlank)
@@ -63,7 +63,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			{
 				case ID : ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(gEdition));break;
 				case NAME : ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(gEdition));break;
-				case MULTIVID :break;
 			}
 		} catch (Exception e) {
 			ed = null;
@@ -80,7 +79,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			{
 				case NAME :return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 				case ID : return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(cname);
-				case MULTIVID:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByMultiverseId(cname,ed);
 				default:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);  		
 			}
 			
