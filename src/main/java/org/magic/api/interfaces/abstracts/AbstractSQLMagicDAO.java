@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.magic.api.beans.EnumCondition;
+import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -256,6 +257,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					state.setComment(rs.getString("comment"));
 					state.setId(rs.getInt("id"));
 					state.setQte(rs.getInt("qte"));
+					state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
 					Packaging p = new Packaging();
 					 		  p.setLang(rs.getString("lang"));
 							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));

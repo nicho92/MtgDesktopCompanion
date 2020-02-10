@@ -1,10 +1,14 @@
 package org.magic.gui.models;
 
+import java.sql.SQLException;
+
 import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.services.MTGControler;
 
 public class SealedStockModel extends GenericTableModel<SealedStock> {
 
@@ -30,9 +34,7 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 	
 	@Override
 	public Object getValueAt(int row, int column) {
-		
 		SealedStock it = items.get(row);
-		
 		switch(column)
 		{
 			case 0: return it;
@@ -56,7 +58,13 @@ public class SealedStockModel extends GenericTableModel<SealedStock> {
 			case 3: it.getProduct().setLang(String.valueOf(aValue));break;
 			case 4: it.setCondition(EnumStock.valueOf(aValue.toString()));break;
 			case 5: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
-			default:break;
+			default: break;
+		}
+		
+		try {
+			MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(it);
+		} catch (SQLException e) {
+			logger.error("Error saving " + it , e);
 		}
 		
 		

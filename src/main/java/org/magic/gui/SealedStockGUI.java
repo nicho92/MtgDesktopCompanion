@@ -22,6 +22,7 @@ import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.editor.ComboBoxEditor;
@@ -35,6 +36,8 @@ public class SealedStockGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private PackagesBrowserPanel packagePanel;
+	private GedPanel<SealedStock> gedPanel;
+	
 	private SealedStockModel model;
 	private Packaging selectedItem;
 
@@ -47,6 +50,8 @@ public class SealedStockGUI extends MTGUIComponent {
 		model = new SealedStockModel();
 		JXTable table = new JXTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
+		gedPanel = new GedPanel<>();
+		
 		JPanel toolsPanel = new JPanel();
 		JSplitPane centerPanel = new JSplitPane();
 		centerPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -71,6 +76,8 @@ public class SealedStockGUI extends MTGUIComponent {
 		toolsPanel.add(buttonUpdate);
 		
 		panneauDetail.addTab(historyPricePanel.getTitle(),historyPricePanel.getIcon(),historyPricePanel);
+		panneauDetail.addTab(gedPanel.getTitle(),MTGConstants.ICON_TAB_GED,gedPanel);
+		
 		
 		add(packagePanel,BorderLayout.WEST);
 		centerPanel.setLeftComponent(new JScrollPane(table));
@@ -105,7 +112,9 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		table.getSelectionModel().addListSelectionListener(l->{
 			SealedStock ss = UITools.getTableSelection(table, 0);
-			historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
+			
+			if(ss!=null)
+				historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
 		});
 		
 		buttonDelete.addActionListener(el->{

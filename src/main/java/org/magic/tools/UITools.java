@@ -351,7 +351,13 @@ public class UITools {
 	}
 
 	public static <T> T getTableSelection(JTable tableCards,int columnID) {
-		return (T) getTableSelections(tableCards, columnID).get(0);
+		try{ 
+			return (T) getTableSelections(tableCards, columnID).get(0);
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			return null;
+		}
 	}
 
 	
