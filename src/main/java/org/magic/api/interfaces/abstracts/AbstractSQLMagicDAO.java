@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.extra.PackagesProvider;
 import org.magic.tools.IDGenerator;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
@@ -270,6 +271,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 								logger.error(e);
 								throw new SQLException(e);
 							  }
+							
+							  p.setUrl(PackagesProvider.inst().getURLFor(p));
+							  
+							  
 					state.setProduct(p);
 					colls.add(state);
 				}

@@ -44,10 +44,7 @@ public class ZoomableJPanel extends MTGUIComponent implements MouseWheelListener
     
     public void setImg(BufferedImage img)
     {
-    	if(img!=null) {
     		this.img=img;
-    	}
-    	
     }
 
     private void initComponent() {
@@ -59,13 +56,17 @@ public class ZoomableJPanel extends MTGUIComponent implements MouseWheelListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+       
         if(img==null)
+        {
+        	 g.setColor(getBackground());
+        	 g.fillRect(0, 0, getWidth(), getHeight());
         	return;
+        }
+       
         
         Graphics2D g2 = (Graphics2D) g;
-    
-        
+                
         if (zoomer) {
             AffineTransform at = new AffineTransform();
 
