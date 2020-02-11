@@ -13,8 +13,10 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
@@ -56,13 +58,23 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		eds = new ArrayList<>();
 	}
 	
+	
+	public static void main(String[] args) throws IOException {
+		CardKingdomPricer c = new CardKingdomPricer();
+		c.initEds();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(ed->c.findGoodEds(ed.getSet()));
+	}
+	
 	private void initEds()
 	{
 		try {
 			doc = URLTools.extractHtml(getString("WEBSITE")+"/catalog/magic_the_gathering/by_az");
 			Elements e = doc.select(".anchorList a[href]");
 			for (Element ed : e)
+			{
 				eds.add(ed.html());
+			}
 		} catch (IOException e) {
 			logger.error("Could not init list eds", e);
 		}
@@ -70,16 +82,29 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	}
 
 	private String findGoodEds(String set) {
+		
+		if(set.startsWith("Revised"))
+			return "3rd Edition";
+		
+		if(set.contains("Sixth Edition"))
+			return "6th Edition";
+		
 		double leven = 100;
 		String name = "";
 		EditDistance<Double> d = new JaccardDistance();
-		for (String s : eds) {
+		for (String s : eds) 
+		{
 			double dist = d.apply(set.toLowerCase(), s.toLowerCase());
 			if (dist < leven) {
 				leven = dist;
 				name = s;
 			}
 		}
+		
+		if(leven>0)
+			System.out.println(set + "->" + name +" " + leven);
+		
+		
 		return name;
 	}
 
