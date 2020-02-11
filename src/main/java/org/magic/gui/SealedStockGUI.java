@@ -75,6 +75,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		toolsPanel.add(buttonDelete);
 		toolsPanel.add(buttonUpdate);
 		
+		panneauDetail.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFO"),MTGConstants.ICON_TAB_PICTURE,packagePanel.getThumbnailPanel());
 		panneauDetail.addTab(historyPricePanel.getTitle(),historyPricePanel.getIcon(),historyPricePanel);
 		panneauDetail.addTab(gedPanel.getTitle(),MTGConstants.ICON_TAB_GED,gedPanel);
 		
@@ -111,10 +112,16 @@ public class SealedStockGUI extends MTGUIComponent {
 		});
 		
 		table.getSelectionModel().addListSelectionListener(l->{
-			SealedStock ss = UITools.getTableSelection(table, 0);
 			
-			if(ss!=null)
-				historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
+			if(!l.getValueIsAdjusting())
+			{
+				SealedStock ss = UITools.getTableSelection(table, 0);
+				if(ss!=null)
+				{
+					historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
+					packagePanel.load(ss.getProduct());
+				}
+			}
 		});
 		
 		buttonDelete.addActionListener(el->{

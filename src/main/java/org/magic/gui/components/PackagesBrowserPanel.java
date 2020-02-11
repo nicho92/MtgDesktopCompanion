@@ -40,6 +40,10 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		return tree;
 	}
 	
+	public ZoomableJPanel getThumbnailPanel()
+	{
+		return panelDraw;
+	}
 	
 	
 	public void setMagicEdition(MagicEdition ed)
@@ -71,9 +75,8 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		setLayout(new BorderLayout(0, 0));
 
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
-		
+		panelDraw = new ZoomableJPanel() ;
 		if(view) {
-			panelDraw = new ZoomableJPanel() ;
 			add(panelDraw, BorderLayout.CENTER);
 		}
 		
@@ -95,24 +98,20 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		
 		
 		
-		if(view) {
-			tree.addTreeSelectionListener(e-> {
+		tree.addTreeSelectionListener(e-> {
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 				
 				if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
 					load((Packaging)selectedNode.getUserObject());
 			});
-		}
-		
 	}
 	
 	public void load(Packaging p)
 	{
-		if(view) {
 			panelDraw.setImg(provider.get(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
-		}
+		
 	}
 	
 	

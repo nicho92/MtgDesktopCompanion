@@ -82,8 +82,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<SealedStock> listSeleadStocks() throws SQLException {
 		List<SealedStock> stocks = new ArrayList<>();
-		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks
-				.add(deserialize(result.get(dbStockSealedField).toString(), SealedStock.class)));
+		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result.get(dbStockSealedField).toString(), SealedStock.class)));
 		return stocks;
 	}
 	

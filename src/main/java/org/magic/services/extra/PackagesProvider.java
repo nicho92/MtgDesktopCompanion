@@ -57,6 +57,20 @@ public class PackagesProvider {
 		return inst;
 	}
 	
+	public String getURLFor(Packaging p)
+	{
+		String eval = null;
+		try {
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			eval = "//edition[@id='"+p.getEdition().getId()+"']/"+p.getType().name().toLowerCase()+"[@lang='"+p.getLang()+"']";
+			NodeList nodeList = (NodeList) xPath.compile(eval).evaluate(document, XPathConstants.NODESET);
+			Node item = nodeList.item(0);
+			return item.getAttributes().getNamedItem("url").getNodeValue(); 
+		} catch (Exception e) {
+			logger.error("Error loading url for " + eval + p);
+			return null;
+		}
+	}
 	
 	
 	public List<Packaging> getItemsFor(String me)
@@ -72,6 +86,8 @@ public class PackagesProvider {
 	
 	public BufferedImage caching(boolean force, Packaging p) {
 		
+		if(p.getUrl()==null)
+			return null;
 		
 		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
 		File pkgFile = new File(f,p.toString()+".png");
