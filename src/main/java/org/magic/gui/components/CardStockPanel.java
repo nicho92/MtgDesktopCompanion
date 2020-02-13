@@ -14,10 +14,12 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.editor.ComboBoxEditor;
 import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.CardStockTableModel;
+import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -56,11 +58,16 @@ public class CardStockPanel extends JPanel {
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-		
+		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
+
 		table.getColumnExt(model.getColumnName(1)).setVisible(false);
 		table.getColumnExt(model.getColumnName(2)).setVisible(false);
 		table.getColumnExt(model.getColumnName(3)).setVisible(false);
-
+		try {
+			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+		} catch (SQLException e1) {
+			logger.error(e1);
+		}
 		
 		
 		JPanel panneauHaut = new JPanel();

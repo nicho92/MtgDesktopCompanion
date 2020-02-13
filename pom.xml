@@ -49,6 +49,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<!-- <dependency>
+			<groupId>org.boofcv</groupId>
+			<artifactId>boofcv-core</artifactId>
+			<version>0.35</version>
+		</dependency> -->
 		<dependency>
 		    <groupId>com.github.marschall</groupId>
 		    <artifactId>memoryfilesystem</artifactId>
@@ -152,7 +157,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.1_105</version>
+			  <version>4.1.1_108</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -355,7 +360,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.12.1</version>
+			<version>1.12.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
@@ -426,7 +431,7 @@
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>
 	    <artifactId>groovy-all</artifactId>
-	    <version>3.0.0-rc-3</version>
+	    <version>3.0.0</version>
 	    <type>pom</type>
 	</dependency>
 	<dependency>

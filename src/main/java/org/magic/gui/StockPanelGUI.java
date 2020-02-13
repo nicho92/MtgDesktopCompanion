@@ -42,6 +42,7 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -61,6 +62,7 @@ import org.magic.gui.editor.ComboBoxEditor;
 import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.models.CardStockTableModel;
+import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
@@ -565,10 +567,15 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Object.class, render);
 		table.setDefaultRenderer(Boolean.class, render);
 		table.setDefaultRenderer(Double.class, render);
+		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxCellEditor());
-		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
+		try {
+			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+		} catch (SQLException e1) {
+			logger.error(e1);
+		}
+		
 		
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		
