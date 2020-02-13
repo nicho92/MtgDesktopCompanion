@@ -17,6 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.EnumStock;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.beans.SealedStock;
@@ -28,6 +29,7 @@ import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.editor.ComboBoxEditor;
 import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.SealedStockModel;
+import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
@@ -89,9 +91,8 @@ public class SealedStockGUI extends MTGUIComponent {
 		model.setWritable(true);
 	
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-		table.setDefaultEditor(Packaging.TYPE.class, new ComboBoxEditor<>(TYPE.values()));
 		table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
-		
+		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		
 		packagePanel.getTree().addTreeSelectionListener(e-> {
 			

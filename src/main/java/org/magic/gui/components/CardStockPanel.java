@@ -58,7 +58,6 @@ public class CardStockPanel extends JPanel {
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
-		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 
 		table.getColumnExt(model.getColumnName(1)).setVisible(false);
 		table.getColumnExt(model.getColumnName(2)).setVisible(false);

@@ -9,6 +9,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
+import org.magic.tools.UITools;
+
 public class ComboBoxEditor<T> extends DefaultCellEditor {
 
 	private static final long serialVersionUID = 1L;
@@ -18,14 +20,14 @@ public class ComboBoxEditor<T> extends DefaultCellEditor {
 	
 	@SuppressWarnings("unchecked")
 	public ComboBoxEditor(List<T> values) {
-		super(new JComboBox<T>());
+		super(UITools.createCombobox(values));
 		model = (DefaultComboBoxModel<T>) ((JComboBox<T>) getComponent()).getModel();
 		this.values=values;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public ComboBoxEditor(T[] values) {
-		super(new JComboBox<T>());
+		super(UITools.createCombobox(values));
 		model = (DefaultComboBoxModel<T>) ((JComboBox<T>) getComponent()).getModel();
 		this.values=Arrays.asList(values);
 	}
