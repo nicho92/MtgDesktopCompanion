@@ -84,7 +84,7 @@ public class DeckStockComparatorPanel extends JComponent {
 		panneauHaut.add(btnCompare);
 		panneauHaut.add(buzyLabel);
 		
-		chkCalculate = new JCheckBox("Calculate prices");
+		chkCalculate = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CALCULATE_PRICES"));
 		panneauHaut.add(chkCalculate);
 		
 		pan.setLeftComponent(new JScrollPane(table));
