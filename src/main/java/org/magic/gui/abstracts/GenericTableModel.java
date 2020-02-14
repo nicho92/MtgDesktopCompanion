@@ -112,6 +112,14 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		fireTableDataChanged();
 	}
 	
+	public boolean isEmpty()
+	{
+		if(items!=null)
+			return items.isEmpty();
+		
+		return true;
+	}
+	
 	public void removeItem(List<T> list)
 	{
 		for(T it : list)

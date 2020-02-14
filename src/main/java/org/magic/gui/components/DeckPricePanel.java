@@ -44,21 +44,35 @@ public class DeckPricePanel extends JComponent {
 	private JLabel lblPrice;
 	private int total = 0;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private JButton btnCheckPrice;
+	
+	
 	public void initDeck(MagicDeck d) {
 		this.deck = d;
 		try {
 			lblPrice.setText(String.valueOf(d.getAveragePrice()));
+			enableControle(true);
 		} catch (Exception e) {
 			lblPrice.setText("");
 		}
 		model.clear();
 	}
+	
+	public void enableControle(boolean b)
+	{
+		cboPricers.setEnabled(b);
+		btnCheckPrice.setEnabled(b);
+	}
+	
+	public JButton getBtnCheckPrice() {
+		return btnCheckPrice;
+	}
+	
 
 	public DeckPricePanel() {
 		setLayout(new BorderLayout(0, 0));
 
-		JButton btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
+		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
 		JPanel panel = new JPanel();
 		
 		add(panel, BorderLayout.NORTH);
@@ -66,6 +80,9 @@ public class DeckPricePanel extends JComponent {
 		cboPricers = UITools.createCombobox(MTGPricesProvider.class,false);
 		panel.add(cboPricers);
 
+		
+		enableControle(false);
+		
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();

@@ -5,6 +5,8 @@ import java.util.List;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.gui.models.DeckStockComparisonModel.Line;
+
 
 public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
@@ -84,53 +86,52 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 			return line.getNeeded();
 		}
 	}
-}
-
-
-class Line
-{
-	MagicCard mc;
-	Integer needed;
-	Boolean has;
-	List<MagicCardStock> stocks;
-	Integer result;
 	
-	public Line(MagicCard mc,Integer needed,Boolean has,List<MagicCardStock> stocks) {
-		this.mc=mc;
-		this.needed=needed;
-		this.has=has;
-		this.stocks=stocks;
+	public class Line
+	{
+		MagicCard mc;
+		Integer needed;
+		Boolean has;
+		List<MagicCardStock> stocks;
+		Integer result;
+		
+		public Line(MagicCard mc,Integer needed,Boolean has,List<MagicCardStock> stocks) {
+			this.mc=mc;
+			this.needed=needed;
+			this.has=has;
+			this.stocks=stocks;
+		}
+
+		public void setResult(Integer result) {
+			this.result = result;
+		}
+		
+		public Integer getResult() {
+			return result;
+		}
+
+		public MagicCard getMc() {
+			return mc;
+		}
+
+
+		public Integer getNeeded() {
+			return needed;
+		}
+
+
+		public Boolean getHas() {
+			return has;
+		}
+
+
+		public List<MagicCardStock> getStocks() {
+			return stocks;
+		}
 	}
 
-	public void setResult(Integer result) {
-		this.result = result;
-	}
-	
-	public Integer getResult() {
-		return result;
-	}
-
-	public MagicCard getMc() {
-		return mc;
-	}
-
-
-	public Integer getNeeded() {
-		return needed;
-	}
-
-
-	public Boolean getHas() {
-		return has;
-	}
-
-
-	public List<MagicCardStock> getStocks() {
-		return stocks;
-	}
-	
-	
-	
 	
 }
+
+
 

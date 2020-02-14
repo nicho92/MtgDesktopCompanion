@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -29,6 +31,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
+import org.magic.gui.models.DeckStockComparisonModel.Line;
+import javax.swing.JCheckBox;
+
 
 public class DeckStockComparatorPanel extends JComponent {
 	
@@ -42,6 +47,10 @@ public class DeckStockComparatorPanel extends JComponent {
 	private DeckStockComparisonModel model;
 	private JButton btnCompare;
 	private AbstractBuzyIndicatorComponent buzyLabel;
+	private DeckPricePanel pricesPan;
+	private JCheckBox chkCalculate ;
+	
+	
 	public void setCurrentDeck(MagicDeck c) {
 		this.currentDeck = c;
 	}
@@ -56,12 +65,16 @@ public class DeckStockComparatorPanel extends JComponent {
 		setLayout(new BorderLayout(0, 0));
 		btnCompare = new JButton("Compare");
 		JPanel panneauHaut = new JPanel();
-		JPanel panneauBas = new JPanel();
 		cboCollections = UITools.createComboboxCollection();
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
 		JXTable table = new JXTable();
+		JSplitPane pan = new JSplitPane();
+		pan.setDividerLocation(0.5);
+		pan.setResizeWeight(0.5);
 		
+		pan.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		pricesPan = new DeckPricePanel();
 		
 		table.setModel(model);
 		
@@ -70,10 +83,14 @@ public class DeckStockComparatorPanel extends JComponent {
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(btnCompare);
 		panneauHaut.add(buzyLabel);
-		add(panneauBas, BorderLayout.SOUTH);
 		
-		add(new JScrollPane(table), BorderLayout.CENTER);
+		chkCalculate = new JCheckBox("Calculate prices");
+		panneauHaut.add(chkCalculate);
 		
+		pan.setLeftComponent(new JScrollPane(table));
+		pan.setRightComponent(pricesPan);
+		
+		add(pan,BorderLayout.CENTER);
 		
 		table.setDefaultRenderer(Integer.class, new DefaultTableCellRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -139,6 +156,10 @@ public class DeckStockComparatorPanel extends JComponent {
 						@Override
 						protected void done() {
 							buzyLabel.end();
+							pricesPan.initDeck(MagicDeck.toDeck(model.getItems().stream().filter(l->l.getResult()>0).map(Line::getMc).collect(Collectors.toList())));
+							if(chkCalculate.isSelected())
+								pricesPan.getBtnCheckPrice().doClick();
+							
 						}
 
 						@Override
@@ -146,6 +167,8 @@ public class DeckStockComparatorPanel extends JComponent {
 							buzyLabel.progressSmooth(chunks.size());
 						}
 				};
+				
+				
 				ThreadManager.getInstance().runInEdt(sw, "compare deck and stock");
 				
 				
