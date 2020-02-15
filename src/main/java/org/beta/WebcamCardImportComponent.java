@@ -7,7 +7,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -23,6 +26,7 @@ import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -55,7 +59,10 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	private boolean running=false;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private DefaultListModel<MagicEdition> listModel;
-
+	private Set<MagicCard> findedCards;
+	private MagicCard currentCard;
+	
+	
 	@Override
 	public String getTitle() {
 		return "Card Detector";
@@ -89,6 +96,8 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	public WebcamCardImportComponent() {
 		setLayout(new BorderLayout(0, 0));
 		
+		findedCards = new LinkedHashSet<>();
+		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.EAST);
 		GridBagLayout gblpanel = new GridBagLayout();
@@ -121,7 +130,8 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		listModel = new DefaultListModel<>();
 		
 		try {
-			listModel.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions());
+			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().stream().sorted().forEach(listModel::addElement);
+			
 		} catch (IOException e1) {
 			logger.error(e1);
 		}
@@ -176,8 +186,7 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 			
 			@Override
 			protected void process(List<MatchResult> chunks) {
-				MatchResult r = chunks.get(0);
-				webcamPanel.setLastResult(r);
+				addResult( chunks.get(0));
 			}
 			
 			@Override
@@ -230,6 +239,28 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		
 				
 	}
+
+	protected void addResult(MatchResult r) {
+		webcamPanel.setLastResult(r);
+		try {
+			
+			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.name))
+			{
+				currentCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(r.name, new MagicEdition(r.setCode), true).get(0);
+				findedCards.add(currentCard);
+			}
+			
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		
+	}
+	
+	public List<MagicCard> getFindedCards()
+	{
+		return new ArrayList<>(findedCards);
+	}
+	
 
 	
 	

@@ -4,7 +4,7 @@ public class MatchResult {
 	public String result;
 	public String name;
 	public String setCode;
-	public String scryfallId;
+	public String id;
 	public double score;
 	
 	public MatchResult(String result, double score) {
@@ -13,8 +13,8 @@ public class MatchResult {
 		this.score = score;
 		String[] split = result.split("\\|");
 		name = split[0];
-		setCode = split[1];
-		scryfallId = split[2];
+		setCode = split[1].toUpperCase();
+		id = split[2];
 	}
 
 	public int hashCode() {
