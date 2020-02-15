@@ -1,6 +1,7 @@
 package org.beta;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -26,21 +28,28 @@ import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.game.gui.components.WebcamCanvas;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
+import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
+import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.area.AutoDetectAreaStrat;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 import org.utils.webcam.WebcamUtils;
 
@@ -59,13 +68,19 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	private boolean running=false;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private DefaultListModel<MagicEdition> listModel;
-	private Set<MagicCard> findedCards;
 	private MagicCard currentCard;
-	
+	private AbstractBuzyIndicatorComponent buzy;
+	private MagicCardTableModel modelCards;
+	private JXTable tableResults;
 	
 	@Override
 	public String getTitle() {
 		return "Card Detector";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_WEBCAM;
 	}
 	
 	public static void main(String[] args) {
@@ -95,19 +110,19 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	
 	public WebcamCardImportComponent() {
 		setLayout(new BorderLayout(0, 0));
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
-		findedCards = new LinkedHashSet<>();
 		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.EAST);
-		GridBagLayout gblpanel = new GridBagLayout();
-		gblpanel.columnWidths = new int[]{0};
-		gblpanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gblpanel.columnWeights = new double[]{0.0};
-		gblpanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
-		panel.setLayout(gblpanel);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gridBagLayout);
 		
-		JComboBox<Webcam> cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
+		JComboBox<Webcam> cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
 		panel.add(cboWebcams, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
 		
 		JComboBox<MTGCardRecognition> cboRecognition = UITools.createCombobox(MTGCardRecognition.class,true);
@@ -125,20 +140,20 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		
 		JButton btnStarting = new JButton("Run");
 		panel.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
-
 		
 		listModel = new DefaultListModel<>();
-		
 		try {
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().stream().sorted().forEach(listModel::addElement);
-			
 		} catch (IOException e1) {
 			logger.error(e1);
 		}
 		
 		JList<MagicEdition> listEds = new JList<>(listModel);
 		listEds.setCellRenderer(new MagicEditionIconListRenderer());
-		panel.add(new JScrollPane(listEds), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
+		panel.add(new JScrollPane(listEds), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 5));
+
+		panel.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+
 		
 		webcamPanel = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
 		add(webcamPanel, BorderLayout.CENTER);
@@ -147,6 +162,15 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		cboAreaDetector.addActionListener(il->webcamPanel.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
 		cboRecognition.addActionListener(il->strat = ((AbstractRecognitionStrategy)cboRecognition.getSelectedItem()));
 
+		modelCards = new MagicCardTableModel();
+		tableResults = new JXTable(modelCards);
+		tableResults.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		tableResults.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
+		
+		JScrollPane scrollPane = new JScrollPane(tableResults);
+		scrollPane.setPreferredSize(new Dimension(2, 200));
+		add(scrollPane,BorderLayout.SOUTH);
+		
 		
 		strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
 		
@@ -170,9 +194,6 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 								{
 									publish(res);
 								}
-							
-							
-							logger.info(matches);
 						}
 					}
 				}
@@ -207,11 +228,28 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		listEds.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				
 				if(me.getClickCount()==2) 
 				{
 						MagicEdition ed = listEds.getSelectedValue();
-						strat.loadDatasForSet(ed);
+						buzy.start(ed.getCardCount());						
+						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getCardCount()) {
+							@Override
+							protected Void doInBackground() throws Exception {
+								plug.loadDatasForSet(ed);
+								return null;
+							}
+							
+							protected void done() {
+								super.done();
+								plug.finalizeLoad();
+								
+							};
+						};
+						
+						ThreadManager.getInstance().runInEdt(work, "building " + ed + " recognition");
+						
+						
+						
 				}
 				
 			}
@@ -229,11 +267,7 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 				running=false;
 				sw.cancel(true);
 			}
-		
-			
-			
 			ThreadManager.getInstance().runInEdt(sw, "Webcam");
-				
 		});		
 		
 		
@@ -247,7 +281,8 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.name))
 			{
 				currentCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(r.name, new MagicEdition(r.setCode), true).get(0);
-				findedCards.add(currentCard);
+				modelCards.addItem(currentCard);
+				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
 			
 		} catch (IOException e) {
@@ -258,7 +293,7 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	
 	public List<MagicCard> getFindedCards()
 	{
-		return new ArrayList<>(findedCards);
+		return modelCards.getItems();
 	}
 	
 

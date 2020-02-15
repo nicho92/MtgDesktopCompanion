@@ -110,11 +110,11 @@ public class WebcamCanvas extends JPanel
 		Graphics g = buf.getGraphics();
 		g.drawImage(lastDrawn, 0, 0, null);
 		strat.draw(g);
-		g.setColor(Color.RED);
-		if(lastResult!=null)
-		{
-			g.drawString(lastResult.toString(), 0, 10);
-		}
+//		g.setColor(Color.RED);
+//		if(lastResult!=null)
+//		{
+//			g.drawString(lastResult.toString(), 0, 10);
+//		}
 		if(gi!=null)
 			gi.drawImage(buf, 0, 0, null);
 	}

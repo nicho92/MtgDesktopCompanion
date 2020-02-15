@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
@@ -190,6 +191,11 @@ public class UITools {
 	
 	public static <T> JComboBox<T> createCombobox(List<T> items)
 	{
+		return createCombobox(items, MTGConstants.ICON_MANA_INCOLOR);
+	}
+	
+	public static <T> JComboBox<T> createCombobox(List<T> items,ImageIcon i)
+	{
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
 		
@@ -208,7 +214,7 @@ public class UITools {
 						{
 							l=new JLabel(((LookAndFeelInfo)value).getName());
 						}
-						l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
+						l.setIcon(i);
 					}
 					
 					l.setOpaque(true);

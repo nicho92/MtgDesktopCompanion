@@ -125,6 +125,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			if(!card.isBasicLand() )
 			{
 				addFromCard(card);
+				notify(card);
 			}
 		}
 		
