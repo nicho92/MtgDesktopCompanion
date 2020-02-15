@@ -10,12 +10,12 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
-public class SealedStockModel extends GenericTableModel<SealedStock> {
+public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 
 	
 	private static final long serialVersionUID = 1L;
 
-	public SealedStockModel() {
+	public SealedStockTableModel() {
 		setColumns("ID","Type","Edition","LANGUAGE","Quality","Qty");
 	}
 	

@@ -28,7 +28,7 @@ import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.editor.ComboBoxEditor;
 import org.magic.gui.editor.IntegerCellEditor;
-import org.magic.gui.models.SealedStockModel;
+import org.magic.gui.models.SealedStockTableModel;
 import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -40,7 +40,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	private PackagesBrowserPanel packagePanel;
 	private GedPanel<SealedStock> gedPanel;
 	
-	private SealedStockModel model;
+	private SealedStockTableModel model;
 	private Packaging selectedItem;
 
 	
@@ -49,7 +49,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	}
 	
 	private void initGUI() {
-		model = new SealedStockModel();
+		model = new SealedStockTableModel();
 		JXTable table = new JXTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		gedPanel = new GedPanel<>();

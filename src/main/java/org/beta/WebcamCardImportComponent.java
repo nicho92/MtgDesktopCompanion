@@ -176,7 +176,8 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 			
 			@Override
 			protected void process(List<MatchResult> chunks) {
-				webcamPanel.setLastResult(chunks.get(0));
+				MatchResult r = chunks.get(0);
+				webcamPanel.setLastResult(r);
 			}
 			
 			@Override
