@@ -55,6 +55,12 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	public abstract BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException;
 	
 	@Override
+	public BufferedImage getPicture(MagicCard mc) throws IOException {
+		return getPicture(mc, mc.getCurrentSet());
+	}
+	
+	
+	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
 		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed) != null) {
 			logger.trace("cached " + mc + "(" + ed + ") found");

@@ -1,10 +1,16 @@
 package org.magic.tools;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.GZIPInputStream;
@@ -19,8 +25,10 @@ import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.recognition.DescContainer;
 
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
@@ -40,6 +48,17 @@ public class FileTools {
 	{
 			logger.debug("deleting file " + f);
 			FileUtils.forceDelete(f);
+	}
+	
+
+	public static String readUTF8(ByteBuffer buf)
+	{
+		short len = buf.getShort();
+		byte[] str = new byte[len];
+		buf.get(str);
+		String res = null;
+		res = new String(str,StandardCharsets.UTF_8);
+		return res;
 	}
 		
 	public static String readFile(File f) throws IOException
@@ -97,6 +116,37 @@ public class FileTools {
         
     }
 	
+
+	public static synchronized void writeSetRecognition(File f,MagicEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
+	{
+		try(DataOutputStream out = new DataOutputStream(new FileOutputStream(f)))
+		{
+			out.writeUTF(ed.getSet());
+			out.writeInt(sizeOfSet);
+			out.writeInt(desc.size());
+				
+				for(int i=0;i<desc.size();i++)
+				{
+					out.writeUTF(desc.get(i).getStringData());
+					desc.get(i).getDescData().writeOut(out);
+				}
+		}
+
+	}
+	
+	public static ByteBuffer getBuffer(File f) throws IOException
+	{
+		try(RandomAccessFile aFile = new RandomAccessFile(f.getAbsolutePath(),"r"))
+		{
+			FileChannel inChannel = aFile.getChannel();
+			long fileSize = inChannel.size();
+			ByteBuffer buffer = ByteBuffer.allocate((int) fileSize);
+			inChannel.read(buffer);
+			buffer.flip();
+			return buffer;
+		}
+		
+	}
 	
 	public static void unzip(File fileZip,File dest) throws IOException 
 	{
@@ -212,5 +262,5 @@ public class FileTools {
 	            fileOuputStream.write(content);
 		 } 
 	}
-		
+
 }

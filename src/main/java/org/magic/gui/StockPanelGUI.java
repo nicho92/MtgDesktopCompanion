@@ -280,7 +280,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 						int res = -1;
 						if (!exp.needDialogGUI()) {
-							res = jf.showOpenDialog(null);
+							res = jf.showOpenDialog(null); 
 							fileImport = jf.getSelectedFile();
 						} else {
 							try {

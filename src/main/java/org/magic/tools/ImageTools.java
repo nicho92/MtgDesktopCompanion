@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +38,16 @@ import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.recognition.ContourBoundingBox;
+
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.Contour;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.io.image.ConvertBufferedImage;
+import boofcv.struct.ConfigLength;
+import boofcv.struct.ConnectRule;
+import boofcv.struct.image.GrayS32;
+import boofcv.struct.image.GrayU8;
 
 public class ImageTools {
 
@@ -61,6 +74,30 @@ public class ImageTools {
 			} catch (Exception e) {
 				return false;
 			}
+	}
+	
+
+	
+	public static BufferedImage getScaledImage(BufferedImage src){
+		
+		int SQUARE_SIZE = 300;
+		int finalw = SQUARE_SIZE;
+		int finalh = SQUARE_SIZE;
+		double factor = 1.0d;
+		if(src.getWidth() > src.getHeight()){
+			factor = ((double)src.getHeight()/(double)src.getWidth());
+			finalh = (int)(finalw * factor);                
+		}else{
+			factor = ((double)src.getWidth()/(double)src.getHeight());
+			finalw = (int)(finalh * factor);
+		}   
+
+		BufferedImage resizedImg = new BufferedImage(finalw, finalh, Transparency.TRANSLUCENT);
+		Graphics2D g2 = resizedImg.createGraphics();
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g2.drawImage(src, 0, 0, finalw, finalh, null);
+		g2.dispose();
+		return resizedImg;
 	}
 	
 	
@@ -353,8 +390,5 @@ public class ImageTools {
 		
 	}
 
-
-	
-	
 	
 }

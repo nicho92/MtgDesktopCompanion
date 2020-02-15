@@ -49,11 +49,21 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.boofcv</groupId>
 			<artifactId>boofcv-core</artifactId>
 			<version>0.35</version>
-		</dependency> -->
+		</dependency>
+		<dependency>
+			<groupId>com.github.sarxos</groupId>
+			<artifactId>webcam-capture</artifactId>
+			<version>0.3.12</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sarxos</groupId>
+			<artifactId>webcam-capture-driver-ipcam</artifactId>
+			<version>0.3.12</version>
+		</dependency>
 		<dependency>
 		    <groupId>com.github.marschall</groupId>
 		    <artifactId>memoryfilesystem</artifactId>
