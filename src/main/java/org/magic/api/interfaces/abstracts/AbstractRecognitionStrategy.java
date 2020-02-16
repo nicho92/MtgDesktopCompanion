@@ -44,6 +44,11 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 		
 	
+	@Override
+	public boolean isCached(MagicEdition ed) {
+		return getSetDirectory(ed).exists();
+	}
+	
 	public AbstractRecognitionStrategy() {
 		super();
 		

@@ -22,6 +22,7 @@ public interface MTGCardRecognition extends MTGPlugin {
 	public void add(DescContainer dc);
 
 	public int size();
+	public boolean isCached(MagicEdition ed);
 	
 
 }
