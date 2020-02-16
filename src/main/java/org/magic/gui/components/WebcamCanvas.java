@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -30,6 +31,7 @@ public class WebcamCanvas extends JPanel
 		canvas = new Canvas();
 		setSize(w.getViewSize());
 		canvas.setPreferredSize(w.getViewSize());
+		setBackground(Color.BLACK);
 		add(canvas);
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);

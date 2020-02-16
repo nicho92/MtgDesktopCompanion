@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JDialog;
+
 import org.apache.commons.lang.NotImplementedException;
 import org.beta.WebcamCardImportComponent;
 import org.magic.api.beans.MagicCardStock;
@@ -46,7 +48,8 @@ public class WebCamImport extends AbstractCardExport {
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		
 		WebcamCardImportComponent c = new WebcamCardImportComponent();
-		MTGUIComponent.createJDialog(c, true, true).setVisible(true);
+		c.setVisible(true);
+		
 		
 		return c.getFindedCards().stream().map(card->{
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
@@ -64,7 +67,7 @@ public class WebCamImport extends AbstractCardExport {
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		WebcamCardImportComponent c = new WebcamCardImportComponent();
-		MTGUIComponent.createJDialog(c, true, true).setVisible(true);
+		c.setVisible(true);
 		
 		return c.getSelectedDeck();
 		

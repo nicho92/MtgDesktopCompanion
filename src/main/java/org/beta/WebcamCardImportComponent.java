@@ -3,7 +3,6 @@ package org.beta;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -36,8 +35,8 @@ import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
-import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.WebcamCanvas;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
@@ -58,9 +57,10 @@ import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
+import java.awt.Dimension;
 
 
-public class WebcamCardImportComponent extends MTGUIComponent {
+public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
 	
 	
@@ -77,16 +77,12 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	private JXTable tableResults;
 	private boolean pause=false;
 	
+	
 	@Override
 	public String getTitle() {
 		return "Card Detector";
 	}
 
-	@Override
-	public ImageIcon getIcon() {
-		return MTGConstants.ICON_WEBCAM;
-	}
-	
 	
 	public static void main(String[] args) {
 		
@@ -94,15 +90,23 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		WebcamUtils.inst().registerIPCam("Emulated IPcam", "https://images-na.ssl-images-amazon.com/images/I/416Sh21qFgL._AC_.jpg", IpCamMode.PULL);
 		
 		SwingUtilities.invokeLater(()->{
-			WebcamCardImportComponent c = new WebcamCardImportComponent();
-			MTGUIComponent.createJDialog(c, true, true).setVisible(true);
+			WebcamCardImportComponent j = new WebcamCardImportComponent();
+			j.setVisible(true);
 		});
 		
 	}
 	
 	
+	@Override
+	public void dispose() {
+		webcamPanel.close();
+		running=false;
+		logger.debug("Closing cam done");
+		super.dispose();
+	}
+	
 	public WebcamCardImportComponent() {
-		setLayout(new BorderLayout(0, 0));
+		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -163,11 +167,13 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		panneauBasButtons.add(btnRemove);
 		panneauBasButtons.add(btnClose);
 		panneauBas.add(panneauBasButtons,BorderLayout.EAST);
-		panneauBas.add(new JScrollPane(tableResults),BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(tableResults);
+		scrollPane.setPreferredSize(new Dimension(2, 150));
+		panneauBas.add(scrollPane,BorderLayout.CENTER);
 
-		add(panelControl, BorderLayout.EAST);
-		add(panneauBas,BorderLayout.SOUTH);
-		add(webcamPanel, BorderLayout.CENTER);
+		getContentPane().add(panelControl, BorderLayout.EAST);
+		getContentPane().add(panneauBas,BorderLayout.SOUTH);
+		getContentPane().add(webcamPanel, BorderLayout.CENTER);
 
 		
 		
@@ -215,6 +221,7 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		sldThreshold.addChangeListener(cl->lblThreshHoldValue.setText(String.valueOf(sldThreshold.getValue())));
 		cboAreaDetector.addActionListener(il->webcamPanel.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
 		cboRecognition.addActionListener(il->strat = ((AbstractRecognitionStrategy)cboRecognition.getSelectedItem()));
+		btnClose.addActionListener(il->dispose());
 
 		
 		
@@ -235,7 +242,7 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 					{
 						webcamPanel.draw();
 						BufferedImage img = webcamPanel.lastDrawn();
-						if(strat!=null && img!=null && !pause) 
+						if(strat!=null && img!=null && !pause && !isCancelled()) 
 						{
 							List<MatchResult> matches = webcamPanel.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
 								MatchResult res = !matches.isEmpty() ? matches.get(0):null;
@@ -263,24 +270,18 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 			protected void done() {
 				
 				try {
-					get();
 					logger.info("Stopping webcam " + webcamPanel.getWebcam());
 					running=false;
+					get();
 				} catch (Exception e) {
-					logger.error("Stopping webcam " + webcamPanel.getWebcam(),e);
+					logger.error("Error Stopping webcam " + webcamPanel.getWebcam(),e);
 				} 
 				
 			}
 		};
 		
-		btnClose.addActionListener(l->onDestroy());
-		
-		
-		
 		chkpause.addChangeListener(l->pause=chkpause.isSelected());
-		
-
-		
+				
 		btnRemove.addActionListener(l->{
 			List<MagicCard> cards = UITools.getTableSelections(tableResults,0);
 			
@@ -288,7 +289,6 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 				modelCards.removeItem(cards);
 			
 		});
-		
 		
 		listEds.addMouseListener(new MouseAdapter() {
 			@Override
@@ -325,27 +325,14 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 			strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
 			webcamPanel.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamPanel.revalidate();
-			
-//			if(sw.isCancelled() || sw.isDone())
-//			{
-//				logger.info("Killing current sw");
-//				running=false;
-//				sw.cancel(true);
-//			}
 			ThreadManager.getInstance().runInEdt(sw, "Webcam");
 		});		
 
+		
+		pack();
 				
 	}
 	
-	@Override
-	public void onDestroy() {
-		if(webcamPanel.getWebcam().isOpen())
-			webcamPanel.getWebcam().close();
-		
-		running=false;
-		logger.debug("Closing cam done");
-	}
 	
 	protected void addResult(MatchResult r) {
 		try {
@@ -367,7 +354,6 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 	{
 		return modelCards.getItems();
 	}
-
 	
 	public MagicDeck getSelectedDeck() {
 		MagicDeck d = new MagicDeck();
@@ -376,6 +362,7 @@ public class WebcamCardImportComponent extends MTGUIComponent {
 		getFindedCards().forEach(d::add);
 		return d;
 	}
+	
 	
 
 	
