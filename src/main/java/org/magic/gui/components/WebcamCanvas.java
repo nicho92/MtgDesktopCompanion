@@ -1,6 +1,5 @@
-package org.magic.game.gui.components;
+package org.magic.gui.components;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -10,7 +9,6 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.MTGLogger;
-import org.magic.services.recognition.MatchResult;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamLockException;
@@ -22,7 +20,6 @@ public class WebcamCanvas extends JPanel
 	private Canvas canvas;
 	private transient  BufferedImage lastDrawn;
 	private transient  BufferedImage buf;
-	private transient  MatchResult lastResult;
 	private transient  AbstractRecognitionArea strat;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -32,7 +29,7 @@ public class WebcamCanvas extends JPanel
 		strat = s;
 		canvas = new Canvas();
 		setSize(w.getViewSize());
-		canvas.setSize(w.getViewSize());
+		canvas.setPreferredSize(w.getViewSize());
 		add(canvas);
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);
@@ -110,11 +107,6 @@ public class WebcamCanvas extends JPanel
 		Graphics g = buf.getGraphics();
 		g.drawImage(lastDrawn, 0, 0, null);
 		strat.draw(g);
-//		g.setColor(Color.RED);
-//		if(lastResult!=null)
-//		{
-//			g.drawString(lastResult.toString(), 0, 10);
-//		}
 		if(gi!=null)
 			gi.drawImage(buf, 0, 0, null);
 	}
@@ -122,10 +114,6 @@ public class WebcamCanvas extends JPanel
 	public void close()
 	{
 		cam.close();
-	}
-
-	public void setLastResult(MatchResult lastResult) {
-		this.lastResult = lastResult;
 	}
 
 }

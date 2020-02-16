@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +11,6 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class WebCamImport extends AbstractCardExport {
@@ -48,7 +46,6 @@ public class WebCamImport extends AbstractCardExport {
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		
 		WebcamCardImportComponent c = new WebcamCardImportComponent();
-		
 		MTGUIComponent.createJDialog(c, true, true).setVisible(true);
 		
 		return c.getFindedCards().stream().map(card->{
@@ -68,9 +65,8 @@ public class WebCamImport extends AbstractCardExport {
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		WebcamCardImportComponent c = new WebcamCardImportComponent();
 		MTGUIComponent.createJDialog(c, true, true).setVisible(true);
-		MagicDeck st = new MagicDeck();
-		c.getFindedCards().stream().forEach(st::add);
-		return st;
+		
+		return c.getSelectedDeck();
 		
 	}
 
