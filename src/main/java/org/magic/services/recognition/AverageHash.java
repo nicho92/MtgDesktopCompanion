@@ -1,5 +1,6 @@
 package org.magic.services.recognition;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.DataOutputStream;
@@ -11,9 +12,9 @@ public class AverageHash {
 	private static Graphics g;
 	private static boolean initiated = false;
 	
-	public int width;
-	public int height;
-	public long[] digest;
+	private int width;
+	private int height;
+	private long[] digest;
 	
 	public static void init(int maxW, int maxH)
 	{
@@ -24,7 +25,7 @@ public class AverageHash {
 	
 	public static AverageHash avgHash(BufferedImage img, int w, int h)
 	{
-		g.drawImage(img.getScaledInstance(8*w, 8*h, BufferedImage.SCALE_FAST),0,0,null);
+		g.drawImage(img.getScaledInstance(8*w, 8*h, Image.SCALE_FAST),0,0,null);
 		
 		AverageHash d = new AverageHash();
 		d.digest = new long[w*h];

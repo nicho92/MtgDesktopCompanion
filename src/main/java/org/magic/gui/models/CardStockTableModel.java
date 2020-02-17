@@ -155,7 +155,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		
 	}
 
-	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
+	public void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
 		
 		try {
 			if(!magicCardStock.getMagicCard().getCurrentSet().equals(aValue))

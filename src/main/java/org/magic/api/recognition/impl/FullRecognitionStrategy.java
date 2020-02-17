@@ -1,7 +1,4 @@
 package org.magic.api.recognition.impl;
-import java.io.File;
-import java.util.ArrayList;
-
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
@@ -10,17 +7,7 @@ import org.magic.services.recognition.MatchResult;
 public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 {
 
-	public FullRecognitionStrategy()
-	{
-		desc = new ArrayList<>();
-	}
-
-	public FullRecognitionStrategy(File f)
-	{
-		desc = new ArrayList<>();
-		loadDatasFromFile(f);
-	}
-
+	
 	public synchronized MatchResult getMatch(ImageDesc in, double threshhold)
 	{
 		int ix = 0;
@@ -48,13 +35,4 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 		return "Full Scan";
 	}
 
-
-	public synchronized void finalizeLoad()
-	{
-		//do nothing
-	}
-
-	public synchronized int size() {
-		return desc.size();
-	}
 }

@@ -12,6 +12,13 @@ public class TreeRecogStrat extends AbstractRecognitionStrategy{
 	private ConcurrentLinkedQueue<DescContainer> lq = new ConcurrentLinkedQueue<>();
 	private int size=0;
 
+
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
 	
 	@Override
 	public String getName()
@@ -96,9 +103,9 @@ public class TreeRecogStrat extends AbstractRecognitionStrategy{
 				current = n;
 			}
 		}
-		if(max>threshhold)
+		if(max>threshhold && maxn !=null)
 		{
-			return new MatchResult(maxn.d.getStringData(),max);
+			return new MatchResult(maxn.getD().getStringData(),max);
 		}
 		return null;
 	}
@@ -114,23 +121,24 @@ public class TreeRecogStrat extends AbstractRecognitionStrategy{
 
 	private class Node
 	{
-		DescContainer d;
-		Node left;
-		Node right;
-		double s;
+		private DescContainer d;
+		private Node left;
+		private Node right;
+		private double s;
 
 		public Node(DescContainer d)
 		{
 			this.d = d;
 		}
 
+		
+		public DescContainer getD() {
+			return d;
+		}
+		
 		public boolean full()
 		{
-			if(left==null || right==null)
-			{
-				return false;
-			}
-			return true;
+			return !(left==null || right==null);
 		}
 		
 		public void add(Node n)

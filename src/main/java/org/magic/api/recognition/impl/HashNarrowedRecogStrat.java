@@ -9,6 +9,12 @@ import org.magic.services.recognition.MatchResult;
 
 public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 
+
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 	
 	
 	@Override
@@ -20,7 +26,7 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	@Override
 	public String getName()
 	{
-		return "Hash Narrowed";
+		return "Perceptual hashing";
 	}
 
 	@Override

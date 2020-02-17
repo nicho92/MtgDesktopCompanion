@@ -119,6 +119,14 @@ public class FileTools {
 
 	public static synchronized void writeSetRecognition(File f,MagicEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
 	{
+		
+		if(!f.getParentFile().exists())
+		{
+			FileUtils.forceMkdir(f.getParentFile());
+		}
+			
+		
+		
 		try(DataOutputStream out = new DataOutputStream(new FileOutputStream(f)))
 		{
 			out.writeUTF(ed.getSet());

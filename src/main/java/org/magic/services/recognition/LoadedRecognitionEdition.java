@@ -16,9 +16,6 @@ public class LoadedRecognitionEdition {
 		setLoaded(false);
 	}
 	
-	
-	
-	
 	public MagicEdition getEdition() {
 		return edition;
 	}

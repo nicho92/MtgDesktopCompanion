@@ -23,6 +23,11 @@ public class DescContainer implements Comparable<DescContainer>{
 	{
 		return stringData.split("\\|")[0];
 	}
+	
+	public String getSetCode()
+	{
+		return stringData.split("\\|")[1];
+	}
 
 	public ImageDesc getDescData() {
 		return descData;

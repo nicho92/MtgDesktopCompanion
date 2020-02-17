@@ -19,10 +19,11 @@ public interface MTGCardRecognition extends MTGPlugin {
 	public void finalizeLoad();
 
 	public void clear();
+	public void clear(MagicEdition ed);
 	public void add(DescContainer dc);
 
 	public int size();
 	public boolean isCached(MagicEdition ed);
-	
+	public boolean isSetLoaded(MagicEdition ed);
 
 }

@@ -9,6 +9,7 @@ import org.ddogleg.struct.FastQueue;
 import boofcv.abst.feature.associate.AssociateDescription;
 import boofcv.abst.feature.associate.ScoreAssociation;
 import boofcv.abst.feature.detdesc.DetectDescribePoint;
+import boofcv.abst.feature.detect.interest.ConfigFastHessian;
 import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.enhance.EnhanceImageOps;
 import boofcv.alg.misc.ImageStatistics;
@@ -23,7 +24,25 @@ import boofcv.struct.image.GrayU8;
 
 public class ImageDesc
 {
-	private static DetectDescribePoint<GrayF32, BrightFeature> detDesc = FactoryDetectDescribe.surfStable(StaticConfigs.getHessianConf(), null,null, GrayF32.class);
+	private static float detectThreshold = 10;
+	private static int extractRadius = 2;
+	private static int maxFeaturesPerScale = 100;
+	private static int initialSampleSize = 2;
+	private static int initialSize = 9;
+	private static int numberScalesPerOctave = 3;
+	private static int numberOfOctaves = 4;
+	
+	public static ConfigFastHessian getHessianConf()
+	{
+		return new ConfigFastHessian(detectThreshold, extractRadius, maxFeaturesPerScale,initialSampleSize, initialSize, numberScalesPerOctave, numberOfOctaves); 
+	}
+	
+	public static ConfigFastHessian getHessianConf(float thresh)
+	{
+		return new ConfigFastHessian(thresh, extractRadius, maxFeaturesPerScale,initialSampleSize, initialSize, numberScalesPerOctave, numberOfOctaves); 
+	}
+	
+	private static DetectDescribePoint<GrayF32, BrightFeature> detDesc = FactoryDetectDescribe.surfStable(getHessianConf(), null,null, GrayF32.class);
 	private static ScoreAssociation<BrightFeature> scorer = FactoryAssociation.defaultScore(detDesc.getDescriptionType());
 	private static AssociateDescription<BrightFeature> associate = FactoryAssociation.greedy(scorer, Double.MAX_VALUE, true);
 	

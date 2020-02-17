@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import javax.swing.JDialog;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.beta.WebcamCardImportComponent;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.WebcamCardImportComponent;
 import org.magic.services.MTGControler;
 
 public class WebCamImport extends AbstractCardExport {

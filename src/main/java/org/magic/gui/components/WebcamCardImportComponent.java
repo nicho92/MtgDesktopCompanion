@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,19 +12,23 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -37,7 +41,6 @@ import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
-import org.magic.gui.components.WebcamCanvas;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -92,6 +95,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		SwingUtilities.invokeLater(()->{
 			WebcamCardImportComponent j = new WebcamCardImportComponent();
 			j.setVisible(true);
+			j.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		});
 		
 	}
@@ -106,13 +110,13 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	}
 	
 	public WebcamCardImportComponent() {
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout(0, 0));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
 		
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -124,12 +128,13 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		JSlider sldThreshold = new JSlider(0,100,27);
 		JLabel lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
 		JPanel thrsh = new JPanel();
+		JPanel panelWebcams = new JPanel();
 		JButton btnStarting = new JButton("Detect");
 		JPanel panneauBas = new JPanel();
 		JPanel panneauBasButtons = new JPanel();
 		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
 		JButton btnClose = new JButton(MTGConstants.ICON_IMPORT);
-		
+		JButton btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
 		strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
@@ -151,19 +156,25 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		panelControl.setLayout(gridBagLayout);
 		panneauBasButtons.setLayout(new BoxLayout(panneauBasButtons, BoxLayout.Y_AXIS));
 		panneauBas.setLayout(new BorderLayout());
+	
 
 		
+		panelWebcams.add(cboWebcams);
+		panelWebcams.add(btnReloadCams);
+	
+		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0));
+		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		panelControl.add(panelWebcams, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		panelControl.add(cboRecognition, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 3));
+		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
+		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
+		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		
-		panelControl.add(cboWebcams, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
-		panelControl.add(cboRecognition, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 1));
-		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		
+		
 		thrsh.add(sldThreshold);
 		thrsh.add(lblThreshHoldValue);
 		thrsh.add(chkpause);
-		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
-		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
-		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 5));
-		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		panneauBasButtons.add(btnRemove);
 		panneauBasButtons.add(btnClose);
 		panneauBas.add(panneauBasButtons,BorderLayout.EAST);
@@ -175,10 +186,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		getContentPane().add(panneauBas,BorderLayout.SOUTH);
 		getContentPane().add(webcamPanel, BorderLayout.CENTER);
 
-		
-		
 	
-		
+		tableResults.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		tableResults.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
+	
 		listEds.setCellRenderer(new ListCellRenderer<>() {
 			JLabel l = new JLabel();
 			@Override
@@ -222,12 +233,11 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		cboAreaDetector.addActionListener(il->webcamPanel.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
 		cboRecognition.addActionListener(il->strat = ((AbstractRecognitionStrategy)cboRecognition.getSelectedItem()));
 		btnClose.addActionListener(il->dispose());
-
+		btnReloadCams.addActionListener(al->{
+			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).removeAllElements();
+			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).addAll(WebcamUtils.inst().listWebcam());
+		});
 		
-		
-		
-		tableResults.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		tableResults.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		
 
 		sw = new SwingWorker<>()

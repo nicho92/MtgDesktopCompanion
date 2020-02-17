@@ -35,8 +35,9 @@ public class MatchResult {
 		if (result == null) {
 			if (other.result != null)
 				return false;
-		} else if (!result.equals(other.result))
-			return false;
+			} 
+			else if (!result.equals(other.result))
+					return false;
 		return true;
 	}
 
