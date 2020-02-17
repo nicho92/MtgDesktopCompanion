@@ -163,7 +163,7 @@ class DummyWebcamDevice implements WebcamDevice
         bounceY += yvel*delta;
         if(bounceX > WIDTH - BOUNCE_SIZE)
         {
-            bounceX = WIDTH - BOUNCE_SIZE;
+            bounceX = WIDTH-BOUNCE_SIZE;
             xvel = -xvel;
         }
         if(bounceX < BOUNCE_SIZE)
@@ -173,7 +173,7 @@ class DummyWebcamDevice implements WebcamDevice
         }
         if(bounceY > HEIGHT - BOUNCE_SIZE)
         {
-            bounceY = HEIGHT - BOUNCE_SIZE;
+            bounceY = HEIGHT-BOUNCE_SIZE;
             yvel = -yvel;
         }
         if(bounceY < BOUNCE_SIZE)

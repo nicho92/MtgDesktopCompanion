@@ -69,7 +69,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
 	private static final long serialVersionUID = 1L;
 	private transient MTGCardRecognition strat;
-	private WebcamCanvas webcamPanel;
+	private WebcamCanvas webcamCanvas;
 	private transient SwingWorker<Void, MatchResult> sw;
 	private boolean running=false;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -90,12 +90,11 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	public static void main(String[] args) {
 		
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		WebcamUtils.inst().registerIPCam("Emulated IPcam", "https://images-na.ssl-images-amazon.com/images/I/416Sh21qFgL._AC_.jpg", IpCamMode.PULL);
 		
 		SwingUtilities.invokeLater(()->{
 			WebcamCardImportComponent j = new WebcamCardImportComponent();
 			j.setVisible(true);
-			j.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			j.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		});
 		
 	}
@@ -103,7 +102,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
 	@Override
 	public void dispose() {
-		webcamPanel.close();
+		webcamCanvas.close();
 		running=false;
 		logger.debug("Closing cam done");
 		super.dispose();
@@ -128,13 +127,15 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		JSlider sldThreshold = new JSlider(0,100,27);
 		JLabel lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
 		JPanel thrsh = new JPanel();
-		JPanel panelWebcams = new JPanel();
+		JPanel controlWebcamPanel = new JPanel();
 		JButton btnStarting = new JButton("Detect");
 		JPanel panneauBas = new JPanel();
 		JPanel panneauBasButtons = new JPanel();
 		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
 		JButton btnClose = new JButton(MTGConstants.ICON_IMPORT);
 		JButton btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
+		JButton btnAddCam = new JButton(MTGConstants.ICON_NEW);
+		
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
 		strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
@@ -149,7 +150,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		JListFilterDecorator deco = JListFilterDecorator.decorate(listEds,(LoadedRecognitionEdition t, String u)->t.getEdition().getSet().toLowerCase().contains(u.toLowerCase()));
 
 		
-		webcamPanel = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
+		webcamCanvas = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
 
 		
 		
@@ -159,12 +160,13 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
 
 		
-		panelWebcams.add(cboWebcams);
-		panelWebcams.add(btnReloadCams);
+		controlWebcamPanel.add(cboWebcams);
+		controlWebcamPanel.add(btnReloadCams);
+		controlWebcamPanel.add(btnAddCam);
 	
 		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0));
 		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
-		panelControl.add(panelWebcams, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
 		panelControl.add(cboRecognition, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 3));
 		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
 		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
@@ -184,7 +186,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 
 		getContentPane().add(panelControl, BorderLayout.EAST);
 		getContentPane().add(panneauBas,BorderLayout.SOUTH);
-		getContentPane().add(webcamPanel, BorderLayout.CENTER);
+		getContentPane().add(webcamCanvas, BorderLayout.CENTER);
 
 	
 		tableResults.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -230,65 +232,23 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 	
 		sldThreshold.addChangeListener(cl->lblThreshHoldValue.setText(String.valueOf(sldThreshold.getValue())));
-		cboAreaDetector.addActionListener(il->webcamPanel.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
+		cboAreaDetector.addActionListener(il->webcamCanvas.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
 		cboRecognition.addActionListener(il->strat = ((AbstractRecognitionStrategy)cboRecognition.getSelectedItem()));
 		btnClose.addActionListener(il->dispose());
 		btnReloadCams.addActionListener(al->{
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).removeAllElements();
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).addAll(WebcamUtils.inst().listWebcam());
+			cboWebcams.setSelectedItem(webcamCanvas.getWebcam());
+		});
+		
+		btnAddCam.addActionListener(al->{
+			//WebcamUtils.inst().registerIPCam("Emulated IPcam", "https://images-na.ssl-images-amazon.com/images/I/416Sh21qFgL._AC_.jpg", IpCamMode.PULL);
+			//WebcamUtils.inst().registerIPCam("Test IPCam", "https://www.picclickimg.com/d/l400/pict/173912428977_/MTG-Magic-The-Gathering-Cards-Ice-Age.jpg", IpCamMode.PULL);
+			btnReloadCams.doClick();
 		});
 		
 		
 
-		sw = new SwingWorker<>()
-		{
-			@Override
-			protected Void doInBackground() 
-			{
-				running=true;
-				try {
-					logger.info("start " + webcamPanel.getWebcam() +" " + running);
-					while(running) 
-					{
-						webcamPanel.draw();
-						BufferedImage img = webcamPanel.lastDrawn();
-						if(strat!=null && img!=null && !pause && !isCancelled()) 
-						{
-							List<MatchResult> matches = webcamPanel.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
-								MatchResult res = !matches.isEmpty() ? matches.get(0):null;
-								if(res!=null)
-								{
-									publish(res);
-								}
-						}
-					}
-				}
-				catch(Exception e)
-				{
-					logger.error("Error in webcam" ,e);
-				}
-				
-				return null;
-			}
-			
-			@Override
-			protected void process(List<MatchResult> chunks) {
-				addResult( chunks.get(0));
-			}
-			
-			@Override
-			protected void done() {
-				
-				try {
-					logger.info("Stopping webcam " + webcamPanel.getWebcam());
-					running=false;
-					get();
-				} catch (Exception e) {
-					logger.error("Error Stopping webcam " + webcamPanel.getWebcam(),e);
-				} 
-				
-			}
-		};
 		
 		chkpause.addChangeListener(l->pause=chkpause.isSelected());
 				
@@ -333,13 +293,64 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		btnStarting.addActionListener(al->{
 			strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
-			webcamPanel.setWebcam((Webcam)cboWebcams.getSelectedItem());
-			webcamPanel.revalidate();
+			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
+			webcamCanvas.revalidate();
 			ThreadManager.getInstance().runInEdt(sw, "Webcam");
 		});		
 
 		
 		pack();
+		
+		sw = new SwingWorker<>()
+		{
+			@Override
+			protected Void doInBackground() 
+			{
+				running=true;
+				try {
+					logger.info("start " + webcamCanvas.getWebcam() +" " + running);
+					while(running) 
+					{
+						webcamCanvas.draw();
+						BufferedImage img = webcamCanvas.lastDrawn();
+						if(strat!=null && img!=null && !pause && !isCancelled()) 
+						{
+							List<MatchResult> matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
+								MatchResult res = !matches.isEmpty() ? matches.get(0):null;
+								if(res!=null)
+								{
+									publish(res);
+								}
+						}
+					}
+				}
+				catch(Exception e)
+				{
+					logger.error("Error in webcam" ,e);
+				}
+				
+				return null;
+			}
+			
+			@Override
+			protected void process(List<MatchResult> chunks) {
+				addResult( chunks.get(0));
+			}
+			
+			@Override
+			protected void done() {
+				
+				try {
+					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
+					running=false;
+					get();
+				} catch (Exception e) {
+					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
+				} 
+				
+			}
+		};
+		
 				
 	}
 	
