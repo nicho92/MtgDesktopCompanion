@@ -40,6 +40,7 @@ import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
+import org.magic.gui.components.dialog.IPCamAddDialog;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -241,9 +242,11 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		});
 		
 		btnAddCam.addActionListener(al->{
-			//WebcamUtils.inst().registerIPCam("Emulated IPcam", "https://images-na.ssl-images-amazon.com/images/I/416Sh21qFgL._AC_.jpg", IpCamMode.PULL);
-			//WebcamUtils.inst().registerIPCam("Test IPCam", "https://www.picclickimg.com/d/l400/pict/173912428977_/MTG-Magic-The-Gathering-Cards-Ice-Age.jpg", IpCamMode.PULL);
-			btnReloadCams.doClick();
+			IPCamAddDialog diag = new IPCamAddDialog();
+						   diag.setModal(true);
+						   diag.setVisible(true);
+			if(diag.isHasNew())
+				btnReloadCams.doClick();
 		});
 		
 		
