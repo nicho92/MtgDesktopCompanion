@@ -704,11 +704,11 @@
         </strategy>
         <strategy>
             <class>org.magic.api.recognition.impl.TreeRecogStrat</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </strategy>
         <strategy>
             <class>org.magic.api.recognition.impl.HashNarrowedRecogStrat</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </strategy>
     </strategies>
 </conf>

@@ -111,15 +111,14 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0,0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 59, 0, 0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
 		
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JPanel panelControl = new JPanel();
 		JComboBox<Webcam> cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
-		JComboBox<MTGCardRecognition> cboRecognition = UITools.createCombobox(MTGCardRecognition.class,true);
 		JComboBox<AbstractRecognitionArea> cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
 		JCheckBox chkpause = new JCheckBox("Pause");
 		JSlider sldThreshold = new JSlider(0,100,27);
@@ -136,7 +135,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
-		strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
+		strat = MTGControler.getInstance().getEnabled(MTGCardRecognition.class);
 		
 		try {
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().stream().sorted().map(ed->new LoadedRecognitionEdition(ed,strat.isCached(ed))).forEach(listModel::addElement);
@@ -163,14 +162,13 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		controlWebcamPanel.add(btnAddCam);
 
 		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
-		panelControl.add(cboRecognition, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 1));
-		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2));
-		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
+		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1));
+		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
 
 		
-		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
-		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
-		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
+		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
+		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
 		
 		
 		
@@ -233,7 +231,6 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
 		sldThreshold.addChangeListener(cl->lblThreshHoldValue.setText(String.valueOf(sldThreshold.getValue())));
 		cboAreaDetector.addActionListener(il->webcamCanvas.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
-		cboRecognition.addActionListener(il->strat = ((AbstractRecognitionStrategy)cboRecognition.getSelectedItem()));
 		btnClose.addActionListener(il->dispose());
 		btnReloadCams.addActionListener(al->{
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).removeAllElements();
@@ -294,7 +291,6 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			
 		
 		btnStarting.addActionListener(al->{
-			strat = (MTGCardRecognition)cboRecognition.getSelectedItem();
 			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamCanvas.revalidate();
 			ThreadManager.getInstance().runInEdt(sw, "Webcam");
