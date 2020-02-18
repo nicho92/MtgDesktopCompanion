@@ -7,16 +7,26 @@
         <deckbuilder>true</deckbuilder>
         <collection>true</collection>
         <game>true</game>
-        <rss>true</rss>
+        <rss>false</rss>
         <alarm>true</alarm>
         <shopper>true</shopper>
         <cardbuilder>true</cardbuilder>
         <stock>true</stock>
-        <history>true</history>
-        <wallpaper>true</wallpaper>
+        <history>false</history>
+        <wallpaper>false</wallpaper>
         <sealed>true</sealed>
     </modules>
-    <currencylayer-access-api></currencylayer-access-api>
+    <ui>
+        <moduleTabPosition>LEFT</moduleTabPosition>
+        <font>
+            <family>Arial Unicode MS</family>
+            <style>0</style>
+            <size>12</size>
+        </font>
+        <chromedisabled>false</chromedisabled>
+    </ui>
+    <autocompletion>true</autocompletion>
+    <currencylayer-access-api/>
     <langage>English</langage>
     <debug>DEBUG</debug>
     <tooltip>true</tooltip>
@@ -25,43 +35,30 @@
     <default-website-dir>.</default-website-dir>
     <keystore-name>jssecacerts</keystore-name>
     <keystore-pass>changeit</keystore-pass>
-    <default-land-deck>M20</default-land-deck>
+    <default-land-deck>ELD</default-land-deck>
     <min-price-alert>1</min-price-alert>
     <debug-json-panel>true</debug-json-panel>
-    <lookAndFeel></lookAndFeel>
+    <lookAndFeel/>
     <locale>en</locale>
-    
-    <currencylayer-access-api></currencylayer-access-api>
     <currencylayer-converter-enable>false</currencylayer-converter-enable>
     <currency>USD</currency>
-    
-    
     <card-pictures-dimension>
-         <width>336</width>
-         <height>468</height>
+        <width>235</width>
+        <height>326</height>
     </card-pictures-dimension>
     <collections>
-        <stockAutoAdd>false</stockAutoAdd>
-        <stockAutoDelete>true</stockAutoDelete>
+        <stockAutoAdd>true</stockAutoAdd>
+        <stockAutoDelete>false</stockAutoDelete>
         <defaultStock>
-        	<signed>false</signed>
-        	<altered>false</altered>
-        	<foil>false</foil>
-        	<oversized>false</oversized>
-        	<language>English</language>
-        	<condition>NEAR_MINT</condition>
-        	<qty>1</qty>
+            <signed>false</signed>
+            <altered>false</altered>
+            <foil>false</foil>
+            <oversized>false</oversized>
+            <language>English</language>
+            <condition>NEAR_MINT</condition>
+            <qty>1</qty>
         </defaultStock>
     </collections>
-    <ui>
-        <moduleTabPosition>LEFT</moduleTabPosition>
-        <chromedisabled>true</chromedisabled>
-        <font>
-            <family>SansSerif</family>
-            <style>0</style>
-            <size>14</size>
-        </font>
-    </ui>
     <game>
         <cards>
             <card-width>154</card-width>
@@ -69,9 +66,9 @@
         </cards>
         <player-profil>
             <name>Player</name>
-            <foreground>-16737997</foreground>
-            <background></background>
-            <avatar></avatar>
+            <foreground/>
+            <background/>
+            <avatar/>
         </player-profil>
     </game>
     <scripts>
@@ -88,8 +85,8 @@
             <enable>true</enable>
         </script>
         <script>
-        	<class>org.magic.api.scripts.impl.RubyScript</class>
-        	<enable>true</enable>
+            <class>org.magic.api.scripts.impl.RubyScript</class>
+            <enable>true</enable>
         </script>
     </scripts>
     <pools>
@@ -117,43 +114,43 @@
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.BestCardsDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.BestTrendingDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.BoosterBoxDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.EditionsDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.TrendingDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.MagicEventsDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.MkmOversightDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.IndexationDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.CollectionAnalyzerDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
         <dashlet>
             <class>org.magic.gui.dashlet.OrdersDashlet</class>
-             <enable>true</enable>
+            <enable>true</enable>
         </dashlet>
     </dashlets>
     <tokens>
@@ -191,7 +188,7 @@
             <class>org.magic.api.cache.impl.JCSCache</class>
             <enable>false</enable>
         </cache>
-         <cache>
+        <cache>
             <class>org.magic.api.cache.impl.GuavaCache</class>
             <enable>false</enable>
         </cache>
@@ -229,13 +226,13 @@
             <class>org.magic.servers.impl.DiscordBotServer</class>
             <enable>true</enable>
         </server>
-         <server>
+        <server>
             <class>org.magic.servers.impl.CardShakeDashBoardServer</class>
             <enable>true</enable>
         </server>
         <server>
-        	<class>org.magic.servers.impl.JMXServer</class>
-        	<enable>true</enable>
+            <class>org.magic.servers.impl.JMXServer</class>
+            <enable>true</enable>
         </server>
         <server>
             <class>org.magic.servers.impl.WebDAVServer</class>
@@ -287,7 +284,7 @@
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.MagicVillePricer</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.TCGPlayerPricer</class>
@@ -295,11 +292,7 @@
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.ChannelFireballPricer</class>
-            <enable>false</enable>
-        </pricer>
-        <pricer>
-            <class>org.magic.api.pricers.impl.DeckTutorPricer</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.MTGPricePricer</class>
@@ -307,27 +300,31 @@
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.CardKingdomPricer</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.MagicBazarPricer</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.ParkagePricer</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.StarCityGamesPricer</class>
             <enable>true</enable>
         </pricer>
-         <pricer>
+        <pricer>
             <class>org.magic.api.pricers.impl.PriceMinisterPricer</class>
+            <enable>false</enable>
+        </pricer>
+        <pricer>
+            <class>org.magic.api.pricers.impl.MypCardPricer</class>
             <enable>true</enable>
         </pricer>
     </pricers>
     <providers>
-     	<provider>
+        <provider>
             <class>org.magic.api.providers.impl.Mtgjson4Provider</class>
             <enable>true</enable>
         </provider>
@@ -336,10 +333,13 @@
             <enable>false</enable>
         </provider>
         <provider>
+            <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
+            <enable>false</enable>
+        </provider>
+        <provider>
             <class>org.magic.api.providers.impl.PrivateMTGSetProvider</class>
             <enable>false</enable>
         </provider>
-        
     </providers>
     <daos>
         <dao>
@@ -366,13 +366,13 @@
             <class>org.magic.api.dao.impl.MongoDbDAO</class>
             <enable>false</enable>
         </dao>
-         <dao>
+        <dao>
             <class>org.magic.api.dao.impl.SQLLiteDAO</class>
             <enable>true</enable>
         </dao>
     </daos>
     <pictures>
-    	<picture>
+        <picture>
             <class>org.magic.api.pictures.impl.ScryFallPicturesProvider</class>
             <enable>true</enable>
         </picture>
@@ -388,7 +388,6 @@
             <class>org.magic.api.pictures.impl.DeckMasterPicturesProvider</class>
             <enable>false</enable>
         </picture>
-        
         <picture>
             <class>org.magic.api.pictures.impl.MagidexPicturesProvider</class>
             <enable>false</enable>
@@ -399,15 +398,15 @@
         </picture>
     </pictures>
     <editors>
-	    <editor>
-	    	<class>org.magic.api.pictureseditor.impl.MTGCardMakerPicturesProvider</class>
-	        <enable>true</enable>
-	    </editor>
-	    <editor>
-        	<class>org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider</class>
-        	<enable>false</enable>
+        <editor>
+            <class>org.magic.api.pictureseditor.impl.MTGCardMakerPicturesProvider</class>
+            <enable>true</enable>
         </editor>
-         <editor>
+        <editor>
+            <class>org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider</class>
+            <enable>false</enable>
+        </editor>
+        <editor>
             <class>org.magic.api.pictureseditor.impl.FunCardMakerPicturesProvider</class>
             <enable>false</enable>
         </editor>
@@ -425,13 +424,13 @@
             <class>org.magic.api.shopping.impl.MagicCorporationShopper</class>
             <enable>true</enable>
         </shopper>
-         <shopper>
+        <shopper>
             <class>org.magic.api.shopping.impl.MagicVilleShopper</class>
             <enable>true</enable>
         </shopper>
         <shopper>
             <class>org.magic.api.shopping.impl.CardTraderShopper</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </shopper>
     </shoppers>
     <dashboards>
@@ -451,7 +450,7 @@
     <decksniffer>
         <sniffer>
             <class>org.magic.api.decksniffer.impl.TappedOutDeckSniffer</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </sniffer>
         <sniffer>
             <class>org.magic.api.decksniffer.impl.MTGoldFishDeck</class>
@@ -489,8 +488,16 @@
             <class>org.magic.api.decksniffer.impl.AetherhubDeckSniffer</class>
             <enable>true</enable>
         </sniffer>
-         <sniffer>
+        <sniffer>
             <class>org.magic.api.decksniffer.impl.MTGJSonDeckSniffer</class>
+            <enable>true</enable>
+        </sniffer>
+        <sniffer>
+            <class>org.magic.api.decksniffer.impl.ArchidektDeckSniffer</class>
+            <enable>true</enable>
+        </sniffer>
+        <sniffer>
+            <class>org.magic.api.decksniffer.impl.MTGADecksSniffer</class>
             <enable>true</enable>
         </sniffer>
     </decksniffer>
@@ -499,15 +506,15 @@
             <class>org.magic.api.exports.impl.ManualImportExport</class>
             <enable>true</enable>
         </export>
-       <export>
+        <export>
             <class>org.magic.api.exports.impl.WebsiteDeckImport</class>
             <enable>true</enable>
         </export>
-         <export>
+        <export>
             <class>org.magic.api.exports.impl.ClipBoardExport</class>
             <enable>true</enable>
         </export>
-         <export>
+        <export>
             <class>org.magic.api.exports.impl.PriceCatalogExport</class>
             <enable>true</enable>
         </export>
@@ -583,6 +590,22 @@
             <class>org.magic.api.exports.impl.CardCastleExport</class>
             <enable>true</enable>
         </export>
+        <export>
+            <class>org.magic.api.exports.impl.ArchidektExport</class>
+            <enable>true</enable>
+        </export>
+        <export>
+            <class>org.magic.api.exports.impl.DelverLensExport</class>
+            <enable>true</enable>
+        </export>
+        <export>
+            <class>org.magic.api.exports.impl.DeckedBuilder</class>
+            <enable>true</enable>
+        </export>
+        <export>
+            <class>org.magic.api.exports.impl.WebCamImport</class>
+            <enable>true</enable>
+        </export>
     </deckexports>
     <newsProvider>
         <news>
@@ -615,22 +638,18 @@
             <class>org.magic.api.wallpaper.impl.WizardsOfTheCoastWallpaperProvider</class>
             <enable>true</enable>
         </wallpaper>
-         <wallpaper>
+        <wallpaper>
             <class>org.magic.api.wallpaper.impl.ImgUrWallPaperProvider</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </wallpaper>
         <wallpaper>
             <class>org.magic.api.wallpaper.impl.DeviantArtWallpaperProvider</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </wallpaper>
     </wallpapers>
-   <combos>
+    <combos>
         <combo>
-            <class>org.magic.api.combo.impl.MagicVilleComboProvider</class>
-            <enable>true</enable>
-        </combo>
-        <combo>
-            <class>org.magic.api.combo.impl.EssentialMagicComboProvider</class>
+            <class>org.magic.api.combo.impl.SMFComboProvider</class>
             <enable>true</enable>
         </combo>
         <combo>
@@ -638,7 +657,11 @@
             <enable>true</enable>
         </combo>
         <combo>
-            <class>org.magic.api.combo.impl.SMFComboProvider</class>
+            <class>org.magic.api.combo.impl.EssentialMagicComboProvider</class>
+            <enable>true</enable>
+        </combo>
+        <combo>
+            <class>org.magic.api.combo.impl.MagicVilleComboProvider</class>
             <enable>true</enable>
         </combo>
     </combos>
@@ -674,4 +697,18 @@
             <enable>true</enable>
         </storage>
     </storages>
+    <strategies>
+        <strategy>
+            <class>org.magic.api.recognition.impl.FullRecognitionStrategy</class>
+            <enable>true</enable>
+        </strategy>
+        <strategy>
+            <class>org.magic.api.recognition.impl.TreeRecogStrat</class>
+            <enable>true</enable>
+        </strategy>
+        <strategy>
+            <class>org.magic.api.recognition.impl.HashNarrowedRecogStrat</class>
+            <enable>true</enable>
+        </strategy>
+    </strategies>
 </conf>
