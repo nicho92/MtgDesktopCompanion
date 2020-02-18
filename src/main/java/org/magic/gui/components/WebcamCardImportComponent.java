@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -84,20 +86,6 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		return "Card Detector";
 	}
 
-	
-	public static void main(String[] args) {
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		
-		SwingUtilities.invokeLater(()->{
-			WebcamCardImportComponent j = new WebcamCardImportComponent();
-			j.setVisible(true);
-			j.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		});
-		
-	}
-	
-	
 	@Override
 	public void dispose() {
 		webcamCanvas.close();
@@ -107,6 +95,15 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	}
 	
 	public WebcamCardImportComponent() {
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+			}
+		});
+		
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();

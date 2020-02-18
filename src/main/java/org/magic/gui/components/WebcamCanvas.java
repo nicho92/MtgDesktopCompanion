@@ -115,7 +115,9 @@ public class WebcamCanvas extends JPanel
 
 	public void close()
 	{
-		cam.close();
+		boolean ret = cam.close();
+		logger.debug(cam + " is closed : " + ret);
+		
 	}
 
 }
