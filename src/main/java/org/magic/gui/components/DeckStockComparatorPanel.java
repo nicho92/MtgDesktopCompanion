@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -27,12 +28,11 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
+import org.magic.gui.models.DeckStockComparisonModel.Line;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-import org.magic.gui.models.DeckStockComparisonModel.Line;
-import javax.swing.JCheckBox;
 
 
 public class DeckStockComparatorPanel extends JComponent {

@@ -13,7 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGLogger;
-import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;

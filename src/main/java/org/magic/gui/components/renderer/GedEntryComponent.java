@@ -1,7 +1,7 @@
 package org.magic.gui.components.renderer;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.SystemColor;
@@ -15,17 +15,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.GedEntry;
-import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.GedService;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
-import java.awt.BorderLayout;
-import javax.swing.border.LineBorder;
 
 @SuppressWarnings("rawtypes") 
 public class GedEntryComponent extends JPanel {

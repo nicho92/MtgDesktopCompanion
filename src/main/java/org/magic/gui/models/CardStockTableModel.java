@@ -1,7 +1,5 @@
 package org.magic.gui.models;
 
-import java.util.List;
-
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;

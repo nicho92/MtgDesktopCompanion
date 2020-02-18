@@ -30,7 +30,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.interfaces.MTGServer;
 import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
@@ -38,8 +37,6 @@ import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
-
-import com.github.sarxos.webcam.ds.ipcam.IpCamDevice;
 
 public class MTGControler {
 

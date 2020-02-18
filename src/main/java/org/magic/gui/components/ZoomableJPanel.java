@@ -13,7 +13,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;

@@ -28,7 +28,7 @@ public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRen
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		if(value instanceof Double)
-			return new JLabel(UITools.formatDouble((Double)value));
+			return new JLabel(UITools.formatDouble(value));
 		
 		return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	}

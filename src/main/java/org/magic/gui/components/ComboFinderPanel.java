@@ -32,7 +32,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzy;
 	private MagicCard mc; 
 	private DefaultListModel<MTGCombo> model;
-	private SwingWorker<List<MTGCombo>, MTGCombo> sw;
+	private transient SwingWorker<List<MTGCombo>, MTGCombo> sw;
 	
 	@Override
 	public String getTitle() {

@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;

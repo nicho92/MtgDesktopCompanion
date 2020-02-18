@@ -144,7 +144,7 @@ public class PricesTablePanel extends JPanel {
 						List<MagicPrice> list = new ArrayList<>();
 						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
 						
-						{
+						
 							try {
 							
 							List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
@@ -155,7 +155,7 @@ public class PricesTablePanel extends JPanel {
 							{
 								logger.error("error with " + prov + ":" + e);
 							}
-						}
+						
 						return list;
 					}
 					

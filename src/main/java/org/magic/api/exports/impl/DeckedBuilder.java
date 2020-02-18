@@ -8,15 +8,13 @@ import java.util.List;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public class DeckedBuilder extends AbstractFormattedFileCardExport {
 
 	
-	private final String columns ="Total Qty,Reg Qty,Foil Qty,Card,Set,Mana Cost,Card Type,Color,Rarity,Mvid,Single Price,Single Foil Price,Total Price,Price Source,Notes";
+	private static final String columns ="Total Qty,Reg Qty,Foil Qty,Card,Set,Mana Cost,Card Type,Color,Rarity,Mvid,Single Price,Single Foil Price,Total Price,Price Source,Notes";
 	
 	@Override
 	public String getFileExtension() {

@@ -15,11 +15,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
-import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;

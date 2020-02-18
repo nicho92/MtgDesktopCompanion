@@ -100,11 +100,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 				name = s;
 			}
 		}
-		
-		if(leven>0)
-			System.out.println(set + "->" + name +" " + leven);
-		
-		
 		return name;
 	}
 

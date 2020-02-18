@@ -44,30 +44,37 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+    	//do nothing
     }
 
     @Override

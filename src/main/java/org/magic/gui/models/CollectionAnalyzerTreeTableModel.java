@@ -84,7 +84,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof MagicEdition) {
-			return editions.get((MagicEdition)parent).size();
+			return editions.get(parent).size();
 		}
 		return editions.size();
 	}

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.interfaces.MTGCardRecognition;
-import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.recognition.ContourBoundingBox;
 import org.magic.services.recognition.ImageDesc;
@@ -45,7 +44,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 		List<Point2D_I32> pts = new ArrayList<>();
 		for(int ix=0; ix<points.length; ix++)
 		{
-			pts.add(new Point2D_I32((int)points[ix].x,(int)points[ix].y));
+			pts.add(new Point2D_I32(points[ix].x,points[ix].y));
 		}
 		bound = new ContourBoundingBox(pts);
 	}
@@ -80,10 +79,12 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void mouseEntered(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
@@ -105,6 +106,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
@@ -117,10 +119,10 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 	{
         this.width = width;
         this.height = height;
-		int h = (int)(height*8/10);
+		int h = (height*8/10);
 		int w = height*50/88;
-		int x = (int)(width/2-w/2);
-		int y = (int)(height/2-h/2);
+		int x = (width/2-w/2);
+		int y = (height/2-h/2);
 
 		points[0] = new Point2D_I32(x,y);
 		points[1] = new Point2D_I32(x+w,y);

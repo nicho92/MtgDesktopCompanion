@@ -15,11 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -33,21 +31,10 @@ import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.Icon;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.services.recognition.ContourBoundingBox;
-
-import boofcv.alg.filter.binary.BinaryImageOps;
-import boofcv.alg.filter.binary.Contour;
-import boofcv.alg.filter.binary.GThresholdImageOps;
-import boofcv.io.image.ConvertBufferedImage;
-import boofcv.struct.ConfigLength;
-import boofcv.struct.ConnectRule;
-import boofcv.struct.image.GrayS32;
-import boofcv.struct.image.GrayU8;
 
 public class ImageTools {
 
