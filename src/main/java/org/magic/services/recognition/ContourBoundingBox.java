@@ -83,7 +83,7 @@ public class ContourBoundingBox
 	        GrayU8 filtered = BinaryImageOps.erode8(binary, 2, null);
 	        GrayS32 label = new GrayS32(img.width,img.height);
 
-	        double imgArea = img.height*img.width;
+	        int imgArea = img.getHeight()*img.getWidth();
 
 	        List<Contour> contours = BinaryImageOps.contour(filtered, ConnectRule.EIGHT, label);
 	        bounds.clear();
@@ -142,7 +142,7 @@ public class ContourBoundingBox
     public int longEdge()
     {
         double shortest = Integer.MAX_VALUE;
-        int shortest_ix = 0;
+        int shortestIX = 0;
         for(int i=0; i<4; i++)
         {
             int j = (i+1)%4;
@@ -150,10 +150,10 @@ public class ContourBoundingBox
             if(d<shortest)
             {
                 shortest=d;
-                shortest_ix=i;
+                shortestIX=i;
             }
         }
-        return shortest_ix%2;
+        return shortestIX%2;
     }
 
     private void initLongShort()

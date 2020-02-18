@@ -55,6 +55,8 @@ public class IPCamAddDialog extends JDialog
 		       panel.add(btnCancel);
 		getContentPane().add(panel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4));
 		
+		
+		setLocationRelativeTo(null);
 		pack();
 		
 		

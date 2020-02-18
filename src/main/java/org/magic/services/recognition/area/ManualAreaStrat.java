@@ -57,6 +57,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+    	//do nothing
     }
 
     @Override
@@ -111,7 +112,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void draw(Graphics g) {
-		drawBounds(g,0);
+		drawBounds(g);
     }
 
     @Override
@@ -131,7 +132,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 		updateBoundedZone();
 	}
 
-    public void drawBounds(Graphics g, int offy)
+    public void drawBounds(Graphics g)
 	{
 		g.setColor(Color.WHITE);
 		bound.draw(g);
