@@ -9,9 +9,6 @@ public abstract class AbstractGradersProvider extends AbstractMTGPlugin implemen
 		return PLUGINS.GRADING;
 	}
 
-	@Override
-	protected String getConfigDirectoryName() {
-		return "graders";
-	}
+	
 	
 }

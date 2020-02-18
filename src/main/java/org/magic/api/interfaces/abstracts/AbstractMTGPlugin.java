@@ -92,6 +92,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		
 	}
 
+	@Deprecated
 	protected String getConfigDirectoryName()
 	{
 		return getType().name().toLowerCase()+"s";

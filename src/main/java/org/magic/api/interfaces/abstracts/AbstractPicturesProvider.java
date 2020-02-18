@@ -25,12 +25,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public PLUGINS getType() {
-		return PLUGINS.PICTURES;
-	}
-
-	@Override
-	protected String getConfigDirectoryName() {
-		return "pictures";
+		return PLUGINS.PICTURE;
 	}
 
 	public AbstractPicturesProvider() {

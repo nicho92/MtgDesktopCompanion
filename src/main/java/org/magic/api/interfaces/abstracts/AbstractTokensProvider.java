@@ -6,15 +6,9 @@ import org.magic.tools.CardsPatterns;
 
 public abstract class AbstractTokensProvider extends AbstractMTGPlugin implements MTGTokensProvider {
 
-	
-	@Override
-	protected String getConfigDirectoryName() {
-		return "tokens";
-	}
-	
 	@Override
 	public PLUGINS getType() {
-		return PLUGINS.TOKENS;
+		return PLUGINS.TOKEN;
 	}
 	
 	@Override

@@ -30,12 +30,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	
 	@Override
 	public PLUGINS getType() {
-		return PLUGINS.RECOGNITION;
-	}
-	
-	@Override
-	protected String getConfigDirectoryName() {
-		return "strategies";
+		return PLUGINS.STRATEGY;
 	}
 	
 
