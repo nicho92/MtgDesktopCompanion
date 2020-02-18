@@ -59,11 +59,11 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	{
 		MagicEdition ed = null;
 		try {
-			switch(setSearch) 
-			{
-				case ID : ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(gEdition));break;
-				case NAME : ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(gEdition));break;
-			}
+			if(setSearch==FORMAT_SEARCH.ID) 
+				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(gEdition));
+			else
+				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(gEdition));
+			
 		} catch (Exception e) {
 			ed = null;
 		}
@@ -75,12 +75,10 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		
 		try {
 			
-			switch (cardSearch)
-			{
-				case NAME :return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
-				case ID : return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(cname);
-				default:return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);  		
-			}
+			if(cardSearch==FORMAT_SEARCH.ID) 
+				return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(cname);
+			else
+				return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 			
 		} catch (Exception e) {
 			logger.trace("Couldn't find card "+ cname + " ["+ed+"] :" + e);

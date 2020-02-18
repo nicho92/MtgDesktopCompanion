@@ -52,8 +52,8 @@ class DummyWebcamDevice implements WebcamDevice
     private static final double MAX_VEL = 100;
 
     private Image bounce;
-    private double bounceX = WIDTH / 2;
-    private double bounceY = HEIGHT / 2;
+    private double bounceX = (double)WIDTH / 2;
+    private double bounceY = (double)HEIGHT / 2;
 
     private double xvel;
     private double yvel;
@@ -83,7 +83,6 @@ class DummyWebcamDevice implements WebcamDevice
           display = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
           g = buffer.createGraphics();
           r = new Random();
-          
           xvel = (r.nextDouble()-0.5)*MAX_VEL*2;
           yvel = (r.nextDouble()-0.5)*MAX_VEL*2;
           dimensions = new Dimension[1];

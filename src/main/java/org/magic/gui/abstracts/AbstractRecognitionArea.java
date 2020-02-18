@@ -15,11 +15,14 @@ public abstract class AbstractRecognitionArea implements MouseInputListener
     public abstract String getName();
 
     public abstract void draw(Graphics g);
-
-    public abstract void init(int width, int height);
-
+  
     public String toString()
 	{
 		return getName();
     }
+
+    public void init(int width, int height) {
+    	//do nothing
+    }
+
 }

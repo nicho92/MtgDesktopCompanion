@@ -1,11 +1,19 @@
 package org.magic.services.recognition;
 
 public class MatchResult {
-	public String result;
-	public String name;
-	public String setCode;
-	public String id;
-	public double score;
+	private String result;
+	private String name;
+	private String setCode;
+	private double score;
+	
+	public String getSetCode() {
+		return setCode;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 	
 	public MatchResult(String result, double score) {
 		super();
@@ -14,7 +22,6 @@ public class MatchResult {
 		String[] split = result.split("\\|");
 		name = split[0];
 		setCode = split[1].toUpperCase();
-		id = split[2];
 	}
 
 	public int hashCode() {

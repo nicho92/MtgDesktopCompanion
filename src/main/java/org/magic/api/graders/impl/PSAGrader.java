@@ -16,7 +16,7 @@ public class PSAGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 	
-		String url=getWebSite()+"/cert/"+identifier;
+		//String url=getWebSite()+"/cert/"+identifier;
 		//need to parsing cloudFlare protection
 		throw new IOException("Blocked by CloudFlare Protection");
 		

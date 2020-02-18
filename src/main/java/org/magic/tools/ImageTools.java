@@ -67,10 +67,10 @@ public class ImageTools {
 	
 	public static BufferedImage getScaledImage(BufferedImage src){
 		
-		int SQUARE_SIZE = 300;
-		int finalw = SQUARE_SIZE;
-		int finalh = SQUARE_SIZE;
-		double factor = 1.0d;
+		int squareSize = 300;
+		int finalw = squareSize;
+		int finalh = squareSize;
+		double factor;
 		if(src.getWidth() > src.getHeight()){
 			factor = ((double)src.getHeight()/(double)src.getWidth());
 			finalh = (int)(finalw * factor);                

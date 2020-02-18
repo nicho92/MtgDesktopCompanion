@@ -85,8 +85,4 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
         }
     }
 
-    @Override
-    public void init(int width, int height) {
-    }
-
 }

@@ -360,9 +360,9 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	protected void addResult(MatchResult r) {
 		try {
 			
-			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.name))
+			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
-				currentCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(r.name, new MagicEdition(r.setCode), true).get(0);
+				currentCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(r.getName(), new MagicEdition(r.getSetCode()), true).get(0);
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}

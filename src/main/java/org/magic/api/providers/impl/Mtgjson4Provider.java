@@ -234,7 +234,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		
 		List<Map<String, Object>> cardsElement = ctx.withListeners(fr -> {
 			if (fr.path().startsWith("$")) {
-				currentSet.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf("]") - 1));
+				currentSet.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf(']') - 1));
 			}
 			return null;
 		}).read(jsquery, List.class);
@@ -532,7 +532,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			final List<String> codeEd = new ArrayList<>();
 			ctx.withListeners(fr -> {
 				if (fr.path().startsWith("$"))
-					codeEd.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf("]") - 1));
+					codeEd.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf(']') - 1));
 				return null;
 
 			}).read(jsquery, List.class);

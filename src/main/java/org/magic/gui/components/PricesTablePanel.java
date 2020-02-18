@@ -43,7 +43,6 @@ public class PricesTablePanel extends JPanel {
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
-//	private transient SwingWorker<List<MagicPrice>, MagicPrice> sw ;
 	private MagicCard currentCard;
 	private MagicEdition currentEd;
 	
@@ -118,13 +117,7 @@ public class PricesTablePanel extends JPanel {
 		
 		if(isVisible()&&card!=null)
 		{
-			
-//			if(sw!=null && !sw.isDone())
-//			{
-//				sw.cancel(true);
-//				lblLoading.end();
-//			}
-//			
+
 			model.clear();
 			
 			

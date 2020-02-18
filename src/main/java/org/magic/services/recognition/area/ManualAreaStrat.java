@@ -111,7 +111,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void draw(Graphics g) {
-		drawBounds(g,0,0);
+		drawBounds(g,0);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 		updateBoundedZone();
 	}
 
-    public void drawBounds(Graphics g,int offx, int offy)
+    public void drawBounds(Graphics g, int offy)
 	{
 		g.setColor(Color.WHITE);
 		bound.draw(g);

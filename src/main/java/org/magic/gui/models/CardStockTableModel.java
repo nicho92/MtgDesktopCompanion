@@ -111,9 +111,6 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	public void setValueAt(Object aValue, int row, int column) {
 		
 		switch (column) {
-//		case 2:
-//			updateEdition(items.get(row), (MagicEdition) aValue);
-//			break;
 		case 3:
 			items.get(row).setMagicCollection(new MagicCollection(aValue.toString()));
 			break;
