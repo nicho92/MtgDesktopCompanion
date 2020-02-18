@@ -32,15 +32,11 @@ public class ImageDesc
 	private static int numberScalesPerOctave = 3;
 	private static int numberOfOctaves = 4;
 	
-	public static ConfigFastHessian getHessianConf()
+	private static ConfigFastHessian getHessianConf()
 	{
 		return new ConfigFastHessian(detectThreshold, extractRadius, maxFeaturesPerScale,initialSampleSize, initialSize, numberScalesPerOctave, numberOfOctaves); 
 	}
 	
-	public static ConfigFastHessian getHessianConf(float thresh)
-	{
-		return new ConfigFastHessian(thresh, extractRadius, maxFeaturesPerScale,initialSampleSize, initialSize, numberScalesPerOctave, numberOfOctaves); 
-	}
 	
 	private static DetectDescribePoint<GrayF32, BrightFeature> detDesc = FactoryDetectDescribe.surfStable(getHessianConf(), null,null, GrayF32.class);
 	private static ScoreAssociation<BrightFeature> scorer = FactoryAssociation.defaultScore(detDesc.getDescriptionType());
