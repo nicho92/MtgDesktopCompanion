@@ -39,6 +39,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
 
+import com.github.sarxos.webcam.ds.ipcam.IpCamDevice;
+
 public class MTGControler {
 
 	private static MTGControler inst;
@@ -342,21 +344,10 @@ public class MTGControler {
 		return p;
 	}
 
-
 	public boolean updateConfigMods() {
 		return PluginRegistry.inst().updateConfigWithNewModule();
 	}
 	
-
-
-	public boolean isRunning(MTGServer server) {
-		for (MTGServer serv : listEnabled(MTGServer.class))
-			if (serv.getName().equals(server.getName()))
-				return serv.isAlive();
-
-		return false;
-	}
-
 	
 	public MTGCardsExport getAbstractExporterFromExt(File f) {
 		String ext = FilenameUtils.getExtension(f.getAbsolutePath());

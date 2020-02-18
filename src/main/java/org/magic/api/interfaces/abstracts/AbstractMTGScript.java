@@ -29,18 +29,6 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	protected static final String DIR = "DIR";
 	
 	public AbstractMTGScript() {
-		super();
-		
-		confdir = new File(MTGConstants.CONF_DIR, "scripts");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-		}
-		
 		if(!getFile(DIR).exists())
 			try {
 				FileUtils.forceMkdir(getFile(DIR));

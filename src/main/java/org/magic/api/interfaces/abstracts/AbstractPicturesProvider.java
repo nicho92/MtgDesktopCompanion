@@ -2,7 +2,6 @@ package org.magic.api.interfaces.abstracts;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -29,19 +28,14 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		return PLUGINS.PICTURES;
 	}
 
+	@Override
+	protected String getConfigDirectoryName() {
+		return "pictures";
+	}
 
 	public AbstractPicturesProvider() {
 		super();
 		setCache = new TCache<>("setIcons");
-		confdir = new File(MTGConstants.CONF_DIR, "pictures");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-		}
 		
 		try {
 			setSize(MTGControler.getInstance().getPictureProviderDimension());

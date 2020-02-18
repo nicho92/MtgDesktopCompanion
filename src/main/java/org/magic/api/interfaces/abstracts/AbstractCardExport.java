@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
@@ -42,23 +41,12 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return cname;
 	}
 
-
-	public AbstractCardExport() {
-		super();
-		confdir = new File(MTGConstants.CONF_DIR, "exports");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-		}
-	}
 	
 	public boolean needDialogGUI() {
 		return false;
 	}
+	
+	
 	
 	
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {

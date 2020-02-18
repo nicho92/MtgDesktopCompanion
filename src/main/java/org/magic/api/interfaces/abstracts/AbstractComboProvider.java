@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -9,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGComboProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.TCache;
 
 public abstract class AbstractComboProvider extends AbstractMTGPlugin implements MTGComboProvider {
@@ -46,18 +44,6 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 	
 	
 	public AbstractComboProvider() {
-		super();
-		confdir = new File(MTGConstants.CONF_DIR, "combos");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-
-		}
-		
 		cache = new TCache<>("combos");
 	}
 }

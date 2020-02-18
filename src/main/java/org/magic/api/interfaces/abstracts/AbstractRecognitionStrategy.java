@@ -33,6 +33,11 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		return PLUGINS.RECOGNITION;
 	}
 	
+	@Override
+	protected String getConfigDirectoryName() {
+		return "strategies";
+	}
+	
 
 	@Override
 	public void initDefault() {
@@ -40,20 +45,6 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 	
 	public AbstractRecognitionStrategy() {
-		super();
-		
-		
-		confdir = new File(MTGConstants.CONF_DIR, "strategies");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-
-		}
-		
 		desc = new ArrayList<>();
 	}
 	

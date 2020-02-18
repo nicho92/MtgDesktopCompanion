@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
@@ -24,17 +22,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 
 	public AbstractCardsProvider() {
-		super();
-		confdir = new File(MTGConstants.CONF_DIR, "cardsProviders");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-		}
-		
 		
 		cacheCards = new TCache<>("cards");
 		cacheCardsByEdition = new TCache<>("cardsByEdition");
@@ -46,6 +33,11 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public int hashCode() {
 		return (getType()+getName()).hashCode();
+	}
+	
+	@Override
+	protected String getConfigDirectoryName() {
+		return "cardsProviders";
 	}
 	
 	@Override

@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +18,6 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
-import org.magic.services.MTGConstants;
 import org.magic.tools.TCache;
 
 
@@ -50,6 +48,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return PLUGINS.DAO;
 	}
 	
+	@Override
+	protected String getConfigDirectoryName() {
+		return "dao";
+	}
 
 	
 	@Override
@@ -60,16 +62,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	public AbstractMagicDAO() {
-		super();
-		confdir = new File(MTGConstants.CONF_DIR, "dao");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-		}
 		listAlerts = new TCache<>("alerts");
 		listOrders = new TCache<>("orders");
 		serialiser=new JsonExport();

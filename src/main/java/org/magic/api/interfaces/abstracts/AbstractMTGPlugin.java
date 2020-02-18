@@ -39,7 +39,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return false;
 	}
 	
-	
 	@Override
 	public ObjectName getObjectName() {
 		try {
@@ -78,6 +77,24 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public AbstractMTGPlugin() {
 		props = new Properties();
 		load();
+		
+
+		confdir = new File(MTGConstants.CONF_DIR, getConfigDirectoryName());
+		if (!confdir.exists())
+			confdir.mkdir();
+		load();
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
+			initDefault();
+			save();
+
+		}
+		
+	}
+
+	protected String getConfigDirectoryName()
+	{
+		return getType().name().toLowerCase()+"s";
 	}
 
 	public String getProperty(String k, String defaultVal) {

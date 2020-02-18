@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Currency;
 import java.util.Date;
@@ -16,7 +15,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.CollectionEvaluator;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
@@ -34,21 +32,12 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 
 	public AbstractDashBoard() {
-		super();
 		try {
 			evaluator = new CollectionEvaluator();
 		} catch (IOException e) {
 			logger.error(e);
 		}
-		confdir = new File(MTGConstants.CONF_DIR, "dashboards");
-		if (!confdir.exists())
-			confdir.mkdir();
-		load();
-
-		if (!new File(confdir, getName() + ".conf").exists()) {
-			initDefault();
-			save();
-		}
+		
 	}
 	
 	@Override
