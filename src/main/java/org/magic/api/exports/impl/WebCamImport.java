@@ -1,8 +1,5 @@
 package org.magic.api.exports.impl;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -48,10 +45,8 @@ public class WebCamImport extends AbstractCardExport {
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		
 		WebcamCardImportComponent c = new WebcamCardImportComponent();
-		
 		c.setVisible(true);
-		
-		
+				
 		return c.getFindedCards().stream().map(card->{
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setMagicCard(card);
@@ -69,9 +64,7 @@ public class WebCamImport extends AbstractCardExport {
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		WebcamCardImportComponent c = new WebcamCardImportComponent();
 		c.setVisible(true);
-		
 		return c.getSelectedDeck();
-		
 	}
 
 	@Override

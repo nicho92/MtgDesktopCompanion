@@ -294,6 +294,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		});		
 
 		
+		setModal(true);
 		pack();
 		
 		sw = new SwingWorker<>()
@@ -374,6 +375,9 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	public MagicDeck getSelectedDeck() {
 		MagicDeck d = new MagicDeck();
 		d.setDescription("Imported from " + getTitle());
+		d.setName(getName());
+		
+		System.out.println(getFindedCards());
 		
 		getFindedCards().forEach(d::add);
 		return d;
