@@ -86,6 +86,7 @@ Use "MoreLikeThis" Functionnality :
 
 import or export your card list / deck :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/webcam.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/webcam.png)
 
 Be alerted for your wanted cards :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/alerts.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/alerts.png)
