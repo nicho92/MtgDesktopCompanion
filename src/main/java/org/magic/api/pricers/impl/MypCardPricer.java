@@ -53,7 +53,15 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 		
 		String url=BASE_URL+"/produto/search";
 		JsonElement e = RequestBuilder.build().url(url).setClient(client).method(METHOD.GET).addContent("term",card.getName()).toJson();
-		JsonObject o = e.getAsJsonArray().get(0).getAsJsonObject();
+		JsonObject o = null;
+		
+		try{
+			o=e.getAsJsonArray().get(0).getAsJsonObject();
+		}catch(Exception ex)
+		{
+			logger.error("error getting " +card + " at " + url,ex);
+			return new ArrayList<>();
+		}
 		
 		int qtyVariation = o.get("qtd").getAsInt();
 		
