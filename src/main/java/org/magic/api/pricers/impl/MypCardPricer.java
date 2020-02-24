@@ -104,7 +104,7 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 				mp.setSeller(tds.get(1).text());
 				mp.setFoil(tds.get(2).html().equalsIgnoreCase("foil"));
 				mp.setQuality(tds.get(3).html());
-				mp.setValue(Double.parseDouble(tds.get(5).html()));
+				mp.setValue(Double.parseDouble(tds.get(5).text().replaceAll("R\\$ ", "").replace(",", ".")));
 				mp.setUrl(urlC);
 				list.add(mp);
 		}
