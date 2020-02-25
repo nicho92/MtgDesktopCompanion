@@ -46,7 +46,14 @@ public class URLTools {
 	
 	private URLTools()	{}
 	
-	
+	public static String getExternalIp()
+	{
+		try {
+			return extractAsString("http://checkip.amazonaws.com");
+		} catch (IOException e) {
+			return "0.0.0.0";
+		}
+	}
 	
 	
 	public static String encode(String s)
