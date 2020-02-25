@@ -14,7 +14,7 @@ import org.magic.tools.FileTools;
 public class DeckedBuilder extends AbstractFormattedFileCardExport {
 
 	
-	private static final String columns ="Total Qty,Reg Qty,Foil Qty,Card,Set,Mana Cost,Card Type,Color,Rarity,Mvid,Single Price,Single Foil Price,Total Price,Price Source,Notes";
+	private static final String COLUMNS ="Total Qty,Reg Qty,Foil Qty,Card,Set,Mana Cost,Card Type,Color,Rarity,Mvid,Single Price,Single Foil Price,Total Price,Price Source,Notes";
 	
 	@Override
 	public String getFileExtension() {
@@ -35,7 +35,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 	
-		StringBuilder temp = new StringBuilder(columns);
+		StringBuilder temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
 			temp.append(st.getQte()).append(getSeparator());

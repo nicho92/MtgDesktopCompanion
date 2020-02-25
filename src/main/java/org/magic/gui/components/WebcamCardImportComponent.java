@@ -27,9 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -38,7 +36,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
