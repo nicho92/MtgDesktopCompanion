@@ -2,7 +2,10 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
@@ -158,7 +161,11 @@ public class WebManagerServer extends AbstractMTGServer {
 		setProperty(SERVER_PORT, "80");
 		setProperty(AUTOSTART, "false");
 		setProperty(ALLOW_LIST_DIR, "false");
-		setProperty(REST_BACKEND_URI, "http://localhost:8080");
+		try {
+			setProperty(REST_BACKEND_URI, "http://"+InetAddress.getLocalHost().getHostAddress()+":8080");
+		} catch (UnknownHostException e) {
+			setProperty(REST_BACKEND_URI, "http://localhost:8080");
+		}
 		setProperty(JSON_SERVER_START,"true");
 	}
 	
