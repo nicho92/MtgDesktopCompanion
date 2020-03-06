@@ -85,7 +85,7 @@ public class CardsEditionTablePanel extends JPanel {
 		btnImport.setEnabled(false);
 		panneauBas.add(btnImport);
 		
-		chkNeededCards = new JCheckBox("Filter needed");
+		chkNeededCards = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FILTER_NEEDED"));
 		panneauBas.add(chkNeededCards);
 		
 		addComponentListener(new ComponentAdapter() {
