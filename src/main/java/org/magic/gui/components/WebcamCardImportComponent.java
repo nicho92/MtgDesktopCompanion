@@ -105,9 +105,9 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 59, 0, 0,0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0,0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
 		
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -156,13 +156,14 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		controlWebcamPanel.add(btnAddCam);
 
 		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
-		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1));
-		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		panelControl.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS")+ ":"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2));
+		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
 
 		
-		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
-		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
-		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
+		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
+		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
+		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		
 		
 		
@@ -373,9 +374,6 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		MagicDeck d = new MagicDeck();
 		d.setDescription("Imported from " + getTitle());
 		d.setName(getName());
-		
-		System.out.println(getFindedCards());
-		
 		getFindedCards().forEach(d::add);
 		return d;
 	}
