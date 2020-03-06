@@ -423,6 +423,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
 		return listCardsFromCollection(collection, null);
 	}
+	
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {

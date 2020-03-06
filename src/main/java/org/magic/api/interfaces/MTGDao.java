@@ -28,9 +28,13 @@ public interface MTGDao extends MTGPlugin {
 
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
+	public List<MagicCard> listCardsFromCollection(String collectionName) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException;
-
+	public List<MagicCard> listCardsFromCollection(String collectionName,MagicEdition me) throws SQLException;
+	
+	
+	
 	public MagicCollection getCollection(String name) throws SQLException;
 	public void saveCollection(MagicCollection c) throws SQLException;
 	public void saveCollection(String name) throws SQLException;

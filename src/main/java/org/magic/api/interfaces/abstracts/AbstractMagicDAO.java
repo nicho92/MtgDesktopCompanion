@@ -90,6 +90,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		saveCollection(new MagicCollection(name));
 		
 	}
+	
+	@Override
+	public List<MagicCard> listCardsFromCollection(String collectionName) throws SQLException {
+		return listCardsFromCollection(new MagicCollection(collectionName));
+	}
+	
+	@Override
+	public List<MagicCard> listCardsFromCollection(String collectionName, MagicEdition me) throws SQLException {
+		return listCardsFromCollection(new MagicCollection(collectionName), me);
+	}
+
 
 	@Override
 	public void deleteOrderEntry(OrderEntry state) throws SQLException

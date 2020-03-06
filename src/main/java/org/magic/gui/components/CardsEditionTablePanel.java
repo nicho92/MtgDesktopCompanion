@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
@@ -33,6 +34,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
+import javax.swing.JCheckBox;
 
 
 public class CardsEditionTablePanel extends JPanel {
@@ -48,6 +50,7 @@ public class CardsEditionTablePanel extends JPanel {
 	private JButton btnImport;
 	private JComboBox<MagicCollection> cboCollection;
 	private transient AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider> sw;
+	private JCheckBox chkNeededCards;
 	
 	
 	public CardsEditionTablePanel() {
@@ -82,6 +85,9 @@ public class CardsEditionTablePanel extends JPanel {
 		btnImport.setEnabled(false);
 		panneauBas.add(btnImport);
 		
+		chkNeededCards = new JCheckBox("Filter needed");
+		panneauBas.add(chkNeededCards);
+		
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
@@ -89,6 +95,23 @@ public class CardsEditionTablePanel extends JPanel {
 			}
 
 		});
+		
+		chkNeededCards.addActionListener(il->{
+			
+			if(chkNeededCards.isSelected()) {
+				try {
+					List<MagicCard> currents = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
+					model.removeItem(currents);
+				} catch (SQLException e) {
+					MTGControler.getInstance().notify(e);
+				}
+			}
+			else
+			{
+				init(currentEdition);
+			}
+		});
+		
 		
 		btnImport.addActionListener(ae->{
 			List<MagicCard> list = getSelectedCards();
@@ -152,6 +175,7 @@ public class CardsEditionTablePanel extends JPanel {
 	public void init(MagicEdition ed)
 	{
 		this.currentEdition=ed;
+		chkNeededCards.setSelected(false);
 		if(isVisible())
 			refresh();
 	}
