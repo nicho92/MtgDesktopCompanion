@@ -58,11 +58,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		setProperty(JSON_URL, "https://api.magicthegathering.io/v1");
 	}
 	
-	
-	public MagicTheGatheringIOProvider() {
-		super();
-	}
-
 	@Override
 	public void init() {
 		propsCache = new Properties();

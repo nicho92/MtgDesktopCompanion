@@ -36,7 +36,6 @@ public class SealedStockGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private PackagesBrowserPanel packagePanel;
-	private GedPanel<SealedStock> gedPanel;
 	
 	private SealedStockTableModel model;
 	private Packaging selectedItem;
@@ -50,7 +49,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		model = new SealedStockTableModel();
 		JXTable table = new JXTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
-		gedPanel = new GedPanel<>();
+		GedPanel<SealedStock> gedPanel = new GedPanel<>();
 		
 		JPanel toolsPanel = new JPanel();
 		JSplitPane centerPanel = new JSplitPane();

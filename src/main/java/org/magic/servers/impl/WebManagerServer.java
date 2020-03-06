@@ -2,7 +2,6 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;

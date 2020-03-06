@@ -154,24 +154,7 @@ public class GradingEditorPane extends MTGUIComponent {
 			ThreadManager.getInstance().runInEdt(sw, "checking grading");
 		});
 		
-		/*
-		chbGradded.addItemListener(il->{
-			
-				System.out.println(il);
-				spinnerCentering.setEnabled(chbGradded.isSelected());
-				spinnerCorner.setEnabled(chbGradded.isSelected());
-				spinnerEdges.setEnabled(chbGradded.isSelected());
-				cboMainGrade.setEnabled(chbGradded.isSelected());
-				cboSubGrade.setEnabled(chbGradded.isSelected());
-				spinnerGradeNote.setEnabled(chbGradded.isSelected());
-				cboGraders.setEnabled(chbGradded.isSelected());
-				txtSerialNumber.setEnabled(chbGradded.isSelected());
-				spinnerSurface.setEnabled(chbGradded.isSelected());
-				spinnerThickness.setEnabled(chbGradded.isSelected());
-				spinnerWeight.setEnabled(chbGradded.isSelected());
-				setGrading(new Grading());
-		});
-		*/
+	
 	}
 	
 	public Grading getGrading()

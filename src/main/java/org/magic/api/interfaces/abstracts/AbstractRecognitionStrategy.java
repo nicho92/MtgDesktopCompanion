@@ -83,8 +83,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 	@Override
 	public void finalizeLoad() {
-		//do nothing;
-		
+		//do nothing
 	}
 	
 	public final void loadDatasFromFile(File handle)
