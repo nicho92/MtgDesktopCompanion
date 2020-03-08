@@ -50,6 +50,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>io.github.forohforerror</groupId>
+		    <artifactId>ScryfallAPIBinding</artifactId>
+		    <version>1.9.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.boofcv</groupId>
 			<artifactId>boofcv-core</artifactId>
 			<version>0.35</version>
@@ -325,12 +330,12 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.11</version>
+			<version>4.5.12</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpmime</artifactId>
-		    <version>4.5.11</version>
+		    <version>4.5.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

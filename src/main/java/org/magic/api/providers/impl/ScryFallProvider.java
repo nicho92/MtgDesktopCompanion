@@ -201,10 +201,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			JsonObject root =URLTools.extractJson(baseURI + "/sets/" + id.toLowerCase()).getAsJsonObject();
 			return generateEdition(root.getAsJsonObject());
 		} catch (Exception e) {
-			MagicEdition ed = new MagicEdition();
-			ed.setId(id);
-			ed.setSet(id);
-			return ed;
+			return new MagicEdition(id,id);
 		}
 
 	}
