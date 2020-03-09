@@ -309,7 +309,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					Collections.sort(cards,new CardsEditionSorter());
 					for(int i=0;i<cards.size();i++)
 						{
-							cards.get(i).setNumber(String.valueOf((i+1)));
 							cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
 						}
 					provider.saveEdition(ed,cards);
@@ -345,10 +344,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			btnNewCard.addActionListener(e -> {
 				MagicCard mc = new MagicCard();
+				mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
 				try {
-					mc.setNumber(
+					mc.getCurrentSet().setNumber(
 							String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
-					logger.debug("create new card for " + cboSets.getSelectedItem() + " num = " + mc.getNumber());
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
@@ -467,7 +466,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				
 				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
 				MagicCard mc = magicCardEditorPanel.getMagicCard();
-				me.setNumber(mc.getNumber());
+				me.setNumber(mc.getCurrentSet().getNumber());
 				me.setRarity(mc.getRarity());
 				me.setArtist(mc.getArtist());
 				me.setFlavor(mc.getFlavor());

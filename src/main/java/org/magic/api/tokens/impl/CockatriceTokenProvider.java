@@ -136,7 +136,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
 			tok.getEditions().add(mc.getCurrentSet());
-			tok.setNumber("T");
+			tok.getCurrentSet().setNumber("T");
 
 			NodeList sets = value.getElementsByTagName("set");
 			for (int s = 0; s < sets.getLength(); s++) {
@@ -182,9 +182,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.getSupertypes().add(StringUtils.capitalize(MagicCard.LAYOUT.EMBLEM.toString().toLowerCase()));
 			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
-			tok.setNumber("E");
-
 			tok.getEditions().add(mc.getCurrentSet());
+			tok.getCurrentSet().setNumber("E");
+
+			
 			logger.debug("Create token " + tok);
 			return tok;
 

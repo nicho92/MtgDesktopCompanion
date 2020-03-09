@@ -39,10 +39,9 @@ public class MagicCard implements Serializable {
 	private String power="";
 	private String toughness="";
 	private Integer loyalty;
-	private String artist="";
-	private String flavor="";
+	@Deprecated private String artist="";
+	@Deprecated private String flavor="";
 	private List<MagicRuling> rulings;
-	private String number="";
 	private List<Integer> variations;
 	private List<String> colorIdentity;
 	private String watermarks;
@@ -62,7 +61,23 @@ public class MagicCard implements Serializable {
 	private Integer mkmId;
 	private Integer edhrecRank;
 	
-
+	@Deprecated
+	public String getFlavor() {
+		return flavor;
+	}
+	@Deprecated
+	public void setFlavor(String flavor) {
+		this.flavor = flavor;
+	}
+	@Deprecated
+	public String getArtist() {
+		return artist;
+	}
+	@Deprecated
+	public void setArtist(String artist) {
+		this.artist = artist;
+	}
+	
 
 	public Integer getEdhrecRank() {
 		return edhrecRank;
@@ -302,14 +317,6 @@ public class MagicCard implements Serializable {
 		this.variations = variations;
 	}
 
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
 	public List<MagicRuling> getRulings() {
 		return rulings;
 	}
@@ -456,22 +463,7 @@ public class MagicCard implements Serializable {
 		this.supertypes = supertypes;
 	}
 
-	public String getArtist() {
-		return artist;
-	}
-
-	public void setArtist(String artist) {
-		this.artist = artist;
-	}
-
-	public String getFlavor() {
-		return flavor;
-	}
-
-	public void setFlavor(String flavor) {
-		this.flavor = flavor;
-	}
-
+	
 	public String toString() {
 		return getName();
 	}
@@ -523,7 +515,7 @@ public class MagicCard implements Serializable {
 			mc2.getEditions().set(0, ed);
 			ed.setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
-			mc2.setFlavor(fn.getFlavor());
+			mc2.getCurrentSet().setFlavor(fn.getFlavor());
 			mc2.setText(fn.getText());
 			return mc2;
 			

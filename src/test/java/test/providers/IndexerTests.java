@@ -32,7 +32,6 @@ public class IndexerTests {
 		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
-		mc.setNumber("232");
 					 ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
@@ -40,9 +39,8 @@ public class IndexerTests {
 					 ed.setRarity("Rare");
 					 ed.setArtist("Christopher Rush");
 					 ed.setMultiverseid("3");
-					 ed.setNumber(mc.getNumber());
-		
 		mc.getEditions().add(ed);
+		mc.getCurrentSet().setNumber("232");
 	}
 	
 	@Test

@@ -166,9 +166,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get(LAYOUT) != null)
 			mc.setLayout(obj.get(LAYOUT).getAsString());
 
-		if (obj.get(NUMBER) != null)
-			mc.setNumber(obj.get(NUMBER).getAsString());
-
 		if (obj.get(POWER) != null)
 			mc.setPower(obj.get(POWER).getAsString());
 
@@ -245,7 +242,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get(RARITY) != null)
 			currentEd.setRarity(obj.get(RARITY).getAsString());
 
-		currentEd.setNumber(mc.getNumber());
+		if (obj.get(NUMBER) != null)
+			currentEd.setNumber(obj.get(NUMBER).getAsString());
 
 		mc.getEditions().add(0, currentEd);
 

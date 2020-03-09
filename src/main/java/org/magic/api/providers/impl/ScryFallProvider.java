@@ -294,8 +294,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		mc.getForeignNames().add(n);
 
-		mc.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
-
 		try {
 			mc.setArtist(obj.get(ARTIST).getAsString());
 		} catch (NullPointerException e) {
@@ -447,7 +445,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 				ed.setRarity(obj.get(RARITY).getAsString());
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
-				ed.setNumber(mc.getNumber());
+				ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 				ed.setArtist(mc.getArtist());
 				mc.getEditions().add(ed);
 			} catch (Exception e2) {

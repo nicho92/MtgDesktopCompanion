@@ -96,13 +96,21 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			connect();
 
 		
+		if(mc.getCurrentSet()==null)
+		{
+			if(me!=null)
+				mc.getEditions().set(0, me);
+			else
+				mc.getEditions().set(0, new MagicEdition("Fake"));
+		}
+		
 		URIBuilder build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 		
 
 		if(me!=null)
 		{
-			build.addParameter("card-number", !mc.getNumber().isEmpty()?mc.getNumber():"1");
+			build.addParameter("card-number", !mc.getCurrentSet().getNumber().isEmpty()?mc.getCurrentSet().getNumber():"1");
 			build.addParameter("card-total", String.valueOf(me.getCardCount()));
 			build.addParameter("card-set", me.getId());
 			build.addParameter("language", "EN");

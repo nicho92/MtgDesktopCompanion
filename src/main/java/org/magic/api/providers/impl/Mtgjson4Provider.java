@@ -260,9 +260,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				
 				if (map.get(RARITY) != null)
 					mc.setRarity(String.valueOf(map.get(RARITY)));
-				
-				if (map.get(NUMBER) != null)
-					mc.setNumber(String.valueOf(map.get(NUMBER)));
 			
 				if (map.get(TEXT) != null)
 					mc.setText(String.valueOf(map.get(TEXT)));
@@ -402,7 +399,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				MagicEdition me = getSetById(codeEd);
 							 me.setRarity(mc.getRarity());
-							 me.setNumber(mc.getNumber());
+							
+							if (map.get(NUMBER) != null)
+							 me.setNumber(String.valueOf(map.get(NUMBER)));
+							
 							 me.setFlavor(mc.getFlavor());
 							
 							 
