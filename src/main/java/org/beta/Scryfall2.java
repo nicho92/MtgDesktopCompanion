@@ -44,13 +44,35 @@ public class Scryfall2 extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
-		return MTGCardQuery.search("++"+att+":"+crit + " include:extras").stream().map(this::toMagicCard).collect(Collectors.toList());
+		
+		StringBuilder query = new StringBuilder();
+		
+		query.append("++");
+		
+		if(exact)
+			query.append(att).append(":\"").append(crit).append("\"");
+		else
+			query.append(att).append(":").append(crit);
+		
+		if(me!=null)
+			query.append(" s:"+me.getId());
+		
+		query.append(" include:extras");
+		
+		logger.debug("Executing "  + query.toString());
+		return MTGCardQuery.search(query.toString()).stream().map(this::toMagicCard).collect(Collectors.toList());
 	}
 
 	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public MagicCard getCardByNumber(String number, MagicEdition me) throws IOException {
+		try { 
+			return searchCardByCriteria("number", number, me, false).get(0);
+		}
+		catch(IndexOutOfBoundsException ioobe)
+		{
+			logger.error(number + " in " + me + " not found");
+			return null;
+		}
 	}
 
 	@Override
@@ -103,7 +125,6 @@ public class Scryfall2 extends AbstractCardsProvider {
 		
 		MagicCard mc = new MagicCard();
 			mc.setName(c.getName());
-			mc.setArtist(c.getArtist());
 			mc.setCmc(c.getCmc().intValue());
 			
 			try {
@@ -111,6 +132,10 @@ public class Scryfall2 extends AbstractCardsProvider {
 			} catch (IOException e) {
 				logger.error(e);
 			}
+			
+			mc.getCurrentSet().setArtist(c.getArtist());
+
+			
 		return mc;
 		
 	}
@@ -128,7 +153,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new Scryfall2().searchCardByCriteria("name", "Black Lotus", null,true).forEach(mc->{
+		new Scryfall2().searchCardByCriteria("number", "1", new MagicEdition("LEA"),false).forEach(mc->{
 			System.out.println(mc + " " + mc.getCurrentSet());
 		});
 		
