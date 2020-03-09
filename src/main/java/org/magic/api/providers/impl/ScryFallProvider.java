@@ -528,8 +528,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void initOtherEdition(MagicCard mc) throws IOException {
 
-		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")
-				+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
+		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
 
 		logger.trace("initOtherEdition " + URLDecoder.decode(url, MTGConstants.DEFAULT_ENCODING.displayName()));
 

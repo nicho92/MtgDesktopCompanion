@@ -15,6 +15,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 
+import com.google.common.collect.Lists;
+
 import forohfor.scryfall.api.Card;
 import forohfor.scryfall.api.MTGCardQuery;
 import forohfor.scryfall.api.Set;
@@ -126,6 +128,10 @@ public class Scryfall2 extends AbstractCardsProvider {
 		MagicCard mc = new MagicCard();
 			mc.setName(c.getName());
 			mc.setCmc(c.getCmc().intValue());
+			mc.setFrameVersion(c.getFrame());
+			mc.setCost(c.getManaCost());
+			mc.setTranformable(c.isMultifaced());
+			generateTypes(mc,c.getTypeLine());
 			
 			try {
 				mc.getEditions().add(getSetById(c.getSetCode()));
@@ -140,6 +146,32 @@ public class Scryfall2 extends AbstractCardsProvider {
 		
 	}
 	
+	private void generateTypes(MagicCard mc, String line) {
+
+		line = line.replaceAll("\"", "");
+
+		for (String k : new String[] { "Legendary", "Basic", "Ongoing", "Snow", "World" }) {
+			if (line.contains(k)) {
+				mc.getSupertypes().add(k);
+				line = line.replaceAll(k, "").trim();
+			}
+		}
+
+		String sep = "\u2014";
+
+		if (line.contains(sep)) {
+
+			for (String s : line.substring(0, line.indexOf(sep)).trim().split(" "))
+				mc.getTypes().add(s.replaceAll("\"", ""));
+
+			for (String s : line.substring(line.indexOf(sep) + 1).trim().split(" "))
+				mc.getSubtypes().add(s);
+		} else {
+			for (String s : line.split(" "))
+				mc.getTypes().add(s.replaceAll("\"", ""));
+		}
+
+	}
 	
 
 	@Override
@@ -153,8 +185,8 @@ public class Scryfall2 extends AbstractCardsProvider {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new Scryfall2().searchCardByCriteria("number", "1", new MagicEdition("LEA"),false).forEach(mc->{
-			System.out.println(mc + " " + mc.getCurrentSet());
+		new Scryfall2().searchCardByName("black lotus", null,true).forEach(mc->{
+			System.out.println(mc + " " + mc.getCurrentSet() + " " + mc.getTypes());
 		});
 		
 
