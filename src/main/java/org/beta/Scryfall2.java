@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-
-import com.google.common.collect.Lists;
+import org.magic.tools.POMReader;
 
 import forohfor.scryfall.api.Card;
 import forohfor.scryfall.api.MTGCardQuery;
@@ -23,11 +23,33 @@ import forohfor.scryfall.api.Set;
 
 public class Scryfall2 extends AbstractCardsProvider {
 
+	private static final String CUSTOM = "custom";
+
+	@Override
+	public String getVersion() {
+		return POMReader.readVersionFromPom(MTGCardQuery.class,"/META-INF/maven/io.github.forohforerror/ScryfallAPIBinding/pom.properties");
+	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		// do nothing
+	}
+	
+
+	public static void main(String[] args) throws IOException {
+		new Scryfall2().searchCardByName("Black Lotus", null,true).forEach(mc->{
+			System.out.println(mc + " " + mc.getEditions() + " " + mc.getTypes());
+		});
+		
 
 	}
+
 
 	@Override
 	public MagicCard getCardById(String id) throws IOException {
@@ -48,7 +70,6 @@ public class Scryfall2 extends AbstractCardsProvider {
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
 		
 		StringBuilder query = new StringBuilder();
-		
 		query.append("++");
 		
 		if(exact)
@@ -61,7 +82,16 @@ public class Scryfall2 extends AbstractCardsProvider {
 		
 		query.append(" include:extras");
 		
+		if(att.equals(CUSTOM))
+			query = new StringBuilder(crit);
+		
+		if(att.equals("set"))
+			query = new StringBuilder("++s:"+crit);
+		
 		logger.debug("Executing "  + query.toString());
+		
+		
+		
 		return MTGCardQuery.search(query.toString()).stream().map(this::toMagicCard).collect(Collectors.toList());
 	}
 
@@ -107,7 +137,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "custom", "type", "color", "oracle", "mana", "cmc", "power", "toughness","loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set" };
+		return new String[] { "name", CUSTOM, "type", "color", "oracle", "mana", "cmc", "power", "toughness","loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set" };
 	}
 	
 
@@ -124,29 +154,66 @@ public class Scryfall2 extends AbstractCardsProvider {
 	}
 
 	private MagicCard toMagicCard(Card c) {
-		
-		MagicCard mc = new MagicCard();
-			mc.setName(c.getName());
-			mc.setCmc(c.getCmc().intValue());
-			mc.setFrameVersion(c.getFrame());
-			mc.setCost(c.getManaCost());
-			mc.setTranformable(c.isMultifaced());
-			generateTypes(mc,c.getTypeLine());
-			
-			try {
-				mc.getEditions().add(getSetById(c.getSetCode()));
-			} catch (IOException e) {
-				logger.error(e);
-			}
-			
-			mc.getCurrentSet().setArtist(c.getArtist());
+		try {
+			return cacheCards.get(c.getScryfallUUID().toString(), new Callable<MagicCard>() {
 
-			
-		return mc;
-		
+				@Override
+				public MagicCard call() throws Exception {
+					MagicCard mc = new MagicCard();
+						mc.setName(c.getName());
+						mc.setCmc(c.getCmc().intValue());
+						mc.setFrameVersion(c.getFrame());
+						mc.setCost(c.getManaCost());
+						mc.setTranformable(c.isMultifaced());
+						mc.setFlippable(c.getLayout().equals("flip"));
+						mc.setEdhrecRank(c.getEDHRecRank());
+						mc.setLayout(c.getLayout());
+						mc.setReserved(c.isReserved());
+						mc.setWatermarks(c.getWatermark());
+						
+						c.getLegalities().entrySet().forEach(e->mc.getLegalities().add(new MagicFormat(e.getKey(),e.getValue().equals("legal"))));
+						
+						
+						parsingTypesLine(mc,c.getTypeLine());
+						
+						try {
+							mc.getEditions().add(getSetById(c.getSetCode()));
+							mc.getCurrentSet().setArtist(c.getArtist());
+							mc.getCurrentSet().setFlavor(c.getFlavorText());
+							mc.getCurrentSet().setNumber(c.getCollectorNumber());
+						} catch (IOException e) {
+							logger.error(e);
+						}
+						
+						mc.getEditions().addAll(loadingOtherEditions());
+						
+						
+					return mc;
+				}
+
+				private List<MagicEdition> loadingOtherEditions() {
+					List<MagicEdition> eds = new ArrayList<>();
+					MTGCardQuery.search("++name:'"+c.getName()+"' -s:"+c.getSetCode() + " include:extras").forEach(c2->{
+						
+						MagicEdition ed = new MagicEdition(c2.getSetCode(),c2.getSetName());
+							ed.setArtist(c2.getArtist());
+							ed.setLayout(c2.getLayout());
+							ed.setRarity(c2.getRarity());
+							ed.setNumber(c2.getCollectorNumber());
+							eds.add(ed);
+					});
+					
+					
+					return eds;
+				}
+			});
+		} catch (Exception e) {
+			logger.error("error parsing " + c,e);
+			return null;
+		}
 	}
 	
-	private void generateTypes(MagicCard mc, String line) {
+	private void parsingTypesLine(MagicCard mc, String line) {
 
 		line = line.replaceAll("\"", "");
 
@@ -182,14 +249,6 @@ public class Scryfall2 extends AbstractCardsProvider {
 	@Override
 	public String getName() {
 		return "Scryfall";
-	}
-
-	public static void main(String[] args) throws IOException {
-		new Scryfall2().searchCardByName("black lotus", null,true).forEach(mc->{
-			System.out.println(mc + " " + mc.getCurrentSet() + " " + mc.getTypes());
-		});
-		
-
 	}
 
 }

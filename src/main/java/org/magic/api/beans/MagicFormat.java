@@ -17,6 +17,17 @@ public class MagicFormat implements Serializable {
 	private String format;
 	private Boolean legality;
 
+	public MagicFormat() {
+
+	}
+
+	public MagicFormat(String format, Boolean legality)
+	{
+		this.format=format;
+		this.legality=legality;
+	}
+	
+	
 	public String getFormat() {
 		return format;
 	}

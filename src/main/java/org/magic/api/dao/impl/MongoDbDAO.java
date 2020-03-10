@@ -32,6 +32,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.POMReader;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
@@ -44,6 +45,8 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+
+import forohfor.scryfall.api.MTGCardQuery;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 
@@ -69,6 +72,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbColIDField = "collection.name";
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
+
+	
+
+	@Override
+	public String getVersion() {
+		return "3.12.2";
+	
+	}
 
 
 	@Override
@@ -535,11 +546,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		setProperty(LOGIN, "login");
 		setProperty(PASS, "");
 
-	}
-
-	@Override
-	public String getVersion() {
-		return "3.11";
 	}
 
 	@Override
