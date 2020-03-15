@@ -49,11 +49,13 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
+	private static final String REGEX = "REGEX";
 	private static final String THUMBNAIL_IMAGE = "THUMBNAIL_IMAGE";
 	private static final String SHOWPRICE = "SHOWPRICE";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String TOKEN = "TOKEN";
-	private static final String REGEX = "\\{(.*?)\\}";
+	
+	
 	private JDA jda;
 	private ListenerAdapter listener;
 	
@@ -82,7 +84,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void analyseCard(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 		final List<MagicCard> liste = new ArrayList<>();
-		Pattern p = Pattern.compile(REGEX);
+		Pattern p = Pattern.compile(getString(REGEX));
 		Matcher m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
@@ -219,8 +221,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		try {
 			initListener();
 			
-			jda = new JDABuilder(AccountType.BOT)
-							.setToken(getString(TOKEN))
+			
+			
+			jda = JDABuilder.createDefault(getString(TOKEN))
 							.addEventListeners(listener)
 							.build();
 		
@@ -275,6 +278,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(AUTOSTART, "false");
 		setProperty(SHOWPRICE, "true");
 		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
+		setProperty(REGEX,"\\{(.*?)\\}");
 	}
 
 }
