@@ -33,7 +33,6 @@ import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.ColorParser;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

@@ -8,7 +8,6 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
@@ -38,7 +37,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		JDA jda=null;
 		try {
 			
-			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).build().awaitReady();
+			jda = JDABuilder.createDefault(getString("TOKEN")).build().awaitReady();
 			TextChannel chan = jda.getTextChannelById(chanID);
 			notification.setSender(String.valueOf(jda.getSelfUser()));
 			StringBuilder msg = new StringBuilder();
