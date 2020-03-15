@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
@@ -324,8 +325,26 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
-		return new HistoryPrice<>(packaging);
+		connect();
+		
+		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
+		
+		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(packaging.getEdition().getId())+"/ev";
+		
+		String strPrices = URLTools.extractJson(url).getAsJsonObject().get("price_hash").getAsString();
+		JsonObject obj = URLTools.toJson(strPrices).getAsJsonObject().get("booster").getAsJsonObject();
+		
+		
+		switch (packaging.getType()) 
+		{
+			case BOOSTER :ret.put(new Date(), obj.get("avg").getAsDouble());break;
+			case BOX: ret.put(new Date(), obj.get("avg").getAsDouble() * obj.get("num").getAsDouble());break;
+			default: break;
+		}
+		
+		
+		
+		return ret;
 	}
 	
-
 }

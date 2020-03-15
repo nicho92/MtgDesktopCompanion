@@ -13,7 +13,7 @@ public class Packaging implements Serializable{
 	private int num;
 	private String url;
 	private MagicEdition edition;
-
+	
 	public TYPE getType() {
 		return type;
 	}
