@@ -31,6 +31,8 @@ import com.google.gson.stream.JsonReader;
 
 public class URLTools {
 
+	
+
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
 	
 	public static final String HEADER_JSON="application/json";
@@ -42,6 +44,8 @@ public class URLTools {
 	public static final String ACCEPT = "Accept";
 	public static final String ORIGIN = "Origin";
 	public static final String UPGR_INSECURE_REQ= "Upgrade-Insecure-Requests";
+	public static final String USER_AGENT = "User-Agent";
+	public static final String CONTENT_TYPE="Content-Type";
 	
 	
 	private URLTools()	{}
@@ -142,7 +146,7 @@ public class URLTools {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try{
 			
-			connection.setRequestProperty("User-Agent", userAgent);
+			connection.setRequestProperty(USER_AGENT, userAgent);
 			connection.setAllowUserInteraction(true);
 			connection.setInstanceFollowRedirects(true);
 			connection.setRequestMethod("GET");

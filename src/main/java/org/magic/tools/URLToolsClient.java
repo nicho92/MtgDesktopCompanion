@@ -85,7 +85,7 @@ public class URLToolsClient {
 		if(builder.getMethod()== METHOD.POST)
 			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
 			
-		throw new IOException("choose a method");
+		throw new IOException("choose a method with METHOD.POST/GET");
 		
 	}
 	

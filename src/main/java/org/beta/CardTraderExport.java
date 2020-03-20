@@ -2,14 +2,12 @@ package org.beta;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
@@ -17,13 +15,10 @@ import org.magic.tools.URLTools;
 
 public class CardTraderExport extends AbstractCardExport {
 
-	private static final String TOKEN = "TOKEN";
-	private String baseUrl; 
+	private static final String TOKEN_FULL = "TOKEN_FULL";
+	private static final String TOKEN_SIMPLE = "TOKEN_SIMPLE";
+	private String baseUrl = "https://api.cardtrader.com/api"; 
 	
-	
-	public CardTraderExport() {
-		baseUrl= "https://api.cardtrader.com/api/simple/"+getVersion();
-	}
 	
 	@Override
 	public boolean needFile() {
@@ -58,14 +53,7 @@ public class CardTraderExport extends AbstractCardExport {
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
-		RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
-					  .url(baseUrl+"/download_csv")
-					  .addContent("token", getString(TOKEN));
-		
-		File temp = new File(MTGConstants.DATA_DIR,"export.gz");
-		URLTools.download(baseUrl+"/products/download_csv?token="+getString(TOKEN),temp);
-		FileTools.decompressGzipFile(temp, MTGConstants.DATA_DIR);
+	
 	}
 	
 	@Override
@@ -80,11 +68,38 @@ public class CardTraderExport extends AbstractCardExport {
 	
 	@Override
 	public void initDefault() {
-		setProperty(TOKEN, "");
+		setProperty(TOKEN_FULL, "");
+		setProperty(TOKEN_SIMPLE, "");
 	}
 
 	public static void main(String[] args) throws IOException {
-		new CardTraderExport().exportDeck(new MTGDeckManager().getDeck("Mengucci's Legacy Pox"), Paths.get("d:/", "temp").toFile());
+		new CardTraderExport().downloadProducts();
 	}
+	
+	
+	public void downloadCSV() throws IOException
+	{
+		String url = baseUrl+"/simple/"+getVersion()+"/products/download_csv?token="+getString(TOKEN_SIMPLE);
+		File temp = new File(MTGConstants.DATA_DIR,"export.gz");
+		URLTools.download(url,temp);
+		logger.debug("Downloading " + url + " to " + temp.getAbsolutePath());
+		FileTools.decompressGzipFile(temp, MTGConstants.DATA_DIR);
+	}
+	
+	public File downloadProducts() throws IOException {
+		String url = baseUrl+"/full/"+getVersion()+"/blueprints/export";
+		File f = new File(MTGConstants.DATA_DIR,"test.json");
+		FileTools.saveFile(f, RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(url)
+							.addContent("category_id", "1")
+							.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
+							.execute());
+		
+		return f;
+		
+	}
+	
+	
+	
+	
 	
 }

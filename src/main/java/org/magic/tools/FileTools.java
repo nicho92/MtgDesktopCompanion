@@ -20,6 +20,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -97,7 +98,7 @@ public class FileTools {
 	public static void decompressGzipFile(File fileZip,File dest) {
 		
 		if(dest.isDirectory())
-			dest=new File(dest,fileZip.getName());
+			dest=new File(dest,FilenameUtils.removeExtension(fileZip.getName()));
 		
         try (
             FileInputStream fis = new FileInputStream(fileZip);
@@ -105,7 +106,7 @@ public class FileTools {
             FileOutputStream fos = new FileOutputStream(dest);
         	)
         	{
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[512];
             int len;
             while((len = gis.read(buffer)) != -1){
                 fos.write(buffer, 0, len);

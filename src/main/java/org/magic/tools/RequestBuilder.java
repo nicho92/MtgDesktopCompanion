@@ -1,11 +1,14 @@
 package org.magic.tools;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 
 import com.google.gson.JsonElement;
@@ -147,7 +150,6 @@ public class RequestBuilder
 		clearContents();
 		url(null);
 		method(null);
-		
 		return this;
 	}
 
@@ -159,7 +161,9 @@ public class RequestBuilder
 		return client;
 		
 	}
-	
-	
+
+	public void download(File dest) throws IOException {
+		FileUtils.copyInputStreamToFile(toResponse().getEntity().getContent(),dest);
+	}
 	
 }

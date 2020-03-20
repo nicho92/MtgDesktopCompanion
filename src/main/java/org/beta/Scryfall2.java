@@ -46,8 +46,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 		new Scryfall2().searchCardByName("Black Lotus", null,true).forEach(mc->{
 			System.out.println(mc + " " + mc.getEditions() + " " + mc.getTypes());
 		});
-		
-
+	
 	}
 
 
