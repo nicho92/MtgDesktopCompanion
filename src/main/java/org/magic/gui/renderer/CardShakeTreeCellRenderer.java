@@ -18,7 +18,7 @@ import org.magic.tools.UITools;
 
 public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRenderer{
 	
-	private JList defaultJlist;
+	private JList<MagicEdition> defaultJlist;
 	
 	public CardShakeTreeCellRenderer() {
 		defaultJlist=new JList<>();

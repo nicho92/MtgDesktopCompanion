@@ -80,7 +80,7 @@ public class LookAndFeelProvider {
 		list = new ArrayList<>();
 		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
 			try {
-				SubstanceLookAndFeel look = c.getConstructor(null).newInstance();
+				SubstanceLookAndFeel look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo(look.getID(), c.getName()));
 			} catch (Exception e) {
 				logger.error("Loading " + c, e);
@@ -90,7 +90,7 @@ public class LookAndFeelProvider {
 		classReflections = new Reflections("com.jtattoo.plaf");
 		for (Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
 			try {
-				AbstractLookAndFeel look = c.getConstructor(null).newInstance();
+				AbstractLookAndFeel look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo("JTatoo " + look.getID(), c.getName()));
 			} catch (Exception e) {
 				logger.error("Loading " + c, e);
