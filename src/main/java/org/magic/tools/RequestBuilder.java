@@ -8,7 +8,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 
 import com.google.gson.JsonElement;

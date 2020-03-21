@@ -18,7 +18,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
-import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
