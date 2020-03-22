@@ -36,6 +36,7 @@ import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.PackagesProvider;
+import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
@@ -390,6 +391,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		Chrono ch = new Chrono();
+		ch.start();
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT edition, count(1) FROM cards where collection=? group by edition");) {
 			pst.setString(1, col.getName());
 			try (ResultSet rs = pst.executeQuery()) {
@@ -397,6 +400,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					map.put(rs.getString(1), rs.getInt(2));
 			}
 		}
+		logger.debug("getCardsCountGlobal(\""+col+"\") calcuation done in " + ch.stopInMillisecond()/1000+"s");
 		return map;
 	}
 

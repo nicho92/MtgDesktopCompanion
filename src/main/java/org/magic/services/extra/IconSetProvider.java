@@ -49,9 +49,9 @@ public class IconSetProvider {
 
 		try {
 			chrono.start();
-			logger.debug("Init IconSet cache");
+			logger.trace("Init IconSet cache");
 			initCache();
-			logger.debug("Init IconSet cache : done " + chrono.stop() + " sec");
+			logger.trace("Init IconSet cache : done " + chrono.stop() + " sec");
 		} catch (Exception e) {
 			logger.error("error init cache", e);
 		}
