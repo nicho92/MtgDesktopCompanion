@@ -51,10 +51,7 @@ public class CardTraderExport extends AbstractCardExport {
 		throw new IOException("Not Implemented");
 	}
 	
-	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 	
-	}
 	
 	@Override
 	public String getVersion() {

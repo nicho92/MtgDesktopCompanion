@@ -121,6 +121,7 @@ public abstract class MTGUIComponent extends JComponent {
 		f.setIconImage(p.getIcon().getImage());
 		f.getContentPane().add(p);
 		f.pack();
+		f.setResizable(resizable);
 		f.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
