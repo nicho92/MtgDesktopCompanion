@@ -10,7 +10,7 @@ public class GameClient {
 
 	public static void main(String[] args) {
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new GameGUI(), true, false,true).setVisible(true));
+		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new GameGUI(), true, true).setVisible(true));
 	}
 	
 }

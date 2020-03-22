@@ -16,7 +16,7 @@ public class ScriptsUIClient {
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 		MTGControler.getInstance().getEnabled(MTGDao.class).init();
 		
-		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new ScriptPanel(), true, false,true).setVisible(true));
+		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new ScriptPanel(), true, true).setVisible(true));
 	}
 	
 }

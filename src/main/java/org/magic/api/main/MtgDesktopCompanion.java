@@ -54,7 +54,7 @@ public class MtgDesktopCompanion {
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
 		
 			
-			logger.info("Init MTG Desktop Companion GUI");
+			logger.info("Init "+MTGConstants.MTG_APP_NAME+" GUI");
 		} catch (Exception e) {
 			logger.error("Error initialisation", e);
 			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);

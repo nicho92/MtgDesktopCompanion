@@ -60,7 +60,6 @@ public class ExportsProviderTests {
 			System.out.println("CONF FILE " + p.getConfFile());
 			
 			File destD = new File("target","TEST-"+p.getName()+"-DECK"+p.getFileExtension());
-			File destL = new File("target","TEST-"+p.getName()+"-LIST"+p.getFileExtension());
 			File destS = new File("target","TEST-"+p.getName()+"-STOCK"+p.getFileExtension());
 			
 			

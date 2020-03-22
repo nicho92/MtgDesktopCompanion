@@ -2,9 +2,7 @@ package org.beta;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;

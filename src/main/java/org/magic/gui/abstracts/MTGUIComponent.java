@@ -115,7 +115,7 @@ public abstract class MTGUIComponent extends JComponent {
 	}
 	
 	
-	public static JFrame createJFrame(MTGUIComponent p, boolean resizable,boolean modal, boolean exitOnClose)
+	public static JFrame createJFrame(MTGUIComponent p, boolean resizable,boolean exitOnClose)
 	{
 		JFrame f = new JFrame(p.getTitle());
 		f.setIconImage(p.getIcon().getImage());
