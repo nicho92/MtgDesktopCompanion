@@ -100,7 +100,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private CardStockPanel statsPanel;
+	private CardStockPanel stockPanel;
 	private JLabel lblTotal;
 	private CardsDeckCheckerPanel deckPanel;
 	private CardsEditionTablePanel cardsSetPanel;
@@ -202,7 +202,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		typeRepartitionPanel = new TypeRepartitionPanel();
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
-		statsPanel = new CardStockPanel();
+		stockPanel = new CardStockPanel();
 		historyPricesPanel = new HistoryPricesPanel(true);
 		jsonPanel = new ObjectViewerPanel();
 		tree = new LazyLoadingTree();
@@ -278,7 +278,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, stockPanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel, null);
@@ -327,11 +327,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		try {
 			if(col==null)
-				statsPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
+				stockPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
 			else
-				statsPanel.initMagicCardStock(mc,col);
+				stockPanel.initMagicCardStock(mc,col);
 		
-			statsPanel.enabledAdd(true);
+			stockPanel.enabledAdd(true);
 		}
 		catch(NullPointerException e)
 		{
@@ -435,12 +435,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			if (curr.getUserObject() instanceof String) {
 				btnExport.setEnabled(false);
-				statsPanel.enabledAdd(false);
+				stockPanel.enabledAdd(false);
 			}
 
 			if (curr.getUserObject() instanceof MagicCollection) {
 				selectedcol = (MagicCollection) curr.getUserObject();
-				statsPanel.enabledAdd(false);
+				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicCollection.class,selectedcol);
 				ThreadManager.getInstance().executeThread(() -> {
 					try {
@@ -464,7 +464,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				
 				magicEditionDetailPanel.setMagicEdition(ed);
 				packagePanel.setMagicEdition(ed);
-				statsPanel.enabledAdd(false);
+				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicEdition.class,ed);
 				ThreadManager.getInstance().executeThread(() -> {
 					try {

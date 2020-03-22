@@ -63,6 +63,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		
 		try {
 			MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(it);
+			changed=true;
 		} catch (SQLException e) {
 			logger.error("Error saving " + it , e);
 		}

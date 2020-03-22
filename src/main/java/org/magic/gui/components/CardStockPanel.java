@@ -44,7 +44,6 @@ public class CardStockPanel extends JPanel {
 		btnAdd.setEnabled(b);
 	}
 
-	@SuppressWarnings("unchecked")
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();

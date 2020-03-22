@@ -20,6 +20,8 @@ public class GenericTableModel<T> extends DefaultTableModel {
 	protected String[] columns;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean writable=false;
+	protected boolean changed=false;
+	
 	
 	public GenericTableModel() {
 		items = new ArrayList<>();
@@ -29,11 +31,13 @@ public class GenericTableModel<T> extends DefaultTableModel {
 	public GenericTableModel(String...columnName) {
 		items = new ArrayList<>();
 		columns = columnName;
+		changed=false;
 	}
 	
 	public GenericTableModel(T classe) {
 		items = new ArrayList<>();
 		Set<String> s;
+		changed=false;
 		try {
 			s = BeanUtils.describe(classe).keySet();
 			columns = Arrays.copyOf(s.toArray(), s.size(),String[].class);
@@ -42,6 +46,9 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		}
 	}
 	
+	public boolean isChanged() {
+		return changed;
+	}
 	
 	
 	public void setWritable(boolean writable) {
@@ -58,6 +65,11 @@ public class GenericTableModel<T> extends DefaultTableModel {
 			return super.getColumnClass(columnIndex);	
 		} 
 		
+	}
+	
+	@Override
+	public void setValueAt(Object aValue, int row, int column) {
+		changed=true;
 	}
 	
 	@Override
@@ -83,6 +95,7 @@ public class GenericTableModel<T> extends DefaultTableModel {
 	public void addItem(T t)
 	{
 		items.add(t);
+		changed=true;
 		fireTableDataChanged();
 	}
 	
@@ -93,7 +106,7 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		else
 			items=new ArrayList<>(t);
 		
-		
+		changed=false;
 		fireTableDataChanged();
 	}
 	
@@ -125,12 +138,14 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		for(T it : list)
 			items.remove(it);
 
+		changed=true;
 		fireTableDataChanged();
 	}
 	
 	public void removeItem(T t)
 	{
 		items.remove(t);
+		changed=true;
 		fireTableDataChanged();
 	}
 	
@@ -157,6 +172,7 @@ public class GenericTableModel<T> extends DefaultTableModel {
 
 	public void clear() {
 		items.clear();
+		changed=true;
 		fireTableDataChanged();
 	}
 	
@@ -173,5 +189,7 @@ public class GenericTableModel<T> extends DefaultTableModel {
 	public boolean isCellEditable(int row, int column) {
 		return writable;
 	}
+	
+	
 	
 }
