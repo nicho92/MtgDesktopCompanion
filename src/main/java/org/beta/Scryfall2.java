@@ -117,11 +117,18 @@ public class Scryfall2 extends AbstractCardsProvider {
 	}
 	
 	@Override
-	public MagicEdition getSetById(String id) throws IOException {
-		Optional<MagicEdition> opt = loadEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findFirst();
+	public MagicEdition getSetById(String id)  {
+		Optional<MagicEdition> opt;
+		try {
+			opt = loadEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findFirst();
+
+			if(opt.isPresent())
+				return opt.get();
+			
+		} catch (IOException e) {
+			logger.error("Error loading " + id,e);
+		}
 		
-		if(opt.isPresent())
-			return opt.get();
 		
 		return new MagicEdition(id,id);
 		
@@ -175,14 +182,10 @@ public class Scryfall2 extends AbstractCardsProvider {
 						
 						parsingTypesLine(mc,c.getTypeLine());
 						
-						try {
 							mc.getEditions().add(getSetById(c.getSetCode()));
 							mc.getCurrentSet().setArtist(c.getArtist());
 							mc.getCurrentSet().setFlavor(c.getFlavorText());
 							mc.getCurrentSet().setNumber(c.getCollectorNumber());
-						} catch (IOException e) {
-							logger.error(e);
-						}
 						
 						mc.getEditions().addAll(loadingOtherEditions());
 						
@@ -194,7 +197,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 					List<MagicEdition> eds = new ArrayList<>();
 					MTGCardQuery.search("++name:'"+c.getName()+"' -s:"+c.getSetCode() + " include:extras").forEach(c2->{
 						
-						MagicEdition ed = new MagicEdition(c2.getSetCode(),c2.getSetName());
+						MagicEdition ed = getSetById(c2.getSetCode());
 							ed.setArtist(c2.getArtist());
 							ed.setLayout(c2.getLayout());
 							ed.setRarity(c2.getRarity());
