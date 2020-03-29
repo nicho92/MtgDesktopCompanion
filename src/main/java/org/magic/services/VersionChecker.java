@@ -34,7 +34,13 @@ public class VersionChecker {
 	
 	public VersionChecker() {
 		actualVersion = getVersion();
+		
+		boolean updatePRL =Boolean.parseBoolean(MTGControler.getInstance().get("notifyPrerelease","false"));
+		
+		
 		try {
+			GithubUtils.inst().setUpdateToPreRelease(updatePRL);
+			
 			onlineVersion = GithubUtils.inst().getVersion();
 		} catch (Exception e) {
 			onlineVersion = "";

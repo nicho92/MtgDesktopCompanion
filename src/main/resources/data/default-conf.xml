@@ -40,6 +40,7 @@
     <debug-json-panel>true</debug-json-panel>
     <lookAndFeel/>
     <locale>en</locale>
+    <notifyPrerelease>false</notifyPrerelease>
     <currencylayer-converter-enable>false</currencylayer-converter-enable>
     <currency>USD</currency>
     <card-pictures-dimension>

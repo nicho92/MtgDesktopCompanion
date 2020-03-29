@@ -253,6 +253,9 @@ public class ConfigurationPanel extends JPanel {
 		chckbxPackages = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"));
 		JCheckBox chkboxAutoDelete = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_DELETE"));
 		JButton btnDefaultStock = new JButton("Default Stock");
+		JCheckBox chkboxPrerelease = new JCheckBox();		
+	
+		
 		JPanel panelAutoStock = new JPanel();
 		cboEditionLands = UITools.createComboboxEditions();
 		
@@ -267,7 +270,8 @@ public class ConfigurationPanel extends JPanel {
 		chckbxIconset.setSelected(true);
 		chckbxIconcards.setSelected(true);
 		chckbxPackages.setSelected(true);
-		
+
+		chkboxPrerelease.getModel().setSelected( MTGControler.getInstance().get("notifyPrerelease").equals("true"));
 		chkboxAutoAdd.setSelected(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"));
 		chkboxAutoDelete.setSelected(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"));
 		
@@ -300,6 +304,8 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CONFIG_BACKUP")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
+		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_PRERELEASE")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
+		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
 		
 		
 
@@ -437,8 +443,7 @@ public class ConfigurationPanel extends JPanel {
 		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 1));
 		panelCurrency.add(btnUpdateCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
 		panelCurrency.add(dateCurrencyCache, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
-	
-		chkEnablePriceConversion.getModel().setSelected(MTGControler.getInstance().get("/currencylayer-converter-enable").equals("true"));
+		
 		
 		
 /////////////GUI BOX			
@@ -473,6 +478,7 @@ public class ConfigurationPanel extends JPanel {
 		cboToolPosition.getModel().setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
 		chkEnabledAutocomplete.getModel().setSelected( MTGControler.getInstance().get("autocompletion").equals("true"));
 		chkEnabledChrome.getModel().setSelected( MTGControler.getInstance().get("ui/chromedisabled").equals("true"));
+		chkEnablePriceConversion.getModel().setSelected(MTGControler.getInstance().get("/currencylayer-converter-enable").equals("true"));
 		
 		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -499,7 +505,8 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 /////////////EVENTS	
-				
+
+		
 		cboToolPosition.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty("ui/moduleTabPosition",
@@ -605,7 +612,8 @@ public class ConfigurationPanel extends JPanel {
 		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
 		chkEnabledAutocomplete.addItemListener(ie -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
 		chkEnabledChrome.addItemListener(ie -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
-		
+		chkboxPrerelease.addItemListener(ie -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
+
 		
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(ae -> {

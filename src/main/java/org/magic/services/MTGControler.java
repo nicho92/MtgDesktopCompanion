@@ -48,6 +48,7 @@ public class MTGControler {
 	private CurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	private MTGNotifier notifier;
 	
 	

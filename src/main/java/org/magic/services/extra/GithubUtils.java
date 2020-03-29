@@ -17,7 +17,7 @@ public class GithubUtils {
 	private JsonObject selectedRelease;
 	private JsonArray releases;
 	private static GithubUtils inst;
-	
+	private boolean updatetoprerelease=false;
 	
 	
 	public static GithubUtils inst() throws IOException
@@ -28,11 +28,32 @@ public class GithubUtils {
 		return inst;
 	}
 	
-	private GithubUtils() throws IOException {
-		releases = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
-		setSelectedRelease(0);
+	public void setUpdateToPreRelease(boolean b)
+	{
+		updatetoprerelease=b;
+		update();
 	}
 	
+	
+	private GithubUtils() throws IOException {
+		releases = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
+		
+		update();
+	}
+	
+	private void update() {
+
+		int selected=0;
+		
+		if(!updatetoprerelease)
+			while(releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean())
+				selected++;
+		
+		
+		setSelectedRelease(selected);
+		
+	}
+
 	public JsonArray getReleases() {
 		return releases;
 	}
