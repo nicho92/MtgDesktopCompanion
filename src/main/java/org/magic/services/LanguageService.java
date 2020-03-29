@@ -46,9 +46,9 @@ public class LanguageService {
 	public Locale getDefault() {
 		return Locale.ENGLISH;
 	}
-
+	
 	public Locale[] getAvailableLocale() {
-		return new Locale[] { Locale.ENGLISH, Locale.FRENCH };
+		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE};
 	}
 
 	public void changeLocal(Locale l) {
