@@ -89,8 +89,6 @@ public class Scryfall2 extends AbstractCardsProvider {
 		
 		logger.debug("Executing "  + query.toString());
 		
-		
-		
 		return MTGCardQuery.search(query.toString()).stream().map(this::toMagicCard).collect(Collectors.toList());
 	}
 
@@ -161,7 +159,8 @@ public class Scryfall2 extends AbstractCardsProvider {
 
 	private MagicCard toMagicCard(Card c) {
 		try {
-			return cacheCards.get(c.getScryfallUUID().toString(), new Callable<MagicCard>() {
+			
+			MagicCard mc =  cacheCards.get(c.getScryfallUUID().toString(), new Callable<MagicCard>() {
 
 				@Override
 				public MagicCard call() throws Exception {
@@ -176,10 +175,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 						mc.setLayout(c.getLayout());
 						mc.setReserved(c.isReserved());
 						mc.setWatermarks(c.getWatermark());
-						
 						c.getLegalities().entrySet().forEach(e->mc.getLegalities().add(new MagicFormat(e.getKey(),e.getValue().equals("legal"))));
-						
-						
 						parsingTypesLine(mc,c.getTypeLine());
 						
 							mc.getEditions().add(getSetById(c.getSetCode()));
@@ -188,7 +184,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 							mc.getCurrentSet().setNumber(c.getCollectorNumber());
 						
 						mc.getEditions().addAll(loadingOtherEditions());
-						
+					
 						
 					return mc;
 				}
@@ -209,6 +205,8 @@ public class Scryfall2 extends AbstractCardsProvider {
 					return eds;
 				}
 			});
+			notify(mc);
+			return mc;
 		} catch (Exception e) {
 			logger.error("error parsing " + c,e);
 			return null;
