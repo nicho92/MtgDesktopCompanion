@@ -13,6 +13,16 @@ public class RetrievableDeck {
 	private String color;
 	private List<String> keycards;
 
+	
+	public MagicDeck toBaseDeck()
+	{
+		MagicDeck deck = new MagicDeck();
+		deck.setName(getName());
+		deck.setDescription(getUrl().toString());
+		return deck;
+	}
+	
+	
 	public RetrievableDeck() {
 		keycards = new ArrayList<>();
 	}
