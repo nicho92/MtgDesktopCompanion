@@ -171,10 +171,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				FileTools.saveFile(fversion,version);
 				setProperty(FORCE_RELOAD, "false");
 			}
-			
+			Chrono chr = new Chrono();
+			chr.start();
 			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);
-			logger.debug(this + " : parsing OK ");
+			logger.debug(this + " : parsing OK in " + chr.stop()+"s");
 			
 		} catch (Exception e1) {
 			logger.error(e1);
