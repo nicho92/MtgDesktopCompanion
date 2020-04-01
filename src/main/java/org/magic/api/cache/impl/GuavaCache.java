@@ -8,6 +8,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.tools.MemoryTools;
+import org.magic.tools.POMReader;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -76,7 +77,7 @@ public class GuavaCache extends AbstractCacheProvider {
 	
 	@Override
 	public String getVersion() {
-		return "28.0";
+		return POMReader.readVersionFromPom(GuavaCache.class, "/META-INF/maven/com.google.guava/guava/pom.properties");
 	}
 	
 

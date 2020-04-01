@@ -15,6 +15,7 @@ import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ImageTools;
+import org.magic.tools.POMReader;
 
 public class JCSCache extends AbstractCacheProvider {
 	
@@ -82,7 +83,7 @@ public class JCSCache extends AbstractCacheProvider {
 	
 	@Override
 	public String getVersion() {
-		return "2.2.1";
+		return POMReader.readVersionFromPom(JCS.class, "/META-INF/maven/org.apache.commons/commons-jcs-core/pom.properties");
 	}
 	
 

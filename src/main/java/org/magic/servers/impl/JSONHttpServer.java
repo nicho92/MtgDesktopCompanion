@@ -45,6 +45,7 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
+import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -517,7 +518,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public String getVersion() {
-		return "2.9.1";
+		return POMReader.readVersionFromPom(Spark.class, "/META-INF/maven/com.sparkjava/spark-core/pom.properties");
 	}
 
 	private String getWhiteHeader(Request request) {
