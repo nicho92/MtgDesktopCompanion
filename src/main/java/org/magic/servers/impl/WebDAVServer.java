@@ -13,6 +13,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.magic.api.dav.WebDavMTGResourceFactory;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.tools.POMReader;
 
 import io.milton.servlet.MiltonFilter;
 import io.milton.servlet.MiltonServlet;
@@ -110,7 +111,7 @@ public class WebDAVServer extends AbstractMTGServer {
 	
 	@Override
 	public String getVersion() {
-		return "2.7.4.8";
+		return POMReader.readVersionFromPom(MiltonServlet.class, "/META-INF/maven/io.milton/milton-server-ce/pom.properties");
 	}
 	
 	@Override
