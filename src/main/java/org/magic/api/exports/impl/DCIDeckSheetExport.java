@@ -107,19 +107,19 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 		// MAIN DECK
 		int count = 0;
-		for (MagicCard mc : deck.getMap().keySet()) {
+		for (MagicCard mc : deck.getMain().keySet()) {
 			cb.setTextMatrix(page.getWidth() / 6.4f, page.getHeight() - 185 - count);
-			cb.showText(deck.getMap().get(mc) + space + mc.getName());
+			cb.showText(deck.getMain().get(mc) + space + mc.getName());
 			count += 18;
 			notify(mc);
 		}
 		// CONTINUED and BASIC LAND
 		if (getString(FILL_CONTINUED_LANDS).equalsIgnoreCase("true")) {
 			count = 0;
-			for (MagicCard mc : deck.getMap().keySet()) {
+			for (MagicCard mc : deck.getMain().keySet()) {
 				if (mc.isLand()) {
 					cb.setTextMatrix(page.getWidth() / 1.7f, page.getHeight() - 185 - count);
-					cb.showText(deck.getMap().get(mc) + space + mc.getName());
+					cb.showText(deck.getMain().get(mc) + space + mc.getName());
 					count += 18;
 				}
 				notify(mc);
@@ -128,9 +128,9 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		}
 		// SIDEBOARD
 		count = 0;
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
 			cb.setTextMatrix(page.getWidth() / 1.7f, page.getHeight() - 418 - count);
-			cb.showText(deck.getMapSideBoard().get(mc) + space + mc.getName());
+			cb.showText(deck.getSideBoard().get(mc) + space + mc.getName());
 			notify(mc);
 			count += 18;
 		}

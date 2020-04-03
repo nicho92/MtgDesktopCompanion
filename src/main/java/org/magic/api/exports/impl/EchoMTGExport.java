@@ -58,7 +58,7 @@ public class EchoMTGExport extends AbstractCardExport {
 			connect();
 		
 		
-		deck.getMap().entrySet().forEach(entry->{
+		deck.getMain().entrySet().forEach(entry->{
 				try {
 					JsonElement list = RequestBuilder.build().method(METHOD.POST)
 							 .url(BASE_URL+"/api/inventory/add/")

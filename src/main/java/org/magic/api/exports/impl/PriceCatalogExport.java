@@ -59,7 +59,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 			{	
 					MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
 			
-					for (MagicCard mc : deck.getMap().keySet()) 
+					for (MagicCard mc : deck.getMain().keySet()) 
 					{
 						for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
 							for (String k : exportedCardsProperties) {

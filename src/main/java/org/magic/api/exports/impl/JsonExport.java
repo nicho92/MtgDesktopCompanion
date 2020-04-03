@@ -114,7 +114,7 @@ public class JsonExport extends AbstractCardExport {
 			int qte = line.get("qty").getAsInt();
 			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
 			notify(mc);
-			deck.getMap().put(mc, qte);
+			deck.getMain().put(mc, qte);
 		}
 
 		JsonArray side = root.get("side").getAsJsonArray();
@@ -124,7 +124,7 @@ public class JsonExport extends AbstractCardExport {
 			int qte = line.get("qty").getAsInt();
 			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
 			notify(mc);
-			deck.getMapSideBoard().put(mc, qte);
+			deck.getSideBoard().put(mc, qte);
 
 		}
 
@@ -159,9 +159,9 @@ public class JsonExport extends AbstractCardExport {
 		
 		JsonArray main = new JsonArray();
 
-		for (MagicCard mc : deck.getMap().keySet()) {
+		for (MagicCard mc : deck.getMain().keySet()) {
 			JsonObject card = new JsonObject();
-			card.addProperty("qty", (Number) deck.getMap().get(mc));
+			card.addProperty("qty", (Number) deck.getMain().get(mc));
 			card.add("card", toJsonElement(mc));
 			main.add(card);
 			notify(mc);
@@ -169,9 +169,9 @@ public class JsonExport extends AbstractCardExport {
 
 		JsonArray side = new JsonArray();
 
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
 			JsonObject card = new JsonObject();
-			card.addProperty("qty", (Number) deck.getMapSideBoard().get(mc));
+			card.addProperty("qty", (Number) deck.getSideBoard().get(mc));
 			card.add("card", toJsonElement(mc));
 			side.add(card);
 			notify(mc);

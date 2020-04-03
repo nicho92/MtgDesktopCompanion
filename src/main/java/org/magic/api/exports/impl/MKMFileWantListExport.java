@@ -24,7 +24,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 			MagicCard mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 			if(mc!=null)
 			{
-				deck.getMap().put(mc, qty);
+				deck.getMain().put(mc, qty);
 				notify(mc);
 			}
 		});
@@ -38,20 +38,20 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 			StringBuilder temp = new StringBuilder();
 			
-			for (MagicCard mc : deck.getMap().keySet()) {
+			for (MagicCard mc : deck.getMain().keySet()) {
 				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getMap().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
+					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
 				else
-					temp.append(deck.getMapSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
 				notify(mc);
 			}
 			
-			for (MagicCard mc : deck.getMapSideBoard().keySet()) 
+			for (MagicCard mc : deck.getSideBoard().keySet()) 
 			{
 				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getMapSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
 				else
-					temp.append(deck.getMapSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
 				notify(mc);
 			}
 			FileTools.saveFile(dest, temp.toString());

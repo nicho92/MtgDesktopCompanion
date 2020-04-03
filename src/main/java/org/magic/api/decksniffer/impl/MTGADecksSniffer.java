@@ -61,7 +61,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				try {
 				AbstractMap.SimpleEntry<String,Integer> entry = (parseString(s));
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
-				d.getMap().put(mc, entry.getValue());
+				d.getMain().put(mc, entry.getValue());
 				notify(mc);
 				}
 				catch(Exception e)

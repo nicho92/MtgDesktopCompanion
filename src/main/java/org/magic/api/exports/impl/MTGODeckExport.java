@@ -30,13 +30,13 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 		temp.append("//NAME: " + deck.getName() + " from MTGDeskTopCompanion\n");
 		temp.append("\n//MAIN\n");
-		for (MagicCard mc : deck.getMap().keySet()) {
-			temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append("\n");
+		for (MagicCard mc : deck.getMain().keySet()) {
+			temp.append(deck.getMain().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
 		temp.append("\nSideboard\n");
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-			temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
+			temp.append(deck.getSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
 
@@ -64,11 +64,11 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 						
 						if(side)
 						{
-							deck.getMapSideBoard().put(mc, qty);
+							deck.getSideBoard().put(mc, qty);
 						}
 						else
 						{
-							deck.getMap().put(mc, qty);
+							deck.getMain().put(mc, qty);
 						}
 						
 						notify(mc);

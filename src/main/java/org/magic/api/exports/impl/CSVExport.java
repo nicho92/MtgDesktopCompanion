@@ -130,7 +130,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		bw.append(System.lineSeparator());
 
 		
-		for (Entry<MagicCard, Integer> entry : deck.getMap().entrySet())
+		for (Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
 		{
 			bw.append(entry.getKey()).append(getSeparator());
 			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
@@ -141,7 +141,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			
 		bw.append(System.lineSeparator());
 		
-		for (Entry<MagicCard, Integer> entry : deck.getMapSideBoard().entrySet())
+		for (Entry<MagicCard, Integer> entry : deck.getSideBoard().entrySet())
 		{
 			bw.append(entry.getKey()).append(getSeparator());
 			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
@@ -209,9 +209,9 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					if(mc!=null) {
 						
 						if(isSide)
-							deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
+							deck.getSideBoard().put(mc, Integer.parseInt(qte));
 						else
-							deck.getMap().put(mc, Integer.parseInt(qte));
+							deck.getMain().put(mc, Integer.parseInt(qte));
 						
 						notify(mc);
 					}

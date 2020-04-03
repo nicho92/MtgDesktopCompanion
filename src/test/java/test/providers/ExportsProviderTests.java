@@ -45,7 +45,7 @@ public class ExportsProviderTests {
 	{
 		
 			MagicDeck d = MagicDeck.toDeck(cards);
-					  d.getMapSideBoard().put(cards.get(0), 3);
+					  d.getSideBoard().put(cards.get(0), 3);
 			
 			System.out.println("*****************************"+p.getName());
 			System.out.println("EXT  "+p.getFileExtension());

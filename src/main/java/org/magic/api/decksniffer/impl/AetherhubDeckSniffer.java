@@ -114,9 +114,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 				
 				notify(mc);
 				if(sideboard)
-					deck.getMapSideBoard().put(mc, entry.getValue());
+					deck.getSideBoard().put(mc, entry.getValue());
 				else
-					deck.getMap().put(mc, entry.getValue());
+					deck.getMain().put(mc, entry.getValue());
 				}
 				catch(Exception e)
 				{

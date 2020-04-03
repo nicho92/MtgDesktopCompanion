@@ -30,17 +30,17 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
-		for (MagicCard mc : deck.getMap().keySet()) {
+		for (MagicCard mc : deck.getMain().keySet()) {
 			temp.append("MD,");
-			temp.append(deck.getMap().get(mc) + getSeparator());
+			temp.append(deck.getMain().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
 			notify(mc);
 		}
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
 			temp.append("SB,");
-			temp.append(deck.getMapSideBoard().get(mc) + getSeparator());
+			temp.append(deck.getSideBoard().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
 			temp.append(mc.getCurrentSet().getId());
 			temp.append(System.lineSeparator());
@@ -64,9 +64,9 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 				
 				if(mc!=null) {
 					if (m.group(1).startsWith("SB"))
-						deck.getMapSideBoard().put(mc, qte);
+						deck.getSideBoard().put(mc, qte);
 					else
-						deck.getMap().put(mc, qte);
+						deck.getMain().put(mc, qte);
 				}
 			}
 			return deck;

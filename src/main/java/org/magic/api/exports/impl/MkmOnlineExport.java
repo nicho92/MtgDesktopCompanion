@@ -99,7 +99,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true).get(0);
-				d.getMap().put(mc, w.getCount());
+				d.getMain().put(mc, w.getCount());
 				notify(mc);
 			} catch (Exception e) {
 				logger.error("could not import " + w);
@@ -125,7 +125,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		WantsService wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
-		for (MagicCard mc : deck.getMap().keySet()) 
+		for (MagicCard mc : deck.getMain().keySet()) 
 		{
 			Integer p = null;
 			try 
@@ -157,7 +157,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			if (p != null) {
 				WantItem w = new WantItem();
 				w.setIdProduct(p);
-				w.setCount(deck.getMap().get(mc));
+				w.setCount(deck.getMain().get(mc));
 				w.setFoil(new MkmBoolean(false));
 				w.setMinCondition(getString(QUALITY));
 				w.setAltered(new MkmBoolean(false));
@@ -208,7 +208,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			MagicDeck d = new MagicDeck();
 			d.setName(f.getName());
 			for (MagicCardStock mcs : stock) {
-				d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+				d.getMain().put(mcs.getMagicCard(), mcs.getQte());
 			}
 			exportDeck(d, f);
 		} else {

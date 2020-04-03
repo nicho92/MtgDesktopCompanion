@@ -60,7 +60,7 @@ public class MTGDeckManager extends Observable {
 		if(magicDeck.getAsList().size()!=100)
 			return false;
 		
-		for(Entry<MagicCard, Integer> entry : magicDeck.getMap().entrySet())
+		for(Entry<MagicCard, Integer> entry : magicDeck.getMain().entrySet())
 		{
 			if(!entry.getKey().isBasicLand() && entry.getValue()>1)
 				return false;
@@ -256,7 +256,7 @@ public class MTGDeckManager extends Observable {
 		
 		int numberInDeck = 0;
 		try {
-			numberInDeck = deck.getMap().get(mc);
+			numberInDeck = deck.getMain().get(mc);
 		}catch(NullPointerException e)
 		{
 			logger.error(mc + " is not found in main deck");

@@ -49,7 +49,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 					.searchCardByName(cardName, null, true).get(0);
 
 			notify(mc);
-			deck.getMap().put(mc, Integer.valueOf(qte));
+			deck.getMain().put(mc, Integer.valueOf(qte));
 		}
 
 		Elements sidecardsList = d.select(".sideboard.clearfix").select(".cardlist");
@@ -63,7 +63,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 					.searchCardByName(cardName, null, true).get(0);
 
 			notify(mc);
-			deck.getMapSideBoard().put(mc, Integer.valueOf(qte));
+			deck.getSideBoard().put(mc, Integer.valueOf(qte));
 		}
 		return deck;
 	}

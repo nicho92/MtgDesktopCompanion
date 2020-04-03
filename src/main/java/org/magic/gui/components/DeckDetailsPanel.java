@@ -198,7 +198,7 @@ public class DeckDetailsPanel extends JComponent {
 
 	public void updatePicture() {
 		
-		if(magicDeck==null || magicDeck.getMap().isEmpty())
+		if(magicDeck==null || magicDeck.getMain().isEmpty())
 				return;
 		
 		
@@ -209,7 +209,7 @@ public class DeckDetailsPanel extends JComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (int i = 0; i < 4; i++) {
-					BufferedImage im = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).extractPicture((MagicCard) magicDeck.getMap().keySet().toArray()[i]);
+					BufferedImage im = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).extractPicture((MagicCard) magicDeck.getMain().keySet().toArray()[i]);
 					publish(im);
 				}
 				return null;

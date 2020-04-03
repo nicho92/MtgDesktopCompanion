@@ -129,7 +129,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		
 		for(MagicCardStock st : importStock(content))
 		{
-			d.getMap().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getMagicCard(), st.getQte());
 		}
 		return d;
 	}

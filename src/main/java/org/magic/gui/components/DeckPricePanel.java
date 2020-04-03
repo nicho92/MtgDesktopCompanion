@@ -101,19 +101,19 @@ public class DeckPricePanel extends JComponent {
 
 				@Override
 				protected Void doInBackground(){
-					for (MagicCard c : deck.getMap().keySet()) {
+					for (MagicCard c : deck.getMain().keySet()) {
 						try {
 							List<MagicPrice> prices = ((MTGPricesProvider)cboPricers.getSelectedItem()).getPrice(c.getCurrentSet(), c);
 							MagicPrice p = null;
 							if (!prices.isEmpty()) {
 								Collections.sort(prices, new MagicPricesComparator());
 								p = prices.get(0);
-								p.setValue(p.getValue() * deck.getMap().get(c));
-								p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ")");
+								p.setValue(p.getValue() * deck.getMain().get(c));
+								p.setSite(c.getName() + "(x" + deck.getMain().get(c) + ")");
 							} else {
 								p = new MagicPrice();
 								p.setValue(0.0);
-								p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ") - "+ MTGControler.getInstance().getLangService().get("NOT_FOUND"));
+								p.setSite(c.getName() + "(x" + deck.getMain().get(c) + ") - "+ MTGControler.getInstance().getLangService().get("NOT_FOUND"));
 							}
 							
 							publish(p);

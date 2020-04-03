@@ -92,9 +92,9 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		if (column == 4) {
 			switch (t) {
 			case DECK:
-				return deck.getMap().get(mc);
+				return deck.getMain().get(mc);
 			case SIDE:
-				return deck.getMapSideBoard().get(mc);
+				return deck.getSideBoard().get(mc);
 			default:
 				return null;
 			}
@@ -111,11 +111,11 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 		switch (t) {
 		case DECK:
-			return deck.getMap().size();
+			return deck.getMain().size();
 		case SIDE:
-			return deck.getMapSideBoard().size();
+			return deck.getSideBoard().size();
 		default:
-			return deck.getMap().size();
+			return deck.getMain().size();
 		}
 
 	}
@@ -140,16 +140,16 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 			if(!ed.equals(mc.getCurrentSet()))
 			{
-				int qty = (this.t == TYPE.DECK) ? deck.getMap().get(mc) : deck.getMapSideBoard().get(mc);
+				int qty = (this.t == TYPE.DECK) ? deck.getMain().get(mc) : deck.getSideBoard().get(mc);
 				MagicCard newC = MTGControler.getInstance().switchEditions(mc, ed);
 				if (t == TYPE.DECK) {
-					deck.getMap().remove(mc);
-					deck.getMap().put(newC, qty);
+					deck.getMain().remove(mc);
+					deck.getMain().put(newC, qty);
 				}
 				else
 				{
-					deck.getMapSideBoard().remove(mc);
-					deck.getMapSideBoard().put(newC, qty);
+					deck.getSideBoard().remove(mc);
+					deck.getSideBoard().put(newC, qty);
 				}
 			}
 		}
@@ -158,15 +158,15 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		{
 			if (Integer.valueOf(aValue.toString()) == 0) {
 				if (t == TYPE.DECK) {
-					deck.getMap().remove(deck.getValueAt(row));
+					deck.getMain().remove(deck.getValueAt(row));
 				} else {
-					deck.getMapSideBoard().remove(deck.getSideValueAt(row));
+					deck.getSideBoard().remove(deck.getSideValueAt(row));
 				}
 			} else {
 				if (t == TYPE.DECK) {
-					deck.getMap().put(deck.getValueAt(row), Integer.valueOf(aValue.toString()));
+					deck.getMain().put(deck.getValueAt(row), Integer.valueOf(aValue.toString()));
 				} else {
-					deck.getMapSideBoard().put(deck.getSideValueAt(row), Integer.valueOf(aValue.toString()));
+					deck.getSideBoard().put(deck.getSideValueAt(row), Integer.valueOf(aValue.toString()));
 				}
 			}
 			

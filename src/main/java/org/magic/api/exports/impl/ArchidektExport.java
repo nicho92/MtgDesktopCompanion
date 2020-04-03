@@ -56,7 +56,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))
-			d.getMap().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getMagicCard(), st.getQte());
 	
 		return d;
 	}

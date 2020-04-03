@@ -36,16 +36,16 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");
 		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
 		temp.append("<section name='Main' shared='" + getString(SHARED) + "'>");
-		for (MagicCard mc : deck.getMap().keySet()) {
-			temp.append("<card qty='").append(deck.getMap().get(mc)).append("' id='" + mc.getId() + "'>")
+		for (MagicCard mc : deck.getMain().keySet()) {
+			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
 			
 			notify(mc);
 		}
 		temp.append("</section>");
 		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-			temp.append("<card qty='").append(deck.getMapSideBoard().get(mc)).append("' id='" + mc.getId() + "'>")
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
+			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
 			notify(mc);
 		}
@@ -76,7 +76,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
-				deck.getMap().put(mc, Integer.parseInt(qte));
+				deck.getMain().put(mc, Integer.parseInt(qte));
 				notify(mc);
 			}
 
@@ -89,7 +89,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
-				deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
+				deck.getSideBoard().put(mc, Integer.parseInt(qte));
 				notify(mc);
 			}
 			return deck;

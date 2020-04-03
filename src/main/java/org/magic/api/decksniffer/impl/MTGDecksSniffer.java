@@ -76,9 +76,9 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				notify(mc);
 				
 				if (!isSideboard)
-					deck.getMap().put(mc, Integer.parseInt(qte));
+					deck.getMain().put(mc, Integer.parseInt(qte));
 				else
-					deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
+					deck.getSideBoard().put(mc, Integer.parseInt(qte));
 
 			}
 

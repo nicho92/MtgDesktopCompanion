@@ -333,7 +333,7 @@ public class ConstructPanel extends JPanel {
 			Map<MagicCard, Integer> updateM = new HashMap<>();
 			Map<MagicCard, Integer> updateS = new HashMap<>();
 			btnUpdate.setEnabled(false);
-			buzyLabel.start(deck.getMap().size() + deck.getMapSideBoard().size());
+			buzyLabel.start(deck.getMain().size() + deck.getSideBoard().size());
 			SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
 					{
 						@Override
@@ -341,11 +341,11 @@ public class ConstructPanel extends JPanel {
 							buzyLabel.end();
 							btnUpdate.setEnabled(true);
 
-							deck.getMap().clear();
-							deck.setMapDeck(updateM);
+							deck.getMain().clear();
+							deck.setMain(updateM);
 
-							deck.getMapSideBoard().clear();
-							deck.setMapSideBoard(updateS);
+							deck.getSideBoard().clear();
+							deck.setSideBoard(updateS);
 
 							updatePanels();
 
@@ -364,17 +364,17 @@ public class ConstructPanel extends JPanel {
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							for (MagicCard mc : deck.getMap().keySet()) {
+							for (MagicCard mc : deck.getMain().keySet()) {
 								try {
-									updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMap().get(mc));
+									updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMain().get(mc));
 									publish(mc);
 								} catch (Exception e) {
 									logger.error("error update " + mc,e);
 								}
 							}
-							for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+							for (MagicCard mc : deck.getSideBoard().keySet()) {
 								try {
-									updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMapSideBoard().get(mc));
+									updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getSideBoard().get(mc));
 									publish(mc);
 								} catch (Exception e) {
 									logger.error("error update " + mc,e);
@@ -439,7 +439,7 @@ public class ConstructPanel extends JPanel {
 					MagicCard mc = listResult.getSelectedValue();
 
 					if (getSelectedMap().get(mc) != null) {
-						getSelectedMap().put(mc, deck.getMap().get(mc) + 1);
+						getSelectedMap().put(mc, deck.getMain().get(mc) + 1);
 					} else {
 						getSelectedMap().put(mc, 1);
 					}
@@ -692,9 +692,9 @@ public class ConstructPanel extends JPanel {
 				MagicCard mc = (MagicCard) table.getValueAt(table.getSelectedRow(), 0);
 				if (e.getKeyCode() == 0) {
 					if(f==MAIN)
-						deck.getMap().remove(mc);
+						deck.getMain().remove(mc);
 					else
-						deck.getMapSideBoard().remove(mc);
+						deck.getSideBoard().remove(mc);
 					
 					deckmodel.init(deck);
 				}
@@ -722,9 +722,9 @@ public class ConstructPanel extends JPanel {
 	public Map<MagicCard, Integer> getSelectedMap() {
 		
 		if (selectedIndex > 0)
-			return deck.getMapSideBoard();
+			return deck.getSideBoard();
 		else
-			return deck.getMap();
+			return deck.getMain();
 
 	}
 

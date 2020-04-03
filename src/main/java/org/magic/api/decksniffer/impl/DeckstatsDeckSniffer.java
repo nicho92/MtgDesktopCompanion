@@ -109,13 +109,13 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 					{
 						s=s.replaceFirst("SB: ", "").trim();
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(parseString(s).getKey(), null, true).get(0);
-						deck.getMapSideBoard().put(mc,parseString(s).getValue());
+						deck.getSideBoard().put(mc,parseString(s).getValue());
 						notify(mc);
 					}
 					else
 					{
 						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(parseString(s).getKey(), null, true).get(0);
-						deck.getMap().put(mc,parseString(s).getValue());
+						deck.getMain().put(mc,parseString(s).getValue());
 						notify(mc);
 					}
 			}

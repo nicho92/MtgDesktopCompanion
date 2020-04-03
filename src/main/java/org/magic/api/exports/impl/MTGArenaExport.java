@@ -38,7 +38,7 @@ public class MTGArenaExport extends AbstractCardExport {
 		
 		StringBuilder temp = new StringBuilder();
 		
-		for(Map.Entry<MagicCard, Integer> entry : deck.getMap().entrySet())
+		for(Map.Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
 		{
 			temp.append(entry.getValue())
 				.append(" ")
@@ -53,8 +53,8 @@ public class MTGArenaExport extends AbstractCardExport {
 			
 		}
 		
-		if(!deck.getMapSideBoard().isEmpty())
-			for(Map.Entry<MagicCard, Integer> entry : deck.getMapSideBoard().entrySet())
+		if(!deck.getSideBoard().isEmpty())
+			for(Map.Entry<MagicCard, Integer> entry : deck.getSideBoard().entrySet())
 			{
 				temp.append("\r\n")
 					.append(entry.getValue())
@@ -123,9 +123,9 @@ public class MTGArenaExport extends AbstractCardExport {
 					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
 					notify(mc);
 					if(!side)
-						deck.getMap().put(mc, qte);
+						deck.getMain().put(mc, qte);
 					else
-						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
+						deck.getSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
 					
 				}
 				

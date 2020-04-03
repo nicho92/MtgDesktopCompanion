@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.magic.tools.ColorParser;
 
@@ -26,6 +27,119 @@ public class MagicDeck implements Serializable {
 	private List<String> tags;
 	private MagicCard commander;
 
+	public MagicDeck() 
+	{
+		mapDeck = new HashMap<>();
+		mapSideBoard = new HashMap<>();
+		tags = new ArrayList<>();
+		averagePrice = 0;
+		dateCreation=new Date();
+		dateUpdate=new Date();
+	}
+	
+	public MagicCard getValueAt(int pos) {
+		return new ArrayList<>(getMain().keySet()).get(pos);
+	}
+
+	public MagicCard getSideValueAt(int pos) {
+		return new ArrayList<>(getSideBoard().keySet()).get(pos);
+	}
+	
+	public int getNbCards() {
+		return getMain().entrySet().stream().mapToInt(Entry::getValue).sum();
+	}
+	
+	public boolean isEmpty() {
+		return getMain().isEmpty() && getSideBoard().isEmpty();
+	}
+
+	public List<MagicCard> getUniqueCards() {
+		return getMain().keySet().stream().collect(Collectors.toList());
+	}
+
+	public void remove(MagicCard mc) {
+		if (getMain().get(mc) == 0)
+			getMain().remove(mc);
+		else
+			getMain().put(mc, mapDeck.get(mc) - 1);
+	}
+	
+	public void delete(MagicCard mc) {
+		mapDeck.remove(mc);
+	}
+		
+	public void add(MagicCard mc) {
+		getMain().compute(mc, (k,v)->(v==null)?1:v+1);
+	}
+
+	public boolean hasCard(MagicCard mc) {
+		return getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
+	}
+
+	public Set<MagicFormat> getLegality() {
+		Set<MagicFormat> cmap = new LinkedHashSet<>();
+		for (MagicCard mc : getMain().keySet()) {
+			for (MagicFormat mf : mc.getLegalities()) {
+				cmap.add(mf);
+			}
+		}
+		return cmap;
+	}
+
+	public String getColors() {
+		Set<String> cmap = new LinkedHashSet<>();
+		for (MagicCard mc : getMain().keySet()) {
+			if ((mc.getCmc() != null))
+				for (String c : mc.getColors())
+					cmap.add(ColorParser.getCodeByName(c,true));
+		}
+		return cmap.toString();
+	}
+	
+	public List<MagicCard> getAsList() {
+		return toList(getMain().entrySet());
+	}
+
+
+	public List<MagicCard> getSideAsList() {
+		return toList(getSideBoard().entrySet());
+	}
+	
+	private List<MagicCard> toList(Set<Entry<MagicCard, Integer>> entrySet) {
+		ArrayList<MagicCard> deck = new ArrayList<>();
+
+		for (Entry<MagicCard, Integer> c : entrySet)
+			for (int i = 0; i < c.getValue(); i++)
+				deck.add(c.getKey());
+		
+		return deck;
+		
+	}
+	
+	public boolean isCompatibleFormat(MagicFormat mf) {
+		for (MagicCard mc : mapDeck.keySet()) 
+		{
+			if(mc.getLegalities().stream().filter(f->f.equals(mf)).noneMatch(MagicFormat::isLegal))
+					return false;
+		}
+		return true;
+	}
+
+
+	public static MagicDeck toDeck(List<MagicCard> cards) {
+		MagicDeck d = new MagicDeck();
+		d.setName("export");
+		d.setDescription("");
+
+		if (cards == null)
+			return d;
+
+		cards.forEach(d::add);
+
+		return d;
+	}
+	
+	
 	public List<String> getTags() {
 		return tags;
 	}
@@ -58,86 +172,23 @@ public class MagicDeck implements Serializable {
 		return getName();
 	}
 
-	public void setMapDeck(Map<MagicCard, Integer> mapDeck) {
+	public void setMain(Map<MagicCard, Integer> mapDeck) {
 		this.mapDeck = mapDeck;
 	}
 
-	public Map<MagicCard, Integer> getMapSideBoard() {
+	public Map<MagicCard, Integer> getSideBoard() {
 		return mapSideBoard;
 	}
 
-	public void setMapSideBoard(Map<MagicCard, Integer> mapSideBoard) {
+	public void setSideBoard(Map<MagicCard, Integer> mapSideBoard) {
 		this.mapSideBoard = mapSideBoard;
-	}
-
-	public boolean hasCard(MagicCard mc) {
-		
-		for(MagicCard k : mapDeck.keySet())
-			if(k.getName().equalsIgnoreCase(mc.getName()))
-				return true;
-		
-		return false;
-	}
-
-	public Set<MagicFormat> getLegality() {
-		Set<MagicFormat> cmap = new LinkedHashSet<>();
-		for (MagicCard mc : mapDeck.keySet()) {
-			for (MagicFormat mf : mc.getLegalities()) {
-				cmap.add(mf);
-			}
-		}
-		return cmap;
-	}
-
-	public String getColors() {
-		Set<String> cmap = new LinkedHashSet<>();
-		for (MagicCard mc : mapDeck.keySet()) {
-			if ((mc.getCmc() != null))
-				for (String c : mc.getColors())
-					cmap.add(ColorParser.getCodeByName(c,true));
-		}
-		return cmap.toString();
 	}
 
 	public String getName() {
 		return name;
 	}
-
-	public MagicDeck() {
-		mapDeck = new HashMap<>();
-		mapSideBoard = new HashMap<>();
-		tags = new ArrayList<>();
-		averagePrice = 0;
-		dateCreation=new Date();
-		dateUpdate=new Date();
-	}
 	
-	public boolean isEmpty()
-	{
-		return mapDeck.isEmpty() && mapSideBoard.isEmpty();
-	}
-
-	public void remove(MagicCard mc) {
-		if (mapDeck.get(mc) == 0)
-			mapDeck.remove(mc);
-		else
-			mapDeck.put(mc, mapDeck.get(mc) - 1);
-	}
-	
-	public void delete(MagicCard mc)
-	{
-		mapDeck.remove(mc);
-	}
-	
-
-	public void add(MagicCard mc) {
-		if (mapDeck.get(mc) == null)
-			mapDeck.put(mc, 1);
-		else
-			mapDeck.put(mc, mapDeck.get(mc) + 1);
-	}
-
-	public Map<MagicCard, Integer> getMap() {
+	public Map<MagicCard, Integer> getMain() {
 		return mapDeck;
 	}
 
@@ -148,63 +199,9 @@ public class MagicDeck implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public MagicCard getValueAt(int pos) {
-		return new ArrayList<>(mapDeck.keySet()).get(pos);
-	}
-
-	public MagicCard getSideValueAt(int pos) {
-		return new ArrayList<>(mapSideBoard.keySet()).get(pos);
-	}
-
-	public List<MagicCard> getAsList() {
-		ArrayList<MagicCard> deck = new ArrayList<>();
-
-		for (Entry<MagicCard, Integer> c : mapDeck.entrySet())
-			for (int i = 0; i < c.getValue(); i++)
-				deck.add(c.getKey());
-		return deck;
-	}
-
-	public List<MagicCard> getSideAsList() {
-		ArrayList<MagicCard> deck = new ArrayList<>();
-
-		for (Entry<MagicCard, Integer> c : mapSideBoard.entrySet())
-			for (int i = 0; i < c.getValue(); i++)
-				deck.add(c.getKey());
-		return deck;
-	}
-
-	public boolean isCompatibleFormat(MagicFormat mf) {
-		for (MagicCard mc : mapDeck.keySet()) 
-		{
-			if(mc.getLegalities().stream().filter(f->f.equals(mf)).noneMatch(MagicFormat::isLegal))
-					return false;
-		}
-		return true;
-	}
-
-	public int getNbCards() {
-		return getAsList().size();
-	}
 	
 	public void setName(String name) {
 		this.name = name;
-
-	}
-	
-	public static MagicDeck toDeck(List<MagicCard> cards)
-	{
-		MagicDeck d = new MagicDeck();
-		d.setName("export");
-		d.setDescription("");
-		
-		if(cards==null)
-			return d;
-		
-		cards.forEach(d::add);
-		
-		return d;
 	}
 
 	public void setCreationDate(Date date) {
@@ -219,12 +216,5 @@ public class MagicDeck implements Serializable {
 		return commander;
 	}
 
-	public List<MagicCard> getUniqueCards() {
-		
-		if(getMap().isEmpty())
-			return new ArrayList<>();
-		
-		return new ArrayList<>(getMap().keySet());
-	}
 	
 }

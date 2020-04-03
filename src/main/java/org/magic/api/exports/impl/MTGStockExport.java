@@ -163,7 +163,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			if(card!=null)
 			{
 				Integer qty = Integer.parseInt(m.group(3));
-				deck.getMap().put(card, qty);
+				deck.getMain().put(card, qty);
 				notify(card);
 			}
 			

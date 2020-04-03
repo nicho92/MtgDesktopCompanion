@@ -91,9 +91,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName( cardName, ed, true).get(0);
 					if (!sideboard) {
-						deck.getMap().put(mc, qte);
+						deck.getMain().put(mc, qte);
 					} else {
-						deck.getMapSideBoard().put(mc, qte);
+						deck.getSideBoard().put(mc, qte);
 					}
 					notify(mc);
 

@@ -83,9 +83,9 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 							.searchCardByName( name, null, true).get(0);
 					if (!side)
-						d.getMap().put(mc, qte);
+						d.getMain().put(mc, qte);
 					else
-						d.getMapSideBoard().put(mc, qte);
+						d.getSideBoard().put(mc, qte);
 					
 					notify(mc);
 				}

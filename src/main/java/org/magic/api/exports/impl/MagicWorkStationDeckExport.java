@@ -22,9 +22,9 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		temp.append("// MAIN\n");
-		for (MagicCard mc : deck.getMap().keySet()) {
+		for (MagicCard mc : deck.getMain().keySet()) {
 			temp.append("    ");
-			temp.append(deck.getMap().get(mc));
+			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
 			temp.append("[").append(mc.getCurrentSet().getId().toUpperCase()).append("]");
 			temp.append(mc.getName());
@@ -32,9 +32,9 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			notify(mc);
 		}
 		temp.append("// Sideboard\n");
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
 			temp.append("SB: ");
-			temp.append(deck.getMap().get(mc));
+			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
 			temp.append("[").append(mc.getCurrentSet().getId()).append("]");
 			temp.append(mc.getName());
@@ -59,9 +59,9 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			
 					if(mc!=null) {
 						if(m.group(1).trim().startsWith("SB"))
-							deck.getMapSideBoard().put(mc, qte);
+							deck.getSideBoard().put(mc, qte);
 						else
-							deck.getMap().put(mc, qte);
+							deck.getMain().put(mc, qte);
 						
 						notify(mc);
 					}

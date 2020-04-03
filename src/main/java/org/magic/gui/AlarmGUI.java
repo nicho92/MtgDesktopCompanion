@@ -360,7 +360,7 @@ public class AlarmGUI extends MTGUIComponent {
 						} else {
 							
 							try {
-								exp.importDeckFromFile(null).getMap().keySet().forEach(this::addCard);
+								exp.importDeckFromFile(null).getMain().keySet().forEach(this::addCard);
 							} catch (IOException e1) {
 								logger.error(e1);
 							}
@@ -382,7 +382,7 @@ public class AlarmGUI extends MTGUIComponent {
 									super.done();
 									
 									if(getResult()!=null)
-										for (MagicCard mc : getResult().getMap().keySet())
+										for (MagicCard mc : getResult().getMain().keySet())
 											addCard(mc);
 								}
 							};

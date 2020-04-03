@@ -29,14 +29,14 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		temp.append("NAME: " + deck.getName() + "\n");
-		for (MagicCard mc : deck.getMap().keySet()) {
-			temp.append(deck.getMap().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
+		for (MagicCard mc : deck.getMain().keySet()) {
+			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
 					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
-			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append("[")
+		for (MagicCard mc : deck.getSideBoard().keySet()) {
+			temp.append("SB: ").append(deck.getSideBoard().get(mc)).append(" ").append("[")
 					.append(mc.getCurrentSet().getId()).append(":").append(mc.getCurrentSet().getNumber())
 					.append("]").append(" ").append(mc.getName()).append("\n");
 			notify(mc);
@@ -93,11 +93,11 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				
 				if(m.group(1)!=null)
 				{
-					deck.getMapSideBoard().put(mc, Integer.parseInt(m.group(2)));
+					deck.getSideBoard().put(mc, Integer.parseInt(m.group(2)));
 				}
 				else
 				{
-					deck.getMap().put(mc, Integer.parseInt(m.group(2)));
+					deck.getMain().put(mc, Integer.parseInt(m.group(2)));
 				}
 				
 				notify(mc);

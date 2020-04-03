@@ -78,9 +78,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				
 					
 				if (!sideboard) {
-					deck.getMap().put(mc, qte);
+					deck.getMain().put(mc, qte);
 				} else {
-					deck.getMapSideBoard().put(mc, qte);
+					deck.getSideBoard().put(mc, qte);
 				}
 				notify(mc);
 				

@@ -69,7 +69,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				
 				if(mc!=null)
 				{
-					deck.getMap().put(mc, qty);
+					deck.getMain().put(mc, qty);
 					notify(mc);
 				}
 				

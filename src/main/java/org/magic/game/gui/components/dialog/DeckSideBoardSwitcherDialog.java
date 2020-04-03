@@ -69,12 +69,12 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 				modSide.addElement(mc);
 				modMain.removeElement(mc);
 
-				savedDeck.getMap().put(mc, savedDeck.getMap().get(mc) - 1);
+				savedDeck.getMain().put(mc, savedDeck.getMain().get(mc) - 1);
 
-				if (savedDeck.getMapSideBoard().get(mc) == null)
-					savedDeck.getMapSideBoard().put(mc, 1);
+				if (savedDeck.getSideBoard().get(mc) == null)
+					savedDeck.getSideBoard().put(mc, 1);
 				else
-					savedDeck.getMapSideBoard().put(mc, savedDeck.getMapSideBoard().get(mc) + 1);
+					savedDeck.getSideBoard().put(mc, savedDeck.getSideBoard().get(mc) + 1);
 
 				refresh();
 			}
@@ -88,12 +88,12 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 				modMain.addElement(mc);
 				modSide.removeElement(mc);
 
-				savedDeck.getMapSideBoard().put(mc, savedDeck.getMapSideBoard().get(mc) - 1);
+				savedDeck.getSideBoard().put(mc, savedDeck.getSideBoard().get(mc) - 1);
 
-				if (savedDeck.getMap().get(mc) == null)
-					savedDeck.getMap().put(mc, 1);
+				if (savedDeck.getMain().get(mc) == null)
+					savedDeck.getMain().put(mc, 1);
 				else
-					savedDeck.getMap().put(mc, savedDeck.getMap().get(mc) + 1);
+					savedDeck.getMain().put(mc, savedDeck.getMain().get(mc) + 1);
 
 				refresh();
 			}

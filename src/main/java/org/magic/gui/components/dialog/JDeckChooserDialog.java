@@ -75,21 +75,21 @@ public class JDeckChooserDialog extends JDialog {
 		sideNode.removeAllChildren();
 
 		if (selectedDeck != null) {
-			for (MagicCard mc : selectedDeck.getMap().keySet()) {
+			for (MagicCard mc : selectedDeck.getMain().keySet()) {
 				if (mc.isCreature() && !mc.isArtifact())
-					creatureNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
+					creatureNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 				else if (mc.isArtifact())
-					artifactsNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
+					artifactsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 				else if (mc.isLand())
-					landsNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
+					landsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 				else if (mc.isPlaneswalker())
-					planeswalkerNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
+					planeswalkerNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 				else
-					spellsNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
+					spellsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 			}
 
-			for (MagicCard mc : selectedDeck.getMapSideBoard().keySet())
-				sideNode.add(new DefaultMutableTreeNode(selectedDeck.getMapSideBoard().get(mc) + " " + mc));
+			for (MagicCard mc : selectedDeck.getSideBoard().keySet())
+				sideNode.add(new DefaultMutableTreeNode(selectedDeck.getSideBoard().get(mc) + " " + mc));
 
 			model.reload();
 

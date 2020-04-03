@@ -133,7 +133,7 @@ public class DrawProbabilityPanel extends JPanel {
 
 			@Override
 			public int getRowCount() {
-				return d.getMap().keySet().size();
+				return d.getMain().keySet().size();
 			}
 
 			@Override

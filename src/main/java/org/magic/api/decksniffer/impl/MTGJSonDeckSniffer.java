@@ -67,9 +67,9 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 			try {
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), true).get(0);
 				if(!side)
-					d.getMap().put(mc, qty);
+					d.getMain().put(mc, qty);
 				else
-					d.getMapSideBoard().put(mc, qty);
+					d.getSideBoard().put(mc, qty);
 				
 				notify(mc);
 			} catch (IOException e) {

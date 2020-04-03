@@ -132,17 +132,17 @@ public class DeckStockComparatorPanel extends JComponent {
 			if(currentDeck!=null)
 			{
 				MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
-				buzyLabel.start(currentDeck.getMap().entrySet().size());
+				buzyLabel.start(currentDeck.getMain().entrySet().size());
 				SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
 						{
 						@Override
 						protected Void doInBackground() throws Exception {
-							currentDeck.getMap().entrySet().forEach(entry->
+							currentDeck.getMain().entrySet().forEach(entry->
 							{
 								try {
 									boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
 									List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
-									int qty = currentDeck.getMap().get(entry.getKey());
+									int qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());
 								} catch (SQLException e) {

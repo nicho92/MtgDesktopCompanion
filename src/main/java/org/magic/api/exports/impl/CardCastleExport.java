@@ -24,7 +24,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 		StringBuilder build = new StringBuilder();
 		build.append(header).append("\n");
 		
-		deck.getMap().entrySet().forEach(entry->{
+		deck.getMain().entrySet().forEach(entry->{
 			
 			String name = entry.getKey().getName();
 			
