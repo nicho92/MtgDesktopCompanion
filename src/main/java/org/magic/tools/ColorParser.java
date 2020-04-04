@@ -3,6 +3,8 @@ package org.magic.tools;
 import java.awt.Color;
 import java.util.List;
 
+
+
 public class ColorParser {
 
 	private ColorParser() {
@@ -109,6 +111,7 @@ public class ColorParser {
 
 		return "";
 	}
+
 
 
 }

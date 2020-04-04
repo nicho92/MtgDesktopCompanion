@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
-import org.magic.tools.CardsPatterns;
+import org.magic.api.beans.enums.CardsPatterns;
 
 public class PatternTest 
 {

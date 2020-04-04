@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.api.beans.enums;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

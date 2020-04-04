@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.CardsPatterns;
 import org.magic.tools.FileTools;
 
 import rita.RiMarkov;

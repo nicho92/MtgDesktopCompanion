@@ -596,6 +596,8 @@ public class ConstructPanel extends JPanel {
 			
 		});
 		
+		
+		
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
@@ -640,7 +642,7 @@ public class ConstructPanel extends JPanel {
 					});
 					
 					
-					if(mc.isLegenday() && (mc.isCreature()||mc.isPlaneswalker())) {
+					if(mc.isLegendary() && (mc.isCreature()||mc.isPlaneswalker())) {
 					
 							if((deck.getCommander()!=null) && mc.getName().equals(deck.getCommander().getName()))
 							{

@@ -3,8 +3,8 @@ package org.magic.game.model.abilities;
 import java.util.Arrays;
 import java.util.List;
 
+import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.game.model.factories.EffectsFactory;
-import org.magic.tools.CardsPatterns;
 
 public class TriggeredAbilities extends AbstractAbilities {
 	

@@ -22,7 +22,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import org.magic.tools.CardsPatterns;
+import org.magic.api.beans.enums.CardsPatterns;
 
 public class MagicTextPane extends JComponent {
 

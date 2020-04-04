@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,7 +35,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.UITools;
-import javax.swing.JCheckBox;
 
 
 public class CardsEditionTablePanel extends JPanel {

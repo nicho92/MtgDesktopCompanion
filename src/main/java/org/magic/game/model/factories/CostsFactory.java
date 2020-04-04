@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.game.model.costs.ActionCost;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.costs.EnergyCost;
@@ -14,7 +15,6 @@ import org.magic.game.model.costs.LifeCost;
 import org.magic.game.model.costs.ManaCost;
 import org.magic.game.model.costs.TapCost;
 import org.magic.game.model.costs.TapCost.DIR;
-import org.magic.tools.CardsPatterns;
 
 public class CostsFactory {
 

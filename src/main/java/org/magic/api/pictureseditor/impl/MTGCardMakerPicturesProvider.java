@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.tools.CardsPatterns;
 import org.magic.tools.URLTools;
 
 public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider{

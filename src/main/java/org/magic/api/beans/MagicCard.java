@@ -12,11 +12,7 @@ public class MagicCard implements Serializable {
 	public enum LAYOUT {
 		NORMAL, TOKEN, EMBLEM
 	}
-	
-	public enum COLOR {
-		WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR
-	}
-	
+
 	public enum RARITY {
 		COMMON,UNCOMMON,RARE,MYTHIC, SPECIAL, TIMESHIFTED
 	}
@@ -43,7 +39,7 @@ public class MagicCard implements Serializable {
 	@Deprecated private String flavor="";
 	private List<MagicRuling> rulings;
 	private List<Integer> variations;
-	private List<String> colorIdentity;
+	@Deprecated private List<String> colorIdentity;
 	private String watermarks;
 	private String layout="normal";
 	private List<MagicFormat> legalities;
@@ -300,11 +296,11 @@ public class MagicCard implements Serializable {
 	public void setWatermarks(String watermarks) {
 		this.watermarks = watermarks;
 	}
-
+	@Deprecated 
 	public List<String> getColorIdentity() {
 		return colorIdentity;
 	}
-
+	@Deprecated 
 	public void setColorIdentity(List<String> colorIdentity) {
 		this.colorIdentity = colorIdentity;
 	}
@@ -497,7 +493,7 @@ public class MagicCard implements Serializable {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
 	
-	public boolean isLegenday() {
+	public boolean isLegendary() {
 		return getSupertypes().toString().toLowerCase().contains("legendary");
 	}
 
