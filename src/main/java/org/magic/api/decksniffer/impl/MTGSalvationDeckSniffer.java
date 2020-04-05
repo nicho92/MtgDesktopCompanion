@@ -16,10 +16,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
-import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -160,16 +160,15 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		StringBuilder build = new StringBuilder(manajson);
 		for (int i = 0; i < arr.size(); i++) {
 			JsonObject obj = arr.get(i).getAsJsonObject();
-			String c = ColorParser.getCodeByName(obj.get("name").getAsString(),true);
+			MTGColor c = MTGColor.colorByName(obj.get("name").getAsString());
 			JsonArray tab = obj.get("data").getAsJsonArray();
 			hascolor = false;
 			for (int j = 0; j < tab.size(); j++) {
 				if (tab.get(j).getAsInt() > 0)
 					hascolor = true;
 			}
-
-			if (hascolor && !c.equals("{C}")) {
-				build.append(c);
+			if (hascolor && c!=null) {
+				build.append(c.toManaCode());
 			}
 		}
 

@@ -8,11 +8,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ColorParser;
 
 public class SpellRendererPanel extends JPanel {
 	
@@ -80,8 +80,9 @@ public class SpellRendererPanel extends JPanel {
 		}
 		
 		textPane.updateTextWithIcons();
-		Color c = ColorParser.getColorByName(value.getCard().getColors());
-		setColor(Color.BLACK, c);
+		Color c = MTGColor.determine(value.getCard().getColors()).toColor();
+		setColor(Color.BLACK,c);
+	
 		
 		if(c.equals(Color.BLACK))
 			setColor(Color.WHITE, Color.GRAY);

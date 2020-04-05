@@ -42,6 +42,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
@@ -288,9 +289,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            		   doc.add(new StoredField("cmc",mc.getCmc()));
            		   doc.add(new StringField("data",serializer.toJson(mc),Field.Store.YES));
            		   
-            	   for(String color:mc.getColors())
+            	   for(MTGColor color:mc.getColors())
             	   {
-            		   doc.add(new Field("color", color, fieldType));
+            		   doc.add(new Field("color", color.getCode().toString(), fieldType));
             	   }
             	 
             	   

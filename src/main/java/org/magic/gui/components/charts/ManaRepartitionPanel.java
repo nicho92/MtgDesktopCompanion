@@ -12,6 +12,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.abstracts.MTGUIChartComponent;
 
 public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
@@ -33,20 +34,15 @@ public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 				true, true);
 		
 		PiePlot plot = (PiePlot) chart.getPlot();
-		plot.setSectionPaint("Black", Color.BLACK);
-		plot.setSectionPaint("White", Color.WHITE);
-		plot.setSectionPaint("Blue", Color.BLUE);
-		plot.setSectionPaint("Green", Color.GREEN);
-		plot.setSectionPaint("Red", Color.RED);
+		
+		for(MTGColor c : MTGColor.values())
+		{
+			plot.setSectionPaint(c,c.toColor());
+			
+		}
 		plot.setSectionPaint("Multi", Color.YELLOW);
-		plot.setSectionPaint("Uncolor", Color.GRAY);
-		plot.setSectionPaint("black", Color.BLACK);
-		plot.setSectionPaint("white", Color.WHITE);
-		plot.setSectionPaint("blue", Color.BLUE);
-		plot.setSectionPaint("green", Color.GREEN);
-		plot.setSectionPaint("red", Color.RED);
 		plot.setSectionPaint("multi", Color.YELLOW);
-		plot.setSectionPaint("uncolor", Color.GRAY);
+		
 		plot.setSimpleLabels(true);
 
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"),
@@ -58,7 +54,7 @@ public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 
 	private PieDataset getDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for (Entry<String, Integer> data : manager.analyseColors(items).entrySet()) {
+		for (Entry<MTGColor, Integer> data : manager.analyseColors(items).entrySet()) {
 			dataset.setValue(data.getKey(), data.getValue());
 
 		}

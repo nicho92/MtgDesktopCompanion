@@ -41,6 +41,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
@@ -154,7 +155,7 @@ public class MagicCardEditorPanel extends JPanel {
 				btn.addActionListener(ev -> {
 					StringBuilder cost = new StringBuilder();
 					int cmc = 0;
-					Set<String> colors = new LinkedHashSet<>();
+					Set<MTGColor> colors = new LinkedHashSet<>();
 
 					if (!cboUn.getSelectedItem().equals("X")) {
 						if (cboUn.getSelectedIndex() > 0) {
@@ -171,33 +172,33 @@ public class MagicCardEditorPanel extends JPanel {
 					}
 
 					for (int i = 0; i < cboW.getSelectedIndex(); i++) {
-						cost.append("{W}");
+						cost.append(MTGColor.WHITE.toManaCode());
 						cmc += 1;
-						colors.add("White");
+						colors.add(MTGColor.WHITE);
 					}
 
 					for (int i = 0; i < cboU.getSelectedIndex(); i++) {
-						cost.append("{U}");
+						cost.append(MTGColor.BLUE.toManaCode());
 						cmc += 1;
-						colors.add("Blue");
+						colors.add(MTGColor.BLUE);
 					}
 
 					for (int i = 0; i < cboB.getSelectedIndex(); i++) {
-						cost.append("{B}");
+						cost.append(MTGColor.BLACK.toManaCode());
 						cmc += 1;
-						colors.add("Black");
+						colors.add(MTGColor.BLACK);
 					}
 
 					for (int i = 0; i < cboR.getSelectedIndex(); i++) {
-						cost.append("{R}");
+						cost.append(MTGColor.RED.toManaCode());
 						cmc += 1;
-						colors.add("Red");
+						colors.add(MTGColor.RED);
 					}
 
 					for (int i = 0; i < cboG.getSelectedIndex(); i++) {
-						cost.append("{G}");
+						cost.append(MTGColor.GREEN.toManaCode());
 						cmc += 1;
-						colors.add("Green");
+						colors.add(MTGColor.GREEN);
 					}
 
 					magicCard.setCmc(cmc);

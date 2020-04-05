@@ -3,6 +3,7 @@ package org.magic.services;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,15 +17,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
-
-	private static final String UNCOLOR = "Uncolor";
-
-	private static final String MULTI = "Multi";
 	
 	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -195,26 +193,15 @@ public class MTGDeckManager extends Observable {
 		return types;
 	}
 
-	public Map<String,Integer> analyseColors(List<MagicCard> cards)
+	public Map<MTGColor,Integer> analyseColors(List<MagicCard> cards)
 	{
-		TreeMap<String, Integer> colors = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		cards.forEach(card->{
-			
-			if(!card.getColors().isEmpty()) {
-				
-				if (card.getColors().size() == 1){
-					colors.put(card.getColors().get(0), colors.get(card.getColors().get(0))==null? 1 : colors.get(card.getColors().get(0))+1);
-				}
-				
-				if (card.getColors().size() > 1) {
-					colors.put(MULTI, colors.get(MULTI)==null? 1 : colors.get(MULTI)+1);
-				}
-			}
-			else 
-			{
-				colors.put(UNCOLOR, colors.get(UNCOLOR)==null? 1 : colors.get(UNCOLOR)+1);
-			}
-		});
+		TreeMap<MTGColor, Integer> colors = new TreeMap<>();
+		
+		if(cards==null)
+			return colors;
+		
+		cards.forEach(card->colors.compute(MTGColor.determine(card.getColors()), (k,v)->(v==null)?1:v+1));
+		
 		return colors;
 	}
 	

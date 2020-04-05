@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -31,7 +32,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
-import org.magic.tools.ColorParser;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -177,7 +177,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		EmbedBuilder eb = new EmbedBuilder();
 		eb.setDescription("");
 		eb.setTitle(mc.getName()+ " " + mc.getCost());
-		eb.setColor(ColorParser.getColorByName(mc.getColors()));
+		eb.setColor(MTGColor.determine(mc.getColors()).toColor());
+			
 		StringBuilder temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");
 		temp.append(mc.getText()).append("\n");

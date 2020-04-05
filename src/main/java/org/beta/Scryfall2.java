@@ -51,7 +51,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 
 
 	@Override
-	public MagicCard getCardById(String id) throws IOException {
+	public MagicCard getCardById(String id,MagicEdition ed) throws IOException {
 		try {
 			return cacheCards.get(id,new Callable<MagicCard>() {
 				

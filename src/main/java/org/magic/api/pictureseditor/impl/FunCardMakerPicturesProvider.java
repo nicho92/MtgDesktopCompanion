@@ -20,7 +20,6 @@ import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
-import org.magic.tools.ColorParser;
 import org.magic.tools.ImageTools;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
@@ -141,19 +140,20 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	colorBase="c";
 						    else 
 						    {
-						    	String c = ColorParser.getCodeByName(mc.getColors(), false).toLowerCase();
-						    	if(c.length()==1)
-						    		colorBase=c;
-						    	else
+						    	if(mc.getColors().size()==1)
+						    		colorBase=mc.getColors().get(0).getCode();
+						    	else if (mc.getColors().size()>1)
 						    		colorBase="m";
+						    	else
+						    		colorBase=mc.getColors().get(0).getCode();
 						    }
 						    
 						    if(!getString(HYBRIDE).isEmpty())
 						    	colorBase=getString(HYBRIDE).toLowerCase();
 						    
 						    
-						    build.addContent("fields[background-base]", colorBase);
-						    build.addContent("fields[background-texture]", colorBase);
+						    build.addContent("fields[background-base]", colorBase.toLowerCase());
+						    build.addContent("fields[background-texture]", colorBase.toLowerCase());
 						    
 						    if(mc.isCreature())
 						    	build.addContent("fields[fe]",mc.getPower()+"/"+mc.getToughness());

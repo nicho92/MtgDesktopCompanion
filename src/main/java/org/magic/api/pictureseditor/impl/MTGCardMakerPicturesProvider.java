@@ -75,7 +75,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		String color = "colorless";
 		if (!mc.getColors().isEmpty())
-			color = (mc.getColors().size() > 1 ? "Gold" : mc.getColors().get(0));
+			color = (mc.getColors().size() > 1 ? "Gold" : mc.getColors().get(0).toPrettyString());
 
 		if (color.equalsIgnoreCase("colorless"))
 			color = "Gold";

@@ -26,7 +26,6 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ColorParser;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 
@@ -208,13 +207,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		if(mc.getColors().size()==1)
 		{
-			build.addParameter(CARD_TEMPLATE, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
-			build.addParameter(CARD_ACCENT, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+			build.addParameter(CARD_TEMPLATE,mc.getColors().get(0).getCode());
+			build.addParameter(CARD_ACCENT, mc.getColors().get(0).getCode());
 		}
 		else if(mc.getColors().size()==2)
 		{
-			build.addParameter(CARD_TEMPLATE, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
-			build.addParameter(CARD_ACCENT, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			build.addParameter(CARD_TEMPLATE, "Gld");
+			build.addParameter(CARD_ACCENT, mc.getColors().get(0).getCode()+mc.getColors().get(1).getCode());
 		}
 		else if(mc.getColors().size()>2)
 		{
@@ -231,9 +230,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		{
 			try {
 			if(mc.getColors().size()==1)
-				build.addParameter("color-indicator",ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+				build.addParameter("color-indicator",mc.getColors().get(0).getCode());
 			else
-				build.addParameter("color-indicator",ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+				build.addParameter("color-indicator", mc.getColors().get(0).getCode()+mc.getColors().get(1).getCode());
 			}
 			catch(Exception e)
 			{

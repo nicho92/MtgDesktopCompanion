@@ -19,10 +19,10 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
-import org.magic.tools.ColorParser;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
@@ -183,9 +183,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws IOException {
+	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
 		try {
-			return searchCardByCriteria("uuid", id, null, true).get(0);
+			return searchCardByCriteria("uuid", id, ed, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
@@ -321,10 +321,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					mc.setToughness(String.valueOf(map.get(TOUGHNESS)));
 				
 				if (map.get(COLORS) != null)
-					((List<String>) map.get(COLORS)).forEach(s->mc.getColors().add(ColorParser.getNameByCode(s)));
+					mc.getColors().addAll(MTGColor.parseByCode(((List<String>) map.get(COLORS))));
 			
 				if (map.get(COLOR_IDENTITY) != null)
-					mc.getColorIdentity().addAll((List<String>) map.get(COLOR_IDENTITY));
+					mc.getColorIdentity().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_IDENTITY))));
 				
 				
 				if (map.get(LOYALTY) != null) {

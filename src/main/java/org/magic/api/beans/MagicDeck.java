@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -9,9 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.magic.tools.ColorParser;
+import org.magic.api.beans.enums.MTGColor;
 
 public class MagicDeck implements Serializable {
 
@@ -87,13 +89,23 @@ public class MagicDeck implements Serializable {
 	}
 
 	public String getColors() {
-		Set<String> cmap = new LinkedHashSet<>();
-		for (MagicCard mc : getMain().keySet()) {
+		
+		Set<MTGColor> cmap = new LinkedHashSet<>();
+		for (MagicCard mc : getUniqueCards())
+		{
 			if ((mc.getCmc() != null))
-				for (String c : mc.getColors())
-					cmap.add(ColorParser.getCodeByName(c,true));
+			{
+				for (MTGColor c : mc.getColors())
+				{
+					if(c!=null)
+						cmap.add(c);
+				}
+			}
 		}
-		return cmap.toString();
+		StringBuilder tmp = new StringBuilder();
+		
+		cmap.stream().sorted().map(MTGColor::toManaCode).forEach(tmp::append);
+		return tmp.toString();
 	}
 	
 	public List<MagicCard> getAsList() {

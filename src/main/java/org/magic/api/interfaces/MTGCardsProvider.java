@@ -16,6 +16,9 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public MagicCard getCardById(String id) throws IOException;
 
+	public MagicCard getCardById(String id,MagicEdition ed) throws IOException;
+
+	
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException;
 	
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException;
@@ -31,6 +34,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 	public List<MagicEdition> loadEditions() throws IOException;
 
 	public MagicEdition getSetById(String id) throws IOException;
+	
 	
 	public MagicEdition getSetByName(String name) throws IOException;
 

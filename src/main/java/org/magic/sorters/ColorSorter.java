@@ -34,22 +34,8 @@ public class ColorSorter implements MTGComparator<MagicCard> {
 		if (mc.getColors().isEmpty())
 			return 6;
 
-		if (mc.getColors().get(0).equalsIgnoreCase("white"))
-			return 1;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("blue"))
-			return 2;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("black"))
-			return 3;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("red"))
-			return 4;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("green"))
-			return 5;
-
-		return 9;
+		return mc.getColors().get(0).getPosition();
+		
 	}
 
 }

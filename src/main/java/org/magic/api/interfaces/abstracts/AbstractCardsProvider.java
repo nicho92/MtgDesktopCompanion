@@ -71,6 +71,11 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return getCardByNumber(id, getSetById(idMe));
 	}
 	
+	@Override
+	public MagicCard getCardById(String id) throws IOException {
+		return getCardById(id,null);
+	}
+	
 	
 	
 	@Override

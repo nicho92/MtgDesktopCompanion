@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -77,15 +78,14 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws IOException {
+	public MagicCard getCardById(String id,MagicEdition ed) throws IOException {
 		try {
-		return searchCardByCriteria("id", id, null, true).get(0);
+		return searchCardByCriteria("id", id, ed, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
 		}
 	}
-	
 
 
 	@Override
@@ -178,8 +178,15 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get("colors") != null) {
 			Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getColors().add(it.next().getAsString());
+				mc.getColors().add(MTGColor.colorByName(it.next().getAsString()));
 		}
+		if (obj.get("colorIdentity") != null) {
+			Iterator<JsonElement> it = obj.get("colorIdentity").getAsJsonArray().iterator();
+			while (it.hasNext())
+				mc.getColorIdentity().add(MTGColor.colorByCode(it.next().getAsString()));
+		}
+		
+		
 
 		if (obj.get("types") != null) {
 			Iterator<JsonElement> it = obj.get("types").getAsJsonArray().iterator();
@@ -404,7 +411,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public URL getWebSite() throws MalformedURLException {
-		return new URL("http://magicthegathering.io/");
+		return new URL("https://magicthegathering.io/");
 	}
 
 	public String getName() {

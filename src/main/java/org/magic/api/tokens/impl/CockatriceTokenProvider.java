@@ -17,11 +17,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -106,9 +106,9 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.setName(value.getElementsByTagName("name").item(0).getTextContent());
 
 			if (value.getElementsByTagName(COLOR).item(0) != null) {
-				tok.getColors()
-						.add(ColorParser.getNameByCode(value.getElementsByTagName(COLOR).item(0).getTextContent()));
-				tok.getColorIdentity().add("{" + value.getElementsByTagName(COLOR).item(0).getTextContent() + "}");
+				MTGColor c = MTGColor.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
+				tok.getColors().add(c);
+				tok.getColorIdentity().add(c);
 			}
 
 			String types = value.getElementsByTagName("type").item(0).getTextContent();

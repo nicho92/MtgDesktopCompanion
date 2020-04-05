@@ -2,9 +2,13 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
@@ -24,7 +28,7 @@ public class MagicCard implements Serializable {
 	private List<String> supertypes;
 	private List<String> types;
 	private List<String> subtypes;
-	private List<String> colors;
+	private List<MTGColor> colors;
 	private List<MagicCardNames> foreignNames;
 	private Integer cmc;
 	private String cost="";
@@ -35,11 +39,11 @@ public class MagicCard implements Serializable {
 	private String power="";
 	private String toughness="";
 	private Integer loyalty;
-	@Deprecated private String artist="";
-	@Deprecated private String flavor="";
+	private String artist="";
+	private String flavor="";
 	private List<MagicRuling> rulings;
 	private List<Integer> variations;
-	@Deprecated private List<String> colorIdentity;
+	private List<MTGColor> colorIdentity;
 	private String watermarks;
 	private String layout="normal";
 	private List<MagicFormat> legalities;
@@ -57,19 +61,15 @@ public class MagicCard implements Serializable {
 	private Integer mkmId;
 	private Integer edhrecRank;
 	
-	@Deprecated
 	public String getFlavor() {
 		return flavor;
 	}
-	@Deprecated
 	public void setFlavor(String flavor) {
 		this.flavor = flavor;
 	}
-	@Deprecated
 	public String getArtist() {
 		return artist;
 	}
-	@Deprecated
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
@@ -296,12 +296,12 @@ public class MagicCard implements Serializable {
 	public void setWatermarks(String watermarks) {
 		this.watermarks = watermarks;
 	}
-	@Deprecated 
-	public List<String> getColorIdentity() {
+	
+	public List<MTGColor> getColorIdentity() {
 		return colorIdentity;
 	}
-	@Deprecated 
-	public void setColorIdentity(List<String> colorIdentity) {
+
+	public void setColorIdentity(List<MTGColor> colorIdentity) {
 		this.colorIdentity = colorIdentity;
 	}
 
@@ -353,11 +353,11 @@ public class MagicCard implements Serializable {
 		this.toughness = toughness;
 	}
 
-	public List<String> getColors() {
+	public List<MTGColor> getColors() {
 		return colors;
 	}
 
-	public void setColors(List<String> colors) {
+	public void setColors(List<MTGColor> colors) {
 		this.colors = colors;
 	}
 

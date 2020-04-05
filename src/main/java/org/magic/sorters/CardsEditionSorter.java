@@ -2,6 +2,7 @@ package org.magic.sorters;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MagicCard> {
@@ -98,25 +99,8 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
 		}
 
-		if (mc.getColors().size() > 1)
-			return 5;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("white"))
-			return 0;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("blue"))
-			return 1;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("black"))
-			return 2;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("red"))
-			return 3;
-
-		if (mc.getColors().get(0).equalsIgnoreCase("green"))
-			return 4;
-
-		return 100;
+		return MTGColor.determine(mc.getColors()).getPosition();
+		
 	}
 
 }

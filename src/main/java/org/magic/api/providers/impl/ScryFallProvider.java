@@ -18,10 +18,10 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
@@ -88,9 +88,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws IOException {
+	public MagicCard getCardById(String id,MagicEdition ed) throws IOException {
 		try {
-			return searchCardByCriteria("id", id, null, true).get(0);
+			return searchCardByCriteria("id", id, ed, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
@@ -345,14 +345,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(COLORS) != null) {
 			Iterator<JsonElement> it = obj.get(COLORS).getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getColors().add(ColorParser.getNameByCode(it.next().getAsString()));
+				mc.getColors().add(MTGColor.colorByName(it.next().getAsString()));
 
 		}
 
 		if (obj.get("color_identity") != null) {
 			Iterator<JsonElement> it = obj.get("color_identity").getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getColorIdentity().add("{" + it.next().getAsString() + "}");
+				mc.getColorIdentity().add(MTGColor.colorByCode(it.next().getAsString()));
 		}
 
 		if (obj.get("legalities") != null) {
@@ -407,7 +407,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				Iterator<JsonElement> it = obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject()
 						.get(COLORS).getAsJsonArray().iterator();
 				while (it.hasNext())
-					mc.getColors().add(ColorParser.getNameByCode(it.next().getAsString()));
+					mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
 			} catch (Exception e) {
 				logger.error(mc.getName() + " has no colors: " + e);
 			}
