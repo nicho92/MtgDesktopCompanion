@@ -345,7 +345,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(COLORS) != null) {
 			Iterator<JsonElement> it = obj.get(COLORS).getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getColors().add(MTGColor.colorByName(it.next().getAsString()));
+				mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
 
 		}
 
