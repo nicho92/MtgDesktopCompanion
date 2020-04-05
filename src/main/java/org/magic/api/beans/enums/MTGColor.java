@@ -17,6 +17,7 @@ public enum MTGColor implements Comparator<MTGColor>{
 	@SerializedName(alternate = "Black", value = "BLACK") 	BLACK ("B",Color.BLACK,3),
 	@SerializedName(alternate = "Red", value = "RED") 		RED ("R",new Color(214,10,10),4),
 	@SerializedName(alternate = "Green", value = "GREEN") 	GREEN ("G",new Color(52,211,16),5),
+	
 	UNCOLOR ("C",Color.GRAY,0),
 	GOLD ("",new Color(232,232,0),6);
 
