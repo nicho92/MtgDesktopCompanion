@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.tools.POMReader;
 
@@ -172,7 +173,7 @@ public class Scryfall2 extends AbstractCardsProvider {
 						mc.setTranformable(c.isMultifaced());
 						mc.setFlippable(c.getLayout().equals("flip"));
 						mc.setEdhrecRank(c.getEDHRecRank());
-						mc.setLayout(c.getLayout());
+						mc.setLayout(MTGLayout.parseByLabel(c.getLayout()));
 						mc.setReserved(c.isReserved());
 						mc.setWatermarks(c.getWatermark());
 						c.getLegalities().entrySet().forEach(e->mc.getLegalities().add(new MagicFormat(e.getKey(),e.getValue().equals("legal"))));
@@ -182,7 +183,9 @@ public class Scryfall2 extends AbstractCardsProvider {
 							mc.getCurrentSet().setArtist(c.getArtist());
 							mc.getCurrentSet().setFlavor(c.getFlavorText());
 							mc.getCurrentSet().setNumber(c.getCollectorNumber());
-						
+							mc.getCurrentSet().setRarity(c.getCollectorNumber());
+							
+							
 						mc.getEditions().addAll(loadingOtherEditions());
 					
 						

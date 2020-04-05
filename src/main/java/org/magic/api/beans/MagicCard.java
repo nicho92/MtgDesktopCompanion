@@ -6,15 +6,12 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
-	
-	public enum LAYOUT {
-		NORMAL, TOKEN, EMBLEM
-	}
-
 	private static final long serialVersionUID = 1L;
 	private String name="";
 	private String id;
@@ -39,7 +36,7 @@ public class MagicCard implements Serializable {
 	private List<Integer> variations;
 	private List<MTGColor> colorIdentity;
 	private String watermarks;
-	private String layout="normal";
+	private MTGLayout layout=MTGLayout.NORMAL;
 	private List<MagicFormat> legalities;
 	private MTGRarity rarity;
 	private String gathererCode;
@@ -53,6 +50,26 @@ public class MagicCard implements Serializable {
 	private Integer mtgstocksId;
 	private Integer mkmId;
 	private Integer edhrecRank;
+	private boolean oversized;
+	private List<MTGFrameEffects> frameEffects;
+	
+	
+	public boolean isOversized() {
+		return oversized;
+	}
+	
+	public void setOversized(boolean oversized) {
+		this.oversized = oversized;
+	}
+	
+	public void setFrameEffects(List<MTGFrameEffects> frameEffects) {
+		this.frameEffects = frameEffects;
+	}
+	
+	public List<MTGFrameEffects> getFrameEffects() {
+		return frameEffects;
+	}
+	
 	
 	public String getFlavor() {
 		return flavor;
@@ -260,6 +277,7 @@ public class MagicCard implements Serializable {
 		variations = new ArrayList<>();
 		colorIdentity = new ArrayList<>();
 		legalities = new ArrayList<>();
+		frameEffects = new ArrayList<>();
 	}
 
 	public String getOriginalText() {
@@ -477,12 +495,12 @@ public class MagicCard implements Serializable {
 		return IDGenerator.generate(((MagicCard) obj)).equals(IDGenerator.generate(this));
 	}
 
-	public void setLayout(String layout) {
+	public void setLayout(MTGLayout layout) {
 		this.layout = layout;
 
 	}
 
-	public String getLayout() {
+	public MTGLayout getLayout() {
 		return layout;
 	}
 

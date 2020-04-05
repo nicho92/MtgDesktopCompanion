@@ -3,6 +3,7 @@ package org.magic.sorters;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MagicCard> {
@@ -91,7 +92,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 				} else {
 					return 7; // advanced land
 				}
-			} else if (!mc.getLayout().equalsIgnoreCase("normal")) {
+			} else if (mc.getLayout()!=MTGLayout.NORMAL) {
 				return 99;
 			} else {
 				return -1;

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
@@ -44,7 +45,7 @@ public class PicturesProviderTests {
 	{
 		mc = new MagicCard();
 		mc.setName("Black Lotus");
-		mc.setLayout("normal");
+		mc.setLayout(MTGLayout.NORMAL);
 		mc.setCost("{0}");
 		mc.setCmc(0);
 		mc.getTypes().add("Artifact");

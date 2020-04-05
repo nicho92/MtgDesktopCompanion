@@ -37,6 +37,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
@@ -349,12 +350,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				.createAutoBinding(UpdateStrategy.READ, magicCard, artistProperty, txtArtist, textProperty12);
 		autoBinding11.bind();
 
-		BeanProperty<MagicCard, String> layoutProperty = BeanProperty.create("layout");
-		BeanProperty<JTextField, String> textProperty13 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
-				UpdateStrategy.READ, magicCard, layoutProperty, txtLayoutField, textProperty13);
-		autoBinding12.bind();
-
 		BeanProperty<MagicCard, String> waterProperty = BeanProperty.create("watermarks");
 		BeanProperty<JTextField, String> textProperty14 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding13 = Bindings
@@ -373,6 +368,13 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		} catch (Exception e) {
 			rarityJTextField.setText("");
 		}
+		
+		try {
+			txtLayoutField.setText(magicCard.getLayout().toPrettyString());
+		} catch (Exception e) {
+			txtLayoutField.setText("");
+		}
+		
 
 		txtTextPane.updateTextWithIcons();
 
@@ -505,7 +507,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		bindingGroup.addBinding(autoBinding9);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
-		bindingGroup.addBinding(autoBinding12);
 		bindingGroup.addBinding(autoBinding13);
 		bindingGroup.addBinding(autoBinding15);
 		return bindingGroup;

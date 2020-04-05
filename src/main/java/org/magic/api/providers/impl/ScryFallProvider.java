@@ -19,6 +19,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -262,8 +264,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setId(obj.get("id").getAsString());
 		mc.setName(obj.get(NAME).getAsString());
 		mc.setCmc(obj.get("cmc").getAsInt());
-		mc.setLayout(obj.get("layout").getAsString());
-
+		mc.setLayout(MTGLayout.parseByLabel(obj.get("layout").getAsString()));
+		mc.setOversized(obj.get("oversized").getAsBoolean());
 		try {
 			mc.setText(obj.get("oracle_text").getAsString());
 		} catch (NullPointerException e) {
@@ -341,7 +343,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		} catch (NullPointerException e) {
 			logger.trace("illustration_id not found");
 		}
-
+		
+		if(obj.get("frame_effects")!=null) {
+			Iterator<JsonElement> it = obj.get("frame_effects").getAsJsonArray().iterator();
+				while (it.hasNext())
+					mc.getFrameEffects().add(MTGFrameEffects.parseByLabel(it.next().getAsString()));
+		}
+		
+		
 		if (obj.get(COLORS) != null) {
 			Iterator<JsonElement> it = obj.get(COLORS).getAsJsonArray().iterator();
 			while (it.hasNext())
@@ -367,8 +376,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 
-		mc.setTranformable(mc.getLayout().equalsIgnoreCase("transform") || mc.getLayout().equalsIgnoreCase("meld"));
-		mc.setFlippable(mc.getLayout().equals("flip"));
+		mc.setTranformable(mc.getLayout()==MTGLayout.TRANSFORM || mc.getLayout()==MTGLayout.MELD);
+		mc.setFlippable(mc.getLayout()==MTGLayout.FLIP);
+		
 		int idface = 0;
 
 		if (mc.getName().contains("//")) {

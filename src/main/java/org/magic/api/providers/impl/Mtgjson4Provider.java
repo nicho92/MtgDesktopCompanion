@@ -20,6 +20,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
@@ -276,9 +278,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				if (map.get(IS_RESERVED) != null)
 					mc.setReserved(Boolean.valueOf(String.valueOf(map.get(IS_RESERVED))));
+				
+				if (map.get("isOversized") != null)
+					mc.setOversized(Boolean.valueOf(String.valueOf(map.get("isOversized"))));
 			
 				if (map.get(LAYOUT) != null)
-					mc.setLayout(String.valueOf(map.get(LAYOUT)));
+					mc.setLayout(MTGLayout.parseByLabel(String.valueOf(map.get(LAYOUT))));
 				
 				if (map.get(FLAVOR_TEXT) != null)
 					mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
@@ -326,6 +331,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get(COLOR_IDENTITY) != null)
 					mc.getColorIdentity().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_IDENTITY))));
 				
+				if (map.get("frameEffects") != null)
+					mc.getFrameEffects().addAll(MTGFrameEffects.parseByLabel(((List<String>) map.get("frameEffects"))));
 				
 				if (map.get(LOYALTY) != null) {
 					try {
@@ -427,11 +434,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				}
 				
-				if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld") || mc.getLayout().equals("transform"))
+				if (mc.getLayout()==MTGLayout.MELD || mc.getLayout()==MTGLayout.TRANSFORM)
 					mc.setTranformable(true);
 			
-				if (mc.getLayout().equals("flip"))
-					mc.setFlippable(true);
+					mc.setFlippable(mc.getLayout()==MTGLayout.FLIP);
 				
 				if( map.get(NAMES) !=null)
 				{

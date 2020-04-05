@@ -8,13 +8,15 @@ import java.util.Map;
 
 import org.magic.api.beans.enums.MTGRarity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
 	private MTGRarity rarity;
 	private String artist;
-	private String multiverse_id;
+	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseId;
 	private String flavor;
 	private String number;
 	private String layout;
@@ -55,11 +57,11 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	}
 
 	public String getMultiverseid() {
-		return multiverse_id;
+		return multiverseId;
 	}
 	
 	public void setMultiverseid(String multiverseid) {
-		this.multiverse_id = multiverseid;
+		this.multiverseId = multiverseid;
 	}
 	
 	public Integer getMkmid() {

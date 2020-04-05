@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -164,7 +165,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			mc.setCmc(obj.get("cmc").getAsInt());
 
 		if (obj.get(LAYOUT) != null)
-			mc.setLayout(obj.get(LAYOUT).getAsString());
+			mc.setLayout(MTGLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
 
 		if (obj.get(POWER) != null)
 			mc.setPower(obj.get(POWER).getAsString());

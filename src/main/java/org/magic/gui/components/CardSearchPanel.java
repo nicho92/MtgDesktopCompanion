@@ -725,7 +725,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					"load history for " + selectedEdition);
 
 		} catch (Exception e1) {
-			logger.error(e1);
+			logger.error("error ",e1);
 		}
 
 	}
