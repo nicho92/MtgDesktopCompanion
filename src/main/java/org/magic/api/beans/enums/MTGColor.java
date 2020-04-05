@@ -12,12 +12,12 @@ import com.google.gson.annotations.SerializedName;
 
 public enum MTGColor implements Comparator<MTGColor>{
 	
+	@SerializedName(alternate = "White", value = "WHITE") 	WHITE ("W",Color.WHITE,1),
+	@SerializedName(alternate = "Blue", value = "BLUE") 	BLUE ("U",new Color(33,129,226),2),
+	@SerializedName(alternate = "Black", value = "BLACK") 	BLACK ("B",Color.BLACK,3),
+	@SerializedName(alternate = "Red", value = "RED") 		RED ("R",new Color(214,10,10),4),
+	@SerializedName(alternate = "Green", value = "GREEN") 	GREEN ("G",new Color(52,211,16),5),
 	UNCOLOR ("C",Color.GRAY,0),
-	@SerializedName(alternate = "White", value = "WHITE") WHITE ("W",Color.WHITE,1),
-	@SerializedName(alternate = "Blue", value = "BLUE") BLUE ("U",new Color(33,129,226),2),
-	@SerializedName(alternate = "Black", value = "BLACK") BLACK ("B",Color.BLACK,3),
-	@SerializedName(alternate = "Red", value = "RED") RED ("R",new Color(214,10,10),4),
-	@SerializedName(alternate = "Green", value = "GREEN") GREEN ("G",new Color(52,211,16),5),
 	GOLD ("",new Color(232,232,0),6);
 
 	private String code;

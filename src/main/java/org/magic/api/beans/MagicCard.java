@@ -2,10 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.enums.MTGColor;
@@ -17,10 +14,6 @@ public class MagicCard implements Serializable {
 		NORMAL, TOKEN, EMBLEM
 	}
 
-	public enum RARITY {
-		COMMON,UNCOMMON,RARE,MYTHIC, SPECIAL, TIMESHIFTED
-	}
-	
 	private static final long serialVersionUID = 1L;
 	private String name="";
 	private String id;
@@ -51,7 +44,6 @@ public class MagicCard implements Serializable {
 	private String gathererCode;
 	private String imageName;
 	private String rotatedCardName;
-	private MagicCard rotatedCard;
 	private boolean flippable = false;
 	private boolean tranformable = false;
 	private boolean reserved;
@@ -64,9 +56,11 @@ public class MagicCard implements Serializable {
 	public String getFlavor() {
 		return flavor;
 	}
+	
 	public void setFlavor(String flavor) {
 		this.flavor = flavor;
 	}
+	
 	public String getArtist() {
 		return artist;
 	}
@@ -74,7 +68,6 @@ public class MagicCard implements Serializable {
 		this.artist = artist;
 	}
 	
-
 	public Integer getEdhrecRank() {
 		return edhrecRank;
 	}
@@ -123,13 +116,6 @@ public class MagicCard implements Serializable {
 		this.frameVersion = frameVersion;
 	}
 
-	public MagicCard getRotatedCard() {
-		return rotatedCard;
-	}
-
-	public void setRotatedCard(MagicCard rotatedCard) {
-		this.rotatedCard = rotatedCard;
-	}
 
 	public MagicEdition getCurrentSet() {
 		if(!getEditions().isEmpty())
