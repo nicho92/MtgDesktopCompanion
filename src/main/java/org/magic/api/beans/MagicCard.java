@@ -33,7 +33,6 @@ public class MagicCard implements Serializable {
 	private String artist="";
 	private String flavor="";
 	private List<MagicRuling> rulings;
-	private List<Integer> variations;
 	private List<MTGColor> colorIdentity;
 	private String watermarks;
 	private MTGLayout layout=MTGLayout.NORMAL;
@@ -266,7 +265,6 @@ public class MagicCard implements Serializable {
 		colors = new ArrayList<>();
 		foreignNames = new ArrayList<>();
 		rulings = new ArrayList<>();
-		variations = new ArrayList<>();
 		colorIdentity = new ArrayList<>();
 		legalities = new ArrayList<>();
 		frameEffects = new ArrayList<>();
@@ -310,14 +308,6 @@ public class MagicCard implements Serializable {
 
 	public void setColorIdentity(List<MTGColor> colorIdentity) {
 		this.colorIdentity = colorIdentity;
-	}
-
-	public List<Integer> getVariations() {
-		return variations;
-	}
-
-	public void setVariations(List<Integer> variations) {
-		this.variations = variations;
 	}
 
 	public List<MagicRuling> getRulings() {
