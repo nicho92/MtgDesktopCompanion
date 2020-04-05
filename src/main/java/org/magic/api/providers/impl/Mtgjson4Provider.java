@@ -248,8 +248,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		for (Map<String, Object> map : cardsElement) 
 		{
 				MagicCard mc = new MagicCard();
-				  mc.setFlippable(false);
-				  mc.setTranformable(false);
 				  mc.setId(String.valueOf(map.get("uuid").toString()));
 				  mc.setText(String.valueOf(map.get(TEXT)));
 						  
@@ -433,11 +431,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					}
 			
 				}
-				
-				if (mc.getLayout()==MTGLayout.MELD || mc.getLayout()==MTGLayout.TRANSFORM)
-					mc.setTranformable(true);
-			
-					mc.setFlippable(mc.getLayout()==MTGLayout.FLIP);
 				
 				if( map.get(NAMES) !=null)
 				{

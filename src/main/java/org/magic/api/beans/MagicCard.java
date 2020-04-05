@@ -42,8 +42,6 @@ public class MagicCard implements Serializable {
 	private String gathererCode;
 	private String imageName;
 	private String rotatedCardName;
-	private boolean flippable = false;
-	private boolean tranformable = false;
 	private boolean reserved;
 	private String frameVersion;
 	private Integer tcgPlayerId;
@@ -176,6 +174,11 @@ public class MagicCard implements Serializable {
 		return getTypes().toString().toLowerCase().contains("planeswalker");
 	}
 	
+	public boolean isDoubleFaced()
+	{
+		return getLayout()==MTGLayout.MELD || getLayout()==MTGLayout.TRANSFORM;
+	}
+	
 	
 	public static boolean isBasicLand(String cardName)
 	{
@@ -216,20 +219,9 @@ public class MagicCard implements Serializable {
 	}
 
 	public boolean isFlippable() {
-		return flippable;
+		return getLayout()==MTGLayout.FLIP;
 	}
 
-	public void setFlippable(boolean flippable) {
-		this.flippable = flippable;
-	}
-
-	public boolean isTranformable() {
-		return tranformable;
-	}
-
-	public void setTranformable(boolean tranformable) {
-		this.tranformable = tranformable;
-	}
 
 	public String getGathererCode() {
 		return gathererCode;

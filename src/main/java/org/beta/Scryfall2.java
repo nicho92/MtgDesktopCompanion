@@ -170,8 +170,6 @@ public class Scryfall2 extends AbstractCardsProvider {
 						mc.setCmc(c.getCmc().intValue());
 						mc.setFrameVersion(c.getFrame());
 						mc.setCost(c.getManaCost());
-						mc.setTranformable(c.isMultifaced());
-						mc.setFlippable(c.getLayout().equals("flip"));
 						mc.setEdhrecRank(c.getEDHRecRank());
 						mc.setLayout(MTGLayout.parseByLabel(c.getLayout()));
 						mc.setReserved(c.isReserved());

@@ -234,11 +234,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			list.remove(mc.getName());
 			String rotateName = (list.get(list.size() - 1));
 			mc.setRotatedCardName(rotateName);
-
-			if (mc.getLayout().equals("flip"))
-				mc.setFlippable(true);
-			if (mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld"))
-				mc.setTranformable(true);
 		}
 
 		String currentSet = obj.get("set").getAsString();

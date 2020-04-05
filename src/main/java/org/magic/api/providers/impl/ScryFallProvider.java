@@ -375,10 +375,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.getLegalities().add(format);
 			}
 		}
-
-		mc.setTranformable(mc.getLayout()==MTGLayout.TRANSFORM || mc.getLayout()==MTGLayout.MELD);
-		mc.setFlippable(mc.getLayout()==MTGLayout.FLIP);
-		
+	
 		int idface = 0;
 
 		if (mc.getName().contains("//")) {

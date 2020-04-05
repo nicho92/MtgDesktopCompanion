@@ -76,7 +76,7 @@ public class CardsPicPanel extends JXPanel {
 		if(card == null)
 			return;
 		
-		if (!mc.isTranformable()) 
+		if (!mc.isDoubleFaced()) 
 		{
 			back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		} else {
