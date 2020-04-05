@@ -140,8 +140,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		build.addParameter("text-size", getString("SIZE"));
 		
-		if(!mc.getRarity().isEmpty())
-			build.addParameter("rarity", mc.getRarity().substring(0,1).toUpperCase());
+		if(mc.getRarity()!=null)
+			build.addParameter("rarity", mc.getRarity().name().substring(0,1).toUpperCase());
 		else
 			build.addParameter("rarity", "C");
 

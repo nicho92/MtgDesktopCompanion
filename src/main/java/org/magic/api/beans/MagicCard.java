@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
@@ -40,7 +41,7 @@ public class MagicCard implements Serializable {
 	private String watermarks;
 	private String layout="normal";
 	private List<MagicFormat> legalities;
-	private String rarity="";
+	private MTGRarity rarity;
 	private String gathererCode;
 	private String imageName;
 	private String rotatedCardName;
@@ -230,12 +231,22 @@ public class MagicCard implements Serializable {
 		this.rotatedCardName = rotatedCardName;
 	}
 
-	public String getRarity() {
+	public MTGRarity getRarity() {
 		return rarity;
 	}
 
-	public void setRarity(String rarity) {
+	public void setRarity(MTGRarity rarity) {
 		this.rarity = rarity;
+	}
+	
+	public void setRarity(String r) {
+		try {
+			rarity = MTGRarity.valueOf(r.toUpperCase());
+		}
+		catch(Exception e)
+		{
+			rarity=null;
+		}
 	}
 
 	public MagicCard() {

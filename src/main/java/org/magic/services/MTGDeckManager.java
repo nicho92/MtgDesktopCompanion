@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
@@ -219,8 +220,8 @@ public class MTGDeckManager extends Observable {
 		return ret;
 	}
 
-	public Map<String, Integer> analyseRarities(List<MagicCard> cards) {
-		TreeMap<String, Integer> rarity = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+	public Map<MTGRarity, Integer> analyseRarities(List<MagicCard> cards) {
+		TreeMap<MTGRarity, Integer> rarity = new TreeMap<>();
 		cards.forEach(card->rarity.put(card.getCurrentSet().getRarity(), rarity.get(card.getCurrentSet().getRarity())==null? 1 : rarity.get(card.getCurrentSet().getRarity())+1));
 		return rarity;
 

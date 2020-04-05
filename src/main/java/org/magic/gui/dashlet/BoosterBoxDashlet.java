@@ -3,6 +3,7 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -118,7 +120,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				EditionsShakers prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
 				boostersModel.clear();
 				double total = 0;
-				Map<String, Double> priceRarity = new HashMap<>();
+				Map<MTGRarity, Double> priceRarity = new EnumMap<>(MTGRarity.class);
 
 				for (int i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
 					Booster booster = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
@@ -133,7 +135,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 								booster.setPrice(price);
 								cs.setCard(mc);
 
-								String rarity = mc.getCurrentSet().getRarity();
+								MTGRarity rarity = mc.getCurrentSet().getRarity();
 
 								if (priceRarity.get(rarity) != null)
 									priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice());
@@ -147,7 +149,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					StringBuilder temp = new StringBuilder();
 					temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
 
-					for (Entry<String, Double> s : priceRarity.entrySet())
+					for (Entry<MTGRarity, Double> s : priceRarity.entrySet())
 						temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
 								.append("\n");
 

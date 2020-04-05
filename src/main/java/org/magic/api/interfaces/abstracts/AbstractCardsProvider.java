@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.TCache;
 
@@ -126,16 +127,16 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		try {
 			for (MagicCard mc : searchCardByEdition(me))
 			{
-				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common") && !mc.isBasicLand())
+				if (mc.getCurrentSet().getRarity()==MTGRarity.COMMON && !mc.isBasicLand())
 					common.add(mc);
 
-				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("uncommon"))
+				if (mc.getCurrentSet().getRarity()==MTGRarity.UNCOMMON)
 					uncommon.add(mc);
 
-				if (mc.getCurrentSet().getRarity().toLowerCase().contains("rare"))
+				if (mc.getCurrentSet().getRarity()==MTGRarity.RARE)
 					rare.add(mc);
 				
-				if (mc.getCurrentSet().getRarity().toLowerCase().contains("mythic"))
+				if (mc.getCurrentSet().getRarity()==MTGRarity.MYTHIC)
 					rare.add(mc);
 				
 				

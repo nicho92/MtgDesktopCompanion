@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.enums.MTGRarity;
+
 public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
-	private String rarity;
+	private MTGRarity rarity;
 	private String artist;
 	private String multiverse_id;
 	private String flavor;
@@ -196,11 +198,22 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		this.set = set;
 	}
 
-	public String getRarity() {
+	public MTGRarity getRarity() {
 		return rarity;
 	}
 
-	public void setRarity(String rarity) {
+	public void setRarity(String r) {
+		try {
+			rarity = MTGRarity.valueOf(r.toUpperCase());
+		}
+		catch(Exception e)
+		{
+			rarity=null;
+		}
+	}
+
+	
+	public void setRarity(MTGRarity rarity) {
 		this.rarity = rarity;
 	}
 

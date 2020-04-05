@@ -158,8 +158,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    if(mc.isCreature())
 						    	build.addContent("fields[fe]",mc.getPower()+"/"+mc.getToughness());
 						    
-						    if(!mc.getRarity().isEmpty())
-						    	build.addContent("fields[se-rarity]",mc.getRarity().substring(0,1).toLowerCase());
+						    if(mc.getRarity()!=null)
+						    	build.addContent("fields[se-rarity]",mc.getRarity().name().substring(0,1).toLowerCase());
 							
 						    if(mc.getImageName()!=null && !mc.getImageName().startsWith("http"))
 						    {

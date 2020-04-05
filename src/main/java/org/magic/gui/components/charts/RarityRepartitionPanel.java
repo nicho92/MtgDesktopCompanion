@@ -1,10 +1,8 @@
 package org.magic.gui.components.charts;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
@@ -13,6 +11,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.gui.abstracts.MTGUIChartComponent;
 
 public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
@@ -29,10 +28,12 @@ public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 	public JFreeChart initChart() {
 		JFreeChart chart = ChartFactory.createPieChart3D("Rarity repartition", getDataSet(), false, true, true);
 		PiePlot plot = (PiePlot) chart.getPlot();
-		plot.setSectionPaint("Uncommon", Color.GRAY);
-		plot.setSectionPaint("Common", Color.WHITE);
-		plot.setSectionPaint("Rare", Color.YELLOW);
-		plot.setSectionPaint("Mythic", Color.ORANGE);
+		
+		for(MTGRarity r : MTGRarity.values())
+		{
+			plot.setSectionPaint(r.toPrettyString(),r.toColor());
+		}
+		
 
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
@@ -42,8 +43,8 @@ public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 
 	private PieDataset getDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for (Entry<String, Integer> data : manager.analyseRarities(items).entrySet()) {
-			dataset.setValue(StringUtils.capitalize(data.getKey()), data.getValue());
+		for (Entry<MTGRarity, Integer> data : manager.analyseRarities(items).entrySet()) {
+			dataset.setValue(data.getKey().toPrettyString(), data.getValue());
 		}
 
 		return dataset;
