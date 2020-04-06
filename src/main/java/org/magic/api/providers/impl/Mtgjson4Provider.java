@@ -286,9 +286,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get(FLAVOR_TEXT) != null)
 					mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
 				
-				if (map.get("tcgplayerProductId") != null)
+				if (map.get("tcgplayerProductId") != null) {
 					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
-				
+				}
 				
 				if (map.get("mcmId") != null) {
 					mc.setMkmId((int)Double.parseDouble(map.get("mcmId").toString()));
@@ -332,6 +332,28 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get("frameEffects") != null)
 					mc.getFrameEffects().addAll(MTGFrameEffects.parseByLabel(((List<String>) map.get("frameEffects"))));
 				
+				if (map.get("isMtgo") != null)
+					mc.setMtgoCard(Boolean.valueOf(map.get("isMtgo").toString()));
+				
+				if (map.get("isArena") != null)
+					mc.setArenaCard(Boolean.valueOf(map.get("isArena").toString()));
+				
+				
+				if (map.get("isPromo") != null)
+					mc.setPromoCard(Boolean.valueOf(map.get("isPromo").toString()));
+				
+				if (map.get("mtgArenaId") != null)
+					mc.setMtgArenaId(Double.valueOf(map.get("mtgArenaId").toString()).intValue());
+			
+				if (map.get("isReprint") != null)
+					mc.setReprintedCard(Boolean.valueOf(map.get("isReprint").toString()));
+				
+				if (map.get("scryfallIllustrationId") != null)
+					mc.setScryfallIllustrationId(String.valueOf(map.get("scryfallIllustrationId")));
+				
+				if (map.get("scryfallId") != null)
+					mc.setScryfallId(String.valueOf(map.get("scryfallId")));
+				
 				if (map.get(LOYALTY) != null) {
 					try {
 						mc.setLoyalty((int) Double.parseDouble(map.get(LOYALTY).toString()));
@@ -358,8 +380,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 						mc.getRulings().add(mr);
 					}
 				}
-				
-			
 				
 				MagicCardNames defnames = new MagicCardNames();
 				
@@ -405,12 +425,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				MagicEdition me = getSetById(codeEd);
 							 me.setRarity(mc.getRarity());
-							
-							if (map.get(NUMBER) != null)
-							 me.setNumber(String.valueOf(map.get(NUMBER)));
-							
 							 me.setFlavor(mc.getFlavor());
-							
+							 me.setScryfallId(mc.getScryfallId());
+
+							 if (map.get(NUMBER) != null)
+								me.setNumber(String.valueOf(map.get(NUMBER)));
 							 
 							 if(map.get(MULTIVERSE_ID)!=null)
 							 {
@@ -501,6 +520,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 				try {
 					me.setMultiverseid(String.valueOf((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString())));
+				} catch (Exception e) {
+					//do nothing
+				}
+				
+				try {
+					me.setScryfallId(map.get("scryfallId").toString());
 				} catch (Exception e) {
 					//do nothing
 				}
@@ -737,7 +762,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://mtgjson.com/v4");
+		return new URL("https://mtgjson.com");
 	}
 
 

@@ -364,7 +364,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 						abs.stream().filter(c->!c.isLoyalty())
 									.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
 						menu.add(mnuAbilities);
-					
 					}
 					
 					Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);

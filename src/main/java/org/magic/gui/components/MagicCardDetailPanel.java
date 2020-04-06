@@ -37,7 +37,6 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
@@ -370,7 +369,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		}
 		
 		try {
-			txtLayoutField.setText(magicCard.getLayout().toPrettyString());
+			if (magicCard != null)
+				txtLayoutField.setText(magicCard.getLayout().toPrettyString());
 		} catch (Exception e) {
 			txtLayoutField.setText("");
 		}

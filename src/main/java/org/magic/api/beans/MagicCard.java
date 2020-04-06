@@ -13,18 +13,13 @@ import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	private String name="";
 	private String id;
 	private String url;
-	private List<String> supertypes;
-	private List<String> types;
-	private List<String> subtypes;
-	private List<MTGColor> colors;
-	private List<MagicCardNames> foreignNames;
 	private Integer cmc;
 	private String cost="";
 	private String text="";
-	private List<MagicEdition> editions;
 	private String originalText="";
 	private String originalType="";
 	private String power="";
@@ -32,25 +27,108 @@ public class MagicCard implements Serializable {
 	private Integer loyalty;
 	private String artist="";
 	private String flavor="";
+	private String watermarks;
+	private MTGRarity rarity;
+	private MTGLayout layout=MTGLayout.NORMAL;	
+	private List<String> supertypes;
+	private List<String> types;
+	private List<String> subtypes;
+	private List<MTGColor> colors;
+	private List<MagicCardNames> foreignNames;
+	private List<MagicEdition> editions;
 	private List<MagicRuling> rulings;
 	private List<MTGColor> colorIdentity;
-	private String watermarks;
-	private MTGLayout layout=MTGLayout.NORMAL;
 	private List<MagicFormat> legalities;
-	private MTGRarity rarity;
-	private String gathererCode;
+	private List<MTGFrameEffects> frameEffects;
+	
 	private String imageName;
 	private String rotatedCardName;
-	private boolean reserved;
 	private String frameVersion;
 	private Integer tcgPlayerId;
 	private Integer mtgstocksId;
 	private Integer mkmId;
 	private Integer edhrecRank;
+	private boolean reserved;
 	private boolean oversized;
-	private List<MTGFrameEffects> frameEffects;
+	private boolean mtgoCard;
+	private boolean arenaCard;
+	private boolean onlineOnly;
+	private boolean promoCard;
+	private boolean reprintedCard;
+	private Integer mtgArenaId;
+	private String scryfallIllustrationId;
+	private String gathererCode;
+	private String scryfallId;
 	
 	
+	public String getScryfallId() {
+		return scryfallId;
+	}
+
+	public void setScryfallId(String scryfallId) {
+		this.scryfallId = scryfallId;
+	}
+
+	public Integer getMtgArenaId() {
+		return mtgArenaId;
+	}
+
+	public void setMtgArenaId(Integer mtgArenaId) {
+		this.mtgArenaId = mtgArenaId;
+	}
+
+	public boolean isMtgoCard() {
+		return mtgoCard;
+	}
+
+	public void setMtgoCard(boolean mtgoCard) {
+		this.mtgoCard = mtgoCard;
+	}
+
+	public boolean isArenaCard() {
+		return arenaCard;
+	}
+
+	public void setArenaCard(boolean arenaCard) {
+		this.arenaCard = arenaCard;
+	}
+
+	public boolean isOnlineOnly() {
+		return onlineOnly;
+	}
+
+	public void setOnlineOnly(boolean onlineOnly) {
+		this.onlineOnly = onlineOnly;
+	}
+
+	public boolean isPromoCard() {
+		return promoCard;
+	}
+
+	public void setPromoCard(boolean promoCard) {
+		this.promoCard = promoCard;
+	}
+
+	public boolean isReprintedCard() {
+		return reprintedCard;
+	}
+
+	public void setReprintedCard(boolean reprintedCard) {
+		this.reprintedCard = reprintedCard;
+	}
+
+	public String getScryfallIllustrationId() {
+		return scryfallIllustrationId;
+	}
+
+	public void setScryfallIllustrationId(String scryfallIllustrationId) {
+		this.scryfallIllustrationId = scryfallIllustrationId;
+	}
+
+	public void setMtgstocksId(Integer mtgstocksId) {
+		this.mtgstocksId = mtgstocksId;
+	}
+
 	public boolean isOversized() {
 		return oversized;
 	}

@@ -37,6 +37,7 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private boolean foilOnly;
 	private String keyRuneCode;
 	private int tcgplayerGroupId;
+	private String scryfallId;
 	
 	
 	
@@ -309,4 +310,14 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		this.tcgplayerGroupId = tcgplayerGroupId;
 	}
 
+	public void setScryfallId(String scryfallId) {
+		this.scryfallId=scryfallId;
+		
+	}
+
+	public String getScryfallId() {
+		return scryfallId;
+	}
+
+	
 }
