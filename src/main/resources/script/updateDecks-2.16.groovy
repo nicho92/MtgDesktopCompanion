@@ -27,5 +27,5 @@ manager.listDecks().each{ d->
 
 	manager.saveDeck(d);
 
-	printf("Saving " + d);
+	printf("Saving " + d +"\n");
 }
