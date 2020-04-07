@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class MagicFormat implements Serializable {
 
-	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER}
+	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}
 	
 	public static String toString(FORMATS f)
 	{
