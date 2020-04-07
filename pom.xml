@@ -97,7 +97,7 @@
         <dependency>
 		    <groupId>com.fifesoft</groupId>
 		    <artifactId>rsyntaxtextarea</artifactId>
-		    <version>3.1.0</version>
+		    <version>3.1.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.fifesoft</groupId>
@@ -172,7 +172,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.1_127</version>
+			  <version>4.1.1_133</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>

@@ -9,6 +9,7 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractPool;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.POMReader;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -63,7 +64,7 @@ public class HikariPool extends AbstractPool {
 	
 	@Override
 	public String getVersion() {
-		return "3.3.1";
+		return POMReader.readVersionFromPom(com.zaxxer.hikari.pool.HikariPool.class, "/META-INF/maven/com.zaxxer/HikariCP/pom.properties");
 	}
 	
 	@Override

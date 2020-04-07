@@ -262,6 +262,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		MagicCard mc = new MagicCard();
 
 		mc.setId(obj.get("id").getAsString());
+		mc.setScryfallId(mc.getId());
 		mc.setName(obj.get(NAME).getAsString());
 		mc.setCmc(obj.get("cmc").getAsInt());
 		mc.setLayout(MTGLayout.parseByLabel(obj.get("layout").getAsString()));

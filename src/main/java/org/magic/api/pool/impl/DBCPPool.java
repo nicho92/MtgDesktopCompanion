@@ -13,6 +13,9 @@ import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractPool;
+import org.magic.tools.POMReader;
+
+import com.mchange.v2.c3p0.cfg.C3P0Config;
 
 public class DBCPPool extends AbstractPool {
 
@@ -84,7 +87,7 @@ public class DBCPPool extends AbstractPool {
 
 	@Override
 	public String getVersion() {
-		return "2.7.0";
+		return POMReader.readVersionFromPom(C3P0Config.class, "/META-INF/maven/org.apache.commons/commons-pool2/pom.properties");
 	}
 	
 	@Override

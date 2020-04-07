@@ -7,6 +7,7 @@ import org.magic.api.interfaces.abstracts.AbstractPool;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+
 public class C3P0Pool extends AbstractPool {
 
 	private ComboPooledDataSource datasource;
@@ -40,7 +41,7 @@ public class C3P0Pool extends AbstractPool {
 	
 	@Override
 	public String getVersion() {
-		return "0.9.5.4";
+		return ComboPooledDataSource.class.getPackage().getImplementationVersion();
 	}
 	
 	@Override
