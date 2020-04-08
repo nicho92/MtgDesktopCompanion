@@ -273,11 +273,9 @@ public class MagicCard implements Serializable {
 				);
 	}
 	
-	public boolean isBasicLand()
-	{
+	public boolean isBasicLand(){
 		return isBasicLand(getName());
 	}
-	
 	
 	public String getImageName() {
 		return imageName;
@@ -325,6 +323,7 @@ public class MagicCard implements Serializable {
 		this.rarity = rarity;
 	}
 	
+	@Deprecated
 	public void setRarity(String r) {
 		try {
 			rarity = MTGRarity.valueOf(r.toUpperCase());

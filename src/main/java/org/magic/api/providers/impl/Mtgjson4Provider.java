@@ -46,6 +46,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	
+	private static final String SCRYFALL_ID = "scryfallId";
 	private static final String FORCE_RELOAD = "FORCE_RELOAD";
 	private static final String PRINTINGS = "printings";
 	private static final String ARTIST = "artist";
@@ -351,8 +352,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get("scryfallIllustrationId") != null)
 					mc.setScryfallIllustrationId(String.valueOf(map.get("scryfallIllustrationId")));
 				
-				if (map.get("scryfallId") != null)
-					mc.setScryfallId(String.valueOf(map.get("scryfallId")));
+				if (map.get(SCRYFALL_ID) != null)
+					mc.setScryfallId(String.valueOf(map.get(SCRYFALL_ID)));
 				
 				if (map.get(LOYALTY) != null) {
 					try {
@@ -525,7 +526,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				}
 				
 				try {
-					me.setScryfallId(map.get("scryfallId").toString());
+					me.setScryfallId(map.get(SCRYFALL_ID).toString());
 				} catch (Exception e) {
 					//do nothing
 				}

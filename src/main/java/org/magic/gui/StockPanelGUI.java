@@ -537,10 +537,9 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 
-		btnshowMassPanel = new JButton("");
+		btnshowMassPanel = new JButton(MTGConstants.ICON_MANUAL);
 
-		btnImport = new JButton();
-		btnImport.setIcon(MTGConstants.ICON_IMPORT);
+		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		actionPanel.add(btnImport);
 
@@ -549,13 +548,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 		actionPanel.add(btnExport);
 
-		btnGeneratePrice = new JButton();
+		btnGeneratePrice = new JButton(MTGConstants.ICON_EURO);
 		jsonPanel = new ObjectViewerPanel();
-		btnGeneratePrice.setIcon(MTGConstants.ICON_EURO);
 		btnGeneratePrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_PRICE"));
 		actionPanel.add(btnGeneratePrice);
 		btnshowMassPanel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("MASS_MODIFICATION"));
-		btnshowMassPanel.setIcon(MTGConstants.ICON_MANUAL);
+		
 		actionPanel.add(btnshowMassPanel);
 		actionPanel.add(lblLoading);
 
