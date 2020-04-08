@@ -157,7 +157,9 @@ public class CardsEditionTablePanel extends JPanel {
 	public MagicCard getSelectedCard()
 	{
 		if(table.getSelectedRow()>-1)
-			return (MagicCard) table.getValueAt(table.getSelectedRow(), 0);
+		{
+			return UITools.getTableSelection(table, 0);
+		}
 		
 		return null;
 	}
