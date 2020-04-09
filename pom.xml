@@ -49,6 +49,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		 <dependency>
+	      <groupId>com.dorkbox</groupId>
+	      <artifactId>Notify</artifactId>
+	      <version>3.7</version>
+	    </dependency>
 		<dependency>
 		    <groupId>io.github.forohforerror</groupId>
 		    <artifactId>ScryfallAPIBinding</artifactId>
