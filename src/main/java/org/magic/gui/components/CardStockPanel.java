@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.editor.ComboBoxEditor;
 import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.CardStockTableModel;
@@ -23,9 +25,11 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.ShortKeyManager;
 import org.magic.tools.UITools;
 
-public class CardStockPanel extends JPanel {
+
+public class CardStockPanel extends MTGUIComponent {
 
 	/**
 	 * 
@@ -69,10 +73,9 @@ public class CardStockPanel extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
-		btnAdd = new JButton(MTGConstants.ICON_NEW);
-		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-		btnSave = new JButton(MTGConstants.ICON_SAVE);
-		
+		btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_ADD, "newStock");
+		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_MINUS, "delete");
+		btnSave = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S, "save");
 		
 		btnAdd.setEnabled(false);
 		btnSave.setEnabled(false);
@@ -81,6 +84,8 @@ public class CardStockPanel extends JPanel {
 		btnAdd.addActionListener(ae -> addLine());
 		btnSave.addActionListener(ae -> save());
 		btnDelete.addActionListener(ae -> delete());
+
+		
 		
 		panneauHaut.add(btnAdd);
 		panneauHaut.add(btnDelete);
@@ -148,6 +153,11 @@ public class CardStockPanel extends JPanel {
 			logger.error(e);
 		}
 
+	}
+
+	@Override
+	public String getTitle() {
+		return "CardStock Collection";
 	}
 
 }

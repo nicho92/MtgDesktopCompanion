@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
@@ -41,7 +41,7 @@ public class PricesTablePanel extends JPanel {
 	private CardsPriceTableModel model;
 	private JXTable tablePrices;
 	private AbstractBuzyIndicatorComponent lblLoading;
-	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
+	private transient DefaultRowSorter<TableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
 	private MagicCard currentCard;
 	private MagicEdition currentEd;

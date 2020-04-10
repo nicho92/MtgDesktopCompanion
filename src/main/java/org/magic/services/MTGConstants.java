@@ -168,7 +168,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_MASS_IMPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/massImport.png"));
 	public static final ImageIcon ICON_GRADING = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/grade.png"));
 	public static final ImageIcon ICON_GED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ged.png"));
-	
+	public static final ImageIcon ICON_SHORTCUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/shortcut.png"));
 	
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));
 	public static final ImageIcon ICON_NEW = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/new.png"));
@@ -255,6 +255,7 @@ public class MTGConstants {
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	public static final int CONNECTION_TIMEOUT =0;
+	
 	
 	
 }

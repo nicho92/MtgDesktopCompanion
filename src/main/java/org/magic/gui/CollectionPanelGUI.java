@@ -31,7 +31,9 @@ import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -211,7 +213,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		//////// MODELS
 		model = new MagicEditionsTableModel();
-		DefaultRowSorter<DefaultTableModel, Integer> sorterEditions = new TableRowSorter<>(model);
+		DefaultRowSorter<TableModel, Integer> sorterEditions = new TableRowSorter<>(model);
 		
 		tableEditions.setModel(model);
 		

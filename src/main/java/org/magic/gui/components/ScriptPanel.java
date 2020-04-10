@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -73,13 +74,13 @@ public class ScriptPanel extends MTGUIComponent {
 		JSplitPane splitPane = new JSplitPane();
 		JPanel paneHaut = new JPanel();
 		JPanel paneBas = new JPanel();
-		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
-		JButton btnSaveButton = new JButton(MTGConstants.ICON_SAVE);
-		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
-		JButton btnRun = new JButton(MTGConstants.PLAY_ICON);
-		JButton btnStop = new JButton(MTGConstants.ICON_DELETE);
-		
-		
+		JButton btnOpen = UITools.createBindableJButton(null, MTGConstants.ICON_OPEN, KeyEvent.VK_O,"open");
+		JButton btnSaveButton = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S,"save"); 
+		JButton btnNewButton = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N,"new"); 
+		JButton btnRun =  UITools.createBindableJButton(null, MTGConstants.PLAY_ICON, KeyEvent.VK_R,"run"); 
+		JButton btnStop =  UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_K,"stop"); 
+		JButton btnClear =  UITools.createBindableJButton(null, MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_C,"clear"); 
+				
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
 		chkShowReturn = new JCheckBox("Show return");
@@ -106,11 +107,13 @@ public class ScriptPanel extends MTGUIComponent {
 		paneBas.setLayout(new BorderLayout(0, 0));
 		paneBas.add(lblInfo, BorderLayout.WEST);
 		
-		JButton btnClear = new JButton(MTGConstants.ICON_SMALL_CLEAR);
 		paneBas.add(btnClear, BorderLayout.EAST);
 		
 		new AutoCompletion(createCompletionProvider()).install(editorPane);
 		
+		
+		
+
 		
 		btnClear.addActionListener(al->resultPane.setText(""));
 		
@@ -119,7 +122,6 @@ public class ScriptPanel extends MTGUIComponent {
 			editorPane.setText("");
 			resultPane.setText("");
 		});
-		
 		
 		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
 		
@@ -131,6 +133,8 @@ public class ScriptPanel extends MTGUIComponent {
 				logger.debug("Canceling " + f);
 			}
 		});
+		
+		
 		
 		btnRun.addActionListener(al->{
 			

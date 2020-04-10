@@ -58,6 +58,8 @@ public abstract class MTGUIComponent extends JComponent {
 			}
 		});
 		
+		setName(getTitle());
+		
 	}
 	
 	public void onVisible()

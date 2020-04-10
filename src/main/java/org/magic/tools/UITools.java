@@ -3,6 +3,7 @@ package org.magic.tools;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.SystemColor;
@@ -24,7 +25,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
@@ -105,7 +108,6 @@ public class UITools {
 		return cons;
 	}
 	
-	
 	public static JTextField createSearchField()
 	{
 		JTextField txtSearch;
@@ -160,8 +162,13 @@ public class UITools {
 		return combo;
 	}
 	
-
-
+	public static JButton createBindableJButton(String text, Icon ic, int key, String name)
+	{
+		JButton b = new JButton(text, ic);
+				b.setName(name);
+		ShortKeyManager.inst().setShortCutTo(key, b);
+		return b;
+	}
 
 	public static JComboBox<MagicEdition> createComboboxEditions(List<MagicEdition> value,SIZE s) {
 		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();

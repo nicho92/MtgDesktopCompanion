@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class GenericTableModel<T> extends DefaultTableModel {
+public class GenericTableModel<T> extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	protected transient List<T> items;
@@ -78,12 +78,10 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		try {
 			return PropertyUtils.getProperty(it, columns[column]);
 		} catch (Exception e) {
-			logger.error("error",e);
+			logger.error(e);
 		} 
 		
 		return it; 
-		
-		
 	}
 	
 	public void setColumns(String... columns)
@@ -125,6 +123,13 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		fireTableDataChanged();
 	}
 	
+	public void bind(List<T> items)
+	{
+		this.items=items;
+		changed=false;
+		fireTableDataChanged();
+	}
+	
 	public boolean isEmpty()
 	{
 		if(items!=null)
@@ -147,6 +152,12 @@ public class GenericTableModel<T> extends DefaultTableModel {
 		items.remove(t);
 		changed=true;
 		fireTableDataChanged();
+	}
+	
+	public void removeRow(int row)
+	{
+		items.remove(row);
+	    fireTableRowsDeleted(row, row);
 	}
 	
 	@Override

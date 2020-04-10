@@ -125,7 +125,7 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmFileChromePlugin = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
 		JMenuItem mntmFilePackageExplorer = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE);
 		JMenuItem mntmFileScript = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SCRIPT"),MTGConstants.ICON_SCRIPT);
-			
+		
 		
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileTagEditor);

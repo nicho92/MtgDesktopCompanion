@@ -46,6 +46,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.servers.impl.WebManagerServer;
 import org.magic.services.MTGConstants;
@@ -305,7 +306,7 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
 		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_PRERELEASE")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
-		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
+		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 7));
 		
 		
 
@@ -469,7 +470,7 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnSaveFont = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		JCheckBox chkEnabledAutocomplete = new JCheckBox();
 		JCheckBox chkEnabledChrome = new JCheckBox();
-		
+		JButton btnShortKeys = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SHORTKEYS"));
 		
 		
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
@@ -503,9 +504,17 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DISABLE_CHROME_RENDERING")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
 		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
 		
+		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHORTKEYS_CONFIGURATION")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
+		panelGUI.add(btnShortKeys, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 10));
+		
+		
+		
 		
 /////////////EVENTS	
-
+		btnShortKeys.addActionListener(l->{
+			MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true);
+		});
+		
 		
 		cboToolPosition.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)

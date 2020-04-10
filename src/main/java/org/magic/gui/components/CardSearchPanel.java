@@ -38,6 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -194,7 +195,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		JButton btnFilter;
 		
 		
-		DefaultRowSorter<DefaultTableModel, Integer> sorterCards;
+		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(cardsModeltable);
 		sorterCards.setComparator(7, (String num1, String num2) -> {
 			try {
