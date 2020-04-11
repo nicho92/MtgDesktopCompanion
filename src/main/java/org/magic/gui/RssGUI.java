@@ -3,6 +3,7 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -78,9 +79,9 @@ public class RssGUI extends MTGUIComponent {
 		JPanel leftPanel = new JPanel();
 		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 		JPanel panelControl = new JPanel();
-		btnNewButton = new JButton(MTGConstants.ICON_NEW);
-		btnSave = new JButton(MTGConstants.ICON_SAVE);
-		btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		btnNewButton = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"new news entry");
+		btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save news entry");
+		btnDelete =UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete news entry");
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		newsPanel = new NewsEditorPanel();
 		

@@ -537,7 +537,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 
-		btnshowMassPanel = new JButton(MTGConstants.ICON_MANUAL);
+		btnshowMassPanel = UITools.createBindableJButton(null, MTGConstants.ICON_MANUAL, KeyEvent.VK_M, "stock mass panel show");
 
 		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "stock import");
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));

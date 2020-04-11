@@ -39,8 +39,8 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panneauHaut = new JPanel();
-		JButton btnDelete = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
-		JButton btnSaveBinding = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save");
+		JButton btnDelete = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete shortkey");
+		JButton btnSaveBinding = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save shortkey");
 		textField = new JTextField(10);
 		JPanel panneauBas = new JPanel();
 		tableKeys = new JXTable();
@@ -73,10 +73,6 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		
 		panneauBas.add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 		panneauBas.add(btnSaveBinding, UITools.createGridBagConstraints(null, null, 2, 0));
-		
-		
-		
-		//tableKeys.packAll();
 		
 		textField.addKeyListener(new KeyAdapter() {
 			@Override

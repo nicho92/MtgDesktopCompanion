@@ -96,7 +96,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 
-		JButton btnCalculate = new JButton("Open");
+		JButton btnCalculate = new JButton(MTGConstants.ICON_OPEN);
 		panneauBas.add(btnCalculate);
 
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);

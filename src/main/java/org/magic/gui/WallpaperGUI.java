@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -171,7 +172,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		JPanel panel1 = new JPanel();
 		add(panel1, BorderLayout.SOUTH);
 
-		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		panel1.add(btnImport);
 

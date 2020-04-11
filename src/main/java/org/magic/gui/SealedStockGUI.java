@@ -2,6 +2,7 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -59,10 +60,10 @@ public class SealedStockGUI extends MTGUIComponent {
 		JTabbedPane panneauDetail = new JTabbedPane();
 		SealedHistoryPricesPanel historyPricePanel= new SealedHistoryPricesPanel();
 		
-		JButton buttonNew = new JButton(MTGConstants.ICON_NEW);
+		JButton buttonNew = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "stock new");
 		buttonNew.setEnabled(false);
-		JButton buttonDelete = new JButton(MTGConstants.ICON_DELETE);
-		JButton buttonUpdate = new JButton(MTGConstants.ICON_REFRESH);
+		JButton buttonDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_N, "stock delete");
+		JButton buttonUpdate = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_N, "stock refresh");
 		
 		setLayout(new BorderLayout());
 		

@@ -2,6 +2,7 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.StoryProvider;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 public class StoriesGUI extends MTGUIComponent {
@@ -98,7 +100,7 @@ public class StoriesGUI extends MTGUIComponent {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
-		JButton btnLoadNext = new JButton("Load Next");
+		JButton btnLoadNext = UITools.createBindableJButton("Load next",MTGConstants.ICON_LOADING,KeyEvent.VK_N,"Storie loading");
 		btnLoadNext.addActionListener(ae -> initStories());
 		panel.add(btnLoadNext);
 
