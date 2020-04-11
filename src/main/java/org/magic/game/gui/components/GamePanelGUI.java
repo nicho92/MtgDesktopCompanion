@@ -482,6 +482,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		return lblHandCount;
 	}
 
+	
+	public JLabel getLblLibraryCount() {
+		return lblLibraryCount;
+	}
+	
 	public ManaPoolPanel getManaPoolPanel() {
 		return manaPoolPanel;
 	}
