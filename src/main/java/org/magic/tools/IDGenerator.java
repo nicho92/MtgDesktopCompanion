@@ -20,6 +20,12 @@ public class IDGenerator {
 			return "";
 		}
 	}
+	
+	public static String generateMD5(String s)
+	{
+		return DigestUtils.md5Hex(s).toUpperCase();
+	}
+	
 
 	public static String generate(MagicCard mc, MagicEdition ed) {
 		

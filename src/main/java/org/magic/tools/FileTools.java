@@ -11,6 +11,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.GZIPInputStream;
@@ -44,6 +45,29 @@ public class FileTools {
 		logger.debug("saving file " + f);
 		FileUtils.write(f, data,MTGConstants.DEFAULT_ENCODING);
 	}
+	
+	public static void saveProperties(File f,Properties props) throws IOException
+	{
+		try (FileOutputStream fos = new FileOutputStream(f)){
+			props.store(fos, "");
+		}
+	}
+	
+	public static void loadProperties(File f,Properties props) throws IOException
+	{
+		props.clear();
+		try (FileInputStream fis = new FileInputStream(f)){
+			props.load(fis);
+		}
+	}
+	
+	public static void saveFile(File f,Properties props) throws IOException
+	{
+		try (FileOutputStream fos = new FileOutputStream(f)){
+			props.store(fos, "");
+		}
+	}
+	
 	
 	public static void deleteFile(File f) throws IOException
 	{

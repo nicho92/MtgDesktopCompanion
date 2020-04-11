@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -31,8 +32,6 @@ import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -179,13 +178,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		//////// INIT COMPONENTS
 		panneauHaut = new JPanel();
 		packagePanel = new PackagesBrowserPanel(true);
-		btnAdd = new JButton(MTGConstants.ICON_NEW);
-		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		btnRemove = new JButton(MTGConstants.ICON_DELETE);
-		btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
+		btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "new Collection");
+		btnRefresh =  UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Collection refresh");
+		btnRemove = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "Collection delete");
+		btnAddAllSet =UITools.createBindableJButton(null, MTGConstants.ICON_CHECK, KeyEvent.VK_A, "Collection addAll");
 		btnExport = new JExportButton(MODS.EXPORT);
-		btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
-		btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
+		UITools.bindJButton(btnExport, KeyEvent.VK_E, "Collection export");
+		
+		btnMassCollection = UITools.createBindableJButton(null, MTGConstants.ICON_MASS_IMPORT, KeyEvent.VK_I, "Collection massImport");
+		btnGenerateWebSite = UITools.createBindableJButton(null, MTGConstants.ICON_WEBSITE, KeyEvent.VK_W, "Collection website");
 		cardsSetPanel = new CardsEditionTablePanel();
 		deckPanel = new CardsDeckCheckerPanel();
 		splitListPanel = new JSplitPane();
@@ -280,8 +281,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, stockPanel,null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), stockPanel.getIcon(), stockPanel,null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), historyPricesPanel.getIcon(),historyPricesPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel, null);
 		

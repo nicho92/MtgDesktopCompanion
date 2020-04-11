@@ -42,6 +42,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
@@ -49,6 +50,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 public class MagicCardEditorPanel extends JPanel {
@@ -66,7 +68,7 @@ public class MagicCardEditorPanel extends JPanel {
 	private JTextField nameJTextField;
 	private JTextField numberJTextField;
 	private JTextField powerJTextField;
-	private JComboBox<String> rarityJComboBox;
+	private JComboBox<MTGRarity> rarityJComboBox;
 	private MagicTextPane textJEditorPane;
 	private JTextField toughnessJTextField;
 	private JTextField watermarksJTextField;
@@ -269,9 +271,8 @@ public class MagicCardEditorPanel extends JPanel {
 		labelgbc14.gridy = 1;
 		add(rarityLabel, labelgbc14);
 
-		rarityJComboBox = new JComboBox<>();
-		rarityJComboBox.setModel(new DefaultComboBoxModel<>(
-				new String[] { "Common", "Uncommon", "Rare", "Mythic Rare", "Special" }));
+		rarityJComboBox = UITools.createCombobox(MTGRarity.values());
+		
 		GridBagConstraints componentgbc14 = new GridBagConstraints();
 		componentgbc14.insets = new Insets(5, 0, 5, 0);
 		componentgbc14.fill = GridBagConstraints.HORIZONTAL;
@@ -754,8 +755,8 @@ public class MagicCardEditorPanel extends JPanel {
 		autoBinding13.bind();
 		//
 		BeanProperty<MagicCard, Object> rarityProperty = BeanProperty.create("rarity");
-		BeanProperty<JComboBox<String>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox<String>, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
+		BeanProperty<JComboBox<MTGRarity>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
+		AutoBinding<MagicCard, Object, JComboBox<MTGRarity>, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
 		autoBinding14.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");

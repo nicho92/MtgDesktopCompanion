@@ -29,11 +29,13 @@ public class JExportButton extends JButton {
 
 	public JExportButton(MODS mod) {
 		this.mod=mod;
+		
+		setName(mod.toString());
+		
 		if(mod == MODS.EXPORT)
 			setIcon(MTGConstants.ICON_EXPORT);
 		else
 			setIcon(MTGConstants.ICON_IMPORT);
-		
 	}
 	
 

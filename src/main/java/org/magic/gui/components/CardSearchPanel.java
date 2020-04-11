@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -111,7 +112,6 @@ public class CardSearchPanel extends MTGUIComponent {
 	private JExportButton btnExport;
 	private JList<MagicEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
-
 	private AbstractBuzyIndicatorComponent lblLoading;
 
 	
@@ -244,8 +244,9 @@ public class CardSearchPanel extends MTGUIComponent {
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
 		btnExport = new JExportButton(MODS.EXPORT);
-		btnFilter = new JButton(MTGConstants.ICON_FILTER);
-		btnClear = new JButton(MTGConstants.ICON_CLEAR);
+		UITools.bindJButton(btnExport, KeyEvent.VK_E, "Search Export");
+		btnFilter = UITools.createBindableJButton(null, MTGConstants.ICON_FILTER, KeyEvent.VK_F, "searchfilter");
+		btnClear = UITools.createBindableJButton(null, MTGConstants.ICON_CLEAR, KeyEvent.VK_C, "clear");
 		similarityPanel = new SimilarityCardPanel();
 		cboQuereableItems = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
 		cboCollections = UITools.createComboboxCollection();

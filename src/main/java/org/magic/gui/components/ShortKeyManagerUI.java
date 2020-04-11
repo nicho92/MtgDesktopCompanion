@@ -3,7 +3,6 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -20,6 +19,7 @@ import javax.swing.SwingConstants;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ShortKeyModel;
+import org.magic.gui.renderer.ShortKeysCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ShortKeyManager;
 import org.magic.tools.UITools;
@@ -47,30 +47,10 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		JPanel panneauBas = new JPanel();
 		tableKeys = new JXTable();
 		model = new ShortKeyModel();
-		model.bind(ShortKeyManager.inst().getMapping());
+		model.setMainObjectIndex(1);
 		tableKeys.setModel(model);
-		tableKeys.setDefaultRenderer(JButton.class,(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
-			JButton b = (JButton)value;
-			
-			table.setRowHeight(MTGConstants.ICON_NEW.getIconHeight());
-			
-			JLabel l= new JLabel(b.getName(), b.getIcon(), SwingConstants.LEFT);
-			l.setOpaque(true);
-			
-			if(isSelected)
-			{
-				l.setBackground(table.getSelectionBackground());
-				l.setForeground(table.getSelectionForeground());
-			}
-			else
-			{
-				l.setBackground(table.getBackground());
-				l.setForeground(table.getForeground());
-			}
-			
-			
-			return l;
-		});
+		tableKeys.setDefaultRenderer(JButton.class,new ShortKeysCellRenderer());
+		tableKeys.setDefaultRenderer(MTGUIComponent.class,new ShortKeysCellRenderer());
 		
 		add(new JScrollPane(tableKeys),BorderLayout.CENTER);
 		add(panneauHaut, BorderLayout.NORTH);
@@ -108,21 +88,23 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		});
 		
 		btnDelete.addActionListener(l->{
-			JButton c = UITools.getTableSelection(tableKeys,0);
+			JButton c = UITools.getTableSelection(tableKeys,model.getMainObjectIndex());
 			ShortKeyManager.inst().removeMnemonic(c);
 			model.fireTableDataChanged();
 		});
 		
 		
 		btnSaveBinding.addActionListener(l->{
-			JButton b = UITools.getTableSelection(tableKeys, 0);
+			JButton b = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
 			if(b!=null)
 				ShortKeyManager.inst().setShortCutTo(currentKeyCode, b);
+			
+			ShortKeyManager.inst().store();
 		});
 		
 		tableKeys.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
-				JButton b = UITools.getTableSelection(tableKeys,0);
+				JButton b = UITools.getTableSelection(tableKeys,model.getMainObjectIndex());
 				currentKeyCode=b.getMnemonic();
 				textField.setText(KeyEvent.getKeyText(currentKeyCode));
 			}

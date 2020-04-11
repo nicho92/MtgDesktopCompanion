@@ -169,6 +169,12 @@ public class UITools {
 		ShortKeyManager.inst().setShortCutTo(key, b);
 		return b;
 	}
+	
+	public static void bindJButton(JButton b, int key, String name)
+	{
+		b.setName(name);
+		ShortKeyManager.inst().setShortCutTo(key, b);
+	}
 
 	public static JComboBox<MagicEdition> createComboboxEditions(List<MagicEdition> value,SIZE s) {
 		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();

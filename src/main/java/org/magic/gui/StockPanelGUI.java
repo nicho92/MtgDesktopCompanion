@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.SystemColor;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -76,8 +77,8 @@ public class StockPanelGUI extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardStockTableModel model;
-	private JButton btnDelete = new JButton();
-	private JButton btnSave = new JButton();
+	private JButton btnDelete;
+	private JButton btnSave;
 	private boolean multiselection = false;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricePanel;
@@ -522,16 +523,15 @@ public class StockPanelGUI extends MTGUIComponent {
 		centerPanel.setLayout(new BorderLayout(0, 0));
 		JPanel actionPanel = new JPanel();
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
-
+		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "stock delete");
 		btnDelete.setEnabled(false);
-		btnDelete.setIcon(MTGConstants.ICON_DELETE);
 		actionPanel.add(btnDelete);
 
+		btnSave = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S, "stock save");
 		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("BATCH_SAVE"));
-		btnSave.setIcon(MTGConstants.ICON_SAVE);
 		actionPanel.add(btnSave);
 
-		btnReload = new JButton(MTGConstants.ICON_REFRESH);
+		btnReload = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "stock reload");
 		btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
 		actionPanel.add(btnReload);
 
@@ -539,20 +539,23 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnshowMassPanel = new JButton(MTGConstants.ICON_MANUAL);
 
-		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "stock import");
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		actionPanel.add(btnImport);
 
 		btnExport = new JExportButton(MODS.EXPORT);
-
+		UITools.bindJButton(btnExport, KeyEvent.VK_E, "stock export");
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 		actionPanel.add(btnExport);
 
-		btnGeneratePrice = new JButton(MTGConstants.ICON_EURO);
+		btnGeneratePrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_E, "stock price suggestion");
 		jsonPanel = new ObjectViewerPanel();
 		btnGeneratePrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_PRICE"));
 		actionPanel.add(btnGeneratePrice);
 		btnshowMassPanel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("MASS_MODIFICATION"));
+		
+		btnApplyModification = UITools.createBindableJButton(MTGControler.getInstance().getLangService().getCapitalize("APPLY"), MTGConstants.ICON_CHECK, KeyEvent.VK_A, "stock apply");
+
 		
 		actionPanel.add(btnshowMassPanel);
 		actionPanel.add(lblLoading);
@@ -769,8 +772,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbctextPane.gridy = 10;
 		rightPanel.add(textPane, gbctextPane);
 
-		btnApplyModification = new JButton(MTGControler.getInstance().getLangService().getCapitalize("APPLY"));
-
+	
+		
+		
 		GridBagConstraints gbcbtnApplyModification = new GridBagConstraints();
 		gbcbtnApplyModification.gridwidth = 2;
 		gbcbtnApplyModification.gridx = 0;

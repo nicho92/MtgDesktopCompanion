@@ -43,6 +43,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.VersionChecker;
 import org.magic.services.extra.GithubUtils;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.ShortKeyManager;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
@@ -306,6 +307,10 @@ public class MagicGUI extends JFrame {
 					osNotifier.send(notif);
 				}
 			}
+			
+			ShortKeyManager.inst().load();
+
+			
 			ThreadManager.getInstance().invokeLater(() -> {
 				try {
 					new TipsOfTheDayDialog().shows();

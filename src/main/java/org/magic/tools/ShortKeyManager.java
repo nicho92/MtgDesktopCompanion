@@ -1,19 +1,29 @@
 package org.magic.tools;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.prefs.Preferences;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.swing.JButton;
 
-public class ShortKeyManager {
+import org.apache.log4j.Logger;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
+public class ShortKeyManager {
+	protected static Logger logger = MTGLogger.getLogger(ShortKeyManager.class);
 	private static ShortKeyManager inst;
-	private List<JButton> mapping;
+	private Map<String,JButton> mapping;
+	private File configFile = new File(MTGConstants.DATA_DIR,"shortcuts.config");
 	
 	public ShortKeyManager() {
-		mapping=new ArrayList<>();
+		mapping=new HashMap<>();
 	}
 	
 	
@@ -26,21 +36,71 @@ public class ShortKeyManager {
 	
 	public void removeMnemonic(JButton b)
 	{
+		if(b==null)
+			return;
+		
 		b.setMnemonic(0);
-		mapping.remove(b);
 	}
 	
 	public void setShortCutTo(int key, JButton b) {
 		b.setMnemonic(key);
-		b.setToolTipText(b.getToolTipText()==null?"":b.getToolTipText() + " ( Alt+" + KeyEvent.getKeyText(key)+" )");
-		mapping.add(b);
+		
+		String tt= b.getToolTipText();
+		
+		if(tt==null)
+			b.setToolTipText("( Alt+" + KeyEvent.getKeyText(key)+" )");
+		else
+			b.setToolTipText(tt + " ( Alt+" + KeyEvent.getKeyText(key)+" )");
+		
+		mapping.put(keyfor(b),b);
 	}
 	
+	private String keyfor(JButton b) {
+		return IDGenerator.generateMD5(b.getName()+b.getText()+b.getIcon());
+	}
+
+
 	public List<JButton> getMapping() {
-		return mapping;
+		return new ArrayList<>(mapping.values());
 	}
 	
 	
 	
+	
+	public void store() {
+		Properties p = new Properties();
+		mapping.entrySet().forEach(e->p.put(e.getKey(), String.valueOf(e.getValue().getMnemonic())));
+		
+		try {
+			FileTools.saveFile(configFile, p);
+		} catch (IOException e1) {
+			MTGControler.getInstance().notify(e1);
+		}
+	}
+	
+	public void load()
+	{
+		Properties p = new Properties();
+		try {
+			FileTools.loadProperties(configFile, p);
+		} catch (IOException e1) {
+			logger.error(e1);
+			return;
+		}
+		
+		p.entrySet().forEach(e->{
+			try {
+				JButton b = mapping.get(e.getKey());
+				if(b!=null)
+					b.setMnemonic(Integer.parseInt(e.getValue().toString()));
+				
+			}catch(Exception ex)
+			{
+				logger.error("error loading " + e.getKey(),ex);
+			}
+		});
+		
+	}
+
 
 }

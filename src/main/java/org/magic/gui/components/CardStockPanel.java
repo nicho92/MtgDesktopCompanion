@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,7 +26,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.ShortKeyManager;
 import org.magic.tools.UITools;
 
 
@@ -158,6 +158,11 @@ public class CardStockPanel extends MTGUIComponent {
 	@Override
 	public String getTitle() {
 		return "CardStock Collection";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_STOCK;
 	}
 
 }

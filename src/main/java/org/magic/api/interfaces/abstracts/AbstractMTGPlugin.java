@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -21,7 +22,10 @@ import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
+
+import dorkbox.util.FileUtil;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
@@ -120,18 +124,18 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			if (confFile.exists()) 
 			{
 				
-				try (FileInputStream fis = new FileInputStream(confFile)) {	
-					props.load(fis);	
-				} catch (Exception e) {
-					logger.error("couln't load properties " + confFile, e);
+				try {
+					FileTools.loadProperties(confFile, props);
+				} catch (IOException e) {
+					logger.error("error loading file " + confFile, e);
 				}
 			}
 		loaded=true;
 	}
 
 	public void save() {
-		try (FileOutputStream fos = new FileOutputStream(confFile)){
-			props.store(fos, "");
+		try {
+			FileTools.saveProperties(confFile, props);
 		} catch (Exception e) {
 			logger.error("error writing file " + confFile, e);
 		}

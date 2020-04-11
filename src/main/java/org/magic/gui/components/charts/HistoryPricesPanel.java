@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
@@ -29,6 +30,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.UITools;
@@ -48,6 +50,10 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	private MagicCard mc;
 	private MagicEdition me;
 	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_VARIATIONS;
+	}
 	
 	@Override
 	public String getTitle() {

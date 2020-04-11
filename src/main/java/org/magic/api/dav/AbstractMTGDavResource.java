@@ -2,9 +2,9 @@ package org.magic.api.dav;
 
 import java.util.Date;
 
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
+import org.magic.tools.IDGenerator;
 
 import io.milton.http.Auth;
 import io.milton.http.Request;
@@ -60,7 +60,7 @@ public class AbstractMTGDavResource implements DigestResource  {
 
 	@Override
 	public String getUniqueId() {
-		return Md5Crypt.md5Crypt(mtgpath.toString().getBytes());
+		return IDGenerator.generateMD5(mtgpath.toString());
 	}
 
 	@Override

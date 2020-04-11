@@ -43,8 +43,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <h1>${card.name?if_exists}    -    ${card.cost?if_exists}</h1>
       <p>${card.fullType?if_exists}</p>
        <p></p>
-      <img class="imgr borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=${card.editions[0].id}&size=medium&rarity=${card.editions[0].rarity[0..0]}"/>
-      <img class="imgl borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid?if_exists}&type=card"/>
+      <img class="imgl borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.editions[0].multiverseid?if_exists}&type=card"/>
       <p>${card.text?if_exists}</p>
       <p><i>${card.flavor?if_exists}</i></p>
     </div>
