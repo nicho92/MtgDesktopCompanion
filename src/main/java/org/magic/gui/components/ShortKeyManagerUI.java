@@ -12,9 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.ListSelectionModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -40,7 +39,6 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panneauHaut = new JPanel();
-		JButton btnNew = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"new");
 		JButton btnDelete = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
 		JButton btnSaveBinding = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save");
 		textField = new JTextField(10);
@@ -52,12 +50,13 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		tableKeys.setDefaultRenderer(JButton.class,new ShortKeysCellRenderer());
 		tableKeys.setDefaultRenderer(MTGUIComponent.class,new ShortKeysCellRenderer());
 		
+		btnDelete.setEnabled(false);
+		tableKeys.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(tableKeys),BorderLayout.CENTER);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauBas, BorderLayout.SOUTH);
 		
 		
-		panneauHaut.add(btnNew);
 		panneauHaut.add(btnDelete);
 		
 		
@@ -77,7 +76,7 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		
 		
 		
-		tableKeys.packAll();
+		//tableKeys.packAll();
 		
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -105,6 +104,9 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		tableKeys.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				JButton b = UITools.getTableSelection(tableKeys,model.getMainObjectIndex());
+				
+				btnDelete.setEnabled(b!=null);
+				
 				currentKeyCode=b.getMnemonic();
 				textField.setText(KeyEvent.getKeyText(currentKeyCode));
 			}

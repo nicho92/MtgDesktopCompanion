@@ -1340,4 +1340,27 @@
 		<booster lang="en" url="https://images-na.ssl-images-amazon.com/images/I/41QRVcLgDIL._AC_SX425_.jpg"/>
 		<box lang="en" url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/mystery_booster_display_box_pack_englisch_english_guenstig_billig_kaufen_mtg_neu_spannend_3.png"/>
 	</edition>
+	
+	<edition id="IKO">
+		<banner lang="en" num="1" url="https://images1.mtggoldfish.com/mtg_sets/MTGIKO_EN_4C_8.png"/>
+		<box lang="en" num="1" url="https://i0.wp.com/mtgazone.com/wp-content/uploads/2019/10/MTGIKO_EN_BstrDspCls_01_03.png?ssl=1"/>
+		<box lang="en" num="2" url="https://alternateu.com/wp-content/uploads/2020/03/MTGIKO_EN_BstrDspBX_01_02-620x552.png"/>
+		<prereleasepack lang="en" num="1" url="https://cdn.shopify.com/s/files/1/0266/3209/3801/products/zz.png?v=1586499558"/>
+		<bundle lang="en" num="1" url="https://durbanvillegames.co.za/wp-content/uploads/2020/03/MTGIKO_EN_BndlSlv_01_02.png"/>
+		<booster lang="en" num="1" url="https://durbanvillegames.co.za/wp-content/uploads/2020/03/MTGIKO_EN_ClctrBstr_01_02.png"/>
+		<booster lang="en" num="2" url="https://images.squarespace-cdn.com/content/v1/5d2a46f19f150a0001c17253/1586290204425-2QSQE5O2ACTJ8VT3I1LZ/ke17ZwdGBToddI8pDm48kGdmnEGXNr4b0AOexUTinI0UqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2n8NBFiyKeBIECGDfe6-n-7UWOOQ77A3_uS0oq5yOykUKMshLAGzx4R3EDFOm1kBS/MTGIKO_EN_Bstr_01_02.png?format=500w"/>
+	</edition>
+	
+	<edition id="C20">
+		<constructpack lang="en" num="1" url="https://images.squarespace-cdn.com/content/v1/5d2a46f19f150a0001c17253/1586290854213-CTN3YQ7BZG6LU0K0BO99/ke17ZwdGBToddI8pDm48kA_sPtd1n520GcpRtUrG1EEUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2K_UYG_lPAEFiQdSFeGDSpcGi71SebwwwKg6KHnD3clEKMshLAGzx4R3EDFOm1kBS/MTGIKO_EN_CmndrOtrBx_05_01.png?format=1000w"/>
+		<constructpack lang="en" num="2" url="https://images.squarespace-cdn.com/content/v1/5d2a46f19f150a0001c17253/1586291358619-AHR6RZ6UUHJUZT1XN671/ke17ZwdGBToddI8pDm48kA_sPtd1n520GcpRtUrG1EEUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2K_UYG_lPAEFiQdSFeGDSpcGi71SebwwwKg6KHnD3clEKMshLAGzx4R3EDFOm1kBS/MTGIKO_EN_CmndrOtrBx_03_01.png?format=1000w"/>
+		<constructpack lang="en" num="3" url="https://images.squarespace-cdn.com/content/v1/5d2a46f19f150a0001c17253/1586291298057-BB0437MG99F9IU16L7QX/ke17ZwdGBToddI8pDm48kA_sPtd1n520GcpRtUrG1EEUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2K_UYG_lPAEFiQdSFeGDSpcGi71SebwwwKg6KHnD3clEKMshLAGzx4R3EDFOm1kBS/MTGIKO_EN_CmndrOtrBx_04_01.png?format=1000w"/>
+		<constructpack lang="en" num="4" url="https://images.squarespace-cdn.com/content/v1/5d2a46f19f150a0001c17253/1586291407030-JBF22CLFIVPAUZ2SP3TN/ke17ZwdGBToddI8pDm48kA_sPtd1n520GcpRtUrG1EEUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2K_UYG_lPAEFiQdSFeGDSpcGi71SebwwwKg6KHnD3clEKMshLAGzx4R3EDFOm1kBS/MTGIKO_EN_CmndrOtrBx_02_01.png?format=1000w"/>
+		<constructpack lang="en" num="5" url="https://images.squarespace-cdn.com/content/v1/5d2a46f19f150a0001c17253/1586291464519-1HX8CY5QN77T8HEEH2US/ke17ZwdGBToddI8pDm48kA_sPtd1n520GcpRtUrG1EEUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8PaoYXhp6HxIwZIk7-Mi3Tsic-L2IOPH3Dwrhl-Ne3Z2K_UYG_lPAEFiQdSFeGDSpcGi71SebwwwKg6KHnD3clEKMshLAGzx4R3EDFOm1kBS/MTGIKO_EN_CmndrOtrBx_01_01.png?format=1000w"/>
+		<banner lang="en" url="https://media.mtgsalvation.com/avatars/thumbnails/275/736/320/160/637214042113710957.png"/>
+	
+	
+	</edition>
+	
+	
 </boosterUrls>

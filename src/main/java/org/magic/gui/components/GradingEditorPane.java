@@ -3,6 +3,7 @@ package org.magic.gui.components;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -72,8 +73,8 @@ public class GradingEditorPane extends MTGUIComponent {
 		
 		
 		txtSerialNumber = new JTextField(10);
-		JButton btnLoad = new JButton(MTGControler.getInstance().getLangService().getCapitalize("LOAD"));
-		btnSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
+		JButton btnLoad = UITools.createBindableJButton(MTGControler.getInstance().getLangService().getCapitalize("LOAD"), MTGConstants.ICON_WEBSITE, KeyEvent.VK_L, "Grade info loading");
+		btnSave = UITools.createBindableJButton(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G, "Grade info saving");
 		
 		
 		

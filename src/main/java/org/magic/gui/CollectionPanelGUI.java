@@ -660,8 +660,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 	    
 		btnAdd.addActionListener(e -> {
-			String name = JOptionPane
-					.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
+			String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
+			
+			if(name==null||name.isEmpty())
+				return;
+			
 			MagicCollection collectionAdd = new MagicCollection(name);
 			try {
 				dao.saveCollection(collectionAdd);
