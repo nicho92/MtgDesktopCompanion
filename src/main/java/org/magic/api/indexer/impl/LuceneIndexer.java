@@ -247,7 +247,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	    
 		for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listAllCards())
 		{
-			indexWriter.addDocument(toDocuments(mc));
+			try {
+				indexWriter.addDocument(toDocuments(mc));
+			} catch (IllegalArgumentException e) {
+				logger.error("Error indexing " + mc + " " + mc.getCurrentSet(),e);
+			}
 		}
 		
 		indexWriter.commit();
@@ -291,7 +295,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            		   
             	   for(MTGColor color:mc.getColors())
             	   {
-            		   doc.add(new Field("color", color.getCode().toString(), fieldType));
+            		   doc.add(new Field("color", color.getCode(), fieldType));
             	   }
             	 
             	   
