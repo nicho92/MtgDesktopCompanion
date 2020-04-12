@@ -122,7 +122,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			url.append(SEARCH_Q).append(URLTools.encode("++" + comparator + " include:extras"));
 		else if (att.equals("custom"))
 			url.append(SEARCH_Q).append(URLTools.encode(crit));
-		else if (att.equals("set"))
+		else if (att.equals(SET_FIELD))
 			url.append(SEARCH_Q).append(URLTools.encode("++e:" + crit));
 		else if (att.equals("id"))
 			url.append(URLTools.encode(crit));
@@ -147,7 +147,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					for (int i = 0; i < jsonList.size(); i++) {
 						MagicCard mc = loadCard(jsonList.get(i).getAsJsonObject(), exact, crit);
 						list.add(mc);
-						
 					}
 					hasMore = el.getAsJsonObject().get("has_more").getAsBoolean();
 
@@ -155,7 +154,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 						url = new StringBuilder(el.getAsJsonObject().get("next_page").getAsString());
 
 					Thread.sleep(50);
-					
 				}
 			} catch (Exception e) {
 				logger.error("erreur", e);

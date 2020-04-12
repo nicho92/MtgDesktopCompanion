@@ -17,6 +17,7 @@ import org.magic.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
+	protected static final String SET_FIELD = "set";
 	protected TCache<MagicCard> cacheCards;
 	protected TCache<MagicEdition> cacheEditions;
 	private TCache<List<MagicCard>> cacheCardsByEdition;
@@ -48,7 +49,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public String[] getQueryableAttributs() {
 		
 		List<String> atts = loadQueryableAttributs();
-				atts.add("set");
+				atts.add(SET_FIELD);
 				atts.add("collections");
 		
 		return atts.stream().toArray(String[]::new);
@@ -99,7 +100,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 				
 				@Override
 				public List<MagicCard> call() throws Exception {
-					return searchCardByCriteria("set", ed.getId(), null, false);
+					return searchCardByCriteria(SET_FIELD, ed.getId(), null, false);
 				}
 			});
 		} catch (ExecutionException e) {

@@ -215,7 +215,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		if (exact)
 			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
 
-		if (att.equalsIgnoreCase("set")) 
+		if (att.equalsIgnoreCase(SET_FIELD)) 
 		{
 				jsquery = "$." + crit.toUpperCase() + ".cards";
 		}

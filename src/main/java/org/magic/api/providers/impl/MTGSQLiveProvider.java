@@ -124,7 +124,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact)throws IOException {
 		
 		
-		if(att.equalsIgnoreCase("set"))
+		if(att.equalsIgnoreCase(SET_FIELD))
 			att="setCode";
 		
 		StringBuilder temp = new StringBuilder("SELECT * FROM cards WHERE ").append(att);
