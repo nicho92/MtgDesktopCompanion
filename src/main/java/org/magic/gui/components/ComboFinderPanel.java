@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -136,10 +137,14 @@ public class ComboFinderPanel extends MTGUIComponent {
 				List<MTGCombo> ret = new ArrayList<>();
 				for(MTGComboProvider plug : MTGControler.getInstance().listEnabled(MTGComboProvider.class))
 				{
-					plug.getComboWith(mc).forEach(cbo->{
-						ret.add(cbo);
-						publish(cbo);
-					});
+					try {
+						plug.getComboWith(mc).forEach(cbo->{
+							ret.add(cbo);
+							publish(cbo);
+						});
+					} catch (Exception e) {
+						logger.error("error getting combo",e);
+					}
 				}
 				return ret;
 			}
