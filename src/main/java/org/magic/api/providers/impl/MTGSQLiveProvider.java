@@ -186,7 +186,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		}
 		return cards;
 	}
-	
 
 	private MagicCard generateCardsFromRs(ResultSet rs) throws SQLException {
 		MagicCard mc = new MagicCard();
