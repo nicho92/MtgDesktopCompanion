@@ -165,8 +165,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return list;
 	}
 
-
-
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;

@@ -518,6 +518,11 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	}
 	
 	@Override
+	public String getVersion() {
+		return version;
+	}
+	
+	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
