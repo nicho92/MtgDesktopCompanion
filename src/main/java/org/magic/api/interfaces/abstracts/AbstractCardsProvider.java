@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -115,6 +116,25 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public MagicEdition getSetByName(String name) throws IOException {
 		return loadEditions().stream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
+	}
+	
+	@Override
+	public MagicEdition getSetById(String id) {
+		
+		try {
+			MagicEdition ed = cacheEditions.get(id, new Callable<MagicEdition>() {
+				
+				@Override
+				public MagicEdition call() throws Exception {
+					return loadEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MagicEdition(id,id));
+				}
+			});
+			
+			return (MagicEdition) BeanUtils.cloneBean(ed);
+		} catch (Exception e) {
+			return new MagicEdition(id,id);
+		} 
+		
 	}
 	
 	@Override

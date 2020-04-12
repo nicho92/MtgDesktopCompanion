@@ -176,7 +176,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		if (cacheEditions.size() <= 0) {
+		if (cacheEditions.isEmpty()) {
 			String url = baseURI + "/sets";
 			JsonObject root = URLTools.extractJson(url).getAsJsonObject(); 
 			for (int i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
@@ -188,26 +188,26 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return new ArrayList<>(cacheEditions.values());
 	}
 
-	@Override
-	public MagicEdition getSetById(String id) throws IOException {
-		
-		if (cacheEditions.size() > 0) {
-			for (MagicEdition ed : cacheEditions.values())
-				if (ed.getId().equalsIgnoreCase(id))
-					try {
-						return (MagicEdition) BeanUtils.cloneBean(ed);
-					} catch (Exception e) {
-						new MagicEdition(id);
-					}
-		}
-		try {
-			JsonObject root =URLTools.extractJson(baseURI + "/sets/" + id.toLowerCase()).getAsJsonObject();
-			return generateEdition(root.getAsJsonObject());
-		} catch (Exception e) {
-			return new MagicEdition(id,id);
-		}
-
-	}
+//	@Override
+//	public MagicEdition getSetById(String id) {
+//		
+//		if (cacheEditions.size() > 0) {
+//			for (MagicEdition ed : cacheEditions.values())
+//				if (ed.getId().equalsIgnoreCase(id))
+//					try {
+//						return (MagicEdition) BeanUtils.cloneBean(ed);
+//					} catch (Exception e) {
+//						new MagicEdition(id);
+//					}
+//		}
+//		try {
+//			JsonObject root =URLTools.extractJson(baseURI + "/sets/" + id.toLowerCase()).getAsJsonObject();
+//			return generateEdition(root.getAsJsonObject());
+//		} catch (Exception e) {
+//			return new MagicEdition(id,id);
+//		}
+//
+//	}
 
 	@Override
 	public String[] getLanguages() {

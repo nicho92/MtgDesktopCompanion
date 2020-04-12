@@ -167,6 +167,26 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		}
 		return cards;
 	}
+	
+	@Override
+	public List<MagicCard> listAllCards()throws IOException {
+		List<MagicCard> cards = new ArrayList<>();
+		
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * from cards")) 
+		{
+			try (ResultSet rs = pst.executeQuery())
+			{
+				while(rs.next())
+					cards.add(generateCardsFromRs(rs));
+			}
+		} 
+		catch (SQLException e) 
+		{
+			logger.error(e);
+		}
+		return cards;
+	}
+	
 
 	private MagicCard generateCardsFromRs(ResultSet rs) throws SQLException {
 		MagicCard mc = new MagicCard();
@@ -186,6 +206,15 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				mc.setWatermarks(rs.getString("watermark"));
 				mc.setOriginalText(rs.getString("originalText"));
 				mc.setOriginalType(rs.getString("originalType"));
+				mc.setArenaCard(rs.getBoolean("isArena"));
+				mc.setMkmId(rs.getInt("mcmId"));
+				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
+				mc.setMtgoCard(rs.getBoolean("isMtgo"));
+				mc.setOnlineOnly(rs.getBoolean("isOnlineOnly"));
+				mc.setPromoCard(rs.getBoolean("isPromo"));
+				mc.setOversized(rs.getBoolean("isOversized"));
+				mc.setReprintedCard(rs.getBoolean("isReprint"));
+				mc.setReserved(rs.getBoolean("isReserved"));
 				
 				String ci = rs.getString("colorIdentity");
 				if(ci!=null)
@@ -283,8 +312,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
-	
-	
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
@@ -402,7 +429,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		
 	}
 	
-	
 	private List<MagicFormat> getLegalities(String uuid){
 		if(mapLegalities.isEmpty())
 		{
@@ -426,7 +452,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		return (List<MagicFormat>) mapLegalities.get(uuid);
 	}
 	
-	
 	private void initTranslations(MagicEdition ed)
 	{
 		
@@ -442,26 +467,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		} catch (SQLException e) {
 			logger.error("error getting translation for " + ed ,e);
 		}
-	}
-	
-
-	@Override
-	public MagicEdition getSetById(String id) {
-		
-		try {
-			MagicEdition ed = cacheEditions.get(id, new Callable<MagicEdition>() {
-				
-				@Override
-				public MagicEdition call() throws Exception {
-					return loadEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MagicEdition(id,id));
-				}
-			});
-			
-			return (MagicEdition) BeanUtils.cloneBean(ed);
-		} catch (Exception e) {
-			return new MagicEdition(id,id);
-		} 
-		
 	}
 
 	@Override
@@ -515,7 +520,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 }

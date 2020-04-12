@@ -225,8 +225,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicEdition getSetById(String id) throws IOException {
-		return getEdition(new File(setDirectory, id + ext));
+	public MagicEdition getSetById(String id){
+		try {
+			return getEdition(new File(setDirectory, id + ext));
+		} catch (IOException e) {
+			return new MagicEdition(id,id);
+		}
 	}
 
 	@Override

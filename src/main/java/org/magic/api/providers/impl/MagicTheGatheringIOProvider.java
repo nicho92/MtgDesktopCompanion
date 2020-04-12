@@ -371,25 +371,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return new ArrayList<>(cacheEditions.values());
 	}
 
-	@Override
-	public MagicEdition getSetById(String id) throws IOException {
-		try {
-			return cacheEditions.get(id, new Callable<MagicEdition>() {
-				
-				@Override
-				public MagicEdition call() throws Exception {
-					logger.debug("get Set " + id);
-					JsonObject root = URLTools.extractJson(getString(JSON_URL) + "/sets/" + id).getAsJsonObject().get("set").getAsJsonObject();
-					return generateEdition(root);
-				}
-			});
-		} catch (ExecutionException e) {
-			throw new IOException(e);
-		}
-
-		
-	}
-
 	public String[] getLanguages() {
 		return new String[] { "English", "Chinese Simplified", "Chinese Traditional", "French", "German", "Italian",
 				"Japanese", "Korean", "Portugese", "Russian", "Spanish" };
