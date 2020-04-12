@@ -28,6 +28,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -395,9 +396,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public String[] getQueryableAttributs() {
-		return new String[] { NAME, FOREIGN_NAMES, TEXT, ARTIST, TYPE, RARITY, FLAVOR, "cmc", "set",
-				WATERMARK, POWER, TOUGHNESS, LAYOUT };
+	public List<String> loadQueryableAttributs() {
+		return Lists.newArrayList(NAME, FOREIGN_NAMES, TEXT, ARTIST, TYPE, RARITY, FLAVOR, "cmc", WATERMARK, POWER, TOUGHNESS, LAYOUT);
 	}
 
 	@Override

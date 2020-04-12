@@ -28,6 +28,7 @@ import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
@@ -88,7 +89,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
-	private File fversion = new File(MTGConstants.DATA_DIR, "version4");
+	public static File fversion = new File(MTGConstants.DATA_DIR, "version4");
 	
 	private String version;
 	private Chrono chrono;
@@ -725,8 +726,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public String[] getQueryableAttributs() {
-		return new String[] { NAME,"set",ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","jsonpath"};
+	public List<String> loadQueryableAttributs() {
+		
+		return Lists.newArrayList(NAME,ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","jsonpath");
 	}
 
 	@Override

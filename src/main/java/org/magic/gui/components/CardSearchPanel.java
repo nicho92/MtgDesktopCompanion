@@ -286,7 +286,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("FILTER"));
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_RESULTS"));
 		btnExport.setEnabled(false);
-		cboQuereableItems.addItem("collections");
 		listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		thumbnailPanel.enableDragging(false);
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);

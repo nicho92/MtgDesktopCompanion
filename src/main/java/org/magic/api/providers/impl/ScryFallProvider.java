@@ -27,6 +27,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -214,8 +215,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public String[] getQueryableAttributs() {
-		return new String[] { NAME, "custom", "type", COLOR, "oracle", "mana", "cmc", POWER, TOUGHNESS,LOYALTY, "is", RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME, "set" };
+	public List<String> loadQueryableAttributs() {
+		return Lists.newArrayList(NAME, "custom", "type", COLOR, "oracle", "mana", "cmc", POWER, TOUGHNESS,LOYALTY, "is", RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME);
 	}
 
 

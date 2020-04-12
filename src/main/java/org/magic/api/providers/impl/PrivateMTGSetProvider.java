@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -18,6 +19,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -233,19 +235,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public String[] getQueryableAttributs() {
+	public List<String> loadQueryableAttributs() {
 		try {
-			Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
-			
-			String[] ret =keys.toArray(new String[keys.size()]) ;
-			ret = ArrayUtils.add(ret, "set");
-			
-			Arrays.sort(ret);
-			
-			return ret;
-		} catch (Exception e) {
+				Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
+				return keys.stream().collect(Collectors.toList());
+			} catch (Exception e) {
 			logger.error(e);
-			return new String[0];
+			return new ArrayList<>();
 		}
 	}
 

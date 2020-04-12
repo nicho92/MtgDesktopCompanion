@@ -499,13 +499,13 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
 		panelGUI.add(chooseFontPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
 		panelGUI.add(btnSaveFont, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 7));
-		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ENABLE_AUTOCOMPLETION")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
+		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ENABLE_AUTOCOMPLETION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
 		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
-		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DISABLE_CHROME_RENDERING")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
+		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DISABLE_CHROME_RENDERING") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
 		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
 		
-		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHORTKEYS_CONFIGURATION")), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
-		panelGUI.add(btnShortKeys, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 10));
+		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHORTKEYS_CONFIGURATION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
+		panelGUI.add(btnShortKeys, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 10));
 		
 		
 		

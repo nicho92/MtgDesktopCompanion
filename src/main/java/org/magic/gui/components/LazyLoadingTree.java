@@ -71,10 +71,10 @@ public class LazyLoadingTree extends JTree {
 		}
 
 		public MyNode(Object c) {
+			
 			obj = c;
 			setUserObject(c);
-			add(new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("LOADING"),
-					false));
+			add(new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("LOADING"),false));
 			if (c instanceof MagicCard) {
 				setAllowsChildren(false);
 				leaf = true;
@@ -192,7 +192,7 @@ public class LazyLoadingTree extends JTree {
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
 					} catch (Exception e) {
-						logger.error(e);
+						logger.error("error loading edition from " +c,e);
 					}
 					super.done();
 				}
@@ -209,7 +209,7 @@ public class LazyLoadingTree extends JTree {
 
 		@Override
 		public int compareTo(MyNode o) {
-			return this.toString().compareTo(o.toString());
+				return this.toString().compareTo(o.toString());
 		}
 
 		@Override

@@ -18,6 +18,8 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.tools.POMReader;
 
+import com.google.common.collect.Lists;
+
 import forohfor.scryfall.api.Card;
 import forohfor.scryfall.api.MTGCardQuery;
 import forohfor.scryfall.api.Set;
@@ -141,8 +143,8 @@ public class Scryfall2 extends AbstractCardsProvider {
 
 
 	@Override
-	public String[] getQueryableAttributs() {
-		return new String[] { "name", CUSTOM, "type", "color", "oracle", "mana", "cmc", "power", "toughness","loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set" };
+	public List<String> loadQueryableAttributs() {
+		return Lists.newArrayList("name", CUSTOM, "type", "color", "oracle", "mana", "cmc", "power", "toughness","loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set");
 	}
 	
 

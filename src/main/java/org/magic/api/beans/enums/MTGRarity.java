@@ -32,6 +32,17 @@ public enum MTGRarity implements Comparator<MTGRarity>{
 		return color;
 	}
 	
+	public static MTGRarity rarityByName(String s)
+	{
+		try {
+			return MTGRarity.valueOf(s.toUpperCase());
+		}
+		catch(IllegalArgumentException e)
+		{
+			return null;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return toPrettyString();

@@ -27,9 +27,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		cacheCards = new TCache<>("cards");
 		cacheCardsByEdition = new TCache<>("cardsByEdition");
 		cacheEditions = new TCache<>("editions");
-
 	}
-	
 	
 	@Override
 	public int hashCode() {
@@ -40,6 +38,23 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	protected String getConfigDirectoryName() {
 		return "cardsProviders";
 	}
+	
+	protected abstract List<String> loadQueryableAttributs();
+	
+	
+	
+	@Override
+	public String[] getQueryableAttributs() {
+		
+		List<String> atts = loadQueryableAttributs();
+				atts.add("set");
+				atts.add("collections");
+		
+		return atts.stream().toArray(String[]::new);
+		
+		
+	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -64,8 +79,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	{
 		return cacheCardsByEdition;
 	}
-	
-	
+
 	
 	@Override
 	public MagicCard getCardByNumber(String id, String idMe) throws IOException {
@@ -76,8 +90,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public MagicCard getCardById(String id) throws IOException {
 		return getCardById(id,null);
 	}
-	
-	
 	
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
