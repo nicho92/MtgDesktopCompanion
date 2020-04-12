@@ -49,7 +49,7 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		 <dependency>
+		<dependency>
 	      <groupId>com.dorkbox</groupId>
 	      <artifactId>Notify</artifactId>
 	      <version>3.7</version>
