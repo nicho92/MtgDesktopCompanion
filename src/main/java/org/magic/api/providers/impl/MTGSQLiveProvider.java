@@ -18,9 +18,11 @@ import java.util.stream.Collectors;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
@@ -44,6 +46,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
+	private MultiValuedMap<String, MagicFormat> mapLegalities = new ArrayListValuedHashMap<>();
 
 	
 	private boolean hasNewVersion() {
@@ -82,13 +85,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	@Override
 	public void initDefault() {
 		setProperty(FORCE_RELOAD, "false");
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		MTGSQLiveProvider prov = new MTGSQLiveProvider();
-		prov.init();
-		prov.searchCardByCriteria("text", "embalm", null, false).forEach(System.out::println);;
 	}
 	
 	@Override
@@ -185,6 +181,11 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				mc.setPower(rs.getString("power"));
 				mc.setToughness(rs.getString("toughness"));
 				mc.getRulings().addAll(getRulings(mc.getId()));
+				mc.setArtist(rs.getString("artist"));
+				mc.setFlavor(rs.getString("flavorText"));
+				mc.setWatermarks(rs.getString("watermark"));
+				mc.setOriginalText(rs.getString("originalText"));
+				mc.setOriginalType(rs.getString("originalType"));
 				
 				String ci = rs.getString("colorIdentity");
 				if(ci!=null)
@@ -194,9 +195,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				if(ci!=null)
 					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
 
-				
-				
-				
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString("loyalty")));
 				} catch (NumberFormatException e) {
@@ -246,13 +244,46 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					
 				}
 				
-				mc.getForeignNames().addAll(getTranslations(mc));
+				if(rs.getString("otherFaceIds")!=null)
+				{
+					String[] ids = rs.getString("otherFaceIds").split(",");
+					if(ids.length==1)
+					{
+						ids = ArrayUtils.removeElement(ids, mc.getId());
+						mc.setRotatedCardName(getCardNameFor(ids[0]));
+					}
+					else if(ids.length>2)
+					{
+						mc.setRotatedCardName(getCardNameFor(ids[1]));
+						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
+					}
+					
+				}
 				
+				mc.getForeignNames().addAll(getTranslations(mc));
+				mc.getLegalities().addAll(getLegalities(mc.getId()));
 				
 		notify(mc);
 		return mc;
 	}
 
+	private String getCardNameFor(String id)
+	{
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT name FROM cards WHERE uuid=?")) 
+		{
+			pst.setString(1, id);
+			try (ResultSet rs = pst.executeQuery())
+			{ 
+				rs.next();
+				return rs.getString("name");
+			}
+			
+		} catch (SQLException e) {
+			logger.error("error getting name for " +id ,e);
+			return null;
+		}
+	}
+	
 	
 
 	@Override
@@ -370,6 +401,31 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		return (List<MagicRuling>) mapRules.get(uuid);
 		
 	}
+	
+	
+	private List<MagicFormat> getLegalities(String uuid){
+		if(mapLegalities.isEmpty())
+		{
+			logger.debug("legalities empty. Loading it");
+				try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM legalities")) 
+				{
+					try (ResultSet rs = pst.executeQuery())
+					{ 
+						while(rs.next())
+						{
+							String id = rs.getString("uuid");
+							mapLegalities.put(id, new MagicFormat(rs.getString("format"), rs.getString("status").equals("Legal")));
+						}
+					}
+					
+				} catch (SQLException e) {
+					logger.error("error getting translation for " + uuid ,e);
+				}
+		}
+		
+		return (List<MagicFormat>) mapLegalities.get(uuid);
+	}
+	
 	
 	private void initTranslations(MagicEdition ed)
 	{
