@@ -60,7 +60,7 @@ public class StockTableRenderer extends DefaultTableRenderer {
 		
 		
 		
-		if (((MagicCardStock) table.getValueAt(row, 0)).isUpdate()) {
+		if (((MagicCardStock) table.getModel().getValueAt(row, 0)).isUpdate()) {
 			pane.setBackground(Color.GREEN);
 			pane.setForeground(table.getForeground());
 		} else if (isSelected) {
