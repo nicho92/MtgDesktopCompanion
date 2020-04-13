@@ -55,7 +55,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			case 4:
 				return powerorloyalty(mc);
 			case 5:
-				return (mc.getCurrentSet() != null) ? mc.getCurrentSet().getRarity() : "";
+				return (mc.getCurrentSet() != null) ? mc.getCurrentSet().getRarity().toPrettyString() : "";
 			case 6:
 				return mc.getEditions();
 			case 7:

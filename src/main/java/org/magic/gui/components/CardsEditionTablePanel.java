@@ -80,7 +80,6 @@ public class CardsEditionTablePanel extends JPanel {
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(model);
 		sorterCards.setComparator(7, new NumberSorter());
-		
 		table.setRowSorter(sorterCards);
 		
 		UITools.initTableFilter(table);

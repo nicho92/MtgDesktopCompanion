@@ -15,7 +15,7 @@ public class NumberSorter implements Comparator<String>{
 	public int compare(String num1, String num2)
 	{
 		Matcher m1 = p.matcher(num1);
-		Matcher m2 = p.matcher(num1);
+		Matcher m2 = p.matcher(num2);
 		
 		if(m1.find() && m2.find())
 		{
@@ -33,9 +33,4 @@ public class NumberSorter implements Comparator<String>{
 		
 		
 	}
-	
-	public static void main(String[] args) {
-		new NumberSorter().compare("254e", "258");
-	}
-
 }
