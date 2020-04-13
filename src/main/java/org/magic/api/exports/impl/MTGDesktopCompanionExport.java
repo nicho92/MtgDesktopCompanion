@@ -37,6 +37,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> T read(File f) throws ClassNotFoundException, IOException {
 		try (ObjectInputStream oos = new ObjectInputStream(new FileInputStream(f))) {
 			return (T) oos.readObject();
