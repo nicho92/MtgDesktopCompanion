@@ -12,10 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.ArrayUtils;
@@ -268,8 +266,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 						MagicEdition ed = getSetById(ids);
 						mc.getEditions().add(ed);
 					}
-					
-					
 				}
 				
 				if(rs.getString("otherFaceIds")!=null)
@@ -391,7 +387,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					}
 					
 				} catch (SQLException e) {
-					logger.error("error getting translation for " + mc ,e);
+					logger.error("error getting foreignData for " + mc ,e);
 				}
 		}
 		
@@ -420,7 +416,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					}
 					
 				} catch (SQLException e) {
-					logger.error("error getting translation for " + uuid ,e);
+					logger.error("error getting rules for " + uuid ,e);
 				}
 		}
 		
@@ -444,7 +440,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					}
 					
 				} catch (SQLException e) {
-					logger.error("error getting translation for " + uuid ,e);
+					logger.error("error getting legalities for " + uuid ,e);
 				}
 		}
 		
@@ -473,7 +469,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		List<String> ret = new ArrayList<>();
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT language from foreign_data");ResultSet rs = pst.executeQuery())
 		{
-			
+			ret.add("English");
 			while(rs.next())
 			{
 				ret.add(rs.getString("language"));
