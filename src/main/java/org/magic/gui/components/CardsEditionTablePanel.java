@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -16,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -34,6 +37,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
+import org.magic.sorters.NumberSorter;
 import org.magic.tools.UITools;
 
 
@@ -72,7 +76,12 @@ public class CardsEditionTablePanel extends JPanel {
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 
 		}
+
+		DefaultRowSorter<TableModel, Integer> sorterCards;
+		sorterCards = new TableRowSorter<>(model);
+		sorterCards.setComparator(7, new NumberSorter());
 		
+		table.setRowSorter(sorterCards);
 		
 		UITools.initTableFilter(table);
 		

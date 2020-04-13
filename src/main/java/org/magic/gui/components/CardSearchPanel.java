@@ -72,6 +72,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
+import org.magic.sorters.NumberSorter;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 
@@ -197,18 +198,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(cardsModeltable);
-		sorterCards.setComparator(7, (String num1, String num2) -> {
-			try {
-				num1 = num1.replace("a", "").replace("b", "").trim();
-				num2 = num2.replace("a", "").replace("b", "").trim();
-				if (Integer.parseInt(num1) > Integer.parseInt(num2))
-					return 1;
-				else
-					return -1;
-			} catch (NumberFormatException e) {
-				return -1;
-			}
-		});
+		sorterCards.setComparator(7, new NumberSorter());
 
 		List<MagicEdition> li = new ArrayList<>();
 		try {
