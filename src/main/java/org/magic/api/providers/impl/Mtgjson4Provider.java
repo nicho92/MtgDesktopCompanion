@@ -20,6 +20,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
@@ -260,7 +261,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					mc.setCost("");
 				
 				if (map.get(RARITY) != null)
-					mc.setRarity(String.valueOf(map.get(RARITY)));
+					mc.setRarity(MTGRarity.rarityByName(String.valueOf(map.get(RARITY))));
 			
 				if (map.get(TEXT) != null)
 					mc.setText(String.valueOf(map.get(TEXT)));
@@ -429,7 +430,9 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 							 me.setScryfallId(mc.getScryfallId());
 
 							 if (map.get(NUMBER) != null)
-								me.setNumber(String.valueOf(map.get(NUMBER)));
+							 {
+								 me.setNumber(String.valueOf(map.get(NUMBER)));
+							 }
 							 
 							 if(map.get(MULTIVERSE_ID)!=null)
 							 {

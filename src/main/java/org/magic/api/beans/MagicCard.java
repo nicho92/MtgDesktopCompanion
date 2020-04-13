@@ -323,17 +323,6 @@ public class MagicCard implements Serializable {
 		this.rarity = rarity;
 	}
 	
-	@Deprecated
-	public void setRarity(String r) {
-		try {
-			rarity = MTGRarity.valueOf(r.toUpperCase());
-		}
-		catch(Exception e)
-		{
-			rarity=null;
-		}
-	}
-
 	public MagicCard() {
 		editions = new ArrayList<>();
 		types = new ArrayList<>();

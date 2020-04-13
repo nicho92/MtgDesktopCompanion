@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
@@ -51,7 +52,7 @@ public class PicturesProviderTests {
 		mc.getTypes().add("Artifact");
 		mc.setReserved(true);
 		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
-		mc.setRarity("Rare");
+		mc.setRarity(MTGRarity.RARE);
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
 		

@@ -511,9 +511,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 /////////////EVENTS	
-		btnShortKeys.addActionListener(l->{
-			MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true);
-		});
+		btnShortKeys.addActionListener(l->MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true));
 		
 		
 		cboToolPosition.addItemListener(ie -> {

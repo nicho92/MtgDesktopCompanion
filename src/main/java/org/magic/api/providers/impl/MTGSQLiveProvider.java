@@ -37,6 +37,12 @@ import com.google.gson.JsonElement;
 
 public class MTGSQLiveProvider extends AbstractCardsProvider {
 
+	private static final String NAME = "name";
+	private static final String POWER = "power";
+	private static final String TOUGHNESS = "toughness";
+	private static final String ARTIST = "artist";
+	private static final String FLAVOR_TEXT = "flavorText";
+	private static final String LANGUAGE = "language";
 	private String version;
 	private File sqlLiteZipFile = new File(MTGConstants.DATA_DIR,"AllPrintings.sqlite.zip");
 	private File sqlLiteFile = new File(MTGConstants.DATA_DIR, "AllPrintings.sqlite");
@@ -201,7 +207,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 
 	private MagicCard generateCardsFromRs(ResultSet rs) throws SQLException {
 		MagicCard mc = new MagicCard();
-				mc.setName(rs.getString("name"));
+				mc.setName(rs.getString(NAME));
 				mc.setCmc(rs.getInt("convertedManaCost"));
 				mc.setCost(rs.getString("manaCost"));
 				mc.setText(rs.getString("text"));
@@ -209,11 +215,11 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				mc.setEdhrecRank(rs.getInt("edhrecRank"));
 				mc.setFrameVersion(rs.getString("frameVersion"));
 				mc.setLayout(MTGLayout.parseByLabel(rs.getString("layout")));
-				mc.setPower(rs.getString("power"));
-				mc.setToughness(rs.getString("toughness"));
+				mc.setPower(rs.getString(POWER));
+				mc.setToughness(rs.getString(TOUGHNESS));
 				mc.getRulings().addAll(getRulings(mc.getId()));
-				mc.setArtist(rs.getString("artist"));
-				mc.setFlavor(rs.getString("flavorText"));
+				mc.setArtist(rs.getString(ARTIST));
+				mc.setFlavor(rs.getString(FLAVOR_TEXT));
 				mc.setWatermarks(rs.getString("watermark"));
 				mc.setOriginalText(rs.getString("originalText"));
 				mc.setOriginalType(rs.getString("originalType"));
@@ -266,11 +272,11 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				MagicEdition set = getSetById(rs.getString("setCode"));
 							 set.setNumber(rs.getString("number"));
 							 set.setRarity(MTGRarity.rarityByName(rs.getString("rarity")));
-							 set.setFlavor(rs.getString("flavorText"));
+							 set.setFlavor(rs.getString(FLAVOR_TEXT));
 							 set.setScryfallId(rs.getString("scryfallId"));
 							 set.setMultiverseid(rs.getString("multiverseId"));
 							 set.setBorder(rs.getString("borderColor"));
-							 set.setArtist(rs.getString("artist"));
+							 set.setArtist(rs.getString(ARTIST));
 							 mc.getEditions().add(set);
 				
 				for(String ids : rs.getString("printings").split(",")) 
@@ -313,7 +319,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			try (ResultSet rs = pst.executeQuery())
 			{ 
 				rs.next();
-				return rs.getString("name");
+				return rs.getString(NAME);
 			}
 			
 		} catch (SQLException e) {
@@ -337,7 +343,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				{
 					
 					MagicEdition ed = new MagicEdition();
-								 ed.setSet(rs.getString("name"));
+								 ed.setSet(rs.getString(NAME));
 								 ed.setId(rs.getString("code"));
 								 ed.setBlock(rs.getString("block"));
 								 ed.setReleaseDate(rs.getString("releaseDate"));
@@ -388,10 +394,10 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 						while(rs.next())
 						{
 							MagicCardNames names = new MagicCardNames();
-							names.setFlavor(rs.getString("flavorText"));
+							names.setFlavor(rs.getString(FLAVOR_TEXT));
 							names.setGathererId(rs.getInt("multiverseId"));
-							names.setLanguage(rs.getString("language"));
-							names.setName(rs.getString("name"));
+							names.setLanguage(rs.getString(LANGUAGE));
+							names.setName(rs.getString(NAME));
 							names.setText(rs.getString("text"));
 							names.setType(rs.getString("type"));
 							String id = rs.getString("uuid");
@@ -470,7 +476,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			try (ResultSet rs = pst.executeQuery())
 			{ 
 				while(rs.next())
-					ed.getTranslations().put(rs.getString("language"), rs.getString("translation"));
+					ed.getTranslations().put(rs.getString(LANGUAGE), rs.getString("translation"));
 			}
 			
 		} catch (SQLException e) {
@@ -486,7 +492,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			ret.add("English");
 			while(rs.next())
 			{
-				ret.add(rs.getString("language"));
+				ret.add(rs.getString(LANGUAGE));
 			}
 		} 
 		catch (SQLException e) {
@@ -506,7 +512,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			
 			while(rs.next())
 			{
-				ret.add(rs.getString("name"));
+				ret.add(rs.getString(NAME));
 			}
 			
 			
