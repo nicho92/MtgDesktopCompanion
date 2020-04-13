@@ -32,6 +32,11 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	}
 
 	@Override
+	public int[] defaultHiddenColumns() {
+		return new int[] {0,1,2};
+	}
+	
+	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:

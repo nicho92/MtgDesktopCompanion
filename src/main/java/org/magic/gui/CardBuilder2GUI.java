@@ -179,7 +179,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			spinUnco.setModel(new SpinnerNumberModel(0, 0, null, 1));
 			spinRare.setModel(new SpinnerNumberModel(0, 0, null, 1));
 			
-			List<MagicEdition> eds = provider.loadEditions();	
+			List<MagicEdition> eds = provider.listEditions();	
 			cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
 			
 			
@@ -258,7 +258,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			
 			//////////////////////////////////////////////////// COMPONENT CONFIG
-			editionModel.init(provider.loadEditions());
+			editionModel.init(provider.listEditions());
 			editionModel.fireTableDataChanged();
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			
@@ -385,9 +385,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 					cboSets.removeAllItems();
 					cboSets.setModel(new DefaultComboBoxModel<>(
-							provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
+							provider.listEditions().toArray(new MagicEdition[provider.listEditions().size()])));
 
-					editionModel.init(provider.loadEditions());
+					editionModel.init(provider.listEditions());
 					editionModel.fireTableDataChanged();
 				} catch (Exception ex) {
 					MTGControler.getInstance().notify(ex);
@@ -416,7 +416,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				if (res == JOptionPane.YES_OPTION) {
 					provider.removeEdition(ed);
 					try {
-						editionModel.init(provider.loadEditions());
+						editionModel.init(provider.listEditions());
 						editionModel.fireTableDataChanged();
 					} catch (Exception ex) {
 						MTGControler.getInstance().notify(ex);

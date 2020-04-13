@@ -58,7 +58,7 @@ public class CardsProviderTests {
 			
 			
 			try {
-				p.loadEditions();
+				p.listEditions();
 				System.out.println("LOAD EDITION :OK");
 			} catch (Exception e) {
 				System.out.println("LOAD EDITION :ERROR " + e);

@@ -103,7 +103,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private String getCodeForExt(String name) {
 		try {
-			for (MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions())
+			for (MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions())
 				if (ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
 		} catch (Exception e) {

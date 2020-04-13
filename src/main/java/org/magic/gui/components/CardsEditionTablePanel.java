@@ -65,10 +65,15 @@ public class CardsEditionTablePanel extends JPanel {
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		table.setColumnControlVisible(true);
-		table.getColumnExt(model.getColumnName(1)).setVisible(false);
-		table.getColumnExt(model.getColumnName(6)).setVisible(false);
-		table.getColumnExt(model.getColumnName(8)).setVisible(false);
-		table.getColumnExt(model.getColumnName(9)).setVisible(false);
+		
+		model.setDefaultHiddenComlumns(1,6,8,9,10);
+		for(int i : model.defaultHiddenColumns())
+		{
+			table.getColumnExt(model.getColumnName(i)).setVisible(false);
+
+		}
+		
+		
 		UITools.initTableFilter(table);
 		
 		panneauHaut.add(buzy);

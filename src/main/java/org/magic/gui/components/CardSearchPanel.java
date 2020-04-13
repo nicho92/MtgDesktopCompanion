@@ -53,6 +53,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
@@ -212,7 +213,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		List<MagicEdition> li = new ArrayList<>();
 		try {
-			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 			Collections.sort(li);
 		} catch (Exception e2) {
 			logger.error("error no edition loaded", e2);
@@ -293,8 +294,14 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCentral.setLeftComponent(tabbedCardsView);
 		tableCards.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableCards.setRowSorter(sorterCards);
-		tableCards.getColumnExt(cardsModeltable.getColumnName(8)).setVisible(false);
-		tableCards.getColumnExt(cardsModeltable.getColumnName(9)).setVisible(false);
+		
+		
+		cardsModeltable.setDefaultHiddenComlumns(8,9,10);
+		for(int i : cardsModeltable.defaultHiddenColumns())
+		{
+			tableCards.getColumnExt(cardsModeltable.getColumnName(i)).setVisible(false);
+		}
+		
 		panneauCentral.setDividerLocation(0.5);
 		panneauCentral.setResizeWeight(0.5);
 		
@@ -419,7 +426,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				if(similarityPanel.getTableSimilarity().getSelectedRow()==-1)
 					return;
 				
-				MagicCard mc = (MagicCard) similarityPanel.getTableSimilarity().getValueAt(similarityPanel.getTableSimilarity().getSelectedRow(), 0);
+				MagicCard mc = UITools.getTableSelection(similarityPanel.getTableSimilarity(), 0);
 				cardsPicPanel.showPhoto(mc);
 			}
 		});
@@ -446,11 +453,11 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter.addActionListener(ae -> panelFilters.setVisible(!panelFilters.isVisible()));
 
 		cboQuereableItems.addActionListener(e -> {
-			if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("set")) {
+			if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase(AbstractCardsProvider.SET_FIELD)) {
 				txtSearch.setVisible(false);
 				cboEdition.setVisible(true);
 				cboCollections.setVisible(false);
-			} else if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("collections")) {
+			} else if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase(AbstractCardsProvider.COLLECTION_FIELD)) {
 				txtSearch.setVisible(false);
 				cboEdition.setVisible(false);
 				cboCollections.setVisible(true);

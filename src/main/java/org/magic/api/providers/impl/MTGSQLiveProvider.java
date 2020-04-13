@@ -321,14 +321,16 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
+	
+	
+	
+	
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 		
-		String sql = "select * from sets";
-		
-		if(cacheEditions.isEmpty())
-			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql);ResultSet rs = pst.executeQuery()) 
+		List<MagicEdition> eds=new ArrayList<>();
+			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");ResultSet rs = pst.executeQuery()) 
 			{
 				
 				while(rs.next())
@@ -349,15 +351,13 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 								 ed.setFoilOnly(rs.getBoolean("isFoilOnly"));
 								 ed.setTcgplayerGroupId(rs.getInt(("tcgplayerGroupId")));
 								 initTranslations(ed);
-								 cacheEditions.put(ed.getId(),ed);
+								 eds.add(ed);
 				}
 			} 
 			catch (SQLException e) {
 				throw new IOException(e);
 			}
-		
-		
-		return cacheEditions.values();
+		return eds;
 	}
 	
 	private List<MagicCardNames> getTranslations(MagicCard mc) {

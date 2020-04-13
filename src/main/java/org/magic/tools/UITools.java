@@ -187,7 +187,7 @@ public class UITools {
 	public static JComboBox<MagicEdition> createComboboxEditions()
 	{
 		try {
-			List<MagicEdition> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			List<MagicEdition> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
 			return createComboboxEditions(list,SIZE.MEDIUM);
 		} catch (IOException e) {

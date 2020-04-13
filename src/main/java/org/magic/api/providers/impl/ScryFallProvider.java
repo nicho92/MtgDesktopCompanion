@@ -172,16 +172,16 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		if (cacheEditions.isEmpty()) {
 			String url = baseURI + "/sets";
 			JsonObject root = URLTools.extractJson(url).getAsJsonObject(); 
+			List<MagicEdition> eds = new ArrayList<>();
 			for (int i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
 				JsonObject e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
-				cacheEditions.put(ed.getId(), ed);
+				eds.add(ed);
 			}
-		}
-		return new ArrayList<>(cacheEditions.values());
+		
+		return eds;
 	}
 
 	@Override

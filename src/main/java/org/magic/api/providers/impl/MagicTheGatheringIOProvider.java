@@ -333,8 +333,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			ed.setCardCount(Integer.parseInt(propsCache.getProperty(ed.getId())));
 		else
 			ed.setCardCount(getCount(ed.getId()));
-		
-		cacheEditions.put(ed.getId(), ed);
 	
 		return ed;
 	}
@@ -358,17 +356,14 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		if (cacheEditions.isEmpty()) 
-		{
 			JsonArray root = URLTools.extractJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
-			
+			List<MagicEdition> eds = new ArrayList<>();
 			for (int i = 0; i < root.size(); i++) {
 				JsonObject e = root.get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
-				cacheEditions.put(ed.getId(), ed);
+				eds.add(ed);
 			}
-		}
-		return new ArrayList<>(cacheEditions.values());
+		return eds;
 	}
 
 	public String[] getLanguages() {

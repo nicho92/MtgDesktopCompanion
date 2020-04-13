@@ -21,6 +21,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean writable=false;
 	protected boolean changed=false;
+	private int[] hiddenColumns = new int[0];
 	
 	
 	public GenericTableModel() {
@@ -32,6 +33,18 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		items = new ArrayList<>();
 		columns = columnName;
 		changed=false;
+	}
+	
+
+	public void setDefaultHiddenComlumns(int... num)
+	{
+		this.hiddenColumns =num;
+	}
+	
+	
+	public int[] defaultHiddenColumns()
+	{
+		return hiddenColumns;
 	}
 	
 	public GenericTableModel(T classe) {

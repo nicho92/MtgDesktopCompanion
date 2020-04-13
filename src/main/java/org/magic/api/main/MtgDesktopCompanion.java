@@ -51,7 +51,7 @@ public class MtgDesktopCompanion {
 			
 			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
 			MTGControler.getInstance().getEnabled(MTGDao.class).init();
-			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 		
 			
 			logger.info("Init "+MTGConstants.MTG_APP_NAME+" GUI");

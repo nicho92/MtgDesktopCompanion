@@ -164,7 +164,7 @@ public class ScriptPanel extends MTGUIComponent {
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
 				
-				lblInfo.setText("Running time : " + c.stop() +"ms");
+				lblInfo.setText("Running time : " + c.stop() +"s.");
 				btnRun.setEnabled(true);
 				btnStop.setEnabled(false);
 			}, "executing script");

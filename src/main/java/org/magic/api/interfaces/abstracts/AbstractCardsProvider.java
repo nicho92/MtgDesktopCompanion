@@ -17,9 +17,11 @@ import org.magic.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
-	protected static final String SET_FIELD = "set";
+	public static final String SET_FIELD = "set";
+	public static final String COLLECTION_FIELD = "collection";
+	
 	protected TCache<MagicCard> cacheCards;
-	protected TCache<MagicEdition> cacheEditions;
+	private TCache<MagicEdition> cacheEditions;
 	private TCache<List<MagicCard>> cacheCardsByEdition;
 	
 	
@@ -42,7 +44,8 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 	
 	protected abstract List<String> loadQueryableAttributs();
-	
+	public abstract List<MagicEdition> loadEditions() throws IOException;
+
 	
 	
 	@Override
@@ -50,12 +53,12 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		
 		List<String> atts = loadQueryableAttributs();
 				atts.add(SET_FIELD);
-				atts.add("collections");
+				atts.add(COLLECTION_FIELD);
 		
 		return atts.stream().toArray(String[]::new);
-		
-		
 	}
+	
+	
 	
 	
 	@Override
@@ -116,7 +119,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public MagicEdition getSetByName(String name) throws IOException {
-		return loadEditions().stream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
+		return listEditions().stream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
 	}
 	
 	@Override
@@ -127,7 +130,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 				
 				@Override
 				public MagicEdition call() throws Exception {
-					return loadEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MagicEdition(id,id));
+					return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MagicEdition(id,id));
 				}
 			});
 			
@@ -199,6 +202,20 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		logger.trace(b.getEdition() + ":" + b + ":" + b.getCards());
 
 		return b;
+	}
+
+	
+	
+	@Override
+	public List<MagicEdition> listEditions() throws IOException {
+		if(cacheEditions.isEmpty())
+		{
+			logger.debug("cacheEditions not loaded. Filling it");
+			loadEditions().forEach(ed->cacheEditions.put(ed.getId(), ed));
+		}
+		
+		return cacheEditions.values();
+		
 	}
 	
 	

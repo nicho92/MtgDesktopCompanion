@@ -115,7 +115,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		
 		try {
 			
-			List<MagicEdition> lst = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			List<MagicEdition> lst = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 			Collections.sort(lst);
 			for(MagicEdition ed : lst)
 				model.addElement(ed);

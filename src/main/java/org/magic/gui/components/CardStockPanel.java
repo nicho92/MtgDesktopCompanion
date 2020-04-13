@@ -60,9 +60,11 @@ public class CardStockPanel extends MTGUIComponent {
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 
-		table.getColumnExt(model.getColumnName(1)).setVisible(false);
-		table.getColumnExt(model.getColumnName(2)).setVisible(false);
-		table.getColumnExt(model.getColumnName(3)).setVisible(false);
+		for(int i : model.defaultHiddenColumns())
+		{
+			table.getColumnExt(model.getColumnName(i)).setVisible(false);	
+		}
+		
 		try {
 			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
 		} catch (SQLException e1) {

@@ -537,19 +537,14 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 		String jsquery = "$.*";
-
-		if (!cacheEditions.values().isEmpty()) {
-			logger.trace("editions already loaded.Return cache");
-			return new ArrayList<>(cacheEditions.values());
-		}
-		logger.debug("load editions");
 		chrono.start();
 		
+		List<MagicEdition> eds = new ArrayList<>();
 		try {		
 		
 		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonArray().forEach(e->{
 				String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
-				cacheEditions.put(codeedition, getSetById(codeedition));
+				eds.add(generateEdition(codeedition));
 		});
 		
 		}catch(Exception ex)
@@ -563,42 +558,15 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				return null;
 
 			}).read(jsquery, List.class);
-			codeEd.forEach(codeedition->cacheEditions.put(codeedition, getSetById(codeedition)));
-
-			
-			
+			codeEd.stream().map(this::generateEdition).forEach(eds::add);
 		}
 
 		logger.debug("Loading editions OK in " + chrono.stop() + " sec.");
 		
-		return cacheEditions.values();
+		return eds;
 	}
 
-	@Override
-	public MagicEdition getSetById(String id) {
-
-		if(id==null)
-			return null;
-		
-		MagicEdition ed = new MagicEdition(id);
-		try {
-			ed = cacheEditions.get(id,new Callable<MagicEdition>() {
-				
-				@Override
-				public MagicEdition call() throws Exception {
-					return generateEdition(id);
-				}
-			});
-			return (MagicEdition) BeanUtils.cloneBean(ed);
-		} catch (Exception e) {
-			logger.error("error generate edition :"+id);
-		}
-		
-		return ed;
-		
-	}
-	
-	public MagicEdition generateEdition(String id) {
+	private MagicEdition generateEdition(String id) {
 		
 		if(id.startsWith("p"))
 			id=id.toUpperCase();

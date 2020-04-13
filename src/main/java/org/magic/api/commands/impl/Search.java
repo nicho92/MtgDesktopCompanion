@@ -41,7 +41,7 @@ public class Search extends AbstractCommand {
 		}
 
 		if (cl.hasOption("s")) {
-			return new ArrayResponse(MagicEdition.class, null,json.toJsonArray(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()));
+			return new ArrayResponse(MagicEdition.class, null,json.toJsonArray(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions()));
 		}
 
 		if (cl.hasOption("col")) {

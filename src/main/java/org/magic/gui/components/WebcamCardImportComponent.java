@@ -132,7 +132,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		strat = MTGControler.getInstance().getEnabled(MTGCardRecognition.class);
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().stream().sorted().map(ed->new LoadedRecognitionEdition(ed,strat.isCached(ed))).forEach(listModel::addElement);
+			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions().stream().sorted().map(ed->new LoadedRecognitionEdition(ed,strat.isCached(ed))).forEach(listModel::addElement);
 		} catch (IOException e1) {
 			logger.error(e1);
 		}

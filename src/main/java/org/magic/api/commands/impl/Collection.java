@@ -46,7 +46,7 @@ public class Collection extends AbstractCommand {
 		}
 		
 		if (cl.hasOption("s")) {
-			List<MagicEdition> eds = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			List<MagicEdition> eds = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 			MagicEditionsTableModel model = new MagicEditionsTableModel();
 			model.init(eds);
 			double pc=0;

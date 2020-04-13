@@ -172,7 +172,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 			
 			List<MagicEdition> list = new ArrayList<>();
 			try {
-				list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+				list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 			} catch (IOException e1) {
 				logger.error(e1);
 			}

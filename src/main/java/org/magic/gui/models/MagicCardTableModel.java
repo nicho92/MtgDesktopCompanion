@@ -21,7 +21,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"CARD_EDITIONS",
 				"CARD_NUMBER",
 				"CARD_COLOR",
-				"RL"};
+				"RL",
+				"LAYOUT"};
 
 	}
 
@@ -63,6 +64,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				return mc.getColors();
 			case 9:
 				return mc.isReserved();
+			case 10:
+				return mc.getLayout().toPrettyString();
 			default:
 				return mc;
 			}
@@ -74,9 +77,9 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 
 	private String powerorloyalty(MagicCard mc) {
 		
-		if(contains(mc.getTypes(), "creature"))
+		if(mc.isCreature())
 			return mc.getPower() + "/" + mc.getToughness();
-		else if(contains(mc.getTypes(), "planeswalker"))
+		else if(mc.isPlaneswalker())
 			return String.valueOf(mc.getLoyalty());
 		
 		return "";
@@ -88,15 +91,6 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				return name.getName();
 		}
 		return "";
-	}
-
-	private boolean contains(List<String> types, String string) {
-		for (String s : types)
-			if (s.equalsIgnoreCase(string))
-				return true;
-
-		return false;
-
 	}
 
 	

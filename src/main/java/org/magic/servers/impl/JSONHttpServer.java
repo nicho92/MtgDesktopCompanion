@@ -266,7 +266,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 		get("/editions/list", URLTools.HEADER_JSON,
-				(request, response) -> MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions(), transformer);
+				(request, response) -> MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions(), transformer);
 
 		get("/editions/:idSet", URLTools.HEADER_JSON, (request, response) -> MTGControler.getInstance()
 				.getEnabled(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
@@ -335,7 +335,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(), transformer);
 
 		get("/dash/collection", URLTools.HEADER_JSON, (request, response) -> {
-			List<MagicEdition> eds = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions();
+			List<MagicEdition> eds = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
 			MagicEditionsTableModel model = new MagicEditionsTableModel();
 			model.init(eds);
 

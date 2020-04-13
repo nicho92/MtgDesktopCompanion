@@ -31,7 +31,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public MagicCard getCardByNumber(String id, String idMe) throws IOException;
 	
-	public List<MagicEdition> loadEditions() throws IOException;
+	public List<MagicEdition> listEditions() throws IOException;
 
 	public MagicEdition getSetById(String id) throws IOException;
 	

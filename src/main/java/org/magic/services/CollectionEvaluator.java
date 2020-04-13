@@ -71,7 +71,7 @@ public class CollectionEvaluator extends Observable
 	
 	public void initCache() throws IOException
 	{
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(ed->{
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions().forEach(ed->{
 			try {
 				initCache(ed);
 			} catch (IOException e) {

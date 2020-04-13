@@ -149,7 +149,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		SwingWorker<Void, Void> init = new SwingWorker<>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-					model.init(provider.loadEditions());
+					model.init(provider.listEditions());
 					return null;
 				}
 				@Override

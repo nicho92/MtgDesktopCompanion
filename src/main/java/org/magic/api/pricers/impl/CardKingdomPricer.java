@@ -63,7 +63,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		CardKingdomPricer c = new CardKingdomPricer();
 		c.initEds();
 		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions().forEach(ed->c.findGoodEds(ed.getSet()));
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions().forEach(ed->c.findGoodEds(ed.getSet()));
 	}
 	
 	private void initEds()

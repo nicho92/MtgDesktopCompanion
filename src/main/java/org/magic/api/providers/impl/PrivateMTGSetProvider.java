@@ -178,7 +178,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> res = new ArrayList<>();
 		if (me == null) {
-			for (MagicEdition ed : loadEditions())
+			for (MagicEdition ed : listEditions())
 				for (MagicCard mc : getCards(ed))
 					if (hasValue(mc, att, crit))
 						res.add(mc);

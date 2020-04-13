@@ -812,7 +812,7 @@ public class ConfigurationPanel extends JPanel {
 
 		}
 		try {
-			for (MagicEdition col : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).loadEditions()) {
+			for (MagicEdition col : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions()) {
 				if (col.getId().equalsIgnoreCase(MTGControler.getInstance().get("default-land-deck"))) {
 					cboEditionLands.setSelectedItem(col);
 				}
