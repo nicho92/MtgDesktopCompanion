@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -139,15 +140,26 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			temp.append(" AND setCode ='").append(ed.getId()).append("'");
 		
 		
+		if(att.equals("sql"))
+		{
+			temp = new StringBuilder();
+			temp.append("SELECT * FROM cards WHERE ").append(crit);
+		}
+			
 		List<MagicCard> cards = new ArrayList<>();
 		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString())) 
 		{
-			if(exact)
-				pst.setString(1, crit);
-			else
-				pst.setString(1, "%"+crit+"%");
-		
+			
+			if(!att.equalsIgnoreCase("sql"))
+			{
+				if(exact)
+					pst.setString(1, crit);
+				else
+					pst.setString(1, "%"+crit+"%");
+				
+			}
+			
 			logger.debug(temp.toString().replaceFirst("\\?", "'"+crit+"'"));
 			
 			try (ResultSet rs = pst.executeQuery())
@@ -165,6 +177,8 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		}
 		return cards;
 	}
+	
+	
 	
 	@Override
 	public List<MagicCard> listAllCards()throws IOException {
@@ -494,6 +508,11 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			{
 				ret.add(rs.getString("name"));
 			}
+			
+			
+			ret.add("sql");
+			Collections.sort(ret);
+			
 		} 
 		catch (SQLException e) {
 			logger.error(e);
