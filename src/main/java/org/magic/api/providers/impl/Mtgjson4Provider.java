@@ -10,9 +10,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -89,7 +87,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
 	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
-	public static File fversion = new File(MTGConstants.DATA_DIR, "version4");
+	public static final File fversion = new File(MTGConstants.DATA_DIR, "version4");
 	
 	private String version;
 	private Chrono chrono;

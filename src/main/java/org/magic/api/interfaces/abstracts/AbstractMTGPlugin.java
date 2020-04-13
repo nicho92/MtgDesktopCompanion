@@ -1,8 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,8 +22,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
-
-import dorkbox.util.FileUtil;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());

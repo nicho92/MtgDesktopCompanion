@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;

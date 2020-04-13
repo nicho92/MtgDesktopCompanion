@@ -38,7 +38,6 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -53,8 +52,8 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
