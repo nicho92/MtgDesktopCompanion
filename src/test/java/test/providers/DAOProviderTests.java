@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -19,6 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.dao.impl.FileDAO;
 import org.magic.api.dao.impl.HsqlDAO2;
 import org.magic.api.dao.impl.MongoDbDAO;

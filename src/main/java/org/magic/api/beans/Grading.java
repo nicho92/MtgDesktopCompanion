@@ -3,6 +3,8 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.magic.api.beans.enums.EnumCondition;
+
 public class Grading   implements Serializable{
 
 	private static final long serialVersionUID = 1L;

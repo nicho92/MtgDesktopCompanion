@@ -1,5 +1,7 @@
 package org.magic.api.beans;
 
+import org.magic.api.beans.enums.EnumStock;
+
 public class SealedStock {
 
 	private int id=-1;

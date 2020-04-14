@@ -2,6 +2,8 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
+import org.magic.api.beans.enums.EnumCondition;
+
 public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 
 	/**

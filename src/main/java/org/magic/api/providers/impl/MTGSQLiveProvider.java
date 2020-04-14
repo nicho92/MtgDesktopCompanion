@@ -30,6 +30,7 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
@@ -108,7 +109,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		} catch (Exception e1) {
 			logger.error("error init",e1);
 		}
-		
 		pool = new HikariPool();
 		
 		pool.init("jdbc:sqlite://"+sqlLiteFile.getAbsolutePath(), "", "", true);

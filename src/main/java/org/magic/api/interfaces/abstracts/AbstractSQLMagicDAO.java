@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.magic.api.beans.EnumCondition;
-import org.magic.api.beans.EnumStock;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -27,6 +25,8 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGCardsProvider;

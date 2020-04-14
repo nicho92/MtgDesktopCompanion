@@ -12,10 +12,10 @@ import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.editor.ComboBoxEditor;

@@ -3,7 +3,6 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -14,7 +13,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.POMReader;
 
@@ -74,13 +72,6 @@ public class XMLExport extends AbstractCardExport {
 		return "XML";
 	}
 
-	public static void main(String[] args) throws IOException {
-		MagicDeck d = new MTGDeckManager().getDeck("Ad Nauseam Tendrils");
-		
-		new XMLExport().exportDeck(d, new File("d://test.xml"));
-
-	}
-	
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(XStream.class, "/META-INF/maven/com.thoughtworks.xstream/xstream/pom.properties");

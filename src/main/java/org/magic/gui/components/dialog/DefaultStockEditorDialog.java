@@ -21,8 +21,8 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 

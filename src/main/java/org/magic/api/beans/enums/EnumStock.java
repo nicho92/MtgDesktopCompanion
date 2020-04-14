@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.enums;
 
 public enum EnumStock {
 

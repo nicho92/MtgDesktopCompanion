@@ -15,10 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.gui.abstracts.MTGUIComponent;
