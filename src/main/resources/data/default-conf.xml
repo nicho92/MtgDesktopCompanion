@@ -330,6 +330,10 @@
             <enable>true</enable>
         </provider>
         <provider>
+            <class>org.magic.api.providers.impl.MTGSQLiveProvider</class>
+            <enable>false</enable>
+        </provider>
+        <provider>
             <class>org.magic.api.providers.impl.ScryFallProvider</class>
             <enable>false</enable>
         </provider>
@@ -529,6 +533,10 @@
         </export>
         <export>
             <class>org.magic.api.exports.impl.PDFExport</class>
+            <enable>true</enable>
+        </export>
+         <export>
+            <class>org.magic.api.exports.impl.XMLExport</class>
             <enable>true</enable>
         </export>
         <export>
