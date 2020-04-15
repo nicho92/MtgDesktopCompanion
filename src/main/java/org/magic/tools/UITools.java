@@ -39,6 +39,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -295,6 +296,48 @@ public class UITools {
 			}
 	}
 	
+	public static <V> void initCardToolTipTable(final JTable table, final int cardPos, Callable<V> dblClick) {
+		final JPopupMenu popUp = new JPopupMenu();
+		table.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+					e.consume();
+					if(e.getClickCount()==2 && dblClick!=null)
+					{
+					
+						ThreadManager.getInstance().submitCallable(dblClick,"initTooltip");
+					}
+					else 
+					{
+						
+						int row = table.rowAtPoint(e.getPoint());
+						MagicCardDetailPanel pane = new MagicCardDetailPanel();
+						pane.enableThumbnail(true);
+						table.setRowSelectionInterval(row, row);
+						
+						try {
+								MagicCard mc = UITools.getTableSelection(table,cardPos);
+								pane.setMagicCard(mc);
+								
+								popUp.setBorder(new LineBorder(Color.black));
+								popUp.setVisible(false);
+								popUp.removeAll();
+								popUp.setLayout(new BorderLayout());
+								popUp.add(pane, BorderLayout.CENTER);
+								popUp.show(table, e.getX()+5, e.getY()+5);
+								popUp.setVisible(true);
+		
+							} catch (IndexOutOfBoundsException ex) {
+								logger.error(ex);
+							} 
+				}
+			}
+		});
+	}
+	
+	
 	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, Callable<V> dblClick) {
 		final JPopupMenu popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
@@ -419,15 +462,15 @@ public class UITools {
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)).format(indexDate);
 	}
 	
-public static String formatDateTime(Date indexDate) {
+	public static String formatDateTime(Date indexDate) {
 		
 		if(indexDate==null)
 			return "";
 		
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) +" HH:mm").format(indexDate);
 	}
-	
-	
+
+
 	
 
 }
