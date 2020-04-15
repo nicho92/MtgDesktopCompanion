@@ -60,7 +60,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		if(xPath==null)
 			init();
 		
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
 		logger.trace("looking for token : " + expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -75,12 +75,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		
 		if(xPath==null)
 			init();
+	
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		
-		
-		if (mc.getLayout()==MTGLayout.EMBLEM)
-			return false;
-
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'emblem')]";
+		logger.trace("looking for emblem : " + expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
@@ -135,7 +133,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			if (value.getElementsByTagName("text").item(0) != null)
 				tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
-			tok.getEditions().add(mc.getCurrentSet());
+			tok.getEditions().add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
 			tok.getCurrentSet().setNumber("T");
 
 			NodeList sets = value.getElementsByTagName("set");
@@ -168,7 +166,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		if(xPath==null)
 			init();
 		
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'emblem')]";
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		logger.debug(expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -177,12 +175,12 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.setLayout(MTGLayout.EMBLEM);
 			tok.setCmc(0);
 			tok.setName(
-					value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(emblem\\)", "").trim());
+					value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "").trim());
 			String types = value.getElementsByTagName("type").item(0).getTextContent();
 			tok.getSupertypes().add(MTGLayout.EMBLEM.toPrettyString());
 			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
-			tok.getEditions().add(mc.getCurrentSet());
+			tok.getEditions().add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
 			tok.getCurrentSet().setNumber("E");
 
 			
@@ -205,7 +203,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
 		if (tok.getLayout()==MTGLayout.EMBLEM)
-			expression = "//card[name=\"" + tok.getName() + " (emblem)\"]";
+			expression = "//card[name=\"" + tok.getName() + " (Emblem)\"]";
 
 		logger.trace(expression + " for " + tok);
 

@@ -40,7 +40,7 @@ public class EmblemActions extends AbstractAction {
 			GamePanelGUI.getInstance().getPanelBattleField().repaint();
 			GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " emblem");
 		} catch (Exception ex) {
-			logger.error(ex);
+			logger.error("error",ex);
 		}
 
 	}
