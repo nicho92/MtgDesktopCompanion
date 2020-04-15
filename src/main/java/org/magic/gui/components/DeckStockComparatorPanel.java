@@ -78,7 +78,7 @@ public class DeckStockComparatorPanel extends JComponent {
 		
 		table.setModel(model);
 		
-		UITools.initCardToolTipTable(table, 0);
+		UITools.initCardToolTipTable(table, 0,null);
 		
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(cboCollections);
