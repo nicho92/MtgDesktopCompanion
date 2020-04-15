@@ -72,6 +72,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
+	
+		if(mc.getLayout()==MTGLayout.EMBLEM)
+			return false;
+		
 		
 		if(xPath==null)
 			init();
@@ -120,7 +124,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			if (types.toLowerCase().contains("creature"))
 				tok.getTypes().add("Creature");
 
-			tok.getTypes().add(MTGLayout.TOKEN.toPrettyString());
+			tok.getSupertypes().add(MTGLayout.TOKEN.toPrettyString());
 
 			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 
