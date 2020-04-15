@@ -342,7 +342,6 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get("watermark") != null)
 					mc.setWatermarks(String.valueOf(map.get("watermark")));
 				
-				
 				if (map.get("isPromo") != null)
 					mc.setPromoCard(Boolean.valueOf(map.get("isPromo").toString()));
 				
