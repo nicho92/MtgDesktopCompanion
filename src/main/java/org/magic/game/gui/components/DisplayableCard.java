@@ -483,7 +483,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 			@Override
 			protected Image doInBackground() throws Exception {
 				try {
-					logger.debug(mc +" " + mc.getLayout());
 					if (mc.getLayout() ==MTGLayout.TOKEN|| mc.getLayout()==MTGLayout.EMBLEM) {
 						temp = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
 					} 

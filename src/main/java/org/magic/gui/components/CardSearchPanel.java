@@ -104,6 +104,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private MagicCardDetailPanel detailCardPanel;
 	private PricesTablePanel priceTablePanel;
 	private JTextArea txtRulesArea;
+	private CardStockPanel stockPanel;
 	private ObjectViewerPanel panelJson;
 	private JTextField txtSearch;
 	private JPopupMenu popupMenu = new JPopupMenu();
@@ -221,6 +222,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		cmcChart = new CmcChartPanel();
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
+		stockPanel = new CardStockPanel();
 		historyChartPanel = new HistoryPricesPanel(true);
 		cardsPicPanel = new CardsPicPanel();
 		priceTablePanel = new PricesTablePanel();
@@ -372,6 +374,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyChartPanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
+		
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
@@ -707,6 +711,8 @@ public class CardSearchPanel extends MTGUIComponent {
 			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
 			deckPanel.init(selectedCard);
+			stockPanel.initMagicCardStock(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
+			
 			ThreadManager.getInstance().executeThread(
 					() -> historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName()),
 					"load history for " + selectedEdition);
