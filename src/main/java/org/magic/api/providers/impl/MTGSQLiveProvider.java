@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.ArrayUtils;
@@ -518,6 +519,8 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			
 			ret.add("sql");
 			Collections.sort(ret);
+			ret.remove("name");
+			ret.add(0, "name");
 			
 		} 
 		catch (SQLException e) {

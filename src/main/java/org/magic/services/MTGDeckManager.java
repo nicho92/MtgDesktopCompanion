@@ -39,6 +39,18 @@ public class MTGDeckManager extends Observable {
 		this.serialis = serialis;
 	}
 	
+	
+	public static boolean isArenaDeck(MagicDeck d)
+	{
+		for(MagicCard mc : d.getUniqueCards())
+		{
+			if(!mc.isArenaCard())
+				return false;
+		}
+		
+		return true;
+	}
+	
 	public static boolean isLegal(MagicDeck magicDeck, MagicFormat.FORMATS format) {
 		
 		if(format==FORMATS.COMMANDER)
@@ -99,6 +111,9 @@ public class MTGDeckManager extends Observable {
 		}
 		return decks;
 	}
+	
+
+	
 	
 	public List<MagicDeck> listDecksWithTag(String tag)
 	{

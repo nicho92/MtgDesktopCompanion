@@ -20,7 +20,8 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			"CARD_TYPES",
 			"CARD_MANA",
 			"CARD_EDITIONS",
-			"QTY" };
+			"QTY",
+			"IS ARENA"};
 
 	private MagicDeck deck;
 
@@ -35,6 +36,9 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 		if (columnIndex == 3)
 			return List.class;
+		
+		if (columnIndex == 5)
+			return Boolean.class;
 
 		return super.getColumnClass(columnIndex);
 	}
@@ -100,6 +104,9 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			}
 
 		}
+		
+		if (column == 5)
+			return mc.isArenaCard();
 
 		return null;
 	}

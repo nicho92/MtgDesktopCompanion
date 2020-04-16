@@ -30,11 +30,13 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	public MTGArenaExport() {
 		correpondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		correpondance.put("DOM", "DAR");
+		
+		
 	}
 	
 	@Override
 	public String getFileExtension() {
-		return ".mtgarena";
+		return "";
 	}
 	
 	@Override
@@ -103,12 +105,6 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 		else
 			return s;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new MTGArenaExport().importDeck(null, "test");
-	}
-	
 
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
@@ -132,14 +128,11 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 			throw new IOException(e);
 		} 
 	
-		matches(txt,false).forEach(m->{
-			
-			System.out.println(m.group());
-			
+		matches(txt,false).forEach(m->
+		{
 			if(StringUtils.isAllEmpty(m.group()))
 			{
 				side=true;
-				logger.debug("Blank detected");
 			}
 			else
 			{

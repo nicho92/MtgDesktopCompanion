@@ -115,7 +115,9 @@ public class ConstructPanel extends JPanel {
 	private File f;
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;
-
+	private JXTable tableDeck;
+	private JXTable tableSide;
+	
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -131,6 +133,8 @@ public class ConstructPanel extends JPanel {
 		deckmodel.init(deck);
 		deckSidemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
+		tableDeck.packAll();
+		tableSide.packAll();
 	}
 
 	private void initGUI() {
@@ -172,8 +176,8 @@ public class ConstructPanel extends JPanel {
 		JSplitPane panneauDeck = new JSplitPane();
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		cardDrawProbaPanel = new DrawProbabilityPanel();
-		JXTable tableDeck = new JXTable();
-		JXTable tableSide = new JXTable();
+		tableDeck = new JXTable();
+		tableSide = new JXTable();
 		final JTabbedPane tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
 		JPanel panelInfoDeck = new JPanel();
 		cmcChartPanel = new CmcChartPanel();
