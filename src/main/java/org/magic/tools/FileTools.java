@@ -88,6 +88,12 @@ public class FileTools {
 		
 	public static String readFile(File f) throws IOException
 	{
+		if(f==null || !f.exists())
+		{
+			logger.warn(f +" doesn't exist");
+			return "";
+		}
+		
 		logger.debug("opening file " + f);
 		return FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING);
 	}

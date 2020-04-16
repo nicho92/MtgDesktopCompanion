@@ -476,12 +476,18 @@ public class ConstructPanel extends JPanel {
 
 						int res = -1;
 						f = new File("");
-
-						if (!exp.needDialogGUI()) {
+						
+						if (!exp.needDialogGUI() && exp.needFile()) {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
 						} 
-						else {
+						else if(!exp.needFile() && !exp.needDialogGUI())
+						{
+							logger.trace(exp + " need no file. Skip");
+							res = JFileChooser.APPROVE_OPTION;
+						}
+						else 
+						{
 							try {
 								setDeck(exp.importDeckFromFile(null));
 								updatePanels();

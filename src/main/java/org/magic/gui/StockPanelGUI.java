@@ -278,19 +278,26 @@ public class StockPanelGUI extends MTGUIComponent {
 						});
 
 						int res = -1;
-						if (!exp.needDialogGUI()) {
-							res = jf.showOpenDialog(null); 
+
+						if (!exp.needDialogGUI() && exp.needFile()) {
+							res = jf.showOpenDialog(null);
 							fileImport = jf.getSelectedFile();
-						} else {
+						} 
+						else if(!exp.needFile() && !exp.needDialogGUI())
+						{
+							logger.debug(exp + " need no file. Skip");
+							res = JFileChooser.APPROVE_OPTION;
+						}
+						else 
+						{
 							try {
 								exp.importStockFromFile(null).forEach(this::addStock);
-								
 							} catch (IOException e1) {
 								logger.error(e1);
 							}
-
+							
 						}
-
+						
 						if (res == JFileChooser.APPROVE_OPTION)
 						{
 							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) 
