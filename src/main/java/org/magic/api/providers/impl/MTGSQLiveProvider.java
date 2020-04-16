@@ -167,7 +167,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				
 			}
 			
-			logger.debug(temp.toString().replaceFirst("\\?", "'"+crit+"'"));
+			logger.trace(temp.toString().replaceFirst("\\?", "'"+crit+"'"));
 			
 			try (ResultSet rs = pst.executeQuery())
 			{

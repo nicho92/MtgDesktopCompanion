@@ -21,7 +21,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			"CARD_MANA",
 			"CARD_EDITIONS",
 			"QTY",
-			"IS ARENA"};
+			"ARENA"};
 
 	private MagicDeck deck;
 
