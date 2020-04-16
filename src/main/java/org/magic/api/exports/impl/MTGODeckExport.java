@@ -29,12 +29,12 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 		StringBuilder temp = new StringBuilder();
 
 		temp.append("//NAME: " + deck.getName() + " from MTGDeskTopCompanion\n");
-		temp.append("\n//MAIN\n");
+		temp.append("//MAIN\n");
 		for (MagicCard mc : deck.getMain().keySet()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		temp.append("\nSideboard\n");
+		temp.append("\n//Sideboard\n");
 		for (MagicCard mc : deck.getSideBoard().keySet()) {
 			temp.append(deck.getSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);

@@ -1,27 +1,31 @@
 package org.magic.api.exports.impl;
 
 import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
-import java.io.BufferedReader;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
 
-public class MTGArenaExport extends AbstractCardExport {
+public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	
 	Map<String,String> correpondance;
-	
+	boolean side=false;
 	
 	public MTGArenaExport() {
 		correpondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -31,6 +35,11 @@ public class MTGArenaExport extends AbstractCardExport {
 	@Override
 	public String getFileExtension() {
 		return ".mtgarena";
+	}
+	
+	@Override
+	public boolean needFile() {
+		return false;
 	}
 
 	@Override
@@ -68,9 +77,6 @@ public class MTGArenaExport extends AbstractCardExport {
 				notify(entry.getKey());
 			}
 
-		FileTools.saveFile(dest, temp.toString());
-		
-		
 		StringSelection selection = new StringSelection(temp.toString());
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
 		
@@ -97,42 +103,70 @@ public class MTGArenaExport extends AbstractCardExport {
 		else
 			return s;
 	}
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		new MTGArenaExport().importDeck(null, "test");
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
-		try (BufferedReader read = new BufferedReader(new StringReader(f))) {
-			MagicDeck deck = new MagicDeck();
-			deck.setName(dname);
-			String line = read.readLine();
-
-			boolean side=false;
+		MagicDeck deck = new MagicDeck();
+		deck.setName(dname);
+		side=false;
+		Transferable trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
+		
+		if(trf==null)
+		{
+			MTGControler.getInstance().notify(new MTGNotification("Error", "Clipboard is empty", MESSAGE_TYPE.INFO));
+			return deck;
+		}
+		
+		String txt ="";
+		try {
+			txt =trf.getTransferData(DataFlavor.stringFlavor).toString();
+		
+			logger.debug("copy from clipboard ok : " + txt);
+		} catch (UnsupportedFlavorException e) {
+			throw new IOException(e);
+		} 
+	
+		matches(txt,false).forEach(m->{
 			
-			while (line != null) {
-				if(line.length()==0)
-				{
-					side=true;
-				}
-				else
-				{
-				
-					int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
-					String name = line.substring(line.indexOf(' '), line.indexOf('('));
-					String ed =  reverse(line.substring( line.indexOf('(')+1,line.indexOf(')')));
+			System.out.println(m.group());
+			
+			if(StringUtils.isAllEmpty(m.group()))
+			{
+				side=true;
+				logger.debug("Blank detected");
+			}
+			else
+			{
+				try {
+					int qte = Integer.parseInt(m.group(1));
+					String name = m.group(2).trim();
+					String ed =  reverse( m.group(3).trim());
 					MagicEdition me = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ed);
-				
 					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
 					notify(mc);
 					if(!side)
 						deck.getMain().put(mc, qte);
 					else
 						deck.getSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
-					
+				
+				}
+				catch(Exception e)
+				{
+					logger.error("Error loading cards " + m.group(),e);
 				}
 				
-					line = read.readLine();
 			}
-			return deck;
-		}
+			
+		});
+		
+		return deck;
+		
 	}
 
 
@@ -159,6 +193,26 @@ public class MTGArenaExport extends AbstractCardExport {
 			return false;
 		
 		return hashCode()==obj.hashCode();
+	}
+
+	@Override
+	protected boolean skipFirstLine() {
+		return false;
+	}
+
+	@Override
+	protected String[] skipLinesStartWith() {
+		return new String[] {"//","Deck","Sideboard"};
+	}
+
+	@Override
+	protected String getStringPattern() {
+		return "^\\s*$|(\\d+) (.*?) \\((.*?)\\) (\\d+)$";
+	}
+
+	@Override
+	protected String getSeparator() {
+		return " ";
 	}
 	
 
