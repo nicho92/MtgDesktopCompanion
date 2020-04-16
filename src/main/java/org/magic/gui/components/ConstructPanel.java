@@ -421,18 +421,21 @@ public class ConstructPanel extends JPanel {
 
 		});
 	
+		listResult.getSelectionModel().addListSelectionListener(lsl->{
+			
+			if(!lsl.getValueIsAdjusting())
+			{
+				MagicCard mc = listResult.getSelectedValue();
+				magicCardDetailPanel.setMagicCard(mc);
+			}
+			
+		});
+	
+	
 
 		listResult.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
-
-				if (ev.getClickCount() == 1 && !ev.isConsumed()) {
-					ev.consume();
-					MagicCard mc = listResult.getSelectedValue();
-					magicCardDetailPanel.setMagicCard(mc);
-
-				}
-
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 
