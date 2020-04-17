@@ -466,6 +466,10 @@
             <enable>true</enable>
         </sniffer>
         <sniffer>
+            <class>org.magic.api.decksniffer.impl.MagicVilleDeckSniffer</class>
+            <enable>true</enable>
+        </sniffer>
+        <sniffer>
             <class>org.magic.api.decksniffer.impl.LotusNoirDecks</class>
             <enable>true</enable>
         </sniffer>

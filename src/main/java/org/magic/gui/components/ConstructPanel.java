@@ -701,20 +701,20 @@ public class ConstructPanel extends JPanel {
 			}
 		});
 		
-		table.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				MagicCard mc = (MagicCard) table.getValueAt(table.getSelectedRow(), 0);
-				if (e.getKeyCode() == 0) {
-					if(f==MAIN)
-						deck.getMain().remove(mc);
-					else
-						deck.getSideBoard().remove(mc);
-					
-					deckmodel.init(deck);
-				}
-			}
-		});
+//		table.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				MagicCard mc = (MagicCard) table.getValueAt(table.getSelectedRow(), 0);
+//				if (e.getKeyCode() == 0) {
+//					if(f==MAIN)
+//						deck.getMain().remove(mc);
+//					else
+//						deck.getSideBoard().remove(mc);
+//					
+//					deckmodel.init(deck);
+//				}
+//			}
+//		});
 		
 		table.getModel().addTableModelListener(e -> updatePanels());
 

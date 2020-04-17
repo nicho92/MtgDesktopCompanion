@@ -110,32 +110,15 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 						temp.append("{").append(img).append("}");
 				});
 				de.setColor(temp.toString());
+				de.setDescription(tds.get(4).text());
 				ret.add(de);
 			} catch (URISyntaxException e) {
 				logger.error("error for url " + baseUrl+tds.get(0).select("a").attr("href"));
 			}
-			
-			
 		}
-		
-		
-		
 		return ret;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-	
-		MagicVilleDeckSniffer sniff = new MagicVilleDeckSniffer();
-		
-		sniff.setProperty(FORMAT, "MODERN");
-		RetrievableDeck d = sniff.getDeckList().get(0);
-		sniff.getDeck(d);
-		
-		
-	}
 
-	
 	@Override
 	public void initDefault() {
 		setProperty(FORMAT, "STANDARD");
