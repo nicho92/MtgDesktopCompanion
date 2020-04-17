@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -346,9 +347,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			Iterator<Entry<String, JsonElement>> it = legs.entrySet().iterator();
 			while (it.hasNext()) {
 				Entry<String, JsonElement> ent = it.next();
-				MagicFormat format = new MagicFormat();
-				format.setFormat(ent.getKey());
-				format.setLegality(ent.getValue().getAsString().equalsIgnoreCase("legal"));
+				MagicFormat format = new MagicFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
 			}
 		}

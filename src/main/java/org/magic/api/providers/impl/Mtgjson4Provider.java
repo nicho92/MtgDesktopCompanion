@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -368,9 +369,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get(LEGALITIES) != null) {
 					
 					for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {
-						MagicFormat mf = new MagicFormat();
-						mf.setFormat(String.valueOf(mapFormats.getKey()));
-						mf.setLegality(String.valueOf(mapFormats.getValue()).equalsIgnoreCase("legal")||String.valueOf(mapFormats.getValue()).equalsIgnoreCase("restricted"));
+						MagicFormat mf = new MagicFormat(String.valueOf(mapFormats.getKey()),AUTHORIZATION.valueOf(String.valueOf(mapFormats.getValue()).toUpperCase()));
 						mc.getLegalities().add(mf);
 					}
 				}

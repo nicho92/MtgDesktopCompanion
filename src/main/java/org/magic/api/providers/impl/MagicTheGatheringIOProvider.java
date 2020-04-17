@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
@@ -212,9 +213,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			JsonArray arr = obj.get("legalities").getAsJsonArray();
 			for (int i = 0; i < arr.size(); i++) {
 				JsonObject k = arr.get(i).getAsJsonObject();
-				MagicFormat format = new MagicFormat();
-				format.setFormat(k.get("format").getAsString());
-				format.setLegality(k.get("legality").getAsString().equalsIgnoreCase("legal"));
+				MagicFormat format = new MagicFormat(k.get("format").getAsString(),AUTHORIZATION.valueOf(k.get("legality").getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
 			}
 		}

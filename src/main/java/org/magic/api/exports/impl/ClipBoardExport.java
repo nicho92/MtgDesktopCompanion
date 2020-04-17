@@ -22,6 +22,11 @@ public class ClipBoardExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return "";
 	}
+	
+	@Override
+	public boolean needDialogGUI() {
+		return false;
+	}
 
 	@Override
 	public boolean needFile() {

@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MagicFormat implements Serializable {
 
 	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}
+	public enum AUTHORIZATION {LEGAL, RESTRICTED, BANNED,  NOT_LEGAL}
+	
 	
 	public static String toString(FORMATS f)
 	{
@@ -15,16 +19,26 @@ public class MagicFormat implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String format;
-	private Boolean legality;
+	@Deprecated @SerializedName( alternate="legality", value="oldLegality") private Boolean legality;
+	private AUTHORIZATION formatLegality;
 
 	public MagicFormat() {
 
 	}
-
-	public MagicFormat(String format, Boolean legality)
+	
+	public MagicFormat(String format, AUTHORIZATION legality)
 	{
 		this.format=format;
-		this.legality=legality;
+		this.legality=(legality==AUTHORIZATION.LEGAL || legality==AUTHORIZATION.RESTRICTED);
+		formatLegality=legality;
+	}
+	
+	public AUTHORIZATION getFormatLegality() {
+		return formatLegality;
+	}
+	
+	public void setFormatLegality(AUTHORIZATION formatLegality) {
+		this.formatLegality = formatLegality;
 	}
 	
 	
@@ -32,6 +46,7 @@ public class MagicFormat implements Serializable {
 		return format;
 	}
 	
+	@Deprecated
 	public boolean isLegal()
 	{
 		return legality;
@@ -40,11 +55,7 @@ public class MagicFormat implements Serializable {
 	public void setFormat(String format) {
 		this.format = format;
 	}
-
-	public void setLegality(Boolean legality) {
-		this.legality = legality;
-	}
-
+	
 	public String toString() {
 		return getFormat() + " " + isLegal();
 	}

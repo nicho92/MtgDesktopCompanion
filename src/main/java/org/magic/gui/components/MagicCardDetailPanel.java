@@ -212,11 +212,29 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		lstFormats = new JList<>(new DefaultListModel<MagicFormat>());
 		lstFormats.setCellRenderer((JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4)->{
-				JLabel l = new JLabel(obj.getFormat());
-					if(obj.isLegal())
-						l.setIcon(MTGConstants.ICON_SMALL_CHECK);
-					else
-						l.setIcon(MTGConstants.ICON_SMALL_DELETE);
+					JLabel l = new JLabel(obj.getFormat());
+					
+					if(obj.getFormatLegality()!=null)
+					{
+						
+						switch (obj.getFormatLegality()) {
+							case BANNED: l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
+							case LEGAL:l.setIcon(MTGConstants.ICON_SMALL_CHECK);break;
+							case NOT_LEGAL:l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
+							case RESTRICTED:l.setIcon(MTGConstants.ICON_SMALL_EQUALS);break;
+							default: break;
+						}
+						
+					}
+					else //TODO remove when Islegal will be removed
+					{
+
+						if(obj.isLegal())
+							l.setIcon(MTGConstants.ICON_SMALL_CHECK);
+						else
+							l.setIcon(MTGConstants.ICON_SMALL_DELETE);
+					}
+					
 						
 						
 				return l;

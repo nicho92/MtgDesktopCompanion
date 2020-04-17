@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
@@ -456,7 +457,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 						while(rs.next())
 						{
 							String id = rs.getString("uuid");
-							mapLegalities.put(id, new MagicFormat(rs.getString("format"), rs.getString("status").equals("Legal")));
+							mapLegalities.put(id, new MagicFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
 						}
 					}
 					
