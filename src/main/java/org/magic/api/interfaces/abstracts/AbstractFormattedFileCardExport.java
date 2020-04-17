@@ -51,9 +51,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 		if(skipFirstLine())
 			arr = ArrayUtils.remove(arr,0);
-		
-		
-		
 	
 		return arr;
 	}

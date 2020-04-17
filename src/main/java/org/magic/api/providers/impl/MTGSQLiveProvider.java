@@ -143,7 +143,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		
 		temp.append("?");
 		
-		if(ed!=null)
+		if(ed!=null && !ed.getId().isEmpty())
 			temp.append(" AND setCode ='").append(ed.getId()).append("'");
 		
 		
@@ -167,7 +167,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				
 			}
 			
-			logger.trace(temp.toString().replaceFirst("\\?", "'"+crit+"'"));
+			logger.debug(temp.toString().replaceFirst("\\?", "'"+crit+"'"));
 			
 			try (ResultSet rs = pst.executeQuery())
 			{

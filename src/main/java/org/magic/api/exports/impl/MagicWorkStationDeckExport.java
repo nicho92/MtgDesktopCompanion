@@ -55,16 +55,21 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			deck.setName(name);
 			matches(f,true).forEach(m->{
 					MagicCard mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME); 
-					int qte = Integer.parseInt(m.group("2"));
-			
-					if(mc!=null) {
-						if(m.group(1).trim().startsWith("SB"))
+					int qte = Integer.parseInt(m.group(2));
+					if(mc!=null) 
+					{
+						if(m.group(1)!=null && m.group(1).trim().startsWith("SB"))
 							deck.getSideBoard().put(mc, qte);
 						else
 							deck.getMain().put(mc, qte);
 						
 						notify(mc);
 					}
+					else
+					{
+						logger.warn("No card found for " + m.group());
+					}
+					
 			});
 			
 			return deck;
@@ -96,12 +101,12 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		return new String[] {"//"};
+		return new String[] {"//","<br>"};
 	}
 
 	@Override
 	protected String getStringPattern() {
-		return "(SB: |\\s)?(\\d+)(?: )?\\[(.*?)\\](.*)";
+		return "(SB:\\s+|\\s)?(\\d+)(?: )?\\[(.*?)\\](.*)";
 	}
 
 	@Override

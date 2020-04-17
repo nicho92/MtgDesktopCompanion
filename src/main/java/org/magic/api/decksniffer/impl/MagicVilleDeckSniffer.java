@@ -1,0 +1,150 @@
+package org.magic.api.decksniffer.impl;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.exports.impl.Apprentice2DeckExport;
+import org.magic.api.exports.impl.MagicWorkStationDeckExport;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGControler;
+import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
+
+public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
+
+	
+	private static final String FORMAT = "FORMAT";
+	private String baseUrl="https://www.magic-ville.com/fr/decks/";
+	private HashMap<String,String> mapCodes;
+
+	public MagicVilleDeckSniffer() 
+	{
+		mapCodes = new HashMap<>();
+		mapCodes.put("PIONEER",  "resultats?data=1&dci=TP&tour_cur=1&tour_orig=1");
+		mapCodes.put("MODERN",  "resultats?data=1&dci=TM&tour_cur=1&tour_orig=1");
+		mapCodes.put("STANDARD", "resultats?data=1&dci=T2&tour_cur=1&tour_orig=1");
+		mapCodes.put("PEASANT",  "resultats?data=1&alt=Peasant");
+		mapCodes.put("COMMANDER",  "resultats?data=1&dci=1vs1&tour_orig=1");
+		mapCodes.put("LEGACY",  "resultats?data=1&dci=T15&tour_cur=1&tour_orig=1");
+		mapCodes.put("VINTAGE",  "resultats?data=1&dci=T1&tour_cur=1&tour_orig=1");
+		mapCodes.put("Brawl",  "resultats?data=1&alt=Brawl");
+		mapCodes.put("FUN",  "resultats?data=1&fun=1");
+		mapCodes.put("TINY LEADERS",  "resultats?data=1&alt=TinyLeaders");
+		mapCodes.put("EDH Peasant",  "resultats?data=1&alt=EDHPeasant");
+	}
+	
+	@Override
+	public String[] listFilter() {
+		return mapCodes.keySet().stream().toArray(String[]::new);
+	}
+
+	@Override
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+		Document doc = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(info.getUrl()).toHtml();
+		String urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
+		String content = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(urlimport).execute();
+		MagicWorkStationDeckExport imp = new MagicWorkStationDeckExport();
+		
+		try {
+			imp.addObserver(listObservers().get(0));
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			logger.warn("error adding current observer to " + imp);
+		}
+		
+		content = content.replace("<br />","").replace("[U]", "["+MTGControler.getInstance().get("default-land-deck").toUpperCase()+"]");
+		
+		MagicDeck d = imp.importDeck(content, info.getName());
+		d.setCreationDate(new Date());
+		d.setDateUpdate(new Date());
+		d.setDescription(getName() +" at  " + info.getUrl());	
+		
+		
+		
+		return d;
+	}
+
+	@Override
+	public List<RetrievableDeck> getDeckList() throws IOException {
+		
+		List<RetrievableDeck> ret = new ArrayList<>();
+		
+		Document d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
+					.url(baseUrl + mapCodes.get(getString(FORMAT))+"&pointeur=0")
+					.toHtml();
+		Elements trs = d.select("tr[height=33]");
+		
+		for(Element tr : trs)
+		{
+			Elements tds = tr.select("td");
+			
+			
+			try {
+				RetrievableDeck de = new RetrievableDeck();
+				de.setName(tds.get(0).text());
+				de.setUrl(new URI(baseUrl+tds.get(0).select("a").attr("href")+"&decklanglocal=eng"));
+				de.setAuthor(tds.get(1).text());
+				StringBuilder temp = new StringBuilder();
+				tds.get(3).select("img").forEach(e->{
+					String img = e.attr("src");
+					img = img.substring(img.indexOf("png/")+4,img.indexOf(".png"));
+					
+					if(img.length()>1)
+						img = img.substring(1);
+					
+					if(img.equals("W")||img.equals("U")||img.equals("B")||img.equals("G")||img.equals("R"))
+						temp.append("{").append(img).append("}");
+				});
+				de.setColor(temp.toString());
+				ret.add(de);
+			} catch (URISyntaxException e) {
+				logger.error("error for url " + baseUrl+tds.get(0).select("a").attr("href"));
+			}
+			
+			
+		}
+		
+		
+		
+		return ret;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+	
+		MagicVilleDeckSniffer sniff = new MagicVilleDeckSniffer();
+		
+		sniff.setProperty(FORMAT, "MODERN");
+		RetrievableDeck d = sniff.getDeckList().get(0);
+		sniff.getDeck(d);
+		
+		
+	}
+
+	
+	@Override
+	public void initDefault() {
+		setProperty(FORMAT, "STANDARD");
+		setProperty("MAX_PAGE", "1");
+	}
+	
+	@Override
+	public String getName() {
+		return "Magic-Ville";
+	}
+
+}

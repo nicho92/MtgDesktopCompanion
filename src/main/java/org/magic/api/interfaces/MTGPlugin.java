@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 import javax.management.ObjectName;
@@ -54,6 +55,8 @@ public interface MTGPlugin {
 	public void removeObservers();
 
 	public void removeObserver(Observer o);
+	
+	public List<Observer> listObservers();
 	
 	public Icon getIcon() ;
 	

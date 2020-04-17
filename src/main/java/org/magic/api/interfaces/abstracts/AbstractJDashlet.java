@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.awt.Rectangle;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
 import javax.management.MalformedObjectNameException;
@@ -192,6 +193,11 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		
 	}
 
+	@Override
+	public List<Observer> listObservers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void addObserver(Observer o) {

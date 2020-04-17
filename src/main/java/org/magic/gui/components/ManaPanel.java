@@ -129,7 +129,8 @@ public class ManaPanel extends JPanel {
 			val = Integer.parseInt(el);
 		} catch (NumberFormatException ne) {
 			val= map.get(el);
-		} 
+		}
+		
 		List<Image> lst = new ArrayList<>();
 		
 		BufferedImage[] imgs = ImageTools.splitManaImage();

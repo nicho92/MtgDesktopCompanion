@@ -18,6 +18,12 @@ public class Observable {
 			obs.add(o);
 		}
 	}
+	
+	public List<Observer> listObservers()
+	{
+		return obs;
+	}
+	
 
 	public void notifyObservers(Object arg) {
 		Object[] arrLocal;

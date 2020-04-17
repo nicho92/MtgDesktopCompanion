@@ -2,6 +2,7 @@ package org.magic.tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -94,6 +95,12 @@ public class RequestBuilder
 		return this;
 	}
 	
+	public RequestBuilder url(URI u)
+	{
+		url=u.toString();
+		return this;
+	}
+	
 	public RequestBuilder clearHeaders()
 	{
 		headers.clear();
@@ -147,7 +154,7 @@ public class RequestBuilder
 		
 		clearHeaders();
 		clearContents();
-		url(null);
+		url("");
 		method(null);
 		return this;
 	}
