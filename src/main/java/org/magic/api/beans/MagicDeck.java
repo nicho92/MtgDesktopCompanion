@@ -61,7 +61,14 @@ public class MagicDeck implements Serializable {
 		if (getMain().get(mc) == 0)
 			getMain().remove(mc);
 		else
-			getMain().put(mc, mapDeck.get(mc) - 1);
+			getMain().put(mc, getMain().get(mc) - 1);
+	}
+	
+	public void removeSide(MagicCard mc) {
+		if (getSideBoard().get(mc) == 0)
+			getSideBoard().remove(mc);
+		else
+			getSideBoard().put(mc, getSideBoard().get(mc) - 1);
 	}
 	
 	public void delete(MagicCard mc) {
@@ -70,6 +77,10 @@ public class MagicDeck implements Serializable {
 		
 	public void add(MagicCard mc) {
 		getMain().compute(mc, (k,v)->(v==null)?1:v+1);
+	}
+	
+	public void addSide(MagicCard mc) {
+		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
 
 	public boolean hasCard(MagicCard mc) {

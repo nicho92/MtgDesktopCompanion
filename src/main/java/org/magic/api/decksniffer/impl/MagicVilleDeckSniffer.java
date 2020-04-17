@@ -82,39 +82,43 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
 		List<RetrievableDeck> ret = new ArrayList<>();
+		int maxPage=getInt("MAX_PAGE");
 		
-		Document d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
-					.url(baseUrl + mapCodes.get(getString(FORMAT))+"&pointeur=0")
-					.toHtml();
-		Elements trs = d.select("tr[height=33]");
 		
-		for(Element tr : trs)
+		for(int currPage=0;currPage<maxPage;currPage++)
 		{
-			Elements tds = tr.select("td");
-			
-			
-			try {
-				RetrievableDeck de = new RetrievableDeck();
-				de.setName(tds.get(0).text());
-				de.setUrl(new URI(baseUrl+tds.get(0).select("a").attr("href")+"&decklanglocal=eng"));
-				de.setAuthor(tds.get(1).text());
-				StringBuilder temp = new StringBuilder();
-				tds.get(3).select("img").forEach(e->{
-					String img = e.attr("src");
-					img = img.substring(img.indexOf("png/")+4,img.indexOf(".png"));
+			Document d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
+						.url(baseUrl + mapCodes.get(getString(FORMAT))+"&pointeur="+currPage)
+						.toHtml();
+				Elements trs = d.select("tr[height=33]");
+				for(Element tr : trs)
+				{
+					Elements tds = tr.select("td");
 					
-					if(img.length()>1)
-						img = img.substring(1);
 					
-					if(img.equals("W")||img.equals("U")||img.equals("B")||img.equals("G")||img.equals("R"))
-						temp.append("{").append(img).append("}");
-				});
-				de.setColor(temp.toString());
-				de.setDescription(tds.get(4).text());
-				ret.add(de);
-			} catch (URISyntaxException e) {
-				logger.error("error for url " + baseUrl+tds.get(0).select("a").attr("href"));
-			}
+					try {
+						RetrievableDeck de = new RetrievableDeck();
+						de.setName(tds.get(0).text());
+						de.setUrl(new URI(baseUrl+tds.get(0).select("a").attr("href")+"&decklanglocal=eng"));
+						de.setAuthor(tds.get(1).text());
+						StringBuilder temp = new StringBuilder();
+						tds.get(3).select("img").forEach(e->{
+							String img = e.attr("src");
+							img = img.substring(img.indexOf("png/")+4,img.indexOf(".png"));
+							
+							if(img.length()>1)
+								img = img.substring(1);
+							
+							if(img.equals("W")||img.equals("U")||img.equals("B")||img.equals("G")||img.equals("R"))
+								temp.append("{").append(img).append("}");
+						});
+						de.setColor(temp.toString());
+						de.setDescription(tds.get(4).text());
+						ret.add(de);
+					} catch (URISyntaxException e) {
+						logger.error("error for url " + baseUrl+tds.get(0).select("a").attr("href"));
+					}
+				}
 		}
 		return ret;
 	}
