@@ -288,6 +288,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					if(!ids.equals(set.getId()))
 					{
 						MagicEdition ed = getSetById(ids);
+						ed.setRarity(set.getRarity());
 						mc.getEditions().add(ed);
 					}
 				}
