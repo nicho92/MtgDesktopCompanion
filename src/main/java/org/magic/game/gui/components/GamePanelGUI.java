@@ -183,6 +183,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 													Player p1 = MTGControler.getInstance().getProfilPlayer();
 													p1.setDeck(deck);
 													setPlayer(p1);
+													GameManager.getInstance().initGame();
+													
 												}
 											} catch (Exception e) {
 												logger.error("Error loading deck", e);

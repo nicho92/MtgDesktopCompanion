@@ -99,7 +99,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		data = RegExUtils.replaceAll(data,"\"","");
 		String[] lines = data.split("\n");
 		
-		for(int i=1;i<lines.length;i++)
+		for(int i=0;i<lines.length;i++)
 		{
 			String line=lines[i].trim();
 			

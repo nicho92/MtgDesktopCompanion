@@ -157,6 +157,7 @@ public class DeckStockComparatorPanel extends JComponent {
 						@Override
 						protected void done() {
 							buzyLabel.end();
+							//TODO..return only one cards.
 							pricesPan.initDeck(MagicDeck.toDeck(model.getItems().stream().filter(l->l.getResult()>0).map(Line::getMc).collect(Collectors.toList())));
 							if(chkCalculate.isSelected())
 								pricesPan.getBtnCheckPrice().doClick();

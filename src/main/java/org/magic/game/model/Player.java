@@ -83,6 +83,7 @@ public class Player extends Observable implements Serializable {
 		hand = new Zone(ZoneEnum.HAND);
 		manaPool = new ManaPool();
 		local = Locale.getDefault();
+		
 		mixHandAndLibrary();
 		shuffleLibrary();
 	}
