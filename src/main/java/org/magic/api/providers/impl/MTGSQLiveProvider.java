@@ -98,7 +98,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	@Override
 	public void init() {
 		try {
-
 			logger.debug("loading file " + sqlLiteFile);
 
 			if (hasNewVersion()||!sqlLiteFile.exists() || sqlLiteFile.length() == 0 || getBoolean(FORCE_RELOAD)) {
@@ -132,7 +131,10 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		
 		
 		if(att.equalsIgnoreCase(SET_FIELD))
+		{
 			att="setCode";
+			exact=true;
+		}
 		
 		StringBuilder temp = new StringBuilder("SELECT * FROM cards WHERE ").append(att);
 		
