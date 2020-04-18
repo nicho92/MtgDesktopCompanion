@@ -365,9 +365,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return "Guru+Lands";
 		case "Modern+Masters+2017":
 			return "Modern+Masters+2017+Edition";
-		case "Ultimate+Box+Topper":
-			return "Ultimate+Box+Topper:Foil";
-			
 			
 		default:
 			return editionName;
