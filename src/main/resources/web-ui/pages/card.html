@@ -227,7 +227,7 @@
   	   	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
   	   	   					
   	   	   					
-  	   	   					$("#lastPrice").html(vallast+"$");
+  	   	   					$("#lastPrice").html(vallast.toFixed(2)+"$");
   	   	   				
   	   	   					if(vallast>valpreLast)
    	   						{

@@ -45,12 +45,18 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		formats.put("Commander", "?formatId=3");
 		formats.put("Legacy", "?formatId=4");
 		formats.put("Vintage", "?formatId=5");
-		formats.put("MTG Arena", "?formatId=13");
+
 		formats.put("Commander 1vs1", "?formatId=7");
 		formats.put("Frontier", "?formatId=8");
 		formats.put("Pauper", "?formatId=9");
 		formats.put("Brawl", "?formatId=10");
+		formats.put("Limited", "?formatId=11");
 		
+		formats.put("MTGA Events Decks", "?formatId=13");
+		formats.put("MTG Arena Standard", "?formatId=14");
+		formats.put("Other", "?formatId=15");
+		formats.put("MTGA Historic", "?formatId=16");
+		formats.put("Pioneer", "?formatId=17");
 		
 		httpclient = URLTools.newClient();
 
