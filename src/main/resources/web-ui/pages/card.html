@@ -110,6 +110,41 @@
   	    	if(data.loyalty!=null)
   	    		$('#loyalty').append(data.loyalty);
   	    	
+  	    	if(data.layout!=null)
+  	    		$('#layout').append(data.layout);
+  	    	
+  	   	
+  	    	if(data.promoCard==true)
+  	    		$('#promoCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#promoCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.reserved==true)
+  	    		$('#reserved').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#reserved').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.reprintedCard==true)
+  	    		$('#reprintedCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#reprintedCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.arenaCard==true)
+  	    		$('#arenaCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#arenaCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.mtgoCard==true)
+  	    		$('#mtgoCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#mtgoCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.onlineOnly==true)
+  	    		$('#onlineOnly').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#onlineOnly').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	
   	    	
   	    	$('#artist').html("<i>"+data.artist+"</i>");
   	    	
@@ -117,10 +152,6 @@
   	    	
   	    	$('#number').append(data.editions[0].number)
   	    	
-  	    	if(data.reserved==true)
-  	    		$('#reserved').append("<i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#reserved').append("<i class='fa fa-times-circle'></i>");
   	    	
   	    	for (var i = 0; i < data.editions.length; i++) 
   	    	{
@@ -171,41 +202,7 @@
   	    	}
   	    	
   	    	
-  	    
-  			    $('#tablePrices').DataTable( {
-  			    	language: {
-  			    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
-  			    	 },
-  			    	"responsive": true,
-  			        "processing": true,
-  			        "pageLength": 5,
-  			        "bLengthChange": false,
-  			        "paginationType":"simple",
-  			      	"searching": false,
-  			      	"order": [[ 1, "asc" ]],
-  			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
-  			        "columns": [
-  			        	{ "data": "site" },
-  			            { "data" : "value"},
-  			            { "data": "currency",
-  			            	"defaultContent": ""
-  			           	},
-  			          	{ "data": "quality",
-  			           	  "defaultContent": ""
-  			           	},
-  			            { 
-	  			                "data": "url",
-	  			                "render": function(data, type, row, meta){
-	  			                   if(type === 'display'){
-	  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
-	  			                   }
-	  			                   return data;
-	  			                }
-	  			        }
-  			        ]
-  			    } );
-  		
-  			  $.ajax({
+  	    	$.ajax({
   	  			dataType: 'json',
   	   	        url: restserver+"/dash/card/"+$_GET("id")
   	   	   		 }).then(function(json_data) {
@@ -232,12 +229,12 @@
   	   	   					if(vallast>valpreLast)
    	   						{
   	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-up");
-  	   	   						$("#pcVariation").html("+"+pc.toPrecision(2)+"%");
+  	   	   						$("#pcVariation").html("+"+pc.toFixed(2)+"%");
   	   						}
   	   	   					else if(vallast<valpreLast)
    	   						{
 	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-down");
-	   	   						$("#pcVariation").html(pc.toPrecision(2)+"%");
+	   	   						$("#pcVariation").html(pc.toFixed(2)+"%");
 	   						}
   	   	   					else
    	   						{
@@ -253,7 +250,38 @@
 		  	  	    	}
 		  	  	    });
   			  
-  			
+  			 $('#tablePrices').DataTable( {
+			    	language: {
+			    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+			    	 },
+			    	"responsive": true,
+			        "processing": true,
+			        "pageLength": 5,
+			        "bLengthChange": false,
+			        "paginationType":"simple",
+			      	"searching": false,
+			      	"order": [[ 1, "asc" ]],
+			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
+			        "columns": [
+			        	{ "data": "site" },
+			            { "data" : "value"},
+			            { "data": "currency",
+			            	"defaultContent": ""
+			           	},
+			          	{ "data": "quality",
+			           	  "defaultContent": ""
+			           	},
+			            { 
+	  			                "data": "url",
+	  			                "render": function(data, type, row, meta){
+	  			                   if(type === 'display'){
+	  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
+	  			                   }
+	  			                   return data;
+	  			                }
+	  			        }
+			        ]
+			    } );
   	    	
   	    });
   	});
@@ -298,24 +326,35 @@
 					<div class="panel">
 						<div class="panel-heading">Informations</div>
 						<div class="panel-body">
-							<p id="cost">
-								<b>Cost : </b>
-							</p>
-							<p id="types">
-								<b>Types :</b>
-							</p>
-							<p id="power">
-								<b>Power :</b>
-							</p>
-							<p id="loyalty">
-								<b>Loyalty :</b>
-							</p>
-							<p id="number">
-								<b>Number :</b>
-							</p>
-							<p id="reserved">
-								<b>Reserved :</b>
-							</p>
+							<table class="table table-borderless  table-hover specialCollapse">
+      							<tbody>
+      								<tr>
+									    <td><p id="cost"><b>Cost : </b></p></td>
+									    <td><p id="types"><b>Types :</b></p></td>
+										<td><p id="power"><b>Power :</b></p></td>
+									<tr>
+									<tr>
+										<td><p id="number"><b>Number :</b></p></td>
+										<td><p id="loyalty"><b>Loyalty :</b></p></td>
+										<td><p id="layout"><b>Layout :</b></p></td>
+										
+									</tr>
+									<tr>
+										<td><p id="reserved"><b>Reserved :</b></p></td>
+										<td><p id="promoCard"><b>Promo :</b></p></td>
+										<td><p id="reprintedCard"><b>Reprinted :</b></p></td>
+									</tr>
+									<tr>
+										<td><p id="arenaCard"><b>MTGArena :</b></p></td>
+										<td><p id="mtgoCard"><b>MTGO :</b></p></td>
+										<td><p id="onlineOnly"><b>Online Only :</b></p></td>
+									</tr>
+									
+      							</tbody>
+      						</table>
+						
+						
+							
 						</div>
 						<div class="panel-footer"></div>
 					</div>

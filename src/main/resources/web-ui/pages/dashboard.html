@@ -10,9 +10,9 @@
     <meta name="author" content="">
 
     <title>MTGDesktopCompanion</title>
-	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"/></script>
- 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"/></script>
-  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"/></script>
+	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
  	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
  	
  	<link href="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -77,16 +77,28 @@
 						            return data;
 						        }
 				        	},
-			            { "data" : "price"},
+			            { 
+				        		"data" : "price",
+				        		"defaultContent": "",
+					              "render": function(data, type, row, meta){
+							           if(type === 'display'){
+							        	   
+							            }
+							            return data.toFixed(2);
+							        }
+				        		
+				        		
+			            
+			            },
 			            { "data": "priceDayChange",
 			              "defaultContent": "",
 			              "render": function(data, type, row, meta){
 					           if(type === 'display'){
 					        	   
 					        	   if(data>0)
-					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data;
+					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
 					        	   if(data<0)
-						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data;
+						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
 						        	   
 					        	   		
 					            }
@@ -130,16 +142,27 @@
 			            return data;
 			        }
 		        	},
-		            { "data" : "price"},
+		            { 
+		        		"data" : "price",
+		        		"defaultContent": "",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	   
+					            }
+					            return data.toFixed(2);
+					        }
+		        		
+		        		
+		            },
 		            { "data": "priceDayChange",
 		            	"defaultContent": "",
 			              "render": function(data, type, row, meta){
 					           if(type === 'display'){
 					        	   
 					        	   if(data>0)
-					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data;
+					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
 					        	   if(data<0)
-						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data;
+						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
 						        	   
 					        	   		
 					            }
@@ -151,7 +174,7 @@
 		              "render": function(data, type, row, meta){
 				           if(type === 'display'){
 				        	   if(data>0)
-				        	   	data = '+'+data;
+				        	   	data = '+'+data.toFixed(2);
 				            }
 				            return data +"%";
 				        }

@@ -331,6 +331,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private String convert(String editionName) {
 
 		switch (editionName) {
+		case "Magic+2015":
+			return "Magic+2015+Core+Set";
+		case "Magic+2014":
+			return "Magic+2014+Core+Set";
 		case "Grand+Prix":
 			return "Grand+Prix+Promos";
 		case "Prerelease+Events":
