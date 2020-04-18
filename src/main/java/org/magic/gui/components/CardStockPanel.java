@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -96,19 +97,33 @@ public class CardStockPanel extends MTGUIComponent {
 	}
 
 	private void save() {
-		ThreadManager.getInstance().executeThread(() -> {
-			for (MagicCardStock ms : model.getItems())
-				if (ms.isUpdate())
-					try {
-						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
-						ms.setUpdate(false);
-						
-					} catch (SQLException e1) {
-						MTGControler.getInstance().notify(e1);
-					}
+		
+		SwingWorker<Void, Void> sw = new SwingWorker<>()
+		{
+			@Override
+			protected Void doInBackground() throws Exception {
+				for (MagicCardStock ms : model.getItems())
+					if (ms.isUpdate())
+						try {
+							MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
+							ms.setUpdate(false);
+							
+						} catch (SQLException e1) {
+							MTGControler.getInstance().notify(e1);
+						}
 
-			model.fireTableDataChanged();
-		}, "Batch stock save");
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				model.fireTableDataChanged();
+			}
+			
+			
+			
+		};
+		ThreadManager.getInstance().runInEdt(sw, "batch stock saving");	
 	}
 
 	private void delete() {
