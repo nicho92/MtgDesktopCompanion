@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,7 +28,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
-import org.magic.gui.models.DeckStockComparisonModel.Line;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
@@ -157,8 +156,14 @@ public class DeckStockComparatorPanel extends JComponent {
 						@Override
 						protected void done() {
 							buzyLabel.end();
-							//TODO..return only one cards.
-							pricesPan.initDeck(MagicDeck.toDeck(model.getItems().stream().filter(l->l.getResult()>0).map(Line::getMc).collect(Collectors.toList())));
+					
+							List<MagicCard> pricList = new ArrayList<>();
+							model.getItems().stream().filter(l->l.getResult()>0).forEach(l->{
+								for(int i=0;i<l.getResult();i++)
+									pricList.add(l.getMc());
+							});
+							
+							pricesPan.initDeck(MagicDeck.toDeck(pricList));
 							if(chkCalculate.isSelected())
 								pricesPan.getBtnCheckPrice().doClick();
 							
