@@ -357,33 +357,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 						menu.add(mnuModifier);
 					}
 					
-					List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
-					if(!abs.isEmpty()) 
-					{
-						JMenu mnuAbilities = new JMenu("Activate");
-						abs.stream().filter(c->!c.isLoyalty())
-									.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
-						menu.add(mnuAbilities);
-					}
 					
-					Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
-					
-					if (!l.isEmpty()) {
-						JMenu actions = new JMenu("Abilities");
-
-						for (final MTGKeyWord k : l) {
-							JMenuItem it;
-							try {
-								it = new JMenuItem(generateActionFromKey(k));
-							} catch (Exception e) {
-								logger.trace("error " + k + " : " + e);
-								it = new JMenuItem(k.getKeyword());
-							}
-							actions.add(it);
-						}
-						menu.add(actions);
-					}
-
 					if (!counters.isEmpty()) {
 						JMenu mnuModifier = new JMenu("Remove Counter");
 						counters.forEach(count->mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count))));
@@ -396,6 +370,33 @@ public class DisplayableCard extends JLabel implements Draggable {
 						menu.add(mnuModifier);
 					}	
 					
+			}
+
+			List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
+			if(!abs.isEmpty()) 
+			{
+				JMenu mnuAbilities = new JMenu("Activate");
+				abs.stream().filter(c->!c.isLoyalty())
+							.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
+				menu.add(mnuAbilities);
+			}
+			
+			Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
+			
+			if (!l.isEmpty()) {
+				JMenu actions = new JMenu("Abilities");
+
+				for (final MTGKeyWord k : l) {
+					JMenuItem it;
+					try {
+						it = new JMenuItem(generateActionFromKey(k));
+					} catch (Exception e) {
+						logger.trace("error " + k + " : " + e);
+						it = new JMenuItem(k.getKeyword());
+					}
+					actions.add(it);
+				}
+				menu.add(actions);
 			}
 
 			

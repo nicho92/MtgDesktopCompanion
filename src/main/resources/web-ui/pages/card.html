@@ -163,10 +163,40 @@
   	    		$('#reprints').append('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.editions[i].rarity.toLowerCase()+' ss-2x"></i><a href="list-cards.html?set='+data.editions[i].id+'">'+ data.editions[i].set + "</a><br/>");
   	   		}
   	    	
-  	    	for (var i = 0; i < data.legalities.length; i++) {
-  	    		$('#legalities').append(data.legalities[i].format+":" + data.legalities[i].formatLegality +'<br/>');
+  	    	
+  	 	 json = data.legalities;
+	     keys = Object.keys(json);
+    	 keys.map(function(item) 
+					{
+    		 			var color="";
+    		 			
+    		 			if(json[item].formatLegality!=null)
+  		 				{
+    		 				
+    		 				if(json[item].formatLegality =='RESTRICTED')
+    		 					color="list-group-item-warning";
+    		 				
+    		 				if(json[item].formatLegality =="LEGAL")
+       		 					color="list-group-item-success";
+       		 				
+    		 				if(json[item].formatLegality =="BANNED" || json[item].formatLegality =="NOT_LEGAL")
+        		 				color="list-group-item-danger";
+  		 				}
+    		 			else
+   		 				{
+    		 				if(json[item].oldLegality)
+        		 				color="list-group-item-success";
+        		 			else
+        		 				color="list-group-item-danger";
+   		 				}
+    		 			
+    		 			
+    		 			
+    		 
+	 					$("#legalities").append("<li class='list-group-item " + color+ "'><i class='fa fa-tag fa-fw'></i>"+json[item].format+" " + json[item].formatLegality+"</li>");	
+					});
+  	    	
   	    		
-			}
   	    	
   	    	if(data.cost!=null)
   	    	{

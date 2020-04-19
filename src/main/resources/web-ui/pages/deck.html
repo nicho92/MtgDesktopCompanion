@@ -49,22 +49,20 @@
   
   
   	<link href="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.css" rel="stylesheet" type="text/css" >
-   	<script src="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.min.js"/></script>
-   	<script src="//cdn.jsdelivr.net/npm/raphael@latest/raphael.min.js"/></script>
+   	<script src="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.min.js"></script>
+   	<script src="//cdn.jsdelivr.net/npm/raphael@latest/raphael.min.js"></script>
   
   	<script src="//cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
   
   	<script>
   	$(document).ready(function() {
-	 
+  		$("nav").load("menu.html");
+  		
   		new ClipboardJS('.btn');
   		
   		$('#url').val(window.location);
   		
-  		
-  		 $("nav").load("menu.html");
-
-  	    $.ajax({
+  		$.ajax({
   	        url: restserver+"/deck/"+$_GET("name")
   	    }).then(function(data) {
   	    	$('#title').html(data.name);

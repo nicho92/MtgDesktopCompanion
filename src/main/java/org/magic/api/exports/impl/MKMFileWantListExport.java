@@ -40,9 +40,29 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 			
 			for (MagicCard mc : deck.getMain().keySet()) {
 				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
+					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName());
 				else
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet());
+			
+				try {
+					
+					if(mc.isPromoCard())
+					{
+						temp.append(": Promos");
+					}
+					else
+					{
+						int number = Integer.parseInt(mc.getCurrentSet().getNumber());
+						if(number>mc.getCurrentSet().getCardCountOfficial())
+							temp.append(": Extras");
+					}					
+				}catch (Exception e) {
+					//do nothing
+				}
+				
+				temp.append(")\n");
+				
+				
 				notify(mc);
 			}
 			
