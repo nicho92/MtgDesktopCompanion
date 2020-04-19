@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;

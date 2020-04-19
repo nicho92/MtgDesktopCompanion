@@ -51,7 +51,7 @@ public class AbilitiesFactory implements Serializable{
 		ret.addAll(getActivatedAbilities(mc));
 		ret.addAll(getLoyaltyAbilities(mc));
 		ret.addAll(getTriggeredAbility(mc));
-		ret.addAll(parseStaticAbilities(mc));
+		ret.addAll(getStaticAbilities(mc));
 		return ret;
 	}
 	
@@ -136,7 +136,7 @@ public class AbilitiesFactory implements Serializable{
 		
 	}
 
-	public List<AbstractAbilities> parseStaticAbilities(MagicCard mc) {
+	public List<AbstractAbilities> getStaticAbilities(MagicCard mc) {
 		return MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc, TYPE.ABILITIES).stream().map(StaticAbilities::new).collect(Collectors.toList());
 	}
 
