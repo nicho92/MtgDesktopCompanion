@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.keywords.AbstractKeyWordsManager;
 
 public class MorphActions extends AbstractAction {
 
@@ -68,7 +69,7 @@ public class MorphActions extends AbstractAction {
 			mc.setEditions(card.getMagicCard().getEditions());
 			mc.setRotatedCardName(card.getMagicCard().getName());
 			MagicRuling r = new MagicRuling();
-					r.setText(MTGControler.getInstance().getKeyWordManager().generateFromKeyString(k).toString());
+					r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
 			mc.getRulings().add(r);
 			mc.setText(k + " " + cost);
 			mc.setLayout(card.getMagicCard().getLayout());

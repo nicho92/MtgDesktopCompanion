@@ -67,6 +67,7 @@ import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
+import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.threads.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -381,7 +382,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 				menu.add(mnuAbilities);
 			}
 			
-			Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
+			Set<MTGKeyWord> l = AbstractKeyWordsManager.getInstance().getKeywordsFrom(magicCard);
 			
 			if (!l.isEmpty()) {
 				JMenu actions = new JMenu("Abilities");

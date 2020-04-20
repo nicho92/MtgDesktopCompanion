@@ -6,9 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public class MTGKeyWord implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public enum TYPE {
@@ -16,12 +13,12 @@ public class MTGKeyWord implements Serializable{
 	}
 
 	public enum EVENT {
-		STATIC, ACTIVATED, TRIGGERED, ABILITY
+		STATIC, ACTIVATED, TRIGGERED
 	}
 
 	private String keyword;
 	private String description;
-
+	private EVENT event;
 	private TYPE type;
 
 	public MTGKeyWord() {
@@ -33,6 +30,20 @@ public class MTGKeyWord implements Serializable{
 			this.type=type;
 	}
 	
+	public MTGKeyWord(String keyword, EVENT event, TYPE type) {
+		super();
+		this.keyword = keyword;
+		this.event = event;
+		this.type = type;
+	}
+
+	public EVENT getEvent() {
+		return event;
+	}
+
+	public void setEvent(EVENT event) {
+		this.event = event;
+	}
 
 	@Override
 	public String toString() {

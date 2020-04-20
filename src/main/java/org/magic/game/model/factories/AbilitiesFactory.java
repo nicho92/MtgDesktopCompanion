@@ -18,6 +18,7 @@ import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
 import org.magic.game.model.costs.LoyaltyCost;
 import org.magic.services.MTGControler;
+import org.magic.services.keywords.AbstractKeyWordsManager;
 
 public class AbilitiesFactory implements Serializable{
 
@@ -137,7 +138,7 @@ public class AbilitiesFactory implements Serializable{
 	}
 
 	public List<AbstractAbilities> getStaticAbilities(MagicCard mc) {
-		return MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc, TYPE.ABILITIES).stream().map(StaticAbilities::new).collect(Collectors.toList());
+		return AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc, TYPE.ABILITIES).stream().map(StaticAbilities::new).collect(Collectors.toList());
 	}
 
 	public List<TriggeredAbilities> getTriggeredAbility(MagicCard mc)

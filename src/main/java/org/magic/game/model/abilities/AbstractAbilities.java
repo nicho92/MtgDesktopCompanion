@@ -1,7 +1,5 @@
 package org.magic.game.model.abilities;
 
-import org.magic.api.beans.MTGDocumentation;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.game.model.AbstractSpell;
 
 public abstract class AbstractAbilities extends AbstractSpell {

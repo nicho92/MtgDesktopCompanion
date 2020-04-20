@@ -32,8 +32,8 @@ import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
-import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
+import org.magic.services.keywords.MTGJsonKeyWordsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
@@ -41,7 +41,6 @@ import org.utils.patterns.observer.Observer;
 public class MTGControler {
 
 	private static MTGControler inst;
-	private KeyWordProvider keyWordManager;
 	private XMLConfiguration config;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
@@ -88,7 +87,6 @@ public class MTGControler {
 			
 			PluginRegistry.inst().setConfig(config);
 			
-			keyWordManager = new KeyWordProvider();
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
 		} catch (Exception e) {
@@ -207,9 +205,6 @@ public class MTGControler {
 		return currencyService;
 	}
 
-	public KeyWordProvider getKeyWordManager() {
-		return keyWordManager;
-	}
 	
 	public LookAndFeelProvider getLafService() {
 		if (lafService != null) {
