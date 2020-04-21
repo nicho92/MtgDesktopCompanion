@@ -115,7 +115,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private JList<MagicEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
 	private AbstractBuzyIndicatorComponent lblLoading;
-
+	private CardAbilitiesPanel abilitiesPanel;
 	
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
@@ -219,6 +219,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		JTabbedPane tabbedCardsInfo = new JTabbedPane(SwingConstants.TOP);
 		editionDetailPanel = new JPanel();
 		panelResultsCards = new JPanel();
+		abilitiesPanel = new CardAbilitiesPanel();
 		cmcChart = new CmcChartPanel();
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
@@ -375,7 +376,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
-		
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("ABILITIES"), abilitiesPanel.getIcon(),abilitiesPanel, null);
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
@@ -712,7 +713,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			panelJson.show(selectedCard);
 			deckPanel.init(selectedCard);
 			stockPanel.initMagicCardStock(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
-			
+			abilitiesPanel.init(selectedCard);
 			ThreadManager.getInstance().executeThread(
 					() -> historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName()),
 					"load history for " + selectedEdition);

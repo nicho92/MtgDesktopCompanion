@@ -88,7 +88,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public String getName() {
-		return "MKM File WantList";
+		return "MKM File";
 	}
 
 	@Override
@@ -115,5 +115,11 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return " ";
 	}
+	
+	@Override
+	public void initDefault() {
+		setProperty("SEPARATOR", getSeparator());
+	}
+	
 
 }

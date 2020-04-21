@@ -6,12 +6,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.MagicCard;
 import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
@@ -26,8 +24,9 @@ public abstract class AbstractKeyWordsManager {
 	public abstract List<MTGKeyWord> getActivatedAbilities();
 	public abstract List<MTGKeyWord> getTriggeredAbilities();
 	public abstract List<MTGKeyWord> getKeywordActions();
+	public abstract List<MTGKeyWord> getWordsAbilities();
+	private static AbstractKeyWordsManager inst;
 	
-	private static AbstractKeyWordsManager inst; 
 	
 	public static AbstractKeyWordsManager getInstance()
 	{
@@ -36,7 +35,6 @@ public abstract class AbstractKeyWordsManager {
 		
 		return inst;
 	}
-	
 
 	public List<MTGKeyWord> getList() {
 		List<MTGKeyWord> keys = new ArrayList<>();
@@ -44,6 +42,7 @@ public abstract class AbstractKeyWordsManager {
 		keys.addAll(getStaticsAbilities());
 		keys.addAll(getTriggeredAbilities());
 		keys.addAll(getKeywordActions());
+		keys.addAll(getWordsAbilities());
 		return keys;
 	}
 	
@@ -62,23 +61,24 @@ public abstract class AbstractKeyWordsManager {
 	
 	public Set<MTGKeyWord> getKeywordsFrom(String cardContent) {
 		return getList().stream()
-				   .filter(kw->String.valueOf(cardContent).toLowerCase().contains(kw.getKeyword().toLowerCase()))
+				   .filter(kw->String.valueOf(cardContent.toLowerCase()).contains(kw.getKeyword().toLowerCase()))
+				   .distinct()
 				   .collect(Collectors.toSet());
 	}
 	
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,EVENT t) {
 		return getKeywordsFrom(mc).stream()
 				   .filter(l->l.getEvent()==t)
+				   .distinct()
 				   .collect(Collectors.toSet());
 	}
-	
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,TYPE t) {
 		return getKeywordsFrom(mc).stream()
 				   .filter(l->l.getType()==t)
+				   .distinct()
 				   .collect(Collectors.toSet());
 	}
-	
 
 	public JsonObject toJson()
 	{
@@ -94,7 +94,7 @@ public abstract class AbstractKeyWordsManager {
 						  
 						   if(kw.getEvent()!=null)
 							   o.addProperty("event", kw.getEvent().name());
-						   
+
 				arr.add(o);		   	   
 			});
 			
@@ -103,13 +103,5 @@ public abstract class AbstractKeyWordsManager {
 		
 		return ret;
 	}
-	
-	
-	public static void main(String[] args) {
-		
-		System.out.println(AbstractKeyWordsManager.getInstance().toJson());
-	}
-	
-	
 	
 }

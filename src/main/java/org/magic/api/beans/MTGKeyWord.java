@@ -36,6 +36,24 @@ public class MTGKeyWord implements Serializable{
 		this.event = event;
 		this.type = type;
 	}
+	
+	@Override
+	public int hashCode() {
+		return getKeyword().hashCode();
+	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		
+		if(!(obj instanceof MTGKeyWord))
+			return false;
+		
+		return this.getKeyword().equalsIgnoreCase(((MTGKeyWord)obj).getKeyword());
+		
+	}
 
 	public EVENT getEvent() {
 		return event;

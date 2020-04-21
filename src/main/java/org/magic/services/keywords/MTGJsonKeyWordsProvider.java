@@ -42,6 +42,11 @@ public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 		return list;
 	}
 
+	@Override
+	public List<MTGKeyWord> getWordsAbilities() {
+		return getList().stream().filter(p->p.getType()==TYPE.WORD).collect(Collectors.toList());
+	}
+	
 
 	@Override
 	public List<MTGKeyWord> getStaticsAbilities() {

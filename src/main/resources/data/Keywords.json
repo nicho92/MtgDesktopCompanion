@@ -1,0 +1,1071 @@
+{
+	"abilities": [
+		{
+			"name": "Augment",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Aura swap",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Crew",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Cycling",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Embalm",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Equip",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Eternalize",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Forecast",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Fortify",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Four-faced",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Hieroglyphics",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Level up",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Mummify",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Ninjutsu",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Outlast",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Reckless",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Reinforce",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Scavenge",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Transfigure",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Transmute",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Unearth",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Equip",
+			"event": "ACTIVATED"
+		},
+		{
+			"name": "Absorb",
+			"event": "STATIC"
+		},
+		{
+			"name": "Affinity",
+			"event": "STATIC"
+		},
+		{
+			"name": "Aftermath",
+			"event": "STATIC"
+		},
+		{
+			"name": "Aggressive",
+			"event": "STATIC"
+		},
+		{
+			"name": "Amplify",
+			"event": "STATIC"
+		},
+		{
+			"name": "Ascend",
+			"event": "STATIC"
+		},
+		{
+			"name": "Assist",
+			"event": "STATIC"
+		},
+		{
+			"name": "Awaken",
+			"event": "STATIC"
+		},
+		{
+			"name": "Backbone",
+			"event": "STATIC"
+		},
+		{
+			"name": "Banding",
+			"event": "STATIC"
+		},
+		{
+			"name": "Bank",
+			"event": "STATIC"
+		},
+		{
+			"name": "Bestow",
+			"event": "STATIC"
+		},
+		{
+			"name": "Bloodthirst",
+			"event": "STATIC"
+		},
+		{
+			"name": "Buyback",
+			"event": "STATIC"
+		},
+		{
+			"name": "Cipher",
+			"event": "STATIC"
+		},
+		{
+			"name": "Companion",
+			"event": "STATIC"
+		},
+		{
+			"name": "Conspire",
+			"event": "STATIC"
+		},
+		{
+			"name": "Convoke",
+			"event": "STATIC"
+		},
+		{
+			"name": "Dash",
+			"event": "STATIC"
+		},
+		{
+			"name": "Deathtouch",
+			"event": "STATIC"
+		},
+		{
+			"name": "Defender",
+			"event": "STATIC"
+		},
+		{
+			"name": "Delve",
+			"event": "STATIC"
+		},
+		{
+			"name": "Devour",
+			"event": "STATIC"
+		},
+		{
+			"name": "Double strike",
+			"event": "STATIC"
+		},
+		{
+			"name": "Dredge",
+			"event": "STATIC"
+		},
+		{
+			"name": "Emerge",
+			"event": "STATIC"
+		},
+		{
+			"name": "Enchant",
+			"event": "STATIC"
+		},
+		{
+			"name": "Entwine",
+			"event": "STATIC"
+		},
+		{
+			"name": "Escalate",
+			"event": "STATIC"
+		},
+		{
+			"name": "Escape",
+			"event": "STATIC"
+		},
+		{
+			"name": "Evoke",
+			"event": "STATIC"
+		},
+		{
+			"name": "Fading",
+			"event": "STATIC"
+		},
+		{
+			"name": "First strike",
+			"event": "STATIC"
+		},
+		{
+			"name": "Flash",
+			"event": "STATIC"
+		},
+		{
+			"name": "Flashback",
+			"event": "STATIC"
+		},
+		{
+			"name": "Forbidden",
+			"event": "STATIC"
+		},
+		{
+			"name": "Fuse",
+			"event": "STATIC"
+		},
+		{
+			"name": "Graft",
+			"event": "STATIC"
+		},
+		{
+			"name": "Haste",
+			"event": "STATIC"
+		},
+		{
+			"name": "Hexproof",
+			"event": "STATIC"
+		},
+		{
+			"name": "Hidden agenda",
+			"event": "STATIC"
+		},
+		{
+			"name": "Hideaway",
+			"event": "STATIC"
+		},
+		{
+			"name": "Improvise",
+			"event": "STATIC"
+		},
+		{
+			"name": "Indestructible",
+			"event": "STATIC"
+		},
+		{
+			"name": "Infect",
+			"event": "STATIC"
+		},
+		{
+			"name": "Interplanar",
+			"event": "STATIC"
+		},
+		{
+			"name": "Jump-start",
+			"event": "STATIC"
+		},
+		{
+			"name": "Just a second",
+			"event": "STATIC"
+		},
+		{
+			"name": "Kicker",
+			"event": "STATIC"
+		},
+		{
+			"name": "Landhome",
+			"event": "STATIC"
+		},
+		{
+			"name": "Last strike",
+			"event": "STATIC"
+		},
+		{
+			"name": "Legacy (keyword)",
+			"event": "STATIC"
+		},
+		{
+			"name": "Lifelink",
+			"event": "STATIC"
+		},
+		{
+			"name": "Link",
+			"event": "STATIC"
+		},
+		{
+			"name": "Madness",
+			"event": "STATIC"
+		},
+		{
+			"name": "Miracle",
+			"event": "STATIC"
+		},
+		{
+			"name": "Modular",
+			"event": "STATIC"
+		},
+		{
+			"name": "Morph",
+			"event": "STATIC"
+		},
+		{
+			"name": "Motivate",
+			"event": "STATIC"
+		},
+		{
+			"name": "Mutate",
+			"event": "STATIC"
+		},
+		{
+			"name": "Offering",
+			"event": "STATIC"
+		},
+		{
+			"name": "Overload",
+			"event": "STATIC"
+		},
+		{
+			"name": "Phasing",
+			"event": "STATIC"
+		},
+		{
+			"name": "Protection",
+			"event": "STATIC"
+		},
+		{
+			"name": "Prowl",
+			"event": "STATIC"
+		},
+		{
+			"name": "Reach",
+			"event": "STATIC"
+		},
+		{
+			"name": "Rebound",
+			"event": "STATIC"
+		},
+		{
+			"name": "Replicate",
+			"event": "STATIC"
+		},
+		{
+			"name": "Retrace",
+			"event": "STATIC"
+		},
+		{
+			"name": "Riot",
+			"event": "STATIC"
+		},
+		{
+			"name": "Scrycast",
+			"event": "STATIC"
+		},
+		{
+			"name": "Shroud",
+			"event": "STATIC"
+		},
+		{
+			"name": "Spectacle",
+			"event": "STATIC"
+		},
+		{
+			"name": "Splice",
+			"event": "STATIC"
+		},
+		{
+			"name": "Split second",
+			"event": "STATIC"
+		},
+		{
+			"name": "Substance",
+			"event": "STATIC"
+		},
+		{
+			"name": "Sunburst",
+			"event": "STATIC"
+		},
+		{
+			"name": "Super haste",
+			"event": "STATIC"
+		},
+		{
+			"name": "Surge",
+			"event": "STATIC"
+		},
+		{
+			"name": "Suspend",
+			"event": "STATIC"
+		},
+		{
+			"name": "Tasty",
+			"event": "STATIC"
+		},
+		{
+			"name": "Totem armor",
+			"event": "STATIC"
+		},
+		{
+			"name": "Trample",
+			"event": "STATIC"
+		},
+		{
+			"name": "Tribute",
+			"event": "STATIC"
+		},
+		{
+			"name": "Triple strike",
+			"event": "STATIC"
+		},
+		{
+			"name": "Typelink",
+			"event": "STATIC"
+		},
+		{
+			"name": "Undaunted",
+			"event": "STATIC"
+		},
+		{
+			"name": "Undeathtouch",
+			"event": "STATIC"
+		},
+		{
+			"name": "Unique",
+			"event": "STATIC"
+		},
+		{
+			"name": "Unleash",
+			"event": "STATIC"
+		},
+		{
+			"name": "Unstoppable",
+			"event": "STATIC"
+		},
+		{
+			"name": "Vanishing",
+			"event": "STATIC"
+		},
+		{
+			"name": "Vigilance",
+			"event": "STATIC"
+		},
+		{
+			"name": "Wither",
+			"event": "STATIC"
+		},
+		{
+			"name": "Deathtouch",
+			"event": "STATIC"
+		},
+		{
+			"name": "Defender",
+			"event": "STATIC"
+		},
+		{
+			"name": "Double strike",
+			"event": "STATIC"
+		},
+		{
+			"name": "Enchant",
+			"event": "STATIC"
+		},
+		{
+			"name": "First strike",
+			"event": "STATIC"
+		},
+		{
+			"name": "Flash",
+			"event": "STATIC"
+		},
+		{
+			"name": "Flying",
+			"event": "STATIC"
+		},
+		{
+			"name": "Haste",
+			"event": "STATIC"
+		},
+		{
+			"name": "Hexproof",
+			"event": "STATIC"
+		},
+		{
+			"name": "Indestructible",
+			"event": "STATIC"
+		},
+		{
+			"name": "Lifelink",
+			"event": "STATIC"
+		},
+		{
+			"name": "Menace[9]",
+			"event": "STATIC"
+		},
+		{
+			"name": "Protection",
+			"event": "STATIC"
+		},
+		{
+			"name": "Reach",
+			"event": "STATIC"
+		},
+		{
+			"name": "Trample",
+			"event": "STATIC"
+		},
+		{
+			"name": "Vigilance",
+			"event": "STATIC"
+		},
+		{
+			"name": "Banding",
+			"event": "STATIC"
+		},
+		{
+			"name": "Fear",
+			"event": "STATIC"
+		},
+		{
+			"name": "Shroud",
+			"event": "STATIC"
+		},
+		{
+			"name": "Intimidate",
+			"event": "STATIC"
+		},
+		{
+			"name": "Landwalk",
+			"event": "STATIC"
+		},
+		{
+			"name": "Afflict",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Afterlife",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Annihilator",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Battle cry",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Bushido",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Cascade",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Champion",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Conspire",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Cumulative upkeep",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Dethrone",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Echo",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Evoke",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Evolve",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Exalted",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Exploit",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Extort",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Fabricate",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Fading",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Flanking",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Frenzy",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Glorify",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Graft",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Gravestorm",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Haunt",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Hideaway",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Ingest",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Living weapon",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Madness",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Melee",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Mentor",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Miracle",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Modular",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Myriad",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Partner",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Persist",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Poisonous",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Provoke",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Prowess",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Rampage",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Recover",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Renown",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Replicate",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Ripple",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Soulbond",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Soulshift",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Storm",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Suspend",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Undying",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Vanishing",
+			"event": "TRIGGERED"
+		},
+		{
+			"name": "Prowess",
+			"event": "TRIGGERED"
+		}
+	],
+	"action": [
+		{
+			"name": "Keyword Actions"
+		},
+		{
+			"name": "Activate"
+		},
+		{
+			"name": "Attach"
+		},
+		{
+			"name": "Cast"
+		},
+		{
+			"name": "Counter"
+		},
+		{
+			"name": "Create"
+		},
+		{
+			"name": "Destroy"
+		},
+		{
+			"name": "Discard"
+		},
+		{
+			"name": "Double"
+		},
+		{
+			"name": "Exchange"
+		},
+		{
+			"name": "Exile"
+		},
+		{
+			"name": "Fight"
+		},
+		{
+			"name": "Play"
+		},
+		{
+			"name": "Regenerate"
+		},
+		{
+			"name": "Reveal"
+		},
+		{
+			"name": "Sacrifice"
+		},
+		{
+			"name": "Scry"
+		},
+		{
+			"name": "Search"
+		},
+		{
+			"name": "Shuffle"
+		},
+		{
+			"name": "Tap and Untap"
+		},
+		{
+			"name": "Fateseal"
+		},
+		{
+			"name": "Clash"
+		},
+		{
+			"name": "Planeswalk"
+		},
+		{
+			"name": "Set in Motion"
+		},
+		{
+			"name": "Abandon"
+		},
+		{
+			"name": "Proliferate"
+		},
+		{
+			"name": "Transform"
+		},
+		{
+			"name": "Detain"
+		},
+		{
+			"name": "Populate"
+		},
+		{
+			"name": "Monstrosity"
+		},
+		{
+			"name": "Vote"
+		},
+		{
+			"name": "Bolster"
+		},
+		{
+			"name": "Manifest"
+		},
+		{
+			"name": "Support"
+		},
+		{
+			"name": "Investigate"
+		},
+		{
+			"name": "Meld"
+		},
+		{
+			"name": "Goad"
+		},
+		{
+			"name": "Exert"
+		},
+		{
+			"name": "Explore"
+		},
+		{
+			"name": "Assemble"
+		},
+		{
+			"name": "Surveil"
+		},
+		{
+			"name": "Adapt"
+		},
+		{
+			"name": "Amass"
+		},
+		{
+			"name": "Activate"
+		},
+		{
+			"name": "Attach"
+		},
+		{
+			"name": "Cast"
+		},
+		{
+			"name": "Counter"
+		},
+		{
+			"name": "Create"
+		},
+		{
+			"name": "Destroy"
+		},
+		{
+			"name": "Discard"
+		},
+		{
+			"name": "Exchange"
+		},
+		{
+			"name": "Exile"
+		},
+		{
+			"name": "Fight"
+		},
+		{
+			"name": "Play"
+		},
+		{
+			"name": "Reveal"
+		},
+		{
+			"name": "Sacrifice"
+		},
+		{
+			"name": "Scry"
+		},
+		{
+			"name": "Search"
+		},
+		{
+			"name": "Shuffle"
+		},
+		{
+			"name": "Tap/Untap"
+		},
+		{
+			"name": "Ante"
+		},
+		{
+			"name": "Bury"
+		},
+		{
+			"name": "Regenerate"
+		},
+		{
+			"name": "Flip"
+		}
+	],
+	"word": [
+		{
+			"name": "Adamant"
+		},
+		{
+			"name": "Addendum"
+		},
+		{
+			"name": "Battalion"
+		},
+		{
+			"name": "Bloodrush"
+		},
+		{
+			"name": "Channel"
+		},
+		{
+			"name": "Chroma"
+		},
+		{
+			"name": "Cohort"
+		},
+		{
+			"name": "Constellation"
+		},
+		{
+			"name": "Converge"
+		},
+		{
+			"name": "Council's dilemma"
+		},
+		{
+			"name": "Delirium"
+		},
+		{
+			"name": "Domain"
+		},
+		{
+			"name": "Eminence"
+		},
+		{
+			"name": "Enrage"
+		},
+		{
+			"name": "Fateful hour"
+		},
+		{
+			"name": "Ferocious"
+		},
+		{
+			"name": "Formidable"
+		},
+		{
+			"name": "Grandeur"
+		},
+		{
+			"name": "Hellbent"
+		},
+		{
+			"name": "Heroic"
+		},
+		{
+			"name": "Imprint"
+		},
+		{
+			"name": "Inspired"
+		},
+		{
+			"name": "Join forces"
+		},
+		{
+			"name": "Kinship"
+		},
+		{
+			"name": "Landfall"
+		},
+		{
+			"name": "Lieutenant"
+		},
+		{
+			"name": "Metalcraft"
+		},
+		{
+			"name": "Morbid"
+		},
+		{
+			"name": "Parley"
+		},
+		{
+			"name": "Radiance"
+		},
+		{
+			"name": "Raid"
+		},
+		{
+			"name": "Rally"
+		},
+		{
+			"name": "Revolt"
+		},
+		{
+			"name": "Spell mastery"
+		},
+		{
+			"name": "Strive"
+		},
+		{
+			"name": "Sweep"
+		},
+		{
+			"name": "Tempting offer"
+		},
+		{
+			"name": "Threshold"
+		},
+		{
+			"name": "Underdog"
+		},
+		{
+			"name": "Undergrowth"
+		},
+		{
+			"name": "Will of the council"
+		}
+	]
+}
