@@ -189,9 +189,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			} else {
 				logger.debug("could not find product for " + mc + " (" + mc.getCurrentSet()+")");
 			}
-			
 			notify(mc);
-
 		}
 
 		int max = getInt(MAX_WANTLIST_SIZE);
