@@ -91,7 +91,6 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			}
 		}
 		return resultat;
-
 	}
 	
 	

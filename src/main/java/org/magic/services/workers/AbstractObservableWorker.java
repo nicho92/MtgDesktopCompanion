@@ -74,6 +74,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	}
 
 	protected void notifyEnd() {
+		logger.debug("end of swingworker");
 		//do nothing by default
 	}
 	

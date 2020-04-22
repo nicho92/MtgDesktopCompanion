@@ -12,8 +12,8 @@ import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
-import org.api.mkm.modele.StockArticle;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.modele.StockArticle;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ProductServices;
@@ -28,7 +28,10 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
+import org.magic.gui.components.dialog.MkmWantListChooserDialog;
 import org.magic.services.MTGControler;
+
+import com.google.common.collect.Lists;
 
 public class MkmOnlineExport extends AbstractCardExport {
 
@@ -52,8 +55,16 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public boolean needFile() {
-		return true;
+		return false;
 	}
+	
+	@Override
+	public boolean needDialogGUI() {
+		return true;
+		
+	}
+	
+	
 	
 	private void init()
 	{
@@ -74,23 +85,29 @@ public class MkmOnlineExport extends AbstractCardExport {
 			init=false;
 		}
 	}
+	
 
 	@Override
-	public MagicDeck importDeck(String content,String name) throws IOException {
+	public MagicDeck importDeck(String f, String name) throws IOException {
+		return importDeckFromFile(null);
+	}
+
+	@Override
+	public MagicDeck importDeckFromFile(File f) throws IOException {
 		
 		if(!init)
 			init();
 		
 		WantsService service = new WantsService();
 		MagicDeck d = new MagicDeck();
-		d.setName(name);
-		Wantslist list = null;
-		for (Wantslist l : service.getWantList())
-			if (l.getName().equalsIgnoreCase(d.getName()))
-				list = l;
+		d.setName("import mkm");
+		
+		MkmWantListChooserDialog diag = new MkmWantListChooserDialog();
+		diag.setVisible(true);
+		Wantslist list = diag.getSelectedWantList();
 
 		if (list == null)
-			throw new NullPointerException(getName() + " can't import deck for " + name);
+			throw new NullPointerException(getName() + " can't import deck for " + f);
 
 		service.loadItems(list);
 		for (WantItem w : list.getItem()) {
@@ -99,13 +116,15 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true).get(0);
-				d.getMain().put(mc, w.getCount());
+				
+				List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true);
+				MagicCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(p.getExpansionName())).findAny().orElse(cards.get(0));
 				notify(mc);
+				d.getMain().put(mc, w.getCount());
+				
 			} catch (Exception e) {
 				logger.error("could not import " + w);
 			}
-
 		}
 
 		return d;
@@ -133,7 +152,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 			{
 				if(mc.getMkmId()!=null)
 				{
-					
 					p = mc.getMkmId();
 				}
 				else
@@ -221,23 +239,49 @@ public class MkmOnlineExport extends AbstractCardExport {
 			enumAtts.put(PRODUCT_ATTS.exact, "true");
 
 			List<Article> list = new ArrayList<>();
-			for (MagicCardStock mcs : stock) {
-				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(),prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
-				Article a = new Article();
-				a.setAltered(mcs.isAltered());
-				a.setSigned(mcs.isSigned());
-				a.setCount(mcs.getQte());
-				a.setFoil(mcs.isFoil());
-				a.setPrice(mcs.getPrice());
-
-				a.setCondition(convert(mcs.getCondition()));
-				a.setLanguage(convertLang(mcs.getLanguage()));
-				a.setProduct(p);
-				a.setIdProduct(p.getIdProduct());
-				list.add(a);
+			for (MagicCardStock mcs : stock) 
+			{
+				Product p = null;
+				try {
+					p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(),prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
+				}
+				catch(Exception e)
+				{
+					logger.error("Error getting mkm product for " + mcs.getMagicCard() + " " + mcs.getMagicCard().getCurrentSet() + " : " +e.getMessage());
+					logger.trace(e);
+				}
+				
+				
+				
+				if(p==null)
+				{
+					logger.error("No product found for " + mcs.getMagicCard() + " "+ mcs.getMagicCard().getCurrentSet());
+				}
+				else
+				{
+					
+					Article a = new Article();
+					a.setAltered(mcs.isAltered());
+					a.setSigned(mcs.isSigned());
+					a.setCount(mcs.getQte());
+					a.setFoil(mcs.isFoil());
+					a.setPrice(mcs.getPrice());
+					a.setComments(mcs.getComment());
+					a.setCondition(convert(mcs.getCondition()));
+					a.setLanguage(convertLang(mcs.getLanguage()));
+					a.setProduct(p);
+					a.setIdProduct(p.getIdProduct());
+					list.add(a);
+					//serv.addArticle(a);
+				}
 				notify(mcs.getMagicCard());
+				
 			}
-			serv.addArticles(list);
+			
+			List<List<Article>> ret = ListUtils.partition(list, 50);
+			
+			for(List<Article> l : ret)
+				serv.addArticles(l);
 		}
 	}
 
@@ -347,5 +391,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public String getVersion() {
 		return MkmConstants.MKM_API_VERSION;
 	}
+
+
 	
 }
