@@ -140,6 +140,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		} 
 		
 	}
+
 	
 	@Override
 	public List<MagicCard> listAllCards() throws IOException {

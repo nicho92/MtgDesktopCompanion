@@ -1,16 +1,20 @@
 package org.magic.services.keywords;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -26,6 +30,11 @@ public abstract class AbstractKeyWordsManager {
 	public abstract List<MTGKeyWord> getKeywordActions();
 	public abstract List<MTGKeyWord> getWordsAbilities();
 	private static AbstractKeyWordsManager inst;
+	
+	
+	public static void main(String[] args) {
+		System.out.println(AbstractKeyWordsManager.getInstance().toJson());
+	}
 	
 	
 	public static AbstractKeyWordsManager getInstance()
@@ -82,6 +91,17 @@ public abstract class AbstractKeyWordsManager {
 
 	public JsonObject toJson()
 	{
+		getStaticsAbilities().forEach(mk->{
+			try {
+				Elements trs = URLTools.extractHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("table.infobox tr");
+				Element tr = trs.stream().filter(e->e.text().startsWith("Reminder Text ")).findAny().orElse(null);
+				mk.setReminder(tr.text().replace("Reminder Text ", ""));
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		});
+		
+		
 		JsonObject ret = new JsonObject();
 		
 		for(TYPE t : TYPE.values())
@@ -91,7 +111,8 @@ public abstract class AbstractKeyWordsManager {
 			getList().stream().filter(k->k.getType()==t).forEach(kw->{
 				JsonObject o = new JsonObject();
 						   o.addProperty("name", kw.getKeyword());
-						  
+						   o.addProperty("reminder", kw.getReminder());
+						   o.addProperty("description", kw.getDescription());
 						   if(kw.getEvent()!=null)
 							   o.addProperty("event", kw.getEvent().name());
 

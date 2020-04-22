@@ -12,6 +12,7 @@ import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
+import org.api.mkm.modele.StockArticle;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
@@ -204,7 +205,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		if(!init)
 			init();
 
-		if (!getString(STOCK_USE).equals("true")) {
+		if (!getBoolean(STOCK_USE)) {
 			MagicDeck d = new MagicDeck();
 			d.setName(f.getName());
 			for (MagicCardStock mcs : stock) {
@@ -221,8 +222,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 			List<Article> list = new ArrayList<>();
 			for (MagicCardStock mcs : stock) {
-				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(),
-						prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
+				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(),prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
 				Article a = new Article();
 				a.setAltered(mcs.isAltered());
 				a.setSigned(mcs.isSigned());
@@ -246,13 +246,16 @@ public class MkmOnlineExport extends AbstractCardExport {
 		if(!init)
 			init();
 
-		if (!getString(STOCK_USE).equals("true"))
+		if (!getBoolean(STOCK_USE))
 			return importFromDeck(importDeckFromFile(f));
 
+		
+		
+		
 		StockService serv = new StockService();
-		List<Article> list = serv.getStock();
+		List<StockArticle> list = serv.getStock();
 		List<MagicCardStock> stock = new ArrayList<>();
-		for (Article a : list) {
+		for (StockArticle a : list) {
 			MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setUpdate(true);
 			mcs.setIdstock(-1);
@@ -271,9 +274,12 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setSigned(a.isSigned());
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true).get(0);
-			MagicCardMarketPricer2.selectEditionCard(mc, a.getProduct().getExpansionName());
-
+			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true);
+			
+			MagicCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(a.getProduct().getExpansion())).findAny().orElse(cards.get(0));
+			
+			
+			
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
 			stock.add(mcs);

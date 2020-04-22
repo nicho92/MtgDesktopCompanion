@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
@@ -38,16 +39,18 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 				{
 					String name = e.getElementsByTag("td").get(1).text();
 					String type = e.getElementsByTag("td").get(2).text();
-					
+					int pos = name.indexOf('[');
+					if(pos>0)
+						name=name.substring(0,pos);
 					
 					if(type.equalsIgnoreCase("Action"))
-						evergreens.add(new MTGKeyWord(name, TYPE.ACTION));
+						evergreens.add(new MTGKeyWord(name, TYPE.ACTION,true));
 					else if(type.equalsIgnoreCase("Static ability"))
-						evergreens.add(new MTGKeyWord(name, EVENT.STATIC,TYPE.ABILITIES));
+						evergreens.add(new MTGKeyWord(name, EVENT.STATIC,TYPE.ABILITIES,true));
 					else if(type.equalsIgnoreCase("Activated ability"))
-						evergreens.add(new MTGKeyWord(name, EVENT.ACTIVATED,TYPE.ABILITIES));
+						evergreens.add(new MTGKeyWord(name, EVENT.ACTIVATED,TYPE.ABILITIES,true));
 					else if(type.equalsIgnoreCase("Triggered ability"))
-						evergreens.add(new MTGKeyWord(name, EVENT.TRIGGERED,TYPE.ABILITIES));
+						evergreens.add(new MTGKeyWord(name, EVENT.TRIGGERED,TYPE.ABILITIES,true));
 				}
 			} catch (IOException e) {
 				logger.error("error loading evergreens",e);
@@ -65,6 +68,8 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		{
 			statics=parse("Static",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.STATIC, MTGKeyWord.TYPE.ABILITIES)).collect(Collectors.toList());
 			statics.addAll(getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.STATIC).collect(Collectors.toList()));
+			
+			
 		}
 		return statics;
 	}
@@ -118,14 +123,12 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	
 	private List<String> parse(String page,String select,boolean isKeyword)
 	{
-		
 		List<String> list = new ArrayList<>();
 			try {
-				
 				String url = isKeyword ? BASE_URI+"Category:Keywords/"+page : BASE_URI+page;
-				
 				Document d = URLTools.extractHtml(url);
-				list = d.select(select).stream().map(Element::text).collect(Collectors.toList());
+				Elements els = d.select(select);
+				list = els.stream().map(Element::text).collect(Collectors.toList());
 				list.remove(page+" ability");
 				list.remove("Keyword_action");
 				
