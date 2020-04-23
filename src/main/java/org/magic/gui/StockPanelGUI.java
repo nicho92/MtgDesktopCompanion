@@ -39,15 +39,15 @@ import javax.swing.filechooser.FileFilter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
@@ -279,11 +279,11 @@ public class StockPanelGUI extends MTGUIComponent {
 
 						int res = -1;
 
-						if (!exp.needDialogGUI() && exp.needFile()) {
+						if (!exp.needDialogForStock(MODS.IMPORT) && exp.needFile()) {
 							res = jf.showOpenDialog(null);
 							fileImport = jf.getSelectedFile();
 						} 
-						else if(!exp.needFile() && !exp.needDialogGUI())
+						else if(!exp.needFile() && !exp.needDialogForStock(MODS.IMPORT))
 						{
 							logger.debug(exp + " need no file. Skip");
 							res = JFileChooser.APPROVE_OPTION;
@@ -291,11 +291,11 @@ public class StockPanelGUI extends MTGUIComponent {
 						else 
 						{
 							try {
+								res=-1;
 								exp.importStockFromFile(null).forEach(this::addStock);
 							} catch (IOException e1) {
 								logger.error(e1);
 							}
-							
 						}
 						
 						if (res == JFileChooser.APPROVE_OPTION)
@@ -348,7 +348,13 @@ public class StockPanelGUI extends MTGUIComponent {
 			
 			@Override
 			public List<MagicCardStock> call() throws Exception {
-				return model.getItems();
+				
+				List<MagicCardStock> export = UITools.getTableSelections(table,0);
+				
+				if(export.isEmpty())
+					return model.getItems();
+				else
+					return export;
 			}
 		}, lblLoading);
 

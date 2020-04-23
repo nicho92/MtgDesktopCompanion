@@ -8,10 +8,14 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 
 public interface MTGCardsExport extends MTGPlugin {
 
+	public enum MODS {
+		EXPORT, IMPORT, BOTH
+	}
+	
+	
 	public String getFileExtension();
 
 	public void exportDeck(MagicDeck deck, File dest) throws IOException;
@@ -27,11 +31,11 @@ public interface MTGCardsExport extends MTGPlugin {
 	
 	public Icon getIcon();
 
-	public boolean needDialogGUI();
-	
 	public boolean needFile();
 	
-
+	public boolean needDialogForDeck(MODS mod);
+	public boolean needDialogForStock(MODS mod);
+	
 	public MODS getMods();
 
 }

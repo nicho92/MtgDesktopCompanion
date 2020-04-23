@@ -23,10 +23,17 @@ public class ClipBoardExport extends AbstractCardExport {
 		return "";
 	}
 	
+
 	@Override
-	public boolean needDialogGUI() {
+	public boolean needDialogForDeck(MODS mod) {
 		return false;
 	}
+	
+	@Override
+	public boolean needDialogForStock(MODS mod) {
+		return false;
+	}
+	
 
 	@Override
 	public boolean needFile() {

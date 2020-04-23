@@ -37,11 +37,16 @@ public class ManualImportExport extends AbstractCardExport {
 		return false;
 	}
 	
-	
 	@Override
-	public boolean needDialogGUI() {
+	public boolean needDialogForDeck(MODS mod) {
 		return true;
 	}
+	
+	@Override
+	public boolean needDialogForStock(MODS mod) {
+		return true;
+	}
+	
 	
 	@Override
 	public MagicDeck importDeck(String name,String f) throws IOException {

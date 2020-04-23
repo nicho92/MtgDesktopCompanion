@@ -104,8 +104,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		return d;
 	}
 
-	
-	
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		

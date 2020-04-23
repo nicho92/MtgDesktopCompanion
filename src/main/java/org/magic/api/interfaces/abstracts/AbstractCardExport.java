@@ -15,9 +15,7 @@ import org.magic.tools.FileTools;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
-	public enum MODS {
-		EXPORT, IMPORT, BOTH
-	}
+	
 
 	public MODS getMods() {
 		return MODS.BOTH;
@@ -40,12 +38,16 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		
 		return cname;
 	}
-
 	
-	public boolean needDialogGUI() {
-		return false;
+	@Override
+	public boolean needDialogForDeck(MODS mod) {
+		return true;
 	}
 	
+	 @Override
+	public boolean needDialogForStock(MODS mod) {
+		return true;
+	}
 	
 	
 	

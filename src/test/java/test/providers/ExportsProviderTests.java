@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 
@@ -55,7 +55,6 @@ public class ExportsProviderTests {
 			System.out.println("ENAB "+p.isEnable());
 			System.out.println("ICON "+p.getIcon());
 			System.out.println("VERS "+p.getVersion());
-			System.out.println("NEED UI "+p.needDialogGUI());
 			System.out.println("JMX NAME "+p.getObjectName());
 			System.out.println("CONF FILE " + p.getConfFile());
 			

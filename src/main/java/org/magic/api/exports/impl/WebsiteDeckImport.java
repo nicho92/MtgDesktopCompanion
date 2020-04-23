@@ -24,7 +24,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 	@Override
 	public String getFileExtension() {
-		return ".com";
+		return "";
 	}
 
 	@Override
@@ -33,9 +33,18 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 	}
 	
+	@Override
+	public boolean needFile() {
+		return false;
+	}
 	
 	@Override
-	public boolean needDialogGUI() {
+	public boolean needDialogForDeck(MODS mod) {
+		return true;
+	}
+	
+	 @Override
+	public boolean needDialogForStock(MODS mod) {
 		return true;
 	}
 	

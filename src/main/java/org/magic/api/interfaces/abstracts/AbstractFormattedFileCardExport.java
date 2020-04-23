@@ -25,7 +25,12 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	}
 	
 	@Override
-	public boolean needDialogGUI() {
+	public boolean needDialogForDeck(MODS mod) {
+		return false;
+	}
+	
+	@Override
+	public boolean needDialogForStock(MODS mod) {
 		return false;
 	}
 	

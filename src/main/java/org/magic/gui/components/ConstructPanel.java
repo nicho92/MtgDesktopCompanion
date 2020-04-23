@@ -56,9 +56,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -481,11 +481,11 @@ public class ConstructPanel extends JPanel {
 						int res = -1;
 						f = new File("");
 						
-						if (!exp.needDialogGUI() && exp.needFile()) {
+						if (!exp.needDialogForDeck(MODS.IMPORT) && exp.needFile()) {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
 						} 
-						else if(!exp.needFile() && !exp.needDialogGUI())
+						else if(!exp.needFile() && !exp.needDialogForDeck(MODS.IMPORT))
 						{
 							logger.trace(exp + " need no file. Skip");
 							res = JFileChooser.APPROVE_OPTION;

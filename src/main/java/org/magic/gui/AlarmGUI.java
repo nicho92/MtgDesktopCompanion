@@ -38,10 +38,10 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -355,7 +355,7 @@ public class AlarmGUI extends MTGUIComponent {
 						int res = -1;
 						f = new File("");
 
-						if (!exp.needDialogGUI()) {
+						if (!exp.needDialogForDeck(MODS.IMPORT)) {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
 						} else {

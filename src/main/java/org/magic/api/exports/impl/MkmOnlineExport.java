@@ -59,9 +59,13 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public boolean needDialogGUI() {
+	public boolean needDialogForDeck(MODS mod) {
 		return true;
-		
+	}
+	
+	@Override
+	public boolean needDialogForStock(MODS mod) {
+		return !(getBoolean(STOCK_USE));
 	}
 	
 	

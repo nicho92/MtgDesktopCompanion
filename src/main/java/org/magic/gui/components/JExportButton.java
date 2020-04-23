@@ -13,7 +13,7 @@ import javax.swing.JPopupMenu;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
