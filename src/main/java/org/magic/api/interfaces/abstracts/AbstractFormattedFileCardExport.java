@@ -98,7 +98,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return matches(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING),removeBlank);
 	}
 	
-	//TODO empty line is useless if regex is not present
+	//TODO removeBlank is useless if regex is not present
 	public List<Matcher> matches(String content,boolean removeBlank)
 	{
 		logger.debug("Parsing content with pattern : " + getStringPattern());
