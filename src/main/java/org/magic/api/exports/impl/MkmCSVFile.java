@@ -57,9 +57,23 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 		
 		List<MagicCardStock> ret = new ArrayList<>();
 		
+		
+		content =content.replace("\"MYS\"", "\"MB1\"")
+				.replace("\"DTL\"", "\"FBB\"");
+		
 		matches(content, true).forEach(m->{
 
 			MagicCard mc = parseMatcherWithGroup(m, 1, 16, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			
+			if(mc==null)
+			{
+				try {
+					mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
+				}catch(Exception e)
+				{
+					logger.error("Card is not found with this provider : " + m.group());
+				}
+			}
 			
 			if(mc!=null) {
 				MagicCardStock stock = new MagicCardStock();
@@ -75,6 +89,10 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 				stock.setQte(count);
 				stock.setComment(m.group(15));
 				ret.add(stock);
+			}
+			else
+			{
+				logger.debug("No card found for " + m.group());
 			}
 		});
 		
@@ -99,7 +117,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "^\"(.*?),\"\"(.*?)\"\",\"\"(.*?)\"\",\"\"(\\d+\\.\\d{1,2}?)\"\",\"\"(\\d+)\"\",\"\"(.*?)\"\",\"\"(true|false)\"\",\"(.*?)\"\",\"\"(true|false)\"\",\"\"(true|false)\"\",\"\"(true|false)\"\",\"\"(true|false)\"\",\"\"(.*?)\"\",\"\"(.*?)\"\",\"\"(.*?)\"\",\"\"(.*?)\"\",\"\"(.*?)\"\"\"$";
+		return "\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(true|false)\",\"(.*?)\",\"(true|false)\",\"(true|false)\",\"(true|false)\",\"(true|false)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
 	}
 
 	@Override

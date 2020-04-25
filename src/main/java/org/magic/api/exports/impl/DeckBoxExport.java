@@ -25,7 +25,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public String getFileExtension() {
-		return ".deckbox";
+		return ".csv";
 	}
 
 	private String translate(EnumCondition condition)

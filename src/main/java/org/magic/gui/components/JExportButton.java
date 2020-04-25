@@ -23,7 +23,6 @@ import org.magic.services.workers.StockExportWorker;
 
 
 public class JExportButton extends JButton {
-
 	private static final long serialVersionUID = 1L;
 	private MODS mod;
 
@@ -148,4 +147,6 @@ public class JExportButton extends JButton {
 	}
 
 
+	
+	
 }

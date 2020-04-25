@@ -95,6 +95,18 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	}
 	
 	
+	@Override
+	public void onFirstShowing() {
+		try {
+			editionModel.init(provider.listEditions());
+			editionModel.fireTableDataChanged();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public CardBuilder2GUI() {
 		try {
 			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
@@ -258,8 +270,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			
 			//////////////////////////////////////////////////// COMPONENT CONFIG
-			editionModel.init(provider.listEditions());
-			editionModel.fireTableDataChanged();
+			
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			
 			btnSaveEdition.setIcon(MTGConstants.ICON_SAVE);

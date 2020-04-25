@@ -38,6 +38,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		}
 		fireTableDataChanged();
 	}
+	
 
 	public void calculate() {
 

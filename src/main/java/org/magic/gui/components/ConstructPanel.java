@@ -760,6 +760,9 @@ public class ConstructPanel extends JPanel {
 
 	protected void updatePanels() {
 
+		if(deck==null)
+			return;
+
 		deckDetailsPanel.setMagicDeck(deck);
 		cmcChartPanel.init(deck.getAsList());
 		typeRepartitionPanel.init(deck.getAsList());

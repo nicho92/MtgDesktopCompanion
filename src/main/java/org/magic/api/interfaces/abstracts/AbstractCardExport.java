@@ -36,6 +36,11 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		if(cname.indexOf('/') > 1)
 			cname=cname.substring(0,cname.indexOf('/')).trim();
 		
+		if(cname.indexOf('(')>1)
+			cname=cname.substring(0,cname.indexOf('(')).trim();
+		
+		
+		
 		return cname;
 	}
 	
