@@ -32,7 +32,7 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_CARD;
+		return MTGConstants.ICON_GAME_TRIGGER;
 	}
 	
 	public void init(MagicCard mc)

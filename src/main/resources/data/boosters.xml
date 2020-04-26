@@ -1307,10 +1307,6 @@
 		<booster lang="en" num="2" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/d/dc/LCU_Prize_Pack.png/346px-LCU_Prize_Pack.png"/>
 	</edition>
 	
-	<edition id="MYSTPT">
-		<booster lang="en" num="1" url="https://media.wizards.com/2019/images/daily/ABfb7VQuaQ.png"/>
-	</edition>
-	
 	<edition id="GNT">
 		<bundle lang="en" num="1" url="https://images.fr.shopping.rakuten.com/photo/1220467677.jpg"/>
 	</edition>
@@ -1337,7 +1333,8 @@
 	</edition>
 	<edition id="MB1">
 		<banner lang="en" url="https://www.magicbazar.fr/img/extension/image_extension/410.png"/>
-		<booster lang="en" url="https://images-na.ssl-images-amazon.com/images/I/41QRVcLgDIL._AC_SX425_.jpg"/>
+		<booster lang="en" num="1" url="https://images-na.ssl-images-amazon.com/images/I/41QRVcLgDIL._AC_SX425_.jpg"/>
+		<booster lang="en" num="2" url="https://media.wizards.com/2019/images/daily/ABfb7VQuaQ.png"/>
 		<box lang="en" url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/mystery_booster_display_box_pack_englisch_english_guenstig_billig_kaufen_mtg_neu_spannend_3.png"/>
 	</edition>
 	
