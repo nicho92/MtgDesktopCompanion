@@ -70,6 +70,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
+import com.google.common.collect.Lists;
+
 public class StockPanelGUI extends MTGUIComponent {
 	/**
 	 * 
@@ -744,7 +746,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbclblQuality.gridy = 7;
 		rightPanel.add(lblQuality, gbclblQuality);
 
-		cboQuality = UITools.createCombobox(EnumCondition.values());
+		
+		
+		cboQuality = UITools.createCombobox(Lists.asList(null,EnumCondition.values()));
 		GridBagConstraints gbccboQuality = new GridBagConstraints();
 		gbccboQuality.insets = new Insets(0, 0, 5, 0);
 		gbccboQuality.fill = GridBagConstraints.HORIZONTAL;

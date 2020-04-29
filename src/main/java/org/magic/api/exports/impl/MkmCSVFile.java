@@ -45,13 +45,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 		}
 		return d;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		new MkmCSVFile().importStockFromFile(new File("D:\\Téléchargements\\Microsoft.SkypeApp_kzf8qxf38zg5c!App\\All\\stock-mkm-test.csv"));
-	}
-	
-	
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		
@@ -86,6 +80,14 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 				if(Boolean.parseBoolean(m.group(12)))
 					count = count*4;
 				
+				
+				try {
+					stock.setPrice(Double.parseDouble(m.group(4)));
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
 				stock.setQte(count);
 				stock.setComment(m.group(15));
 				ret.add(stock);

@@ -177,7 +177,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.1_137</version>
+			  <version>4.1.1_140</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -248,7 +248,7 @@
 		<dependency>
 		    <groupId>com.zaxxer</groupId>
 		    <artifactId>HikariCP</artifactId>
-		    <version>3.4.2</version>
+		    <version>3.4.3</version>
 		    <exclusions>
 			    <exclusion>
 			        <groupId>xml-apis</groupId>
