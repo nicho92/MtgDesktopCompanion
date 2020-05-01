@@ -13,7 +13,7 @@ import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.modele.StockArticle;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ProductServices;
@@ -30,8 +30,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.components.dialog.MkmWantListChooserDialog;
 import org.magic.services.MTGControler;
-
-import com.google.common.collect.Lists;
 
 public class MkmOnlineExport extends AbstractCardExport {
 
@@ -299,9 +297,9 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		
 		StockService serv = new StockService();
-		List<StockArticle> list = serv.getStock();
+		List<LightArticle> list = serv.getStock();
 		List<MagicCardStock> stock = new ArrayList<>();
-		for (StockArticle a : list) {
+		for (LightArticle a : list) {
 			MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setUpdate(true);
 			mcs.setIdstock(-1);

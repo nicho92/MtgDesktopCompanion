@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Order;
 import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
@@ -35,7 +36,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 	}
 	
 	
-	private OrderEntry toOrder(Article a, Order o,TYPE_TRANSACTION t)
+	private OrderEntry toOrder(LightArticle a, Order o,TYPE_TRANSACTION t)
 	{
 		OrderEntry entrie = new OrderEntry();
 		entrie.setIdTransation(""+o.getIdOrder());
@@ -48,14 +49,14 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		entrie.setItemPrice(a.getPrice());
 		entrie.setDescription(a.getProduct().getEnName());
 		
-		if(a.getProduct().getExpansionName()!=null)
+		if(a.getProduct().getExpansion()!=null)
 		{
 			entrie.setType(TYPE_ITEM.CARD);
 			
 			try {
-				entrie.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansionName()));
+				entrie.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansion()));
 			} catch (IOException e) {
-				logger.error("can't found " + a.getProduct().getExpansionName());
+				logger.error("can't found " + a.getProduct().getExpansion());
 			}
 		}
 		else if(a.getProduct().getEnName().toLowerCase().contains("booster box"))
