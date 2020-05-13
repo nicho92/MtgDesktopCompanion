@@ -287,6 +287,11 @@ public class URLTools {
 		return new URLToolsClient();
 	}
 
+	public static String readHeader(String h, String url) throws IOException {
+		HttpURLConnection  con =  (HttpURLConnection) new URL(url).openConnection();
+		return con.getHeaderField(h);
+	}
+
 
 	
 }

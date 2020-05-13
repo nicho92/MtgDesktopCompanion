@@ -21,8 +21,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
+import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
@@ -141,7 +141,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 	
 	
-	private MagicCard generateCard(JsonObject obj) throws IOException {
+	private MagicCard generateCard(JsonObject obj) {
 		MagicCard mc = new MagicCard();
 
 		if (obj.get("id") != null)

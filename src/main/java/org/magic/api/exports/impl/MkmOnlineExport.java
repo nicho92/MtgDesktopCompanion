@@ -9,11 +9,11 @@ import java.util.List;
 import org.apache.commons.collections4.ListUtils;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ProductServices;
@@ -272,7 +272,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 					a.setProduct(p);
 					a.setIdProduct(p.getIdProduct());
 					list.add(a);
-					//serv.addArticle(a);
 				}
 				notify(mcs.getMagicCard());
 				

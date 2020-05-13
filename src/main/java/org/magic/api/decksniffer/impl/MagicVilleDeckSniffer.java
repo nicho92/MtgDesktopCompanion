@@ -13,15 +13,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.exports.impl.Apprentice2DeckExport;
 import org.magic.api.exports.impl.MagicWorkStationDeckExport;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 

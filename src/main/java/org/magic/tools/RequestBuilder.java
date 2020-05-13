@@ -171,5 +171,10 @@ public class RequestBuilder
 	public void download(File dest) throws IOException {
 		FileUtils.copyInputStreamToFile(toResponse().getEntity().getContent(),dest);
 	}
+
+	public RequestBuilder addContent(String s) {
+		content.put("", s);
+		return this;
+	}
 	
 }

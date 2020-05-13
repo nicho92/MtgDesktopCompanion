@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
-import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.game.model.abilities.AbstractAbilities;
@@ -19,10 +17,7 @@ import org.magic.game.model.abilities.StaticAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
 import org.magic.game.model.costs.LoyaltyCost;
-import org.magic.services.MTGControler;
 import org.magic.services.keywords.AbstractKeyWordsManager;
-
-import com.github.javaparser.ast.Modifier.Keyword;
 
 public class AbilitiesFactory implements Serializable{
 

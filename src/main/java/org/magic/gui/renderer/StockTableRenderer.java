@@ -16,7 +16,6 @@ import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.services.PluginRegistry;
-import org.magic.tools.UITools;
 
 public class StockTableRenderer extends DefaultTableRenderer {
 

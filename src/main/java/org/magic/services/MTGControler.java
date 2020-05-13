@@ -33,7 +33,6 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.LookAndFeelProvider;
-import org.magic.services.keywords.MTGJsonKeyWordsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;

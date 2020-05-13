@@ -101,8 +101,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			editionModel.init(provider.listEditions());
 			editionModel.fireTableDataChanged();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 		
 	}

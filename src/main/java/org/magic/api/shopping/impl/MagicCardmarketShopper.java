@@ -6,7 +6,6 @@ import java.util.Currency;
 import java.util.List;
 
 import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.modele.Article;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Order;
 import org.api.mkm.services.OrderService;

@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.ArrayUtils;
@@ -23,8 +22,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
+import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
@@ -32,7 +31,6 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
-import org.magic.services.PluginRegistry;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 

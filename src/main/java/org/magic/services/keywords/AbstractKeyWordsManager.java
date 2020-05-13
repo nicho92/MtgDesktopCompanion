@@ -30,13 +30,7 @@ public abstract class AbstractKeyWordsManager {
 	public abstract List<MTGKeyWord> getKeywordActions();
 	public abstract List<MTGKeyWord> getWordsAbilities();
 	private static AbstractKeyWordsManager inst;
-	
-	
-	public static void main(String[] args) {
-		System.out.println(AbstractKeyWordsManager.getInstance().toJson());
-	}
-	
-	
+		
 	public static AbstractKeyWordsManager getInstance()
 	{
 		if(inst ==null)

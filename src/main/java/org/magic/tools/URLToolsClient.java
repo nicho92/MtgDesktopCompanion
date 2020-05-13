@@ -14,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
@@ -84,11 +85,37 @@ public class URLToolsClient {
 
 		if(builder.getMethod()== METHOD.POST)
 			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
-			
+		
+		if(builder.getMethod()== METHOD.PUT)
+			return doPut(builder.getUrl(), builder.getContent(), builder.getHeaders());
+		
+		
 		throw new IOException("choose a method with METHOD.POST/GET");
 		
 	}
+
 	
+
+	
+	public String doPut(String url, Map<String, String> entities, Map<String, String> headers) throws IOException {
+		return doPut(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
+	}
+
+	public String doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
+		HttpPut putReq = new HttpPut(string);
+		try {
+			if(entities!=null)
+				putReq.setEntity(entities);
+			
+			if(headers!=null)
+				headers.entrySet().forEach(e->putReq.addHeader(e.getKey(), e.getValue()));
+			
+			response  = execute(putReq);
+			return extractAndClose(response);
+		} catch (UnsupportedEncodingException e1) {
+			throw new IOException(e1);
+		}
+	}
 	
 	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
 	{
@@ -173,8 +200,7 @@ public class URLToolsClient {
 	{
 		return RequestBuilder.build();
 	}
-	
-	
+
 	
 	
 }

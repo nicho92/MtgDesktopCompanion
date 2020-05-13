@@ -38,7 +38,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	}
 
-	private URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
+	public URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
 
 		if (scryfallProvider == null)
 			scryfallProvider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class) instanceof ScryFallProvider;
@@ -52,10 +52,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
 			url = HTTP_API_SCRYFALL+"multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
 
-//		if (selected.getScryfallId() != null)
-//			url = HTTP_API_SCRYFALL + selected.getScryfallId()+ IMAGE_TAG;
-		
-		
+
 		if (crop)
 			url += "&version=art_crop";
 		else

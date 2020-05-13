@@ -228,6 +228,7 @@ public class IconSetProvider {
 		equiv.put("CELD", "ELD");
 		equiv.put("OARC", "ARC");
 		equiv.put("HA2", "HA1");
+		equiv.put("HA3", "HA1");
 		equiv.put("MB1","PMEI");
 		equiv.put("CMB1","PMEI");
 		
