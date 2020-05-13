@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
@@ -50,6 +51,17 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
+	}
+	
+	
+	@Override
+	protected Map<String, Object> readTiersApps(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
+	}
+	
+	@Override
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Object> tiersAppIds) throws SQLException {
+		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
 	}
 	
 

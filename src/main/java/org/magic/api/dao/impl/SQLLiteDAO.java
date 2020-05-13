@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.Grading;
@@ -86,6 +87,18 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
 	
+
+	@Override
+	protected Map<String, Object> readTiersApps(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
+	}
+	
+	@Override
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Object> tiersAppIds) throws SQLException {
+		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
+	}
+	
+
 	
 	@Override
 	protected String createListStockSQL(MagicCard mc) {

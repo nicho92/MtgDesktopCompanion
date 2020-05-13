@@ -61,7 +61,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		stock.setFoil(true);
 		
 		
-	//	new WooCommerceExport().exportStock(List.of(stock), null);
+	            	new WooCommerceExport().exportStock(List.of(stock), null);
 		new WooCommerceExport().importStock(null);
 	}
 	
@@ -90,7 +90,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		 wooCommerce = new WooCommerce() {
 			
 			private OAuthConfig config = new OAuthConfig(getString("WEBSITE"), getString(CONSUMER_KEY), getString(CONSUMER_SECRET));
-			private ApiVersionType apiVersion = ApiVersionType.V3;
+			private ApiVersionType apiVersion = ApiVersionType.valueOf(getVersion());
 			private static final String API_URL_FORMAT = "%s/wp-json/wc/%s/%s";
 		    private static final String API_URL_BATCH_FORMAT = "%s/wp-json/wc/%s/%s/batch";
 		    private static final String API_URL_ONE_ENTITY_FORMAT = "%s/wp-json/wc/%s/%s/%d";
@@ -214,7 +214,9 @@ public class WooCommerceExport extends AbstractCardExport {
 		Map<String, String> productInfo = new HashMap<>();
 		        productInfo.put("category", getString(CATEGORY_ID));
 		
-		List<JsonElement> ret=  wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), productInfo);
+		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), productInfo);
+		
+		//TODO import files
 		
 		logger.debug(ret);
 		
@@ -231,23 +233,46 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 		for(MagicCardStock st : stock) 
 		{
-					Map<String, Object> productInfo = new HashMap<>();
-								        productInfo.put("name", st.getMagicCard().getName());
-								        productInfo.put("type", "simple");
-								        productInfo.put("regular_price", String.valueOf(st.getPrice()));
-								        productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
-								        productInfo.put("description",desc(st.getMagicCard()));
-								        productInfo.put("short_description", st.getMagicCard().getName()+"-"+st.getCondition());
-								        productInfo.put("enable_html_description", "true");
-								        productInfo.put("stock_quantity", String.valueOf(st.getQte()));
-								        productInfo.put("status", getString(DEFAULT_STATUT));
-								        productInfo.put("images", toJson("src",new MythicSpoilerPicturesProvider().generateUrl(st.getMagicCard(), null).toString()));
-			        Map<String,JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
-		
-			        if(ret.isEmpty())
-			        	logger.error("No export for " + st + "-" + st.getMagicCard());
-					        
-					notify(st.getMagicCard());
+			Map<String, Object> productInfo = new HashMap<>();
+	        productInfo.put("name", st.getMagicCard().getName());
+	        productInfo.put("type", "simple");
+	        productInfo.put("regular_price", String.valueOf(st.getPrice()));
+	        productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
+	        productInfo.put("description",desc(st.getMagicCard()));
+	        productInfo.put("short_description", st.getMagicCard().getName()+"-"+st.getCondition());
+	        productInfo.put("enable_html_description", "true");
+	        productInfo.put("stock_quantity", String.valueOf(st.getQte()));
+	        productInfo.put("status", getString(DEFAULT_STATUT));
+	        productInfo.put("images", toJson("src",new MythicSpoilerPicturesProvider().generateUrl(st.getMagicCard(), null).toString()));
+			
+	        Map<String,JsonElement> ret;
+	        
+				if(st.getTiersAppIds().get(getName())!=null)
+				{
+					logger.debug(st.getMagicCard() + "is already present in "+getName() + ". Update it");
+					ret = wooCommerce.update(EndpointBaseType.PRODUCTS.getValue(),(int)Double.parseDouble(st.getTiersAppIds().get(getName()).toString()),productInfo);
+					if(ret.isEmpty())
+					{
+						logger.info("No update for " + st + "-" + st.getMagicCard() +". Create it");
+						ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
+					    st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
+					    st.setUpdate(true);
+					}
+
+				}
+				else
+				{
+					logger.debug(st.getMagicCard() + "is not present in "+getName() + ". create it");
+					ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
+				    st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
+				    st.setUpdate(true);
+				}
+				
+				
+				if(ret.isEmpty())
+					logger.error("No export for " + st + "-" + st.getMagicCard());
+				
+				notify(st.getMagicCard());
 		}
 	}
 	
@@ -288,7 +313,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		// TODO Auto-generated method stub
+		exportStock(importFromDeck(deck), dest);
 		
 	}
 	
@@ -303,6 +328,11 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 	}
 	
+	
+	@Override
+	public String getVersion() {
+		return "V3";
+	}
 	
 
 }

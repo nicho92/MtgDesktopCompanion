@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
@@ -61,6 +62,22 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 		jsonObject.setValue(serialiser.toJsonElement(grd).toString());
 		pst.setObject(position, jsonObject);
 	}
+	
+
+	@Override
+	protected Map<String, Object> readTiersApps(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
+	}
+	
+	@Override
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Object> tiersAppIds) throws SQLException {
+		
+		PGobject jsonObject = new PGobject();
+		jsonObject.setType("json");
+		jsonObject.setValue(serialiser.toJsonElement(tiersAppIds).toString());
+		pst.setObject(i, jsonObject);
+	}
+	
 	
 	
 

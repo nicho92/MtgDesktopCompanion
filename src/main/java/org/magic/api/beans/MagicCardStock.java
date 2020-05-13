@@ -1,6 +1,9 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.enums.EnumCondition;
 
@@ -24,10 +27,18 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private double price=0.0;
 	private boolean oversize=false;
 	private Grading grade;
+	private Map<String,Object> tiersAppIds;
 	
 	
 	
-	
+	public Map<String, Object> getTiersAppIds() {
+		return tiersAppIds;
+	}
+
+	public void setTiersAppIds(Map<String, Object> tiersAppIds) {
+		this.tiersAppIds = tiersAppIds;
+	}
+
 	public boolean isGrade() {
 		return grade!=null;
 	}
@@ -51,6 +62,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 
 	public MagicCardStock() {
 		idstock = -1;
+		tiersAppIds = new HashMap<>();
 	}
 
 	public boolean isUpdate() {
@@ -158,5 +170,8 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	public int compareTo(MagicCardStock o) {
 		return getIdstock()-o.getIdstock();
 	}
+	
+	
+	
 
 }
