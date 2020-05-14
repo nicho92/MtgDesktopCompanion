@@ -58,6 +58,14 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 			
 	}
 	
+
+	public void clear() {
+		keys.clear();
+		fireTableDataChanged();
+		
+	}
+	
+	
 	
 	@Override
 	public int getRowCount() {
@@ -149,7 +157,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		});
 		
 	}
-	
+
 	
 	
 }

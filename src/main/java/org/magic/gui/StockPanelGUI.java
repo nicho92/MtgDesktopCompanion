@@ -57,6 +57,7 @@ import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PricesTablePanel;
+import org.magic.gui.components.StockItemsSynchronizationPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.editor.ComboBoxEditor;
@@ -100,6 +101,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private CardsDeckCheckerPanel deckPanel;
 	private GradingEditorPane gradePanel;
 	private GedPanel gedPanel;
+	private StockItemsSynchronizationPanel tiercesIdsPanel;
 	
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
@@ -488,6 +490,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		pricePanel.init(selectedStock.getMagicCard(), selectedStock.getMagicCard().getCurrentSet());
 		jsonPanel.show(selectedStock);
 		deckPanel.init(selectedStock.getMagicCard());
+		tiercesIdsPanel.init(selectedStock);
 		gradePanel.setGrading(selectedStock.getGrade());
 		gedPanel.init(MagicCardStock.class, selectedStock);
 		}
@@ -526,7 +529,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gedPanel = new GedPanel<>();
 		JTabbedPane tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
-
+		tiercesIdsPanel = new StockItemsSynchronizationPanel();
 		deckPanel = new CardsDeckCheckerPanel();
 		model = new CardStockTableModel();
 		magicCardDetailPanel = new MagicCardDetailPanel();
@@ -616,6 +619,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
+		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("Synchronization"), MTGConstants.ICON_TAB_GED,tiercesIdsPanel);
 		
 		
 		
