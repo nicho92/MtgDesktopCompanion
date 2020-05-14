@@ -619,7 +619,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
-		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("Synchronization"), MTGConstants.ICON_TAB_GED,tiercesIdsPanel);
+		tabPanel.addTab(tiercesIdsPanel.getTitle(), tiercesIdsPanel.getIcon(),tiercesIdsPanel);
 		
 		
 		

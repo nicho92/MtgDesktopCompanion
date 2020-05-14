@@ -215,7 +215,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_IMPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/import.png"));
 	public static final ImageIcon ICON_TAB_SERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/servers.png"));
 	public static final ImageIcon ICON_TAB_ACTIVESERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/active-server.png"));
-	
+	public static final ImageIcon ICON_TAB_SYNC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/sync.png"));
+
 	
 	public static final ImageIcon ICON_TAB_RESULTS=new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_DECK = new ImageIcon(ICON_DECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));

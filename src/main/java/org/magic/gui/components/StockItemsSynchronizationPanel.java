@@ -1,14 +1,19 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.util.Map.Entry;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.gui.models.conf.MapTableModel;
-
-import java.awt.BorderLayout;
-import java.util.Map.Entry;
+import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 
 public class StockItemsSynchronizationPanel extends JPanel {
 	 
@@ -21,8 +26,27 @@ public class StockItemsSynchronizationPanel extends JPanel {
 		model = new MapTableModel<>();
 		table = new JTable(model);
 		add(new JScrollPane(table));
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.NORTH);
+		
+		JButton btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "Delete Sync");
+		panel.add(btnDelete);
+		
+		
+		btnDelete.addActionListener(e->{
+			
+			
+		});
+		
 	}
 
+	//@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_SYNC;
+	}
+	
+	
 	//@Override
 	public String getTitle() {
 		return "Synchronization";

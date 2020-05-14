@@ -11,10 +11,10 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
+import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
@@ -39,29 +39,6 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	
 	public static void main(String[] args) throws IOException {
-		
-		MagicCardStock stock = new MagicCardStock();
-		
-		MagicEdition ed = new MagicEdition("ISD","Innistrad");
-					 ed.setMultiverseid("235597");
-		MagicCard mc = new MagicCard();
-				  mc.setName("Liliana of the veil");
-				  mc.getSupertypes().add("Legendary");
-				  mc.getTypes().add("PlanesWalker");
-				  mc.getSubtypes().add("Liliana");
-				  mc.getEditions().add(ed);
-				  mc.setScryfallId("ac506c17-adc8-49c6-9d8d-43db7cb1ec9d");
-				  mc.setText("+1: Each player discards a card.\n" + 
-				  		"-2: Target player sacrifices a creature.\n" + 
-				  		"-6: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of his or her choice.");				  
-		stock.setMagicCard(mc);
-		stock.setQte(4);
-		stock.setCondition(EnumCondition.NEAR_MINT);
-		stock.setPrice(99.99);
-		stock.setFoil(true);
-		
-		
-	            	new WooCommerceExport().exportStock(List.of(stock), null);
 		new WooCommerceExport().importStock(null);
 	}
 	
@@ -82,7 +59,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	@Override
 	public String getFileExtension() {
-		return null;
+		return "";
 	}
 	
 	private void init()
@@ -216,9 +193,21 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), productInfo);
 		
-		//TODO import files
+		for(JsonElement e : ret)
+		{
+			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+						   st.getTiersAppIds().put(getName(), e.getAsJsonObject().get("id").getAsInt());
+						   st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
+			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true);
+						   st.setMagicCard(cards.get(0));
+			
+			stocks.add(st);
+			
+			notify(st.getMagicCard());
+			
+		}
 		
-		logger.debug(ret);
+		
 		
 		return stocks;
 		
@@ -258,7 +247,6 @@ public class WooCommerceExport extends AbstractCardExport {
 					    st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
 					    st.setUpdate(true);
 					}
-
 				}
 				else
 				{
