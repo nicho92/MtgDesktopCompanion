@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.tools.FileTools;
@@ -93,14 +92,12 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected boolean skipFirstLine() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[0];
 	}
 
 	@Override
