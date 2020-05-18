@@ -37,12 +37,6 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 		FileTools.saveFile(dest, temp.toString());
 
 	}
-	
-	public static void main(String[] args) throws IOException {
-		new ForgeDeckExport().importDeckFromFile(new File("D:\\Desktop\\test.forge.dck"));
-	}
-
-	
 
 	@Override
 	public MagicDeck importDeck(String content, String name) throws IOException {

@@ -121,7 +121,6 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	public void removeAll() {
 		keys.clear();
 		fireTableDataChanged();
-		
 	}
 
 	public boolean removeRow(K ed) {

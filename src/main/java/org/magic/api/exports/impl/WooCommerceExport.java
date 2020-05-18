@@ -244,21 +244,25 @@ public class WooCommerceExport extends AbstractCardExport {
 					{
 						logger.info("No update for " + st + "-" + st.getMagicCard() +". Create it");
 						ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
-					    st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
-					    st.setUpdate(true);
+					   
 					}
 				}
 				else
 				{
 					logger.debug(st.getMagicCard() + "is not present in "+getName() + ". create it");
 					ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
-				    st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
-				    st.setUpdate(true);
 				}
 				
 				
-				if(ret.isEmpty())
-					logger.error("No export for " + st + "-" + st.getMagicCard());
+				if(ret.isEmpty() || ret.get("id")==null)
+				{
+					logger.error("No export for " + st + "-" + st.getMagicCard() +":"+ret);
+				}
+				else
+				{
+					st.getTiersAppIds().put(getName(), ret.get("id"));
+					st.setUpdate(true);
+				}
 				
 				notify(st.getMagicCard());
 		}

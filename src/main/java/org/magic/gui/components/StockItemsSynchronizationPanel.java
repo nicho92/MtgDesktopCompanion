@@ -11,16 +11,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 public class StockItemsSynchronizationPanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private MapTableModel<String, Object> model;
+	private MapTableModel<MTGPlugin, Object> model;
+	private MagicCardStock st;
 	
 	public StockItemsSynchronizationPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -35,10 +38,17 @@ public class StockItemsSynchronizationPanel extends JPanel {
 		panel.add(btnDelete);
 		
 		
-		btnDelete.addActionListener(e->{
+		btnDelete.addActionListener(al->{
 			
+			String name = UITools.getTableSelection(table,0);
 			
+			model.removeRow(table.convertRowIndexToModel(table.getSelectedRow()));
+			st.getTiersAppIds().remove(name);
+			st.setUpdate(true);
 		});
+		
+		
+		model.setColumnNames("Plugin", "id");
 		
 	}
 
@@ -55,9 +65,11 @@ public class StockItemsSynchronizationPanel extends JPanel {
 
 	public void init(MagicCardStock st)
 	{
+		this.st=st;
 		model.clear();
 		for(Entry<String, Object> m : st.getTiersAppIds().entrySet())
-			model.addRow(m.getKey(),m.getValue());
+			model.addRow(MTGControler.getInstance().getPlugin(m.getKey(),MTGCardsExport.class),m.getValue());
+		
 	}
 	
 	
