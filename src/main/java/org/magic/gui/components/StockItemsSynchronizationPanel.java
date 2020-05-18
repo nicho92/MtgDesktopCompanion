@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
