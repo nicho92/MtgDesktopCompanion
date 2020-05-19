@@ -59,7 +59,7 @@ public class FileDropDecorator
 
                 public void dragOver( DropTargetDragEvent evt ) 
                 {   
-                	//do nothing
+                	c.setBackground(Color.BLUE);
                 }   
 
                 public void drop( DropTargetDropEvent evt )

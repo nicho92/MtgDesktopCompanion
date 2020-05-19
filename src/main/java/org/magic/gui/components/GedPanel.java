@@ -12,9 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
@@ -26,6 +28,7 @@ import org.magic.gui.components.renderer.GedEntryComponent;
 import org.magic.gui.tools.FileDropDecorator;
 import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 
@@ -77,6 +80,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
+		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DRAG_HERE")));
 		panneauHaut.add(buzy);
 		
 		

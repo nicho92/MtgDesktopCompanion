@@ -154,7 +154,6 @@ public class WooCommerceExport extends AbstractCardExport {
 			
 			@Override
 			public Map delete(String endpointBase, int id) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
@@ -233,6 +232,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	        productInfo.put("stock_quantity", String.valueOf(st.getQte()));
 	        productInfo.put("status", getString(DEFAULT_STATUT));
 	        productInfo.put("images", toJson("src",new MythicSpoilerPicturesProvider().generateUrl(st.getMagicCard(), null).toString()));
+		//	productInfo.put("attributes", "");
 			
 	        Map<String,JsonElement> ret;
 	        
