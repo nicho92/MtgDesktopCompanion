@@ -40,10 +40,10 @@ public class StockItemsSynchronizationPanel extends JPanel {
 		
 		btnDelete.addActionListener(al->{
 			
-			String name = UITools.getTableSelection(table,0);
+			MTGPlugin name = UITools.getTableSelection(table,0);
 			
 			model.removeRow(table.convertRowIndexToModel(table.getSelectedRow()));
-			st.getTiersAppIds().remove(name);
+			st.getTiersAppIds().remove(name.getName());
 			st.setUpdate(true);
 		});
 		
