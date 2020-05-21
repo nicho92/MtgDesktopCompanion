@@ -130,9 +130,9 @@
 		<dependency>
 			<groupId>mkm-api</groupId>
 			<artifactId>mkm-api</artifactId>
-			<version>0.11.0</version>
+			<version>0.11.1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mkm-api-java-0.11.0.jar</systemPath>
+			<systemPath>${project.basedir}/lib/mkm-api-java-0.11.1.jar</systemPath>
 		</dependency>
 		<dependency>
 		  <groupId>org.pushing-pixels</groupId>

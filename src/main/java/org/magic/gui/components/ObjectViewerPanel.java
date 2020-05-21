@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -8,6 +9,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.tools.MemoryTools;
 
@@ -20,6 +23,7 @@ public class ObjectViewerPanel extends MTGUIComponent {
 	private JTextArea textpane;
 	private JRadioButton rdoJson;
 	private JRadioButton rdoMemory;
+	private JRadioButton rdoBeanUtils;
 	private transient Object currentObject;
 
 	public ObjectViewerPanel() {
@@ -36,17 +40,18 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		rdoJson = new JRadioButton("Json");
 		rdoJson.setSelected(true);
 		rdoMemory = new JRadioButton("Memory");		
-		
+		rdoBeanUtils = new JRadioButton("Bean");
 		ButtonGroup group = new ButtonGroup();
 					group.add(rdoJson);
 					group.add(rdoMemory);
-		
+					group.add(rdoBeanUtils);
 		panel.add(rdoJson);
 		panel.add(rdoMemory);
-		
+		panel.add(rdoBeanUtils);
 		
 		rdoJson.addItemListener(il->show(currentObject));
 		rdoMemory.addItemListener(il->show(currentObject));
+		rdoBeanUtils.addItemListener(il->show(currentObject));
 	}
 
 	public void show(Object mc) {
@@ -61,15 +66,33 @@ public class ObjectViewerPanel extends MTGUIComponent {
 			textpane.setText(g.toJson(currentObject));
 			textpane.setCaretPosition(0);
 		}
-		else
+		else if(rdoMemory.isSelected())
 		{
 			textpane.setText(MemoryTools.statInstanceToString(currentObject));
 		}
+		else
+		{
+			StringBuilder build = new StringBuilder();
+			
+			try {
+				PropertyUtils.describe(currentObject).entrySet().forEach(e->{
+						build.append(e.getKey()).append("\t").append(e.getValue()).append("\n");
+				});
+			} catch (Exception e) {
+				textpane.setText(e.getMessage());
+			} 
+			
+			textpane.setText(build.toString());
+			
+		}
+		
 	}
 
 	@Override
 	public String getTitle() {
 		return "ObjectViewer";
 	}
+	
+	
 
 }

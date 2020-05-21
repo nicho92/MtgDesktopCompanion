@@ -75,6 +75,11 @@ public abstract class AbstractKeyWordsManager {
 				   .distinct()
 				   .collect(Collectors.toSet());
 	}
+	
+	public boolean asKeyword(MagicCard mc,String key) {
+		return getKeywordsFrom(mc).stream().anyMatch(l->l.getKeyword().equalsIgnoreCase(key));
+				   
+	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,TYPE t) {
 		return getKeywordsFrom(mc).stream()

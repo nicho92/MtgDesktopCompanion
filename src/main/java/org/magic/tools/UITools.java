@@ -58,6 +58,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.FilterSettings;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 @SuppressWarnings("unchecked")
@@ -286,12 +287,13 @@ public class UITools {
 	public static void initTableFilter(JTable table)
 	{
 			try {
+				FilterSettings.ignoreCase=true;
 				TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 				filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 			}
 			catch(Exception e)
 			{
-				logger.error("error setting TableFilter of " + table);
+				logger.error("error setting TableFilter of " + table,e);
 			}
 	}
 	

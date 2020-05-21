@@ -584,7 +584,7 @@ public class ConstructPanel extends JPanel {
 
 	private void initTables(JXTable table, int f, DeckCardsTableModel model) {
 		table.setModel(model);
-		table.setRowSorter(new TableRowSorter<DefaultTableModel>(model));
+		table.setRowSorter(new TableRowSorter<>(model));
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
@@ -604,6 +604,13 @@ public class ConstructPanel extends JPanel {
 				catch(Exception e){
 					logger.error("error applying font " + value + " "+ deck +":"+e);
 				}
+			
+			
+			if(((MagicCard)value).isCompanion())
+				comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
+			
+			
+			
 			return comp;
 			
 			

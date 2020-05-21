@@ -9,6 +9,8 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
@@ -60,6 +62,11 @@ public class MagicCard implements Serializable {
 	private String gathererCode;
 	private String scryfallId;
 	
+	
+	public boolean isCompanion()
+	{
+		return isCreature() && getText().contains("Companion —");
+	}
 	
 	public String getScryfallId() {
 		return scryfallId;
@@ -216,6 +223,7 @@ public class MagicCard implements Serializable {
 		
 		return null;
 	}
+	
 	
 	public boolean isInstant()
 	{

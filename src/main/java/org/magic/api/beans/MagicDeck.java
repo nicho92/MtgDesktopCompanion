@@ -8,10 +8,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.services.keywords.AbstractKeyWordsManager;
 
 public class MagicDeck implements Serializable {
 
@@ -26,6 +28,7 @@ public class MagicDeck implements Serializable {
 	private double averagePrice;
 	private List<String> tags;
 	private MagicCard commander;
+	private MagicCard companion;
 
 	public MagicDeck() 
 	{
@@ -236,6 +239,18 @@ public class MagicDeck implements Serializable {
 	public MagicCard getCommander() {
 		return commander;
 	}
+	
+	public MagicCard getCompanion() {
 
+		Optional<MagicCard> opt= getUniqueCards().stream().filter(MagicCard::isCompanion).findFirst();
+		
+		if(opt.isPresent())
+			return opt.get();
+		else
+			return null;
+		
+		
+	}
+	
 	
 }

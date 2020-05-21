@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.collections4.ListUtils;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Inserted;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
@@ -230,7 +231,9 @@ public class MkmOnlineExport extends AbstractCardExport {
 				d.getMain().put(mcs.getMagicCard(), mcs.getQte());
 			}
 			exportDeck(d, f);
-		} else {
+		} 
+		
+		else {
 
 			StockService serv = new StockService();
 			ProductServices prods = new ProductServices();
@@ -272,15 +275,41 @@ public class MkmOnlineExport extends AbstractCardExport {
 					a.setProduct(p);
 					a.setIdProduct(p.getIdProduct());
 					list.add(a);
+					try {
+						Inserted retour  = serv.addArticle(a);
+							if(!retour.isSuccess())
+							{
+								logger.error(retour.getError());
+							}
+							else
+								{
+								mcs.getTiersAppIds().put(getName(), retour.getIdArticle().getIdArticle());
+								mcs.setUpdate(true);
+								}
+						
+					}catch(Exception e)
+					{
+						logger.error(e);
+					}
 				}
+				
+				
 				notify(mcs.getMagicCard());
 				
 			}
 			
-			List<List<Article>> ret = ListUtils.partition(list, 50);
+			List<List<Article>> ret = ListUtils.partition(list, 100);
 			
 			for(List<Article> l : ret)
-				serv.addArticles(l);
+			{
+				List<Inserted> arts = serv.addArticles(l);
+				System.out.println(); 
+				for(Inserted i : arts)
+				{
+					logger.debug(i.getIdArticle().getProduct().getEnName() +" " + i.getIdArticle().getIdArticle());
+				}
+				
+			}
 		}
 	}
 
@@ -325,6 +354,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
+			mcs.getTiersAppIds().put(getName(), a.getIdArticle());
 			stock.add(mcs);
 			notify(mcs.getMagicCard());
 
