@@ -298,18 +298,20 @@ public class MkmOnlineExport extends AbstractCardExport {
 				
 			}
 			
-			List<List<Article>> ret = ListUtils.partition(list, 100);
-			
-			for(List<Article> l : ret)
-			{
-				List<Inserted> arts = serv.addArticles(l);
-				System.out.println(); 
-				for(Inserted i : arts)
-				{
-					logger.debug(i.getIdArticle().getProduct().getEnName() +" " + i.getIdArticle().getIdArticle());
-				}
-				
-			}
+//			List<List<Article>> ret = ListUtils.partition(list, 100);
+//			
+//			for(List<Article> l : ret)
+//			{
+//				List<Inserted> arts = serv.addArticles(l);
+//				for(Inserted i : arts)
+//				{
+//					if(i.isSuccess())
+//					{
+//						
+//					}
+//				}
+//				
+//			}
 		}
 	}
 
@@ -381,7 +383,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			return "PL";
 		case POOR:
 			return "PO";
-		default : return null;
+		default : return "MT";
 		}
 	}
 
