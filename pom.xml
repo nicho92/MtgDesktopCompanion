@@ -97,7 +97,7 @@
 		<dependency>
 		    <groupId>com.atlassian.commonmark</groupId>
 		    <artifactId>commonmark</artifactId>
-		    <version>0.14.0</version>
+		    <version>0.15.0</version>
 		</dependency>
 		<dependency>
             <groupId>io.milton</groupId>
@@ -182,7 +182,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.1_153</version>
+			  <version>4.1.1_154</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -456,7 +456,7 @@
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>
 	    <artifactId>groovy-all</artifactId>
-	    <version>3.0.3</version>
+	    <version>3.0.4</version>
 	    <type>pom</type>
 	</dependency>
 	<dependency>
