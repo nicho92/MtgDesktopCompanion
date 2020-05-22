@@ -323,9 +323,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 		if (!getBoolean(STOCK_USE))
 			return importFromDeck(importDeckFromFile(f));
 
-		
-		
-		
 		StockService serv = new StockService();
 		List<LightArticle> list = serv.getStock();
 		List<MagicCardStock> stock = new ArrayList<>();
