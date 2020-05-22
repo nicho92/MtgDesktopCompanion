@@ -30,6 +30,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import org.apache.commons.io.FilenameUtils;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
@@ -161,6 +162,7 @@ public class ScriptPanel extends MTGUIComponent {
 					
 				} 
 				catch (Exception e) {
+					logger.error("error scriptinng",e);
 					appendResult(e.getMessage()+"\n",Color.RED);
 				}
 				
@@ -210,6 +212,15 @@ public class ScriptPanel extends MTGUIComponent {
 			{
 				try {
 					FileTools.saveFile(currentFile, editorPane.getText());
+					
+					if(FilenameUtils.getExtension(currentFile.getName()).isEmpty())
+					{
+						File fext = new File(currentFile.getParentFile(),currentFile.getName()+"."+((MTGScript)cboScript.getSelectedItem()).getExtension());
+						boolean bext = currentFile.renameTo(fext);
+						logger.debug("No extenstion, renaname to " + fext +":"+bext);
+					}
+					
+					
 					appendResult(currentFile.getAbsolutePath() + " is saved", Color.CYAN);
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);

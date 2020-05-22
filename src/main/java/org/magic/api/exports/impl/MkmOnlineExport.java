@@ -329,6 +329,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 		StockService serv = new StockService();
 		List<LightArticle> list = serv.getStock();
 		List<MagicCardStock> stock = new ArrayList<>();
+		
+		if(list==null)
+			return new ArrayList<>();
+		
+		
 		for (LightArticle a : list) {
 			MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setUpdate(true);

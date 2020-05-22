@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import javax.script.ScriptException;
 
 import org.apache.commons.io.FileUtils;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -51,6 +52,9 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		addVariable("sniffers",MTGControler.getInstance().listEnabled(MTGDeckSniffer.class));
 		addVariable("cache",MTGControler.getInstance().getEnabled(MTGPicturesCache.class));
 		addVariable("shoppers",MTGControler.getInstance().listEnabled(MTGShopper.class));
+		addVariable("importexporters",MTGControler.getInstance().listEnabled(MTGCardsExport.class));
+		addVariable("controler",MTGControler.getInstance());
+		
 	}
 	
 	@Override
