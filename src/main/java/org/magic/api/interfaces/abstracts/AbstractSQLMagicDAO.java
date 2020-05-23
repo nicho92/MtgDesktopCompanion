@@ -891,6 +891,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	private void setEdition(OrderEntry state, ResultSet rs) {
 		try {
+			if(rs.getString(EDITION)==null)
+			{
+				state.setEdition(new MagicEdition("pMEI",""));
+				return;
+			}
+			
+			
 			state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
 		} catch (Exception e) {
 			state.setEdition(null);
