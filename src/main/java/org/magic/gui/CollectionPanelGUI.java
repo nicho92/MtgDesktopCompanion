@@ -11,6 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -156,7 +158,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				protected void done() {
 					progressBar.end();	
 					tableEditions.packAll();
-					lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
+					initTotal();
 					
 				}
 			};
@@ -351,6 +353,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 	}
 	
+	
+	private void initTotal() {
+			lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal() + " ("+ new DecimalFormat("#0.00").format(  ((double)model.getCountDefaultLibrary() / (double)model.getCountTotal())*100)  +"%)");
+		
+	}
+	
+	
+	
 	@SuppressWarnings("unchecked")
 	private void initActions()
 	{
@@ -377,16 +387,19 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			 
 			 @Override
 			protected void done() {
-				lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());
+				initTotal();
 				model.fireTableDataChanged();
 				tree.refresh();
 				progressBar.end();
 			}
+
+		
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw,"calculate collection");
 		});
 		
+	
 
 		btnExport.initCardsExport(new Callable<MagicDeck>() {
 			@Override
