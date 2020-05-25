@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -381,16 +382,30 @@ public class OrdersGUI extends MTGUIComponent {
 			}
 		});
 		
-		btnSave.addActionListener(ae->
-			model.getItems().stream().filter(OrderEntry::isUpdated).forEach(o->{
-					try {
-						MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateOrderEntry(o);
-						o.setUpdated(false);
-
-					} catch (Exception e) {
-						MTGControler.getInstance().notify(new MTGNotification("ERROR", e));
-					}})
-		);
+		btnSave.addActionListener(ae->{
+			
+			
+			List<OrderEntry> orders = model.getItems().stream().filter(OrderEntry::isUpdated).collect(Collectors.toList());
+			
+					AbstractObservableWorker<Void,OrderEntry, MTGDao> sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGDao.class),orders.size()) {
+		
+						@Override
+						protected Void doInBackground() throws Exception {
+							
+								for(OrderEntry a : orders)
+								{
+									plug.saveOrUpdateOrderEntry(a);
+									a.setUpdated(false);
+									publish(a);
+								}
+								return null;
+						}
+					};
+					
+					ThreadManager.getInstance().runInEdt(sw, "savings orders");
+					
+			});
+		
 		
 		btnImportTransaction.addActionListener(ae->{
 			OrderImporterDialog diag = new OrderImporterDialog();
