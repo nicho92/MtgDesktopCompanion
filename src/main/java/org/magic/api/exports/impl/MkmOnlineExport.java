@@ -116,7 +116,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 		for (WantItem w : list.getItem()) {
 			try {
 				Product p = w.getProduct();
-
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 				
