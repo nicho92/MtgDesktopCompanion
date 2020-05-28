@@ -19,11 +19,9 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		return STATUT.DEV;
 	}
 
-
-
+	
 	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition me) throws IOException {
-
+	public String generateUrl(MagicCard mc, MagicEdition me) {
 		String cardName = mc.getName().toLowerCase();
 		MagicEdition edition = me;
 		if (me == null)
@@ -35,17 +33,21 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 			cardName = cardName.replace("//", "");
 		}
 
-		// This will properly escape the url
-		URI uri;
 		try {
-			uri = new URI("http", "magidex.com", "/extstatic/card/" + cardSet.toUpperCase() + '/' + cardName + ".jpg",
-					null, null);
+			return new URI("http", "magidex.com", "/extstatic/card/" + cardSet.toUpperCase() + '/' + cardName + ".jpg",null, null).toString();
 		} catch (URISyntaxException e1) {
-			throw new IOException(e1);
+			return "";
 		}
+	}
 
-		logger.debug("get card from " + uri.toURL());
-		HttpURLConnection connection = URLTools.openConnection(uri.toURL());
+
+	@Override
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition me) throws IOException {
+
+		
+		String uri = generateUrl(mc,me);
+		logger.debug("get card from " + uri);
+		HttpURLConnection connection = URLTools.openConnection(uri);
 	
 		try {
 			return ImageTools.read(connection.getInputStream());

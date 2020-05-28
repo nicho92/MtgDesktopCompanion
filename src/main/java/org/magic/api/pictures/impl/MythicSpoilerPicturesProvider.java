@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -19,7 +18,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	
-	public URL generateUrl(MagicCard mc , MagicEdition me)
+	public String generateUrl(MagicCard mc , MagicEdition me)
 	{
 		MagicEdition edition = me;
 		if (me == null)
@@ -41,7 +40,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		}
 		try {
 			logger.debug("get card from " + uri.toURL());
-			return uri.toURL();
+			return uri.toURL().toString();
 		} catch (Exception e) {
 			return null;
 		}

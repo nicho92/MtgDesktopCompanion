@@ -24,4 +24,5 @@ public interface MTGPictureProvider extends MTGPlugin {
 	
 	public void setSize(Dimension d);
 
+	public String generateUrl(MagicCard mc , MagicEdition me);
 }

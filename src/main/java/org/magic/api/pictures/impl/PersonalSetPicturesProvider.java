@@ -67,21 +67,24 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
+	public String generateUrl(MagicCard mc, MagicEdition ed) {
 		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir,mc.getCurrentSet().getId());
 		if(ed!=null)
 			edDir = new File(mainDir, ed.getId());
 		
-		
-		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
-		if (edDir.exists())
-		{
-			return ImageTools.read(new File(edDir, mc.getId() + "." + getString(FORMAT)));
+		return new File(edDir, mc.getId() + "." + getString(FORMAT)).getAbsolutePath();
+	}
+	
+	@Override
+	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
+	
+		try {
+			return ImageTools.read(new File(generateUrl(mc, ed)));
 		}
-		else
+		catch(Exception e)
 		{
-			logger.debug(new File(edDir, mc.getId() + "." + getString(FORMAT)) + " is not found");
+			logger.debug(generateUrl(mc, ed) + " is not found");
 			return null;
 		}
 	}

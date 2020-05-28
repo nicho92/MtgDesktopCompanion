@@ -30,14 +30,19 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 				return MTGControler.getInstance().getPlugin(getString("SECOND_PROVIDER"), MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
-		return extractByMultiverseId(selected.getMultiverseid());
+		return URLTools.extractImage(generateUrl(null,selected));
 	}
 
-	private BufferedImage extractByMultiverseId(String multiverseid) throws IOException {
-		return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card");
+	public String generateUrl(MagicCard mc , MagicEdition me)
+	{
+		MagicEdition ed = me;
+		
+		if(me==null)
+			ed = mc.getCurrentSet();
+		
+		return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + ed.getMultiverseid() + "&type=card";
 	}
-
-
+	
 	
 
 	@Override

@@ -15,9 +15,12 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
@@ -32,8 +35,11 @@ import com.icoderman.woocommerce.WooCommerce;
 import com.icoderman.woocommerce.oauth.OAuthConfig;
 import com.icoderman.woocommerce.oauth.OAuthSignature;
 
+import forohfor.scryfall.api.MTGCardQuery;
+
 public class WooCommerceExport extends AbstractCardExport {
 
+	private static final String PIC_PROVIDER_NAME = "PIC_PROVIDER_NAME";
 	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
 	private static final String CATEGORY_ID = "CATEGORY_ID";
@@ -42,10 +48,6 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private  WooCommerce wooCommerce;
 	
-	
-	public static void main(String[] args) throws IOException {
-		new WooCommerceExport().importStock(null);
-	}
 	
 	@Override
 	public boolean needFile() {
@@ -219,6 +221,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		if(wooCommerce==null)
@@ -241,22 +244,28 @@ public class WooCommerceExport extends AbstractCardExport {
 	        	productInfo.put("stock_quantity", String.valueOf(st.getQte()));
 	        }
 	        
-	      	productInfo.put("images", toJson("src",new MythicSpoilerPicturesProvider().generateUrl(st.getMagicCard(), null).toString()));
-			
-	      	
+	        
+	        if(!getString(PIC_PROVIDER_NAME).isEmpty())
+	        	productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)));
 	      	
 	      	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
 				JsonArray arr = new JsonArray();
 						  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
-						  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
 						  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
+						  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
 						  arr.add(createAttributes("Mkm-Rarete", st.getMagicCard().getCurrentSet().getRarity().toPrettyString(),true));
-						  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));
+						
+						 
+						  if(st.getComment()!=null)
+							  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));
+						  
 						  arr.add(createAttributes("Language", st.getLanguage(),true));
 						  arr.add(createAttributes("Mkm-Extension", st.getMagicCard().getEditions().stream().map(MagicEdition::getSet).toArray(String[]::new),true));
 				productInfo.put("attributes", arr);
+				
+				productInfo.entrySet().forEach(e->logger.debug(e.getKey() +" " + e.getValue()));
+				
 	      	}
-			
 			
 	        Map<String,JsonElement> ret;
 	        
@@ -276,7 +285,6 @@ public class WooCommerceExport extends AbstractCardExport {
 					logger.debug(st.getMagicCard() + "is not present in "+getName() + ". create it");
 					ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
 				}
-				
 				
 				if(ret.isEmpty() || ret.get("id")==null)
 				{
@@ -299,7 +307,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		return createAttributes(key ,new String[] {val},visible);
 	}
 	
-	private JsonObject createAttributes (String key ,String[] val,boolean visible)
+	private JsonObject createAttributes(String key ,String[] val,boolean visible)
 	{
 			JsonObject obj = new JsonObject();
 					   obj.addProperty("name", key);
@@ -357,7 +365,6 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 	}
 	
-	
 	@Override
 	public void initDefault() {
 		setProperty("WEBSITE", "https://");
@@ -367,7 +374,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		setProperty(DEFAULT_STATUT, "private");
 		setProperty(STOCK_MANAGEMENT,"true");
 		setProperty(ATTRIBUTES_KEYS,"");
-		
+		setProperty(PIC_PROVIDER_NAME,"");
 	}
 	
 	

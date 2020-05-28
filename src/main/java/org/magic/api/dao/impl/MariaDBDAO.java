@@ -29,7 +29,7 @@ public class MariaDBDAO extends AbstractSQLMagicDAO {
 
 	@Override
 	protected String beanStorage() {
-		return "TEXT";
+		return "LONGTEXT";
 	}
 
 	@Override

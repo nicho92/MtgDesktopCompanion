@@ -35,17 +35,10 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			}
 		}
 	}
-
-	private BufferedImage extractbyMultiverseId(String multiverseid) throws IOException {
-		try {
-			Document d = URLTools.extractHtml(getString("URL") + "/card.php?multiverseid=" + multiverseid);
-			logger.debug("read " + getString("URL") + "/card.php?multiverseid=" + multiverseid);
-			Element e = d.select(".card > img").get(0);
-			return URLTools.extractImage(e.attr("src"));
-		} catch (Exception e) {
-			logger.error(e);
-			return null;
-		}
+	
+	@Override
+	public String generateUrl(MagicCard mc, MagicEdition me) {
+		return getString("URL") + "/card.php?multiverseid=" + me.getMultiverseid();
 	}
 
 	private BufferedImage resizeIconSet(BufferedImage img) {
@@ -82,7 +75,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 				return PluginRegistry.inst().getPlugin("Scryfall", MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
-		return extractbyMultiverseId(selected.getMultiverseid());
+		return URLTools.extractImage(generateUrl(mc, ed));
 	}
 
 	@Override

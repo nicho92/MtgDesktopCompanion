@@ -30,7 +30,7 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 
 	@Override
 	protected String beanStorage() {
-		return "TEXT";
+		return "LONGTEXT";
 	}
 
 	@Override

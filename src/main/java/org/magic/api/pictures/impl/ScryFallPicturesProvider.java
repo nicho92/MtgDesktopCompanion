@@ -37,9 +37,23 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 
 	}
+	
+	@Override
+	public String generateUrl(MagicCard mc, MagicEdition me) {
+		try {
+			return generateLink(mc,me,false).toString();
+		} catch (MalformedURLException e) {
+			return "";
+		}
+	}
+	
 
-	public URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
+	private URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
 
+		if(selected==null)
+			selected = mc.getCurrentSet();
+		
+		
 		if (scryfallProvider == null)
 			scryfallProvider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class) instanceof ScryFallProvider;
 
@@ -83,12 +97,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		URL u = generateLink(mc, mc.getCurrentSet(), true);
-
-		HttpURLConnection connection = URLTools.openConnection(u);
-		logger.debug("load pics " + connection.getURL().toString());
-
 		try {
-			return ImageTools.read(connection.getInputStream());
+			return URLTools.extractImage(u);
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture();
