@@ -68,6 +68,7 @@ public class QwartzServer extends AbstractMTGServer {
 				job.getJobDataMap().put(ScripterJob.SCRIPT_FILE, f);
 				job.getJobDataMap().put(ScripterJob.SCRIPTER, p);
 				jobs.add(job);
+				logger.debug("registering :"+job);
 			}
 			else
 			{
@@ -134,7 +135,8 @@ public class QwartzServer extends AbstractMTGServer {
 	@Override
 	public void unload() {
 		try {
-			scheduler.shutdown();
+			if(scheduler!=null)
+				scheduler.shutdown();
 		}
 		catch(Exception e)
 		{
