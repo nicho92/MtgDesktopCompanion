@@ -25,4 +25,6 @@ public interface MTGScript extends MTGPlugin{
 	
 	void init();
 	
+	public File getScriptDirectory();
+	
 }

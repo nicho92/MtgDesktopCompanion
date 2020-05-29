@@ -41,6 +41,8 @@
     <logger name="org.eclipse.jetty"><level value="ERROR"/></logger>
     <logger name="io.milton"><level value="ERROR"/></logger>
     <logger name="com.zaxxer.hikari"><level value="ERROR"/></logger>
+    <logger name="org.quartz"><level value="DEBUG"/></logger>
+    
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>

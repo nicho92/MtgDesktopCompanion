@@ -39,6 +39,11 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	}
 	
 	
+	@Override
+	public File getScriptDirectory() {
+		return getFile(DIR);
+	}
+	
 	@Override 
 	public void init()
 	{
