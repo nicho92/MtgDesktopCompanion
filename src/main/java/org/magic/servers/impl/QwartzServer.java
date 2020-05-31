@@ -1,40 +1,26 @@
 package org.magic.servers.impl;
 
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
-import org.magic.tools.ScripterJob;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.quartz.core.QuartzScheduler;
 import org.quartz.impl.StdSchedulerFactory;
 
 
 public class QwartzServer extends AbstractMTGServer {
 
+	private static final String ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES = "org.quartz.plugin.jobInitializer.fileNames";
 	private  Scheduler scheduler;
-	private boolean initied=false;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -45,65 +31,25 @@ public class QwartzServer extends AbstractMTGServer {
 	
 	public QwartzServer() {
 		try {
-			scheduler = new StdSchedulerFactory(getProperties()).getScheduler();
-		} catch (SchedulerException e) {
-			logger.error(e);
-		}
-	}
-	
-
-	private void init() throws SchedulerException
-	{
-
-		List<JobDetail> jobs = new ArrayList<>();
-		for(String name :  getArray("SCRIPTS_FILES"))
-		{
-			JobDetail job = newJob(ScripterJob.class).withIdentity(name+"-job", "group1").build();
 			
-			Optional<MTGScript> optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().filter(s->FilenameUtils.getExtension(name).toLowerCase().endsWith(s.getExtension().toLowerCase())).findAny();
-			if(optScripter.isPresent())
+			if(!getFile(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES).exists())
 			{
-				MTGScript p = optScripter.get();
-				File f = new File(p.getScriptDirectory(),name);
-				job.getJobDataMap().put(ScripterJob.SCRIPT_FILE, f);
-				job.getJobDataMap().put(ScripterJob.SCRIPTER, p);
-				jobs.add(job);
-				logger.debug("registering :"+job);
+				logger.debug("creating quartz config file");
+				FileUtils.copyURLToFile(getClass().getResource("/data/default-quartz.xml"),getFile(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES));
 			}
-			else
-			{
-				logger.error("no Scripter found for " + name);
-			}
+			
+			
+			scheduler = new StdSchedulerFactory(getProperties()).getScheduler();
+		} catch (Exception e) {
+			logger.error(e);
 		} 
-		
-		TriggerBuilder<CronTrigger> triggerBuilder = newTrigger()
-				    .withIdentity("trigger1", "group1")
-				    .startAt(new Date())
-				    .withSchedule(CronScheduleBuilder.cronSchedule(getString("CRON_LINE")));
-
-		jobs.forEach(triggerBuilder::forJob);
-		
-		
-		
-		Trigger trigger = triggerBuilder.build();
-		
-		
-		for(JobDetail job : jobs)
-		 scheduler.scheduleJob(job, trigger);
-		
-		
-		initied=true;
 	}
 	
+
 	
 	@Override
 	public void start() throws IOException {
 		try {
-			
-			if(!initied)
-				init();
-			
-			
 			scheduler.start();
 		} catch (SchedulerException e) {
 			throw new IOException(e);
@@ -164,8 +110,11 @@ public class QwartzServer extends AbstractMTGServer {
 		setProperty("org.quartz.scheduler.instanceName", "MTGCompanion-schedule");
 		setProperty("org.quartz.threadPool.threadCount", "3");
 		setProperty("org.quartz.jobStore.class","org.quartz.simpl.RAMJobStore");
-		setProperty("SCRIPTS_FILES","HelloWorld.groovy");
-		setProperty("CRON_LINE","0 */2 * ? * *");
+		
+		setProperty("org.quartz.plugin.jobInitializer.class","org.quartz.plugins.xml.XMLSchedulingDataProcessorPlugin");
+		setProperty(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES,new File(MTGConstants.DATA_DIR,"quartz-config.xml").getAbsolutePath());
+		setProperty("org.quartz.plugin.jobInitializer.failOnFileNotFound","true");
+	
 		setProperty("AUTOSTART", "false");
 	}
 
@@ -173,7 +122,7 @@ public class QwartzServer extends AbstractMTGServer {
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(new URL("https://www.freeformatter.com/cron-expression-generator-quartz.html#cronexpressionexamples"),FORMAT_NOTIFICATION.HTML);
+			return new MTGDocumentation(new URL("http://www.quartz-scheduler.org/documentation/quartz-2.3.0/configuration/ConfigMain.html"),FORMAT_NOTIFICATION.HTML);
 		} catch (MalformedURLException e) {
 			return super.getDocumentation();
 		}

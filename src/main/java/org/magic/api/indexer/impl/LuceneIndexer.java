@@ -286,8 +286,17 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		          		fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
 		          		
            		   doc.add(new Field("name", mc.getName(), fieldType));
-           		   doc.add(new Field("cost", mc.getCost(),fieldType));
-           		   doc.add(new Field("text", mc.getText(), fieldType));
+           		   
+           		   if(mc.getCost()!=null)
+           			   doc.add(new Field("cost", mc.getCost(),fieldType));
+           		   else
+           			   doc.add(new Field("cost", "",fieldType));
+           		  
+           		   if(mc.getText()!=null)
+           			   doc.add(new Field("text", mc.getText(), fieldType));
+           		   else
+           			   doc.add(new Field("text", "", fieldType));
+           		   
            		   doc.add(new Field("type", mc.getFullType(), fieldType));
            		   doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
            		   doc.add(new StoredField("cmc",mc.getCmc()));
