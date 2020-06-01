@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.magic.api.beans.MagicCard;
@@ -223,48 +225,21 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
 		if(wooCommerce==null)
 			init();
-	
-		for(MagicCardStock st : stock) 
+		
+		if(stocks.size()>getInt("BATCH_THRESHOLD"))
 		{
-			Map<String, Object> productInfo = new HashMap<>();
-	        productInfo.put("name", st.getMagicCard().getName());
-	        productInfo.put("type", "simple");
-	        productInfo.put("regular_price", String.valueOf(st.getPrice()));
-	        productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
-	        productInfo.put("description",desc(st.getMagicCard()));
-	        productInfo.put("short_description", st.getMagicCard().getName()+"-"+st.getCondition());
-	        productInfo.put("enable_html_description", "true");
-	        productInfo.put("status", getString(DEFAULT_STATUT));
-	        
-	        if(getBoolean(STOCK_MANAGEMENT)) {
-	        	productInfo.put("manage_stock", getString(STOCK_MANAGEMENT));
-	        	productInfo.put("stock_quantity", String.valueOf(st.getQte()));
-	        }
-	        
-	        
-	        if(!getString(PIC_PROVIDER_NAME).isEmpty())
-	        	productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)));
-	      	
-	      	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
-				JsonArray arr = new JsonArray();
-						  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
-						  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
-						  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
-						  arr.add(createAttributes("Mkm-Rarete", st.getMagicCard().getCurrentSet().getRarity().toPrettyString(),true));
-						 
-						  if(st.getComment()!=null)
-							  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));
-						  
-						  arr.add(createAttributes("Language", st.getLanguage(),true));
-						  arr.add(createAttributes("Mkm-Extension", st.getMagicCard().getEditions().stream().map(MagicEdition::getSet).toArray(String[]::new),true));
-				productInfo.put("attributes", arr);
-				
-				productInfo.entrySet().forEach(e->logger.debug(e.getKey() +" " + e.getValue()));
-				
-	      	}
+			batchExport(ListUtils.partition(stocks, 100));
+			return;
+		}
+		
+		
+		for(MagicCardStock st : stocks) 
+		{
+			
+			Map<String, Object> productInfo=build(st);
 			
 	        Map<String,JsonElement> ret;
 	        
@@ -301,6 +276,96 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	
 	
+	private Map<String, Object> build(MagicCardStock st) {
+		Map<String, Object> productInfo = new HashMap<>();
+        productInfo.put("name", st.getMagicCard().getName());
+        productInfo.put("type", "simple");
+        productInfo.put("regular_price", String.valueOf(st.getPrice()));
+        productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
+        productInfo.put("description",desc(st.getMagicCard()));
+        productInfo.put("short_description", st.getMagicCard().getName()+"-"+st.getCondition());
+        productInfo.put("enable_html_description", "true");
+        productInfo.put("status", getString(DEFAULT_STATUT));
+        
+        if(getBoolean(STOCK_MANAGEMENT)) {
+        	productInfo.put("manage_stock", getString(STOCK_MANAGEMENT));
+        	productInfo.put("stock_quantity", String.valueOf(st.getQte()));
+        }
+        
+        
+        if(!getString(PIC_PROVIDER_NAME).isEmpty())
+        	productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)));
+      	
+      	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
+			JsonArray arr = new JsonArray();
+					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
+					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
+					  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
+					  arr.add(createAttributes("Mkm-Rarete", st.getMagicCard().getCurrentSet().getRarity().toPrettyString(),true));
+					 
+					  if(st.getComment()!=null)
+						  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));
+					  
+					  arr.add(createAttributes("Language", st.getLanguage(),true));
+					  arr.add(createAttributes("Mkm-Extension", st.getMagicCard().getEditions().stream().map(MagicEdition::getSet).toArray(String[]::new),true));
+			productInfo.put("attributes", arr);
+			
+			productInfo.entrySet().forEach(e->logger.trace(e.getKey() +" " + e.getValue()));
+			
+      	}
+      	
+      	return productInfo;
+	}
+
+	private void batchExport(List<List<MagicCardStock>> partition) {
+		
+		
+		
+		for(List<MagicCardStock> stocks : partition) {
+			Map<String,Object> params = new HashMap<>();
+			
+			
+			
+			List<MagicCardStock> creates = stocks.stream().filter(st->st.getTiersAppIds().get(getName())==null).collect(Collectors.toList());
+			
+			
+			params.put("create", creates.stream().map(st->build(st)).collect(Collectors.toList()));
+			params.put("update", stocks.stream().filter(st->st.getTiersAppIds().get(getName())!=null).map(st->build(st)).collect(Collectors.toList()));
+			
+			
+			Map<String,JsonElement> ret = wooCommerce.batch(EndpointBaseType.PRODUCTS.getValue(), params);
+			 
+			logger.debug(ret);
+		
+
+			JsonArray arrRet = ret.get("create").getAsJsonArray();
+				
+			for(int i=0;i<arrRet.size();i++)
+			{
+				JsonObject obj = arrRet.get(i).getAsJsonObject();
+				
+				
+				if(obj.get("id").getAsInt()==0)
+				{
+					logger.error("Error for " + creates.get(i) +" : " + obj );
+				}
+				else
+				{
+					creates.get(i).getTiersAppIds().put(getName(), obj.get("id").getAsInt());
+					creates.get(i).setUpdate(true);
+				}
+				
+				
+				
+			}
+			
+			for(MagicCardStock st : stocks)
+				notify(st.getMagicCard());
+			
+		}
+		
+	}
+
 	private JsonObject createAttributes (String key ,String val,boolean visible)
 	{
 		return createAttributes(key ,new String[] {val},visible);
@@ -374,6 +439,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		setProperty(STOCK_MANAGEMENT,"true");
 		setProperty(ATTRIBUTES_KEYS,"");
 		setProperty(PIC_PROVIDER_NAME,"");
+		setProperty("BATCH_THRESHOLD","50");
 	}
 	
 	

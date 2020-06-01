@@ -39,7 +39,6 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 			return null;
 		}
 		try {
-			logger.debug("get card from " + uri.toURL());
 			return uri.toURL().toString();
 		} catch (Exception e) {
 			return null;
