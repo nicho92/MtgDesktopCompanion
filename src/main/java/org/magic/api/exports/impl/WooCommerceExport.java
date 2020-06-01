@@ -3,14 +3,12 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -19,8 +17,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.URLTools;
@@ -36,8 +32,6 @@ import com.icoderman.woocommerce.HttpMethod;
 import com.icoderman.woocommerce.WooCommerce;
 import com.icoderman.woocommerce.oauth.OAuthConfig;
 import com.icoderman.woocommerce.oauth.OAuthSignature;
-
-import forohfor.scryfall.api.MTGCardQuery;
 
 public class WooCommerceExport extends AbstractCardExport {
 
@@ -175,7 +169,7 @@ public class WooCommerceExport extends AbstractCardExport {
 								   header.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 				Map<String,JsonElement> ret = new HashMap<>();
 				try {
-					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new Gson().toJson(object).getBytes()), header);
+					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes()), header);
 					
 					JsonObject obj = URLTools.toJson(str).getAsJsonObject();
 					obj.entrySet().forEach(e->ret.put(e.getKey(), e.getValue()));
@@ -335,7 +329,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			List<MagicCardStock> creates = stocks.stream().filter(st->st.getTiersAppIds().get(getName())==null).collect(Collectors.toList());
 			
 			
-			params.put("create", creates.stream().map(st->build(st)).collect(Collectors.toList()));
+			params.put("create", creates.stream().map(this::build).collect(Collectors.toList()));
 			params.put("update", stocks.stream().filter(st->st.getTiersAppIds().get(getName())!=null).map(st->build(st)).collect(Collectors.toList()));
 			
 			
@@ -350,17 +344,21 @@ public class WooCommerceExport extends AbstractCardExport {
 			{
 				JsonObject obj = arrRet.get(i).getAsJsonObject();
 				
-				
-				if(obj.get("id").getAsInt()==0)
-				{
-					logger.error("Error for " + creates.get(i) +" : " + obj );
+				try {
+						if(obj.get("id").getAsInt()==0)
+						{
+							logger.error("Error for " + creates.get(i) +" : " + obj );
+						}
+						else
+						{
+							creates.get(i).getTiersAppIds().put(getName(), obj.get("id").getAsInt());
+							creates.get(i).setUpdate(true);
+						}
 				}
-				else
+				catch(Exception e)
 				{
-					creates.get(i).getTiersAppIds().put(getName(), obj.get("id").getAsInt());
-					creates.get(i).setUpdate(true);
+					logger.error("error updating at " + i +" : "+obj+". Error : "+ e);
 				}
-				
 				
 				
 			}
