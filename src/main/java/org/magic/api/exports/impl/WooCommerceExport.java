@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.URLTools;
@@ -176,7 +177,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					
 					
 				} catch (IOException e) {
-					logger.error(e);
+					logger.error("Error in batch",e);
 				}    
 			
 				return ret;
@@ -294,7 +295,12 @@ public class WooCommerceExport extends AbstractCardExport {
         
         
         if(!getString(PIC_PROVIDER_NAME).isEmpty())
-        	productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)));
+        {
+        	productInfo.put("images", toJson("src",new ScryFallProvider().getJsonFor(st.getMagicCard()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
+        	//productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)));
+        	
+        	logger.debug(productInfo.get("images"));
+        }
       	
       	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
 			JsonArray arr = new JsonArray();

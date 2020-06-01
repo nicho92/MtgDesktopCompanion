@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.http.HttpConnection;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -46,6 +47,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			return "";
 		}
 	}
+	
 	
 
 	private URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {

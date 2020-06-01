@@ -69,6 +69,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				logger.error(e1);
 			}
 		}
+		baseURI=getString("URL");
 	}
 	
 	
@@ -101,6 +102,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 
+	public JsonObject getJsonFor(MagicCard mc)
+	{
+		String url = baseURI + CARDS + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getCurrentSet().getNumber();
+		try {
+			return URLTools.extractJson(url).getAsJsonObject();
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	
 
 	@Override
 	public List<MagicCard> listAllCards() throws IOException {
