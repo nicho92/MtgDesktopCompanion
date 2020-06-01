@@ -278,6 +278,12 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	private Map<String, Object> build(MagicCardStock st) {
 		Map<String, Object> productInfo = new HashMap<>();
+		
+		
+		if(st.getTiersAppIds().get(getName())!=null)
+			productInfo.put("id", st.getTiersAppIds().get(getName()));
+		
+		
         productInfo.put("name", st.getMagicCard().getName());
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));

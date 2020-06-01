@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import java.util.Map;
+
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -28,7 +30,8 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 				"ALTERED",
 				"PRICE",
 				"GRADED",
-				"COMMENTS" };
+				"COMMENTS",
+				"SYNC"};
 	}
 
 	@Override
@@ -65,6 +68,9 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			return Grading.class;
 		case 12:
 			return String.class;
+		case 13:
+			return Map.class;
+
 
 		default:
 			return super.getColumnClass(columnIndex);
@@ -106,6 +112,8 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			return items.get(row).getGrade();
 		case 12:
 			return items.get(row).getComment();
+		case 13:
+			return items.get(row).getTiersAppIds();
 
 		default:
 			return "";

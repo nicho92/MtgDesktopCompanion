@@ -3,6 +3,7 @@ package org.magic.gui.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
@@ -25,10 +26,20 @@ public class StockTableRenderer extends DefaultTableRenderer {
 	private static final long serialVersionUID = 1L;
 	Component pane;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+		if(value instanceof Map)
+		{
+			pane = new JPanel();
+			((Map<String,Object>)value).entrySet().forEach(e->((JPanel)pane).add(new JLabel(e.getKey() +"("+e.getValue()+")")));
+			 
+		}
+		
+		
+		
 		if(value instanceof Boolean)
 		{
 			pane=new JPanel();

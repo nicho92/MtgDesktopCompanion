@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -584,9 +585,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Object.class, render);
 		table.setDefaultRenderer(Boolean.class, render);
 		table.setDefaultRenderer(Double.class, render);
+		table.setDefaultRenderer(Map.class, render);
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
+		
+		
 		try {
 			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
 		} catch (SQLException e1) {
