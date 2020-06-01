@@ -319,7 +319,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setInt(7, state.getId());
 				pst.executeUpdate();
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error("error update",e);
 			}
 		}
 		notify(state);

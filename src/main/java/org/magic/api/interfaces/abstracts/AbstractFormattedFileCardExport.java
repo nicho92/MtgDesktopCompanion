@@ -39,6 +39,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return true;
 	}
 	
+
 	protected abstract boolean skipFirstLine();
 	
 	protected abstract String[] skipLinesStartWith();

@@ -116,7 +116,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					
 					JsonObject obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
-				} catch (IOException e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
 				
