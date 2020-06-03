@@ -273,6 +273,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get(FRAME_VERSION) != null)
 					mc.setFrameVersion(String.valueOf(map.get(FRAME_VERSION)));
 				
+				if (map.get("flavorName") != null)
+					mc.setFlavorName(String.valueOf(map.get("flavorName")));
+				
+				
+				
 				if (map.get(ARTIST) != null)
 					mc.setArtist(String.valueOf(map.get(ARTIST)));
 			

@@ -329,6 +329,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 		
 		try {
+			mc.setFlavorName(obj.get("flavor_name").getAsString());
+		} catch (NullPointerException e) {
+			//do nothing
+		}
+		
+		
+		
+		
+		try {
 			mc.setImageName(obj.get(ILLUSTRATION_ID).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("illustration_id not found");

@@ -42,7 +42,7 @@ public class MagicCard implements Serializable {
 	private List<MTGColor> colorIdentity;
 	private List<MagicFormat> legalities;
 	private List<MTGFrameEffects> frameEffects;
-	
+	private String flavorName;
 	private String imageName;
 	private String rotatedCardName;
 	private String frameVersion;
@@ -63,6 +63,14 @@ public class MagicCard implements Serializable {
 	private String scryfallId;
 	
 	
+	public String getFlavorName() {
+		return flavorName;
+	}
+
+	public void setFlavorName(String flavorName) {
+		this.flavorName = flavorName;
+	}
+
 	public boolean isCompanion()
 	{
 		return isCreature() && getText().contains("Companion —");
