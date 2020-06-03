@@ -232,6 +232,10 @@ public class MagicCard implements Serializable {
 		return null;
 	}
 	
+	public boolean isMultiColor()
+	{
+		return getColors().size()>1;
+	}
 	
 	public boolean isInstant()
 	{
@@ -338,6 +342,8 @@ public class MagicCard implements Serializable {
 	public void setRarity(MTGRarity rarity) {
 		this.rarity = rarity;
 	}
+	
+	
 	
 	public MagicCard() {
 		editions = new ArrayList<>();

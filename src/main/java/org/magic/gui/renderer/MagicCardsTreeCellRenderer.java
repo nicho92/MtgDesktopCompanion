@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
@@ -60,7 +61,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 				if (mc.getColors().size() == 1) {
 					c.setIcon(map.get(mc.getColors().get(0)));
 				}
-				if (mc.getColors().size() > 1) {
+				if (mc.isMultiColor()) {
 					c.setIcon(MTGConstants.ICON_MANA_GOLD);
 				}
 				if (mc.isLand()) {
