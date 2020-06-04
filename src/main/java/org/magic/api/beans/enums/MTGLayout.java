@@ -28,7 +28,8 @@ public enum MTGLayout{
 	@SerializedName(alternate = "host", value = "HOST")									HOST,
 	@SerializedName(alternate = "art_series", value = "ART_SERIES")						ART_SERIES,
 	@SerializedName(alternate = "double_sided", value = "DOUBLE_SIDED")					DOUBLE_SIDED,
-	@SerializedName(alternate = "adventure", value = "ADVENTURE")						ADVENTURE;
+	@SerializedName(alternate = "adventure", value = "ADVENTURE")						ADVENTURE,
+	@SerializedName(alternate = "companion", value = "COMPANION")						COMPANION;
 	
 	
 	
