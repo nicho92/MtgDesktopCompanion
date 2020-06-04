@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -109,6 +110,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		orders.add(state);
 		deleteOrderEntry(orders);
 	}
+	
+	@Override
+	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict) {
+				
+		if(strict)
+			return listOrders().stream().filter(o->o.getDescription().equalsIgnoreCase(desc)).collect(Collectors.toList());
+		else
+			return listOrders().stream().filter(o->o.getDescription().contains(desc)).collect(Collectors.toList());
+		
+	}
+	
 	
 	@Override
 	public void deleteStock(MagicCardStock state) throws SQLException

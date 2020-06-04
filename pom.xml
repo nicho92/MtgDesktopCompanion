@@ -431,12 +431,12 @@
 		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome</artifactId>
-			<version>1.12.2</version>
+			<version>1.13.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome-utils</artifactId>
-			<version>1.12.2</version>
+			<version>1.13.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.slf4j</groupId>
@@ -467,7 +467,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-       		<version>3.12.4</version>
+       		<version>3.12.5</version>
     </dependency>
 	<dependency>
 	    <groupId>org.codehaus.groovy</groupId>

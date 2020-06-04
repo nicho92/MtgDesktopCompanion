@@ -63,6 +63,7 @@ public interface MTGDao extends MTGPlugin {
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
 	public List<OrderEntry> listOrdersAt(Date d);
 	public List<Date> listDatesOrders();
+	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict);
 
 	public List<MagicCardAlert> listAlerts();
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
