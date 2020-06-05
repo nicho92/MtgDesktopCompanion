@@ -269,7 +269,7 @@ public class UITools {
 			text=text.replace(",", ".").trim();
 			return Double.parseDouble(text);
 		} catch (Exception e) {
-			logger.error("error parsing " + text,e);
+			logger.error("error parsing '" + text +"' :" + e);
 			return 0.0;
 		}
 	}
