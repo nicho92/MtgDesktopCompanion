@@ -8,12 +8,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -43,7 +46,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private MapTableModel<MagicEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
 	private transient CollectionAnalyzerWorker sw;
-	
+	private JSlider slider ;
+	private JLabel lblValue;
 	
 	@Override
 	public void initGUI() {
@@ -87,6 +91,32 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
 		
+		lblValue = new JLabel();
+		
+		JPanel panelPriceMin = new JPanel();
+		slider = new JSlider(0, 100);
+		
+		slider.setMajorTickSpacing(10);
+		slider.setMinorTickSpacing(1);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+				
+		panelPriceMin.add(slider);
+		panelPriceMin.add(lblValue);
+		
+		slider.addChangeListener(cl->{ 
+				setProperty("priceMin", String.valueOf(slider.getValue()));
+				
+				if(evaluator!=null)
+					evaluator.setMinPrice(slider.getValue());
+				
+				lblValue.setText( String.valueOf(slider.getValue()));
+				
+		});
+		
+		
+		tabbedPane.addTab("Prices", null, panelPriceMin, null);
+		
 		
 		panelCacheDetail.add(new JScrollPane(tableCache));
 		
@@ -103,6 +133,14 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
+			
+			
+			try {
+				slider.setValue(Integer.parseInt(getProperty("priceMin","0")));
+			} catch (Exception e) {
+				logger.error("can't get priceMin value", e);
+			}
+			
 		}
 		
 		btnUpdateCache.addActionListener(ae->
@@ -154,6 +192,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	public void init() {
 		try {
 			evaluator = new CollectionEvaluator(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			evaluator.setMinPrice(slider.getValue());
 			sw = new CollectionAnalyzerWorker(evaluator,treeTable,modelCache,buzy,lblPrice);
 			ThreadManager.getInstance().runInEdt(sw,"init collection analysis dashlet");
 		} 

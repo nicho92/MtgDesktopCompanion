@@ -35,6 +35,7 @@ public class CollectionEvaluator extends Observable
 	private File directory;
 	private JsonExport serialiser;
 	private Map<MagicEdition,Map<MagicCard,CardShake>> cache;
+	private int minPrice=0;
 	
 	public File getDirectory() {
 		return directory;
@@ -194,8 +195,12 @@ public class CollectionEvaluator extends Observable
 					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
 					{
-						cs.get().setCard(mc);
-						ret.put(mc, cs.get());
+						
+						CardShake shak = cs.get();
+						shak.setCard(mc);
+						
+						if(shak.getPrice()>=minPrice)
+							ret.put(mc, shak);
 					}
 					else
 					{
@@ -203,8 +208,11 @@ public class CollectionEvaluator extends Observable
 						csn.setName(mc.getName());
 						csn.setCard(mc);
 						csn.setPrice(0.0);
-						ret.put(mc, csn);
+						
+						if(csn.getPrice()>=minPrice)
+							ret.put(mc, csn);
 					}
+					
 			}
 			
 			setChanged();
@@ -214,6 +222,8 @@ public class CollectionEvaluator extends Observable
 		} catch (SQLException e) {
 			logger.error(e);
 		}
+		
+		
 		cache.put(ed, ret);
 		return ret;
 	}
@@ -266,5 +276,10 @@ public class CollectionEvaluator extends Observable
 			total=total+total(ed);
 		
 		return total;
+	}
+
+	public void setMinPrice(int i) {
+		this.minPrice=i;
+		
 	}
 }
