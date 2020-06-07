@@ -25,6 +25,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtDescription;
 	private JTextField txtPrice;
+	private JTextField txtShipPrice;
 	private JTextField txtSource;
 	private JTextField txtidTransaction;
 	private JXDatePicker txtDateTransaction;
@@ -49,6 +50,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	{
 		txtDescription.setText(o.getDescription());
 		txtPrice.setText(String.valueOf(o.getItemPrice()));
+		txtShipPrice.setText(String.valueOf(o.getShippingPrice()));
 		txtSource.setText(o.getSource());
 		txtidTransaction.setText(o.getIdTransation());
 		cboEditions.setSelectedItem(o.getEdition());
@@ -71,6 +73,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		o.setCurrency((Currency)cboCurrency.getSelectedItem());
 		o.setIdTransation(txtidTransaction.getText());
 		o.setItemPrice(Double.parseDouble(txtPrice.getText()));
+		o.setShippingPrice(Double.parseDouble(txtShipPrice.getText()));
 		o.setSource(txtSource.getText());
 		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		o.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
@@ -115,10 +118,14 @@ public class OrderEntryPanel extends MTGUIComponent {
 			
 			((FlowLayout)panelPrice.getLayout()).setAlignment(FlowLayout.LEFT);
 			txtPrice = new JTextField(5);
+			txtShipPrice = new JTextField(5);
 			cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
 			
 			panelPrice.add(cboCurrency);
 			panelPrice.add(txtPrice);
+			panelPrice.add(new JLabel("Shippement :"));
+			panelPrice.add(txtShipPrice);
+			
 		
 		add(panelPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, 1, 4));
 		
@@ -142,6 +149,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		ord.setCurrency((Currency)cboCurrency.getSelectedItem());
 		ord.setIdTransation(txtidTransaction.getText());
 		ord.setItemPrice(Double.parseDouble(txtPrice.getText()));
+		ord.setShippingPrice(Double.parseDouble(txtShipPrice.getText()));
 		ord.setSource(txtSource.getText());
 		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		ord.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
