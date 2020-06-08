@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
@@ -116,6 +119,11 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGConstants.IMAGE_LOGO);
 	}
 
 }

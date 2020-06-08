@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGComparator;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
@@ -266,6 +270,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return "Personnal Data Set Provider";
 	}
 
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGConstants.IMAGE_LOGO);
+	}
+	
 	@Override
 	public void initDefault() {
 		setProperty("DIRECTORY",new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
