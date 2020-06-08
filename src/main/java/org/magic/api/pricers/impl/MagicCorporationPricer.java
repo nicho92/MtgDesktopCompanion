@@ -58,7 +58,10 @@ public class MagicCorporationPricer extends AbstractMagicPricesProvider {
 											.toHtml();
 			trs = content.select("table[width=100%]:has(form) tr");
 			
+			logger.debug(getName() +" getting prices at " + link);
+			
 			if(trs!=null)
+			{	
 				for(Element tr : trs)
 				{
 						MagicPrice mp = new MagicPrice();
@@ -80,8 +83,12 @@ public class MagicCorporationPricer extends AbstractMagicPricesProvider {
 						mp.setFoil(tr.select("td").get(2).childNodeSize()>1);
 						mp.setUrl(tr.select("td").first().getElementsByTag("a").attr("href"));
 						ret.add(mp);
-						
 				}
+			}
+			else
+			{
+				logger.debug(getName() +" found nothing");
+			}
 		
 
 		return ret;
