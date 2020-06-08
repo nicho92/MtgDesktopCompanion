@@ -43,6 +43,7 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
+import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
 import org.magic.tools.POMReader;
@@ -197,6 +198,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> MTGControler.getInstance().getEnabled(MTGDao.class).listOrders(), transformer);
+		
+		get("/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
 		
 		
 		get("/cards/name/:idEd/:cName", URLTools.HEADER_JSON, (request, response) -> {
