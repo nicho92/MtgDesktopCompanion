@@ -2,6 +2,7 @@ package org.beta;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -11,9 +12,11 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ast.AstNode;
-import org.python.icu.util.Calendar;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstNode;
+import org.mozilla.javascript.ast.ExpressionStatement;
+
+
 public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 
 	private static final String BASE_URL="http://www.usmtgproxy.com/";
@@ -37,21 +40,33 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 		
 		Document d = URLTools.extractHtml(url);
 		AstNode root = new Parser().parse(d.select("script").get(1).html(), "", 1);
+		List<MagicPrice> ret = new ArrayList<>();
+		
 		root.visit(visitedNode -> {
 			
-		
-			switch (visitedNode.getType()) 
+			MagicPrice mp;
+			
+			if(visitedNode.getType()==Token.NEW)
 			{
-				case Token.NAME:System.out.println(visitedNode.getString());break;
-				case Token.STRING:break;
-				case Token.NUMBER:break;
-				case Token.OBJECTLIT:break;
-				case Token.ARRAYLIT:break;
+				mp = new MagicPrice();
+				ret.add(mp);
+				logger.debug("---NEW");
 			}
+			
+			if(visitedNode.getType()==Token.EXPR_RESULT)
+			{
+				String value = visitedNode.toSource();
+				
+				if(value.startsWith("cardslist") || value.startsWith("createTable") || value.startsWith("window.onload") || value.startsWith("confirmBtn") || value.startsWith("infos"))
+					return false;
+				
+				logger.debug(visitedNode.toSource());
+			}
+			
 			return true;
 		});
 		
-		return new ArrayList<>();
+		return ret;
 	}
 
 }
