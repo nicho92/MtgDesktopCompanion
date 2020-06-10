@@ -3,6 +3,7 @@ package org.beta;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -14,7 +15,6 @@ import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstNode;
-import org.mozilla.javascript.ast.ExpressionStatement;
 
 
 public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
@@ -44,12 +44,15 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 		
 		root.visit(visitedNode -> {
 			
-			MagicPrice mp;
+			MagicPrice mp = null;
 			
 			if(visitedNode.getType()==Token.NEW)
 			{
 				mp = new MagicPrice();
-				ret.add(mp);
+				mp.setSeller(getName());
+				mp.setSite(BASE_URL);
+				mp.setCurrency(Currency.getInstance("USD"));
+				
 				logger.debug("---NEW");
 			}
 			
@@ -60,12 +63,21 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 				if(value.startsWith("cardslist") || value.startsWith("createTable") || value.startsWith("window.onload") || value.startsWith("confirmBtn") || value.startsWith("infos"))
 					return false;
 				
-				logger.debug(visitedNode.toSource());
+				String content = visitedNode.toSource().substring(visitedNode.toSource().indexOf('.')+1).trim();
+				
+				if(mp!=null&&content.startsWith("cardName") && content.toLowerCase().contains(card.getName().toLowerCase()))
+				{
+					ret.add(mp);
+				}
+				
+				
+				
+				logger.debug(content);
 			}
 			
 			return true;
 		});
-		
+		System.out.println(ret);
 		return ret;
 	}
 
