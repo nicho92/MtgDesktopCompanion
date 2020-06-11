@@ -271,7 +271,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 							@Override
 							public String getDescription() {
-								return exp.getName();
+								return exp.getName() +" ("+exp.getFileExtension()+")" ;
 							}
 
 							@Override

@@ -469,7 +469,7 @@ public class ConstructPanel extends JPanel {
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
-								return exp.getName();
+								return exp.getName() +" ("+exp.getFileExtension()+")" ;
 							}
 
 							@Override

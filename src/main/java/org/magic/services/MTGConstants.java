@@ -75,6 +75,7 @@ public class MTGConstants {
 	public static final int DEFAULT_PIC_WIDTH = 223;
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;
+	public static final int MENU_ICON_SIZE=24;
 	
 	public static final int DPI=300;
 	
