@@ -1,5 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -269,7 +270,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	@Override
 	public Icon getIcon() {
 		try {
-			return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png"));
+			return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png")).getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 		}
 		catch(Exception e)
 		{
