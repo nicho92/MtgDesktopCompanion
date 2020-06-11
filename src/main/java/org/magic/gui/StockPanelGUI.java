@@ -283,7 +283,7 @@ public class StockPanelGUI extends MTGUIComponent {
 						});
 
 						int res = -1;
-
+	
 						if (!exp.needDialogForStock(MODS.IMPORT) && exp.needFile()) {
 							res = jf.showOpenDialog(null);
 							fileImport = jf.getSelectedFile();
@@ -469,7 +469,7 @@ public class StockPanelGUI extends MTGUIComponent {
 						s.setSigned((Boolean) cboSigned.getSelectedItem());
 					if (cboFoil.getSelectedItem() != null)
 						s.setFoil((Boolean) cboFoil.getSelectedItem());
-					if (cboLanguages != null)
+					if (cboLanguages.getSelectedItem() != null)
 						s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
 					if (cboQuality.getSelectedItem() != null)
 						s.setCondition((EnumCondition) cboQuality.getSelectedItem());

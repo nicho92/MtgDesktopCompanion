@@ -10,13 +10,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
 	
-
 	public MODS getMods() {
 		return MODS.BOTH;
 	}
@@ -46,12 +46,12 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
-		return true;
+		return false;
 	}
 	
 	 @Override
 	public boolean needDialogForStock(MODS mod) {
-		return true;
+		return false;
 	}
 	
 	

@@ -24,21 +24,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return true;
 	}
 	
-	@Override
-	public boolean needDialogForDeck(MODS mod) {
-		return false;
-	}
-	
-	@Override
-	public boolean needDialogForStock(MODS mod) {
-		return false;
-	}
-	
-	@Override
-	public boolean needFile() {
-		return true;
-	}
-	
 
 	protected abstract boolean skipFirstLine();
 	
