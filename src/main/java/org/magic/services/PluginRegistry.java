@@ -285,7 +285,7 @@ public class PluginRegistry {
 	
 
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
-		return listPlugins(t).stream().filter(MTGPlugin::isEnable).collect(Collectors.toList());
+		return listPlugins(t).stream().filter(MTGPlugin::isEnable).sorted().collect(Collectors.toList());
 	}
 	
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {

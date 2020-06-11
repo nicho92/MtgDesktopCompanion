@@ -10,7 +10,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.MTGDocumentation;
 import org.utils.patterns.observer.Observer;
 
-public interface MTGPlugin {
+public interface MTGPlugin extends Comparable<MTGPlugin> {
 	
 	public enum PLUGINS {
 		PROVIDER, DASHBOARD, PRICER, SERVER, HOPPER, EXPORT, DECKS, DAO, TOKEN, CACHE, NEWS, WALLPAPER, NOTIFIER,DASHLET,COMMAND,EDITOR, INDEXER,GENERATOR, SCRIPT, POOL,COMBO, GRADING, GED, STRATEGY, PICTURE, SHOPPER;
@@ -68,4 +68,13 @@ public interface MTGPlugin {
 	
 	public boolean isPartner();
 	
+	
+	@Override
+	default int compareTo(MTGPlugin o) {
+		
+		if(o==null)
+			return -1;
+		
+		return getName().compareTo(o.getName());
+	}
 }
