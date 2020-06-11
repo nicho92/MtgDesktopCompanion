@@ -201,7 +201,7 @@ public class PluginRegistry {
 				entry.getPlugins().add(prov);
 			}
 		}
-		return entry.getPlugins();
+		return entry.getPlugins().stream().collect(Collectors.toList());
 	}
 	
 	public boolean needUpdate()
@@ -216,7 +216,7 @@ public class PluginRegistry {
 	public List<MTGPlugin> listPlugins()
 	{
 		List<MTGPlugin> list = new ArrayList<>();
-		PluginRegistry.inst().listClasses().forEach(c->PluginRegistry.inst().listPlugins(c).forEach(list::add));
+		PluginRegistry.inst().listClasses().stream().forEach(c->PluginRegistry.inst().listPlugins(c).forEach(list::add));
 		return list;
 	}
 	

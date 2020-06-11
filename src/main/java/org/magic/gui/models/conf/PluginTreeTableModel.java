@@ -1,6 +1,7 @@
 package org.magic.gui.models.conf;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -25,6 +26,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	public PluginTreeTableModel(boolean multipleSelection, List<T> listPlugins) {
 		super(new Object());
 		this.multipleSelection = multipleSelection;
+		Collections.sort(listPlugins);
 		listElements = listPlugins;
 	}
 
