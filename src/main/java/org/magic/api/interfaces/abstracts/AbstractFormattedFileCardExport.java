@@ -24,6 +24,10 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return true;
 	}
 	
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.FILE;
+	}
 
 	protected abstract boolean skipFirstLine();
 	

@@ -51,7 +51,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 		return STATUT.BETA;
 	}
 
-
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.ONLINE;
+	}
+	
 	@Override
 	public boolean needFile() {
 		return false;

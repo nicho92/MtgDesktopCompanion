@@ -45,6 +45,10 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private  WooCommerce wooCommerce;
 	
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.ONLINE;
+	}
 	
 	@Override
 	public boolean needFile() {

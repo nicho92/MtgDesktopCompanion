@@ -30,7 +30,11 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
-
+	}
+	
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.ONLINE;
 	}
 	
 	@Override

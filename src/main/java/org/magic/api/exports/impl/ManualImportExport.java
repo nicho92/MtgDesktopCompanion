@@ -31,6 +31,11 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 	
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.MANUAL;
+	}
+	
 
 	@Override
 	public boolean needFile() {

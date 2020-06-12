@@ -462,8 +462,8 @@ public class ConstructPanel extends JPanel {
 			JPopupMenu menu = new JPopupMenu();
 			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
-
-					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
+					
+					JMenuItem it = new JMenuItem(exp.getCategory()+ " " + exp.getName(),exp.getIcon());
 					it.addActionListener(itEvent -> {
 						JFileChooser jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileFilter(new FileFilter() {

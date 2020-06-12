@@ -35,6 +35,10 @@ public class WebCamImport extends AbstractCardExport {
 		return true;
 	}
 	
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.MANUAL;
+	}
 	
 	@Override
 	public String getFileExtension() {

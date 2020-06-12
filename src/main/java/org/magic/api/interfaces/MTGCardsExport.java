@@ -15,6 +15,9 @@ public interface MTGCardsExport extends MTGPlugin {
 		EXPORT, IMPORT, BOTH
 	}
 	
+	public enum CATEGORIES {
+		FILE, ONLINE, MANUAL
+	}
 	
 	public String getFileExtension();
 
@@ -33,6 +36,8 @@ public interface MTGCardsExport extends MTGPlugin {
 	
 	public boolean needDialogForDeck(MODS mod);
 	public boolean needDialogForStock(MODS mod);
+	
+	public CATEGORIES getCategory();
 	
 	public MODS getMods();
 

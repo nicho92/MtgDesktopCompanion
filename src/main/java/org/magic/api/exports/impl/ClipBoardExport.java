@@ -23,6 +23,10 @@ public class ClipBoardExport extends AbstractCardExport {
 		return "";
 	}
 	
+	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.MANUAL;
+	}
 
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
