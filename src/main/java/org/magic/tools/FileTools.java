@@ -40,8 +40,11 @@ public class FileTools {
 
 	private static Logger logger = MTGLogger.getLogger(FileTools.class);
 
+	
 	public static void saveFile(File f,String data) throws IOException
 	{
+		String correctFilename= f.getName().replaceAll("[^a-zA-Z0-9\\._-]+", "_");
+		f=new File(f.getParentFile(),correctFilename);
 		logger.debug("saving file " + f);
 		FileUtils.write(f, data,MTGConstants.DEFAULT_ENCODING);
 	}
