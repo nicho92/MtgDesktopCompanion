@@ -6,7 +6,9 @@ import java.util.regex.Matcher;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public class ForgeDeckExport extends AbstractFormattedFileCardExport {
@@ -23,6 +25,14 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 		temp.append("[metadata]\n");
 		temp.append("Name=").append(deck.getName()).append("\n");
 		temp.append("[Avatar]\n\n");
+		
+		if(deck.getCommander()!=null)
+		{
+			temp.append("[Commander]\n");
+			temp.append("1 ").append(deck.getCommander().getName()).append("|").append(deck.getCommander().getCurrentSet().getId().toUpperCase());
+		}
+		
+		
 		temp.append("[Main]\n");
 		deck.getMain().entrySet().forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
 	
@@ -43,13 +53,31 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 		MagicDeck d = new MagicDeck();
 				  d.setName(name);
 		
+		String deckNameTag ="Name=";
+		for(String s : splitLines(content,true))
+		{
+			if(s.startsWith(deckNameTag))
+			{
+				d.setName(s.substring(s.indexOf(deckNameTag)+deckNameTag.length()));
+				break;
+			}
+		}
+				  
+				  
+				  
 		boolean side=false;
+		boolean commander = false;
 		for(Matcher m : matches(content, true))
 		{
 			if(m.group().equalsIgnoreCase("[Sideboard]"))
 			{
 				side=true;
 			}
+			if(m.group().equalsIgnoreCase("[Commander]"))
+			{
+				commander=true;
+			}
+			
 			
 			if(m.groupCount()>1)
 			{
@@ -63,6 +91,12 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 							d.getSideBoard().put(mc, qty);
 						else
 							d.getMain().put(mc, qty);
+						
+						if(commander)
+						{
+							d.setCommander(mc);
+							commander=false;
+						}
 						
 						
 						notify(mc);
@@ -103,6 +137,5 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return null;
 	}
-
 
 }
