@@ -452,10 +452,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			JsonObject obj = new JsonObject();
 
-			obj.add("cmc", converter.toJsonElement(manager.analyseCMC(d.getAsList())));
-			obj.add("types", converter.toJsonElement(manager.analyseTypes(d.getAsList())));
-			obj.add("rarity", converter.toJsonElement(manager.analyseRarities(d.getAsList())));
-			obj.add("colors", converter.toJsonElement(manager.analyseColors(d.getAsList())));
+			obj.add("cmc", converter.toJsonElement(manager.analyseCMC(d.getMainAsList())));
+			obj.add("types", converter.toJsonElement(manager.analyseTypes(d.getMainAsList())));
+			obj.add("rarity", converter.toJsonElement(manager.analyseRarities(d.getMainAsList())));
+			obj.add("colors", converter.toJsonElement(manager.analyseColors(d.getMainAsList())));
 			obj.add("legalities", converter.toJsonElement(manager.analyseLegalities(d)));
 			obj.add("drawing", converter.toJsonElement(manager.analyseDrawing(d)));
 			return obj;

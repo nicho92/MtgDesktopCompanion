@@ -77,7 +77,7 @@ public class PDFExport extends AbstractCardExport {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
 			document.open();
 			document.add(new Chunk(""));
-			for (MagicCard card : deck.getAsList()) {
+			for (MagicCard card : deck.getMainAsList()) {
 				table.addCell(getCells(card));
 				notify(card);
 			}

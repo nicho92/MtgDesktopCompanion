@@ -420,13 +420,13 @@ public class SealedPanel extends JPanel {
 	}
 
 	private void refreshStats() {
-		txtNumberLand.setText(String.valueOf(40 - deck.getAsList().size()));
-		progressBar.setValue(deck.getAsList().size());
-		progressBar.setString(deck.getAsList().size() + "/" + progressBar.getMaximum());
+		txtNumberLand.setText(String.valueOf(40 - deck.getMainAsList().size()));
+		progressBar.setValue(deck.getMainAsList().size());
+		progressBar.setString(deck.getMainAsList().size() + "/" + progressBar.getMaximum());
 		if (analyseDeck) {
-			cmcChartPanel.init(deck.getAsList());
-			typeRepartitionPanel.init(deck.getAsList());
-			manaRepartitionPanel.init(deck.getAsList());
+			cmcChartPanel.init(deck.getMainAsList());
+			typeRepartitionPanel.init(deck.getMainAsList());
+			manaRepartitionPanel.init(deck.getMainAsList());
 		} else {
 			cmcChartPanel.init(list);
 			typeRepartitionPanel.init(list);

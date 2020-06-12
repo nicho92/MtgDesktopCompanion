@@ -152,7 +152,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		modMain.removeAllElements();
 		modSide.removeAllElements();
 
-		for (MagicCard mc : bckDeck.getAsList())
+		for (MagicCard mc : bckDeck.getMainAsList())
 			modMain.addElement(mc);
 
 		for (MagicCard mc : bckDeck.getSideAsList())

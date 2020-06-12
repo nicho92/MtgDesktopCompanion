@@ -41,6 +41,15 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					.append("]").append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
+		
+		if(deck.getCommander()!=null)
+		{
+			temp.append("SB: ").append("1").append(" ").append("[")
+			.append(deck.getCommander().getCurrentSet().getId()).append(":").append(deck.getCommander().getCurrentSet().getNumber())
+			.append("]").append(" ").append(deck.getCommander().getName()).append("\n");
+			notify(deck.getCommander());
+		}
+		
 		FileTools.saveFile(dest, temp.toString());
 	}
 	
@@ -100,6 +109,13 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					deck.getMain().put(mc, Integer.parseInt(m.group(2)));
 				}
 				
+				if(deck.getSideAsList().size()==1 && deck.getMainAsList().size()>=99)
+				{
+					MagicCard card = deck.getSideAsList().get(0);
+					deck.getMain().put(card, 1);
+					deck.setCommander(card);
+					deck.getSideBoard().clear();
+				}
 				notify(mc);
 			});
 			

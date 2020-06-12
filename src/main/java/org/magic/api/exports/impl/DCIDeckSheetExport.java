@@ -137,7 +137,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 		// BOTTOM card count
 		cb.setTextMatrix((page.getWidth() / 2f) - 30, 45);
-		cb.showText(String.valueOf(deck.getAsList().size()));
+		cb.showText(String.valueOf(deck.getMainAsList().size()));
 
 		cb.setTextMatrix(page.getWidth() - 70, 100);
 		cb.showText(String.valueOf(deck.getSideAsList().size()));

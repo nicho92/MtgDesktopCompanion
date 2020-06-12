@@ -56,7 +56,7 @@ public class MTGDeckManager extends Observable {
 		if(format==FORMATS.COMMANDER)
 			return isCommander(magicDeck);
 		
-		if(magicDeck.getAsList().size()<60)
+		if(magicDeck.getMainAsList().size()<60)
 			return false;
 		
 		MagicFormat mf = new MagicFormat();
@@ -67,7 +67,7 @@ public class MTGDeckManager extends Observable {
 	
 	public static boolean isCommander(MagicDeck magicDeck) {
 		
-		if(magicDeck.getAsList().size()!=100)
+		if(magicDeck.getMainAsList().size()!=100)
 			return false;
 		
 		for(Entry<MagicCard, Integer> entry : magicDeck.getMain().entrySet())

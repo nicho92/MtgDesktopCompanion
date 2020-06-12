@@ -771,13 +771,13 @@ public class ConstructPanel extends JPanel {
 			return;
 
 		deckDetailsPanel.setMagicDeck(deck);
-		cmcChartPanel.init(deck.getAsList());
-		typeRepartitionPanel.init(deck.getAsList());
-		manaRepartitionPanel.init(deck.getAsList());
-		rarityRepartitionPanel.init(deck.getAsList());
+		cmcChartPanel.init(deck.getMainAsList());
+		typeRepartitionPanel.init(deck.getMainAsList());
+		manaRepartitionPanel.init(deck.getMainAsList());
+		rarityRepartitionPanel.init(deck.getMainAsList());
 		deckPricePanel.initDeck(deck);
 		drawProbabilityPanel.init(deck);
-		btnExports.setEnabled(!deck.getAsList().isEmpty());
+		btnExports.setEnabled(!deck.getMainAsList().isEmpty());
 		
 	}
 }

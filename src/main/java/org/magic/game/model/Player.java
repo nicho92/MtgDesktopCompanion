@@ -78,7 +78,7 @@ public class Player extends Observable implements Serializable {
 	public void init() {
 		graveyard = new Zone(ZoneEnum.GRAVEYARD);
 		battlefield = new Zone(ZoneEnum.BATTLEFIELD);
-		library = new Zone(deck.getAsList(),ZoneEnum.LIBRARY);
+		library = new Zone(deck.getMainAsList(),ZoneEnum.LIBRARY);
 		exil = new Zone(ZoneEnum.EXIL);
 		hand = new Zone(ZoneEnum.HAND);
 		manaPool = new ManaPool();

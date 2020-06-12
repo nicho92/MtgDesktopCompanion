@@ -120,7 +120,7 @@ public class MagicDeck implements Serializable {
 		return tmp.toString();
 	}
 	
-	public List<MagicCard> getAsList() {
+	public List<MagicCard> getMainAsList() {
 		return toList(getMain().entrySet());
 	}
 
