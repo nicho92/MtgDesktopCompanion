@@ -71,19 +71,19 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 				
 				if(content.startsWith(priceToken) && mp !=null)
 				{
-					content = content.substring(content.indexOf(priceToken)+priceToken.length()).replace(";", "");
+					content = content.substring(content.indexOf(priceToken)+priceToken.length()).replace(";", "").trim();
 					mp.setValue(UITools.parseDouble(content));
 				}
 				
 				if(content.startsWith(editionToken) && mp !=null)
 				{
-					content = content.substring(content.indexOf(editionToken)+editionToken.length()).replace(";", "").replace("\"", "");
+					content = content.substring(content.indexOf(editionToken)+editionToken.length()).replace(";", "").replace("\"", "").trim();
 					mp.setSeller(content);
 				}
 				
 				if(content.startsWith("cardID") && mp !=null)
 				{
-					content = content.substring(content.indexOf(editionToken)+editionToken.length()).replace(";", "").replace("\"", "");
+					content = content.substring(content.indexOf(editionToken)+editionToken.length()).replace(";", "").replace("\"", "").trim();
 					mp.setShopItem(content);
 				}
 				
