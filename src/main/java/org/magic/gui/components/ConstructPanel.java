@@ -45,7 +45,6 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
@@ -460,10 +459,15 @@ public class ConstructPanel extends JPanel {
 
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) 
+			{
+				
+				
+				
+				
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 					
-					JMenuItem it = new JMenuItem(exp.getCategory()+ " " + exp.getName(),exp.getIcon());
+					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(itEvent -> {
 						JFileChooser jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileFilter(new FileFilter() {

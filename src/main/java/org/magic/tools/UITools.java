@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -43,6 +44,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -131,7 +133,6 @@ public class UITools {
 		
 		return txtSearch;
 	}
-	
 	
 	
 	public static void autocomplete(JTextField txtSearch) {

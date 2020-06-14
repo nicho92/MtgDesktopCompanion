@@ -40,5 +40,6 @@ public interface MTGCardsExport extends MTGPlugin {
 	public CATEGORIES getCategory();
 	
 	public MODS getMods();
-
+	
+	
 }

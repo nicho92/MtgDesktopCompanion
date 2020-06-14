@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,9 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Token;
@@ -20,11 +22,10 @@ import org.mozilla.javascript.ast.AstNode;
 public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 
 	private static final String BASE_URL="http://www.usmtgproxy.com/";
-	
-	public static void main(String[] args) throws IOException {
-		new UndergroundSeaPricer().getLocalePrice(null, null);
-	}
-	
+	private String priceToken="price = ";
+	private String editionToken="cardVersion =";
+
+	private MagicPrice mp = null;
 	
 	@Override
 	public String getName() {
@@ -43,17 +44,14 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 		List<MagicPrice> ret = new ArrayList<>();
 		
 		root.visit(visitedNode -> {
-			
-			MagicPrice mp = null;
-			
 			if(visitedNode.getType()==Token.NEW)
 			{
 				mp = new MagicPrice();
-				mp.setSeller(getName());
-				mp.setSite(BASE_URL);
+				mp.setSite(getName());
+				mp.setUrl(url);
+				mp.setQuality(EnumCondition.PROXY.name());
 				mp.setCurrency(Currency.getInstance("USD"));
-				
-				logger.debug("---NEW");
+				mp.setLanguage("EN");
 			}
 			
 			if(visitedNode.getType()==Token.EXPR_RESULT)
@@ -64,20 +62,35 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 					return false;
 				
 				String content = visitedNode.toSource().substring(visitedNode.toSource().indexOf('.')+1).trim();
-				
-				if(mp!=null&&content.startsWith("cardName") && content.toLowerCase().contains(card.getName().toLowerCase()))
+			
+				if(content.toLowerCase().contains(card.getName().toLowerCase()) && mp !=null)
 				{
 					ret.add(mp);
+					mp.setFoil(content.contains("(foil)"));
 				}
 				
+				if(content.startsWith(priceToken) && mp !=null)
+				{
+					content = content.substring(content.indexOf(priceToken)+priceToken.length()).replace(";", "");
+					mp.setValue(UITools.parseDouble(content));
+				}
 				
+				if(content.startsWith(editionToken) && mp !=null)
+				{
+					content = content.substring(content.indexOf(editionToken)+editionToken.length()).replace(";", "").replace("\"", "");
+					mp.setSeller(content);
+				}
 				
-				logger.debug(content);
+				if(content.startsWith("cardID") && mp !=null)
+				{
+					content = content.substring(content.indexOf(editionToken)+editionToken.length()).replace(";", "").replace("\"", "");
+					mp.setShopItem(content);
+				}
+				
 			}
 			
 			return true;
 		});
-		System.out.println(ret);
 		return ret;
 	}
 
