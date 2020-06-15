@@ -14,6 +14,7 @@ import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.enums.MTGColor;
@@ -271,6 +272,15 @@ public class MTGDeckManager extends Observable {
 		}
 
 	}
+	
+	public MagicDeck generateRandomDeck(int deckSize, MTGColor[] colors, List<MagicEdition> sets, int maxCmc, double creaturePercent, double spellPercent, double landPercent,boolean singleton)
+	{
+		MagicDeck deck = new MagicDeck();
+		
+		
+		return deck;
+	}
+	
 	
 	
 	
