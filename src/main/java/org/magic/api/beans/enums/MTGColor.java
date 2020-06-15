@@ -1,6 +1,7 @@
 package org.magic.api.beans.enums;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,12 @@ public enum MTGColor implements Comparator<MTGColor>{
 	private String code;
 	private Color color;
 	private int position;
+	
+	
+	public static MTGColor[] getColors()
+	{
+		return new MTGColor[] {WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR};
+	}
 	
 	
 	private MTGColor(String s,Color c,int position) {
