@@ -2,31 +2,24 @@ package org.magic.gui.components.dialog;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.Arrays;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JToggleButton;
+import javax.swing.border.EtchedBorder;
 
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.components.ManaPanel;
-import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-
-import java.awt.Insets;
-import java.util.Arrays;
-
-import javax.swing.JComboBox;
-import javax.swing.JSlider;
-import javax.swing.BoxLayout;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
 
 public class DeckGeneratorComponent extends JPanel {
 	

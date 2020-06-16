@@ -66,7 +66,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
-		d.setName(f.getName());
+		d.setName(FilenameUtils.getBaseName(f.getName()));
 
 		for (MagicCardStock mcs : stock) {
 			d.getMain().put(mcs.getMagicCard(), mcs.getQte());

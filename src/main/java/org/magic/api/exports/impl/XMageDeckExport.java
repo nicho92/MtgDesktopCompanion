@@ -2,6 +2,7 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -29,13 +30,15 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		temp.append("NAME: " + deck.getName() + "\n");
-		for (MagicCard mc : deck.getMain().keySet()) {
+	
+		
+		for (MagicCard mc : deck.getMain().keySet().stream().sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).collect(Collectors.toList())) {
 			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
 					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (MagicCard mc : deck.getSideBoard().keySet().stream().sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).collect(Collectors.toList())) {
 			temp.append("SB: ").append(deck.getSideBoard().get(mc)).append(" ").append("[")
 					.append(mc.getCurrentSet().getId()).append(":").append(mc.getCurrentSet().getNumber())
 					.append("]").append(" ").append(mc.getName()).append("\n");

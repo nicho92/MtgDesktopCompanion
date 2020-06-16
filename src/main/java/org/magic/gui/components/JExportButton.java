@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -67,7 +68,7 @@ public class JExportButton extends JButton {
 							jf.setSelectedFile(new File(export.getName() + exp.getFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
-							export.setName(f.getName());
+							//export.setName(FilenameUtils.getBaseName(f.getName()));
 						}
 						else
 						{
