@@ -38,12 +38,13 @@ import com.google.gson.JsonElement;
 
 public class FileTools {
 
+	private static final String CORRECT_REGEX = "[^a-zA-Z0-9\\._-]+";
 	private static Logger logger = MTGLogger.getLogger(FileTools.class);
 
 	
 	public static void saveFile(File f,String data) throws IOException
 	{
-		String correctFilename= f.getName().replaceAll("[^a-zA-Z0-9\\._-]+", "_");
+		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
 		logger.debug("saving file " + f);
 		FileUtils.write(f, data,MTGConstants.DEFAULT_ENCODING);
@@ -74,6 +75,8 @@ public class FileTools {
 	
 	public static void deleteFile(File f) throws IOException
 	{
+			String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
+			f=new File(f.getParentFile(),correctFilename);
 			logger.debug("deleting file " + f);
 			FileUtils.forceDelete(f);
 	}

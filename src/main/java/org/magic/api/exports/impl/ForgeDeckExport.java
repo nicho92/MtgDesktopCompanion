@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -22,7 +23,6 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 		
 		temp.append("[metadata]\n");
 		temp.append("Name=").append(deck.getName()).append("\n");
-		temp.append("[Avatar]\n\n");
 		
 		if(deck.getCommander()!=null)
 		{
@@ -32,10 +32,10 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 		
 		
 		temp.append("[Main]\n");
-		deck.getMain().entrySet().forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
+		deck.getMain().entrySet().stream().filter(mc->mc.getKey()!=deck.getCommander()).sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
 	
 		temp.append("[Sideboard]\n");
-		deck.getSideBoard().entrySet().forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
+		deck.getSideBoard().entrySet().stream().sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
 		
 //		temp.append("\n[Planes]\n\n");
 //		temp.append("[Schemes]\n\n");
@@ -98,6 +98,10 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 						
 						
 						notify(mc);
+						
+					}
+					else
+					{
 						
 					}
 				}

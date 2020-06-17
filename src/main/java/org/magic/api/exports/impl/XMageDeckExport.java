@@ -32,7 +32,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 		temp.append("NAME: " + deck.getName() + "\n");
 	
 		
-		for (MagicCard mc : deck.getMain().keySet().stream().sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).collect(Collectors.toList())) {
+		for (MagicCard mc : deck.getMain().keySet().stream().filter(mc->mc!=deck.getCommander()).sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).collect(Collectors.toList())) {
 			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
 					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
