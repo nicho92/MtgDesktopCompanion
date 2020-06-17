@@ -4,9 +4,16 @@ import org.magic.api.exports.impl.*;
 import org.magic.api.beans.*;
 import java.io.File;
 
-MTGCardsExport importer = controler.getPlugin("XMage",MTGCardsExport.class);
-MTGCardsExport exporter = controler.getPlugin("Forge",MTGCardsExport.class);
+String importerName = "XMage";
+String exporterName = "Forge";
+File deckFile=new File("D:\\Téléchargements\\Sliver.Overlord--Commander--XMage.dck.txt");
+File deckFileExport=new File("D:\\Téléchargements\\Sliver.Overlord--Commander--XMage-Export.dck");
 
-MagicDeck deck = importer.importDeckFromFile(new File("D:\\Téléchargements\\Sliver.Overlord--Commander--XMage.dck.txt"));
 
-exporter.exportDeck(deck,new File("D:\\Téléchargements\\Sliver.Overlord--Commander--Forge.dck"));
+MTGCardsExport importer = controler.getPlugin(importerName,MTGCardsExport.class);
+MTGCardsExport exporter = controler.getPlugin(exporterName,MTGCardsExport.class);
+
+MagicDeck deck = importer.importDeckFromFile(deckFile);
+println(deck.getName()+ " is loaded");
+
+exporter.exportDeck(deck,deckFileExport);
