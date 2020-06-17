@@ -2,9 +2,11 @@ package org.magic.gui.components.dialog;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -13,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
+import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 
 import org.magic.api.beans.MagicFormat;
@@ -37,12 +40,12 @@ public class DeckGeneratorComponent extends JPanel {
 		
 		
 		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 1;
-		add(panel, gbc_panel);
+		GridBagConstraints gbcpanel = new GridBagConstraints();
+		gbcpanel.insets = new Insets(0, 0, 5, 0);
+		gbcpanel.fill = GridBagConstraints.BOTH;
+		gbcpanel.gridx = 0;
+		gbcpanel.gridy = 1;
+		add(panel, gbcpanel);
 		
 		JComboBox<FORMATS> cboFormats = UITools.createCombobox(MagicFormat.FORMATS.values());
 		GridBagConstraints gbcCboFormats = new GridBagConstraints();
@@ -53,45 +56,45 @@ public class DeckGeneratorComponent extends JPanel {
 		add(cboFormats, gbcCboFormats);
 		
 		JComboBox<Integer> cboNumCards = UITools.createCombobox(Arrays.asList(60,40,100));
-		GridBagConstraints gbc_cboNumCards = new GridBagConstraints();
-		gbc_cboNumCards.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboNumCards.gridx = 0;
-		gbc_cboNumCards.gridy = 3;
-		add(cboNumCards, gbc_cboNumCards);
+		GridBagConstraints gbccboNumCards = new GridBagConstraints();
+		gbccboNumCards.fill = GridBagConstraints.HORIZONTAL;
+		gbccboNumCards.gridx = 0;
+		gbccboNumCards.gridy = 3;
+		add(cboNumCards, gbccboNumCards);
 		
 		JPanel panelDetails = new JPanel();
-		GridBagConstraints gbc_panelDetails = new GridBagConstraints();
-		gbc_panelDetails.insets = new Insets(0, 0, 5, 0);
-		gbc_panelDetails.fill = GridBagConstraints.BOTH;
-		gbc_panelDetails.gridx = 0;
-		gbc_panelDetails.gridy = 4;
-		add(panelDetails, gbc_panelDetails);
+		GridBagConstraints gbcpanelDetails = new GridBagConstraints();
+		gbcpanelDetails.insets = new Insets(0, 0, 5, 0);
+		gbcpanelDetails.fill = GridBagConstraints.BOTH;
+		gbcpanelDetails.gridx = 0;
+		gbcpanelDetails.gridy = 4;
+		add(panelDetails, gbcpanelDetails);
 		
 		JCheckBox chkSingleton = new JCheckBox("Singleton");
 		panelDetails.add(chkSingleton);
 		
 		JPanel panelSliders = new JPanel();
 		panelSliders.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		GridBagConstraints gbc_panelSliders = new GridBagConstraints();
-		gbc_panelSliders.insets = new Insets(0, 0, 5, 0);
-		gbc_panelSliders.fill = GridBagConstraints.BOTH;
-		gbc_panelSliders.gridx = 0;
-		gbc_panelSliders.gridy = 5;
-		add(panelSliders, gbc_panelSliders);
-		GridBagLayout gbl_panelSliders = new GridBagLayout();
-		gbl_panelSliders.columnWidths = new int[]{109, 224, 0, 0};
-		gbl_panelSliders.rowHeights = new int[]{69, 73, 78, 0};
-		gbl_panelSliders.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panelSliders.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panelSliders.setLayout(gbl_panelSliders);
+		GridBagConstraints gbcpanelSliders = new GridBagConstraints();
+		gbcpanelSliders.insets = new Insets(0, 0, 5, 0);
+		gbcpanelSliders.fill = GridBagConstraints.BOTH;
+		gbcpanelSliders.gridx = 0;
+		gbcpanelSliders.gridy = 5;
+		add(panelSliders, gbcpanelSliders);
+		GridBagLayout gblpanelSliders = new GridBagLayout();
+		gblpanelSliders.columnWidths = new int[]{109, 224, 0, 0};
+		gblpanelSliders.rowHeights = new int[]{69, 73, 78, 0};
+		gblpanelSliders.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gblpanelSliders.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelSliders.setLayout(gblpanelSliders);
 		
 		JLabel lblCreatures = new JLabel("Creatures :");
-		GridBagConstraints gbc_lblCreatures = new GridBagConstraints();
-		gbc_lblCreatures.fill = GridBagConstraints.BOTH;
-		gbc_lblCreatures.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCreatures.gridx = 0;
-		gbc_lblCreatures.gridy = 0;
-		panelSliders.add(lblCreatures, gbc_lblCreatures);
+		GridBagConstraints gbclblCreatures = new GridBagConstraints();
+		gbclblCreatures.fill = GridBagConstraints.BOTH;
+		gbclblCreatures.insets = new Insets(0, 0, 5, 5);
+		gbclblCreatures.gridx = 0;
+		gbclblCreatures.gridy = 0;
+		panelSliders.add(lblCreatures, gbclblCreatures);
 		
 		JSlider sldCreatures = new JSlider();
 		sldCreatures.setValue(38);
@@ -100,27 +103,27 @@ public class DeckGeneratorComponent extends JPanel {
 		sldCreatures.setMinorTickSpacing(5);
 		sldCreatures.setSnapToTicks(true);
 		sldCreatures.setPaintLabels(true);
-		GridBagConstraints gbc_sldCreatures = new GridBagConstraints();
-		gbc_sldCreatures.fill = GridBagConstraints.BOTH;
-		gbc_sldCreatures.insets = new Insets(0, 0, 5, 5);
-		gbc_sldCreatures.gridx = 1;
-		gbc_sldCreatures.gridy = 0;
-		panelSliders.add(sldCreatures, gbc_sldCreatures);
+		GridBagConstraints gbcsldCreatures = new GridBagConstraints();
+		gbcsldCreatures.fill = GridBagConstraints.BOTH;
+		gbcsldCreatures.insets = new Insets(0, 0, 5, 5);
+		gbcsldCreatures.gridx = 1;
+		gbcsldCreatures.gridy = 0;
+		panelSliders.add(sldCreatures, gbcsldCreatures);
 		
 		JLabel lblPercentCreature = new JLabel(sldCreatures.getValue()+"%");
-		GridBagConstraints gbc_lblPercentCreature = new GridBagConstraints();
-		gbc_lblPercentCreature.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPercentCreature.gridx = 2;
-		gbc_lblPercentCreature.gridy = 0;
-		panelSliders.add(lblPercentCreature, gbc_lblPercentCreature);
+		GridBagConstraints gbclblPercentCreature = new GridBagConstraints();
+		gbclblPercentCreature.insets = new Insets(0, 0, 5, 0);
+		gbclblPercentCreature.gridx = 2;
+		gbclblPercentCreature.gridy = 0;
+		panelSliders.add(lblPercentCreature, gbclblPercentCreature);
 		
 		JLabel lblSpells = new JLabel("Spells :");
-		GridBagConstraints gbc_lblSpells = new GridBagConstraints();
-		gbc_lblSpells.fill = GridBagConstraints.BOTH;
-		gbc_lblSpells.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSpells.gridx = 0;
-		gbc_lblSpells.gridy = 1;
-		panelSliders.add(lblSpells, gbc_lblSpells);
+		GridBagConstraints gbclblSpells = new GridBagConstraints();
+		gbclblSpells.fill = GridBagConstraints.BOTH;
+		gbclblSpells.insets = new Insets(0, 0, 5, 5);
+		gbclblSpells.gridx = 0;
+		gbclblSpells.gridy = 1;
+		panelSliders.add(lblSpells, gbclblSpells);
 		
 		JSlider sldSpells = new JSlider();
 		sldSpells.setValue(21);
@@ -130,27 +133,27 @@ public class DeckGeneratorComponent extends JPanel {
 		sldSpells.setSnapToTicks(true);
 		sldSpells.setPaintLabels(true);
 		
-		GridBagConstraints gbc_sldSpells = new GridBagConstraints();
-		gbc_sldSpells.fill = GridBagConstraints.BOTH;
-		gbc_sldSpells.insets = new Insets(0, 0, 5, 5);
-		gbc_sldSpells.gridx = 1;
-		gbc_sldSpells.gridy = 1;
-		panelSliders.add(sldSpells, gbc_sldSpells);
+		GridBagConstraints gbcsldSpells = new GridBagConstraints();
+		gbcsldSpells.fill = GridBagConstraints.BOTH;
+		gbcsldSpells.insets = new Insets(0, 0, 5, 5);
+		gbcsldSpells.gridx = 1;
+		gbcsldSpells.gridy = 1;
+		panelSliders.add(sldSpells, gbcsldSpells);
 		
 		JLabel lblPercentSpell = new JLabel(sldSpells.getValue()+"%");
-		GridBagConstraints gbc_lblPercentSpell = new GridBagConstraints();
-		gbc_lblPercentSpell.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPercentSpell.gridx = 2;
-		gbc_lblPercentSpell.gridy = 1;
-		panelSliders.add(lblPercentSpell, gbc_lblPercentSpell);
+		GridBagConstraints gbclblPercentSpell = new GridBagConstraints();
+		gbclblPercentSpell.insets = new Insets(0, 0, 5, 0);
+		gbclblPercentSpell.gridx = 2;
+		gbclblPercentSpell.gridy = 1;
+		panelSliders.add(lblPercentSpell, gbclblPercentSpell);
 		
 		JLabel lblLands = new JLabel("Lands :");
-		GridBagConstraints gbc_lblLands = new GridBagConstraints();
-		gbc_lblLands.fill = GridBagConstraints.BOTH;
-		gbc_lblLands.insets = new Insets(0, 0, 0, 5);
-		gbc_lblLands.gridx = 0;
-		gbc_lblLands.gridy = 2;
-		panelSliders.add(lblLands, gbc_lblLands);
+		GridBagConstraints gbclblLands = new GridBagConstraints();
+		gbclblLands.fill = GridBagConstraints.BOTH;
+		gbclblLands.insets = new Insets(0, 0, 0, 5);
+		gbclblLands.gridx = 0;
+		gbclblLands.gridy = 2;
+		panelSliders.add(lblLands, gbclblLands);
 		
 		JSlider sldLands = new JSlider();
 		sldLands.setValue(41);
@@ -160,23 +163,24 @@ public class DeckGeneratorComponent extends JPanel {
 		sldLands.setSnapToTicks(true);
 		sldLands.setPaintLabels(true);
 		
-		GridBagConstraints gbc_sldLands = new GridBagConstraints();
-		gbc_sldLands.insets = new Insets(0, 0, 0, 5);
-		gbc_sldLands.fill = GridBagConstraints.BOTH;
-		gbc_sldLands.gridx = 1;
-		gbc_sldLands.gridy = 2;
-		panelSliders.add(sldLands, gbc_sldLands);
+		GridBagConstraints gbcsldLands = new GridBagConstraints();
+		gbcsldLands.insets = new Insets(0, 0, 0, 5);
+		gbcsldLands.fill = GridBagConstraints.BOTH;
+		gbcsldLands.gridx = 1;
+		gbcsldLands.gridy = 2;
+		panelSliders.add(sldLands, gbcsldLands);
 		
 		JLabel lblPercentLands = new JLabel(sldLands.getValue()+"%");
-		GridBagConstraints gbc_lblPercentLands = new GridBagConstraints();
-		gbc_lblPercentLands.gridx = 2;
-		gbc_lblPercentLands.gridy = 2;
-		panelSliders.add(lblPercentLands, gbc_lblPercentLands);
+		GridBagConstraints gbclblPercentLands = new GridBagConstraints();
+		gbclblPercentLands.gridx = 2;
+		gbclblPercentLands.gridy = 2;
+		panelSliders.add(lblPercentLands, gbclblPercentLands);
 		
 		
 		for(MTGColor color : MTGColor.getColors())
 		{
-			JToggleButton tglButton = new JToggleButton(color.toManaCode());
+			
+			JToggleButton tglButton = new JToggleButton(new ImageIcon(panelMana.getManaSymbol(color.toManaCode()).getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 				tglButton.addActionListener(al->{
 					
 				});
@@ -190,10 +194,10 @@ public class DeckGeneratorComponent extends JPanel {
 		bind(sldLands,lblPercentLands,sldCreatures,sldSpells);
 		
 		JButton btnGenerate = new JButton("Generate");
-		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
-		gbc_btnGenerate.gridx = 0;
-		gbc_btnGenerate.gridy = 6;
-		add(btnGenerate, gbc_btnGenerate);
+		GridBagConstraints gbcbtnGenerate = new GridBagConstraints();
+		gbcbtnGenerate.gridx = 0;
+		gbcbtnGenerate.gridy = 6;
+		add(btnGenerate, gbcbtnGenerate);
 		
 	}
 	
@@ -202,25 +206,27 @@ public class DeckGeneratorComponent extends JPanel {
 	{
 		
 		slider.addChangeListener(cl->{
-			label.setText(slider.getValue()+"%");
 			
-			slide2.setValue(100-slide3.getValue()-slider.getValue());		
-			slide3.setValue(100-slide2.getValue()-slider.getValue());	
+			
+			if(!slider.getValueIsAdjusting()) {
+					
+				label.setText(slider.getValue()+"%");
+				slide2.setValue(100-slide3.getValue()-slider.getValue());		
+				slide3.setValue(100-slide2.getValue()-slider.getValue());
+			}
 		});
 	}
 	
-	
-
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
 		
 		f.getContentPane().add(new DeckGeneratorComponent());
-		
 		f.pack();
 		
 		f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
 	}
+	
 
 }
