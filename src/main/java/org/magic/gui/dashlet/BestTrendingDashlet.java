@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -58,7 +58,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	
 
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_UP;
 	}
 	

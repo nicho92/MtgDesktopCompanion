@@ -8,15 +8,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.AbstractButton;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -203,7 +201,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	}
 
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_DASHBOARD;
 	}
 

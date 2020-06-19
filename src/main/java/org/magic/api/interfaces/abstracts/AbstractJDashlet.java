@@ -1,5 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 import java.net.URL;
@@ -8,6 +9,8 @@ import java.util.Properties;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
@@ -28,6 +31,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean loaded=false;
+	public abstract ImageIcon getDashletIcon();
 	
 	@Override
 	public ObjectName getObjectName() {
@@ -35,6 +39,20 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			return new ObjectName("org.magic.api:type="+getType()+",name="+getName());
 		} catch (MalformedObjectNameException e) {
 			return null;
+		}
+	}
+	
+	
+	
+	
+	@Override
+	public Icon getIcon() {
+		try {
+			return new ImageIcon(getDashletIcon().getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
+		}
+		catch(Exception e)
+		{
+			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
 

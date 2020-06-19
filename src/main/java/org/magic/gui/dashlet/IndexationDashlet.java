@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +27,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 	private JComboBox<String> cboField;
 
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_TAB_ANALYSE;
 	}
 	

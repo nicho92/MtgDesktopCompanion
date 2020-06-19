@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,7 +38,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 
 
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_GAME;
 	}
 	

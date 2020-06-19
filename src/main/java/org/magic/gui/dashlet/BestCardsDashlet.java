@@ -6,7 +6,7 @@ import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,7 +38,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 	
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_UP;
 	}
 	

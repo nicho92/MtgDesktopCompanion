@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -48,7 +48,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 	}
 	
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_DOLLARS;
 	}
 

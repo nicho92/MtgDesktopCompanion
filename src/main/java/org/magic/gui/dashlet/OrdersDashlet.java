@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -85,7 +85,7 @@ public class OrdersDashlet extends AbstractJDashlet {
 	}
 
 	@Override
-	public Icon getIcon() {
+	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_SHOP;
 	}
 
