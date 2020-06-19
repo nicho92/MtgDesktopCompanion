@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +24,8 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.components.ManaPanel;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.tools.UITools;
 
 public class DeckGeneratorComponent extends JPanel {
@@ -177,12 +181,17 @@ public class DeckGeneratorComponent extends JPanel {
 		panelSliders.add(lblPercentLands, gbclblPercentLands);
 		
 		
+		Set<MTGColor> sets = new HashSet<>();
 		for(MTGColor color : MTGColor.getColors())
 		{
 			
 			JToggleButton tglButton = new JToggleButton(new ImageIcon(panelMana.getManaSymbol(color.toManaCode()).getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 				tglButton.addActionListener(al->{
 					
+					if(tglButton.isSelected())
+						sets.add(color);
+					else
+						sets.remove(color);
 				});
 			
 			
@@ -198,6 +207,13 @@ public class DeckGeneratorComponent extends JPanel {
 		gbcbtnGenerate.gridx = 0;
 		gbcbtnGenerate.gridy = 6;
 		add(btnGenerate, gbcbtnGenerate);
+		
+		
+		btnGenerate.addActionListener(al->{
+
+			new MTGDeckManager().generateRandomDeck(Integer.parseInt(cboNumCards.getSelectedItem().toString()),sets.stream().toArray(MTGColor[]::new), null, 5, sldCreatures.getValue(), sldSpells.getValue(), sldLands.getValue(), chkSingleton.isSelected());
+			
+		});
 		
 	}
 	

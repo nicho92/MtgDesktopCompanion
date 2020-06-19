@@ -81,7 +81,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 	}
-
+	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		
@@ -89,7 +89,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		
 		Document d =URLTools.extractHtml(info.getUrl().toURL());
 		String data = URLTools.extractAsString(uri);
-		
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(d.select("div.decknotes").text());
@@ -97,6 +96,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		boolean sideboard=false;
 		data = RegExUtils.replaceAll(data,"\\\\r\\\\n","\n");
 		data = RegExUtils.replaceAll(data,"\"","");
+		
+		System.out.println(data);
+		
 		String[] lines = data.split("\n");
 		
 		for(int i=0;i<lines.length;i++)
@@ -107,27 +109,23 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 			{
 				sideboard=true;
 			}
-			else if(!StringUtils.isBlank(line))
+			else if(!StringUtils.isBlank(line) && !line.equals("Deck"))
 			{
-			
-				SimpleEntry<String, Integer> entry = parseString(line);
 				
-				
-				try {
-				
-				
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
-				
-				notify(mc);
-				if(sideboard)
-					deck.getSideBoard().put(mc, entry.getValue());
-				else
-					deck.getMain().put(mc, entry.getValue());
-				}
-				catch(Exception e)
-				{
-					logger.error("couldn't not find " + entry.getKey());
-				}
+					SimpleEntry<String, Integer> entry = parseString(line);
+					try 
+					{
+						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
+						notify(mc);
+						if(sideboard)
+							deck.getSideBoard().put(mc, entry.getValue());
+						else
+							deck.getMain().put(mc, entry.getValue());
+					}
+					catch(Exception e)
+					{
+						logger.error("couldn't not find " + entry.getKey());
+					}
 			}
 		}
 		return deck;

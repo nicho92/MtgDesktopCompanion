@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -20,6 +21,7 @@ import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
@@ -272,11 +274,18 @@ public class MTGDeckManager extends Observable {
 		}
 
 	}
+
 	
-	public MagicDeck generateRandomDeck(int deckSize, MTGColor[] colors, List<MagicEdition> sets, int maxCmc, double creaturePercent, double spellPercent, double landPercent,boolean singleton)
+	public MagicDeck generateRandomDeck(int deckSize, MTGColor[] colors, List<MagicEdition> sets, int maxCmc, int creaturePercent, int spellPercent, int landPercent,boolean singleton)
 	{
+		int creatureCards = (int)((double)deckSize * (double)creaturePercent/100);
+		int spellsCards = (int)((double)deckSize * (double)spellPercent/100);
+		int landCards = (int)((double)deckSize * (double)landPercent/100);
+		
+		
 		MagicDeck deck = new MagicDeck();
 		
+	
 		
 		return deck;
 	}
