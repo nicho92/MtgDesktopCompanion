@@ -171,20 +171,6 @@ public class MTGDeckManager extends Observable {
 		
 		String name = selectedDeck.getName();
 		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
-		
-		if(!f.exists())
-			f = new File(MTGConstants.MTG_DECK_DIRECTORY, "" + serialis.getFileExtension());
-		
-		if(!f.exists())
-			f = new File(MTGConstants.MTG_DECK_DIRECTORY, "null" + serialis.getFileExtension());
-		
-		if(!f.exists())
-		{
-			logger.debug("error"+f.getAbsolutePath()+ "doesn't exist");
-			return;
-		}
-		
-		logger.debug("remove "+selectedDeck +":"+f.getAbsolutePath());
 		FileTools.deleteFile(f);
 	}
 
