@@ -45,12 +45,15 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 			String cardName = cardList.select(".cardName.truncate.vAlignMiddle").text();
 			if (cardName.contains("//")) // for transformatble cards
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
-					.searchCardByName(cardName, null, true).get(0);
-
-			notify(mc);
-			deck.getMain().put(mc, Integer.valueOf(qte));
+			try {
+				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
+				notify(mc);
+				deck.getMain().put(mc, Integer.valueOf(qte));
+			}
+			catch(Exception e)
+			{
+				logger.error("Can't find " + cardName +" : " + e);
+			}
 		}
 
 		Elements sidecardsList = d.select(".sideboard.clearfix").select(CARDLIST2);
@@ -59,12 +62,17 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 			String cardName = cardList.select(".cardName.truncate.vAlignMiddle").text();
 			if (cardName.contains("//")) // for transformatble cards
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-
+			try {
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 					.searchCardByName(cardName, null, true).get(0);
 
-			notify(mc);
-			deck.getSideBoard().put(mc, Integer.valueOf(qte));
+				notify(mc);
+				deck.getSideBoard().put(mc, Integer.valueOf(qte));
+			}
+			catch(Exception e)
+			{
+				logger.error("Can't find " + cardName +" : " + e);
+			}
 		}
 		return deck;
 	}

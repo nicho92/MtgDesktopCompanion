@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -143,6 +144,7 @@ public class ConstructPanel extends JPanel {
 		
 		JPanel panneauHaut = new JPanel();
 		JButton btnUpdate;
+		JButton btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
 		HandPanel thumbnail;
 		JTabbedPane panelBottom;
 		JTextField txtSearch;
@@ -162,11 +164,11 @@ public class ConstructPanel extends JPanel {
 		
 		
 		lblCards = new JLabel();
-		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);
-		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
-		btnUpdate = new JButton();
-		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
-		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		JButton btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
+		JButton btnOpen = UITools.createBindableJButton("", MTGConstants.ICON_OPEN, KeyEvent.VK_O, "Open");
+		btnUpdate = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Refresh");
+		JButton btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
+		JButton btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -197,7 +199,7 @@ public class ConstructPanel extends JPanel {
 		JToggleButton tglbtnCmd = new JToggleButton("CMD");
 		
 		JPanel panneauGauche = new JPanel();
-		listResult = new JList<>(new DefaultListModel<MagicCard>());
+		listResult = new JList<>(new DefaultListModel<>());
 		groupsFilterResult = new ButtonGroup() {
 			private static final long serialVersionUID = 1L;
 
@@ -221,7 +223,6 @@ public class ConstructPanel extends JPanel {
 		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
 		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
 		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
-		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
 		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
@@ -258,6 +259,7 @@ public class ConstructPanel extends JPanel {
 		panneauHaut.add(btnSave);
 		panneauHaut.add(btnImport);
 		panneauHaut.add(btnExports);
+		panneauHaut.add(btnRandom);
 		panneauHaut.add(buzyLabel);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(tabbedPane, BorderLayout.CENTER);
@@ -310,6 +312,44 @@ public class ConstructPanel extends JPanel {
 		btnNewDeck.addActionListener(newDeckEvent -> {
 			MagicDeck newDeck = new MagicDeck();
 			setDeck(newDeck);
+		});
+		
+		
+		btnRandom.addActionListener(al->{
+			
+			
+				buzyLabel.start();
+				SwingWorker<MagicDeck, Void> sw = new SwingWorker<>()
+				{
+
+					@Override
+					protected MagicDeck doInBackground() throws Exception {
+						return deckManager.generateRandomDeck();
+					}
+
+					@Override
+					protected void done() {
+						try {
+							deck = get();
+							deckDetailsPanel.setMagicDeck(deck);
+							deckmodel.init(deck);
+							deckSidemodel.init(deck);
+							setDeck(deck);
+							updatePanels();
+						}  catch (Exception e) {
+							MTGControler.getInstance().notify(e);
+						}
+						buzyLabel.end();
+					
+					}
+						
+					
+				};
+				
+				ThreadManager.getInstance().runInEdt(sw, "random deck");
+
+			
+			
 		});
 
 		

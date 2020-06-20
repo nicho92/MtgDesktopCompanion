@@ -73,7 +73,7 @@ public class MagicCard implements Serializable {
 
 	public boolean isCompanion()
 	{
-		return isCreature() && getText().contains("Companion —");
+		return isCreature() && getText()!=null && getText().contains("Companion —");
 	}
 	
 	public String getScryfallId() {

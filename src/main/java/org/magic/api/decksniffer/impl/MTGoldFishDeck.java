@@ -42,7 +42,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, COMMANDER, BRAWL,ARENA_STANDARD };
 		else
 			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, ARENA_STANDARD,"block", COMMANDER, "limited",
-					"frontier", "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form","pioneer"};
+					 "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form","pioneer"};
 	}
 
 	@Override

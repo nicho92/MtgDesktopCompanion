@@ -2,26 +2,28 @@ package org.magic.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
@@ -276,18 +278,23 @@ public class MTGDeckManager extends Observable {
 	}
 
 	
-	public MagicDeck generateRandomDeck(int deckSize, MTGColor[] colors, List<MagicEdition> sets, int maxCmc, int creaturePercent, int spellPercent, int landPercent,boolean singleton)
+	public MagicDeck generateRandomDeck() throws IOException
 	{
-		int creatureCards = (int)((double)deckSize * (double)creaturePercent/100);
-		int spellsCards = (int)((double)deckSize * (double)spellPercent/100);
-		int landCards = (int)((double)deckSize * (double)landPercent/100);
-		
-		
-		MagicDeck deck = new MagicDeck();
-		
-	
-		
-		return deck;
+		try {
+			Random random= SecureRandom.getInstanceStrong();
+			
+			List<MTGDeckSniffer> deckServices = MTGControler.getInstance().listEnabled(MTGDeckSniffer.class);
+			MTGDeckSniffer sniffer = deckServices.get(random.nextInt(deckServices.size()));
+			String[] formats = sniffer.listFilter();
+			sniffer.setProperty("FORMAT", formats[random.nextInt(formats.length)]);
+			List<RetrievableDeck> availableDecks = sniffer.getDeckList();
+			RetrievableDeck d = availableDecks.get(random.nextInt(availableDecks.size()));
+			return sniffer.getDeck(d);
+			
+		} catch (NoSuchAlgorithmException e) {
+			logger.error(e);
+			return new MagicDeck();
+		}
 	}
 	
 	
