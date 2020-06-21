@@ -163,7 +163,7 @@
 		<dependency>
 		    <groupId>org.xerial</groupId>
 		    <artifactId>sqlite-jdbc</artifactId>
-		    <version>3.31.1</version>
+		    <version>3.32.3</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
@@ -198,7 +198,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>4.1.1_164</version>
+			  <version>4.1.1_165</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>

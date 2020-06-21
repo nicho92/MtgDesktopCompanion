@@ -19,6 +19,8 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	public static final String SET_FIELD = "set";
 	public static final String COLLECTION_FIELD = "collection";
+	public static final String ALL = "all";
+	
 	
 	protected TCache<MagicCard> cacheCards;
 	private TCache<MagicEdition> cacheEditions;
@@ -54,7 +56,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		List<String> atts = loadQueryableAttributs();
 				atts.add(SET_FIELD);
 				atts.add(COLLECTION_FIELD);
-		
+				atts.add(ALL);
 		return atts.stream().toArray(String[]::new);
 	}
 	

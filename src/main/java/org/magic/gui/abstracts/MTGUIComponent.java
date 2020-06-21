@@ -3,6 +3,7 @@ package org.magic.gui.abstracts;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -10,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -22,17 +24,28 @@ public abstract class MTGUIComponent extends JComponent {
 	protected boolean onlyOneRefresh=true;
 	public abstract String getTitle();
 	private boolean alreadyShow=false;
+	private JScrollPane enclosingScrollPane;
+	private ComponentListener windowsListener;
+	
 	
 	@Override
 	public String toString() {
 		return getName();
 	}
 	
+	public void setEnclosingScrollPane(JScrollPane scrollPane) {
+		  enclosingScrollPane = scrollPane;
+		  if (enclosingScrollPane != null) {
+		    enclosingScrollPane.addComponentListener(windowsListener);
+		  }
+		}
+	
+	
 	public MTGUIComponent()
 	{
 		logger.debug("init GUI : " + getTitle());
 		
-		addComponentListener(new ComponentAdapter() {
+		windowsListener = new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent evt) 
 			{
@@ -56,7 +69,9 @@ public abstract class MTGUIComponent extends JComponent {
 			public void componentResized(ComponentEvent e) {
 				onResize();
 			}
-		});
+		};
+			
+		addComponentListener(windowsListener);
 		
 		setName(getTitle());
 		
@@ -79,7 +94,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	public void onHide()
 	{
-		//do nothing
+		//do not
 	}
 	
 	public void onResize()

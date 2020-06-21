@@ -43,12 +43,12 @@ public class HandPanel extends DraggablePanel {
 		}
 	}
 
+
 	public void setRupture(int val) {
 		this.val = val;
 	}
 
 	public HandPanel() {
-		super();
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
 	}
@@ -103,8 +103,8 @@ public class HandPanel extends DraggablePanel {
 						DisplayableCard lab = new DisplayableCard(mc, d, activateCards, rightClick);
 						lab.setTappable(activateCards);
 						addComponent(lab);
-						revalidate();
 				}
+				revalidate();
 			}
 			
 			@Override
@@ -120,7 +120,7 @@ public class HandPanel extends DraggablePanel {
 			}
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw,"Init Thumbnail");
+		ThreadManager.getInstance().executeThread(sw, "thumbnail");
 	}
 
 	@Override
@@ -142,11 +142,6 @@ public class HandPanel extends DraggablePanel {
 	public void setMaxCardsRow(int i) {
 		val = i;
 
-	}
-
-	@Override
-	public String toString() {
-		return "ThumbnailPanel";
 	}
 
 }

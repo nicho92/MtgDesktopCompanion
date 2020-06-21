@@ -32,6 +32,13 @@ public class ThreadManager {
 	}
 	
 	public void executeThread(Runnable task, String name) {
+		
+		if(task==null)
+		{
+			logger.error("task is null for " + name);
+			return;
+		}
+		
 		this.name=name;
 		executor.execute(task);
 		log();

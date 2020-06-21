@@ -11,6 +11,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -264,7 +265,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		deckPanel = new CardsDeckCheckerPanel();
 		
 		//////// MODELS
-		listEdition.setModel(new DefaultListModel<MagicEdition>());
+		listEdition.setModel(new DefaultListModel<>());
 		tableCards.setModel(cardsModeltable);
 
 		//////// RENDERER
@@ -346,6 +347,8 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		}
 		scrollThumbnails.setViewportView(thumbnailPanel);
+		thumbnailPanel.setEnclosingScrollPane(scrollThumbnails);
+		
 
 		panneauHaut.add(cboQuereableItems);
 		panneauHaut.add(cboCollections);
@@ -473,7 +476,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		txtSearch.addActionListener(ae -> {
 
 			selectedEdition = null;
-			if (txtSearch.getText().equals("") && !cboCollections.isVisible())
+			if (txtSearch.getText().equals("") && !cboCollections.isVisible() && !cboQuereableItems.getSelectedItem().toString().equals(AbstractCardsProvider.ALL))
 				return;
 			
 			lblLoading.start();
@@ -495,7 +498,11 @@ public class CardSearchPanel extends MTGUIComponent {
 					}
 					else if(cboEdition.isVisible()) {
 						cards=((MTGCardsProvider)plug).searchCardByEdition((MagicEdition)cboEdition.getSelectedItem());
-					} 
+					}
+					else if (cboQuereableItems.getSelectedItem().toString().equals(AbstractCardsProvider.ALL)) {
+						cards=((MTGCardsProvider)plug).listAllCards();
+						
+					}
 					else {
 						cards=((MTGCardsProvider)plug).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
 					}

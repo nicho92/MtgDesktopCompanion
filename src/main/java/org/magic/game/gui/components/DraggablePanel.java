@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -16,7 +15,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public abstract class DraggablePanel extends JComponent implements Draggable
+public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 {
 
 	/**
@@ -63,6 +62,7 @@ public abstract class DraggablePanel extends JComponent implements Draggable
 	
 
 	public DraggablePanel() {
+		super();
 		setTransferHandler(new CardTransfertHandler());
 		setComponentPopupMenu(menu);
 	}
@@ -94,6 +94,11 @@ public abstract class DraggablePanel extends JComponent implements Draggable
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	@Override
+	public String getTitle() {
+		return "Draggable Panel : " + getOrigine() ;
 	}
 
 }
