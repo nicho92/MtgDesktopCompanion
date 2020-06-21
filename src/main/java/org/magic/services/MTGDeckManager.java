@@ -109,7 +109,7 @@ public class MTGDeckManager extends Observable {
 				MagicDeck deck = serialis.importDeckFromFile(f);
 				decks.add(deck);
 				setChanged();
-				notifyObservers(deck);
+				//notifyObservers(deck)
 			} catch (Exception e) {
 				logger.error("error import deck " + f, e);
 			}

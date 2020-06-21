@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -28,6 +29,7 @@ import javax.swing.tree.TreePath;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionTableModel;
@@ -48,7 +50,7 @@ public class JDeckChooserDialog extends JDialog {
 	private CmcChartPanel cmcChartPanel;
 	private MagicDeck selectedDeck;
 	private JTagsPanel tagsPanel;
-
+	private AbstractBuzyIndicatorComponent buzy;
 	private JTree tree;
 	private DefaultTreeModel model;
 	private DefaultMutableTreeNode root;
@@ -118,7 +120,7 @@ public class JDeckChooserDialog extends JDialog {
 		manager = new MTGDeckManager();
 		DeckSelectionTableModel decksModel = new DeckSelectionTableModel();
 		manager.addObserver((o,d)->decksModel.addItem((MagicDeck)d));
-		
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -142,10 +144,20 @@ public class JDeckChooserDialog extends JDialog {
 					}
 					@Override
 					protected void done() {
-						table.packAll();
+						
+						
+						try {
+							decksModel.init(get());
+							table.packAll();
+						} catch (Exception e) {
+							MTGControler.getInstance().notify(e);
+						}
+						
+						buzy.end();
 					}
 				};
 		
+		buzy.start();
 		ThreadManager.getInstance().runInEdt(sw,"loading decks");
 		
 		
@@ -258,8 +270,11 @@ public class JDeckChooserDialog extends JDialog {
 		panelTree.add(tagsPanel, BorderLayout.SOUTH);
 
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
-		table.packAll();
+		
+		panelBas.add(buzy);
+		
 		setLocationRelativeTo(null);
 		setModal(true);
+		
 	}
 }
