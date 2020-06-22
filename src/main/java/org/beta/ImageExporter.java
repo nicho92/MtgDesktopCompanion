@@ -5,14 +5,16 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
+import org.magic.sorters.ColorSorter;
 import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
@@ -24,47 +26,56 @@ public class ImageExporter extends AbstractCardExport{
 		Graphics2D g = (Graphics2D) ret.getGraphics();
 		
 		int bandeau = drawHeader(g,d);
-		int start = bandeau + 20;
+		int start = bandeau + 10;
+		
 		int ycard=start;
 		int xcard=0;
+		
 		int cardCount = 0;
-		int columnNumber=0;
-		int lineNumber=0;
-		
-		
+		int columnNumber=1;
+		int lineNumber=1;
 		final int cardSpace = 25;
 		final int cardGroup = 4;
 		
-		for(MagicCard mc : d.getMainAsList()) 
+		List<MagicCard> cards =  d.getMainAsList();
+		int width = 150;
+	//	Collections.sort(cards, new ColorSorter());
+		
+		for(MagicCard mc : cards) 
 		{
+			
 			try {
 				BufferedImage cardPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc);
-				cardPic=ImageTools.scaleResize(cardPic,150);
-				
+				cardPic=ImageTools.scaleResize(cardPic,width);
 				
 				if(cardCount<cardGroup)
 				{
-					g.drawImage(cardPic, null, xcard, ycard);
 					ycard+=cardSpace;
 					cardCount++;
+					
 				}
 				else
 				{
-					ycard=start;
 					cardCount=0;
-					xcard=xcard+cardPic.getWidth()+10;
 					columnNumber++;
+					xcard=xcard+cardPic.getWidth()+10;
+					ycard=start;
+
 				}
-				
+
 				if(columnNumber==5)
 				{
-					
 					columnNumber=0;
-					xcard=0;
-					ycard=start+lineNumber*(cardPic.getHeight()+(cardGroup*cardSpace));
+					start = cardPic.getHeight() + (lineNumber * cardPic.getHeight());
+					xcard=columnNumber * cardPic.getWidth();
+					
+					cardCount=0;
 					lineNumber++;
-				}
+				}	
+				g.drawImage(cardPic, null, xcard, ycard);
 				
+				
+						
 				notify(mc);
 			} catch (IOException e) {
 				logger.error(e);
@@ -93,7 +104,7 @@ public class ImageExporter extends AbstractCardExport{
 
 
 	public static void main(String[] args) throws IOException {
-		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("[IKO] Temur Mutate"), new File("d:/test.png"));
+		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Temur Delver"), new File("d:/test.png"));
 	}
 
 
