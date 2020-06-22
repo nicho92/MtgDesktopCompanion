@@ -2,11 +2,14 @@ package org.magic.api.exports.impl;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.MediaTracker;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -96,12 +99,18 @@ public class ImageExporter extends AbstractCardExport{
 	
 	
 	private void drawHeader(Graphics2D g, MagicDeck d, BufferedImage ret) {
-		g.drawImage(MTGConstants.IMAGE_LOGO, 10, 10, null );
+		
+		try {
+			g.drawImage(ImageIO.read(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, ret.getWidth(),headerSize);
 		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30)); 
 		g.setColor(Color.WHITE);
-		g.drawString(d.getName() + "-" + d.getNbCards(),MTGConstants.IMAGE_LOGO.getWidth(null)+20,headerSize-15);
+		g.drawString(d.getName(),MTGConstants.IMAGE_LOGO.getWidth(null)+20,headerSize-15);
 	}
 
 
