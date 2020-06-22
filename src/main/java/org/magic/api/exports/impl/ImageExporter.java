@@ -1,122 +1,123 @@
-package org.beta;
+package org.magic.api.exports.impl;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.sorters.ColorSorter;
 import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
+	private static final String FORMAT = "FORMAT";
+	
+	int cardSpace = 25;
+	int columnsCount = 5;
+	int cardGroup = 3;
+	int columnsSpace = 10;
+	int cardWidthSize = 150;
+	int headerSize=75;
+
 	
 	public BufferedImage generateImageFor(MagicDeck d)
 	{
-		BufferedImage ret = new BufferedImage(getInt("WIDTH"), getInt("HEIGHT"), BufferedImage.TYPE_INT_ARGB);
+		List<MagicCard> cards =  d.getMainAsList();
+		//Collections.sort(cards, new ColorSorter());
+
 		
+		int suggestedNbLines = cards.size()/((cardGroup+1)*columnsCount)+headerSize;
+		
+		
+		BufferedImage tempPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
+		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
+		int  picHeight = suggestedNbLines * (tempPic.getHeight()+((cardGroup+1)*cardSpace));
+		
+		
+		BufferedImage ret = new BufferedImage((cardWidthSize+columnsSpace)*columnsCount, picHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) ret.getGraphics();
 		
-		int bandeau = drawHeader(g,d);
-		int start = bandeau + 10;
 		
+		int start = headerSize + 10;
 		int ycard=start;
 		int xcard=0;
-		
 		int cardCount = 0;
-		int columnNumber=1;
-		int lineNumber=1;
-		final int cardSpace = 25;
-		final int cardGroup = 4;
+		int columnNumber=0;
 		
-		List<MagicCard> cards =  d.getMainAsList();
-		int width = 150;
-	//	Collections.sort(cards, new ColorSorter());
+		drawHeader(g,d,ret);
 		
 		for(MagicCard mc : cards) 
 		{
 			
 			try {
 				BufferedImage cardPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc);
-				cardPic=ImageTools.scaleResize(cardPic,width);
-				
+				cardPic=ImageTools.scaleResize(cardPic,cardWidthSize);
+			
 				if(cardCount<cardGroup)
 				{
 					ycard+=cardSpace;
 					cardCount++;
-					
 				}
 				else
 				{
 					cardCount=0;
 					columnNumber++;
-					xcard=xcard+cardPic.getWidth()+10;
+					xcard=xcard+cardPic.getWidth()+columnsSpace;
 					ycard=start;
 
 				}
 
-				if(columnNumber==5)
+				if(columnNumber==columnsCount)
 				{
 					columnNumber=0;
-					start = cardPic.getHeight() + (lineNumber * cardPic.getHeight());
+					start = start + (cardPic.getHeight()+(4*cardSpace));
 					xcard=columnNumber * cardPic.getWidth();
-					
 					cardCount=0;
-					lineNumber++;
 				}	
 				g.drawImage(cardPic, null, xcard, ycard);
-				
-				
-						
 				notify(mc);
 			} catch (IOException e) {
 				logger.error(e);
 			}
 		}
+		
+		g.dispose();
 		return ret;
 	}
 	
 	
-	private int drawHeader(Graphics2D g, MagicDeck d) {
+	private void drawHeader(Graphics2D g, MagicDeck d, BufferedImage ret) {
 		
-		int headerSize=75;
-		
-		
+		g.drawImage(MTGConstants.IMAGE_LOGO, 10, 10, null );
 		g.setColor(Color.ORANGE);
-		g.fillRect(0, 0, getInt("WIDTH"),headerSize);
-		//g.drawImage(MTGConstants.IMAGE_LOGO, 10, 10, MTGConstants.IMAGE_LOGO.getWidth(null),MTGConstants.IMAGE_LOGO.getHeight(null),null );
-		
+		g.fillRect(0, 0, ret.getWidth(),headerSize);
 		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30)); 
 		g.setColor(Color.WHITE);
-		g.drawString(d.getName(),0,headerSize-10);
-		
-		return headerSize;
-		
+		g.drawString(d.getName(),0,headerSize-15);
 	}
 
 
 	public static void main(String[] args) throws IOException {
-		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Temur Delver"), new File("d:/test.png"));
+		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Ominous_Standstill"), new File("d:/test.png"));
 	}
 
 
 	@Override
 	public String getFileExtension() {
-		return "."+getString("FORMAT");
+		return "."+getString(FORMAT);
 	}
 
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		ImageTools.saveImageInPng(generateImageFor(deck), dest);
+		ImageTools.saveImage(generateImageFor(deck), dest,getString(FORMAT));
 
 	}
 
@@ -139,9 +140,8 @@ public class ImageExporter extends AbstractCardExport{
 
 	@Override
 	public void initDefault() {
-		setProperty("FORMAT", "png");
-		setProperty("WIDTH", "1024");
-		setProperty("HEIGHT", "768");
+		setProperty(FORMAT, "png");
+		setProperty("SORTER","ColorSorter"); 
 	}
 	
 }
