@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -14,6 +15,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
+import org.magic.sorters.TypesSorter;
 import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
@@ -23,22 +25,22 @@ public class ImageExporter extends AbstractCardExport{
 	int columnsCount = 5;
 	int cardGroup = 3;
 	int columnsSpace = 10;
-	int cardWidthSize = 150;
+	int cardWidthSize = 175;
 	int headerSize=75;
 
 	
 	public BufferedImage generateImageFor(MagicDeck d)
 	{
 		List<MagicCard> cards =  d.getMainAsList();
-		//Collections.sort(cards, new ColorSorter());
+		Collections.sort(cards, new TypesSorter());
 
 		
-		int suggestedNbLines = cards.size()/((cardGroup+1)*columnsCount)+headerSize;
+		int suggestedNbLines = cards.size()/((cardGroup+1)*columnsCount);
 		
 		
 		BufferedImage tempPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
-		int  picHeight = suggestedNbLines * (tempPic.getHeight()+((cardGroup+1)*cardSpace));
+		int  picHeight = suggestedNbLines * (tempPic.getHeight()+((cardGroup+1)*cardSpace))+headerSize;
 		
 		
 		BufferedImage ret = new BufferedImage((cardWidthSize+columnsSpace)*columnsCount, picHeight, BufferedImage.TYPE_INT_ARGB);
@@ -94,18 +96,17 @@ public class ImageExporter extends AbstractCardExport{
 	
 	
 	private void drawHeader(Graphics2D g, MagicDeck d, BufferedImage ret) {
-		
 		g.drawImage(MTGConstants.IMAGE_LOGO, 10, 10, null );
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, ret.getWidth(),headerSize);
 		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30)); 
 		g.setColor(Color.WHITE);
-		g.drawString(d.getName(),0,headerSize-15);
+		g.drawString(d.getName() + "-" + d.getNbCards(),MTGConstants.IMAGE_LOGO.getWidth(null)+20,headerSize-15);
 	}
 
 
 	public static void main(String[] args) throws IOException {
-		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Ominous_Standstill"), new File("d:/test.png"));
+		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Sliver.Overlord--Commander--XMage"), new File("d:/test.png"));
 	}
 
 
