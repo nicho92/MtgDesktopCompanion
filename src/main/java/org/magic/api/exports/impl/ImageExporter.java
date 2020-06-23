@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -26,7 +27,7 @@ public class ImageExporter extends AbstractCardExport{
 	
 	int cardSpace = 25;
 	int columnsCount = 5;
-	int cardGroup = 3;
+	int cardGroup = 4;
 	int columnsSpace = 10;
 	int cardWidthSize = 175;
 	int headerSize=75;
@@ -35,11 +36,17 @@ public class ImageExporter extends AbstractCardExport{
 	public BufferedImage generateImageFor(MagicDeck d)
 	{
 		List<MagicCard> cards =  d.getMainAsList();
-		Collections.sort(cards, new TypesSorter());
+		Collections.sort(cards, new Comparator<MagicCard>() {
+			@Override
+			public int compare(MagicCard o1, MagicCard o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
 
 		
-		int suggestedNbLines = cards.size()/((cardGroup+1)*columnsCount);
+		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
 		
+		logger.debug(cards.size()+ " cards, by group of "+cardGroup + " and " + columnsCount + "columns = " + suggestedNbLines + " lines");
 		
 		BufferedImage tempPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
@@ -54,7 +61,7 @@ public class ImageExporter extends AbstractCardExport{
 		int ycard=start;
 		int xcard=0;
 		int cardCount = 0;
-		int columnNumber=0;
+		int columnNumber=1;
 		
 		drawHeader(g,d,ret);
 		
@@ -65,10 +72,13 @@ public class ImageExporter extends AbstractCardExport{
 				BufferedImage cardPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc);
 				cardPic=ImageTools.scaleResize(cardPic,cardWidthSize);
 			
-				if(cardCount<cardGroup)
+				if(cardCount<(cardGroup))
 				{
+					g.drawImage(cardPic, null, xcard, ycard);
+					
 					ycard+=cardSpace;
 					cardCount++;
+					logger.debug(mc +" " + columnNumber +" " + xcard+"/"+ycard);
 				}
 				else
 				{
@@ -76,21 +86,26 @@ public class ImageExporter extends AbstractCardExport{
 					columnNumber++;
 					xcard=xcard+cardPic.getWidth()+columnsSpace;
 					ycard=start;
-
+					if(columnNumber==(columnsCount+1))
+					{
+						columnNumber=1;
+						start = start + (cardPic.getHeight()+(cardGroup*cardSpace))+20;
+						xcard=0;
+						cardCount=0;
+						logger.debug("new Line");
+						
+					}	
 				}
 
-				if(columnNumber==columnsCount)
-				{
-					columnNumber=0;
-					start = start + (cardPic.getHeight()+(4*cardSpace));
-					xcard=columnNumber * cardPic.getWidth();
-					cardCount=0;
-				}	
-				g.drawImage(cardPic, null, xcard, ycard);
+				
+				
 				notify(mc);
+				
+			
 			} catch (IOException e) {
 				logger.error(e);
 			}
+			
 		}
 		
 		g.dispose();
@@ -100,22 +115,23 @@ public class ImageExporter extends AbstractCardExport{
 	
 	private void drawHeader(Graphics2D g, MagicDeck d, BufferedImage ret) {
 		
-		try {
-			g.drawImage(ImageIO.read(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10, null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, ret.getWidth(),headerSize);
+		try {
+			g.drawImage(ImageIO.read(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10,50,50, null);
+		} catch (IOException e) {
+			logger.error("error loading logo_src.png : "+e.getMessage());
+		}
+		
 		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30)); 
 		g.setColor(Color.WHITE);
-		g.drawString(d.getName(),MTGConstants.IMAGE_LOGO.getWidth(null)+20,headerSize-15);
+		g.drawString(d.getName(),70,headerSize-25);
 	}
 
 
 	public static void main(String[] args) throws IOException {
-		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Sliver.Overlord--Commander--XMage"), new File("d:/test.png"));
+		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Temur Delver"), new File("d:/test.png"));
 	}
 
 
@@ -152,6 +168,7 @@ public class ImageExporter extends AbstractCardExport{
 	public void initDefault() {
 		setProperty(FORMAT, "png");
 		setProperty("SORTER","ColorSorter"); 
+		setProperty("COPY_CLIPBOARD","true");
 	}
 	
 }
