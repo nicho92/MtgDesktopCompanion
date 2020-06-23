@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.MediaTracker;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +15,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.sorters.TypesSorter;
 import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
@@ -71,14 +68,10 @@ public class ImageExporter extends AbstractCardExport{
 			try {
 				BufferedImage cardPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc);
 				cardPic=ImageTools.scaleResize(cardPic,cardWidthSize);
-			
-				if(cardCount<(cardGroup))
+				if(cardCount<cardGroup)
 				{
-					g.drawImage(cardPic, null, xcard, ycard);
-					
 					ycard+=cardSpace;
 					cardCount++;
-					logger.debug(mc +" " + columnNumber +" " + xcard+"/"+ycard);
 				}
 				else
 				{
@@ -92,11 +85,15 @@ public class ImageExporter extends AbstractCardExport{
 						start = start + (cardPic.getHeight()+(cardGroup*cardSpace))+20;
 						xcard=0;
 						cardCount=0;
+						ycard=start;
 						logger.debug("new Line");
 						
 					}	
 				}
-
+				logger.debug(mc +" " + columnNumber +" " + xcard+"/"+ycard);
+				
+				g.drawImage(cardPic, null, xcard, ycard);
+				
 				
 				
 				notify(mc);
@@ -131,7 +128,7 @@ public class ImageExporter extends AbstractCardExport{
 
 
 	public static void main(String[] args) throws IOException {
-		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Temur Delver"), new File("d:/test.png"));
+		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Ominous_Standstill"), new File("d:/test.png"));
 	}
 
 
