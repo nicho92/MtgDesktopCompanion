@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -17,14 +16,14 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
+import org.magic.sorters.CardNameSorter;
 import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
 	private static final String FORMAT = "FORMAT";
 	
-	int cardSpace = 25;
 	int columnsCount = 5;
-	int cardGroup = 4;
+	int cardGroup = 3;
 	int columnsSpace = 10;
 	int cardWidthSize = 175;
 	int headerSize=75;
@@ -33,20 +32,20 @@ public class ImageExporter extends AbstractCardExport{
 	public BufferedImage generateImageFor(MagicDeck d)
 	{
 		List<MagicCard> cards =  d.getMainAsList();
-		Collections.sort(cards, new Comparator<MagicCard>() {
-			@Override
-			public int compare(MagicCard o1, MagicCard o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+		
+		
+		Collections.sort(cards, new CardNameSorter());
 
 		
 		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
 		
-		logger.debug(cards.size()+ " cards, by group of "+cardGroup + " and " + columnsCount + "columns = " + suggestedNbLines + " lines");
 		
 		BufferedImage tempPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
+		
+		logger.debug(cards.size()+ " cards, by group of "+cardGroup + " and " + columnsCount + "columns = " + suggestedNbLines + " lines. w="+tempPic.getWidth()+" h="+tempPic.getHeight());
+		
+		int cardSpace = (int) (tempPic.getHeight()/9.72);
 		int  picHeight = suggestedNbLines * (tempPic.getHeight()+((cardGroup+1)*cardSpace))+headerSize;
 		
 		
@@ -165,7 +164,11 @@ public class ImageExporter extends AbstractCardExport{
 	public void initDefault() {
 		setProperty(FORMAT, "png");
 		setProperty("SORTER","ColorSorter"); 
-		setProperty("COPY_CLIPBOARD","true");
+	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
 	}
 	
 }

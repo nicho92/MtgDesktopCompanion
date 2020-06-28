@@ -351,31 +351,38 @@ public class WooCommerceExport extends AbstractCardExport {
 			 
 			logger.debug(ret);
 		
-
-			JsonArray arrRet = ret.get("create").getAsJsonArray();
-				
-			for(int i=0;i<arrRet.size();i++)
-			{
-				JsonObject obj = arrRet.get(i).getAsJsonObject();
-				
-				try {
-						if(obj.get("id").getAsInt()==0)
-						{
-							logger.error("Error for " + creates.get(i) +" : " + obj );
-						}
-						else
-						{
-							creates.get(i).getTiersAppIds().put(getName(), obj.get("id").getAsInt());
-							creates.get(i).setUpdate(true);
-						}
-				}
-				catch(Exception e)
+			if(ret.get("create")!=null) {
+				JsonArray arrRet = ret.get("create").getAsJsonArray();
+					
+				for(int i=0;i<arrRet.size();i++)
 				{
-					logger.error("error updating at " + i +" : "+obj+". Error : "+ e);
+					JsonObject obj = arrRet.get(i).getAsJsonObject();
+					
+					try {
+							if(obj.get("id").getAsInt()==0)
+							{
+								logger.error("Error for " + creates.get(i) +" : " + obj );
+							}
+							else
+							{
+								creates.get(i).getTiersAppIds().put(getName(), obj.get("id").getAsInt());
+								creates.get(i).setUpdate(true);
+							}
+					}
+					catch(Exception e)
+					{
+						logger.error("error updating at " + i +" : "+obj+". Error : "+ e);
+					}
+					
+					
 				}
-				
-				
 			}
+			
+			if(ret.get("update")!=null)
+			{
+				logger.debug("Update done");
+			}
+			
 			
 			for(MagicCardStock st : stocks)
 				notify(st.getMagicCard());
