@@ -46,7 +46,6 @@ public class LoggerViewPanel extends MTGUIComponent {
 		t = new Timer(1000, e -> model.fireTableDataChanged());
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
 		
-		
 		setLayout(new BorderLayout(0, 0));
 
 
@@ -63,7 +62,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		datesorter.setSortKeys(sortKeys);
 		table.setRowSorter(datesorter);
 		
-		
+	
 		
 		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
 		
@@ -99,6 +98,19 @@ public class LoggerViewPanel extends MTGUIComponent {
 		table.packAll();
 	}
 	
+	public void enabledAutoLoad()
+	{
+			chckbxAutorefresh.doClick();
+	}
+	
+	
+	public void setClassFilter(Class c)
+	{
+		logger.debug("Filtering logs for " + c.getName() );
+		TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
+		sorter.setRowFilter(RowFilter.regexFilter(c.getName()));
+		table.setRowSorter(sorter);
+	}
 	
 	@Override
 	public void onDestroy() {

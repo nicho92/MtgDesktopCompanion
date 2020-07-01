@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -110,7 +109,7 @@ public class ConstructPanel extends JPanel {
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
 	protected int selectedIndex = 0;
-
+	private LoggerViewPanel panelLog;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
 	private JLabel lblCards;
@@ -141,7 +140,8 @@ public class ConstructPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		Player p = new Player();
 		
-		
+		panelLog = new LoggerViewPanel();
+		panelLog.enabledAutoLoad();
 		JPanel panneauHaut = new JPanel();
 		JButton btnUpdate;
 		JButton btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
@@ -276,6 +276,8 @@ public class ConstructPanel extends JPanel {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
+		
+		
 	
 		panelInfoDeck.add(deckDetailsPanel, BorderLayout.NORTH);
 		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
@@ -300,7 +302,7 @@ public class ConstructPanel extends JPanel {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-
+		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),MTGConstants.ICON_TAB_RESULTS, panelLog, null);
 			
 		
 		
@@ -501,14 +503,13 @@ public class ConstructPanel extends JPanel {
 			JPopupMenu menu = new JPopupMenu();
 			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) 
 			{
-				
-				
-				
-				
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 					
 					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(itEvent -> {
+						
+						panelLog.setClassFilter(exp.getClass());
+						
 						JFileChooser jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileFilter(new FileFilter() {
 							@Override

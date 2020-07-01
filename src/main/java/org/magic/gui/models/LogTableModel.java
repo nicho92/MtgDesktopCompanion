@@ -14,7 +14,7 @@ public class LogTableModel extends GenericTableModel<LoggingEvent> {
 	
 	public LogTableModel() {
 		app = (MTGAppender) MTGLogger.getAppender("APPS");
-		columns=new String[]{ "LEVEL", "TIME", "CLASS", "MESSAGE" };
+		columns=new String[]{ "LEVEL", "THREAD", "TIME", "CLASS", "MESSAGE" };
 	}
 
 	@Override
@@ -23,12 +23,15 @@ public class LogTableModel extends GenericTableModel<LoggingEvent> {
 			return app.getEvents().get(row).getLevel();
 
 		if (column == 1)
+			return app.getEvents().get(row).getThreadName();
+		
+		if (column == 2)
 			return new Date(app.getEvents().get(row).getTimeStamp());
 
-		if (column == 2)
+		if (column == 3)
 			return app.getEvents().get(row).getLocationInformation().getClassName();
 
-		if (column == 3)
+		if (column == 4)
 			return app.getEvents().get(row).getMessage();
 
 		return "";
