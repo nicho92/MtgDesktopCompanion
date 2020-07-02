@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
+import org.magic.api.beans.MTGImportExportException;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 
@@ -41,5 +42,5 @@ public interface MTGCardsExport extends MTGPlugin {
 	
 	public MODS getMods();
 	
-	
+	public List<MTGImportExportException> rejects();
 }

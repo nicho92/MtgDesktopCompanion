@@ -109,7 +109,6 @@ public class ConstructPanel extends JPanel {
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
 	protected int selectedIndex = 0;
-	private LoggerViewPanel panelLog;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
 	private JLabel lblCards;
@@ -140,8 +139,6 @@ public class ConstructPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		Player p = new Player();
 		
-		panelLog = new LoggerViewPanel();
-		panelLog.enabledAutoLoad();
 		JPanel panneauHaut = new JPanel();
 		JButton btnUpdate;
 		JButton btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
@@ -302,7 +299,7 @@ public class ConstructPanel extends JPanel {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),MTGConstants.ICON_TAB_RESULTS, panelLog, null);
+		//panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),MTGConstants.ICON_TAB_RESULTS, panelLog, null);
 			
 		
 		
@@ -507,8 +504,6 @@ public class ConstructPanel extends JPanel {
 					
 					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(itEvent -> {
-						
-						panelLog.setClassFilter(exp.getClass());
 						
 						JFileChooser jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileFilter(new FileFilter() {
