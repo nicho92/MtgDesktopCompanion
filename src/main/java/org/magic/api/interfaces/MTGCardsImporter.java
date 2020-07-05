@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.magic.api.beans.MTGImportExportException;
 
-public interface CardsImporter {
-
-	
+public interface MTGCardsImporter {
 	
 	public List<MTGImportExportException> rejects();
+	public void reject(String msg);
 }

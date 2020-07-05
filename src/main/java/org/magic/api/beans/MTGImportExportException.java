@@ -1,7 +1,5 @@
 package org.magic.api.beans;
 
-import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGPlugin;
 
 public class MTGImportExportException extends Exception{
@@ -9,25 +7,25 @@ public class MTGImportExportException extends Exception{
 	
 	
 	private String msg;
-	private MODS mod;
 	private MTGPlugin plugin; 
 	
 	
-	public MTGImportExportException(MTGPlugin plugin,String msg, MTGCardsExport.MODS mod)
+	public MTGImportExportException(MTGPlugin plugin,String msg)
 	{
 		this.msg=msg;
-		this.mod=mod;
 		this.plugin=plugin;
+	}
+	
+	public void setMessage(String msg)
+	{
+		this.msg=msg;
+		
 	}
 	
 	
 	@Override
 	public String getMessage() {
 		return msg;
-	}
-	
-	public MODS getMod() {
-		return mod;
 	}
 	
 	public MTGPlugin getPlugin() {
