@@ -15,28 +15,6 @@ import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
-
-	private List<MTGImportExportException> rejects;
-	
-	
-	public AbstractCardExport() {
-		rejects = new ArrayList<>();
-	}
-	
-	
-	protected void reject(String msg)
-	{
-		MTGImportExportException exp = new MTGImportExportException(this, msg, getMods());
-		rejects.add(exp);
-		
-	}
-	
-	
-	@Override
-	public List<MTGImportExportException> rejects() {
-		return rejects;
-	}
-	
 	
 	public MODS getMods() {
 		return MODS.BOTH;

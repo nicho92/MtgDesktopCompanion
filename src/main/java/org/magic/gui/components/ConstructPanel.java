@@ -115,7 +115,7 @@ public class ConstructPanel extends JPanel {
 	private DeckStockComparatorPanel stockPanel;
 	private JXTable tableDeck;
 	private JXTable tableSide;
-	
+	private CardsImportLogPanel importLogPanel;
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -158,7 +158,7 @@ public class ConstructPanel extends JPanel {
 		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
 		txtSearch = UITools.createSearchField();
 		comboPanel = new ComboFinderPanel();
-		
+		importLogPanel = new CardsImportLogPanel();
 		
 		lblCards = new JLabel();
 		JButton btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
@@ -299,7 +299,7 @@ public class ConstructPanel extends JPanel {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-		//panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),MTGConstants.ICON_TAB_RESULTS, panelLog, null);
+		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),MTGConstants.ICON_TAB_RESULTS, importLogPanel, null);
 			
 		
 		
@@ -550,6 +550,7 @@ public class ConstructPanel extends JPanel {
 									super.done();
 									try {
 										setDeck(get());
+										
 										updatePanels();
 									} catch (Exception e) {
 										logger.error(e);
@@ -613,7 +614,9 @@ public class ConstructPanel extends JPanel {
 					super.done();
 					lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
 					listResult.setModel(resultListModel);
+					
 					listResult.updateUI();
+					
 				}
 			};
 			
@@ -818,6 +821,7 @@ public class ConstructPanel extends JPanel {
 		deckPricePanel.initDeck(deck);
 		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(!deck.getMainAsList().isEmpty());
+		
 		
 	}
 }

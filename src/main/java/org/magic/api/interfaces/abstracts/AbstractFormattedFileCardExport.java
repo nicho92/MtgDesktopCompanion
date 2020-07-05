@@ -78,7 +78,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			
 		} catch (Exception e) {
 			logger.error("Couldn't find card "+ cname + " ["+ed+"] :" + e);
-			reject(cname + " ["+ed+"]");
 			return null;
 		}
 	}
@@ -91,7 +90,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	public List<Matcher> matches(String content,boolean removeBlank)
 	{
-		rejects().clear();
 		logger.debug("Parsing content with pattern : " + getStringPattern());
 		List<Matcher> ret = new ArrayList<>();
 		for(String line : splitLines(content,removeBlank)) 

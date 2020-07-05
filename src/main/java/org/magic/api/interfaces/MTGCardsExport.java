@@ -42,5 +42,4 @@ public interface MTGCardsExport extends MTGPlugin {
 	
 	public MODS getMods();
 	
-	public List<MTGImportExportException> rejects();
 }
