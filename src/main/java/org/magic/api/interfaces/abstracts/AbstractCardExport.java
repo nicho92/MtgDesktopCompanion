@@ -17,8 +17,7 @@ import org.magic.tools.FileTools;
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 	
 	
-	protected List<MTGImportExportException> rejects= new ArrayList<>();
-	
+		
 		
 	public MODS getMods() {
 		return MODS.BOTH;
@@ -69,7 +68,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	
 	
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
+		clear();
 		MagicDeck d = new MagicDeck();
 		d.setName(FilenameUtils.getBaseName(f.getName()));
 
@@ -80,6 +79,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	}
 
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck) {
+		clear();
 		List<MagicCardStock> mcs = new ArrayList<>();
 
 		for (MagicCard mc : deck.getMain().keySet()) {
@@ -99,11 +99,6 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	public void reject(String msg) {
 		rejects.add(new MTGImportExportException(this, msg));
 		
-	}
-
-	@Override
-	public List<MTGImportExportException> rejects() {
-		return rejects;
 	}
 	
 	

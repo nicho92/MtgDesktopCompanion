@@ -2,19 +2,12 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.magic.api.beans.MTGImportExportException;
 import org.magic.api.interfaces.MTGDeckSniffer;
 
 public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements MTGDeckSniffer {
 
-
-	protected List<MTGImportExportException> rejects= new ArrayList<>();
-	
-	
-	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DECKS;
@@ -45,11 +38,5 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 		rejects.add(new MTGImportExportException(this, msg));
 		
 	}
-
-	@Override
-	public List<MTGImportExportException> rejects() {
-		return rejects;
-	}
-	
 
 }

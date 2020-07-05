@@ -550,7 +550,7 @@ public class ConstructPanel extends JPanel {
 									super.done();
 									try {
 										setDeck(get());
-										
+										importLogPanel.init(exp.rejects());
 										updatePanels();
 									} catch (Exception e) {
 										logger.error(e);
