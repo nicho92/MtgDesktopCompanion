@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.interfaces.MTGPlugin.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
@@ -49,7 +50,7 @@ import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
 import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 
-public class Mtgjson4Provider extends AbstractCardsProvider {
+public class Mtgjson5Provider extends AbstractCardsProvider {
 
 	
 	private static final String SCRYFALL_ID = "scryfallId";
@@ -83,37 +84,33 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private static final String NAME = "name";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private static final String NAMES = "names";
-
-	public static final String URL_JSON_VERSION = "https://mtgjson.com/json/version.json";
-	public static final String URL_JSON_ALL_SETS = "https://mtgjson.com/json/AllSets.json";
-	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/json/SetList.json";
-	public static final String URL_JSON_KEYWORDS="https://mtgjson.com/json/Keywords.json";
-	public static final String URL_JSON_ALL_SETS_ZIP ="https://mtgjson.com/json/AllSets.json.zip";
-	public static final String URL_JSON_DECKS_LIST = "https://mtgjson.com/json/DeckLists.json";
-	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	
-	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x4.json.zip");
-	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x4.json");
-	public static final File fversion = new File(MTGConstants.DATA_DIR, "version4");
+	private static final String BASE="https://mtgjson.com/api/v5";
+	public static final String URL_JSON_VERSION = BASE+"/Meta.json";
+	public static final String URL_JSON_ALL_SETS = BASE+"/AllPrintings.json";
+	public static final String URL_JSON_SETS_LIST=BASE+"/SetList.json";
+	public static final String URL_JSON_KEYWORDS=BASE+"/Keywords.json";
+	public static final String URL_JSON_ALL_SETS_ZIP =BASE+"/AllPrintings.json.zip";
+	public static final String URL_JSON_DECKS_LIST = BASE+"/DeckLists.json";
+	public static final String URL_DECKS_URI = BASE+"/decks/";
+	
+	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x5.json.zip");
+	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x5.json");
+	public static final File fversion = new File(MTGConstants.DATA_DIR, "version5");
 	
 	private String version;
 	private Chrono chrono;
 	private ReadContext ctx;
 	
 	
+	
+
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEPRECATED;
+		return STATUT.DEV;
 	}
 	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(new ImageIcon(AbstractCardsProvider.class.getResource("/icons/plugins/mtgjson.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
-
-	}
-	
-	
-	public Mtgjson4Provider() {
+	public Mtgjson5Provider() {
 		super();
 		if(CacheProvider.getCache()==null)
 			CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
@@ -137,7 +134,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				logger.debug("check new version of " + toString() + " (" + temp + ")");
 	
 				JsonElement d = URLTools.extractJson(URL_JSON_VERSION);
-				version = d.getAsJsonObject().get("version").getAsString();
+				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
 				if (!version.equals(temp)) {
 					logger.info("new version datafile exist (" + version + "). Downloading it");
 					return true;
@@ -566,7 +563,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 		List<MagicEdition> eds = new ArrayList<>();
 		try {		
 		
-		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonArray().forEach(e->{
+		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonObject().get("data").getAsJsonArray().forEach(e->{
 				String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
 				eds.add(generateEdition(codeedition));
 		});
@@ -725,7 +722,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 
 	@Override
 	public String getName() {
-		return "MTGJson4";
+		return "MTGJson5";
 	}
 
 	@Override
@@ -780,5 +777,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(new ImageIcon(AbstractCardsProvider.class.getResource("/icons/plugins/mtgjson.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
+
 	}
 }

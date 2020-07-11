@@ -47,7 +47,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	private String version;
 	private File sqlLiteZipFile = new File(MTGConstants.DATA_DIR,"AllPrintings.sqlite.zip");
 	private File sqlLiteFile = new File(MTGConstants.DATA_DIR, "AllPrintings.sqlite");
-	public static final String URL_SQLITE_ALL_PRINTS_ZIP ="https://www.mtgjson.com/files/AllPrintings.sqlite.zip";
+	public static final String URL_SQLITE_ALL_PRINTS_ZIP ="https://mtgjson.com/api/v5/AllPrintings.sqlite.zip";
 	private static final String FORCE_RELOAD = "FORCE_RELOAD";
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
@@ -59,11 +59,11 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		String temp = "";
 			try  
 			{
-				temp = FileTools.readFile(Mtgjson4Provider.fversion);
+				temp = FileTools.readFile(Mtgjson5Provider.fversion);
 			}
 			catch(FileNotFoundException ex)
 			{
-				logger.error(Mtgjson4Provider.fversion + " doesn't exist"); 
+				logger.error(Mtgjson5Provider.fversion + " doesn't exist"); 
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -71,8 +71,9 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			try {
 				logger.debug("check new version of " + toString() + " (" + temp + ")");
 	
-				JsonElement d = URLTools.extractJson(Mtgjson4Provider.URL_JSON_VERSION);
-				version = d.getAsJsonObject().get("version").getAsString();
+				JsonElement d = URLTools.extractJson(Mtgjson5Provider.URL_JSON_VERSION);
+				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
+				
 				if (!version.equals(temp)) {
 					logger.info("new version datafile exist (" + version + "). Downloading it");
 					return true;
@@ -102,7 +103,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				logger.info("Downloading "+version + " datafile");
 				URLTools.download(URL_SQLITE_ALL_PRINTS_ZIP, sqlLiteZipFile);
 				FileTools.unZipIt(sqlLiteZipFile,sqlLiteFile);
-				FileTools.saveFile(Mtgjson4Provider.fversion,version);
+				FileTools.saveFile(Mtgjson5Provider.fversion,version);
 				setProperty(FORCE_RELOAD, "false");
 			}
 		} catch (Exception e1) {
