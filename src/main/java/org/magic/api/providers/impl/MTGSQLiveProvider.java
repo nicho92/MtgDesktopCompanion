@@ -226,10 +226,10 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				mc.setWatermarks(rs.getString("watermark"));
 				mc.setOriginalText(rs.getString("originalText"));
 				mc.setOriginalType(rs.getString("originalType"));
-				mc.setArenaCard(rs.getBoolean("isArena"));
 				mc.setMkmId(rs.getInt("mcmId"));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
-				mc.setMtgoCard(rs.getBoolean("isMtgo"));
+				mc.setArenaCard(rs.getString("availability").contains("arena"));
+				mc.setMtgoCard(rs.getString("availability").contains("mtgo"));
 				mc.setOnlineOnly(rs.getBoolean("isOnlineOnly"));
 				mc.setPromoCard(rs.getBoolean("isPromo"));
 				mc.setOversized(rs.getBoolean("isOversized"));

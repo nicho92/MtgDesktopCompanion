@@ -97,6 +97,7 @@ public class IconSetProvider {
 		equiv.put("PI14", "PIDW");
 		equiv.put("PIDW", "PIDW");
 		equiv.put("PSOI", "SOI");
+		equiv.put("PAST", "PAST");
 		equiv.put("FNM", "PFNM");
 		equiv.put("F01", "PFNM");
 		equiv.put("F02", "PFNM");

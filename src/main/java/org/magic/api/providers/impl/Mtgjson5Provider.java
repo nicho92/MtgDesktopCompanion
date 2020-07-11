@@ -84,14 +84,13 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	private static final String NAME = "name";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private static final String NAMES = "names";
-	
 	private static final String BASE="https://mtgjson.com/api/v5";
 	public static final String URL_JSON_VERSION = BASE+"/Meta.json";
 	public static final String URL_JSON_ALL_SETS = BASE+"/AllPrintings.json";
 	public static final String URL_JSON_SETS_LIST=BASE+"/SetList.json";
 	public static final String URL_JSON_KEYWORDS=BASE+"/Keywords.json";
 	public static final String URL_JSON_ALL_SETS_ZIP =BASE+"/AllPrintings.json.zip";
-	public static final String URL_JSON_DECKS_LIST = BASE+"/DeckLists.json";
+	public static final String URL_JSON_DECKS_LIST = BASE+"/DeckList.json";
 	public static final String URL_DECKS_URI = BASE+"/decks/";
 	
 	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x5.json.zip");

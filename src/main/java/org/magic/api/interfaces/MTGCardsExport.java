@@ -9,7 +9,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 
-public interface MTGCardsExport extends MTGPlugin, MTGCardsImporter{
+public interface MTGCardsExport extends MTGPlugin{
 
 	public enum MODS {
 		EXPORT, IMPORT, BOTH

@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.api.providers.impl.Mtgjson4Provider;
+import org.magic.api.providers.impl.Mtgjson5Provider;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
@@ -28,7 +28,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		JsonElement el = URLTools.extractJson(info.getUrl().toString());
+		JsonObject el = URLTools.extractJson(info.getUrl().toString()).getAsJsonObject().get("data").getAsJsonObject();
 		JsonArray mainBoard = el.getAsJsonObject().get("mainBoard").getAsJsonArray();
 		JsonArray sideBoard=null;
 		
@@ -82,8 +82,8 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		JsonElement d = URLTools.extractJson(Mtgjson4Provider.URL_JSON_DECKS_LIST);
-		JsonArray arr = d.getAsJsonObject().get("decks").getAsJsonArray();
+		JsonElement d = URLTools.extractJson(Mtgjson5Provider.URL_JSON_DECKS_LIST);
+		JsonArray arr = d.getAsJsonObject().get("data").getAsJsonArray();
 		
 		List<RetrievableDeck> decks = new ArrayList<>();
 		arr.forEach(element ->{
@@ -95,7 +95,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 							rd.setAuthor("MtgJson");
 							try {
 								rd.setDescription(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ob.get("code").getAsString()).getSet());
-								rd.setUrl(new URL(Mtgjson4Provider.URL_DECKS_URI+ob.get("fileName").getAsString()+"_"+ob.get("code").getAsString()+".json").toURI());
+								rd.setUrl(new URL(Mtgjson5Provider.URL_DECKS_URI+ob.get("fileName").getAsString()+".json").toURI());
 							} catch (Exception e) {
 								logger.error(e);
 							}
@@ -110,7 +110,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getName() {
-		return "MTGJson4";
+		return "MTGJson";
 	}
 
 }

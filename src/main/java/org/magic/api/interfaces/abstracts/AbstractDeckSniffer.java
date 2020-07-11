@@ -2,12 +2,14 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.magic.api.beans.MTGImportExportException;
 import org.magic.api.interfaces.MTGDeckSniffer;
 
 public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements MTGDeckSniffer {
-
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DECKS;
@@ -31,12 +33,6 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 		String cardName = s.substring(s.indexOf(' '), s.length()).trim();
 		
 		return new AbstractMap.SimpleEntry<>(cardName, qte);
-	}
-
-	@Override
-	public void reject(String msg) {
-		rejects.add(new MTGImportExportException(this, msg));
-		
 	}
 
 }
