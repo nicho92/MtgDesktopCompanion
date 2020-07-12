@@ -255,7 +255,10 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 
 		List<Map<String, Object>> cardsElement = ctx.withListeners(fr -> {
 			if (fr.path().startsWith("$['data']")) {
-					currentSet.add(fr.path().substring(fr.path().indexOf("][") + 3, fr.path().lastIndexOf("][") - 1));
+					String path=fr.path();
+					path=path.substring("$['data'][".length()+1);
+					path=path.substring(0, path.indexOf("']"));
+					currentSet.add(path);
 			}
 			return null;
 		}).read(jsquery, List.class);
