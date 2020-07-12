@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -61,6 +64,9 @@ public class LoggerViewPanel extends MTGUIComponent {
 		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.DESCENDING));
 		datesorter.setSortKeys(sortKeys);
 		table.setRowSorter(datesorter);
+		table.setDefaultRenderer(Date.class,(JTable tab, Object value, boolean isSelected, boolean hasFocus,int row, int column)->new JLabel(UITools.formatDateTime((Date)value)));
+		
+		model.setDefaultHiddenComlumns(2,3,4);
 		
 	
 		
@@ -90,9 +96,6 @@ public class LoggerViewPanel extends MTGUIComponent {
 				table.setRowSorter(datesorter);
 				
 			}
-			
-			
-			
 		});
 		
 		table.packAll();
@@ -100,7 +103,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 	
 	public void enabledAutoLoad()
 	{
-			chckbxAutorefresh.doClick();
+		chckbxAutorefresh.doClick();
 	}
 	
 	public void setLevel(Level l)

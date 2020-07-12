@@ -465,11 +465,10 @@ public class UITools {
 	}
 	
 	public static String formatDateTime(Date indexDate) {
-		
 		if(indexDate==null)
 			return "";
 		
-		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) +" HH:mm").format(indexDate);
+		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) +" HH:mm:ss").format(indexDate);
 	}
 
 

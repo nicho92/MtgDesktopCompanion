@@ -301,7 +301,7 @@ public class ConstructPanel extends JPanel {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),MTGConstants.ICON_TAB_RESULTS, importLogPanel, null);
+		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),importLogPanel.getIcon(), importLogPanel, null);
 			
 		
 		
