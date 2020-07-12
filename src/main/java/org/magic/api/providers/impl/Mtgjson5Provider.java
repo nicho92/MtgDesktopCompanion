@@ -498,6 +498,12 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 			
 				}
 				
+				if(mc.getLayout().equals(MTGLayout.TRANSFORM))
+				{
+					mc.setRotatedCardName(mc.getFlavorName().substring(mc.getFlavorName().lastIndexOf("/")+1).trim());
+				}
+				
+				
 				if( map.get(NAMES) !=null)
 				{
 					List<String> names = ((List<String>)map.get(NAMES));

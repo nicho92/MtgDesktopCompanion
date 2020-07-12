@@ -81,7 +81,7 @@ public class CardsPicPanel extends JXPanel {
 			back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
 		} else {
 			try {
-				MagicCard flipC = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( card.getRotatedCardName(), card.getCurrentSet(), true).get(0);
+				MagicCard flipC = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( card.getRotatedCardName(), card.getCurrentSet(), false).get(0);
 				back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(flipC, null);
 			} catch (Exception e) {
 				logger.error("error loading flip",e);
