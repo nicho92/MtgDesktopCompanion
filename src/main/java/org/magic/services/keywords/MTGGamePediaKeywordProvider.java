@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
+import org.magic.game.actions.turns.MainPhase;
 import org.magic.tools.URLTools;
 
 
@@ -23,8 +24,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	private List<MTGKeyWord> actions;
 	private List<MTGKeyWord> words;
 	private List<MTGKeyWord> evergreens;
-	
-	
+
 	public static final String BASE_URI="https://mtg.gamepedia.com/";
 
 	public List<MTGKeyWord> getEvergreens()
@@ -34,7 +34,6 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 			evergreens = new ArrayList<>();
 			try {
 				Document d = URLTools.extractHtml("https://mtg.gamepedia.com/Evergreen");
-				
 				for(Element e: d.select("table.wikitable tr:has(td)"))
 				{
 					String name = e.getElementsByTag("td").get(1).text();
@@ -54,6 +53,9 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 				}
 			} catch (IOException e) {
 				logger.error("error loading evergreens",e);
+			}
+			catch (IndexOutOfBoundsException e) {
+				//do nothing
 			}
 		}
 		return evergreens;

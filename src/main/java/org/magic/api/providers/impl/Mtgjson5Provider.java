@@ -105,14 +105,6 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	private ReadContext ctx;
 	
 	
-	public static void main(String[] args) throws IOException {
-		Mtgjson5Provider prov = new Mtgjson5Provider();
-		prov.init();
-		
-		prov.searchCardByEdition(new MagicEdition("2XM"));
-		
-	}
-
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
