@@ -272,7 +272,20 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				  mc.setText(String.valueOf(map.get(TEXT)));
 						  
 				if (map.get(NAME) != null)
-					mc.setName(String.valueOf(map.get(NAME)));
+				{
+					int split = map.get(NAME).toString().indexOf("/");
+					
+					if(split>0)
+					{
+						mc.setName(String.valueOf(map.get(NAME)).substring(0, split).trim());
+						mc.setFlavorName(String.valueOf(map.get(NAME)).trim());
+					}
+					else
+					{
+						mc.setName(String.valueOf(map.get(NAME)));	
+					}
+					
+				}
 						  
 				if (map.get(MANA_COST) != null)
 					mc.setCost(String.valueOf(map.get(MANA_COST)));
