@@ -53,6 +53,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class Mtgjson5Provider extends AbstractCardsProvider {
 
 	
+	private static final String AVAILABILITY = "availability";
 	private static final String SCRYFALL_ID = "scryfallId";
 	private static final String FORCE_RELOAD = "FORCE_RELOAD";
 	private static final String PRINTINGS = "printings";
@@ -356,11 +357,21 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				if (map.get("frameEffects") != null)
 					mc.getFrameEffects().addAll(MTGFrameEffects.parseByLabel(((List<String>) map.get("frameEffects"))));
 				
-				if (map.get("isMtgo") != null)
-					mc.setMtgoCard(Boolean.valueOf(map.get("isMtgo").toString()));
+				if (map.get(AVAILABILITY) != null)
+				{
+					mc.setArenaCard(map.get(AVAILABILITY).toString().contains("arena"));
+					mc.setMtgoCard(map.get(AVAILABILITY).toString().contains("mtgo"));
+				}
+			
 				
-				if (map.get("isArena") != null)
-					mc.setArenaCard(Boolean.valueOf(map.get("isArena").toString()));
+				if(map.get("identifier") != null)
+				{
+					String arenaid= ((Map<String,String>)map.get("identifier")).get("mtgArenaId");
+					
+					if(arenaid!=null)
+						mc.setMtgArenaId(Double.valueOf(arenaid).intValue());
+					
+				}
 				
 				if (map.get("watermark") != null)
 					mc.setWatermarks(String.valueOf(map.get("watermark")));
@@ -368,9 +379,6 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				if (map.get("isPromo") != null)
 					mc.setPromoCard(Boolean.valueOf(map.get("isPromo").toString()));
 				
-				if (map.get("mtgArenaId") != null)
-					mc.setMtgArenaId(Double.valueOf(map.get("mtgArenaId").toString()).intValue());
-			
 				if (map.get("isReprint") != null)
 					mc.setReprintedCard(Boolean.valueOf(map.get("isReprint").toString()));
 				

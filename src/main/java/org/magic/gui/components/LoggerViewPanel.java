@@ -103,6 +103,11 @@ public class LoggerViewPanel extends MTGUIComponent {
 			chckbxAutorefresh.doClick();
 	}
 	
+	public void setLevel(Level l)
+	{
+		cboChooseLevel.setSelectedItem(l);
+	}
+	
 	
 	public void setClassFilter(Class c)
 	{

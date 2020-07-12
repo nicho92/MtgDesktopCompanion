@@ -47,6 +47,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
@@ -115,7 +116,7 @@ public class ConstructPanel extends JPanel {
 	private DeckStockComparatorPanel stockPanel;
 	private JXTable tableDeck;
 	private JXTable tableSide;
-	private CardsImportLogPanel importLogPanel;
+	private LoggerViewPanel importLogPanel;
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -158,7 +159,7 @@ public class ConstructPanel extends JPanel {
 		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
 		txtSearch = UITools.createSearchField();
 		comboPanel = new ComboFinderPanel();
-		importLogPanel = new CardsImportLogPanel();
+		importLogPanel = new LoggerViewPanel();
 		
 		lblCards = new JLabel();
 		JButton btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
@@ -223,7 +224,8 @@ public class ConstructPanel extends JPanel {
 		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
-		
+		importLogPanel.enabledAutoLoad();
+		importLogPanel.setLevel(Level.ERROR);
 		panneauDeck.setDividerLocation(0.5);
 		panneauDeck.setResizeWeight(0.5);
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);

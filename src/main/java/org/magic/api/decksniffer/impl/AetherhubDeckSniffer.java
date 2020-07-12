@@ -12,8 +12,6 @@ import java.util.Map;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
-import org.jsoup.nodes.Document;
-import org.magic.api.beans.MTGImportExportException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;

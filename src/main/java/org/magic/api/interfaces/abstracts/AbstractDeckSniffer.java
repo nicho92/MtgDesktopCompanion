@@ -2,10 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.magic.api.beans.MTGImportExportException;
 import org.magic.api.interfaces.MTGDeckSniffer;
 
 public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements MTGDeckSniffer {
