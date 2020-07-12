@@ -84,6 +84,9 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	private static final String NAME = "name";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private static final String NAMES = "names";
+	
+	
+	
 	private static final String BASE="https://mtgjson.com/api/v5";
 	public static final String URL_JSON_VERSION = BASE+"/Meta.json";
 	public static final String URL_JSON_ALL_SETS = BASE+"/AllPrintings.json";
@@ -102,7 +105,13 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	private ReadContext ctx;
 	
 	
-	
+	public static void main(String[] args) throws IOException {
+		Mtgjson5Provider prov = new Mtgjson5Provider();
+		prov.init();
+		
+		prov.searchCardByEdition(new MagicEdition("2XM"));
+		
+	}
 
 	@Override
 	public STATUT getStatut() {
@@ -223,21 +232,21 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 			filterEdition = filterEdition + ed.getId().toUpperCase();
 		}
 
-		String jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
+		String jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
 
 		if (exact)
-			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
+			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
 
 		if (att.equalsIgnoreCase(SET_FIELD)) 
 		{
-				jsquery = "$." + crit.toUpperCase() + ".cards";
+				jsquery = "$.data." + crit.toUpperCase() + ".cards";
 		}
 		else if(att.equals("jsonpath"))
 		{
 			jsquery = crit;
 		}
 		else if(StringUtils.isNumeric(crit)) {
-			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
+			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}
 		
 		return search(jsquery);
@@ -250,14 +259,14 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		List<String> currentSet = new ArrayList<>();
 		ArrayList<MagicCard> ret = new ArrayList<>();
 		
+		logger.debug("parsing " + jsquery);
+
 		List<Map<String, Object>> cardsElement = ctx.withListeners(fr -> {
-			if (fr.path().startsWith("$")) {
-				currentSet.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf(']') - 1));
+			if (fr.path().startsWith("$['data']")) {
+					currentSet.add(fr.path().substring(fr.path().indexOf("][") + 3, fr.path().lastIndexOf("][") - 1));
 			}
 			return null;
 		}).read(jsquery, List.class);
-		
-		logger.debug("parsing " + jsquery);
 		
 		int indexSet = 0;
 		for (Map<String, Object> map : cardsElement) 
@@ -502,7 +511,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		if (!edCode.startsWith("p"))
 			edCode = edCode.toUpperCase();
 
-		String jsquery = "$." + edCode + ".cards[?(@.name==\""+ mc.getName().replaceAll("\\+", " ").replaceAll("\"", "\\\\\"") + "\")]";
+		String jsquery = "$.data." + edCode + ".cards[?(@.name==\""+ mc.getName().replaceAll("\\+", " ").replaceAll("\"", "\\\\\"") + "\")]";
 
 		List<Map<String, Object>> cardsElement = null;
 		try {
@@ -592,7 +601,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 			id=id.toUpperCase();
 		
 		MagicEdition ed = new MagicEdition(id);
-		String base = "$." + id.toUpperCase();
+		String base = "$.data." + id.toUpperCase();
 		try{
 		ed.setSet(ctx.read(base + ".name", String.class));
 		}
@@ -671,7 +680,8 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		try {
 			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
 		} catch (PathNotFoundException pnfe) {
-			// do nothing
+			logger.warn("baseSetSize not found in " + ed.getId());
+			
 		}
 		
 		try {
