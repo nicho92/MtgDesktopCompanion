@@ -26,9 +26,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.interfaces.MTGPlugin.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -270,14 +268,26 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				MagicCard mc = new MagicCard();
 				  mc.setId(String.valueOf(map.get("uuid").toString()));
 				  mc.setText(String.valueOf(map.get(TEXT)));
-						  
+		
+					Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
+					  
+				  
+				  
 				if (map.get(NAME) != null)
 				{
 					int split = map.get(NAME).toString().indexOf("/");
 					
 					if(split>0)
 					{
-						mc.setName(String.valueOf(map.get(NAME)).substring(0, split).trim());
+						
+						String side = map.get("side").toString();
+						
+						if(side.equals("a"))
+							mc.setName(String.valueOf(map.get(NAME)).substring(0, split).trim());
+						else
+							mc.setName(String.valueOf(map.get(NAME)).substring(split+2).trim());
+						
+						
 						mc.setFlavorName(String.valueOf(map.get(NAME)).trim());
 					}
 					else
@@ -376,15 +386,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 					mc.setMtgoCard(map.get(AVAILABILITY).toString().contains("mtgo"));
 				}
 			
-				
-				if(map.get("identifier") != null)
-				{
-					String arenaid= ((Map<String,String>)map.get("identifier")).get("mtgArenaId");
-					
-					if(arenaid!=null)
-						mc.setMtgArenaId(Double.valueOf(arenaid).intValue());
-					
-				}
+			
 				
 				if (map.get("watermark") != null)
 					mc.setWatermarks(String.valueOf(map.get("watermark")));
@@ -395,12 +397,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				if (map.get("isReprint") != null)
 					mc.setReprintedCard(Boolean.valueOf(map.get("isReprint").toString()));
 				
-				if (map.get("scryfallIllustrationId") != null)
-					mc.setScryfallIllustrationId(String.valueOf(map.get("scryfallIllustrationId")));
-				
-				if (map.get(SCRYFALL_ID) != null)
-					mc.setScryfallId(String.valueOf(map.get(SCRYFALL_ID)));
-				
+
 				if (map.get(LOYALTY) != null) {
 					try {
 						mc.setLoyalty((int) Double.parseDouble(map.get(LOYALTY).toString()));
@@ -416,6 +413,18 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 						mc.getLegalities().add(mf);
 					}
 				}
+
+				
+				
+				if(identifiers.get("mtgArenaId")!=null)
+					mc.setMtgArenaId(Double.valueOf(identifiers.get("mtgArenaId")).intValue());
+					
+				if (identifiers.get("scryfallIllustrationId") != null)
+					mc.setScryfallIllustrationId(String.valueOf(identifiers.get("scryfallIllustrationId")));
+				
+				if (identifiers.get(SCRYFALL_ID) != null)
+					mc.setScryfallId(String.valueOf(identifiers.get(SCRYFALL_ID)));
+				
 				
 				if (map.get(RULINGS) != null) {
 					for (Map<String, Object> mapRules : (List<Map<String,Object>>) map.get(RULINGS)) {
@@ -428,8 +437,8 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				
 				MagicCardNames defnames = new MagicCardNames();
 				
-						if(map.get(MULTIVERSE_ID)!=null)
-							   defnames.setGathererId((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
+						if(identifiers.get(MULTIVERSE_ID)!=null)
+							   defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString()));
 						
 							   defnames.setLanguage("English");
 							   defnames.setName(mc.getName());
@@ -478,10 +487,10 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 								 me.setNumber(String.valueOf(map.get(NUMBER)));
 							 }
 							 
-							 if(map.get(MULTIVERSE_ID)!=null)
+							 if(identifiers.get(MULTIVERSE_ID)!=null)
 							 {
-								 defnames.setGathererId((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString()));
-								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString())));
+								 defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString()));
+								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString())));
 							 }
 							
 				mc.getEditions().add(me);
@@ -571,14 +580,17 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 					me.setArtist(mc.getArtist());
 				}
 
+				
+				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
+				
 				try {
-					me.setMultiverseid(String.valueOf((int)Double.parseDouble(map.get(MULTIVERSE_ID).toString())));
+					me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString())));
 				} catch (Exception e) {
 					//do nothing
 				}
 				
 				try {
-					me.setScryfallId(map.get(SCRYFALL_ID).toString());
+					me.setScryfallId(identifiers.get(SCRYFALL_ID).toString());
 				} catch (Exception e) {
 					//do nothing
 				}
