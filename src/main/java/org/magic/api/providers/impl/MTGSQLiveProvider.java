@@ -275,6 +275,41 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					mc.getSubtypes().addAll(Arrays.asList(rs.getString("subtypes").split(",")));
 				}
 				
+				if(mc.getName().indexOf('/')>1)
+				{
+					int split = mc.getName().indexOf("/");
+					
+					if(split>0)
+					{
+						mc.setFlavorName(mc.getName());
+						
+						if(mc.getSide().equals("a"))
+						{
+							mc.setName(mc.getFlavorName().substring(0, split).trim());
+							mc.setRotatedCardName(mc.getFlavorName().substring(split+2).trim());
+						}
+						else
+						{
+							mc.setName(mc.getFlavorName().substring(split+2).trim());
+							mc.setRotatedCardName(mc.getFlavorName().substring(0, split).trim());
+							
+						}
+						
+						
+						
+					}
+					else
+					{
+						mc.setName(String.valueOf(mc.getName()));	
+					}
+					
+				}
+				
+				
+				mc.getForeignNames().addAll(getTranslations(mc));
+				mc.getLegalities().addAll(getLegalities(mc.getId()));
+				
+				
 				
 				
 				MagicEdition set = getSetById(rs.getString("setCode"));
@@ -297,24 +332,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					}
 				}
 				
-				if(rs.getString("otherFaceIds")!=null)
-				{
-					String[] ids = rs.getString("otherFaceIds").split(",");
-					if(ids.length==1)
-					{
-						ids = ArrayUtils.removeElement(ids, mc.getId());
-						mc.setRotatedCardName(getCardNameFor(ids[0]));
-					}
-					else if(ids.length>2)
-					{
-						mc.setRotatedCardName(getCardNameFor(ids[1]));
-						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
-					}
-					
-				}
 				
-				mc.getForeignNames().addAll(getTranslations(mc));
-				mc.getLegalities().addAll(getLegalities(mc.getId()));
 				
 		notify(mc);
 		return mc;

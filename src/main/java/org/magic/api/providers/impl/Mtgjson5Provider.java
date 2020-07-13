@@ -479,6 +479,11 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 					}
 				}
 				
+				if(mc.getFlavorName().indexOf('/')>1)
+				{
+					mc.setRotatedCardName(mc.getFlavorName().substring(mc.getFlavorName().lastIndexOf("/")+1).trim());
+				}
+			
 				
 				String codeEd;
 				if (currentSet.size() <= 1)
@@ -513,31 +518,10 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 							mc.getEditions().add(meO);
 						}
 					}
-			
-				}
-				
-				if(mc.getLayout().equals(MTGLayout.TRANSFORM))
-				{
-					mc.setRotatedCardName(mc.getFlavorName().substring(mc.getFlavorName().lastIndexOf("/")+1).trim());
 				}
 				
 				
-				if( map.get(NAMES) !=null)
-				{
-					List<String> names = ((List<String>)map.get(NAMES));
-					
-					if(names.size()==2)
-					{
-						names.remove(mc.getName());
-						mc.setRotatedCardName(names.get(0));
-					}
-					else if(names.size()>2)
-					{
-						mc.setRotatedCardName(names.get(1));
-						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
-					}
-					
-				}
+				
 			
 		notify(mc);
 		ret.add(mc);
