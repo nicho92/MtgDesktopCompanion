@@ -236,6 +236,9 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 				mc.setReprintedCard(rs.getBoolean("isReprint"));
 				mc.setReserved(rs.getBoolean("isReserved"));
 				mc.setFlavorName(rs.getString("flavorName"));
+				mc.setSide(rs.getString("side"));
+				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
+				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
 				
 				
 				String ci = rs.getString("colorIdentity");

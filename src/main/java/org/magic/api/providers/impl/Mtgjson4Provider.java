@@ -293,7 +293,8 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get("flavorName") != null)
 					mc.setFlavorName(String.valueOf(map.get("flavorName")));
 				
-				
+				if (map.get("side") != null)
+					mc.setSide(String.valueOf(map.get("side")));
 				
 				if (map.get(ARTIST) != null)
 					mc.setArtist(String.valueOf(map.get(ARTIST)));
@@ -313,6 +314,11 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 				if (map.get("tcgplayerProductId") != null) {
 					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
 				}
+				
+
+				if(map.get("isStorySpotlight")!=null)
+					mc.setStorySpotlight(Boolean.valueOf(map.get("isStorySpotlight").toString()));
+				
 				
 				if (map.get("mcmId") != null) {
 					mc.setMkmId((int)Double.parseDouble(map.get("mcmId").toString()));
@@ -343,6 +349,12 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				if (map.get(POWER) != null)
 					mc.setPower(String.valueOf(map.get(POWER)));
+				
+				if (map.get("hasNoDeckLimit") != null)
+					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get("hasNoDeckLimit").toString()));
+
+				
+				 
 				
 				if (map.get(TOUGHNESS) != null)
 					mc.setToughness(String.valueOf(map.get(TOUGHNESS)));

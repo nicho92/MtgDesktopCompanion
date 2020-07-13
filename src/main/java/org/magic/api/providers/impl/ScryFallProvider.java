@@ -372,6 +372,21 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.getLegalities().add(format);
 			}
 		}
+		
+		if (obj.get("games") != null) {
+			JsonArray g = obj.get("games").getAsJsonArray();
+			
+			g.forEach(el->{
+				
+				if(el.getAsString().equals("arena"))
+					mc.setArenaCard(true);
+				
+				if(el.getAsString().equals("mtgo"))
+					mc.setMtgoCard(true);
+			});
+		}
+		
+		
 	
 		int idface = 0;
 
@@ -386,7 +401,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 			}
 		}
-		if (obj.get(CARD_FACES) != null) {
+		if (obj.get(CARD_FACES) != null) 
+		{
 			mc.setText(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text")
 					.getAsString());
 			mc.setCost(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost")

@@ -386,7 +386,16 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 					mc.setMtgoCard(map.get(AVAILABILITY).toString().contains("mtgo"));
 				}
 			
-			
+				if (map.get("side") != null)
+					mc.setSide(String.valueOf(map.get("side")));
+				
+				if(map.get("isStorySpotlight")!=null)
+					mc.setStorySpotlight(Boolean.valueOf(map.get("isStorySpotlight").toString()));
+				
+				if(map.get("hasAlternativeDeckLimit")!=null)
+					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get("hasAlternativeDeckLimit").toString()));
+				
+				
 				
 				if (map.get("watermark") != null)
 					mc.setWatermarks(String.valueOf(map.get("watermark")));

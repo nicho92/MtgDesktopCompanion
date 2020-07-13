@@ -16,6 +16,7 @@ import org.magic.tools.IDGenerator;
 public class MagicCard implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private String side="a";
 	private String name="";
 	private String id;
 	private String url;
@@ -61,6 +62,33 @@ public class MagicCard implements Serializable {
 	private String scryfallIllustrationId;
 	private String gathererCode;
 	private String scryfallId;
+	private boolean isStorySpotlight;
+	private boolean hasAlternativeDeckLimit;
+	
+	public boolean isHasAlternativeDeckLimit() {
+		return hasAlternativeDeckLimit;
+	}
+	
+	public void setHasAlternativeDeckLimit(boolean hasAlternativeDeckLimit) {
+		this.hasAlternativeDeckLimit = hasAlternativeDeckLimit;
+	}
+	
+	public boolean isStorySpotlight() {
+		return isStorySpotlight;
+	}
+	
+	public void setStorySpotlight(boolean isStorySpotlight) {
+		this.isStorySpotlight = isStorySpotlight;
+	}
+	
+	public void setSide(String side) {
+		this.side = side;
+	}
+	
+	
+	public String getSide() {
+		return side;
+	}
 	
 	
 	public String getFlavorName() {
