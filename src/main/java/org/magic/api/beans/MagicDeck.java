@@ -87,7 +87,7 @@ public class MagicDeck implements Serializable {
 	}
 
 	public boolean hasCard(MagicCard mc) {
-		return getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
+		return !getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
 
 	public Set<MagicFormat> getLegality() {
