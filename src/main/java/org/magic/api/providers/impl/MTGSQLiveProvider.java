@@ -26,10 +26,6 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.criterias.Criteria;
-import org.magic.api.criterias.Criteria.OPERATOR;
-import org.magic.api.criterias.CriteriaBuilder.FORMAT;
-import org.magic.api.criterias.CriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.pool.impl.HikariPool;
@@ -128,50 +124,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		return searchCardByCriteria("uuid", id, ed, true).get(0);
 	}
 
-	public List<MagicCard> searchCardByCriteria(Criteria<?>... crits) throws IOException
-	{
-		List<MagicCard> cards = new ArrayList<>();
-		
-		String temp = "SELECT * FROM cards WHERE " + new CriteriaBuilder(FORMAT.SQL,crits).build();
-		
-		System.out.println(temp);
-		
-		
-//		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString())) 
-//		{
-//			try (ResultSet rs = pst.executeQuery(temp))
-//			{
-//				while(rs.next())
-//				{
-//					cards.add(generateCardsFromRs(rs,true));
-//				}
-//			}
-//		}
-//		catch(Exception e)
-//		{
-//			throw new IOException(e);
-//		}
-		
-		return cards;
-		
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		MTGSQLiveProvider prov = new MTGSQLiveProvider();
-		prov.init();
-		
-		Criteria<Integer> crit1 = new Criteria<>("cmc", OPERATOR.GREATER, 3);
-		Criteria<MTGColor> crit2 = new Criteria<>("colors", OPERATOR.HAS, MTGColor.BLACK, MTGColor.WHITE);
-		
-		
-		prov.searchCardByCriteria(crit1,crit2);
-		
-		
-		
-	}
-	
-	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact)throws IOException {
 		
