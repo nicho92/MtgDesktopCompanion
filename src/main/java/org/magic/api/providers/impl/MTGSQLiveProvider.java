@@ -336,10 +336,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 							
 						}
 				}
-				
-					
-				
-				
 		notify(mc);
 		return mc;
 	}
