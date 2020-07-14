@@ -229,12 +229,12 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			}
 		}
 
-		if (obj.get("names") != null) {
-			List<String> list = new ArrayList<>();
-			list.remove(mc.getName());
-			String rotateName = (list.get(list.size() - 1));
-			mc.setRotatedCardName(rotateName);
-		}
+//		if (obj.get("names") != null) {
+//			List<String> list = new ArrayList<>();
+//			list.remove(mc.getName());
+//			String rotateName = (list.get(list.size() - 1));
+//			mc.setRotatedCardName(rotateName);
+//		}
 
 		String currentSet = obj.get("set").getAsString();
 		MagicEdition currentEd = getSetById(currentSet);

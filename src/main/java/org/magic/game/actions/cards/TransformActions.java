@@ -37,10 +37,7 @@ public class TransformActions extends AbstractAction {
 
 			card.removeAllCounters();
 
-			MagicCard mc = MTGControler
-					.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
-							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
-					.get(0);
+			MagicCard mc = card.getMagicCard().getRotatedCard();
 			mc.setRulings(card.getMagicCard().getRulings());
 			card.setMagicCard(mc);
 			card.revalidate();

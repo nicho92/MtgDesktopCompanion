@@ -82,8 +82,6 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	private static final String MANA_COST = "manaCost";
 	private static final String NAME = "name";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
-	private static final String NAMES = "names";
-	
 	
 	
 	private static final String BASE="https://mtgjson.com/api/v5";
@@ -479,11 +477,11 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 					}
 				}
 				
-				if(mc.getFlavorName().indexOf('/')>1)
-				{
-					mc.setRotatedCardName(mc.getFlavorName().substring(mc.getFlavorName().lastIndexOf("/")+1).trim());
-				}
-			
+//				if(mc.getFlavorName()!=null && mc.getFlavorName().indexOf('/')>1)
+//				{
+//					//mc.setRotatedCardName(mc.getFlavorName().substring(mc.getFlavorName().lastIndexOf("/")+1).trim());
+//				}
+//			
 				
 				String codeEd;
 				if (currentSet.size() <= 1)

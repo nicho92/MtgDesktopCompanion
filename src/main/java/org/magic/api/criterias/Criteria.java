@@ -1,15 +1,24 @@
 package org.magic.api.criterias;
 
-public class Criteria {
-	
+import java.util.Arrays;
+import java.util.List;
+
+public class Criteria<T> {
+
 	private String att;
 	private OPERATOR operator;
-	private Object val;
+	private T[] val;
+		
+	public enum OPERATOR { EQ,LIKE,GREATER,LOWER, HAS }
 	
+	@SafeVarargs
+	public Criteria(String att, OPERATOR operator, T... val) {
+		this.att = att;
+		this.operator = operator;
+		this.val = val;
+	}
 	
-	public enum OPERATOR { EQ,LIKE,GREATER,LOWER }
-	
-	
+
 	public String getAtt() {
 		return att;
 	}
@@ -26,31 +35,38 @@ public class Criteria {
 		this.operator = operator;
 	}
 
-	public Object getVal() {
-		return val;
-	}
-
-	public void setVal(Object val) {
+	public void setVal(T[] val) {
 		this.val = val;
 	}
-
-	public Criteria add(String att, OPERATOR t,Object val)
+	
+	public T[] getVal() {
+		return val;
+	}
+	
+	public T getFirst()
 	{
-		Criteria c = new Criteria();
-		c.setAtt(att);
-		c.setOperator(t);
-		c.setVal(val);
-		return c;
+		return val[0];
 	}
 	
-	public static void main(String[] args) {
-		Criteria c = new Criteria();
-		c.add("Name", OPERATOR.EQ, "Liliana of the veil");
-		
-		
+	public boolean isList()
+	{
+		return val.length>1;
+	}
+	
+	public List<T> toList()
+	{
+		return Arrays.asList(val);
 	}
 	
 	
 	
+	@Override
+	public String toString() {
+		
+		if(!isList())
+			return att + " " + operator +" " +getFirst();
+		
+		return att + " " + operator +" " +Arrays.toString(val);
+	}
 	
 }

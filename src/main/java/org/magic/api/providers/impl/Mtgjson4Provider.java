@@ -489,22 +489,22 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 			
 				}
 				
-				if( map.get(NAMES) !=null)
-				{
-					List<String> names = ((List<String>)map.get(NAMES));
-					
-					if(names.size()==2)
-					{
-						names.remove(mc.getName());
-						mc.setRotatedCardName(names.get(0));
-					}
-					else if(names.size()>2)
-					{
-						mc.setRotatedCardName(names.get(1));
-						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
-					}
-					
-				}
+//				if( map.get(NAMES) !=null)
+//				{
+//					List<String> names = ((List<String>)map.get(NAMES));
+//					
+//					if(names.size()==2)
+//					{
+//						names.remove(mc.getName());
+//						mc.setRotatedCardName(names.get(0));
+//					}
+//					else if(names.size()>2)
+//					{
+//						mc.setRotatedCardName(names.get(1));
+//						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
+//					}
+//					
+//				}
 			
 		notify(mc);
 		ret.add(mc);

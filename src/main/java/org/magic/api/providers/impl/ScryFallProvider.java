@@ -407,8 +407,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					.getAsString());
 			mc.setCost(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost")
 					.getAsString());
-			mc.setRotatedCardName(
-					obj.get(CARD_FACES).getAsJsonArray().get(1).getAsJsonObject().get(NAME).getAsString());
+			//mc.setRotatedCardName(obj.get(CARD_FACES).getAsJsonArray().get(1).getAsJsonObject().get(NAME).getAsString());
 			
 			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID)!=null)
 				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID).getAsString());
@@ -442,22 +441,22 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 
-		// meld
-		if (obj.get("all_parts") != null) {
-			JsonArray arr = obj.get("all_parts").getAsJsonArray();
-
-			int index = -1;
-			for (int i = 0; i < arr.size(); i++) {
-				if (arr.get(i).getAsJsonObject().get(NAME).getAsString().equals(mc.getName())) {
-					index = i;
-					break;
-				}
-
-			}
-			arr.remove(index);
-			if (arr.size() == 1)
-				mc.setRotatedCardName(arr.get(0).getAsJsonObject().get(NAME).getAsString());
-		}
+//		// meld
+//		if (obj.get("all_parts") != null) {
+//			JsonArray arr = obj.get("all_parts").getAsJsonArray();
+//
+//			int index = -1;
+//			for (int i = 0; i < arr.size(); i++) {
+//				if (arr.get(i).getAsJsonObject().get(NAME).getAsString().equals(mc.getName())) {
+//					index = i;
+//					break;
+//				}
+//
+//			}
+//			arr.remove(index);
+//			if (arr.size() == 1)
+//				mc.setRotatedCardName(arr.get(0).getAsJsonObject().get(NAME).getAsString());
+//		}
 
 		MagicEdition ed = null;
 		

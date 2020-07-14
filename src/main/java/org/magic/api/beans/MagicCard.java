@@ -45,7 +45,6 @@ public class MagicCard implements Serializable {
 	private List<MTGFrameEffects> frameEffects;
 	private String flavorName;
 	private String imageName;
-	private String rotatedCardName;
 	private String frameVersion;
 	private Integer tcgPlayerId;
 	private Integer mtgstocksId;
@@ -64,6 +63,9 @@ public class MagicCard implements Serializable {
 	private String scryfallId;
 	private boolean isStorySpotlight;
 	private boolean hasAlternativeDeckLimit;
+	private MagicCard rotatedCard;
+	
+	
 	
 	public boolean isHasAlternativeDeckLimit() {
 		return hasAlternativeDeckLimit;
@@ -355,12 +357,12 @@ public class MagicCard implements Serializable {
 	}
 
 
-	public String getRotatedCardName() {
-		return rotatedCardName;
+	public MagicCard getRotatedCard() {
+		return rotatedCard;
 	}
 	
-	public void setRotatedCardName(String rotatedCardName) {
-		this.rotatedCardName = rotatedCardName;
+	public void setRotatedCard(MagicCard rotatedCard) {
+		this.rotatedCard = rotatedCard;
 	}
 
 	public MTGRarity getRarity() {

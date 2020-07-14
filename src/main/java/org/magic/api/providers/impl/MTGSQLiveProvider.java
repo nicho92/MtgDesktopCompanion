@@ -148,7 +148,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		if(ed!=null && !ed.getId().isEmpty())
 			temp.append(" AND setCode ='").append(ed.getId()).append("'");
 		
-		
 		if(att.equals("sql"))
 		{
 			temp = new StringBuilder();
@@ -175,7 +174,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			{
 				while(rs.next())
 				{
-					cards.add(generateCardsFromRs(rs));
+					cards.add(generateCardsFromRs(rs,true));
 				}
 			}
 			
@@ -198,7 +197,7 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			try (ResultSet rs = pst.executeQuery())
 			{
 				while(rs.next())
-					cards.add(generateCardsFromRs(rs));
+					cards.add(generateCardsFromRs(rs,true));
 			}
 		} 
 		catch (SQLException e) 
@@ -208,7 +207,27 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		return cards;
 	}
 	
-	private MagicCard generateCardsFromRs(ResultSet rs) throws SQLException {
+	
+	private void initRotatedCard(MagicCard mc, String name, String side)
+	{
+		String sql ="SELECT * FROM cards WHERE name like \"%" + name + "%\" and side ='"+side + "' and setCode='"+mc.getCurrentSet().getId()+"'";
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
+		{
+			try (ResultSet rs = pst.executeQuery())
+			{
+				rs.next();
+				mc.setRotatedCard(generateCardsFromRs(rs,false));
+			}
+		} 
+		catch (SQLException e) 
+		{
+			logger.error(e);
+		}
+	}
+	
+	
+	
+	private MagicCard generateCardsFromRs(ResultSet rs,boolean load) throws SQLException {
 		MagicCard mc = new MagicCard();
 				mc.setName(rs.getString(NAME));
 				mc.setCmc(rs.getInt("convertedManaCost"));
@@ -275,37 +294,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					mc.getSubtypes().addAll(Arrays.asList(rs.getString("subtypes").split(",")));
 				}
 				
-				if(mc.getName().indexOf('/')>1)
-				{
-					int split = mc.getName().indexOf("/");
-					
-					if(split>0)
-					{
-						mc.setFlavorName(mc.getName());
-						
-						if(mc.getSide().equals("a"))
-						{
-							mc.setName(mc.getFlavorName().substring(0, split).trim());
-							mc.setRotatedCardName(mc.getFlavorName().substring(split+2).trim());
-						}
-						else
-						{
-							mc.setName(mc.getFlavorName().substring(split+2).trim());
-							mc.setRotatedCardName(mc.getFlavorName().substring(0, split).trim());
-							
-						}
-						
-						
-						
-					}
-					else
-					{
-						mc.setName(String.valueOf(mc.getName()));	
-					}
-					
-				}
-				
-				
 				mc.getForeignNames().addAll(getTranslations(mc));
 				mc.getLegalities().addAll(getLegalities(mc.getId()));
 				
@@ -332,32 +320,29 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 					}
 				}
 				
+				int split = mc.getName().indexOf("/");
+				if(split>1 && load)
+				{
+						mc.setFlavorName(mc.getName());
+						if(mc.getSide().equals("a"))
+						{
+							mc.setName(mc.getFlavorName().substring(0, split).trim());
+							initRotatedCard(mc, mc.getFlavorName().substring(split+2).trim(), "b");
+						}
+						else
+						{
+							mc.setName(mc.getFlavorName().substring(split+2).trim());
+							initRotatedCard(mc, mc.getFlavorName().substring(0, split).trim(),"a");
+							
+						}
+				}
+				
+					
 				
 				
 		notify(mc);
 		return mc;
 	}
-
-	private String getCardNameFor(String id)
-	{
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT name FROM cards WHERE uuid=?")) 
-		{
-			pst.setString(1, id);
-			try (ResultSet rs = pst.executeQuery())
-			{ 
-				rs.next();
-				return rs.getString(NAME);
-			}
-			
-		} catch (SQLException e) {
-			logger.error("error getting name for " +id ,e);
-			return null;
-		}
-	}
-	
-	
-	
-	
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {

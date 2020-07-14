@@ -28,7 +28,7 @@ public class MeldActions extends AbstractAction {
 	private static final String PARSEKEY = "(Melds with ";
 
 	public MeldActions(DisplayableCard card) {
-		super("Meld into " + card.getMagicCard().getRotatedCardName());
+		super("Meld into " + card.getMagicCard().getRotatedCard());
 		putValue(SHORT_DESCRIPTION, "Meld the cards with bigger one !");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 		this.card = card;
@@ -57,7 +57,7 @@ public class MeldActions extends AbstractAction {
 		}
 
 		GamePanelGUI.getInstance().getPlayer().logAction(
-				"Meld " + card.getMagicCard() + " and " + meldWith + " to " + card.getMagicCard().getRotatedCardName());
+				"Meld " + card.getMagicCard() + " and " + meldWith + " to " + card.getMagicCard().getRotatedCard());
 
 		card.removeAllCounters();
 		GamePanelGUI.getInstance().getPlayer().exileCardFromBattleField(card.getMagicCard());
@@ -69,10 +69,7 @@ public class MeldActions extends AbstractAction {
 
 		MagicCard mc;
 		try {
-			mc = MTGControler
-					.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
-							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
-					.get(0);
+			mc = card.getMagicCard().getRotatedCard();
 
 			Dimension d = new Dimension((int) (MTGControler.getInstance().getCardsGameDimension().getWidth() * 1.5),
 					(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 1.5));

@@ -12,10 +12,8 @@ import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class FlipActions extends AbstractAction {
@@ -39,10 +37,7 @@ public class FlipActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard mc = MTGControler
-					.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
-							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
-					.get(0);
+			MagicCard mc =card.getMagicCard().getRotatedCard();
 			card.setMagicCard(mc);
 			
 			BufferedImage bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(),BufferedImage.TYPE_INT_RGB);

@@ -67,7 +67,7 @@ public class MorphActions extends AbstractAction {
 			mc.getTypes().add("Creature");
 			mc.setCost("{3}");
 			mc.setEditions(card.getMagicCard().getEditions());
-			mc.setRotatedCardName(card.getMagicCard().getName());
+			mc.setRotatedCard(card.getMagicCard());
 			MagicRuling r = new MagicRuling();
 					r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
 			mc.getRulings().add(r);
@@ -86,9 +86,7 @@ public class MorphActions extends AbstractAction {
 			}
 		} else {
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(
-						card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
-						.get(0);
+				MagicCard mc = card.getMagicCard().getRotatedCard();
 				card.setMagicCard(mc);
 				card.setRotated(false);
 				card.removeAllCounters();
