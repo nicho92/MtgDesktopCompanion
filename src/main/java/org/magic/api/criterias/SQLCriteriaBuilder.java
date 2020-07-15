@@ -24,15 +24,20 @@ public class SQLCriteriaBuilder
                 .from(table("cards"));
 		
 			for(Criteria c:crits)
-					((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).eq(c.getFirst()));
+			{
+				if(c.isList())
+					((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).in(c.getVal()));
+				else
+					((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).contains(c.getFirst()));
+			}
 		
 		return query.toString();
 	}
 	
 
 	public static void main(String[] args) {
-		Criteria<Integer> cmcC = new Criteria<>("cmc",OPERATOR.GREATER,3);
-		Criteria<MTGColor> cmcA = new Criteria<>("colors",OPERATOR.HAS,MTGColor.BLACK,MTGColor.RED);
+		Criteria<Integer> cmcC = new Criteria<>("convertedManaCost",OPERATOR.GREATER,3);
+		Criteria<String> cmcA = new Criteria<>("types",OPERATOR.HAS,"creature");
 		
 		System.out.println(new SQLCriteriaBuilder().build(cmcC,cmcA));
 	}
