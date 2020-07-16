@@ -3,16 +3,16 @@ package org.magic.api.criterias;
 import java.util.Arrays;
 import java.util.List;
 
-public class Criteria<T> {	
+public class MTGCrit<T> {	
 
 	private String att;	
 	private OPERATOR operator;	
 	private T[] val;	
 
-	public enum OPERATOR { EQ,LIKE,GREATER,LOWER, HAS }	
+	public enum OPERATOR { EQ,START_WITH,END_WITH, LIKE,GREATER,LOWER,GREATER_EQ,LOWER_EQ, HAS }	
 
 	@SafeVarargs	
-	public Criteria(String att, OPERATOR operator, T... val) {	
+	public MTGCrit(String att, OPERATOR operator, T... val) {	
 		this.att = att;	
 		this.operator = operator;	
 		this.val = val;	
