@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
@@ -292,6 +293,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
+		throw new IOException("Not implemented");
 	}
 
 }

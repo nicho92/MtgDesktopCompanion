@@ -9,7 +9,7 @@ public class MTGCrit<T> {
 	private OPERATOR operator;	
 	private T[] val;	
 
-	public enum OPERATOR { EQ,START_WITH,END_WITH, LIKE,GREATER,LOWER,GREATER_EQ,LOWER_EQ, HAS }	
+	public enum OPERATOR { EQ,START_WITH,END_WITH, LIKE,GREATER,LOWER,GREATER_EQ,LOWER_EQ, IN }	
 
 	@SafeVarargs	
 	public MTGCrit(String att, OPERATOR operator, T... val) {	

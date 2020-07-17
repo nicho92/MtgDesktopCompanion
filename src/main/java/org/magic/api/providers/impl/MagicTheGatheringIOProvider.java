@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -56,6 +57,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private File fcacheCount = new File(MTGConstants.DATA_DIR, "mtgio.cache");
 	private Properties propsCache;
 	
+	
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
+		throw new IOException("Not implemented");
+	}
 	
 	@Override
 	public void initDefault() {

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +27,8 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.pool.impl.HikariPool;
@@ -85,13 +88,35 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 			logger.error("Error getting last version ",e);
 			return false;
 		}
-
 	}
 	
 	@Override
 	public void initDefault() {
 		setProperty(FORCE_RELOAD, "false");
 	}
+	
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
+		
+		List<MagicCard> cards = new ArrayList<>();
+		try (Connection c = pool.getConnection(); Statement pst = c.createStatement()) 
+		{
+			try (ResultSet rs = pst.executeQuery(new SQLCriteriaBuilder().build(crits).toString()))
+			{
+				while(rs.next())
+				{
+					cards.add(generateCardsFromRs(rs,true));
+				}
+			}
+			
+			
+		} 
+		catch (SQLException e) {
+			logger.error(e);
+		}
+		return cards;
+	}
+	
 	
 	@Override
 	public void init() {

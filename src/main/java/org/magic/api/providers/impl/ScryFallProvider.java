@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -56,8 +57,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String NAME = "name";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
-	
 	private String baseURI = "";
+	
 	public ScryFallProvider() {
 		super();
 		if(getBoolean(LOAD_CERTIFICATE))
@@ -70,6 +71,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 		baseURI=getString("URL");
+	}
+	
+	
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
+		throw new IOException("Not Yet Implemented");
 	}
 	
 	

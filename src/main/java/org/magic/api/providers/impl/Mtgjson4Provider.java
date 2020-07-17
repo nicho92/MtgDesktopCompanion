@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
@@ -82,8 +83,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	private static final String MANA_COST = "manaCost";
 	private static final String NAME = "name";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
-	private static final String NAMES = "names";
-
+	
 	public static final String URL_JSON_VERSION = "https://mtgjson.com/json/version.json";
 	public static final String URL_JSON_ALL_SETS = "https://mtgjson.com/json/AllSets.json";
 	public static final String URL_JSON_SETS_LIST="https://mtgjson.com/json/SetList.json";
@@ -488,23 +488,7 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 					}
 			
 				}
-				
-//				if( map.get(NAMES) !=null)
-//				{
-//					List<String> names = ((List<String>)map.get(NAMES));
-//					
-//					if(names.size()==2)
-//					{
-//						names.remove(mc.getName());
-//						mc.setRotatedCardName(names.get(0));
-//					}
-//					else if(names.size()>2)
-//					{
-//						mc.setRotatedCardName(names.get(1));
-//						//[Bruna, the Fading Light, Brisela, Voice of Nightmares, Gisela, the Broken Blade]
-//					}
-//					
-//				}
+
 			
 		notify(mc);
 		ret.add(mc);
@@ -792,5 +776,10 @@ public class Mtgjson4Provider extends AbstractCardsProvider {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
+		throw new IOException("Not Implemented");
 	}
 }

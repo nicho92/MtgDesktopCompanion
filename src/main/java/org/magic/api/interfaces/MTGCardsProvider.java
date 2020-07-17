@@ -8,6 +8,7 @@ import java.util.List;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.criterias.MTGCrit;
 
 public interface MTGCardsProvider extends MTGPlugin {
 
@@ -43,6 +44,8 @@ public interface MTGCardsProvider extends MTGPlugin {
 	public Booster generateBooster(MagicEdition me) throws IOException;
 
 	public URL getWebSite() throws MalformedURLException;
+
+	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
 
 
 }

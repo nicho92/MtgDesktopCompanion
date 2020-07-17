@@ -26,6 +26,8 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.JsonCriteriaBuilder;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
@@ -206,6 +208,15 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 			return null;
 		}
 	}
+	
+	
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException
+	{
+		return search("$.data..cards"+ new JsonCriteriaBuilder().build(crits).toString());
+	}
+	
+	
 	
 	
 	@Override
@@ -751,7 +762,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	@Override
 	public List<String> loadQueryableAttributs() {
 		
-		return Lists.newArrayList(NAME,ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","jsonpath");
+		return Lists.newArrayList(NAME,ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","type","jsonpath");
 	}
 
 	@Override
