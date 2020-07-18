@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.api.providers.impl.Mtgjson5Provider;
+import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
@@ -82,7 +82,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		JsonElement d = URLTools.extractJson(Mtgjson5Provider.URL_JSON_DECKS_LIST);
+		JsonElement d = URLTools.extractJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
 		JsonArray arr = d.getAsJsonObject().get("data").getAsJsonArray();
 		
 		List<RetrievableDeck> decks = new ArrayList<>();
@@ -95,7 +95,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 							rd.setAuthor("MtgJson");
 							try {
 								rd.setDescription(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ob.get("code").getAsString()).getSet());
-								rd.setUrl(new URL(Mtgjson5Provider.URL_DECKS_URI+ob.get("fileName").getAsString()+".json").toURI());
+								rd.setUrl(new URL(AbstractMTGJsonProvider.URL_DECKS_URI+ob.get("fileName").getAsString()+".json").toURI());
 							} catch (Exception e) {
 								logger.error(e);
 							}

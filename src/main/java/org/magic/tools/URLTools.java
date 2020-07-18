@@ -121,6 +121,7 @@ public class URLTools {
 	
 	public static void download(String url,File to) throws IOException
 	{
+		logger.debug("download " + url +" to " + to.getAbsolutePath());
 		HttpURLConnection con = openConnection(url);
 		FileUtils.copyInputStreamToFile(con.getInputStream(),to);
 		close(con);

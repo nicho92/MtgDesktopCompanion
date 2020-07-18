@@ -1,19 +1,12 @@
 package org.magic.api.providers.impl;
 
-import java.awt.Image;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
@@ -26,16 +19,11 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
-import com.google.common.collect.Lists;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -50,64 +38,29 @@ import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
 import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 
-public class Mtgjson5Provider extends AbstractCardsProvider {
+public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
-	
-	private static final String AVAILABILITY = "availability";
-	private static final String SCRYFALL_ID = "scryfallId";
-	private static final String FORCE_RELOAD = "FORCE_RELOAD";
-	private static final String PRINTINGS = "printings";
-	private static final String ARTIST = "artist";
-	private static final String TYPE = "type";
-	private static final String FOREIGN_DATA = "foreignData";
-	private static final String RULINGS = "rulings";
-	private static final String LEGALITIES = "legalities";
-	private static final String LOYALTY = "loyalty";
-	private static final String COLOR_IDENTITY = "colorIdentity";
-	private static final String COLORS = "colors";
-	private static final String TOUGHNESS = "toughness";
-	private static final String POWER = "power";
-	private static final String SUBTYPES = "subtypes";
-	private static final String TYPES = "types";
-	private static final String SUPERTYPES = "supertypes";
-	private static final String ORIGINAL_TYPE = "originalType";
-	private static final String ORIGINAL_TEXT = "originalText";
-	private static final String FLAVOR_TEXT = "flavorText";
-	private static final String LAYOUT = "layout";
-	private static final String IS_RESERVED = "isReserved";
-	private static final String FRAME_VERSION = "frameVersion";
-	private static final String CONVERTED_MANA_COST = "convertedManaCost";
-	private static final String TEXT = "text";
-	private static final String NUMBER = "number";
-	private static final String RARITY = "rarity";
-	private static final String MULTIVERSE_ID = "multiverseId";
-	private static final String MANA_COST = "manaCost";
-	private static final String NAME = "name";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
-	
-	
-	private static final String BASE="https://mtgjson.com/api/v5";
-	public static final String URL_JSON_VERSION = BASE+"/Meta.json";
-	public static final String URL_JSON_ALL_SETS = BASE+"/AllPrintings.json";
-	public static final String URL_JSON_SETS_LIST=BASE+"/SetList.json";
-	public static final String URL_JSON_KEYWORDS=BASE+"/Keywords.json";
-	public static final String URL_JSON_ALL_SETS_ZIP =BASE+"/AllPrintings.json.zip";
-	public static final String URL_JSON_DECKS_LIST = BASE+"/DeckList.json";
-	public static final String URL_DECKS_URI = BASE+"/decks/";
-	
-	private File fileSetJsonTemp = new File(MTGConstants.DATA_DIR,"AllSets-x5.json.zip");
-	private File fileSetJson = new File(MTGConstants.DATA_DIR, "AllSets-x5.json");
-	public static final File fversion = new File(MTGConstants.DATA_DIR, "version5");
-	
-	private String version;
-	private Chrono chrono;
 	private ReadContext ctx;
-	
+
 	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
+	
+
+	@Override
+	public File getDataFile() {
+		return new File(MTGConstants.DATA_DIR, "AllSets-x5.json");
+	}
+	
+
+	@Override
+	public String getOnlineDataFileZip() {
+		return "https://mtgjson.com/api/v5/AllPrintings.json.zip";
+	}
+	
 	
 	public Mtgjson5Provider() {
 		super();
@@ -116,43 +69,9 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		
 	}
 
-	private boolean hasNewVersion() {
-		String temp = "";
-			try  
-			{
-				temp = FileTools.readFile(fversion);
-			}
-			catch(FileNotFoundException ex)
-			{
-				logger.error(fversion + " doesn't exist"); 
-			} catch (IOException e) {
-				logger.error(e);
-			}
-			
-			try {
-				logger.debug("check new version of " + toString() + " (" + temp + ")");
-	
-				JsonElement d = URLTools.extractJson(URL_JSON_VERSION);
-				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
-				if (!version.equals(temp)) {
-					logger.info("new version datafile exist (" + version + "). Downloading it");
-					return true;
-				}
-
-			logger.debug("check new version of " + this + ": up to date");
-			return false;
-		} catch (Exception e) {
-			version = temp;
-			logger.error("Error getting last version ",e);
-			return false;
-		}
-
-	}
 
 	public void init() {
 		logger.info("init " + this);
-
-		chrono=new Chrono();
 
 		Configuration.setDefaults(new Configuration.Defaults() {
 
@@ -177,46 +96,46 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		});
 		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
 
+		download();
+
 		try {
-
-			logger.debug("loading file " + fileSetJson);
-
-			if (hasNewVersion()||!fileSetJson.exists() || fileSetJson.length() == 0 || getBoolean(FORCE_RELOAD)) {
-				logger.info("Downloading "+version + " datafile");
-				URLTools.download(URL_JSON_ALL_SETS_ZIP, fileSetJsonTemp);
-				FileTools.unZipIt(fileSetJsonTemp,fileSetJson);
-				FileTools.saveFile(fversion,version);
-				setProperty(FORCE_RELOAD, "false");
-			}
-			Chrono chr = new Chrono();
-			chr.start();
+	
+			chrono.start();
 			logger.debug(this + " : parsing db file");
-			ctx = JsonPath.parse(fileSetJson);
-			logger.debug(this + " : parsing OK in " + chr.stop()+"s");
-			
-		} catch (Exception e1) {
-			logger.error(e1);
+			ctx = JsonPath.parse(getDataFile());
+			logger.debug(this + " : parsing OK in " + chrono.stop()+"s");
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
 		}
 	}
 
 	@Override
-	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
+	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
+		
+		if(me==null)
+			throw new IOException("Edition must not be null");
+		
+		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
 		try {
-			return searchCardByCriteria("uuid", id, ed, true).get(0);
-		}catch(IndexOutOfBoundsException e)
-		{
+			MagicCard mc = search(jsquery).get(0);
+			mc.getEditions().add(me);
+			return mc;
+		} catch (Exception e) {
+			logger.error(e);
 			return null;
 		}
 	}
 	
+
+
 	
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException
 	{
-		return search("$.data..cards"+ new JsonCriteriaBuilder().build(crits).toString());
+		return search("$.data..cards"+ getMTGQueryManager().build(crits).toString());
 	}
-	
-	
 	
 	
 	@Override
@@ -468,7 +387,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 				if (map.get(FOREIGN_DATA) != null) {
 					for (Map<String, Object> mapNames : (List<Map<String, Object>>) map.get(FOREIGN_DATA)) {
 						MagicCardNames fnames = new MagicCardNames();
-									   fnames.setLanguage(String.valueOf(mapNames.get("language")));
+									   fnames.setLanguage(String.valueOf(mapNames.get(LANGUAGE)));
 									   fnames.setName(String.valueOf(mapNames.get(NAME)));
 									   
 									   if (mapNames.get(TEXT) != null)
@@ -607,7 +526,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		List<MagicEdition> eds = new ArrayList<>();
 		try {		
 		
-		URLTools.extractJson(URL_JSON_SETS_LIST).getAsJsonObject().get("data").getAsJsonArray().forEach(e->{
+		URLTools.extractJson(MTG_JSON_SETS_LIST).getAsJsonObject().get("data").getAsJsonArray().forEach(e->{
 				String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
 				eds.add(generateEdition(codeedition));
 		});
@@ -615,7 +534,7 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 		}catch(Exception ex)
 		{
 			
-			logger.error("Error loading set List from " + URL_JSON_SETS_LIST +". Loading manually");
+			logger.error("Error loading set List from " + MTG_JSON_SETS_LIST +". Loading manually");
 			final List<String> codeEd = new ArrayList<>();
 			ctx.withListeners(fr -> {
 				if (fr.path().startsWith("$"))
@@ -760,73 +679,15 @@ public class Mtgjson5Provider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<String> loadQueryableAttributs() {
-		
-		return Lists.newArrayList(NAME,ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","type","jsonpath");
-	}
-
-	@Override
 	public String getName() {
 		return "MTGJson5";
-	}
-
-	@Override
-	public String[] getLanguages() {
-		return new String[] { "English", "Spanish", "French", "German", "Italian", "Portuguese", "Japanese", "Korean", "Russian", "Simplified Chinese","Traditional Chinese","Hebrew","Latin","Ancient Greek", "Arabic", "Sanskrit","Phyrexian" };
-	}
-
-	@Override
-	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
-		
-		if(me==null)
-			throw new IOException("Edition must not be null");
-		
-		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
-		try {
-			MagicCard mc = search(jsquery).get(0);
-			mc.getEditions().add(me);
-			return mc;
-		} catch (Exception e) {
-			logger.error(e);
-			return null;
-		}
-	}
-	
-	@Override
-	public String getVersion() {
-		return version;
-	}
-
-	@Override
-	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://mtgjson.com");
 	}
 
 
 	@Override
 	public void initDefault() {
+		super.initDefault();
 		setProperty("LRU_CACHE", "400");
-		setProperty(FORCE_RELOAD,"false");
 	}
-	
 
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(new ImageIcon(AbstractCardsProvider.class.getResource("/icons/plugins/mtgjson.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
-
-	}
 }

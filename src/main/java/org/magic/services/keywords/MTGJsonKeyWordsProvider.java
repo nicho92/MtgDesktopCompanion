@@ -26,7 +26,7 @@ public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 			list = new ArrayList<>();	
 			JsonObject el;
 			try {
-				el = URLTools.extractJson(Mtgjson5Provider.URL_JSON_KEYWORDS).getAsJsonObject().get("data").getAsJsonObject();
+				el = URLTools.extractJson(Mtgjson5Provider.MTG_JSON_KEYWORDS).getAsJsonObject().get("data").getAsJsonObject();
 				el.get("abilityWords").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.WORD)));
 				el.get("keywordAbilities").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.ABILITIES)));
 				el.get("keywordActions").getAsJsonArray().forEach(s->list.add(new MTGKeyWord(s.getAsString(),TYPE.ACTION)));

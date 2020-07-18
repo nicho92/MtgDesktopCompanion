@@ -18,6 +18,12 @@ public class MTGCrit<T> {
 		this.val = val;	
 	}	
 
+	
+	public Class getType()
+	{
+		return val[0].getClass();
+	}
+	
 
 	public String getAtt() {	
 		return att;	

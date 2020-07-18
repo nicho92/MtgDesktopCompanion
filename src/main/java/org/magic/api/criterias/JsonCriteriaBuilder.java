@@ -15,7 +15,6 @@ public class JsonCriteriaBuilder implements MTGQueryBuilder<Filter> {
 	
 	
 	
-	
 	public Filter build(MTGCrit<?>... crits) {
 		
 		List<Predicate> l = new ArrayList<>();
@@ -38,5 +37,6 @@ public class JsonCriteriaBuilder implements MTGQueryBuilder<Filter> {
 		}
 		return filter(l);
 	}
+	
 	
 }

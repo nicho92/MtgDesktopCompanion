@@ -1,10 +1,7 @@
 package org.magic.api.providers.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,72 +25,32 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
-import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
-import org.magic.tools.URLTools;
 
-import com.google.gson.JsonElement;
+public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
-public class MTGSQLiveProvider extends AbstractCardsProvider {
-
-	private static final String NAME = "name";
-	private static final String POWER = "power";
-	private static final String TOUGHNESS = "toughness";
-	private static final String ARTIST = "artist";
-	private static final String FLAVOR_TEXT = "flavorText";
-	private static final String LANGUAGE = "language";
-	private String version;
-	private File sqlLiteZipFile = new File(MTGConstants.DATA_DIR,"AllPrintings.sqlite.zip");
-	private File sqlLiteFile = new File(MTGConstants.DATA_DIR, "AllPrintings.sqlite");
-	public static final String URL_SQLITE_ALL_PRINTS_ZIP ="https://mtgjson.com/api/v5/AllPrintings.sqlite.zip";
-	private static final String FORCE_RELOAD = "FORCE_RELOAD";
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicFormat> mapLegalities = new ArrayListValuedHashMap<>();
 
 	
-	private boolean hasNewVersion() {
-		String temp = "";
-			try  
-			{
-				temp = FileTools.readFile(Mtgjson5Provider.fversion);
-			}
-			catch(FileNotFoundException ex)
-			{
-				logger.error(Mtgjson5Provider.fversion + " doesn't exist"); 
-			} catch (IOException e) {
-				logger.error(e);
-			}
-			
-			try {
-				logger.debug("check new version of " + toString() + " (" + temp + ")");
-	
-				JsonElement d = URLTools.extractJson(Mtgjson5Provider.URL_JSON_VERSION);
-				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
-				
-				if (!version.equals(temp)) {
-					logger.info("new version datafile exist (" + version + "). Downloading it");
-					return true;
-				}
-
-			logger.debug("check new version of " + this + ": up to date");
-			return false;
-		} catch (Exception e) {
-			version = temp;
-			logger.error("Error getting last version ",e);
-			return false;
-		}
+	@Override
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		return new SQLCriteriaBuilder();
 	}
+
 	
 	@Override
-	public void initDefault() {
-		setProperty(FORCE_RELOAD, "false");
+	public String getOnlineDataFileZip() {
+		return "https://mtgjson.com/api/v5/AllPrintings.sqlite.zip";
 	}
+	
 	
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
@@ -101,15 +58,15 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		List<MagicCard> cards = new ArrayList<>();
 		try (Connection c = pool.getConnection(); Statement pst = c.createStatement()) 
 		{
-			try (ResultSet rs = pst.executeQuery(new SQLCriteriaBuilder().build(crits).toString()))
+			String sql = getMTGQueryManager().build(crits).toString();
+			logger.debug("sql="+sql);
+			try (ResultSet rs = pst.executeQuery(sql))
 			{
 				while(rs.next())
 				{
 					cards.add(generateCardsFromRs(rs,true));
 				}
 			}
-			
-			
 		} 
 		catch (SQLException e) {
 			logger.error(e);
@@ -119,24 +76,17 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	
 	
 	@Override
+	public File getDataFile() {
+		return new File(MTGConstants.DATA_DIR, "AllPrintings.sqlite");
+	}
+	
+	
+	@Override
 	public void init() {
-		try {
-			logger.debug("loading file " + sqlLiteFile);
-
-			if (hasNewVersion()||!sqlLiteFile.exists() || sqlLiteFile.length() == 0 || getBoolean(FORCE_RELOAD)) {
-				logger.info("Downloading "+version + " datafile");
-				URLTools.download(URL_SQLITE_ALL_PRINTS_ZIP, sqlLiteZipFile);
-				FileTools.unZipIt(sqlLiteZipFile,sqlLiteFile);
-				FileTools.saveFile(Mtgjson5Provider.fversion,version);
-				setProperty(FORCE_RELOAD, "false");
-			}
-		} catch (Exception e1) {
-			logger.error("error init",e1);
-		}
+		logger.info("init " + this);
+		download();
 		pool = new HikariPool();
-		
-		pool.init("jdbc:sqlite://"+sqlLiteFile.getAbsolutePath(), "", "", true);
-
+		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);
 	}
 	
 	@Override
@@ -144,11 +94,6 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 		return searchCardByCriteria("number", id, me, true).get(0);
 	}
 	
-	@Override
-	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
-		return searchCardByCriteria("uuid", id, ed, true).get(0);
-	}
-
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact)throws IOException {
 		
@@ -563,20 +508,10 @@ public class MTGSQLiveProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://github.com/mtgjson/mtgsqlive");
-	}
-
-	@Override
 	public String getName() {
 		return "MTGSQLive";
 	}
-	
-	@Override
-	public String getVersion() {
-		return version;
-	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
