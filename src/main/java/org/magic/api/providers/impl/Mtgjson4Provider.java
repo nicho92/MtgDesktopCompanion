@@ -24,7 +24,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -108,28 +107,14 @@ public class Mtgjson4Provider extends AbstractMTGJsonProvider {
 		}
 	}
 	
+	
+	
 
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 		return search("$..cards"+getMTGQueryManager().build(crits));
 	}
 
-	@Override
-	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
-		
-		if(me==null)
-			throw new IOException("Edition must not be null");
-		
-		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
-		try {
-			MagicCard mc = search(jsquery).get(0);
-			mc.getEditions().add(me);
-			return mc;
-		} catch (Exception e) {
-			logger.error(e);
-			return null;
-		}
-	}
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
@@ -184,7 +169,7 @@ public class Mtgjson4Provider extends AbstractMTGJsonProvider {
 		for (Map<String, Object> map : cardsElement) 
 		{
 				MagicCard mc = new MagicCard();
-				  mc.setId(String.valueOf(map.get("uuid").toString()));
+				  mc.setId(String.valueOf(map.get(UUID).toString()));
 				  mc.setText(String.valueOf(map.get(TEXT)));
 						  
 				if (map.get(NAME) != null)
@@ -637,7 +622,6 @@ public class Mtgjson4Provider extends AbstractMTGJsonProvider {
 	}
 
 
-	
 
 	@Override
 	public void initDefault() {

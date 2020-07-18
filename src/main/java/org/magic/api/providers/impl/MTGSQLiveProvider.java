@@ -88,12 +88,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		pool = new HikariPool();
 		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);
 	}
-	
-	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
-		return searchCardByCriteria("number", id, me, true).get(0);
-	}
-	
+
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact)throws IOException {
 		
@@ -202,7 +197,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setCmc(rs.getInt("convertedManaCost"));
 				mc.setCost(rs.getString("manaCost"));
 				mc.setText(rs.getString("text"));
-				mc.setId(rs.getString("uuid"));
+				mc.setId(rs.getString(UUID));
 				mc.setEdhrecRank(rs.getInt("edhrecRank"));
 				mc.setFrameVersion(rs.getString("frameVersion"));
 				mc.setLayout(MTGLayout.parseByLabel(rs.getString("layout")));
@@ -377,7 +372,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							names.setName(rs.getString(NAME));
 							names.setText(rs.getString("text"));
 							names.setType(rs.getString("type"));
-							String id = rs.getString("uuid");
+							String id = rs.getString(UUID);
 							
 							mapForeignData.put(id, names);
 						}
@@ -406,7 +401,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							MagicRuling names = new MagicRuling();
 							names.setText(rs.getString("text"));
 							names.setDate(rs.getString("date"));
-							String id = rs.getString("uuid");
+							String id = rs.getString(UUID);
 							
 							mapRules.put(id, names);
 						}
@@ -431,7 +426,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					{ 
 						while(rs.next())
 						{
-							String id = rs.getString("uuid");
+							String id = rs.getString(UUID);
 							mapLegalities.put(id, new MagicFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
 						}
 					}
@@ -464,7 +459,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public String[] getLanguages() {
 		List<String> ret = new ArrayList<>();
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT language from foreign_data");ResultSet rs = pst.executeQuery())
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT "+LANGUAGE+" from foreign_data");ResultSet rs = pst.executeQuery())
 		{
 			ret.add("English");
 			while(rs.next())

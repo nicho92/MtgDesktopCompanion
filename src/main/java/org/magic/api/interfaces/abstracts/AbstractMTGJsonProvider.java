@@ -25,6 +25,7 @@ import com.google.gson.JsonElement;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
+	protected static final String UUID = "uuid";
 	protected static final String AVAILABILITY = "availability";
 	protected static final String SCRYFALL_ID = "scryfallId";
 	protected static final String PRINTINGS = "printings";
@@ -109,15 +110,22 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	@Override
 	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
 		try {
-			return searchCardByCriteria("uuid", id, ed, true).get(0);
+			return searchCardByCriteria(UUID, id, ed, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
 		}
 	}
 	
+	@Override
+	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
+		
+		if(me==null)
+			throw new IOException("Edition must not be null");
 
-
+		return searchCardByCriteria(NUMBER,num,me,true).get(0);
+	}
+	
 	@Override
 	public void initDefault() {
 		setProperty(FORCE_RELOAD, "false");

@@ -112,31 +112,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 
 	@Override
-	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
-		
-		if(me==null)
-			throw new IOException("Edition must not be null");
-		
-		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
-		try {
-			MagicCard mc = search(jsquery).get(0);
-			mc.getEditions().add(me);
-			return mc;
-		} catch (Exception e) {
-			logger.error(e);
-			return null;
-		}
-	}
-	
-
-
-	
-	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException
 	{
 		return search("$.data..cards"+ getMTGQueryManager().build(crits).toString());
 	}
-	
 	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
@@ -194,7 +173,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		for (Map<String, Object> map : cardsElement) 
 		{
 				MagicCard mc = new MagicCard();
-				  mc.setId(String.valueOf(map.get("uuid").toString()));
+				  mc.setId(String.valueOf(map.get(UUID).toString()));
 				  mc.setText(String.valueOf(map.get(TEXT)));
 		
 					Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
