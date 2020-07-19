@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -15,10 +16,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCriteriaConverter;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.SQLCriteriaBuilder;
+import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -115,9 +118,20 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	
 	
 	@Override
-	public List<String> loadQueryableAttributs() {
+	public List<CardAttribute> loadQueryableAttributs() {
 		
-		return Lists.newArrayList(NAME,ARTIST,TEXT,CONVERTED_MANA_COST,POWER,TOUGHNESS,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,MULTIVERSE_ID,NUMBER,RARITY,"hasFoil","hasNonFoil","type","jsonpath");
+		List<CardAttribute> arr = new ArrayList<>();
+		
+		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,RARITY,"type","jsonpath"))
+			arr.add(new CardAttribute(s,TYPE_FIELD.STRING));
+		
+		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,IS_RESERVED,MULTIVERSE_ID,NUMBER))
+			arr.add(new CardAttribute(s,TYPE_FIELD.INTEGER));
+		
+		for(String s :Lists.newArrayList(IS_RESERVED,"hasFoil","hasNonFoil"))
+			arr.add(new CardAttribute(s,TYPE_FIELD.BOOLEAN));
+		
+		return arr;
 	}
 
 	

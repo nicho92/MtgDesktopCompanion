@@ -12,6 +12,8 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.TCache;
 
@@ -45,19 +47,19 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return "cardsProviders";
 	}
 	
-	protected abstract List<String> loadQueryableAttributs();
+	protected abstract List<CardAttribute> loadQueryableAttributs();
 	public abstract List<MagicEdition> loadEditions() throws IOException;
 
 	
 	
 	@Override
-	public String[] getQueryableAttributs() {
+	public CardAttribute[] getQueryableAttributs() {
 		
-		List<String> atts = loadQueryableAttributs();
-				atts.add(SET_FIELD);
-				atts.add(COLLECTION_FIELD);
-				atts.add(ALL);
-		return atts.stream().toArray(String[]::new);
+		List<CardAttribute> atts = loadQueryableAttributs();
+				atts.add(new CardAttribute(SET_FIELD, TYPE_FIELD.STRING));
+				atts.add(new CardAttribute(COLLECTION_FIELD, TYPE_FIELD.STRING));
+				atts.add(new CardAttribute(ALL, TYPE_FIELD.STRING));
+		return atts.stream().toArray(CardAttribute[]::new);
 	}
 	
 	

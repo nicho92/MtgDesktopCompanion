@@ -24,6 +24,8 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -477,23 +479,24 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 
 	@Override
-	public List<String> loadQueryableAttributs() {
-		List<String> ret = new ArrayList<>();
+	public List<CardAttribute> loadQueryableAttributs() {
+		List<CardAttribute> ret = new ArrayList<>();
 		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cards)");ResultSet rs = pst.executeQuery())
 		{
-			
 			while(rs.next())
 			{
-				ret.add(rs.getString(NAME));
+				if(rs.getString(NAME).startsWith("is") || rs.getString(NAME).startsWith("has"))
+					ret.add(new CardAttribute(rs.getString(NAME), TYPE_FIELD.BOOLEAN));
+				else
+					ret.add(new CardAttribute(rs.getString(NAME), convert(rs.getString("type"))));
 			}
 			
 			
-			ret.add("sql");
+			ret.add(new CardAttribute("sql",TYPE_FIELD.STRING));
 			Collections.sort(ret);
-			ret.remove("name");
-			ret.add(0, "name");
-			
+			ret.remove(new CardAttribute("name",TYPE_FIELD.STRING));
+			ret.add(0, new CardAttribute("name",TYPE_FIELD.STRING));
 		} 
 		catch (SQLException e) {
 			logger.error(e);
@@ -501,6 +504,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		}
 		
 		return ret;
+	}
+
+	private TYPE_FIELD convert(String string) {
+		if(string.startsWith("TEXT"))
+			return TYPE_FIELD.STRING;
+		else if(string.startsWith("INTEGER"))
+			return TYPE_FIELD.INTEGER;
+		else if(string.startsWith("BOOL"))
+			return TYPE_FIELD.BOOLEAN;
+		else
+			return TYPE_FIELD.FLOAT;
 	}
 
 	@Override

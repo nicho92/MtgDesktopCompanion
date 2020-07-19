@@ -18,6 +18,14 @@ public class MTGCrit<T> {
 		this.val = val;	
 	}	
 
+	@SafeVarargs	
+	public MTGCrit(CardAttribute att, OPERATOR operator, T... val) {	
+		this.att = att.getName();	
+		this.operator = operator;	
+		this.val = val;	
+	}	
+	
+	
 	
 	public Class getType()
 	{

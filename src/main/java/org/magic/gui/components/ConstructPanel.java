@@ -55,6 +55,7 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.criterias.CardAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -146,7 +147,7 @@ public class ConstructPanel extends JPanel {
 		HandPanel thumbnail;
 		JTabbedPane panelBottom;
 		JTextField txtSearch;
-		JComboBox<String> cboAttributs;
+		JComboBox<CardAttribute> cboAttributs;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
 		AbstractBuzyIndicatorComponent buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();

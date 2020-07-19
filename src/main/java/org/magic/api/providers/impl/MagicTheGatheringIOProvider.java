@@ -25,7 +25,9 @@ import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -377,8 +379,21 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<String> loadQueryableAttributs() {
-		return Lists.newArrayList(NAME, FOREIGN_NAMES, TEXT, ARTIST, TYPE, RARITY, FLAVOR, "cmc", WATERMARK, POWER, TOUGHNESS, LAYOUT);
+	public List<CardAttribute> loadQueryableAttributs() {
+		List<CardAttribute> arr = new ArrayList<>();
+		
+		for(String s :Lists.newArrayList(NAME, FOREIGN_NAMES, TEXT, ARTIST, TYPE, RARITY, FLAVOR,WATERMARK,LAYOUT))
+		{
+			arr.add(new CardAttribute(s,TYPE_FIELD.STRING));
+		}
+		
+		for(String s :Lists.newArrayList("cmc", POWER, TOUGHNESS))
+		{
+			arr.add(new CardAttribute(s,TYPE_FIELD.INTEGER));
+		}
+		
+		return arr;
+		
 	}
 
 	@Override
