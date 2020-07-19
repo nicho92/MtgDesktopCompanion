@@ -13,8 +13,12 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.JsonCriteriaBuilder;
+import org.magic.api.criterias.MTGCriteriaConverter;
 import org.magic.api.criterias.MTGQueryBuilder;
+import org.magic.api.criterias.SQLCriteriaBuilder;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -22,6 +26,7 @@ import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
+import com.jayway.jsonpath.Filter;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
@@ -75,6 +80,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public abstract File getDataFile();
 	public abstract String getOnlineDataFileZip();
 	
+	protected MTGQueryBuilder<?> queryBuilder=  new JsonCriteriaBuilder();
 	
 	protected void download() {
 		try {
@@ -92,9 +98,22 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 	
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		return new JsonCriteriaBuilder();
+		MTGQueryBuilder<?> b= new JsonCriteriaBuilder();
+
+		initBuilder(b);
+		
+		return b;
 	}
 
+	protected void initBuilder(MTGQueryBuilder<?> b)
+	{
+		b.addConvertor(MTGColor.class, MTGColor::getCode);
+		b.addConvertor(MagicEdition.class, MagicEdition::getId);
+		b.addConvertor(MTGLayout.class,(MTGLayout source)->source.name().toLowerCase());
+	}
+	
+	
+	
 	@Override
 	public List<String> loadQueryableAttributs() {
 		

@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.SQLCriteriaBuilder;
@@ -41,14 +42,14 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	
 	@Override
-	public MTGQueryBuilder<?> getMTGQueryManager() {
-		return new SQLCriteriaBuilder();
-	}
-
-	
-	@Override
 	public String getOnlineDataFileZip() {
 		return "https://mtgjson.com/api/v5/AllPrintings.sqlite.zip";
+	}
+	
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		MTGQueryBuilder<?> b= new SQLCriteriaBuilder();
+		initBuilder(b);
+		return b;
 	}
 	
 	
@@ -505,11 +506,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public String getName() {
 		return "MTGSQLive";
-	}
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
 	}
 
 }

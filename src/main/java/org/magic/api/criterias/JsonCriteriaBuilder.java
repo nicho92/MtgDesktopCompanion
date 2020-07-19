@@ -10,9 +10,7 @@ import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.Predicate;
 
 
-public class JsonCriteriaBuilder implements MTGQueryBuilder<Filter> {
-
-	
+public class JsonCriteriaBuilder extends AbstractQueryBuilder<Filter> {
 	
 	
 	public Filter build(MTGCrit<?>... crits) {
@@ -37,6 +35,5 @@ public class JsonCriteriaBuilder implements MTGQueryBuilder<Filter> {
 		}
 		return filter(l);
 	}
-	
-	
+
 }

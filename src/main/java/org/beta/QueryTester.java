@@ -16,7 +16,7 @@ public class QueryTester {
 	public static void main(String[] args) throws IOException {
 		MTGCrit<String> cmcA = new MTGCrit<>("type",OPERATOR.LIKE,"Creature");
 		MTGCrit<Integer> cmcI = new MTGCrit<>("convertedManaCost",OPERATOR.GREATER_EQ,6);
-		MTGCrit<MTGColor> cmcC = new MTGCrit<>("colors",OPERATOR.IN,MTGColor.BLACK);
+		MTGCrit<MTGColor> cmcC = new MTGCrit<>("colors",OPERATOR.IN,MTGColor.BLACK,MTGColor.RED);
 
 		//$.data..cards[?(@['colors'].indexOf('R') != -1)]
 		MTGCardsProvider prov = new MTGSQLiveProvider();
