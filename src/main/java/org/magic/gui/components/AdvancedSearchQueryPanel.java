@@ -81,6 +81,7 @@ public class AdvancedSearchQueryPanel extends JDialog {
 			dispose();
 		});
 		
+		
 		setModal(true);
 	}
 	

@@ -433,7 +433,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		advancedSearch.addActionListener(il->{
 			AdvancedSearchQueryPanel diag = new AdvancedSearchQueryPanel();
 									diag.setVisible(true);
-			
+									diag.setLocationRelativeTo(this);
 									
 									
 			if(diag.getCrits().isEmpty())
@@ -468,7 +468,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			};
 			
 			
-			ThreadManager.getInstance().runInEdt(wk,"searching "+txtSearch.getText());
+			ThreadManager.getInstance().runInEdt(wk,"searching "+diag.getCrits());
 			
 			
 		});
