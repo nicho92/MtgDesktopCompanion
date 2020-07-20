@@ -17,7 +17,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.criterias.CardAttribute;
-import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
@@ -246,7 +245,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		try {
 				Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
 				
-				return keys.stream().map(k->new CardAttribute(k,TYPE_FIELD.STRING)).collect(Collectors.toList());
+				return keys.stream().map(k->new CardAttribute(k,String.class)).collect(Collectors.toList());
 			} catch (Exception e) {
 			logger.error(e);
 			return new ArrayList<>();

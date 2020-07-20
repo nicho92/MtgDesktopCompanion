@@ -25,8 +25,6 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
-import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
-import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.SQLCriteriaBuilder;
@@ -487,16 +485,16 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			while(rs.next())
 			{
 				if(rs.getString(NAME).startsWith("is") || rs.getString(NAME).startsWith("has"))
-					ret.add(new CardAttribute(rs.getString(NAME), TYPE_FIELD.BOOLEAN));
+					ret.add(new CardAttribute(rs.getString(NAME), Boolean.class));
 				else
 					ret.add(new CardAttribute(rs.getString(NAME), convert(rs.getString("type"))));
 			}
 			
 			
-			ret.add(new CardAttribute("sql",TYPE_FIELD.STRING));
+			ret.add(new CardAttribute("sql",String.class));
 			Collections.sort(ret);
-			ret.remove(new CardAttribute("name",TYPE_FIELD.STRING));
-			ret.add(0, new CardAttribute("name",TYPE_FIELD.STRING));
+			ret.remove(new CardAttribute("name",String.class));
+			ret.add(0, new CardAttribute("name",String.class));
 		} 
 		catch (SQLException e) {
 			logger.error(e);
@@ -506,15 +504,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		return ret;
 	}
 
-	private TYPE_FIELD convert(String string) {
+	private Class convert(String string) {
 		if(string.startsWith("TEXT"))
-			return TYPE_FIELD.STRING;
+			return String.class;
 		else if(string.startsWith("INTEGER"))
-			return TYPE_FIELD.INTEGER;
+			return Integer.class;
 		else if(string.startsWith("BOOL"))
-			return TYPE_FIELD.BOOLEAN;
+			return Boolean.class;
 		else
-			return TYPE_FIELD.FLOAT;
+			return Float.class;
 	}
 
 	@Override

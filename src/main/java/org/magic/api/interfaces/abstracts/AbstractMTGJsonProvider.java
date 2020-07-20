@@ -18,10 +18,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.JsonCriteriaBuilder;
-import org.magic.api.criterias.MTGCriteriaConverter;
 import org.magic.api.criterias.MTGQueryBuilder;
-import org.magic.api.criterias.SQLCriteriaBuilder;
-import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -29,7 +26,6 @@ import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
-import com.jayway.jsonpath.Filter;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
@@ -122,14 +118,14 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 		List<CardAttribute> arr = new ArrayList<>();
 		
-		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,IS_RESERVED,LAYOUT,MANA_COST,RARITY,"type","jsonpath"))
-			arr.add(new CardAttribute(s,TYPE_FIELD.STRING));
+		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,LAYOUT,MANA_COST,RARITY,"type","jsonpath"))
+			arr.add(new CardAttribute(s,String.class));
 		
-		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,IS_RESERVED,MULTIVERSE_ID,NUMBER))
-			arr.add(new CardAttribute(s,TYPE_FIELD.INTEGER));
+		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,MULTIVERSE_ID,NUMBER))
+			arr.add(new CardAttribute(s,Integer.class));
 		
 		for(String s :Lists.newArrayList(IS_RESERVED,"hasFoil","hasNonFoil"))
-			arr.add(new CardAttribute(s,TYPE_FIELD.BOOLEAN));
+			arr.add(new CardAttribute(s,Boolean.class));
 		
 		return arr;
 	}

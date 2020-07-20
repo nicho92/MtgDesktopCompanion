@@ -5,11 +5,10 @@ import java.io.Serializable;
 public class CardAttribute implements Serializable, Comparable<CardAttribute>{
 	
 	private static final long serialVersionUID = 1L;
-	public enum TYPE_FIELD {INTEGER,FLOAT,STRING,BOOLEAN}
 	private String name;
-	private TYPE_FIELD type;
+	private Class type;
 	
-	public CardAttribute(String name, TYPE_FIELD type) {
+	public CardAttribute(String name, Class type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -20,10 +19,10 @@ public class CardAttribute implements Serializable, Comparable<CardAttribute>{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public TYPE_FIELD getType() {
+	public Class getType() {
 		return type;
 	}
-	public void setType(TYPE_FIELD type) {
+	public void setType(Class type) {
 		this.type = type;
 	}
 	

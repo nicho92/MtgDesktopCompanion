@@ -248,7 +248,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
-		
+		JButton advancedSearch = new JButton("Advanced");
 		txtSearch = UITools.createSearchField();
 		
 			
@@ -353,6 +353,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauHaut.add(cboQuereableItems);
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(txtSearch);
+		panneauHaut.add(advancedSearch);
 		panneauHaut.add(cboEdition);
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
@@ -428,6 +429,49 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 		});
 		
+		
+		advancedSearch.addActionListener(il->{
+			AdvancedSearchQueryPanel diag = new AdvancedSearchQueryPanel();
+									diag.setVisible(true);
+			
+									
+									
+			if(diag.getCrits().isEmpty())
+				return;
+			
+			
+			lblLoading.start();
+			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
+			cardsModeltable.clear();
+			
+			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider> wk = new AbstractObservableWorker<>(lblLoading,MTGControler.getInstance().getEnabled(MTGCardsProvider.class)) {
+
+						@Override
+						protected List<MagicCard> doInBackground() throws Exception {
+							return plug.searchByCriteria(diag.getCrits());
+						}
+
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							super.process(chunks);
+							cardsModeltable.addItems(chunks);
+						}
+
+						@Override
+						protected void done() {
+							super.done();
+							open(getResult());
+							btnExport.setEnabled(tableCards.getRowCount() > 0);
+						}
+						
+						
+			};
+			
+			
+			ThreadManager.getInstance().runInEdt(wk,"searching "+txtSearch.getText());
+			
+			
+		});
 		
 		
 		

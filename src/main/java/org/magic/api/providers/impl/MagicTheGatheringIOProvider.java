@@ -27,7 +27,6 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -384,12 +383,12 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		
 		for(String s :Lists.newArrayList(NAME, FOREIGN_NAMES, TEXT, ARTIST, TYPE, RARITY, FLAVOR,WATERMARK,LAYOUT))
 		{
-			arr.add(new CardAttribute(s,TYPE_FIELD.STRING));
+			arr.add(new CardAttribute(s,String.class));
 		}
 		
 		for(String s :Lists.newArrayList("cmc", POWER, TOUGHNESS))
 		{
-			arr.add(new CardAttribute(s,TYPE_FIELD.INTEGER));
+			arr.add(new CardAttribute(s,Integer.class));
 		}
 		
 		return arr;

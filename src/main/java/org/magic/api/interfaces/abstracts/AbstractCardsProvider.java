@@ -10,10 +10,11 @@ import java.util.concurrent.ExecutionException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
-import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.TCache;
 
@@ -56,9 +57,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public CardAttribute[] getQueryableAttributs() {
 		
 		List<CardAttribute> atts = loadQueryableAttributs();
-				atts.add(new CardAttribute(SET_FIELD, TYPE_FIELD.STRING));
-				atts.add(new CardAttribute(COLLECTION_FIELD, TYPE_FIELD.STRING));
-				atts.add(new CardAttribute(ALL, TYPE_FIELD.STRING));
+				atts.add(new CardAttribute(SET_FIELD, MagicEdition.class));
+				atts.add(new CardAttribute(COLLECTION_FIELD, MagicCollection.class));
+				atts.add(new CardAttribute(ALL, String.class));
 		return atts.stream().toArray(CardAttribute[]::new);
 	}
 	
@@ -143,6 +144,12 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			return new MagicEdition(id,id);
 		} 
 		
+	}
+	
+	
+	@Override
+	public List<MagicCard> searchByCriteria(List<MTGCrit> crits) throws IOException {
+		return searchByCriteria(crits.stream().toArray(MTGCrit[]::new));
 	}
 
 	

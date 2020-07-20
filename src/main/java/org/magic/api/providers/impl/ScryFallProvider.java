@@ -24,7 +24,6 @@ import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.CardAttribute.TYPE_FIELD;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -217,17 +216,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		for(String s :Lists.newArrayList(NAME, "custom", "type", COLOR, "oracle", "mana",RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME))
 		{
-			arr.add(new CardAttribute(s,TYPE_FIELD.STRING));
+			arr.add(new CardAttribute(s,String.class));
 		}
 		
 		for(String s :Lists.newArrayList("cmc", POWER, TOUGHNESS,LOYALTY))
 		{
-			arr.add(new CardAttribute(s,TYPE_FIELD.INTEGER));
+			arr.add(new CardAttribute(s,Integer.class));
 		}
 		
 		for(String s :Lists.newArrayList("is"))
 		{
-			arr.add(new CardAttribute(s,TYPE_FIELD.BOOLEAN));
+			arr.add(new CardAttribute(s,Boolean.class));
 		}
 		
 		return arr;
