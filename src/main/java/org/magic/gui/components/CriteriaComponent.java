@@ -9,13 +9,15 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
@@ -91,9 +93,10 @@ public class CriteriaComponent extends JPanel{
 			return f;
 		}
 		
-		if(c.getType() == Integer.class)
+		if(c.getType() == Integer.class || c.getType() == Float.class)
 		{
-			JSlider s= new JSlider();
+			JSpinner s= new JSpinner(new SpinnerNumberModel(0,0,100,1));
+			s.setValue(0);
 			s.addChangeListener(l->val = s.getValue());
 			return s;
 		}
@@ -114,6 +117,9 @@ public class CriteriaComponent extends JPanel{
 		if(c.getType() == MTGColor.class)
 			return init(UITools.createCombobox(MTGColor.values()));
 		
+		if(c.getType() == MTGLayout.class)
+			return init(UITools.createCombobox(MTGLayout.values()));
+		
 		return null;
 	}
 	
@@ -127,9 +133,6 @@ public class CriteriaComponent extends JPanel{
 	}
 
 	public MTGCrit<?> getMTGCriteria(){
-		
-		System.out.println(c  +" " + cboOperator.getSelectedItem() +" " + val);
-		
 		return new MTGCrit<>(c, OPERATOR.valueOf(cboOperator.getSelectedItem().toString()), val);
 	}
 	

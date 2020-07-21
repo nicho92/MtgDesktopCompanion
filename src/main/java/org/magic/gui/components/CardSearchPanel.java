@@ -64,6 +64,7 @@ import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.components.dialog.AdvancedSearchQueryDialog;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
@@ -248,7 +249,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
-		JButton advancedSearch = new JButton("Advanced");
+		JButton advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH, KeyEvent.VK_A, "AdvancedSearch");
 		txtSearch = UITools.createSearchField();
 		
 			
@@ -431,10 +432,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		
 		advancedSearch.addActionListener(il->{
-			AdvancedSearchQueryPanel diag = new AdvancedSearchQueryPanel();
-									diag.setVisible(true);
-									diag.setLocationRelativeTo(this);
-									
+			AdvancedSearchQueryDialog diag = new AdvancedSearchQueryDialog();
+									  diag.setVisible(true);
 									
 			if(diag.getCrits().isEmpty())
 				return;

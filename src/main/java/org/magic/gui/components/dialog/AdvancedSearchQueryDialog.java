@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.dialog;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -8,6 +8,7 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.CriteriaComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
@@ -19,13 +20,14 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvancedSearchQueryPanel extends JDialog {
+public class AdvancedSearchQueryDialog extends JDialog {
 	
 	
 	private GridLayout layout;
@@ -34,7 +36,7 @@ public class AdvancedSearchQueryPanel extends JDialog {
 	
 	
 	
-	public AdvancedSearchQueryPanel() {
+	public AdvancedSearchQueryDialog() {
 		setLayout(new BorderLayout(0, 0));
 		
 		crits = new ArrayList<>();
@@ -81,8 +83,9 @@ public class AdvancedSearchQueryPanel extends JDialog {
 			dispose();
 		});
 		
-		
+		setSize(new Dimension(800, 600));
 		setModal(true);
+		setLocationRelativeTo(null);
 	}
 	
 	public List<MTGCrit> getCrits() {
@@ -91,20 +94,5 @@ public class AdvancedSearchQueryPanel extends JDialog {
 	
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) throws SQLException {
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
-		
-		JFrame f = new JFrame();
-		
-		f.getContentPane().add(new AdvancedSearchQueryPanel());
-		f.pack();
-		f.setVisible(true);
-		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
-
-	}
 
 }

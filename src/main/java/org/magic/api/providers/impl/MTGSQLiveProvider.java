@@ -486,8 +486,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			{
 				if(rs.getString(NAME).startsWith("is") || rs.getString(NAME).startsWith("has"))
 					ret.add(new CardAttribute(rs.getString(NAME), Boolean.class));
+				else if(rs.getString(NAME).equals("setCode"))
+					ret.add(new CardAttribute(rs.getString(NAME), MagicEdition.class));
+				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY))
+					ret.add(new CardAttribute(rs.getString(NAME), MTGColor.class));
+				else if(rs.getString(NAME).equals(LAYOUT))
+					ret.add(new CardAttribute(rs.getString(NAME), MTGLayout.class));
+				else if(rs.getString(NAME).equals(RARITY))
+					ret.add(new CardAttribute(rs.getString(NAME), MTGRarity.class));
 				else
 					ret.add(new CardAttribute(rs.getString(NAME), convert(rs.getString("type"))));
+				
 			}
 			
 			
