@@ -15,7 +15,9 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -101,24 +103,16 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 		initBuilder(b);
 		
-		return b;
+		return b; 
 	}
 
-	protected void initBuilder(MTGQueryBuilder<?> b)
-	{
-		b.addConvertor(MTGColor.class, MTGColor::getCode);
-		b.addConvertor(MagicEdition.class, MagicEdition::getId);
-		b.addConvertor(MTGLayout.class,(MTGLayout source)->source.name().toLowerCase());
-	}
-	
-	
 	
 	@Override
 	public List<CardAttribute> loadQueryableAttributs() {
 		
 		List<CardAttribute> arr = new ArrayList<>();
 		
-		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,LAYOUT,MANA_COST,RARITY,"type","jsonpath"))
+		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,MANA_COST,"type","jsonpath"))
 			arr.add(new CardAttribute(s,String.class));
 		
 		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,MULTIVERSE_ID,NUMBER))
@@ -126,6 +120,13 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 		for(String s :Lists.newArrayList(IS_RESERVED,"hasFoil","hasNonFoil"))
 			arr.add(new CardAttribute(s,Boolean.class));
+		
+		
+		
+		arr.add(new CardAttribute(LAYOUT, MTGLayout.class));
+		arr.add(new CardAttribute(RARITY, MTGRarity.class));
+		arr.add(new CardAttribute(COLOR_IDENTITY, MTGColor.class));
+		arr.add(new CardAttribute(COLORS, MTGColor.class));
 		
 		return arr;
 	}

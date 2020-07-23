@@ -12,9 +12,13 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.TCache;
 
@@ -29,7 +33,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	private TCache<MagicEdition> cacheEditions;
 	private TCache<List<MagicCard>> cacheCardsByEdition;
 	
-	
+	protected abstract List<CardAttribute> loadQueryableAttributs();
+	public abstract List<MagicEdition> loadEditions() throws IOException;
+
 
 	public AbstractCardsProvider() {
 		
@@ -48,9 +54,14 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return "cardsProviders";
 	}
 	
-	protected abstract List<CardAttribute> loadQueryableAttributs();
-	public abstract List<MagicEdition> loadEditions() throws IOException;
 
+	protected void initBuilder(MTGQueryBuilder<?> b)
+	{
+		b.addConvertor(MTGColor.class, MTGColor::getCode);
+		b.addConvertor(MagicEdition.class, MagicEdition::getId);
+		b.addConvertor(MTGLayout.class,(MTGLayout source)->source.name().toLowerCase());
+		b.addConvertor(MTGFrameEffects.class,(MTGFrameEffects source)->source.name().toLowerCase());
+	}
 	
 	
 	@Override

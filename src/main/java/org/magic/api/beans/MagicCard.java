@@ -9,8 +9,6 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.game.model.factories.AbilitiesFactory;
-import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.tools.IDGenerator;
 
 public class MagicCard implements Serializable {
@@ -64,7 +62,7 @@ public class MagicCard implements Serializable {
 	private boolean isStorySpotlight;
 	private boolean hasAlternativeDeckLimit;
 	private MagicCard rotatedCard;
-	
+	private List<MTGKeyWord> keywords;
 	
 	
 	public boolean isHasAlternativeDeckLimit() {
@@ -92,6 +90,14 @@ public class MagicCard implements Serializable {
 		return side;
 	}
 	
+	
+	public List<MTGKeyWord> getKeywords() {
+		return keywords;
+	}
+	
+	public void setKeywords(List<MTGKeyWord> keywords) {
+		this.keywords = keywords;
+	}
 	
 	public String getFlavorName() {
 		return flavorName;
@@ -386,6 +392,7 @@ public class MagicCard implements Serializable {
 		colorIdentity = new ArrayList<>();
 		legalities = new ArrayList<>();
 		frameEffects = new ArrayList<>();
+		keywords = new ArrayList<>();
 	}
 
 	public String getOriginalText() {

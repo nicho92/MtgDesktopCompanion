@@ -23,7 +23,10 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGQueryBuilder;
+import org.magic.api.criterias.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -37,6 +40,11 @@ import com.google.gson.JsonObject;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String CMC = "cmc";
+	private static final String GAMES = "games";
+	private static final String LAYOUT = "layout";
+	private static final String OVERSIZED = "oversized";
+	private static final String REPRINTED = "reprinted";
 	private static final String CARDS = "/cards/";
 	private static final String ILLUSTRATION_ID = "illustration_id";
 	private static final String FRAME = "frame";
@@ -49,6 +57,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String TOUGHNESS = "toughness";
 	private static final String RARITY = "rarity";
 	private static final String MULTIVERSE_ID = "multiverse_id";
+	private static final String COLOR_IDENTITY="color_identity";
 	private static final String DIGITAL = "digital";
 	private static final String COLORS = "colors";
 	private static final String COLLECTOR_NUMBER = "collector_number";
@@ -75,11 +84,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	
-	@Override
-	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
-		throw new IOException("Not Yet Implemented");
-	}
-	
 	
 	public void downloadBulkFile(File f) throws IOException
 	{
@@ -92,7 +96,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		setProperty(LOAD_CERTIFICATE, "true");
 		setProperty("URL", "https://api.scryfall.com");
 		setProperty("MULTILANG","false");
-		setProperty("LOAD_RULING","true");
+		setProperty("LOAD_RULING","false");
 	}
 	
 	@Override
@@ -126,6 +130,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public List<MagicCard> listAllCards() throws IOException {
 		throw new IOException("Not Implemented");
 	}
+	
+	
 	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
@@ -214,25 +220,46 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public List<CardAttribute> loadQueryableAttributs() {
 		List<CardAttribute> arr = new ArrayList<>();
 		
-		for(String s :Lists.newArrayList(NAME, "custom", "type", COLOR, "oracle", "mana",RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME))
+		for(String s :Lists.newArrayList(NAME, "custom", "type", "oracle", "mana",RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME))
 		{
 			arr.add(new CardAttribute(s,String.class));
 		}
 		
-		for(String s :Lists.newArrayList("cmc", POWER, TOUGHNESS,LOYALTY))
+		for(String s :Lists.newArrayList(CMC, POWER, TOUGHNESS,LOYALTY))
 		{
 			arr.add(new CardAttribute(s,Integer.class));
 		}
 		
-		for(String s :Lists.newArrayList("is"))
+		for(String s :Lists.newArrayList("is","foil","nonfoil",OVERSIZED,"promo","reprint","story_spotlight","variation"))
 		{
 			arr.add(new CardAttribute(s,Boolean.class));
 		}
 		
+		arr.add(new CardAttribute("set",MagicEdition.class));
+		arr.add(new CardAttribute(COLOR, MTGColor.class));
+		arr.add(new CardAttribute(COLOR_IDENTITY, MTGColor.class));
+		arr.add(new CardAttribute(LAYOUT,MTGLayout.class));
+		
 		return arr;
-		
-		
 	}
+	
+
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		MTGQueryBuilder<String> b= new ScryfallCriteriaBuilder();
+		
+		initBuilder(b);
+		
+		return b;
+	}
+	
+	
+
+	@Override
+	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
+		throw new IOException("Not Yet Implemented");
+	}
+	
+	
 
 
 	@Override
@@ -280,9 +307,24 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setId(obj.get("id").getAsString());
 		mc.setScryfallId(mc.getId());
 		mc.setName(obj.get(NAME).getAsString());
-		mc.setCmc(obj.get("cmc").getAsInt());
-		mc.setLayout(MTGLayout.parseByLabel(obj.get("layout").getAsString()));
-		mc.setOversized(obj.get("oversized").getAsBoolean());
+		mc.setCmc(obj.get(CMC).getAsInt());
+		mc.setLayout(MTGLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
+		mc.setOversized(obj.get(OVERSIZED).getAsBoolean());
+		
+		try {
+			mc.setReprintedCard(obj.get(REPRINTED).getAsBoolean());
+		} catch (NullPointerException e) {
+			mc.setReprintedCard(false);
+		}
+
+		try {
+			mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
+		} catch (NullPointerException e) {
+			mc.setStorySpotlight(false);
+		}
+
+		
+		
 		try {
 			mc.setText(obj.get("oracle_text").getAsString());
 		} catch (NullPointerException e) {
@@ -384,8 +426,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		}
 
-		if (obj.get("color_identity") != null) {
-			Iterator<JsonElement> it = obj.get("color_identity").getAsJsonArray().iterator();
+		if (obj.get(COLOR_IDENTITY) != null) {
+			Iterator<JsonElement> it = obj.get(COLOR_IDENTITY).getAsJsonArray().iterator();
 			while (it.hasNext())
 				mc.getColorIdentity().add(MTGColor.colorByCode(it.next().getAsString()));
 		}
@@ -400,8 +442,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 		
-		if (obj.get("games") != null) {
-			JsonArray g = obj.get("games").getAsJsonArray();
+		if (obj.get(GAMES) != null) {
+			JsonArray g = obj.get(GAMES).getAsJsonArray();
 			
 			g.forEach(el->{
 				
@@ -434,7 +476,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					.getAsString());
 			mc.setCost(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost")
 					.getAsString());
-			//mc.setRotatedCardName(obj.get(CARD_FACES).getAsJsonArray().get(1).getAsJsonObject().get(NAME).getAsString());
 			
 			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID)!=null)
 				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID).getAsString());
@@ -467,23 +508,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 			}
 		}
-
-//		// meld
-//		if (obj.get("all_parts") != null) {
-//			JsonArray arr = obj.get("all_parts").getAsJsonArray();
-//
-//			int index = -1;
-//			for (int i = 0; i < arr.size(); i++) {
-//				if (arr.get(i).getAsJsonObject().get(NAME).getAsString().equals(mc.getName())) {
-//					index = i;
-//					break;
-//				}
-//
-//			}
-//			arr.remove(index);
-//			if (arr.size() == 1)
-//				mc.setRotatedCardName(arr.get(0).getAsJsonObject().get(NAME).getAsString());
-//		}
 
 		MagicEdition ed = null;
 		
