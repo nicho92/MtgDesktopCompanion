@@ -37,7 +37,7 @@ public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query>
 						case START_WITH : ((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).like(getValueFor(c.getFirst())+"%"));break;
 						case GREATER_EQ : ((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).greaterOrEqual(getValueFor(c.getFirst())));break;
 						case LOWER_EQ : ((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).lessOrEqual(getValueFor(c.getFirst())));break;
-						case IN: ((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).in(getValueFor(c.getFirst())));break;
+						case IN: ((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).in(getValueFor(c.getVal())));break;
 					}
 				}
 			}
