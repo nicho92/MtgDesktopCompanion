@@ -196,21 +196,21 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private MagicCard generateCardsFromRs(ResultSet rs,boolean load) throws SQLException {
 		MagicCard mc = new MagicCard();
 				mc.setName(rs.getString(NAME));
-				mc.setCmc(rs.getInt("convertedManaCost"));
-				mc.setCost(rs.getString("manaCost"));
-				mc.setText(rs.getString("text"));
+				mc.setCmc(rs.getInt(CONVERTED_MANA_COST));
+				mc.setCost(rs.getString(MANA_COST));
+				mc.setText(rs.getString(TEXT));
 				mc.setId(rs.getString(UUID));
 				mc.setEdhrecRank(rs.getInt("edhrecRank"));
 				mc.setFrameVersion(rs.getString("frameVersion"));
-				mc.setLayout(MTGLayout.parseByLabel(rs.getString("layout")));
+				mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
 				mc.setPower(rs.getString(POWER));
 				mc.setToughness(rs.getString(TOUGHNESS));
 				mc.getRulings().addAll(getRulings(mc.getId()));
 				mc.setArtist(rs.getString(ARTIST));
 				mc.setFlavor(rs.getString(FLAVOR_TEXT));
 				mc.setWatermarks(rs.getString("watermark"));
-				mc.setOriginalText(rs.getString("originalText"));
-				mc.setOriginalType(rs.getString("originalType"));
+				mc.setOriginalText(rs.getString(ORIGINAL_TEXT));
+				mc.setOriginalType(rs.getString(ORIGINAL_TYPE));
 				mc.setMkmId(rs.getInt("mcmId"));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
 				mc.setArenaCard(rs.getString("availability").contains("arena"));
@@ -219,45 +219,45 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setPromoCard(rs.getBoolean("isPromo"));
 				mc.setOversized(rs.getBoolean("isOversized"));
 				mc.setReprintedCard(rs.getBoolean("isReprint"));
-				mc.setReserved(rs.getBoolean("isReserved"));
+				mc.setReserved(rs.getBoolean(IS_RESERVED));
 				mc.setFlavorName(rs.getString("flavorName"));
 				mc.setSide(rs.getString("side"));
 				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
 				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
 				
 				
-				String ci = rs.getString("colorIdentity");
+				String ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
 					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
 
-				ci = rs.getString("colors");
+				ci = rs.getString(COLORS);
 				if(ci!=null)
 					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
 
 				try {
-					mc.setLoyalty(Integer.parseInt(rs.getString("loyalty")));
+					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
 				} catch (NumberFormatException e) {
 					mc.setLoyalty(0);
 				} 
-				String types = rs.getString("supertypes");
+				String types = rs.getString(SUPERTYPES);
 				
 				if(types!=null)
 				{
 					mc.getSupertypes().addAll(Arrays.asList(rs.getString("supertypes").split(",")));
 				}
 				
-				types = rs.getString("types");
+				types = rs.getString(TYPES);
 				
 				if(types!=null)
 				{
-					mc.getTypes().addAll(Arrays.asList(rs.getString("types").split(",")));
+					mc.getTypes().addAll(Arrays.asList(rs.getString(TYPES).split(",")));
 				}
 				
-				types = rs.getString("subtypes");
+				types = rs.getString(SUBTYPES);
 				
 				if(types!=null)
 				{
-					mc.getSubtypes().addAll(Arrays.asList(rs.getString("subtypes").split(",")));
+					mc.getSubtypes().addAll(Arrays.asList(rs.getString(SUBTYPES).split(",")));
 				}
 				
 				mc.getForeignNames().addAll(getTranslations(mc));
@@ -268,7 +268,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 				MagicEdition set = getSetById(rs.getString(SETCODE));
 							 set.setNumber(rs.getString("number"));
-							 set.setRarity(MTGRarity.rarityByName(rs.getString("rarity")));
+							 set.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
 							 set.setFlavor(rs.getString(FLAVOR_TEXT));
 							 set.setScryfallId(rs.getString("scryfallId"));
 							 set.setMultiverseid(rs.getString("multiverseId"));
@@ -503,8 +503,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			
 			ret.add(new CardAttribute("sql",String.class));
 			Collections.sort(ret);
-			ret.remove(new CardAttribute("name",String.class));
-			ret.add(0, new CardAttribute("name",String.class));
+			ret.remove(new CardAttribute(NAME,String.class));
+			ret.add(0, new CardAttribute(NAME,String.class));
 		} 
 		catch (SQLException e) {
 			logger.error(e);
@@ -514,7 +514,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		return ret;
 	}
 
-	private Class convert(String string) {
+	private Class<?> convert(String string) {
 		if(string.startsWith("TEXT"))
 			return String.class;
 		else if(string.startsWith("INTEGER"))
