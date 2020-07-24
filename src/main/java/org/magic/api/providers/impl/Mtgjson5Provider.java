@@ -224,8 +224,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get("flavorName") != null)
 					mc.setFlavorName(String.valueOf(map.get("flavorName")));
 				
-				
-				
 				if (map.get(ARTIST) != null)
 					mc.setArtist(String.valueOf(map.get(ARTIST)));
 			
@@ -303,7 +301,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get("hasAlternativeDeckLimit").toString()));
 				
 				
-				
 				if (map.get("watermark") != null)
 					mc.setWatermarks(String.valueOf(map.get("watermark")));
 				
@@ -312,7 +309,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				if (map.get("isReprint") != null)
 					mc.setReprintedCard(Boolean.valueOf(map.get("isReprint").toString()));
-				
+			
 
 				if (map.get(LOYALTY) != null) {
 					try {
