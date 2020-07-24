@@ -5,10 +5,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -26,7 +26,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 
-public class CriteriaComponent extends JPanel{
+public class CriteriaComponent extends JComponent{
 	
 
 
@@ -134,6 +134,11 @@ public class CriteriaComponent extends JPanel{
 
 	public MTGCrit<?> getMTGCriteria(){
 		return new MTGCrit<>(c, OPERATOR.valueOf(cboOperator.getSelectedItem().toString()), val);
+	}
+
+	public void addDeletableButton(JButton delete) {
+		add(delete,null,0);
+		
 	}
 	
 }

@@ -61,7 +61,19 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		
 		btnNewButton.addActionListener(al->
 			SwingUtilities.invokeLater(()->{
-				pContent.add(new CriteriaComponent());
+				
+				CriteriaComponent cc = new CriteriaComponent();
+				
+				JButton delete = new JButton("X");
+				delete.addActionListener(el->{
+					pContent.remove(cc);
+					pContent.revalidate();
+					pContent.repaint();
+
+				});
+				
+				cc.addDeletableButton(delete);
+				pContent.add(cc);
 				layout.setRows(layout.getRows()+1);
 				pContent.revalidate();
 				pContent.repaint();
