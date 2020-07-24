@@ -55,15 +55,21 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 				if (cardName.contains("//")) // for transformatble cards
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 				
-				notify(mc);
+				try {
+					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
+	
+					notify(mc);
+					
+					if (!sideboard)
+						deck.getMain().put(mc, qte);
+					else
+						deck.getSideBoard().put(mc, qte);
+				}catch(Exception ex)
+				{
+					logger.error("ERror loading card" + cont,ex);
+				}
 				
-				if (!sideboard)
-					deck.getMain().put(mc, qte);
-				else
-					deck.getSideBoard().put(mc, qte);
 			}
 		}
 		return deck;
