@@ -11,7 +11,6 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.game.actions.turns.MainPhase;
 import org.magic.tools.URLTools;
 
 

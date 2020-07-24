@@ -29,7 +29,6 @@ import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;

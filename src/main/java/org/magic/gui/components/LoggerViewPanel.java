@@ -1,8 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;

@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
@@ -62,7 +61,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String MANA_COST = "manaCost";
 	protected static final String NAME = "name";
 	protected static final String LANGUAGE = "language";
-
+	protected static final String SETCODE="setCode";
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";

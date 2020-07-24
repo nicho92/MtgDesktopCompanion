@@ -354,7 +354,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				MagicCardNames defnames = new MagicCardNames();
 				
 						if(identifiers.get(MULTIVERSE_ID)!=null)
-							   defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString()));
+							   defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
 						
 							   defnames.setLanguage("English");
 							   defnames.setName(mc.getName());
@@ -386,12 +386,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					}
 				}
 				
-//				if(mc.getFlavorName()!=null && mc.getFlavorName().indexOf('/')>1)
-//				{
-//					//mc.setRotatedCardName(mc.getFlavorName().substring(mc.getFlavorName().lastIndexOf("/")+1).trim());
-//				}
-//			
-				
 				String codeEd;
 				if (currentSet.size() <= 1)
 					codeEd = currentSet.get(0);
@@ -410,8 +404,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 							 
 							 if(identifiers.get(MULTIVERSE_ID)!=null)
 							 {
-								 defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString()));
-								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString())));
+								 defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
+								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID))));
 							 }
 							
 				mc.getEditions().add(me);
@@ -484,13 +478,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 				
 				try {
-					me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID).toString())));
+					me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID))));
 				} catch (Exception e) {
 					//do nothing
 				}
 				
 				try {
-					me.setScryfallId(identifiers.get(SCRYFALL_ID).toString());
+					me.setScryfallId(identifiers.get(SCRYFALL_ID));
 				} catch (Exception e) {
 					//do nothing
 				}

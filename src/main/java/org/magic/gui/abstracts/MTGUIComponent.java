@@ -24,8 +24,7 @@ public abstract class MTGUIComponent extends JComponent {
 	protected boolean onlyOneRefresh=true;
 	public abstract String getTitle();
 	private boolean alreadyShow=false;
-	private JScrollPane enclosingScrollPane;
-	private ComponentListener windowsListener;
+	private transient ComponentListener windowsListener;
 	
 	
 	@Override
@@ -34,7 +33,7 @@ public abstract class MTGUIComponent extends JComponent {
 	}
 	
 	public void setEnclosingScrollPane(JScrollPane scrollPane) {
-		  enclosingScrollPane = scrollPane;
+		JScrollPane  enclosingScrollPane = scrollPane;
 		  if (enclosingScrollPane != null) {
 		    enclosingScrollPane.addComponentListener(windowsListener);
 		  }

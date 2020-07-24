@@ -329,7 +329,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		listActions = new JList<>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listActions.setModel(new DefaultListModel<AbstractAction>());
+		listActions.setModel(new DefaultListModel<>());
 		JScrollPane scrollActions = new JScrollPane(listActions);
 		scrollActions.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions,null);

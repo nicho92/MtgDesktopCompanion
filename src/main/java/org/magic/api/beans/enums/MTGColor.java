@@ -1,7 +1,6 @@
 package org.magic.api.beans.enums;
 
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;

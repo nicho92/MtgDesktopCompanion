@@ -15,11 +15,9 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
-import org.magic.services.PluginRegistry;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 

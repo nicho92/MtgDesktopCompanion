@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.enums.MTGColor;
-import org.magic.services.keywords.AbstractKeyWordsManager;
 
 public class MagicDeck implements Serializable {
 

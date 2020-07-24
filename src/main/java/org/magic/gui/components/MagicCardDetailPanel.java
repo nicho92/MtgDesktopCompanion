@@ -210,7 +210,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		add(panelDetailCreature,UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2,3,null));
 		
 
-		lstFormats = new JList<>(new DefaultListModel<MagicFormat>());
+		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setCellRenderer((JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4)->{
 					JLabel l = new JLabel(obj.getFormat());
 					

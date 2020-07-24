@@ -45,7 +45,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private transient CollectionEvaluator evaluator;
 	private transient CollectionAnalyzerWorker sw;
 	private JSlider slider ;
-	private JLabel lblValue;
 	
 	@Override
 	public void initGUI() {
@@ -54,6 +53,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		modelCache.setColumnNames("EDITION", "DATE");
 		JXTable tableCache = new JXTable();
 		tableCache.setModel(modelCache);
+		JLabel lblValue = new JLabel();
 		
 		JPanel panelHaut = new JPanel();
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
@@ -89,7 +89,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
 		
-		lblValue = new JLabel();
 		
 		JPanel panelPriceMin = new JPanel();
 		slider = new JSlider(0, 100);

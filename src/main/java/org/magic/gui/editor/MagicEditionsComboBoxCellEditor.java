@@ -19,7 +19,7 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 	private DefaultComboBoxModel<MagicEdition> model;
 	
 	public MagicEditionsComboBoxCellEditor() {
-		super(new JComboBox<MagicEdition>());
+		super(new JComboBox<>());
 		model = (DefaultComboBoxModel<MagicEdition>) ((JComboBox<MagicEdition>) getComponent()).getModel();
 	}
 

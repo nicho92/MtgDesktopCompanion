@@ -1,31 +1,20 @@
 package org.magic.gui.components.dialog;
 
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-
-import org.magic.api.criterias.MTGCrit;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.CriteriaComponent;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-
-import groovy.transform.stc.FirstParam.Component;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import org.magic.api.criterias.MTGCrit;
+import org.magic.gui.components.CriteriaComponent;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class AdvancedSearchQueryDialog extends JDialog {
 	

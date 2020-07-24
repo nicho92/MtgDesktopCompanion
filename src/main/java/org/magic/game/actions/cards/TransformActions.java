@@ -7,10 +7,8 @@ import javax.swing.AbstractAction;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class TransformActions extends AbstractAction {

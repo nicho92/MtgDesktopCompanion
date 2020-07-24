@@ -48,7 +48,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 		eds = evaluator.getEditions();
 		buzy.start(eds.size());
 		evaluator.addObserver(o);
-		cacheModel.removeAll();
+		cacheModel.clear();
 	}
 	
 	@Override

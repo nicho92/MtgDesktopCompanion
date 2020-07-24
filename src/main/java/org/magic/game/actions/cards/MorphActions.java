@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.services.MTGControler;

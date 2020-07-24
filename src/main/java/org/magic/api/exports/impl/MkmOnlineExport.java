@@ -300,21 +300,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				notify(mcs.getMagicCard());
 				
 			}
-			
-//			List<List<Article>> ret = ListUtils.partition(list, 100);
-//			
-//			for(List<Article> l : ret)
-//			{
-//				List<Inserted> arts = serv.addArticles(l);
-//				for(Inserted i : arts)
-//				{
-//					if(i.isSuccess())
-//					{
-//						
-//					}
-//				}
-//				
-//			}
+		
 		}
 	}
 

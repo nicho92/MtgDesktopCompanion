@@ -17,7 +17,7 @@ public class MagicCardNameEditor extends DefaultCellEditor {
 	private DefaultComboBoxModel<String> model;
 
 	public MagicCardNameEditor() {
-		super(new JComboBox<String>());
+		super(new JComboBox<>());
 		model = (DefaultComboBoxModel<String>) ((JComboBox<String>) getComponent()).getModel();
 	}
 

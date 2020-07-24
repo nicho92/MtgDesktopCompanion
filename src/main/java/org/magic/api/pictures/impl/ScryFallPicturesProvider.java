@@ -2,18 +2,15 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.http.HttpConnection;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 

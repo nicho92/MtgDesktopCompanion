@@ -118,11 +118,6 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 			return keys.get(row).getValue();
 	}
 
-	public void removeAll() {
-		keys.clear();
-		fireTableDataChanged();
-	}
-
 	public boolean removeRow(K ed) {
 		
 		Entry<K,V> removed =null;

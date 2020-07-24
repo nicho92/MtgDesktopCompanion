@@ -3,15 +3,12 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
-import org.pushingpixels.substance.api.skin.MagellanSkin;
 
 public class MagarenaExport extends AbstractFormattedFileCardExport
 {
