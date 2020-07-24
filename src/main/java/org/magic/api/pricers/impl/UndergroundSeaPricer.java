@@ -34,7 +34,7 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
-		String month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH));
+		String month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)+1);
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
 		

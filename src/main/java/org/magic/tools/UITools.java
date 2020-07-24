@@ -315,6 +315,11 @@ public class UITools {
 					{
 						
 						int row = table.rowAtPoint(e.getPoint());
+						
+						
+						if(row<0)
+							return;
+						
 						MagicCardDetailPanel pane = new MagicCardDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
