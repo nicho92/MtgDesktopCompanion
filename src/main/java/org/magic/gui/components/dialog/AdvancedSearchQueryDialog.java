@@ -95,9 +95,12 @@ public class AdvancedSearchQueryDialog extends JDialog {
 			dispose();
 		});
 		
+		setIconImage(MTGConstants.ICON_SEARCH_24.getImage());
+		setTitle(MTGControler.getInstance().getLangService().get("ADVANCED_SEARCH"));
 		setSize(new Dimension(800, 600));
 		setModal(true);
 		setLocationRelativeTo(null);
+		btnNewButton.doClick();
 	}
 	
 	public List<MTGCrit> getCrits() {

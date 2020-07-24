@@ -61,6 +61,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.addConvertor(MagicEdition.class, MagicEdition::getId);
 		b.addConvertor(MTGLayout.class,(MTGLayout source)->source.name().toLowerCase());
 		b.addConvertor(MTGFrameEffects.class,(MTGFrameEffects source)->source.name().toLowerCase());
+		b.addConvertor(MTGRarity.class,(MTGRarity source)->source.name().toLowerCase());
 	}
 	
 	

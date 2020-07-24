@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
@@ -81,17 +82,7 @@ public class CriteriaComponent extends JComponent{
 
 	private JComponent getComponentFor(CardAttribute c) {
 		
-		if(c.getType() == String.class)
-		{
-			JTextField f= new JTextField(25);
-			f.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyReleased(KeyEvent e) {
-					val=f.getText();
-				}
-			});
-			return f;
-		}
+	
 		
 		if(c.getType() == Integer.class || c.getType() == Float.class)
 		{
@@ -120,7 +111,19 @@ public class CriteriaComponent extends JComponent{
 		if(c.getType() == MTGLayout.class)
 			return init(UITools.createCombobox(MTGLayout.values()));
 		
-		return null;
+		if(c.getType() == MTGRarity.class)
+			return init(UITools.createCombobox(MTGRarity.values()));
+		
+		//else
+		
+		JTextField f= new JTextField(25);
+		f.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				val=f.getText();
+			}
+		});
+		return f;
 	}
 	
 	private JComponent init(JComboBox<?> createCombobox) {
