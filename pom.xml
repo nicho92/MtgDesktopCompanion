@@ -34,6 +34,7 @@
 	</properties>
 
 	<repositories>
+		
 		<repository>
 		    <id>panda-repository</id>
 		    <url>https://repo.panda-lang.org/</url>
@@ -45,10 +46,6 @@
 		<repository>
 			<id>milton-repo</id>
 			<url>http://dl.bintray.com/milton/Milton</url>
-		</repository>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -77,7 +74,6 @@
 		    <artifactId>jta</artifactId>
 		    <version>1.1</version>
 		</dependency>
-						
 		<dependency>
 	      <groupId>com.dorkbox</groupId>
 	      <artifactId>Notify</artifactId>
@@ -289,7 +285,7 @@
 		<dependency>
 		    <groupId>org.openjdk.jol</groupId>
 		    <artifactId>jol-core</artifactId>
-		    <version>0.11</version>
+		    <version>0.10</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
