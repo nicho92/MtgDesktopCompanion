@@ -22,14 +22,14 @@ public class JsonCriteriaBuilder extends AbstractQueryBuilder<Filter> {
 			
 			switch(c.getOperator())
 			{
-				case EQ: l.add(where(c.getAtt()).eq(c.getFirst()));break;
-				case GREATER:l.add(where(c.getAtt()).gt(c.getFirst()));break;
-				case GREATER_EQ:l.add(where(c.getAtt()).gte(c.getFirst()));break;
-				case LIKE:l.add(where(c.getAtt()).regex(Pattern.compile("/^.*"+c.getFirst()+".*$/i")));break;
-				case LOWER:l.add(where(c.getAtt()).lt(c.getFirst()));break;
-				case LOWER_EQ:l.add(where(c.getAtt()).lte(c.getFirst()));break;
+				case EQ: l.add(where(c.getAtt()).eq(getValueFor(c.getFirst())));break;
+				case GREATER:l.add(where(c.getAtt()).gt(getValueFor(c.getFirst())));break;
+				case GREATER_EQ:l.add(where(c.getAtt()).gte(getValueFor(c.getFirst())));break;
+				case LIKE:l.add(where(c.getAtt()).regex(Pattern.compile("/^.*"+getValueFor(c.getFirst()+".*$/i"))));break;
+				case LOWER:l.add(where(c.getAtt()).lt(getValueFor(c.getFirst())));break;
+				case LOWER_EQ:l.add(where(c.getAtt()).lte(getValueFor(c.getFirst())));break;
 				case START_WITH:break;
-				case IN:l.add(where(c.getAtt()).in(c.getVal()));break;
+				case IN:l.add(where(c.getAtt()).in(getValueFor(c.getVal())));break;
 				case END_WITH :break;
 			}
 		}

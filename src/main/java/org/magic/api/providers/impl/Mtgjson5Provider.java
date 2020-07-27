@@ -130,10 +130,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			filterEdition = filterEdition + ed.getId().toUpperCase();
 		}
 
-		String jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
+		String jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replace("\\+", " ")+ ".*$/i)]";
 
 		if (exact)
-			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
+			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replace("\\+", " ") + "\")]";
 
 		if (att.equalsIgnoreCase(SET_FIELD)) 
 		{
@@ -418,7 +418,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					}
 				}
 				
-				
+				//TODO fixing rotatedCardName
 				
 			
 		notify(mc);
