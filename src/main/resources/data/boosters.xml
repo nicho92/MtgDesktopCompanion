@@ -1391,13 +1391,16 @@
 	</edition>
 	
 	<edition id="JMP">
-		<banner lang="en" url="https://images1.mtggoldfish.com/mtg_sets/MTGM21_Jumpstart_EN.png"/>
-	
+		<banner num="1"lang="en" url="https://images1.mtggoldfish.com/mtg_sets/MTGM21_Jumpstart_EN.png"/>
+		<booster num="1"lang="en" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/3/37/Jumpstart_Booster.png"/>
+		<box num="1" lang="en" url="https://cdn.shopify.com/s/files/1/0275/0378/8168/products/MTGJMP_EN_BstrDspBX_01_03.png?v=1592507738"/>
 	</edition>
 	
 	<edition id="2XM">
 		<banner lang="en" url="https://media.wizards.com/2020/images/daily/xHlFTHXU0J.png"/>
-		
+		<box lang="en" url="https://cdn.shopify.com/s/files/1/0316/5585/4215/products/2xm_en_drftbstrdspclsd_01_01_1024x1024.png?v=1590678380"/>
+		<booster lang="en" num="1" url="https://www.parkage.com/files/img/products/magic/dm1/mtg2xm_en_vip_otrbx_01_03.png?timestamp=20200706125632"/>
+		<booster lang="en" num="2" url="https://boutique.magiccorporation.com/images/produits/normal/32078-jeux-de-cartes-a-collectionner-magic-the-gathering-boosters.jpg?1594312257"/>
 	</edition>	
 	
 	
