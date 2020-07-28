@@ -44,7 +44,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			logger.error(e);
 		}
 	}
-
+	
+	
 	public boolean removeCard(MagicEdition me, MagicCard mc) throws IOException {
 		File f = new File(setDirectory, me.getId() + ext);
 		JsonObject root = FileTools.readJson(f).getAsJsonObject();
@@ -176,6 +177,18 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 	
 
+
+	@Override
+	public List<MagicCard> listAllCards() throws IOException {
+		List<MagicCard> res = new ArrayList<>();
+			for (MagicEdition ed : listEditions())
+				for (MagicCard mc : getCards(ed))
+						res.add(mc);
+			
+			return res;
+	}
+
+	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> res = new ArrayList<>();

@@ -208,7 +208,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.getRulings().addAll(getRulings(mc.getId()));
 				mc.setArtist(rs.getString(ARTIST));
 				mc.setFlavor(rs.getString(FLAVOR_TEXT));
-				mc.setWatermarks(rs.getString("watermark"));
+				mc.setWatermarks(rs.getString(WATERMARK));
 				mc.setOriginalText(rs.getString(ORIGINAL_TEXT));
 				mc.setOriginalType(rs.getString(ORIGINAL_TYPE));
 				mc.setMkmId(rs.getInt("mcmId"));
@@ -217,8 +217,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setMtgoCard(rs.getString("availability").contains("mtgo"));
 				mc.setOnlineOnly(rs.getBoolean("isOnlineOnly"));
 				mc.setPromoCard(rs.getBoolean("isPromo"));
-				mc.setOversized(rs.getBoolean("isOversized"));
-				mc.setReprintedCard(rs.getBoolean("isReprint"));
+				mc.setOversized(rs.getBoolean(IS_OVERSIZED));
+				mc.setReprintedCard(rs.getBoolean(IS_REPRINT));
 				mc.setReserved(rs.getBoolean(IS_RESERVED));
 				mc.setFlavorName(rs.getString("flavorName"));
 				mc.setSide(rs.getString("side"));

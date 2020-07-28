@@ -118,6 +118,11 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 	
 	@Override
+	public List<MagicCard> listAllCards() throws IOException {
+		return searchCardByName("", null, false);
+	}
+	
+	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
 		
 		String filterEdition = ".";
@@ -173,10 +178,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		for (Map<String, Object> map : cardsElement) 
 		{
 				MagicCard mc = new MagicCard();
-				  mc.setId(String.valueOf(map.get(UUID).toString()));
+				  mc.setId(String.valueOf(String.valueOf(map.get(UUID))));
 				  mc.setText(String.valueOf(map.get(TEXT)));
 		
-					Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 					  
 				  
 				  
@@ -230,8 +234,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(IS_RESERVED) != null)
 					mc.setReserved(Boolean.valueOf(String.valueOf(map.get(IS_RESERVED))));
 				
-				if (map.get("isOversized") != null)
-					mc.setOversized(Boolean.valueOf(String.valueOf(map.get("isOversized"))));
+				if (map.get(IS_OVERSIZED) != null)
+					mc.setOversized(Boolean.valueOf(String.valueOf(map.get(IS_OVERSIZED))));
 			
 				if (map.get(LAYOUT) != null)
 					mc.setLayout(MTGLayout.parseByLabel(String.valueOf(map.get(LAYOUT))));
@@ -301,14 +305,14 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get("hasAlternativeDeckLimit").toString()));
 				
 				
-				if (map.get("watermark") != null)
-					mc.setWatermarks(String.valueOf(map.get("watermark")));
+				if (map.get(WATERMARK) != null)
+					mc.setWatermarks(String.valueOf(map.get(WATERMARK)));
 				
 				if (map.get("isPromo") != null)
 					mc.setPromoCard(Boolean.valueOf(map.get("isPromo").toString()));
 				
-				if (map.get("isReprint") != null)
-					mc.setReprintedCard(Boolean.valueOf(map.get("isReprint").toString()));
+				if (map.get(IS_REPRINT) != null)
+					mc.setReprintedCard(Boolean.valueOf(map.get(IS_REPRINT).toString()));
 			
 
 				if (map.get(LOYALTY) != null) {
@@ -327,17 +331,19 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					}
 				}
 
+				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 				
+				if(identifiers!=null) {
 				
-				if(identifiers.get("mtgArenaId")!=null)
-					mc.setMtgArenaId(Double.valueOf(identifiers.get("mtgArenaId")).intValue());
+					if(identifiers.get("mtgArenaId")!=null)
+						mc.setMtgArenaId(Double.valueOf(identifiers.get("mtgArenaId")).intValue());
+						
+					if (identifiers.get("scryfallIllustrationId") != null)
+						mc.setScryfallIllustrationId(String.valueOf(identifiers.get("scryfallIllustrationId")));
 					
-				if (identifiers.get("scryfallIllustrationId") != null)
-					mc.setScryfallIllustrationId(String.valueOf(identifiers.get("scryfallIllustrationId")));
-				
-				if (identifiers.get(SCRYFALL_ID) != null)
-					mc.setScryfallId(String.valueOf(identifiers.get(SCRYFALL_ID)));
-				
+					if (identifiers.get(SCRYFALL_ID) != null)
+						mc.setScryfallId(String.valueOf(identifiers.get(SCRYFALL_ID)));
+				}
 				
 				if (map.get(RULINGS) != null) {
 					for (Map<String, Object> mapRules : (List<Map<String,Object>>) map.get(RULINGS)) {
@@ -350,7 +356,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				MagicCardNames defnames = new MagicCardNames();
 				
-						if(identifiers.get(MULTIVERSE_ID)!=null)
+						if(identifiers!=null && identifiers.get(MULTIVERSE_ID)!=null)
 							   defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
 						
 							   defnames.setLanguage("English");
@@ -399,7 +405,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 								 me.setNumber(String.valueOf(map.get(NUMBER)));
 							 }
 							 
-							 if(identifiers.get(MULTIVERSE_ID)!=null)
+							 if(identifiers!=null && identifiers.get(MULTIVERSE_ID)!=null)
 							 {
 								 defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
 								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID))));

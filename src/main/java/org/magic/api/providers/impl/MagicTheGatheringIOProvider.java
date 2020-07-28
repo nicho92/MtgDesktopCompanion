@@ -65,6 +65,12 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 	
 	@Override
+	public List<MagicCard> listAllCards() throws IOException {
+		throw new IOException("Not implemented");
+	}
+	
+	
+	@Override
 	public void initDefault() {
 		setProperty(JSON_URL, "https://api.magicthegathering.io/v1");
 	}

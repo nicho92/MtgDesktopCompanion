@@ -297,11 +297,16 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            		   else
            			   doc.add(new Field("text", "", fieldType));
            		   
-           		   doc.add(new Field("type", mc.getFullType(), fieldType));
-           		   doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
-           		   doc.add(new StoredField("cmc",mc.getCmc()));
-           		   doc.add(new StringField("data",serializer.toJson(mc),Field.Store.YES));
            		   
+           		   if(mc.getCmc()!=null)
+           			   doc.add(new StoredField("cmc",mc.getCmc()));
+           		   
+           		  doc.add(new Field("type", mc.getFullType(), fieldType));
+           		  doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
+     		      doc.add(new StringField("data",serializer.toJson(mc),Field.Store.YES));
+           		   
+        		   
+        		   
             	   for(MTGColor color:mc.getColors())
             	   {
             		   doc.add(new Field("color", color.getCode(), fieldType));

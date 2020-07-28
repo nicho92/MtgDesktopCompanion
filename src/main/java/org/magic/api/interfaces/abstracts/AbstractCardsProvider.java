@@ -164,11 +164,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return searchByCriteria(crits.stream().toArray(MTGCrit[]::new));
 	}
 
-	
-	@Override
-	public List<MagicCard> listAllCards() throws IOException {
-		return searchCardByName("", null, false);
-	}
 
 	@Override
 	public PLUGINS getType() {
