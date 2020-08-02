@@ -55,6 +55,7 @@ public class MagicCard implements Serializable {
 	private boolean onlineOnly;
 	private boolean promoCard;
 	private boolean reprintedCard;
+	private boolean fullArt;
 	private Integer mtgArenaId;
 	private String scryfallIllustrationId;
 	private String gathererCode;
@@ -65,6 +66,14 @@ public class MagicCard implements Serializable {
 	private List<MTGKeyWord> keywords;
 	
 	
+	public boolean isFullArt() {
+		return fullArt;
+	}
+
+	public void setFullArt(boolean fullArt) {
+		this.fullArt = fullArt;
+	}
+
 	public boolean isHasAlternativeDeckLimit() {
 		return hasAlternativeDeckLimit;
 	}

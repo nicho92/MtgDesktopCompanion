@@ -1,6 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -27,7 +29,7 @@ import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 
-public class CriteriaComponent extends JComponent{
+public class CriteriaComponent extends JComponent implements ActionListener{
 	
 
 
@@ -51,7 +53,7 @@ public class CriteriaComponent extends JComponent{
 		cboOperator = UITools.createCombobox(MTGCrit.OPERATOR.values());
 			
 		
-		c=new CardAttribute("name", String.class);
+		c=MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()[0];
 		selector = getComponentFor(c); 
 	
 		add(cboAttributes);
@@ -91,32 +93,44 @@ public class CriteriaComponent extends JComponent{
 			s.addChangeListener(l->val = s.getValue());
 			return s;
 		}
-	
+		else
 		if(c.getType() == Boolean.class)
 		{
 			JCheckBox ch = new JCheckBox();
 			ch.addItemListener(l->val=ch.isSelected());
 			return ch;
 		}
-		
+		else
 		if(c.getType() == MagicEdition.class)
 			return init(UITools.createComboboxEditions());
-		
+		else
 		if(c.getType() == MagicCollection.class)
 			return init(UITools.createComboboxCollection());
-		
+		else
 		if(c.getType() == MTGColor.class)
 			return init(UITools.createCombobox(MTGColor.values()));
-		
+		else
 		if(c.getType() == MTGLayout.class)
 			return init(UITools.createCombobox(MTGLayout.values()));
-		
+		else
 		if(c.getType() == MTGRarity.class)
 			return init(UITools.createCombobox(MTGRarity.values()));
+		else
+		if(c.getName().equalsIgnoreCase("name")) {
+			JTextField f= UITools.createSearchField();
+			f.setColumns(50);
+			f.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					val=f.getText();
+				}
+			});
+			return f;
+		}
 		
 		//else
 		
-		JTextField f= new JTextField(25);
+		JTextField f= new JTextField(50);
 		f.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -141,6 +155,12 @@ public class CriteriaComponent extends JComponent{
 
 	public void addDeletableButton(JButton delete) {
 		add(delete,null,0);
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	

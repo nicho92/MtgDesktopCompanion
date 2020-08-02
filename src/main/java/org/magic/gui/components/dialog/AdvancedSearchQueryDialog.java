@@ -86,7 +86,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		
 		setIconImage(MTGConstants.ICON_SEARCH_24.getImage());
 		setTitle(MTGControler.getInstance().getLangService().get("ADVANCED_SEARCH"));
-		setSize(new Dimension(800, 600));
+		setSize(new Dimension(875, 400));
 		setModal(true);
 		setLocationRelativeTo(null);
 		btnNewButton.doClick();

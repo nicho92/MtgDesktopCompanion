@@ -52,6 +52,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String FLAVOR_TEXT = "flavorText";
 	protected static final String LAYOUT = "layout";
 	protected static final String IS_RESERVED = "isReserved";
+	protected static final String IS_FULLART = "isFullArt";
 	protected static final String FRAME_VERSION = "frameVersion";
 	protected static final String CONVERTED_MANA_COST = "convertedManaCost";
 	protected static final String TEXT = "text";

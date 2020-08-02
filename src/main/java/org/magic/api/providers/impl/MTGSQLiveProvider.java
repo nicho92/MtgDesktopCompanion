@@ -224,7 +224,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setSide(rs.getString("side"));
 				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
 				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
-				
+				mc.setFullArt(rs.getBoolean(IS_FULLART));
 				
 				String ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)

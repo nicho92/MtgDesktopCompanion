@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.13.3</version>
+			<version>3.13.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -84,6 +84,11 @@
 			<groupId>io.github.forohforerror</groupId>
 			<artifactId>ScryfallAPIBinding</artifactId>
 			<version>1.11.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.magicthegathering</groupId>
+		    <artifactId>javasdk</artifactId>
+		    <version>0.0.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.boofcv</groupId>
@@ -168,7 +173,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.32.3.1</version>
+			<version>3.32.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -203,7 +208,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_182</version>
+			<version>4.2.0_183</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
