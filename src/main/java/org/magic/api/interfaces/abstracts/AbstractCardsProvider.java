@@ -19,6 +19,7 @@ import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
+import org.magic.api.criterias.NoneCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.tools.TCache;
 
@@ -54,6 +55,13 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return "cardsProviders";
 	}
 	
+	
+	@Override
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		NoneCriteriaBuilder b= new NoneCriteriaBuilder();
+		initBuilder(b);
+		return b;
+	}
 
 	protected void initBuilder(MTGQueryBuilder<?> b)
 	{

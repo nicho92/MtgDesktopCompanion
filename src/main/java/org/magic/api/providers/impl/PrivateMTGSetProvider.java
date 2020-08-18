@@ -317,9 +317,5 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 
-	@Override
-	public MTGQueryBuilder<?> getMTGQueryManager() {
-		return null;
-	}
 
 }

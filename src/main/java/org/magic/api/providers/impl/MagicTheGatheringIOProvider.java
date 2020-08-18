@@ -429,10 +429,4 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return getName().hashCode();
 	}
 
-	@Override
-	public MTGQueryBuilder<?> getMTGQueryManager() {
-		return null;
-	}
-
-
 }
