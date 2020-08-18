@@ -63,6 +63,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -84,7 +85,7 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
 import org.magic.tools.UITools;
 
-public class ConstructPanel extends JPanel {
+public class ConstructPanel extends MTGUIComponent {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -118,6 +119,7 @@ public class ConstructPanel extends JPanel {
 	private JXTable tableDeck;
 	private JXTable tableSide;
 	private LoggerViewPanel importLogPanel;
+	private JButton defaultEnterButton;
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -137,6 +139,12 @@ public class ConstructPanel extends JPanel {
 		tableSide.packAll();
 	}
 
+	@Override
+	public void onFirstShowing() {
+		SwingUtilities.getRootPane(this).setDefaultButton(defaultEnterButton);
+	}
+	
+	
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		Player p = new Player();
@@ -146,8 +154,7 @@ public class ConstructPanel extends JPanel {
 		JButton btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
 		HandPanel thumbnail;
 		JTabbedPane panelBottom;
-		JTextField txtSearch;
-		JComboBox<CardAttribute> cboAttributs;
+		CriteriaComponent searchComponent = new CriteriaComponent(false);
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
 		AbstractBuzyIndicatorComponent buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -157,8 +164,6 @@ public class ConstructPanel extends JPanel {
 		panelBottom = new JTabbedPane();
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
-		cboAttributs = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());	
-		txtSearch = UITools.createSearchField();
 		comboPanel = new ComboFinderPanel();
 		importLogPanel = new LoggerViewPanel();
 		
@@ -196,9 +201,10 @@ public class ConstructPanel extends JPanel {
 		JToggleButton tglbtnLeg = new JToggleButton("LEG");
 		JToggleButton tglbtnVin = new JToggleButton("VIN");
 		JToggleButton tglbtnCmd = new JToggleButton("CMD");
-		
+		defaultEnterButton = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH, KeyEvent.VK_S, "search");
 		JPanel panneauGauche = new JPanel();
 		listResult = new JList<>(new DefaultListModel<>());
+		
 		groupsFilterResult = new ButtonGroup() {
 			private static final long serialVersionUID = 1L;
 
@@ -212,13 +218,12 @@ public class ConstructPanel extends JPanel {
 			}
 		};
 
-		
+		searchComponent.addButton(defaultEnterButton, true);
 		thumbnail.setThumbnailSize(new Dimension(223, 311));
 		thumbnail.enableDragging(false);
 		thumbnail.setMaxCardsRow(4);
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		txtSearch.setBackground(Color.WHITE);
-		txtSearch.setColumns(25);
+		searchComponent.setBackground(Color.WHITE);
 		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
 		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
 		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
@@ -249,8 +254,7 @@ public class ConstructPanel extends JPanel {
 		
 		
 		add(panneauHaut, BorderLayout.NORTH);
-		panneauHaut.add(cboAttributs);
-		panneauHaut.add(txtSearch);
+		panneauHaut.add(searchComponent);
 		panneauHaut.add(buzy);
 		panneauHaut.add(lblCards);
 		panneauHaut.add(btnNewDeck);
@@ -583,18 +587,15 @@ public class ConstructPanel extends JPanel {
 			}
 		}, buzyLabel);
 				
-		txtSearch.addActionListener(aeSearch -> {
+		defaultEnterButton.addActionListener(aeSearch -> {
 			
 			resultListModel.clear();
 			
-			if (txtSearch.getText().isEmpty())
-				return;
-
 			AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class))
 			{
 				@Override
 				protected List<MagicCard> doInBackground() throws Exception {
-					return plug.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), txtSearch.getText(), null, false);
+						return plug.searchCardByCriteria(searchComponent.getMTGCriteria().getAtt(), plug.getMTGQueryManager().getValueFor(searchComponent.getMTGCriteria().getFirst()).toString(), null, false);
 				}
 
 				@Override
@@ -825,5 +826,10 @@ public class ConstructPanel extends JPanel {
 		btnExports.setEnabled(!deck.getMainAsList().isEmpty());
 		
 		
+	}
+
+	@Override
+	public String getTitle() {
+		return "Construct";
 	}
 }

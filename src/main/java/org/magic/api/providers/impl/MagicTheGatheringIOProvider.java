@@ -27,6 +27,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -426,6 +427,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+
+	@Override
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		return null;
 	}
 
 

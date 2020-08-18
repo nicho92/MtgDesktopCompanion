@@ -21,7 +21,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -49,12 +48,11 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -108,16 +106,16 @@ public class CardSearchPanel extends MTGUIComponent {
 	private JTextArea txtRulesArea;
 	private CardStockPanel stockPanel;
 	private ObjectViewerPanel panelJson;
-	private JTextField txtSearch;
+	private CriteriaComponent searchComponent;
 	private JPopupMenu popupMenu = new JPopupMenu();
-	private JComboBox<CardAttribute> cboQuereableItems;
-	private JComboBox<MagicCollection> cboCollections;
 	private JXTable tableCards;
 	private JExportButton btnExport;
 	private JList<MagicEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private CardAbilitiesPanel abilitiesPanel;
+	private JButton defaultEnterButton;
+	
 	
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
@@ -194,10 +192,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		JPanel panneauCard;
 		JPanel panneauStat;
 		JTextField txtFilter;
-		JComboBox<MagicEdition> cboEdition;
 		JButton btnClear;
 		JButton btnFilter;
-		
 		
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(cardsModeltable);
@@ -243,26 +239,19 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter = UITools.createBindableJButton(null, MTGConstants.ICON_FILTER, KeyEvent.VK_F, "searchfilter");
 		btnClear = UITools.createBindableJButton(null, MTGConstants.ICON_CLEAR, KeyEvent.VK_C, "clear");
 		similarityPanel = new SimilarityCardPanel();
-		cboQuereableItems = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
-		cboCollections = UITools.createComboboxCollection();
 		tableCards = new JXTable();
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
-		JButton advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH, KeyEvent.VK_A, "AdvancedSearch");
-		txtSearch = UITools.createSearchField();
-		
-			
-	
-		
+		JButton advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH_ADVANCED, KeyEvent.VK_A, "AdvancedSearch");
+		searchComponent = new CriteriaComponent(false);
+		defaultEnterButton = new JButton(MTGConstants.ICON_SEARCH);
 		txtRulesArea = new JTextArea();
 		
 		txtFilter = new JTextField();
 
 		UITools.initTableFilter(tableCards);
-		
-		cboEdition = UITools.createComboboxEditions();
-
+	
 		deckPanel = new CardsDeckCheckerPanel();
 		
 		//////// MODELS
@@ -321,16 +310,13 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsInfo.setMinimumSize(new Dimension(23, 200));
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
-		txtSearch.setColumns(50);
-
+	
 		/////// VISIBILITY
 		tableCards.setColumnControlVisible(true);
 		panelFilters.setVisible(false);
 		lblLoading.setVisible(false);
-		cboCollections.setVisible(false);
 		tableCards.setShowVerticalLines(false);
-		cboEdition.setVisible(false);
-
+	
 		////// ADD PANELS
 		for (String s : new String[] { "W", "U", "B", "R", "G", "C", "1" }) {
 			final JButton btnG = new JButton();
@@ -351,11 +337,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		thumbnailPanel.setEnclosingScrollPane(scrollThumbnails);
 		
 
-		panneauHaut.add(cboQuereableItems);
-		panneauHaut.add(cboCollections);
-		panneauHaut.add(txtSearch);
+		panneauHaut.add(searchComponent);
 		panneauHaut.add(advancedSearch);
-		panneauHaut.add(cboEdition);
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(lblLoading);
@@ -403,16 +386,15 @@ public class CardSearchPanel extends MTGUIComponent {
 		try {
 			initPopupCollection();
 		} catch (Exception e2) {
-			logger.error(e2);
+			logger.error("error init popup",e2);
 		}
 
 		/////// Action listners
 		addComponentListener(new ComponentAdapter() {
 			@Override
 		    public void componentShown(ComponentEvent componentEvent){
-		        txtSearch.requestFocus();
+		        searchComponent.requestFocus();
 				panneauCentral.setDividerLocation(.45);
-				
 				removeComponentListener(this);
 		    }
 		}); 
@@ -472,19 +454,6 @@ public class CardSearchPanel extends MTGUIComponent {
 			
 		});
 		
-		
-		
-		cboEdition.addActionListener(ae -> {
-				txtSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId());
-				txtSearch.postActionEvent();
-				});
-		
-		
-		cboCollections.addActionListener(ae -> {
-			txtSearch.setText(((MagicCollection) cboCollections.getSelectedItem()).getName());
-			txtSearch.postActionEvent();
-		});
-
 		btnClear.addActionListener(ae -> {
 			txtFilter.setText("");
 			sorterCards.setRowFilter(null);
@@ -492,103 +461,79 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		btnFilter.addActionListener(ae -> panelFilters.setVisible(!panelFilters.isVisible()));
 
-		cboQuereableItems.addActionListener(e -> {
-			if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase(AbstractCardsProvider.SET_FIELD)) {
-				txtSearch.setVisible(false);
-				cboEdition.setVisible(true);
-				cboCollections.setVisible(false);
-			} else if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase(AbstractCardsProvider.COLLECTION_FIELD)) {
-				txtSearch.setVisible(false);
-				cboEdition.setVisible(false);
-				cboCollections.setVisible(true);
-			} else {
-				txtSearch.setVisible(true);
-				cboEdition.setVisible(false);
-				cboCollections.setVisible(false);
-			}
-		});
+		searchComponent.addButton(defaultEnterButton,true);
 		
-		txtSearch.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtSearch.setText("");
-			}
-		});
-		
-		
-		txtSearch.addActionListener(ae -> {
-
-			selectedEdition = null;
-			if (txtSearch.getText().equals("") && !cboCollections.isVisible() && !cboQuereableItems.getSelectedItem().toString().equals(AbstractCardsProvider.ALL))
-				return;
-			
-			lblLoading.start();
-			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
-			
-			
-			
-			MTGPlugin plug = (cboCollections.isVisible()) ? MTGControler.getInstance().getEnabled(MTGDao.class):MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
-			String searchName = txtSearch.getText().trim();
-			cardsModeltable.clear();
-			
-			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
-				@Override
-				protected List<MagicCard> doInBackground() throws Exception {
-					List<MagicCard> cards;
+		defaultEnterButton.addActionListener(el->{
+					selectedEdition = null;
+					lblLoading.start();
+					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 					
-					if (cboCollections.isVisible()) {
-						cards=((MTGDao)plug).listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
-					}
-					else if(cboEdition.isVisible()) {
-						cards=((MTGCardsProvider)plug).searchCardByEdition((MagicEdition)cboEdition.getSelectedItem());
-					}
-					else if (cboQuereableItems.getSelectedItem().toString().equals(AbstractCardsProvider.ALL)) {
-						cards=((MTGCardsProvider)plug).listAllCards();
+					MTGPlugin plug = searchComponent.isCollectionSearch() ? MTGControler.getInstance().getEnabled(MTGDao.class):MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
+					cardsModeltable.clear();
+					
+					AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
+						@Override
+						protected List<MagicCard> doInBackground() throws Exception {
+							List<MagicCard> cards;
+							
+							if (searchComponent.isCollectionSearch()) {
+								cards=((MTGDao)plug).listCardsFromCollection((MagicCollection) searchComponent.getMTGCriteria().getFirst());
+							}
+							else if(searchComponent.isSetSearch()) {
+								cards=((MTGCardsProvider)plug).searchCardByEdition((MagicEdition)searchComponent.getMTGCriteria().getFirst());
+							}
+							else if (searchComponent.isAllCardsSearch()) {
+								cards=((MTGCardsProvider)plug).listAllCards();
+								
+							}
+							else {
+								cards=((MTGCardsProvider)plug).searchCardByCriteria(searchComponent.getMTGCriteria().getAtt(), ((MTGCardsProvider)plug).getMTGQueryManager().getValueFor(searchComponent.getMTGCriteria().getFirst()).toString(), null, false);
+							}
+							
+							try {
+								Collections.sort(cards, new CardsEditionSorter());
+							}
+							catch(IllegalArgumentException e)
+							{
+								logger.error("error sorting result "+e);
+							}
+							
+							return cards;
+						}
 						
-					}
-					else {
-						cards=((MTGCardsProvider)plug).searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
-					}
-					
-					try {
-						Collections.sort(cards, new CardsEditionSorter());
-					}
-					catch(IllegalArgumentException e)
-					{
-						logger.error("error sorting result "+e);
-					}
-					
-					return cards;
-				}
-				
-				@Override
-				protected void process(List<MagicCard> chunks) {
-					super.process(chunks);
-					cardsModeltable.addItems(chunks);
-				}
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							super.process(chunks);
+							cardsModeltable.addItems(chunks);
+						}
 
-				@Override
-				protected void done() {
-					super.done();
-					open(getResult());
-					btnExport.setEnabled(tableCards.getRowCount() > 0);
-				}
-			};
-			ThreadManager.getInstance().runInEdt(wk,"searching "+txtSearch.getText());
-			
+						@Override
+						protected void done() {
+							super.done();
+							open(getResult());
+							btnExport.setEnabled(tableCards.getRowCount() > 0);
+						}
+					};
+					ThreadManager.getInstance().runInEdt(wk,"searching "+searchComponent.getMTGCriteria());
 		});
-
+		
 		tableCards.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
 					selectedCard = UITools.getTableSelection(tableCards, 0);
+					
+					if(selectedCard==null)
+						return;
+					
 					selectedEdition = selectedCard.getCurrentSet();
 					updateCards();
 				} catch (Exception e) {
-					logger.error(e);
+					logger.error("error selecting line",e);
 				}
 			}
 		});
+		
+		
 		
 		
 		tableCards.addMouseListener(new MouseAdapter() {
@@ -708,11 +653,10 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 
 		});
-
-		
-
 	}
 
+	
+	
 	public void thumbnail(List<MagicCard> cards) {
 		tabbedCardsView.setSelectedIndex(INDEX_THUMB);
 		thumbnailPanel.initThumbnails(cards, false, false);
@@ -723,6 +667,12 @@ public class CardSearchPanel extends MTGUIComponent {
 		updateCards();
 	}
 
+	@Override
+	public void onFirstShowing() {
+		SwingUtilities.getRootPane(this).setDefaultButton(defaultEnterButton);
+	}
+	
+	
 	public CardSearchPanel() {
 
 		try {

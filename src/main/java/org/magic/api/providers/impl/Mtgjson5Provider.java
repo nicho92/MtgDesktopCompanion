@@ -19,7 +19,9 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -49,6 +51,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return STATUT.DEV;
 	}
 	
+
+	@Override
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		MTGQueryBuilder<?> b= new JsonCriteriaBuilder();
+		initBuilder(b);
+		return b; 
+	}
 
 	@Override
 	public File getDataFile() {

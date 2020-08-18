@@ -49,6 +49,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
 		MTGQueryBuilder<?> b= new SQLCriteriaBuilder();
+		b.addConvertor(Boolean.class,(Boolean source)->source.booleanValue()?"1":"0");
 		initBuilder(b);
 		return b;
 	}

@@ -103,14 +103,6 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 	}
 	
-	public MTGQueryBuilder<?> getMTGQueryManager() {
-		MTGQueryBuilder<?> b= new JsonCriteriaBuilder();
-
-		initBuilder(b);
-		
-		return b; 
-	}
-
 	
 	@Override
 	public List<CardAttribute> loadQueryableAttributs() {

@@ -8,4 +8,7 @@ public interface MTGQueryBuilder<T> {
 
 	public <U> void addConvertor(Class<U> clazz, MTGCriteriaConverter<U> mtgCriteriaConverter);
 
+
+	public <U> Object getValueFor(U object);
+
 }

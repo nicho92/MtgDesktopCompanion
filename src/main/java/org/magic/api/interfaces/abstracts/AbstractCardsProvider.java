@@ -35,7 +35,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	protected abstract List<CardAttribute> loadQueryableAttributs();
 	public abstract List<MagicEdition> loadEditions() throws IOException;
-
+	
 
 	public AbstractCardsProvider() {
 		

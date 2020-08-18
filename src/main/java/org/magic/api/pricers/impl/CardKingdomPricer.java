@@ -138,7 +138,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		for (int i = 0; i < qualities.size(); i++) {
 			MagicPrice mp = new MagicPrice();
 
-			String price = prices.get(i).html().replaceAll("\\$", "");
+			String price = prices.get(i).html().replace("\\$", "");
 			mp.setValue(Double.parseDouble(price));
 			mp.setCurrency("USD");
 			mp.setSeller(getName());

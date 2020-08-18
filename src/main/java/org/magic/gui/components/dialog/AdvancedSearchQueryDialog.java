@@ -24,7 +24,6 @@ public class AdvancedSearchQueryDialog extends JDialog {
 	private transient List<MTGCrit> crits;
 	
 	
-	
 	public AdvancedSearchQueryDialog() {
 		setLayout(new BorderLayout(0, 0));
 		
@@ -61,7 +60,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 				});
 				
-				cc.addDeletableButton(delete);
+				cc.addButton(delete,false);
 				pContent.add(cc);
 				layout.setRows(layout.getRows()+1);
 				pContent.revalidate();

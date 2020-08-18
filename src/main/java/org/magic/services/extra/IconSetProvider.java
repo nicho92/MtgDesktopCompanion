@@ -228,12 +228,15 @@ public class IconSetProvider {
 		equiv.put("PPP1", "PMEI");
 		equiv.put("CELD", "ELD");
 		equiv.put("OARC", "ARC");
+		equiv.put("OC20", "C20");
 		equiv.put("HA2", "HA1");
 		equiv.put("HA3", "HA1");
 		equiv.put("MB1","PMEI");
 		equiv.put("CMB1","PMEI");
 		equiv.put("PLGS", "PMEI");
 		equiv.put("AJMP","JMP");
+		equiv.put("ANB","ANA");
+		equiv.put("AKR","E01");
 	}
 	
 	private String getEquiv(String set) 

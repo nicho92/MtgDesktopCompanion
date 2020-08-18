@@ -23,7 +23,7 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 	}
 	
 	
-	
+	@Override
 	public <U> Object getValueFor(U object)
 	{
 		
@@ -41,7 +41,7 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 		return object.stream().map(o->registry.get(o.getClass()).marshal(o)).collect(Collectors.toList());
 	}
 	
-	public <U> Collection<Object> getValueFor( U[] objects)
+	public <U> Collection<Object> getValueFor(U[] objects)
 	{
 		return getValueFor(Arrays.asList(objects));
 	}

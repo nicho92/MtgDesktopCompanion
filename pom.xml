@@ -183,22 +183,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.6.0</version>
+			<version>8.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.6.0</version>
+			<version>8.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.6.0</version>
+			<version>8.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.6.0</version>
+			<version>8.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_183</version>
+			<version>4.2.0_191</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -426,7 +426,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.14.jre7</version>
+			<version>42.2.15.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -477,7 +477,7 @@
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
-			<version>3.12.6</version>
+			<version>3.12.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
