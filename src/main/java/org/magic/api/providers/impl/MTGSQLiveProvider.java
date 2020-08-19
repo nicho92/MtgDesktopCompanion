@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
@@ -226,6 +227,21 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
 				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
+				
+				
+				if(rs.getString(FRAME_EFFECTS)!=null)
+				{
+					for(String s : rs.getString(FRAME_EFFECTS).split(","))
+					{
+						try {
+							mc.getFrameEffects().add(MTGFrameEffects.parseByLabel(s));
+						} catch (Exception e) {
+							logger.error("couldn't find frameEffects for " + s);
+						}
+					}
+				}
+				
+				
 				
 				String ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
@@ -496,6 +512,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new CardAttribute(rs.getString(NAME), MTGLayout.class));
 				else if(rs.getString(NAME).equals(RARITY))
 					ret.add(new CardAttribute(rs.getString(NAME), MTGRarity.class));
+				else if(rs.getString(NAME).equals(FRAME_EFFECTS))
+					ret.add(new CardAttribute(rs.getString(NAME), MTGFrameEffects.class));
 				else
 					ret.add(new CardAttribute(rs.getString(NAME), convert(rs.getString("type"))));
 				

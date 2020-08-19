@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,6 +26,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -34,7 +34,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 
-public class DeckStockComparatorPanel extends JComponent {
+public class DeckStockComparatorPanel extends MTGUIComponent {
 	
 	/**
 	 * 
@@ -182,6 +182,11 @@ public class DeckStockComparatorPanel extends JComponent {
 			}
 		});
 		
+	}
+
+	@Override
+	public String getTitle() {
+		return "Deck Stock calculation";
 	}
 
 

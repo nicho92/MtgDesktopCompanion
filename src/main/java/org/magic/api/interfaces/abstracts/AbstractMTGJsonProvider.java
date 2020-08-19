@@ -68,7 +68,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String IS_OVERSIZED = "isOversized";
 	protected static final String IS_REPRINT = "isReprint";
 	protected static final String WATERMARK = "watermark";
-
+	protected static final String FRAME_EFFECTS = "frameEffects";
 	
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	public static final String MTG_JSON_VERSION = "https://mtgjson.com/api/v5/Meta.json";

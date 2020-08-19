@@ -22,8 +22,9 @@ public enum MTGFrameEffects{
 	MOONELDRAZIDFC,
 	MOONREVERSEMOONDFC,
 	SHOWCASE,
-	EXTENDEDART;
-
+	EXTENDEDART,
+	WAXINGANDWANINGMOONDFC;
+	
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}

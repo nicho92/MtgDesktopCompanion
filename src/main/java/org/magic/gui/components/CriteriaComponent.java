@@ -23,6 +23,7 @@ import javax.swing.event.EventListenerList;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
@@ -132,6 +133,9 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == MTGRarity.class)
 			return init(UITools.createCombobox(MTGRarity.values()));
+		else
+		if(c.getType() == MTGFrameEffects.class)
+			return init(UITools.createCombobox(MTGFrameEffects.values()));
 		else
 		if(c.getName().equalsIgnoreCase("name")) {
 			JTextField f= UITools.createSearchField();

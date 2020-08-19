@@ -253,6 +253,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 	}
 	
+	
+	
+	
 
 	@Override
 	public String getName() {
