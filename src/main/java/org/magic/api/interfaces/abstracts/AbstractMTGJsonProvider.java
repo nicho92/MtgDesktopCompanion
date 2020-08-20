@@ -51,6 +51,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String ORIGINAL_TYPE = "originalType";
 	protected static final String ORIGINAL_TEXT = "originalText";
 	protected static final String FLAVOR_TEXT = "flavorText";
+	protected static final String FLAVOR_NAME = "flavorName";
 	protected static final String LAYOUT = "layout";
 	protected static final String IS_RESERVED = "isReserved";
 	protected static final String IS_FULLART = "isFullArt";
@@ -70,6 +71,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String IS_REPRINT = "isReprint";
 	protected static final String WATERMARK = "watermark";
 	protected static final String FRAME_EFFECTS = "frameEffects";
+	
 	
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	public static final String MTG_JSON_VERSION = "https://mtgjson.com/api/v5/Meta.json";

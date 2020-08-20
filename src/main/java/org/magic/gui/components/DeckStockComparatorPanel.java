@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,6 +25,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -48,7 +50,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzyLabel;
 	private DeckPricePanel pricesPan;
 	private JCheckBox chkCalculate ;
-	
+	private JExportButton btnExportMissing;
 	
 	public void setCurrentDeck(MagicDeck c) {
 		this.currentDeck = c;
@@ -68,6 +70,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
 		JXTable table = new JXTable();
+		btnExportMissing = new JExportButton(MODS.EXPORT);
 		JSplitPane pan = new JSplitPane();
 		pan.setDividerLocation(0.5);
 		pan.setResizeWeight(0.5);
@@ -86,6 +89,25 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		
 		chkCalculate = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CALCULATE_PRICES"));
 		panneauHaut.add(chkCalculate);
+		
+		
+		btnExportMissing.setEnabled(false);
+		btnExportMissing.initCardsExport(new Callable<MagicDeck>() {
+			
+			@Override
+			public MagicDeck call() throws Exception {
+				
+				MagicDeck d = new MagicDeck();
+				d.setName(currentDeck.getName());
+				model.getItems().forEach(l->{
+					d.getMain().put(l.getMc(), l.getResult());
+				});
+				
+				return d;
+			}
+		}, buzyLabel);
+		
+		panneauHaut.add(btnExportMissing);
 		
 		pan.setLeftComponent(new JScrollPane(table));
 		pan.setRightComponent(pricesPan);
@@ -167,6 +189,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							if(chkCalculate.isSelected())
 								pricesPan.getBtnCheckPrice().doClick();
 							
+							btnExportMissing.setEnabled(model.isEmpty());
 						}
 
 						@Override

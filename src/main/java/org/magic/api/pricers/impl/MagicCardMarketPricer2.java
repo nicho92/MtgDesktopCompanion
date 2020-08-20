@@ -28,6 +28,7 @@ import org.magic.tools.InstallCert;
 
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
+	private static final String IS_EXACT = "IS_EXACT";
 	private static final String FALSE = "false";
 	private static final String LANGUAGE_ID = "LANGUAGE_ID";
 	private static final String FILTER_COUNTRY = "FILTER_COUNTRY";
@@ -121,7 +122,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			ProductServices pService = new ProductServices();
 			EnumMap<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 			atts.put(PRODUCT_ATTS.idGame, "1");
-			atts.put(PRODUCT_ATTS.exact, getString("IS_EXACT"));
+			
+			
+			if(!getString(IS_EXACT).isEmpty())
+				atts.put(PRODUCT_ATTS.exact, getString(IS_EXACT));
 
 			if (!getString(LANGUAGE_ID).equals(""))
 				atts.put(PRODUCT_ATTS.idLanguage, getString(LANGUAGE_ID));
@@ -236,7 +240,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("APP_ACCESS_TOKEN", "");
 		setProperty("APP_ACCESS_TOKEN_SECRET", "");
 		setProperty(LANGUAGE_ID, "1");
-		setProperty("IS_EXACT", FALSE);
+		setProperty(IS_EXACT, TRUE);
 		setProperty(MIN_CONDITION, "");
 		setProperty("COMMONCHECK", FALSE);
 		setProperty("MAX", "10");

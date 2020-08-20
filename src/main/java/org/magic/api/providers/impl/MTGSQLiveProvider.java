@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -36,6 +37,7 @@ import org.magic.services.MTGConstants;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
+	
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
@@ -203,7 +205,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setText(rs.getString(TEXT));
 				mc.setId(rs.getString(UUID));
 				mc.setEdhrecRank(rs.getInt("edhrecRank"));
-				mc.setFrameVersion(rs.getString("frameVersion"));
+				mc.setFrameVersion(rs.getString(FRAME_VERSION));
 				mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
 				mc.setPower(rs.getString(POWER));
 				mc.setToughness(rs.getString(TOUGHNESS));
@@ -215,14 +217,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setOriginalType(rs.getString(ORIGINAL_TYPE));
 				mc.setMkmId(rs.getInt("mcmId"));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
-				mc.setArenaCard(rs.getString("availability").contains("arena"));
-				mc.setMtgoCard(rs.getString("availability").contains("mtgo"));
+				
+				if(rs.getString(AVAILABILITY)!=null) {
+					mc.setArenaCard(rs.getString(AVAILABILITY).contains("arena"));
+					mc.setMtgoCard(rs.getString(AVAILABILITY).contains("mtgo"));
+				}
 				mc.setOnlineOnly(rs.getBoolean("isOnlineOnly"));
 				mc.setPromoCard(rs.getBoolean("isPromo"));
 				mc.setOversized(rs.getBoolean(IS_OVERSIZED));
 				mc.setReprintedCard(rs.getBoolean(IS_REPRINT));
 				mc.setReserved(rs.getBoolean(IS_RESERVED));
-				mc.setFlavorName(rs.getString("flavorName"));
+				mc.setFlavorName(rs.getString(FLAVOR_NAME));
 				mc.setSide(rs.getString("side"));
 				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
 				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
@@ -241,7 +246,13 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					}
 				}
 				
-				
+				if(rs.getString(KEYWORDS)!=null)
+				{
+					for(String s : rs.getString(KEYWORDS).split(","))
+					{
+						mc.getKeywords().add(new MTGKeyWord(s, org.magic.api.beans.MTGKeyWord.TYPE.ABILITIES));
+					}
+				}
 				
 				String ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
@@ -281,7 +292,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.getLegalities().addAll(getLegalities(mc.getId()));
 				
 				MagicEdition set = getSetById(rs.getString(SETCODE));
-							 set.setNumber(rs.getString("number"));
+							 set.setNumber(rs.getString(NUMBER));
 							 set.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
 							 set.setFlavor(rs.getString(FLAVOR_TEXT));
 							 set.setScryfallId(rs.getString("scryfallId"));
@@ -383,11 +394,11 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 						{
 							MagicCardNames names = new MagicCardNames();
 							names.setFlavor(rs.getString(FLAVOR_TEXT));
-							names.setGathererId(rs.getInt("multiverseId"));
+							names.setGathererId(rs.getInt(MULTIVERSE_ID));
 							names.setLanguage(rs.getString(LANGUAGE));
 							names.setName(rs.getString(NAME));
-							names.setText(rs.getString("text"));
-							names.setType(rs.getString("type"));
+							names.setText(rs.getString(TEXT));
+							names.setType(rs.getString(TYPE));
 							String id = rs.getString(UUID);
 							
 							mapForeignData.put(id, names);

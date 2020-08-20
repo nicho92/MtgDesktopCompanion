@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -234,8 +235,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(FRAME_VERSION) != null)
 					mc.setFrameVersion(String.valueOf(map.get(FRAME_VERSION)));
 				
-				if (map.get("flavorName") != null)
-					mc.setFlavorName(String.valueOf(map.get("flavorName")));
+				if (map.get(FLAVOR_NAME) != null)
+					mc.setFlavorName(String.valueOf(map.get(FLAVOR_NAME)));
 				
 				if (map.get(ARTIST) != null)
 					mc.setArtist(String.valueOf(map.get(ARTIST)));
@@ -258,7 +259,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get("tcgplayerProductId") != null) {
 					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
 				}
-				
 				
 				if (map.get("edhrecRank") != null) {
 					mc.setEdhrecRank(Double.valueOf(map.get("edhrecRank").toString()).intValue());
