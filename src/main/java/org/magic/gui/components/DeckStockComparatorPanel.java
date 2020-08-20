@@ -99,6 +99,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 				
 				MagicDeck d = new MagicDeck();
 				d.setName(currentDeck.getName());
+				d.setDescription("Missing cards for deck " + d.getName());
 				model.getItems().forEach(l->{
 					d.getMain().put(l.getMc(), l.getResult());
 				});
