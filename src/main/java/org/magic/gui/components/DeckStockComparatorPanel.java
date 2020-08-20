@@ -190,7 +190,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							if(chkCalculate.isSelected())
 								pricesPan.getBtnCheckPrice().doClick();
 							
-							btnExportMissing.setEnabled(model.isEmpty());
+							btnExportMissing.setEnabled(!model.isEmpty());
 						}
 
 						@Override
