@@ -227,7 +227,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
 				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
-				
+				mc.setHasContentWarning(rs.getBoolean(HAS_CONTENT_WARNING));
 				
 				if(rs.getString(FRAME_EFFECTS)!=null)
 				{
@@ -279,9 +279,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 				mc.getForeignNames().addAll(getTranslations(mc));
 				mc.getLegalities().addAll(getLegalities(mc.getId()));
-				
-				
-				
 				
 				MagicEdition set = getSetById(rs.getString(SETCODE));
 							 set.setNumber(rs.getString("number"));

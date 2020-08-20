@@ -109,12 +109,15 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 			JSpinner s= new JSpinner(new SpinnerNumberModel(0,0,1000000,1));
 			s.setValue(0);
 			s.addChangeListener(l->val = s.getValue());
+			val=0;
 			return s;
 		}
 		else
 		if(c.getType() == Boolean.class)
 		{
 			JCheckBox ch = new JCheckBox();
+			val=false;
+			ch.setSelected(false);
 			ch.addItemListener(l->val=ch.isSelected());
 			return ch;
 		}
@@ -180,7 +183,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 			if(il.getStateChange() == ItemEvent.SELECTED)
 				val=createCombobox.getSelectedItem();
 		});
-		
+		val=createCombobox.getSelectedItem();
 		return createCombobox;
 	}
 

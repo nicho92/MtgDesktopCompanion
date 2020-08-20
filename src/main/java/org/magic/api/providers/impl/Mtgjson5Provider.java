@@ -243,6 +243,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(IS_RESERVED) != null)
 					mc.setReserved(Boolean.valueOf(String.valueOf(map.get(IS_RESERVED))));
 				
+				if (map.get(HAS_CONTENT_WARNING) != null)
+					mc.setHasContentWarning(Boolean.valueOf(String.valueOf(map.get(HAS_CONTENT_WARNING))));
+				
 				if (map.get(IS_OVERSIZED) != null)
 					mc.setOversized(Boolean.valueOf(String.valueOf(map.get(IS_OVERSIZED))));
 			
@@ -256,13 +259,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
 				}
 				
-				if (map.get("mcmId") != null) {
-					mc.setMkmId((int)Double.parseDouble(map.get("mcmId").toString()));
-				}
-				
-				if (map.get("mtgstocksId") != null) {
-					mc.setMtgstocksId(Double.valueOf(map.get("mtgstocksId").toString()).intValue());
-				}
 				
 				if (map.get("edhrecRank") != null) {
 					mc.setEdhrecRank(Double.valueOf(map.get("edhrecRank").toString()).intValue());
@@ -295,8 +291,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(COLOR_IDENTITY) != null)
 					mc.getColorIdentity().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_IDENTITY))));
 				
-				if (map.get("frameEffects") != null)
-					mc.getFrameEffects().addAll(MTGFrameEffects.parseByLabel(((List<String>) map.get("frameEffects"))));
+				if (map.get(FRAME_EFFECTS) != null)
+					mc.getFrameEffects().addAll(MTGFrameEffects.parseByLabel(((List<String>) map.get(FRAME_EFFECTS))));
 				
 				if (map.get(AVAILABILITY) != null)
 				{
@@ -342,6 +338,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 						mc.getLegalities().add(mf);
 					}
 				}
+			
 
 				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 				
@@ -355,6 +352,17 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					
 					if (identifiers.get(SCRYFALL_ID) != null)
 						mc.setScryfallId(String.valueOf(identifiers.get(SCRYFALL_ID)));
+					
+					
+					if (identifiers.get("mcmId") != null) {
+						mc.setMkmId((int)Double.parseDouble(identifiers.get("mcmId").toString()));
+					}
+					
+					if (identifiers.get("mtgstocksId") != null) {
+						mc.setMtgstocksId(Double.valueOf(identifiers.get("mtgstocksId").toString()).intValue());
+					}
+					
+					
 				}
 				
 				if (map.get(RULINGS) != null) {

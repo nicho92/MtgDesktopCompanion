@@ -52,8 +52,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 					}
 					else
 					{
-						int number = Integer.parseInt(mc.getCurrentSet().getNumber());
-						if(number>mc.getCurrentSet().getCardCountOfficial())
+						if(mc.isExtraCard())
 							temp.append(": Extras");
 					}					
 				}catch (Exception e) {

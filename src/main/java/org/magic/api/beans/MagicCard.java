@@ -64,6 +64,27 @@ public class MagicCard implements Serializable {
 	private boolean hasAlternativeDeckLimit;
 	private MagicCard rotatedCard;
 	private List<MTGKeyWord> keywords;
+	private boolean hasContentWarning;
+	
+	public boolean isExtraCard()
+	{
+		try {
+			int number = Integer.parseInt(getCurrentSet().getNumber());
+			return number>getCurrentSet().getCardCountOfficial();
+			}
+		catch(Exception e)
+		{
+			return false;
+		}
+	}
+	
+	public boolean isHasContentWarning() {
+		return hasContentWarning;
+	}
+	
+	public void setHasContentWarning(boolean hasContentWarning) {
+		this.hasContentWarning = hasContentWarning;
+	}
 	
 	
 	public boolean isFullArt() {

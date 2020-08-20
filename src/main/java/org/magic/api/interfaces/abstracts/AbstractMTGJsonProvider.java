@@ -30,6 +30,7 @@ import com.google.gson.JsonElement;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
+	protected static final String HAS_CONTENT_WARNING = "hasContentWarning";
 	protected static final String UUID = "uuid";
 	protected static final String AVAILABILITY = "availability";
 	protected static final String SCRYFALL_ID = "scryfallId";
