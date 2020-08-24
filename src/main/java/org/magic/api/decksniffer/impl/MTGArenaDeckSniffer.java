@@ -25,23 +25,23 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		JsonObject json = new MTGArenaTools(getFile(ARENA_LOG_FILE)).readDecks();
-		
-		return null;
+	return null;
 	}
 	
 	public static void main(String[] args) throws IOException {
 		new MTGArenaDeckSniffer().getDeckList().forEach(rd->{
 			
-			System.out.println(rd.getName() +" " + rd.getUrl() + " " + rd.getDescription());
+			System.out.println(rd.getName() +" " + rd.getUrl().toASCIIString() + " " + rd.getDescription());
 		});
 	}
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
+		MTGArenaTools arena = new MTGArenaTools(getFile(ARENA_LOG_FILE));
+		
 		List<RetrievableDeck> ret = new ArrayList<>();
-		JsonObject json = new MTGArenaTools(getFile(ARENA_LOG_FILE)).readDecks();
+		JsonObject json = arena.readDecks();
 		
 		json.get("payload").getAsJsonArray().forEach(je->{
 			
@@ -58,7 +58,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 							}
 							
 							try {
-								d.setUrl(new URI("file://"+obj.get("id").getAsString()));
+								d.setUrl(new URI(obj.get("id").getAsString()));
 							} catch (URISyntaxException e) {
 								logger.error(e);
 							}
