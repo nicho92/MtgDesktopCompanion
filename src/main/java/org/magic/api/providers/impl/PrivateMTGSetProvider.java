@@ -317,5 +317,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 
+	@Override
+	public MagicCard getCardByArenaId(String id) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

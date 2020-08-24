@@ -90,7 +90,7 @@ public class URLToolsClient {
 			return doPut(builder.getUrl(), builder.getContent(), builder.getHeaders());
 		
 		
-		throw new IOException("choose a method with METHOD.POST/GET");
+		throw new IOException("choose a method with METHOD.POST/GET/PUT");
 		
 	}
 

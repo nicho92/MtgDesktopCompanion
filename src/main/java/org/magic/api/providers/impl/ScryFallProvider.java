@@ -131,6 +131,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	
+	@Override
+	public MagicCard getCardByArenaId(String id) throws IOException {
+		return searchCardByCriteria("arenaId",id, null, true).get(0);
+	}
 	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {

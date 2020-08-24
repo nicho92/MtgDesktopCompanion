@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -206,7 +210,10 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return " ";
 	}
-	
 
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGArenaExport.class.getResource("/icons/plugins/mtgarena.png"));
+	}
 
 }

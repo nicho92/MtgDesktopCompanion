@@ -429,4 +429,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return getName().hashCode();
 	}
 
+	@Override
+	public MagicCard getCardByArenaId(String id) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

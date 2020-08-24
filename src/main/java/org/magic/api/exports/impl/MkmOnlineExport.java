@@ -60,7 +60,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public boolean needFile() {
 		return false;
 	}
-	
+		
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return true;

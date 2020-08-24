@@ -344,8 +344,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				if(identifiers!=null) {
 				
-					if(identifiers.get("mtgArenaId")!=null)
-						mc.setMtgArenaId(Double.valueOf(identifiers.get("mtgArenaId")).intValue());
+					if(identifiers.get(MTG_ARENA_ID)!=null)
+						mc.setMtgArenaId(Double.valueOf(identifiers.get(MTG_ARENA_ID)).intValue());
 						
 					if (identifiers.get("scryfallIllustrationId") != null)
 						mc.setScryfallIllustrationId(String.valueOf(identifiers.get("scryfallIllustrationId")));

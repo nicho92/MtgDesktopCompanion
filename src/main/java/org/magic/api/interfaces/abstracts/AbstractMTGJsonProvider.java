@@ -19,7 +19,9 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.JsonCriteriaBuilder;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
+import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -29,7 +31,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
-
+	protected static final String MTG_ARENA_ID = "mtgArenaId";
 	protected static final String HAS_CONTENT_WARNING = "hasContentWarning";
 	protected static final String UUID = "uuid";
 	protected static final String AVAILABILITY = "availability";
@@ -104,6 +106,19 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			logger.error(e1);
 		}
 		
+	}
+	
+	
+	@Override
+	public MagicCard getCardByArenaId(String id) {
+		try{
+			return searchByCriteria(new MTGCrit<>(MTG_ARENA_ID, OPERATOR.EQ, id)).get(0);
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			return null;
+		}
 	}
 	
 	
