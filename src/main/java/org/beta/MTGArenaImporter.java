@@ -17,9 +17,7 @@ import org.magic.api.exports.impl.MTGArenaExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
 import org.magic.tools.MTGArenaTools;
-import org.magic.tools.URLTools;
 
 import com.google.gson.JsonObject;
 
@@ -53,16 +51,6 @@ public class MTGArenaImporter extends AbstractCardExport {
 		throw new IOException("Not implemented");
 
 	}
-
-	@Override
-	public MagicDeck importDeckFromFile(File f) throws IOException {
-		return importDeck(FileTools.readFile(getFile(ARENA_LOG_FILE)), "MTGArena Collection");
-	}
-	
-	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		return importStock(FileTools.readFile(getFile(ARENA_LOG_FILE)));
-	}
 	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
@@ -76,7 +64,7 @@ public class MTGArenaImporter extends AbstractCardExport {
 		
 		List<MagicCardStock> ret = new ArrayList<>();
 		
-		JsonObject o = MTGArenaTools.readCollection(content);
+		JsonObject o = new MTGArenaTools(getFile(ARENA_LOG_FILE)).readCollection();
 		
 		o.get("payload").getAsJsonObject().entrySet().forEach(e->{
 			

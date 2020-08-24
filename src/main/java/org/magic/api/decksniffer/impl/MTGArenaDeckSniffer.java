@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.decksniffer.impl;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,14 +6,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.exports.impl.MTGArenaExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.tools.FileTools;
 import org.magic.tools.MTGArenaTools;
 
 import com.google.gson.JsonObject;
@@ -25,12 +20,12 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[0];
+		return new String[] { "Game"};
 	}
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		JsonObject json = MTGArenaTools.readDecks(FileTools.readFile(getFile(ARENA_LOG_FILE)));
+		JsonObject json = new MTGArenaTools(getFile(ARENA_LOG_FILE)).readDecks();
 		
 		return null;
 	}
@@ -46,7 +41,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
 		List<RetrievableDeck> ret = new ArrayList<>();
-		JsonObject json = MTGArenaTools.readDecks(FileTools.readFile(getFile(ARENA_LOG_FILE)));
+		JsonObject json = new MTGArenaTools(getFile(ARENA_LOG_FILE)).readDecks();
 		
 		json.get("payload").getAsJsonArray().forEach(je->{
 			
