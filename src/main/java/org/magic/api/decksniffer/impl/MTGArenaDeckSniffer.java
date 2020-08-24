@@ -18,6 +18,18 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String ARENA_LOG_FILE = "ARENA_LOG_FILE";
 
+	private MTGArenaTools arena ;
+	
+	
+	private void init()
+	{
+		try {
+			arena = new MTGArenaTools(getFile(ARENA_LOG_FILE));
+		} catch (IOException e) {
+			logger.error(e);
+		}
+	}
+	
 	@Override
 	public String[] listFilter() {
 		return new String[] { "Game"};
@@ -25,20 +37,37 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-	return null;
+		
+		if(arena==null)
+			init();
+
+		
+		MagicDeck d = new MagicDeck();
+				  d.setName(info.getName());
+				  d.setDescription(info.getDescription());
+				  
+		
+				  
+				  
+				  
+		
+		return d;
 	}
 	
 	public static void main(String[] args) throws IOException {
-		new MTGArenaDeckSniffer().getDeckList().forEach(rd->{
-			
-			System.out.println(rd.getName() +" " + rd.getUrl().toASCIIString() + " " + rd.getDescription());
-		});
+		
+		MTGArenaDeckSniffer sniff = new MTGArenaDeckSniffer();
+		
+		RetrievableDeck d = sniff.getDeckList().get(0);
+		sniff.getDeck(d);
+		
 	}
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
-		MTGArenaTools arena = new MTGArenaTools(getFile(ARENA_LOG_FILE));
+		if(arena==null)
+			init();
 		
 		List<RetrievableDeck> ret = new ArrayList<>();
 		JsonObject json = arena.readDecks();
@@ -48,6 +77,16 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 			JsonObject obj = je.getAsJsonObject();
 			RetrievableDeck d = new RetrievableDeck();
 							d.setName(obj.get("name").getAsString());
+							
+							if(d.getName().startsWith("?"))
+							{
+								d.setName(d.getName().substring(d.getName().indexOf("_")+1));
+								d.setAuthor("Preconstruct");
+							}
+							else
+							{
+								d.setAuthor(arena.getAccount());
+							}
 							
 							try {
 							d.setDescription(obj.get("description").getAsString());
