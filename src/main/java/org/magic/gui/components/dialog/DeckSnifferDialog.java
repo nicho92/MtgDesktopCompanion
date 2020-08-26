@@ -89,6 +89,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 							} catch (Exception e1) {
 								lblLoad.end();
 								logger.error("error change cboFormat", e1);
+								MTGControler.getInstance().notify(e1);
 							}
 						});
 			

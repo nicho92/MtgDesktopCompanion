@@ -42,9 +42,13 @@ public class MTGArenaTools {
 	
 	private JsonObject readForToken(String token) throws IOException
 	{
-		String json =contentFile.substring(token.length()+contentFile.lastIndexOf(token));
-		json = json.substring(0,json.indexOf(System.lineSeparator())).trim();
-		return URLTools.toJson(json).getAsJsonObject();
+		try {
+			String json =contentFile.substring(token.length()+contentFile.lastIndexOf(token));
+			json = json.substring(0,json.indexOf(System.lineSeparator())).trim();
+			return URLTools.toJson(json).getAsJsonObject();
+		} catch (Exception e) {
+			throw new IOException("MTGArena is not installed or detailled log are not enabled ? please read the documentation");
+		}
 	}
 	
 }
