@@ -75,7 +75,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 				cs.setName(tr.getElementsByTag("td").get(0).text());
 				
 				try {
-				cs.setPrice(Double.parseDouble(tr.getElementsByTag("td").get(5).text().replaceAll("\\$", "")));
+				cs.setPrice(Double.parseDouble(tr.getElementsByTag("td").get(5).text().replace("\\$", "")));
 				}
 				catch(Exception ex)
 				{
