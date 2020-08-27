@@ -16,7 +16,7 @@ public interface MTGCardsExport extends MTGPlugin{
 	}
 	
 	public enum CATEGORIES {
-		FILE, ONLINE, MANUAL
+		FILE, ONLINE, MANUAL, APPLICATION
 	}
 	
 	public String getFileExtension();

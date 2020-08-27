@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.exports.impl.MTGArenaExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
@@ -36,10 +35,20 @@ public class MTGArenaImporter extends AbstractCardExport {
 	}
 	
 	@Override
+	public CATEGORIES getCategory() {
+		return CATEGORIES.APPLICATION;
+	}
+	
+	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return false;
 	}
 	
+	
+	@Override
+	public boolean needFile() {
+		return false;
+	}
 	
 	@Override
 	public boolean needDialogForStock(MODS mod) {
