@@ -565,6 +565,8 @@ public class CardSearchPanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent mev) {
 				selectedEdition = listEdition.getSelectedValue();
 				
+				if(selectedEdition==null)
+					return;
 				
 				SwingWorker<MagicCard, MagicCard> sw = new SwingWorker<>()
 						{
