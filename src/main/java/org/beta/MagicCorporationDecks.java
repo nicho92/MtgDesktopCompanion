@@ -1,4 +1,4 @@
-package org.magic.api.decksniffer.impl;
+package org.beta;
 
 import java.io.IOException;
 import java.net.URI;
