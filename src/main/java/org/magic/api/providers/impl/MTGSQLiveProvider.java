@@ -37,8 +37,6 @@ import org.magic.services.MTGConstants;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
-	
-	
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
@@ -251,7 +249,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				{
 					for(String s : rs.getString(KEYWORDS).split(","))
 					{
-						mc.getKeywords().add(new MTGKeyWord(s, org.magic.api.beans.MTGKeyWord.TYPE.ABILITIES));
+						mc.getKeywords().add(new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES));
 					}
 				}
 				
@@ -272,7 +270,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 				if(types!=null)
 				{
-					mc.getSupertypes().addAll(Arrays.asList(rs.getString("supertypes").split(",")));
+					mc.getSupertypes().addAll(Arrays.asList(rs.getString(SUPERTYPES).split(",")));
 				}
 				
 				types = rs.getString(TYPES);
@@ -355,7 +353,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
-								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_PRODUCT_ID)));
+								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
 								 initTranslations(ed);
 								 eds.add(ed);
 				}

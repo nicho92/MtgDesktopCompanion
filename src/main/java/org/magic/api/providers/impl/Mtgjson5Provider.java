@@ -636,7 +636,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		}
 		
 		try {
-			ed.setTcgplayerGroupId(ctx.read(base + ".tcgplayerGroupId", Integer.class));
+			ed.setTcgplayerGroupId(ctx.read(base + "."+TCGPLAYER_GROUP_ID, Integer.class));
 		} catch (PathNotFoundException pnfe) {
 			// do nothing
 		}
