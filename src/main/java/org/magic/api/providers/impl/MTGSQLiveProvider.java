@@ -38,6 +38,7 @@ import org.magic.services.MTGConstants;
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	
+	
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
@@ -204,7 +205,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setCost(rs.getString(MANA_COST));
 				mc.setText(rs.getString(TEXT));
 				mc.setId(rs.getString(UUID));
-				mc.setEdhrecRank(rs.getInt("edhrecRank"));
+				mc.setEdhrecRank(rs.getInt(EDHREC_RANK));
 				mc.setFrameVersion(rs.getString(FRAME_VERSION));
 				mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
 				mc.setPower(rs.getString(POWER));
@@ -222,15 +223,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					mc.setArenaCard(rs.getString(AVAILABILITY).contains("arena"));
 					mc.setMtgoCard(rs.getString(AVAILABILITY).contains("mtgo"));
 				}
-				mc.setOnlineOnly(rs.getBoolean("isOnlineOnly"));
-				mc.setPromoCard(rs.getBoolean("isPromo"));
+				mc.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
+				mc.setPromoCard(rs.getBoolean(IS_PROMO));
 				mc.setOversized(rs.getBoolean(IS_OVERSIZED));
 				mc.setReprintedCard(rs.getBoolean(IS_REPRINT));
 				mc.setReserved(rs.getBoolean(IS_RESERVED));
 				mc.setFlavorName(rs.getString(FLAVOR_NAME));
 				mc.setSide(rs.getString("side"));
-				mc.setStorySpotlight(rs.getBoolean("isStorySpotlight"));
-				mc.setHasAlternativeDeckLimit(rs.getBoolean("hasAlternativeDeckLimit"));
+				mc.setStorySpotlight(rs.getBoolean(IS_STORY_SPOTLIGHT));
+				mc.setHasAlternativeDeckLimit(rs.getBoolean(HAS_ALTERNATIVE_DECK_LIMIT));
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
 				mc.setHasContentWarning(rs.getBoolean(HAS_CONTENT_WARNING));
 				
@@ -297,7 +298,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							 set.setFlavor(rs.getString(FLAVOR_TEXT));
 							 set.setScryfallId(rs.getString("scryfallId"));
 							 set.setMultiverseid(rs.getString("multiverseId"));
-							 set.setBorder(rs.getString("borderColor"));
+							 set.setBorder(rs.getString(BORDER_COLOR));
 							 set.setArtist(rs.getString(ARTIST));
 							 mc.getEditions().add(set);
 				
@@ -351,10 +352,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setType(rs.getString("type"));
 								 ed.setMkmName(rs.getString("mcmName"));
 								 ed.setMkmid(rs.getInt("mcmId"));
-								 ed.setKeyRuneCode(rs.getString("keyruneCode"));
-								 ed.setOnlineOnly(rs.getBoolean("isOnlineOnly"));
-								 ed.setFoilOnly(rs.getBoolean("isFoilOnly"));
-								 ed.setTcgplayerGroupId(rs.getInt(("tcgplayerGroupId")));
+								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
+								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
+								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
+								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_PRODUCT_ID)));
 								 initTranslations(ed);
 								 eds.add(ed);
 				}

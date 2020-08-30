@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -43,6 +42,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
+	
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private ReadContext ctx;
 
@@ -201,7 +201,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					if(split>0)
 					{
 						
-						String side = map.get("side").toString();
+						String side = map.get(SIDE).toString();
 						
 						if(side.equals("a"))
 							mc.setName(String.valueOf(map.get(NAME)).substring(0, split).trim());
@@ -256,12 +256,12 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(FLAVOR_TEXT) != null)
 					mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
 				
-				if (map.get("tcgplayerProductId") != null) {
-					mc.setTcgPlayerId((int)Double.parseDouble(map.get("tcgplayerProductId").toString()));
+				if (map.get(TCGPLAYER_PRODUCT_ID) != null) {
+					mc.setTcgPlayerId((int)Double.parseDouble(map.get(TCGPLAYER_PRODUCT_ID).toString()));
 				}
 				
-				if (map.get("edhrecRank") != null) {
-					mc.setEdhrecRank(Double.valueOf(map.get("edhrecRank").toString()).intValue());
+				if (map.get(EDHREC_RANK) != null) {
+					mc.setEdhrecRank(Double.valueOf(map.get(EDHREC_RANK).toString()).intValue());
 				}
 				
 				if (map.get(ORIGINAL_TEXT) != null)
@@ -300,21 +300,21 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setMtgoCard(map.get(AVAILABILITY).toString().contains("mtgo"));
 				}
 			
-				if (map.get("side") != null)
-					mc.setSide(String.valueOf(map.get("side")));
+				if (map.get(SIDE) != null)
+					mc.setSide(String.valueOf(map.get(SIDE)));
 				
-				if(map.get("isStorySpotlight")!=null)
-					mc.setStorySpotlight(Boolean.valueOf(map.get("isStorySpotlight").toString()));
+				if(map.get(IS_STORY_SPOTLIGHT)!=null)
+					mc.setStorySpotlight(Boolean.valueOf(map.get(IS_STORY_SPOTLIGHT).toString()));
 				
-				if(map.get("hasAlternativeDeckLimit")!=null)
-					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get("hasAlternativeDeckLimit").toString()));
+				if(map.get(HAS_ALTERNATIVE_DECK_LIMIT)!=null)
+					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get(HAS_ALTERNATIVE_DECK_LIMIT).toString()));
 				
 				
 				if (map.get(WATERMARK) != null)
 					mc.setWatermarks(String.valueOf(map.get(WATERMARK)));
 				
-				if (map.get("isPromo") != null)
-					mc.setPromoCard(Boolean.valueOf(map.get("isPromo").toString()));
+				if (map.get(IS_PROMO) != null)
+					mc.setPromoCard(Boolean.valueOf(map.get(IS_PROMO).toString()));
 				
 				if (map.get(IS_REPRINT) != null)
 					mc.setReprintedCard(Boolean.valueOf(map.get(IS_REPRINT).toString()));
@@ -554,7 +554,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		MagicEdition ed = new MagicEdition(id);
 		String base = "$.data." + id.toUpperCase();
 		try{
-		ed.setSet(ctx.read(base + ".name", String.class));
+		ed.setSet(ctx.read(base + "."+NAME, String.class));
 		}
 		catch(PathNotFoundException pnfe)
 		{	
@@ -562,7 +562,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		}
 		
 		try{
-			ed.setOnlineOnly(ctx.read(base + ".isOnlineOnly", Boolean.class));
+			ed.setOnlineOnly(ctx.read(base + "."+IS_ONLINE_ONLY, Boolean.class));
 		}
 		catch(PathNotFoundException pnfe)
 		{ 
@@ -570,7 +570,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		}
 		
 		try{
-			ed.setFoilOnly(ctx.read(base + ".isFoilOnly", Boolean.class));
+			ed.setFoilOnly(ctx.read(base + "."+IS_FOIL_ONLY, Boolean.class));
 		}
 		catch(PathNotFoundException pnfe)
 		{ 
@@ -602,7 +602,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		}
 		
 		try{
-			ed.setBorder(ctx.read(base + ".cards[0].borderColor", String.class));
+			ed.setBorder(ctx.read(base + ".cards[0]."+BORDER_COLOR, String.class));
 		}catch(PathNotFoundException pnfe)
 		{ 
 			//do nothing
@@ -643,7 +643,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		
 		
 		try {
-			ed.setKeyRuneCode(ctx.read(base+".keyruneCode",String.class));
+			ed.setKeyRuneCode(ctx.read(base+"."+KEYRUNE_CODE,String.class));
 		}catch(PathNotFoundException pnfe)
 		{
 			//do nothing

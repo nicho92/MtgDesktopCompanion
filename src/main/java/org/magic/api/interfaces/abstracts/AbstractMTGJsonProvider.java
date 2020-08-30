@@ -67,14 +67,25 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String NAME = "name";
 	protected static final String LANGUAGE = "language";
 	protected static final String SETCODE="setCode";
-	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	protected static final String KEYWORDS = "keywords";
 	protected static final String IS_OVERSIZED = "isOversized";
 	protected static final String IS_REPRINT = "isReprint";
+	protected static final String IS_ONLINE_ONLY = "isOnlineOnly";
+	protected static final String IS_PROMO = "isPromo";
+	protected static final String IS_FOIL_ONLY = "isFoilOnly";
+
+	protected static final String SIDE = "side";
 	protected static final String WATERMARK = "watermark";
 	protected static final String FRAME_EFFECTS = "frameEffects";
+	protected static final String EDHREC_RANK = "edhrecRank";
+	protected static final String IS_STORY_SPOTLIGHT = "isStorySpotlight";
+	protected static final String HAS_ALTERNATIVE_DECK_LIMIT = "hasAlternativeDeckLimit";
+	protected static final String TCGPLAYER_PRODUCT_ID = "tcgplayerProductId";
+	protected static final String BORDER_COLOR = "borderColor";
+	protected static final String KEYRUNE_CODE = "keyruneCode";
+
 	
-	
+	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
 	public static final String MTG_JSON_VERSION = "https://mtgjson.com/api/v5/Meta.json";
 	public static final String MTG_JSON_DECKS_LIST = "https://mtgjson.com/api/v5/DeckList.json";

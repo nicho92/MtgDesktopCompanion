@@ -41,11 +41,6 @@ public class SQLLiteDAO extends AbstractSQLMagicDAO {
 	protected String getdbSizeQuery() {
 		return null;
 	}
-	
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
 
 	@Override
 	public String getName() {
