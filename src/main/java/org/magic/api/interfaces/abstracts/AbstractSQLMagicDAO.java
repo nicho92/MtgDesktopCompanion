@@ -600,7 +600,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			else
 				pst.setString(2, mc.getName());
 			
-		
 			try (ResultSet rs = pst.executeQuery()) {
 				
 				while (rs.next()) {
