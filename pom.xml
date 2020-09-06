@@ -183,22 +183,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.6.1</version>
+			<version>8.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.6.1</version>
+			<version>8.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.6.1</version>
+			<version>8.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.6.1</version>
+			<version>8.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_198</version>
+			<version>4.2.0_204</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -301,7 +301,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.14</version>
+			<version>1.15</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -431,7 +431,7 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.13</version>
 		</dependency>
 		<dependency>
 			<groupId>cat.inspiracio</groupId>
