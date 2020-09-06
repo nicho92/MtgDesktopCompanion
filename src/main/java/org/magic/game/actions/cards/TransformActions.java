@@ -43,7 +43,7 @@ public class TransformActions extends AbstractAction {
 			card.initActions();
 
 		} catch (Exception ex) {
-			logger.error(ex);
+			logger.error("error transformation", ex);
 		}
 
 	}

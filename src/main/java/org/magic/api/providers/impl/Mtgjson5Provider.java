@@ -154,10 +154,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		{
 				jsquery = "$.data." + crit.toUpperCase() + ".cards";
 		}
-		else if(att.equals("jsonpath"))
-		{
-			jsquery = crit;
-		}
 		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}

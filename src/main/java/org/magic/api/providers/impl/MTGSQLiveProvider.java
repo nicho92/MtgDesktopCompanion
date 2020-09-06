@@ -522,7 +522,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				else if(rs.getString(NAME).equals(FRAME_EFFECTS))
 					ret.add(new CardAttribute(rs.getString(NAME), MTGFrameEffects.class));
 				else
-					ret.add(new CardAttribute(rs.getString(NAME), convert(rs.getString("type"))));
+					ret.add(new CardAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 				
 			}
 			
@@ -540,8 +540,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		return ret;
 	}
 
-	private Class<?> convert(String string) {
-		if(string.startsWith("TEXT"))
+	private Class<?> sqlToJavaType(String string) {
+		if(string.startsWith("TEXT") || string.startsWith("VARCHAR"))
 			return String.class;
 		else if(string.startsWith("INTEGER"))
 			return Integer.class;
