@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_198</version>
+			<version>4.2.0_204</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -431,7 +431,7 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.13</version>
 		</dependency>
 		<dependency>
 			<groupId>cat.inspiracio</groupId>
