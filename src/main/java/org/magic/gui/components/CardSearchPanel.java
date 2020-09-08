@@ -279,7 +279,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		tableCards.setRowSorter(sorterCards);
 		
 		
-		cardsModeltable.setDefaultHiddenComlumns(8,9,10);
+		cardsModeltable.setDefaultHiddenComlumns(8,9,10,11);
 		for(int i : cardsModeltable.defaultHiddenColumns())
 		{
 			tableCards.getColumnExt(cardsModeltable.getColumnName(i)).setVisible(false);

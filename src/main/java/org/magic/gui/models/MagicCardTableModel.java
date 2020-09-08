@@ -22,7 +22,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"CARD_NUMBER",
 				"CARD_COLOR",
 				"RL",
-				"LAYOUT"};
+				"LAYOUT",
+				"SIDE"};
 
 	}
 
@@ -66,6 +67,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				return mc.isReserved();
 			case 10:
 				return mc.getLayout().toPrettyString();
+			case 11:
+				return mc.getSide();
 			default:
 				return mc;
 			}
