@@ -180,6 +180,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initRotatedCard(MagicCard mc, String name, String side)
 	{
 		String sql ="SELECT * FROM cards WHERE name like \"%" + name + "%\" and side ='"+side + "' and setCode='"+mc.getCurrentSet().getId()+"'";
+		
+		logger.trace("query rotated " + sql);
+		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
 		{
 			try (ResultSet rs = pst.executeQuery())
