@@ -228,7 +228,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setReprintedCard(rs.getBoolean(IS_REPRINT));
 				mc.setReserved(rs.getBoolean(IS_RESERVED));
 				mc.setFlavorName(rs.getString(FLAVOR_NAME));
-				mc.setSide(rs.getString("side"));
+				mc.setSide(rs.getString(SIDE));
 				mc.setStorySpotlight(rs.getBoolean(IS_STORY_SPOTLIGHT));
 				mc.setHasAlternativeDeckLimit(rs.getBoolean(HAS_ALTERNATIVE_DECK_LIMIT));
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
