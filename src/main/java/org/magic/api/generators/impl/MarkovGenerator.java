@@ -51,9 +51,9 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			  for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).listCards())
 			  {
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
-						  String r = mc.getText().replaceAll(CardsPatterns.REMINDER.getPattern(), "")
-								  				 .replaceAll("\n", " ")
-								  				 .replaceAll(mc.getName(), getString("TAG_NAME"))
+						  String r = mc.getText().replace(CardsPatterns.REMINDER.getPattern(), "")
+								  				 .replace("\n", " ")
+								  				 .replace(mc.getName(), getString("TAG_NAME"))
 								  				 .trim();
 						  build.append(r).append("\n");
 				  }
