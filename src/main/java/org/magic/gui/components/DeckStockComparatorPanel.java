@@ -51,6 +51,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private DeckPricePanel pricesPan;
 	private JCheckBox chkCalculate ;
 	private JExportButton btnExportMissing;
+	private JCheckBox chkCollectionCheck;
 	
 	public void setCurrentDeck(MagicDeck c) {
 		this.currentDeck = c;
@@ -87,6 +88,9 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		panneauHaut.add(btnCompare);
 		panneauHaut.add(buzyLabel);
 		
+		chkCollectionCheck = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CHECK_COLLECTION"));
+		panneauHaut.add(chkCollectionCheck);
+		
 		chkCalculate = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CALCULATE_PRICES"));
 		panneauHaut.add(chkCalculate);
 		
@@ -100,9 +104,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 				MagicDeck d = new MagicDeck();
 				d.setName(currentDeck.getName());
 				d.setDescription("Missing cards for deck " + d.getName());
-				model.getItems().forEach(l->{
-					d.getMain().put(l.getMc(), l.getResult());
-				});
+				model.getItems().forEach(l->d.getMain().put(l.getMc(), l.getResult()));
 				
 				return d;
 			}
@@ -163,7 +165,11 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							currentDeck.getMain().entrySet().forEach(entry->
 							{
 								try {
-									boolean has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
+									boolean has = false;
+									
+									if(chkCollectionCheck.isSelected())
+										has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
+									
 									List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
 									int qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);

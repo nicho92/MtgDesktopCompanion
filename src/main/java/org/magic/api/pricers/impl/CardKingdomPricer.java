@@ -19,6 +19,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
@@ -138,8 +139,8 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		for (int i = 0; i < qualities.size(); i++) {
 			MagicPrice mp = new MagicPrice();
 
-			String price = prices.get(i).html().replace("\\$", "");
-			mp.setValue(Double.parseDouble(price));
+			String price = prices.get(i).html().replaceAll("\\$", "");
+			mp.setValue(UITools.parseDouble(price));
 			mp.setCurrency("USD");
 			mp.setSeller(getName());
 			mp.setSite(getName());

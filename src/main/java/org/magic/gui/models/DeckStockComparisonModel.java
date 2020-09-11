@@ -23,7 +23,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 				"QTY",
 				"STOCK_MODULE",
 				"COLLECTION",
-				"NEEDED_QTY",
+				"NEEDED_QTY"
 				};
 		
 	}
