@@ -177,19 +177,34 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 	
 	
-	private void initRotatedCard(MagicCard mc, String id)
+	private void initRotatedCard(MagicCard mc, String id, String side)
 	{
-		String sql ="SELECT * FROM cards WHERE uuid = '" + id +"'" ;
-		
-		logger.trace("query rotated " + sql);
+		String sql ="SELECT * FROM cards WHERE uuid = ?" ;
 		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
 		{
+			pst.setString(1, id);
+			
 			try (ResultSet rs = pst.executeQuery())
 			{
 				rs.next();
 				mc.setRotatedCard(generateCardsFromRs(rs,false));
 			}
+			
+			String name = mc.getName();
+			if(side.equals("b"))
+			{
+				mc.setName(name.substring(name.indexOf('/')+2).trim());
+				mc.getRotatedCard().setName(name.substring(0,name.indexOf('/')).trim());
+			}
+			else
+			{
+				mc.getRotatedCard().setName(name.substring(name.indexOf('/')+2).trim());
+				mc.setName(name.substring(0,name.indexOf('/')).trim());
+
+			}
+			
+			
 		}
 		catch (SQLException e) 
 		{
@@ -314,8 +329,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				int split = mc.getName().indexOf("/");
 				if(split>1 && load)
 				{
-						mc.setFlavorName(mc.getName());
-						initRotatedCard(mc, rs.getString("otherFaceIds"));
+					initRotatedCard(mc, rs.getString("otherFaceIds"),mc.getSide());
 				}
 		notify(mc);
 		return mc;
