@@ -49,7 +49,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private JButton btnCompare;
 	private AbstractBuzyIndicatorComponent buzyLabel;
 	private DeckPricePanel pricesPan;
-	private JCheckBox chkCalculate ;
+	private JCheckBox chkEditionStrict ;
 	private JExportButton btnExportMissing;
 	private JCheckBox chkCollectionCheck;
 	
@@ -85,16 +85,17 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(cboCollections);
-		panneauHaut.add(btnCompare);
-		panneauHaut.add(buzyLabel);
 		
 		chkCollectionCheck = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CHECK_COLLECTION"));
 		panneauHaut.add(chkCollectionCheck);
 		
-		chkCalculate = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CALCULATE_PRICES"));
-		panneauHaut.add(chkCalculate);
+		chkEditionStrict = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("EDITION_STRICT"));
+		panneauHaut.add(chkEditionStrict);
 		
 		
+		panneauHaut.add(btnCompare);
+		panneauHaut.add(buzyLabel);
+
 		btnExportMissing.setEnabled(false);
 		btnExportMissing.initCardsExport(new Callable<MagicDeck>() {
 			
@@ -170,7 +171,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 									if(chkCollectionCheck.isSelected())
 										has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
 									
-									List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,false);
+									List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
 									int qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());
@@ -193,9 +194,6 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							});
 							
 							pricesPan.initDeck(MagicDeck.toDeck(pricList));
-							if(chkCalculate.isSelected())
-								pricesPan.getBtnCheckPrice().doClick();
-							
 							btnExportMissing.setEnabled(!model.isEmpty());
 						}
 
