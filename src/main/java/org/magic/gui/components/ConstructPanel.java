@@ -686,7 +686,6 @@ public class ConstructPanel extends MTGUIComponent {
 					return;
 				
 				MagicCard mc = UITools.getTableSelection(table, 0);
-				magicCardDetailPanel.setMagicCard(mc);
 				
 				if(f==MAIN)
 					cardDrawProbaPanel.init(deck, mc);
@@ -809,7 +808,7 @@ public class ConstructPanel extends MTGUIComponent {
 	}
 
 	protected void updatePanels() {
-
+		
 		if(deck==null)
 			return;
 
