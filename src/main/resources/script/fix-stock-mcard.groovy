@@ -7,4 +7,3 @@ else
 {
 	printf("Your DAO is not SQL. Don't need to pass script");
 }
-script-2.16.groovy
