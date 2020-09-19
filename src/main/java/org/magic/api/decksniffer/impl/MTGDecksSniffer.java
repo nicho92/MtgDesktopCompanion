@@ -71,6 +71,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				if (name.contains("/"))
 					name = name.substring(0, name.indexOf('/')).trim();
 
+				try {
 				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				notify(mc);
@@ -80,6 +81,12 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				else
 					deck.getSideBoard().put(mc, Integer.parseInt(qte));
 
+				}
+				catch(Exception e)
+				{
+					logger.error("No card found for " + name);
+				}
+				
 			}
 
 		}
