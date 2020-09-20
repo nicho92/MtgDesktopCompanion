@@ -79,11 +79,14 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		
 		String edName = mc.getCurrentSet().getSet();
 		Product resultat = null;
-		for (Product p : list) {
-
-			if (mc.getCurrentSet().getMkmName() != null)
-				edName = mc.getCurrentSet().getMkmName();
 		
+		if (mc.getCurrentSet().getMkmName() != null)
+			edName = mc.getCurrentSet().getMkmName();
+	
+		if(mc.isExtraCard())
+			edName +=": Extras";
+		
+		for (Product p : list) {
 			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && p.getExpansionName().equalsIgnoreCase(edName)) {
 				resultat = p;
 				break;
