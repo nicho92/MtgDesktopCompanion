@@ -1433,4 +1433,16 @@
 		<box lang="en" num="2" url="https://cdn.shopify.com/s/files/1/0100/2949/8432/products/MTGCMR_EN_ClctrBstrDsp_01_01.png"/>
 	</edition>
 	
+	<edition id="TSR">
+		<banner lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/41/Time_Spiral_Remastered_logo.png/revision/latest/scale-to-width-down/1200"/>
+	</edition>
+	
+	<edition id="XSSM"> <!-- strixhaven -->
+		<banner lang="en" url="https://youre.outof.cards/media/uploads/6f/98/6f98ac3b-0a27-4d12-b935-fd715a81cc86/en_loq0zmgx9v.png"/>
+	</edition>
+	
+	<edition id="XKLD"> <!-- Kaldheim -->
+		<banner lang="en" url="https://youre.outof.cards/media/uploads/45/97/4597bc0a-dc41-477a-8451-36b84715f790/en_ahkyduftau.png"/>
+	</edition>
+	
 </boosterUrls>
