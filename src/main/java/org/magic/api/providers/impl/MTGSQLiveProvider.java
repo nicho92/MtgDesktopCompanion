@@ -248,6 +248,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setHasAlternativeDeckLimit(rs.getBoolean(HAS_ALTERNATIVE_DECK_LIMIT));
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
 				mc.setHasContentWarning(rs.getBoolean(HAS_CONTENT_WARNING));
+				mc.setScryfallId(rs.getString(SCRYFALL_ID));
+					
+				
 				
 				if(rs.getString(FRAME_EFFECTS)!=null)
 				{
@@ -310,7 +313,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							 set.setNumber(rs.getString(NUMBER));
 							 set.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
 							 set.setFlavor(rs.getString(FLAVOR_TEXT));
-							 set.setScryfallId(rs.getString("scryfallId"));
+							 set.setScryfallId(rs.getString(SCRYFALL_ID));
 							 set.setMultiverseid(rs.getString("multiverseId"));
 							 set.setBorder(rs.getString(BORDER_COLOR));
 							 set.setArtist(rs.getString(ARTIST));

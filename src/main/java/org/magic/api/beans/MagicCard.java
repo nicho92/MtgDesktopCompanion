@@ -339,7 +339,7 @@ public class MagicCard implements Serializable {
 	
 	public boolean isDoubleFaced()
 	{
-		return getLayout()==MTGLayout.MELD || getLayout()==MTGLayout.TRANSFORM;
+		return getLayout()==MTGLayout.MELD || getLayout()==MTGLayout.TRANSFORM || getLayout()==MTGLayout.MODAL_DFC;
 	}
 	
 	

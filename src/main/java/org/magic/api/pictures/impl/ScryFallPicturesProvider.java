@@ -19,7 +19,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private static final String HTTP_API_SCRYFALL = "https://api.scryfall.com/cards/";
 	private static final String IMAGE_TAG = "?format=image";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	private Boolean scryfallProvider = null;
 	
 	public ScryFallPicturesProvider() {
 		super();
@@ -53,19 +52,23 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			selected = mc.getCurrentSet();
 		
 		
-		if (scryfallProvider == null)
-			scryfallProvider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class) instanceof ScryFallProvider;
-
+		
 		String url = HTTP_API_SCRYFALL + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
 
-		if (scryfallProvider.booleanValue()) {
-			url = HTTP_API_SCRYFALL + mc.getId() + IMAGE_TAG;
-		}
 
 		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
 			url = HTTP_API_SCRYFALL+"multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
 
 
+		if (mc.getScryfallId() != null)
+		{
+			url = HTTP_API_SCRYFALL + mc.getScryfallId() + IMAGE_TAG;
+			
+			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
+				url=url+"&face=back";
+		}
+		
+		
 		if (crop)
 			url += "&version=art_crop";
 		else
