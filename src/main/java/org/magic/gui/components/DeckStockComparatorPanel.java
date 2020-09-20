@@ -3,6 +3,7 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,9 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		model = new DeckStockComparisonModel();
 		JXTable table = new JXTable();
 		btnExportMissing = new JExportButton(MODS.EXPORT);
+		btnExportMissing.setText("Export Missing");
+		UITools.bindJButton(btnExportMissing, KeyEvent.VK_M, "ExportMissing");
+		
 		JSplitPane pan = new JSplitPane();
 		pan.setDividerLocation(0.5);
 		pan.setResizeWeight(0.5);
