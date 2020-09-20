@@ -120,18 +120,6 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		public ImageIcon getIcon() {
 			return MTGConstants.ICON_SHORTCUT;
 		}
-
-
-
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.getContentPane().add(new ShortKeyManagerUI());
-		f.setTitle("test");
-		f.pack();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-	}
-
 }
 
 

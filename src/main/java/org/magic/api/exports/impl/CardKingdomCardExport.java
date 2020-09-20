@@ -7,13 +7,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map.Entry;
 
-import org.apache.http.Header;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGDeckManager;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
 public class CardKingdomCardExport extends AbstractCardExport {

@@ -9,11 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGNotification;

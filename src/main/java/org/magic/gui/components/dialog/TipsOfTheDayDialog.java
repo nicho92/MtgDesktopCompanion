@@ -1,6 +1,7 @@
 package org.magic.gui.components.dialog;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.jdesktop.swingx.JXTipOfTheDay;
@@ -15,7 +16,12 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 
 	public TipsOfTheDayDialog() throws IOException {
 		Properties tips = new Properties();
-		tips.load(MTGConstants.TOOLTIPS_FILE.openStream());
+		
+		try(InputStream st = MTGConstants.TOOLTIPS_FILE.openStream())
+		{
+			tips.load(st);
+		}
+		
 		TipOfTheDayModel model = TipLoader.load(tips);
 		setModel(model);
 

@@ -1,11 +1,8 @@
 package org.magic.gui.components;
 
-import java.awt.AWTEvent;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,7 +15,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.EventListenerList;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -47,7 +43,6 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 	private transient Object val;
 	private JComboBox<OPERATOR> cboOperator;
 	private boolean showComparator;
-	private EventListenerList listenerList = new EventListenerList();
 	private JButton button;
 	
 	

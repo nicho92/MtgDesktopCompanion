@@ -342,7 +342,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			
 			
 			params.put("create", creates.stream().map(this::build).collect(Collectors.toList()));
-			params.put("update", stocks.stream().filter(st->st.getTiersAppIds().get(getName())!=null).map(st->build(st)).collect(Collectors.toList()));
+			params.put("update", stocks.stream().filter(st->st.getTiersAppIds().get(getName())!=null).map(this::build).collect(Collectors.toList()));
 			
 			
 			Map<String,JsonElement> ret = wooCommerce.batch(EndpointBaseType.PRODUCTS.getValue(), params);

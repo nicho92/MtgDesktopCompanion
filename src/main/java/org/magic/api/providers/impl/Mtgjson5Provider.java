@@ -43,6 +43,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 	
+	private static final String ROOT_DATA = "$.data";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private ReadContext ctx;
 
@@ -145,17 +146,17 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			filterEdition = filterEdition + ed.getId().toUpperCase();
 		}
 
-		String jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replace("\\+", " ")+ ".*$/i)]";
+		String jsquery = ROOT_DATA + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replace("\\+", " ")+ ".*$/i)]";
 
 		if (exact)
-			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replace("\\+", " ") + "\")]";
+			jsquery = ROOT_DATA + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replace("\\+", " ") + "\")]";
 
 		if (att.equalsIgnoreCase(SET_FIELD)) 
 		{
-				jsquery = "$.data." + crit.toUpperCase() + ".cards";
+				jsquery = ROOT_DATA+"." + crit.toUpperCase() + ".cards";
 		}
 		else if(StringUtils.isNumeric(crit)) {
-			jsquery = "$.data" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
+			jsquery = ROOT_DATA + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}
 		
 		return search(jsquery);

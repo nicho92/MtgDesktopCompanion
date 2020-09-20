@@ -7,10 +7,7 @@ import java.net.URL;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.api.providers.impl.ScryFallProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 

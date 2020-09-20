@@ -27,7 +27,6 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.criterias.CardAttribute;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
@@ -79,9 +78,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	@Override
 	public void init() {
 		propsCache = new Properties();
-		try {
-			propsCache.load(new FileReader(fcacheCount));
-		} catch (FileNotFoundException e) {
+		try (FileReader fs = new FileReader(fcacheCount))
+		{
+			propsCache.load(fs);
+		} 
+		catch (FileNotFoundException e) {
 			try {
 				FileUtils.touch(fcacheCount);
 			} catch (IOException e1) {

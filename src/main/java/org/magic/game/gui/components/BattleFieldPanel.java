@@ -32,7 +32,6 @@ public class BattleFieldPanel extends DraggablePanel {
 	private static final long serialVersionUID = 1L;
 	JPopupMenu battlefieldMenu = new JPopupMenu();
 	private transient BufferedImage image;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public List<DisplayableCard> getCards() {
 		List<DisplayableCard> selected = new ArrayList<>();

@@ -6,7 +6,6 @@ import java.awt.Image;
 
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;
@@ -16,7 +15,6 @@ import org.magic.game.actions.library.ShuffleActions;
 import org.magic.game.actions.player.SearchActions;
 import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class LibraryPanel extends DraggablePanel {
 
@@ -25,7 +23,6 @@ public class LibraryPanel extends DraggablePanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient Image i;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public LibraryPanel() {
 		super();

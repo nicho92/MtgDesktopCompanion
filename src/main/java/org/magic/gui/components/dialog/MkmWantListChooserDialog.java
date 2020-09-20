@@ -18,7 +18,7 @@ import org.magic.tools.UITools;
 public class MkmWantListChooserDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private WantsService serv;
+	private transient WantsService serv;
 	private JComboBox<Wantslist> cboWants ;
 	
 	public MkmWantListChooserDialog() {
