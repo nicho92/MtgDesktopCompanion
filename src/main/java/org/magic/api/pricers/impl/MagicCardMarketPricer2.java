@@ -38,7 +38,6 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	private List<MagicPrice> lists;
 	private boolean initied=false;
 	
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -85,7 +84,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			if (mc.getCurrentSet().getMkmName() != null)
 				edName = mc.getCurrentSet().getMkmName();
 		
-			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && p.getExpansionName().startsWith(edName)) {
+			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && p.getExpansionName().equalsIgnoreCase(edName)) {
 				resultat = p;
 				break;
 			}
@@ -237,7 +236,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("APP_ACCESS_TOKEN", "");
 		setProperty("APP_ACCESS_TOKEN_SECRET", "");
 		setProperty(LANGUAGE_ID, "1");
-		setProperty(IS_EXACT, TRUE);
+		setProperty(IS_EXACT, "");
 		setProperty(MIN_CONDITION, "");
 		setProperty("COMMONCHECK", FALSE);
 		setProperty("MAX", "10");
