@@ -352,11 +352,11 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					
 					
 					if (identifiers.get("mcmId") != null) {
-						mc.setMkmId((int)Double.parseDouble(identifiers.get("mcmId").toString()));
+						mc.setMkmId((int)Double.parseDouble(identifiers.get("mcmId")));
 					}
 					
 					if (identifiers.get("mtgstocksId") != null) {
-						mc.setMtgstocksId(Double.valueOf(identifiers.get("mtgstocksId").toString()).intValue());
+						mc.setMtgstocksId(Double.valueOf(identifiers.get("mtgstocksId")).intValue());
 					}
 					
 					

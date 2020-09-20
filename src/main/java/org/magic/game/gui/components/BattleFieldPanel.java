@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.apache.log4j.Logger;
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
@@ -21,7 +20,6 @@ import org.magic.game.model.GameManager;
 import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
 
 public class BattleFieldPanel extends DraggablePanel {

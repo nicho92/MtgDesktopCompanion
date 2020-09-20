@@ -125,12 +125,6 @@ public class ImageExporter extends AbstractCardExport{
 		g.drawString(d.getName(),70,headerSize-25);
 	}
 
-
-	public static void main(String[] args) throws IOException {
-		new ImageExporter().exportDeck(new MTGDeckManager().getDeck("Ominous_Standstill"), new File("d:/test.png"));
-	}
-
-
 	@Override
 	public String getFileExtension() {
 		return "."+getString(FORMAT);
