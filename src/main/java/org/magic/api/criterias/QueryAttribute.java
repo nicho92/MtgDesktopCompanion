@@ -2,13 +2,13 @@ package org.magic.api.criterias;
 
 import java.io.Serializable;
 
-public class CardAttribute implements Serializable, Comparable<CardAttribute>{
+public class QueryAttribute implements Serializable, Comparable<QueryAttribute>{
 	
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private Class type;
 	
-	public CardAttribute(String name, Class type) {
+	public QueryAttribute(String name, Class type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -33,7 +33,7 @@ public class CardAttribute implements Serializable, Comparable<CardAttribute>{
 	}
 
 	@Override
-	public int compareTo(CardAttribute o) {
+	public int compareTo(QueryAttribute o) {
 		return (getName().compareTo(String.valueOf(o)));
 	}
 	

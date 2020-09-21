@@ -17,11 +17,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
-import org.magic.api.criterias.MTGQueryBuilder;
+import org.magic.api.criterias.builders.MTGQueryBuilder;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -135,25 +135,25 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	
 	
 	@Override
-	public List<CardAttribute> loadQueryableAttributs() {
+	public List<QueryAttribute> loadQueryableAttributs() {
 		
-		List<CardAttribute> arr = new ArrayList<>();
+		List<QueryAttribute> arr = new ArrayList<>();
 		
 		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,MANA_COST,TYPE))
-			arr.add(new CardAttribute(s,String.class));
+			arr.add(new QueryAttribute(s,String.class));
 		
 		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,MULTIVERSE_ID,NUMBER))
-			arr.add(new CardAttribute(s,Integer.class));
+			arr.add(new QueryAttribute(s,Integer.class));
 		
 		for(String s :Lists.newArrayList(IS_RESERVED,"hasFoil","hasNonFoil"))
-			arr.add(new CardAttribute(s,Boolean.class));
+			arr.add(new QueryAttribute(s,Boolean.class));
 		
 		
 		
-		arr.add(new CardAttribute(LAYOUT, MTGLayout.class));
-		arr.add(new CardAttribute(RARITY, MTGRarity.class));
-		arr.add(new CardAttribute(COLOR_IDENTITY, MTGColor.class));
-		arr.add(new CardAttribute(COLORS, MTGColor.class));
+		arr.add(new QueryAttribute(LAYOUT, MTGLayout.class));
+		arr.add(new QueryAttribute(RARITY, MTGRarity.class));
+		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
+		arr.add(new QueryAttribute(COLORS, MTGColor.class));
 		
 		return arr;
 	}

@@ -21,7 +21,7 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.JsonCriteriaBuilder;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.MTGQueryBuilder;
+import org.magic.api.criterias.builders.MTGQueryBuilder;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;

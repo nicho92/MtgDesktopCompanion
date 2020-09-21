@@ -1,4 +1,7 @@
-package org.magic.api.criterias;
+package org.magic.api.criterias.builders;
+
+import org.magic.api.criterias.AbstractQueryBuilder;
+import org.magic.api.criterias.MTGCrit;
 
 public class ScryfallCriteriaBuilder extends AbstractQueryBuilder<String> {
 	

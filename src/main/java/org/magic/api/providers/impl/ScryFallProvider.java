@@ -22,10 +22,10 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.MTGQueryBuilder;
-import org.magic.api.criterias.ScryfallCriteriaBuilder;
+import org.magic.api.criterias.builders.MTGQueryBuilder;
+import org.magic.api.criterias.builders.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -220,28 +220,28 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<CardAttribute> loadQueryableAttributs() {
-		List<CardAttribute> arr = new ArrayList<>();
+	public List<QueryAttribute> loadQueryableAttributs() {
+		List<QueryAttribute> arr = new ArrayList<>();
 		
 		for(String s :Lists.newArrayList(NAME, "custom", "type", "oracle", "mana",RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME))
 		{
-			arr.add(new CardAttribute(s,String.class));
+			arr.add(new QueryAttribute(s,String.class));
 		}
 		
 		for(String s :Lists.newArrayList(CMC, POWER, TOUGHNESS,LOYALTY))
 		{
-			arr.add(new CardAttribute(s,Integer.class));
+			arr.add(new QueryAttribute(s,Integer.class));
 		}
 		
 		for(String s :Lists.newArrayList("is","foil","nonfoil",OVERSIZED,"promo","reprint","story_spotlight","variation"))
 		{
-			arr.add(new CardAttribute(s,Boolean.class));
+			arr.add(new QueryAttribute(s,Boolean.class));
 		}
 		
-		arr.add(new CardAttribute("set",MagicEdition.class));
-		arr.add(new CardAttribute(COLOR, MTGColor.class));
-		arr.add(new CardAttribute(COLOR_IDENTITY, MTGColor.class));
-		arr.add(new CardAttribute(LAYOUT,MTGLayout.class));
+		arr.add(new QueryAttribute("set",MagicEdition.class));
+		arr.add(new QueryAttribute(COLOR, MTGColor.class));
+		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
+		arr.add(new QueryAttribute(LAYOUT,MTGLayout.class));
 		
 		return arr;
 	}

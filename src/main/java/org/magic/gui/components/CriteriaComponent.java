@@ -22,7 +22,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -39,7 +39,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 
 	private JComponent selector;
 	
-	private CardAttribute c;
+	private QueryAttribute c;
 	private transient Object val;
 	private JComboBox<OPERATOR> cboOperator;
 	private boolean showComparator;
@@ -61,7 +61,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JComboBox<CardAttribute> cboAttributes = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
+		JComboBox<QueryAttribute> cboAttributes = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
 			
 		
 		c=MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()[0];
@@ -83,7 +83,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 				
 				int pos = UITools.getComponentIndex(selector);
 				remove(selector);
-				c = ((CardAttribute)cboAttributes.getSelectedItem());
+				c = ((QueryAttribute)cboAttributes.getSelectedItem());
 				
 				SwingUtilities.invokeLater(()->{
 					selector = getComponentFor(c);
@@ -97,7 +97,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		});
 	}
 
-	private JComponent getComponentFor(CardAttribute c) {
+	private JComponent getComponentFor(QueryAttribute c) {
 	
 		if(c.getType() == Integer.class || c.getType() == Float.class)
 		{

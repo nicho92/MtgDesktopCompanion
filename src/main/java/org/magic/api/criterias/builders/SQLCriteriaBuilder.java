@@ -1,4 +1,4 @@
-package org.magic.api.criterias;
+package org.magic.api.criterias.builders;
 
 
 import static org.jooq.impl.DSL.field;
@@ -8,6 +8,8 @@ import static org.jooq.impl.DSL.table;
 import org.jooq.Query;
 import org.jooq.Record3;
 import org.jooq.SelectWhereStep;
+import org.magic.api.criterias.AbstractQueryBuilder;
+import org.magic.api.criterias.MTGCrit;
 
 
 

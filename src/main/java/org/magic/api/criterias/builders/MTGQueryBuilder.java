@@ -1,4 +1,7 @@
-package org.magic.api.criterias;
+package org.magic.api.criterias.builders;
+
+import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGCriteriaConverter;
 
 public interface MTGQueryBuilder<T> {
 

@@ -26,10 +26,10 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.criterias.CardAttribute;
+import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.MTGQueryBuilder;
-import org.magic.api.criterias.SQLCriteriaBuilder;
+import org.magic.api.criterias.builders.MTGQueryBuilder;
+import org.magic.api.criterias.builders.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
@@ -510,35 +510,35 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 
 	@Override
-	public List<CardAttribute> loadQueryableAttributs() {
-		List<CardAttribute> ret = new ArrayList<>();
+	public List<QueryAttribute> loadQueryableAttributs() {
+		List<QueryAttribute> ret = new ArrayList<>();
 		
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cards)");ResultSet rs = pst.executeQuery())
 		{
 			while(rs.next())
 			{
 				if(rs.getString(NAME).startsWith("is") || rs.getString(NAME).startsWith("has"))
-					ret.add(new CardAttribute(rs.getString(NAME), Boolean.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), Boolean.class));
 				else if(rs.getString(NAME).equals(SETCODE))
-					ret.add(new CardAttribute(rs.getString(NAME), MagicEdition.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), MagicEdition.class));
 				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY))
-					ret.add(new CardAttribute(rs.getString(NAME), MTGColor.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGColor.class));
 				else if(rs.getString(NAME).equals(LAYOUT))
-					ret.add(new CardAttribute(rs.getString(NAME), MTGLayout.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGLayout.class));
 				else if(rs.getString(NAME).equals(RARITY))
-					ret.add(new CardAttribute(rs.getString(NAME), MTGRarity.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGRarity.class));
 				else if(rs.getString(NAME).equals(FRAME_EFFECTS))
-					ret.add(new CardAttribute(rs.getString(NAME), MTGFrameEffects.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGFrameEffects.class));
 				else
-					ret.add(new CardAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
+					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 				
 			}
 			
 			
-			ret.add(new CardAttribute("sql",String.class));
+			ret.add(new QueryAttribute("sql",String.class));
 			Collections.sort(ret);
-			ret.remove(new CardAttribute(NAME,String.class));
-			ret.add(0, new CardAttribute(NAME,String.class));
+			ret.remove(new QueryAttribute(NAME,String.class));
+			ret.add(0, new QueryAttribute(NAME,String.class));
 		} 
 		catch (SQLException e) {
 			logger.error(e);
