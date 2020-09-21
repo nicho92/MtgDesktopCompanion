@@ -1,10 +1,13 @@
-package org.magic.api.criterias;
+package org.magic.api.criterias.builders;
 import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import org.magic.api.criterias.AbstractQueryBuilder;
+import org.magic.api.criterias.MTGCrit;
 
 import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.Predicate;

@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.magic.api.criterias.builders.MTGQueryBuilder;
-
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {

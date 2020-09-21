@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.api.criterias.builders.MTGQueryBuilder;
+import org.magic.api.criterias.MTGQueryBuilder;
 
 public interface MTGCardsProvider extends MTGPlugin {
 
