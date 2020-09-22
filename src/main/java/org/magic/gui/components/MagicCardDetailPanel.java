@@ -402,8 +402,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			loadPics(magicCard,null);
 		}
 
-		if (magicCard != null && !magicCard.getEditions().isEmpty()) {
-			setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity().toPrettyString());
+		if (magicCard != null && !magicCard.getEditions().isEmpty()) 
+		{
+		
+			if(magicCard.getCurrentSet().getRarity()!=null)
+				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity().toPrettyString());
 			
 			ThreadManager.getInstance().executeThread(() -> {
 				
