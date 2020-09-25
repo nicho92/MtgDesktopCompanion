@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -196,6 +197,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return historyPrice;
 		}
 	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		new MTGoldFishDashBoard().getOnlineShakerFor(FORMATS.MODERN);
+	}
 
 	@Override
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
@@ -222,21 +228,23 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
-				cs.setName(
-						e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).getElementsByTag("a").get(0).attr("href"));
-				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text()));
-				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
 				cs.setProviderName(getName());
-				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("img").get(0).attr("class").replace("sprite-set_symbols_", "");
-				cs.setEd(replace(set, true));
+				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replace("\\(RL\\)", "").trim());
+				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
+				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
+				
+				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
+				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+				
+				
+				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span svg title").text();
+				cs.setEd(replace(set.toUpperCase(), true));
 
 				list.add(cs);
 
 			}
 		} catch (IndexOutOfBoundsException e) {
-			logger.error(e);
+			logger.error("error parsing ",e);
 		}
 		return list;
 
@@ -432,7 +440,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private double parseDouble(String number) {
-		return Double.parseDouble(number.replace(",", "").replace("%", ""));
+		return Double.parseDouble(number.replace(",", "").replace("%", "").replaceAll("\\$", ""));
 	}
 
 	@Override
