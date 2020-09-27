@@ -86,6 +86,12 @@ public class MagicCard implements Serializable {
 		this.hasContentWarning = hasContentWarning;
 	}
 	
+
+	public boolean isShowCase() {
+		return frameEffects.stream().anyMatch(f->f==MTGFrameEffects.SHOWCASE);
+	}
+
+	
 	
 	public boolean isFullArt() {
 		return fullArt;

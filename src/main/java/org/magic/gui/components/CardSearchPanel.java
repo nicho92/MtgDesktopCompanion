@@ -277,12 +277,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		tableCards.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableCards.setRowSorter(sorterCards);
 		
-		
-		cardsModeltable.setDefaultHiddenComlumns(8,9,10,11);
 		for(int i : cardsModeltable.defaultHiddenColumns())
-		{
 			tableCards.getColumnExt(cardsModeltable.getColumnName(i)).setVisible(false);
-		}
 		
 		panneauCentral.setDividerLocation(0.5);
 		panneauCentral.setResizeWeight(0.5);

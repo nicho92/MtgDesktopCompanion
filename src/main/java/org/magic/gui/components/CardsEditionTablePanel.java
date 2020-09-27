@@ -70,12 +70,8 @@ public class CardsEditionTablePanel extends JPanel {
 		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		table.setColumnControlVisible(true);
 		
-		model.setDefaultHiddenComlumns(1,6,8,9,10);
 		for(int i : model.defaultHiddenColumns())
-		{
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
-
-		}
 
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(model);

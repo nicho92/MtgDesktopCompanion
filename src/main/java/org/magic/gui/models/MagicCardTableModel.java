@@ -12,7 +12,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	private static final long serialVersionUID = 1L;
 	
 	public MagicCardTableModel() {
-		columns=new String[] { "NAME",
+		columns=new String[] {
+				"NAME",
 				"CARD_LANGUAGE",
 				"CARD_MANA",
 				"CARD_TYPES",
@@ -23,8 +24,15 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"CARD_COLOR",
 				"RL",
 				"LAYOUT",
+				"SHOWCASE",
 				"SIDE"};
 
+	}
+	
+	
+	@Override
+	public int[] defaultHiddenColumns() {
+		return new int[] {1,8,9,10,11,12};
 	}
 
 	@Override
@@ -36,6 +44,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			case 6: return List.class;
 			case 8: return List.class;
 			case 9: return Boolean.class;
+			case 11: return Boolean.class;
 			default:return String.class;
 		}
 	}
@@ -68,6 +77,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			case 10:
 				return mc.getLayout().toPrettyString();
 			case 11:
+				return mc.isShowCase();
+			case 12:
 				return mc.getSide();
 			default:
 				return mc;
