@@ -1416,8 +1416,11 @@
 		<booster lang="en" num="2" url="https://cdn.shopify.com/s/files/1/0361/1479/2588/products/MTGZNR_EN_DrftBstr_02_02.png"/>
 		<booster lang="en" num="3" url="https://cdn.shopify.com/s/files/1/0361/1479/2588/products/MTGZNR_EN_DrftBstr_03_02.png"/>
 		<booster lang="en" num="4" url="https://stalozaidimai.eu/wp-content/uploads/2020/08/zen-rising-set-pack.png"/>
-		
 	</edition>
+	<edition id="ZNE">
+		<banner lang="en" url="https://media.mtgsalvation.com/avatars/thumbnails/278/397/320/160/637352633785641468.png"/>
+	</edition>
+	
 	
 	<edition id="CC1">
 		<banner lang="en" url="https://media.magic.wizards.com/dfq1vaatsd.png"/>
