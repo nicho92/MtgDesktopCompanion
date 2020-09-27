@@ -1420,6 +1420,12 @@
 	<edition id="ZNE">
 		<banner lang="en" url="https://www.magic-ville.com/fr/graph/bigsetlogos/zne.png"/>
 	</edition>
+	<edition id="ZNC">
+		<banner lang="en" url="https://www.mtgpics.com/graph/sets/logos_big/znc.png"/>
+		<constructpack lang="en" num="1" url="https://cdn.shopify.com/s/files/1/0265/2232/0955/products/Zendikar-Rising-Commander-Decks-Lands-Wrath-Obuun-Decklist-Upgrade.jpg"/>
+		<constructpack lang="en" num="2" url="https://cdn.shopify.com/s/files/1/0265/2232/0955/products/magic-the-gathering-zendikar-rising-sneak-attack-commander-deck-pre-order-commander-deck-wizards-of-the-coast-462603_1024x1024_291e8d92-f919-4629-a40f-9e058b6b3890.jpg"/>
+	</edition>
+	
 	
 	
 	<edition id="CC1">
