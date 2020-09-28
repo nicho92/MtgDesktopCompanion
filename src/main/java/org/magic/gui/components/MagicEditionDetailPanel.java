@@ -30,7 +30,6 @@ public class MagicEditionDetailPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
 	private MagicEdition magicEdition;
-	private JTextField borderJTextField;
 	private JTextField cardCountTextField;
 	private JTextField releaseDateJTextField;
 	private JTextField setJTextField;
@@ -81,11 +80,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE") + " :"), UITools.createGridBagConstraints(null, null, 0, 2));
 		releaseDateJTextField = new JTextField();
 		panneauHaut.add(releaseDateJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
-
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BORDER") + " :"),  UITools.createGridBagConstraints(null, null, 0, 3));
-		borderJTextField = new JTextField();
-		panneauHaut.add(borderJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
-
+	
 		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_CARD_COUNT") + " :"), UITools.createGridBagConstraints(null, null, 0, 4));
 		cardCountTextField = new JTextField();
 		panneauHaut.add(cardCountTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
@@ -139,7 +134,6 @@ public class MagicEditionDetailPanel extends JPanel {
 	public void setEditable(boolean b) {
 		idJtextField.setEditable(b);
 		blockJTextField.setEditable(b);
-		borderJTextField.setEditable(b);
 		cardCountTextField.setEditable(b);
 		releaseDateJTextField.setEditable(b);
 		typeJTextField.setEditable(b);
@@ -173,12 +167,6 @@ public class MagicEditionDetailPanel extends JPanel {
 	}
 
 	protected BindingGroup initDataBindings() {
-		BeanProperty<MagicEdition, String> borderProperty = BeanProperty.create("border");
-		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicEdition, borderProperty, borderJTextField, textProperty2);
-		autoBinding2.bind();
-		//
 		BeanProperty<MagicEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
 		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
 		AutoBinding<MagicEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
@@ -229,7 +217,6 @@ public class MagicEditionDetailPanel extends JPanel {
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
-		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding7);
 		bindingGroup.addBinding(autoBinding8);
