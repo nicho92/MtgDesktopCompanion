@@ -22,7 +22,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"CARD_EDITIONS",
 				"CARD_NUMBER",
 				"CARD_COLOR",
-				"RL",
+				"RESERVED LIST",
 				"LAYOUT",
 				"SHOWCASE",
 				"EXTENDED ART",
@@ -34,7 +34,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	
 	@Override
 	public int[] defaultHiddenColumns() {
-		return new int[] {1,8,9,10,11,12,13};
+		return new int[] {1,8,9,10,11,12,13,14};
 	}
 
 	@Override
