@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -319,6 +320,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(IS_FULLART) != null)
 					mc.setFullArt(Boolean.valueOf(map.get(IS_FULLART).toString()));
 
+				
+				if(map.get(BORDER_COLOR)!=null)
+					mc.setBorder(MTGBorder.parseByLabel(map.get(BORDER_COLOR).toString()));
 
 				if (map.get(LOYALTY) != null) {
 					try {
@@ -593,13 +597,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		
 		try{
 			ed.setBlock(ctx.read(base + ".block", String.class));
-		}catch(PathNotFoundException pnfe)
-		{ 
-			//do nothing
-		}
-		
-		try{
-			ed.setBorder(ctx.read(base + ".cards[0]."+BORDER_COLOR, String.class));
 		}catch(PathNotFoundException pnfe)
 		{ 
 			//do nothing

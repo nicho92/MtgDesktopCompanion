@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.cache.impl.NoCache;
@@ -55,11 +56,11 @@ public class PicturesProviderTests {
 		mc.setRarity(MTGRarity.RARE);
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-		
+		mc.setBorder(MTGBorder.BLACK);
+				
 		MagicEdition ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
-					 ed.setBorder("Black");
 					 ed.setRarity("Rare");
 					 ed.setArtist("Christopher Rush");
 					 ed.setMultiverseid("3");

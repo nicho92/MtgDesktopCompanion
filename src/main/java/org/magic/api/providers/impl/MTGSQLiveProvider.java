@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -249,8 +250,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
 				mc.setHasContentWarning(rs.getBoolean(HAS_CONTENT_WARNING));
 				mc.setScryfallId(rs.getString(SCRYFALL_ID));
-					
-				
+				mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 				
 				if(rs.getString(FRAME_EFFECTS)!=null)
 				{
@@ -315,7 +315,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							 set.setFlavor(rs.getString(FLAVOR_TEXT));
 							 set.setScryfallId(rs.getString(SCRYFALL_ID));
 							 set.setMultiverseid(rs.getString("multiverseId"));
-							 set.setBorder(rs.getString(BORDER_COLOR));
 							 set.setArtist(rs.getString(ARTIST));
 							 mc.getEditions().add(set);
 				

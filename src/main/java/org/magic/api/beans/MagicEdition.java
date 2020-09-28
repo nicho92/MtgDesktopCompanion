@@ -27,7 +27,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private int cardCount;
 	private int cardCountOfficial;
 	private String block;
-	private String border;
 	private transient List<Object> booster;
 	private Map<String, String> translations;
 	private boolean onlineOnly;
@@ -124,14 +123,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 
 	public void setBooster(List<Object> booster) {
 		this.booster = booster;
-	}
-
-	public String getBorder() {
-		return border;
-	}
-
-	public void setBorder(String border) {
-		this.border = border;
 	}
 
 	public String getReleaseDate() {

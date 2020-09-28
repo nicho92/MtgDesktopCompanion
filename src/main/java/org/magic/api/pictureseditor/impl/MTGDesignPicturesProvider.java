@@ -113,7 +113,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter("card-total", String.valueOf(me.getCardCount()));
 			build.addParameter("card-set", me.getId());
 			build.addParameter("language", "EN");
-			build.addParameter("card-border", me.getBorder().toLowerCase());
+			build.addParameter("card-border", mc.getBorder().name().toLowerCase());
 		}
 		else
 		{

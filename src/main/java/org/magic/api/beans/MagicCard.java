@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -65,6 +66,9 @@ public class MagicCard implements Serializable {
 	private MagicCard rotatedCard;
 	private List<MTGKeyWord> keywords;
 	private boolean hasContentWarning;
+	private MTGBorder border;
+	
+	
 	
 	public boolean isExtraCard()
 	{
@@ -78,20 +82,18 @@ public class MagicCard implements Serializable {
 		}
 	}
 	
-	public boolean isHasContentWarning() {
-		return hasContentWarning;
+	public boolean isBorderLess()
+	{
+		return border == MTGBorder.BORDERLESS;
 	}
-	
-	public void setHasContentWarning(boolean hasContentWarning) {
-		this.hasContentWarning = hasContentWarning;
-	}
-	
 
 	public boolean isShowCase() {
 		return frameEffects.stream().anyMatch(f->f==MTGFrameEffects.SHOWCASE);
 	}
 
-	
+	public boolean isExtendedArt() {
+		return frameEffects.stream().anyMatch(f->f==MTGFrameEffects.EXTENDEDART);
+	}
 	
 	public boolean isFullArt() {
 		return fullArt;
@@ -101,9 +103,30 @@ public class MagicCard implements Serializable {
 		this.fullArt = fullArt;
 	}
 
+	
+	public void setBorder(MTGBorder border) {
+		this.border = border;
+	}
+	
+	public MTGBorder getBorder() {
+		return border;
+	}
+	
+	
 	public boolean isHasAlternativeDeckLimit() {
 		return hasAlternativeDeckLimit;
 	}
+	
+	
+	public boolean isHasContentWarning() {
+		return hasContentWarning;
+	}
+	
+	public void setHasContentWarning(boolean hasContentWarning) {
+		this.hasContentWarning = hasContentWarning;
+	}
+	
+
 	
 	public void setHasAlternativeDeckLimit(boolean hasAlternativeDeckLimit) {
 		this.hasAlternativeDeckLimit = hasAlternativeDeckLimit;

@@ -19,6 +19,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -445,6 +446,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 		
+		if (obj.get(BORDER) != null)
+			mc.setBorder(MTGBorder.parseByLabel(obj.get(BORDER).getAsString()));
+		
+		
 		if (obj.get(GAMES) != null) {
 			JsonArray g = obj.get(GAMES).getAsJsonArray();
 			
@@ -652,8 +657,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(DIGITAL) != null)
 			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 
-		if (obj.get(BORDER) != null)
-			ed.setBorder(obj.get(BORDER).getAsString());
+		
 
 		if(obj.get("foil_only") !=null)
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
