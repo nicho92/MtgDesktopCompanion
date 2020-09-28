@@ -19,11 +19,6 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 	private static final String BASE_URL="https://www.philibertnet.com/";
 	
-	public static void main(String[] args) throws IOException {
-		new PhilibertShopper().listOrders().stream().map(OrderEntry::getItemPrice).forEach(System.out::println);
-	}
-	
-	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		URLToolsClient c = URLTools.newClient();
@@ -48,7 +43,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		{
 			String id = a.text().trim();
 			try {
-				Document orderPage = RequestBuilder.build().url("https://www.philibertnet.com/en/index.php?controller=order-detail&id_order="+id+"&ajax=true")
+				Document orderPage = RequestBuilder.build().url(BASE_URL+"/en/index.php?controller=order-detail&id_order="+id+"&ajax=true")
 														   .setClient(c)
 														   .method(METHOD.GET)
 														   .addHeader("x-requested-with","XMLHttpRequest")
