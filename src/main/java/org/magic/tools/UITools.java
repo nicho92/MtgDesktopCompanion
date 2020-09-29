@@ -397,7 +397,7 @@ public class UITools {
 						
 						
 						try {
-								MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
+								MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
 								pane.setMagicCard(mc);
 								
 								popUp.setBorder(new LineBorder(Color.black));

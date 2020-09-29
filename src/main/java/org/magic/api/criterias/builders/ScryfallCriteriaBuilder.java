@@ -22,19 +22,7 @@ public class ScryfallCriteriaBuilder extends AbstractQueryBuilder<String> {
 			}
 			else
 			{
-				switch(c.getOperator())
-				{
-					case END_WITH: break;
-					case EQ: break;
-					case GREATER: break;
-					case GREATER_EQ: break;
-					case IN: break;
-					case LIKE: break;
-					case LOWER: break;
-					case LOWER_EQ: break;
-					case START_WITH: break;
-					default: break;
-				}
+				//TODO code eq value
 			}
 			
 			
