@@ -15,9 +15,20 @@ public class MagicEvent {
 	private URL url;
 	private int duration;
 	private Color color;
-
+	private ROUNDS roundFormat;
+	
+	
 	public enum EVENT_FORMAT { CONSTRUCTED, DRAFT, SEALED}
 	public enum ROUNDS { SWISS, DIRECT_ELIMINATION }
+	
+	
+	public void setRoundFormat(ROUNDS roundFormat) {
+		this.roundFormat = roundFormat;
+	}
+	
+	public ROUNDS getRoundFormat() {
+		return roundFormat;
+	}
 	
 	public Color getColor() {
 		return color;

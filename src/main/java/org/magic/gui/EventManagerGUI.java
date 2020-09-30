@@ -9,13 +9,13 @@ import javax.swing.WindowConstants;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.events.TournamentPanel;
-import org.magic.gui.models.MTGEventsTableModel;
+import org.magic.gui.models.MagicEventsTableModel;
 
 public class EventManagerGUI extends MTGUIComponent{
 
 	private static final long serialVersionUID = 1L;
 	private JXTable tableEvents;
-	private MTGEventsTableModel model;
+	private MagicEventsTableModel model;
 	
 	@Override
 	public String getTitle() {
@@ -24,7 +24,7 @@ public class EventManagerGUI extends MTGUIComponent{
 	
 	public EventManagerGUI() {
 		setLayout(new BorderLayout());
-		model = new MTGEventsTableModel();
+		model = new MagicEventsTableModel();
 		tableEvents = new JXTable(model);
 		add(new TournamentPanel(),BorderLayout.EAST);
 		add(new JScrollPane(tableEvents),BorderLayout.CENTER);
