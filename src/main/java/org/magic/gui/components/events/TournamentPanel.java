@@ -20,6 +20,10 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
 public class TournamentPanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtEventName;
 	private JTextField txtLocation;
 	
