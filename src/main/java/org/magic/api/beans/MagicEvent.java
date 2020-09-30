@@ -9,13 +9,16 @@ public class MagicEvent {
 	private Date startDate;
 	private Date endDate;
 	private String title;
-	private String format;
+	private EVENT_FORMAT format;
 	private String localisation;
 	private String description;
 	private URL url;
 	private int duration;
 	private Color color;
 
+	public enum EVENT_FORMAT { CONSTRUCTED, DRAFT, SEALED}
+	public enum ROUNDS { SWISS, DIRECT_ELIMINATION }
+	
 	public Color getColor() {
 		return color;
 	}
@@ -56,11 +59,11 @@ public class MagicEvent {
 		this.title = title;
 	}
 
-	public String getFormat() {
+	public EVENT_FORMAT getFormat() {
 		return format;
 	}
 
-	public void setFormat(String format) {
+	public void setFormat(EVENT_FORMAT format) {
 		this.format = format;
 	}
 
