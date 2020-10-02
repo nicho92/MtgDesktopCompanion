@@ -12,7 +12,7 @@ public class MagicEventsTableModel extends GenericTableModel<MagicEvent> {
 
 	
 	public MagicEventsTableModel() {
-		setColumns("Title","Date","Format","Round","Players");
+		setColumns("Title","Date","Format","Round","Winning round","Round time");
 	}
 	
 	
@@ -21,10 +21,11 @@ public class MagicEventsTableModel extends GenericTableModel<MagicEvent> {
 		switch (column)
 		{
 			case 0 : return items.get(row);
-			case 1 : return items.get(row).getTitle();
-			case 2 : return items.get(row).getStartDate();
-			case 3 : return items.get(row).getFormat();
-			case 4 : return items.get(row).getRoundFormat();
+			case 1 : return items.get(row).getStartDate();
+			case 2 : return items.get(row).getFormat();
+			case 3 : return items.get(row).getRoundFormat();
+			case 4 : return items.get(row).getMaxWinRound();
+			case 5 : return items.get(row).getRoundTime();
 			default : return items.get(row);
 			
 		}

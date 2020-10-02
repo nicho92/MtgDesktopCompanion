@@ -31,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -48,7 +49,9 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.events.TournamentPanel;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
@@ -486,6 +489,12 @@ public class UITools {
 			return "";
 		
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) +" HH:mm:ss").format(indexDate);
+	}
+
+
+	public static void addTab(JTabbedPane pane, MTGUIComponent comp) {
+		pane.addTab(MTGControler.getInstance().getLangService().getCapitalize(comp.getTitle()), comp.getIcon(),comp);
+		
 	}
 
 

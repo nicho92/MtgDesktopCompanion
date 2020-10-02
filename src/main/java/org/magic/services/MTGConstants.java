@@ -188,7 +188,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_RECOGNITION = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/recognition.png"));
 	public static final ImageIcon ICON_RANDOM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/random.png"));
 	public static final ImageIcon ICON_WEBCAM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/webcam.png"));
-	
+	public static final ImageIcon ICON_EVENTS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/events.png"));
 	public static final ImageIcon ICON_DOLLARS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/dollars.png"));
 	public static final ImageIcon ICON_OPEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/open.png"));
 
@@ -218,7 +218,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_SERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/servers.png"));
 	public static final ImageIcon ICON_TAB_ACTIVESERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/active-server.png"));
 	public static final ImageIcon ICON_TAB_SYNC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/sync.png"));
-	
+
+
 
 	
 	public static final ImageIcon ICON_TAB_RESULTS=new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));

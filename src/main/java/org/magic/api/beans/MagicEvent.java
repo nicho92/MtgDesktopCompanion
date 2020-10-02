@@ -1,11 +1,17 @@
 package org.magic.api.beans;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class MagicEvent {
+import org.magic.game.model.Player;
 
+public class MagicEvent implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private Date startDate;
 	private Date endDate;
 	private String title;
@@ -16,11 +22,53 @@ public class MagicEvent {
 	private int duration;
 	private Color color;
 	private ROUNDS roundFormat;
-	
+	private List<Player> players;
+	private Integer rounds =3;
+	private Integer roundTime = 45;
+	private Integer maxWinRound = 3;
 	
 	public enum EVENT_FORMAT { CONSTRUCTED, DRAFT, SEALED}
 	public enum ROUNDS { SWISS, DIRECT_ELIMINATION }
 	
+	
+	
+	
+	
+	public Integer getRounds() {
+		return rounds;
+	}
+
+	public void setRounds(Integer rounds) {
+		this.rounds = rounds;
+	}
+
+	public Integer getRoundTime() {
+		return roundTime;
+	}
+
+	public void setRoundTime(Integer roundTime) {
+		this.roundTime = roundTime;
+	}
+
+	public Integer getMaxWinRound() {
+		return maxWinRound;
+	}
+
+	public void setMaxWinRound(Integer maxWinRound) {
+		this.maxWinRound = maxWinRound;
+	}
+
+	public MagicEvent() {
+		players = new ArrayList<>();
+	}
+	
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+	
+	public List<Player> getPlayers() {
+		return players;
+	}
 	
 	public void setRoundFormat(ROUNDS roundFormat) {
 		this.roundFormat = roundFormat;

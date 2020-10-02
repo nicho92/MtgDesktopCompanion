@@ -1,39 +1,122 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MagicEvent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.events.PlayersPanel;
 import org.magic.gui.components.events.TournamentPanel;
 import org.magic.gui.models.MagicEventsTableModel;
+import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
+
 
 public class EventManagerGUI extends MTGUIComponent{
 
 	private static final long serialVersionUID = 1L;
 	private JXTable tableEvents;
 	private MagicEventsTableModel model;
+	private TournamentPanel tournamentPanel;
+	private PlayersPanel players;
 	
 	@Override
 	public String getTitle() {
 		return "Events Manager";
 	}
 	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_EVENTS;
+	}
+	
+	
 	public EventManagerGUI() {
 		setLayout(new BorderLayout());
 		model = new MagicEventsTableModel();
 		tableEvents = new JXTable(model);
-		add(new TournamentPanel(),BorderLayout.EAST);
+		tournamentPanel = new TournamentPanel();
+		players = new PlayersPanel();
+		JPanel pannhaut = new JPanel();
+
+		JButton newTournament = UITools.createBindableJButton("New Event", MTGConstants.ICON_NEW, KeyEvent.VK_N, "newEvent");
+		JButton saveTournament = UITools.createBindableJButton("Save Event", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "saveEvent");
+		JButton addPlayer = UITools.createBindableJButton("New Player", MTGConstants.ICON_NEW, KeyEvent.VK_P, "newPlayer");
+		JButton startTournament = UITools.createBindableJButton("Start Event", MTGConstants.ICON_SAVE, KeyEvent.VK_T, "startTournament");
+		JButton deleteTournament = UITools.createBindableJButton("Delete Event", MTGConstants.ICON_DELETE, KeyEvent.VK_R, "deleteTournament");
+		
+		startTournament.setEnabled(false);
+		deleteTournament.setEnabled(false);
+		saveTournament.setEnabled(false);
+		tableEvents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		
+		
+		pannhaut.add(newTournament);
+		pannhaut.add(addPlayer);
+		pannhaut.add(saveTournament);
+		pannhaut.add(startTournament);
+		
+		pannhaut.add(deleteTournament);
+		
+		
+		
 		add(new JScrollPane(tableEvents),BorderLayout.CENTER);
+		add(players, BorderLayout.EAST);
+		add(tournamentPanel, BorderLayout.WEST);
+		add(pannhaut,BorderLayout.NORTH);
+		
+		
+		deleteTournament.addActionListener(al->{
+			if(UITools.getTableSelection(tableEvents, 0)!=null)
+				model.removeItem((MagicEvent)UITools.getTableSelection(tableEvents, 0));
+		});
+
+		saveTournament.addActionListener(al->{
+			tournamentPanel.save();
+			model.fireTableDataChanged();
+		});
+		
+		
+		newTournament.addActionListener(al->{
+			tournamentPanel.save();
+			model.addItem(tournamentPanel.newEvent());	
+		});
+		
+		tableEvents.getSelectionModel().addListSelectionListener(event -> {
+			
+			if (!event.getValueIsAdjusting()) 
+			{
+				MagicEvent ev = UITools.getTableSelection(tableEvents, 0);
+				
+				tournamentPanel.setTournament(ev);
+				players.setTournament(tournamentPanel.getCurrentEvent());
+				
+				deleteTournament.setEnabled(ev!=null);
+				startTournament.setEnabled(ev!=null);
+				saveTournament.setEnabled(ev!=null);
+			}
+		});
+		
+		
+		
 	}
 	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
-		f.getContentPane().add(new EventManagerGUI());
+		EventManagerGUI ev = new EventManagerGUI();
+		f.getContentPane().add(ev);
 		f.pack();
+		f.setIconImage(ev.getIcon().getImage());
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}

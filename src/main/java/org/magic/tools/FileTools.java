@@ -9,6 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
@@ -27,6 +28,7 @@ import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -34,7 +36,9 @@ import org.magic.services.recognition.DescContainer;
 
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 public class FileTools {
 
@@ -297,7 +301,7 @@ public class FileTools {
 		
 		
 	}
-
+	
 	public static void saveFile(File f, byte[] content) throws IOException {
 		
 		Files.touch(f);

@@ -113,6 +113,14 @@ public class Player extends Observable implements Serializable {
 		deck = new MagicDeck();
 		init();
 	}
+	
+	public Player(String name) {
+		super();
+		this.name = name;
+		this.life = 20;
+		deck = new MagicDeck();
+		init();
+	}
 
 	public Player() {
 		super();
