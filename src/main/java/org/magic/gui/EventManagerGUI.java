@@ -66,7 +66,6 @@ public class EventManagerGUI extends MTGUIComponent{
 		
 		startTournament.setEnabled(false);
 		deleteTournament.setEnabled(false);
-		saveTournament.setEnabled(false);
 		tableEvents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		
