@@ -158,4 +158,20 @@ public class TournamentPanel extends MTGUIComponent{
 		return eventNew;
 	}
 
+	public void clear() {
+		
+		currentEvent = new MagicEvent();
+		
+		txtEventName.setText("");
+		txtLocation.setText("");
+		datePicker.setDate(null);
+		cboEventRoundsFormat.setSelectedItem(null);
+		cboEventsFormat.setSelectedItem(null);
+		editorPane.setText("");
+		spinNbRounds.setValue(currentEvent.getRounds());
+		spinRoundTime.setValue(currentEvent.getRoundTime());
+		spinBestOf.setValue(currentEvent.getMaxWinRound());
+		
+	}
+
 }

@@ -262,6 +262,10 @@ public class MagicGUI extends JFrame {
 
 		if (MTGControler.getInstance().get("modules/wallpaper").equals("true"))
 			addTab(new WallpaperGUI());
+		
+		if (MTGControler.getInstance().get("modules/event").equals("true"))
+			addTab(new EventManagerGUI());
+		
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
 		{

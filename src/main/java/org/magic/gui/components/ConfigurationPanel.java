@@ -102,6 +102,7 @@ public class ConfigurationPanel extends JPanel {
 	private JCheckBox chckbxHistory;
 	private JCheckBox chckbxPackages;
 	private JCheckBox chckbxSealed;
+	private JCheckBox chckbxEvents;
 
 	public void loading(boolean show, String text) {
 		if (show) {
@@ -375,7 +376,8 @@ public class ConfigurationPanel extends JPanel {
 		chckbxRss = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 		chckbxWallpaper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"));
 		chckbxSealed = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"));
-	
+		chckbxEvents = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"));
+		
 		chckbxStock.setSelected(MTGControler.getInstance().get("modules/stock").equals("true"));
 		chckbxAlert.setSelected(MTGControler.getInstance().get("modules/alarm").equals("true"));
 		chckbxGame.setSelected(MTGControler.getInstance().get("modules/game").equals("true"));
@@ -386,7 +388,7 @@ public class ConfigurationPanel extends JPanel {
 		chckbxHistory.setSelected(MTGControler.getInstance().get("modules/history").equals("true"));
 		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
 		chckbxSealed.setSelected(MTGControler.getInstance().get("modules/sealed").equals("true"));
-		
+		chckbxEvents.setSelected(MTGControler.getInstance().get("modules/event").equals("true"));
 		
 		chckbxDashboard.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
 		chckbxStock.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
@@ -401,6 +403,7 @@ public class ConfigurationPanel extends JPanel {
 		chckbxCollection.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
 		chckbxSearch.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
 		chckbxSealed.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/sealed",chckbxSealed.isSelected()));
+		chckbxEvents.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/event",chckbxEvents.isSelected()));
 		
 		
 		
@@ -417,6 +420,7 @@ public class ConfigurationPanel extends JPanel {
 		panelModule.add(chckbxHistory, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 2));
 		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 2));
 		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 3));
+		panelModule.add(chckbxEvents, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
 		
 
 	

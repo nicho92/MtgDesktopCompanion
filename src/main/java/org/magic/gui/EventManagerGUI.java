@@ -2,6 +2,7 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import org.magic.gui.components.events.PlayersPanel;
 import org.magic.gui.components.events.TournamentPanel;
 import org.magic.gui.models.MagicEventsTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 
@@ -36,7 +38,7 @@ public class EventManagerGUI extends MTGUIComponent{
 	
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_EVENTS;
+		return MTGConstants.ICON_TAB_EVENTS;
 	}
 	
 	
@@ -44,13 +46,21 @@ public class EventManagerGUI extends MTGUIComponent{
 		setLayout(new BorderLayout());
 		model = new MagicEventsTableModel();
 		tableEvents = new JXTable(model);
+		
+		try {
+			MTGControler.getInstance().getEventsManager().load();
+			model.init(MTGControler.getInstance().getEventsManager().getEvents());
+		} catch (IOException e) {
+			MTGControler.getInstance().notify(e);
+		}
+		
+		
 		tournamentPanel = new TournamentPanel();
 		players = new PlayersPanel();
 		JPanel pannhaut = new JPanel();
 
 		JButton newTournament = UITools.createBindableJButton("New Event", MTGConstants.ICON_NEW, KeyEvent.VK_N, "newEvent");
 		JButton saveTournament = UITools.createBindableJButton("Save Event", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "saveEvent");
-		JButton addPlayer = UITools.createBindableJButton("New Player", MTGConstants.ICON_NEW, KeyEvent.VK_P, "newPlayer");
 		JButton startTournament = UITools.createBindableJButton("Start Event", MTGConstants.ICON_SAVE, KeyEvent.VK_T, "startTournament");
 		JButton deleteTournament = UITools.createBindableJButton("Delete Event", MTGConstants.ICON_DELETE, KeyEvent.VK_R, "deleteTournament");
 		
@@ -62,10 +72,8 @@ public class EventManagerGUI extends MTGUIComponent{
 		
 		
 		pannhaut.add(newTournament);
-		pannhaut.add(addPlayer);
 		pannhaut.add(saveTournament);
 		pannhaut.add(startTournament);
-		
 		pannhaut.add(deleteTournament);
 		
 		
@@ -82,24 +90,39 @@ public class EventManagerGUI extends MTGUIComponent{
 		});
 
 		saveTournament.addActionListener(al->{
+			tournamentPanel.getCurrentEvent().setPlayers(players.getModel().getPlayers());
 			tournamentPanel.save();
+			try {
+				MTGControler.getInstance().getEventsManager().saveEvents();
+			} catch (IOException e) {
+				MTGControler.getInstance().notify(e);
+			}
 			model.fireTableDataChanged();
 		});
 		
 		
 		newTournament.addActionListener(al->{
 			tournamentPanel.save();
-			model.addItem(tournamentPanel.newEvent());	
+			MagicEvent e = tournamentPanel.newEvent();
+			model.addItem(e);
+			MTGControler.getInstance().getEventsManager().addEvent(e);
+			tournamentPanel.clear();
 		});
-		
+	
 		tableEvents.getSelectionModel().addListSelectionListener(event -> {
 			
 			if (!event.getValueIsAdjusting()) 
 			{
 				MagicEvent ev = UITools.getTableSelection(tableEvents, 0);
 				
+				if(ev==null)
+					return;
+				
+				
 				tournamentPanel.setTournament(ev);
-				players.setTournament(tournamentPanel.getCurrentEvent());
+				players.getModel().clear();
+				players.getModel().addAll(ev.getPlayers());
+				
 				
 				deleteTournament.setEnabled(ev!=null);
 				startTournament.setEnabled(ev!=null);

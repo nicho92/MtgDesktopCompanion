@@ -15,6 +15,7 @@
 		<history>false</history>
 		<wallpaper>false</wallpaper>
 		<sealed>true</sealed>
+		<event>false</event>
 	</modules>
 	<ui>
 		<moduleTabPosition>LEFT</moduleTabPosition>
