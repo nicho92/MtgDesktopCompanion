@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import org.magic.api.beans.MagicEvent;
 import org.magic.tools.FileTools;
@@ -39,7 +40,8 @@ public class EventsManager {
 	
 	public void load() throws IOException
 	{
-		events  = new Gson().fromJson(FileTools.readFile(MTGConstants.MTG_EVENTS_FILE), new TypeToken<List<MagicEvent>>() {}.getType());
+		if(MTGConstants.MTG_EVENTS_FILE.exists())
+			events  = new Gson().fromJson(FileTools.readFile(MTGConstants.MTG_EVENTS_FILE), new TypeToken<List<MagicEvent>>() {}.getType());
 	}
 	
 	public List<MagicEvent> getEvents() {
@@ -49,6 +51,17 @@ public class EventsManager {
 	public void start(MagicEvent e)
 	{
 		startedEvent.put(e, new Timer(e.getTitle(), true));
+		
+		
+		startedEvent.get(e).schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				e.setDuration(e.getDuration()-1);
+				System.out.println(e.getDuration());
+			}
+		}, 0,1000);
+		
 	}
 	
 	

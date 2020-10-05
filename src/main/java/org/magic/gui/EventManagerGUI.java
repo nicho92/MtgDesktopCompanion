@@ -130,6 +130,15 @@ public class EventManagerGUI extends MTGUIComponent{
 		});
 		
 		
+		startTournament.addActionListener(al->{
+			
+			MagicEvent ev = UITools.getTableSelection(tableEvents, 0);
+			
+			if(ev!=null)
+				MTGControler.getInstance().getEventsManager().start(ev);
+		});
+		
+		
 		
 	}
 	
