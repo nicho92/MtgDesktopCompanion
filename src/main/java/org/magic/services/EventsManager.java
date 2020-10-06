@@ -2,13 +2,14 @@ package org.magic.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.javatuples.Pair;
-import org.javatuples.Quartet;
+import org.apache.commons.collections4.ListUtils;
 import org.magic.api.beans.MagicEvent;
+import org.magic.api.beans.Party;
 import org.magic.game.model.Player;
 import org.magic.tools.FileTools;
 
@@ -48,6 +49,17 @@ public class EventsManager {
 	{
 		
 		Timer t = new Timer(e.getTitle(), true);
+		Collections.shuffle(e.getPlayers());
+		
+		
+		List<List<Player>> parties = ListUtils.partition(e.getPlayers(), 2);
+		
+		
+		for(List<Player> p : parties)
+		{
+			e.getParties().add(new Party(p.get(0), p.get(1), e.getRounds(),true));
+		}
+		
 		
 		t.schedule(new TimerTask() {
 			

@@ -24,10 +24,12 @@ public class Party implements Serializable {
 		return started;
 	}
 	
-	public Party(Player p1,Player p2, int nbRounds)
+	public Party(Player p1,Player p2, int nbRounds, boolean started)
 	{
 		this.player1=p1;
 		this.player2=p2;
+		this.started=started;
+		
 		rounds = new ArrayList<>();
 		
 		for(int i=0;i<nbRounds;i++)
