@@ -42,7 +42,6 @@ public class Player extends Observable implements Serializable {
 	private ManaPool manaPool;
 	private Locale local;
 	private transient BufferedImage icon;
-
 	private int poisonCounter;
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());

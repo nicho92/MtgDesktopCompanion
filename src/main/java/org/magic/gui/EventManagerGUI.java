@@ -75,6 +75,7 @@ public class EventManagerGUI extends MTGUIComponent{
 		pannhaut.add(startTournament);
 		pannhaut.add(deleteTournament);
 		
+	
 		
 		
 		add(new JScrollPane(tableEvents),BorderLayout.CENTER);

@@ -2,13 +2,14 @@ package org.magic.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.javatuples.Pair;
+import org.javatuples.Quartet;
 import org.magic.api.beans.MagicEvent;
+import org.magic.game.model.Player;
 import org.magic.tools.FileTools;
 
 import com.google.gson.Gson;
@@ -18,13 +19,8 @@ public class EventsManager {
 	
 	private List<MagicEvent> events;
 	
-	private Map<MagicEvent , Timer> startedEvent;
-	
-	
-	
 	public EventsManager() {
 		events = new ArrayList<>();
-		startedEvent = new HashMap<>();
 	}
 	
 	public void addEvent(MagicEvent e)
@@ -50,17 +46,20 @@ public class EventsManager {
 	
 	public void start(MagicEvent e)
 	{
-		startedEvent.put(e, new Timer(e.getTitle(), true));
 		
+		Timer t = new Timer(e.getTitle(), true);
 		
-		startedEvent.get(e).schedule(new TimerTask() {
+		t.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
-				e.setDuration(e.getDuration()-1);
-				System.out.println(e.getDuration());
+				e.setRoundTime(e.getRoundTime()-1);
+				
+				if(e.getRoundTime()<=0)
+					this.cancel();
+				
 			}
-		}, 0,1000);
+		}, 0,60000);
 		
 	}
 	

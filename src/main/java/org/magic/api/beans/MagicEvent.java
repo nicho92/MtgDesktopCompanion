@@ -26,13 +26,28 @@ public class MagicEvent implements Serializable{
 	private Integer rounds =3;
 	private Integer roundTime = 45;
 	private Integer maxWinRound = 3;
+	private int currentRound=1;
+	private List<Party> parties;
 	
 	public enum EVENT_FORMAT { CONSTRUCTED, DRAFT, SEALED}
 	public enum ROUNDS { SWISS, DIRECT_ELIMINATION }
 	
+	public List<Party> getParties() {
+		return parties;
+	}
+	
+	public void setParties(List<Party> parties) {
+		this.parties = parties;
+	}
 	
 	
+	public void setCurrentRound(int currentRound) {
+		this.currentRound = currentRound;
+	}
 	
+	public int getCurrentRound() {
+		return currentRound;
+	}
 	
 	public Integer getRounds() {
 		return rounds;
@@ -60,6 +75,7 @@ public class MagicEvent implements Serializable{
 
 	public MagicEvent() {
 		players = new ArrayList<>();
+		parties = new ArrayList<>();
 	}
 	
 	public void setPlayers(List<Player> players) {
