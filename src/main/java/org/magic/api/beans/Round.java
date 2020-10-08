@@ -38,6 +38,11 @@ public class Round implements Serializable {
 		return roundNumber;
 	}
 	
+	
+	public Map<Player, Integer> getScore() {
+		return score;
+	}
+	
 	public long duration()
 	{
 		 return Duration.between(startTime, endTime).toMinutes();

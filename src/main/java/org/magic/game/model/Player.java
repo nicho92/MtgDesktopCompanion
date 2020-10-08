@@ -512,7 +512,7 @@ public class Player extends Observable implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return this.hashCode();
+		return (getId()+getName()).hashCode();
 	}
 
 	@Override

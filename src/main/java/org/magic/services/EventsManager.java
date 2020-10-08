@@ -52,12 +52,30 @@ public class EventsManager {
 		Collections.shuffle(e.getPlayers());
 		
 		
-		List<List<Player>> parties = ListUtils.partition(e.getPlayers(), 2);
+		Player byes = null;
+		List<List<Player>> parties;
+		
+		if(e.getPlayers().size()% 2 != 0) {
+			byes= e.getPlayers().get(e.getPlayers().size()-1);
+			parties = ListUtils.partition(e.getPlayers().subList(0, e.getPlayers().size()-1), 2);
+			
+		}
+		else
+		{
+			parties = ListUtils.partition(e.getPlayers(), 2);
+		}
 		
 		
 		for(List<Player> p : parties)
 		{
 			e.getParties().add(new Party(p.get(0), p.get(1), e.getRounds(),true));
+		}
+		
+		if(byes!=null)
+		{
+			Party p = new Party(byes, null, 1, false);
+			p.getRounds().get(0).getScore().put(byes, 1);
+			e.getParties().add(p);
 		}
 		
 		

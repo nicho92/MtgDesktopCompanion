@@ -188,22 +188,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.6.2</version>
+			<version>8.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.6.2</version>
+			<version>8.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.6.2</version>
+			<version>8.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.6.2</version>
+			<version>8.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -213,7 +213,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_204</version>
+			<version>4.2.0_208</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -371,12 +371,12 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.12</version>
+			<version>4.5.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>4.5.12</version>
+			<version>4.5.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -487,7 +487,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.6</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

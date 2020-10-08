@@ -68,15 +68,10 @@ public class EventManagerGUI extends MTGUIComponent{
 		deleteTournament.setEnabled(false);
 		tableEvents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		
-		
 		pannhaut.add(newTournament);
 		pannhaut.add(saveTournament);
 		pannhaut.add(startTournament);
 		pannhaut.add(deleteTournament);
-		
-	
-		
 		
 		add(new JScrollPane(tableEvents),BorderLayout.CENTER);
 		add(players, BorderLayout.EAST);
