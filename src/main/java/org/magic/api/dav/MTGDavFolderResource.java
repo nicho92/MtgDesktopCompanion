@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.jfree.util.Log;
+import org.magic.tools.URLTools;
 
 import io.milton.http.Auth;
 import io.milton.http.Range;
@@ -124,7 +125,7 @@ public class MTGDavFolderResource extends AbstractMTGDavResource implements Fold
 
 	@Override
 	public String getContentType(String accepts) {
-		return "text/html";
+		return URLTools.HEADER_HTML;
 	}
 
 	@Override

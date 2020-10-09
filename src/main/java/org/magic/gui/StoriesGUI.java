@@ -109,7 +109,7 @@ public class StoriesGUI extends MTGUIComponent {
 
 		editorPane = new JEditorPane();
 		editorPane.setEditable(false);
-		editorPane.setContentType("text/html");
+		editorPane.setContentType(URLTools.HEADER_HTML);
 
 		HTMLEditorKit kit = new HTMLEditorKit();
 		editorPane.setEditorKit(kit);

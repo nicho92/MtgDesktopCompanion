@@ -25,7 +25,7 @@ public class HelpCompononent extends MTGUIComponent {
 	
 	public HelpCompononent() {
 		pane = new JEditorPane();
-		pane.setContentType("text/html");
+		pane.setContentType(URLTools.HEADER_HTML);
 		setLayout(new BorderLayout());
 		pane.setEditable(false);
 		add(new JScrollPane(pane),BorderLayout.CENTER);

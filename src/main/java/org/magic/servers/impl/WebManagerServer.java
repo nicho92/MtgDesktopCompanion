@@ -22,6 +22,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.FileTools;
+import org.magic.tools.URLTools;
 
 public class WebManagerServer extends AbstractMTGServer {
 
@@ -55,7 +56,7 @@ public class WebManagerServer extends AbstractMTGServer {
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-				  response.setContentType("text/html;charset="+MTGConstants.DEFAULT_ENCODING);
+				  response.setContentType(URLTools.HEADER_HTML+";charset="+MTGConstants.DEFAULT_ENCODING);
 				  response.setStatus(HttpServletResponse.SC_OK);
 				  try { 
 					  response.getWriter().println("var restserver='" + getString(REST_BACKEND_URI) + "';");  

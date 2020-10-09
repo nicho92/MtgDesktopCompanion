@@ -36,6 +36,7 @@ public class URLTools {
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
 	
 	public static final String HEADER_JSON="application/json";
+	public static final String HEADER_HTML="text/html";
 	public static final String REFERER = "Referer";
 	public static final String HOST = "Host";
 	public static final String X_REQUESTED_WITH = "X-Requested-With";

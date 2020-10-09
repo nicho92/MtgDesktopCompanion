@@ -24,7 +24,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	public JEditorPaneBrowser() {
 		setLayout(new BorderLayout());
 		browse = new JEditorPane() ;
-		browse.setContentType("text/html");
+		browse.setContentType(URLTools.HEADER_HTML);
 		HTMLEditorKit kit = new HTMLEditorKit();
 		browse.setEditorKit(kit);
 		browse.setEditable(false);

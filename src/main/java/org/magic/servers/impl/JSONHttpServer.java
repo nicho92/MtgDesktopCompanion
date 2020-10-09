@@ -107,7 +107,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	}
 
 	private void initVars() {
-
+		
 		
 		Spark.
 		
@@ -160,7 +160,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
 			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
 		});
-
+		
+		
+	
 		get("/cards/search/:att/:val", URLTools.HEADER_JSON,
 				(request, response) -> MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),

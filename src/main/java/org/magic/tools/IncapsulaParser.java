@@ -21,7 +21,7 @@ public class IncapsulaParser {
 
 		HttpURLConnection cookieConnection = (HttpURLConnection) new URL(url).openConnection();
 		cookieConnection.setRequestMethod("GET");
-		cookieConnection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
+		cookieConnection.setRequestProperty("Accept", URLTools.HEADER_HTML+"; charset="+MTGConstants.DEFAULT_ENCODING);
 		cookieConnection.setRequestProperty(URLTools.USER_AGENT, MTGConstants.USER_AGENT);
 		cookieConnection.setRequestProperty("Connection", "close");
 

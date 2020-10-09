@@ -56,7 +56,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 					.addHeader(URLTools.UPGR_INSECURE_REQ, "1")
 					.addHeader(URLTools.ORIGIN, BASE)
 					.addHeader(URLTools.REFERER,BASE+"Combos/Search.asp")
-					.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+					.addHeader(URLTools.ACCEPT, URLTools.HEADER_HTML+",application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 					.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate")
 					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9")
 					.toHtml();
