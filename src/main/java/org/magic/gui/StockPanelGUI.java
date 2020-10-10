@@ -38,6 +38,7 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -389,27 +390,24 @@ public class StockPanelGUI extends MTGUIComponent {
 					for (int i : table.getSelectedRows())
 					{
 						MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
-						logger.debug("prices for" + s.getMagicCard());
-						
-						Collection<Double> prices;
-						Double price = 0.0;
 						try {
-							prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(s.getMagicCard(), null).values();
-							if (!prices.isEmpty())
-								price = (Double) prices.toArray()[prices.size() - 1];
-							else
-								price = 0.0;
 							
-							
+							EditionsShakers c = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(s.getMagicCard().getCurrentSet());
+							Double price =  c.getShakeFor(s.getMagicCard()).getPrice();
+							logger.debug("found price for " + s.getMagicCard() + " "+ price);
+						
+							double old = s.getPrice();
+							s.setPrice(price);
+							if (old != s.getPrice())
+								s.setUpdate(true);
+						
 						} catch (IOException e) {
 							logger.error("error getting price for " + s.getMagicCard(),e);
-							price = 0.0;
 						}
-						double old = s.getPrice();
-						s.setPrice(price);
-						if (old != s.getPrice())
-							s.setUpdate(true);
-					
+						catch (NullPointerException e) {
+							logger.error(s.getMagicCard() + " is not found : "+e);
+						}
+				
 						publish(s);
 					}
 					return null;

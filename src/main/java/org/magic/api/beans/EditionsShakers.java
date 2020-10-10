@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class EditionsShakers implements Iterable<CardShake> {
 
@@ -62,5 +63,16 @@ public class EditionsShakers implements Iterable<CardShake> {
 	public boolean isEmpty() {
 		return shakes.isEmpty();
 	}
+	
+	public CardShake getShakeFor(MagicCard mc)
+	{
+		Optional<CardShake> opt = shakes.stream().filter(s->s.getName().equalsIgnoreCase(mc.getName())).findAny();
+		if(opt.isPresent())
+			return opt.get();
+		else
+			return null;
+		
+	}
+	
 
 }
