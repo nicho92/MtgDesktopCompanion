@@ -394,8 +394,6 @@ public class StockPanelGUI extends MTGUIComponent {
 							
 							EditionsShakers c = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(s.getMagicCard().getCurrentSet());
 							Double price =  c.getShakeFor(s.getMagicCard()).getPrice();
-							logger.debug("found price for " + s.getMagicCard() + " "+ price);
-						
 							double old = s.getPrice();
 							s.setPrice(price);
 							if (old != s.getPrice())
