@@ -31,6 +31,16 @@ public class CardShake  {
 		foil = false;
 	}
 	
+	public CardShake(boolean foil) {
+		price = 0.0;
+		priceDayChange = 0;
+		percentDayChange = 0;
+		priceWeekChange = 0;
+		percentWeekChange = 0;
+		currency=Currency.getInstance("USD");
+		dateUpdate=new Date();
+		this.foil=foil;
+	}
 	
 	public void init(double price, double lastDayPrice,double lastWeekPrice) {
 		this.price=price;
