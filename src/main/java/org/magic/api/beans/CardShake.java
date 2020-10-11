@@ -17,7 +17,9 @@ public class CardShake  {
 	private Date dateUpdate;
 	private Currency currency;
 	private String providerName;
-
+	private boolean foil;
+	
+	
 	public CardShake() {
 		price = 0.0;
 		priceDayChange = 0;
@@ -26,6 +28,7 @@ public class CardShake  {
 		percentWeekChange = 0;
 		currency=Currency.getInstance("USD");
 		dateUpdate=new Date();
+		foil = false;
 	}
 	
 	
@@ -42,6 +45,13 @@ public class CardShake  {
 		dateUpdate=new Date();
 	}
 	
+	public boolean isFoil() {
+		return foil;
+	}
+	
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
 	
 	
 

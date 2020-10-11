@@ -17,11 +17,25 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 	private Map<Date,Double> variations;
 	private T pack;
 	private Currency currency;
+	private boolean foil;
+	private String serieName;
+	
+	
 	
 	public HistoryPrice(T pack) {
 		this.pack=pack;
+		this.foil=false;
 		variations = new TreeMap<>();
 		currency=Currency.getInstance("USD");
+	}
+	
+
+	public void setSerieName(String s) {
+		this.serieName=s;
+	}
+	
+	public String getSerieName() {
+		return serieName;
 	}
 	
 	public T getItem() {
@@ -33,6 +47,16 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		return variations.isEmpty();
 	}
 	
+	
+	
+	public boolean isFoil() {
+		return foil;
+	}
+
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
+
 	private Date getLastValueAt(int val)
 	{
 		if(isEmpty())
@@ -150,5 +174,6 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		
 		return null;
 	}
+
 	
 }
