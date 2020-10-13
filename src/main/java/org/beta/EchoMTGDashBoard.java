@@ -70,7 +70,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 	
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed,boolean foil) throws IOException {
 		JsonObject id = getCardId(mc,ed);
 		HistoryPrice<MagicCard> history = new HistoryPrice<>(mc);
 							history.setCurrency(Currency.getInstance("USD"));

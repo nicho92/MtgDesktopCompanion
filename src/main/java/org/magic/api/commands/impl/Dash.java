@@ -27,6 +27,7 @@ public class Dash extends AbstractCommand {
 		opts.addOption("c", "card", true, "get trending for a card");
 		opts.addOption("s", "set", true, "get trending for a set");
 		opts.addOption("t", "trending", true, "get trending for a set");
+		opts.addOption("foil", "foil", true, "get foil card values");
 	}
 
 
@@ -54,7 +55,7 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return new ArrayResponse(HistoryPrice.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, ed)).getAsJsonObject().get("variations").getAsJsonObject());
+			return new ArrayResponse(HistoryPrice.class, null,json.toJsonElement(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, ed,cl.hasOption("foil"))).getAsJsonObject().get("variations").getAsJsonObject());
 		}
 		
 		

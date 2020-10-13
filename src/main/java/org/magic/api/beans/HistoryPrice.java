@@ -38,6 +38,12 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		return serieName;
 	}
 	
+	@Override
+	public String toString() {
+		return (pack + ((foil)?"(foil)":""));
+
+	}
+	
 	public T getItem() {
 		return pack;
 	}

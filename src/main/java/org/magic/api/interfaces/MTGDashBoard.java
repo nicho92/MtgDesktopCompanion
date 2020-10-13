@@ -22,7 +22,7 @@ public interface MTGDashBoard extends MTGPlugin {
 	
 	public EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException;
 
-	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
+	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, MagicEdition me, boolean foil) throws IOException;
 
 	public HistoryPrice<Packaging> getPriceVariation(Packaging packaging) throws IOException;
 	

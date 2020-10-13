@@ -11,6 +11,7 @@ public class MagicCardAlert {
 	private Double price;
 	private CardShake shake;
 	private List<MagicPrice> offers;
+	private boolean foil;
 
 	@Override
 	public String toString() {
@@ -87,4 +88,12 @@ public class MagicCardAlert {
 		this.shake = shake;
 	}
 
+	public boolean isFoil() {
+		return foil;
+	}
+
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
+	
 }

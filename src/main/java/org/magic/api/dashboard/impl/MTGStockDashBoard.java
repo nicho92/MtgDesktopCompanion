@@ -147,7 +147,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me,boolean foil) throws IOException {
 		
 		if(mc==null)
 		{
@@ -182,11 +182,11 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		}
 		
 
-		return extractPrice(URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id + "/prices").getAsJsonObject(), mc);
+		return extractPrice(URLTools.extractJson(MTGSTOCK_API_URI + "/prints/" + id + "/prices").getAsJsonObject(), mc,foil);
 		
 	}
 
-	private HistoryPrice<MagicCard> extractPrice(JsonObject obj,MagicCard mc) {
+	private HistoryPrice<MagicCard> extractPrice(JsonObject obj,MagicCard mc,boolean foil) {
 		
 		logger.trace("extract " + obj);
 		
@@ -197,6 +197,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		HistoryPrice<MagicCard> prices = new HistoryPrice<>(mc);
+		prices.setFoil(foil);
 		prices.setCurrency(Currency.getInstance("USD"));
 		Calendar cal = Calendar.getInstance();
 

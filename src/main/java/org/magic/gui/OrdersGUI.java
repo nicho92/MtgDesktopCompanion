@@ -344,7 +344,7 @@ public class OrdersGUI extends MTGUIComponent {
 						}	
 						HistoryPrice<MagicCard> e;
 						try {
-							e = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, o.getEdition());
+							e = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, o.getEdition(),o.getDescription().toLowerCase().contains("foil"));
 						
 						Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
 						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());

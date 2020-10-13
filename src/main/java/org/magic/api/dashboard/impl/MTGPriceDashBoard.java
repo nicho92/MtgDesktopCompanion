@@ -169,10 +169,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me,boolean foil) throws IOException {
 
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
-
+		historyPrice.setFoil(foil);
 		String name = "";
 
 		if (mc == null)

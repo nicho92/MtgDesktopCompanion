@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.13.4</version>
+			<version>3.13.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -168,7 +168,7 @@
 		<dependency>
 			<groupId>org.pushing-pixels</groupId>
 			<artifactId>radiance-substance</artifactId>
-			<version>3.0.0</version>
+			<version>3.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
@@ -213,7 +213,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_208</version>
+			<version>4.2.0_209</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -431,7 +431,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.16.jre7</version>
+			<version>42.2.17.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>

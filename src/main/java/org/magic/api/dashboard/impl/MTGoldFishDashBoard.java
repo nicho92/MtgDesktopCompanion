@@ -143,10 +143,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return history;
 	}
 	
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me,boolean foil) throws IOException {
 
 		String url = "";
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
+		historyPrice.setFoil(foil);
 		historyPrice.setCurrency(getCurrency());
 
 		if(mc==null && me==null)
@@ -175,16 +176,16 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			editionName = RegExUtils.replaceAll(editionName, ",", "");
 			editionName = RegExUtils.replaceAll(editionName, ":", "");
 
-			String foil="";
+			String pfoil="";
 			
-			if(me.isFoilOnly())
-				foil=":Foil";
+			if(me.isFoilOnly() || foil)
+				pfoil=":Foil";
 			
 			String extra="";
 			if(mc.isExtraCard())
 					extra="+Promos";
 			
-			url = getString(WEBSITE) + "/price/" + convert(editionName) + foil+extra+"/" + cardName + "#" + getString(FORMAT);
+			url = getString(WEBSITE) + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName + "#" + getString(FORMAT);
 		}
 
 		try {

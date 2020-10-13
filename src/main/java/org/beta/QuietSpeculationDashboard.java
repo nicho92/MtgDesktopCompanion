@@ -93,7 +93,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed) throws IOException {
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed,boolean foil) throws IOException {
 		return new HistoryPrice<>(mc);
 	}
 

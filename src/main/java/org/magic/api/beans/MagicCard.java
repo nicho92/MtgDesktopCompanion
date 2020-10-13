@@ -72,8 +72,13 @@ public class MagicCard implements Serializable {
 	
 	public boolean isExtraCard()
 	{
+		
 		try {
 			int number = Integer.parseInt(getCurrentSet().getNumber());
+		
+			if(number==0 || getCurrentSet().getCardCountOfficial()==0)
+				return false;
+			
 			return number>getCurrentSet().getCardCountOfficial();
 			}
 		catch(Exception e)

@@ -56,7 +56,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 				if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
 					for (MagicCardAlert alert : MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts()) {
 						try {
-							HistoryPrice<MagicCard> cpv= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
+							HistoryPrice<MagicCard> cpv= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet(),alert.isFoil());
 							if(cpv!=null)
 							{
 								CardShake cs = cpv.toCardShake();

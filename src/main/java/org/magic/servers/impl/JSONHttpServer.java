@@ -368,11 +368,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 		}, transformer);
 
-		get("/dash/card/:idCards", URLTools.HEADER_JSON, (request, response) -> {
+		get("/dash/card/:idCards/:foil", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 
 			JsonArray arr = new JsonArray();
-			HistoryPrice<MagicCard> res = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc,mc.getCurrentSet());
+			HistoryPrice<MagicCard> res = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc,mc.getCurrentSet(),request.params(":foil").equals("true"));
 
 			for (Entry<Date, Double> val : res) {
 				JsonObject obj = new JsonObject();

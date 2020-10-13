@@ -42,13 +42,12 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	 */
 	private static final long serialVersionUID = 1L;
 	boolean showEdition = false;
-	boolean showAll = false;
 	private JCheckBox chckbxShowEditions;
-	private JCheckBox chckbxShowAllDashboard;
 	private transient HistoryPrice<?> cpVariations;
 	private String title="";
 	private MagicCard mc;
 	private MagicEdition me;
+	private transient HistoryPrice<?> cpVariationsF;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -82,16 +81,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		});
 		panelActions.add(chckbxShowEditions, UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
 
-		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
-		chckbxShowAllDashboard.addActionListener(ae -> {
-			showAll = chckbxShowAllDashboard.isSelected();
-			refresh();
-		});
-
-		GridBagConstraints gbcchckbxShowAllDashboard = new GridBagConstraints();
-		gbcchckbxShowAllDashboard.gridx = 0;
-		gbcchckbxShowAllDashboard.gridy = 1;
-		panelActions.add(chckbxShowAllDashboard, gbcchckbxShowAllDashboard);
+		
 		
 		}
 		
@@ -103,10 +93,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		});
 		
 	}
-	
-	public HistoryPrice getVariations() {
-		return cpVariations;
-	}
+
 	
 	public void init(MagicCard card, MagicEdition me, String title) {
 		this.mc = card;
@@ -120,13 +107,22 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		
 		this.title = title;
 		
-		if(isVisible()) {
+		if(isVisible()) 
+		{
 			try {
-				this.cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(card, me);
-				refresh();
+				this.cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(card, me,false);
+				
 			} catch (IOException e) {
 				logger.error("error init " + card, e);
 			}
+			
+			try {
+				this.cpVariationsF = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(card, me,true);
+				
+			} catch (IOException e) {
+				logger.error("error init FOIL " + card, e);
+			}
+			refresh();
 		}
 	}
 
@@ -135,37 +131,34 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 
-		TimeSeries series1 = new TimeSeries(title);
-		if (showAll) 
-		{
-			for (MTGDashBoard d : MTGControler.getInstance().getPlugins(MTGDashBoard.class)) 
-			{
-				TimeSeries series = new TimeSeries(d.getName());
-				HistoryPrice<?> mapTime;
-				try {
-					mapTime = d.getPriceVariation(mc, me);
-					if (mapTime != null) {
-						for (Entry<Date, Double> da : mapTime)
-							series.add(new Day(da.getKey()), da.getValue().doubleValue());
-
-						dataset.addSeries(series);
-					}
-
-				} catch (IOException e) {
-					logger.error("Error refresh", e);
-				}
-
-			}
-
-		} else {
+		TimeSeries series1=null;
+		
 			if(cpVariations!=null)
+			{	
+				
+				series1 = new TimeSeries(cpVariations.toString());
+				
 				for (Entry<Date, Double> d : cpVariations.entrySet())
 					series1.add(new Day(d.getKey()), d.getValue().doubleValue());
 
-			dataset.addSeries(series1);
-		}
+				dataset.addSeries(series1);
+			}
+			if(cpVariationsF!=null && !cpVariationsF.isEmpty())
+			{
+				TimeSeries series2 = new TimeSeries(cpVariationsF.toString());
 
+				for (Entry<Date, Double> d : cpVariationsF.entrySet())
+					series2.add(new Day(d.getKey()), d.getValue().doubleValue());
+				
+				dataset.addSeries(series2);
+			}
+			
 		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", dataset, true, true,false);
+		
+		
+		if(series1==null)
+			return chart;
+		
 
 		if (showEdition)
 		{		
