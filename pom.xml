@@ -51,6 +51,21 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>mkm-api</groupId>
+			<artifactId>mkm-api</artifactId>
+			<version>0.11.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/mkm-api-java-0.11.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>mtgstock-api</groupId>
+			<artifactId>mtgstock-api</artifactId>
+			<version>0.1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/mtgstock-api-java-0.1.0.jar</systemPath>
+		</dependency>
+	
+		<dependency>
 		    <groupId>org.javatuples</groupId>
 		    <artifactId>javatuples</artifactId>
 		    <version>1.2</version>
@@ -158,13 +173,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/rita.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>mkm-api</groupId>
-			<artifactId>mkm-api</artifactId>
-			<version>0.11.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mkm-api-java-0.11.1.jar</systemPath>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.pushing-pixels</groupId>
 			<artifactId>radiance-substance</artifactId>
