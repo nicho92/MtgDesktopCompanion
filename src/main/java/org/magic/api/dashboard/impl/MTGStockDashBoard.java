@@ -191,14 +191,16 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		logger.trace("extract " + obj);
 		
 		JsonArray arr = obj.get(getString("CARD_PRICES_SHAKER")).getAsJsonArray();
-		
-		if(mc.getCurrentSet().isFoilOnly())
-			arr = obj.get("foil").getAsJsonArray();
-		
-		
 		HistoryPrice<MagicCard> prices = new HistoryPrice<>(mc);
-		prices.setFoil(foil);
 		prices.setCurrency(Currency.getInstance("USD"));
+		
+		if(mc.getCurrentSet().isFoilOnly() || foil)
+		{
+			arr = obj.get("foil").getAsJsonArray();
+			prices.setFoil(foil);
+		}
+		
+		
 		Calendar cal = Calendar.getInstance();
 
 		for (JsonElement el : arr) {
