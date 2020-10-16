@@ -62,7 +62,7 @@
 			<artifactId>mtgstock-api</artifactId>
 			<version>0.1.1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mtgstock-api-java-0.1.1.jar</systemPath>
+			<systemPath>${project.basedir}/lib/mtgstock-api-java-0.1.2.jar</systemPath>
 		</dependency>
 	
 		<dependency>
