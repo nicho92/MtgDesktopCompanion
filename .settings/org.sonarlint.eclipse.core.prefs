@@ -1,6 +1,5 @@
 autoEnabled=true
 eclipse.preferences.version=1
-extraProperties=
 fileExclusions=DIRECTORY\:templates\r\nDIRECTORY\:wiki\r\nDIRECTORY\:src/main/resources\r\nGLOB\:*.js\r\nGLOB\:*.htm\r\nGLOB\:*.html
 idePrefixKey=
 projectKey=org.magic\:magic-api
