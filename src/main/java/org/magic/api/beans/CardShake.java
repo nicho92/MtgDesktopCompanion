@@ -18,6 +18,10 @@ public class CardShake  {
 	private Currency currency;
 	private String providerName;
 	private boolean foil;
+	private boolean borderless;
+	private boolean extendedArt;
+	private boolean showcase;
+	private boolean fullArt;
 	
 	
 	public CardShake() {
@@ -55,6 +59,41 @@ public class CardShake  {
 		dateUpdate=new Date();
 	}
 	
+	
+
+	
+	public boolean isBorderless() {
+		return borderless;
+	}
+
+	public void setBorderless(boolean borderless) {
+		this.borderless = borderless;
+	}
+
+	public boolean isExtendedArt() {
+		return extendedArt;
+	}
+
+	public void setExtendedArt(boolean extendedArt) {
+		this.extendedArt = extendedArt;
+	}
+
+	public boolean isShowcase() {
+		return showcase;
+	}
+
+	public void setShowcase(boolean showcase) {
+		this.showcase = showcase;
+	}
+
+	public boolean isFullArt() {
+		return fullArt;
+	}
+
+	public void setFullArt(boolean fullArt) {
+		this.fullArt = fullArt;
+	}
+
 	public boolean isFoil() {
 		return foil;
 	}

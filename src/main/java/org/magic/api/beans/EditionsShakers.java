@@ -22,7 +22,6 @@ public class EditionsShakers implements Iterable<CardShake> {
 		shakes.add(shake);
 	}
 	
-	
 	public MagicEdition getEdition() {
 		return edition;
 	}
