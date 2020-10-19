@@ -51,10 +51,13 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		
 		String url = HTTP_API_SCRYFALL + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
-
-
+		//TODO bugfix with differentLanguage
 		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
+		{
 			url = HTTP_API_SCRYFALL+"multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
+			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
+				url=url+"&face=back";
+		}
 
 
 		if (mc.getScryfallId() != null)
@@ -64,7 +67,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
 				url=url+"&face=back";
 		}
-		
+	
 		
 		if (crop)
 			url += "&version=art_crop";

@@ -49,6 +49,15 @@ public class CardShake  {
 	public void init(double price, double lastDayPrice,double lastWeekPrice) {
 		this.price=price;
 		priceDayChange = price-lastDayPrice;
+		
+		
+		if(lastDayPrice==0)
+			lastDayPrice=1;
+		
+		if(lastWeekPrice==0)
+			lastWeekPrice=1;
+		
+		
 		percentDayChange = ((price-lastDayPrice)/lastDayPrice)*100;
 		
 		priceWeekChange = price-lastWeekPrice;

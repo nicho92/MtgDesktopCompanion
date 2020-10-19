@@ -13,9 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.Packaging;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.services.MTGControler;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Print;
@@ -23,6 +21,7 @@ import org.mtgstock.modele.SearchResult;
 import org.mtgstock.services.CardsService;
 import org.mtgstock.services.InterestsService;
 import org.mtgstock.services.PriceService;
+import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
@@ -33,25 +32,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private InterestsService interestService;
 	private PriceService pricesService;
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		
-		MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName("Liliana of the Veil", new MagicEdition("UMA"), false).get(0);
-		
-		
-		MTGStockDashBoard dash = new MTGStockDashBoard();
-		List<CardShake>	 ret = null;
-		
-//		ret = dash.getOnlineShakesForEdition(new MagicEdition("UMA", "Ultimate Masters")).getShakes();
-//		ret = dash.getOnlineShakerFor(FORMATS.VINTAGE);
-//		for(CardShake cs : ret)
-//		{
-//			System.out.println(cs.getName() + " " + cs.getEd() +" " + cs.getPrice()+ "$ "+ cs.getPercentDayChange() +"% ");
-//		}
-//		
-		dash.getPriceVariation(mc, null, false).forEach(System.out::println);
+	@Override
+	public String getVersion() {
+		return MTGStockConstants.VERSION;
 	}
 	
 	@Override
