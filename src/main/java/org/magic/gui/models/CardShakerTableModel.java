@@ -15,7 +15,8 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				"DAILY",
 				"PC_DAILY",
 				"WEEKLY",
-				"PC_WEEKLY" };
+				"PC_WEEKLY",
+				"FOIL"};
 	}
 
 	@Override
@@ -25,6 +26,9 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			return CardShake.class;
 		case 1:
 			return String.class;
+		case 7: 
+			return Boolean.class;
+			
 		default:
 			return Double.class;
 
@@ -51,6 +55,9 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return UITools.roundDouble(mp.getPriceWeekChange());
 			case 6:
 				return UITools.roundDouble(mp.getPercentWeekChange());
+			case 7:
+				return mp.isFoil();
+				
 
 			default:return 0;
 			}

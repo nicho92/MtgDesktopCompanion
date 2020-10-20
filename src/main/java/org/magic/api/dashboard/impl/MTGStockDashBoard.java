@@ -76,7 +76,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		logger.debug("Parsing shakers for " + f);
-		interestService.getInterestFor(CATEGORY.AVERAGE,true,mtgstockformat).forEach(i->{
+		interestService.getInterestFor(CATEGORY.AVERAGE,false,mtgstockformat).forEach(i->{
 			
 			CardShake cs = initFromPrint(i.getPrint());
 						cs.setDateUpdate(i.getDate());
