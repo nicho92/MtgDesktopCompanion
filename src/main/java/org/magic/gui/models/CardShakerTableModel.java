@@ -16,19 +16,20 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				"PC_DAILY",
 				"WEEKLY",
 				"PC_WEEKLY",
-				"FOIL"};
+			"FOIL","SHOWCASE","EXTENDED_ART","BORDERLESS"};
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
+		
+		if(columnIndex>=7)
+			return Boolean.class;
+		
 		switch (columnIndex) {
 		case 0:
 			return CardShake.class;
 		case 1:
 			return String.class;
-		case 7: 
-			return Boolean.class;
-			
 		default:
 			return Double.class;
 
@@ -57,6 +58,12 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return UITools.roundDouble(mp.getPercentWeekChange());
 			case 7:
 				return mp.isFoil();
+			case 8:
+				return mp.isShowcase();
+			case 9:
+				return mp.isExtendedArt();
+			case 10:
+				return mp.isBorderless();
 				
 
 			default:return 0;
