@@ -14,11 +14,14 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.tools.URLTools;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Interest;
+import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
+import org.mtgstock.services.AnalyticsService;
 import org.mtgstock.services.CardsService;
 import org.mtgstock.services.InterestsService;
 import org.mtgstock.services.PriceService;
@@ -27,6 +30,10 @@ import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private static final String GET_FOIL = "GET_FOIL";
@@ -34,6 +41,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private CardsService cardService;
 	private InterestsService interestService;
 	private PriceService pricesService;
+	private AnalyticsService analyticService;
 	
 	@Override
 	public String getVersion() {
@@ -49,18 +57,24 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		cardService = new CardsService();
 		interestService = new InterestsService();
 		pricesService = new PriceService();
+		analyticService = new AnalyticsService();
 	}
 	
 
 	@Override
 	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		List<CardDominance> ret = new ArrayList<>();
+		
+		int i=1;
+		for(Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
+			CardDominance cd = new CardDominance();
+			cd.setCardName(p.getName());
+			cd.setPlayers(p.getQuantity());
+			cd.setPosition(i++);			
+			ret.add(cd);
+		}
+		return ret;
 	}
-
-
-
-
 
 	@Override
 	protected HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
