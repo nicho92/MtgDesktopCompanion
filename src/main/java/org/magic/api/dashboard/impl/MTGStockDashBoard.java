@@ -16,6 +16,7 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.FullPrint;
+import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
 import org.mtgstock.services.CardsService;
@@ -28,6 +29,8 @@ import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 
+	private static final String GET_FOIL = "GET_FOIL";
+	private static final String AVERAGE_MARKET = "AVERAGE_MARKET";
 	private CardsService cardService;
 	private InterestsService interestService;
 	private PriceService pricesService;
@@ -75,8 +78,22 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			mtgstockformat = FORMAT.valueOf(f.name());
 		
 		
-		logger.debug("Parsing shakers for " + f);
-		interestService.getInterestFor(CATEGORY.AVERAGE,false,mtgstockformat).forEach(i->{
+		
+		CATEGORY c=CATEGORY.valueOf(getString(AVERAGE_MARKET).toUpperCase());
+		
+		
+		logger.debug("Parsing shakers for " + f +" "+ c);
+		
+		List<Interest> st;
+		
+		if(getBoolean(GET_FOIL))
+			st = interestService.getInterestFor(c,mtgstockformat);
+		else
+			st = interestService.getInterestFor(c,false,mtgstockformat);
+		
+		
+		
+		st.forEach(i->{
 			
 			CardShake cs = initFromPrint(i.getPrint());
 						cs.setDateUpdate(i.getDate());
@@ -103,11 +120,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 						es.setDate(new Date());
 						es.setEdition(ed);
 		
-		logger.debug("Parsing shakers for " + ed);
+		PRICES c = PRICES.valueOf(getString(AVERAGE_MARKET).toUpperCase());
+						
+						
+		logger.debug("Parsing shakers for " + ed + " " + c);
 		cardService.getPrintsBySetCode(ed.getId()).forEach(p->{
 					CardShake cs = initFromPrint(p);
 					cs.setEd(ed.getId());
-					cs.init(p.getLatestPrices().get(PRICES.AVG), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
+					cs.init(p.getLatestPrices().get(c), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
 					es.getShakes().add(cs);
 			});
 		return es;
@@ -141,7 +161,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		PRICES p = PRICES.AVG;
 		
-		if(foil)
+		if(foil || ed.isFoilOnly())
 			p = PRICES.FOIL;
 		
 	
@@ -188,9 +208,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public void initDefault() {
 		setProperty("LOGIN", "login@mail.com");
 		setProperty("PASS", "changeme");
-		setProperty("CARD_PRICES_SHAKER", "market"); // [low, avg, high, foil, market, market_foil]
-		setProperty("AVERAGE_MARKET", "average"); // average // market
-		setProperty("GET_FOIL","false");
+		setProperty(AVERAGE_MARKET, "average"); // average // market
+		setProperty(GET_FOIL,"false");
 	}
 	
 
