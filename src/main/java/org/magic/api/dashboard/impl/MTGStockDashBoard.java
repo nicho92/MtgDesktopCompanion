@@ -80,8 +80,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
+		
+		
+		
 		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
-		SetPricesAnalysis sp = pricesService.getSetPricesAnalysis(cardService.getSetByCode(packaging.getEdition().getId()));
+		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
+		SetPricesAnalysis sp = pricesService.getSetPricesAnalysis(cs);
 		
 		PRICES p = PRICES.AVG;
 		
@@ -93,28 +97,21 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		{
 			ret.setFoil(false);
 			ret.setCurrency(getCurrency());
-
 			switch(packaging.getType())
 			{
-			case BOOSTER : 
-				sp.getPrices().get(p).entrySet().forEach(e->{
-					ret.getVariations().put(e.getKey(),e.getValue());
-					
-				});break;
+				case BOOSTER : sp.getPrices().get(p).entrySet().forEach(e->ret.getVariations().put(e.getKey(),e.getValue()));break;
+				case BOX : if(sp.getBooster()!=null)
+							{ 
+								ret.getVariations().put(new Date(), sp.getBooster().getNum() * sp.getBooster().getAvg().get(0).getValue());
+							}
+							break;
 				
-				
-			case BOX :
-				ret.getVariations().put(new Date(), sp.getBooster().getNum() * sp.getBooster().getAvg().get(0).getValue());break;
-			case BANNER:break;
-			case BUNDLE:break;
-			case CONSTRUCTPACK:break;
-			case PRERELEASEPACK:break;
-			case STARTER:break;
-			default:break;
-				
-				
-			
-			
+				case BANNER:break;
+				case BUNDLE:break;
+				case CONSTRUCTPACK:break;
+				case PRERELEASEPACK:break;
+				case STARTER:break;
+				default:break;
 			}
 			
 		}
