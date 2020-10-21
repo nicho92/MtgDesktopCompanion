@@ -16,20 +16,22 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				"PC_DAILY",
 				"WEEKLY",
 				"PC_WEEKLY",
-			"FOIL","SHOWCASE","EXTENDED_ART","BORDERLESS"};
+				"FOIL","LAYOUT"};
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		
-		if(columnIndex>=7)
-			return Boolean.class;
-		
 		switch (columnIndex) {
-		case 0:
-			return CardShake.class;
-		case 1:
-			return String.class;
+			case 0:
+				return CardShake.class;
+			case 1:
+				return String.class;
+			case 7:
+				return Boolean.class;
+			case 8:
+				return String.class;
+			
 		default:
 			return Double.class;
 
@@ -56,14 +58,8 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return UITools.roundDouble(mp.getPriceWeekChange());
 			case 6:
 				return UITools.roundDouble(mp.getPercentWeekChange());
-			case 7:
-				return mp.isFoil();
-			case 8:
-				return mp.isShowcase();
-			case 9:
-				return mp.isExtendedArt();
-			case 10:
-				return mp.isBorderless();
+			case 7: return mp.isFoil();
+			case 8: return getLayout(mp);
 				
 
 			default:return 0;
@@ -72,6 +68,16 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			logger.error(ioob);
 			return null;
 		}
+	}
+
+	private String getLayout(CardShake mp) {
+		if(mp.isShowcase())
+			return "showcase";
+			else if(mp.isExtendedArt())
+				return "extendedArt";
+			else if(mp.isBorderless())
+				return "borderless";
+			else return "";
 	}
 
 

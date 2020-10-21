@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.13.5</version>
+			<version>3.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -243,7 +243,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>29.0-jre</version>
+			<version>30.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -435,7 +435,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.21</version>
+			<version>8.0.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
