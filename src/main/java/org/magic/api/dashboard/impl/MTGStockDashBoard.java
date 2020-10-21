@@ -14,14 +14,12 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.tools.URLTools;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
-import org.mtgstock.modele.SetPrices;
 import org.mtgstock.modele.SetPricesAnalysis;
 import org.mtgstock.services.AnalyticsService;
 import org.mtgstock.services.CardsService;
@@ -31,10 +29,6 @@ import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 
@@ -52,7 +46,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	public MTGStockDashBoard() {

@@ -147,9 +147,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		String url = "";
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
-		historyPrice.setFoil(foil);
 		historyPrice.setCurrency(getCurrency());
-
+		historyPrice.setFoil(foil);
+		
+		
 		if(mc==null && me==null)
 			return historyPrice;
 		
@@ -236,7 +237,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-				
+				cs.setFoil(false);
+				cs.setBorderless(false);
+				cs.setFullArt(false);
+				cs.setExtendedArt(false);
 				
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span svg title").text();
 				cs.setEd(replace(set.toUpperCase(), true));
@@ -290,6 +294,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPercentWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
 				cs.setEd(oldID);
 				cs.setProviderName(getName());
+				cs.setFoil(false);
+				cs.setBorderless(false);
+				cs.setFullArt(false);
+				cs.setExtendedArt(false);
 				notify(cs);
 				list.addShake(cs);
 				
