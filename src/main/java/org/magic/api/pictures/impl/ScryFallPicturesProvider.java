@@ -51,7 +51,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		
 		String url = HTTP_API_SCRYFALL + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
-		//TODO bugfix with differentLanguage
 		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
 		{
 			url = HTTP_API_SCRYFALL+"multiverse/" + selected.getMultiverseid() + IMAGE_TAG;

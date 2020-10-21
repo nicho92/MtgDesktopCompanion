@@ -14,21 +14,21 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.mtgstock.modele.CardSet;
-import org.mtgstock.modele.FullPrint;
-import org.mtgstock.modele.Interest;
-import org.mtgstock.modele.Played;
-import org.mtgstock.modele.Print;
-import org.mtgstock.modele.SearchResult;
-import org.mtgstock.modele.SetPricesAnalysis;
-import org.mtgstock.services.AnalyticsService;
-import org.mtgstock.services.CardsService;
-import org.mtgstock.services.InterestsService;
-import org.mtgstock.services.PriceService;
-import org.mtgstock.tools.MTGStockConstants;
-import org.mtgstock.tools.MTGStockConstants.CATEGORY;
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
-import org.mtgstock.tools.MTGStockConstants.PRICES;
+import org.api.mtgstock.modele.CardSet;
+import org.api.mtgstock.modele.FullPrint;
+import org.api.mtgstock.modele.Interest;
+import org.api.mtgstock.modele.Played;
+import org.api.mtgstock.modele.Print;
+import org.api.mtgstock.modele.SearchResult;
+import org.api.mtgstock.modele.SetPricesAnalysis;
+import org.api.mtgstock.services.AnalyticsService;
+import org.api.mtgstock.services.CardsService;
+import org.api.mtgstock.services.InterestsService;
+import org.api.mtgstock.services.PriceService;
+import org.api.mtgstock.tools.MTGStockConstants;
+import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
+import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 
