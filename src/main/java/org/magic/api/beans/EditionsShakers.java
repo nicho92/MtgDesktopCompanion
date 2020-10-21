@@ -63,6 +63,11 @@ public class EditionsShakers implements Iterable<CardShake> {
 		return shakes.isEmpty();
 	}
 	
+	public int getSize()
+	{
+		return shakes.size();
+	}
+	
 	public CardShake getShakeFor(MagicCard mc)
 	{
 		Optional<CardShake> opt = shakes.stream().filter(s->s.getName().equalsIgnoreCase(mc.getName())).findAny();

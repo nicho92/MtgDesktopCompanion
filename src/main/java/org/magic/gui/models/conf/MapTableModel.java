@@ -57,7 +57,6 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		fireTableDataChanged();
 			
 	}
-	
 
 	public void clear() {
 		keys.clear();

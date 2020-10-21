@@ -50,8 +50,8 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		HistoryPricesPanel historyPricesPanel = new HistoryPricesPanel(false);
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
-		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		
 		table.getSelectionModel().addListSelectionListener(event -> {
