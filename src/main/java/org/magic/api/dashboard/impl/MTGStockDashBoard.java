@@ -21,6 +21,8 @@ import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
+import org.mtgstock.modele.SetPrices;
+import org.mtgstock.modele.SetPricesAnalysis;
 import org.mtgstock.services.AnalyticsService;
 import org.mtgstock.services.CardsService;
 import org.mtgstock.services.InterestsService;
@@ -78,8 +80,47 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
+		SetPricesAnalysis sp = pricesService.getSetPricesAnalysis(cardService.getSetByCode(packaging.getEdition().getId()));
+		
+		PRICES p = PRICES.AVG;
+		
+		if(getBoolean(GET_FOIL))
+			p = PRICES.FOIL;
+		
+		
+		if(sp!=null)
+		{
+			ret.setFoil(false);
+			ret.setCurrency(getCurrency());
+
+			switch(packaging.getType())
+			{
+			case BOOSTER : 
+				sp.getPrices().get(p).entrySet().forEach(e->{
+					ret.getVariations().put(e.getKey(),e.getValue());
+					
+				});break;
+				
+				
+			case BOX :
+				ret.getVariations().put(new Date(), sp.getBooster().getNum() * sp.getBooster().getAvg().get(0).getValue());break;
+			case BANNER:break;
+			case BUNDLE:break;
+			case CONSTRUCTPACK:break;
+			case PRERELEASEPACK:break;
+			case STARTER:break;
+			default:break;
+				
+				
+			
+			
+			}
+			
+		}
+		
+		
+		return ret;
 	}
 
 	@Override
