@@ -213,7 +213,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments VARCHAR(250), conditions VARCHAR(30),foil boolean, signedcard boolean, langage VARCHAR(20), qte integer,altered boolean,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+")");
 			logger.debug("Create table stocks");
 			
-			stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL)");
+			stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil boolean)");
 			logger.debug("Create table alerts");
 			
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
@@ -741,7 +741,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					alert.setCard(readCard(rs));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
-
+					alert.setFoil(rs.getBoolean("foil"));
 					listAlerts.put(alert.getId(),alert);
 				}
 			}
@@ -770,10 +770,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
 		logger.debug("update alert " + alert);
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update alerts set amount=?,mcard=? where id=?")) {
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update alerts set amount=?,mcard=?,foil=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
 			storeCard(pst, 2, alert.getCard());
-			pst.setString(3, alert.getId());
+			pst.setBoolean(3, alert.isFoil());
+			pst.setString(4, alert.getId());
 			pst.executeUpdate();
 		}
 

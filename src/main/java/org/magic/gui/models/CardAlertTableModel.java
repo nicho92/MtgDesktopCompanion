@@ -14,7 +14,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	private static final long serialVersionUID = 1L;
 
 	public CardAlertTableModel() {
-		columns = new String[] { "CARD","EDITION","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
+		columns = new String[] { "CARD","EDITION","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
 	}
 
 	@Override
@@ -38,14 +38,16 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		case 1:
 			return List.class;
 		case 2:
-			return Double.class;
+			return Boolean.class;
 		case 3:
-			return Integer.class;
-		case 4:
 			return Double.class;
+		case 4:
+			return Integer.class;
 		case 5:
 			return Double.class;
 		case 6:
+			return Double.class;
+		case 7:
 			return Double.class;
 		default:
 			return super.getColumnClass(columnIndex);
@@ -55,7 +57,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return (column == 2 || column==1);
+		return (column == 2 || column==1 || column==3);
 	}
 
 	@Override
@@ -66,14 +68,16 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		case 1:
 			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getCard().getEditions();
 		case 2:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getPrice();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).isFoil();
 		case 3:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getOffers().size();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getPrice();
 		case 4:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceDayChange();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getOffers().size();
 		case 5:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceWeekChange();
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceDayChange();
 		case 6:
+			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceWeekChange();
+		case 7:
 			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPercentDayChange();
 		default:
 			return "";
@@ -104,6 +108,16 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		}
 		
 		if(column==2) 
+		{
+			alert.setFoil(Boolean.parseBoolean(aValue.toString()));
+			try {
+				MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
+			} catch (Exception e) {
+				logger.error("error set value " + aValue, e);
+			}
+		}
+		
+		if(column==3) 
 		{
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
