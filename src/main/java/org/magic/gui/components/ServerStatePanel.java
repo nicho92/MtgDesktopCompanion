@@ -105,17 +105,17 @@ public class ServerStatePanel extends JPanel {
 		gbcbtnStartStop.gridx = 3;
 		gbcbtnStartStop.gridy = 0;
 		add(btnStartStop, gbcbtnStartStop);
-	
+		
 		if(b) 
 		{
-			
 			model = new LogTableModel();
 			JXTable table = new JXTable();
 			table.setModel(model);
 			table.getColumnExt(model.getColumnName(0)).setVisible(false);
 			table.getColumnExt(model.getColumnName(1)).setVisible(false);
 			table.getColumnExt(model.getColumnName(2)).setVisible(false);
-			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 2));
+			table.getColumnExt(model.getColumnName(3)).setVisible(false);
+			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 3));
 			table.setTableHeader(null);
 
 			GridBagConstraints gbcscrollPane = new GridBagConstraints();
@@ -123,7 +123,6 @@ public class ServerStatePanel extends JPanel {
 			gbcscrollPane.gridx = 4;
 			gbcscrollPane.gridy = 0;
 			add(new JScrollPane(table), gbcscrollPane);
-			
 		}
 		
 		TimerTask tache = new TimerTask() {
@@ -135,9 +134,10 @@ public class ServerStatePanel extends JPanel {
 				if (server.isAlive())
 				{
 					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("STOP"));
+					
 					if(b)
 					{
-					model.fireTableDataChanged();
+						model.fireTableDataChanged();
 					}
 				}
 				else
