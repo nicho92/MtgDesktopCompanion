@@ -72,10 +72,12 @@ public class AlertTrendServer extends AbstractMTGServer {
 						catch(IOException e1)
 						{
 							logger.error(e1);
+							alert.setShake(new CardShake());
 						}
 						catch(Exception e)
 						{
 							logger.error(e);
+							alert.setShake(new CardShake());
 							running=false;
 						}
 					}
