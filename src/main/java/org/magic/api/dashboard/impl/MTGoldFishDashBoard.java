@@ -23,7 +23,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
-import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -200,11 +199,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		new MTGoldFishDashBoard().getOnlineShakerFor(FORMATS.MODERN);
-	}
-
 	@Override
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
@@ -243,6 +237,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setExtendedArt(false);
 				
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span svg title").text();
+				
+				if(set.equalsIgnoreCase("XZNR"))
+					set="ZNR";
+				
 				cs.setEd(replace(set.toUpperCase(), true));
 
 				list.add(cs);

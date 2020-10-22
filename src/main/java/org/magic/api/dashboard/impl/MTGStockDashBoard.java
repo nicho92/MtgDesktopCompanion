@@ -5,15 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionsShakers;
-import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMATS;
-import org.magic.api.beans.Packaging;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.FullPrint;
 import org.api.mtgstock.modele.Interest;
@@ -29,6 +20,15 @@ import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
+import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.CardShake;
+import org.magic.api.beans.EditionsShakers;
+import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.Packaging;
+import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 
