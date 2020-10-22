@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -25,7 +24,6 @@ import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -36,7 +34,6 @@ public class CardStockPanel extends MTGUIComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JXTable table;
 	private CardStockTableModel model;
 	private JButton btnAdd;
