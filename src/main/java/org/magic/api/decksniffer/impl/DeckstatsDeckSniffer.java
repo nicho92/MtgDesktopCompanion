@@ -127,17 +127,15 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
-
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
-
+		
 		for (int i = 1; i <= nbPage; i++) {
 			Document d = URLTools.extractHtml(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i);
-
-			Elements e = d.select("tr.touch_row");
+			Elements e = d.select("tr.deck_row");
 
 			for (Element cont : e) {
 				RetrievableDeck deck = new RetrievableDeck();
