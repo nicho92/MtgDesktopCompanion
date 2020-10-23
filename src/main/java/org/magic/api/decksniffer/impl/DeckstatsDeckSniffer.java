@@ -89,7 +89,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
-
+		else
+			deck.setDescription("From " + getName() +" at " + info.getUrl());
 		
 		for (Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
