@@ -18,7 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class MiniatureMarket extends AbstractMagicPricesProvider {
+public class MiniatureMarketPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getName() {

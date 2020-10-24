@@ -59,14 +59,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		eds = new ArrayList<>();
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		CardKingdomPricer c = new CardKingdomPricer();
-		c.initEds();
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions().forEach(ed->c.findGoodEds(ed.getSet()));
-	}
-	
 	private void initEds()
 	{
 		try {
@@ -105,7 +97,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	}
 
 	private String format(String s) {
-		return s.replace("'s", "s").replace(",", "").replace(" ", "-").toLowerCase();
+		return s.replace("'s", "s").replace(",", "").replace(" ", "-").replace("'","").toLowerCase();
 	}
 
 	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {

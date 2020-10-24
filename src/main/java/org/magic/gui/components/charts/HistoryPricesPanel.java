@@ -133,7 +133,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 
 		TimeSeries series1=null;
 		
-			if(cpVariations!=null)
+			if(cpVariations!=null && !cpVariations.isEmpty())
 			{	
 				
 				series1 = new TimeSeries(cpVariations.toString());
