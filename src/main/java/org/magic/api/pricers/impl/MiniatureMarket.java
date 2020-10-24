@@ -74,20 +74,4 @@ public class MiniatureMarket extends AbstractMagicPricesProvider {
 		}
 		return prices;
 	}
-
-	public static void main(String[] args) throws IOException {
-		MiniatureMarket mm = new MiniatureMarket();
-		
-		MagicEdition ed = new MagicEdition();
-			ed.setSet("Eldritch Moon");
-			ed.setId("EMN");
-		
-		MagicCard mc = new MagicCard();
-				  mc.setName("Emrakul's Evangel");
-				  mc.getEditions().add(ed);
-		
-		mm.getLocalePrice(null, mc);
-
-	}
-
 }
