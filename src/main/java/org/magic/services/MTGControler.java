@@ -304,7 +304,7 @@ public class MTGControler {
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, true).get(0);
+			return getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, false).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;
