@@ -272,11 +272,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://scryfall.com/");
-	}
-
-	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}

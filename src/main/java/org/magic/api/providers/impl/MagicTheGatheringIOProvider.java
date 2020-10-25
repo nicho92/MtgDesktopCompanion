@@ -401,11 +401,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return "v1";
 	}
 
-	@Override
-	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://magicthegathering.io/");
-	}
-
 	public String getName() {
 		return "MTG Developpers.io";
 	}

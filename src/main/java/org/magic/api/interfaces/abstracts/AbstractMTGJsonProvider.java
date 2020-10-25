@@ -31,6 +31,8 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
+	protected static final String HAS_NON_FOIL = "hasNonFoil";
+	protected static final String HAS_FOIL = "hasFoil";
 	protected static final String MTG_ARENA_ID = "mtgArenaId";
 	protected static final String HAS_CONTENT_WARNING = "hasContentWarning";
 	protected static final String UUID = "uuid";
@@ -120,6 +122,15 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 	}
 	
+	@Override
+	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
+		try {
+			return searchCardByCriteria(UUID, id, ed, true).get(0);
+		}catch(IndexOutOfBoundsException e)
+		{
+			return null;
+		}
+	}
 	
 	@Override
 	public MagicCard getCardByArenaId(String id) {
@@ -145,7 +156,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,MULTIVERSE_ID,NUMBER))
 			arr.add(new QueryAttribute(s,Integer.class));
 		
-		for(String s :Lists.newArrayList(IS_RESERVED,"hasFoil","hasNonFoil"))
+		for(String s :Lists.newArrayList(IS_RESERVED,HAS_FOIL,HAS_NON_FOIL))
 			arr.add(new QueryAttribute(s,Boolean.class));
 		
 		
@@ -164,15 +175,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		return new String[] { "English", "Spanish", "French", "German", "Italian", "Portuguese", "Japanese", "Korean", "Russian", "Simplified Chinese","Traditional Chinese","Hebrew","Latin","Ancient Greek", "Arabic", "Sanskrit","Phyrexian" };
 	}
 
-	@Override
-	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
-		try {
-			return searchCardByCriteria(UUID, id, ed, true).get(0);
-		}catch(IndexOutOfBoundsException e)
-		{
-			return null;
-		}
-	}
+	
 	
 	@Override
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
@@ -198,12 +201,6 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public String getVersion() {
 		return version;
 	}
-
-	@Override
-	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://mtgjson.com");
-	}
-
 
 	protected boolean hasNewVersion() {
 		String temp = "";

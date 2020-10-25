@@ -270,10 +270,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return "0.1";
 	}
 
-	@Override
-	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://github.com/nicho92/MtgDesktopCompanion");
-	}
 
 	@Override
 	public STATUT getStatut() {

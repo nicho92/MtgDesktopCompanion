@@ -48,15 +48,6 @@ public class CardsProviderTests {
 			System.out.println("ATTS " + p.getQueryableAttributs());
 			System.out.println("LANG " + p.getLanguages());
 		
-			
-			try {
-				System.out.println("WEBSITE " + p.getWebSite());
-			} catch (MalformedURLException e1) {
-				System.err.println(e1);
-			}
-			
-			
-			
 			try {
 				p.listEditions();
 				System.out.println("LOAD EDITION :OK");
