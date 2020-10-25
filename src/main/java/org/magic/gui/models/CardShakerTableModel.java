@@ -77,6 +77,8 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return "extendedArt";
 			else if(mp.isBorderless())
 				return "borderless";
+			else if(mp.isFullArt())
+				return "Full Art";
 			else return "";
 	}
 

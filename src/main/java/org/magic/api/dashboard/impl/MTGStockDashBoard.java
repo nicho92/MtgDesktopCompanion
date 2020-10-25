@@ -234,6 +234,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				cs.setBorderless(p.isBorderless());
 				cs.setShowcase(p.isShowcase());
 				cs.setExtendedArt(p.isExtendedArt());
+				cs.setFullArt(p.isFullArt());
 				cs.setEd(cardService.getSetById(p.getSetId()).getAbbrevation());
 		return cs;
 	}
