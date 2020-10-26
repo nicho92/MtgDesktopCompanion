@@ -222,7 +222,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_209</version>
+			<version>4.2.0_211</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
