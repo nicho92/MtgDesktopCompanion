@@ -68,6 +68,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 	@Override
 	protected void process(List<MagicEdition> chunks) {
 		buzy.progressSmooth(chunks.size());
+		cacheModel.fireTableDataChanged();
 	}
 	
 	@Override

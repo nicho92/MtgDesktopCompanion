@@ -72,6 +72,9 @@ public class StockItemsSynchronizationPanel extends JPanel {
 		for(Entry<String, Object> m : st.getTiersAppIds().entrySet())
 			model.addRow(MTGControler.getInstance().getPlugin(m.getKey(),MTGCardsExport.class),m.getValue());
 		
+		model.fireTableDataChanged();
+		
+		
 	}
 	
 	

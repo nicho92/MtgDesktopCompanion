@@ -54,14 +54,10 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	{
 		
 		keys.add(new AbstractMap.SimpleEntry<>(key,value));
-		fireTableDataChanged();
-			
 	}
 
 	public void clear() {
 		keys.clear();
-		fireTableDataChanged();
-		
 	}
 	
 	

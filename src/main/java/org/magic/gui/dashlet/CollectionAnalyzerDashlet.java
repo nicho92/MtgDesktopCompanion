@@ -36,6 +36,8 @@ import org.magic.services.workers.CollectionAnalyzerWorker;
 import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
+	public CollectionAnalyzerDashlet() {
+	}
 	
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;
@@ -112,7 +114,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		});
 		
 		
-		tabbedPane.addTab("Prices", null, panelPriceMin, null);
+		tabbedPane.addTab("Prices Threshold", null, panelPriceMin, null);
 		
 		
 		panelCacheDetail.add(new JScrollPane(tableCache));
@@ -131,9 +133,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
 			
-			
 			try {
-				slider.setValue(Integer.parseInt(getProperty("priceMin","0")));
+			slider.setValue(Integer.parseInt(getProperty("priceMin","0")));
 			} catch (Exception e) {
 				logger.error("can't get priceMin value", e);
 			}
@@ -155,7 +156,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				@Override
 				protected void process(List<Map.Entry<MagicEdition,Date>> chunks) {
 					buzy.progressSmooth(chunks.size());
-					
 					chunks.forEach(e->modelCache.updateRow(e.getKey(),e.getValue()));
 				}
 
@@ -164,10 +164,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					for(MagicEdition ed : ret) {
 						try {
 							EditionsShakers css = evaluator.initCache(ed);
-							
 							if(!css.isEmpty())
 							{	
-								
 								publish(new DefaultMapEntry<>(ed, css.getDate()));
 							}
 						} catch (Exception e) {
