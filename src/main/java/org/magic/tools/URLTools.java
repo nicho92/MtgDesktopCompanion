@@ -114,6 +114,7 @@ public class URLTools {
 	{
 		HttpURLConnection con = openConnection(url);
 		JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream()));
+		reader.setLenient(true);
 		JsonElement e= JsonParser.parseReader(reader);
 		reader.close();
 		close(con);
