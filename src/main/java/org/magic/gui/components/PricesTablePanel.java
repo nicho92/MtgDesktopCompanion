@@ -11,6 +11,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JPanel;
@@ -45,6 +46,7 @@ public class PricesTablePanel extends JPanel {
 	private transient List<RowSorter.SortKey> sortKeys;
 	private MagicCard currentCard;
 	private MagicEdition currentEd;
+	private boolean foilOnly;
 	
 	public PricesTablePanel() {
 		JPanel panel = new JPanel();
@@ -94,18 +96,24 @@ public class PricesTablePanel extends JPanel {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
-				init(currentCard,currentEd);
+				init(currentCard,currentEd,foilOnly);
 			}
 
 		});
 		
 	}
-
+	
 	public void init(MagicCard card,MagicEdition ed)
+	{
+		init(card,ed,false);
+	}
+	
+
+	public void init(MagicCard card,MagicEdition ed, boolean foilOnly)
 	{
 		currentCard = card;
 		currentEd=ed;
-		
+		this.foilOnly=foilOnly;
 		
 		if(currentCard==null && currentEd==null)
 			return;
@@ -140,9 +148,14 @@ public class PricesTablePanel extends JPanel {
 						
 							try {
 							
-							List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
-							publish(l.toArray(new MagicPrice[l.size()]));
-							list.addAll(l);
+								List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
+								
+								if(foilOnly)
+									l = l.stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
+								
+								
+								publish(l.toArray(new MagicPrice[l.size()]));
+								list.addAll(l);
 							}
 							catch(Exception e)
 							{

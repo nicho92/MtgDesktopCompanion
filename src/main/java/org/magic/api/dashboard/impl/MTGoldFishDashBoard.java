@@ -268,9 +268,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		String urlEditionChecker = "";
 		
 		if (edition.isOnlineOnly())
-			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#online";
+			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + (edition.isFoilOnly()?"_F":"") + "#online";
 		else
-			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#"+ getString(FORMAT);
+			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) +  (edition.isFoilOnly()?"_F":"")+"#"+ getString(FORMAT);
 
 		logger.trace("Parsing dashboard " + urlEditionChecker);
 

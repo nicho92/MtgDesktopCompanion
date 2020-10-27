@@ -409,7 +409,7 @@ public class AlarmGUI extends MTGUIComponent {
 	private void updateInfo(MagicCardAlert selected) {
 		magicCardDetailPanel.setMagicCard(selected.getCard());
 		variationPanel.init(selected.getCard(), null, selected.getCard().getName());
-		pricesTablePanel.init(selected.getCard(), selected.getCard().getCurrentSet());
+		pricesTablePanel.init(selected.getCard(), selected.getCard().getCurrentSet(),selected.isFoil());
 	}
 
 	private void addCard(MagicCard mc) {

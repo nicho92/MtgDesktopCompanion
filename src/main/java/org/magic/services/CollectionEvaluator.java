@@ -102,7 +102,6 @@ public class CollectionEvaluator extends Observable
 	{
 		EditionsShakers ret = new EditionsShakers();
 			try {
-				logger.debug("init cache for " + edition);
 				ret= MTGControler.getInstance().getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
 				//getShakesForEdition calls initCache(edition,ret);
 			} catch (FileNotFoundException e) {
