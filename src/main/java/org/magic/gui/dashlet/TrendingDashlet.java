@@ -1,5 +1,7 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Rectangle;
@@ -28,7 +30,6 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -124,7 +125,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 			
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
-				return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor((MagicFormat.FORMATS) cboFormats.getSelectedItem());
+				return getEnabledPlugin(MTGDashBoard.class).getShakerFor((MagicFormat.FORMATS) cboFormats.getSelectedItem());
 			}
 			
 			@Override

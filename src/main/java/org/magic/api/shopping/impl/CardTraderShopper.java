@@ -1,5 +1,7 @@
 package org.magic.api.shopping.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -10,7 +12,6 @@ import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -55,7 +56,7 @@ public class CardTraderShopper extends AbstractMagicShopper {
 				   ord.setTypeTransaction(TYPE_TRANSACTION.BUY);
 				   ord.setType(parseType(entry.get("category_id").getAsInt()));
 				   try {
-					ord.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(entry.get("expansion").getAsString()));
+					ord.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(entry.get("expansion").getAsString()));
 				} catch (IOException e1) {
 					logger.error("no set found for " + entry.get("expansion"));
 				}

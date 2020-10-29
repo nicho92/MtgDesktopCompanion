@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -128,16 +130,16 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			if (idSet == null) {
 				if (MagicCard.isBasicLand(cardName)) {
 					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-					ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed,
+					ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed,
 							true);
 				} else {
-					ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, null,
+					ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null,
 							true);
 				}
 
 			} else {
 				MagicEdition ed = new MagicEdition(idSet);
-				ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
+				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
 			}
 
 			if (!ret.isEmpty()) {

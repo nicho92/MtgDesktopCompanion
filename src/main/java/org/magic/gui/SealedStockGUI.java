@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -131,7 +133,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			if(res==JOptionPane.YES_OPTION)
 			{
 				try {
-					MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(it);
+					getEnabledPlugin(MTGDao.class).deleteStock(it);
 					model.removeItem(it);
 				} catch (SQLException e1) {
 					MTGControler.getInstance().notify(e1);
@@ -143,7 +145,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		buttonUpdate.addActionListener(el->{
 			try {
-				model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listSeleadStocks());
+				model.init(getEnabledPlugin(MTGDao.class).listSeleadStocks());
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(e1);
 			}			
@@ -155,7 +157,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			try {
 				
 				SealedStock s = new SealedStock(selectedItem,1);
-				MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(s);
+				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(s);
 				model.addItem(s);
 			} catch (SQLException e) {
 				MTGControler.getInstance().notify(e);
@@ -178,7 +180,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		packagePanel.initTree();
 		
 		try {
-			model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listSeleadStocks());
+			model.init(getEnabledPlugin(MTGDao.class).listSeleadStocks());
 		} catch (SQLException e) {
 			MTGControler.getInstance().notify(e);
 		}

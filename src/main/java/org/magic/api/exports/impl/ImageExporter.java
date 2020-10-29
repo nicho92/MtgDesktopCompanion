@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -39,7 +41,7 @@ public class ImageExporter extends AbstractCardExport{
 		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
 		
 		
-		BufferedImage tempPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
+		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
 		
 		logger.debug(cards.size()+ " cards, by group of "+cardGroup + " and " + columnsCount + "columns = " + suggestedNbLines + " lines. w="+tempPic.getWidth()+" h="+tempPic.getHeight());
@@ -64,7 +66,7 @@ public class ImageExporter extends AbstractCardExport{
 		{
 			
 			try {
-				BufferedImage cardPic = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc);
+				BufferedImage cardPic = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 				cardPic=ImageTools.scaleResize(cardPic,cardWidthSize);
 				if(cardCount<cardGroup)
 				{

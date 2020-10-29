@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -129,10 +131,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
-		strat = MTGControler.getInstance().getEnabled(MTGCardRecognition.class);
+		strat = getEnabledPlugin(MTGCardRecognition.class);
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions().stream().sorted().map(ed->new LoadedRecognitionEdition(ed,strat.isCached(ed))).forEach(listModel::addElement);
+			getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().map(ed->new LoadedRecognitionEdition(ed,strat.isCached(ed))).forEach(listModel::addElement);
 		} catch (IOException e1) {
 			logger.error(e1);
 		}
@@ -354,7 +356,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
-				currentCard = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(r.getName(), new MagicEdition(r.getSetCode()), true).get(0);
+				currentCard = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(r.getName(), new MagicEdition(r.getSetCode()), true).get(0);
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}

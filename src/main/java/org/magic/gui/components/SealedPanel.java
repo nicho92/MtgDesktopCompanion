@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -309,7 +311,7 @@ public class SealedPanel extends JPanel {
 
 		MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 		try {
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( land, ed, true)
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, ed, true)
 					.get(0);
 
 			for (int i = 0; i < qte; i++) {
@@ -379,7 +381,7 @@ public class SealedPanel extends JPanel {
 				for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
 					try {
 						for (int i = 0; i < ed.getValue(); i++) {
-							Booster b = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster(ed.getKey());
+							Booster b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(ed.getKey());
 							publish(b);
 						}
 					} catch (IOException e) {

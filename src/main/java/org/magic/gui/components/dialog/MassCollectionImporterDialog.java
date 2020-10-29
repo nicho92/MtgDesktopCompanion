@@ -1,5 +1,7 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
@@ -58,7 +60,7 @@ public class MassCollectionImporterDialog extends JDialog {
 	{
 		List<MagicCard> ret = new ArrayList<>();
 		try {
-			ret = new ArrayList<>(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEditions.getSelectedItem()));
+			ret = new ArrayList<>(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEditions.getSelectedItem()));
 			
 			if(cboByType.getSelectedItem().equals(NUMBER))
 				ret.removeIf(ca->without.contains(ca.getCurrentSet().getNumber()));
@@ -152,7 +154,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			else
 				ids = txtNumbersInput.getText().split("\n");
 		
-			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),ids.length) {
+			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,getEnabledPlugin(MTGCardsProvider.class),ids.length) {
 
 				@Override
 				protected void notifyEnd() {

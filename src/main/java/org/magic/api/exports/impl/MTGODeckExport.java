@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -8,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public class MTGODeckExport extends AbstractFormattedFileCardExport {
@@ -59,7 +60,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 				{
 					String cname = cleanName(m.group(2));
 					try{
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, null, true).get(0);
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, null, true).get(0);
 						int qty = Integer.parseInt(m.group(1));
 						
 						if(side)

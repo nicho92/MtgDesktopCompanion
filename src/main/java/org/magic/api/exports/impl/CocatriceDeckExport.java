@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,7 +16,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -89,7 +90,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
 				deck.getMain().put(mc, qte);
 				notify(mc);
 			}
@@ -98,7 +99,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (int i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
 				deck.getSideBoard().put(mc, qte);
 				notify(mc);
 			}

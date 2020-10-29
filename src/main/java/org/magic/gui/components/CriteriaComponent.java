@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +29,6 @@ import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 
@@ -61,10 +62,10 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JComboBox<QueryAttribute> cboAttributes = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs());
+		JComboBox<QueryAttribute> cboAttributes = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs());
 			
 		
-		c=MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getQueryableAttributs()[0];
+		c=getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs()[0];
 		selector = getComponentFor(c); 
 		
 		add(cboAttributes);

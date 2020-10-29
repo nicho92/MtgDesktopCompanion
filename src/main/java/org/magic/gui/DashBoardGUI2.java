@@ -25,6 +25,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 
+import static org.magic.tools.MTG.listPlugins;
 public class DashBoardGUI2 extends MTGUIComponent {
 
 	/**
@@ -63,7 +64,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		add(desktop,BorderLayout.CENTER);
 		
 		try {
-			for (AbstractJDashlet dash : MTGControler.getInstance().getPlugins(AbstractJDashlet.class)) {
+			for (AbstractJDashlet dash : listPlugins(AbstractJDashlet.class)) {
 				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
 				mntmNewMenuItem.addActionListener(e -> {
 					try {

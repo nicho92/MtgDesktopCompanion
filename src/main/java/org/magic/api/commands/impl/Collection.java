@@ -1,5 +1,7 @@
 package org.magic.api.commands.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -39,14 +41,14 @@ public class Collection extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
 			try {
-				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}
 		}
 		
 		if (cl.hasOption("s")) {
-			List<MagicEdition> eds = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
+			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			MagicEditionsTableModel model = new MagicEditionsTableModel();
 			model.init(eds);
 			double pc=0;
@@ -72,7 +74,7 @@ public class Collection extends AbstractCommand {
 		
 		if (cl.hasOption("l")) {
 			try {
-				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}

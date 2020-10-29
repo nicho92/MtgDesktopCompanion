@@ -1,5 +1,7 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.Collections;
@@ -35,7 +37,6 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.BoostersTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -116,13 +117,13 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 
 		btnCalculate.addActionListener(e -> ThreadManager.getInstance().executeThread(() -> {
 			try {
-				EditionsShakers prices = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
+				EditionsShakers prices = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
 				boostersModel.clear();
 				double total = 0;
 				Map<MTGRarity, Double> priceRarity = new EnumMap<>(MTGRarity.class);
 
 				for (int i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
-					Booster booster = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
+					Booster booster = getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
 					Collections.reverse(booster.getCards());
 					booster.setBoosterNumber(String.valueOf(i + 1));
 

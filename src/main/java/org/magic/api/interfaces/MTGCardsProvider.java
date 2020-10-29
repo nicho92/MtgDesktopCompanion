@@ -1,8 +1,6 @@
 package org.magic.api.interfaces;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import org.magic.api.beans.Booster;

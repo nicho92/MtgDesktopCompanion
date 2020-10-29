@@ -1,5 +1,8 @@
 package org.magic.tools;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -157,7 +160,7 @@ public class UITools {
 			public void keyReleased(KeyEvent e) {
 				res.clear();
 				if(!txtSearch.getText().isEmpty())
-					res.addAll(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
+					res.addAll(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
 				
 			}
 		});
@@ -170,7 +173,7 @@ public class UITools {
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
 		if(all)
-			MTGControler.getInstance().getPlugins(classe).stream().forEach(model::addElement);
+			listPlugins(classe).stream().forEach(model::addElement);
 		else
 			MTGControler.getInstance().listEnabled(classe).stream().forEach(model::addElement);
 		combo.setRenderer(new PluginIconListRenderer());
@@ -202,7 +205,7 @@ public class UITools {
 	public static JComboBox<MagicEdition> createComboboxEditions()
 	{
 		try {
-			List<MagicEdition> list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
+			List<MagicEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
 			return createComboboxEditions(list,SIZE.MEDIUM);
 		} catch (IOException e) {
@@ -269,7 +272,7 @@ public class UITools {
 		JComboBox<MagicCollection> combo = new JComboBox<>(model);
 	
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).listCollections().stream().forEach(model::addElement);
+			getEnabledPlugin(MTGDao.class).listCollections().stream().forEach(model::addElement);
 			combo.setRenderer(new MagicCollectionIconListRenderer());
 		return combo;
 		} catch (Exception e) {
@@ -399,7 +402,7 @@ public class UITools {
 						
 						
 						try {
-								MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+								MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
 								pane.setMagicCard(mc);
 								
 								popUp.setBorder(new LineBorder(Color.black));

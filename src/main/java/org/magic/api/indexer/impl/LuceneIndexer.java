@@ -1,5 +1,7 @@
 package org.magic.api.indexer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -47,7 +49,6 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {
@@ -245,7 +246,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		  				   iwc.setOpenMode(OpenMode.CREATE);
 	    IndexWriter indexWriter = new IndexWriter(dir, iwc);
 	    
-		for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listAllCards())
+		for(MagicCard mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards())
 		{
 			try {
 				indexWriter.addDocument(toDocuments(mc));

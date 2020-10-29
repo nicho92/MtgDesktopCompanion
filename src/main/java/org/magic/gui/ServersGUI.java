@@ -11,7 +11,7 @@ import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-
+import static org.magic.tools.MTG.listPlugins;
 public class ServersGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class ServersGUI extends MTGUIComponent {
 	
 	public ServersGUI() {
 		
-		List<MTGServer> list = MTGControler.getInstance().getPlugins(MTGServer.class);
+		List<MTGServer> list = listPlugins(MTGServer.class);
 		
 		
 		setLayout(new GridLayout(list.size(), 1, 0, 0));

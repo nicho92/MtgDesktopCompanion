@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +47,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		Map<String, Integer> temp;
 		try {
-			temp = MTGControler.getInstance().getEnabled(MTGDao.class).getCardsCountGlobal(mc);
+			temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(mc);
 		
 		countDefaultLibrary = 0;
 		countTotal = 0;

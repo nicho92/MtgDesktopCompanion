@@ -2,6 +2,7 @@ package org.magic.api.dao.impl;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+import static org.magic.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,6 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
@@ -493,7 +493,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{ 
 			MagicNews mn = deserialize(result.get(dbNewsField).toString(), MagicNews.class);
 			try{
-				mn.setProvider(MTGControler.getInstance().getPlugin(result.get(dbTypeNewsField).toString(),MTGNewsProvider.class));
+				mn.setProvider(getPlugin(result.get(dbTypeNewsField).toString(),MTGNewsProvider.class));
 			}catch(Exception e)
 			{
 				logger.error("error get typeNews provider "+result,e);

@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -412,7 +414,7 @@ public class ConstructPanel extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MagicCard mc : deck.getMain().keySet()) {
 								try {
-									updateM.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMain().get(mc));
+									updateM.put(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMain().get(mc));
 									publish(mc);
 								} catch (Exception e) {
 									logger.error("error update " + mc,e);
@@ -420,7 +422,7 @@ public class ConstructPanel extends MTGUIComponent {
 							}
 							for (MagicCard mc : deck.getSideBoard().keySet()) {
 								try {
-									updateS.put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getSideBoard().get(mc));
+									updateS.put(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getSideBoard().get(mc));
 									publish(mc);
 								} catch (Exception e) {
 									logger.error("error update " + mc,e);
@@ -588,7 +590,7 @@ public class ConstructPanel extends MTGUIComponent {
 			
 			resultListModel.clear();
 			
-			AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class))
+			AbstractObservableWorker<List<MagicCard>,MagicCard,MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class))
 			{
 				@Override
 				protected List<MagicCard> doInBackground() throws Exception {
@@ -730,7 +732,7 @@ public class ConstructPanel extends MTGUIComponent {
 						
 						resultListModel.removeAllElements();
 						try {
-							for(MagicCard card : MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).similarity(mc).keySet())
+							for(MagicCard card : getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet())
 								resultListModel.addElement(card);
 						
 							lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));

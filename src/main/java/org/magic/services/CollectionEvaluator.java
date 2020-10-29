@@ -1,5 +1,8 @@
 package org.magic.services;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -72,7 +75,7 @@ public class CollectionEvaluator extends Observable
 	
 	public void initCache() throws IOException
 	{
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions().forEach(ed->{
+		getEnabledPlugin(MTGCardsProvider.class).listEditions().forEach(ed->{
 			try {
 				initCache(ed);
 			} catch (IOException e) {
@@ -102,7 +105,7 @@ public class CollectionEvaluator extends Observable
 	{
 		EditionsShakers ret = new EditionsShakers();
 			try {
-				ret= MTGControler.getInstance().getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
+				ret= getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
 				//getShakesForEdition calls initCache(edition,ret);
 			} catch (FileNotFoundException e) {
 				logger.error(edition.getId() + " is not found " + e);
@@ -113,16 +116,16 @@ public class CollectionEvaluator extends Observable
 	
 	public EditionsShakers initCache(MagicEdition edition) throws IOException
 	{
-		return initCache(edition,MTGControler.getInstance().getEnabled(MTGDashBoard.class).getName());
+		return initCache(edition,getEnabledPlugin(MTGDashBoard.class).getName());
 	}
 	
 	public List<MagicEdition> getEditions()
 	{
 		List<MagicEdition> eds = new ArrayList<>();
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
+			getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
 				try {
-					MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(key);
+					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(key);
 					eds.add(ed);
 				}catch(Exception e)
 				{
@@ -188,7 +191,7 @@ public class CollectionEvaluator extends Observable
 				list= new EditionsShakers();
 				
 			}	
-			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(collection, ed);
+			List<MagicCard> cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MagicCard mc : cards) 
 			{
 					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();

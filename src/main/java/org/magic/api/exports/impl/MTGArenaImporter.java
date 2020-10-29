@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +83,7 @@ public class MTGArenaImporter extends AbstractCardExport {
 			Integer qty = e.getValue().getAsInt();
 			
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByArenaId(id);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByArenaId(id);
 				
 				if(mc!=null)
 				{

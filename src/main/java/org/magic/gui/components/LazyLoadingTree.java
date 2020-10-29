@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,7 +111,7 @@ public class LazyLoadingTree extends JTree {
 				protected List<MyNode> doInBackground() throws Exception {
 
 					List<MyNode> children = new ArrayList<>();
-					for (MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()) {
+					for (MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections()) {
 						MyNode n = new MyNode(c);
 						children.add(n);
 					}
@@ -140,7 +142,7 @@ public class LazyLoadingTree extends JTree {
 
 					List<MyNode> children = new ArrayList<>();
 					try {
-						List<MagicCard> res = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col,ed);
+						List<MagicCard> res = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col,ed);
 						Collections.sort(res, new CardsEditionSorter());
 
 						for (MagicCard card : res) {
@@ -177,8 +179,8 @@ public class LazyLoadingTree extends JTree {
 				protected List<MyNode> doInBackground() throws Exception {
 					logger.debug("loading editions from " + c);
 					List<MyNode> children = new ArrayList<>();
-					for (String ed : MTGControler.getInstance().getEnabled(MTGDao.class).listEditionsIDFromCollection(c)) {
-						MyNode n = new MyNode(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ed));
+					for (String ed : getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(c)) {
+						MyNode n = new MyNode(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed));
 						children.add(n);
 					}
 					Collections.sort(children);

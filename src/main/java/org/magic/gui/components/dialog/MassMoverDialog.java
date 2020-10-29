@@ -1,5 +1,7 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -54,7 +56,7 @@ public class MassMoverDialog extends JDialog {
 		setLocationRelativeTo(null);
 
 		cboCollections = UITools.createComboboxCollection();
-		dao = MTGControler.getInstance().getEnabled(MTGDao.class);
+		dao = getEnabledPlugin(MTGDao.class);
 		
 		
 		this.toSaveCol = col;

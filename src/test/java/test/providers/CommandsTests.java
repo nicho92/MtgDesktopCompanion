@@ -1,6 +1,7 @@
 package test.providers;
 
 import static org.junit.Assert.fail;
+import static org.magic.tools.MTG.getEnabledPlugin;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import org.magic.api.interfaces.MTGCommand;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.console.AbstractResponse;
 import org.magic.console.MTGConsoleHandler;
-import org.magic.services.MTGControler;
 
 public class CommandsTests {
 
@@ -17,9 +17,9 @@ public class CommandsTests {
 	@Before
 	public void initProviders()
 	{
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		getEnabledPlugin(MTGCardsProvider.class).init();
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).init();
+			getEnabledPlugin(MTGDao.class).init();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} 

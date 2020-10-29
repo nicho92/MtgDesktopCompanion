@@ -16,7 +16,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.Chrono;
-
+import static org.magic.tools.MTG.listPlugins;
 public class JMXServer extends AbstractMTGServer {
 
 	private MBeanServer mbs ;
@@ -39,7 +39,7 @@ public class JMXServer extends AbstractMTGServer {
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
 			
 		PluginRegistry.inst().listClasses().forEach(entry->
-			MTGControler.getInstance().getPlugins(entry).forEach(o->{
+		listPlugins(entry).forEach(o->{
 				try {
 					mbs.registerMBean(new StandardMBean(o, entry),o.getObjectName());
 					names.add(o.getObjectName());

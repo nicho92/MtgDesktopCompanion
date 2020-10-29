@@ -1,5 +1,7 @@
 package org.magic.api.tokens.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +23,6 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -137,7 +138,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			if (value.getElementsByTagName("text").item(0) != null)
 				tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
-			tok.getEditions().add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
+			tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
 			tok.getCurrentSet().setNumber("T");
 
 			NodeList sets = value.getElementsByTagName("set");
@@ -145,7 +146,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				String idSet = sets.item(s).getTextContent();
 
 				if (idSet.equals(mc.getCurrentSet().getId())) {
-					MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(idSet);
+					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
 					tok.getEditions().add(ed);
 				}
 
@@ -184,7 +185,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.getSupertypes().add(MTGLayout.EMBLEM.toPrettyString());
 			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
-			tok.getEditions().add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
+			tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
 			tok.getCurrentSet().setNumber("E");
 
 			
@@ -253,7 +254,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			return URLTools.extractImage(u);
 		} catch (Exception e) {
 			logger.error("error pics reading for " + tok, e);
-			return MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
+			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 		}
 	}
 

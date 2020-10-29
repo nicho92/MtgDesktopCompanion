@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -168,7 +170,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					g.drawImage(cardImage, 0, 0, null);
 					
 					
-					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null && MTGControler.getInstance().getEnabled(MTGPictureEditor.class).getMode()==MOD.LOCAL)
+					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null && getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.LOCAL)
 						g.drawImage(magicCardEditorPanel.getImagePanel().getCroppedImage(), 35, 68, 329, 242, null);
 					
 					
@@ -302,10 +304,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			//////////////////////////////////////////////////// ACTION LISTENER
 			
-			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->MTGControler.getInstance().getEnabled(MTGPictureEditor.class).setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
-			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->MTGControler.getInstance().getEnabled(MTGPictureEditor.class).setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
-			magicCardEditorPanel.getChboxFoil().addActionListener(ae->MTGControler.getInstance().getEnabled(MTGPictureEditor.class).setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
-			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> MTGControler.getInstance().getEnabled(MTGPictureEditor.class).setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
+			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->getEnabledPlugin(MTGPictureEditor.class).setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
+			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->getEnabledPlugin(MTGPictureEditor.class).setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
+			magicCardEditorPanel.getChboxFoil().addActionListener(ae->getEnabledPlugin(MTGPictureEditor.class).setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
+			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> getEnabledPlugin(MTGPictureEditor.class).setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
 			
 			
 			btnRefreshSet.addActionListener(e->{
@@ -500,7 +502,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			btnRefresh.addActionListener(e -> {
 				try {
-					BufferedImage img = MTGControler.getInstance().getEnabled(MTGPictureEditor.class).getPicture(magicCardEditorPanel.getMagicCard(),(MagicEdition) cboSets.getSelectedItem());
+					BufferedImage img = getEnabledPlugin(MTGPictureEditor.class).getPicture(magicCardEditorPanel.getMagicCard(),(MagicEdition) cboSets.getSelectedItem());
 					
 					if(img!=null)
 					{

@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,7 +17,6 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
@@ -57,7 +58,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 				
 				try {
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 	
 					notify(mc);
 					

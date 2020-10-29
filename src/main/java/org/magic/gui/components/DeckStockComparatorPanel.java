@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -173,9 +175,9 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 									boolean has = false;
 									
 									if(chkCollectionCheck.isSelected())
-										has = MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
+										has = getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
 									
-									List<MagicCardStock> stocks = MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
+									List<MagicCardStock> stocks = getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
 									int qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());

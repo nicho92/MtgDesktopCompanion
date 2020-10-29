@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,7 +14,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Chunk;
@@ -39,10 +40,10 @@ public class PDFExport extends AbstractCardExport {
 
 		Image image1 = null;
 		try {
-			image1 = Image.getInstance(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card, null),
+			image1 = Image.getInstance(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null),
 					null);
 		} catch (Exception e) {
-			image1 = Image.getInstance(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture(), null);
+			image1 = Image.getInstance(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(), null);
 		}
 
 		int h = getInt("CARD_HEIGHT");

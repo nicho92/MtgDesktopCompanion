@@ -1,5 +1,7 @@
 package org.magic.gui.components.charts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.util.List;
 
@@ -18,7 +20,6 @@ import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> {
@@ -52,8 +53,8 @@ public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		try {
 			MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
-			items = MTGControler.getInstance().getEnabled(MTGDao.class).listOrderForEdition(ed);
-			EditionsShakers price = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
+			items = getEnabledPlugin(MTGDao.class).listOrderForEdition(ed);
+			EditionsShakers price = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.getShakes().stream().mapToDouble(CardShake::getPrice).sum();
 			
 			if(!items.isEmpty()) {

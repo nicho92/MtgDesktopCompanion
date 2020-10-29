@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -51,14 +53,14 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
-		if (MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed) != null) {
+		if (getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed) != null) {
 			logger.trace("cached " + mc + "(" + ed + ") found");
-			return resizeCard(MTGControler.getInstance().getEnabled(MTGPicturesCache.class).getPic(mc, ed), newW, newH);
+			return resizeCard(getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed), newW, newH);
 		}
 		BufferedImage bufferedImage = getOnlinePicture(mc, ed);
 		if (bufferedImage != null)
 		{
-			MTGControler.getInstance().getEnabled(MTGPicturesCache.class).put(bufferedImage, mc, ed);
+			getEnabledPlugin(MTGPicturesCache.class).put(bufferedImage, mc, ed);
 			return resizeCard(bufferedImage, newW, newH);
 		}
 		else

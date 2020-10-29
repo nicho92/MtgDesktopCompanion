@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +16,6 @@ import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.tools.FileTools;
@@ -116,7 +117,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	public final  File downloadCardsData(MagicEdition set) throws IOException
 	{
 		logger.info("downloading " + set);
-		List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(set);
+		List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
 		logger.info("Loading cards from " + set +" " + cards.size() + " found");
 		
 		for(MagicCard card:cards)
@@ -139,7 +140,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	public final void loadDatasForSet(String code)
 	{
 		try {
-			loadDatasForSet(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(code));
+			loadDatasForSet(getEnabledPlugin(MTGCardsProvider.class).getSetById(code));
 		} catch (IOException e) {
 			logger.error("Error loading " +code,e);
 		}
@@ -169,7 +170,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	{
 		BufferedImage topimg;
 		try {
-			topimg = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card);
+			topimg = getEnabledPlugin(MTGPictureProvider.class).getPicture(card);
 		} catch (IOException e1) {
 			logger.error(e1);
 			topimg=null;

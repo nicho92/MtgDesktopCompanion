@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -13,7 +15,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.models.SimilarityCardsTableModel;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class SimilarityCardPanel extends JPanel {
@@ -50,7 +51,7 @@ public class SimilarityCardPanel extends JPanel {
 		
 		if(isVisible()) {
 		try {
-			model.init(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).similarity(mc));
+			model.init(getEnabledPlugin(MTGCardsIndexer.class).similarity(mc));
 		} catch (IOException e) {
 			logger.error(e);
 		}

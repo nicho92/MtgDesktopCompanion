@@ -1,5 +1,8 @@
 package org.magic.servers.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,6 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 public class AlertTrendServer extends AbstractMTGServer {
 
@@ -53,10 +55,10 @@ public class AlertTrendServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			public void run() {
 				List<CardShake> ret=new ArrayList<>();
-				if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
-					for (MagicCardAlert alert : MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts()) {
+				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
+					for (MagicCardAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						try {
-							HistoryPrice<MagicCard> cpv= MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet(),alert.isFoil());
+							HistoryPrice<MagicCard> cpv= getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet(),alert.isFoil());
 							if(cpv!=null)
 							{
 								CardShake cs = cpv.toCardShake();
@@ -93,7 +95,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 						if(!not.isEmpty())
 						{
 							logger.debug("notify with " + not);
-							MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
+							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 							try {
 								notifier.send(notif);

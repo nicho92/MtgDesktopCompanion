@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,7 +14,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGControler;
 import org.magic.tools.MTGArenaTools;
 
 import com.google.gson.JsonArray;
@@ -91,7 +92,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 		for(int i=0;i<ids.size();i++)
 		{
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByArenaId(ids.get(i));
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByArenaId(ids.get(i));
 				map.put(mc, qtys.get(i));
 				notify(mc);
 			} catch (IOException e) {

@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -148,7 +150,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	public void initPopupCollection() throws SQLException {
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		menuItemAdd.setIcon(MTGConstants.ICON_NEW);
-		for (MagicCollection mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()) {
+		for (MagicCollection mc : getEnabledPlugin(MTGDao.class).listCollections()) {
 
 			JMenuItem adds = new JMenuItem(mc.getName());
 			adds.setIcon(MTGConstants.ICON_COLLECTION);
@@ -165,7 +167,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 					MagicCard mcCard = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
 					try {
-						MTGControler.getInstance().saveCard(mcCard, MTGControler.getInstance().getEnabled(MTGDao.class).getCollection(collec),null);
+						MTGControler.getInstance().saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),null);
 					} catch (SQLException e1) {
 						logger.error(e1);
 						MTGControler.getInstance().notify(e1);
@@ -200,7 +202,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		List<MagicEdition> li = new ArrayList<>();
 		try {
-			li = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
+			li = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(li);
 		} catch (Exception e2) {
 			logger.error("error no edition loaded", e2);
@@ -420,7 +422,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 			cardsModeltable.clear();
 			
-			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider> wk = new AbstractObservableWorker<>(lblLoading,MTGControler.getInstance().getEnabled(MTGCardsProvider.class)) {
+			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider> wk = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
 
 						@Override
 						protected List<MagicCard> doInBackground() throws Exception {
@@ -463,7 +465,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					lblLoading.start();
 					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 					
-					MTGPlugin plug = searchComponent.isCollectionSearch() ? MTGControler.getInstance().getEnabled(MTGDao.class):MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
+					MTGPlugin plug = searchComponent.isCollectionSearch() ? getEnabledPlugin(MTGDao.class):getEnabledPlugin(MTGCardsProvider.class);
 					cardsModeltable.clear();
 					
 					AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
@@ -575,7 +577,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							@Override
 							protected MagicCard doInBackground() throws Exception {
 								try {
-									MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
+									MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
 									publish(mc);
 									return mc;
 								} catch (Exception e) {

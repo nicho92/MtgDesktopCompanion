@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +117,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			MagicEdition ed = null;
 			
 			try {			   
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(4));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(4));
 			}
 			catch(Exception e)
 			{
@@ -138,7 +140,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			if(number!=null && ed !=null)
 			{
 				try {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(number, ed);
+					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 				} catch (Exception e) {
 					logger.error("no card found with number " + number + "/"+ ed);
 				}

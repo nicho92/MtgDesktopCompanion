@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -209,7 +211,7 @@ public class DeckDetailsPanel extends JComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (int i = 0; i < 4; i++) {
-					BufferedImage im = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).extractPicture((MagicCard) magicDeck.getMain().keySet().toArray()[i]);
+					BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MagicCard) magicDeck.getMain().keySet().toArray()[i]);
 					publish(im);
 				}
 				return null;

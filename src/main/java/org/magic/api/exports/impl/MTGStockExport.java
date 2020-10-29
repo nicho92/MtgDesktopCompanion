@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,7 +101,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;
 			try {			   
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(2));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
 			catch(Exception e)
 			{
@@ -108,7 +110,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 
 			MagicCard card=null;
 			try {
-				card = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
+				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException e) {
 				logger.error("no card found for" + cname + "/"+ ed);
 			}
@@ -145,7 +147,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;
 			try {			   
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(2));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
 			catch(Exception e)
 			{
@@ -154,7 +156,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 
 			MagicCard card=null;
 			try {
-				card = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
+				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException e) {
 				logger.error("no card found for" + cname + "/"+ ed);
 			}

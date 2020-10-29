@@ -1,5 +1,7 @@
 package org.magic.api.combo.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,6 @@ import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -78,7 +79,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 					for(Element a : as)
 					{
 						try {
-							MagicCard card = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(a.text(), null, true).get(0);
+							MagicCard card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(a.text(), null, true).get(0);
 							cbo.addCard(card);
 						} catch (IOException e) {
 							logger.error("No card found for " + a.text());

@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -123,7 +125,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 				
-				List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true);
+				List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true);
 				MagicCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(p.getExpansionName())).findAny().orElse(cards.get(0));
 				notify(mc);
 				d.getMain().put(mc, w.getCount());
@@ -339,7 +341,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setSigned(a.isSigned());
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
-			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true);
+			List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true);
 			
 			MagicCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(a.getProduct().getExpansion())).findAny().orElse(cards.get(0));
 			

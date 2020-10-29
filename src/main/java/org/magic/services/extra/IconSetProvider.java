@@ -1,5 +1,7 @@
 package org.magic.services.extra;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
@@ -255,7 +256,7 @@ public class IconSetProvider {
 	}
 
 	private void initCache() throws IOException {
-		for (MagicEdition e : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions()) {
+		for (MagicEdition e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 			BufferedImage im = extract(e.getId().toUpperCase());
 			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 			cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));

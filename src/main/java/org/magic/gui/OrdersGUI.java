@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -79,7 +81,7 @@ public class OrdersGUI extends MTGUIComponent {
 
 					@Override
 					protected List<OrderEntry> doInBackground() throws Exception {
-						return MTGControler.getInstance().getEnabled(MTGDao.class).listOrders();
+						return getEnabledPlugin(MTGDao.class).listOrders();
 					}
 					
 					@Override
@@ -195,7 +197,7 @@ public class OrdersGUI extends MTGUIComponent {
 		btnAddToCollection.addActionListener(ae ->{
 				JPopupMenu popupMenu = new JPopupMenu("Title");
 				try {
-						for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections())
+						for(MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections())
 						{
 							JMenuItem cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
 							popupMenu.add(cutMenuItem);
@@ -211,7 +213,7 @@ public class OrdersGUI extends MTGUIComponent {
 									try {
 											if(order.getType()==OrderEntry.TYPE_ITEM.CARD)
 											{
-												List<MagicCard> l = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(order.getDescription(), order.getEdition(), false);
+												List<MagicCard> l = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(order.getDescription(), order.getEdition(), false);
 												if(l.size()>1)
 													logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
 												
@@ -219,7 +221,7 @@ public class OrdersGUI extends MTGUIComponent {
 											}
 											else if(order.getType()==OrderEntry.TYPE_ITEM.FULLSET)
 											{
-												toSave.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
+												toSave.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
 											}
 									} catch (Exception e) {
 										logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
@@ -230,7 +232,7 @@ public class OrdersGUI extends MTGUIComponent {
 								int ret = JOptionPane.showConfirmDialog(this, "Add " + toSave.size() +" items to " + c +" ?");
 								
 								if(ret == JOptionPane.YES_OPTION) {
-									AbstractObservableWorker<Void, MagicCard, MTGDao> sw = new AbstractObservableWorker<>(buzy, MTGControler.getInstance().getEnabled(MTGDao.class), toSave.size()) {
+									AbstractObservableWorker<Void, MagicCard, MTGDao> sw = new AbstractObservableWorker<>(buzy, getEnabledPlugin(MTGDao.class), toSave.size()) {
 										@Override
 										protected Void doInBackground() {
 											toSave.forEach(card->{
@@ -294,7 +296,7 @@ public class OrdersGUI extends MTGUIComponent {
 					protected Void doInBackground() throws Exception {
 						states.forEach(state->{
 							try {
-							MTGControler.getInstance().getEnabled(MTGDao.class).deleteOrderEntry(state);
+							getEnabledPlugin(MTGDao.class).deleteOrderEntry(state);
 							model.removeItem(state);
 							} catch (Exception e) {
 								logger.error("error deleting " + state,e);
@@ -336,7 +338,7 @@ public class OrdersGUI extends MTGUIComponent {
 				ThreadManager.getInstance().executeThread(()->{
 						MagicCard mc=null;
 						try {
-							mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
+							mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
 						}
 						catch(Exception e)
 						{
@@ -344,7 +346,7 @@ public class OrdersGUI extends MTGUIComponent {
 						}	
 						HistoryPrice<MagicCard> e;
 						try {
-							e = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(mc, o.getEdition(),o.getDescription().toLowerCase().contains("foil"));
+							e = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getEdition(),o.getDescription().toLowerCase().contains("foil"));
 						
 						Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
 						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
@@ -386,7 +388,7 @@ public class OrdersGUI extends MTGUIComponent {
 			
 			List<OrderEntry> orders = model.getItems().stream().filter(OrderEntry::isUpdated).collect(Collectors.toList());
 			
-					AbstractObservableWorker<Void,OrderEntry, MTGDao> sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGDao.class),orders.size()) {
+					AbstractObservableWorker<Void,OrderEntry, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),orders.size()) {
 		
 						@Override
 						protected Void doInBackground() throws Exception {

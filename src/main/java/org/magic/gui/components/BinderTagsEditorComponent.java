@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -115,7 +117,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		
 		try {
 			
-			List<MagicEdition> lst = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
+			List<MagicEdition> lst = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(lst);
 			for(MagicEdition ed : lst)
 				model.addElement(ed);

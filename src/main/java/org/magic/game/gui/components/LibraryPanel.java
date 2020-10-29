@@ -1,5 +1,7 @@
 package org.magic.game.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -34,7 +36,7 @@ public class LibraryPanel extends DraggablePanel {
 		menu.add(new JMenuItem(new MoveGraveyardActions()));
 
 		try {
-			i = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture().getScaledInstance(
+			i = getEnabledPlugin(MTGPictureProvider.class).getBackPicture().getScaledInstance(
 					(int) MTGControler.getInstance().getCardsGameDimension().getWidth(),
 					(int) MTGControler.getInstance().getCardsGameDimension().getHeight(), Image.SCALE_SMOOTH);
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));

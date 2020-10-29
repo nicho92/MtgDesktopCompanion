@@ -1,5 +1,7 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Rectangle;
@@ -26,7 +28,6 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -74,7 +75,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 			MagicEdition ed;
 			try {
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(getString("EDITION"));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(getString("EDITION"));
 				cboEditions.setSelectedItem(ed);
 			} catch (Exception e) {
 				logger.error("Error retrieve editions", e);
@@ -124,7 +125,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 					setProperty("EDITION", ed.getId());
 					try {
-						return MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(ed);
+						return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 					} catch (IOException e) {
 						logger.error(e);
 						return new EditionsShakers();

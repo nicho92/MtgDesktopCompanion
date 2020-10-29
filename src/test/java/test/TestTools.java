@@ -1,5 +1,7 @@
 package test;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -9,7 +11,6 @@ import org.apache.log4j.Level;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class TestTools {
@@ -26,7 +27,7 @@ public class TestTools {
 //		MTGConstants.DATA_DIR = new File(MTGConstants.CONF_DIR.getAbsolutePath(),"data");
 		MTGLogger.changeLevel(Level.OFF);
 		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
+		getEnabledPlugin(MTGCardsProvider.class).init();
 	}
 	
 	

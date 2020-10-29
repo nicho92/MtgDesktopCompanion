@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +20,6 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
@@ -112,7 +113,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 					SimpleEntry<String, Integer> entry = parseString(line);
 					try 
 					{
-						MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
 						notify(mc);
 						if(sideboard)
 							deck.getSideBoard().put(mc, entry.getValue());

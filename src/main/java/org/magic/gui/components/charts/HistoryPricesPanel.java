@@ -1,5 +1,7 @@
 package org.magic.gui.components.charts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,7 +33,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.UITools;
 
@@ -110,14 +111,14 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		if(isVisible()) 
 		{
 			try {
-				this.cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(card, me,false);
+				this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, me,false);
 				
 			} catch (IOException e) {
 				logger.error("error init " + card, e);
 			}
 			
 			try {
-				this.cpVariationsF = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(card, me,true);
+				this.cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, me,true);
 				
 			} catch (IOException e) {
 				logger.error("error init FOIL " + card, e);
@@ -165,7 +166,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 			
 			List<MagicEdition> list = new ArrayList<>();
 			try {
-				list = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
+				list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			} catch (IOException e1) {
 				logger.error(e1);
 			}

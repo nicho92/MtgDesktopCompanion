@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -12,7 +14,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGControler;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -62,10 +63,10 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				MagicEdition ed = null;
 				if( e.getAsJsonObject().get("card").getAsJsonObject().get("edition")!=null) {
 					String edcode = e.getAsJsonObject().get("card").getAsJsonObject().get("edition").getAsJsonObject().get("editioncode").getAsString();
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(edcode);
+					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(edcode);
 				}
 				String number = e.getAsJsonObject().get("card").getAsJsonObject().get("collectorNumber").getAsString();
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(number, ed);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 				
 				if(mc!=null)
 				{

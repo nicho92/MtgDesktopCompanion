@@ -1,7 +1,6 @@
 package test.providers;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import org.junit.Before;

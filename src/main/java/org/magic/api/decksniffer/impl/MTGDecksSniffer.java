@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,7 +16,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
@@ -72,7 +73,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 					name = name.substring(0, name.indexOf('/')).trim();
 
 				try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				notify(mc);
 				

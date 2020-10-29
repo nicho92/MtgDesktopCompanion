@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -134,7 +136,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnSave.addActionListener(e ->{
 			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdate).collect(Collectors.toList());
-			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class),updates.size())
+			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
 			{
 				@Override
 				protected void done() {
@@ -181,7 +183,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				
 				List<MagicCardStock> stocks = UITools.getTableSelections(table, 0);
 				model.removeItem(stocks);
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,MTGControler.getInstance().getEnabled(MTGDao.class),stocks.size()) {
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGDao.class),stocks.size()) {
 					@Override
 					protected Void doInBackground(){
 						stocks.removeIf(st->st.getIdstock()==-1);
@@ -221,7 +223,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION)
 			{
 				logger.debug("reload collection");
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading, MTGControler.getInstance().getEnabled(MTGDao.class), -1) {
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class), -1) {
 					@Override
 					protected Void doInBackground() throws Exception {
 						model.init(plug.listStocks());
@@ -391,7 +393,7 @@ public class StockPanelGUI extends MTGUIComponent {
 						MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
 						try {
 							
-							EditionsShakers c = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakesForEdition(s.getMagicCard().getCurrentSet());
+							EditionsShakers c = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(s.getMagicCard().getCurrentSet());
 							Double price =  c.getShakeFor(s.getMagicCard()).getPrice();
 							double old = s.getPrice();
 							s.setPrice(price);
@@ -587,7 +589,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		
 		
 		try {
-			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 		} catch (SQLException e1) {
 			logger.error(e1);
 		}
@@ -828,7 +830,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				lblLoading.start();
-				model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks());
+				model.init(getEnabledPlugin(MTGDao.class).listStocks());
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(e1);
 			}

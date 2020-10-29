@@ -1,5 +1,7 @@
 package org.magic.api.shopping.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -18,7 +20,6 @@ import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
-import org.magic.services.MTGControler;
 
 public class MagicCardmarketShopper extends AbstractMagicShopper {
 
@@ -53,7 +54,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 			entrie.setType(TYPE_ITEM.CARD);
 			
 			try {
-				entrie.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansion()));
+				entrie.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansion()));
 			} catch (IOException e) {
 				logger.error("can't found " + a.getProduct().getExpansion());
 			}

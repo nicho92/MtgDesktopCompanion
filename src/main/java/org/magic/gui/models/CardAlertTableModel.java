@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -20,8 +22,8 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	@Override
 	public int getRowCount() {
 		try {
-			if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
-				return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().size();
+			if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
+				return getEnabledPlugin(MTGDao.class).listAlerts().size();
 
 		} catch (Exception e) {
 			logger.error(e);
@@ -64,21 +66,21 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row);
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row);
 		case 1:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getCard().getEditions();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getCard().getEditions();
 		case 2:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).isFoil();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).isFoil();
 		case 3:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getPrice();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getPrice();
 		case 4:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getOffers().size();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getOffers().size();
 		case 5:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceDayChange();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getShake().getPriceDayChange();
 		case 6:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPriceWeekChange();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getShake().getPriceWeekChange();
 		case 7:
-			return MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row).getShake().getPercentDayChange();
+			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getShake().getPercentDayChange();
 		default:
 			return "";
 		}
@@ -87,19 +89,19 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MagicCardAlert alert = MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts().get(row);
+		MagicCardAlert alert = getEnabledPlugin(MTGDao.class).listAlerts().get(row);
 		if (column == 1) 
 		{
 			MagicEdition ed = (MagicEdition) aValue;
 			try {
 				if(!ed.equals(alert.getCard().getCurrentSet())) 
 				{
-					MTGControler.getInstance().getEnabled(MTGDao.class).deleteAlert(alert);
+					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 					MagicCard mc = MTGControler.getInstance().switchEditions(alert.getCard(), ed);
 					MagicCardAlert alert2 = new MagicCardAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
-					MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert2);
+					getEnabledPlugin(MTGDao.class).saveAlert(alert2);
 					
 				}
 			} catch (Exception e) {
@@ -111,7 +113,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		{
 			alert.setFoil(Boolean.parseBoolean(aValue.toString()));
 			try {
-				MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
+				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
 				logger.error("error set value " + aValue, e);
 			}
@@ -121,7 +123,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		{
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
-				MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
+				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
 				logger.error("error set value " + aValue, e);
 			}

@@ -1,5 +1,7 @@
 package org.magic.services;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -14,7 +16,6 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
-
 public class GedService {
 
 	private static GedService inst;
@@ -23,7 +24,7 @@ public class GedService {
 	
 	private GedService() {
 		
-			storage = MTGControler.getInstance().getEnabled(MTGGedStorage.class);
+			storage = getEnabledPlugin(MTGGedStorage.class);
 			logger.info("Loading FS :" + getFileSystem() +" (o="+getFileSystem().isOpen()+", ro="+getFileSystem().isReadOnly()+"), Provider="+getFileSystem().provider());
 	}
 	

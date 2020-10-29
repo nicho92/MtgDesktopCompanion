@@ -1,5 +1,7 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Rectangle;
@@ -31,7 +33,6 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.sorters.PricesCardsShakeSorter;
 import org.magic.sorters.PricesCardsShakeSorter.SORT;
@@ -81,18 +82,18 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					List<CardShake> shakes = new ArrayList<>();
 
 					if (boxM.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.MODERN));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.MODERN));
 					if (boxS.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.STANDARD));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.STANDARD));
 					if (boxL.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.LEGACY));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.LEGACY));
 					if (boxV.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.VINTAGE));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.VINTAGE));
 					if (boxP.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PAUPER));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PAUPER));
 				
 					if(!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected() && !boxP.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));
 					
 					
 				

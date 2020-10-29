@@ -1,5 +1,7 @@
 package org.magic.api.commands.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -15,7 +17,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.AbstractResponse;
 import org.magic.console.ArrayResponse;
-import org.magic.services.MTGControler;
 
 public class Search extends AbstractCommand {
 
@@ -37,17 +38,17 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			return new ArrayResponse(MagicCard.class, null,json.toJsonArray(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByCriteria(att, val, null,false)));
+			return new ArrayResponse(MagicCard.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(att, val, null,false)));
 		}
 
 		if (cl.hasOption("s")) {
-			return new ArrayResponse(MagicEdition.class, null,json.toJsonArray(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions()));
+			return new ArrayResponse(MagicEdition.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).listEditions()));
 		}
 
 		if (cl.hasOption("col")) {
 			List<MagicCollection> list;
 			try {
-				list = MTGControler.getInstance().getEnabled(MTGDao.class).listCollections();
+				list = getEnabledPlugin(MTGDao.class).listCollections();
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}

@@ -1,5 +1,7 @@
 package org.magic.api.main;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Frame;
 import java.io.IOException;
 
@@ -49,9 +51,9 @@ public class MtgDesktopCompanion {
 			
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 			
-			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-			MTGControler.getInstance().getEnabled(MTGDao.class).init();
-			MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions();
+			getEnabledPlugin(MTGCardsProvider.class).init();
+			getEnabledPlugin(MTGDao.class).init();
+			getEnabledPlugin(MTGCardsProvider.class).listEditions();
 		
 			
 			logger.info("Init "+MTGConstants.MTG_APP_NAME+" GUI");

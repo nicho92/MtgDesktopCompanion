@@ -1,5 +1,9 @@
 package org.magic.services;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+import static org.magic.tools.MTG.listPlugins;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.File;
@@ -36,6 +40,7 @@ import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
+
 
 public class MTGControler {
 
@@ -118,12 +123,12 @@ public class MTGControler {
 	
 	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException
 	{
-		getEnabled(MTGDao.class).removeCard(mc, collection);
+		getEnabledPlugin(MTGDao.class).removeCard(mc, collection);
 		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
 		{ 
-			getEnabled(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
+			getEnabledPlugin(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
 				try{
-					getEnabled(MTGDao.class).deleteStock(st);	
+					getEnabledPlugin(MTGDao.class).deleteStock(st);	
 				}
 				catch(Exception e)
 				{
@@ -137,20 +142,20 @@ public class MTGControler {
 	public void saveCard(MagicCard mc , MagicCollection collection,Observer o) throws SQLException
 	{
 		if(o!=null)
-			getEnabled(MTGDao.class).addObserver(o);
+			getEnabledPlugin(MTGDao.class).addObserver(o);
 		
-		getEnabled(MTGDao.class).saveCard(mc, collection);
+		getEnabledPlugin(MTGDao.class).saveCard(mc, collection);
 		
 		if(get("collections/stockAutoAdd").equals("true"))
 		{ 
 			MagicCardStock st = getDefaultStock();
 			st.setMagicCard(mc);
 			st.setMagicCollection(collection);
-			getEnabled(MTGDao.class).saveOrUpdateStock(st);
+			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
 		}
 		
 		if(o!=null)
-			getEnabled(MTGDao.class).removeObserver(o);
+			getEnabledPlugin(MTGDao.class).removeObserver(o);
 	}
 	
 	public void setDefaultStock(MagicCardStock st) {
@@ -304,7 +309,7 @@ public class MTGControler {
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return getEnabled(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, false).get(0);
+			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, false).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;
@@ -353,7 +358,7 @@ public class MTGControler {
 	public MTGCardsExport getAbstractExporterFromExt(File f) {
 		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
 
-		for (MTGCardsExport ace : getPlugins(MTGCardsExport.class)) {
+		for (MTGCardsExport ace : listPlugins(MTGCardsExport.class)) {
 			if (ace.getFileExtension().endsWith(ext))
 				return ace;
 		}
@@ -389,23 +394,6 @@ public class MTGControler {
 		} catch (Exception e) {
 			logger.error(notif.getMessage());
 		}
-	}
-	
-
-
-	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
-		return PluginRegistry.inst().getPlugin(name,type);
-	}
-
-	
-	public <T extends MTGPlugin> List<T> getPlugins(Class<T> t)
-	{
-		return PluginRegistry.inst().listPlugins(t);
-	}
-	
-	public <T extends MTGPlugin> T getEnabled(Class<T> t)
-	{
-		return PluginRegistry.inst().getEnabledPlugins(t);
 	}
 	
 	public <T extends MTGPlugin> List<T> listEnabled(Class<T> t)

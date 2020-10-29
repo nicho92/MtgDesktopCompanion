@@ -1,5 +1,8 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -118,8 +121,8 @@ public class AlarmGUI extends MTGUIComponent {
 		btnSuggestPrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_S, "suggestPrices Alarm");
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JPanel serversPanel = new JPanel();
-		ServerStatePanel oversightPanel = new ServerStatePanel(false,MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
-		ServerStatePanel serverPricePanel = new ServerStatePanel(false,MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
+		ServerStatePanel oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
+		ServerStatePanel serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
 		UITools.initTableFilter(table);
 
 		
@@ -251,7 +254,7 @@ public class AlarmGUI extends MTGUIComponent {
 								{
 									alert.setPrice(prices.get(0).getValue());
 									try {
-										MTGControler.getInstance().getEnabled(MTGDao.class).updateAlert(alert);
+										getEnabledPlugin(MTGDao.class).updateAlert(alert);
 									} catch (SQLException e) {
 										logger.error("error updating " + alert,e);
 									}
@@ -285,7 +288,7 @@ public class AlarmGUI extends MTGUIComponent {
 						List<MagicCardAlert> alerts = extract(selected);
 						for (MagicCardAlert alert : alerts)
 						{
-							MTGControler.getInstance().getEnabled(MTGDao.class).deleteAlert(alert);
+							getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 							publish(alert);
 						}
 						return alerts;
@@ -418,7 +421,7 @@ public class AlarmGUI extends MTGUIComponent {
 		alert.setPrice(1.0);
 		alert.setId(IDGenerator.generate(mc));
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert);
+			getEnabledPlugin(MTGDao.class).saveAlert(alert);
 		} catch (SQLException e) {
 			logger.error(e);
 		}

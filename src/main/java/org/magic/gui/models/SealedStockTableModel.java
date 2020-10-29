@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.sql.SQLException;
 
 import org.magic.api.beans.MagicEdition;
@@ -8,7 +10,6 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.MTGControler;
 
 public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 
@@ -62,7 +63,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		}
 		
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(it);
+			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(it);
 			changed=true;
 		} catch (SQLException e) {
 			logger.error("Error saving " + it , e);

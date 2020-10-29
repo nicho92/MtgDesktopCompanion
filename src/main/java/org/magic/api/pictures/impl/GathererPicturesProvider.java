@@ -1,5 +1,7 @@
 package org.magic.api.pictures.impl;
 
+import static org.magic.tools.MTG.getPlugin;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -7,7 +9,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
@@ -27,7 +28,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 		for (String k : getArray("CALL_MCI_FOR")) {
 			if (selected.getId().startsWith(k)) {
-				return MTGControler.getInstance().getPlugin(getString("SECOND_PROVIDER"), MTGPictureProvider.class).getPicture(mc, selected);
+				return getPlugin(getString("SECOND_PROVIDER"), MTGPictureProvider.class).getPicture(mc, selected);
 			}
 		}
 		return URLTools.extractImage(generateUrl(null,selected));

@@ -1,5 +1,7 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
@@ -13,7 +15,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.OrdersChartPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 import com.google.common.collect.Lists;
@@ -81,7 +82,7 @@ public class OrdersDashlet extends AbstractJDashlet {
 	public void init() {
 		setProperty(PROPERTY, String.valueOf(cboProperty.getSelectedItem()));
 		setProperty("COUNT", String.valueOf(chkSumOrTotal.isSelected()));
-		chart.init(MTGControler.getInstance().getEnabled(MTGDao.class).listOrders(),cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
+		chart.init(getEnabledPlugin(MTGDao.class).listOrders(),cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
 	}
 
 	@Override

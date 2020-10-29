@@ -1,5 +1,8 @@
 package org.magic.api.interfaces.abstracts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -196,7 +199,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	 
 	public void init() throws SQLException {
 		logger.info("init " + getName());
-		init(MTGControler.getInstance().getEnabled(MTGPool.class));
+		init(getEnabledPlugin(MTGPool.class));
 	}
 
 	public boolean createDB() {
@@ -268,7 +271,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
 							  try 
 							  {
-								p.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
+								p.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
 							  } 
 							  catch (IOException e) 
 							  {
@@ -336,7 +339,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(mc));
 			storeCard(pst, 2, mc);
 			pst.setString(3, mc.getCurrentSet().getId());
-			pst.setString(4, MTGControler.getInstance().getEnabled(MTGCardsProvider.class).toString());
+			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
 			pst.executeUpdate();
 		}
@@ -804,7 +807,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					n.setName(rs.getString("name"));
 					n.setUrl(rs.getString("url"));
 					n.setId(rs.getInt("id"));
-					n.setProvider(MTGControler.getInstance().getPlugin(rs.getString("typeNews"),MTGNewsProvider.class));
+					n.setProvider(getPlugin(rs.getString("typeNews"),MTGNewsProvider.class));
 					news.add(n);
 				}
 			}
@@ -898,7 +901,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			}
 			
 			
-			state.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
+			state.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
 		} catch (Exception e) {
 			state.setEdition(null);
 		}

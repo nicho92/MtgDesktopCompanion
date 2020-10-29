@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -26,7 +28,6 @@ import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 
@@ -77,11 +78,11 @@ public class CardsPicPanel extends JXPanel {
 		
 		if (!mc.isDoubleFaced()) 
 		{
-			back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
+			back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 		} else {
 			try {
 				MagicCard flipC =card.getRotatedCard();
-				back = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(flipC, null);
+				back = getEnabledPlugin(MTGPictureProvider.class).getPicture(flipC, null);
 			} catch (Exception e) {
 				logger.error("error loading flip",e);
 
@@ -91,10 +92,10 @@ public class CardsPicPanel extends JXPanel {
 			try {
 				if (edition == null)
 					imgFront = renderer.appendReflection(
-							MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card, null));
+							getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null));
 				else
 					imgFront = renderer.appendReflection(
-							MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(card, edition));
+							getEnabledPlugin(MTGPictureProvider.class).getPicture(card, edition));
 
 				back = mirroring(back);
 				back = renderer.appendReflection(back);

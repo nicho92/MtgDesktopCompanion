@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -76,7 +78,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				
 				try 
 				{
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
 					
 					if (!sideboard) {
 						deck.getMain().put(mc, qte);

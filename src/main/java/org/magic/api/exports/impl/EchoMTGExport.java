@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -108,14 +110,14 @@ public class EchoMTGExport extends AbstractCardExport {
 			JsonObject ob = element.getAsJsonObject();
 			MagicEdition ed =null;
 			try {
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ob.get("set_code").getAsString());
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("set_code").getAsString());
 			} catch (Exception e) {
 				logger.error("error with " + ob,e);
 			}
 			
 			
 			try {
-				List<MagicCard> ret = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
+				List<MagicCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
 				d.add(ret.get(0));
 				notify(ret.get(0));
 			} catch (IOException e) {

@@ -1,5 +1,7 @@
 package org.magic.api.shopping.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -15,7 +17,6 @@ import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
@@ -85,7 +86,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 						String set = e.select("div.td.ext img").attr("title");
 						try {
 							
-							entrie.setEdition(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(set));
+							entrie.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(set));
 						}
 						catch(Exception ex)
 						{

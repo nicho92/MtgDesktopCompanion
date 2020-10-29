@@ -1,5 +1,7 @@
 package org.magic.api.dashboard.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +25,6 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -103,7 +104,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private String getCodeForExt(String name) {
 		try {
-			for (MagicEdition ed : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions())
+			for (MagicEdition ed : getEnabledPlugin(MTGCardsProvider.class).listEditions())
 				if (ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
 		} catch (Exception e) {

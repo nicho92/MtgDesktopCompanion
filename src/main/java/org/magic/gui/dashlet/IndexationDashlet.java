@@ -1,5 +1,7 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
@@ -37,7 +39,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		try {
-		cboField = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).listFields());
+		cboField = UITools.createCombobox(getEnabledPlugin(MTGCardsIndexer.class).listFields());
 		}
 		catch(Exception e)
 		{
@@ -70,7 +72,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 
 	public void init() {
 		try {
-			indexModel.init(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));
+			indexModel.init(getEnabledPlugin(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));
 			indexModel.fireTableDataChanged();
 		}catch(Exception e)
 		{

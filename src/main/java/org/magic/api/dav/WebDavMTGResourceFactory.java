@@ -1,11 +1,12 @@
 package org.magic.api.dav;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.servers.impl.WebDAVServer;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
@@ -22,7 +23,7 @@ public class WebDavMTGResourceFactory implements ResourceFactory
 	
     
 	public WebDavMTGResourceFactory() throws SQLException {
-		fs = new MTGFileSystem(MTGControler.getInstance().getEnabled(MTGDao.class));
+		fs = new MTGFileSystem(getEnabledPlugin(MTGDao.class));
 		serv=(WebDAVServer)PluginRegistry.inst().getPlugin("WebDAV");
 	}
 	

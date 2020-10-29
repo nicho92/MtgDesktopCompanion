@@ -1,5 +1,7 @@
 package org.magic.servers.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -100,7 +102,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				channel.sendTyping().queue();
 
 				try {
-					liste.addAll(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, false));
+					liste.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false));
 				}
 				catch(Exception e)
 				{
@@ -190,7 +192,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			temp.append(":no_entry_sign:  \n");
 		
 		try {
-			temp.append("**Collections:** "+MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(mc).toString());
+			temp.append("**Collections:** "+getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
 		} catch (SQLException e) {
 			logger.error(e);
 		}

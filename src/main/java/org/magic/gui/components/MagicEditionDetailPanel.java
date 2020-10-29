@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -113,7 +115,7 @@ public class MagicEditionDetailPanel extends JPanel {
 			btnOpenBooster.addActionListener(ae -> {
 				try {
 					CardSearchPanel.getInstance().thumbnail(
-							MTGControler.getInstance().getEnabled(MTGCardsProvider.class).generateBooster(magicEdition).getCards());
+							getEnabledPlugin(MTGCardsProvider.class).generateBooster(magicEdition).getCards());
 				} catch (Exception e) {
 					logger.error("Error loading booster for " + magicEdition, e);
 				}

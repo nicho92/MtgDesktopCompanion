@@ -1,5 +1,8 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -131,7 +134,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 						String currentName=editorPane.getText(start, (position-start)).trim();
 						if(currentName.length()>=3)
 						{
-							tagsPanel.bind(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).suggestCardName(currentName));
+							tagsPanel.bind(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(currentName));
 						}
 					
 					}
@@ -146,7 +149,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		
 		btnImport.addActionListener(e ->{
 			
-			DeckImportWorker sw = new DeckImportWorker(MTGControler.getInstance().getPlugin(MTGConstants.MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
+			DeckImportWorker sw = new DeckImportWorker(getPlugin(MTGConstants.MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
 										{
 			
 											@Override

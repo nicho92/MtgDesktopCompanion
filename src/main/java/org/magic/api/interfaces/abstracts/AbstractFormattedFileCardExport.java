@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +16,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
 public abstract class AbstractFormattedFileCardExport extends AbstractCardExport {
@@ -56,9 +57,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		MagicEdition ed = null;
 		try {
 			if(setSearch==FORMAT_SEARCH.ID) 
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(gEdition));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(gEdition));
 			else
-				ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(m.group(gEdition));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(gEdition));
 			
 		} catch (Exception e) {
 			ed = null;
@@ -72,9 +73,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		try {
 			
 			if(cardSearch==FORMAT_SEARCH.ID) 
-				return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardById(cname);
+				return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
 			else
-				return MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 			
 		} catch (Exception e) {
 			logger.error("Couldn't find card "+ cname + " ["+ed+"] :" + e);

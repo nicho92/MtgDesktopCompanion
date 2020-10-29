@@ -1,5 +1,7 @@
 package org.magic.game.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -64,7 +66,6 @@ import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.game.model.factories.CountersFactory;
 import org.magic.game.transfert.CardTransfertHandler;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 import org.magic.services.keywords.AbstractKeyWordsManager;
@@ -417,11 +418,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			menu.add(sep);
 
-			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isTokenizer(magicCard)) {
+			if (getEnabledPlugin(MTGTokensProvider.class).isTokenizer(magicCard)) {
 				menu.add(new JMenuItem(new CreateActions(this)));
 			}
 
-			if (MTGControler.getInstance().getEnabled(MTGTokensProvider.class).isEmblemizer(magicCard)) {
+			if (getEnabledPlugin(MTGTokensProvider.class).isEmblemizer(magicCard)) {
 				menu.add(new JMenuItem(new EmblemActions(this)));
 			}
 			
@@ -486,14 +487,14 @@ public class DisplayableCard extends JLabel implements Draggable {
 			protected Image doInBackground() throws Exception {
 				try {
 					if (mc.getLayout() ==MTGLayout.TOKEN|| mc.getLayout()==MTGLayout.EMBLEM) {
-						temp = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).getPictures(mc);
+						temp = getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
 					} 
 					else {
-						temp = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null);
+						temp = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null);
 					}
 					publish(temp);
 				} catch (Exception e) {
-					temp = MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture();
+					temp = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 				}
 				
 				

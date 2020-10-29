@@ -1,5 +1,7 @@
 package org.magic.api.commands.impl;
 
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -10,7 +12,8 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.AbstractResponse;
 import org.magic.console.TextResponse;
-import org.magic.services.MTGControler;
+
+
 
 public class Server extends AbstractCommand {
 
@@ -32,7 +35,7 @@ public class Server extends AbstractCommand {
 		MTGServer serv = null;
 		
 		if (cl.hasOption("n")) {
-			serv = MTGControler.getInstance().getPlugin(cl.getOptionValue("n"), MTGServer.class);
+			serv = getPlugin(cl.getOptionValue("n"), MTGServer.class);
 		}
 		else
 		{

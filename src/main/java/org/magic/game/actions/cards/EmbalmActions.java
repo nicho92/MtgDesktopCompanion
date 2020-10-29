@@ -1,5 +1,7 @@
 package org.magic.game.actions.cards;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -33,7 +35,7 @@ public class EmbalmActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard tok = MTGControler.getInstance().getEnabled(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			MagicCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
 			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.addCounter(new ItemCounter("Embalm"));
 

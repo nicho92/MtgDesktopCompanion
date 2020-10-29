@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,7 +16,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -73,7 +74,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 				Node it = result.item(i);
 				String name = it.getTextContent();
 				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
 				deck.getMain().put(mc, Integer.parseInt(qte));
@@ -86,7 +87,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 				Node it = result.item(i);
 				String name = it.getTextContent();
 				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
 				deck.getSideBoard().put(mc, Integer.parseInt(qte));

@@ -1,5 +1,7 @@
 package org.magic.gui.components.editor;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -383,7 +385,7 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc16.gridy = 4;
 		
 		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
-		JScrollPane scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTGControler.getInstance().getEnabled(MTGTextGenerator.class)));
+		JScrollPane scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,getEnabledPlugin(MTGTextGenerator.class)));
 		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));

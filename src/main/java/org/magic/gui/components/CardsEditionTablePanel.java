@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -109,7 +111,7 @@ public class CardsEditionTablePanel extends JPanel {
 			
 			if(chkNeededCards.isSelected()) {
 				try {
-					List<MagicCard> currents = MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
+					List<MagicCard> currents = getEnabledPlugin(MTGDao.class).listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
 					model.removeItem(currents);
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -211,13 +213,13 @@ public class CardsEditionTablePanel extends JPanel {
 		}
 		
 		
-		sw = new AbstractObservableWorker<>(buzy,MTGControler.getInstance().getEnabled(MTGCardsProvider.class),currentEdition.getCardCount()) {
+		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class),currentEdition.getCardCount()) {
 			
 			@Override
 			protected List<MagicCard> doInBackground() {
 				List<MagicCard> cards = new ArrayList<>();
 				try {
-					cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByEdition(currentEdition);
+					cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter() );
 					return cards;
 				} catch (IOException e) {

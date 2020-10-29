@@ -1,5 +1,7 @@
 package test;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.dav.MTGFileSystem;
 import org.magic.api.dav.MTGPath;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGControler;
 
 
 public class MTGFSTest {
@@ -19,7 +20,7 @@ public class MTGFSTest {
 	public void testFS() throws IOException, SQLException {
 		
 		
-		MTGDao dao = MTGControler.getInstance().getEnabled(MTGDao.class);
+		MTGDao dao = getEnabledPlugin(MTGDao.class);
 		dao.init();
 		
 		try(MTGFileSystem fs = new MTGFileSystem(dao))

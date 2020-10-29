@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,7 +14,6 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -65,7 +66,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 			int qty = element.getAsJsonObject().get("count").getAsInt();
 			String name = element.getAsJsonObject().get("name").getAsString();
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), true).get(0);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), true).get(0);
 				if(!side)
 					d.getMain().put(mc, qty);
 				else
@@ -94,7 +95,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 							rd.setName(ob.get("name").getAsString());
 							rd.setAuthor("MtgJson");
 							try {
-								rd.setDescription(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ob.get("code").getAsString()).getSet());
+								rd.setDescription(getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("code").getAsString()).getSet());
 								rd.setUrl(new URL(AbstractMTGJsonProvider.URL_DECKS_URI+ob.get("fileName").getAsString()+".json").toURI());
 							} catch (Exception e) {
 								logger.error(e);

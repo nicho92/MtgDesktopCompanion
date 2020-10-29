@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -184,7 +186,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			alert.setPrice(Double.parseDouble(price));
 
 			try {
-				MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert);
+				getEnabledPlugin(MTGDao.class).saveAlert(alert);
 			} catch (Exception e) {
 				logger.error(e);
 				MTGControler.getInstance().notify(e);
@@ -299,7 +301,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private void setMagicLogo(final String set, final String rarity) {
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
-				lblLogoSet.setIcon(new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getSetLogo(set, rarity)));
+				lblLogoSet.setIcon(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getSetLogo(set, rarity)));
 			} catch (Exception e) {
 				lblLogoSet.setIcon(null);
 			}
@@ -423,7 +425,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			ThreadManager.getInstance().executeThread(() -> {
 				try {
 					listModelCollection.removeAllElements();
-					MTGControler.getInstance().getEnabled(MTGDao.class).listCollectionFromCards(magicCard).forEach(col->listModelCollection.addElement(col));
+					getEnabledPlugin(MTGDao.class).listCollectionFromCards(magicCard).forEach(col->listModelCollection.addElement(col));
 				} catch (Exception e) {
 					logger.error(e);
 				}
@@ -432,7 +434,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		if (magicCard != null && enableCollectionLookup)
 			ThreadManager.getInstance().executeThread(() -> {
-				if (MTGControler.getInstance().getEnabled(MTGDao.class).hasAlert(magicCard)) {
+				if (getEnabledPlugin(MTGDao.class).hasAlert(magicCard)) {
 					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));
 					btnAlert.setEnabled(false);
 				} else {
@@ -542,11 +544,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				ImageIcon icon;
 				try {
 					if(fn==null)
-						icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getPicture(mc, null));
+						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null));
 					else
-						icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
+						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
 				} catch (Exception e) {
-					icon = new ImageIcon(MTGControler.getInstance().getEnabled(MTGPictureProvider.class).getBackPicture());
+					icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture());
 					logger.error("Error loading pics for" + mc, e);
 				}
 				return icon;

@@ -1,6 +1,8 @@
 package org.magic.api.commands.impl;
 
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -12,7 +14,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.AbstractResponse;
 import org.magic.console.ArrayResponse;
-import org.magic.services.MTGControler;
 
 public class Get extends AbstractCommand {
 
@@ -57,7 +58,7 @@ public class Get extends AbstractCommand {
 		if(name!=null)
 		{
 			try {
-				return new ArrayResponse(MagicCard.class, null,json.toJsonArray(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
+				return new ArrayResponse(MagicCard.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
 			}catch(Exception e)
 			{
 				logger.error(e);

@@ -1,5 +1,6 @@
 package org.magic.services.recognition;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.DataOutputStream;

@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -66,7 +68,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			if (cardName.contains("//"))
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName( cardName, ed, true).get(0);
 
 			deck.getMain().put(mc, qte);
@@ -88,7 +90,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName( cardName, ed, true).get(0);
 				deck.getSideBoard().put(mc, qte);
 			}

@@ -1,5 +1,7 @@
 package org.magic.services.extra;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +23,6 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
@@ -231,7 +232,7 @@ public class PackagesProvider {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList.getLength(); i++)
 			{
-				list.add(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));
+				list.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));
 			}
 			
 			Collections.sort(list);

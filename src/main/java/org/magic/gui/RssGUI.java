@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -125,7 +127,7 @@ public class RssGUI extends MTGUIComponent {
 
 		btnSave.addActionListener(ae -> {
 			try {
-				MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateNews(newsPanel.getMagicNews());
+				getEnabledPlugin(MTGDao.class).saveOrUpdateNews(newsPanel.getMagicNews());
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error saving news", ex);
@@ -136,7 +138,7 @@ public class RssGUI extends MTGUIComponent {
 		
 		btnDelete.addActionListener(ae -> {
 			try {
-				MTGControler.getInstance().getEnabled(MTGDao.class).deleteNews(newsPanel.getMagicNews());
+				getEnabledPlugin(MTGDao.class).deleteNews(newsPanel.getMagicNews());
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error delete news", ex);
@@ -247,7 +249,7 @@ public class RssGUI extends MTGUIComponent {
 			
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (MagicNews cat : MTGControler.getInstance().getEnabled(MTGDao.class).listNews())
+				for (MagicNews cat : getEnabledPlugin(MTGDao.class).listNews())
 					publish(cat);
 			
 				return null;

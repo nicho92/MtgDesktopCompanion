@@ -1,4 +1,13 @@
 package org.magic.services.recognition;
+import java.awt.image.BufferedImage;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.ddogleg.struct.FastQueue;
+
 import boofcv.abst.feature.associate.AssociateDescription;
 import boofcv.abst.feature.associate.ScoreAssociation;
 import boofcv.abst.feature.detdesc.DetectDescribePoint;
@@ -15,14 +24,6 @@ import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import georegression.struct.point.Point2D_F64;
-import org.ddogleg.struct.FastQueue;
-
-import java.awt.image.BufferedImage;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ImageDesc

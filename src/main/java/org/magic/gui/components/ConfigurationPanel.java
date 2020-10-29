@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -211,17 +213,17 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblBackupDao = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DAO_BACKUP") + " : ");
 		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
 		JButton btnBackup = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
-		JLabel lblDuplicateDb = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",MTGControler.getInstance().getEnabled(MTGDao.class)));
+		JLabel lblDuplicateDb = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
 		JButton btnDuplicate = new JButton((MTGControler.getInstance().getLangService().getCapitalize(EXPORT)));
 		JLabel lblLocation = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCATION") + " : ");
-		JLabel lbldbLocationValue = new JLabel(MTGControler.getInstance().getEnabled(MTGDao.class).getDBLocation());
+		JLabel lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
 		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE") + " : ");
-		JLabel lblSizeValue  = new JLabel(String.valueOf(MTGControler.getInstance().getEnabled(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
+		JLabel lblSizeValue  = new JLabel(String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
 		JLabel lblIndexation = new JLabel("Indexation : ");
-		JLabel lblIndexSize = new JLabel(UITools.formatDate(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).getIndexDate()));
+		JLabel lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
 		JButton btnIndexation = new JButton("Reindexation");
 		cboTargetDAO = UITools.createCombobox(MTGDao.class, true);
-		cboTargetDAO.removeItem(MTGControler.getInstance().getEnabled(MTGDao.class));
+		cboTargetDAO.removeItem(getEnabledPlugin(MTGDao.class));
 
 		
 		
@@ -456,7 +458,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblGuiLocal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCALISATION") + " :");
 		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 		JLabel lblCardsLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE") + " :");
-		JComboBox<String> cboLanguages = UITools.createCombobox(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getLanguages());
+		JComboBox<String> cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK") + " :");
 		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
 		JLabel lblPicsSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL_SIZE") + ": ");
@@ -614,7 +616,7 @@ public class ConfigurationPanel extends JPanel {
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",(int) resizerPanel.getDimension().getWidth());
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/height",(int) resizerPanel.getDimension().getHeight());
 			resizerPanel.setValue(0);
-			MTGControler.getInstance().getEnabled(MTGPictureProvider.class).setSize(resizerPanel.getDimension());
+			getEnabledPlugin(MTGPictureProvider.class).setSize(resizerPanel.getDimension());
 		});
 		
 		
@@ -676,7 +678,7 @@ public class ConfigurationPanel extends JPanel {
 					IconSetProvider.getInstance().clean();
 				
 				if(chckbxIconcards.isSelected())
-					MTGControler.getInstance().getEnabled(MTGPicturesCache.class).clear();
+					getEnabledPlugin(MTGPicturesCache.class).clear();
 				
 				if(chckbxPackages.isSelected())
 					PackagesProvider.inst().clear();
@@ -694,8 +696,8 @@ public class ConfigurationPanel extends JPanel {
 				try {
 					loading(true, "Indexation");
 					btnIndexation.setEnabled(false);
-					MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).initIndex();
-					lblIndexSize.setText(UITools.formatDate(MTGControler.getInstance().getEnabled(MTGCardsIndexer.class).getIndexDate()));
+					getEnabledPlugin(MTGCardsIndexer.class).initIndex();
+					lblIndexSize.setText(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
 				} catch (Exception e) {
 					logger.error("error indexation", e);
 					MTGControler.getInstance().notify(e);
@@ -712,8 +714,8 @@ public class ConfigurationPanel extends JPanel {
 			ThreadManager.getInstance().executeThread(() -> {
 			try {
 				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
-				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",MTGControler.getInstance().getEnabled(MTGDao.class)) + " " + dao);
-				MTGControler.getInstance().getEnabled(MTGDao.class).duplicateTo(dao);
+				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
+				getEnabledPlugin(MTGDao.class).duplicateTo(dao);
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -722,7 +724,7 @@ public class ConfigurationPanel extends JPanel {
 				btnDuplicate.setEnabled(true);
 			}
 			
-		}, "duplicate " + MTGControler.getInstance().getEnabled(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
+		}, "duplicate " + getEnabledPlugin(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
 		}
 
 		);
@@ -770,14 +772,14 @@ public class ConfigurationPanel extends JPanel {
 
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
-				loading(true, "backup db " + MTGControler.getInstance().getEnabled(MTGDao.class) + " database");
-				MTGControler.getInstance().getEnabled(MTGDao.class).backup(txtDAOBackup.getFile());
+				loading(true, "backup db " + getEnabledPlugin(MTGDao.class) + " database");
+				getEnabledPlugin(MTGDao.class).backup(txtDAOBackup.getFile());
 				loading(false, "");
 
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
-		}, "backup " + MTGControler.getInstance().getEnabled(MTGDao.class) + " database"));
+		}, "backup " + getEnabledPlugin(MTGDao.class) + " database"));
 		
 		lclCodeCurrency.addMouseListener(new MouseAdapter() {
 			@Override
@@ -814,7 +816,7 @@ public class ConfigurationPanel extends JPanel {
 
 		}
 		try {
-			for (MagicEdition col : MTGControler.getInstance().getEnabled(MTGCardsProvider.class).listEditions()) {
+			for (MagicEdition col : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 				if (col.getId().equalsIgnoreCase(MTGControler.getInstance().get("default-land-deck"))) {
 					cboEditionLands.setSelectedItem(col);
 				}

@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.util.Map;
 
 import org.magic.api.beans.Grading;
@@ -168,11 +170,11 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		try {
 			if(!magicCardStock.getMagicCard().getCurrentSet().equals(aValue))
 			{
-				MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(magicCardStock);
+				getEnabledPlugin(MTGDao.class).deleteStock(magicCardStock);
 				magicCardStock.setMagicCard(MTGControler.getInstance().switchEditions(magicCardStock.getMagicCard(), aValue));
 				magicCardStock.setIdstock(-1);
 				
-				MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(magicCardStock);
+				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(magicCardStock);
 				
 				
 			}

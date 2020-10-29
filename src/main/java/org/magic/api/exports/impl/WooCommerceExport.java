@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -203,7 +205,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 						   st.getTiersAppIds().put(getName(), e.getAsJsonObject().get("id").getAsInt());
 						   st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
-			List<MagicCard> cards = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true);
+			List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true);
 						   st.setMagicCard(cards.get(0));
 			
 			stocks.add(st);

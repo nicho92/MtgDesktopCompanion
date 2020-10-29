@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -46,6 +48,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ShortKeyManager;
 import org.mkm.gui.MkmPanel;
 
+
 public class MagicGUI extends JFrame {
 
 	/**
@@ -61,7 +64,7 @@ public class MagicGUI extends JFrame {
 
 		
 		try {
-			osNotifier = (OSTrayNotifier)MTGControler.getInstance().getPlugin("Tray",MTGNotifier.class);
+			osNotifier = (OSTrayNotifier)getPlugin("Tray",MTGNotifier.class);
 		}
 		catch(Exception e)
 		{

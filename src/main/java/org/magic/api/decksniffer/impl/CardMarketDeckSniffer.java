@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
 public class CardMarketDeckSniffer extends AbstractDeckSniffer {
@@ -46,7 +47,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 			if (cardName.contains("//")) // for transformatble cards
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 				notify(mc);
 				deck.getMain().put(mc, Integer.valueOf(qte));
 			}
@@ -63,7 +64,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 			if (cardName.contains("//")) // for transformatble cards
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 			try {
-			MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName(cardName, null, true).get(0);
 
 				notify(mc);

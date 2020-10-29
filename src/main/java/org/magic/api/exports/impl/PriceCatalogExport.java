@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +16,6 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public class PriceCatalogExport extends AbstractFormattedFileCardExport {
@@ -57,7 +58,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 			
 			for(String pricer : getArray(PRICER))
 			{	
-					MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
+					MTGPricesProvider prov = getPlugin(pricer,MTGPricesProvider.class);
 			
 					for (MagicCard mc : deck.getMain().keySet()) 
 					{

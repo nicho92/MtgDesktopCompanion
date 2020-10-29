@@ -22,34 +22,25 @@ public class MTG {
 		return MTGControler.getInstance().getLangService().getCapitalize(key);
 	}
 
-	public static <T extends MTGPlugin> T plugin(Class<T> t) 
+	public static <T extends MTGPlugin> T getEnabledPlugin(Class<T> t) 
 	{
 		return PluginRegistry.inst().getEnabledPlugins(t);
 	}
 
-	public static <T extends MTGPlugin> List<T> plugins(Class<T> t) 
+	public static <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) 
 	{
 		return PluginRegistry.inst().listEnabledPlugins(t);
 	}
 	
-	
-	
-	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
+	public static <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		return PluginRegistry.inst().getPlugin(name,type);
 	}
-
 	
-	public <T extends MTGPlugin> List<T> getPlugins(Class<T> t)
+	public static <T extends MTGPlugin> List<T> listPlugins(Class<T> t)
 	{
 		return PluginRegistry.inst().listPlugins(t);
 	}
 	
-	
-	public <T extends MTGPlugin> List<T> listEnabled(Class<T> t)
-	{
-		return PluginRegistry.inst().listEnabledPlugins(t);
-	}
-
 	
 	
 }

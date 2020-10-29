@@ -1,5 +1,7 @@
 package org.magic.gui.components.charts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Date;
@@ -16,7 +18,6 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 
 public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
@@ -61,7 +62,7 @@ public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						cpVariations = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getPriceVariation(pack);
+						cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(pack);
 						return null;
 					}
 					

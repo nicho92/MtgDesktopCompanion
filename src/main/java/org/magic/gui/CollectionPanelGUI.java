@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -135,8 +137,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	
 	
 	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
-		this.provider = MTGControler.getInstance().getEnabled(MTGCardsProvider.class);
-		this.dao = MTGControler.getInstance().getEnabled(MTGDao.class);
+		this.provider = getEnabledPlugin(MTGCardsProvider.class);
+		this.dao = getEnabledPlugin(MTGDao.class);
 		initGUI();
 	}
 	
@@ -575,7 +577,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 										@Override
 										protected List<MagicCard> doInBackground() throws Exception {
-											return MTGControler.getInstance().getEnabled(MTGDao.class).synchronizeCollection((MagicCollection) node.getUserObject());
+											return getEnabledPlugin(MTGDao.class).synchronizeCollection((MagicCollection) node.getUserObject());
 										}
 									};
 									ThreadManager.getInstance().runInEdt(sw,"synchronize stocks and collection");
@@ -630,7 +632,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	    btnAddAllSet.addActionListener(ae ->{
 			JPopupMenu popupMenu = new JPopupMenu("Title");
 			try {
-					for(MagicCollection c : MTGControler.getInstance().getEnabled(MTGDao.class).listCollections())
+					for(MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections())
 					{
 						JMenuItem cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
 						initAddAllSet(cutMenuItem);
@@ -967,7 +969,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			try {
 				((MagicGUI)SwingUtilities.getRoot(this)).setSelectedTab(0);
-				CardSearchPanel.getInstance().open(MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition));
+				CardSearchPanel.getInstance().open(getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition));
 			} catch (SQLException e1) {
 				logger.error(e1);
 			}
@@ -994,12 +996,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			
 			try {
-				for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition))
+				for(MagicCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
 				{
 					MagicCardAlert alert = new MagicCardAlert();
 					alert.setCard(mc);
 					alert.setPrice(0.0);
-					MTGControler.getInstance().getEnabled(MTGDao.class).saveAlert(alert);
+					getEnabledPlugin(MTGDao.class).saveAlert(alert);
 				}
 			} catch (SQLException e1) {
 				logger.error(e1);
@@ -1011,13 +1013,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			
 			try {
-				for(MagicCard mc : MTGControler.getInstance().getEnabled(MTGDao.class).listCardsFromCollection(col, edition))
+				for(MagicCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
 				{
 					MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 					st.setMagicCard(mc);
 					st.setMagicCollection(col);
 					
-					MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(st);
+					getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
 				}
 			} catch (SQLException e1) {
 				logger.error(e1);

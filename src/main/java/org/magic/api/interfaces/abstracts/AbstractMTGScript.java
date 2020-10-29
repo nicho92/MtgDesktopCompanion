@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -47,15 +49,15 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	@Override 
 	public void init()
 	{
-		addVariable("dao", MTGControler.getInstance().getEnabled(MTGDao.class));
-		addVariable("provider", MTGControler.getInstance().getEnabled(MTGCardsProvider.class));
-		addVariable("picture", MTGControler.getInstance().getEnabled(MTGPictureProvider.class));
-		addVariable("indexer", MTGControler.getInstance().getEnabled(MTGCardsIndexer.class));
-		addVariable("generator", MTGControler.getInstance().getEnabled(MTGTextGenerator.class));
-		addVariable("pricers", MTGControler.getInstance().getEnabled(MTGPricesProvider.class));
-		addVariable("dashboard",MTGControler.getInstance().getEnabled(MTGDashBoard.class));
+		addVariable("dao", getEnabledPlugin(MTGDao.class));
+		addVariable("provider", getEnabledPlugin(MTGCardsProvider.class));
+		addVariable("picture", getEnabledPlugin(MTGPictureProvider.class));
+		addVariable("indexer", getEnabledPlugin(MTGCardsIndexer.class));
+		addVariable("generator", getEnabledPlugin(MTGTextGenerator.class));
+		addVariable("pricers", getEnabledPlugin(MTGPricesProvider.class));
+		addVariable("dashboard",getEnabledPlugin(MTGDashBoard.class));
 		addVariable("sniffers",MTGControler.getInstance().listEnabled(MTGDeckSniffer.class));
-		addVariable("cache",MTGControler.getInstance().getEnabled(MTGPicturesCache.class));
+		addVariable("cache",getEnabledPlugin(MTGPicturesCache.class));
 		addVariable("shoppers",MTGControler.getInstance().listEnabled(MTGShopper.class));
 		addVariable("importexporters",MTGControler.getInstance().listEnabled(MTGCardsExport.class));
 		addVariable("controler",MTGControler.getInstance());

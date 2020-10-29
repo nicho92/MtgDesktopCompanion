@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -64,7 +66,7 @@ public class CardStockPanel extends MTGUIComponent {
 		}
 		
 		try {
-			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(MTGControler.getInstance().getEnabled(MTGDao.class).listCollections()));
+			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 		} catch (SQLException e1) {
 			logger.error(e1);
 		}
@@ -102,7 +104,7 @@ public class CardStockPanel extends MTGUIComponent {
 				for (MagicCardStock ms : model.getItems())
 					if (ms.isUpdate())
 						try {
-							MTGControler.getInstance().getEnabled(MTGDao.class).saveOrUpdateStock(ms);
+							getEnabledPlugin(MTGDao.class).saveOrUpdateStock(ms);
 							ms.setUpdate(false);
 							
 						} catch (SQLException e1) {
@@ -132,7 +134,7 @@ public class CardStockPanel extends MTGUIComponent {
 		if(!st.isEmpty())
 		{
 		try {
-			MTGControler.getInstance().getEnabled(MTGDao.class).deleteStock(st);
+			getEnabledPlugin(MTGDao.class).deleteStock(st);
 		} catch (SQLException e) {
 			logger.error(e);
 		}
@@ -161,7 +163,7 @@ public class CardStockPanel extends MTGUIComponent {
 		btnDelete.setEnabled(true);
 
 		try {
-			model.init(MTGControler.getInstance().getEnabled(MTGDao.class).listStocks(mc, col,true));
+			model.init(getEnabledPlugin(MTGDao.class).listStocks(mc, col,true));
 			table.packAll();
 		} catch (Exception e) {
 			logger.error(e);

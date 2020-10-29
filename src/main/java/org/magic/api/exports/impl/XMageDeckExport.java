@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -9,7 +11,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public class XMageDeckExport extends AbstractFormattedFileCardExport {
@@ -66,7 +67,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				String cname = cleanName(m.group(5));
 				MagicEdition ed = null;
 				try {			   
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(m.group(3));
+					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(3));
 				}
 				catch(Exception e)
 				{
@@ -86,7 +87,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				if(number!=null && ed !=null)
 				{
 					try {
-						mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getCardByNumber(number, ed);
+						mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 					} catch (Exception e) {
 						logger.error("no card found with number " + number + "/"+ ed);
 					}
@@ -95,7 +96,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				if(mc==null)
 				{
 					try {
-						mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
+						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
 					} catch (Exception e) {
 						logger.error("no card found for" + cname + "/"+ ed);
 					}

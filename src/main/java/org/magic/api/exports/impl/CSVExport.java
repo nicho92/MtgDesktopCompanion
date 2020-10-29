@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				MagicEdition ed = null;
 				
 				try {
-					ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(part.group(2));
+					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(part.group(2));
 				}
 				catch(Exception e)
 				{
@@ -47,7 +49,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				MagicCard mc = null;
 				
 				try {
-					mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( part.group(1), ed, true).get(0);
+					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( part.group(1), ed, true).get(0);
 				}
 				catch(Exception e)
 				{
@@ -194,12 +196,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					String name = cleanName(part[0]);
 					String qte = part[2];
 					String set = part[1];
-					MagicEdition ed = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetByName(set);
+					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 					MagicCard mc = null;
 					
 					try {
 					
-						mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
+						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 					}
 					catch(Exception e)
 					{

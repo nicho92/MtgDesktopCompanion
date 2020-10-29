@@ -1,5 +1,7 @@
 package org.magic.api.decksniffer.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -88,7 +90,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					if (MagicCard.isBasicLand(cardName)) {
 						ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 					}
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class)
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 							.searchCardByName( cardName, ed, true).get(0);
 					if (!sideboard) {
 						deck.getMain().put(mc, qte);

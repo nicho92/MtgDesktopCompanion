@@ -27,6 +27,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
+import static org.magic.tools.MTG.listPlugins;
+
 
 public class SpeedConfigurator extends JFrame {
 	
@@ -211,7 +213,7 @@ public class SpeedConfigurator extends JFrame {
 
 	protected void save() {
 
-		for (MTGCardsProvider prov : MTGControler.getInstance().getPlugins(MTGCardsProvider.class)) {
+		for (MTGCardsProvider prov : listPlugins(MTGCardsProvider.class)) {
 			prov.enable(false);
 
 			if (prov.getName().equals(cboProvider.getSelectedItem().toString()))
@@ -220,7 +222,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 
-		for (MTGDao prov : MTGControler.getInstance().getPlugins(MTGDao.class)) {
+		for (MTGDao prov : listPlugins(MTGDao.class)) {
 			prov.enable(false);
 
 			if (prov.getName().equals(cboDAOs.getSelectedItem().toString()))
@@ -229,7 +231,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 
-		for (MTGPictureProvider prov : MTGControler.getInstance().getPlugins(MTGPictureProvider.class)) {
+		for (MTGPictureProvider prov : listPlugins(MTGPictureProvider.class)) {
 			prov.enable(false);
 
 			if (prov.getName().equals(cboPictures.getSelectedItem().toString()))
@@ -238,7 +240,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 
-		for (MTGPicturesCache prov : MTGControler.getInstance().getPlugins(MTGPicturesCache.class)) {
+		for (MTGPicturesCache prov : listPlugins(MTGPicturesCache.class)) {
 			prov.enable(false);
 
 			if (prov.getName().equals(cboCaches.getSelectedItem().toString()))
@@ -247,7 +249,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 
-		for (MTGDashBoard prov : MTGControler.getInstance().getPlugins(MTGDashBoard.class)) {
+		for (MTGDashBoard prov : listPlugins(MTGDashBoard.class)) {
 			prov.enable(false);
 
 			if (prov.getName().equals(cboDashboard.getSelectedItem().toString()))

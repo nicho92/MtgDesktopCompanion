@@ -21,6 +21,8 @@ import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import static org.magic.tools.MTG.*;
+
 
 public class PicturesProviderTests {
 
@@ -32,13 +34,13 @@ public class PicturesProviderTests {
 	{
 		MTGLogger.changeLevel(Level.ERROR);
 		
-		List<MTGPicturesCache> caches = MTGControler.getInstance().getPlugins(MTGPicturesCache.class);
-		MTGControler.getInstance().getPlugins(MTGPicturesCache.class).removeAll(caches);
+		List<MTGPicturesCache> caches = listPlugins(MTGPicturesCache.class);
+		listPlugins(MTGPicturesCache.class).removeAll(caches);
 		
 		MTGPicturesCache cache = new NoCache();
 		cache.enable(true);
 		
-		MTGControler.getInstance().getPlugins(MTGPicturesCache.class).add(cache);
+		listPlugins(MTGPicturesCache.class).add(cache);
 	}
 
 	

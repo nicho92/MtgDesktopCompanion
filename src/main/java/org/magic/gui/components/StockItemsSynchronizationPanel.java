@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.getPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.util.Map.Entry;
@@ -15,9 +17,7 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
-
 public class StockItemsSynchronizationPanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
@@ -70,7 +70,7 @@ public class StockItemsSynchronizationPanel extends JPanel {
 		this.st=st;
 		model.clear();
 		for(Entry<String, Object> m : st.getTiersAppIds().entrySet())
-			model.addRow(MTGControler.getInstance().getPlugin(m.getKey(),MTGCardsExport.class),m.getValue());
+			model.addRow(getPlugin(m.getKey(),MTGCardsExport.class),m.getValue());
 		
 		model.fireTableDataChanged();
 		

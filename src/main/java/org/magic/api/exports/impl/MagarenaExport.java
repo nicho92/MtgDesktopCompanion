@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -7,7 +9,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
-import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public class MagarenaExport extends AbstractFormattedFileCardExport
@@ -44,7 +45,7 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 		matches(f, true).forEach(m->{
 			
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName(m.group(4),null,true).get(0);
+				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4),null,true).get(0);
 				int qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(mc, qty);
 				

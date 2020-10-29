@@ -1,12 +1,14 @@
 package org.magic.api.main;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class ServerLauncher {
@@ -19,7 +21,7 @@ public class ServerLauncher {
 			System.exit(-1);
 		}
 		
-		MTGServer serv = MTGControler.getInstance().getPlugin(args[0], MTGServer.class);
+		MTGServer serv = getPlugin(args[0], MTGServer.class);
 		if(!serv.isEnable())
 		{
 			MTGLogger.getLogger(ServerLauncher.class).error(args[0] + " is not enabled");
@@ -27,8 +29,8 @@ public class ServerLauncher {
 		}
 	
 		
-		MTGControler.getInstance().getEnabled(MTGCardsProvider.class).init();
-		MTGControler.getInstance().getEnabled(MTGDao.class).init();
+		getEnabledPlugin(MTGCardsProvider.class).init();
+		getEnabledPlugin(MTGDao.class).init();
 		
 		serv.start();
 		

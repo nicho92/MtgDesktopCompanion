@@ -1,5 +1,7 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -142,13 +144,13 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 					int qte = Integer.parseInt(m.group(1));
 					String name = m.group(2).trim();
 					String ed =  reverse( m.group(3).trim());
-					MagicEdition me = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).getSetById(ed);
-					MagicCard mc = MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
+					MagicEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
 					notify(mc);
 					if(!side)
 						deck.getMain().put(mc, qte);
 					else
-						deck.getSideBoard().put(MTGControler.getInstance().getEnabled(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
+						deck.getSideBoard().put(getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
 				
 				}
 				catch(Exception e)

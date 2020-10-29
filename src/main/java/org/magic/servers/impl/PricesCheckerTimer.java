@@ -1,5 +1,8 @@
 package org.magic.servers.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +45,8 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		running = true;
 		tache = new TimerTask() {
 			public void run() {
-				if (MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts() != null)
-					for (MagicCardAlert alert : MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts()) {
+				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
+					for (MagicCardAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
 						for (MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class)) 
 						{
@@ -73,8 +76,8 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 					{
 						try {
 										
-							MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
-							notif.setMessage(notifFormater.generate(notifier.getFormat(), MTGControler.getInstance().getEnabled(MTGDao.class).listAlerts(), MagicCardAlert.class));
+							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
+							notif.setMessage(notifFormater.generate(notifier.getFormat(), getEnabledPlugin(MTGDao.class).listAlerts(), MagicCardAlert.class));
 							notifier.send(notif);
 						} catch (IOException e) {
 							logger.error(e);

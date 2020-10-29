@@ -1,5 +1,8 @@
 package org.magic.servers.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.getPlugin;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +18,6 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.sorters.PricesCardsShakeSorter;
 import org.magic.sorters.PricesCardsShakeSorter.SORT;
 
@@ -42,7 +44,7 @@ public class OversightServer extends AbstractMTGServer {
 			public void run() {
 					List<CardShake> ret=null;
 					try {
-						ret = MTGControler.getInstance().getEnabled(MTGDashBoard.class).getShakerFor(null);
+						ret = getEnabledPlugin(MTGDashBoard.class).getShakerFor(null);
 						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
 						Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER")),false));
 					} catch (IOException e1) {
@@ -55,7 +57,7 @@ public class OversightServer extends AbstractMTGServer {
 									
 					for(String not : getString("NOTIFIER").split(","))
 					{
-						MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
+						MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 						try {
 							notifier.send(notif);
