@@ -355,16 +355,6 @@ public class MTGControler {
 	}
 	
 	
-	public MTGCardsExport getAbstractExporterFromExt(File f) {
-		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
-
-		for (MTGCardsExport ace : listPlugins(MTGCardsExport.class)) {
-			if (ace.getFileExtension().endsWith(ext))
-				return ace;
-		}
-		return null;
-	}
-
 	
 	public void saveWallpaper(Wallpaper p) throws IOException {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
