@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.14.0</version>
+			<version>3.14.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -222,7 +222,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_211</version>
+			<version>4.2.0_214</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -415,7 +415,7 @@
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.5.0</version>
+			<version>1.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>

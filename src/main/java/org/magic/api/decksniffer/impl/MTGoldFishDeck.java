@@ -7,6 +7,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,11 +17,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
+
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
@@ -46,6 +49,16 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, ARENA_STANDARD,"block", COMMANDER, "limited",
 					 "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form","pioneer"};
 	}
+	
+	public static void main(String[] args) throws URISyntaxException, IOException {
+		
+		RetrievableDeck rd = new RetrievableDeck();
+		rd.setUrl(new URI("https://www.mtggoldfish.com//archetype/pioneer-ub-34f289d0-1264-4558-a69d-ca706668054c#paper"));
+		rd.setName("test");
+		
+		new MTGoldFishDeck().getDeck(rd);
+	}
+	
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
@@ -57,43 +70,47 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		deck.setDescription(info.getUrl().toString());
 		Document d = URLTools.extractHtml(info.getUrl().toString());
 	
-		Elements e = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
-
+		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
 		boolean sideboard = false;
-		for (Element tr : e) {
-			if (tr.select("td.deck-header").text().contains("Sideboard"))
+		for (Element tr : trs) 
+		{
+			if (tr.hasClass("deck-category-header") && tr.text().contains("Sideboard"))
+			{
 				sideboard = true;
-
-			if ((tr.select("td.deck-col-qty").text() + " " + tr.select("td.deck-col-card").text()).length() > 1) {
-
-				int qte = Integer.parseInt(tr.select("td.deck-col-qty").text());
-				String cardName = tr.select("td.deck-col-card").text();
-				MagicEdition ed = null;
-				if (MagicCard.isBasicLand(cardName)) {
-					ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-				}
-
-				if (cardName.contains("//"))
-					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-				
-				try 
+			}
+			else
+			{
+				Elements tds = tr.select("td");
+				if(!tds.isEmpty())
 				{
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+					Integer qty = Integer.parseInt(tds.get(0).text().trim());
+					String name = tds.get(1).select("a").first().text();
+					Pattern p = Pattern.compile("\\["+CardsPatterns.REGEX_ANY_STRING+"\\]");
+					Matcher m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
+					String ed  = null;
+					if(m.find())
+						ed = m.group(1);
+						
 					
-					if (!sideboard) {
-						deck.getMain().put(mc, qte);
-					} else {
-						deck.getSideBoard().put(mc, qte);
+					try {
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), false).get(0);
+						
+						if(sideboard)
+							deck.getSideBoard().put(mc, qty);
+						else
+							deck.getMain().put(mc, qty);
+						
+						notify(mc);
 					}
-					notify(mc);
-				
-				}
-				catch(Exception ex)
-				{
-					logger.error("Error for " + cardName);
-				}
+					catch(Exception e)
+					{
+						logger.error("No card found for " + name + " "+ ed);
+					}
 					
-			
+					
+				}
+				
+				
 			}
 
 		}
