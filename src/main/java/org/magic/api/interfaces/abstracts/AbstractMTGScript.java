@@ -1,6 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,10 +56,10 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		addVariable("generator", getEnabledPlugin(MTGTextGenerator.class));
 		addVariable("pricers", getEnabledPlugin(MTGPricesProvider.class));
 		addVariable("dashboard",getEnabledPlugin(MTGDashBoard.class));
-		addVariable("sniffers",MTGControler.getInstance().listEnabled(MTGDeckSniffer.class));
+		addVariable("sniffers",listEnabledPlugins(MTGDeckSniffer.class));
 		addVariable("cache",getEnabledPlugin(MTGPicturesCache.class));
-		addVariable("shoppers",MTGControler.getInstance().listEnabled(MTGShopper.class));
-		addVariable("importexporters",MTGControler.getInstance().listEnabled(MTGCardsExport.class));
+		addVariable("shoppers",listEnabledPlugins(MTGShopper.class));
+		addVariable("importexporters",listEnabledPlugins(MTGCardsExport.class));
 		addVariable("controler",MTGControler.getInstance());
 		
 	}

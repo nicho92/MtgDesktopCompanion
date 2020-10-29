@@ -1,5 +1,7 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -25,6 +27,7 @@ import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
+
 
 public class WebSiteGeneratorDialog extends JDialog {
 	/**
@@ -100,8 +103,8 @@ public class WebSiteGeneratorDialog extends JDialog {
 		
 		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
 		list.setCellRenderer(new MagicCollectionIconListRenderer());
-		lstProviders = new JList<>(MTGControler.getInstance().listEnabled(MTGPricesProvider.class)
-				.toArray(new MTGPricesProvider[MTGControler.getInstance().listEnabled(MTGPricesProvider.class).size()]));
+		lstProviders = new JList<>(listEnabledPlugins(MTGPricesProvider.class)
+				.toArray(new MTGPricesProvider[listEnabledPlugins(MTGPricesProvider.class).size()]));
 		lstProviders.setCellRenderer(new PluginIconListRenderer());
 		panneaucentral.add(new JScrollPane(list), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1));
 		

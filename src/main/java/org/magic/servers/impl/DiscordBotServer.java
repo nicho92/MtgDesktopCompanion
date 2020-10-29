@@ -1,6 +1,6 @@
 package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -204,7 +204,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			eb.setImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
 		
 		if(getBoolean(SHOWPRICE))
-			MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(prov->{
+			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
 					try {
 						List<MagicPrice> prices = prov.getPrice(null, mc);
 						Collections.sort(prices, new MagicPricesComparator());

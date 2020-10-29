@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.awt.Point;
 import java.io.File;
 import java.util.List;
@@ -20,7 +22,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.services.workers.StockExportWorker;
-
 
 public class JExportButton extends JButton {
 	private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class JExportButton extends JButton {
 		addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
 					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {
@@ -95,7 +96,7 @@ public class JExportButton extends JButton {
 		addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
 					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {

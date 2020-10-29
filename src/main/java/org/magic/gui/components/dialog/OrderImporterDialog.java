@@ -23,6 +23,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
+import static org.magic.tools.MTG.*;
+
 public class OrderImporterDialog extends JDialog {
 
 	/**
@@ -72,7 +74,7 @@ public class OrderImporterDialog extends JDialog {
 		panelButton.add(btnClose);
 		panelButton.add(btnImport);
 		
-		selectedSniffer = MTGControler.getInstance().listEnabled(MTGShopper.class).get(0);
+		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
 		
 		
 				

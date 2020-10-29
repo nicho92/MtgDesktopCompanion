@@ -1,6 +1,6 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.*;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
@@ -240,7 +240,7 @@ public class AlarmGUI extends MTGUIComponent {
 							for (MagicCardAlert alert : alerts)
 							{	
 								List<MagicPrice> prices=new ArrayList<>();
-								MTGControler.getInstance().listEnabled(MTGPricesProvider.class).forEach(p->{
+								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
 									try {
 										prices.addAll(p.getPrice(alert.getCard().getCurrentSet(), alert.getCard()));
 									} catch (IOException e1) {
@@ -336,7 +336,7 @@ public class AlarmGUI extends MTGUIComponent {
 			});
 			menu.add(mnuImportSearch);
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					JMenuItem it = new JMenuItem();

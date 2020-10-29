@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -129,13 +131,13 @@ public class PricesTablePanel extends JPanel {
 			model.clear();
 			
 			
-			List<MTGPricesProvider> providers = MTGControler.getInstance().listEnabled(MTGPricesProvider.class);
+			List<MTGPricesProvider> providers = listEnabledPlugins(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
 			
-			CountDownLatch cdl = new CountDownLatch(MTGControler.getInstance().listEnabled(MTGPricesProvider.class).size());
+			CountDownLatch cdl = new CountDownLatch(listEnabledPlugins(MTGPricesProvider.class).size());
 	
 			
-			for(MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
+			for(MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
 			{
 				SwingWorker<List<MagicPrice>, MagicPrice> sw = new SwingWorker<>()
 				{

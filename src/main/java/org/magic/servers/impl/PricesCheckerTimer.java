@@ -2,6 +2,7 @@ package org.magic.servers.impl;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
 					for (MagicCardAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
-						for (MTGPricesProvider prov : MTGControler.getInstance().listEnabled(MTGPricesProvider.class)) 
+						for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class)) 
 						{
 							List<MagicPrice> okz = new ArrayList<>();
 							try {

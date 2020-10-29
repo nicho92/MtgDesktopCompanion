@@ -1,6 +1,7 @@
 package org.magic.tools;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 import static org.magic.tools.MTG.listPlugins;
 
 import java.awt.BorderLayout;
@@ -175,7 +176,7 @@ public class UITools {
 		if(all)
 			listPlugins(classe).stream().forEach(model::addElement);
 		else
-			MTGControler.getInstance().listEnabled(classe).stream().forEach(model::addElement);
+			listEnabledPlugins(classe).stream().forEach(model::addElement);
 		combo.setRenderer(new PluginIconListRenderer());
 		return combo;
 	}

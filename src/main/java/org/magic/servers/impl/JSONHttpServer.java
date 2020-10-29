@@ -292,7 +292,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName( request.params(NAME), ed, false).get(0);
 			List<MagicPrice> pricesret = new ArrayList<>();
-			for (MTGPricesProvider prices : MTGControler.getInstance().listEnabled(MTGPricesProvider.class))
+			for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
 			{
 				try {
 					pricesret.addAll(prices.getPrice(ed,mc));

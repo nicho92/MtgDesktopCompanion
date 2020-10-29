@@ -1,6 +1,6 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.*;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -261,7 +261,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			});
 			menu.add(mnuImportSearch);
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) {
+			for (final MTGCardsExport exp :listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					JMenuItem it = new JMenuItem();

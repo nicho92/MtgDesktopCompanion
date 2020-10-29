@@ -396,11 +396,6 @@ public class MTGControler {
 		}
 	}
 	
-	public <T extends MTGPlugin> List<T> listEnabled(Class<T> t)
-	{
-		return PluginRegistry.inst().listEnabledPlugins(t);
-	}
-
 	public void cleaning() {
 		 if(PluginRegistry.inst().needUpdate())
 		 {	

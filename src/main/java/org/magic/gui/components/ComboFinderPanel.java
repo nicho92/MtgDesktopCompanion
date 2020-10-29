@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.SystemColor;
@@ -25,7 +27,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-
 public class ComboFinderPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -134,7 +135,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 			{
 				model.removeAllElements();
 				List<MTGCombo> ret = new ArrayList<>();
-				for(MTGComboProvider plug : MTGControler.getInstance().listEnabled(MTGComboProvider.class))
+				for(MTGComboProvider plug : listEnabledPlugins(MTGComboProvider.class))
 				{
 					try {
 						plug.getComboWith(mc).forEach(cbo->{

@@ -1,5 +1,7 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
@@ -63,7 +65,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		selectedSniffer = MTGControler.getInstance().listEnabled(MTGDeckSniffer.class).get(0);
+		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		

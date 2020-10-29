@@ -1,5 +1,7 @@
 package org.magic.services;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -269,7 +271,7 @@ public class MTGDeckManager extends Observable {
 		try {
 			Random random= SecureRandom.getInstanceStrong();
 			
-			List<MTGDeckSniffer> deckServices = MTGControler.getInstance().listEnabled(MTGDeckSniffer.class);
+			List<MTGDeckSniffer> deckServices = listEnabledPlugins(MTGDeckSniffer.class);
 			MTGDeckSniffer sniffer = deckServices.get(random.nextInt(deckServices.size()));
 			String[] formats = sniffer.listFilter();
 			sniffer.setProperty("FORMAT", formats[random.nextInt(formats.length)]);

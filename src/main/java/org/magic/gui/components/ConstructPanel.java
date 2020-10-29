@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -504,7 +505,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
-			for (final MTGCardsExport exp : MTGControler.getInstance().listEnabled(MTGCardsExport.class)) 
+			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) 
 			{
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 					
