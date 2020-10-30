@@ -3,6 +3,7 @@ package org.magic.services;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Paint;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.Calendar;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;
+import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
 
@@ -263,7 +265,11 @@ public class MTGConstants {
 	public static final int SEALED_SIZE = 40;
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
+	
+	
 	public static final int CONNECTION_TIMEOUT =0;
+	public static final int ROTATED_TIMEOUT = 15;
+	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
 	
 	
 	

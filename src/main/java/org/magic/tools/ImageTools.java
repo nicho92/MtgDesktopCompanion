@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -195,9 +197,18 @@ public class ImageTools {
 		return resize(img, h, width);
 	}
 	
-	public static void resize(BufferedImage img, Dimension pictureProviderDimension) {
-		resize(img,(int)pictureProviderDimension.getHeight(),(int)pictureProviderDimension.getWidth());
+	public static void resize(BufferedImage img, Dimension d) {
+		resize(img,(int)d.getHeight(),(int)d.getWidth());
 		
+	}
+	
+	
+	public static BufferedImage mirroring(BufferedImage image) {
+		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+		tx.translate(-image.getWidth(null), 0);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		image = op.filter(image, null);
+		return image;
 	}
 	
 	

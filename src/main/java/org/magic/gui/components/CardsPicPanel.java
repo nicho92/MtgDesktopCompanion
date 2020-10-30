@@ -28,8 +28,10 @@ import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.ImageTools;
 
 public class CardsPicPanel extends JXPanel {
 
@@ -54,14 +56,6 @@ public class CardsPicPanel extends JXPanel {
 	public CardsPicPanel() {
 		setLayout(new BorderLayout(0, 0));
 		initGUI();
-	}
-
-	private BufferedImage mirroring(BufferedImage image) {
-		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-		tx.translate(-image.getWidth(null), 0);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		image = op.filter(image, null);
-		return image;
 	}
 
 	public void showPhoto(MagicCard mc) {
@@ -91,13 +85,11 @@ public class CardsPicPanel extends JXPanel {
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (edition == null)
-					imgFront = renderer.appendReflection(
-							getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null));
+					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null));
 				else
-					imgFront = renderer.appendReflection(
-							getEnabledPlugin(MTGPictureProvider.class).getPicture(card, edition));
+					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, edition));
 
-				back = mirroring(back);
+				back = ImageTools.mirroring(back);
 				back = renderer.appendReflection(back);
 
 				printed = imgFront;
@@ -157,14 +149,14 @@ public class CardsPicPanel extends JXPanel {
 
 	private void initGUI() {
 		renderer = new ReflectionRenderer();
-		setBackgroundPainter(new MattePainter(PaintUtils.NIGHT_GRAY, true));
+		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 
 		GestionnaireEvenements interactionManager = new GestionnaireEvenements(this);
 		this.addMouseListener(interactionManager);
 		this.addMouseMotionListener(interactionManager);
 		this.addMouseWheelListener(interactionManager);
 
-		timer = new Timer(30, e -> {
+		timer = new Timer(MTGConstants.ROTATED_TIMEOUT, e -> {
 			repaint();
 
 			xScale += xDelta;
