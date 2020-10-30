@@ -195,7 +195,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	@Override
 	public String getVersion() {
-		return "3.0";
+		return "4.0";
 	}
 
 }
