@@ -50,15 +50,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					 "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form","pioneer"};
 	}
 	
-	public static void main(String[] args) throws URISyntaxException, IOException {
-		
-		RetrievableDeck rd = new RetrievableDeck();
-		rd.setUrl(new URI("https://www.mtggoldfish.com//archetype/pioneer-ub-34f289d0-1264-4558-a69d-ca706668054c#paper"));
-		rd.setName("test");
-		
-		new MTGoldFishDeck().getDeck(rd);
-	}
-	
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
@@ -87,13 +78,13 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					String name = tds.get(1).select("a").first().text();
 					Pattern p = Pattern.compile("\\["+CardsPatterns.REGEX_ANY_STRING+"\\]");
 					Matcher m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
-					String ed  = null;
-					if(m.find())
-						ed = m.group(1);
-						
+					MagicEdition ed  = null;
 					
+					if(m.find())
+						ed = new MagicEdition(m.group(1));
+						
 					try {
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), false).get(0);
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false).get(0);
 						
 						if(sideboard)
 							deck.getSideBoard().put(mc, qty);
@@ -106,17 +97,12 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					{
 						logger.error("No card found for " + name + " "+ ed);
 					}
-					
-					
 				}
-				
-				
 			}
-
 		}
 		return deck;
 	}
-
+	
 	
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url = "";
@@ -132,8 +118,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		for (int i = 1; i <= maxPage; i++) {
 
 			if (!metagames)
-				url = getString("URL") + "/deck/custom/" + getString(FORMAT) + "?page=" + nbPage + "#"
-						+ getString(SUPPORT);
+				url = getString("URL") + "/deck/custom/" + getString(FORMAT) + "?page=" + nbPage + "#"+ getString(SUPPORT);
 			else
 				url = getString("URL") + "metagame/" + getString(FORMAT) + "/full#" + getString(SUPPORT);
 
@@ -142,54 +127,48 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			Document d = URLTools.extractHtml(url);
 			logger.trace(d);
 			
-			Elements e = null;
-
-			if (!metagames)
-				e = d.select("div.deck-tile");
-			else
-				e = d.select("div.archetype-tile");
+			Elements e = d.select("div.archetype-tile");
 
 			for (Element cont : e) {
-
-				Elements desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
-				Elements colors = cont.select("span.manacost > img");
-				StringBuilder deckColor = new StringBuilder();
-
-				for (Element c : colors)
-				{
-					switch (c.attr("alt")) 
-					{
-					case "white":deckColor.append("{W}");break;
-					case "blue":deckColor.append("{U}");break;
-					case "black":deckColor.append("{B}");break;
-					case "red":deckColor.append("{R}");break;
-					case "green":deckColor.append("{G}");break;
-					default:break;
-					} 
-
-					
-				}
-
+				
 				RetrievableDeck deck = new RetrievableDeck();
-				deck.setName(desc.get(0).text());
-				try {
+				try 
+				{
+					Elements desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
+					String colors = cont.select("span.manacost").attr("aria-label");
+					StringBuilder deckColor = new StringBuilder();
+						
+					if (colors.contains("white"))
+						deckColor.append("{W}");
+	
+					if (colors.contains("blue"))
+						deckColor.append("{U}");
+	
+					if (colors.contains("black"))
+						deckColor.append("{B}");
+	
+					if (colors.contains("red"))
+						deckColor.append("{R}");
+	
+					if (colors.contains("green"))
+						deckColor.append("{G}");
+	
+				
+					deck.setName(desc.get(0).text());
 					deck.setUrl(new URI(getString("URL") + desc.get(0).attr("href")));
+					
+					if (metagames)
+						deck.setAuthor("MtgGoldFish");
+					else
+						deck.setAuthor(cont.select("div.deck-tile-author").text());
+	
+					deck.setColor(deckColor.toString());
+	
+					list.add(deck);
+				
 				} catch (URISyntaxException e1) {
-					deck.setUrl(null);
+					logger.error("Error setting url for " + deck.getName());
 				}
-
-				if (metagames)
-					deck.setAuthor("MtgGoldFish");
-				else
-					deck.setAuthor(cont.select("div.deck-tile-author").text());
-
-				deck.setColor(deckColor.toString());
-
-				for (Element mc : cont.getElementsByTag("li")) {
-					deck.getKeycards().add(mc.text());
-				}
-
-				list.add(deck);
 
 			}
 			nbPage++;
