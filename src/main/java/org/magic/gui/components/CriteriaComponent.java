@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -138,17 +140,12 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getName().equalsIgnoreCase("name")) {
 			JTextField f= UITools.createSearchField();
-			
-			
-			
-			
 			f.setColumns(50);
-			
 			f.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
 					
-					val=f.getText();
+					val=f.getText().trim();
 					
 					if(e.getKeyCode()==KeyEvent.VK_ENTER && button!=null)
 					{

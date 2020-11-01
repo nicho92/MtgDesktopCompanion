@@ -120,9 +120,9 @@ public class CardsPicPanel extends JXPanel {
 			AffineTransform at = new AffineTransform();
 			at.translate(pX, pY);
 			at.scale(xScale, 1);
-
 			g2.setTransform(at);
 
+			
 			if (card.isFlippable())
 				g2.rotate(Math.toRadians(rotate));
 

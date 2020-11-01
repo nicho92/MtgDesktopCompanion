@@ -1,12 +1,14 @@
 package org.magic.tools;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -65,38 +67,6 @@ public class ImageTools {
 				return false;
 			}
 	}
-	
-	public static BufferedImage pivot(BufferedImage front, BufferedImage back, int width, int height, float xScale) {
-		
-		BufferedImage printed= front;
-		
-		if (xScale < 0)
-			printed = ImageTools.resize(back,printed.getHeight(),printed.getWidth());
-		
-	    Graphics2D g2 = printed.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		
-		
-		AffineTransform at = new AffineTransform();
-		
-		int pX = (int) ((width - (printed.getWidth() * xScale)) / 2);
-		int pY = (height - printed.getHeight()) / 2;
-
-		
-		
-		at.translate(pX, 0);
-		at.scale(xScale, 1);
-		g2.setTransform(at);
-		
-		g2.drawRenderedImage(printed, null);
-	
-		g2.dispose();
-		logger.debug("xScale ="+xScale  +" pX="+pX + " pY="+pY +" picture W/H" + printed.getWidth() + "/"+printed.getHeight() +"  canvas W/H="+ width+"/"+height);
-		return printed;
-	}
-	
-	
 	
 	public static BufferedImage rotate(BufferedImage img, double angle) {
         double angleRadians = Math.toRadians(angle);
