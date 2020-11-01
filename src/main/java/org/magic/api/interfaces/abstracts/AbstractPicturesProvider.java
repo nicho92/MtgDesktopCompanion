@@ -102,7 +102,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	@Override
 	public BufferedImage getBackPicture() {
 		try {
-			return ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD);
+			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);
 		} catch (IOException e) {
 			logger.error(e);
 			return null;

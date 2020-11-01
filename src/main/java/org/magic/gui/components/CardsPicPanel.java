@@ -59,6 +59,14 @@ public class CardsPicPanel extends JXPanel {
 	public void showPhoto(MagicCard mc) {
 		showPhoto(mc, null);
 	}
+	
+   public void setImg(BufferedImage img)
+    {
+	   		back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+	   		imgFront=img;
+    		selectedShape = new Rectangle2D.Double(15, 15, printed.getWidth(null), printed.getHeight(null));
+    }
+	
 
 	public void showPhoto(MagicCard mc, MagicEdition edition) {
 
@@ -71,7 +79,9 @@ public class CardsPicPanel extends JXPanel {
 		if (!mc.isDoubleFaced()) 
 		{
 			back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
-		} else {
+		} 
+		else 
+		{
 			try {
 				MagicCard flipC =card.getRotatedCard();
 				back = getEnabledPlugin(MTGPictureProvider.class).getPicture(flipC, null);
@@ -91,11 +101,8 @@ public class CardsPicPanel extends JXPanel {
 				back = renderer.appendReflection(back);
 
 				printed = imgFront;
-
-				int x = 15;
-				int y = 15;
-
-				selectedShape = new Rectangle2D.Double(x, y, printed.getWidth(null), printed.getHeight(null));
+				
+				selectedShape = new Rectangle2D.Double(15, 15, printed.getWidth(null), printed.getHeight(null));
 
 			} catch (Exception e) {
 				imgFront = back;
