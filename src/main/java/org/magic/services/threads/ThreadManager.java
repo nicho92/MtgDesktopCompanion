@@ -107,6 +107,7 @@ public class ThreadManager {
 			case FIXED: executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(tpc.getCorePool(),factory);break;
 			case SCHEDULE:executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(tpc.getCorePool(),factory);break;
 			case SINGLE : executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor(factory);break;
+			default :  Executors.newCachedThreadPool(factory);break;
 		}
 		logger.debug("init ThreadManager config="+tpc);
 	}
