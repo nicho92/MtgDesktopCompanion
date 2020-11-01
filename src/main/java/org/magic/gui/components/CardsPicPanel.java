@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
@@ -24,7 +23,6 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;

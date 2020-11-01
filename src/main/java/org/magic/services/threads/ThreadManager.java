@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 
@@ -23,6 +24,8 @@ public class ThreadManager {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
 	private String name="";
+	
+	
 	
 	public static ThreadManager getInstance() {
 		if (inst == null)
@@ -90,12 +93,22 @@ public class ThreadManager {
 	}
 
 	private ThreadManager() {
+		
+		ThreadPoolConfig tpc = MTGControler.getInstance().getThreadPoolConfig();
+		
 		factory = new ThreadFactoryBuilder()
-						.setNameFormat("mtg-threadpool-%d")
-						.setDaemon(true)
+						.setNameFormat(tpc.getNameFormat())
+						.setDaemon(tpc.isDaemon())
 						.build();
 		
-		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);
+		switch (tpc.getThreadPool())
+		{
+			case CACHED:executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
+			case FIXED: executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(tpc.getCorePool(),factory);break;
+			case SCHEDULE:executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(tpc.getCorePool(),factory);break;
+			case SINGLE : executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor(factory);break;
+		}
+		logger.debug("init ThreadManager config="+tpc);
 	}
 	
 	

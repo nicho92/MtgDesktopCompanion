@@ -106,7 +106,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url = "";
-		metagames = getString("METAGAME").equals("true");
+		metagames = getBoolean("METAGAME");
 
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage = 1;

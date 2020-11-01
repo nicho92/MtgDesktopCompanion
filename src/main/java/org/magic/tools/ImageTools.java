@@ -1,5 +1,6 @@
 package org.magic.tools;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -65,7 +66,60 @@ public class ImageTools {
 			}
 	}
 	
+	public static BufferedImage pivot(BufferedImage front, BufferedImage back, int width, int height, float xScale) {
+		
+		BufferedImage printed= front;
+		
+		if (xScale < 0)
+			printed = ImageTools.resize(back,printed.getHeight(),printed.getWidth());
+		
+	    Graphics2D g2 = printed.createGraphics();
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		
+		
+		AffineTransform at = new AffineTransform();
+		
+		int pX = (int) ((width - (printed.getWidth() * xScale)) / 2);
+		int pY = (height - printed.getHeight()) / 2;
 
+		
+		
+		at.translate(pX, 0);
+		at.scale(xScale, 1);
+		g2.setTransform(at);
+		
+		g2.drawRenderedImage(printed, null);
+	
+		g2.dispose();
+		logger.debug("xScale ="+xScale  +" pX="+pX + " pY="+pY +" picture W/H" + printed.getWidth() + "/"+printed.getHeight() +"  canvas W/H="+ width+"/"+height);
+		return printed;
+	}
+	
+	
+	
+	public static BufferedImage rotate(BufferedImage img, double angle) {
+        double angleRadians = Math.toRadians(angle);
+        int width = img.getWidth();
+        int height = img.getHeight();
+        double x = width/2;
+        double y = height/2;
+
+        double cos = Math.abs(Math.cos(angleRadians));
+        double sin = Math.abs(Math.sin(angleRadians));
+
+        int w = (int) (width * cos + height * sin + 0.5);
+        int h = (int) (width * sin + height * cos + 0.5);
+        BufferedImage result = new BufferedImage(w, h, img.getType());
+
+        Graphics2D g = result.createGraphics();
+        g.translate((w - img.getWidth()) / 2, (h - img.getHeight()) / 2);
+        g.rotate(angleRadians, x, y);
+        g.drawRenderedImage(img, null);
+        g.dispose();
+
+        return result;
+    }
 	
 	public static BufferedImage getScaledImage(BufferedImage src){
 		

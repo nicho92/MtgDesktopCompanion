@@ -48,6 +48,14 @@
 		<width>235</width>
 		<height>326</height>
 	</card-pictures-dimension>
+	<threadsExecutor>
+		<threadPool>FIXED</threadPool>
+		<value>AUTO</value>
+		<daemon>true</daemon>
+		<nameFormat>mtg-threadpool-%d</nameFormat>
+	</threadsExecutor>
+	
+	
 	<collections>
 		<stockAutoAdd>true</stockAutoAdd>
 		<stockAutoDelete>false</stockAutoDelete>

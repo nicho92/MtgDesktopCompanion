@@ -2,7 +2,6 @@ package org.magic.services;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
-import static org.magic.tools.MTG.listPlugins;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.configuration2.XMLConfiguration;
@@ -19,7 +17,6 @@ import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -29,7 +26,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
@@ -38,6 +34,8 @@ import org.magic.game.model.Player;
 import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.threads.ThreadPoolConfig;
+import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
 
@@ -204,6 +202,22 @@ public class MTGControler {
 			   
 		return st;
 	}
+	
+	public ThreadPoolConfig getThreadPoolConfig() {
+		ThreadPoolConfig tpc = new ThreadPoolConfig();
+
+		tpc.setThreadPool(THREADPOOL.valueOf(get("threadsExecutor/threadPool","FIXED")));
+		tpc.setDaemon(Boolean.parseBoolean(get("threadsExecutor/daemon","true")));
+		tpc.setNameFormat(get("threadsExecutor/nameFormat","mtg-threadpool-%d"));
+		
+		if(get("threadsExecutor/value","AUTO").equals("AUTO"))
+			tpc.setCorePool(Runtime.getRuntime().availableProcessors());
+		else
+			tpc.setCorePool(Integer.parseInt(get("threadsExecutor/value","-1")));
+		
+		return tpc;
+	}
+	
 	
 
 	public CurrencyConverter getCurrencyService() {

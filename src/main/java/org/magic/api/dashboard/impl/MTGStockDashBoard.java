@@ -201,7 +201,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			CardSet set = cardService.getSetByCode(ed.getId());
 			Print fpSet = fp.getPrintForSetId(set.getId());
 			
-			logger.debug("found " + fpSet +" " + fpSet.getSetName());
+			if(fpSet==null)
+				return hp;
+			
 			id = fpSet.getId();
 		}
 		
