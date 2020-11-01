@@ -25,6 +25,7 @@ import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -63,8 +64,12 @@ public class CardsPicPanel extends JXPanel {
    public void setImg(BufferedImage img)
     {
 	   		back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+	   		printed=img;
 	   		imgFront=img;
-    		selectedShape = new Rectangle2D.Double(15, 15, printed.getWidth(null), printed.getHeight(null));
+    		selectedShape = new Rectangle2D.Double(15, 15, img.getWidth(null), img.getHeight(null));
+    		card=new MagicCard();
+    		card.setLayout(MTGLayout.NORMAL);
+    		
     }
 	
 
@@ -194,7 +199,7 @@ public class CardsPicPanel extends JXPanel {
 			if(selectedShape==null)
 				return;
 			
-			if (selectedShape.contains(e.getPoint())) {
+		//	if (selectedShape.contains(e.getPoint())) {
 				if (e.getWheelRotation() == -1)// zoom
 				{
 					selectedShape = new Rectangle2D.Double((int) selectedShape.getBounds().getX(),
@@ -208,7 +213,7 @@ public class CardsPicPanel extends JXPanel {
 							(int) selectedShape.getBounds().getHeight() / quotien);
 				}
 				mainPanel.repaint();
-			}
+		//	}
 		}
 
 		@Override

@@ -37,7 +37,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	private JPanel panneauCenter;
 	private Class<T> classe;
 	private transient T instance;
-	private ZoomableJPanel viewPanel;
+	private CardsPicPanel viewPanel;
 	
 	
 	
@@ -72,7 +72,7 @@ public class GedPanel<T> extends MTGUIComponent {
 
 		JPanel panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		viewPanel = new ZoomableJPanel();
+		viewPanel = new CardsPicPanel();
 		
 		
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -144,7 +144,7 @@ public class GedPanel<T> extends MTGUIComponent {
 				if(e.getEntry().isImage()) {
 					viewPanel.setImg(e.getPicture());
 					viewPanel.setPreferredSize(new Dimension(e.getPicture().getWidth(),e.getPicture().getHeight()));
-					MTGUIComponent.createJDialog(viewPanel, true, true).setVisible(true);
+					MTGUIComponent.createJDialog(MTGUIComponent.build(viewPanel, "view", MTGConstants.ICON_TAB_PICTURE), true, true).setVisible(true);
 				}
 				else
 				{
