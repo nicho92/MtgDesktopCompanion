@@ -405,7 +405,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					return;
 				
 				MagicCard mc = UITools.getTableSelection(similarityPanel.getTableSimilarity(), 0);
-				cardsPicPanel.showPhoto(mc);
+				cardsPicPanel.showCard(mc);
 			}
 		});
 		
@@ -591,7 +591,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							protected void done() {
 								try {
 									selectedCard = get();
-									cardsPicPanel.showPhoto(selectedCard); // backcard
+									cardsPicPanel.showCard(selectedCard); // backcard
 									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 									priceTablePanel.init(selectedCard,selectedEdition);
 								} catch (Exception e) {
@@ -613,7 +613,7 @@ public class CardSearchPanel extends MTGUIComponent {
 								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
 
 					logger.trace("change lang to " + selLang + " for " + ed);
-					cardsPicPanel.showPhoto(selectedCard, ed);
+					cardsPicPanel.showCard(selectedCard, ed);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -647,7 +647,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				DisplayableCard lab = (DisplayableCard) thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 				selectedCard = lab.getMagicCard();
 				selectedEdition = lab.getMagicCard().getCurrentSet();
-				cardsPicPanel.showPhoto(selectedCard);
+				cardsPicPanel.showCard(selectedCard);
 				updateCards();
 			}
 
@@ -700,7 +700,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 			detailCardPanel.setMagicCard(selectedCard, true);
 			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
-			cardsPicPanel.showPhoto(selectedCard, selectedEdition);
+			cardsPicPanel.showCard(selectedCard, selectedEdition);
 			
 			for (MagicRuling mr : selectedCard.getRulings()) {
 				txtRulesArea.append(mr.toString());

@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -52,28 +53,33 @@ public class CardsPicPanel extends JXPanel {
 	private boolean moveable = true;
 	private MagicCard card;
 
+	private boolean debug=true;
+	
+	
 	public CardsPicPanel() {
 		setLayout(new BorderLayout(0, 0));
 		initGUI();
 	}
 
-	public void showPhoto(MagicCard mc) {
-		showPhoto(mc, null);
+	public void showCard(MagicCard mc) {
+		showCard(mc, null);
 	}
 	
-   public void setImg(BufferedImage img)
+	public void setImg(BufferedImage img)
     {
+			if(img==null)
+				return;
+		
 	   		back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 	   		printed=img;
 	   		imgFront=img;
     		selectedShape = new Rectangle2D.Double(15, 15, img.getWidth(null), img.getHeight(null));
     		card=new MagicCard();
     		card.setLayout(MTGLayout.NORMAL);
-    		
     }
 	
 
-	public void showPhoto(MagicCard mc, MagicEdition edition) {
+	public void showCard(MagicCard mc, MagicEdition edition) {
 
 		this.card = mc;
 
@@ -129,11 +135,22 @@ public class CardsPicPanel extends JXPanel {
 			pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
 			pY = (getHeight() - printed.getHeight()) / 2;
 
+			
+			if(debug)
+			{
+				g2.setColor(Color.red);
+				g2.fillOval(pX, pY, 10, 10);
+				
+				g2.draw(selectedShape);
+				
+			}
+			
 			AffineTransform at = new AffineTransform();
 			at.translate(pX, pY);
 			at.scale(xScale, 1);
 			g2.setTransform(at);
 
+			
 			
 			if (card.isFlippable())
 				g2.rotate(Math.toRadians(rotate));
@@ -147,8 +164,7 @@ public class CardsPicPanel extends JXPanel {
 			g2.draw(selectedShape);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
-			g2.drawImage(printed, (int) selectedShape.getBounds().getX(), (int) selectedShape.getBounds().getY(),
-					(int) selectedShape.getBounds().getWidth(), (int) selectedShape.getBounds().getHeight(), null);
+			g2.drawImage(printed, (int) selectedShape.getBounds().getX(), (int) selectedShape.getBounds().getY(),(int) selectedShape.getBounds().getWidth(), (int) selectedShape.getBounds().getHeight(), null);
 
 			g2.dispose();
 		}
@@ -218,7 +234,7 @@ public class CardsPicPanel extends JXPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(card==null)
+			if(selectedShape==null)
 				return;
 			
 			if (!launched) {
@@ -229,7 +245,7 @@ public class CardsPicPanel extends JXPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if(card==null)
+			if(selectedShape==null)
 				return;
 			
 			if (selectedShape.contains(e.getPoint())) {
@@ -240,10 +256,11 @@ public class CardsPicPanel extends JXPanel {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			if(card==null)
+			if(selectedShape==null)
 				return;
 			
-			if (moveable && (selectedShape != null)) {
+			if (moveable) 
+			{
 				int deltaX = e.getX() - pointInitial.x;
 				int deltaY = e.getY() - pointInitial.y;
 				pointInitial = e.getPoint();
