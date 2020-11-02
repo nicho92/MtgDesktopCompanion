@@ -99,7 +99,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private SimilarityCardPanel similarityPanel;
 	private CmcChartPanel cmcChart;
-	private CardsPicPanel cardsPicPanel;
+	private ImagePanel cardsPicPanel;
 	private HistoryPricesPanel historyChartPanel;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
@@ -224,7 +224,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		typeRepartitionPanel = new TypeRepartitionPanel();
 		stockPanel = new CardStockPanel();
 		historyChartPanel = new HistoryPricesPanel(true);
-		cardsPicPanel = new CardsPicPanel();
+		cardsPicPanel = new ImagePanel();
 		priceTablePanel = new PricesTablePanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		detailCardPanel = new MagicCardDetailPanel();
@@ -724,6 +724,11 @@ public class CardSearchPanel extends MTGUIComponent {
 	}
 
 	public void open(List<MagicCard> cards) {
+		
+		if(cards==null)
+			return;
+		
+		
 		logger.debug("results " + cards.size() + " cards");
 
 		if (!cards.isEmpty()) {

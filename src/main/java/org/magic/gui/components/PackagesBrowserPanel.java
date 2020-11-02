@@ -23,7 +23,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private static final long serialVersionUID = 1L;
 	private transient PackagesProvider provider;
 	private DefaultTreeModel model;
-	private CardsPicPanel panelDraw;
+	private ImagePanel panelDraw;
 	private JTree tree;
 	private boolean view;
 
@@ -40,7 +40,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		return tree;
 	}
 	
-	public CardsPicPanel getThumbnailPanel()
+	public ImagePanel getThumbnailPanel()
 	{
 		return panelDraw;
 	}
@@ -75,7 +75,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		setLayout(new BorderLayout(0, 0));
 
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
-		panelDraw = new CardsPicPanel() ;
+		panelDraw = new ImagePanel(true, false, true);
 		if(view) {
 			add(panelDraw, BorderLayout.CENTER);
 		}

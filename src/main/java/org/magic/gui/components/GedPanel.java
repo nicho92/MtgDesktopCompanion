@@ -37,7 +37,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	private JPanel panneauCenter;
 	private Class<T> classe;
 	private transient T instance;
-	private CardsPicPanel viewPanel;
+	private ImagePanel viewPanel;
 	
 	
 	
@@ -72,8 +72,7 @@ public class GedPanel<T> extends MTGUIComponent {
 
 		JPanel panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		viewPanel = new CardsPicPanel();
-		
+		viewPanel = new ImagePanel(true, false, true);
 		
 		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);

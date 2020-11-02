@@ -2,20 +2,17 @@ package org.magic.gui.components;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
@@ -33,32 +30,53 @@ import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 
-public class CardsPicPanel extends JXPanel {
+public class ImagePanel extends JXPanel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final long serialVersionUID = 1L;
+	
+	
+	
 	private transient BufferedImage imgFront = null;
 	private transient BufferedImage back;
-	private transient Shape selectedShape = null;
 	private transient ReflectionRenderer renderer;
-	private Point pointInitial = null;
 	private transient BufferedImage printed;
-	private float xScale = 1f;
-	private float xDelta = 0.05f;
+	
+	
 	boolean launched = false;
 	private Timer timer;
-	int pX;
-	int pY;
-	double rotate;
-	private boolean moveable = true;
-	private MagicCard card;
+	
+	private double zoomFactor = 1;
+	private double xDiff=0;
+	private double yDiff=0;
+	private int loop = 0;
+	private float xScale = 1f;
+	private float xDelta = 0.05f;
+	private boolean rotable;
+	private boolean moveable;
+	private boolean zoomable;
 
-	private boolean debug=true;
 	
+	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
+	{
+		GestionnaireEvenements interactionManager = new GestionnaireEvenements();
+		this.rotable=rotable;
+		this.moveable=moveable;
+		this.zoomable=zoomable;
+		this.addMouseListener(interactionManager);
+		this.addMouseMotionListener(interactionManager);
+		this.addMouseWheelListener(interactionManager);
+	}
+
 	
-	public CardsPicPanel() {
-		setLayout(new BorderLayout(0, 0));
+	public ImagePanel() {
 		initGUI();
+		setActions(true,true,true);
+	}
+	
+	public ImagePanel(boolean moveable,boolean rotable,boolean zoomable) {
+		initGUI();
+		setActions(moveable,rotable,zoomable);
 	}
 
 	public void showCard(MagicCard mc) {
@@ -73,18 +91,11 @@ public class CardsPicPanel extends JXPanel {
 	   		back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 	   		printed=img;
 	   		imgFront=img;
-    		selectedShape = new Rectangle2D.Double(15, 15, img.getWidth(null), img.getHeight(null));
-    		card=new MagicCard();
-    		card.setLayout(MTGLayout.NORMAL);
     }
 	
 
 	public void showCard(MagicCard mc, MagicEdition edition) {
-
-		this.card = mc;
-
-		
-		if(card == null)
+		if(mc == null)
 			return;
 		
 		if (!mc.isDoubleFaced()) 
@@ -94,27 +105,24 @@ public class CardsPicPanel extends JXPanel {
 		else 
 		{
 			try {
-				MagicCard flipC =card.getRotatedCard();
-				back = getEnabledPlugin(MTGPictureProvider.class).getPicture(flipC, null);
+				MagicCard rcard =mc.getRotatedCard();
+				back = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard, null);
 			} catch (Exception e) {
-				logger.error("error loading flip",e);
+				logger.error("error loading rotated card : " + mc.getRotatedCard(),e);
 
 			}
 		}
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (edition == null)
-					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null));
+					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null));
 				else
-					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, edition));
+					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition));
 
 				back = ImageTools.mirroring(back);
 				back = renderer.appendReflection(back);
 
 				printed = imgFront;
-				
-				selectedShape = new Rectangle2D.Double(15, 15, printed.getWidth(null), printed.getHeight(null));
-
 			} catch (Exception e) {
 				imgFront = back;
 			}
@@ -132,55 +140,31 @@ public class CardsPicPanel extends JXPanel {
 
 		if (printed != null) {
 
-			pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
-			pY = (getHeight() - printed.getHeight()) / 2;
-
-			
-			if(debug)
-			{
-				g2.setColor(Color.red);
-				g2.fillOval(pX, pY, 10, 10);
-				
-				g2.draw(selectedShape);
-				
-			}
+			int pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
+			int pY = (getHeight() - printed.getHeight()) / 2;
 			
 			AffineTransform at = new AffineTransform();
-			at.translate(pX, pY);
+			at.translate(pX+xDiff, pY+yDiff);
 			at.scale(xScale, 1);
 			g2.setTransform(at);
-
-			
-			
-			if (card.isFlippable())
-				g2.rotate(Math.toRadians(rotate));
 
 			if (xScale < 0)
 				printed = back;
 			else
 				printed = imgFront;
 
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
-			g2.draw(selectedShape);
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
-
-			g2.drawImage(printed, (int) selectedShape.getBounds().getX(), (int) selectedShape.getBounds().getY(),(int) selectedShape.getBounds().getWidth(), (int) selectedShape.getBounds().getHeight(), null);
-
+			
+			g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor), null);
 			g2.dispose();
 		}
 
 	}
 
-	int loop = 0;
-
+	
 	private void initGUI() {
+		setLayout(new BorderLayout(0, 0));
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
-
-		GestionnaireEvenements interactionManager = new GestionnaireEvenements(this);
-		this.addMouseListener(interactionManager);
-		this.addMouseMotionListener(interactionManager);
-		this.addMouseWheelListener(interactionManager);
 
 		timer = new Timer(MTGConstants.ROTATED_TIMEOUT, e -> {
 			repaint();
@@ -202,72 +186,55 @@ public class CardsPicPanel extends JXPanel {
 	}
 
 	private class GestionnaireEvenements extends MouseAdapter {
-		private JXPanel mainPanel;
-
-		public GestionnaireEvenements(JXPanel panel) {
-			this.mainPanel = panel;
-		}
+		private Point startPoint;
 
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
-			double quotien = 1.1;
 			
-			if(selectedShape==null)
+			if(!zoomable)
 				return;
 			
-		//	if (selectedShape.contains(e.getPoint())) {
-				if (e.getWheelRotation() == -1)// zoom
-				{
-					selectedShape = new Rectangle2D.Double((int) selectedShape.getBounds().getX(),
-							(int) selectedShape.getBounds().getY(),
-							(int) selectedShape.getBounds().getWidth() * quotien,
-							(int) selectedShape.getBounds().getHeight() * quotien);
-				} else {
-					selectedShape = new Rectangle2D.Double((int) selectedShape.getBounds().getX(),
-							(int) selectedShape.getBounds().getY(),
-							(int) selectedShape.getBounds().getWidth() / quotien,
-							(int) selectedShape.getBounds().getHeight() / quotien);
-				}
-				mainPanel.repaint();
-		//	}
+			if (e.getWheelRotation() == -1) // zoom
+				zoomFactor *= 1.1;
+			else
+				zoomFactor /=1.1;
+
+			
+			repaint();
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(selectedShape==null)
+			
+			if(!rotable)
 				return;
 			
-			if (!launched) {
+			
+			if (!launched) 
+			{
 				timer.start();
 				launched = true;
 			}
 		}
 
+		
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if(selectedShape==null)
-				return;
-			
-			if (selectedShape.contains(e.getPoint())) {
-				pointInitial = e.getPoint();
-				mainPanel.repaint();
-			}
+			 startPoint = MouseInfo.getPointerInfo().getLocation();
 		}
-
+		
+		
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			if(selectedShape==null)
+			if(!moveable)
 				return;
 			
-			if (moveable) 
-			{
-				int deltaX = e.getX() - pointInitial.x;
-				int deltaY = e.getY() - pointInitial.y;
-				pointInitial = e.getPoint();
-				AffineTransform at = AffineTransform.getTranslateInstance(deltaX, deltaY);
-				selectedShape = at.createTransformedShape(selectedShape);
-				mainPanel.repaint();
-			}
+			
+			 Point curPoint = e.getLocationOnScreen();
+		        xDiff = (double)curPoint.x - startPoint.x;
+		        yDiff = (double)curPoint.y - startPoint.y;
+		        repaint();
 		}
 
 	}

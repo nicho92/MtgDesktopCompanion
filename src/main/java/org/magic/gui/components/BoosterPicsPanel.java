@@ -68,7 +68,11 @@ public class BoosterPicsPanel extends JTabbedPane {
 					l.forEach(i->
 					{
 						try {
-							publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(PackagesProvider.inst().get(i)))));
+							BufferedImage img = PackagesProvider.inst().get(i);
+							if(img!=null)
+								publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(img))));
+							
+							
 						}catch(Exception e)
 						{
 							logger.error("error " + e);
