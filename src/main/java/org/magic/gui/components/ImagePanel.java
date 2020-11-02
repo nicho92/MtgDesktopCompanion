@@ -3,6 +3,7 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -15,6 +16,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import javax.swing.DebugGraphics;
 import javax.swing.Timer;
 
 import org.apache.log4j.Logger;
@@ -54,7 +56,9 @@ public class ImagePanel extends JXPanel {
 	private boolean rotable;
 	private boolean moveable;
 	private boolean zoomable;
-
+	private int pX;
+	private int pY;
+	private boolean debug = true;
 	
 	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
 	{
@@ -81,6 +85,10 @@ public class ImagePanel extends JXPanel {
 
 	public void showCard(MagicCard mc) {
 		showCard(mc, null);
+	}
+	
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 	
 	public void setImg(BufferedImage img)
@@ -146,8 +154,8 @@ public class ImagePanel extends JXPanel {
 			return;
 	
 
-		int pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
-		int pY = (getHeight() - printed.getHeight()) / 2;
+		pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
+		pY = (getHeight() - printed.getHeight()) / 2;
 		
 		
 
@@ -160,13 +168,17 @@ public class ImagePanel extends JXPanel {
 		AffineTransform at = new AffineTransform();
 					    at.translate(pX+xDiff, pY+yDiff);
 					    at.scale(xScale, 1);
+	
+		if(debug) 
+		{
+			g2.setColor(Color.red);
+			g2.drawString("FRAME : W="+getWidth() +" h="+getHeight(), 5, 20);
+			g2.drawString("TRANS : pX="+pX +" pY="+pY + " xScale="+xScale + " xDiff="+xDiff + " yDiff="+yDiff + " zoomFactor="+zoomFactor, 5, 35);
+			g2.drawString("IMAGE : W=" + (int)(printed.getWidth()*zoomFactor) + " H=" + (int)(printed.getHeight()*zoomFactor), 5, 50);
+			g2.drawString("AT =" + at,5,65);
+		}
+		
 		g2.setTransform(at);
-		
-		logger.trace("FRAME : W="+getWidth() +" h="+getHeight());
-		logger.trace("TRANS : pX="+pX +" pY="+pY + " xScale="+xScale + " xDiff="+xDiff + " yDiff="+yDiff + " zoomFactor="+zoomFactor);
-		logger.trace("IMAGE : W=" + (int)(printed.getWidth()*zoomFactor) + " H=" + (int)(printed.getHeight()*zoomFactor));
-		logger.trace(at);
-		
 		g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor),null);
 		g2.dispose();
 
@@ -178,7 +190,6 @@ public class ImagePanel extends JXPanel {
 		setLayout(new BorderLayout(0, 0));
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
-		setDoubleBuffered(true);
 		timer = new Timer(MTGConstants.ROTATED_TIMEOUT, e -> {
 			repaint();
 
@@ -257,8 +268,15 @@ public class ImagePanel extends JXPanel {
 		@Override
 		public void componentResized(ComponentEvent e) {
 			
-			logger.debug(e);
-			
+			zoomFactor = 1;
+			xDiff=0;
+			yDiff=0;
+			loop = 0;
+			xScale = 1f;
+			xDelta = 0.05f;
+			pX=(int) e.getComponent().getBounds().getX();
+			pY=(int) e.getComponent().getBounds().getY();
+
 		}
 
 		@Override
