@@ -108,6 +108,8 @@ public class MTGConstants {
 	public static final int TABLE_ROW_HEIGHT = 18;
 	public static final int TABLE_ROW_WIDTH = 18;
 
+	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
+
 	
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
@@ -252,23 +254,18 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SMALL_CLEAR = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_HELP = new ImageIcon(ICON_HELP.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	
-	
-	
 	public static final ImageIcon ICON_PACKAGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/package.png"));
 	public static final ImageIcon ICON_PACKAGE_SMALL = new ImageIcon(ICON_PACKAGE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-
-	
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 
 	
 	public static final int SEALED_SIZE = 40;
-	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
 	
 	
 	public static final int CONNECTION_TIMEOUT =0;
-	public static final int ROTATED_TIMEOUT = 30;
+	public static final int ROTATED_TIMEOUT = 15;
 	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
 	
 	

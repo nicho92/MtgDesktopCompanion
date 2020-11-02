@@ -2,13 +2,13 @@ package org.magic.gui.components;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -23,7 +23,6 @@ import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -38,7 +37,7 @@ public class ImagePanel extends JXPanel {
 	
 	
 	private transient BufferedImage imgFront = null;
-	private transient BufferedImage back;
+	private transient BufferedImage imgBack;
 	private transient ReflectionRenderer renderer;
 	private transient BufferedImage printed;
 	
@@ -66,6 +65,7 @@ public class ImagePanel extends JXPanel {
 		this.addMouseListener(interactionManager);
 		this.addMouseMotionListener(interactionManager);
 		this.addMouseWheelListener(interactionManager);
+		addComponentListener(interactionManager);
 	}
 
 	
@@ -88,7 +88,7 @@ public class ImagePanel extends JXPanel {
 			if(img==null)
 				return;
 		
-	   		back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+	   		imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 	   		printed=img;
 	   		imgFront=img;
     }
@@ -100,13 +100,13 @@ public class ImagePanel extends JXPanel {
 		
 		if (!mc.isDoubleFaced()) 
 		{
-			back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+			imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 		} 
 		else 
 		{
 			try {
 				MagicCard rcard =mc.getRotatedCard();
-				back = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard, null);
+				imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard, null);
 			} catch (Exception e) {
 				logger.error("error loading rotated card : " + mc.getRotatedCard(),e);
 
@@ -115,16 +115,17 @@ public class ImagePanel extends JXPanel {
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (edition == null)
-					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null));
+					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null);
 				else
-					imgFront = renderer.appendReflection(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition));
+					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition);
 
-				back = ImageTools.mirroring(back);
-				back = renderer.appendReflection(back);
+				
+				imgFront = renderer.appendReflection(imgFront);
+				imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
 
 				printed = imgFront;
 			} catch (Exception e) {
-				imgFront = back;
+				imgFront = imgBack;
 			}
 			repaint();
 		}, "showPhoto");
@@ -133,30 +134,42 @@ public class ImagePanel extends JXPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		g2.setStroke(new BasicStroke(0));
+				   g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				   g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+				   g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+				   g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+				   
+				   
+		if (printed == null)
+			return;
+	
 
-		if (printed != null) {
+		int pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
+		int pY = (getHeight() - printed.getHeight()) / 2;
+		
+		
 
-			int pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
-			int pY = (getHeight() - printed.getHeight()) / 2;
-			
-			AffineTransform at = new AffineTransform();
-			at.translate(pX+xDiff, pY+yDiff);
-			at.scale(xScale, 1);
-			g2.setTransform(at);
+		if (xScale < 0)
+			printed = imgBack;
+		else
+			printed = imgFront;
 
-			if (xScale < 0)
-				printed = back;
-			else
-				printed = imgFront;
+		
+		AffineTransform at = new AffineTransform();
+					    at.translate(pX+xDiff, pY+yDiff);
+					    at.scale(xScale, 1);
+		g2.setTransform(at);
+		
+		logger.trace("FRAME : W="+getWidth() +" h="+getHeight());
+		logger.trace("TRANS : pX="+pX +" pY="+pY + " xScale="+xScale + " xDiff="+xDiff + " yDiff="+yDiff + " zoomFactor="+zoomFactor);
+		logger.trace("IMAGE : W=" + (int)(printed.getWidth()*zoomFactor) + " H=" + (int)(printed.getHeight()*zoomFactor));
+		logger.trace(at);
+		
+		g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor),null);
+		g2.dispose();
 
-			
-			g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor), null);
-			g2.dispose();
-		}
 
 	}
 
@@ -165,7 +178,7 @@ public class ImagePanel extends JXPanel {
 		setLayout(new BorderLayout(0, 0));
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
-
+		setDoubleBuffered(true);
 		timer = new Timer(MTGConstants.ROTATED_TIMEOUT, e -> {
 			repaint();
 
@@ -185,7 +198,7 @@ public class ImagePanel extends JXPanel {
 		});
 	}
 
-	private class GestionnaireEvenements extends MouseAdapter {
+	private class GestionnaireEvenements extends MouseAdapter implements ComponentListener {
 		private Point startPoint;
 
 		@Override
@@ -216,12 +229,17 @@ public class ImagePanel extends JXPanel {
 				launched = true;
 			}
 		}
-
+		
+		@Override
+		public void mouseMoved(MouseEvent e) {
+		
+		}
 		
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			 startPoint = MouseInfo.getPointerInfo().getLocation();
+			 startPoint = e.getPoint(); 
+					 
 		}
 		
 		
@@ -230,11 +248,35 @@ public class ImagePanel extends JXPanel {
 			if(!moveable)
 				return;
 			
-			
-			 Point curPoint = e.getLocationOnScreen();
+			 Point curPoint = e.getPoint();
 		        xDiff = (double)curPoint.x - startPoint.x;
 		        yDiff = (double)curPoint.y - startPoint.y;
 		        repaint();
+		}
+
+		@Override
+		public void componentResized(ComponentEvent e) {
+			
+			logger.debug(e);
+			
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent e) {
+		
+			
+		}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+		
+			
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent e) {
+		
+			
 		}
 
 	}

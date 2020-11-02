@@ -19,6 +19,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -141,6 +143,29 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		if(c.getName().equalsIgnoreCase("name")) {
 			JTextField f= UITools.createSearchField();
 			f.setColumns(50);
+			
+			f.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					val=f.getText().trim();
+					
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					val=f.getText().trim();
+					
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					val=f.getText().trim();
+					
+				}
+			});
+			
+			
 			f.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
