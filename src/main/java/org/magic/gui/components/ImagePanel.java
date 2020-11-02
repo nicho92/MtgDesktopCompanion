@@ -56,9 +56,7 @@ public class ImagePanel extends JXPanel {
 	private boolean rotable;
 	private boolean moveable;
 	private boolean zoomable;
-	private int pX;
-	private int pY;
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
 	{
@@ -69,7 +67,6 @@ public class ImagePanel extends JXPanel {
 		this.addMouseListener(interactionManager);
 		this.addMouseMotionListener(interactionManager);
 		this.addMouseWheelListener(interactionManager);
-		addComponentListener(interactionManager);
 	}
 
 	
@@ -154,8 +151,8 @@ public class ImagePanel extends JXPanel {
 			return;
 	
 
-		pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
-		pY = (getHeight() - printed.getHeight()) / 2;
+		int pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
+		int pY = (getHeight() - printed.getHeight()) / 2;
 		
 		
 
@@ -178,7 +175,7 @@ public class ImagePanel extends JXPanel {
 			g2.drawString("AT =" + at,5,65);
 		}
 		
-		g2.setTransform(at);
+		g2.transform(at);
 		g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor),null);
 		g2.dispose();
 
@@ -209,7 +206,7 @@ public class ImagePanel extends JXPanel {
 		});
 	}
 
-	private class GestionnaireEvenements extends MouseAdapter implements ComponentListener {
+	private class GestionnaireEvenements extends MouseAdapter {
 		private Point startPoint;
 
 		@Override
@@ -240,12 +237,7 @@ public class ImagePanel extends JXPanel {
 				launched = true;
 			}
 		}
-		
-		@Override
-		public void mouseMoved(MouseEvent e) {
-		
-		}
-		
+	
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -265,37 +257,7 @@ public class ImagePanel extends JXPanel {
 		        repaint();
 		}
 
-		@Override
-		public void componentResized(ComponentEvent e) {
-			
-			zoomFactor = 1;
-			xDiff=0;
-			yDiff=0;
-			loop = 0;
-			xScale = 1f;
-			xDelta = 0.05f;
-			pX=(int) e.getComponent().getBounds().getX();
-			pY=(int) e.getComponent().getBounds().getY();
-
-		}
-
-		@Override
-		public void componentMoved(ComponentEvent e) {
 		
-			
-		}
-
-		@Override
-		public void componentShown(ComponentEvent e) {
-		
-			
-		}
-
-		@Override
-		public void componentHidden(ComponentEvent e) {
-		
-			
-		}
 
 	}
 }
