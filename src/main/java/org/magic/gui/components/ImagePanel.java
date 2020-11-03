@@ -99,6 +99,12 @@ public class ImagePanel extends JXPanel {
 	   		imgBack=img;
 	   		imgFront=img;
 	   		printed=img;
+	   		
+
+	   		if(reflection) {
+				imgFront = renderer.appendReflection(imgFront);
+				imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
+			}
     }
 	
 
@@ -138,11 +144,23 @@ public class ImagePanel extends JXPanel {
 					imgFront= ImageTools.rotate(imgFront, 90);
 				
 				
+				
 
+		   		if(reflection) {
+					imgFront = renderer.appendReflection(imgFront);
+					imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
+				}
+				
+				
+				
+				printed = imgFront;
+				
+				
+				
 			} catch (Exception e) {
 				imgFront = imgBack;
 			}
-			printed = imgFront;
+
 			repaint();
 		}, "show img for " + mc);
 	}
@@ -186,11 +204,6 @@ public class ImagePanel extends JXPanel {
 			g2.drawString("AT =" + at,5,65);
 		}
 		
-		
-   		if(reflection) {
-			imgFront = renderer.appendReflection(imgFront);
-			imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
-		}
 		
 		
 		

@@ -76,6 +76,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
 		panelDraw = new ImagePanel(true, false, true);
+		panelDraw.setReflection(false);
 		if(view) {
 			add(panelDraw, BorderLayout.CENTER);
 		}
