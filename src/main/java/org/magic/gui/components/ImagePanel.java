@@ -143,20 +143,11 @@ public class ImagePanel extends JXPanel {
 				if(mc.getLayout()==MTGLayout.SPLIT)
 					imgFront= ImageTools.rotate(imgFront, 90);
 				
-				
-				
-
 		   		if(reflection) {
 					imgFront = renderer.appendReflection(imgFront);
 					imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
 				}
-				
-				
-				
 				printed = imgFront;
-				
-				
-				
 			} catch (Exception e) {
 				imgFront = imgBack;
 			}
@@ -203,9 +194,6 @@ public class ImagePanel extends JXPanel {
 			g2.drawString("IMAGE : W=" + (int)(printed.getWidth()*zoomFactor) + " H=" + (int)(printed.getHeight()*zoomFactor), 5, 50);
 			g2.drawString("AT =" + at,5,65);
 		}
-		
-		
-		
 		
 		g2.transform(at);
 		g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor),null);
