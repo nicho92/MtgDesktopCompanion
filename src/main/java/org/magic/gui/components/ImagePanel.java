@@ -8,15 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-import javax.swing.DebugGraphics;
 import javax.swing.Timer;
 
 import org.apache.log4j.Logger;
@@ -25,6 +22,7 @@ import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -57,6 +55,7 @@ public class ImagePanel extends JXPanel {
 	private boolean moveable;
 	private boolean zoomable;
 	private boolean debug = false;
+	private boolean reflection = true;
 	
 	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
 	{
@@ -88,18 +87,23 @@ public class ImagePanel extends JXPanel {
 		this.debug = debug;
 	}
 	
+	public void setReflection(boolean reflection) {
+		this.reflection = reflection;
+	}
+	
 	public void setImg(BufferedImage img)
     {
 			if(img==null)
 				return;
 		
-	   		imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
-	   		printed=img;
+	   		imgBack=img;
 	   		imgFront=img;
+	   		printed=img;
     }
 	
 
-	public void showCard(MagicCard mc, MagicEdition edition) {
+	public void showCard(MagicCard mc, MagicEdition edition) 
+	{
 		if(mc == null)
 			return;
 		
@@ -117,6 +121,7 @@ public class ImagePanel extends JXPanel {
 
 			}
 		}
+
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
 				if (edition == null)
@@ -125,15 +130,21 @@ public class ImagePanel extends JXPanel {
 					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition);
 
 				
-				imgFront = renderer.appendReflection(imgFront);
-				imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
+				if(mc.isFlippable())
+					imgBack = ImageTools.rotate(imgFront, 180);
+				
+				
+				if(mc.getLayout()==MTGLayout.SPLIT)
+					imgFront= ImageTools.rotate(imgFront, 90);
+				
+				
 
-				printed = imgFront;
 			} catch (Exception e) {
 				imgFront = imgBack;
 			}
+			printed = imgFront;
 			repaint();
-		}, "showPhoto");
+		}, "show img for " + mc);
 	}
 
 	@Override
@@ -174,6 +185,14 @@ public class ImagePanel extends JXPanel {
 			g2.drawString("IMAGE : W=" + (int)(printed.getWidth()*zoomFactor) + " H=" + (int)(printed.getHeight()*zoomFactor), 5, 50);
 			g2.drawString("AT =" + at,5,65);
 		}
+		
+		
+   		if(reflection) {
+			imgFront = renderer.appendReflection(imgFront);
+			imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
+		}
+		
+		
 		
 		g2.transform(at);
 		g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor),null);
@@ -229,7 +248,6 @@ public class ImagePanel extends JXPanel {
 			
 			if(!rotable)
 				return;
-			
 			
 			if (!launched) 
 			{

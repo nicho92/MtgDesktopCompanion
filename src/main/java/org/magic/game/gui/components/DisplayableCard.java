@@ -70,6 +70,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -452,19 +453,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 		else
 			angle = -90;
 
-		int w = getWidth();
-		int h = getHeight();
-		int type = BufferedImage.TYPE_INT_RGB; // other options, see api
-		BufferedImage bfImage = new BufferedImage(h, w, type);
-		Graphics2D g2 = bfImage.createGraphics();
-		double x = (h - w) / 2.0;
-		double y = (w - h) / 2.0;
-		AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-		at.rotate(Math.toRadians(angle), w / 2.0, h / 2.0);
-		g2.drawImage(getImageIcon().getImage(), at, null);
-		g2.dispose();
-		this.image = new ImageIcon((Image) bfImage);
-		this.setSize(h, w);
+		this.image = new ImageIcon((Image) ImageTools.rotate(ImageTools.imageToBufferedImage(getImageIcon().getImage()), angle));
+		this.setSize(getHeight(), getWidth());
 		this.tapped = t;
 	}
 
