@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
@@ -13,6 +14,9 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
+import org.magic.tools.ImageTools;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -26,6 +30,8 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Table;
 
+import net.miginfocom.layout.UnitValue;
+
 public class PDFExport extends AbstractCardExport {
 
 	PdfDocument  pdfDocDest;
@@ -35,29 +41,36 @@ public class PDFExport extends AbstractCardExport {
 		return MODS.EXPORT;
 	}
 	
+	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance();
+		new PDFExport().exportDeck(new MTGDeckManager().getDeck("G_Cloudpost"),new File("d:/deck.pdf"));
+	}
 	
+
 	
 	private Cell getCells(MagicCard card) throws IOException {
 
 		ImageData imageData = null;
-		int h = getInt("CARD_HEIGHT");
-		int w = getInt("CARD_WIDTH");
 
 		try {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null),	null);
 		} catch (Exception e) {
-			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);;
+			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);
 		}
-		
-	//	imageData.setBpc(8);
-	//	imageData.setWidth(w);
-	//	imageData.setHeight(h);
 		
 		Image image = new Image(imageData);
 		image.setAutoScale(true);
+		
+		
 		Cell cell = new Cell();
-		cell.setPadding(5);
-		cell.add(image);
+//		cell.setWidth(UnitValue.CM);	 
+//		cell.setHeight(UnitValue.CM);
+//		cell.setWidth(63f);
+//		cell.setHeight(88f);
+//		
+		
+			 cell.add(image);
 	
 		return cell;
 	}
@@ -77,6 +90,7 @@ public class PDFExport extends AbstractCardExport {
 		    info.setTitle(deck.getName());
 		    info.setAuthor(getString("AUTHOR"));
 		    info.setCreator(MTGConstants.MTG_APP_NAME);
+		    info.setKeywords(deck.getTags().stream().collect(Collectors.joining(",")));
 		    info.addCreationDate();
 		   
 		   try (

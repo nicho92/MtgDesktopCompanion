@@ -82,11 +82,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		}	
 	}
 	
-	public static void main(String[] args) throws IOException {
-		new DCIDeckSheetExport().exportDeck(new MTGDeckManager().getDeck("G_Cloudpost"),new File("d:/deck.pdf"));
-	}
 	
-
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
