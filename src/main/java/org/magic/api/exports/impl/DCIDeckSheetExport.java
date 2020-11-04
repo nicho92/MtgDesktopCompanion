@@ -17,6 +17,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGDeckManager;
 
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.Version;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -47,6 +48,11 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		return MODS.EXPORT;
 	}
 
+	@Override
+	public String getVersion() {
+		return Version.getInstance().getRelease();
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(String f,String n) throws IOException {
@@ -179,10 +185,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}
-
-		
-		
-
 	}
 
 	@Override
