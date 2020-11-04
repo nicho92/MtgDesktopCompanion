@@ -14,8 +14,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGDeckManager;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -23,30 +21,24 @@ import com.itextpdf.kernel.Version;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
-import com.itextpdf.kernel.pdf.PdfName;
-import com.itextpdf.kernel.pdf.PdfNumber;
-import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.borders.DottedBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Table;
 
 public class PDFExport extends AbstractCardExport {
 
-	PdfDocument  pdfDocDest;
-
+	private PdfDocument  pdfDocDest;
+	private float userPoint=72f;
+	
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance();
-		new PDFExport().exportDeck(new MTGDeckManager().getDeck("G_Cloudpost"),new File("d:/deck.pdf"));
-	}
-		
 	private Cell createCell(MagicCard card) throws IOException {
 
 		ImageData imageData = null;
@@ -58,10 +50,17 @@ public class PDFExport extends AbstractCardExport {
 		}
 		
 		Image image = new Image(imageData);
-		float userPoint=72f;
 			
 	        image.scaleAbsolute(2.49f*userPoint,3.48f*userPoint);
             Cell cell = new Cell();
+            
+            if(getBoolean("PRINT_CUT_LINE"))
+            {
+            	cell.setBorder(new DottedBorder(0.5f));
+            }
+            else
+            	cell.setBorder(Border.NO_BORDER);
+            	
             cell.add(image);
 	
 		return cell;
@@ -120,8 +119,8 @@ public class PDFExport extends AbstractCardExport {
 	@Override
 	public void initDefault() {
 		setProperty("AUTHOR", System.getenv("user.name"));
-		setProperty("CARD_HEIGHT", "163");
-		setProperty("CARD_WIDTH", "117");
+		setProperty("PRINT_CUT_LINE","true");
+	
 	}
 
 	@Override
