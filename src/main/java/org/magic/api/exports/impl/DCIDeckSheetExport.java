@@ -1,7 +1,6 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,16 +14,20 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGDeckManager;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfImportedPage;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.property.TextAlignment;
+
 
 public class DCIDeckSheetExport extends AbstractCardExport {
 
@@ -54,109 +57,135 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".pdf";
 	}
+	
+	
+	private Paragraph createParagraphe(String text, float x, float y)
+	{
+
+		try {
+			PdfFont font  = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+		
+			return new Paragraph(text)
+					.setFont(font)
+					.setFontSize(11)
+					.setFixedPosition(x, y, 200)
+					.setTextAlignment(TextAlignment.LEFT);
+			
+			
+		} catch (IOException e) {
+			logger.error(e);
+			
+			return new Paragraph(text)
+					.setFontSize(11)
+					.setFixedPosition(x, y, 200)
+					.setTextAlignment(TextAlignment.LEFT);
+		}	
+	}
+	
+	public static void main(String[] args) throws IOException {
+		new DCIDeckSheetExport().exportDeck(new MTGDeckManager().getDeck("G_Cloudpost"),new File("d:/deck.pdf"));
+	}
+	
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		PdfReader reader = new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet_pdf1.pdf"));
-
-		Document document = new Document(reader.getPageSize(1));
-		PdfWriter writer;
-		try {
-			writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
-		} catch (DocumentException e) {
-			throw new IOException(e.getMessage());
-		}
-		document.open();
-		PdfContentByte cb = writer.getDirectContent();
-
-		// copy first page to new pdf file
-		PdfImportedPage page = writer.getImportedPage(reader, 1);
-		document.newPage();
-		cb.addTemplate(page, 0, 0);
-
-		Font helvetica = new Font(FontFamily.HELVETICA, 12);
-		BaseFont bfHelv = helvetica.getCalculatedBaseFont(false);
-
-		cb.beginText();
-		cb.setFontAndSize(bfHelv, 11);
-
-		// HEADER
-		cb.setTextMatrix(page.getWidth() - 51f, page.getHeight() - 49);
-		cb.showText(getString(LAST_NAME).substring(0, 1).toUpperCase());
-
-		cb.setTextMatrix(page.getWidth() / 3.2f, page.getHeight() - 73);
-		if (!getString(FORCED_DATE).equalsIgnoreCase(""))
-			cb.showText(getString(FORCED_DATE));
-		else
-			cb.showText(new SimpleDateFormat(getString(DATE_FORMAT)).format(new Date()));
-
-		cb.setTextMatrix(page.getWidth() / 1.48f, page.getHeight() - 73);
-		cb.showText(getString(EVENT_NAME));
-
-		cb.setTextMatrix(page.getWidth() / 3.2f, page.getHeight() - 96);
-		cb.showText(getString(LOCATION));
-
-		cb.setTextMatrix(page.getWidth() / 1.48f, page.getHeight() - 96);
-		cb.showText(deck.getName());
-
-		cb.setTextMatrix(page.getWidth() / 1.48f, page.getHeight() - 119);
-		if (getString(DECK_DESIGNER).equals(""))
-			cb.showText(getString(LAST_NAME) + " " + getString(FIRST_NAME));
-		else
-			cb.showText(getString(DECK_DESIGNER));
-
-		// MAIN DECK
-		int count = 0;
-		for (MagicCard mc : deck.getMain().keySet()) {
-			cb.setTextMatrix(page.getWidth() / 6.4f, page.getHeight() - 185 - count);
-			cb.showText(deck.getMain().get(mc) + space + mc.getName());
-			count += 18;
-			notify(mc);
-		}
-		// CONTINUED and BASIC LAND
-		if (getString(FILL_CONTINUED_LANDS).equalsIgnoreCase("true")) {
-			count = 0;
+		
+		try (
+			 PdfDocument pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet_pdf1.pdf").openStream()));
+			 Document docSrc = new Document(pdfSrc);
+			 PdfDocument pdfDest = new PdfDocument(new PdfWriter(dest));
+		     Document docDest = new Document(pdfDest)
+			)
+			{
+			
+			pdfDest.setDefaultPageSize(PageSize.A4);
+			pdfSrc.copyPagesTo(1,1,pdfDest);
+	
+			float h = pdfDest.getDefaultPageSize().getHeight();
+			float w = pdfDest.getDefaultPageSize().getWidth();
+			
+			// HEADER
+			docDest.add(createParagraphe(getString(LAST_NAME).substring(0, 1).toUpperCase(), w-35, h-103));
+		
+			
+			if (!getString(FORCED_DATE).equalsIgnoreCase(""))
+				docDest.add(createParagraphe(getString(FORCED_DATE), w/3.2f, h-127));
+			else
+				docDest.add(createParagraphe(new SimpleDateFormat(getString(DATE_FORMAT)).format(new Date()), w/3.2f, h-127));
+			
+			docDest.add(createParagraphe(getString(LOCATION),w/3.2f,h-150));
+			
+			docDest.add(createParagraphe(getString(EVENT_NAME),w/1.40f,h-127));
+			docDest.add(createParagraphe(deck.getName(),w/1.40f,h-150));
+			if (getString(DECK_DESIGNER).equals(""))
+				docDest.add(createParagraphe(getString(LAST_NAME) + " " + getString(FIRST_NAME),w /1.40f, h-175));
+			else
+				docDest.add(createParagraphe(getString(DECK_DESIGNER),w /1.40f, h - 175));
+			
+			
+			// MAIN DECK
+			int count = 0;
 			for (MagicCard mc : deck.getMain().keySet()) {
-				if (mc.isLand()) {
-					cb.setTextMatrix(page.getWidth() / 1.7f, page.getHeight() - 185 - count);
-					cb.showText(deck.getMain().get(mc) + space + mc.getName());
-					count += 18;
-				}
+				docDest.add(createParagraphe(deck.getMain().get(mc) + space + mc.getName(),w/6.4f,h-240-count));
+				count += 18;
 				notify(mc);
 			}
+
+			// CONTINUED and BASIC LAND
+			if (getBoolean(FILL_CONTINUED_LANDS)) 
+			{
+				count = 0;
+				for (MagicCard mc : deck.getMain().keySet()) {
+					if (mc.isBasicLand()) {
+						docDest.add(createParagraphe(deck.getMain().get(mc) + space + mc.getName(),w/1.65f,h-240-count));
+						count += 18;
+					}
+					notify(mc);
+				}
+				
+			}
 			
+			// SIDEBOARD
+			count = 0;
+			for (MagicCard mc : deck.getSideBoard().keySet()) {
+				docDest.add(createParagraphe(deck.getSideBoard().get(mc) + space + mc.getName(),w/1.65f,h-474-count));
+				notify(mc);
+				count += 18;
+			}
+			
+			// BOTTOM card count
+			docDest.add(createParagraphe(String.valueOf(deck.getMainAsList().size()),(w/2)-25,40));
+			docDest.add(createParagraphe(String.valueOf(deck.getSideAsList().size()),w-55,95));
+			
+			// LEFT TEXT
+			Paragraph p = createParagraphe(getString(LAST_NAME),60,90);
+					  p.setRotationAngle(1.5708f);
+			docDest.add(p);
+			
+			p = createParagraphe(getString(FIRST_NAME),60,300);
+			p.setRotationAngle(1.5708f);
+			docDest.add(p);
+			
+			
+			
+			String dci = getString(DCI_NUMBER);
+			count = 0;
+			for (int i = 0; i < dci.length(); i++) {
+				char c = dci.charAt(i);
+				
+				p = createParagraphe(String.valueOf(c),60,(430 + count));
+				p.setRotationAngle(1.5708f);
+				docDest.add(p);
+				count += 22;
+			}
+			
+			
+		} catch (Exception e) {
+			throw new IOException(e.getMessage());
 		}
-		// SIDEBOARD
-		count = 0;
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
-			cb.setTextMatrix(page.getWidth() / 1.7f, page.getHeight() - 418 - count);
-			cb.showText(deck.getSideBoard().get(mc) + space + mc.getName());
-			notify(mc);
-			count += 18;
-		}
 
-		// BOTTOM card count
-		cb.setTextMatrix((page.getWidth() / 2f) - 30, 45);
-		cb.showText(String.valueOf(deck.getMainAsList().size()));
-
-		cb.setTextMatrix(page.getWidth() - 70, 100);
-		cb.showText(String.valueOf(deck.getSideAsList().size()));
-
-		// LEFT TEXT
-		cb.showTextAligned(PdfContentByte.ALIGN_LEFT, getString(LAST_NAME), 52, 90, 90);
-		cb.showTextAligned(PdfContentByte.ALIGN_LEFT, getString(FIRST_NAME), 52, 295, 90);
-
-		String dci = getString(DCI_NUMBER);
-		count = 0;
-		for (int i = 0; i < dci.length(); i++) {
-			char c = dci.charAt(i);
-			cb.showTextAligned(PdfContentByte.ALIGN_LEFT, String.valueOf(c), 52, (428 + count), 90);
-			count += 22;
-		}
-
-		cb.endText();
-
-		document.close();
+		
+		
 
 	}
 

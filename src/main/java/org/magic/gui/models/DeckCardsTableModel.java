@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import java.util.List;
+
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
@@ -7,7 +9,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
 
-import com.itextpdf.text.List;
 
 public class DeckCardsTableModel extends DefaultTableModel {
 

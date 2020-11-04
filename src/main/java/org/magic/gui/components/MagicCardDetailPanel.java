@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -48,8 +49,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-
-import com.itextpdf.text.Font;
 
 public class MagicCardDetailPanel extends JPanel implements Observer {
 

@@ -3,7 +3,6 @@ package org.magic.api.exports.impl;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,45 +14,50 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Version;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.Version;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfDocumentInfo;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Table;
 
 public class PDFExport extends AbstractCardExport {
 
-	Document document;
+	PdfDocument  pdfDocDest;
 
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
+	
+	
+	
+	private Cell getCells(MagicCard card) throws IOException {
 
-
-	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException {
-
-		Image image1 = null;
-		try {
-			image1 = Image.getInstance(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null),
-					null);
-		} catch (Exception e) {
-			image1 = Image.getInstance(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(), null);
-		}
-
+		ImageData imageData = null;
 		int h = getInt("CARD_HEIGHT");
 		int w = getInt("CARD_WIDTH");
 
-		image1.scaleAbsolute(w, h);
-
-		PdfPCell cell = new PdfPCell(image1, false);
-		cell.setBorder(0);
+		try {
+			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null),	null);
+		} catch (Exception e) {
+			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);;
+		}
+		
+	//	imageData.setBpc(8);
+	//	imageData.setWidth(w);
+	//	imageData.setHeight(h);
+		
+		Image image = new Image(imageData);
+		image.setAutoScale(true);
+		Cell cell = new Cell();
 		cell.setPadding(5);
+		cell.add(image);
 	
 		return cell;
 	}
@@ -65,26 +69,28 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
-		PdfPTable table = new PdfPTable(3);
-		table.setHorizontalAlignment(Element.ALIGN_CENTER);
+			Table table = new Table(3).useAllAvailableWidth();
+			pdfDocDest = new PdfDocument(new PdfWriter(f));
+			pdfDocDest.setDefaultPageSize(PageSize.A4);
+				  
+			PdfDocumentInfo info = pdfDocDest.getDocumentInfo();
+		    info.setTitle(deck.getName());
+		    info.setAuthor(getString("AUTHOR"));
+		    info.setCreator(MTGConstants.MTG_APP_NAME);
+		    info.addCreationDate();
+		   
+		   try (
+				PdfWriter writer = new PdfWriter(f); 
+				Document doc = new Document(pdfDocDest)
+			   )
+		   {  
+				for (MagicCard card : deck.getMainAsList()) {
+					table.addCell(getCells(card));
+					notify(card);
+				}
+				
+				doc.add(table);
 
-		try {
-			document = new Document(PageSize.A4, 5, 5, 10, 5);
-			document.addAuthor(getString("AUTHOR"));
-			document.addCreationDate();
-			document.addCreator(MTGConstants.MTG_APP_NAME);
-			document.addTitle(deck.getName());
-
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
-			document.open();
-			document.add(new Chunk(""));
-			for (MagicCard card : deck.getMainAsList()) {
-				table.addCell(getCells(card));
-				notify(card);
-			}
-			document.add(table);
-			document.close();
-			writer.close();
 		} catch (Exception e) {
 			logger.error("Error in pdf creation " + f, e);
 		}
