@@ -16,7 +16,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.tools.ImageTools;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -24,13 +23,14 @@ import com.itextpdf.kernel.Version;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
+import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfNumber;
+import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Table;
-
-import net.miginfocom.layout.UnitValue;
 
 public class PDFExport extends AbstractCardExport {
 
@@ -46,10 +46,8 @@ public class PDFExport extends AbstractCardExport {
 		MTGControler.getInstance();
 		new PDFExport().exportDeck(new MTGDeckManager().getDeck("G_Cloudpost"),new File("d:/deck.pdf"));
 	}
-	
-
-	
-	private Cell getCells(MagicCard card) throws IOException {
+		
+	private Cell createCell(MagicCard card) throws IOException {
 
 		ImageData imageData = null;
 
@@ -60,17 +58,11 @@ public class PDFExport extends AbstractCardExport {
 		}
 		
 		Image image = new Image(imageData);
-		image.setAutoScale(true);
-		
-		
-		Cell cell = new Cell();
-//		cell.setWidth(UnitValue.CM);	 
-//		cell.setHeight(UnitValue.CM);
-//		cell.setWidth(63f);
-//		cell.setHeight(88f);
-//		
-		
-			 cell.add(image);
+		float userPoint=72f;
+			
+	        image.scaleAbsolute(2.49f*userPoint,3.48f*userPoint);
+            Cell cell = new Cell();
+            cell.add(image);
 	
 		return cell;
 	}
@@ -99,7 +91,7 @@ public class PDFExport extends AbstractCardExport {
 			   )
 		   {  
 				for (MagicCard card : deck.getMainAsList()) {
-					table.addCell(getCells(card));
+					table.addCell(createCell(card));
 					notify(card);
 				}
 				
@@ -127,7 +119,7 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public void initDefault() {
-		setProperty("AUTHOR", "Nicolas PIHEN");
+		setProperty("AUTHOR", System.getenv("user.name"));
 		setProperty("CARD_HEIGHT", "163");
 		setProperty("CARD_WIDTH", "117");
 	}
