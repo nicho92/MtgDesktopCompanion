@@ -17,7 +17,6 @@
 		<name>Nicolas Pihen</name>
 		<url>https://github.com/nicho92/</url>
 	</organization>
-
 	<scm>
 		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</connection>
 		<developerConnection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
@@ -197,22 +196,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.6.3</version>
+			<version>8.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.6.3</version>
+			<version>8.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.6.3</version>
+			<version>8.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.6.3</version>
+			<version>8.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -301,7 +300,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.openjdk.jol</groupId>
 			<artifactId>jol-core</artifactId>
