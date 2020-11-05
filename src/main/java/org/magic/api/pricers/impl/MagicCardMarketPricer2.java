@@ -79,15 +79,17 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		
 		String edName = mc.getCurrentSet().getSet();
 		Product resultat = null;
-		
-		if (mc.getCurrentSet().getMkmName() != null)
-			edName = mc.getCurrentSet().getMkmName();
 	
 		if(mc.isExtraCard())
 			edName +=": Extras";
+	
+		if (mc.getCurrentSet().getMkmName() != null)
+			edName = mc.getCurrentSet().getMkmName();
+	
 		
-		for (Product p : list) {
-			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && p.getExpansionName().equalsIgnoreCase(edName)) {
+		for (Product p : list) 
+		{
+			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && (p.getExpansionName().equalsIgnoreCase(edName) || mc.getMkmId()==p.getIdProduct())) {
 				resultat = p;
 				break;
 			}
@@ -132,7 +134,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			if (!getString(LANGUAGE_ID).equals(""))
 				atts.put(PRODUCT_ATTS.idLanguage, getString(LANGUAGE_ID));
 
-			if (getString("USER_ARTICLE").equals(FALSE)) {
+			if (!getBoolean("USER_ARTICLE")) {
 				Product p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
 
 				if (p != null) {
@@ -176,16 +178,16 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 				for (Article a : articles) 
 				{
 					MagicPrice mp = new MagicPrice();
-					mp.setSeller(String.valueOf(a.getSeller()));
-					mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
-					mp.setValue(a.getPrice());
-					mp.setQuality(a.getCondition());
-					mp.setUrl("https://www.cardmarket.com" + resultat.getWebsite());
-					mp.setSite(getName());
-					mp.setFoil(a.isFoil());
-					mp.setCurrency("EUR");
-					mp.setLanguage(a.getLanguage().toString());
-					mp.setShopItem(a);
+							mp.setSeller(String.valueOf(a.getSeller()));
+							mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
+							mp.setValue(a.getPrice());
+							mp.setQuality(a.getCondition());
+							mp.setUrl("https://www.cardmarket.com" + resultat.getWebsite());
+							mp.setSite(getName());
+							mp.setFoil(a.isFoil());
+							mp.setCurrency("EUR");
+							mp.setLanguage(a.getLanguage().toString());
+							mp.setShopItem(a);
 					
 					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || ArrayUtils.contains(getArray(FILTER_COUNTRY),mp.getCountry().toUpperCase()))
 						lists.add(mp);
