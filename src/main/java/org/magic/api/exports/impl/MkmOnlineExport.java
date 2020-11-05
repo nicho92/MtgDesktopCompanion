@@ -269,33 +269,36 @@ public class MkmOnlineExport extends AbstractCardExport {
 				{
 					
 					Article a = new Article();
-					a.setAltered(mcs.isAltered());
-					a.setSigned(mcs.isSigned());
-					a.setCount(mcs.getQte());
-					a.setFoil(mcs.isFoil());
-					a.setPrice(mcs.getPrice());
-					a.setComments(mcs.getComment());
-					a.setCondition(convert(mcs.getCondition()));
-					a.setLanguage(convertLang(mcs.getLanguage()));
-					a.setProduct(p);
-					a.setIdProduct(p.getIdProduct());
-					list.add(a);
-					try {
-						Inserted retour  = serv.addArticle(a);
+						a.setAltered(mcs.isAltered());
+						a.setSigned(mcs.isSigned());
+						a.setCount(mcs.getQte());
+						a.setFoil(mcs.isFoil());
+						a.setPrice(mcs.getPrice());
+						a.setComments(mcs.getComment());
+						a.setCondition(convert(mcs.getCondition()));
+						a.setLanguage(convertLang(mcs.getLanguage()));
+						a.setProduct(p);
+						a.setIdProduct(p.getIdProduct());
+						list.add(a);
+					
+						try 
+						{
+							Inserted retour  = serv.addArticle(a);
 							if(!retour.isSuccess())
 							{
 								logger.error(retour.getError());
 							}
 							else
-								{
+							{
 								mcs.getTiersAppIds().put(getName(), retour.getIdArticle().getIdArticle());
 								mcs.setUpdate(true);
-								}
+							}
 						
-					}catch(Exception e)
-					{
-						logger.error(e);
-					}
+						}
+						catch(Exception e)
+						{
+							logger.error(e);
+						}
 				}
 				
 				
