@@ -93,7 +93,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
 		try (
-			 PdfDocument pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet_pdf1.pdf").openStream()));
+			 PdfDocument pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet.pdf").openStream()));
 			 Document docSrc = new Document(pdfSrc);
 			 PdfDocument pdfDest = new PdfDocument(new PdfWriter(dest));
 		     Document docDest = new Document(pdfDest)
