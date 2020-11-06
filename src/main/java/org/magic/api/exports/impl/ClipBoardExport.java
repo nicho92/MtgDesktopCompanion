@@ -67,12 +67,18 @@ public class ClipBoardExport extends AbstractCardExport {
 			notify(mc);
 		}
 		
-		
-		clipboard.clean();
+		if(getBoolean("CLEAN_AFTER_IMPORT"))
+			clipboard.clean();
 		
 		return d;
-		
 	}
+	
+	
+	@Override
+	public void initDefault() {
+		setProperty("CLEAN_AFTER_IMPORT","true");
+	}
+	
 
 	@Override
 	public String getName() {
