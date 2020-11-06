@@ -1,5 +1,7 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.listEnabledPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
@@ -22,8 +24,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
-
-import static org.magic.tools.MTG.*;
 
 public class OrderImporterDialog extends JDialog {
 

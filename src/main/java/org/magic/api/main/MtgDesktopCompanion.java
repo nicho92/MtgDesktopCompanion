@@ -1,6 +1,7 @@
 package org.magic.api.main;
 
-import static org.magic.tools.MTG.*;
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.Frame;
 import java.io.IOException;

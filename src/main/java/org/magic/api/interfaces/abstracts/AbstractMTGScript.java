@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.*;
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.io.File;
 import java.io.IOException;

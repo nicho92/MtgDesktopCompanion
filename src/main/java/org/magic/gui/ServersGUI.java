@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.listPlugins;
+
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -11,7 +13,6 @@ import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import static org.magic.tools.MTG.listPlugins;
 public class ServersGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

@@ -1,5 +1,7 @@
 package test.providers;
 
+import static org.magic.tools.MTG.listPlugins;
+
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -19,9 +21,7 @@ import org.magic.api.pictures.impl.MagidexPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import static org.magic.tools.MTG.*;
 
 
 public class PicturesProviderTests {

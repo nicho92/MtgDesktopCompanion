@@ -1,6 +1,7 @@
 package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.*;
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -32,7 +33,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
-import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
 
 import net.dv8tion.jda.api.EmbedBuilder;

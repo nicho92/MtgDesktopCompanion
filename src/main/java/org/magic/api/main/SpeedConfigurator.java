@@ -1,5 +1,7 @@
 package org.magic.api.main;
 
+import static org.magic.tools.MTG.listPlugins;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -27,7 +29,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
-import static org.magic.tools.MTG.listPlugins;
 
 
 public class SpeedConfigurator extends JFrame {

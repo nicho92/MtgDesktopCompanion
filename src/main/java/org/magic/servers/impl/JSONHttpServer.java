@@ -1,6 +1,8 @@
 package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.*;
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.tools.MTG.listPlugins;
 import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.exception;

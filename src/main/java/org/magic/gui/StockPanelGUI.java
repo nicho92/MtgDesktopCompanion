@@ -1,6 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.*;
+import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
