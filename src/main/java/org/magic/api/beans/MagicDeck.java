@@ -27,7 +27,6 @@ public class MagicDeck implements Serializable {
 	private double averagePrice;
 	private List<String> tags;
 	private MagicCard commander;
-	private MagicCard companion;
 
 	public MagicDeck() 
 	{

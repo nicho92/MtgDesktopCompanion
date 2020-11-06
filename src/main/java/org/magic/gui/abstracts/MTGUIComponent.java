@@ -40,7 +40,7 @@ public abstract class MTGUIComponent extends JComponent {
 		}
 	
 	
-	public MTGUIComponent()
+	protected MTGUIComponent()
 	{
 		logger.debug("init GUI : " + getTitle());
 		

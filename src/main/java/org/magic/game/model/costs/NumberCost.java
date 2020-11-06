@@ -22,12 +22,12 @@ public abstract class NumberCost implements Cost {
 	}
 
 	
-	public NumberCost(int value) {
+	protected NumberCost(int value) {
 		super();
 		setValue(value);
 	}
 
-	public NumberCost(String value) {
+	protected NumberCost(String value) {
 		super();
 		modifier=value.substring(0, 1);
 	}

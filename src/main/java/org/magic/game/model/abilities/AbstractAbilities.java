@@ -6,7 +6,7 @@ public abstract class AbstractAbilities extends AbstractSpell {
 
 	private static final long serialVersionUID = 1L;
 
-	public AbstractAbilities() {
+	protected AbstractAbilities() {
 		super();
 	}
 

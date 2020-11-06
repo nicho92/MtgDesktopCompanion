@@ -33,7 +33,7 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 		opts.addOption("?", "help", false, " : help for command");
 	}
 	
-	public AbstractCommand() {
+	protected AbstractCommand() {
 		json = new JsonExport();
 		initOptions();
 	}

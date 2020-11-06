@@ -18,7 +18,7 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	protected ChartPanel chartPanel;
 
 	
-	public MTGUIChartComponent() {
+	protected MTGUIChartComponent() {
 		onlyOneRefresh=false;
 		init();
 	}

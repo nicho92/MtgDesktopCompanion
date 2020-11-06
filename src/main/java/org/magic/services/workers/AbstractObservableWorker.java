@@ -30,11 +30,14 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	
 	
 	@SuppressWarnings("unchecked")
-	public AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,int size) {
+	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,int size) {
 		this.buzy=buzy;
 		this.plug=plug;
 		o=(Observable obs, Object c)->publish((V)c);
 		plug.addObserver(o);
+		
+		
+		
 		
 		if(size>-1)
 			buzy.start(size);
@@ -43,7 +46,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	}
 	
 	@SuppressWarnings("unchecked")
-	public AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug) {
+	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug) {
 		this.buzy=buzy;
 		this.plug=plug;
 		o=(Observable obs, Object c)->publish((V)c);

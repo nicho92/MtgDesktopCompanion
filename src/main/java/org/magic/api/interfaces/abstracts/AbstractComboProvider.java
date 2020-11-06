@@ -43,7 +43,7 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 	
 	
 	
-	public AbstractComboProvider() {
+	protected AbstractComboProvider() {
 		cache = new TCache<>("combos");
 	}
 }

@@ -40,7 +40,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		setProperty("DATA",Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"recog").toFile().getAbsolutePath());
 	}
 	
-	public AbstractRecognitionStrategy() {
+	protected AbstractRecognitionStrategy() {
 		desc = new ArrayList<>();
 	}
 	

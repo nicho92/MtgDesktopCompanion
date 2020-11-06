@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -86,6 +85,7 @@ public class DeckPricePanel extends JComponent {
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
+			
 			SwingWorker<Void, MagicPrice> sw = new SwingWorker<>() {
 				@Override
 				protected void done() {
@@ -96,7 +96,6 @@ public class DeckPricePanel extends JComponent {
 				@Override
 				protected void process(List<MagicPrice> p) {
 					model.addItems(p);
-					
 				}
 
 				@Override
@@ -106,10 +105,13 @@ public class DeckPricePanel extends JComponent {
 							List<MagicPrice> prices = ((MTGPricesProvider)cboPricers.getSelectedItem()).getPrice(c.getCurrentSet(), c);
 							MagicPrice p = null;
 							if (!prices.isEmpty()) {
-								Collections.sort(prices, new MagicPricesComparator());
-								p = prices.get(0);
-								p.setValue(p.getValue() * deck.getMain().get(c));
-								p.setSite(c.getName() + "(x" + deck.getMain().get(c) + ")");
+								p = prices.stream().min(new MagicPricesComparator()).orElse(null);
+								
+								if(p!=null) {
+									p.setValue(p.getValue() * deck.getMain().get(c));
+									p.setSite(c.getName() + "(x" + deck.getMain().get(c) + ")");
+									total += p.getValue();
+								}
 							} else {
 								p = new MagicPrice();
 								p.setValue(0.0);
@@ -117,7 +119,7 @@ public class DeckPricePanel extends JComponent {
 							}
 							
 							publish(p);
-							total += p.getValue();
+							
 							
 
 						} catch (Exception e) {

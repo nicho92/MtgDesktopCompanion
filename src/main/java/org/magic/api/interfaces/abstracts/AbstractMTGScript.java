@@ -32,7 +32,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	
 	protected static final String DIR = "DIR";
 	
-	public AbstractMTGScript() {
+	protected AbstractMTGScript() {
 		if(!getFile(DIR).exists())
 			try {
 				FileUtils.forceMkdir(getFile(DIR));

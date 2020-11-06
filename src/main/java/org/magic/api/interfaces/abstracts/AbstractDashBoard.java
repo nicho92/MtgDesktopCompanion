@@ -31,7 +31,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		return PLUGINS.DASHBOARD;
 	}
 
-	public AbstractDashBoard() {
+	protected AbstractDashBoard() {
 		try {
 			evaluator = new CollectionEvaluator();
 		} catch (IOException e) {

@@ -13,7 +13,7 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 	protected Map<Class, MTGCriteriaConverter> registry;
 
 	
-	public AbstractQueryBuilder() {
+	protected AbstractQueryBuilder() {
 		registry = new HashMap<>();
 	}
 	

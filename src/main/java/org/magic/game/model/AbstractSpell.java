@@ -58,7 +58,7 @@ public abstract class AbstractSpell implements Spell  {
 		return !costs.isEmpty();
 	}
 	
-	public AbstractSpell()
+	protected AbstractSpell()
 	{
 		costs=new ArrayList<>();
 		effects=new ArrayList<>();

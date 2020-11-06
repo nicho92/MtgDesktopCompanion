@@ -38,7 +38,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public abstract List<MagicEdition> loadEditions() throws IOException;
 	
 
-	public AbstractCardsProvider() {
+	protected AbstractCardsProvider() {
 		
 		cacheCards = new TCache<>("cards");
 		cacheCardsByEdition = new TCache<>("cardsByEdition");

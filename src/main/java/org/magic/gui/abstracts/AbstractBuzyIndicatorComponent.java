@@ -32,7 +32,7 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	}
 	
 	
-	public AbstractBuzyIndicatorComponent() {
+	protected AbstractBuzyIndicatorComponent() {
 		setVisible(false);
 		setLayout(new BorderLayout());
 	}

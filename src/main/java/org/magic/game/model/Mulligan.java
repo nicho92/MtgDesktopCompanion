@@ -8,7 +8,7 @@ public abstract class Mulligan {
 	protected int currentHandSize;
 	protected int mulliganCount;
 	
-	public Mulligan(Player p)
+	protected Mulligan(Player p)
 	{
 		this.player = p;
 		currentHandSize = p.getHand().size();

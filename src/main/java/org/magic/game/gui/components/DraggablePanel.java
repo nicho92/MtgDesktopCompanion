@@ -61,7 +61,7 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 	}
 	
 
-	public DraggablePanel() {
+	protected DraggablePanel() {
 		super();
 		setTransferHandler(new CardTransfertHandler());
 		setComponentPopupMenu(menu);

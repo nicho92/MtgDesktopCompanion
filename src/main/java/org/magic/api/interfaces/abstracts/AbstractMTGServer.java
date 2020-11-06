@@ -7,7 +7,7 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 
 	protected ReportNotificationManager notifFormater;
 	
-	public AbstractMTGServer() {
+	protected AbstractMTGServer() {
 		notifFormater = new ReportNotificationManager();
 	}
 

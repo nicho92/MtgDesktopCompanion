@@ -35,11 +35,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	
 		temp.append("[Sideboard]\n");
 		deck.getSideBoard().entrySet().stream().sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
-		
-//		temp.append("\n[Planes]\n\n");
-//		temp.append("[Schemes]\n\n");
-//		temp.append("[Conspiracy]\n\n");
-		
+	
 		
 		FileTools.saveFile(dest, temp.toString());
 

@@ -75,7 +75,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return "1.0";
 	}
 
-	public AbstractMTGPlugin() {
+	protected AbstractMTGPlugin() {
 		props = new Properties();
 		load();
 		
