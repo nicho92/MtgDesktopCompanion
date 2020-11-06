@@ -16,7 +16,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDeckManager;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.Version;
@@ -28,13 +27,11 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
 
 
 public class DCIDeckSheetExport extends AbstractCardExport {
 
-	private static final String FILL_CONTINUED_LANDS = "FILL_CONTINUED_LANDS";
 	private static final String FORCED_DATE = "FORCED_DATE";
 	private static final String DATE_FORMAT = "DATE_FORMAT";
 	private static final String LOCATION = "LOCATION";
