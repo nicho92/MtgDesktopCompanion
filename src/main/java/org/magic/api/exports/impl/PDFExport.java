@@ -14,6 +14,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -31,7 +33,6 @@ import com.itextpdf.layout.element.Table;
 
 public class PDFExport extends AbstractCardExport {
 
-	private PdfDocument  pdfDocDest;
 	private float userPoint=72f;
 	
 	@Override
@@ -44,7 +45,7 @@ public class PDFExport extends AbstractCardExport {
 		ImageData imageData = null;
 
 		try {
-			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getPicture(card, null),	null);
+			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(card, null),	null);
 		} catch (Exception e) {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);
 		}
@@ -74,21 +75,17 @@ public class PDFExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
 			Table table = new Table(3).useAllAvailableWidth();
-			pdfDocDest = new PdfDocument(new PdfWriter(f));
-			pdfDocDest.setDefaultPageSize(PageSize.A4);
-				  
-			PdfDocumentInfo info = pdfDocDest.getDocumentInfo();
-		    info.setTitle(deck.getName());
-		    info.setAuthor(getString("AUTHOR"));
-		    info.setCreator(MTGConstants.MTG_APP_NAME);
-		    info.setKeywords(deck.getTags().stream().collect(Collectors.joining(",")));
-		    info.addCreationDate();
+		
+			try(PdfDocument pdfDocDest = new PdfDocument(new PdfWriter(f));	Document doc = new Document(pdfDocDest) )
+			{
+				pdfDocDest.setDefaultPageSize(PageSize.A4);
+				PdfDocumentInfo info = pdfDocDest.getDocumentInfo();
+			    info.setTitle(deck.getName());
+			    info.setAuthor(getString("AUTHOR"));
+			    info.setCreator(MTGConstants.MTG_APP_NAME);
+			    info.setKeywords(deck.getTags().stream().collect(Collectors.joining(",")));
+			    info.addCreationDate();
 		   
-		   try (
-				PdfWriter writer = new PdfWriter(f); 
-				Document doc = new Document(pdfDocDest)
-			   )
-		   {  
 				for (MagicCard card : deck.getMainAsList()) {
 					table.addCell(createCell(card));
 					notify(card);
@@ -96,9 +93,9 @@ public class PDFExport extends AbstractCardExport {
 				
 				doc.add(table);
 
-		} catch (Exception e) {
-			logger.error("Error in pdf creation " + f, e);
-		}
+			} catch (Exception e) {
+				logger.error("Error in pdf creation " + f, e);
+			}
 	}
 
 	@Override

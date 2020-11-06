@@ -14,6 +14,8 @@ public interface MTGPictureProvider extends MTGPlugin {
 	
 	public BufferedImage getPicture(MagicCard mc) throws IOException;
 	
+	public BufferedImage getFullSizePicture(MagicCard mc, MagicEdition ed) throws IOException;
+	
 	public BufferedImage getForeignNamePicture(MagicCardNames fn,MagicCard mc) throws IOException;
 
 	public BufferedImage getSetLogo(String setID, String rarity) throws IOException;

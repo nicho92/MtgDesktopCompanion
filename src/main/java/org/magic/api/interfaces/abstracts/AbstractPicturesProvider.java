@@ -30,7 +30,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		return PLUGINS.PICTURE;
 	}
 
-	public AbstractPicturesProvider() {
+	protected AbstractPicturesProvider() {
 		super();
 		setCache = new TCache<>("setIcons");
 		
@@ -43,6 +43,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 	
+	
 	public abstract BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException;
 	
 	@Override
@@ -52,21 +53,28 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+	public BufferedImage getFullSizePicture(MagicCard mc, MagicEdition ed) throws IOException {
 		if (getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed) != null) {
 			logger.trace("cached " + mc + "(" + ed + ") found");
-			return resizeCard(getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed), newW, newH);
+			return getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed);
 		}
 		BufferedImage bufferedImage = getOnlinePicture(mc, ed);
 		if (bufferedImage != null)
 		{
 			getEnabledPlugin(MTGPicturesCache.class).put(bufferedImage, mc, ed);
-			return resizeCard(bufferedImage, newW, newH);
+			return bufferedImage;
 		}
 		else
 		{
 			return getBackPicture();
 		}
+	}
+	
+	
+	
+	@Override
+	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+		return resizeCard(getFullSizePicture(mc,ed), newW, newH);
 	}
 	
 	@Override
