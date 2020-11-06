@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -127,26 +129,18 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			
 			// MAIN DECK
 			int count = 0;
-			for (MagicCard mc : deck.getMain().keySet()) {
-				docDest.add(createParagraphe(deck.getMain().get(mc) + space + mc.getName(),w/6.4f,h-240-count));
+			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).collect(Collectors.toList())) {
+				docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/6.4f,h-240-count));
 				count += 18;
-				notify(mc);
+				notify(e.getKey());
+			}
+			count = 0;
+			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->e.getKey().isBasicLand()).collect(Collectors.toList())) {
+					docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/1.65f,h-240-count));
+					count += 18;
+				notify(e.getKey());
 			}
 
-			// CONTINUED and BASIC LAND
-			if (getBoolean(FILL_CONTINUED_LANDS)) 
-			{
-				count = 0;
-				for (MagicCard mc : deck.getMain().keySet()) {
-					if (mc.isBasicLand()) {
-						docDest.add(createParagraphe(deck.getMain().get(mc) + space + mc.getName(),w/1.65f,h-240-count));
-						count += 18;
-					}
-					notify(mc);
-				}
-				
-			}
-			
 			// SIDEBOARD
 			count = 0;
 			for (MagicCard mc : deck.getSideBoard().keySet()) {
@@ -212,7 +206,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		setProperty(LOCATION, "fill it");
 		setProperty(DATE_FORMAT, "dd/MM/YYYY");
 		setProperty(FORCED_DATE, "");
-		setProperty(FILL_CONTINUED_LANDS, "true");
 
 	}
 	
