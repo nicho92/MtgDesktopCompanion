@@ -37,19 +37,20 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 		try {
 			doc = URLTools.extractHtml(url);
-			Elements els = doc.select("div.filterElement");
+			Elements els = doc.select("div.filterElement"); 
+			
 			for (int i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
 				MagicPrice mp = new MagicPrice();
 				mp.setMagicCard(card);
-				mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
+				mp.setLanguage(e.select("img.langue_big").first().attr("alt"));
 				mp.setQuality(e.getElementsByClass("etat").html());
 				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
 				mp.setCurrency("EUR");
 				mp.setCountry("France");
 				mp.setSite(getName());
 				mp.setUrl(url);
-				mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
+				mp.setSeller(e.getElementsByClass("name_ext").text());
 				mp.setFoil(e.attr("data-foil").equals("O"));
 				list.add(mp);
 			}
