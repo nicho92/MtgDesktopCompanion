@@ -43,6 +43,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 					if (name.startsWith(cname)) {
 						logger.info(getName() + " found " + cname);
 						MagicPrice mp = new MagicPrice();
+						mp.setMagicCard(card);
 						mp.setSeller(getName());
 						mp.setUrl("http://store.eudogames.com/products/search?query="
 								+ URLTools.encode(card.getName()));

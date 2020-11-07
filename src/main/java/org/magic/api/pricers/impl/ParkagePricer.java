@@ -33,6 +33,7 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 				{
 					MagicPrice mp = new MagicPrice();
 							mp.setCountry("FR");
+							mp.setMagicCard(card);
 							mp.setCurrency("EUR");
 							mp.setSite(getName());
 							mp.setUrl(tr.select("td").first().select("a").attr("href"));

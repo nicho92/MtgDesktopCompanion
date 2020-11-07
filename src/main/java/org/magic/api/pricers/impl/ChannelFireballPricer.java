@@ -40,6 +40,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 			
 			MagicPrice p = new MagicPrice();
 					   p.setCountry("USA");
+					   p.setMagicCard(card);
 					   p.setCurrency("USD");
 					   p.setSite(getName());
 					   p.setUrl(baseUrl+li.getElementsByTag("a").first().attr("href"));

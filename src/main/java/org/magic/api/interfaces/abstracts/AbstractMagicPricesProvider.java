@@ -68,6 +68,7 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 											if(MTGControler.getInstance().getCurrencyService().isEnable()) {
 												p.setValue(MTGControler.getInstance().getCurrencyService().convertTo(p.getCurrency(), p.getValue()));
 												p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+												p.setMagicCard(card);
 											}
 											return p;
 										}

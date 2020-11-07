@@ -28,6 +28,15 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		}
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	protected AbstractObservableWorker(P plug) {
+		this.plug=plug;
+		o=(Observable obs, Object c)->publish((V)c);
+		plug.addObserver(o);
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,int size) {

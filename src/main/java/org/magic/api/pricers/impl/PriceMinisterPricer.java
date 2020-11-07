@@ -56,6 +56,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element e = (Element) nNode;
 					MagicPrice it = new MagicPrice();
+					it.setMagicCard(card);
 					it.setUrl(e.getElementsByTagName("url").item(0).getTextContent());
 					it.setSite(getName());
 					it.setValue(Double.parseDouble(parsePrice((Element) e.getElementsByTagName("global").item(0))));

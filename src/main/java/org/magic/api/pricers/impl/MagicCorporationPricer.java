@@ -64,6 +64,7 @@ public class MagicCorporationPricer extends AbstractMagicPricesProvider {
 				for(Element tr : trs)
 				{
 						MagicPrice mp = new MagicPrice();
+						mp.setMagicCard(card);
 						mp.setCountry("FR");
 						mp.setCurrency("EUR");
 						mp.setQuality(tr.select("td").get(1).text());

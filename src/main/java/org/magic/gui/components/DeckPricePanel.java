@@ -14,11 +14,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -27,7 +25,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.sorters.MagicPricesComparator;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class DeckPricePanel extends JComponent {
@@ -86,50 +84,26 @@ public class DeckPricePanel extends JComponent {
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
 			
-			SwingWorker<Void, MagicPrice> sw = new SwingWorker<>() {
+			AbstractObservableWorker<List<MagicPrice>, MagicPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
+
+				@Override
+				protected List<MagicPrice> doInBackground() throws Exception {
+					return plug.getPrice(deck, false);
+				}
+				
 				@Override
 				protected void done() {
 					lblPrice.setText(String.valueOf(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 					deck.setAveragePrice(total);
 				}
-
+				
 				@Override
 				protected void process(List<MagicPrice> p) {
 					model.addItems(p);
 				}
-
-				@Override
-				protected Void doInBackground(){
-					for (MagicCard c : deck.getMain().keySet()) {
-						try {
-							List<MagicPrice> prices = ((MTGPricesProvider)cboPricers.getSelectedItem()).getPrice(c.getCurrentSet(), c);
-							MagicPrice p = null;
-							if (!prices.isEmpty()) {
-								p = prices.stream().min(new MagicPricesComparator()).orElse(null);
-								
-								if(p!=null) {
-									p.setValue(p.getValue() * deck.getMain().get(c));
-									p.setSite(c.getName() + "(x" + deck.getMain().get(c) + ")");
-									total += p.getValue();
-								}
-							} else {
-								p = new MagicPrice();
-								p.setValue(0.0);
-								p.setSite(c.getName() + "(x" + deck.getMain().get(c) + ") - "+ MTGControler.getInstance().getLangService().get("NOT_FOUND"));
-							}
-							
-							publish(p);
-							
-							
-
-						} catch (Exception e) {
-							logger.error("error in " + c, e);
-						}
-
-					}
-					return null;
-				}
+				
 			};
+
 			ThreadManager.getInstance().runInEdt(sw, "loading deck price");
 
 		});
@@ -148,9 +122,9 @@ public class DeckPricePanel extends JComponent {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.COLUMUM_URL)
-								.toString();
-						Desktop.getDesktop().browse(new URI(url));
+						
+						MagicPrice url = UITools.getTableSelection(tablePrice, 0);
+						Desktop.getDesktop().browse(new URI(url.getUrl()));
 					} catch (Exception e) {
 						logger.error(e);
 					}

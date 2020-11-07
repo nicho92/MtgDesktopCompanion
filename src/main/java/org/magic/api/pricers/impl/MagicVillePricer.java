@@ -70,6 +70,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			String price = cols.get(4).text();
 			price = price.substring(0, price.length() - 1);
 			mp.setValue(Double.parseDouble(price));
+			mp.setMagicCard(card);
 			mp.setCurrency("EUR");
 			mp.setSeller(cols.get(0).text());
 			mp.setSite(getName());

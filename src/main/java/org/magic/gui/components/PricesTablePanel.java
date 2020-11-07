@@ -70,6 +70,9 @@ public class PricesTablePanel extends JPanel {
 		tablePrices.setColumnControlVisible(true);
 		tablePrices.setRowSorter(sorterPrice);
 
+		for(int i : model.defaultHiddenColumns())
+			tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
+	
 		
 		
 		add(panel, BorderLayout.NORTH);
@@ -84,9 +87,8 @@ public class PricesTablePanel extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.COLUMUM_URL).toString();
-						Desktop.getDesktop().browse(new URI(url));
+						MagicPrice url = UITools.getTableSelection(tablePrices, 0);
+						Desktop.getDesktop().browse(new URI(url.getUrl()));
 					} catch (Exception e) {
 						logger.error(e);
 					}

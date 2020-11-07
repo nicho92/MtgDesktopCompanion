@@ -10,12 +10,11 @@ import org.magic.tools.UITools;
 public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
 	private static final long serialVersionUID = 1L;
-	public static final int COLUMUM_URL = 8;
-
 
 
 	public CardsPriceTableModel() {
 		columns=new String[] { 
+				"CARD",
 				"WEBSITE",
 				"PRICE",
 				"CURRENCY",
@@ -25,27 +24,34 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 				"CARD_LANGUAGE",
 				"COUNTRY",
 				"URL"};
-
 	}
+	
+	@Override
+	public int[] defaultHiddenColumns() {
+		return new int[] {0};
+	}
+	
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return String.class;
+			return MagicPrice.class;
 		case 1:
-			return Double.class;
-		case 2:
-			return Currency.class;
-		case 3:
 			return String.class;
+		case 2:
+			return Double.class;
+		case 3:
+			return Currency.class;
 		case 4:
 			return String.class;
 		case 5:
-			return Boolean.class;
-		case 6:
 			return String.class;
+		case 6:
+			return Boolean.class;
 		case 7:
+			return String.class;
+		case 8:
 			return String.class;
 		default:
 			return URL.class;
@@ -60,22 +66,24 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
 			switch (column) {
 			case 0:
-				return mp.getSite();
+				return mp;
 			case 1:
-				return UITools.roundDouble(mp.getValue());
+				return mp.getSite();
 			case 2:
-				return mp.getCurrency();
+				return UITools.roundDouble(mp.getValue());
 			case 3:
-				return mp.getSeller();
+				return mp.getCurrency();
 			case 4:
-				return mp.getQuality();
+				return mp.getSeller();
 			case 5:
-				return mp.isFoil();
+				return mp.getQuality();
 			case 6:
-				return mp.getLanguage();
+				return mp.isFoil();
 			case 7:
-				return mp.getCountry();
+				return mp.getLanguage();
 			case 8:
+				return mp.getCountry();
+			case 9:
 				return mp.getUrl();
 			default:
 				return 0;

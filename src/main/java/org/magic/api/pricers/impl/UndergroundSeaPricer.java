@@ -47,6 +47,7 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 			if(visitedNode.getType()==Token.NEW)
 			{
 				mp = new MagicPrice();
+				mp.setMagicCard(card);
 				mp.setSite(getName());
 				mp.setUrl(url);
 				mp.setQuality(EnumCondition.PROXY.name());

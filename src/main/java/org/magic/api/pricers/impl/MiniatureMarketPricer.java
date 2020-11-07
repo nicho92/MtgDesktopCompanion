@@ -61,6 +61,7 @@ public class MiniatureMarketPricer extends AbstractMagicPricesProvider {
 			{
 				MagicPrice mp = new MagicPrice();
 						mp.setCountry("USA");
+						mp.setMagicCard(card);
 						mp.setCurrency("USD");
 						mp.setUrl(je.get("productUrl").getAsString());
 						mp.setSite(getName());

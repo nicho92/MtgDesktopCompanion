@@ -67,7 +67,7 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 		
 		if(qtyVariation==1)
 		{
-			parsingOffers(BASE_URL + "/produto/"+o.get("idproduto").getAsInt()+"/"+o.get("slugnomeptproduto").getAsString(),list);
+			parsingOffers(BASE_URL + "/produto/"+o.get("idproduto").getAsInt()+"/"+o.get("slugnomeptproduto").getAsString(),list,card);
 		}
 		else
 		{
@@ -78,7 +78,7 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 				if(div.select("a div").toString().contains("magic_"+set.toLowerCase()+"_"))
 				{
 					String urlC = BASE_URL +div.select("a").attr("href");
-					parsingOffers(urlC, list);
+					parsingOffers(urlC, list,card);
 					return list;
 				}
 			}
@@ -86,7 +86,7 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 		return list;
 	}
 	
-	private void parsingOffers(String urlC, List<MagicPrice> list) throws IOException {
+	private void parsingOffers(String urlC, List<MagicPrice> list,MagicCard card) throws IOException {
 		Elements trs = URLTools.extractHtml(urlC).select("table.table tr[data-key]");
 		for(Element tr : trs)
 		{
@@ -98,6 +98,7 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 			}
 			
 			MagicPrice mp = new MagicPrice();
+				mp.setMagicCard(card);
 				mp.setCountry("Brazil");
 				mp.setCurrency(Currency.getInstance("BRL"));
 				mp.setSite(getName());

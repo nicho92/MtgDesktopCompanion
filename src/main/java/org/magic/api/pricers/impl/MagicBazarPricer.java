@@ -41,6 +41,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 			for (int i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
 				MagicPrice mp = new MagicPrice();
+				mp.setMagicCard(card);
 				mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
 				mp.setQuality(e.getElementsByClass("etat").html());
 				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));

@@ -60,6 +60,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 		for (JsonElement el : items) {
 			MagicPrice mp = new MagicPrice();
+		
 			String etat = "";
 			String title = el.getAsJsonObject().get("title").getAsString();
 			String consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
@@ -77,6 +78,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 			
 			
 			
+			mp.setMagicCard(card);
 			mp.setCountry(country);
 			mp.setSeller(title);
 			mp.setUrl(consultURL);
