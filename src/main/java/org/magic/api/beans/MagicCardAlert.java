@@ -10,9 +10,18 @@ public class MagicCardAlert {
 	private MagicCard card;
 	private Double price;
 	private CardShake shake;
+	private int qty;
 	private List<MagicPrice> offers;
 	private boolean foil;
 
+	public int getQty() {
+		return qty;
+	}
+	
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+	
 	@Override
 	public String toString() {
 		return String.valueOf(card);

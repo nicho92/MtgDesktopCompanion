@@ -57,6 +57,7 @@ import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.renderer.MagicPricePanel;
+import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
@@ -135,14 +136,15 @@ public class AlarmGUI extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		table.setModel(model);
-		table.getColumnModel().getColumn(4).setCellRenderer(new AlertedCardsRenderer());
+		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
-		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(7).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(8).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
+		table.getColumnModel().getColumn(2).setCellEditor(new IntegerCellEditor());
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 
 		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
@@ -195,7 +197,7 @@ public class AlarmGUI extends MTGUIComponent {
 		
 		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
 			MagicDeck tdek = new MagicDeck();
-			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),1));
+			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),e.getQty()));
 			globalSearchPanel.initDeck(tdek);
 		});
 		

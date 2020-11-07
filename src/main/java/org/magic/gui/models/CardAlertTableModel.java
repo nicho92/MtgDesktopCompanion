@@ -16,7 +16,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	private static final long serialVersionUID = 1L;
 
 	public CardAlertTableModel() {
-		columns = new String[] { "CARD","EDITION","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
+		columns = new String[] { "CARD","EDITION","NEEDED","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
 	}
 
 	@Override
@@ -40,16 +40,18 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		case 1:
 			return List.class;
 		case 2:
-			return Boolean.class;
-		case 3:
-			return Double.class;
-		case 4:
 			return Integer.class;
-		case 5:
+		case 3:
+			return Boolean.class;
+		case 4:
 			return Double.class;
+		case 5:
+			return Integer.class;
 		case 6:
 			return Double.class;
 		case 7:
+			return Double.class;
+		case 8:
 			return Double.class;
 		default:
 			return super.getColumnClass(columnIndex);
@@ -64,7 +66,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return (column == 2 || column==1 || column==3);
+		return (column == 1 || column==2 || column==3 || column==4);
 	}
 
 	@Override
@@ -75,16 +77,18 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		case 1:
 			return getItems().get(row).getCard().getEditions();
 		case 2:
-			return getItems().get(row).isFoil();
+			return getItems().get(row).getQty();
 		case 3:
-			return getItems().get(row).getPrice();
+			return getItems().get(row).isFoil();
 		case 4:
-			return getItems().get(row).getOffers().size();
+			return getItems().get(row).getPrice();
 		case 5:
-			return getItems().get(row).getShake().getPriceDayChange();
+			return getItems().get(row).getOffers().size();
 		case 6:
-			return getItems().get(row).getShake().getPriceWeekChange();
+			return getItems().get(row).getShake().getPriceDayChange();
 		case 7:
+			return getItems().get(row).getShake().getPriceWeekChange();
+		case 8:
 			return getItems().get(row).getShake().getPercentDayChange();
 		default:
 			return "";
@@ -116,6 +120,17 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		
 		if(column==2) 
 		{
+			alert.setQty(Integer.parseInt(aValue.toString()));
+			try {
+				getEnabledPlugin(MTGDao.class).updateAlert(alert);
+			} catch (Exception e) {
+				logger.error("error set value " + aValue, e);
+			}
+		}
+		
+		
+		if(column==3) 
+		{
 			alert.setFoil(Boolean.parseBoolean(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
@@ -124,7 +139,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 			}
 		}
 		
-		if(column==3) 
+		if(column==4) 
 		{
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
@@ -133,6 +148,8 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				logger.error("error set value " + aValue, e);
 			}
 		}
+		
+		
 		
 		fireTableDataChanged();
 		
