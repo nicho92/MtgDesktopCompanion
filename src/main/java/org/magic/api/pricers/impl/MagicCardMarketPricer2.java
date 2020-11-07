@@ -87,9 +87,14 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			edName = mc.getCurrentSet().getMkmName();
 	
 		
+		Integer mkmId=0;
+		
+		if(mc.getMkmId()!=null)
+			mkmId=mc.getMkmId();
+		
 		for (Product p : list) 
 		{
-			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && (p.getExpansionName().equalsIgnoreCase(edName) || p.getIdProduct()==mc.getMkmId())) {
+			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && (p.getExpansionName().equalsIgnoreCase(edName) || p.getIdProduct()==mkmId)) {
 				resultat = p;
 				break;
 			}
