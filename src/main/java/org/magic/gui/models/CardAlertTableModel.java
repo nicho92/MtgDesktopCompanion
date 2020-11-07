@@ -56,6 +56,11 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		}
 
 	}
+	
+	@Override
+	public List<MagicCardAlert> getItems() {
+		return getEnabledPlugin(MTGDao.class).listAlerts();
+	}
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
@@ -66,21 +71,21 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row);
+			return getItems().get(row);
 		case 1:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getCard().getEditions();
+			return getItems().get(row).getCard().getEditions();
 		case 2:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).isFoil();
+			return getItems().get(row).isFoil();
 		case 3:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getPrice();
+			return getItems().get(row).getPrice();
 		case 4:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getOffers().size();
+			return getItems().get(row).getOffers().size();
 		case 5:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getShake().getPriceDayChange();
+			return getItems().get(row).getShake().getPriceDayChange();
 		case 6:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getShake().getPriceWeekChange();
+			return getItems().get(row).getShake().getPriceWeekChange();
 		case 7:
-			return getEnabledPlugin(MTGDao.class).listAlerts().get(row).getShake().getPercentDayChange();
+			return getItems().get(row).getShake().getPercentDayChange();
 		default:
 			return "";
 		}
@@ -89,7 +94,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MagicCardAlert alert = getEnabledPlugin(MTGDao.class).listAlerts().get(row);
+		MagicCardAlert alert = getItems().get(row);
 		if (column == 1) 
 		{
 			MagicEdition ed = (MagicEdition) aValue;

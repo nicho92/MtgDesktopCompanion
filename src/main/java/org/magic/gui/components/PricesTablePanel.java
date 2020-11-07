@@ -189,13 +189,8 @@ public class PricesTablePanel extends JPanel {
 			
 				};
 				ThreadManager.getInstance().runInEdt(sw,"loading prices");
-				
 			}
-			
-			
-			
 		}
-		
 	}
 	
 	public List<MagicPrice> getPrices()

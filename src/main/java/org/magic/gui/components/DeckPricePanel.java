@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,7 +40,7 @@ public class DeckPricePanel extends JComponent {
 	private CardsPriceTableModel model;
 	private MagicDeck deck;
 	private JLabel lblPrice;
-	private int total = 0;
+	private double total = 0;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnCheckPrice;
 	
@@ -63,6 +64,12 @@ public class DeckPricePanel extends JComponent {
 	
 	public JButton getBtnCheckPrice() {
 		return btnCheckPrice;
+	}
+	
+	
+	public void updatePrice()
+	{
+		lblPrice.setText(String.valueOf(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 	}
 	
 
@@ -93,8 +100,16 @@ public class DeckPricePanel extends JComponent {
 				
 				@Override
 				protected void done() {
-					lblPrice.setText(String.valueOf(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 					deck.setAveragePrice(total);
+					
+					try {
+						total = get().stream().mapToDouble(MagicPrice::getValue).sum();
+					} catch (Exception e) {
+						logger.error(e);
+					}
+					
+					
+					updatePrice();
 				}
 				
 				@Override

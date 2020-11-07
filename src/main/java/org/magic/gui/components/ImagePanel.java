@@ -130,11 +130,7 @@ public class ImagePanel extends JXPanel {
 
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
-				if (edition == null)
-					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null);
-				else
-					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition);
-
+				imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition);
 				
 				if(mc.isFlippable())
 					imgBack = ImageTools.rotate(imgFront, 180);

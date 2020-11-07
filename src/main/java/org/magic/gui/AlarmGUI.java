@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -48,6 +49,8 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.DeckPricePanel;
+import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.ServerStatePanel;
@@ -84,7 +87,8 @@ public class AlarmGUI extends MTGUIComponent {
 	private PricesTablePanel pricesTablePanel;
 	private JButton btnSuggestPrice;
 	private JSplitPane splitPanel;
-	
+	private JExportButton btnExport;
+	private DeckPricePanel globalSearchPanel;
 	
 	public AlarmGUI() {
 		initGUI();
@@ -102,13 +106,13 @@ public class AlarmGUI extends MTGUIComponent {
 		return MTGControler.getInstance().getLangService().getCapitalize("ALERT_MODULE");
 	}
 	
-	
 
 	public void initGUI() {
 		splitPanel = new JSplitPane();
-
+		btnExport = new JExportButton(MODS.EXPORT);
 		table = new JXTable();
 		model = new CardAlertTableModel();
+		globalSearchPanel = new DeckPricePanel();
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel(true);
@@ -143,6 +147,8 @@ public class AlarmGUI extends MTGUIComponent {
 
 		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
 		
+		globalSearchPanel.enableControle(true);
+		
 		panelRight.setLayout(new BorderLayout());
 	
 ///////ADDS	
@@ -156,6 +162,9 @@ public class AlarmGUI extends MTGUIComponent {
 		panelRight.add(serversPanel,BorderLayout.SOUTH);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING"), MTGConstants.ICON_TAB_SHOP, globalSearchPanel, null);
+		
+		
 		pricesTablePanel = new PricesTablePanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
 		add(panelRight, BorderLayout.EAST);
@@ -165,6 +174,7 @@ public class AlarmGUI extends MTGUIComponent {
 		panel.add(btnImport);
 		panel.add(btnRefresh);
 		panel.add(btnSuggestPrice);
+		panel.add(btnExport);
 		panel.add(lblLoading);
 		
 	}
@@ -179,6 +189,24 @@ public class AlarmGUI extends MTGUIComponent {
 
 
 	private void initActions() {
+		
+		
+		
+		
+		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
+			MagicDeck tdek = new MagicDeck();
+			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),1));
+			globalSearchPanel.initDeck(tdek);
+		});
+		
+		
+		btnExport.initAlertsExport(new Callable<List<MagicCardAlert>>() {
+			@Override
+			public List<MagicCardAlert> call() throws Exception {
+				return model.getItems();
+			}
+		},lblLoading);
+		
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override

@@ -6,12 +6,14 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -38,6 +40,57 @@ public class JExportButton extends JButton {
 			setIcon(MTGConstants.ICON_IMPORT);
 	}
 	
+	
+	public void initAlertsExport(Callable<List<MagicCardAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
+		
+		addActionListener(ae -> {
+			JPopupMenu menu = new JPopupMenu();
+
+			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
+					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
+					it.addActionListener(exportEvent -> {
+						int result = JFileChooser.CANCEL_OPTION;
+						File f = null;
+						List<MagicCardAlert> export  = null;
+						
+						try {
+							export = callable.call();
+						}
+						catch(Exception e)
+						{
+							MTGControler.getInstance().notify(e);
+							return;
+						}
+						
+						if(exp.needFile())
+						{
+							JFileChooser jf = new JFileChooser(".");
+							jf.setSelectedFile(new File("alerts" + exp.getFileExtension()));
+							result = jf.showSaveDialog(null);
+							f = jf.getSelectedFile();
+						}
+						else
+						{
+							result = JFileChooser.APPROVE_OPTION;
+						}
+						
+						if (result == JFileChooser.APPROVE_OPTION)
+						{
+								lblLoading.start(export.size()); 
+								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp,export.stream().map(MagicCardAlert::getCard).collect(Collectors.toList()), lblLoading, f), "export alerts " + exp);
+						}
+					});
+
+					menu.add(it);
+				}
+				
+			}
+			Point p = this.getLocationOnScreen();
+			menu.show(this, 0, 0);
+			menu.setLocation(p.x, p.y + this.getHeight());
+		});
+	}
 
 	
 	public void initCardsExport(Callable<MagicDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
