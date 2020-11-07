@@ -34,6 +34,8 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 					MagicPrice p = getPrice(e.getKey().getCurrentSet(), e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 					if(p!=null)
 					{ 
+						p.setMagicCard(e.getKey());
+						p.setQty(e.getValue());
 						p.setValue(p.getValue()*e.getValue());
 						ret.add(p);
 						notify(p);

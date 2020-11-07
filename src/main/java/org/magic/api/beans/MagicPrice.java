@@ -15,6 +15,16 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private Object shopItem;
 	private String country;
 	private MagicCard magicCard;
+	private int qty = 1;
+	
+	
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+	
+	public int getQty() {
+		return qty;
+	}
 	
 	public MagicCard getMagicCard() {
 		return magicCard;

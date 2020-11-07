@@ -15,6 +15,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 	public CardsPriceTableModel() {
 		columns=new String[] { 
 				"CARD",
+				"QTY",
 				"WEBSITE",
 				"PRICE",
 				"CURRENCY",
@@ -28,7 +29,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 	
 	@Override
 	public int[] defaultHiddenColumns() {
-		return new int[] {0};
+		return new int[] {0,1};
 	}
 	
 
@@ -38,20 +39,22 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 		case 0:
 			return MagicPrice.class;
 		case 1:
-			return String.class;
+			return Integer.class;
 		case 2:
-			return Double.class;
-		case 3:
-			return Currency.class;
-		case 4:
 			return String.class;
+		case 3:
+			return Double.class;
+		case 4:
+			return Currency.class;
 		case 5:
 			return String.class;
 		case 6:
-			return Boolean.class;
-		case 7:
 			return String.class;
+		case 7:
+			return Boolean.class;
 		case 8:
+			return String.class;
+		case 9:
 			return String.class;
 		default:
 			return URL.class;
@@ -68,22 +71,24 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 			case 0:
 				return mp;
 			case 1:
-				return mp.getSite();
+				return mp.getQty();
 			case 2:
-				return UITools.roundDouble(mp.getValue());
+				return mp.getSite();
 			case 3:
-				return mp.getCurrency();
+				return UITools.roundDouble(mp.getValue());
 			case 4:
-				return mp.getSeller();
+				return mp.getCurrency();
 			case 5:
-				return mp.getQuality();
+				return mp.getSeller();
 			case 6:
-				return mp.isFoil();
+				return mp.getQuality();
 			case 7:
-				return mp.getLanguage();
+				return mp.isFoil();
 			case 8:
-				return mp.getCountry();
+				return mp.getLanguage();
 			case 9:
+				return mp.getCountry();
+			case 10:
 				return mp.getUrl();
 			default:
 				return 0;
