@@ -273,7 +273,7 @@ public class AlarmGUI extends MTGUIComponent {
 								List<MagicPrice> prices=new ArrayList<>();
 								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
 									try {
-										prices.addAll(p.getPrice(alert.getCard().getCurrentSet(), alert.getCard()));
+										prices.addAll(p.getPrice(alert.getCard()));
 									} catch (IOException e1) {
 										logger.error("error adding price for" + alert.getCard() + " with " + p,e1);
 									}
@@ -443,7 +443,7 @@ public class AlarmGUI extends MTGUIComponent {
 	private void updateInfo(MagicCardAlert selected) {
 		magicCardDetailPanel.setMagicCard(selected.getCard());
 		variationPanel.init(selected.getCard(), null, selected.getCard().getName());
-		pricesTablePanel.init(selected.getCard(), selected.getCard().getCurrentSet(),selected.isFoil());
+		pricesTablePanel.init(selected.getCard(), selected.isFoil());
 	}
 
 	private void addCard(MagicCard mc) {

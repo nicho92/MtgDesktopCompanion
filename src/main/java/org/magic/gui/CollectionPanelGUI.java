@@ -325,7 +325,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		magicCardDetailPanel.setMagicCard(mc);
 		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
 		deckPanel.init(mc);
-		pricePanel.init(mc, mc.getCurrentSet());
+		pricePanel.init(mc);
 		btnExport.setEnabled(false);
 		packagePanel.setMagicEdition(mc.getCurrentSet());
 		jsonPanel.show(mc);

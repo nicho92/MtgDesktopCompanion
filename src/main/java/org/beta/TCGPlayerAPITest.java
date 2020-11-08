@@ -20,7 +20,7 @@ public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 	public static void main(String[] args) throws IOException {
 		MagicCard mc = new MagicCard();
 		mc.setTcgPlayerId(179466);
-		new TCGPlayerAPITest().getLocalePrice(null,mc);
+		new TCGPlayerAPITest().getLocalePrice(mc);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
 			RequestBuilder build = RequestBuilder.build()
 							  .setClient(URLTools.newClient())
