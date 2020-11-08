@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.gson.annotations.SerializedName;
-
 public class MagicFormat implements Serializable {
 
 	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}

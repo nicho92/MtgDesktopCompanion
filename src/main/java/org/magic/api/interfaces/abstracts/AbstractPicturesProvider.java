@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;

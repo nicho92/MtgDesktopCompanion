@@ -8,10 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.services.PluginRegistry;
 import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;

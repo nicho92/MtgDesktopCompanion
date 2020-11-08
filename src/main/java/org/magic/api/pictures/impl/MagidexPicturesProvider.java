@@ -2,15 +2,11 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 
 public class MagidexPicturesProvider extends AbstractPicturesProvider {
 
