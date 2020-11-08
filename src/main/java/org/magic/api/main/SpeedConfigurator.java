@@ -41,6 +41,7 @@ public class SpeedConfigurator extends JFrame {
 	private JComboBox<MTGCardsProvider> cboProvider;
 	
 	public static void main(String[] args) {
+		MTGControler.getInstance();
 		new SpeedConfigurator().setVisible(true);
 
 	}
