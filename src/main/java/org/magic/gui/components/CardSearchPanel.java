@@ -577,7 +577,8 @@ public class CardSearchPanel extends MTGUIComponent {
 							@Override
 							protected MagicCard doInBackground() throws Exception {
 								try {
-									MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
+									
+									MagicCard mc = MTGControler.getInstance().switchEditions(selectedCard, selectedEdition);
 									publish(mc);
 									return mc;
 								} catch (Exception e) {
@@ -593,7 +594,7 @@ public class CardSearchPanel extends MTGUIComponent {
 									selectedCard = get();
 									cardsPicPanel.showCard(selectedCard); // backcard
 									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
-									priceTablePanel.init(selectedCard,selectedEdition);
+									priceTablePanel.init(selectedCard);
 								} catch (Exception e) {
 									logger.error(e);
 								} 
@@ -707,7 +708,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				txtRulesArea.append("\n");
 			}
 
-			priceTablePanel.init(selectedCard,selectedEdition);
+			priceTablePanel.init(selectedCard);
 			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
 			deckPanel.init(selectedCard);

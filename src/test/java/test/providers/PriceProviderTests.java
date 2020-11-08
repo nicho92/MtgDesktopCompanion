@@ -45,7 +45,7 @@ public class PriceProviderTests {
 		System.out.println("CONF FILE " + p.getConfFile());
 						
 			try {
-				List<MagicPrice> prices = p.getPrice(mc.getCurrentSet(), mc);
+				List<MagicPrice> prices = p.getPrice(mc);
 				System.out.println(prices);
 			} catch (Exception e) {
 				e.printStackTrace();

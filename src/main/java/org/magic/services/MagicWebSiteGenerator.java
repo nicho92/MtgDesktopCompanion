@@ -126,7 +126,7 @@ public class MagicWebSiteGenerator extends Observable {
 		if (!pricesProvider.isEmpty()) {
 			for (MTGPricesProvider prov : pricesProvider) {
 				try {
-					prices.addAll(prov.getPrice(mc.getCurrentSet(), mc));
+					prices.addAll(prov.getPrice(mc));
 				} catch (Exception e) {
 					logger.error("Generating card template for " + mc, e);
 				}

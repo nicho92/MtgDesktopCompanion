@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
@@ -24,15 +23,12 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition ed, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		if (getString(API_KEY).equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 
-		MagicEdition selected = ed;
-		if (ed == null)
-			selected = card.getCurrentSet();
-
-		String set = selected.getSet().replace(" ", "_");
+	
+		String set = card.getCurrentSet().getSet().replace(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
 		InputStream stream = URLTools.openConnection(url).getInputStream();

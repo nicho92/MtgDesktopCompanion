@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
@@ -27,7 +26,7 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 
 	
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException
 	{
 		List<MagicPrice> list = new ArrayList<>();
 		try {

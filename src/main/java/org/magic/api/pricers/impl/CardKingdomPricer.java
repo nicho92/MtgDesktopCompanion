@@ -11,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
@@ -98,7 +97,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		return s.replace("'s", "s").replace(",", "").replace(" ", "-").replace("'","").toLowerCase();
 	}
 
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
 		if(eds.isEmpty())
 			initEds();
@@ -107,10 +106,8 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		List<MagicPrice> list = new ArrayList<>();
 		String html = getString("URL");
 
-		if (me == null)
-			me = card.getCurrentSet();
 
-		String url = html + format(findGoodEds(me.getSet())) + "/" + format(card.getName());
+		String url = html + format(findGoodEds(card.getCurrentSet().getSet())) + "/" + format(card.getName());
 		Elements prices = null;
 		Elements qualities = null;
 

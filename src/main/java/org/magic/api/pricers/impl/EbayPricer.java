@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.RequestBuilder;
@@ -20,12 +19,10 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 	
 	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";
 
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 		String keyword = card.getName();
-
-		if (me != null)
-			keyword += " " + me.getSet();
+			   keyword += " " + card.getCurrentSet().getSet();
 		
 		
 		RequestBuilder b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)

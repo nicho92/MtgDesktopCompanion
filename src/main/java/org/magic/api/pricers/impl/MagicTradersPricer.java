@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
 		URL link = new URL(getString("URL"));
 		logger.info(getName() + " looking for prices " + link);

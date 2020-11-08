@@ -7,7 +7,6 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.UITools;
@@ -25,7 +24,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		ArrayList<MagicPrice> list = new ArrayList<>();
 	
 		Document root = URLTools.extractHtml(baseUrl+"/products/search?query="+ URLTools.encode(card.getName()));

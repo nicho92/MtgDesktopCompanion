@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
@@ -21,7 +20,7 @@ public class ParkagePricer extends AbstractMagicPricesProvider {
 	}
 	
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
 		ArrayList<MagicPrice> ret= new ArrayList<>();
 		

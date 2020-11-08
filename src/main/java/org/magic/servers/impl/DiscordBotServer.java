@@ -206,7 +206,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		if(getBoolean(SHOWPRICE))
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
 					try {
-						List<MagicPrice> prices = prov.getPrice(null, mc);
+						List<MagicPrice> prices = prov.getPrice(mc);
 						Collections.sort(prices, new MagicPricesComparator());
 						eb.addField(prov.getName(),prices.get(0).getValue()+prices.get(0).getCurrency().getCurrencyCode(),true);
 					} catch (Exception e) {

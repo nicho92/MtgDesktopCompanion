@@ -19,7 +19,6 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
@@ -105,20 +104,16 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	
 	
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		if(!initied)
 			init();
 		
 		try {
-
-			if (me == null)
-				me = card.getCurrentSet();
-
 			lists = new ArrayList<>();
 
-			logger.info(getName() + " looking for " + card + " " + me);
+			logger.info(getName() + " looking for " + card + " " + card.getCurrentSet());
 
-			if (me.getRarity() != null && !getBoolean("COMMONCHECK") && me.getRarity()==MTGRarity.COMMON) {
+			if (card.getCurrentSet().getRarity() != null && !getBoolean("COMMONCHECK") && card.getCurrentSet().getRarity()==MTGRarity.COMMON) {
 					MagicPrice mp = new MagicPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency("EUR");

@@ -8,7 +8,6 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.RequestBuilder;
@@ -37,16 +36,12 @@ public class MypCardPricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
 		List<MagicPrice> list = new ArrayList<>();
 		
 		String set = card.getCurrentSet().getId();
-		
-		if(me!=null)
-			set=me.getId();
-		
-		
+			
 		if(client==null)
 			client=URLTools.newClient();
 		

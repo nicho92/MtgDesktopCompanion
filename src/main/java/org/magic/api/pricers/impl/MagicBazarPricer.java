@@ -9,7 +9,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
@@ -30,7 +29,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		list.clear();
 		String url = getString("URL") + URLTools.encode(card.getName());
 		logger.info(getName() + " looking for prices " + url);

@@ -8,7 +8,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
@@ -33,7 +32,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	}
 
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 			
 		String res = httpclient.doPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null);

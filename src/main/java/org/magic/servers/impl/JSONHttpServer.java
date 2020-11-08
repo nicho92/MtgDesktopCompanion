@@ -291,13 +291,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/prices/:idSet/:name", URLTools.HEADER_JSON, (request, response) -> {
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
-					.searchCardByName( request.params(NAME), ed, false).get(0);
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, false).get(0);
 			List<MagicPrice> pricesret = new ArrayList<>();
 			for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
 			{
 				try {
-					pricesret.addAll(prices.getPrice(ed,mc));
+					pricesret.addAll(prices.getPrice(mc));
 				}
 				catch(Exception e)
 				{

@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
@@ -21,7 +20,7 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 		return PLUGINS.PRICER;
 	}
 	
-	protected abstract List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException;
+	protected abstract List<MagicPrice> getLocalePrice(MagicCard card) throws IOException;
 	
 	
 	
@@ -31,7 +30,7 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 		
 			map.entrySet().forEach(e->{
 				try {
-					MagicPrice p = getPrice(e.getKey().getCurrentSet(), e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
+					MagicPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 					if(p!=null)
 					{ 
 						p.setMagicCard(e.getKey());
@@ -62,9 +61,9 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 	}
 	
 	
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException
+	public List<MagicPrice> getPrice(MagicCard card) throws IOException
 	{
-		return getLocalePrice(me, card)
+		return getLocalePrice(card)
 								.stream()
 								.map(p->{
 											if(MTGControler.getInstance().getCurrencyService().isEnable()) {

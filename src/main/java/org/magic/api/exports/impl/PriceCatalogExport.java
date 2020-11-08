@@ -62,7 +62,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 			
 					for (MagicCard mc : deck.getMain().keySet()) 
 					{
-						for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
+						for (MagicPrice prices : prov.getPrice(mc)) {
 							for (String k : exportedCardsProperties) {
 								String val;
 								try {

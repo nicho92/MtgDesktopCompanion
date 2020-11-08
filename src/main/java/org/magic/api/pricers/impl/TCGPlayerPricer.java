@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.URLTools;
@@ -26,17 +25,12 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 		String url = getString("URL");
 		url = url.replace("%API_KEY%", getString("API_KEY"));
 
-		String set = "";
-
-		if (me == null)
-			set = URLTools.encode(card.getCurrentSet().getSet());
-		else
-			set = URLTools.encode(me.getSet());
+		String set = URLTools.encode(card.getCurrentSet().getSet());
 
 		if (set.contains("Edition"))
 			set = set.replace("Edition", "");

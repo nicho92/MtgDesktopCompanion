@@ -9,7 +9,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.tools.RequestBuilder;
@@ -26,7 +25,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicEdition me, MagicCard card) throws IOException {
+	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
 		String cardName = URLTools.encode("\""+card.getName()+"\"");
 		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search.php?search_query="+cardName+"&page=1&section=product");

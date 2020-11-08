@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicPrice;
 
 public interface MTGPricesProvider extends MTGPlugin {
 
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException;
+	public List<MagicPrice> getPrice(MagicCard card) throws IOException;
 	
 	public List<MagicPrice> getPrice(MagicDeck d,boolean side) throws IOException;
 

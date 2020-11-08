@@ -47,7 +47,6 @@ public class PricesTablePanel extends JPanel {
 	private transient DefaultRowSorter<TableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
 	private MagicCard currentCard;
-	private MagicEdition currentEd;
 	private boolean foilOnly;
 	
 	public PricesTablePanel() {
@@ -100,34 +99,28 @@ public class PricesTablePanel extends JPanel {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
-				init(currentCard,currentEd,foilOnly);
+				init(currentCard,foilOnly);
 			}
 
 		});
 		
 	}
 	
-	public void init(MagicCard card,MagicEdition ed)
+	public void init(MagicCard card)
 	{
-		init(card,ed,false);
+		init(card,false);
 	}
 	
 
-	public void init(MagicCard card,MagicEdition ed, boolean foilOnly)
+	public void init(MagicCard card,boolean foilOnly)
 	{
 		currentCard = card;
-		currentEd=ed;
 		this.foilOnly=foilOnly;
 		
-		if(currentCard==null && currentEd==null)
+		if(currentCard==null)
 			return;
-		
-		
-		if(ed==null)
-			currentEd=card.getCurrentSet();
-		
-		
-		if(isVisible()&&card!=null)
+			
+		if(isVisible())
 		{
 
 			model.clear();
@@ -147,12 +140,12 @@ public class PricesTablePanel extends JPanel {
 					protected List<MagicPrice> doInBackground() throws Exception {
 						
 						List<MagicPrice> list = new ArrayList<>();
-						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
+						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
 						
 						
 							try {
 							
-								List<MagicPrice> l = prov.getPrice(currentEd,currentCard);
+								List<MagicPrice> l = prov.getPrice(currentCard);
 								
 								if(foilOnly)
 									l = l.stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
