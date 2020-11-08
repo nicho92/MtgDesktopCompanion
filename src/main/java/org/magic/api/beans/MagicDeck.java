@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 
 public class MagicDeck implements Serializable {
@@ -141,8 +142,11 @@ public class MagicDeck implements Serializable {
 	public boolean isCompatibleFormat(MagicFormat mf) {
 		for (MagicCard mc : mapDeck.keySet()) 
 		{
-			if(mc.getLegalities().stream().filter(f->f.equals(mf)).noneMatch(MagicFormat::isLegal))
-					return false;
+			long num = mc.getLegalities().stream().filter(mf::equals).collect(Collectors.toList()).stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();
+			
+			if(num<=0)
+				return false;
+			
 		}
 		return true;
 	}

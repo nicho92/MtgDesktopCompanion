@@ -19,7 +19,7 @@ public class MagicFormat implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String format;
-	@Deprecated @SerializedName( alternate="legality", value="oldLegality") private Boolean legality;
+
 	private AUTHORIZATION formatLegality;
 
 	public MagicFormat() {
@@ -29,7 +29,6 @@ public class MagicFormat implements Serializable {
 	public MagicFormat(String format, AUTHORIZATION legality)
 	{
 		this.format=format;
-		this.legality=(legality==AUTHORIZATION.LEGAL || legality==AUTHORIZATION.RESTRICTED);
 		formatLegality=legality;
 	}
 	
@@ -46,18 +45,14 @@ public class MagicFormat implements Serializable {
 		return format;
 	}
 	
-	@Deprecated
-	public boolean isLegal()
-	{
-		return legality;
-	}
+
 
 	public void setFormat(String format) {
 		this.format = format;
 	}
 	
 	public String toString() {
-		return getFormat() + " " + isLegal();
+		return getFormat() + " " + formatLegality;
 	}
 
 	@Override

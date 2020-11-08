@@ -228,16 +228,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 						
 						l.setToolTipText(obj.getFormat() + ":" + obj.getFormatLegality().name());
 					}
-					else //TODO remove when Islegal will be removed
-					{
-
-						if(obj.isLegal())
-							l.setIcon(MTGConstants.ICON_SMALL_CHECK);
-						else
-							l.setIcon(MTGConstants.ICON_SMALL_DELETE);
-					}
 					
-						
 						
 				return l;
 		});
