@@ -118,7 +118,6 @@ public class ConstructPanel extends MTGUIComponent {
 	private DeckStockComparatorPanel stockPanel;
 	private JXTable tableDeck;
 	private JXTable tableSide;
-	private LoggerViewPanel importLogPanel;
 	private JButton defaultEnterButton;
 	
 	public ConstructPanel() {
@@ -165,7 +164,7 @@ public class ConstructPanel extends MTGUIComponent {
 		thumbnail = new HandPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		comboPanel = new ComboFinderPanel();
-		importLogPanel = new LoggerViewPanel();
+		LoggerViewPanel importLogPanel = new LoggerViewPanel();
 		
 		lblCards = new JLabel();
 		JButton btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");

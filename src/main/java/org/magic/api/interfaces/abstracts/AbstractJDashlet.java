@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -213,8 +214,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 	@Override
 	public List<Observer> listObservers() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

@@ -14,15 +14,6 @@ import org.magic.tools.FileTools;
 public class MagarenaExport extends AbstractFormattedFileCardExport
 {
 
-	
-
-	public static void main(String[] args) throws IOException {
-		File test = new File("D:\\Téléchargements\\Evolution.dec.txt");
-		
-		new MagarenaExport().importDeckFromFile(test);
-
-	}
-
 	@Override
 	public String getFileExtension() {
 		return ".dec";

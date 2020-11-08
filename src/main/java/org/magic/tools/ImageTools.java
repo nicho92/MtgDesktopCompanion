@@ -69,8 +69,8 @@ public class ImageTools {
         double angleRadians = Math.toRadians(angle);
         int width = img.getWidth();
         int height = img.getHeight();
-        double x = width/2;
-        double y = height/2;
+        double x = width/2.0;
+        double y = height/2.0;
 
         double cos = Math.abs(Math.cos(angleRadians));
         double sin = Math.abs(Math.sin(angleRadians));
