@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,6 +23,21 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 	
 	protected abstract List<MagicPrice> getLocalePrice(MagicCard card) throws IOException;
 	
+	
+	@Override
+	public Map<String, List<MagicPrice>> getPricesBySeller(List<MagicCard> cards) throws IOException {
+		Map<String, List<MagicPrice>> map = new HashMap<>();
+		
+		
+		for(MagicCard mc : cards)
+		{
+			List<MagicPrice> prices = getPrice(mc);
+			
+			for(MagicPrice mp : prices)
+				map.computeIfAbsent(mp.getSeller(),v->new ArrayList<>()).add(mp);
+		}
+		return map;
+	}
 	
 	
 	private List<MagicPrice> retrieveMap(Map<MagicCard,Integer> map)

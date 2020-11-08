@@ -15,9 +15,10 @@ import org.magic.tools.URLTools;
 
 public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
-	Document doc;
+	private Document doc;
 	private ArrayList<MagicPrice> list;
-
+	private static final String BASE_URL="https://en.magicbazar.fr/recherche/result.php?s=\"";
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -31,7 +32,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		list.clear();
-		String url = getString("URL") + URLTools.encode(card.getName());
+		String url = BASE_URL + URLTools.encode(card.getName());
 		logger.info(getName() + " looking for prices " + url);
 
 		try {
@@ -62,13 +63,8 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				mp.setUrl(url);
 				mp.setSeller(set);
 				mp.setFoil(e.attr("data-foil").equals("O"));
-				
-//				MagicEdition ed = me;
-//				if(ed==null)
-//					ed = card.getCurrentSet();
-//				
-//				
-//				if(mp.getSeller().equalsIgnoreCase(ed.getSet()))
+
+				//if(mp.getSeller().equalsIgnoreCase(card.getCurrentSet().getSet()))
 					list.add(mp);
 			}
 			logger.info(getName() + " found " + list.size() + " item(s)");
@@ -88,14 +84,6 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	@Override
 	public String getName() {
 		return "MagicBazar";
-	}
-
-
-	@Override
-	public void initDefault() {
-		setProperty("URL", "https://en.magicbazar.fr/recherche/result.php?s=");
-		
-
 	}
 
 	@Override

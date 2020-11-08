@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -50,6 +51,7 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.DeckPricePanel;
+import org.magic.gui.components.GroupedShoppingPanel;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
@@ -90,6 +92,8 @@ public class AlarmGUI extends MTGUIComponent {
 	private JSplitPane splitPanel;
 	private JExportButton btnExport;
 	private DeckPricePanel globalSearchPanel;
+	private GroupedShoppingPanel groupShopPanel;
+	
 	
 	public AlarmGUI() {
 		initGUI();
@@ -119,6 +123,7 @@ public class AlarmGUI extends MTGUIComponent {
 		variationPanel = new HistoryPricesPanel(true);
 		JPanel panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
+		groupShopPanel = new GroupedShoppingPanel();
 		list = new JList<>(resultListModel);
 		JPanel panel = new JPanel();
 		btnRefresh = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh Alarm");
@@ -150,7 +155,7 @@ public class AlarmGUI extends MTGUIComponent {
 		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
 		
 		globalSearchPanel.enableControle(true);
-		
+		groupShopPanel.enableControle(true);
 		panelRight.setLayout(new BorderLayout());
 	
 ///////ADDS	
@@ -165,6 +170,7 @@ public class AlarmGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING"), MTGConstants.ICON_TAB_SHOP, globalSearchPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING_LIST"), MTGConstants.ICON_TAB_SHOP, groupShopPanel, null);
 		
 		
 		pricesTablePanel = new PricesTablePanel();
@@ -192,7 +198,11 @@ public class AlarmGUI extends MTGUIComponent {
 
 	private void initActions() {
 		
-		
+		groupShopPanel.getBtnCheckPrice().addActionListener(al->{
+			
+			groupShopPanel.initList(model.getItems().stream().map(e->e.getCard()).collect(Collectors.toList()));
+			
+		});
 		
 		
 		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
