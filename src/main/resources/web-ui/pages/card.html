@@ -234,7 +234,7 @@
   	    	
   	    	$.ajax({
   	  			dataType: 'json',
-  	   	        url: restserver+"/dash/card/"+$_GET("id")
+  	   	        url: restserver+"/dash/card/"+$_GET("id")+"/false"
   	   	   		 }).then(function(json_data) {
 			  	   	    	
   	   	   			 		new Morris.Line({
