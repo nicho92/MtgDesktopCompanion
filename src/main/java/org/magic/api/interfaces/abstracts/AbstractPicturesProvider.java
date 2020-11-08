@@ -43,25 +43,25 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 	
-	
-	public abstract BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException;
-	
-	@Override
-	public BufferedImage getPicture(MagicCard mc) throws IOException {
-		return getPicture(mc, mc.getCurrentSet());
+
+	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
+		try {
+			return URLTools.extractImage(generateUrl(mc));
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
-	
 	@Override
-	public BufferedImage getFullSizePicture(MagicCard mc, MagicEdition ed) throws IOException {
-		if (getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed) != null) {
-			logger.trace("cached " + mc + "(" + ed + ") found");
-			return getEnabledPlugin(MTGPicturesCache.class).getPic(mc, ed);
+	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
+		if (getEnabledPlugin(MTGPicturesCache.class).getPic(mc) != null) {
+			logger.trace("cached " + mc + "(" + mc.getCurrentSet() + ") found");
+			return getEnabledPlugin(MTGPicturesCache.class).getPic(mc);
 		}
-		BufferedImage bufferedImage = getOnlinePicture(mc, ed);
+		BufferedImage bufferedImage = getOnlinePicture(mc);
 		if (bufferedImage != null)
 		{
-			getEnabledPlugin(MTGPicturesCache.class).put(bufferedImage, mc, ed);
+			getEnabledPlugin(MTGPicturesCache.class).put(bufferedImage, mc);
 			return bufferedImage;
 		}
 		else
@@ -73,8 +73,8 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
-		return resizeCard(getFullSizePicture(mc,ed), newW, newH);
+	public BufferedImage getPicture(MagicCard mc) throws IOException {
+		return resizeCard(getFullSizePicture(mc), newW, newH);
 	}
 	
 	@Override
@@ -98,7 +98,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	@Override
 	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
 		MagicCard foreignCard = mc.toForeign(fn);
-		return getPicture(foreignCard,foreignCard.getCurrentSet());
+		return getPicture(foreignCard);
 	}
 
 	@Override

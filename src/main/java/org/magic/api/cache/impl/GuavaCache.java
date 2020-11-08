@@ -33,21 +33,14 @@ public class GuavaCache extends AbstractCacheProvider {
 	
 	
 	@Override
-	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
-
-		if (ed == null)
-			ed = mc.getCurrentSet();
-
-		return cache.getIfPresent(generateIdIndex(mc, ed));
+	public BufferedImage getPic(MagicCard mc) {
+		return cache.getIfPresent(generateIdIndex(mc));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
+	public void put(BufferedImage im, MagicCard mc) throws IOException {
 		logger.debug("put " + mc + " in cache");
-		if (ed == null)
-			cache.put(generateIdIndex(mc, mc.getCurrentSet()), im);
-		else
-			cache.put(generateIdIndex(mc, ed), im);
+		cache.put(generateIdIndex(mc), im);
 
 	}
 	

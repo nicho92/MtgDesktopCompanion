@@ -18,14 +18,9 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	
-	public String generateUrl(MagicCard mc , MagicEdition me)
+	public String generateUrl(MagicCard mc)
 	{
-		MagicEdition edition = me;
-		if (me == null)
-			edition = mc.getCurrentSet();
-
-		String cardSet = edition.getId();
-
+		String cardSet = mc.getCurrentSet().getId();
 		String cardName = mc.getName().toLowerCase().replace(" ", "").replace("-", "").replace("'", "")
 				.replace(",", "").replace("/", "");
 
@@ -45,14 +40,6 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		}
 	}
 	
-	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition me) throws IOException {
-		try {
-			return URLTools.extractImage(generateUrl(mc,me));
-		} catch (Exception e) {
-			return null;
-		}
-	}
 
 	@Override
 	public String getName() {

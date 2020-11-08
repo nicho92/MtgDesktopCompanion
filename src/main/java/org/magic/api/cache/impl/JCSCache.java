@@ -62,21 +62,15 @@ public class JCSCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
-		if (ed == null)
-			ed = mc.getCurrentSet();
-
-		return ImageTools.fromByteArray(picturesCache.get(generateIdIndex(mc, ed)));
+	public BufferedImage getPic(MagicCard mc) {
+		return ImageTools.fromByteArray(picturesCache.get(generateIdIndex(mc)));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
+	public void put(BufferedImage im, MagicCard mc) throws IOException {
 		logger.debug("put " + mc + " in cache");
 		
-		if (ed == null)
-			picturesCache.put(generateIdIndex(mc, mc.getCurrentSet()), ImageTools.toByteArray(im));
-		else
-			picturesCache.put(generateIdIndex(mc, ed), ImageTools.toByteArray(im));
+		picturesCache.put(generateIdIndex(mc), ImageTools.toByteArray(im));
 		
 		logger.debug(picturesCache.getStats());
 	}

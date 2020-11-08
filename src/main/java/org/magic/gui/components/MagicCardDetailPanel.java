@@ -543,7 +543,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				ImageIcon icon;
 				try {
 					if(fn==null)
-						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null));
+						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc));
 					else
 						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
 				} catch (Exception e) {

@@ -40,25 +40,22 @@ public class FileCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
+	public BufferedImage getPic(MagicCard mc) {
 		try {
 
-			if (ed == null)
-				ed = mc.getCurrentSet();
-
-			logger.trace("search in cache : " + mc + " " + ed);
+			logger.trace("search in cache : " + mc + " " + mc.getCurrentSet());
 
 			File save = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
 			if (!save.exists())
 				save.mkdir();
 
-			save = new File(save, removeCon(ed.getId()));
+			save = new File(save, removeCon(mc.getCurrentSet().getId()));
 			if (!save.exists())
 				save.mkdir();
 
-			return ImageTools.read(new File(save, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
+			return ImageTools.read(new File(save, generateIdIndex(mc) + "." + getString(FORMAT)));
 		} catch (IOException e) {
-			logger.trace("search in cache : " + mc + " " + ed +" not found :" + e);
+			logger.trace("search in cache : " + mc + " " + mc.getCurrentSet() +" not found :" + e);
 
 			return null;
 		}
@@ -75,22 +72,18 @@ public class FileCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
-
-		if (ed == null)
-			ed = mc.getCurrentSet();
-
-		logger.debug("save in cache : " + mc + " " + ed);
+	public void put(BufferedImage im, MagicCard mc) throws IOException {
+		logger.debug("save in cache : " + mc + " " + mc.getCurrentSet());
 
 		File f = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
 		if (!f.exists())
 			f.mkdir();
 
-		f = new File(f, removeCon(ed.getId()));
+		f = new File(f, removeCon(mc.getCurrentSet().getId()));
 		if (!f.exists())
 			f.mkdir();
 
-		ImageTools.saveImage(im, new File(f, generateIdIndex(mc, ed) + "." + getString(FORMAT)), getString(FORMAT));
+		ImageTools.saveImage(im, new File(f, generateIdIndex(mc) + "." + getString(FORMAT)), getString(FORMAT));
 	}
 
 	private String removeCon(String a) {

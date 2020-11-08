@@ -6,15 +6,12 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
 
 public interface MTGPictureProvider extends MTGPlugin {
 
-	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException;
-	
 	public BufferedImage getPicture(MagicCard mc) throws IOException;
 	
-	public BufferedImage getFullSizePicture(MagicCard mc, MagicEdition ed) throws IOException;
+	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException;
 	
 	public BufferedImage getForeignNamePicture(MagicCardNames fn,MagicCard mc) throws IOException;
 
@@ -26,5 +23,5 @@ public interface MTGPictureProvider extends MTGPlugin {
 	
 	public void setSize(Dimension d);
 
-	public String generateUrl(MagicCard mc , MagicEdition me);
+	public String generateUrl(MagicCard mc);
 }

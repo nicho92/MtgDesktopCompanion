@@ -121,7 +121,7 @@ public class ImagePanel extends JXPanel {
 		{
 			try {
 				MagicCard rcard =mc.getRotatedCard();
-				imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard, null);
+				imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard);
 			} catch (Exception e) {
 				logger.error("error loading rotated card : " + mc.getRotatedCard(),e);
 
@@ -130,7 +130,7 @@ public class ImagePanel extends JXPanel {
 
 		ThreadManager.getInstance().executeThread(() -> {
 			try {
-				imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, edition);
+				imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 				
 				if(mc.isFlippable())
 					imgBack = ImageTools.rotate(imgFront, 180);

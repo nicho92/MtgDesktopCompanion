@@ -35,8 +35,8 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public String generateUrl(MagicCard mc, MagicEdition me) {
-		return getString("URL") + "/card.php?multiverseid=" + me.getMultiverseid();
+	public String generateUrl(MagicCard mc) {
+		return getString("URL") + "/card.php?multiverseid=" + mc.getCurrentSet().getMultiverseid();
 	}
 
 	private BufferedImage resizeIconSet(BufferedImage img) {
@@ -54,26 +54,11 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g2d = dimg.createGraphics();
+		
 		g2d.drawImage(tmp, 0, 0, null);
 		g2d.dispose();
 
 		return dimg;
-	}
-
-	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
-
-
-		MagicEdition selected = ed;
-		if (ed == null)
-			selected = mc.getCurrentSet();
-
-		for (String k : getArray("CALL_MCI_FOR")) {
-			if (selected.getId().startsWith(k)) {
-				return PluginRegistry.inst().getPlugin("Scryfall", MTGPictureProvider.class).getPicture(mc, selected);
-			}
-		}
-		return URLTools.extractImage(generateUrl(mc, ed));
 	}
 
 	@Override
@@ -121,7 +106,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		return getPicture(mc, null).getSubimage(15, 34, 184, 132);
+		return getPicture(mc).getSubimage(15, 34, 184, 132);
 	}
 
 	@Override

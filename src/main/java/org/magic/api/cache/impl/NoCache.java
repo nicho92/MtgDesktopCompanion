@@ -20,12 +20,12 @@ public class NoCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
+	public BufferedImage getPic(MagicCard mc) {
 		return null;
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) {
+	public void put(BufferedImage im, MagicCard mc) {
 		// Nothing to do
 
 	}

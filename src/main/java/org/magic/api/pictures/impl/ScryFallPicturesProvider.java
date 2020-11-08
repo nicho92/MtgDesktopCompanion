@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
@@ -33,9 +32,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public String generateUrl(MagicCard mc, MagicEdition me) {
+	public String generateUrl(MagicCard mc) {
 		try {
-			return generateLink(mc,me,false).toString();
+			return generateLink(mc,false).toString();
 		} catch (MalformedURLException e) {
 			return "";
 		}
@@ -43,17 +42,12 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
 	
 
-	private URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
-
-		if(selected==null)
-			selected = mc.getCurrentSet();
-		
-		
-		
-		String url = HTTP_API_SCRYFALL + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
-		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
+	private URL generateLink(MagicCard mc, boolean crop) throws MalformedURLException {
+	
+		String url = HTTP_API_SCRYFALL + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getCurrentSet().getNumber()+ IMAGE_TAG;
+		if (mc.getCurrentSet().getMultiverseid() != null && !mc.getCurrentSet().getMultiverseid().equals("0"))
 		{
-			url = HTTP_API_SCRYFALL+"multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
+			url = HTTP_API_SCRYFALL+"multiverse/" + mc.getCurrentSet().getMultiverseid() + IMAGE_TAG;
 			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
 				url=url+"&face=back";
 		}
@@ -77,12 +71,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc, MagicEdition ed) throws IOException {
-		MagicEdition selected = ed;
-		if (ed == null)
-			selected = mc.getCurrentSet();
-
-		URL url = generateLink(mc, selected, false);
+	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
+		URL url = generateLink(mc, false);
 		try {
 			return URLTools.extractImage(url);
 		} catch (Exception e) {
@@ -97,7 +87,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		URL u = generateLink(mc, mc.getCurrentSet(), true);
+		URL u = generateLink(mc,true);
 		try {
 			return URLTools.extractImage(u);
 		} catch (Exception e) {

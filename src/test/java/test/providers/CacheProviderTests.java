@@ -54,7 +54,7 @@ public class CacheProviderTests {
 		
 		
 		try {
-			p.put(new ScryFallPicturesProvider().getPicture(mc, mc.getCurrentSet()), mc, mc.getCurrentSet());
+			p.put(new ScryFallPicturesProvider().getPicture(mc), mc);
 			System.out.println("putPictures OK" );
 		}
 		catch(Exception e)
@@ -65,7 +65,7 @@ public class CacheProviderTests {
 		
 		try {
 			
-			p.getPic(mc, mc.getCurrentSet());
+			p.getPic(mc);
 			System.out.println("getPictures OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures ERROR "+e );
@@ -73,7 +73,7 @@ public class CacheProviderTests {
 		
 	try {
 			
-			p.put(new ScryFallPicturesProvider().getPicture(mc, mc.getCurrentSet()),mc,null);
+			p.put(new ScryFallPicturesProvider().getPicture(mc),mc);
 			System.out.println("setPictures Null ed OK" );
 		} catch (Exception e) {
 			System.out.println("setPictures Null ed ERROR "+e );
@@ -82,7 +82,7 @@ public class CacheProviderTests {
 		
 		try {
 			
-			p.getPic(mc, null);
+			p.getPic(mc);
 			System.out.println("getPictures Null ed OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures Null ed ERROR "+e );

@@ -106,7 +106,7 @@ public class PicturesProviderTests {
 		
 		
 		try {
-			p.getPicture(mc, ed);
+			p.getPicture(mc);
 			System.out.println("getPictures OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures ERROR "+e );
@@ -127,7 +127,7 @@ public class PicturesProviderTests {
 		}
 		
 		try {
-			p.getPicture(mc, ed);
+			p.getPicture(mc);
 			System.out.println("getPictures cache OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures ERROR "+e );

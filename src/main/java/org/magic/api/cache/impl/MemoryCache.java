@@ -29,21 +29,14 @@ public class MemoryCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
-
-		if (ed == null)
-			ed = mc.getCurrentSet();
-
-		return cache.get(generateIdIndex(mc, ed));
+	public BufferedImage getPic(MagicCard mc) {
+		return cache.get(generateIdIndex(mc));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) {
+	public void put(BufferedImage im, MagicCard mc) {
 		logger.debug("put " + mc + " in cache");
-		if (ed == null)
-			cache.put(generateIdIndex(mc, mc.getCurrentSet()), im);
-		else
-			cache.put(generateIdIndex(mc, ed), im);
+		cache.put(generateIdIndex(mc), im);
 	}
 
 	@Override

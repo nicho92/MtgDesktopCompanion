@@ -529,7 +529,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		jsonPanel.show(mc);
 		namesModel.init(mc);
 		try {
-			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());
+			cardImage = picturesProvider.getPicture(mc);
 			panelPictures.repaint();
 		} catch (Exception e) {
 			logger.error(e);

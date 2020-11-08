@@ -400,7 +400,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName( request.params(NAME), ed, true).get(0);
-			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null);
+			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 			
 			baos.flush();
@@ -416,7 +416,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			baos = new ByteArrayOutputStream();
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName( request.params(NAME), null, true).get(0);
-			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc, null);
+			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 			baos.flush();
 			byte[] imageInByte = baos.toByteArray();
