@@ -231,7 +231,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setWatermarks(rs.getString(WATERMARK));
 				mc.setOriginalText(rs.getString(ORIGINAL_TEXT));
 				mc.setOriginalType(rs.getString(ORIGINAL_TYPE));
-				mc.setMkmId(rs.getInt("mcmId"));
+				mc.setMkmId(rs.getInt(MCM_ID));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
 				
 				if(rs.getString(AVAILABILITY)!=null) {
@@ -355,8 +355,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setCardCount(rs.getInt("totalSetSize"));
 								 ed.setCardCountOfficial(rs.getInt("baseSetSize"));
 								 ed.setType(rs.getString("type"));
-								 ed.setMkmName(rs.getString("mcmName"));
-								 ed.setMkmid(rs.getInt("mcmId"));
+								 ed.setMkmName(rs.getString(MCM_NAME));
+								 ed.setMkmid(rs.getInt(MCM_ID));
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));

@@ -73,6 +73,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String IS_ONLINE_ONLY = "isOnlineOnly";
 	protected static final String IS_PROMO = "isPromo";
 	protected static final String IS_FOIL_ONLY = "isFoilOnly";
+	protected static final String MCM_ID = "mcmId";
+	protected static final String MCM_NAME = "mcmName";
+	protected static final String MTGSTOCKS_ID = "mtgstocksId";
 
 	protected static final String SIDE = "side";
 	protected static final String WATERMARK = "watermark";
@@ -84,6 +87,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String TCGPLAYER_GROUP_ID ="tcgplayerGroupId";
 	protected static final String BORDER_COLOR = "borderColor";
 	protected static final String KEYRUNE_CODE = "keyruneCode";
+	protected static final String SCRYFALL_ILLUSTRATION_ID = "scryfallIllustrationId";
 
 	
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";

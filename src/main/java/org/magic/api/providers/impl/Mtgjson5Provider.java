@@ -188,9 +188,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				MagicCard mc = new MagicCard();
 				  mc.setId(String.valueOf(String.valueOf(map.get(UUID))));
 				  mc.setText(String.valueOf(map.get(TEXT)));
-		
-					  
-				  
 				  
 				if (map.get(NAME) != null)
 				{
@@ -348,19 +345,19 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					if(identifiers.get(MTG_ARENA_ID)!=null)
 						mc.setMtgArenaId(Double.valueOf(identifiers.get(MTG_ARENA_ID)).intValue());
 						
-					if (identifiers.get("scryfallIllustrationId") != null)
-						mc.setScryfallIllustrationId(String.valueOf(identifiers.get("scryfallIllustrationId")));
+					if (identifiers.get(SCRYFALL_ILLUSTRATION_ID) != null)
+						mc.setScryfallIllustrationId(String.valueOf(identifiers.get(SCRYFALL_ILLUSTRATION_ID)));
 					
 					if (identifiers.get(SCRYFALL_ID) != null)
 						mc.setScryfallId(String.valueOf(identifiers.get(SCRYFALL_ID)));
 					
 					
-					if (identifiers.get("mcmId") != null) {
-						mc.setMkmId((int)Double.parseDouble(identifiers.get("mcmId")));
+					if (identifiers.get(MCM_ID) != null) {
+						mc.setMkmId((int)Double.parseDouble(identifiers.get(MCM_ID)));
 					}
 					
-					if (identifiers.get("mtgstocksId") != null) {
-						mc.setMtgstocksId(Double.valueOf(identifiers.get("mtgstocksId")).intValue());
+					if (identifiers.get(MTGSTOCKS_ID) != null) {
+						mc.setMtgstocksId(Double.valueOf(identifiers.get(MTGSTOCKS_ID)).intValue());
 					}
 					
 					
