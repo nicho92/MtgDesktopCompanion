@@ -283,7 +283,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
 
-				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replaceAll("\\(RL\\)", "").trim());
+				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replace("\\(RL\\)", "").trim());
 				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));

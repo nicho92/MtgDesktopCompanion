@@ -69,7 +69,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 //				
 //				
 //				if(mp.getSeller().equalsIgnoreCase(ed.getSet()))
-//					list.add(mp);
+					list.add(mp);
 			}
 			logger.info(getName() + " found " + list.size() + " item(s)");
 

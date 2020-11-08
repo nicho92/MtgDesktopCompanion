@@ -1,6 +1,7 @@
 package org.magic.gui.components.dialog;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -48,7 +49,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	public MassCollectionImporterDialog() {
 		setIconImage(MTGConstants.ICON_MASS_IMPORT.getImage());
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
+		setTitle(capitalize("MASS_CARDS_IMPORT"));
 		try {
 			initGUI();
 		} catch (Exception e) {
@@ -81,14 +82,14 @@ public class MassCollectionImporterDialog extends JDialog {
 		JPanel panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
 
-		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT") + " ");
+		JLabel lblImport = new JLabel(capitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
 		
 		
 		cboEditions =UITools.createComboboxEditions();
 		panelCollectionInput.add(cboEditions);
 		
-		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
+		JLabel lblNewLabel = new JLabel(capitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 
 		cboByType = UITools.createCombobox(new String[] { NUMBER, NAME });
@@ -105,12 +106,11 @@ public class MassCollectionImporterDialog extends JDialog {
 		AbstractBuzyIndicatorComponent progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 
-		final JCheckBox checkNewOne = new JCheckBox(
-				MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
+		final JCheckBox checkNewOne = new JCheckBox(capitalize("IMPORT_OTHER_SERIE"));
 
 		JButton btnInverse = new JButton("Inverse");
 		
-		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
+		JButton btnImport = new JButton(capitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
 
 		panneauBas.add(btnInverse);
 
@@ -134,7 +134,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		pack();
 
 		btnInverse.addActionListener(e -> {
-			List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replace("  ", " ").trim().split(" "));
+			List<String> elements = Arrays.asList(txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" "));
 			StringBuilder temp = new StringBuilder();
 			for (MagicCard s : ids(elements))
 				temp.append(s.getCurrentSet().getNumber()).append(" ");
@@ -150,7 +150,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
 
 			if (cboByType.getSelectedItem().equals(NUMBER))
-				ids = txtNumbersInput.getText().replaceAll("\n", " ").replace("  ", " ").trim().split(" ");
+				ids = txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" ");
 			else
 				ids = txtNumbersInput.getText().split("\n");
 		
@@ -159,7 +159,7 @@ public class MassCollectionImporterDialog extends JDialog {
 				@Override
 				protected void notifyEnd() {
 					MTGControler.getInstance().notify(new MTGNotification(
-							MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+							capitalize("FINISHED"),
 							MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
 							MESSAGE_TYPE.INFO
 							));
@@ -186,7 +186,7 @@ public class MassCollectionImporterDialog extends JDialog {
 							if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
 								mc = plug.getCardByNumber(id.trim(), ed);
 							else
-								mc = plug.searchCardByName( id.replaceAll("\n", " ").replace("  ", " ").trim(),
+								mc = plug.searchCardByName( id.replace("\n", " ").replace("  ", " ").trim(),
 												(MagicEdition) cboEditions.getSelectedItem(), true)
 										.get(0);
 
