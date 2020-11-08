@@ -38,21 +38,39 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		try {
 			doc = URLTools.extractHtml(url);
 			Elements els = doc.select("div.filterElement"); 
-			
+			String lang = "";
+			String set = "";
 			for (int i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
 				MagicPrice mp = new MagicPrice();
+				
+				if(!e.select("img.langue_big").first().attr("alt").isEmpty())
+					lang=e.select("img.langue_big").first().attr("alt");
+				
+				
+				if(!e.getElementsByClass("name_ext").text().isEmpty())
+					set=e.getElementsByClass("name_ext").text();
+				
+				
+				
 				mp.setMagicCard(card);
-				mp.setLanguage(e.select("img.langue_big").first().attr("alt"));
+				mp.setLanguage(lang);
 				mp.setQuality(e.getElementsByClass("etat").html());
 				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
 				mp.setCurrency("EUR");
 				mp.setCountry("France");
 				mp.setSite(getName());
 				mp.setUrl(url);
-				mp.setSeller(e.getElementsByClass("name_ext").text());
+				mp.setSeller(set);
 				mp.setFoil(e.attr("data-foil").equals("O"));
-				list.add(mp);
+				
+//				MagicEdition ed = me;
+//				if(ed==null)
+//					ed = card.getCurrentSet();
+//				
+//				
+//				if(mp.getSeller().equalsIgnoreCase(ed.getSet()))
+//					list.add(mp);
 			}
 			logger.info(getName() + " found " + list.size() + " item(s)");
 
@@ -76,7 +94,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
+		setProperty("URL", "https://en.magicbazar.fr/recherche/result.php?s=");
 		
 
 	}

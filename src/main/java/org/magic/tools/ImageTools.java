@@ -232,12 +232,23 @@ public class ImageTools {
 		return image;
 	}
 	
+	public static void initGraphics(Graphics2D g2d)
+	{
+		 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		   g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		   g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+		   g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+
+	}
 	
 	public static BufferedImage resize(BufferedImage img, int newH, int newW) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g2d = dimg.createGraphics();
+				  initGraphics(g2d);
+				  
+				  
 		g2d.drawImage(tmp, 0, 0, null);
 		g2d.dispose();
 

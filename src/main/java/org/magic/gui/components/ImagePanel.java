@@ -157,11 +157,7 @@ public class ImagePanel extends JXPanel {
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g;
-				   g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				   g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-				   g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-				   g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-				   
+		ImageTools.initGraphics(g2);				   
 				   
 		if (printed == null)
 			return;

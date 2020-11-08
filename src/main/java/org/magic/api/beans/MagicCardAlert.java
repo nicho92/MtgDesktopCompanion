@@ -10,7 +10,7 @@ public class MagicCardAlert {
 	private MagicCard card;
 	private Double price;
 	private CardShake shake;
-	private int qty;
+	private int qty=1;
 	private List<MagicPrice> offers;
 	private boolean foil;
 
