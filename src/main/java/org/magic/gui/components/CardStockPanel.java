@@ -20,10 +20,10 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.editor.ComboBoxEditor;
-import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
+import org.magic.gui.renderer.standard.ComboBoxEditor;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -58,7 +58,7 @@ public class CardStockPanel extends MTGUIComponent {
 		table.setDefaultRenderer(Boolean.class, render);
 		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
-		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
+		table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
 
 		for(int i : model.defaultHiddenColumns())
 		{

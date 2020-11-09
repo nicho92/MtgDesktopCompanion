@@ -27,10 +27,10 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
-import org.magic.gui.editor.ComboBoxEditor;
-import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.SealedStockTableModel;
 import org.magic.gui.renderer.MagicEditionJLabelRenderer;
+import org.magic.gui.renderer.standard.ComboBoxEditor;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
@@ -90,7 +90,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		model.setWritable(true);
 	
-		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
+		table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
 		table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		

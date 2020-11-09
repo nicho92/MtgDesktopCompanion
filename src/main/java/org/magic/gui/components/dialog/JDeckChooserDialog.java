@@ -33,6 +33,7 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -161,6 +162,8 @@ public class JDeckChooserDialog extends JDialog {
 		
 		
 		table = new JXTable(decksModel);
+		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
+		
 		UITools.initTableFilter(table);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -1,4 +1,4 @@
-package org.magic.gui.editor;
+package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
 
@@ -7,8 +7,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
-public class IntegerCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class IntegerCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
 	/**
 	 * 
@@ -16,7 +17,7 @@ public class IntegerCellEditor extends AbstractCellEditor implements TableCellEd
 	private static final long serialVersionUID = 1L;
 	JSpinner spinner;
 
-	public IntegerCellEditor() {
+	public IntegerCellEditorRenderer() {
 		spinner = new JSpinner();
 		SpinnerNumberModel model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
@@ -30,6 +31,12 @@ public class IntegerCellEditor extends AbstractCellEditor implements TableCellEd
 
 	@Override
 	public Component getTableCellEditorComponent(JTable arg0, Object value, boolean arg2, int arg3, int arg4) {
+		spinner.setValue(value);
+		return spinner;
+	}
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		spinner.setValue(value);
 		return spinner;
 	}

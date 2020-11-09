@@ -68,6 +68,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -262,6 +263,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		//////// RENDERER
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
+		tableCards.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
 		
 		///////// CONFIGURE COMPONENTS

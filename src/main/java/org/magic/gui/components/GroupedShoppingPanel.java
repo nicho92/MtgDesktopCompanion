@@ -3,33 +3,38 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
-public class GroupedShoppingPanel extends JComponent {
+public class GroupedShoppingPanel extends MTGUIComponent {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
-	private CardsPriceTableModel model;
 	private List<MagicCard> cards;
 	private JButton btnCheckPrice;
+	private DefaultTreeModel treeModel;
+	private DefaultMutableTreeNode root;
+	private AbstractBuzyIndicatorComponent buzy;
 	
 	
 	public void initList(List<MagicCard> d) {
@@ -39,7 +44,6 @@ public class GroupedShoppingPanel extends JComponent {
 		} catch (Exception e) {
 			
 		}
-		model.clear();
 	}
 	
 	public void enableControle(boolean b)
@@ -55,7 +59,7 @@ public class GroupedShoppingPanel extends JComponent {
 
 	public GroupedShoppingPanel() {
 		setLayout(new BorderLayout(0, 0));
-
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
 		JPanel panel = new JPanel();
 		
@@ -68,14 +72,18 @@ public class GroupedShoppingPanel extends JComponent {
 		enableControle(false);
 		
 		panel.add(btnCheckPrice);
+		panel.add(buzy);
 		
-		model = new CardsPriceTableModel();
-
-		add(new JScrollPane(), BorderLayout.CENTER);
-
+		root = new DefaultMutableTreeNode("Shoppings");
+		treeModel = new DefaultTreeModel(root);
+		
+		
+		JTree tree = new JTree(treeModel);
+		add(new JScrollPane(tree), BorderLayout.CENTER);
+		
 		btnCheckPrice.addActionListener(ae -> {
-			model.clear();
-			
+			root.removeAllChildren();
+			buzy.start();
 			AbstractObservableWorker<Map<String, List<MagicPrice>>, MagicPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
 
 				@Override
@@ -88,14 +96,18 @@ public class GroupedShoppingPanel extends JComponent {
 					try {
 						get().entrySet().forEach(e->{
 							
-							logger.debug("-------------"+e.getKey());
-							logger.debug(e.getValue());
-							
+							DefaultMutableTreeNode user = new DefaultMutableTreeNode(e.getKey() +" (" + e.getValue().size()+" items at "+ e.getValue().stream().mapToDouble(MagicPrice::getValue).sum() +")");
+							e.getValue().forEach(v->user.add(new DefaultMutableTreeNode(v + " " + v.getValue() + " " + v.getCurrency())));
+							root.add(user);
+							treeModel.reload();
 						});
+						buzy.end();
 					} 
 					catch (Exception e) {
 						logger.error(e);
+						buzy.end();
 					}
+					
 				}
 				
 				@Override
@@ -109,6 +121,11 @@ public class GroupedShoppingPanel extends JComponent {
 
 		});
 		
+	}
+
+	@Override
+	public String getTitle() {
+		return "GROUPED_BUY";
 	}
 
 }

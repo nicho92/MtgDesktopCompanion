@@ -64,11 +64,11 @@ import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.StockItemsSynchronizationPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
-import org.magic.gui.editor.ComboBoxEditor;
-import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
+import org.magic.gui.renderer.standard.ComboBoxEditor;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -586,7 +586,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Map.class, render);
 		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
-		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
+		table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
 		
 		
 		try {

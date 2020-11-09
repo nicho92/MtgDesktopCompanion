@@ -7,12 +7,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTreeTable;
@@ -46,6 +44,7 @@ import org.magic.gui.components.HelpCompononent;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
@@ -149,19 +148,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<>(pe.isMultiprovider(), pe.getPlugins()));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
-		table.setDefaultRenderer(Boolean.class, (JTable t, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
-				JPanel p = new JPanel();
-				JCheckBox cbox = new JCheckBox("",Boolean.parseBoolean(value.toString()));
-				cbox.setOpaque(false);
-				p.add(cbox);
-				
-				if(isSelected)
-					p.setBackground(table.getSelectionBackground());
-				else
-					p.setBackground(table.getBackground());
-				
-				return p;
-		});
+		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		
 		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
 		table.addTreeSelectionListener(e -> {

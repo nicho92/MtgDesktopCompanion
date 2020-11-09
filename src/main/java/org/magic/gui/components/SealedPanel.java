@@ -45,8 +45,8 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.editor.IntegerCellEditor;
 import org.magic.gui.models.SealedPackTableModel;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -125,7 +125,7 @@ public class SealedPanel extends JPanel {
 		panelControl = new JPanel();
 		panelWest.add(panelControl, BorderLayout.NORTH);
 		table = new JXTable(model);
-		table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditor());
+		table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditorRenderer());
 		panelControl.setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();

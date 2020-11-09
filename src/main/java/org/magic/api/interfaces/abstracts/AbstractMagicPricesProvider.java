@@ -31,6 +31,7 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 		
 		for(MagicCard mc : cards)
 		{
+			notify(mc);
 			List<MagicPrice> prices = getPrice(mc);
 			
 			for(MagicPrice mp : prices)
