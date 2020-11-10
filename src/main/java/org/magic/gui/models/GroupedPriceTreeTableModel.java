@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicPrice;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
-	private String[] columnsNames = { "NAME","QTY","VALUE" };
+	private String[] columnsNames = { "NAME","QTY","VALUE","QUALITY","FOIL" };
 
 	private Map<String, List<MagicPrice>> listElements;
 
@@ -30,6 +30,14 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		modelSupport.fireNewRoot();
 	}
 	
+	
+	@Override
+	public Class<?> getColumnClass(int column) {
+		if(column==4)
+			return Boolean.class;
+		
+		return super.getColumnClass(column);
+	}
 	
 	protected int getPosition(MagicPrice k, List<MagicPrice> p) {
 		for (int i = 0; i < p.size(); i++) {
@@ -79,6 +87,11 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 				return 1;
 			case 2:
 				return emp.getValue();
+			case 3:
+				return emp.getQuality();
+			case 4:
+				return emp.isFoil();
+				
 			default:
 				return "";
 			}
@@ -88,10 +101,6 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		
-		System.out.println("CHILD=" + child) ;
-		System.out.println("PARENT=" + parent);
-		
 		MagicPrice k = (MagicPrice) child;
 		return getPosition(k, listElements.get(parent));
 	}

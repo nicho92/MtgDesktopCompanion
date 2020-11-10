@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GroupedPriceTreeTableModel;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -38,11 +38,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 	
 	public void initList(List<MagicCardAlert> d) {
 		this.cards = d;
-		try {
-			enableControle(true);
-		} catch (Exception e) {
-			
-		}
+		enableControle(true);
 	}
 	
 	public void enableControle(boolean b)
@@ -77,7 +73,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		
 		JXTreeTable tree = new JXTreeTable(treetModel);
 		add(new JScrollPane(tree), BorderLayout.CENTER);
-
+		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		btnCheckPrice.addActionListener(ae -> {
 			
 			AbstractObservableWorker<Map<String, List<MagicPrice>>, MagicPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(buzy,(MTGPricesProvider)cboPricers.getSelectedItem(),cards.size()) {

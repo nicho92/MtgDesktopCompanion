@@ -64,6 +64,7 @@ import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -150,6 +151,7 @@ public class AlarmGUI extends MTGUIComponent {
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellEditor(new IntegerCellEditorRenderer());
+		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 
 		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
