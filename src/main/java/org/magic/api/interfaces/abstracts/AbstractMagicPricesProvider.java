@@ -28,7 +28,6 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 	public Map<String, List<MagicPrice>> getPricesBySeller(List<MagicCard> cards) throws IOException {
 		Map<String, List<MagicPrice>> map = new HashMap<>();
 		
-		
 		for(MagicCard mc : cards)
 		{
 			notify(mc);

@@ -75,13 +75,13 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		plug.removeObserver(o);
 		try {
 			get();
-			notifyEnd();
+			
 		}
 		catch(Exception e)
 		{
 			error(e);
 		}
-		
+		notifyEnd();
 		
 	}
 
