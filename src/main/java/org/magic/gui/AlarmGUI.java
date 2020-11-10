@@ -203,7 +203,7 @@ public class AlarmGUI extends MTGUIComponent {
 		groupShopPanel.getBtnCheckPrice().addActionListener(al->{
 		List<MagicCardAlert> selectList = UITools.getTableSelections(table, 0);
 			
-			if(selectList!=null)
+			if(!selectList.isEmpty())
 				groupShopPanel.initList(selectList);
 			else
 				groupShopPanel.initList(model.getItems());

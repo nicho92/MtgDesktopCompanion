@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GroupedPriceTreeTableModel;
+import org.magic.gui.renderer.MagicPriceShoppingTreeCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -72,6 +73,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		treetModel = new GroupedPriceTreeTableModel();
 		
 		JXTreeTable tree = new JXTreeTable(treetModel);
+		tree.setTreeCellRenderer(new MagicPriceShoppingTreeCellRenderer());
 		add(new JScrollPane(tree), BorderLayout.CENTER);
 		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		btnCheckPrice.addActionListener(ae -> {
