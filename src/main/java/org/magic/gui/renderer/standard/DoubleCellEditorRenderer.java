@@ -7,6 +7,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -19,14 +20,18 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	private JFormattedTextField fmtTxtField;
 	private String format="#0.0";
 	
-	public DoubleCellEditorRenderer(String f) {
-		this.format=f;
-		fmtTxtField = new JFormattedTextField(new DecimalFormat (f));
-	}
-	
 	
 	public DoubleCellEditorRenderer() {
 		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+	}
+	
+	public DoubleCellEditorRenderer(boolean percentRepresentation)
+	{
+		if(percentRepresentation) {
+			format = "#0.0%";
+		}
+		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+		
 	}
 
 	@Override
@@ -42,7 +47,11 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l= new JLabel(new DecimalFormat(format).format((double) value));
+		
+		
+		double val = (double) value;
+
+		JLabel l= new JLabel(new DecimalFormat(format).format(val),SwingConstants.RIGHT);
 		l.setOpaque(true);
 		if(isSelected)
 		{

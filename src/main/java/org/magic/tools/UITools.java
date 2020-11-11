@@ -94,7 +94,6 @@ public class UITools {
 	    return -1;
 	  }
 	
-	
 	public static JXTable createNewTable(TableModel mod)
 	{
 		JXTable table = new JXTable();

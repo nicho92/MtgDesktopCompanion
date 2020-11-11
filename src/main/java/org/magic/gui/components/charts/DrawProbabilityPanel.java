@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.tools.UITools;
@@ -38,7 +39,7 @@ public class DrawProbabilityPanel extends JPanel {
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		calc = new MTGDeckManager();
-		table = new JXTable();
+		table = UITools.createNewTable(null);
 		
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -88,6 +89,14 @@ public class DrawProbabilityPanel extends JPanel {
 					return UITools.roundDouble(calc.getProbability(d,r, card));
 				}
 			}
+			
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				if(columnIndex==1)
+					return Double.class;
+				
+				return super.getColumnClass(columnIndex);
+			}
 
 			@Override
 			public int getRowCount() {
@@ -102,7 +111,7 @@ public class DrawProbabilityPanel extends JPanel {
 
 		table.setModel(model);
 		model.fireTableDataChanged();
-		table.getColumnModel().getColumn(1).setCellRenderer((JTable t, Object val, boolean b1, boolean b2, int r,int c)->new DefaultTableCellRenderer().getTableCellRendererComponent(t, ((double)val*100)+"%", b1, b2, r, c));
+		table.getColumnModel().getColumn(1).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.packAll();
 	}
 

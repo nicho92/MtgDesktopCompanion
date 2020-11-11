@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -38,7 +39,7 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l= new JLabel(String.valueOf(value));
+		JLabel l= new JLabel(String.valueOf(value),SwingConstants.RIGHT);
 		l.setOpaque(true);
 		if(isSelected)
 		{

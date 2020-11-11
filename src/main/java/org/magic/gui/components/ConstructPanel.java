@@ -181,8 +181,8 @@ public class ConstructPanel extends MTGUIComponent {
 		JSplitPane panneauDeck = new JSplitPane();
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		cardDrawProbaPanel = new DrawProbabilityPanel();
-		tableDeck = new JXTable();
-		tableSide = new JXTable();
+		tableDeck = UITools.createNewTable(null);
+		tableSide = UITools.createNewTable(null);
 		final JTabbedPane tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
 		JPanel panelInfoDeck = new JPanel();
 		cmcChartPanel = new CmcChartPanel();
@@ -631,12 +631,11 @@ public class ConstructPanel extends MTGUIComponent {
 	private void initTables(JXTable table, int f, DeckCardsTableModel model) {
 		table.setModel(model);
 		table.setRowSorter(new TableRowSorter<>(model));
-		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditorRenderer());
-		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
+
 		
 		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {
 
