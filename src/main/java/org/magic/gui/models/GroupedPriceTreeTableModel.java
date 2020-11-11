@@ -15,7 +15,7 @@ import static org.magic.tools.MTG.capitalize;
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	private String[] columnsNames = { capitalize("NAME"),capitalize("QTY"),capitalize("VALUE"),capitalize("LANG"),capitalize("QUALITY"),capitalize("FOIL") };
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private Map<String, List<MagicPrice>> listElements;
 
@@ -79,7 +79,8 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 			default:
 				return "";
 			}
-		} else if (node instanceof MagicPrice) {
+		} 
+		else if (node instanceof MagicPrice) {
 			MagicPrice emp = (MagicPrice) node;
 			switch (column) {
 			case 0:
@@ -94,7 +95,6 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 				return emp.getQuality();
 			case 5:
 				return emp.isFoil();
-				
 			default:
 				return "";
 			}
@@ -132,7 +132,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public boolean isCellEditable(Object node, int column) {
-		return (isLeaf(node) && column == 1) || (column == 3);
+		return false;
 	}
 
 }
