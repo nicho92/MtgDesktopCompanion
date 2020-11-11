@@ -69,7 +69,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				mp.setCurrency("EUR");
 				mp.setCountry("France");
 				mp.setSite(getName());
-				mp.setSellerUrl("https://www.magicbazar.fr/magic/carte/");
+				mp.setSellerUrl(page);
 				mp.setUrl(page);
 				mp.setSeller(set);
 				mp.setFoil(e.attr("data-foil").equals("O"));

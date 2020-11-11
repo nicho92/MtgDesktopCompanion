@@ -40,6 +40,9 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		
 		if (columnIndex == 5)
 			return Boolean.class;
+		
+		if (columnIndex == 4)
+			return Integer.class;
 
 		return super.getColumnClass(columnIndex);
 	}

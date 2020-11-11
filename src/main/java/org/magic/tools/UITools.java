@@ -40,11 +40,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableModel;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -59,6 +61,9 @@ import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.PluginIconListRenderer;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -88,6 +93,24 @@ public class UITools {
 
 	    return -1;
 	  }
+	
+	
+	public static JXTable createNewTable(TableModel mod)
+	{
+		JXTable table = new JXTable();
+				if(mod!=null)
+					table.setModel(mod);
+		
+				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
+				table.setDefaultEditor(Boolean.class, new BooleanCellEditorRenderer());
+				table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
+				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
+				table.setDefaultRenderer(Integer.class, new IntegerCellEditorRenderer());
+				table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
+				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
+				
+		return table;
+	}
 	
 	
 	public static String[] stringLineSplit(String s,boolean removeBlank)

@@ -28,6 +28,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 		if (column == 4)
 			value = new DecimalFormat("#0.0%").format((double) value);
+		
 		Component pane;
 		
 		if(value instanceof ImageIcon)

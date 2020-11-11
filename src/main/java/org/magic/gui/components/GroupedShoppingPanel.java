@@ -26,6 +26,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GroupedPriceTreeTableModel;
 import org.magic.gui.renderer.MagicPriceShoppingTreeCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -83,6 +84,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		tree.setTreeCellRenderer(new MagicPriceShoppingTreeCellRenderer());
 		tree.setShowGrid(true, false);
 		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
+		tree.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
+		
+		
 		add(new JScrollPane(tree), BorderLayout.CENTER);
 		
 		

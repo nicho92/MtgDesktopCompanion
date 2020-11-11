@@ -45,6 +45,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -135,7 +136,7 @@ public class GamingRoomPanel extends JPanel {
 		txtPort = new JTextField();
 		txtName = new JTextField();
 		mod = new PlayerTableModel();
-		table = new JXTable(mod);
+		table = UITools.createNewTable(mod);
 		JPanel panneauBas = new JPanel();
 		btnDeck = new JButton("Change deck");
 		btnPlayGame = new JButton("Ask for Game");
@@ -173,11 +174,7 @@ public class GamingRoomPanel extends JPanel {
 		}
 		
 		list.setCellRenderer(new DefaultListCellRenderer() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,

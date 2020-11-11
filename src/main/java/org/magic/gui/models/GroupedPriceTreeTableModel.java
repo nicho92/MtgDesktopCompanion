@@ -37,6 +37,9 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		if(column==5)
 			return Boolean.class;
 		
+		if(column==2)
+			return Double.class;
+		
 		return super.getColumnClass(column);
 	}
 	
