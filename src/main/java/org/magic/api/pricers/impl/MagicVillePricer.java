@@ -72,6 +72,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			mp.setMagicCard(card);
 			mp.setCurrency("EUR");
 			mp.setSeller(cols.get(0).text());
+			mp.setSellerUrl(getString(WEBSITE)+"/fr/register/cards_to_sell?user="+mp.getSeller());
 			mp.setSite(getName());
 			mp.setUrl(url);
 			mp.setQuality(cols.get(2).text());

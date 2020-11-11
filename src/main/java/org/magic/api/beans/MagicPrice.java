@@ -3,7 +3,6 @@ package org.magic.api.beans;
 import java.util.Currency;
 
 public class MagicPrice implements Comparable<MagicPrice> {
-	private String label;
 	private Double value;
 	private String seller;
 	private String url;
@@ -16,8 +15,17 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private String country;
 	private MagicCard magicCard;
 	private int qty = 1;
+	private String sellerUrl;
 	
 	
+	public String getSellerUrl() {
+		return sellerUrl;
+	}
+
+	public void setSellerUrl(String sellerUrl) {
+		this.sellerUrl = sellerUrl;
+	}
+
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
@@ -32,14 +40,6 @@ public class MagicPrice implements Comparable<MagicPrice> {
 
 	public void setMagicCard(MagicCard magicCard) {
 		this.magicCard = magicCard;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
 	}
 
 	public Object getShopItem() {

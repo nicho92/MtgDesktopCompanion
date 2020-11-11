@@ -84,7 +84,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 			MagicPrice emp = (MagicPrice) node;
 			switch (column) {
 			case 0:
-				return emp.getMagicCard();
+				return emp;
 			case 1:
 				return 1;
 			case 2:

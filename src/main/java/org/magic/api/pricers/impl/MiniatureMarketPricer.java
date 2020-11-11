@@ -58,6 +58,7 @@ public class MiniatureMarketPricer extends AbstractMagicPricesProvider {
 						mp.setCurrency("USD");
 						mp.setUrl(je.get("productUrl").getAsString());
 						mp.setSite(getName());
+						mp.setSellerUrl("https://www.miniaturemarket.com/magic-the-gathering/mtg-singles.html");
 						mp.setQuality(div.selectFirst("div.item-name").text().replace("Foil", "").trim());
 						mp.setValue(UITools.parseDouble(div.selectFirst("div.item-price").text().replace("$", "")));
 						mp.setSeller(card.getCurrentSet().getSet());
