@@ -31,10 +31,10 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
-	private List<MagicCardAlert> cards;
+	private transient List<MagicCardAlert> cards;
 	private JButton btnCheckPrice;
 	private AbstractBuzyIndicatorComponent buzy;
-	private GroupedPriceTreeTableModel treetModel;
+	
 		
 	
 	public void initList(List<MagicCardAlert> d) {
@@ -70,10 +70,11 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		panel.add(btnCheckPrice);
 		panel.add(buzy);
 		
-		treetModel = new GroupedPriceTreeTableModel();
+		GroupedPriceTreeTableModel treetModel = new GroupedPriceTreeTableModel();
 		
 		JXTreeTable tree = new JXTreeTable(treetModel);
 		tree.setTreeCellRenderer(new MagicPriceShoppingTreeCellRenderer());
+		tree.setShowGrid(true, false);
 		add(new JScrollPane(tree), BorderLayout.CENTER);
 		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		btnCheckPrice.addActionListener(ae -> {

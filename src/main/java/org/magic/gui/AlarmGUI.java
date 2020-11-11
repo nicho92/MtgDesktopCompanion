@@ -73,7 +73,7 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.UITools;
-
+import static org.magic.tools.MTG.capitalize;
 public class AlarmGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -172,7 +172,7 @@ public class AlarmGUI extends MTGUIComponent {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING"), MTGConstants.ICON_TAB_SHOP, globalSearchPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING_LIST"), MTGConstants.ICON_TAB_SHOP, groupShopPanel, null);
+		tabbedPane.addTab(capitalize(groupShopPanel.getTitle()), MTGConstants.ICON_TAB_SHOP, groupShopPanel, null);
 		
 		
 		pricesTablePanel = new PricesTablePanel();

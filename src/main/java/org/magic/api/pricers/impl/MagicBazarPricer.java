@@ -15,9 +15,7 @@ import org.magic.tools.URLTools;
 
 public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
-	private Document doc;
-	private ArrayList<MagicPrice> list;
-	private static final String BASE_URL="https://en.magicbazar.fr/recherche/result.php?s=\"";
+	private static final String BASE_URL="https://en.magicbazar.fr/";
 	
 	@Override
 	public STATUT getStatut() {
@@ -26,17 +24,28 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 	public MagicBazarPricer() {
 		super();
-		list = new ArrayList<>();
+		
 	}
+	
+	private String getPage(String name) throws IOException
+	{
+		String autocomplete = BASE_URL+"/api/autocompletion.php?search="+URLTools.encode(name);
+		Document ret = URLTools.extractHtml(autocomplete);
+		return BASE_URL+ret.select("a").first().attr("href");
+		
+	}
+	
 
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		list.clear();
-		String url = BASE_URL + URLTools.encode(card.getName());
-		logger.info(getName() + " looking for prices " + url);
+		
+		List<MagicPrice> list = new ArrayList<>();
+
+		String page = getPage(card.getName());
+		logger.info(getName() + " looking for prices " + page);
 
 		try {
-			doc = URLTools.extractHtml(url);
+			Document doc = URLTools.extractHtml(page);
 			Elements els = doc.select("div.filterElement"); 
 			String lang = "";
 			String set = "";
@@ -60,18 +69,18 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				mp.setCurrency("EUR");
 				mp.setCountry("France");
 				mp.setSite(getName());
-				mp.setUrl(url);
+				mp.setUrl(page);
 				mp.setSeller(set);
 				mp.setFoil(e.attr("data-foil").equals("O"));
 
-				//if(mp.getSeller().equalsIgnoreCase(card.getCurrentSet().getSet()))
+				if(mp.getSeller().equalsIgnoreCase(card.getCurrentSet().getSet()))
 					list.add(mp);
 			}
 			logger.info(getName() + " found " + list.size() + " item(s)");
 
 			return list;
 		} catch (Exception e) {
-			logger.trace("Error loading price for " + url, e);
+			logger.trace("Error loading price for " + page, e);
 			logger.info(getName() + " no item : " + e.getMessage());
 			return list;
 		}
@@ -88,7 +97,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getVersion() {
-		return "1.4";
+		return "1.5";
 	}
 
 }

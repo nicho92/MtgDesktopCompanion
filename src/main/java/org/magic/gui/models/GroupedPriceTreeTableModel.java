@@ -5,19 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.MagicPrice;
+import org.magic.services.MTGLogger;
+
+import static org.magic.tools.MTG.capitalize;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
-	private String[] columnsNames = { "NAME","QTY","VALUE","QUALITY","FOIL" };
+	private String[] columnsNames = { capitalize("NAME"),capitalize("QTY"),capitalize("VALUE"),capitalize("LANG"),capitalize("QUALITY"),capitalize("FOIL") };
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private Map<String, List<MagicPrice>> listElements;
 
-	public GroupedPriceTreeTableModel(Map<String, List<MagicPrice>> map) {
-		super(new Object());
-		listElements = map;
-	}
 	
 	public GroupedPriceTreeTableModel() {
 		super(new Object());
@@ -33,7 +34,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public Class<?> getColumnClass(int column) {
-		if(column==4)
+		if(column==5)
 			return Boolean.class;
 		
 		return super.getColumnClass(column);
@@ -88,8 +89,10 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 			case 2:
 				return emp.getValue();
 			case 3:
-				return emp.getQuality();
+				return emp.getLanguage();
 			case 4:
+				return emp.getQuality();
+			case 5:
 				return emp.isFoil();
 				
 			default:
@@ -101,8 +104,14 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		MagicPrice k = (MagicPrice) child;
-		return getPosition(k, listElements.get(parent));
+			try {
+				MagicPrice k = (MagicPrice) child;
+				return getPosition(k, listElements.get(parent));
+			}
+			catch(ClassCastException e)
+			{
+				return 0;
+			}
 	}
 
 	@Override
