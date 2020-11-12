@@ -55,10 +55,9 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-
-		table = new JXTable();
 		model = new DeckSnifferTableModel();
-		table.setModel(model);
+		table = UITools.createNewTable(model);
+		
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 

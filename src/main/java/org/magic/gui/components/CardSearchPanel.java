@@ -241,7 +241,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter = UITools.createBindableJButton(null, MTGConstants.ICON_FILTER, KeyEvent.VK_F, "searchfilter");
 		btnClear = UITools.createBindableJButton(null, MTGConstants.ICON_CLEAR, KeyEvent.VK_C, "clear");
 		similarityPanel = new SimilarityCardPanel();
-		tableCards = new JXTable();
+		tableCards = UITools.createNewTable(null);
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		JLabel lblFilter = new JLabel();
 		listEdition = new JList<>();
@@ -263,7 +263,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		//////// RENDERER
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
-		tableCards.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
 		
 		///////// CONFIGURE COMPONENTS
@@ -278,7 +277,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panneauCentral.setRightComponent(tabbedCardsInfo);
 		panneauCentral.setLeftComponent(tabbedCardsView);
-		tableCards.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
+		
 		tableCards.setRowSorter(sorterCards);
 		
 		for(int i : cardsModeltable.defaultHiddenColumns())

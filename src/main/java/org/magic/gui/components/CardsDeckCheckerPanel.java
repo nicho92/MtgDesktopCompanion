@@ -15,6 +15,7 @@ import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.UITools;
 
 public class CardsDeckCheckerPanel extends JComponent {
 	
@@ -31,9 +32,7 @@ public class CardsDeckCheckerPanel extends JComponent {
 		JPanel panel = new JPanel();
 		manager = new MTGDeckManager();
 		model = new DeckSelectionTableModel();
-		table = new JXTable(model);
-		
-		
+		table = UITools.createNewTable(model);
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 
 		

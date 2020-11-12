@@ -65,7 +65,7 @@ public class CardsEditionTablePanel extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
 		
-		table = new JXTable(model);
+		table = UITools.createNewTable(model);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());

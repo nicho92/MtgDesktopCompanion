@@ -82,7 +82,7 @@ public class MassMoverDialog extends JDialog {
 			logger.error(e);
 		}
 
-		tableCards = new JXTable(model);
+		tableCards = UITools.createNewTable(model);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		getContentPane().add(new JScrollPane(tableCards), BorderLayout.CENTER);

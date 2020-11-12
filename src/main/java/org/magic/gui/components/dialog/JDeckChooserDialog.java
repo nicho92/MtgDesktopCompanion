@@ -161,10 +161,8 @@ public class JDeckChooserDialog extends JDialog {
 		ThreadManager.getInstance().runInEdt(sw,"loading decks");
 		
 		
-		table = new JXTable(decksModel);
-		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
-		
-		UITools.initTableFilter(table);
+		table = UITools.createNewTable(decksModel);
+				UITools.initTableFilter(table);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		

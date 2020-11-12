@@ -49,8 +49,10 @@ public class OrderImporterDialog extends JDialog {
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		table = new JXTable();
 		model = new ShoppingEntryTableModel();
+		
+		table = UITools.createNewTable(model);
+		
 		panelChoose = new JPanel();
 		JPanel panel = new JPanel();
 		JPanel panelButton = new JPanel();
@@ -59,7 +61,6 @@ public class OrderImporterDialog extends JDialog {
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		cboSniffers =UITools.createCombobox(MTGShopper.class,false);
 		
-		table.setModel(model);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		
