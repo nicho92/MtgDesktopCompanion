@@ -51,26 +51,14 @@ public class CardStockPanel extends MTGUIComponent {
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();
-		table = new JXTable(model);
-		StockTableRenderer render = new StockTableRenderer();
-
-		table.setDefaultRenderer(Object.class, render);
-		table.setDefaultRenderer(Boolean.class, render);
-		table.setDefaultRenderer(Double.class, render);
-		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
-		table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
+		table = UITools.createNewTable(model);
+		
+		UITools.setDefaultRenderer(table, new StockTableRenderer());
 
 		for(int i : model.defaultHiddenColumns())
 		{
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);	
 		}
-		
-		try {
-			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
-		} catch (SQLException e1) {
-			logger.error(e1);
-		}
-		
 		
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);

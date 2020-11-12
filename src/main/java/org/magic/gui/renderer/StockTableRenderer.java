@@ -14,6 +14,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
@@ -32,7 +33,9 @@ public class StockTableRenderer implements TableCellRenderer{
 
 		
 		if(value instanceof Boolean)
+		{
 			pane= new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
 		
 		
 		if(value instanceof Integer)
@@ -65,6 +68,14 @@ public class StockTableRenderer implements TableCellRenderer{
 				((JLabel)pane).setOpaque(true);
 			}
 		}
+		
+		if(value instanceof MagicEdition)
+		{
+			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
+		
+		
+		
 		if (((MagicCardStock) table.getModel().getValueAt(row, 0)).isUpdate()) {
 			pane.setBackground(Color.GREEN);
 			pane.setForeground(table.getForeground());
@@ -76,9 +87,6 @@ public class StockTableRenderer implements TableCellRenderer{
 			pane.setForeground(table.getForeground());
 		}
 
-		
-		
-	
 		return pane;
 	}
 

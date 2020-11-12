@@ -577,25 +577,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(btnshowMassPanel);
 		actionPanel.add(lblLoading);
 
-		table = new JXTable(model);
-		StockTableRenderer render = new StockTableRenderer();
-
-		table.setDefaultRenderer(Object.class, render);
-		table.setDefaultRenderer(Map.class, render);
-		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
-		table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
-		
-		
-		try {
-			table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
-		} catch (SQLException e1) {
-			logger.error(e1);
-		}
-		
-		
-		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
-		
-		
+		table = UITools.createNewTable(model);
+		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		table.packAll();
 		UITools.initTableFilter(table);
 

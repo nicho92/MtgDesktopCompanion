@@ -34,10 +34,10 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 			JPanel p = new JPanel();
+			p.setOpaque(true);
 			cbox.setSelected(Boolean.parseBoolean(value.toString()));
 			cbox.setOpaque(false);
 			p.setLayout(new BorderLayout());
-			
 			p.add(cbox,BorderLayout.CENTER);
 			
 			if(isSelected)

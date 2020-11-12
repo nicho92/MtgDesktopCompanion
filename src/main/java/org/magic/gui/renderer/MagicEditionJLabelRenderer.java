@@ -36,13 +36,24 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		
 		pane.removeAll();
-		pane.setBackground(new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
-
+		pane.setBackground(table.getBackground());
+		
 		MagicEdition ed = (MagicEdition) value;
 			JLabel l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
 			l.setText(ed.getSet());
 			l.setToolTipText(ed.getSet());
 			l.setOpaque(false);
+			if(isSelected)
+			{
+				l.setForeground(table.getSelectionForeground());
+				pane.setBackground(table.getSelectionBackground());
+			}
+			else
+			{
+				l.setForeground(table.getForeground());
+				pane.setBackground(table.getBackground());
+			}
+			
 			l.setFont(f);
 			pane.add(l);
 		return pane;

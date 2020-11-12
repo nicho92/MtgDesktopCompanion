@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -61,7 +63,9 @@ import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.PluginIconListRenderer;
+import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
+import org.magic.gui.renderer.standard.ComboBoxEditor;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -94,6 +98,13 @@ public class UITools {
 	    return -1;
 	  }
 	
+	public static void setDefaultRenderer(JTable table, StockTableRenderer render) {
+
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(render);
+		}
+	}
+	
 	public static JXTable createNewTable(TableModel mod)
 	{
 		JXTable table = new JXTable();
@@ -106,6 +117,21 @@ public class UITools {
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultRenderer(Integer.class, new IntegerCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
+				table.setDefaultRenderer(boolean.class, new BooleanCellEditorRenderer());
+				table.setDefaultEditor(boolean.class, new BooleanCellEditorRenderer());
+				table.setDefaultRenderer(double.class, new DoubleCellEditorRenderer());
+				table.setDefaultEditor(double.class, new DoubleCellEditorRenderer());
+				table.setDefaultRenderer(int.class, new IntegerCellEditorRenderer());
+				table.setDefaultEditor(int.class, new IntegerCellEditorRenderer());
+				
+				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
+				try {
+					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
+				} catch (SQLException e1) {
+					logger.error(e1);
+				}
+				
+				
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 				
 		return table;
@@ -522,7 +548,5 @@ public class UITools {
 		
 	}
 
-
-	
 
 }
