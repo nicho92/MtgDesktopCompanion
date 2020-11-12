@@ -2,55 +2,53 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.util.Map;
 
 import javax.swing.Icon;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
-import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.MTGGraders;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.PluginRegistry;
 
-public class StockTableRenderer extends DefaultTableRenderer {
+public class StockTableRenderer implements TableCellRenderer{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
 	Component pane;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		pane = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+		
+		if(value instanceof Boolean)
+			pane= new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		
+		
+		if(value instanceof Integer)
+			pane= new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		
+		
+		if(value instanceof Double)
+			pane= new DoubleCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	
+		
 		if(value instanceof Map)
 		{
 			pane = new JPanel();
 			((Map<String,Object>)value).entrySet().forEach(e->((JPanel)pane).add(new JLabel(e.getKey() +"("+e.getValue()+")")));
 			 
 		}
-		
-		
-		
-		if(value instanceof Boolean)
-		{
-			pane=new JPanel();
-			JCheckBox jcbox=new JCheckBox("",Boolean.parseBoolean(value.toString()));
-					  jcbox.setOpaque(false);
-					  FlowLayout flowLayout = new FlowLayout();
-						flowLayout.setVgap(0);
-			((JPanel)pane).setLayout(flowLayout);
-			((JPanel)pane).add(jcbox);
-		}
-		
 		
 		if(value instanceof Grading)
 		{
@@ -67,8 +65,6 @@ public class StockTableRenderer extends DefaultTableRenderer {
 				((JLabel)pane).setOpaque(true);
 			}
 		}
-		
-		
 		if (((MagicCardStock) table.getModel().getValueAt(row, 0)).isUpdate()) {
 			pane.setBackground(Color.GREEN);
 			pane.setForeground(table.getForeground());
@@ -80,6 +76,9 @@ public class StockTableRenderer extends DefaultTableRenderer {
 			pane.setForeground(table.getForeground());
 		}
 
+		
+		
+	
 		return pane;
 	}
 
