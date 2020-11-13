@@ -55,7 +55,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 							try {
 								List<MagicPrice> list = prov.getPrice(alert.getCard());
 								for (MagicPrice p : list) {
-									if (p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")) && (alert.isFoil() && p.isFoil()) || (!alert.isFoil())) 
+									if (p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")) && (alert.isFoil() && p.isFoil()) || (!alert.isFoil())) //TODO need fix
 									{
 										alert.getOffers().add(p);
 										okz.add(p);

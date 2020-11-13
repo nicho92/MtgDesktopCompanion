@@ -28,7 +28,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardShakerTableModel;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
+import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
@@ -137,7 +137,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					logger.error(e);
 				} 
 				lblLoading.end();
-				UITools.setDefaultRenderer(table, new IntegerCellEditorRenderer(true));
+				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				setProperty("FORMAT", ((MagicFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 
 				List<SortKey> keys = new ArrayList<>();

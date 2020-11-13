@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.magic.services.MTGConstants;
+
 public class DoubleCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
 	/**
@@ -19,20 +21,33 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField fmtTxtField;
 	private String format="#0.0";
+	private boolean enableArrow;
 	
 	
 	public DoubleCellEditorRenderer() {
 		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
 	}
 	
-	public DoubleCellEditorRenderer(boolean percentRepresentation)
+	public DoubleCellEditorRenderer(String format)
 	{
-		if(percentRepresentation) {
-			format = "#0.0%";
-		}
+		this.enableArrow=false;
+		this.format=format;
 		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
-		
 	}
+	
+	public DoubleCellEditorRenderer(boolean enabledArrow)
+	{
+		this.enableArrow=enabledArrow;
+		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+	}
+	
+	public DoubleCellEditorRenderer(String format, boolean enabledArrow)
+	{
+		this.enableArrow=enabledArrow;
+		this.format=format;
+		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+	}
+
 
 	@Override
 	public Object getCellEditorValue() {
@@ -62,6 +77,25 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		{
 			l.setBackground(table.getBackground());
 			l.setForeground(table.getForeground());
+			
+		}
+		
+		if(enableArrow) {
+			
+			if (((Double) value).doubleValue() > 0)
+			{
+				l.setIcon(MTGConstants.ICON_UP);
+			}
+	
+			if (((Double) value).doubleValue() < 0)
+			{
+				l.setIcon(MTGConstants.ICON_DOWN);
+			}
+	
+			if (((Double) value).doubleValue() == 0)
+			{
+				l.setIcon(null);
+			}
 			
 		}
 		

@@ -63,24 +63,7 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 			l.setForeground(table.getForeground());
 		}
 		
-		if(enableArrow) {
 		
-			if (((Double) value).doubleValue() > 0)
-			{
-				l.setIcon(MTGConstants.ICON_UP);
-			}
-	
-			if (((Double) value).doubleValue() < 0)
-			{
-				l.setIcon(MTGConstants.ICON_DOWN);
-			}
-	
-			if (((Double) value).doubleValue() == 0)
-			{
-				l.setIcon(null);
-			}
-			
-		}
 		
 		return l;
 	}
