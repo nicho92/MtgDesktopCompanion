@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -143,7 +142,6 @@ public class AlarmGUI extends MTGUIComponent {
 		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
-		UITools.setDefaultRenderer(table, new IntegerCellEditorRenderer(true));
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());

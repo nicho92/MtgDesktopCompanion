@@ -50,7 +50,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	
 	private void initGUI() {
 		model = new SealedStockTableModel();
-		JXTable table = new JXTable(model);
+		JXTable table = UITools.createNewTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
 		
@@ -90,9 +90,6 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		model.setWritable(true);
 	
-		table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
-		table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
-		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 		
 		packagePanel.getTree().addTreeSelectionListener(e-> {
 			

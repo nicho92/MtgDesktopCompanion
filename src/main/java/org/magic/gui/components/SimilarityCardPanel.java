@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.models.SimilarityCardsTableModel;
 import org.magic.services.MTGLogger;
+import org.magic.tools.UITools;
 
 public class SimilarityCardPanel extends JPanel {
 
@@ -34,7 +35,7 @@ public class SimilarityCardPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		model = new SimilarityCardsTableModel();
-		tableSimilarity = new JXTable(model);
+		tableSimilarity = UITools.createNewTable(model);
 		
 		add(new JScrollPane(tableSimilarity), BorderLayout.CENTER);
 		

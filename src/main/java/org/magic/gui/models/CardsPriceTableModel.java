@@ -23,8 +23,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 				"QUALITY",
 				"FOIL",
 				"CARD_LANGUAGE",
-				"COUNTRY",
-				"URL"};
+				"COUNTRY"};
 	}
 	
 	@Override
@@ -57,7 +56,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 		case 9:
 			return String.class;
 		default:
-			return URL.class;
+			return super.getColumnClass(columnIndex);
 		}
 	}
 
@@ -88,8 +87,6 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 				return mp.getLanguage();
 			case 9:
 				return mp.getCountry();
-			case 10:
-				return mp.getUrl();
 			default:
 				return 0;
 			}

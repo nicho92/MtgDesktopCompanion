@@ -55,6 +55,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -63,6 +64,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
+import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
@@ -129,8 +131,13 @@ public class UITools {
 				table.setDefaultRenderer(int.class, new IntegerCellEditorRenderer());
 				table.setDefaultEditor(int.class, new IntegerCellEditorRenderer());
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
+				
+				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
+				
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
+				table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
+				
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 				} catch (SQLException e1) {

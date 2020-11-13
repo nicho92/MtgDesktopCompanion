@@ -112,8 +112,11 @@ public class OrdersGUI extends MTGUIComponent {
 		JPanel panneauBas = new JPanel();
 		JPanel panneauHaut = new JPanel();
 		JPanel panneauRight = new JPanel();
-		table = new JXTable();
+
 		model = new ShoppingEntryTableModel();
+		table = UITools.createNewTable(model);
+		
+		
 		JButton btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
 		JButton btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"transactions save");
 		totalBuy = new JLabel(MTGConstants.ICON_DOWN);
@@ -135,10 +138,10 @@ public class OrdersGUI extends MTGUIComponent {
 		editionFinancialChartPanel = new EditionFinancialChartPanel();
 		JButton btnAddToCollection = UITools.createBindableJButton(null,MTGConstants.ICON_MASS_IMPORT,KeyEvent.VK_C,"transaction add collection");
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		table.setModel(model);
+		
 		setLayout(new BorderLayout(0, 0));
 		btnAddToCollection.setEnabled(false);
-		table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
+		
 		table.setDefaultRenderer(Double.class,  new OrderEntryRenderer());
 		panneauRight.setPreferredSize(new Dimension(500, 1));
 		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
