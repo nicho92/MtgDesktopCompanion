@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -41,6 +42,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -66,12 +68,15 @@ import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.ComboBoxEditor;
+import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
+
+import com.itextpdf.layout.renderer.TableRenderer;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
@@ -98,7 +103,7 @@ public class UITools {
 	    return -1;
 	  }
 	
-	public static void setDefaultRenderer(JTable table, StockTableRenderer render) {
+	public static void setDefaultRenderer(JTable table, TableCellRenderer render) {
 
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(render);
@@ -123,7 +128,8 @@ public class UITools {
 				table.setDefaultEditor(double.class, new DoubleCellEditorRenderer());
 				table.setDefaultRenderer(int.class, new IntegerCellEditorRenderer());
 				table.setDefaultEditor(int.class, new IntegerCellEditorRenderer());
-				
+				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
+				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
@@ -131,7 +137,7 @@ public class UITools {
 					logger.error(e1);
 				}
 				
-				
+				table.setColumnControlVisible(true);
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 				
 		return table;

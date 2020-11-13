@@ -44,7 +44,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		model = new LogTableModel();
 		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
 		JPanel panel = new JPanel();
-		table = new JXTable(model);
+		table = UITools.createNewTable(model);
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		t = new Timer(1000, e -> model.fireTableDataChanged());
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
@@ -64,11 +64,9 @@ public class LoggerViewPanel extends MTGUIComponent {
 		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.DESCENDING));
 		datesorter.setSortKeys(sortKeys);
 		table.setRowSorter(datesorter);
-		table.setDefaultRenderer(Date.class,(JTable tab, Object value, boolean isSelected, boolean hasFocus,int row, int column)->new JLabel(UITools.formatDateTime((Date)value)));
 		
 		model.setDefaultHiddenComlumns(2,3,4);
 		
-	
 		
 		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
 		

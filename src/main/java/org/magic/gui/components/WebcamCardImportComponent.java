@@ -138,7 +138,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		} catch (IOException e1) {
 			logger.error(e1);
 		}
-		tableResults = new JXTable(modelCards);
+		tableResults = UITools.createNewTable(modelCards);
 		JList<LoadedRecognitionEdition> listEds = new JList<>(listModel);
 		JListFilterDecorator deco = JListFilterDecorator.decorate(listEds,(LoadedRecognitionEdition t, String u)->t.getEdition().getSet().toLowerCase().contains(u.toLowerCase()));
 

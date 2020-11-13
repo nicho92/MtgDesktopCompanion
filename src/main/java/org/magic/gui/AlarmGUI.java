@@ -62,7 +62,6 @@ import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
-import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
@@ -116,7 +115,7 @@ public class AlarmGUI extends MTGUIComponent {
 	public void initGUI() {
 		splitPanel = new JSplitPane();
 		btnExport = new JExportButton(MODS.EXPORT);
-		table = new JXTable();
+		
 		model = new CardAlertTableModel();
 		globalSearchPanel = new DeckPricePanel();
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -136,18 +135,16 @@ public class AlarmGUI extends MTGUIComponent {
 		ServerStatePanel oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
 		ServerStatePanel serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
 		UITools.initTableFilter(table);
-
+		table = UITools.createNewTable(model);
 		
 ///////CONFIG		
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		table.setModel(model);
 		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
-		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(7).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(8).setCellRenderer(new CardShakeRenderer());
+		UITools.setDefaultRenderer(table, new IntegerCellEditorRenderer(true));
+		
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(2).setCellEditor(new IntegerCellEditorRenderer());

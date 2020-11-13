@@ -42,10 +42,10 @@ public class ShortKeyManagerUI extends MTGUIComponent
 		JButton btnSaveBinding = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save shortkey");
 		textField = new JTextField(10);
 		JPanel panneauBas = new JPanel();
-		tableKeys = new JXTable();
+		
 		model = new ShortKeyModel();
 		model.setMainObjectIndex(1);
-		tableKeys.setModel(model);
+		tableKeys = UITools.createNewTable(model);
 		tableKeys.setDefaultRenderer(JButton.class,new ShortKeysCellRenderer());
 		tableKeys.setDefaultRenderer(MTGUIComponent.class,new ShortKeysCellRenderer());
 		

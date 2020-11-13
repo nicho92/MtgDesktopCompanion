@@ -14,6 +14,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ThreadsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class ThreadMonitor extends MTGUIComponent  {
 	/**
@@ -30,8 +31,8 @@ public class ThreadMonitor extends MTGUIComponent  {
 	public ThreadMonitor() {
 		setLayout(new BorderLayout(0, 0));
 		modelT = new ThreadsTableModel();
-		tableT = new JXTable();
-		tableT.setModel(modelT);
+		tableT = UITools.createNewTable(modelT);
+		
 		
 		add(new JScrollPane(tableT), BorderLayout.CENTER);
 		JPanel panel = new JPanel();

@@ -54,7 +54,7 @@ public class PricesTablePanel extends JPanel {
 		
 		panel.setPreferredSize(new Dimension(0,32));
 		model = new CardsPriceTableModel();
-		tablePrices = new JXTable(model);
+		tablePrices = UITools.createNewTable(model);
 		UITools.initTableFilter(tablePrices);
 		sorterPrice = new TableRowSorter<>(model);
 		
@@ -65,7 +65,7 @@ public class PricesTablePanel extends JPanel {
 		
 		
 		setLayout(new BorderLayout(0, 0));
-		tablePrices.setColumnControlVisible(true);
+		
 		tablePrices.setRowSorter(sorterPrice);
 
 		for(int i : model.defaultHiddenColumns())

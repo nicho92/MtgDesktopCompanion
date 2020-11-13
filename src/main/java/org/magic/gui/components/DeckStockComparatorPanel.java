@@ -19,8 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -33,6 +34,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
@@ -73,7 +75,6 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		cboCollections = UITools.createComboboxCollection();
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
-		JXTable table = new JXTable();
 		btnExportMissing = new JExportButton(MODS.EXPORT);
 		btnExportMissing.setText("Export Missing");
 		UITools.bindJButton(btnExportMissing, KeyEvent.VK_M, "ExportMissing");
@@ -85,8 +86,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		pan.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		pricesPan = new DeckPricePanel();
 		
-		table.setModel(model);
-		
+		JXTable table = UITools.createNewTable(model);
 		UITools.initCardToolTipTable(table, 0,null);
 		
 		add(panneauHaut, BorderLayout.NORTH);
@@ -124,26 +124,28 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		
 		add(pan,BorderLayout.CENTER);
 		
-		table.setDefaultRenderer(Integer.class, new DefaultTableCellRenderer() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+		table.setDefaultRenderer(Integer.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
 				Integer val = (Integer)value;
 				if(column==4)
 				{
-					JLabel c = new JLabel(value.toString());
+					JLabel c = new JLabel(value.toString(),SwingConstants.CENTER);
 					c.setOpaque(true);
 					if(val==0)
+					{
 						c.setBackground(Color.GREEN);
+						c.setForeground(Color.BLACK);
+					}
+					
 					else
+					{
 						c.setBackground(Color.RED);
+						c.setForeground(Color.WHITE);
+					}
 						
 					return c;
 					
 				}
-				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
-				
-			}
+				return new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
 		});
 		
 		

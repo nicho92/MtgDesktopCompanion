@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.magic.services.MTGConstants;
+
 public class IntegerCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
 	/**
@@ -18,8 +20,17 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 	 */
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinner;
-
+	private boolean enableArrow=false;
+	
 	public IntegerCellEditorRenderer() {
+		spinner = new JSpinner();
+		SpinnerNumberModel model1 = new SpinnerNumberModel();
+		model1.setMinimum(0);
+		spinner.setModel(model1);
+	}
+	
+	public IntegerCellEditorRenderer(boolean enableArrow) {
+		this.enableArrow=enableArrow;
 		spinner = new JSpinner();
 		SpinnerNumberModel model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
@@ -39,8 +50,8 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l= new JLabel(String.valueOf(value),SwingConstants.RIGHT);
-		l.setOpaque(true);
+		JLabel l= new JLabel(String.valueOf(value),SwingConstants.CENTER);
+			   l.setOpaque(true);
 		if(isSelected)
 		{
 			l.setBackground(table.getSelectionBackground());
@@ -50,6 +61,24 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 		{
 			l.setBackground(table.getBackground());
 			l.setForeground(table.getForeground());
+		}
+		
+		if(enableArrow) {
+		
+			if (((Double) value).doubleValue() > 0)
+			{
+				l.setIcon(MTGConstants.ICON_UP);
+			}
+	
+			if (((Double) value).doubleValue() < 0)
+			{
+				l.setIcon(MTGConstants.ICON_DOWN);
+			}
+	
+			if (((Double) value).doubleValue() == 0)
+			{
+				l.setIcon(null);
+			}
 			
 		}
 		

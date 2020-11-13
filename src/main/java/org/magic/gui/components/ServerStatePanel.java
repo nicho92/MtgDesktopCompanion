@@ -25,6 +25,7 @@ import org.magic.gui.models.LogTableModel;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class ServerStatePanel extends JPanel {
 
@@ -109,12 +110,13 @@ public class ServerStatePanel extends JPanel {
 		if(b) 
 		{
 			model = new LogTableModel();
-			JXTable table = new JXTable();
-			table.setModel(model);
-			table.getColumnExt(model.getColumnName(0)).setVisible(false);
-			table.getColumnExt(model.getColumnName(1)).setVisible(false);
-			table.getColumnExt(model.getColumnName(2)).setVisible(false);
-			table.getColumnExt(model.getColumnName(3)).setVisible(false);
+			JXTable table = UITools.createNewTable(model);
+			
+			for(int i: new int[] {0,1,2,3})
+				table.getColumnExt(model.getColumnName(i)).setVisible(false);
+
+			
+			
 			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 3));
 			table.setTableHeader(null);
 

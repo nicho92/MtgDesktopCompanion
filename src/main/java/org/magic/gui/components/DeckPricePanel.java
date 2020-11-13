@@ -129,7 +129,7 @@ public class DeckPricePanel extends JComponent {
 
 		
 		model = new CardsPriceTableModel();
-		tablePrice = new JXTable(model);
+		tablePrice = UITools.createNewTable(model);
 		tablePrice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {

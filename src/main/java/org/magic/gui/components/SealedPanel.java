@@ -124,8 +124,7 @@ public class SealedPanel extends JPanel {
 
 		panelControl = new JPanel();
 		panelWest.add(panelControl, BorderLayout.NORTH);
-		table = new JXTable(model);
-		table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditorRenderer());
+		table = UITools.createNewTable(model);
 		panelControl.setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
