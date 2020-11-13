@@ -212,15 +212,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		historyPricesPanel = new HistoryPricesPanel(true);
 		jsonPanel = new ObjectViewerPanel();
 		tree = new LazyLoadingTree();
-		tableEditions = new JXTable();
 		pricePanel = new PricesTablePanel();
 		
 		//////// MODELS
 		model = new MagicEditionsTableModel();
 		DefaultRowSorter<TableModel, Integer> sorterEditions = new TableRowSorter<>(model);
-		
-		tableEditions.setModel(model);
-		
+		tableEditions = UITools.createNewTable(model);
 		UITools.initTableFilter(tableEditions);
 		
 
@@ -240,12 +237,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
 
-		tableEditions.setDefaultRenderer(Object.class, render);
-		tableEditions.setDefaultRenderer(String.class, render);
-		tableEditions.setDefaultRenderer(Integer.class, render);
-		tableEditions.setDefaultRenderer(double.class, render);
-		tableEditions.setDefaultRenderer(Boolean.class, render);
-		tableEditions.setDefaultRenderer(ImageIcon.class, render);
+		
+		UITools.setDefaultRenderer(tableEditions, render);
 		tableEditions.setRowHeight(25);
 		tableEditions.setRowSorter(sorterEditions);
 		

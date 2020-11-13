@@ -45,7 +45,7 @@ public class EventManagerGUI extends MTGUIComponent{
 	public EventManagerGUI() {
 		setLayout(new BorderLayout());
 		model = new MagicEventsTableModel();
-		tableEvents = new JXTable(model);
+		tableEvents = UITools.createNewTable(model);
 		
 		try {
 			MTGControler.getInstance().getEventsManager().load();
