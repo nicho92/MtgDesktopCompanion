@@ -1,5 +1,7 @@
 package org.magic.game.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -49,6 +51,7 @@ import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
+
 public class GamingRoomPanel extends JPanel {
 
 	/**
@@ -95,9 +98,8 @@ public class GamingRoomPanel extends JPanel {
 			if (arg instanceof RequestPlayAction) {
 				RequestPlayAction lpa = (RequestPlayAction) arg;
 				int res = JOptionPane.showConfirmDialog(getRootPane(),
-						MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_REQUEST",
-								lpa.getRequestPlayer()),
-						MTGControler.getInstance().getLangService().getCapitalize("NEW_GAME_REQUEST"),
+						capitalize("CHALLENGE_REQUEST",lpa.getRequestPlayer()),
+						capitalize("NEW_GAME_REQUEST"),
 						JOptionPane.YES_NO_OPTION);
 
 				if (res == JOptionPane.YES_OPTION) {
@@ -110,14 +112,14 @@ public class GamingRoomPanel extends JPanel {
 				ReponseAction resp = (ReponseAction) arg;
 				if (resp.getReponse().equals(ReponseAction.CHOICE.YES)) {
 					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(),
-							MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_ACCEPTED")));
+							capitalize("CHALLENGE_ACCEPTED")));
 					client.changeStatus(STATE.GAMING);
 					GamePanelGUI.getInstance().setPlayer(client.getPlayer());
 					GamePanelGUI.getInstance().addPlayer(resp.getRequest().getAskedPlayer());
 					GamePanelGUI.getInstance().initGame();
 				} else {
 					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(),
-							" " + MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_DECLINE")));
+							" " + capitalize("CHALLENGE_DECLINE")));
 				}
 			}
 		}
@@ -126,10 +128,10 @@ public class GamingRoomPanel extends JPanel {
 	public GamingRoomPanel() {
 		setLayout(new BorderLayout(0, 0));
 	
-		btnLogout = new JButton(MTGControler.getInstance().getLangService().getCapitalize("LOGOUT"));
-		JLabel lblIp = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("HOST") + " :");
-		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
-		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
+		btnLogout = new JButton(capitalize("LOGOUT"));
+		JLabel lblIp = new JLabel(capitalize("HOST") + " :");
+		btnConnect = new JButton(capitalize("CONNECT"));
+		JLabel lblName = new JLabel(capitalize("NAME") + " :");
 		JPanel panneauHaut = new JPanel();
 		txtServer = new JTextField();
 		JLabel lblPort = new JLabel("Port :");
@@ -159,7 +161,7 @@ public class GamingRoomPanel extends JPanel {
 		btnPlayGame.setEnabled(false);
 		panel.setLayout(new BorderLayout(0, 0));
 		panelChatBox.setLayout(new BorderLayout(0, 0));
-		editorPane.setText(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT"));
+		editorPane.setText(capitalize("CHAT_INTRO_TEXT"));
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
@@ -286,7 +288,7 @@ public class GamingRoomPanel extends JPanel {
 			@Override
 			public void focusGained(FocusEvent fe) {
 				if (editorPane.getText()
-						.equals(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT")))
+						.equals(capitalize("CHAT_INTRO_TEXT")))
 					editorPane.setText("");
 			}
 		});
@@ -336,12 +338,12 @@ class PlayerTableModel extends DefaultTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String[] columns = { MTGControler.getInstance().getLangService().getCapitalize("PLAYER"),
-			MTGControler.getInstance().getLangService().getCapitalize("DECK"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
-			MTGControler.getInstance().getLangService().getCapitalize("FORMAT"),
-			MTGControler.getInstance().getLangService().getCapitalize("COUNTRY"),
-			MTGControler.getInstance().getLangService().getCapitalize("STATE") };
+	private static final String[] columns = { capitalize("PLAYER"),
+			capitalize("DECK"),
+			capitalize("CARD_COLOR"),
+			capitalize("FORMAT"),
+			capitalize("COUNTRY"),
+			capitalize("STATE") };
 	private List<Player> players;
 
 	public void init(List<Player> play) {

@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -20,10 +21,8 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
-
 public class MagicEditionDetailPanel extends JPanel {
 
 	/**
@@ -71,23 +70,23 @@ public class MagicEditionDetailPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		panneauHaut.setLayout(gridBagLayout);
 
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
+		panneauHaut.add(new JLabel(capitalize("EDITION") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
 		setJTextField = new JTextField();
 		panneauHaut.add(setJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE") + " :"), UITools.createGridBagConstraints(null, null, 0, 1));
+		panneauHaut.add(new JLabel(capitalize("EDITION_TYPE") + " :"), UITools.createGridBagConstraints(null, null, 0, 1));
 		typeJTextField = new JTextField();
 		panneauHaut.add(typeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 		
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE") + " :"), UITools.createGridBagConstraints(null, null, 0, 2));
+		panneauHaut.add(new JLabel(capitalize("DATE_RELEASE") + " :"), UITools.createGridBagConstraints(null, null, 0, 2));
 		releaseDateJTextField = new JTextField();
 		panneauHaut.add(releaseDateJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 	
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_CARD_COUNT") + " :"), UITools.createGridBagConstraints(null, null, 0, 4));
+		panneauHaut.add(new JLabel(capitalize("EDITION_CARD_COUNT") + " :"), UITools.createGridBagConstraints(null, null, 0, 4));
 		cardCountTextField = new JTextField();
 		panneauHaut.add(cardCountTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK") + " :"), UITools.createGridBagConstraints(null, null, 0, 5));
+		panneauHaut.add(new JLabel(capitalize("EDITION_BLOCK") + " :"), UITools.createGridBagConstraints(null, null, 0, 5));
 		blockJTextField = new JTextField(10);
 		panneauHaut.add(blockJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
 
@@ -95,7 +94,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		idJtextField = new JTextField(10);
 		panneauHaut.add(idJtextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
+		panneauHaut.add(new JLabel(capitalize("EDITION_ONLINE") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
 		chkOnline = new JCheckBox("");
 		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 7));
 		
@@ -110,7 +109,7 @@ public class MagicEditionDetailPanel extends JPanel {
 
 		if (openBooster) {
 			btnOpenBooster = new JButton(
-					MTGControler.getInstance().getLangService().getCapitalize("OPEN_BOOSTER") + " :");
+					capitalize("OPEN_BOOSTER") + " :");
 			panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
 			btnOpenBooster.addActionListener(ae -> {
 				try {

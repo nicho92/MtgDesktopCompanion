@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,7 +28,6 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
-
 public class ServerStatePanel extends JPanel {
 
 	/**
@@ -135,7 +136,7 @@ public class ServerStatePanel extends JPanel {
 				
 				if (server.isAlive())
 				{
-					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("STOP"));
+					btnStartStop.setText(capitalize("STOP"));
 					
 					if(b)
 					{
@@ -144,7 +145,7 @@ public class ServerStatePanel extends JPanel {
 				}
 				else
 				{
-					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("START"));
+					btnStartStop.setText(capitalize("START"));
 				}
 				
 				lblalive.setIcon(icons.get(server.isAlive()));

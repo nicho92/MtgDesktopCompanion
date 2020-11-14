@@ -17,6 +17,11 @@ public class MTG {
 		return MTGControler.getInstance().getLangService().get(key);
 	}
 	
+	public static String capitalize(String key, Object... o)
+	{
+		return MTGControler.getInstance().getLangService().getCapitalize(key,o);
+	}
+	
 	public static String capitalize(String key)
 	{
 		return MTGControler.getInstance().getLangService().getCapitalize(key);

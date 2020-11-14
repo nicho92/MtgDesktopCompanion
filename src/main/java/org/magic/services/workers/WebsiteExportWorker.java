@@ -1,5 +1,7 @@
 package org.magic.services.workers;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +21,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.MagicWebSiteGenerator;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-
 public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 	
 	
@@ -72,7 +73,7 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 		}
 		
 		
-		int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
+		int res = JOptionPane.showConfirmDialog(null,capitalize("WEBSITE_CONFIRMATION_VIEW"));
 
 		if (res == JOptionPane.YES_OPTION) {
 			Path p = Paths.get(dest.getAbsolutePath());

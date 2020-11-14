@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -27,10 +29,8 @@ import org.magic.gui.components.renderer.GedEntryComponent;
 import org.magic.gui.tools.FileDropDecorator;
 import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
-
 public class GedPanel<T> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -78,7 +78,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
-		panneauHaut.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DRAG_HERE")));
+		panneauHaut.add(new JLabel(capitalize("DRAG_HERE")));
 		panneauHaut.add(buzy);
 		
 		

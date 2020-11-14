@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -27,7 +29,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
 public class GradingEditorPane extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -73,8 +74,8 @@ public class GradingEditorPane extends MTGUIComponent {
 		
 		
 		txtSerialNumber = new JTextField(10);
-		JButton btnLoad = UITools.createBindableJButton(MTGControler.getInstance().getLangService().getCapitalize("LOAD"), MTGConstants.ICON_WEBSITE, KeyEvent.VK_L, "Grade info loading");
-		btnSave = UITools.createBindableJButton(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G, "Grade info saving");
+		JButton btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE, KeyEvent.VK_L, "Grade info loading");
+		btnSave = UITools.createBindableJButton(capitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G, "Grade info saving");
 		
 		
 		

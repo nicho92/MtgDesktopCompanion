@@ -1,5 +1,6 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
@@ -24,7 +25,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
-
 public class OrderImporterDialog extends JDialog {
 
 	/**
@@ -44,7 +44,7 @@ public class OrderImporterDialog extends JDialog {
 	public OrderImporterDialog() {
 		
 		setSize(new Dimension(500, 300));
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("FINANCIAL_MODULE"));
+		setTitle(capitalize("FINANCIAL_MODULE"));
 		setIconImage(MTGConstants.ICON_SHOP.getImage());
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -97,11 +97,11 @@ public class OrderImporterDialog extends JDialog {
 		});
 		
 		
-		btnClose.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		btnClose.setToolTipText(capitalize("CANCEL"));
 		
 		btnClose.addActionListener(e -> dispose());
 	
-		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport.setToolTipText(capitalize("IMPORT"));
 		
 		btnImport.addActionListener(e -> 
 			ThreadManager.getInstance().invokeLater(() -> {

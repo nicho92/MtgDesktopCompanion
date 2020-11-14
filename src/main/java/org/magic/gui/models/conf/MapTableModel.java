@@ -1,5 +1,7 @@
 package org.magic.gui.models.conf;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
-
-import org.magic.services.MTGControler;
-
 public class MapTableModel<K,V> extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -96,7 +95,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columnsName[column]);
+		return capitalize(columnsName[column]);
 	}
 	
 	

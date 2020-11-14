@@ -1,10 +1,10 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-import javax.swing.table.TableCellRenderer;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -39,8 +38,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
-
 public class DeckStockComparatorPanel extends MTGUIComponent {
 	
 	/**
@@ -92,10 +89,10 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(cboCollections);
 		
-		chkCollectionCheck = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("CHECK_COLLECTION"));
+		chkCollectionCheck = new JCheckBox(capitalize("CHECK_COLLECTION"));
 		panneauHaut.add(chkCollectionCheck);
 		
-		chkEditionStrict = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("EDITION_STRICT"));
+		chkEditionStrict = new JCheckBox(capitalize("EDITION_STRICT"));
 		panneauHaut.add(chkEditionStrict);
 		
 		

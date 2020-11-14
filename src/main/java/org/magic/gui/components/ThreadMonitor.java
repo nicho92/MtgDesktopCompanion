@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.lang.management.ManagementFactory;
 
@@ -13,9 +15,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ThreadsTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
-
 public class ThreadMonitor extends MTGUIComponent  {
 	/**
 	 * 
@@ -41,10 +41,10 @@ public class ThreadMonitor extends MTGUIComponent  {
 		btnRefresh.addActionListener(ae -> {
 			if (t.isRunning()) {
 				t.stop();
-				btnRefresh.setText(MTGControler.getInstance().getLangService().getCapitalize("START"));
+				btnRefresh.setText(capitalize("START"));
 			} else {
 				t.start();
-				btnRefresh.setText(MTGControler.getInstance().getLangService().getCapitalize("PAUSE"));
+				btnRefresh.setText(capitalize("PAUSE"));
 
 			}
 		});
@@ -70,7 +70,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("THREADS");
+		return capitalize("THREADS");
 	}
 	
 	@Override

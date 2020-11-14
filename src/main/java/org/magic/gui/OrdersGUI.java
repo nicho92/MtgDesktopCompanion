@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -33,7 +34,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -46,14 +46,12 @@ import org.magic.gui.components.charts.EditionFinancialChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
-import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.OrderEntryRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
-
 public class OrdersGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -287,8 +285,8 @@ public class OrdersGUI extends MTGUIComponent {
 					return;
 				
 				
-				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",states.size() + " item(s)"),
-						MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null,capitalize("CONFIRM_DELETE",states.size() + " item(s)"),
+						capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
 				
 				
 				
@@ -425,7 +423,7 @@ public class OrdersGUI extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("FINANCIAL_MODULE");
+		return capitalize("FINANCIAL_MODULE");
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +11,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-
 public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	private static final String[] columnsNames = { "EDITION","PRICE" };
@@ -33,7 +33,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columnsNames[column]);
+		return capitalize(columnsNames[column]);
 	}
 	
 	@Override

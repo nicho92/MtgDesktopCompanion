@@ -1,5 +1,6 @@
 package org.magic.api.main;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
@@ -22,7 +23,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
-
 public class MtgDesktopCompanion {
 
 	private final Logger logger = MTGLogger.getLogger(this.getClass());
@@ -48,7 +48,7 @@ public class MtgDesktopCompanion {
 			logger.trace("result config updated : " + updated);
 
 			if (updated)
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize("NEW"), MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
+				MTGControler.getInstance().notify(new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
 			
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 			

@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -42,7 +43,6 @@ import org.magic.tools.UITools;
 
 
 
-
 public class RssGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -66,7 +66,7 @@ public class RssGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE");
+		return capitalize("RSS_MODULE");
 	}
 	
 	public RssGUI() {
@@ -79,7 +79,7 @@ public class RssGUI extends MTGUIComponent {
 		editorPane = MTGUIBrowserComponent.createBrowser();
 		JSplitPane splitTreeTable = new JSplitPane();
 		JPanel leftPanel = new JPanel();
-		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
+		rootNode = new DefaultMutableTreeNode(capitalize("RSS_MODULE"));
 		JPanel panelControl = new JPanel();
 		btnNewButton = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"new news entry");
 		btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save news entry");

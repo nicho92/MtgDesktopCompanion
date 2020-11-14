@@ -1,5 +1,7 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -34,7 +36,6 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 public class AboutDialog extends MTGUIComponent {
 
 	private static final String NEW_VERSION = "NEW_VERSION";
@@ -45,7 +46,7 @@ public class AboutDialog extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		setPreferredSize(new Dimension(600, 400));
 		StringBuilder developper = new StringBuilder("<html><center>"); 
-			developper.append(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
+			developper.append(capitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
 			try {
 				developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
@@ -161,7 +162,7 @@ public class AboutDialog extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME;
+		return capitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME;
 	}
 
 }

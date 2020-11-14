@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,9 +13,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
-
 public class NewsEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -68,7 +68,7 @@ public class NewsEditorPanel extends JPanel {
 		componentGbc0.gridy = 1;
 		add(categorieJTextField, componentGbc0);
 
-		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + ": ");
+		JLabel nameLabel = new JLabel(capitalize("NAME") + ": ");
 		GridBagConstraints labelGbc2 = new GridBagConstraints();
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;

@@ -1,5 +1,6 @@
 package org.magic.tools;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.listEnabledPlugins;
 import static org.magic.tools.MTG.listPlugins;
@@ -18,7 +19,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -64,10 +64,9 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
-import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
+import org.magic.gui.renderer.MagicEditionJLabelRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
-import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.ComboBoxEditor;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
@@ -78,12 +77,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 
-import com.itextpdf.layout.renderer.TableRenderer;
-
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
 import net.coderazzi.filters.gui.TableFilterHeader;
-
 @SuppressWarnings("unchecked")
 public class UITools {
 
@@ -194,11 +190,11 @@ public class UITools {
 		JTextField txtSearch;
 		if(SystemUtils.IS_OS_MAC_OSX)
 		{
-		  txtSearch= new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		  txtSearch= new JTextField(capitalize("SEARCH_MODULE"));
 		}
 		else
 		{	
-		  txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		  txtSearch = new JXSearchField(capitalize("SEARCH_MODULE"));
 		  ((JXSearchField)txtSearch).setSearchMode(SearchMode.REGULAR);
 		  ((JXSearchField)txtSearch).setRecentSearchesSaveKey("K");
 		  ((JXSearchField)txtSearch).setBackground(Color.WHITE);
@@ -557,7 +553,7 @@ public class UITools {
 
 
 	public static void addTab(JTabbedPane pane, MTGUIComponent comp) {
-		pane.addTab(MTGControler.getInstance().getLangService().getCapitalize(comp.getTitle()), comp.getIcon(),comp);
+		pane.addTab(capitalize(comp.getTitle()), comp.getIcon(),comp);
 		
 	}
 

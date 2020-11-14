@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -79,7 +80,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
-
 @SuppressWarnings("rawtypes")
 public class CollectionPanelGUI extends MTGUIComponent {
 	
@@ -131,7 +131,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_MODULE");
+		return capitalize("COLLECTION_MODULE");
 	}
 	
 	
@@ -261,38 +261,38 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitListPanel.setRightComponent(panneauDroite);
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
 		splitPane.setLeftComponent(panneauTreeTable);
-		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION"), MTGConstants.ICON_BACK,new JScrollPane(tree), null);
-		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
-		panneauTreeTable.addTab(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
+		panneauTreeTable.addTab(capitalize("COLLECTION"), MTGConstants.ICON_BACK,new JScrollPane(tree), null);
+		panneauTreeTable.addTab(capitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
+		panneauTreeTable.addTab(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(new JScrollPane(tableEditions));
 		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
 		panelTotal.add(lblTotal);
 
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricePanel,null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), stockPanel.getIcon(), stockPanel,null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), historyPricesPanel.getIcon(),historyPricesPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel, null);
+		tabbedPane.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
+		tabbedPane.addTab(capitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
+		tabbedPane.addTab(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
+		tabbedPane.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricePanel,null);
+		tabbedPane.addTab(capitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
+		tabbedPane.addTab(capitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
+		tabbedPane.addTab(capitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
+		tabbedPane.addTab(capitalize("STOCK_MODULE"), stockPanel.getIcon(), stockPanel,null);
+		tabbedPane.addTab(capitalize("PRICE_VARIATIONS"), historyPricesPanel.getIcon(),historyPricesPanel, null);
+		tabbedPane.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
+		tabbedPane.addTab(capitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel, null);
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
 		///////// Labels
 		btnAdd.setToolTipText(MTGControler.getInstance().getLangService().get("COLLECTION_ADD"));
-		btnRefresh.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_REFRESH"));
-		btnRemove.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ITEM_SELECTED_REMOVE"));
-		btnAddAllSet.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_SET_FULL"));
-		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
-		btnMassCollection.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT"));
-		btnGenerateWebSite.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
+		btnRefresh.setToolTipText(capitalize("COLLECTION_REFRESH"));
+		btnRemove.setToolTipText(capitalize("ITEM_SELECTED_REMOVE"));
+		btnAddAllSet.setToolTipText(capitalize("COLLECTION_SET_FULL"));
+		btnExport.setToolTipText(capitalize("EXPORT_AS"));
+		btnMassCollection.setToolTipText(capitalize("COLLECTION_IMPORT"));
+		btnGenerateWebSite.setToolTipText(capitalize("GENERATE_WEBSITE"));
 
 		List<SortKey> keys = new ArrayList<>();
 		SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
@@ -532,8 +532,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					}
 					if (node.getUserObject() instanceof MagicCollection) {
 						JPopupMenu p = new JPopupMenu();
-						JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
-						JMenuItem itSync = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
+						JMenuItem it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
+						JMenuItem itSync = new JMenuItem(capitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
 						
 						
 						p.add(it);
@@ -667,7 +667,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 	    
 		btnAdd.addActionListener(e -> {
-			String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " ?");
+			String name = JOptionPane.showInputDialog(capitalize("NAME") + " ?");
 			
 			if(name==null||name.isEmpty())
 				return;
@@ -695,7 +695,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 
 				try {
-					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
+					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
 						MTGControler.getInstance().removeCard(card, col);
 					}
@@ -718,7 +718,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 			if (curr.getUserObject() instanceof MagicCollection) {
 				try {
-					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCount(col, null)));
+					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCount(col, null)));
 					if (res == JOptionPane.YES_OPTION) {
 						dao.removeCollection(col);
 					}
@@ -746,7 +746,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		it.addActionListener(evt -> {
 			List<MagicEdition> eds = UITools.getTableSelections(tableEditions, 1);
 
-			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize(
+			int res = JOptionPane.showConfirmDialog(null, capitalize(
 					"CONFIRM_COLLECTION_ITEM_ADDITION", eds, it.getText()));
 
 			if (res == JOptionPane.YES_OPTION)
@@ -815,15 +815,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		popupMenuEdition = new JPopupMenu();
 		popupMenuCards = new JPopupMenu();
 
-		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD_MISSING_CARDS_IN"));
-		JMenu menuItemRemoveFrom = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("REMOVE_CARDS_IN"));
-		JMenu menuItemMove = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MOVE_CARD_TO"));
+		JMenu menuItemAdd = new JMenu(capitalize("ADD_MISSING_CARDS_IN"));
+		JMenu menuItemRemoveFrom = new JMenu(capitalize("REMOVE_CARDS_IN"));
+		JMenu menuItemMove = new JMenu(capitalize("MOVE_CARD_TO"));
 		menuItemAdd.setIcon(MTGConstants.ICON_COLLECTION);
 		menuItemMove.setIcon(MTGConstants.ICON_COLLECTION);
 		menuItemRemoveFrom.setIcon(MTGConstants.ICON_COLLECTION);
 		
-		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
-		JMenuItem menuItemStocks = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
+		JMenuItem menuItemAlerts = new JMenuItem(capitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
+		JMenuItem menuItemStocks = new JMenuItem(capitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
 		
 		for (MagicCollection mc : dao.listCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
@@ -956,7 +956,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			menuItemRemoveFrom.add(rmvs);
 		}
 
-		JMenuItem menuItemOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
+		JMenuItem menuItemOpen = new JMenuItem(capitalize("OPEN"));
 		menuItemOpen.addActionListener(e -> {
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
@@ -970,7 +970,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 		popupMenuEdition.add(menuItemOpen);
 
-		JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
+		JMenuItem it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
 		it.addActionListener(e -> {
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();

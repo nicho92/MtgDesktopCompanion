@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listPlugins;
 
 import java.awt.GridLayout;
@@ -11,7 +12,6 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 public class ServersGUI extends MTGUIComponent {
 
@@ -24,7 +24,7 @@ public class ServersGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS");
+		return capitalize("ACTIVE_SERVERS");
 	}
 	
 	

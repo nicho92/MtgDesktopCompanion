@@ -1,5 +1,6 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
@@ -28,7 +29,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 
-
 public class WebSiteGeneratorDialog extends JDialog {
 	/**
 	 * 
@@ -53,7 +53,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	public WebSiteGeneratorDialog(List<MagicCollection> cols) {
 		setSize(new Dimension(571, 329));
 		setModal(true);
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
+		setTitle(capitalize("GENERATE_WEBSITE"));
 		setIconImage(MTGConstants.ICON_WEBSITE.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -77,7 +77,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 
-		JButton btnGenerate = new JButton(MTGControler.getInstance().getLangService().getCapitalize("START"));
+		JButton btnGenerate = new JButton(capitalize("START"));
 
 		panneauBas.add(btnGenerate);
 
@@ -91,12 +91,12 @@ public class WebSiteGeneratorDialog extends JDialog {
 		panneaucentral.setLayout(gblpanneaucentral);
 
 		JLabel lblChooseYourCollections = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_COLLECTIONS") + " :");
+				capitalize("CHOOSE_COLLECTIONS") + " :");
 		GridBagConstraints gbclblChooseYourCollections = UITools.createGridBagConstraints(null, null, 0, 0);
 		panneaucentral.add(lblChooseYourCollections, gbclblChooseYourCollections);
 
 		JLabel lblChooseYourPrices = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_PRICER") + " :");
+				capitalize("CHOOSE_PRICER") + " :");
 		GridBagConstraints gbclblChooseYourPrices = UITools.createGridBagConstraints(null, null,1, 0);
 		panneaucentral.add(lblChooseYourPrices, gbclblChooseYourPrices);
 

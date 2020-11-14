@@ -1,5 +1,7 @@
 package org.magic.gui.models.conf;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,13 +11,12 @@ import java.util.Properties;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
-
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
-	private String[] columnsNames = { MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),
-			MTGControler.getInstance().getLangService().getCapitalize("VALUE"), "Version",
-			MTGControler.getInstance().getLangService().getCapitalize("ENABLED") };
+	private String[] columnsNames = { capitalize("PROVIDERS"),
+			capitalize("VALUE"), "Version",
+			capitalize("ENABLED") };
 
 	private static final int ENABLED_INDEX = 3;
 

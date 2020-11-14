@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -47,7 +48,6 @@ import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.gui.tools.JListFilterDecorator;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.services.recognition.LoadedRecognitionEdition;
@@ -60,7 +60,6 @@ import org.magic.tools.UITools;
 import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;
-
 
 public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
@@ -158,7 +157,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		controlWebcamPanel.add(btnAddCam);
 
 		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
-		panelControl.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS")+ ":"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		panelControl.add(new JLabel(capitalize("LOADING_EDITIONS")+ ":"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2));
 		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
 

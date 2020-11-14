@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
@@ -75,7 +76,6 @@ import org.magic.gui.models.DeckCardsTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -85,7 +85,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
 import org.magic.tools.UITools;
-
 public class ConstructPanel extends MTGUIComponent {
 
 	
@@ -194,7 +193,7 @@ public class ConstructPanel extends MTGUIComponent {
 		JPanel statPanel = new JPanel();
 		deckPricePanel = new DeckPricePanel();
 		JPanel panel = new JPanel();
-		JButton btnDrawAHand = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DRAW_HAND"));
+		JButton btnDrawAHand = new JButton(capitalize("DRAW_HAND"));
 		JPanel panneauResultFilter = new JPanel();
 		JToggleButton tglbtnStd = new JToggleButton("STD");
 		JToggleButton tglbtnMdn = new JToggleButton("MDN");
@@ -224,12 +223,12 @@ public class ConstructPanel extends MTGUIComponent {
 		thumbnail.setMaxCardsRow(4);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		searchComponent.setBackground(Color.WHITE);
-		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
-		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
-		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
-		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
+		btnNewDeck.setToolTipText(capitalize("CREATE_NEW_DECK"));
+		btnOpen.setToolTipText(capitalize("OPEN_DECK"));
+		btnUpdate.setToolTipText(capitalize("UPDATE_DECK"));
+		btnSave.setToolTipText(capitalize("SAVE_DECK"));
 		btnExports.setEnabled(false);
-		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
+		btnExports.setToolTipText(capitalize("EXPORT_AS"));
 		importLogPanel.enabledAutoLoad();
 		importLogPanel.setLevel(Level.ERROR);
 		panneauDeck.setDividerLocation(0.5);
@@ -240,7 +239,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panelInfoDeck.setLayout(new BorderLayout(0, 0));
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		statPanel.setLayout(new GridLayout(3, 2, 0, 0));
-		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DECK_IMPORT_AS"));
+		btnImport.setToolTipText(capitalize("DECK_IMPORT_AS"));
 		panneauGauche.setLayout(new BorderLayout(0, 0));
 		listResult.setCellRenderer(new MagicCardListRenderer());
 		listResult.setMinimumSize(new Dimension(100, 0));
@@ -267,7 +266,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauHaut.add(buzyLabel);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(tabbedPane, BorderLayout.CENTER);
-		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAIL"),MTGConstants.ICON_TAB_CARD,magicCardDetailPanel);
+		panelBottom.addTab(capitalize("DETAIL"),MTGConstants.ICON_TAB_CARD,magicCardDetailPanel);
 		panelBottom.addTab("Combos",comboPanel.getIcon(),comboPanel);
 		panneauDeck.setRightComponent(panelBottom);
 		panelBottom.addTab("Drawing",MTGConstants.ICON_TAB_DECK,cardDrawProbaPanel);
@@ -275,11 +274,11 @@ public class ConstructPanel extends MTGUIComponent {
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
 		
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), MTGConstants.ICON_TAB_DECK,panneauDeck, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
+		tabbedPane.addTab(capitalize("DECK"), MTGConstants.ICON_TAB_DECK,panneauDeck, null);
+		tabbedPane.addTab(capitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
+		tabbedPane.addTab(capitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
+		tabbedPane.addTab(capitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
+		tabbedPane.addTab(capitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
 		
 		
 	
@@ -306,7 +305,7 @@ public class ConstructPanel extends MTGUIComponent {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-		panelBottom.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOG"),importLogPanel.getIcon(), importLogPanel, null);
+		panelBottom.addTab(capitalize("LOG"),importLogPanel.getIcon(), importLogPanel, null);
 			
 		
 		
@@ -401,8 +400,8 @@ public class ConstructPanel extends MTGUIComponent {
 							btnUpdate.setEnabled(true);
 							buzyLabel.end();
 							MTGControler.getInstance()
-									.notify(new MTGNotification(MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
-											MTGControler.getInstance().getLangService().getCapitalize(UPDATED_DECK),
+									.notify(new MTGNotification(capitalize(FINISHED),
+											capitalize(UPDATED_DECK),
 											MESSAGE_TYPE.INFO));
 						}
 
@@ -442,7 +441,7 @@ public class ConstructPanel extends MTGUIComponent {
 				logger.debug("saving " + deck);
 				
 				String dname = deck.getName();
-				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " ?", dname);
+				String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", dname);
 				
 				if(name!=null && !name.isEmpty())
 				{
@@ -696,7 +695,7 @@ public class ConstructPanel extends MTGUIComponent {
 				{
 					JPopupMenu menu = new JPopupMenu();
 	
-					JMenuItem itemDel = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("DELETE"));
+					JMenuItem itemDel = new JMenuItem(capitalize("DELETE"));
 					menu.add(itemDel);
 					itemDel.addActionListener(ae->{
 						
@@ -710,13 +709,13 @@ public class ConstructPanel extends MTGUIComponent {
 					
 							if((deck.getCommander()!=null) && mc.getName().equals(deck.getCommander().getName()))
 							{
-								JMenuItem itemRemoveCommander = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REMOVE_COMMANDER"));
+								JMenuItem itemRemoveCommander = new JMenuItem(capitalize("REMOVE_COMMANDER"));
 								menu.add(itemRemoveCommander);
 								itemRemoveCommander.addActionListener(ae->deck.setCommander(null));	
 							}
 							else
 							{
-								JMenuItem itemSelCommander = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SELECT_COMMANDER"));
+								JMenuItem itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
 								menu.add(itemSelCommander);
 								itemSelCommander.addActionListener(ae->deck.setCommander(mc));
 							
@@ -726,7 +725,7 @@ public class ConstructPanel extends MTGUIComponent {
 					
 					
 					
-					JMenuItem item = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"));
+					JMenuItem item = new JMenuItem(capitalize("MORE_LIKE_THIS"));
 					menu.add(item);
 					item.addActionListener(ae->{
 						

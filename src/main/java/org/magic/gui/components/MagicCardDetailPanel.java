@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
@@ -49,7 +50,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-
 public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	/**
@@ -121,17 +121,17 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_COST") + " :"), UITools.createGridBagConstraints(null, null, 2, 0));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+ " :"), UITools.createGridBagConstraints(null, null, 0, 1));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA") + " :"),  UITools.createGridBagConstraints(null, null, 2, 1));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY")+ " :"), UITools.createGridBagConstraints(null, null, 0, 2));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LAYOUT") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 3));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TEXT") + " :"),UITools.createGridBagConstraints(null, null, 0, 4,null,2));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLAVOR") + " :"), UITools.createGridBagConstraints(null, null, 0, 6));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_ARTIST") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 0, 8));
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_WATERMARK") + " :"), UITools.createGridBagConstraints(null, null, 2, 7));
+		add(new JLabel(capitalize("NAME") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
+		add(new JLabel(capitalize("CARD_COST") + " :"), UITools.createGridBagConstraints(null, null, 2, 0));
+		add(new JLabel(capitalize("CARD_TYPES")+ " :"), UITools.createGridBagConstraints(null, null, 0, 1));
+		add(new JLabel(capitalize("CARD_MANA") + " :"),  UITools.createGridBagConstraints(null, null, 2, 1));
+		add(new JLabel(capitalize("CARD_LOYALTY")+ " :"), UITools.createGridBagConstraints(null, null, 0, 2));
+		add(new JLabel(capitalize("CARD_LAYOUT") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 3));
+		add(new JLabel(capitalize("CARD_TEXT") + " :"),UITools.createGridBagConstraints(null, null, 0, 4,null,2));
+		add(new JLabel(capitalize("CARD_FLAVOR") + " :"), UITools.createGridBagConstraints(null, null, 0, 6));
+		add(new JLabel(capitalize("CARD_ARTIST") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
+		add(new JLabel(capitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 0, 8));
+		add(new JLabel(capitalize("CARD_WATERMARK") + " :"), UITools.createGridBagConstraints(null, null, 2, 7));
 
 		
 		
@@ -179,8 +179,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			MagicCardAlert alert = new MagicCardAlert();
 			alert.setCard(magicCard);
 			String price = JOptionPane.showInputDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("SELECT_MAXIMUM_PRICE"),
-					MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR", magicCard),
+					capitalize("SELECT_MAXIMUM_PRICE"),
+					capitalize("ADD_ALERT_FOR", magicCard),
 					JOptionPane.QUESTION_MESSAGE);
 			alert.setPrice(Double.parseDouble(price));
 
@@ -204,7 +204,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		FlowLayout flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panelDetailCreature.add(loyaltyJTextField);
-		panelDetailCreature.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER") + " :"));
+		panelDetailCreature.add(new JLabel(capitalize("CARD_POWER") + " :"));
 		panelDetailCreature.add(powerJTextField);
 		panelDetailCreature.add(new JLabel("/"));
 		panelDetailCreature.add(toughnessJTextField);
@@ -425,10 +425,10 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		if (magicCard != null && enableCollectionLookup)
 			ThreadManager.getInstance().executeThread(() -> {
 				if (getEnabledPlugin(MTGDao.class).hasAlert(magicCard)) {
-					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));
+					btnAlert.setToolTipText(capitalize("HAD_ALERT"));
 					btnAlert.setEnabled(false);
 				} else {
-					btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR",magicCard.getName()));
+					btnAlert.setToolTipText(capitalize("ADD_ALERT_FOR",magicCard.getName()));
 					btnAlert.setEnabled(true);
 				}
 			}, "Get alerts for " + magicCard);

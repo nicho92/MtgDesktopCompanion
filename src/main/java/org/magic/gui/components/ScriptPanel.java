@@ -1,5 +1,7 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -48,7 +50,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
-
 public class ScriptPanel extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -192,7 +193,7 @@ public class ScriptPanel extends MTGUIComponent {
 			int ret=JFileChooser.CANCEL_OPTION;
 			if(currentFile !=null)
 			{
-				int res= JOptionPane.showConfirmDialog(this, MTGControler.getInstance().getLangService().getCapitalize("OVERRIDE") + " " + currentFile + " ?", MTGControler.getInstance().getLangService().getCapitalize("OVERRIDE"), JOptionPane.YES_NO_OPTION);
+				int res= JOptionPane.showConfirmDialog(this, capitalize("OVERRIDE") + " " + currentFile + " ?", capitalize("OVERRIDE"), JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					ret=JFileChooser.APPROVE_OPTION;
 			}

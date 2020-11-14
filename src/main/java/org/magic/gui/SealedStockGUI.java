@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -18,23 +19,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.models.SealedStockTableModel;
-import org.magic.gui.renderer.MagicEditionJLabelRenderer;
-import org.magic.gui.renderer.standard.ComboBoxEditor;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
-
 public class SealedStockGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -77,7 +72,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		toolsPanel.add(buttonDelete);
 		toolsPanel.add(buttonUpdate);
 		
-		panneauDetail.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFO"),MTGConstants.ICON_TAB_PICTURE,packagePanel.getThumbnailPanel());
+		panneauDetail.addTab(capitalize("INFO"),MTGConstants.ICON_TAB_PICTURE,packagePanel.getThumbnailPanel());
 		panneauDetail.addTab(historyPricePanel.getTitle(),historyPricePanel.getIcon(),historyPricePanel);
 		panneauDetail.addTab(gedPanel.getTitle(),MTGConstants.ICON_TAB_GED,gedPanel);
 		
@@ -164,7 +159,7 @@ public class SealedStockGUI extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("PACKAGES");
+		return capitalize("PACKAGES");
 	}
 
 	@Override

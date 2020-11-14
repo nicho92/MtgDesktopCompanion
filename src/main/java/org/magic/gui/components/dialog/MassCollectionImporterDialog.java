@@ -1,7 +1,7 @@
 package org.magic.gui.components.dialog;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.capitalize;
+import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -160,7 +160,7 @@ public class MassCollectionImporterDialog extends JDialog {
 				protected void notifyEnd() {
 					MTGControler.getInstance().notify(new MTGNotification(
 							capitalize("FINISHED"),
-							MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
+							capitalize("X_ITEMS_IMPORTED", ids.length),
 							MESSAGE_TYPE.INFO
 							));
 				}

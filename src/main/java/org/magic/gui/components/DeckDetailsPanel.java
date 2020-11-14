@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
@@ -35,7 +36,6 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-
 public class DeckDetailsPanel extends JComponent {
 	/**
 	 * 
@@ -72,34 +72,34 @@ public class DeckDetailsPanel extends JComponent {
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " :"), UITools.createGridBagConstraints(null, null, 1, 0));
+		add(new JLabel(capitalize("DECK_NAME") + " :"), UITools.createGridBagConstraints(null, null, 1, 0));
 		nameJTextField = new JTextField();
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 1, 1));
+		add(new JLabel(capitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 1, 1));
 		panelLegalities = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panelLegalities.getLayout();
 		flowLayout.setHgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panelLegalities, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 1));
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR") + " :"), UITools.createGridBagConstraints(null, null, 1, 2));
+		add(new JLabel(capitalize("CARD_COLOR") + " :"), UITools.createGridBagConstraints(null, null, 1, 2));
 		manaPanel = new ManaPanel();
 		add(manaPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 2));
 
-		lblDate = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE") + " :");
+		lblDate = new JLabel(capitalize("DATE") + " :");
 		add(lblDate, UITools.createGridBagConstraints(null, null, 1, 3));
 
 		lblDateInformation = new JLabel("");
 		add(lblDateInformation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 3));
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION") + " :"), UITools.createGridBagConstraints(null, null, 1, 4));
+		add(new JLabel(capitalize("DESCRIPTION") + " :"), UITools.createGridBagConstraints(null, null, 1, 4));
 
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY") + " :"), UITools.createGridBagConstraints(null, null, 1, 5));
+		add(new JLabel(capitalize("QTY") + " :"), UITools.createGridBagConstraints(null, null, 1, 5));
 		nbCardsProgress = new JProgressBar();
 		nbCardsProgress.setStringPainted(true);
 		add(nbCardsProgress, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
@@ -126,7 +126,7 @@ public class DeckDetailsPanel extends JComponent {
 		panelLegalities.add(lbmnd);
 		panelLegalities.add(lbcmd);
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD") + " :"), UITools.createGridBagConstraints(null, null, 1, 6));
+		add(new JLabel(capitalize("SIDEBOARD") + " :"), UITools.createGridBagConstraints(null, null, 1, 6));
 
 		nbSideProgress = new JProgressBar();
 		nbSideProgress.setMaximum(15);
@@ -135,7 +135,7 @@ public class DeckDetailsPanel extends JComponent {
 
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 4));
 
-		add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAGS") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7));
+		add(new JLabel(capitalize("TAGS") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7));
 
 		tagsPanel = new JTagsPanel();
 		add(tagsPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 2, 7));

@@ -1,5 +1,7 @@
 package org.magic.gui.components.renderer;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -15,7 +17,6 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.UITools;
-
 public class MagicPricePanel extends JPanel {
 
 
@@ -49,26 +50,26 @@ public class MagicPricePanel extends JPanel {
 		gbclblName.gridwidth = 2;
 		add(lblName, gbclblName);
 
-		JLabel lblPrice = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("PRICE") + " :");
+		JLabel lblPrice = new JLabel(capitalize("PRICE") + " :");
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
 		JLabel lblpriceValue = new JLabel(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
 		add(lblpriceValue, UITools.createGridBagConstraints(null, GridBagConstraints.VERTICAL, 1, 1));
 
-		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER") + " :");
+		JLabel lblSeller = new JLabel(capitalize("SELLER") + " :");
 		lblSeller.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblSeller, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
 
 		JLabel lblSellerinfo = new JLabel(price.getSeller());
 		add(lblSellerinfo, UITools.createGridBagConstraints(null, null, 1, 2));
 
-		JLabel lblInfos = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS") + " :");
+		JLabel lblInfos = new JLabel(capitalize("INFORMATIONS") + " :");
 		lblInfos.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
 		JLabel lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""
-				+ (price.isFoil() ? "/" + MTGControler.getInstance().getLangService().getCapitalize("FOIL") + "" : ""));
+				+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
 		add(lblNewLabel, UITools.createGridBagConstraints(null, null, 1, 3));
 	}
 }

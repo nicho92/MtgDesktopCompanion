@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -46,7 +47,6 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.SealedPackTableModel;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -189,17 +189,17 @@ public class SealedPanel extends JPanel {
 		panelAnalyse.add(panelSorters);
 		panelSorters.setLayout(new GridLayout(0, 1, 0, 0));
 
-		rdioCmcSortButton = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "cmc"));
+		rdioCmcSortButton = new JRadioButton(capitalize(SORT_BY, "cmc"));
 		rdioCmcSortButton.addActionListener(ae -> sort(new CmcSorter()));
 
 		panelSorters.add(rdioCmcSortButton);
 
-		rdiocolorSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "color"));
+		rdiocolorSort = new JRadioButton(capitalize(SORT_BY, "color"));
 		rdiocolorSort.addActionListener(ae -> sort(new ColorSorter()));
 
 		panelSorters.add(rdiocolorSort);
 
-		rdiotypeSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "type"));
+		rdiotypeSort = new JRadioButton(capitalize(SORT_BY, "type"));
 		rdiotypeSort.addActionListener(ae -> sort(new TypesSorter()));
 
 		panelSorters.add(rdiotypeSort);
@@ -286,7 +286,7 @@ public class SealedPanel extends JPanel {
 		panelEast.add(new JScrollPane(panelDeck));
 		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 
-		panelEast.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DROP_HERE")),BorderLayout.NORTH);
+		panelEast.add(new JLabel(capitalize("DROP_HERE")),BorderLayout.NORTH);
 
 		panelLands = new JPanel();
 		panelEast.add(panelLands, BorderLayout.SOUTH);
@@ -440,7 +440,7 @@ public class SealedPanel extends JPanel {
 
 		try {
 			String name = JOptionPane.showInputDialog(
-					MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME") + " ?", deck.getName());
+					capitalize("DECK_NAME") + " ?", deck.getName());
 			deck.setName(name);
 			deckManager.saveDeck(deck);
 		} catch (IOException ex) {

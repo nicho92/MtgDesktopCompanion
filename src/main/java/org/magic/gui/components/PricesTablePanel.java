@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
@@ -31,11 +32,9 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardsPriceTableModel;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
 public class PricesTablePanel extends JPanel {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -139,7 +138,7 @@ public class PricesTablePanel extends JPanel {
 					protected List<MagicPrice> doInBackground() throws Exception {
 						
 						List<MagicPrice> list = new ArrayList<>();
-						lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
+						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
 						
 						
 							try {

@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -8,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
-
 
 public class DeckCardsTableModel extends DefaultTableModel {
 
@@ -67,7 +68,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
+		return capitalize(columns[column]);
 	}
 
 	@Override

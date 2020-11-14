@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -42,7 +43,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.extra.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
-
 public class BinderTagsEditorComponent extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -90,7 +90,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR");
+		return capitalize("BINDER_TAG_EDITOR");
 	}
 	
 

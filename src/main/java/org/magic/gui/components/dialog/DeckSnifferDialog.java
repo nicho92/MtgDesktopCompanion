@@ -1,5 +1,6 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
@@ -28,7 +29,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
-
 public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 	/**
@@ -51,7 +51,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 		importedDeck = new MagicDeck();
 		setSize(new Dimension(500, 300));
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"));
+		setTitle(capitalize("DECKS_IMPORTER"));
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -75,7 +75,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 				cboSniffers =UITools.createCombobox(MTGDeckSniffer.class,false);
 				panelChoose.add(cboSniffers);
 				
-				btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
+				btnConnect = new JButton(capitalize("CONNECT"));
 				panelChoose.add(btnConnect);
 				
 						cboFormats = new JComboBox<>();
@@ -118,7 +118,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
 
 		JButton btnClose = new JButton(MTGConstants.ICON_CANCEL);
-		btnClose.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		btnClose.setToolTipText(capitalize("CANCEL"));
 		
 		btnClose.addActionListener(e -> dispose());
 		panelButton.add(btnClose);
@@ -128,7 +128,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
-		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport.setToolTipText(capitalize("IMPORT"));
 		
 		panelButton.add(btnImport);
 

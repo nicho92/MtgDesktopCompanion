@@ -55,7 +55,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String n) throws IOException {
-		throw new NotImplementedException("Can't generate deck from DCI Sheet");
+		throw new NotImplementedException("Can't generate deck from " + getName());
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		throw new NotImplementedException("Can't import stock from DCI Sheet");
+		throw new NotImplementedException("Can't import stock from " + getName());
 	}
 
 	@Override

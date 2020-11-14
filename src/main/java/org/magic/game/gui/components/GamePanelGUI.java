@@ -1,5 +1,7 @@
 package org.magic.game.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -44,6 +46,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
+
 
 public class GamePanelGUI extends JPanel implements Observer {
 
@@ -147,11 +150,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelActions.setLayout(gblpanelActions);
 		
 				JButton btnStart = new JButton(MTGConstants.PLAY_ICON);
-				btnStart.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("START"));
+				btnStart.setToolTipText(capitalize("START"));
 				btnStart.addActionListener(ae -> {
 					GameManager.getInstance().removePlayers();
 					GameManager.getInstance().addPlayer(player);
-					GameManager.getInstance().addPlayer(new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER") + " 2", 20));
+					GameManager.getInstance().addPlayer(new Player(capitalize("PLAYER") + " 2", 20));
 					GameManager.getInstance().initGame();
 					manaPoolPanel.init(player.getManaPool());
 					player.getManaPool().removeObserver(manaPoolPanel);
@@ -164,7 +167,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				});
 						
 								JButton btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
-								btnSideboard.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD"));
+								btnSideboard.setToolTipText(capitalize("SIDEBOARD"));
 								btnSideboard.addActionListener(e -> {
 									DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
 									gui.setVisible(true);
@@ -172,7 +175,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								});
 								
 										JButton btnNewGame = new JButton(MTGConstants.ICON_OPEN);
-										btnNewGame.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
+										btnNewGame.setToolTipText(capitalize("CHOOSE_DECK"));
 										btnNewGame.addActionListener(ae -> {
 											JDeckChooserDialog choose = new JDeckChooserDialog();
 											choose.setVisible(true);
@@ -221,7 +224,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelActions.add(panel1, gbcpanel1);
 		panel1.setLayout(new BorderLayout(0, 0));
 
-		txtChat = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SAY_SOMETHING"));
+		txtChat = new JTextField(capitalize("SAY_SOMETHING"));
 		panel1.add(txtChat);
 		txtChat.addMouseListener(new MouseAdapter() {
 
@@ -332,7 +335,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		listActions.setModel(new DefaultListModel<>());
 		JScrollPane scrollActions = new JScrollPane(listActions);
 		scrollActions.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions,null);
+		tabbedPane.addTab(capitalize("EVENTS"), null, scrollActions,null);
 
 		
 		
@@ -342,12 +345,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panneauHaut = new LightDescribeCardPanel();
 		pane.add(panneauHaut, BorderLayout.CENTER);
 
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STACK"), MTGConstants.ICON_TAB_DECK, stackPanel, null);
+		tabbedPane.addTab(capitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
+		tabbedPane.addTab(capitalize("STACK"), MTGConstants.ICON_TAB_DECK, stackPanel, null);
 		
 		
 		JPanel panelPics = new JPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
+		tabbedPane.addTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
 		panelPics.setLayout(new BorderLayout(0, 0));
 
 		lblThumbnailPics = new JLabel("");

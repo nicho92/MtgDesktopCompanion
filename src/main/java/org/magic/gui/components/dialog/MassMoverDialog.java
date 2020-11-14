@@ -1,5 +1,6 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -30,7 +31,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
 public class MassMoverDialog extends JDialog {
 	/**
 	 * 
@@ -49,7 +49,7 @@ public class MassMoverDialog extends JDialog {
 
 	public MassMoverDialog(MagicCollection col, MagicEdition ed) {
 		setSize(new Dimension(640, 370));
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS") + " : " + col);
+		setTitle(capitalize("MASS_MOVEMENTS") + " : " + col);
 		setIconImage(MTGConstants.ICON_TAB_IMPORT_EXPORT.getImage());
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -65,7 +65,7 @@ public class MassMoverDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		btnMove = new JButton(MTGControler.getInstance().getLangService().getCapitalize("MOVE_TO"));
+		btnMove = new JButton(capitalize("MOVE_TO"));
 
 		panel.add(btnMove);
 		panel.add(cboCollections);

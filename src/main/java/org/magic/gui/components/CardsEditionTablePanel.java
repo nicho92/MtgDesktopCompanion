@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -41,7 +42,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.sorters.NumberSorter;
 import org.magic.tools.UITools;
-
 
 public class CardsEditionTablePanel extends JPanel {
 	/**
@@ -96,7 +96,7 @@ public class CardsEditionTablePanel extends JPanel {
 		btnImport.setEnabled(false);
 		panneauBas.add(btnImport);
 		
-		chkNeededCards = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FILTER_NEEDED"));
+		chkNeededCards = new JCheckBox(capitalize("FILTER_NEEDED"));
 		panneauBas.add(chkNeededCards);
 		
 		addComponentListener(new ComponentAdapter() {
@@ -127,7 +127,7 @@ public class CardsEditionTablePanel extends JPanel {
 		btnImport.addActionListener(ae->{
 			List<MagicCard> list = getSelectedCards();
 			
-			int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT") + " :" + list.size() + " cards in " + cboCollection.getSelectedItem());
+			int res = JOptionPane.showConfirmDialog(null,capitalize("COLLECTION_IMPORT") + " :" + list.size() + " cards in " + cboCollection.getSelectedItem());
 			if(res==JOptionPane.YES_OPTION)
 			{
 				buzy.start(list.size());

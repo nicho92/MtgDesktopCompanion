@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.event.KeyEvent;
@@ -30,7 +32,6 @@ import org.magic.services.extra.StoryProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
-
 public class StoriesGUI extends MTGUIComponent {
 
 	/**
@@ -50,7 +51,7 @@ public class StoriesGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE");
+		return capitalize("HISTORY_MODULE");
 	}
 	
 	

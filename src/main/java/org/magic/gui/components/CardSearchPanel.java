@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -68,7 +69,6 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -130,7 +130,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize(SEARCH_MODULE);
+		return capitalize(SEARCH_MODULE);
 	}
 	
 	public static CardSearchPanel getInstance() {
@@ -149,7 +149,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	}
 
 	public void initPopupCollection() throws SQLException {
-		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
+		JMenu menuItemAdd = new JMenu(capitalize("ADD"));
 		menuItemAdd.setIcon(MTGConstants.ICON_NEW);
 		for (MagicCollection mc : getEnabledPlugin(MTGDao.class).listCollections()) {
 
@@ -159,7 +159,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 				String collec = ((JMenuItem) addEvent.getSource()).getText();
 				lblLoading.start(tableCards.getSelectedRowCount());
-				lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_TO") + " " + collec);
+				lblLoading.setText(capitalize("ADD_CARDS_TO") + " " + collec);
 
 				for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
 
@@ -269,8 +269,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		txtRulesArea.setLineWrap(true);
 		txtRulesArea.setWrapStyleWord(true);
 		txtRulesArea.setEditable(false);
-		btnFilter.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("FILTER"));
-		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_RESULTS"));
+		btnFilter.setToolTipText(capitalize("FILTER"));
+		btnExport.setToolTipText(capitalize("EXPORT_RESULTS"));
 		btnExport.setEnabled(false);
 		listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		thumbnailPanel.enableDragging(false);
@@ -354,15 +354,15 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelFilters.add(btnClear);
 		panelFilters.add(panelmana);
 
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,detailCardPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,priceTablePanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("RULES"), MTGConstants.ICON_TAB_RULES,new JScrollPane(txtRulesArea), null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyChartPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("ABILITIES"), abilitiesPanel.getIcon(),abilitiesPanel, null);
+		tabbedCardsInfo.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,detailCardPanel, null);
+		tabbedCardsInfo.addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
+		tabbedCardsInfo.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,priceTablePanel, null);
+		tabbedCardsInfo.addTab(capitalize("RULES"), MTGConstants.ICON_TAB_RULES,new JScrollPane(txtRulesArea), null);
+		tabbedCardsInfo.addTab(capitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyChartPanel, null);
+		tabbedCardsInfo.addTab(capitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
+		tabbedCardsInfo.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
+		tabbedCardsInfo.addTab(capitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
+		tabbedCardsInfo.addTab(capitalize("ABILITIES"), abilitiesPanel.getIcon(),abilitiesPanel, null);
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
@@ -372,9 +372,9 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauStat.add(typeRepartitionPanel);
 		panneauStat.add(rarityRepartitionPanel);
 
-		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("RESULTS"),  MTGConstants.ICON_TAB_RESULTS,panelResultsCards, null);
-		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL"), MTGConstants.ICON_TAB_THUMBNAIL,scrollThumbnails, null);
-		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, panneauStat,null);
+		tabbedCardsView.addTab(capitalize("RESULTS"),  MTGConstants.ICON_TAB_RESULTS,panelResultsCards, null);
+		tabbedCardsView.addTab(capitalize("THUMBNAIL"), MTGConstants.ICON_TAB_THUMBNAIL,scrollThumbnails, null);
+		tabbedCardsView.addTab(capitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, panneauStat,null);
 
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCard, BorderLayout.EAST);
@@ -420,7 +420,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			
 			
 			lblLoading.start();
-			lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
+			lblLoading.setText(capitalize("SEARCHING"));
 			cardsModeltable.clear();
 			
 			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider> wk = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
@@ -464,7 +464,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		defaultEnterButton.addActionListener(el->{
 					selectedEdition = null;
 					lblLoading.start();
-					lblLoading.setText(MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
+					lblLoading.setText(capitalize("SEARCHING"));
 					
 					MTGPlugin plug = searchComponent.isCollectionSearch() ? getEnabledPlugin(MTGDao.class):getEnabledPlugin(MTGCardsProvider.class);
 					cardsModeltable.clear();
@@ -740,7 +740,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			typeRepartitionPanel.init(cards);
 			manaRepartitionPanel.init(cards);
 			rarityRepartitionPanel.init(cards);
-			tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS") + " ("+ cardsModeltable.getRowCount() + ")");
+			tabbedCardsView.setTitleAt(0, capitalize("RESULTS") + " ("+ cardsModeltable.getRowCount() + ")");
 			btnExport.setEnabled(true);
 		}
 	}

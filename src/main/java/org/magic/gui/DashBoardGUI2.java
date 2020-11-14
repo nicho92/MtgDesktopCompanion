@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listPlugins;
 
 import java.awt.BorderLayout;
@@ -44,15 +45,15 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE");
+		return capitalize("DASHBOARD_MODULE");
 	}
 	
 	public DashBoardGUI2() {
 		desktop = new JDesktopPane();
 		JMenuBar menuBar = new JMenuBar();
-		mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
-		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
-		mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
+		mnNewMenu = new JMenu(capitalize("ADD"));
+		JMenu mnWindow = new JMenu(capitalize("WINDOW"));
+		mntmSaveDisplay = new JMenuItem(capitalize("SAVE_DISPLAY"));
 		desktop.setBackground(SystemColor.activeCaption);
 		menuBar.setBounds(0, 0, 120, 21);
 		menuBar.add(mnNewMenu);

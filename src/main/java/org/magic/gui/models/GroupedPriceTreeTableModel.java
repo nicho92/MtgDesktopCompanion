@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +11,6 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.MagicPrice;
 import org.magic.services.MTGLogger;
-
-import static org.magic.tools.MTG.capitalize;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 

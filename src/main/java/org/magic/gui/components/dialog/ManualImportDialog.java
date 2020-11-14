@@ -1,5 +1,6 @@
 package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
@@ -27,11 +28,9 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
-
 public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 
 	
@@ -53,7 +52,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 	public ManualImportDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(400, 400));
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MANUAL_IMPORT"));
+		setTitle(capitalize("MANUAL_IMPORT"));
 		setIconImage(MTGConstants.ICON_TAB_IMPORT.getImage());
 		setModal(true);
 		JPanel panel = new JPanel();
@@ -61,11 +60,11 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
 		JButton btnImport = new JButton(MTGConstants.ICON_SAVE);
-		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport.setToolTipText(capitalize("IMPORT"));
 		panel.add(btnImport);
 
 		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
-		btnCancel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(e -> {
 			editorPane.setText("");
 			dispose();
@@ -75,7 +74,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
 
-		JLabel lblPastYourDeck = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_HELP"));
+		JLabel lblPastYourDeck = new JLabel(capitalize("IMPORT_HELP"));
 		
 		getContentPane().add(lblPastYourDeck, BorderLayout.NORTH);
 		

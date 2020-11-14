@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.sql.SQLException;
@@ -24,11 +25,9 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.sorters.CardsEditionSorter;
-
 public class LazyLoadingTree extends JTree {
 
 	/**
@@ -76,7 +75,7 @@ public class LazyLoadingTree extends JTree {
 			
 			obj = c;
 			setUserObject(c);
-			add(new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("LOADING"),false));
+			add(new DefaultMutableTreeNode(capitalize("LOADING"),false));
 			if (c instanceof MagicCard) {
 				setAllowsChildren(false);
 				leaf = true;

@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
@@ -71,7 +72,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 import com.google.common.collect.Lists;
-
 public class StockPanelGUI extends MTGUIComponent {
 	/**
 	 * 
@@ -121,7 +121,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE");
+		return capitalize("STOCK_MODULE");
 	}
 	
 	
@@ -172,8 +172,8 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnDelete.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
-					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+					capitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
+					capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
 			
 			if (res == JOptionPane.YES_OPTION) {
 				
@@ -215,7 +215,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnReload.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
+					capitalize("CANCEL_CHANGES"),capitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION)
 			{
 				logger.debug("reload collection");
@@ -314,7 +314,7 @@ public class StockPanelGUI extends MTGUIComponent {
 								protected void notifyEnd() {
 									MTGControler.getInstance().notify(new MTGNotification(
 										MTGControler.getInstance().getLangService().combine("IMPORT", "FINISHED"),
-										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+										exp.getName() + " "+ capitalize("FINISHED"),
 										MESSAGE_TYPE.INFO
 									));
 								}
@@ -442,9 +442,9 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnApplyModification.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CHANGE_X_ITEMS",
+					capitalize("CHANGE_X_ITEMS",
 							table.getSelectedRowCount()),
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION"),
+					capitalize("CONFIRMATION"),
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				
@@ -540,11 +540,11 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(btnDelete);
 
 		btnSave = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S, "stock save");
-		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("BATCH_SAVE"));
+		btnSave.setToolTipText(capitalize("BATCH_SAVE"));
 		actionPanel.add(btnSave);
 
 		btnReload = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "stock reload");
-		btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
+		btnReload.setToolTipText(capitalize("RELOAD"));
 		actionPanel.add(btnReload);
 
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -552,21 +552,21 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnshowMassPanel = UITools.createBindableJButton(null, MTGConstants.ICON_MANUAL, KeyEvent.VK_M, "stock mass panel show");
 
 		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "stock import");
-		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport.setToolTipText(capitalize("IMPORT"));
 		actionPanel.add(btnImport);
 
 		btnExport = new JExportButton(MODS.EXPORT);
 		UITools.bindJButton(btnExport, KeyEvent.VK_E, "stock export");
-		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
+		btnExport.setToolTipText(capitalize("EXPORT"));
 		actionPanel.add(btnExport);
 
 		btnGeneratePrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_E, "stock price suggestion");
 		jsonPanel = new ObjectViewerPanel();
-		btnGeneratePrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_PRICE"));
+		btnGeneratePrice.setToolTipText(capitalize("GENERATE_PRICE"));
 		actionPanel.add(btnGeneratePrice);
-		btnshowMassPanel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("MASS_MODIFICATION"));
+		btnshowMassPanel.setToolTipText(capitalize("MASS_MODIFICATION"));
 		
-		btnApplyModification = UITools.createBindableJButton(MTGControler.getInstance().getLangService().getCapitalize("APPLY"), MTGConstants.ICON_CHECK, KeyEvent.VK_A, "stock apply");
+		btnApplyModification = UITools.createBindableJButton(capitalize("APPLY"), MTGConstants.ICON_CHECK, KeyEvent.VK_A, "stock apply");
 
 		
 		actionPanel.add(btnshowMassPanel);
@@ -591,11 +591,11 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("DETAILS"),MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel);
-		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("GRADING"), MTGConstants.ICON_TAB_GRADING,gradePanel);
+		tabPanel.addTab(capitalize("GRADING"), MTGConstants.ICON_TAB_GRADING,gradePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICES"),MTGConstants.ICON_TAB_PRICES, pricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
-		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
-		tabPanel.addTab(MTGControler.getInstance().getLangService().getCapitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
+		tabPanel.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
+		tabPanel.addTab(capitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
 		tabPanel.addTab(tiercesIdsPanel.getTitle(), tiercesIdsPanel.getIcon(),tiercesIdsPanel);
 		
 		
@@ -633,7 +633,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccomboBox.gridy = 1;
 		rightPanel.add(cboSelections, gbccomboBox);
 
-		lblQte = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY") + " :");
+		lblQte = new JLabel(capitalize("QTY") + " :");
 		GridBagConstraints gbclblQte = new GridBagConstraints();
 		gbclblQte.anchor = GridBagConstraints.EAST;
 		gbclblQte.insets = new Insets(0, 0, 5, 5);
@@ -650,7 +650,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbcspinner.gridy = 2;
 		rightPanel.add(spinner, gbcspinner);
 
-		lblLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE") + " :");
+		lblLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
 		GridBagConstraints gbclblLanguage = new GridBagConstraints();
 		gbclblLanguage.anchor = GridBagConstraints.EAST;
 		gbclblLanguage.insets = new Insets(0, 0, 5, 5);
@@ -671,7 +671,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboLanguages.gridy = 3;
 		rightPanel.add(cboLanguages, gbccboLanguages);
 
-		lblFoil = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("FOIL") + " :");
+		lblFoil = new JLabel(capitalize("FOIL") + " :");
 		GridBagConstraints gbclblFoil = new GridBagConstraints();
 		gbclblFoil.anchor = GridBagConstraints.EAST;
 		gbclblFoil.insets = new Insets(0, 0, 5, 5);
@@ -687,7 +687,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboFoil.gridy = 4;
 		rightPanel.add(cboFoil, gbccboFoil);
 
-		lblSigned = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIGNED") + " :");
+		lblSigned = new JLabel(capitalize("SIGNED") + " :");
 		GridBagConstraints gbclblSigned = new GridBagConstraints();
 		gbclblSigned.anchor = GridBagConstraints.EAST;
 		gbclblSigned.insets = new Insets(0, 0, 5, 5);
@@ -703,7 +703,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboSigned.gridy = 5;
 		rightPanel.add(cboSigned, gbccboSigned);
 
-		lblAltered = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ALTERED") + " :");
+		lblAltered = new JLabel(capitalize("ALTERED") + " :");
 		GridBagConstraints gbclblAltered = new GridBagConstraints();
 		gbclblAltered.anchor = GridBagConstraints.EAST;
 		gbclblAltered.insets = new Insets(0, 0, 5, 5);
@@ -719,7 +719,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboAltered.gridy = 6;
 		rightPanel.add(cboAltered, gbccboAltered);
 
-		lblQuality = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QUALITY") + " :");
+		lblQuality = new JLabel(capitalize("QUALITY") + " :");
 		GridBagConstraints gbclblQuality = new GridBagConstraints();
 		gbclblQuality.anchor = GridBagConstraints.EAST;
 		gbclblQuality.insets = new Insets(0, 0, 5, 5);
@@ -737,7 +737,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboQuality.gridy = 7;
 		rightPanel.add(cboQuality, gbccboQuality);
 
-		lblCollection = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION") + " :");
+		lblCollection = new JLabel(capitalize("COLLECTION") + " :");
 		GridBagConstraints gbclblCollection = new GridBagConstraints();
 		gbclblCollection.anchor = GridBagConstraints.EAST;
 		gbclblCollection.insets = new Insets(0, 0, 5, 5);
@@ -819,7 +819,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	
 
 	public void updateCount() {
-		lblCount.setText(MTGControler.getInstance().getLangService().getCapitalize("ITEMS_IN_STOCK") + ": "+ table.getRowCount());
+		lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ table.getRowCount());
 	}
 
 }

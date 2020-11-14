@@ -106,7 +106,7 @@ public class AlarmGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("ALERT_MODULE");
+		return capitalize("ALERT_MODULE");
 	}
 	
 
@@ -147,7 +147,7 @@ public class AlarmGUI extends MTGUIComponent {
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
 
-		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
+		btnSuggestPrice.setToolTipText(capitalize("SUGGEST_PRICE"));
 		
 		globalSearchPanel.enableControle(true);
 		groupShopPanel.enableControle(true);
@@ -162,14 +162,14 @@ public class AlarmGUI extends MTGUIComponent {
 		serversPanel.add(oversightPanel);
 		serversPanel.add(serverPricePanel);
 		panelRight.add(serversPanel,BorderLayout.SOUTH);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING"), MTGConstants.ICON_TAB_SHOP, globalSearchPanel, null);
+		tabbedPane.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
+		tabbedPane.addTab(capitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
+		tabbedPane.addTab(capitalize("SHOPPING"), MTGConstants.ICON_TAB_SHOP, globalSearchPanel, null);
 		tabbedPane.addTab(capitalize(groupShopPanel.getTitle()), MTGConstants.ICON_TAB_SHOP, groupShopPanel, null);
 		
 		
 		pricesTablePanel = new PricesTablePanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
+		tabbedPane.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
 		add(panelRight, BorderLayout.EAST);
 		panelRight.add(new JScrollPane(list),BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
@@ -311,8 +311,8 @@ public class AlarmGUI extends MTGUIComponent {
 		
 		
 		btnDelete.addActionListener(event -> {
-			int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
-					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(null,capitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
+					capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
 			
 			if (res == JOptionPane.YES_OPTION) 
 			{
@@ -363,7 +363,7 @@ public class AlarmGUI extends MTGUIComponent {
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+			JMenuItem mnuImportSearch = new JMenuItem(capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(importAE -> {

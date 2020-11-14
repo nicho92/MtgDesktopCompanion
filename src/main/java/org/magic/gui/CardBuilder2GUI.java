@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
@@ -60,7 +61,6 @@ import org.magic.services.MTGControler;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-
 public class CardBuilder2GUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -93,7 +93,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE");
+		return capitalize("BUILDER_MODULE");
 	}
 	
 	

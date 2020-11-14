@@ -1,5 +1,7 @@
 package org.magic.gui.abstracts;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,9 +12,7 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-
 public class GenericTableModel<T> extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -183,7 +183,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
+		return capitalize(columns[column]);
 	}
 	
 	@Override

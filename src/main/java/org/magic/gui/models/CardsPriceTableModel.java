@@ -1,6 +1,5 @@
 package org.magic.gui.models;
 
-import java.net.URL;
 import java.util.Currency;
 
 import org.magic.api.beans.MagicPrice;

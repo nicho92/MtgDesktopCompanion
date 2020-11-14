@@ -1,5 +1,6 @@
 package org.magic.gui.components;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
@@ -119,7 +120,7 @@ public class ConfigurationPanel extends JPanel {
 	{
 		JPanel pane = new JPanel();
 		pane.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
-				MTGControler.getInstance().getLangService().getCapitalize(keyName), TitledBorder.LEADING,
+				capitalize(keyName), TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(64, 64, 64)));
 		pane.setLayout(layout);
 		
@@ -210,14 +211,14 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 /////////////DAO BOX		
-		JLabel lblBackupDao = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DAO_BACKUP") + " : ");
+		JLabel lblBackupDao = new JLabel(capitalize("DAO_BACKUP") + " : ");
 		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
-		JButton btnBackup = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
-		JLabel lblDuplicateDb = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
-		JButton btnDuplicate = new JButton((MTGControler.getInstance().getLangService().getCapitalize(EXPORT)));
-		JLabel lblLocation = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCATION") + " : ");
+		JButton btnBackup = new JButton(capitalize(EXPORT));
+		JLabel lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
+		JButton btnDuplicate = new JButton((capitalize(EXPORT)));
+		JLabel lblLocation = new JLabel(capitalize("LOCATION") + " : ");
 		JLabel lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
-		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE") + " : ");
+		JLabel lblSize = new JLabel(capitalize("SIZE") + " : ");
 		JLabel lblSizeValue  = new JLabel(String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
 		JLabel lblIndexation = new JLabel("Indexation : ");
 		JLabel lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
@@ -246,16 +247,16 @@ public class ConfigurationPanel extends JPanel {
 		cboCollections = UITools.createComboboxCollection();
 		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
 		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"),25);
-		JButton btnSavePrice = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		JLabel lblCleancache = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CLEAN_CACHE") + " :");
-		JButton btnClean = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CLEAN"));
+		JButton btnSavePrice = new JButton(capitalize("SAVE"));
+		JLabel lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
+		JButton btnClean = new JButton(capitalize("CLEAN"));
 		JPanel panelCheckCache = new JPanel();
-		JLabel lblAutoStock = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK") + ": ");
-		JCheckBox chkboxAutoAdd = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_ADD"));
-		chckbxIconset = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_SET"));
-		chckbxIconcards = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_CARD"));
-		chckbxPackages = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"));
-		JCheckBox chkboxAutoDelete = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("AUTO_STOCK_DELETE"));
+		JLabel lblAutoStock = new JLabel(capitalize("AUTO_STOCK") + ": ");
+		JCheckBox chkboxAutoAdd = new JCheckBox(capitalize("AUTO_STOCK_ADD"));
+		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
+		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
+		chckbxPackages = new JCheckBox(capitalize("PACKAGES"));
+		JCheckBox chkboxAutoDelete = new JCheckBox(capitalize("AUTO_STOCK_DELETE"));
 		JButton btnDefaultStock = new JButton("Default Stock");
 		JCheckBox chkboxPrerelease = new JCheckBox();		
 	
@@ -264,8 +265,8 @@ public class ConfigurationPanel extends JPanel {
 		cboEditionLands = UITools.createComboboxEditions();
 		
 		JPanel panelBtnConfigBackup = new JPanel();
-		JButton btnExportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
-		JButton btnImportConfig = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		JButton btnExportConfig = new JButton(capitalize(EXPORT));
+		JButton btnImportConfig = new JButton(capitalize("IMPORT"));
 		
 		
 		((FlowLayout) panelAutoStock.getLayout()).setAlignment(FlowLayout.LEFT);
@@ -290,13 +291,13 @@ public class ConfigurationPanel extends JPanel {
 		panelBtnConfigBackup.add(btnExportConfig);
 		panelBtnConfigBackup.add(btnImportConfig);
 		
-		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("MAIN_COLLECTION") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
+		panelConfig.add(new JLabel(capitalize("MAIN_COLLECTION") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DEFAULT_LAND_IMPORT") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
+		panelConfig.add(new JLabel(capitalize("DEFAULT_LAND_IMPORT") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
 		panelConfig.add(cboEditionLands, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-		panelConfig.add( new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOG_LEVEL") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
+		panelConfig.add( new JLabel(capitalize("LOG_LEVEL") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
 		panelConfig.add(cboLogLevels, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
-		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_LOW_PRICES") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
+		panelConfig.add(new JLabel(capitalize("SHOW_LOW_PRICES") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
 		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
 		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
 		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
@@ -305,10 +306,10 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 5));
 		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 5));
 		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
-		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CONFIG_BACKUP")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+		panelConfig.add(new JLabel(capitalize("CONFIG_BACKUP")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
-		panelConfig.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_PRERELEASE")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
+		panelConfig.add(new JLabel(capitalize("UPDATE_PRERELEASE")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
 		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 7));
 		
 		
@@ -319,22 +320,22 @@ public class ConfigurationPanel extends JPanel {
 	
 		txtdirWebsite = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
 		JTextFieldFileChooser txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
-		JButton btnWebsiteSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		JButton btnWebServerExport = new JButton(MTGControler.getInstance().getLangService().getCapitalize(EXPORT));
+		JButton btnWebsiteSave = new JButton(capitalize("SAVE"));
+		JButton btnWebServerExport = new JButton(capitalize(EXPORT));
 		
 		txtWebSiteCertificate = new JTextField("www.",10);
 		
-		JButton btnAdd = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		JButton btnAdd = new JButton(capitalize("SAVE"));
 		
 		
-		panelWebSite.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DIRECTORY") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
+		panelWebSite.add(new JLabel(capitalize("DIRECTORY") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
 		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 0));
-		panelWebSite.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1));
+		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1));
 		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
 		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
 
-		panelWebSite.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("WEB_SERVER_UI") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
+		panelWebSite.add(new JLabel(capitalize("WEB_SERVER_UI") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
 		panelWebSite.add(txtdirWebsserver, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
 		panelWebSite.add(btnWebServerExport, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 2));
 		
@@ -343,13 +344,13 @@ public class ConfigurationPanel extends JPanel {
 		
 /////////////PROFIL BOX		
 		
-		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
+		JLabel lblName = new JLabel(capitalize("NAME") + " :");
 		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"),10);
 		JLabel lblAvatar = new JLabel("Avatar :");
 		lblIconAvatar = new JLabel();
 		lblIconAvatar.setBorder(new LineBorder(Color.RED, 1, true));
 		JResizerPanel gamePicsResizerPanel = new JResizerPanel(MTGControler.getInstance().getCardsGameDimension());
-		JButton btnSaveProfilGame = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		JButton btnSaveProfilGame = new JButton(capitalize("SAVE"));
 	
 		panelGameProfil.add(lblName, UITools.createGridBagConstraints(GridBagConstraints.EAST, null,  0, 0));
 		panelGameProfil.add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -362,23 +363,23 @@ public class ConfigurationPanel extends JPanel {
 
 /////////////MODULES BOX				
 
-		chckbxSearch = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		chckbxSearch = new JCheckBox(capitalize("SEARCH_MODULE"));
 		chckbxCollection = new JCheckBox("Collection");
-		chckbxDashboard = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"));
-		chckbxShopper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FINANCIAL_MODULE"));
-		chckbxCardBuilder = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"));
-		chckbxHistory = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"));
+		chckbxDashboard = new JCheckBox(capitalize("DASHBOARD_MODULE"));
+		chckbxShopper = new JCheckBox(capitalize("FINANCIAL_MODULE"));
+		chckbxCardBuilder = new JCheckBox(capitalize("BUILDER_MODULE"));
+		chckbxHistory = new JCheckBox(capitalize("HISTORY_MODULE"));
 		chckbxDashboard.setSelected(MTGControler.getInstance().get("modules/dashboard").equals("true"));
 		chckbxSearch.setSelected(MTGControler.getInstance().get("modules/search").equals("true"));
 		chckbxCollection.setSelected(MTGControler.getInstance().get("modules/collection").equals("true"));
-		chckbxStock = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"));
-		chckbxAlert = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ALERT_MODULE"));
-		chckbxGame = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"));
-		chckbxDeckBuilder = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"));
-		chckbxRss = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
-		chckbxWallpaper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"));
-		chckbxSealed = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("PACKAGES"));
-		chckbxEvents = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"));
+		chckbxStock = new JCheckBox(capitalize("STOCK_MODULE"));
+		chckbxAlert = new JCheckBox(capitalize("ALERT_MODULE"));
+		chckbxGame = new JCheckBox(capitalize("GAME_MODULE"));
+		chckbxDeckBuilder = new JCheckBox(capitalize("DECK_MODULE"));
+		chckbxRss = new JCheckBox(capitalize("RSS_MODULE"));
+		chckbxWallpaper = new JCheckBox(capitalize("WALLPAPER"));
+		chckbxSealed = new JCheckBox(capitalize("PACKAGES"));
+		chckbxEvents = new JCheckBox(capitalize("EVENTS"));
 		
 		chckbxStock.setSelected(MTGControler.getInstance().get("modules/stock").equals("true"));
 		chckbxAlert.setSelected(MTGControler.getInstance().get("modules/alarm").equals("true"));
@@ -428,13 +429,13 @@ public class ConfigurationPanel extends JPanel {
 	
 /////////////CURRENCY BOX				
 
-		JLabel lblCurrency = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CURRENCY") + " :");
+		JLabel lblCurrency = new JLabel(capitalize("CURRENCY") + " :");
 		JComboBox<Currency> cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
 		JLabel lclCodeCurrency = new JLabel("CurrencyLayer API code :");
 		JTextField txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"),10);
-		JButton btnSaveCode = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		JButton btnSaveCode = new JButton(capitalize("SAVE"));
 		JButton btnUpdateCurrency = new JButton("Update Currency");
-		JCheckBox chkEnablePriceConversion = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ENABLED"));
+		JCheckBox chkEnablePriceConversion = new JCheckBox(capitalize("ENABLED"));
 		dateCurrencyCache = new JLabel(UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
 		
 		if (MTGControler.getInstance().get(CURRENCY).isEmpty())
@@ -455,28 +456,28 @@ public class ConfigurationPanel extends JPanel {
 		
 /////////////GUI BOX			
 		
-		JLabel lblGuiLocal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCALISATION") + " :");
+		JLabel lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
-		JLabel lblCardsLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE") + " :");
+		JLabel lblCardsLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
 		JComboBox<String> cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
-		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK") + " :");
+		JLabel lblLook = new JLabel(capitalize("LOOK") + " :");
 		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
-		JLabel lblPicsSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL_SIZE") + ": ");
-		JButton btnSavePicSize = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		JLabel lblPicsSize = new JLabel(capitalize("THUMBNAIL_SIZE") + ": ");
+		JButton btnSavePicSize = new JButton(capitalize("SAVE"));
 		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
-		JLabel lblShowJsonPanel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_OBJECT_PANEL") + " :");
+		JLabel lblShowJsonPanel = new JLabel(capitalize("SHOW_OBJECT_PANEL") + " :");
 		cbojsonView = new JCheckBox();
-		JLabel lblShowTooltip = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHOW_TOOLTIP") + " :");
+		JLabel lblShowTooltip = new JLabel(capitalize("SHOW_TOOLTIP") + " :");
 		chkToolTip = new JCheckBox("");
-		JLabel lblToolPosition = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAB_POSITION") + " :");
+		JLabel lblToolPosition = new JLabel(capitalize("TAB_POSITION") + " :");
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
-		JLabel lblFont = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("FONT") + " :");
+		JLabel lblFont = new JLabel(capitalize("FONT") + " :");
 		JFontChooser chooseFontPanel = new JFontChooser();
 		chooseFontPanel.initFont(MTGControler.getInstance().getFont());
-		JButton btnSaveFont = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		JButton btnSaveFont = new JButton(capitalize("SAVE"));
 		JCheckBox chkEnabledAutocomplete = new JCheckBox();
 		JCheckBox chkEnabledChrome = new JCheckBox();
-		JButton btnShortKeys = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SHORTKEYS"));
+		JButton btnShortKeys = new JButton(capitalize("SHORTKEYS"));
 		
 		
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
@@ -505,12 +506,12 @@ public class ConfigurationPanel extends JPanel {
 		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
 		panelGUI.add(chooseFontPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
 		panelGUI.add(btnSaveFont, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 7));
-		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ENABLE_AUTOCOMPLETION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
+		panelGUI.add(new JLabel(capitalize("ENABLE_AUTOCOMPLETION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
 		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
-		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DISABLE_CHROME_RENDERING") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
+		panelGUI.add(new JLabel(capitalize("DISABLE_CHROME_RENDERING") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
 		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
 		
-		panelGUI.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SHORTKEYS_CONFIGURATION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
+		panelGUI.add(new JLabel(capitalize("SHORTKEYS_CONFIGURATION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
 		panelGUI.add(btnShortKeys, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 10));
 		
 		
@@ -672,7 +673,7 @@ public class ConfigurationPanel extends JPanel {
 		btnClean.addActionListener(ae -> {
 
 			try {
-				loading(true, MTGControler.getInstance().getLangService().getCapitalize("CLEAN"));
+				loading(true, capitalize("CLEAN"));
 				
 				if(chckbxIconset.isSelected())
 					IconSetProvider.getInstance().clean();
@@ -714,7 +715,7 @@ public class ConfigurationPanel extends JPanel {
 			ThreadManager.getInstance().executeThread(() -> {
 			try {
 				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
-				loading(true, MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
+				loading(true, capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
 				getEnabledPlugin(MTGDao.class).duplicateTo(dao);
 			} catch (Exception e) {
 				logger.error(e);

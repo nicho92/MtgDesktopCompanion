@@ -1,11 +1,11 @@
 package org.magic.gui.models;
 
+import static org.magic.tools.MTG.capitalize;
+
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.SealedPack;
-import org.magic.services.MTGControler;
-
 public class SealedPackTableModel extends DefaultTableModel {
 	/**
 	 * 
@@ -75,7 +75,7 @@ public class SealedPackTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
+		return capitalize(COLUMNS[column]);
 	}
 
 	public SealedPackTableModel() {

@@ -1,5 +1,7 @@
 	package org.magic.gui.components.dialog;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,13 +35,11 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
 public class JDeckChooserDialog extends JDialog {
 
 	/**
@@ -112,7 +112,7 @@ public class JDeckChooserDialog extends JDialog {
 	}
 
 	public JDeckChooserDialog() {
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
+		setTitle(capitalize("OPEN_DECK"));
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		setSize(950, 600);
 		
@@ -195,17 +195,17 @@ public class JDeckChooserDialog extends JDialog {
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 
 		JButton btnSelect = new JButton(MTGConstants.ICON_OPEN);
-		btnSelect.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
+		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(e -> {
 			if (selectedDeck == null)
-				MTGControler.getInstance().notify(new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK")));
+				MTGControler.getInstance().notify(new NullPointerException(capitalize("CHOOSE_DECK")));
 			else
 				dispose();
 		});
 		panelBas.add(btnSelect);
 
 		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
-		btnCancel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
+		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(e -> {
 			selectedDeck = null;
 			dispose();
@@ -214,15 +214,15 @@ public class JDeckChooserDialog extends JDialog {
 		panelBas.add(btnCancel);
 
 		JButton btnDelete = new JButton(MTGConstants.ICON_DELETE);
-		btnDelete.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DELETE"));
+		btnDelete.setToolTipText(capitalize("DELETE"));
 		btnDelete.addActionListener(e -> {
 			
 			if(selectedDeck==null)
 				return;
 			
 			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE", selectedDeck.getName()),
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION") + " ?",
+					capitalize("CONFIRM_DELETE", selectedDeck.getName()),
+					capitalize("CONFIRMATION") + " ?",
 					JOptionPane.YES_NO_OPTION);
 
 			if (res == JOptionPane.YES_OPTION) {

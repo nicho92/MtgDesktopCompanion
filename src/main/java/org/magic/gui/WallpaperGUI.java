@@ -1,5 +1,7 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -38,7 +40,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-
 public class WallpaperGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -60,7 +61,7 @@ public class WallpaperGUI extends MTGUIComponent {
 	
 	@Override
 	public String getTitle() {
-		return MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER");
+		return capitalize("WALLPAPER");
 	}
 	
 	
@@ -173,7 +174,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		add(panel1, BorderLayout.SOUTH);
 
 		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
-		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		btnImport.setToolTipText(capitalize("IMPORT"));
 		panel1.add(btnImport);
 
 		btnImport.addActionListener(ae -> {
