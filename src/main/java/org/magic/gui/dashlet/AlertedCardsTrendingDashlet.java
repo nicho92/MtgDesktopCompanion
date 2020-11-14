@@ -12,10 +12,12 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
-import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
+import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.UITools;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 	
@@ -44,14 +46,12 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new CardAlertTableModel();
-		JXTable table = new JXTable(model);
+		JXTable table = UITools.createNewTable(model);
 		scrollPane.setViewportView(table);
 
 		HistoryPricesPanel historyPricesPanel = new HistoryPricesPanel(false);
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
-		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		
 		table.getSelectionModel().addListSelectionListener(event -> {

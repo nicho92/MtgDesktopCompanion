@@ -26,6 +26,7 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	
 	public DoubleCellEditorRenderer() {
 		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+		enableArrow=false;
 	}
 	
 	public DoubleCellEditorRenderer(String format)

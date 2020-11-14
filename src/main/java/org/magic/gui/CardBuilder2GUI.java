@@ -157,8 +157,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			cardsModel = new MagicCardTableModel();
 			jsonPanel = new ObjectViewerPanel();
 			jsonPanel.setMaximumSize(new Dimension(400, 10));
-			editionsTable = new JXTable();
-			cardsTable = new JXTable();
+			editionsTable = UITools.createNewTable(null);
+			cardsTable = UITools.createNewTable(null);
 			tabbedPane = new JTabbedPane(SwingConstants.TOP);
 			cboSets = new JComboBox<>();
 			namesModel = new MagicCardNamesTableModel();
@@ -179,7 +179,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			};
 
 			foreignNamesEditorPanel = new JPanel();
-			listNames = new JXTable();
+			listNames = UITools.createNewTable(null);
 			magicCardEditorPanel = new MagicCardEditorPanel();
 			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 

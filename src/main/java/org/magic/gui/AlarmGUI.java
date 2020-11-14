@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 import static org.magic.tools.MTG.listEnabledPlugins;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -62,10 +62,9 @@ import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
-import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -73,7 +72,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.UITools;
-import static org.magic.tools.MTG.capitalize;
 public class AlarmGUI extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
@@ -116,7 +114,7 @@ public class AlarmGUI extends MTGUIComponent {
 	public void initGUI() {
 		splitPanel = new JSplitPane();
 		btnExport = new JExportButton(MODS.EXPORT);
-		table = new JXTable();
+		
 		model = new CardAlertTableModel();
 		globalSearchPanel = new DeckPricePanel();
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -136,23 +134,19 @@ public class AlarmGUI extends MTGUIComponent {
 		ServerStatePanel oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
 		ServerStatePanel serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
 		UITools.initTableFilter(table);
-
+		table = UITools.createNewTable(model);
 		
 ///////CONFIG		
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		table.setModel(model);
 		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
-		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(7).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(8).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(7).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(8).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
-		table.getColumnModel().getColumn(2).setCellEditor(new IntegerCellEditorRenderer());
-		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
-		table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 
 		btnSuggestPrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SUGGEST_PRICE"));
 		

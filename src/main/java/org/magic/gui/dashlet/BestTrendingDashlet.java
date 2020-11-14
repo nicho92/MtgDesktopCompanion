@@ -31,7 +31,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardShakerTableModel;
-import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.sorters.PricesCardsShakeSorter;
@@ -128,7 +128,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					modStandard.init(ret);
 					table.setRowSorter(new TableRowSorter<>(modStandard));
 					table.packAll();
-					table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+					table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer());
 				} catch (Exception e) {
 					logger.error(e);
 				} 

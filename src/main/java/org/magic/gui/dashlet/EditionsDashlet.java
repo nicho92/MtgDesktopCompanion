@@ -26,7 +26,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardShakerTableModel;
-import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
@@ -57,8 +57,8 @@ public class EditionsDashlet extends AbstractJDashlet {
 		table = new JXTable(modEdition);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer());
+		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer());
 
 		
 
