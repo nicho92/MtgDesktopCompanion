@@ -13,8 +13,6 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
-import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;

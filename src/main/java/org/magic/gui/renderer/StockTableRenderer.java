@@ -15,6 +15,7 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
@@ -36,24 +37,22 @@ public class StockTableRenderer implements TableCellRenderer{
 		{
 			pane= new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
-		
-		
-		if(value instanceof Integer)
+		else if(value instanceof Integer)
+		{
 			pane= new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		
-		
-		if(value instanceof Double)
+		}
+		else if(value instanceof Double)
+		{
 			pane= new DoubleCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	
-		
-		if(value instanceof Map)
+		}
+		else if(value instanceof Map)
 		{
 			pane = new JPanel();
-			((Map<String,Object>)value).entrySet().forEach(e->((JPanel)pane).add(new JLabel(e.getKey() +"("+e.getValue()+")")));
-			 
-		}
-		
-		if(value instanceof Grading)
+			((Map<String,Object>)value).entrySet().forEach(e->{
+				((JPanel)pane).add(new JLabel(PluginRegistry.inst().getPlugin(e.getKey(), MTGCardsExport.class).getIcon()));
+			} );
+		} 
+		else if(value instanceof Grading)
 		{
 			Grading g = (Grading)value;
 			
@@ -68,8 +67,7 @@ public class StockTableRenderer implements TableCellRenderer{
 				((JLabel)pane).setOpaque(true);
 			}
 		}
-		
-		if(value instanceof MagicEdition)
+		else if(value instanceof MagicEdition)
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}

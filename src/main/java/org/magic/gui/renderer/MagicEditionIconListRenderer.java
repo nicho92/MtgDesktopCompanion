@@ -40,8 +40,9 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 			
 			l.setText(value.getSet());
 			l.setIcon(ic);
-			
 			l.setOpaque(true);
+			
+			
 			if (isSelected) {
 				l.setBackground(list.getSelectionBackground());
 				l.setForeground(list.getSelectionForeground());

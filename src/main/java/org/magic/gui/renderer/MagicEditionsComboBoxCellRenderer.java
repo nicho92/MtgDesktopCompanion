@@ -29,6 +29,8 @@ public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 
 		JComboBox<MagicEdition> cbo = UITools.createComboboxEditions((List<MagicEdition>) value,SIZE.SMALL);
 		cbo.setEnabled(enable);
+		cbo.setOpaque(true);
+		
 		return cbo;
 	}
 }
