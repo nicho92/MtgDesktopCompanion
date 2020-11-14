@@ -73,10 +73,16 @@ public class TrendingDashlet extends AbstractJDashlet {
 		
 
 		modStandard = new CardShakerTableModel();
-		table = new JXTable();
-		table.setModel(modStandard);
+		table = UITools.createNewTable(modStandard);
+
+		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
+
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
+
 	
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		
@@ -137,7 +143,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 					logger.error(e);
 				} 
 				lblLoading.end();
-				table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer());
 				setProperty("FORMAT", ((MagicFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 
 				List<SortKey> keys = new ArrayList<>();

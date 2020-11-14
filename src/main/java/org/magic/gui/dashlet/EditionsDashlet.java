@@ -54,11 +54,13 @@ public class EditionsDashlet extends AbstractJDashlet {
 		panel.add(cboEditions);
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
-		table = new JXTable(modEdition);
+		table = UITools.createNewTable(modEdition);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer());
-		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer());
+		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
 
 		
 

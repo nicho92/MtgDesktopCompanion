@@ -21,6 +21,7 @@ import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.extra.MTGEventProvider;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.UITools;
 
 public class MagicEventsDashlet extends AbstractJDashlet {
 	/**
@@ -59,15 +60,13 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		panneauHaut.add(cboMonth);
 		panneauHaut.add(lblLoading);
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-
+	
 		eventsModel = new MapTableModel<>();
 		eventsModel.setColumnNames("Event","Start Date");
 
-		table = new JXTable();
+		table = UITools.createNewTable(eventsModel);
 
-		scrollPane.setViewportView(table);
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 		c = Calendar.getInstance();
 		c.setTime(new Date());

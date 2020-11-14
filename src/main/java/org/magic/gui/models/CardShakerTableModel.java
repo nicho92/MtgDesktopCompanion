@@ -16,7 +16,8 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				"PC_DAILY",
 				"WEEKLY",
 				"PC_WEEKLY",
-				"FOIL","LAYOUT"};
+				"FOIL",
+				"LAYOUT"};
 	}
 
 	@Override

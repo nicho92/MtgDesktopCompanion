@@ -30,7 +30,7 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l = new JLabel(UITools.formatDateTime((Date)value));
+		JLabel l = new JLabel(UITools.formatDate((Date)value));
 		l.setOpaque(true);
 		if(isSelected)
 		{

@@ -8,6 +8,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -20,7 +21,7 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField fmtTxtField;
-	private String format="#0.0";
+	private String format="#0.00";
 	private boolean enableArrow;
 	
 	
@@ -86,11 +87,13 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 			if (((Double) value).doubleValue() > 0)
 			{
 				l.setIcon(MTGConstants.ICON_UP);
+				l.setHorizontalTextPosition(SwingConstants.LEFT);
 			}
 	
 			if (((Double) value).doubleValue() < 0)
 			{
 				l.setIcon(MTGConstants.ICON_DOWN);
+				l.setHorizontalTextPosition(SwingConstants.LEFT);
 			}
 	
 			if (((Double) value).doubleValue() == 0)

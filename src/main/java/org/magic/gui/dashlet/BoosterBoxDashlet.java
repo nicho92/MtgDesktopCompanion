@@ -84,15 +84,12 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		boxSizeSpinner.setModel(new SpinnerNumberModel(36, 0, null, 1));
 		panneauHaut.add(boxSizeSpinner);
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		boostersModel = new BoostersTableModel();
 		cardsModel = new DefaultListModel<>();
 
-		table = new JXTable(boostersModel);
-
-		scrollPane.setViewportView(table);
+		table = UITools.createNewTable(boostersModel);
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);

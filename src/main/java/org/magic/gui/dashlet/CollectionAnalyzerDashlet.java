@@ -53,7 +53,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		modelCache = new MapTableModel<>();
 		modelCache.setColumnNames("EDITION", "DATE");
-		JXTable tableCache = new JXTable();
+		JXTable tableCache = UITools.createNewTable(modelCache);
 		tableCache.setModel(modelCache);
 		JLabel lblValue = new JLabel();
 		
