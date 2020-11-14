@@ -83,22 +83,21 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		}
 		
 		if(enableArrow) {
-			
+			l.setHorizontalTextPosition(SwingConstants.LEFT);
 			if (((Double) value).doubleValue() > 0)
 			{
 				l.setIcon(MTGConstants.ICON_UP);
-				l.setHorizontalTextPosition(SwingConstants.LEFT);
 			}
 	
 			if (((Double) value).doubleValue() < 0)
 			{
 				l.setIcon(MTGConstants.ICON_DOWN);
-				l.setHorizontalTextPosition(SwingConstants.LEFT);
+				
 			}
 	
 			if (((Double) value).doubleValue() == 0)
 			{
-				l.setIcon(null);
+				l.setIcon(MTGConstants.ICON_SMALL_EQUALS);
 			}
 			
 		}

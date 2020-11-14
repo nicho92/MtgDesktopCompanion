@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -225,7 +226,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
 				cs.setProviderName(getName());
-				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replace("\\(RL\\)", "").trim());
+				cs.setName(StringUtils.remove(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text(), "(RL)").trim());
 				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				
