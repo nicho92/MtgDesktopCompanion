@@ -58,10 +58,10 @@ public class CardShake  {
 			lastWeekPrice=1;
 		
 		
-		percentDayChange = ((price-lastDayPrice)/lastDayPrice)*100;
+		percentDayChange = ((price-lastDayPrice)/lastDayPrice);
 		
 		priceWeekChange = price-lastWeekPrice;
-		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice)*100;
+		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice);
 		
 		currency=Currency.getInstance("USD");
 		

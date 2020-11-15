@@ -110,7 +110,7 @@ public class DrawProbabilityPanel extends JPanel {
 
 		table.setModel(model);
 		model.fireTableDataChanged();
-		table.getColumnModel().getColumn(1).setCellRenderer(new DoubleCellEditorRenderer("#0.0%"));
+		table.getColumnModel().getColumn(1).setCellRenderer(new DoubleCellEditorRenderer(true,false));
 		table.packAll();
 	}
 

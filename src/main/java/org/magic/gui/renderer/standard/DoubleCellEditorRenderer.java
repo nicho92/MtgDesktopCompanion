@@ -2,6 +2,7 @@ package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JFormattedTextField;
@@ -20,33 +21,28 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField fmtTxtField;
-	private String format="#0.00";
+	private NumberFormat format = new DecimalFormat();
 	private boolean enableArrow;
 	
 	
 	public DoubleCellEditorRenderer() {
-		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+		fmtTxtField = new JFormattedTextField(format);
 		enableArrow=false;
-	}
-	
-	public DoubleCellEditorRenderer(String format)
-	{
-		this.enableArrow=false;
-		this.format=format;
-		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
 	}
 	
 	public DoubleCellEditorRenderer(boolean enabledArrow)
 	{
 		this.enableArrow=enabledArrow;
-		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+		fmtTxtField = new JFormattedTextField(format);
 	}
 	
-	public DoubleCellEditorRenderer(String format, boolean enabledArrow)
+	public DoubleCellEditorRenderer(boolean enablePercent, boolean enabledArrow)
 	{
 		this.enableArrow=enabledArrow;
-		this.format=format;
-		fmtTxtField = new JFormattedTextField(new DecimalFormat (format));
+		if(enablePercent)
+			this.format=NumberFormat.getPercentInstance();
+
+		fmtTxtField = new JFormattedTextField(format);
 	}
 
 
@@ -65,9 +61,11 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		
 		
+		format.setMaximumFractionDigits(2);
+		format.setMaximumFractionDigits(2);
 		double val = (double) value;
 
-		JLabel l= new JLabel(new DecimalFormat(format).format(val),SwingConstants.RIGHT);
+		JLabel l= new JLabel(format.format(val),SwingConstants.RIGHT);
 		l.setOpaque(true);
 		if(isSelected)
 		{

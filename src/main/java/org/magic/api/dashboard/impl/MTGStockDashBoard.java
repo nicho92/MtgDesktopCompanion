@@ -144,7 +144,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			CardShake cs = initFromPrint(i.getPrint());
 						cs.setDateUpdate(i.getDate());
 						cs.setPrice(i.getPricePresent());
-						cs.setPercentDayChange(i.getPercentage());
+						cs.setPercentDayChange(i.getPercentage()/100);
 						cs.setPriceDayChange(i.getPriceDayChange());
 						cs.setFoil(i.isFoil());
 						

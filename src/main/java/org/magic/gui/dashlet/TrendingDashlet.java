@@ -76,9 +76,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 		table = UITools.createNewTable(modStandard);
 
 		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
-		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true,true));
 		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
-		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
+		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true,true));
 
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
