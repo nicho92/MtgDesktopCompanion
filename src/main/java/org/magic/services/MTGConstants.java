@@ -187,6 +187,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SAVE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/save.png"));
 	public static final ImageIcon ICON_UP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/up.png"));
 	public static final ImageIcon ICON_DOWN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/down.png"));
+	public static final ImageIcon ICON_STANDBY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/standby.png"));
 	public static final ImageIcon ICON_IN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/in.png"));
 	public static final ImageIcon ICON_OUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/out.png"));
 	public static final ImageIcon ICON_SCRIPT=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/script.png"));

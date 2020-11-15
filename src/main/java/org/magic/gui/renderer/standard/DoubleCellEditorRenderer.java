@@ -96,7 +96,7 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	
 			if (((Double) value).doubleValue() == 0)
 			{
-				l.setIcon(null);
+				l.setIcon(MTGConstants.ICON_STANDBY);
 			}
 			
 		}
