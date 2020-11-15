@@ -18,8 +18,7 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 	 */
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinner;
-	private boolean enableArrow=false;
-	
+
 	public IntegerCellEditorRenderer() {
 		spinner = new JSpinner();
 		SpinnerNumberModel model1 = new SpinnerNumberModel();
@@ -27,13 +26,6 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 		spinner.setModel(model1);
 	}
 	
-	public IntegerCellEditorRenderer(boolean enableArrow) {
-		this.enableArrow=enableArrow;
-		spinner = new JSpinner();
-		SpinnerNumberModel model1 = new SpinnerNumberModel();
-		model1.setMinimum(0);
-		spinner.setModel(model1);
-	}
 
 	@Override
 	public Object getCellEditorValue() {

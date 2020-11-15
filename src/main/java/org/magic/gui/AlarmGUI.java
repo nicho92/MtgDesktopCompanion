@@ -136,9 +136,9 @@ public class AlarmGUI extends MTGUIComponent {
 ///////CONFIG		
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
+		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(7).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(8).setCellRenderer(new DoubleCellEditorRenderer(true));
