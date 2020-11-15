@@ -36,7 +36,6 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	
 	private List<MagicPrice> lists;
 	private boolean initied=false;
-	private static final String BASE_URL ="https://www.cardmarket.com";
 	
 	@Override
 	public STATUT getStatut() {
@@ -144,8 +143,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 					mp.setSeller(String.valueOf(p.getExpansionName()));
 					mp.setValue(p.getPriceGuide().getLOW());
 					mp.setQuality("");
-					mp.setUrl(BASE_URL  + p.getWebsite());
-					mp.setSellerUrl(BASE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
+					mp.setUrl(MkmConstants.MKM_SITE_URL  + p.getWebsite());
+					mp.setSellerUrl(MkmConstants.MKM_SITE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
 					mp.setSite(getName());
 					mp.setFoil(false);
 					mp.setCurrency("EUR");
@@ -181,12 +180,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 				{
 					MagicPrice mp = new MagicPrice();
 							mp.setSeller(String.valueOf(a.getSeller()));
-							mp.setSellerUrl(BASE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
+							mp.setSellerUrl(MkmConstants.MKM_SITE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
 							
 							mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
 							mp.setValue(a.getPrice());
 							mp.setQuality(a.getCondition());
-							mp.setUrl("https://www.cardmarket.com" + resultat.getWebsite());
+							mp.setUrl(MkmConstants.MKM_SITE_URL + resultat.getWebsite());
 							mp.setSite(getName());
 							mp.setFoil(a.isFoil());
 							mp.setCurrency("EUR");
