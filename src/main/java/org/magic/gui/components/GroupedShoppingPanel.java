@@ -1,12 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -100,12 +96,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 					
 					if(o instanceof MagicPrice)
 					{
-						try {
-							Desktop.getDesktop().browse(new URI(((MagicPrice)o).getSellerUrl()));
-						}  
-						catch (URISyntaxException | IOException e1) {
-							logger.error(e1);
-						}
+						UITools.browse(((MagicPrice)o).getSellerUrl());
 					}
 					 
 					 

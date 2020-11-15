@@ -1,16 +1,14 @@
 package org.magic.api.exports.impl;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map.Entry;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGDeckManager;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 public class CardKingdomCardExport extends AbstractCardExport {
@@ -60,11 +58,7 @@ public class CardKingdomCardExport extends AbstractCardExport {
 			
 		s = s + URLTools.encode(temp.toString());
 			
-		try {
-			Desktop.getDesktop().browse(new URI(s));
-		}  catch (URISyntaxException e1) {
-			throw new IOException(e1);
-		}
+		UITools.browse(s);
 
 	}
 

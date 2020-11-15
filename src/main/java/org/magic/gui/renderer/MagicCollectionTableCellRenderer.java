@@ -2,13 +2,10 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;

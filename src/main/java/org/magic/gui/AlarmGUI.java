@@ -7,7 +7,6 @@ import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -15,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -242,7 +240,7 @@ public class AlarmGUI extends MTGUIComponent {
 				try {
 
 					if (e.getClickCount() == 2 && (list.getSelectedValue() != null)) {
-						Desktop.getDesktop().browse(new URI(list.getSelectedValue().getUrl()));
+						UITools.browse(list.getSelectedValue().getUrl());
 					}
 				} catch (Exception e1) {
 					MTGControler.getInstance().notify(e1);

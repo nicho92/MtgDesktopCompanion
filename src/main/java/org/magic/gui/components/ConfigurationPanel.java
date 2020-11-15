@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
@@ -785,11 +783,7 @@ public class ConfigurationPanel extends JPanel {
 		lclCodeCurrency.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI(MTGConstants.CURRENCY_API));
-				} catch (Exception e1) {
-					logger.error(e1);
-				} 
+					UITools.browse(MTGConstants.CURRENCY_API);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

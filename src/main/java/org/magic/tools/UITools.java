@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.SystemColor;
@@ -19,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URI;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -108,6 +110,16 @@ public class UITools {
 		}
 	}
 	
+	public static void browse(String uri)
+	{
+		try {
+			Desktop.getDesktop().browse(new URI(uri));
+		} catch (Exception e) {
+			logger.error(e);
+		}
+	}
+	
+	
 	public static JXTable createNewTable(TableModel mod)
 	{
 		JXTable table = new JXTable();
@@ -115,21 +127,21 @@ public class UITools {
 					table.setModel(mod);
 		
 				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
-				table.setDefaultEditor(Boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
-				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultRenderer(Integer.class, new IntegerCellEditorRenderer());
-				table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
 				table.setDefaultRenderer(boolean.class, new BooleanCellEditorRenderer());
-				table.setDefaultEditor(boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(double.class, new DoubleCellEditorRenderer());
-				table.setDefaultEditor(double.class, new DoubleCellEditorRenderer());
 				table.setDefaultRenderer(int.class, new IntegerCellEditorRenderer());
-				table.setDefaultEditor(int.class, new IntegerCellEditorRenderer());
+				
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
-				
 				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
-				
+	
+				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
+				table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
+				table.setDefaultEditor(Boolean.class, new BooleanCellEditorRenderer());
+				table.setDefaultEditor(boolean.class, new BooleanCellEditorRenderer());
+				table.setDefaultEditor(int.class, new IntegerCellEditorRenderer());
+				table.setDefaultEditor(double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));

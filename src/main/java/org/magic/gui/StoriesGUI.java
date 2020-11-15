@@ -3,7 +3,6 @@ package org.magic.gui;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -88,7 +87,7 @@ public class StoriesGUI extends MTGUIComponent {
 					}, "Load story");
 				} else {
 					try {
-						Desktop.getDesktop().browse(listResult.getSelectedValue().getUrl().toURI());
+						UITools.browse(listResult.getSelectedValue().getUrl().toURI().toASCIIString());
 					} catch (Exception e) {
 						MTGControler.getInstance().notify(e);
 					}

@@ -3,7 +3,6 @@ package org.magic.gui.components.dialog;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -12,7 +11,6 @@ import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,6 +29,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.VersionChecker;
 import org.magic.services.extra.GithubUtils;
 import org.magic.tools.ImageTools;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -101,7 +100,7 @@ public class AboutDialog extends MTGUIComponent {
 								@Override
 								public void mouseClicked(MouseEvent e) {
 									try {
-										Desktop.getDesktop().browse(new URI(supp.get("url").getAsString()));
+										UITools.browse(supp.get("url").getAsString());
 									} catch (Exception e2) {
 										logger.error(e2);
 									}
@@ -137,11 +136,7 @@ public class AboutDialog extends MTGUIComponent {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI(MTGConstants.MTG_DESKTOP_WEBSITE));
-				} catch (Exception e1) {
-					logger.error(e1);
-				}
+					UITools.browse(MTGConstants.MTG_DESKTOP_WEBSITE);
 			}
 		});
 		

@@ -108,7 +108,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 			public Void call() throws Exception {
 				try {
 					CardShake cs = UITools.getTableSelection(table, 0);
-					Desktop.getDesktop().browse(new URI(cs.getLink()));
+					UITools.browse(cs.getLink());
 				
 				}catch(Exception ex)
 				{

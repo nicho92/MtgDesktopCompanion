@@ -2,9 +2,7 @@ package org.magic.services.workers;
 
 import static org.magic.tools.MTG.capitalize;
 
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -19,6 +17,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.MagicWebSiteGenerator;
+import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
@@ -77,11 +76,8 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 
 		if (res == JOptionPane.YES_OPTION) {
 			Path p = Paths.get(dest.getAbsolutePath());
-			try {
-				Desktop.getDesktop().browse(p.toUri());
-			} catch (IOException e) {
-				logger.error(e);
-			}
+			UITools.browse(p.toUri().toASCIIString());
+			
 		}
 		buzy.end();
 	}

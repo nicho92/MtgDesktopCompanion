@@ -4,14 +4,12 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.net.URI;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -47,6 +45,7 @@ import org.magic.services.VersionChecker;
 import org.magic.services.extra.GithubUtils;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ShortKeyManager;
+import org.magic.tools.UITools;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
@@ -172,25 +171,11 @@ public class MagicGUI extends JFrame {
 
 		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
 
-		mntmHelp.addActionListener(e -> {
-			String url = MTGConstants.MTG_DESKTOP_WIKI_URL;
-			try {
-				Desktop.getDesktop().browse(new URI(url));
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		});
+		mntmHelp.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_WIKI_URL));
 
 		mntmAboutMagicDesktop.addActionListener(ae -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
 
-		mntmReportBug.addActionListener(ae -> {
-			try {
-				String url = MTGConstants.MTG_DESKTOP_ISSUES_URL;
-				Desktop.getDesktop().browse(new URI(url));
-			} catch (Exception e) {
-				logger.error(e);
-			}
-		});
+		mntmReportBug.addActionListener(ae -> UITools.browse(MTGConstants.MTG_DESKTOP_ISSUES_URL));
 		
 		boolean update=serviceUpdate.hasNewVersion();
 
@@ -201,9 +186,9 @@ public class MagicGUI extends JFrame {
 							+ serviceUpdate.getOnlineVersion());
 			newversion.addActionListener(e -> {
 				try {
-					Desktop.getDesktop().browse(new URI(GithubUtils.inst().getReleaseURL()));
-				} catch (Exception e1) {
-					logger.error(e1.getMessage());
+					UITools.browse(GithubUtils.inst().getReleaseURL());
+				} catch (IOException e1) {
+					logger.error(e1);
 				}
 			});
 			mnuAbout.add(newversion);

@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -195,7 +194,7 @@ public class RssGUI extends MTGUIComponent {
 				MagicNewsContent sel = sels.get(0);
 				if (me.getClickCount() == 2) {
 					try {
-						Desktop.getDesktop().browse(sel.getLink().toURI());
+						UITools.browse(sel.getLink().toURI().toASCIIString());
 						
 					} catch (Exception e1) {
 						logger.error(e1);

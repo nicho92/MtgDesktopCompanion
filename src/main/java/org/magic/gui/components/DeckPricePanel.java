@@ -1,11 +1,9 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -138,7 +136,7 @@ public class DeckPricePanel extends JComponent {
 					try {
 						
 						MagicPrice url = UITools.getTableSelection(tablePrice, 0);
-						Desktop.getDesktop().browse(new URI(url.getUrl()));
+						UITools.browse(url.getUrl());
 					} catch (Exception e) {
 						logger.error(e);
 					}

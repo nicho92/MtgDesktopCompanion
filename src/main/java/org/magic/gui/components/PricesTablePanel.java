@@ -4,13 +4,11 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -83,12 +81,8 @@ public class PricesTablePanel extends JPanel {
 			public void mouseClicked(MouseEvent ev) {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
-					try {
 						MagicPrice url = UITools.getTableSelection(tablePrices, 0);
-						Desktop.getDesktop().browse(new URI(url.getUrl()));
-					} catch (Exception e) {
-						logger.error(e);
-					}
+						UITools.browse(url.getUrl());
 				}
 
 			}

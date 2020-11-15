@@ -3,11 +3,9 @@ package org.magic.gui.dashlet;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -203,14 +201,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 			@Override
 			public Void call() throws Exception {
 				CardShake cs=null;
-				try {
 					cs = UITools.getTableSelection(table, 0);
-					Desktop.getDesktop().browse(new URI(cs.getLink()));
+					UITools.browse(cs.getLink());
 				
-				}catch(Exception ex)
-				{
-					logger.error("error opening browser for " + cs + " :"+ ex);
-				}
 				return null;
 			}
 		});

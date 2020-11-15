@@ -3,11 +3,9 @@ package org.magic.gui.dashlet;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
-import java.net.URI;
 import java.util.concurrent.Callable;
 
 import javax.swing.ImageIcon;
@@ -98,7 +96,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 			public Void call() throws Exception {
 				try {
 					CardShake cs = UITools.getTableSelection(table, 0);
-					Desktop.getDesktop().browse(new URI(cs.getLink()));
+					UITools.browse(cs.getLink());
 				
 				}catch(Exception ex)
 				{
