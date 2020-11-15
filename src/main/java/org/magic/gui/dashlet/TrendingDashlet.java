@@ -3,10 +3,8 @@ package org.magic.gui.dashlet;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
