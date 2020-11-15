@@ -3,6 +3,7 @@ package org.magic.gui.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
@@ -27,7 +29,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		if (column == 4)
-			value = new DecimalFormat("#0.0%").format((double) value);
+			value = NumberFormat.getPercentInstance().format((double) value);
 		
 		Component pane;
 		
@@ -38,10 +40,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		}
 		else if(value instanceof Boolean)
 		{
-			pane=new JPanel();
-			JCheckBox jcbox=new JCheckBox("",Boolean.parseBoolean(value.toString()));
-			jcbox.setOpaque(false);
-			((JPanel)pane).add(jcbox);
+			pane=new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
 		else
 		{
@@ -52,22 +51,22 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		
 		double val = (double) table.getValueAt(row, 4);
 		
-		if (val * 100 >= 1 && val * 100 < 50) {
+		if (val>= 0.1 && val<0.5) {
 			pane.setBackground(MTGConstants.COLLECTION_1PC);
 			pane.setForeground(Color.BLACK);
 		}
 
-		if (val * 100 >= 50) {
+		if (val >= 0.5) {
 			pane.setBackground(MTGConstants.COLLECTION_50PC);
 			pane.setForeground(Color.BLACK);
 		}
 
-		if (val * 100 >= 90) {
+		if (val>=0.9) {
 			pane.setBackground(MTGConstants.COLLECTION_90PC);
 			pane.setForeground(Color.BLACK);
 		}
 
-		if (val * 100 >= 100) {
+		if (val >= 1) {
 			pane.setBackground(MTGConstants.COLLECTION_100PC);
 			pane.setForeground(Color.BLACK);
 		}

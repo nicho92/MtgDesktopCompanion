@@ -24,6 +24,7 @@ public class OrderEntryRenderer implements TableCellRenderer {
 		JLabel comp = new JLabel(String.valueOf(value));
 		comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.PLAIN));
 		comp.setHorizontalAlignment(SwingConstants.CENTER);
+		comp.setHorizontalTextPosition(SwingConstants.RIGHT);
 		comp.setOpaque(true);
 		
 		if (((OrderEntry) table.getValueAt(row, 0)).isUpdated()) {
