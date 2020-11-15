@@ -48,9 +48,9 @@ public class StockTableRenderer implements TableCellRenderer{
 		else if(value instanceof Map)
 		{
 			pane = new JPanel();
-			((Map<String,Object>)value).entrySet().forEach(e->{
-				((JPanel)pane).add(new JLabel(PluginRegistry.inst().getPlugin(e.getKey(), MTGCardsExport.class).getIcon()));
-			} );
+			((Map<String,Object>)value).entrySet().forEach(e->
+				((JPanel)pane).add(new JLabel(PluginRegistry.inst().getPlugin(e.getKey(), MTGCardsExport.class).getIcon()))
+			 );
 		} 
 		else if(value instanceof Grading)
 		{

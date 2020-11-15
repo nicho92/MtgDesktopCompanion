@@ -73,9 +73,9 @@ public class ObjectViewerPanel extends MTGUIComponent {
 			StringBuilder build = new StringBuilder();
 			
 			try {
-				PropertyUtils.describe(currentObject).entrySet().forEach(e->{
-						build.append(e.getKey()).append("\t").append(e.getValue()).append("\n");
-				});
+				PropertyUtils.describe(currentObject).entrySet().forEach(e->
+						build.append(e.getKey()).append("\t").append(e.getValue()).append("\n")
+				);
 			} catch (Exception e) {
 				textpane.setText(e.getMessage());
 			} 

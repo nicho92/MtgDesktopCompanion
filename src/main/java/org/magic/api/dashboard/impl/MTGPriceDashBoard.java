@@ -25,6 +25,7 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
@@ -69,8 +70,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			for (Element e : table.select(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
-				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
+				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
 				cs.setProviderName(getName());
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				set = set.replaceAll("_\\(Foil\\)", "");
@@ -83,8 +84,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			for (Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
-				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
+				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
 				cs.setProviderName(getName());
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				set = set.replaceAll("_\\(Foil\\)", "");
@@ -96,10 +97,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			logger.error("error retrieve cardshake for " + gameFormat, e);
 		}
 		return list;
-	}
-
-	private double parseDouble(String number) {
-		return Double.parseDouble(number.replaceAll("\\$", ""));
 	}
 
 	private String getCodeForExt(String name) {
