@@ -2,13 +2,14 @@ package org.magic.gui.components;
 
 import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
-
+import static org.magic.tools.MTG.getPlugin;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -40,7 +41,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
@@ -81,6 +84,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private JTextField rarityJTextField;
 	private GridBagLayout gridBagLayout;
 	private JButton btnAlert;
+	private JButton btnCopy;
 	private JCheckBox chckbxReserved;
 	private boolean enableCollectionLookup = true;
 	private DefaultListModel<MagicCollection> listModelCollection;
@@ -171,6 +175,20 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		txtWatermark = new JTextField(10);
 		add(txtWatermark, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 7,3,null));
 
+		JPanel p = new JPanel();
+		
+		btnCopy = new JButton(MTGConstants.ICON_COPY);
+		btnCopy.setToolTipText("Copy to clipboard");
+		btnCopy.addActionListener(ae -> {
+			try {
+				getPlugin("clipboard",MTGCardsExport.class).exportDeck(MagicDeck.toDeck(Arrays.asList(getMagicCard())),null);
+				
+			} catch (Exception e) {
+				logger.error(e);
+				MTGControler.getInstance().notify(e);
+			}
+		});
+		
 
 		
 		btnAlert = new JButton(MTGConstants.ICON_ALERT);
@@ -191,7 +209,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		add(btnAlert, UITools.createGridBagConstraints(null, null, 8, 0));
+		
+		p.add(btnCopy);
+		p.add(btnAlert);
+		
+		add(p, UITools.createGridBagConstraints(null, null, 8, 0));
 
 
 
