@@ -87,8 +87,7 @@ public class MTGConstants {
 	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
 
 	public static final MTGCardsExport DEFAULT_SERIALIZER = new JsonExport();
-	
-	
+		
 	public static final Color COLLECTION_100PC = new Color(115, 230, 0);
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;
