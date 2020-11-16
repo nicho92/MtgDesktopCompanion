@@ -58,6 +58,7 @@ import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.CardsEditionTablePanel;
 import org.magic.gui.components.GedPanel;
+import org.magic.gui.components.GroupedShoppingPanel;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -121,7 +122,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private List<MagicCard> listExport;
 	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
-	
+	private GroupedShoppingPanel groupShopPanel;
 	private GedPanel gedPanel;
 	
 	@Override
@@ -187,7 +188,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnAddAllSet =UITools.createBindableJButton(null, MTGConstants.ICON_CHECK, KeyEvent.VK_A, "Collection addAll");
 		btnExport = new JExportButton(MODS.EXPORT);
 		UITools.bindJButton(btnExport, KeyEvent.VK_E, "Collection export");
-		
+		groupShopPanel = new GroupedShoppingPanel();
 		btnMassCollection = UITools.createBindableJButton(null, MTGConstants.ICON_MASS_IMPORT, KeyEvent.VK_I, "Collection massImport");
 		btnGenerateWebSite = UITools.createBindableJButton(null, MTGConstants.ICON_WEBSITE, KeyEvent.VK_W, "Collection website");
 		cardsSetPanel = new CardsEditionTablePanel();
@@ -270,10 +271,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
 		panelTotal.add(lblTotal);
 
+		
+		
 		tabbedPane.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
 		tabbedPane.addTab(capitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
 		tabbedPane.addTab(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
 		tabbedPane.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricePanel,null);
+		tabbedPane.addTab(capitalize("GROUPED_BUY"), MTGConstants.ICON_TAB_SHOP, groupShopPanel,null);
 		tabbedPane.addTab(capitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
 		tabbedPane.addTab(capitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
 		tabbedPane.addTab(capitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
@@ -459,6 +463,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						rarityRepartitionPanel.init(list);
 						typeRepartitionPanel.init(list);
 						manaRepartitionPanel.init(list);
+						groupShopPanel.initListCards(list);
 						jsonPanel.show(curr.getUserObject());
 
 					} catch (Exception e) {
@@ -484,6 +489,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						rarityRepartitionPanel.init(list);
 						typeRepartitionPanel.init(list);
 						manaRepartitionPanel.init(list);
+						groupShopPanel.initListCards(list);
 						historyPricesPanel.init(null, ed,curr.getUserObject().toString());
 						jsonPanel.show(curr.getUserObject());
 

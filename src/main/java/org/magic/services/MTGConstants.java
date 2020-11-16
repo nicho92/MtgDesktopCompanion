@@ -197,7 +197,10 @@ public class MTGConstants {
 	public static final ImageIcon ICON_EVENTS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/events.png"));
 	public static final ImageIcon ICON_DOLLARS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/dollars.png"));
 	public static final ImageIcon ICON_OPEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/open.png"));
+	public static final ImageIcon ICON_COPY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/copy.png"));
+	public static final ImageIcon ICON_PASTE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/paste.png"));
 
+	
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
 
 	public static final ImageIcon ICON_TAB_CARD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/bottom.png"));
@@ -248,7 +251,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_POOL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/pool.png"));
 	public static final ImageIcon ICON_TAB_COMBO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/combo.png"));
 	
-	
+	public static final ImageIcon ICON_SMALL_COPY = new ImageIcon(ICON_COPY.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SMALL_PASTE = new ImageIcon(ICON_PASTE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+
 	public static final ImageIcon ICON_SMALL_EQUALS = new ImageIcon(ICON_EQUALS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_CHECK = new ImageIcon(ICON_CHECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_DELETE = new ImageIcon(ICON_DELETE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));

@@ -1,6 +1,7 @@
 package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
+import java.text.NumberFormat;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JLabel;
@@ -40,19 +41,28 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l= new JLabel(String.valueOf(value),SwingConstants.CENTER);
-			   l.setOpaque(true);
-		if(isSelected)
+		
+		String text = String.valueOf(value);
+		
+		if(value instanceof Integer) 
 		{
-			l.setBackground(table.getSelectionBackground());
-			l.setForeground(table.getSelectionForeground());
-		}
-		else
-		{
-			l.setBackground(table.getBackground());
-			l.setForeground(table.getForeground());
+			text = NumberFormat.getIntegerInstance().format(value);
 		}
 		
+		
+		JLabel l= new JLabel(text,SwingConstants.CENTER);
+		   l.setOpaque(true);
+			if(isSelected)
+			{
+				l.setBackground(table.getSelectionBackground());
+				l.setForeground(table.getSelectionForeground());
+			}
+			else
+			{
+				l.setBackground(table.getBackground());
+				l.setForeground(table.getForeground());
+			}
+	
 		
 		
 		return l;

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTreeTable;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -26,6 +27,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
+import static org.magic.tools.MTG.capitalize;
+
+
+import javax.swing.JLabel;
 
 public class GroupedShoppingPanel extends MTGUIComponent {
 
@@ -34,14 +39,24 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
-	private transient List<MagicCardAlert> cards;
+	private transient List<MagicCard> cards;
 	private JButton btnCheckPrice;
 	private AbstractBuzyIndicatorComponent buzy;
+	private JLabel lblitems;
 	
 		
 	
 	public void initList(List<MagicCardAlert> d) {
+		this.cards = d.stream().map(MagicCardAlert::getCard).collect(Collectors.toList());
+		
+		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
+		enableControle(true);
+	}
+	
+	public void initListCards(List<MagicCard> d) {
 		this.cards = d;
+		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
+		
 		enableControle(true);
 	}
 	
@@ -72,6 +87,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		
 		panel.add(btnCheckPrice);
 		panel.add(buzy);
+		
+		lblitems = new JLabel();
+		panel.add(lblitems);
 		
 		GroupedPriceTreeTableModel treetModel = new GroupedPriceTreeTableModel();
 		
@@ -111,7 +129,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 				@Override
 				protected Map<String, List<MagicPrice>> doInBackground() throws Exception {
-					return plug.getPricesBySeller(cards.stream().map(MagicCardAlert::getCard).collect(Collectors.toList()));
+					return plug.getPricesBySeller(cards);
 				}
 			
 				@Override

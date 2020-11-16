@@ -49,6 +49,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
+import org.magic.tools.IDGenerator;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {
@@ -286,6 +287,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		          		fieldType.setTokenized(true);
 		          		fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
 		          		
+		           doc.add(new Field("mtgcompId", IDGenerator.generate(mc), fieldType));		
            		   doc.add(new Field("name", mc.getName(), fieldType));
            		   
            		   if(mc.getCost()!=null)
