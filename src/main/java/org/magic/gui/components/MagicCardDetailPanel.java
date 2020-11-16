@@ -181,7 +181,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		btnCopy.setToolTipText("Copy to clipboard");
 		btnCopy.addActionListener(ae -> {
 			try {
-				getPlugin("clipboard",MTGCardsExport.class).exportDeck(MagicDeck.toDeck(Arrays.asList(getMagicCard())),null);
+				getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MagicDeck.toDeck(Arrays.asList(getMagicCard())),null);
 				
 			} catch (Exception e) {
 				logger.error(e);
