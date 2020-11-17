@@ -14,17 +14,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.components.GroupedShoppingPanel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
-import org.magic.gui.components.GroupedShoppingPanel;
 
 public class ShoppingDashlet extends AbstractJDashlet {
 
@@ -47,18 +44,22 @@ public class ShoppingDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		JPanel panel = new JPanel();
 		GroupedShoppingPanel groupedShoppingPanel = new GroupedShoppingPanel();
+		JButton btnPast = new JButton(MTGConstants.ICON_PASTE);
+		model = new DefaultListModel<>();
+		JList<MagicCard> list = new JList<>(model);
+		JPanel panneauHaut = new JPanel();
+		JButton btnClear = new JButton(MTGConstants.ICON_DELETE);
 		
 		getContentPane().add(panel, BorderLayout.NORTH);
-		
-		model = new DefaultListModel<>();
-		
-		JList<MagicCard> list = new JList<>(model);
 		list.setCellRenderer(new MagicCardListRenderer());
-		JPanel panneauHaut = new JPanel();
-		getContentPane().add(panneauHaut, BorderLayout.NORTH);
-		JButton btnPast = new JButton(MTGConstants.ICON_PASTE);
+		panneauHaut.add(btnClear);
 		panneauHaut.add(btnPast);
 		getContentPane().add(new JScrollPane(list), BorderLayout.CENTER);
+		getContentPane().add(panneauHaut, BorderLayout.NORTH);
+		
+		btnClear.addActionListener(ae->model.removeAllElements());
+		
+		
 		
 		btnPast.addActionListener(al->{
 			
