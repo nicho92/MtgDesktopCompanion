@@ -183,8 +183,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_DELETE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/delete.png"));
 	public static final ImageIcon ICON_CHECK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/check.png"));
 	public static final ImageIcon ICON_EQUALS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/equals.png"));
-	public static final ImageIcon ICON_WEBSITE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/website.png"));
-	public static final ImageIcon ICON_MANUAL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/manual.png"));
+	public static final ImageIcon ICON_WEBSITE = new ImageIcon(new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/website.png")).getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_MANUAL = new ImageIcon(new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/manual.png")).getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SAVE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/save.png"));
 	public static final ImageIcon ICON_UP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/up.png"));
 	public static final ImageIcon ICON_DOWN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/down.png"));
