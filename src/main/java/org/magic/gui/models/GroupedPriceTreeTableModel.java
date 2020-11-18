@@ -32,6 +32,8 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	}
 	
 	
+	
+	
 	public void addItem(String key, List<MagicPrice> list)
 	{
 		listElements.computeIfAbsent(key, v->new ArrayList<>()).addAll(list);

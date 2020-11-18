@@ -98,7 +98,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		tree.setShowGrid(true, false);
 		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		tree.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
-		
+		tree.setSortable(true);
 		
 		add(new JScrollPane(tree), BorderLayout.CENTER);
 		
