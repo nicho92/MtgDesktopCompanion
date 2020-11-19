@@ -723,6 +723,29 @@ public class ConstructPanel extends MTGUIComponent {
 					}
 					
 					
+					JMenuItem itemMove = new JMenuItem(capitalize("MOVE_TO") + ((f==MAIN)? " Side":" Main"));
+					menu.add(itemMove);
+					
+					
+					itemMove.addActionListener(ae->{
+						
+						if(f==MAIN)
+						{
+							int qty = deck.getMain().get(mc);
+							deck.getSideBoard().put(mc, qty);
+							deck.getMain().remove(mc);
+						}
+						else
+						{
+							int qty = deck.getSideBoard().get(mc);
+							deck.getMain().put(mc, qty);
+							deck.getSideBoard().remove(mc);
+						}
+						
+						
+						model.fireTableDataChanged();
+						
+					});
 					
 					
 					JMenuItem item = new JMenuItem(capitalize("MORE_LIKE_THIS"));
