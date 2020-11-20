@@ -54,6 +54,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.MagicDeck.STACK;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
@@ -109,8 +110,6 @@ public class ConstructPanel extends MTGUIComponent {
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 	private JList<MagicCard> listResult;
 	private DrawProbabilityPanel cardDrawProbaPanel;
-	public static final int MAIN = 0;
-	public static final int SIDE = 1;
 	protected int selectedIndex = 0;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
@@ -309,8 +308,8 @@ public class ConstructPanel extends MTGUIComponent {
 			
 		
 		
-		initTables(tableDeck,MAIN,deckmodel);
-		initTables(tableSide,SIDE,deckSidemodel);
+		initTables(tableDeck,STACK.MAIN,deckmodel);
+		initTables(tableSide,STACK.SIDE,deckSidemodel);
 		deckDetailsPanel.setMagicDeck(deck);
 		
 //////////////////////////////////////////////////////////////////ACTIONS		
@@ -627,7 +626,7 @@ public class ConstructPanel extends MTGUIComponent {
 		});
 	}
 
-	private void initTables(JXTable table, int f, DeckCardsTableModel model) {
+	private void initTables(JXTable table, STACK f, DeckCardsTableModel model) {
 		table.setModel(model);
 		table.setRowSorter(new TableRowSorter<>(model));
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -669,7 +668,7 @@ public class ConstructPanel extends MTGUIComponent {
 					magicCardDetailPanel.setMagicCard(mc);
 					comboPanel.init(mc);
 					
-					if(f==MAIN)
+					if(f==STACK.MAIN)
 						cardDrawProbaPanel.init(deck, mc);
 					
 					
@@ -688,7 +687,7 @@ public class ConstructPanel extends MTGUIComponent {
 				
 				MagicCard mc = UITools.getTableSelection(table, 0);
 				
-				if(f==MAIN)
+				if(f==STACK.MAIN)
 					cardDrawProbaPanel.init(deck, mc);
 				
 				if(SwingUtilities.isRightMouseButton(ev))
@@ -723,13 +722,13 @@ public class ConstructPanel extends MTGUIComponent {
 					}
 					
 					
-					JMenuItem itemMove = new JMenuItem(capitalize("MOVE_TO") + ((f==MAIN)? " Side":" Main"));
+					JMenuItem itemMove = new JMenuItem(capitalize("MOVE_CARD_TO") + ((f==STACK.MAIN)? " Side":" Main"));
 					menu.add(itemMove);
 					
 					
 					itemMove.addActionListener(ae->{
 						
-						if(f==MAIN)
+						if(f==STACK.MAIN)
 						{
 							int qty = deck.getMain().get(mc);
 							deck.getSideBoard().put(mc, qty);
@@ -782,7 +781,7 @@ public class ConstructPanel extends MTGUIComponent {
 				//tableCards.convertRowIndexToModel(i)
 				int sel = table.getSelectedRow();
 				if (e.getKeyChar() == '+') {
-					if(f==MAIN)
+					if(f==STACK.MAIN)
 						deck.add(mc);
 					else
 						deck.addSide(mc);
@@ -791,7 +790,7 @@ public class ConstructPanel extends MTGUIComponent {
 				}
 				
 				if (e.getKeyChar() == '-') {
-					if(f==MAIN)
+					if(f==STACK.MAIN)
 						deck.remove(mc);
 					else
 						deck.removeSide(mc);

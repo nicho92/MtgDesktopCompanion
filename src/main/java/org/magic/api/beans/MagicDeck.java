@@ -29,6 +29,8 @@ public class MagicDeck implements Serializable {
 	private List<String> tags;
 	private MagicCard commander;
 
+	public enum STACK {MAIN, SIDE}
+	
 	public MagicDeck() 
 	{
 		mapDeck = new HashMap<>();
