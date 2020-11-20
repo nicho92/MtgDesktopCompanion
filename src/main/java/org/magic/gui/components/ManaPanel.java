@@ -68,7 +68,7 @@ public class ManaPanel extends JPanel {
 		fl.setHgap(0);
 		while (m.find()) {
 			JLabel lab = new JLabel();
-			Image img = getManaSymbol(m.group());
+			Image img = getManaSymbol(m.group(1));
 			lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
 			lab.setHorizontalAlignment(SwingConstants.CENTER);
 			add(lab);
@@ -123,7 +123,6 @@ public class ManaPanel extends JPanel {
 
 	public Image getManaSymbol(String el) {
 		rowWidth = 18;
-		el = el.replaceAll("\\{", "").replaceAll("\\}", "").trim();
 		int val = 0;
 		try {
 			val = Integer.parseInt(el);

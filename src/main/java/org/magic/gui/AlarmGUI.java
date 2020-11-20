@@ -173,9 +173,9 @@ public class AlarmGUI extends MTGUIComponent {
 		add(panel, BorderLayout.NORTH);
 		panel.add(btnDelete);
 		panel.add(btnImport);
+		panel.add(btnExport);
 		panel.add(btnRefresh);
 		panel.add(btnSuggestPrice);
-		panel.add(btnExport);
 		panel.add(lblLoading);
 		
 	}

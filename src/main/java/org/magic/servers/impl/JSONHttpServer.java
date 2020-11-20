@@ -208,11 +208,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/cards/name/:idEd/:cName", URLTools.HEADER_JSON, (request, response) -> {
-
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(
 					request.params(":cName"), ed, true);
 		}, transformer);
+		
+		get("/cards/number/:idEd/:cNumber", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cNumber"), request.params(ID_ED)), transformer);
 
 		put("/cards/move/:from/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCollection from = new MagicCollection(request.params(":from"));
@@ -230,24 +231,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		put("/cards/add/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCollection to = new MagicCollection(request.params(":to"));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
-			MTGControler.getInstance().saveCard(mc, to,null);
+			MTGControler.getInstance().saveCard(mc, new MagicCollection(request.params(":to")),null);
 			return RETURN_OK;
 		}, transformer);
 
 		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCollection col = new MagicCollection(request.params(":col"));
-			MagicEdition ed = new MagicEdition(request.params(ID_ED));
-			ed.setSet(request.params(ID_ED));
+			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
 		}, transformer);
 
 		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class)
 				.getCardById(request.params(":id")), transformer);
-
+		
 		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) -> {
-			MagicEdition ed = new MagicEdition(request.params(ID_SET));
+			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
 			List<MagicCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(ed);
 			Collections.sort(ret, new CardsEditionSorter());
 

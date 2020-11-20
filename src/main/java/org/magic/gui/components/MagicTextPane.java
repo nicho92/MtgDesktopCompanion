@@ -94,7 +94,7 @@ public class MagicTextPane extends JComponent {
 		try {
 			document.insertString(0, text, null);
 			while (m.find()) {
-				Image ic = manaPanel.getManaSymbol(m.group());
+				Image ic = manaPanel.getManaSymbol(m.group(1));
 
 				int width = 15;
 				if (m.group().equals("{100}"))
