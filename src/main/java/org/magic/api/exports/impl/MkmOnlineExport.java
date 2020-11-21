@@ -231,7 +231,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		if (!getBoolean(STOCK_USE)) {
 			MagicDeck d = new MagicDeck();
-			d.setName(f.getName());
+			d.setName("export");
 			for (MagicCardStock mcs : stock) {
 				d.getMain().put(mcs.getMagicCard(), mcs.getQte());
 			}
@@ -245,10 +245,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 			EnumMap<PRODUCT_ATTS, String> enumAtts = new EnumMap<>(PRODUCT_ATTS.class);
 			enumAtts.put(PRODUCT_ATTS.idGame, "1");
 			enumAtts.put(PRODUCT_ATTS.exact, "true");
-
+		
 			List<Article> list = new ArrayList<>();
 			for (MagicCardStock mcs : stock) 
 			{
+				
 				Product p = null;
 				try {
 					p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(),prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
@@ -281,24 +282,50 @@ public class MkmOnlineExport extends AbstractCardExport {
 						a.setIdProduct(p.getIdProduct());
 						list.add(a);
 					
-						try 
-						{
-							Inserted retour  = serv.addArticle(a);
-							if(!retour.isSuccess())
-							{
-								logger.error(retour.getError());
-							}
-							else
-							{
-								mcs.getTiersAppIds().put(getName(), retour.getIdArticle().getIdArticle());
-								mcs.setUpdate(true);
-							}
 						
-						}
-						catch(Exception e)
+						if(mcs.getTiersAppIds().get(getName())!=null)
 						{
-							logger.error(e);
+							try {
+								Integer id = ((Double)mcs.getTiersAppIds().get(getName())).intValue();
+								a.setIdArticle(id);
+								logger.debug("Item " + mcs + " is present for " + getName() +" with id="+id);
+								Inserted retour  = serv.updateArticles(a);
+								if(!retour.isSuccess())
+								{
+									logger.error(retour.getError());
+								}
+								
+								
+							}
+							catch(Exception e)
+							{
+								logger.error("Error updating " + mcs,e);
+							}
 						}
+						else
+						{
+							
+								try 
+								{
+									Inserted retour  = serv.addArticle(a);
+									if(!retour.isSuccess())
+									{
+										logger.error(retour.getError());
+									}
+									else
+									{
+										mcs.getTiersAppIds().put(getName(), retour.getIdArticle().getIdArticle());
+										mcs.setUpdate(true);
+									}
+								
+								}
+								catch(Exception e)
+								{
+									logger.error(e);
+								}
+
+						}
+						
 				}
 				
 				
