@@ -26,8 +26,8 @@ public class MagicPricePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public MagicPricePanel(MagicPrice price) {
+	
 		setBackground(SystemColor.inactiveCaptionBorder);
-
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 55, 108, 0 };
@@ -46,9 +46,7 @@ public class MagicPricePanel extends JPanel {
 		}
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
-		GridBagConstraints gbclblName = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0);
-		gbclblName.gridwidth = 2;
-		add(lblName, gbclblName);
+		add(lblName, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0,2,null));
 
 		JLabel lblPrice = new JLabel(capitalize("PRICE") + " :");
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
@@ -68,8 +66,7 @@ public class MagicPricePanel extends JPanel {
 		lblInfos.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
-		JLabel lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""
-				+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
+		JLabel lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
 		add(lblNewLabel, UITools.createGridBagConstraints(null, null, 1, 3));
 	}
 }
