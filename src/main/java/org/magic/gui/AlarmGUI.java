@@ -270,6 +270,10 @@ public class AlarmGUI extends MTGUIComponent {
 						@Override
 						protected void process(List<MagicCardAlert> chunks) {
 							lblLoading.progressSmooth(chunks.size());
+							
+							chunks.forEach(mca->mca.getOffers().forEach(resultListModel::addElement));
+							
+							
 						}
 
 						@Override
@@ -281,6 +285,8 @@ public class AlarmGUI extends MTGUIComponent {
 								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
 									try {
 										prices.addAll(p.getPrice(alert.getCard()));
+										alert.setOffers(prices);
+										
 									} catch (IOException e1) {
 										logger.error("error adding price for" + alert.getCard() + " with " + p,e1);
 									}
