@@ -870,9 +870,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						MagicCollection sourceCol = new MagicCollection(node.getPath()[1].toString());
 						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
 						
-						logger.trace(list.size() + " items in " + sourceCol +"/"+me);
+						logger.debug(list.size() + " items in " + sourceCol +"/"+me);
 						sets.removeAll(list);
-						logger.trace(sets.size() + " items to insert int " + col +"/"+me);
+						logger.debug(sets.size() + " items to insert int " + col +"/"+me);
 				
 				progressBar.start(sets.size());
 				
