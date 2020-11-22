@@ -29,12 +29,12 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 		try {
 			pane = new ManaPanel();
 			map = new EnumMap<>(MTGColor.class);
-			map.put(MTGColor.WHITE, new ImageIcon(pane.getManaSymbol(MTGColor.WHITE.toManaCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(MTGColor.BLUE, new ImageIcon(pane.getManaSymbol(MTGColor.BLUE.toManaCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(MTGColor.BLACK, new ImageIcon(pane.getManaSymbol(MTGColor.BLACK.toManaCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(MTGColor.RED, new ImageIcon(pane.getManaSymbol(MTGColor.RED.toManaCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(MTGColor.GREEN, new ImageIcon(pane.getManaSymbol(MTGColor.GREEN.toManaCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(MTGColor.UNCOLOR, new ImageIcon(pane.getManaSymbol("{X}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(MTGColor.WHITE, new ImageIcon(pane.getManaSymbol(MTGColor.WHITE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(MTGColor.BLUE, new ImageIcon(pane.getManaSymbol(MTGColor.BLUE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(MTGColor.BLACK, new ImageIcon(pane.getManaSymbol(MTGColor.BLACK.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(MTGColor.RED, new ImageIcon(pane.getManaSymbol(MTGColor.RED.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(MTGColor.GREEN, new ImageIcon(pane.getManaSymbol(MTGColor.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(MTGColor.UNCOLOR, new ImageIcon(pane.getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 		} catch (Exception e) {
 			// do nothing
 		}
