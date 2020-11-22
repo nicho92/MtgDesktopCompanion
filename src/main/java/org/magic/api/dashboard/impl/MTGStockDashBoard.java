@@ -196,14 +196,18 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		if(id==null)
 		{
+			logger.debug("id is null. Looking throught api");
 			SearchResult rs = cardService.getBestResult(mc.getName());
 			FullPrint fp = cardService.getCard(rs);
 			CardSet set = cardService.getSetByCode(ed.getId());
 			Print fpSet = fp.getPrintForSetId(set.getId());
 			
 			if(fpSet==null)
+			{
+				logger.warn("fpSet is null. so return");
 				return hp;
-			
+			}
+			logger.debug("mtgstock = "+ fpSet + " " + fpSet.getSetName() + " " + fpSet.getId());
 			id = fpSet.getId();
 		}
 		
