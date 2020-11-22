@@ -962,7 +962,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			menuItemRemoveFrom.add(rmvs);
 		}
 
-		JMenuItem menuItemOpen = new JMenuItem(capitalize("OPEN"));
+		JMenuItem menuItemOpen = new JMenuItem(capitalize("OPEN"),MTGConstants.ICON_OPEN);
 		menuItemOpen.addActionListener(e -> {
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
