@@ -48,7 +48,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
-		MagicDeck deck = new MagicDeck();
+		MagicDeck deck = info.toBaseDeck();
 		deck.setName(info.getName());
 		deck.setDescription("from " + info.getUrl());
 

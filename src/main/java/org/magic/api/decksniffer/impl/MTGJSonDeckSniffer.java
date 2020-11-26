@@ -37,8 +37,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 			sideBoard = el.getAsJsonObject().get("sideBoard").getAsJsonArray();
 		
 		
-		MagicDeck deck = new MagicDeck();
-				  deck.setName(info.getName());
+		MagicDeck deck = info.toBaseDeck();
 		
 		try {
 			deck.getTags().add(el.getAsJsonObject().get("type").getAsString());

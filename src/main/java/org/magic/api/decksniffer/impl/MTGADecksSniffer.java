@@ -44,9 +44,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		MagicDeck d = new MagicDeck();
-				  d.setName(info.getName());
-				  d.setDescription("from " + getName() +" : " + info.getUrl());
+		MagicDeck d = info.toBaseDeck();
 				  
 		Document doc = URLTools.extractHtml(info.getUrl().toURL());		  
 		

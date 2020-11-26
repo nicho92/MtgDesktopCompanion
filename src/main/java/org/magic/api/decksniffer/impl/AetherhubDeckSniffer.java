@@ -88,8 +88,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
 		
 		String data = URLTools.extractAsString(uri);
-		MagicDeck deck = new MagicDeck();
-		deck.setName(info.getName());
+		MagicDeck deck = info.toBaseDeck();
 		
 		boolean sideboard=false;
 		data = RegExUtils.replaceAll(data,"\\\\r\\\\n","\n");

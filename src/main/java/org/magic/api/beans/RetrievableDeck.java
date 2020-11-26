@@ -18,7 +18,8 @@ public class RetrievableDeck {
 	{
 		MagicDeck deck = new MagicDeck();
 		deck.setName(getName());
-		deck.setDescription(getUrl().toString());
+		deck.setDescription("Import from : " + getUrl());
+			
 		return deck;
 	}
 	

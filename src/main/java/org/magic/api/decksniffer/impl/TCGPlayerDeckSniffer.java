@@ -45,9 +45,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at " + info.getUrl());
-		MagicDeck deck = new MagicDeck();
-		deck.setName(info.getName());
-		deck.setDescription(info.getUrl().toString());
+		MagicDeck deck = info.toBaseDeck();
 		Document d = URLTools.toHtml(IncapsulaParser.readUrl(info.getUrl().toString()));
 		for (Element e : d.select("span.singleTag")) {
 			deck.getTags().add(e.text());

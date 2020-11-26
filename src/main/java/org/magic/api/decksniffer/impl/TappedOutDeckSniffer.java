@@ -98,7 +98,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		String responseBody = httpclient.doGet(info.getUrl().toString());
 		logger.debug("sniff deck : "+ httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
-		MagicDeck deck = new MagicDeck();
+		MagicDeck deck = info.toBaseDeck();
 		JsonElement root = URLTools.toJson(responseBody);
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());

@@ -48,9 +48,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 			init();
 
 		
-		MagicDeck d = new MagicDeck();
-				  d.setName(info.getName());
-				  d.setDescription(info.getDescription());
+		MagicDeck d = info.toBaseDeck();
 				  
 		
 			arena.readDecks().get("payload").getAsJsonArray().forEach(je->{

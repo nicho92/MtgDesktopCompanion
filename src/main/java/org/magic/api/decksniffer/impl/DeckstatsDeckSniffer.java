@@ -80,13 +80,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		//
 
-		MagicDeck deck = new MagicDeck();
+		MagicDeck deck = info.toBaseDeck();
 
 		logger.debug("get deck " + info.getUrl());
 		Document d = URLTools.extractHtml(info.getUrl().toString());
-
-		deck.setDescription(info.getUrl().toString());
-		deck.setName(info.getName());
 		
 		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());

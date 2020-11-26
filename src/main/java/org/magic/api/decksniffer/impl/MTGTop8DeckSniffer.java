@@ -64,9 +64,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		Document root = URLTools.extractHtml(info.getUrl().toString());
-		MagicDeck d = new MagicDeck();
-		d.setDescription(info.getUrl().toString());
-		d.setName(info.getName());
+		MagicDeck d = info.toBaseDeck();
 	
 		Elements doc = root.select("table.Stable").get(1).select("td table").select(MTGConstants.HTML_TAG_TD);
 

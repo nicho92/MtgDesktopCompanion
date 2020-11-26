@@ -42,9 +42,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		
 		logger.debug("sniff deck at " + info.getUrl());
 		
-		MagicDeck deck = new MagicDeck();
-				  deck.setName(info.getName());
-				  deck.setDescription("Import from : " + info.getUrl());
+		MagicDeck deck = info.toBaseDeck();
 				  
 				  	   JsonObject obj = RequestBuilder.build()
 									   .setClient(URLTools.newClient())

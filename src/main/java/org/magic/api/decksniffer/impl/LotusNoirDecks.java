@@ -33,14 +33,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		MagicDeck deck = info.toBaseDeck();
 
 		logger.debug("get deck at " + info.getUrl());
 
 		Document d = URLTools.extractHtml(info.getUrl().toString());
-
-		deck.setDescription(info.getUrl().toString());
-		deck.setName(info.getName());
 		Elements e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
 		boolean sideboard = false;
 		for (Element cont : e) {

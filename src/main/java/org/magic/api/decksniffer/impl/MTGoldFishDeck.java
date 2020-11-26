@@ -56,9 +56,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 		logger.debug("sniff url : " + info.getUrl());
 
-		MagicDeck deck = new MagicDeck();
-		deck.setName(info.getName());
-		deck.setDescription(info.getUrl().toString());
+		MagicDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractHtml(info.getUrl().toString());
 	
 		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
