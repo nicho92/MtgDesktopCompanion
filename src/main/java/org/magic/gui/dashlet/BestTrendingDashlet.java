@@ -53,6 +53,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private JCheckBox boxV;
 	private JCheckBox boxL;
 	private JCheckBox boxP;
+	private JCheckBox boxPioneer;
 	private JComboBox<PricesCardsShakeSorter.SORT> cboSorter;
 	
 
@@ -87,6 +88,8 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.LEGACY));
 					if (boxV.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.VINTAGE));
+					if(boxPioneer.isSelected())
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PIONEER));
 					if (boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PAUPER));
 				
@@ -102,6 +105,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					setProperty("LEG", String.valueOf(boxL.isSelected()));
 					setProperty("VIN", String.valueOf(boxV.isSelected()));
 					setProperty("PAU", String.valueOf(boxP.isSelected()));
+					setProperty("PIO",String.valueOf(boxPioneer.isSelected()));
 					setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
 					
 					
@@ -163,10 +167,14 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		boxV = new JCheckBox("V");
 		boxV.setAction(a);
 		boxV.setText("VIN");
-		boxP = new JCheckBox("V");
+		boxP = new JCheckBox();
 		boxP.setAction(a);
 		boxP.setText("PAU");
-
+		boxPioneer = new JCheckBox();
+		boxPioneer.setAction(a);
+		boxPioneer.setText("PIO");
+		
+		
 		spinner = new JSpinner();
 		spinner.addChangeListener(ce -> init());
 		cboSorter.addItemListener(ie -> {
@@ -182,6 +190,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(boxL);
 		panneauHaut.add(boxV);
 		panneauHaut.add(boxP);
+		panneauHaut.add(boxPioneer);
 		panneauHaut.add(cboSorter);
 		
 		modStandard = new CardShakerTableModel();
