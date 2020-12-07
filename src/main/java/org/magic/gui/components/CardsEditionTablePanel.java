@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
@@ -109,13 +110,29 @@ public class CardsEditionTablePanel extends JPanel {
 		
 		chkNeededCards.addActionListener(il->{
 			
+			
 			if(chkNeededCards.isSelected()) {
-				try {
-					List<MagicCard> currents = getEnabledPlugin(MTGDao.class).listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
-					model.removeItem(currents);
-				} catch (SQLException e) {
-					MTGControler.getInstance().notify(e);
-				}
+				AbstractObservableWorker<List<MagicCard>,MagicCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class)) {
+
+					@Override
+					protected List<MagicCard> doInBackground() throws Exception {
+						return plug.listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
+					}
+
+					@Override
+					protected void notifyEnd() {
+						try {
+							model.removeItem(get());
+						} catch (Exception e) {
+							logger.error(e);
+						}
+					}
+
+					
+					
+				};
+				
+				ThreadManager.getInstance().runInEdt(work, "filtering missing cards");
 			}
 			else
 			{
