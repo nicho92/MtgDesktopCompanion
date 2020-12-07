@@ -59,9 +59,9 @@
 		<dependency>
 			<groupId>mtgstock-api</groupId>
 			<artifactId>mtgstock-api</artifactId>
-			<version>0.1.5</version>
+			<version>0.1.6</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mtgstock-api-java-0.1.5.jar</systemPath>
+			<systemPath>${project.basedir}/lib/mtgstock-api-java-0.1.6.jar</systemPath>
 		</dependency>
 	
 		<dependency>
