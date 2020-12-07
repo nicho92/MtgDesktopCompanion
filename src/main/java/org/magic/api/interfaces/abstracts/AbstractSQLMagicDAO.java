@@ -454,6 +454,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					MagicCard mc = readCard(rs);
 					ret.add(mc);
+					notify(mc);
 				}
 			}
 		}

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
@@ -112,7 +111,7 @@ public class CardsEditionTablePanel extends JPanel {
 			
 			
 			if(chkNeededCards.isSelected()) {
-				AbstractObservableWorker<List<MagicCard>,MagicCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class)) {
+				AbstractObservableWorker<List<MagicCard>,MagicCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),model.getRowCount()) {
 
 					@Override
 					protected List<MagicCard> doInBackground() throws Exception {
