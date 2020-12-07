@@ -46,22 +46,35 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			public void run() {
 				
-				try {
-					CollectionEvaluator evaluator = new CollectionEvaluator(new MagicCollection(getString(COLLECTION)));
-					logger.debug("backuping files");
-					File dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
+					File dest; 
+					CollectionEvaluator evaluator;
+					try {
+						evaluator = new CollectionEvaluator(new MagicCollection(getString(COLLECTION)));
+						logger.debug("backuping files");
+						dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
+					} catch (IOException e1) {
+						logger.error(e1);
+						return;
+					}
+					
 					
 					for(File f : evaluator.getDirectory().listFiles(pathname->!pathname.isDirectory())){
-							FileUtils.moveFileToDirectory(f, dest, true);	
+						try {
+							FileUtils.moveFileToDirectory(f, dest, true);
+						} catch (IOException e) {
+							logger.error(e);
+						}	
 					}
 					
 					logger.debug("updating cache");
-					evaluator.initCache();
+					try {
+						evaluator.initCache();
+					} catch (IOException e) {
+						logger.error(e);
+					}
 					logger.info("cache update done");
 					
-				} catch (IOException e) {
-					logger.error(e);
-				}
+				
 			}
 		};
 
