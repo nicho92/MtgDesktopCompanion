@@ -38,7 +38,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
-import org.jdesktop.swingx.util.PaintUtils;
+import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCollection;
@@ -132,7 +132,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	public ConfigurationPanel() {
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
-		
+		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		
 /////////////CONFIG PANEL BOX		
 		
