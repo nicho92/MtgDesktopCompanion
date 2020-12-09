@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,13 +30,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCollection;
@@ -61,7 +64,7 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
 
-public class ConfigurationPanel extends JPanel {
+public class ConfigurationPanel extends JXTaskPaneContainer {
 
 	private static final String EXPORT = "EXPORT";
 	private static final String LANGAGE = "langage";
@@ -114,14 +117,13 @@ public class ConfigurationPanel extends JPanel {
 		}
 	}
 	
-	private JPanel createBoxPanel(String keyName,GridBagLayout layout)
+	private JPanel createBoxPanel(String keyName, Icon ic, GridBagLayout layout)
 	{
-		JPanel pane = new JPanel();
-		pane.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),
-				capitalize(keyName), TitledBorder.LEADING,
-				TitledBorder.TOP, null, new Color(64, 64, 64)));
+		JXTaskPane pane = new JXTaskPane();
+		pane.setTitle(capitalize(keyName));
+		pane.setIcon(ic);
+		pane.setCollapsed(true);
 		pane.setLayout(layout);
-		
 		return pane;
 	}
 	
@@ -131,14 +133,10 @@ public class ConfigurationPanel extends JPanel {
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		
+		
 /////////////CONFIG PANEL BOX		
 		
-		GridBagLayout mainPanelLayout = new GridBagLayout();
-					mainPanelLayout.columnWidths = new int[] { 300, 212, 0 };
-					mainPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-					mainPanelLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-					mainPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-					
+	
 		GridBagLayout daoPanelLayout = new GridBagLayout();
 					daoPanelLayout.columnWidths = new int[] { 172, 130, 0, 0 };
 					daoPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
@@ -180,27 +178,23 @@ public class ConfigurationPanel extends JPanel {
 					guiPanelLayout.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0, 0 };
 					guiPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
 					guiPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-					
-					
-		setLayout(mainPanelLayout);
-		
-
-		JPanel panelDAO = createBoxPanel("DATABASES",daoPanelLayout);
-		JPanel panelConfig = createBoxPanel("CONFIGURATION",configPanelLayout);
-		JPanel panelWebSite = createBoxPanel("WEBSITE",websitePanelLayout);
-		JPanel panelGameProfil = createBoxPanel("GAME",gameProfilPanelLayout);
-		JPanel panelModule = createBoxPanel("Modules",modulesPanelLayout);
-		JPanel panelCurrency = createBoxPanel("CURRENCY",currencyPanelLayout);
-		JPanel panelGUI = createBoxPanel("GUI",guiPanelLayout);
+	
+		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout);
+		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout);
+		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE,websitePanelLayout);
+		JPanel panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout);
+		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout);
+		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout);
+		JPanel panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout);
 		
 		
-		add(panelDAO, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0));
-		add(panelConfig, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 0));
-		add(panelWebSite, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 1));
-		add(panelGameProfil, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 2));
-		add(panelModule, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 1));
-		add(panelCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 3));
-		add(panelGUI, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 2));
+		add(panelDAO);
+		add(panelConfig);
+		add(panelWebSite);
+		add(panelGameProfil);
+		add(panelModule);
+		add(panelCurrency);
+		add(panelGUI);
 
 		
 		GridBagConstraints gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
