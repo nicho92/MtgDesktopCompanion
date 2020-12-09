@@ -118,7 +118,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			if (!metagames)
 				url = getString("URL") + "/deck/custom/" + getString(FORMAT) + "?page=" + nbPage + "#"+ getString(SUPPORT);
 			else
-				url = getString("URL") + "metagame/" + getString(FORMAT) + "/full#" + getString(SUPPORT);
+				url = getString("URL") + "metagame/" + getString(FORMAT) + "#" + getString(SUPPORT);
 
 			logger.debug("sniff url : " + url);
 
