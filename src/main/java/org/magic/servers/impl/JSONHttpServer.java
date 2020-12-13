@@ -424,7 +424,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			return imageInByte;
 		});
-
+		
+		
 		get("/decks/list", URLTools.HEADER_JSON, (request, response) -> {
 
 			JsonArray arr = new JsonArray();
