@@ -36,7 +36,6 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
 	public static MTGUIBrowserComponent createBrowser()
 	{
-		logger.debug("loading browser component");
 		if(MTGControler.getInstance().get("ui/chromedisabled").equals("true"))
 			return new JEditorPaneBrowser();
 		
@@ -45,7 +44,6 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 		}
 		catch(Exception e)
 		{
-			logger.error("error loading chromium. Loading default",e);
 			return new JEditorPaneBrowser();
 		}
 	}

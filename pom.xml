@@ -142,12 +142,12 @@
 		<dependency>
 			<groupId>com.atlassian.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
-			<version>0.15.2</version>
+			<version>0.16.1</version>
 		</dependency>
 		<dependency>
 			<groupId>io.milton</groupId>
 			<artifactId>milton-server-ce</artifactId>
-			<version>3.0.0.1</version>
+			<version>3.0.0.79</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -186,7 +186,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.32.3.2</version>
+			<version>3.34.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -420,7 +420,7 @@
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
-			<version>2.4.0</version>
+			<version>2.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -486,7 +486,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.14</version>
+			<version>1.4.15</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
