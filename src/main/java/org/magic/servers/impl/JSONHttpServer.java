@@ -469,6 +469,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
+		get("/events", URLTools.HEADER_JSON, (request, response) -> {
+			MTGControler.getInstance().getEventsManager().load();
+			return MTGControler.getInstance().getEventsManager().getEvents();
+		}, transformer);
+		
+		
+		get("/events/:id", URLTools.HEADER_JSON, (request, response) -> {
+			MTGControler.getInstance().getEventsManager().load();
+			return MTGControler.getInstance().getEventsManager().getEventById(Integer.parseInt(request.params(":id")));
+		}, transformer);
+		
+		
+		
+		
 		get("/",URLTools.HEADER_JSON,(request,response) -> RETURN_OK);
 
 	}

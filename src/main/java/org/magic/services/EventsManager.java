@@ -10,11 +10,9 @@ import java.util.TimerTask;
 import org.apache.commons.collections4.ListUtils;
 import org.magic.api.beans.MagicEvent;
 import org.magic.api.beans.Party;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.game.model.Player;
 import org.magic.tools.FileTools;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class EventsManager {
 	
@@ -32,18 +30,36 @@ public class EventsManager {
 	
 	public void saveEvents() throws IOException
 	{
-		FileTools.saveFile(MTGConstants.MTG_EVENTS_FILE, new Gson().toJson(events));
+		
+		int max = events.stream().mapToInt(MagicEvent::getId).max().getAsInt();
+		
+		for(MagicEvent e : events)
+		{
+			if(e.getId()==0)
+			{
+				e.setId(max+1);
+				max++;
+			}
+		}
+		
+		FileTools.saveFile(MTGConstants.MTG_EVENTS_FILE, new JsonExport().toJson(events));
 	}
 	
 	public void load() throws IOException
 	{
 		if(MTGConstants.MTG_EVENTS_FILE.exists())
-			events  = new Gson().fromJson(FileTools.readFile(MTGConstants.MTG_EVENTS_FILE), new TypeToken<List<MagicEvent>>() {}.getType());
+			events  = new JsonExport().fromJsonList(FileTools.readFile(MTGConstants.MTG_EVENTS_FILE), MagicEvent.class);
 	}
 	
 	public List<MagicEvent> getEvents() {
 		return events;
 	}
+	
+	public MagicEvent getEventById(int id)
+	{
+		return getEvents().stream().filter(e->e.getId()==id).findAny().orElse(null);
+	}
+	
 	
 	public void start(MagicEvent e)
 	{

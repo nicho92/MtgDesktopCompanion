@@ -41,6 +41,15 @@ public class FileTools {
 	private static final String CORRECT_REGEX = "[^a-zA-Z0-9\\._-]+";
 	private static Logger logger = MTGLogger.getLogger(FileTools.class);
 
+
+	public static void saveFile(File f, byte[] content) throws IOException {
+		 Files.touch(f);
+		 try (FileOutputStream fileOuputStream = new FileOutputStream(f)) 
+		 {
+	            fileOuputStream.write(content);
+		 } 
+	}
+
 	
 	public static void saveFile(File f,String data) throws IOException
 	{
@@ -298,14 +307,4 @@ public class FileTools {
 		
 	}
 	
-	public static void saveFile(File f, byte[] content) throws IOException {
-		
-		Files.touch(f);
-		
-		 try (FileOutputStream fileOuputStream = new FileOutputStream(f)) 
-		 {
-	            fileOuputStream.write(content);
-		 } 
-	}
-
 }

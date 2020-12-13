@@ -12,6 +12,8 @@ import org.magic.game.model.Player;
 public class MagicEvent implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	private int id;
+	
 	private Date startDate;
 	private Date endDate;
 	private String title;
@@ -32,6 +34,15 @@ public class MagicEvent implements Serializable{
 	public enum EVENT_FORMAT { CONSTRUCTED, DRAFT, SEALED}
 	public enum ROUNDS { SWISS, DIRECT_ELIMINATION }
 	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public List<Party> getParties() {
 		return parties;
 	}
