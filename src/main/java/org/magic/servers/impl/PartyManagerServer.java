@@ -25,7 +25,7 @@ public class PartyManagerServer extends AbstractWebServer {
 
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_GAME;
+		return MTGConstants.ICON_EVENTS;
 	}
 	
 

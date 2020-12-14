@@ -39,19 +39,6 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	
 	protected abstract String getWebLocation();
 	
-	protected AbstractWebServer() {
-		super();
-		server = new Server(getInt(SERVER_PORT));
-
-		webRootLocation = MTGConstants.class.getResource("/"+getWebLocation());
-		if (webRootLocation == null) {
-			throw new IllegalStateException("Unable to determine webroot URL location");
-		}
-
-		
-		initServlet();
-	}
-	
 	private void initServlet() {
 
 		ServletContextHandler ctx = new ServletContextHandler();
@@ -108,6 +95,17 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		try {
+			
+			server = new Server(getInt(SERVER_PORT));
+
+			webRootLocation = MTGConstants.class.getResource("/"+getWebLocation());
+			if (webRootLocation == null) {
+				throw new IllegalStateException("Unable to determine webroot URL location: " + webRootLocation);
+			}
+
+			
+			initServlet();
+			
 			server.start();
 			
 			if(getBoolean(JSON_SERVER_START))
