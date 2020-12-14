@@ -97,7 +97,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		try {
 			
 			server = new Server(getInt(SERVER_PORT));
-
+			
 			webRootLocation = MTGConstants.class.getResource("/"+getWebLocation());
 			if (webRootLocation == null) {
 				throw new IllegalStateException("Unable to determine webroot URL location: " + webRootLocation);
