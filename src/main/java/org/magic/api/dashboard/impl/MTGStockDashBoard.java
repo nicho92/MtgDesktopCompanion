@@ -140,7 +140,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		st.forEach(i->{
-			
 			CardShake cs = initFromPrint(i.getPrint());
 						cs.setDateUpdate(i.getDate());
 						cs.setPrice(i.getPricePresent());

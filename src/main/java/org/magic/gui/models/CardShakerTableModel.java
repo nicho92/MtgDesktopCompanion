@@ -44,6 +44,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 	public Object getValueAt(int row, int column) {
 		try {
 			CardShake mp = items.get(row);
+			
 			switch (column) {
 			case 0:
 				return mp;
