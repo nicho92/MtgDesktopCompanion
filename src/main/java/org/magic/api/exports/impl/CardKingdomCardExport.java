@@ -72,17 +72,6 @@ public class CardKingdomCardExport extends AbstractCardExport {
 		return "Card Kingdom";
 	}
 
-	public static void main(String[] args) throws IOException {
-		
-		MTGDeckManager man = new MTGDeckManager();
-		
-		MagicDeck d = man.getDeck("Sultai_Control");
-		
-		
-		new CardKingdomCardExport().exportDeck(d, null);
-
-	}
-
 	@Override
 	public boolean isPartner() {
 		return true;

@@ -452,7 +452,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				
 				for (MagicCardStock  s : list) {
 					s.setUpdate(true);
-					if (((Integer) spinner.getValue()).intValue() > 0)
+					if (((Integer) spinner.getValue()).intValue() > -1)
 						s.setQte((Integer) spinner.getValue());
 					if (!textPane.getText().equals(""))
 						s.setComment(textPane.getText());
@@ -642,7 +642,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		rightPanel.add(lblQte, gbclblQte);
 
 		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		spinner.setModel(new SpinnerNumberModel(-1, -1, null, 1));
 		GridBagConstraints gbcspinner = new GridBagConstraints();
 		gbcspinner.fill = GridBagConstraints.HORIZONTAL;
 		gbcspinner.insets = new Insets(0, 0, 5, 0);
