@@ -190,7 +190,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pool=new NoPool();
 			logger.error("error loading selected pool. Use default");
 		}
-	
+		logger.debug("Loading SQL connection to : " + getjdbcUrl());
 		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}

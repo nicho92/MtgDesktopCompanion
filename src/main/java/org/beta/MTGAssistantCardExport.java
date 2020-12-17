@@ -43,7 +43,7 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "((?=\\\")\\\".*?\\\"|.*?),(\\d+),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+),(\\d+),(.*?),(.*?),(true|false)?,(.*?)$";
+		return "((?=\")\".*?\\\"|.*?),(\\d+),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+),(\\d+),(.*?),(.*?),(true|false)?,(.*?)$";
 	}
 
 	@Override
