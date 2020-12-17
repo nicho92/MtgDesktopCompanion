@@ -61,7 +61,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String COLLECTOR_NUMBER = "collector_number";
 	private static final String ARTIST = "artist";
 	private static final String CARD_FACES = "card_faces";
-	private static final String BORDER = "border";
+	private static final String BORDER = "border_color";
 	private static final String NAME = "name";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
