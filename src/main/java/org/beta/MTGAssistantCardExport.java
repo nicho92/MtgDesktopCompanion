@@ -2,7 +2,10 @@ package org.beta;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 
@@ -24,7 +27,22 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
+	
+	@Override
+	public List<MagicCardStock> importStock(String content) throws IOException {
+		List<MagicCardStock> list = new ArrayList<>();
+		matches(content,true).forEach(m->{
+			
+			
+				System.out.println(m.group(1));
+			
+		});
+		
+		return list;
+	}
+	
 	@Override
 	public String getName() {
 		return "MTGAssistant";
@@ -37,8 +55,7 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[0];
 	}
 
 	@Override
@@ -51,8 +68,11 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 		return ",";
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws IOException {
+		File f = new File("d:/export.csv");
+		
+		new MTGAssistantCardExport().importStockFromFile(f);
+		
 
 	}
 
