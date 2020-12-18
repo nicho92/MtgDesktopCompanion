@@ -152,7 +152,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 		List<QueryAttribute> arr = new ArrayList<>();
 		
-		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,MANA_COST,TYPE))
+		for(String s :Lists.newArrayList(NAME,ARTIST,TEXT,FLAVOR_TEXT,FRAME_VERSION,MANA_COST,TYPE,FRAME_VERSION,WATERMARK))
 			arr.add(new QueryAttribute(s,String.class));
 		
 		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,MULTIVERSE_ID,NUMBER))

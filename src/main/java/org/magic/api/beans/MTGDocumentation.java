@@ -17,9 +17,9 @@ public class MTGDocumentation {
 		this.contentType=contentType;
 	}
 	
-	public MTGDocumentation(String string, FORMAT_NOTIFICATION fn) {
+	public MTGDocumentation(String uri, FORMAT_NOTIFICATION fn) {
 		try {
-			this.url=new URL(string);
+			this.url=new URL(uri);
 		} catch (MalformedURLException e) {
 			//do nothing
 		}

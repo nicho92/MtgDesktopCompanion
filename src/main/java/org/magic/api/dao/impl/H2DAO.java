@@ -2,6 +2,7 @@ package org.magic.api.dao.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,9 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
@@ -126,5 +129,11 @@ public class H2DAO extends AbstractSQLMagicDAO {
 		setProperty(PASS, "");
 		setProperty(MODE,"file");
 	}
+	
+	@Override
+	public MTGDocumentation getDocumentation() {
+		return new MTGDocumentation("https://h2database.com/html/tutorial.html#connecting_using_jdbc",FORMAT_NOTIFICATION.HTML);
+	}
+	
 	
 }
