@@ -34,6 +34,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private static final String GET_FOIL = "GET_FOIL";
 	private static final String AVERAGE_MARKET = "AVERAGE_MARKET";
+	private static final String INTEREST_TYPE = "INTEREST_TYPE";
 	private CardsService cardService;
 	private InterestsService interestService;
 	private PriceService pricesService;
@@ -139,7 +140,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		
-		st.forEach(i->{
+		st.stream().filter(inte->inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i->{
 			CardShake cs = initFromPrint(i.getPrint());
 						cs.setDateUpdate(i.getDate());
 						cs.setPrice(i.getPricePresent());
@@ -262,6 +263,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		setProperty("PASS", "changeme");
 		setProperty(AVERAGE_MARKET, "average"); // average // market
 		setProperty(GET_FOIL,"false");
+		setProperty(INTEREST_TYPE,"day");
 	}
 	
 

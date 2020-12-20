@@ -17,6 +17,19 @@
 		<name>Nicolas Pihen</name>
 		<url>https://github.com/nicho92/</url>
 	</organization>
+	<developers>
+		<developer>
+			<id>nicho</id>
+			<name>Nicolas Pihen</name>
+			<email>nicolas.pihen@gmail.com</email>
+		</developer>
+	</developers>
+	<licenses>
+	    <license>
+	      <name>Apache License, Version 2.0</name>
+	      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+	    </license>
+	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</connection>
 		<developerConnection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
@@ -55,20 +68,15 @@
 		    <version>1.4.200</version>
 		</dependency>
 		<dependency>
-			<groupId>mkm-api</groupId>
-			<artifactId>mkm-api</artifactId>
-			<version>0.11.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mkm-api-java-0.11.1.jar</systemPath>
+		  <groupId>com.github.nicho92</groupId>
+		  <artifactId>mtgstock-api-java</artifactId>
+		  <version>0.1.6</version>
 		</dependency>
 		<dependency>
-			<groupId>mtgstock-api</groupId>
-			<artifactId>mtgstock-api</artifactId>
-			<version>0.1.6</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mtgstock-api-java-0.1.6.jar</systemPath>
+		  <groupId>com.github.nicho92</groupId>
+		  <artifactId>mkm-api-java</artifactId>
+		  <version>0.11.1</version>
 		</dependency>
-	
 		<dependency>
 		    <groupId>org.javatuples</groupId>
 		    <artifactId>javatuples</artifactId>
