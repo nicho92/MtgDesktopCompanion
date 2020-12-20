@@ -40,7 +40,7 @@ public class ScripterJob implements Job {
 		}
 		else
 		{
-			logger.error("No scripter found for "+ name + "Available ext are : " + PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().map(MTGScript::getExtension).collect(Collectors.toList()));
+			logger.error("No scripter found for "+ name + ". Available ext are : " + PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().map(MTGScript::getExtension).collect(Collectors.toList()));
 		}
 		
 		
