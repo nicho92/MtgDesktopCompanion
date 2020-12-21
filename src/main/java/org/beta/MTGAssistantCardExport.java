@@ -60,16 +60,16 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "((?=\")\".*?\\\"|.*?),(\\d+),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+),(\\d+),(.*?),(.*?),(true|false)?,(.*?)$";
+		return "(.*?);(\\d+);(.*?);(.*?);(\\d+)?;(\\d+)?;(.*?);(.*?);(.*?);(\\d+);(.*?);(true|false);(.*?);";
 	}
 
 	@Override
 	protected String getSeparator() {
-		return ",";
+		return ";";
 	}
 
 	public static void main(String[] args) throws IOException {
-		File f = new File("d:/export.csv");
+		File f = new File("d:/export2.csv");
 		
 		new MTGAssistantCardExport().importStockFromFile(f);
 		
