@@ -465,6 +465,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		setProperty(ATTRIBUTES_KEYS,"");
 		setProperty(PIC_PROVIDER_NAME,"");
 		setProperty("BATCH_THRESHOLD","50");
+		setProperty("CARD_LANG_DESCRIPTION","en");
 	}
 	
 	
