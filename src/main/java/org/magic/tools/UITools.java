@@ -318,7 +318,7 @@ public class UITools {
 						}
 						else if (value instanceof QueryAttribute)
 						{
-							l.setIcon(MTGConstants.getIconFor((QueryAttribute)value));
+							l.setIcon(MTGConstants.getIconFor(((QueryAttribute)value).getType()));
 						}
 						else
 						{

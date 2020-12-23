@@ -272,20 +272,20 @@ public class MTGConstants {
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 	
-	public static ImageIcon getIconFor(QueryAttribute q) {
+	public static ImageIcon getIconFor(Class c) {
 		try {
 			
-			if(q.getType()==MagicCollection.class)
+			if(c==MagicCollection.class)
 			{
 				return ICON_BACK;
 			}
 			
-			if(q.getType()==MagicEdition.class)
+			if(c==MagicEdition.class)
 			{
 				return IconSetProvider.getInstance().get16("PMEI");
 			}
 			
-			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+q.getType().getSimpleName().toLowerCase()+".png"));
+			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+c.getSimpleName().toLowerCase()+".png"));
 		} catch (Exception e) {
 			return ICON_TAB_CARD;
 		}
