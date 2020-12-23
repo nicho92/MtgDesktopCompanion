@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,7 +66,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		JComboBox<QueryAttribute> cboAttributes = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs());
-			
+			cboAttributes.setPreferredSize(new Dimension(200,25));
 		
 		c=getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs()[0];
 		selector = getComponentFor(c); 
