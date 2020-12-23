@@ -58,6 +58,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumStock;
+import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -282,7 +283,6 @@ public class UITools {
 			logger.error(e);
 			return new JComboBox<>();
 		}
-
 	}
 	
 	public static <T> JComboBox<T> createCombobox(T[] items)
@@ -314,8 +314,17 @@ public class UITools {
 						if(value instanceof LookAndFeelInfo)
 						{
 							l=new JLabel(((LookAndFeelInfo)value).getName());
+							l.setIcon(i);
 						}
-						l.setIcon(i);
+						else if (value instanceof QueryAttribute)
+						{
+							l.setIcon(MTGConstants.getIconFor((QueryAttribute)value));
+						}
+						else
+						{
+							l.setIcon(i);	
+						}
+						
 					}
 					
 					l.setOpaque(true);
@@ -336,6 +345,8 @@ public class UITools {
 	
 	
 	
+	
+
 	public static JComboBox<MagicCollection> createComboboxCollection()
 	{
 		DefaultComboBoxModel<MagicCollection> model = new DefaultComboBoxModel<>();

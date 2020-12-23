@@ -12,12 +12,17 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.services.extra.IconSetProvider;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -266,6 +271,26 @@ public class MTGConstants {
 	public static final ImageIcon ICON_PACKAGE_SMALL = new ImageIcon(ICON_PACKAGE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
+	
+	public static ImageIcon getIconFor(QueryAttribute q) {
+		try {
+			
+			if(q.getType()==MagicCollection.class)
+			{
+				return ICON_BACK;
+			}
+			
+			if(q.getType()==MagicEdition.class)
+			{
+				return IconSetProvider.getInstance().get16("PMEI");
+			}
+			
+			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+q.getType().getSimpleName().toLowerCase()+".png"));
+		} catch (Exception e) {
+			return ICON_TAB_CARD;
+		}
+	}
+	
 
 	
 	public static final int SEALED_SIZE = 40;

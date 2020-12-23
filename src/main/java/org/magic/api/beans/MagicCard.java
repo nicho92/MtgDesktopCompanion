@@ -684,7 +684,7 @@ public class MagicCard implements Serializable {
 	}
 
 	public MagicCard toForeign(MagicCardNames fn)
-	{
+	{	
 		try {
 			MagicCard mc2 = new MagicCard();
 			MagicEdition ed = new MagicEdition();

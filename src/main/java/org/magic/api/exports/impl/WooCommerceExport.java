@@ -36,6 +36,7 @@ import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceExport extends AbstractCardExport {
 
+	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
 	private static final String PIC_PROVIDER_NAME = "PIC_PROVIDER_NAME";
 	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
@@ -411,11 +412,20 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 	
 	private String desc(MagicCard mc) {
+		MagicCard mc2 ;
+		if(!getString(CARD_LANG_DESCRIPTION).isEmpty())
+		{
+			mc2 = mc.toForeign(mc.getForeignNames().stream().filter(fn->fn.getLanguage().equalsIgnoreCase(getString(CARD_LANG_DESCRIPTION))).findFirst().orElse(null));
+		}
+		else
+		{
+			mc2=mc;
+		}
+		
 		StringBuilder build =new StringBuilder();
-		build.append("<html>").append(mc.getName()).append("<br/>").append(mc.getFullType()).append("<br/>").append(mc.getText())
-		
-		
+		build.append("<html>").append(mc2.getName()).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText())
 		.append("</html>");
+		
 		return build.toString();
 	}
 
@@ -465,7 +475,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		setProperty(ATTRIBUTES_KEYS,"");
 		setProperty(PIC_PROVIDER_NAME,"");
 		setProperty("BATCH_THRESHOLD","50");
-		setProperty("CARD_LANG_DESCRIPTION","en");
+		setProperty(CARD_LANG_DESCRIPTION,"English");
 	}
 	
 	
