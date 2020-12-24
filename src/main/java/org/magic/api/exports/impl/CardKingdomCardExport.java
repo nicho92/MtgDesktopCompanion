@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 

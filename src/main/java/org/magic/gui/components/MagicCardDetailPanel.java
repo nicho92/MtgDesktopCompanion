@@ -3,6 +3,7 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;

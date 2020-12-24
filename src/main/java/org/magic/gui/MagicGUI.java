@@ -120,6 +120,7 @@ public class MagicGUI extends JFrame {
 		mntmExit = new JMenuItem(capitalize("EXIT"),MTGConstants.ICON_EXIT);
 
 		JMenuItem mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
+		JMenuItem mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
 		JMenuItem mntmThreadItem = new JMenuItem(capitalize("THREADS"),MTGConstants.ICON_CONFIG);
 		JMenuItem mntmLogsItem = new JMenuItem(capitalize("LOGS"),MTGConstants.ICON_CONFIG);
 		JMenuItem mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
@@ -140,6 +141,7 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmThreadItem);
 		mnuAbout.add(mntmLogsItem);
 		mnuAbout.add(mntmHelp);
+		mnuAbout.add(mntmDonate);
 		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
 	
@@ -173,6 +175,9 @@ public class MagicGUI extends JFrame {
 
 		mntmHelp.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_WIKI_URL));
 
+		
+		mntmDonate.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATION_URL));
+		
 		mntmAboutMagicDesktop.addActionListener(ae -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
 
 		mntmReportBug.addActionListener(ae -> UITools.browse(MTGConstants.MTG_DESKTOP_ISSUES_URL));

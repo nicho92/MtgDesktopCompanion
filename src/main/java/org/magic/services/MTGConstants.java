@@ -12,14 +12,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.extra.IconSetProvider;
@@ -60,7 +58,9 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static final String MTG_SUPPORTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/supporters.json";
-
+	public static final String MTG_DESKTOP_DONATION_URL="https://www.paypal.me/nicolaspihen";
+	
+	
 	public static final String MTG_DESKTOP_WEBSITE = "https://nicho92.github.io/MtgDesktopCompanion/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
