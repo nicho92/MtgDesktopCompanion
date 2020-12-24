@@ -284,12 +284,12 @@ public class WooCommerceExport extends AbstractCardExport {
 			productInfo.put("id", st.getTiersAppIds().get(getName()));
 		
 		
-        productInfo.put("name", st.getMagicCard().getName());
+        productInfo.put("name", toForeign(st.getMagicCard()).getName());
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
         productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
         productInfo.put("description",desc(st.getMagicCard()));
-        productInfo.put("short_description", st.getMagicCard().getName()+"-"+st.getCondition());
+        productInfo.put("short_description", toForeign(st.getMagicCard()).getName()+"-"+st.getCondition());
         productInfo.put("enable_html_description", "true");
         productInfo.put("status", getString(DEFAULT_STATUT));
         
@@ -412,6 +412,15 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 	
 	private String desc(MagicCard mc) {
+		MagicCard mc2 = toForeign(mc);
+		StringBuilder build =new StringBuilder();
+		build.append("<html>").append(mc2).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText())
+		.append("</html>");
+		
+		return build.toString();
+	}
+
+	private MagicCard toForeign(MagicCard mc) {
 		MagicCard mc2 ;
 		if(!getString(CARD_LANG_DESCRIPTION).isEmpty())
 		{
@@ -422,11 +431,10 @@ public class WooCommerceExport extends AbstractCardExport {
 			mc2=mc;
 		}
 		
-		StringBuilder build =new StringBuilder();
-		build.append("<html>").append(mc2.getName()).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText())
-		.append("</html>");
+		if(mc2==null)
+			return mc;
 		
-		return build.toString();
+		return mc2;
 	}
 
 	private JsonArray toJson(String string, String value) {
@@ -466,7 +474,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	@Override
 	public void initDefault() {
-		setProperty("WEBSITE", "https://");
+		setProperty("WEBSITE", "https://mywebsite.com");
 		setProperty(CONSUMER_KEY, "");
 		setProperty(CONSUMER_SECRET, "");
 		setProperty(CATEGORY_ID, "");
