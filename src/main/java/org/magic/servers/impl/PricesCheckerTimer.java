@@ -57,7 +57,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 								for (MagicPrice p : list) {
 									if (p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")) )
 									{
-										//&& (alert.isFoil() && p.isFoil()) || (!alert.isFoil())
+										//TODO  && (alert.isFoil() && p.isFoil()) || (!alert.isFoil())
 										alert.getOffers().add(p);
 										okz.add(p);
 										logger.info("Found offer " + prov + ":" + alert.getCard() + " " + p.getValue()+ p.getCurrency() + " foil=" + p.isFoil());

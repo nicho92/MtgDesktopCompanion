@@ -36,8 +36,7 @@ import org.magic.services.workers.CollectionAnalyzerWorker;
 import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
-	public CollectionAnalyzerDashlet() {
-	}
+
 	
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.collections4.ListUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.magic.api.beans.MagicCard;
@@ -36,6 +38,8 @@ import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceExport extends AbstractCardExport {
 
+	private static final String UPDATE = "update";
+	private static final String CREATE = "create";
 	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
 	private static final String PIC_PROVIDER_NAME = "PIC_PROVIDER_NAME";
 	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
@@ -280,6 +284,9 @@ public class WooCommerceExport extends AbstractCardExport {
 		Map<String, Object> productInfo = new HashMap<>();
 		
 		
+		if(st.getMagicCard()==null)
+			return productInfo;
+		
 		if(st.getTiersAppIds().get(getName())!=null)
 			productInfo.put("id", st.getTiersAppIds().get(getName()));
 		
@@ -344,16 +351,16 @@ public class WooCommerceExport extends AbstractCardExport {
 			List<MagicCardStock> creates = stocks.stream().filter(st->st.getTiersAppIds().get(getName())==null).collect(Collectors.toList());
 			
 			
-			params.put("create", creates.stream().map(this::build).collect(Collectors.toList()));
-			params.put("update", stocks.stream().filter(st->st.getTiersAppIds().get(getName())!=null).map(this::build).collect(Collectors.toList()));
+			params.put(CREATE, creates.stream().map(this::build).collect(Collectors.toList()));
+			params.put(UPDATE, stocks.stream().filter(st->st.getTiersAppIds().get(getName())!=null).map(this::build).collect(Collectors.toList()));
 			
 			
 			Map<String,JsonElement> ret = wooCommerce.batch(EndpointBaseType.PRODUCTS.getValue(), params);
 			 
 			logger.debug(ret);
 		
-			if(ret.get("create")!=null) {
-				JsonArray arrRet = ret.get("create").getAsJsonArray();
+			if(ret.get(CREATE)!=null) {
+				JsonArray arrRet = ret.get(CREATE).getAsJsonArray();
 					
 				for(int i=0;i<arrRet.size();i++)
 				{
@@ -379,7 +386,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				}
 			}
 			
-			if(ret.get("update")!=null)
+			if(ret.get(UPDATE)!=null)
 			{
 				logger.debug("Update done");
 			}
@@ -420,8 +427,9 @@ public class WooCommerceExport extends AbstractCardExport {
 		return build.toString();
 	}
 
-	private MagicCard toForeign(MagicCard mc) {
+	private MagicCard toForeign(@Nonnull MagicCard mc) {
 		MagicCard mc2 ;
+		
 		if(!getString(CARD_LANG_DESCRIPTION).isEmpty())
 		{
 			mc2 = mc.toForeign(mc.getForeignNames().stream().filter(fn->fn.getLanguage().equalsIgnoreCase(getString(CARD_LANG_DESCRIPTION))).findFirst().orElse(null));
@@ -431,7 +439,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			mc2=mc;
 		}
 		
-		if(mc2==null)
+		if(mc2==null )
 			return mc;
 		
 		return mc2;

@@ -68,12 +68,4 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 		return ";";
 	}
 
-	public static void main(String[] args) throws IOException {
-		File f = new File("d:/export2.csv");
-		
-		new MTGAssistantCardExport().importStockFromFile(f);
-		
-
-	}
-
 }

@@ -25,14 +25,6 @@ import org.magic.services.MTGControler;
 
 public class ShoppingDashlet extends AbstractJDashlet {
 
-	private DefaultListModel<MagicCard> model;
-	
-	public ShoppingDashlet() {
-		
-
-		
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -45,7 +37,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		JPanel panel = new JPanel();
 		GroupedShoppingPanel groupedShoppingPanel = new GroupedShoppingPanel();
 		JButton btnPast = new JButton(MTGConstants.ICON_PASTE);
-		model = new DefaultListModel<>();
+		DefaultListModel<MagicCard> model = new DefaultListModel<>();
 		JList<MagicCard> list = new JList<>(model);
 		JPanel panneauHaut = new JPanel();
 		JButton btnClear = new JButton(MTGConstants.ICON_DELETE);
@@ -97,9 +89,10 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		return "Shopping";
 	}
 
+
 	@Override
 	public void init() {
-
+		// do nothing
 		
 	}
 
