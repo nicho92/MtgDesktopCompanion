@@ -33,6 +33,8 @@ import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -307,6 +309,12 @@ public class ImageTools {
 		   logger.error(ioe);
 		   return null;
 		}
+	}
+
+
+	public static Icon resize(Icon icon, int newH, int newW) {
+		Image ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);
+		return new ImageIcon(ic);
 	}
 
 	

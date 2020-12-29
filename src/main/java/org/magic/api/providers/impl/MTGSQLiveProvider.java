@@ -116,7 +116,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		temp.append("?");
 		
 		if(ed!=null && !ed.getId().isEmpty())
-			temp.append(" AND setCode ='").append(ed.getId()).append("'");
+			temp.append(" AND "+SETCODE+" ='").append(ed.getId()).append("'");
 		
 		if(att.equals("sql"))
 		{
@@ -475,7 +475,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initTranslations(MagicEdition ed)
 	{
 		
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM set_translations WHERE setCode=?")) 
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM set_translations WHERE "+SETCODE+"=?")) 
 		{
 			pst.setString(1, ed.getId());
 			try (ResultSet rs = pst.executeQuery())

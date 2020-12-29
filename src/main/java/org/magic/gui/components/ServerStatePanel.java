@@ -27,6 +27,7 @@ import org.magic.gui.models.LogTableModel;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 public class ServerStatePanel extends JPanel {
 
@@ -49,9 +50,6 @@ public class ServerStatePanel extends JPanel {
 		init(b,plugin);
 	}
 	
-	public ServerStatePanel() {
-		init(true,new JSONHttpServer());
-	}
 	
 	
 	public ServerStatePanel(MTGServer s) {
@@ -82,31 +80,16 @@ public class ServerStatePanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		JLabel lblName = new JLabel(server.getName(),server.getIcon(),SwingConstants.LEFT);
+		JLabel lblName = new JLabel(server.getName(),ImageTools.resize(server.getIcon(), 32, 32),SwingConstants.LEFT);
 		lblName.setToolTipText(server.description());
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
-		GridBagConstraints gbclblName = new GridBagConstraints();
-		gbclblName.anchor = GridBagConstraints.WEST;
-		gbclblName.insets = new Insets(0, 0, 0, 5);
-		gbclblName.gridx = 1;
-		gbclblName.gridy = 0;
-		add(lblName, gbclblName);
+		add(lblName, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 0));
 
 		lblalive = new JLabel(icons.get(server.isAlive()));
-		GridBagConstraints gbclblalive = new GridBagConstraints();
-		gbclblalive.anchor = GridBagConstraints.WEST;
-		gbclblalive.insets = new Insets(0, 0, 0, 5);
-		gbclblalive.gridx = 2;
-		gbclblalive.gridy = 0;
-		add(lblalive, gbclblalive);
+		add(lblalive, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 0));
 	
 		btnStartStop = new JButton((server.isAlive() ? "Stop" : "Start"));
-		GridBagConstraints gbcbtnStartStop = new GridBagConstraints();
-		gbcbtnStartStop.anchor = GridBagConstraints.WEST;
-		gbcbtnStartStop.insets = new Insets(0, 0, 0, 5);
-		gbcbtnStartStop.gridx = 3;
-		gbcbtnStartStop.gridy = 0;
-		add(btnStartStop, gbcbtnStartStop);
+		add(btnStartStop, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 0));
 		
 		if(b) 
 		{
@@ -121,11 +104,7 @@ public class ServerStatePanel extends JPanel {
 			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 3));
 			table.setTableHeader(null);
 
-			GridBagConstraints gbcscrollPane = new GridBagConstraints();
-			gbcscrollPane.fill = GridBagConstraints.BOTH;
-			gbcscrollPane.gridx = 4;
-			gbcscrollPane.gridy = 0;
-			add(new JScrollPane(table), gbcscrollPane);
+			add(new JScrollPane(table), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 4, 0));
 		}
 		
 		TimerTask tache = new TimerTask() {
