@@ -102,4 +102,5 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		return l;
 	}
 
+	
 }
