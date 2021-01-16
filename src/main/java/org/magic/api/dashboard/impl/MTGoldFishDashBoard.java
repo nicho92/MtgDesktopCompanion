@@ -183,10 +183,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				pfoil=":Foil";
 			
 			String extra="";
-			if(mc.isExtraCard())
-					extra="+Promos";
+			String extend="";
+			if(mc.isExtraCard() && !mc.isExtendedArt())
+				extra="+Promos";
+			else if(mc.isExtendedArt())
+				extend="-extended";
 			
-			url = getString(WEBSITE) + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName + "#" + getString(FORMAT);
+			
+			
+			url = getString(WEBSITE) + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
 		}
 
 		try {

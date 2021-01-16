@@ -62,6 +62,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 							if(cpv!=null)
 							{
 								CardShake cs = cpv.toCardShake();
+								
+								if(cs!=null) {
 								alert.setShake(cs);
 								
 								if(Math.abs(cs.getPercentDayChange())>=getInt(ALERT_MIN_PERCENT))
@@ -69,6 +71,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 							
 								if(getInt(THREAD_PAUSE)!=null)
 									Thread.sleep(getInt(THREAD_PAUSE));
+								
+								}
 							}
 						}
 						catch(IOException e1)
@@ -78,7 +82,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 						}
 						catch(Exception e)
 						{
-							logger.error(e);
+							logger.error("Error starting", e);
 							alert.setShake(new CardShake());
 							running=false;
 						}
