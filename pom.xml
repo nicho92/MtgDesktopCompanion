@@ -155,7 +155,7 @@
 		<dependency>
 			<groupId>com.atlassian.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
-			<version>0.16.1</version>
+			<version>0.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.milton</groupId>
@@ -234,7 +234,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_224</version>
+			<version>4.2.0_227</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -407,7 +407,7 @@
 		<dependency>
 		    <groupId>com.itextpdf</groupId>
 		    <artifactId>itext7-core</artifactId>
-		    <version>7.1.13</version>
+		    <version>7.1.14</version>
 		    <type>pom</type>
 		</dependency>
 		<dependency>
@@ -428,7 +428,7 @@
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.5.1</version>
+			<version>1.5.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
@@ -448,7 +448,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.22</version>
+			<version>8.0.23</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
