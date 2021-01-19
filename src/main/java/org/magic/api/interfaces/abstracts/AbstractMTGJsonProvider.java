@@ -91,7 +91,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 	
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
-	public static final String URL_DECKS_URI = "https://mtgjson.com/json/decks/";
+	public static final String URL_DECKS_URI = "https://mtgjson.com/api/v5/decks/";
 	public static final String MTG_JSON_VERSION = "https://mtgjson.com/api/v5/Meta.json";
 	public static final String MTG_JSON_DECKS_LIST = "https://mtgjson.com/api/v5/DeckList.json";
 	public static final String MTG_JSON_KEYWORDS="https://mtgjson.com/api/v5/Keywords.json";

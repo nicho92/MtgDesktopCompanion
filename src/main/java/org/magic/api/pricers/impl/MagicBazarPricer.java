@@ -15,7 +15,7 @@ import org.magic.tools.URLTools;
 
 public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
-	private static final String BASE_URL="https://en.magicbazar.fr/";
+	private static final String BASE_URL="https://en.play-in.com/";
 	
 	@Override
 	public STATUT getStatut() {
