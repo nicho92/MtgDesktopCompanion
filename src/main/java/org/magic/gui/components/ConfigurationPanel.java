@@ -117,12 +117,12 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 	}
 	
-	private JPanel createBoxPanel(String keyName, Icon ic, GridBagLayout layout)
+	private JPanel createBoxPanel(String keyName, Icon ic, GridBagLayout layout,boolean collapsed)
 	{
 		JXTaskPane pane = new JXTaskPane();
 		pane.setTitle(capitalize(keyName));
 		pane.setIcon(ic);
-		pane.setCollapsed(true);
+		pane.setCollapsed(collapsed);
 		pane.setLayout(layout);
 		return pane;
 	}
@@ -179,23 +179,22 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 					guiPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
 					guiPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	
-		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout);
-		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout);
-		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE,websitePanelLayout);
-		JPanel panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout);
-		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout);
-		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout);
-		JPanel panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout);
+		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
+		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
+		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE,websitePanelLayout,true);
+		JPanel panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout,true);
+		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
+		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
+		JPanel panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout,true);
 		
-		
-		add(panelDAO);
 		add(panelConfig);
+		add(panelGUI);
+		add(panelModule);
+		add(panelDAO);
 		add(panelWebSite);
 		add(panelGameProfil);
-		add(panelModule);
 		add(panelCurrency);
-		add(panelGUI);
-
+		
 		
 		GridBagConstraints gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
 		gbclblLoading.gridwidth = 2;
