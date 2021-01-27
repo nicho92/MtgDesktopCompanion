@@ -99,14 +99,12 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	public void init(MagicCard card, MagicEdition me, String title) {
 		this.mc = card;
 		this.me = me;
-		
+		this.title=title;
 		if(card==null && me==null)
 			return;
 		
 		if(me==null)
 			me=card.getCurrentSet();
-		
-		this.title = title;
 		
 		if(isVisible()) 
 		{
@@ -154,7 +152,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 				dataset.addSeries(series2);
 			}
 			
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", dataset, true, true,false);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "Date", "Value", dataset, true, true,false);
 		
 		
 		if(series1==null)
