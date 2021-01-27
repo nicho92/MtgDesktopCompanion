@@ -29,6 +29,10 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private transient Map<String,Object> tiersAppIds;
 	
 	
+	public Object getTiersAppIds(String name) {
+		return tiersAppIds.get(name);
+	}
+	
 	
 	public Map<String, Object> getTiersAppIds() {
 		return tiersAppIds;

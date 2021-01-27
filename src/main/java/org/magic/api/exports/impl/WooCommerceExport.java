@@ -247,7 +247,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			
 	        Map<String,JsonElement> ret;
 	        
-				if(st.getTiersAppIds().get(getName())!=null)
+				if(st.getTiersAppIds(getName())!=null)
 				{
 					logger.debug(st.getMagicCard() + "is already present in "+getName() + ". Update it");
 					ret = wooCommerce.update(EndpointBaseType.PRODUCTS.getValue(),(int)Double.parseDouble(st.getTiersAppIds().get(getName()).toString()),productInfo);
