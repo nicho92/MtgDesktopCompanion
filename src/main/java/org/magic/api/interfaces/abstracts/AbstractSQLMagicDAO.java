@@ -329,8 +329,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 	}
 	
-	
-
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc + " in " + collection);

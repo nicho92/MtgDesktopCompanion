@@ -181,7 +181,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());
 								} catch (SQLException e) {
-									logger.error(e);
+									logger.error("Error SQL",e);
 								}
 							});
 							
