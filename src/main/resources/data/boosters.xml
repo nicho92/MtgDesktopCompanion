@@ -1033,12 +1033,14 @@
 		<banner lang='en' url="http://mtgen.net/cn2/images/logo-word.png"/>
 	</edition>
 	<edition id='KLD'>
-		
 			<booster lang='en' num='1' url="https://www.magicbazar.fr/img/product/booster_kaladesh_fr.png"/>
 			<booster lang='en' num='2' url="https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/79723d6e20bd411a9dc439fb33b54ef1_Large.png"/>
-		
 		<banner lang='en' url="http://mtgen.net/kld/images/logo-word.png"/>
 	</edition>
+	<edition id='MPS'>
+		<banner lang="en" url="https://media.mtgsalvation.com/avatars/thumbnails/127/762/320/160/636113652784385152.png"/>
+	</edition>
+	
 	<edition id='C16'>
 		
 			<booster lang='en' num='1' url="http://www.manaleak.com/mtguk/files/2016/10/Commander-2016-Full-Decklists.jpg"/>
@@ -1173,9 +1175,7 @@
 		<banner lang='en' url="https://media.wizards.com/2018/images/magic/Soon/event/GS1/EN_zxZaQpA.png"/>
 	</edition>
 	
-	<edition id='KLD'>
-		<banner lang="en" url="https://media.mtgsalvation.com/avatars/thumbnails/127/762/320/160/636113652784385152.png"/>
-	</edition>
+	
 	
 	<edition id='EXP'>
 		<banner lang="en" url="https://media-dominaria.cursecdn.com/attachments/160/24/636156121663447959.png"/>

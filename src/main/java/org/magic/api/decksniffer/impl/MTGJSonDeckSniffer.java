@@ -30,7 +30,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		JsonObject el = URLTools.extractJson(info.getUrl().toString()).getAsJsonObject();
-		JsonArray mainBoard = el.getAsJsonObject().get("mainBoard").getAsJsonArray();
+		JsonArray mainBoard = el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray();
 		JsonArray sideBoard=null;
 		
 		if(el.getAsJsonObject().get("sideBoard")!=null)
