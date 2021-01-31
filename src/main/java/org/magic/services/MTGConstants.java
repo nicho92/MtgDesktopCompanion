@@ -61,7 +61,7 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_DONATION_URL="https://www.paypal.me/nicolaspihen";
 	
 	
-	public static final String MTG_DESKTOP_WEBSITE = "https://nicho92.github.io/MtgDesktopCompanion/";
+	public static final String MTG_DESKTOP_WEBSITE = "https://www.mtgcompanion.org/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190503.txt";
