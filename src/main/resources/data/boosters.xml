@@ -1042,10 +1042,8 @@
 	</edition>
 	
 	<edition id='C16'>
-		
 			<booster lang='en' num='1' url="http://www.manaleak.com/mtguk/files/2016/10/Commander-2016-Full-Decklists.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/c16/images/logo-word.png"/>
+			<banner lang='en' url="http://mtgen.net/c16/images/logo-word.png"/>
 	</edition>
 	<edition id='AER'>
 		

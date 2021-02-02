@@ -203,7 +203,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		int max = getInt(MAX_WANTLIST_SIZE);
 		if (wants.size() <= max) {
 			Wantslist l = wlService.createWantList(deck.getName());
-			logger.debug("Create " + l + " list with " + wants.size() + " items");
+			logger.debug("Create " + l + " list with " + wants.size() + " items id="+l.getIdWantsList());
 			wlService.addItem(l, wants);
 		} else {
 
