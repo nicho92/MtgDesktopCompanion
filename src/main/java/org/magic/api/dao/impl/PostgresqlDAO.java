@@ -37,7 +37,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 
 	
 	@Override
-	protected String createListStockSQL(MagicCard mc) {
+	protected String createListStockSQL() {
 		return "SELECT * FROM  stocks WHERE mcard->>'name' = ? and collection = ?";
 	}
 	

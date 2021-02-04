@@ -54,7 +54,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected abstract void storeGrade(PreparedStatement pst, int position,Grading grd) throws SQLException;
 	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
 	protected abstract Grading readGrading(ResultSet rs) throws SQLException;
-	protected abstract String createListStockSQL(MagicCard mc);
+	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
 	protected abstract Map<String, Object> readTiersApps(ResultSet rs) throws SQLException;
 	protected abstract void storeTiersApps(PreparedStatement pst, int i, Map<String, Object> tiersAppIds) throws SQLException;
@@ -63,6 +63,12 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected static final int CARD_ID_SIZE=50;
 
 	protected boolean enablePooling()
+	{
+		return true;
+	}
+
+	
+	protected boolean isJsonCompatible()
 	{
 		return true;
 	}
@@ -507,7 +513,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM collections where name = ?")) {
 			pst.setString(1, col.getName());
 			pst.executeUpdate();
-
 		}
 
 		try (Connection c = pool.getConnection(); PreparedStatement pst2 = c.prepareStatement("DELETE FROM cards where collection = ?")) {
@@ -586,7 +591,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		
-		String sql = createListStockSQL(mc);
+		String sql = createListStockSQL();
 		
 		if(editionStrict)
 			sql ="SELECT * FROM stocks where collection=? and idmc=?";

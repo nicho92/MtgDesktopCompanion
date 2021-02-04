@@ -121,7 +121,7 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 
 
 	@Override
-	public String createListStockSQL(MagicCard mc) {
+	public String createListStockSQL() {
 		return "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
 	}
 

@@ -79,6 +79,11 @@ public class H2DAO extends AbstractSQLMagicDAO {
 	}
 	
 
+	protected boolean isJsonCompatible()
+	{
+		return false;
+	}
+	
 	
 	@Override
 	protected String getdbSizeQuery() {
@@ -116,8 +121,8 @@ public class H2DAO extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	public String createListStockSQL(MagicCard mc) {
-		return "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replace("'", "\\\\'")+"\"%'";
+	public String createListStockSQL() {
+		return "select * from stocks where collection=? and mcard like ?";
 	}
 
 	@Override

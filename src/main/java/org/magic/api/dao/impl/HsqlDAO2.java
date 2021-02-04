@@ -77,6 +77,11 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		return null;
 	}
 	
+	
+	protected boolean isJsonCompatible()
+	{
+		return false;
+	}
 
 	@Override
 	public String getDBLocation() {
@@ -108,8 +113,8 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	public String createListStockSQL(MagicCard mc) {
-		return "select * from stocks where collection=? and mcard like '{\"name\":\""+mc.getName().replace("'", "\\\\'")+"\"%'";
+	public String createListStockSQL() {
+		return "select * from stocks where collection=? and mcard like ?";
 	}
 
 	@Override
