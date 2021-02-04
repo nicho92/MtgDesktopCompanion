@@ -604,6 +604,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			
 			if(editionStrict)
 				pst.setString(2, IDGenerator.generate(mc));
+			else if (!isJsonCompatible())
+				pst.setString(2, "%"+mc.getName()+"%");
 			else
 				pst.setString(2, mc.getName());
 			
