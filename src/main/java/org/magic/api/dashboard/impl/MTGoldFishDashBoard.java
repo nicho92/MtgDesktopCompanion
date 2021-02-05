@@ -184,10 +184,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			String extra="";
 			String extend="";
-			if(mc.isExtraCard() && !mc.isExtendedArt())
+			if(mc.isExtraCard() && !mc.isExtendedArt() && !mc.isShowCase())
 				extra="+Promos";
 			else if(mc.isExtendedArt())
 				extend="-extended";
+			else if(mc.isShowCase())
+				extend="-showcase";
 			
 			
 			
