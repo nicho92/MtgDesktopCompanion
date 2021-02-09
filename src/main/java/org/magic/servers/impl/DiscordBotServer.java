@@ -30,10 +30,12 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.sorters.MagicPricesComparator;
+import org.magic.tools.MTG;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -199,9 +201,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		eb.setDescription(temp.toString());
 	
 		if(getString(THUMBNAIL_IMAGE).equalsIgnoreCase("THUMBNAIL"))
-			eb.setThumbnail("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
+			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		else
-			eb.setImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
+			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		
 		if(getBoolean(SHOWPRICE))
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
