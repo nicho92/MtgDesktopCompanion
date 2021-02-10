@@ -48,6 +48,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -69,6 +70,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 import com.google.common.collect.Lists;
@@ -660,8 +662,8 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		DefaultComboBoxModel<String> lModel = new DefaultComboBoxModel<>();
 		lModel.addElement(null);
-		for (Locale l : Locale.getAvailableLocales())
-			lModel.addElement(l.getDisplayLanguage(Locale.US));
+		for (String l : MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages())
+			lModel.addElement(l);
 
 		cboLanguages = new JComboBox<>(lModel);
 		GridBagConstraints gbccboLanguages = new GridBagConstraints();
