@@ -218,11 +218,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			notify(st.getMagicCard());
 			
 		}
-		
-		
-		
 		return stocks;
-		
 	}
 	
 	

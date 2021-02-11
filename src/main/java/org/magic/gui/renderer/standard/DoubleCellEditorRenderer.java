@@ -63,7 +63,14 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		
 		format.setMaximumFractionDigits(2);
 		format.setMaximumFractionDigits(2);
-		double val = (double) value;
+		Double val ;
+		
+		
+		if(value instanceof Long)
+			val = ((Long)value).doubleValue();
+		else
+			val = (Double)value;
+		
 
 		JLabel l= new JLabel(format.format(val),SwingConstants.RIGHT);
 		l.setOpaque(true);
