@@ -70,12 +70,12 @@ Get realtime prices on seller websites :
 
 Deck Manager :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager2.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/4.png)
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/import_deck.png](https://www.mtgcompanion.org/img/portfolio/fullsize/import_deck.png)
 
 
 Collection Manager :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/collectionManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/collectionManager.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/collectionManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/6.png)
 
 Manage your dashboard with your interested "dashlet"
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/dashboard.png](https://www.mtgcompanion.org/img/portfolio/fullsize/dashboard.png)
@@ -91,7 +91,7 @@ import or export your card list / deck :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/webcam.png](https://www.mtgcompanion.org/img/portfolio/fullsize/webcam.png)
 
 Be alerted for your wanted cards :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/alerts.png](https://www.mtgcompanion.org/img/portfolio/fullsize/alerts.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/alerts.png](https://www.mtgcompanion.org/img/portfolio/fullsize/5.png)
 
 Manage your stock :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/stockManagement.png](https://www.mtgcompanion.org/img/portfolio/fullsize/stockManagement.png)
@@ -104,7 +104,7 @@ Try your deck in game simulator :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/tryDeck.png](https://www.mtgcompanion.org/img/portfolio/fullsize/tryDeck.png)
 
 Create deck in sealed format :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/sealed.png](https://www.mtgcompanion.org/img/portfolio/fullsize/sealed.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/sealed.png](https://www.mtgcompanion.org/img/portfolio/fullsize/3.png)
 
 get your companion in discord's channels :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/discord.png](https://www.mtgcompanion.org/img/portfolio/fullsize/discord.png)
