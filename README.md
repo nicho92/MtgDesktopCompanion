@@ -1,4 +1,4 @@
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/logo_src.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/logo_src.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/icons/logo_src.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/icons/logo_src.png)
 
 # Magic The Gathering Companion
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
