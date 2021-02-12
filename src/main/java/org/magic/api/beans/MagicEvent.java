@@ -34,6 +34,18 @@ public class MagicEvent implements Serializable{
 	public enum EVENT_FORMAT { CONSTRUCTED, DRAFT, SEALED}
 	public enum ROUNDS { SWISS, DIRECT_ELIMINATION }
 	
+	private boolean started=false;
+	
+	
+	
+	public boolean isStarted() {
+		return started;
+	}
+	
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+	
 
 	public int getId() {
 		return id;

@@ -129,6 +129,8 @@ public class EventManagerGUI extends MTGUIComponent{
 		startTournament.addActionListener(al->{
 			
 			MagicEvent ev = UITools.getTableSelection(tableEvents, 0);
+			ev.setStarted(true);
+			
 			
 			if(ev!=null)
 				MTGControler.getInstance().getEventsManager().start(ev);
@@ -138,14 +140,4 @@ public class EventManagerGUI extends MTGUIComponent{
 		
 	}
 	
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		EventManagerGUI ev = new EventManagerGUI();
-		f.getContentPane().add(ev);
-		f.pack();
-		f.setIconImage(ev.getIcon().getImage());
-		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		f.setVisible(true);
-	}
-
 }
