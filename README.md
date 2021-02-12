@@ -58,7 +58,8 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 # Portfolio
 
 Main interface :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/1.png]
+
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png)
 
 
