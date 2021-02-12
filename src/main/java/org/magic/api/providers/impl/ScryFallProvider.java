@@ -245,7 +245,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return arr;
 	}
 	
-
+	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
 		MTGQueryBuilder<String> b= new ScryfallCriteriaBuilder();
 		

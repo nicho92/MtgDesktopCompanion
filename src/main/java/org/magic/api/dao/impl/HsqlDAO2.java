@@ -77,7 +77,7 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		return null;
 	}
 	
-	
+	@Override
 	protected boolean isJsonCompatible()
 	{
 		return false;

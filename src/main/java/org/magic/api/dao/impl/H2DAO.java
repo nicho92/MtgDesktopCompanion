@@ -78,7 +78,7 @@ public class H2DAO extends AbstractSQLMagicDAO {
 		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
 	}
 	
-
+	@Override
 	protected boolean isJsonCompatible()
 	{
 		return false;

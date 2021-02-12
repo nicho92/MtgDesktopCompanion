@@ -41,8 +41,8 @@ public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 		return chart;
 	}
 
-	private PieDataset getDataSet() {
-		DefaultPieDataset dataset = new DefaultPieDataset();
+	private PieDataset<String> getDataSet() {
+		DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
 		for (Entry<MTGRarity, Integer> data : manager.analyseRarities(items).entrySet()) {
 			dataset.setValue(data.getKey().toPrettyString(), data.getValue());
 		}

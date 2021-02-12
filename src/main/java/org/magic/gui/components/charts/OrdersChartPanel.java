@@ -68,8 +68,8 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 	}
 
 
-	private PieDataset getPieDataSet() {
-		DefaultPieDataset dataset = new DefaultPieDataset();
+	private PieDataset<String> getPieDataSet() {
+		DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
 		for (Entry<Object, Double> data : groupOrdersBy().entrySet()) {
 			dataset.setValue(String.valueOf(data.getKey()), data.getValue());
 		}

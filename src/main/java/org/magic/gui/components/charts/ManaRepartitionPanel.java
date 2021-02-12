@@ -52,8 +52,8 @@ public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 		return chart;
 	}
 
-	private PieDataset getDataSet() {
-		DefaultPieDataset dataset = new DefaultPieDataset();
+	private PieDataset<MTGColor> getDataSet() {
+		DefaultPieDataset<MTGColor> dataset = new DefaultPieDataset<>();
 		for (Entry<MTGColor, Integer> data : manager.analyseColors(items).entrySet()) {
 			dataset.setValue(data.getKey(), data.getValue());
 
