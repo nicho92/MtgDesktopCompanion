@@ -50,7 +50,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
@@ -81,7 +80,6 @@ import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
@@ -111,7 +109,6 @@ public class ConstructPanel extends MTGUIComponent {
 	private JList<MagicCard> listResult;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 	protected int selectedIndex = 0;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;

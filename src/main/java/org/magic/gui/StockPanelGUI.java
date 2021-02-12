@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -48,8 +47,8 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

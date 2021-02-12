@@ -8,12 +8,10 @@ import java.util.List;
 import javax.swing.JPopupMenu;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
 import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 {
@@ -26,7 +24,6 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 	Dimension d;
 
 	protected JPopupMenu menu = new JPopupMenu();
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	boolean dragging = true;
 	protected Player player;

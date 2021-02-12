@@ -22,7 +22,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -35,7 +34,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 public class DeckStockComparatorPanel extends MTGUIComponent {
@@ -45,7 +43,6 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicCollection> cboCollections;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicDeck currentDeck;
 	private DeckStockComparisonModel model;
 	private JButton btnCompare;

@@ -6,11 +6,9 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEvent;
