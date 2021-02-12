@@ -61,70 +61,68 @@ Main interface :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/1.png)
 
 
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/magicThumbnail.png](https://www.mtgcompanion.org/img/portfolio/fullsize/magicThumbnail.png)
 
 
 Get realtime prices on seller websites :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardsprices.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardsprices.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/cardsprices.png](https://www.mtgcompanion.org/img/portfolio/fullsize/cardsprices.png)
 
 
 Deck Manager :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager.png)
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager2.png)
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_deck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_deck.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager2.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/import_deck.png](https://www.mtgcompanion.org/img/portfolio/fullsize/import_deck.png)
 
 
 Collection Manager :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/collectionManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/collectionManager.png)
 
 Manage your dashboard with your interested "dashlet"
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/dashboard.png](https://www.mtgcompanion.org/img/portfolio/fullsize/dashboard.png)
 
 Check for price variation :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/priceVariation.png](https://www.mtgcompanion.org/img/portfolio/fullsize/priceVariation.png)
 
 Use "MoreLikeThis" Functionnality :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/morelikethis.png](https://www.mtgcompanion.org/img/portfolio/fullsize/morelikethis.png)
 
 import or export your card list / deck :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png)
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/webcam.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/webcam.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/import_export.png](https://www.mtgcompanion.org/img/portfolio/fullsize/import_export.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/webcam.png](https://www.mtgcompanion.org/img/portfolio/fullsize/webcam.png)
 
 Be alerted for your wanted cards :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/alerts.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/alerts.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/alerts.png](https://www.mtgcompanion.org/img/portfolio/fullsize/alerts.png)
 
 Manage your stock :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png)
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/stockManagement.png](https://www.mtgcompanion.org/img/portfolio/fullsize/stockManagement.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/stock.png](https://www.mtgcompanion.org/img/portfolio/fullsize/stock.png)
 
 Store your financial movement and check your benefits :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/financial.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/financial.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/financial.png](https://www.mtgcompanion.org/img/portfolio/fullsize/financial.png)
 
 Try your deck in game simulator :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/tryDeck.png](https://www.mtgcompanion.org/img/portfolio/fullsize/tryDeck.png)
 
 Create deck in sealed format :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/sealed.png](https://www.mtgcompanion.org/img/portfolio/fullsize/sealed.png)
 
 get your companion in discord's channels :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/discord.png](https://www.mtgcompanion.org/img/portfolio/fullsize/discord.png)
 
 get your companion in chrome :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/mtgchromecompanion.png](https://www.mtgcompanion.org/img/portfolio/fullsize/mtgchromecompanion.png)
 
 
 Generate Website of your collections :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png)
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website2.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/website.png](https://www.mtgcompanion.org/img/portfolio/fullsize/website.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/website2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/website2.png)
 
 Create your own cards :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardmaker.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardmaker.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/cardmaker.png](https://www.mtgcompanion.org/img/portfolio/fullsize/cardmaker.png)
 
 Get news from your favorites sites :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/news.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/news.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/news.png](https://www.mtgcompanion.org/img/portfolio/fullsize/news.png)
 
 Manage your card with the reponsive web UI :
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png)
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png)
-
-
+![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui.png](https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui-2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui-2.png)
