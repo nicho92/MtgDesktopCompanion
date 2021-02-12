@@ -15,13 +15,14 @@
 	<packaging>jar</packaging>
 	<organization>
 		<name>Nicolas Pihen</name>
-		<url>https://github.com/nicho92/</url>
+		<url>https://www.mtgcompanion.org</url>
 	</organization>
 	<developers>
 		<developer>
 			<id>nicho</id>
 			<name>Nicolas Pihen</name>
 			<email>nicolas.pihen@gmail.com</email>
+			<url>https://github.com/nicho92/</url>
 		</developer>
 	</developers>
 	<licenses>
@@ -233,7 +234,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_227</version>
+			<version>4.2.0_228</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
