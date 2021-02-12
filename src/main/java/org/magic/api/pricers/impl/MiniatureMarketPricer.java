@@ -43,8 +43,16 @@ public class MiniatureMarketPricer extends AbstractMagicPricesProvider {
 		if(arr.size()>0)
 			je = arr.get(0).getAsJsonObject();
 		
+		logger.debug(getName() + " found " + arr.size() + " item(s)");
 		
-		if(je!=null && je.getAsJsonObject().get("quantity").getAsInt()>0)
+		
+		if(je==null)
+			return prices;
+		
+		
+		
+		
+		if(je.getAsJsonObject().get("quantity").getAsInt()>0)
 		{
 				
 			Document d = URLTools.extractHtml(je.get("productUrl").getAsString());

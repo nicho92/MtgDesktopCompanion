@@ -232,7 +232,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public void initDefault() {
 		setProperty("PERIOD", "WEEKLY");
-		setProperty(WEBSITE, "http://www.mtgprice.com");
+		setProperty(WEBSITE, "https://www.mtgprice.com");
 	}
 
 	@Override

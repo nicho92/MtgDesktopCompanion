@@ -43,8 +43,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	private EnumCondition reverse(String condition)
 	{
-		
-		
 		switch (condition)
 		{
 		 case "Good (Lightly Played)": return EnumCondition.LIGHTLY_PLAYED;
@@ -58,7 +56,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
 		StringBuilder line = new StringBuilder(columns);
-		line.append(System.lineSeparator());
 		for(MagicCardStock mc : stock)
 		{
 			String name=mc.getMagicCard().getName();
