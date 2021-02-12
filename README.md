@@ -124,5 +124,5 @@ Get news from your favorites sites :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/news.png](https://www.mtgcompanion.org/img/portfolio/fullsize/news.png)
 
 Manage your card with the reponsive web UI :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui.png](https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui.png](https://www.mtgcompanion.org/img/portfolio/fullsize/2.png)
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui-2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui-2.png)
