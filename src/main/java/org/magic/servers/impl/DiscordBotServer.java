@@ -91,6 +91,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		Matcher m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
+			logger.debug(m.group());
 			String name=m.group(1).trim();
 			MagicEdition ed = null;
 			if(name.contains("|"))
