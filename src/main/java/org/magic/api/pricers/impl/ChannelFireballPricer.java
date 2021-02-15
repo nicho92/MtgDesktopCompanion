@@ -17,29 +17,10 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
 	private static final String BASEURL="https://shop.channelfireball.com";
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		ChannelFireballPricer pric = new ChannelFireballPricer();
-		
-		MagicCard mc = new MagicCard();
-				  mc.setName("Glimpse the Cosmos");
-		
-		pric.getLocalePrice(mc).forEach(mp->{
-			
-			System.out.println(mp.getMagicCard()+ " " + mp.isFoil() +" " + mp.getValue());
-			
-		}); 
-				  
-		
-	}
-	
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-
 
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
@@ -51,14 +32,15 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		for(JsonElement product : products)
 		{
 			JsonObject obj = product.getAsJsonObject();
-			if(obj.get("available").getAsBoolean())
+			
+			if(obj.get("available").getAsBoolean() && obj.get("type").getAsString().equals("MTG Single"))
 			{
 				String docPage = URLTools.extractAsString(BASEURL+obj.get("url").getAsString());
 				String startTag = "product: ";
 				docPage = docPage.substring(docPage.indexOf(startTag)+startTag.length());
 				String endTag = "\n";
-				
 				docPage = docPage.substring(0,docPage.indexOf(endTag)-1);
+			
 				JsonArray arrArticles = URLTools.toJson(docPage).getAsJsonObject().get("variants").getAsJsonArray();
 				for(JsonElement article : arrArticles)
 				{
@@ -66,10 +48,6 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 					
 					if(art.get("available").getAsBoolean())
 					{
-						
-						System.out.println(art);
-			
-						
 						MagicPrice mp = new MagicPrice();
 								   mp.setSite(getName());
 								   mp.setUrl(BASEURL+obj.get("url").getAsString());
@@ -77,24 +55,26 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 								   mp.setCountry("USA");
 								   mp.setQuality(art.get("title").getAsString().replace("Foil", "").trim());
 								   mp.setMagicCard(card);
-								   mp.setFoil(art.get("title").getAsString().toLowerCase().contains("foil"));
-								   mp.setValue(obj.get("price").getAsDouble());
+								   mp.setFoil(obj.get("title").getAsString().toLowerCase().contains("foil"));
+								   mp.setValue(art.get("price").getAsDouble()/100);
+								   mp.setLanguage("English");
 								   
-								   System.out.println(obj.get("price").getAsFloat());
-								   			
-								   boolean showcase = obj.get("title").getAsString().toLowerCase().contains("(showcase)");
-								   boolean borderless = obj.get("title").getAsString().toLowerCase().contains("(borderless)");
-								   boolean extended = obj.get("title").getAsString().toLowerCase().contains("(extended)");
-								
-								   if((card.isBorderLess() && borderless)||(card.isShowCase() && showcase)||(card.isExtendedArt() && extended))
-									   list.add(mp);
 								   
-								   if((!card.isBorderLess() && !borderless)||(!card.isShowCase() && !showcase)||(!card.isExtendedArt() && !extended))
-								      list.add(mp);
+								   String set = art.get("name").getAsString().substring(art.get("name").getAsString().indexOf("["));
+								   mp.setSeller(set.substring(1,set.indexOf("]")));
 								   
+								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)");
+								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)");
+								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)");
+								   
+								   //TODO filter for card extra properties
+								   
+								   list.add(mp);
 								   
 					}
 				}
+				
+				
 			}
 		}
 		logger.info(getName() + " found " + list.size() + " item(s)");
