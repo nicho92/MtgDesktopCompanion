@@ -21,59 +21,42 @@ import com.google.gson.JsonObject;
 
 public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 
-	
 	NumberFormat format = NumberFormat.getCurrencyInstance();
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		StarCityGamesPricer pric = new StarCityGamesPricer();
+		
+		MagicCard mc = new MagicCard();
+				  mc.setName("Tibalt, the Fiend-Blooded");
+				  
+		
+		pric.getPrice(mc); 
+				  
+		
+	}
+	
 	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+		List<MagicPrice> ret = new ArrayList<>();
 		
 		String cardName = URLTools.encode("\""+card.getName()+"\"");
-		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search.php?search_query="+cardName+"&page=1&section=product");
-		
-		Document d = build.toHtml();
-		List<MagicPrice> ret = new ArrayList<>();
-		Elements trs = d.select("article.productList table tbody tr");
+		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search/?card_name="+cardName);
+		Document page = build.toHtml();
+		Elements divs = page.select("div.hawk-results-item");
 
-		for(Element tr : trs)
+		System.out.println(page);
+		
+		
+		for(Element div : divs)
 		{
 			
 			try {
 			
-				String idProduct = tr.attr("data-id");
-				String urlDetails = "https://newstarcityconnector.herokuapp.com/eyApi/products/"+idProduct+"/variants";
-				String dataName = tr.attr("data-name");				
-				logger.debug(getName() + " looking for prices at " + urlDetails);
-				if(dataName.toLowerCase().startsWith(card.getName().toLowerCase())) 
-				{
-					JsonElement el = build.clean().url(urlDetails).method(METHOD.GET).toJson();
-					JsonArray data = el.getAsJsonObject().get("response").getAsJsonObject().get("data").getAsJsonArray();
-					
-					for(JsonElement obj : data)
-					{
-						JsonObject item = obj.getAsJsonObject();
-						if(item.get("inventory_level").getAsInt()>0)
-						{
-							MagicPrice mp = new MagicPrice();
-									mp.setSite(getName());
-									mp.setMagicCard(card);
-									mp.setCountry("USA");
-									mp.setCurrency("USD");
-									mp.setUrl(tr.select("h4.listItem-title a").attr("href"));
-									mp.setValue(item.get("price").getAsDouble());
-									mp.setQuality(item.get("option_values").getAsJsonArray().get(0).getAsJsonObject().get("label").getAsString());
-									mp.setLanguage(tr.select("p.category-language").text());
-									mp.setFoil(tr.select("span.category-row-name-search").html().contains("(Foil)"));
-									mp.setSeller(tr.select("span.category-row-name-search").html());
-							ret.add(mp);
-							notify(mp);
-							
-						}
-					}
-				}
-				else
-				{
-					//No Bracket... not a card product
-				}
+					System.out.println(div);
+				
 				
 			}
 			catch(Exception e)
