@@ -23,21 +23,6 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		StarCityGamesPricer pric = new StarCityGamesPricer();
-		
-		MagicCard mc = new MagicCard();
-				  mc.setName("Tibalt, the Fiend-Blooded");
-				  
-		
-		pric.getPrice(mc); 
-				  
-		
-	}
-	
-	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> ret = new ArrayList<>();
