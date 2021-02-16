@@ -216,7 +216,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "Deck Stock calculation";
+		return "Stock Comparison";
 	}
 
 

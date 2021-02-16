@@ -102,6 +102,7 @@ public class ConstructPanel extends MTGUIComponent {
 	private DeckCardsTableModel deckSidemodel;
 	private DeckCardsTableModel deckmodel;
 	private ComboFinderPanel comboPanel;
+	private CardStockPanel stockDetailPanel;
 	private MagicDeck deck;
 	private JExportButton btnExports;
 	private transient MTGDeckManager deckManager;
@@ -199,6 +200,9 @@ public class ConstructPanel extends MTGUIComponent {
 		defaultEnterButton = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH, KeyEvent.VK_S, "search");
 		JPanel panneauGauche = new JPanel();
 		listResult = new JList<>(new DefaultListModel<>());
+		stockDetailPanel = new CardStockPanel();
+		
+		
 		
 		groupsFilterResult = new ButtonGroup() {
 			private static final long serialVersionUID = 1L;
@@ -266,6 +270,8 @@ public class ConstructPanel extends MTGUIComponent {
 		panelBottom.addTab("Combos",comboPanel.getIcon(),comboPanel);
 		panneauDeck.setRightComponent(panelBottom);
 		panelBottom.addTab("Drawing",MTGConstants.ICON_TAB_DECK,cardDrawProbaPanel);
+		UITools.addTab(panelBottom, stockDetailPanel);
+		
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
@@ -664,7 +670,7 @@ public class ConstructPanel extends MTGUIComponent {
 					MagicCard mc = UITools.getTableSelection(table, 0);
 					magicCardDetailPanel.setMagicCard(mc);
 					comboPanel.init(mc);
-					
+					stockDetailPanel.initMagicCardStock(mc,null);
 					if(f==STACK.MAIN)
 						cardDrawProbaPanel.init(deck, mc);
 					

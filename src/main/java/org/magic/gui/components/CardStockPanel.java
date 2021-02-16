@@ -148,7 +148,11 @@ public class CardStockPanel extends MTGUIComponent {
 		btnDelete.setEnabled(true);
 
 		try {
-			model.init(getEnabledPlugin(MTGDao.class).listStocks(mc, col,true));
+			
+			if(col==null)
+				model.init(getEnabledPlugin(MTGDao.class).listStocks(mc));
+			else
+				model.init(getEnabledPlugin(MTGDao.class).listStocks(mc, col,true));
 			table.packAll();
 		} catch (Exception e) {
 			logger.error(e);
@@ -158,7 +162,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "CardStock Collection";
+		return "Stock";
 	}
 	
 	@Override
