@@ -170,4 +170,5 @@ public class CardStockPanel extends MTGUIComponent {
 		return MTGConstants.ICON_TAB_STOCK;
 	}
 
+	
 }

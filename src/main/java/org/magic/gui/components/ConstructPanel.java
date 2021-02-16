@@ -280,7 +280,7 @@ public class ConstructPanel extends MTGUIComponent {
 		tabbedPane.addTab(capitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
 		tabbedPane.addTab(capitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
 		tabbedPane.addTab(capitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
-		tabbedPane.addTab(capitalize("STOCK_MODULE"),MTGConstants.ICON_TAB_STOCK, stockPanel, null);
+		UITools.addTab(tabbedPane, stockPanel);
 		
 		
 	
@@ -477,6 +477,7 @@ public class ConstructPanel extends MTGUIComponent {
 			{
 				MagicCard mc = listResult.getSelectedValue();
 				magicCardDetailPanel.setMagicCard(mc);
+				stockDetailPanel.initMagicCardStock(mc,null);
 			}
 			
 		});
@@ -486,6 +487,7 @@ public class ConstructPanel extends MTGUIComponent {
 		listResult.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
+			
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 
@@ -498,6 +500,7 @@ public class ConstructPanel extends MTGUIComponent {
 					}
 					deckmodel.init(deck);
 					deckSidemodel.init(deck);
+					
 				}
 			}
 		});
