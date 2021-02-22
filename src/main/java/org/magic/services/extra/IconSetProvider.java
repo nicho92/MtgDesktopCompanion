@@ -211,6 +211,7 @@ public class IconSetProvider {
 		equiv.put("SLD", "PMEI");
 		equiv.put("PSLD", "PMEI");
 		equiv.put("SLU", "PMEI");
+		equiv.put("PL21", "PMEI");
 		equiv.put("DVD", "DDC");
 		equiv.put("EVG", "DD1");
 		equiv.put("GVL", "DDD");
@@ -240,6 +241,7 @@ public class IconSetProvider {
 		equiv.put("FJMP", "JMP");
 		equiv.put("PLIST", "MB1");
 		equiv.put("KLR", "KLD");
+		equiv.put("J21", "J20");
 	}
 	
 	private String getEquiv(String set) 

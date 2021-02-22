@@ -80,7 +80,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.DEPRECATED;
 	}
 
 	@Override
