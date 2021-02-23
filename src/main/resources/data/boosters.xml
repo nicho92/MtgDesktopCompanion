@@ -1438,8 +1438,13 @@
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2020/images/daily/en_aQnbwBQtDG.png"/>
 	</edition>
 	
-	
-	
+	<edition id="KHC">
+		<banner lang="en" num="1" url="http://www.magiccorporation.com/images/magic/editions/maxi/kaldheim_commander.png"/>
+		<constructpack lang="en" num="1" url="https://i1.wp.com/mtgazone.com/wp-content/uploads/2020/12/630509922307_2_2048x2048.jpg"/>
+		<constructpack lang="en" num="2" url="https://i2.wp.com/mtgazone.com/wp-content/uploads/2020/12/630509922307_1_2048x2048.jpg"/>
+	</edition>
+
+
 	<edition id="CC1">
 		<banner lang="en" url="https://media.magic.wizards.com/dfq1vaatsd.png"/>
 		<bundle lang="en" url="https://www.illusive-isle.com/uploads/1/7/2/6/17261402/s236435389559391257_p836_i3_w900.png"/>
