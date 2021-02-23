@@ -734,20 +734,30 @@ public class ConstructPanel extends MTGUIComponent {
 					
 					itemMove.addActionListener(ae->{
 						
+						
+						
+						
 						if(f==STACK.MAIN)
 						{
-							int qty = deck.getMain().get(mc);
-							deck.getSideBoard().put(mc, qty);
-							deck.getMain().remove(mc);
+							List<MagicCard> list = UITools.getTableSelections(tableDeck, 0);
+							
+							for(MagicCard card : list) {
+								int qty = deck.getMain().get(card);
+								deck.getSideBoard().put(card, qty);
+								deck.getMain().remove(card);
+							}
 						}
 						else
 						{
-							int qty = deck.getSideBoard().get(mc);
-							deck.getMain().put(mc, qty);
-							deck.getSideBoard().remove(mc);
+							
+							List<MagicCard> list = UITools.getTableSelections(tableSide, 0);
+							
+							for(MagicCard card : list) {
+								int qty = deck.getSideBoard().get(card);
+								deck.getMain().put(card, qty);
+								deck.getSideBoard().remove(card);
+							}
 						}
-						
-						
 						model.fireTableDataChanged();
 						
 					});
