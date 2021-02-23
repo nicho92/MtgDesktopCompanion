@@ -76,7 +76,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String MCM_ID = "mcmId";
 	protected static final String MCM_NAME = "mcmName";
 	protected static final String MTGSTOCKS_ID = "mtgstocksId";
-
+	protected static final String ORIGINAL_RELEASE_DATE="originalReleaseDate";
 	protected static final String SIDE = "side";
 	protected static final String WATERMARK = "watermark";
 	protected static final String FRAME_EFFECTS = "frameEffects";

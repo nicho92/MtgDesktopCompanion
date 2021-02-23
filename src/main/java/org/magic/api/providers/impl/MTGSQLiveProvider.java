@@ -251,6 +251,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setHasContentWarning(rs.getBoolean(HAS_CONTENT_WARNING));
 				mc.setScryfallId(rs.getString(SCRYFALL_ID));
 				mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
+				mc.setOriginalReleaseDate(rs.getString(ORIGINAL_RELEASE_DATE));
+				
 				
 				if(rs.getString(FRAME_EFFECTS)!=null)
 				{

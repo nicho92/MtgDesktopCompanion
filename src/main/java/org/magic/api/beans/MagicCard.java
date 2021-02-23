@@ -67,7 +67,7 @@ public class MagicCard implements Serializable {
 	private List<MTGKeyWord> keywords;
 	private boolean hasContentWarning;
 	private MTGBorder border;
-	
+	private String originalReleaseDate;
 	
 	
 	public boolean isExtraCard()
@@ -133,6 +133,14 @@ public class MagicCard implements Serializable {
 	
 
 	
+	public String getOriginalReleaseDate() {
+		return originalReleaseDate;
+	}
+
+	public void setOriginalReleaseDate(String originalReleaseDate) {
+		this.originalReleaseDate = originalReleaseDate;
+	}
+
 	public void setHasAlternativeDeckLimit(boolean hasAlternativeDeckLimit) {
 		this.hasAlternativeDeckLimit = hasAlternativeDeckLimit;
 	}
