@@ -19,6 +19,11 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	public static final int MAXSIZE=2000;
 	
 	
+	@Override
+	public boolean isExternal() {
+		return true;
+	}
+	
 	public void sendIssues(MTGNotification not)
 	{
 		sendMessage(not,576698603746230273L);

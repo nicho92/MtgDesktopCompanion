@@ -21,6 +21,10 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		return "Email";
 	}
 
+	@Override
+	public boolean isExternal() {
+		return true;
+	}
 	
 
 	@Override

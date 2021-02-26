@@ -87,7 +87,7 @@ public class MTGConstants {
 	
 	public static final int DPI=300;
 	
-	public static final String DEFAULT_NOTIFIER_NAME="Tray";
+	public static final String DEFAULT_NOTIFIER_NAME="DorkBox";
 	public static final String DEFAULT_CLIPBOARD_NAME = "clipboard";
 
 	

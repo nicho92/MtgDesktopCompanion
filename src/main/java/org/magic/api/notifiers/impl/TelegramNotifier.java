@@ -21,6 +21,11 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	}
 	
 	@Override
+	public boolean isExternal() {
+		return true;
+	}
+	
+	@Override
 	public void send(MTGNotification notification) throws IOException {
 		
 		
