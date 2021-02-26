@@ -24,7 +24,7 @@ public class LookAndFeelProvider {
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private List<LookAndFeelInfo> list;
-
+	
 	public LookAndFeelProvider() {
 		list = new ArrayList<>();
 	}
@@ -39,7 +39,7 @@ public class LookAndFeelProvider {
 	        Object key = keys.nextElement();
 	        Object value = UIManager.get(key);
 	        if (value instanceof FontUIResource)
-	            UIManager.put(key, new FontUIResource(MTGControler.getInstance().getFont()));
+	            saveProperties(key, new FontUIResource(MTGControler.getInstance().getFont()));
 	    }
 	}
 	
@@ -52,12 +52,8 @@ public class LookAndFeelProvider {
 			
 			if(lookAndFeel==null || lookAndFeel.isEmpty())
 				lookAndFeel=UIManager.getSystemLookAndFeelClassName();	
-			
 			UIManager.setLookAndFeel(lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
-		
-		
-			
 		} catch (Exception e) {
 			logger.error("error setLookAndFeel",e);
 		}
@@ -111,51 +107,57 @@ public class LookAndFeelProvider {
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
 	
+	public void saveProperties(Object key,Object value)
+	{
+		UIManager.put(key, value);
+	}
+	
+	
 	public void setFont(FontUIResource myFont) {
-	    UIManager.put("CheckBoxMenuItem.acceleratorFont", myFont);
-	    UIManager.put("Button.font", myFont);
-	    UIManager.put("ToggleButton.font", myFont);
-	    UIManager.put("RadioButton.font", myFont);
-	    UIManager.put("CheckBox.font", myFont);
-	    UIManager.put("ColorChooser.font", myFont);
-	    UIManager.put("ComboBox.font", myFont);
-	    UIManager.put("Label.font", myFont);
-	    UIManager.put("List.font", myFont);
-	    UIManager.put("MenuBar.font", myFont);
-	    UIManager.put("Menu.acceleratorFont", myFont);
-	    UIManager.put("RadioButtonMenuItem.acceleratorFont", myFont);
-	    UIManager.put("MenuItem.acceleratorFont", myFont);
-	    UIManager.put("MenuItem.font", myFont);
-	    UIManager.put("RadioButtonMenuItem.font", myFont);
-	    UIManager.put("CheckBoxMenuItem.font", myFont);
-	    UIManager.put("OptionPane.buttonFont", myFont);
-	    UIManager.put("OptionPane.messageFont", myFont);
-	    UIManager.put("Menu.font", myFont);
-	    UIManager.put("PopupMenu.font", myFont);
-	    UIManager.put("OptionPane.font", myFont);
-	    UIManager.put("Panel.font", myFont);
-	    UIManager.put("ProgressBar.font", myFont);
-	    UIManager.put("ScrollPane.font", myFont);
-	    UIManager.put("Viewport.font", myFont);
-	    UIManager.put("TabbedPane.font", myFont);
-	    UIManager.put("Slider.font", myFont);
-	    UIManager.put("Table.font", myFont);
-	    UIManager.put("TableHeader.font", myFont);
-	    UIManager.put("TextField.font", myFont);
-	    UIManager.put("Spinner.font", myFont);
-	    UIManager.put("TextArea.font", myFont);
-	    UIManager.put("TextPane.font", myFont);
-	    UIManager.put("EditorPane.font", myFont);
-	    UIManager.put("TabbedPane.smallFont", myFont);
-	    UIManager.put("TitledBorder.font", myFont);
-	    UIManager.put("ToolBar.font", myFont);
-	    UIManager.put("ToolTip.font", myFont);
-	    UIManager.put("Tree.font", myFont);
-	    UIManager.put("FormattedTextField.font", myFont);
-	    UIManager.put("IconButton.font", myFont);
-	    UIManager.put("InternalFrame.optionDialogTitleFont", myFont);
-	    UIManager.put("InternalFrame.paletteTitleFont", myFont);
-	    UIManager.put("InternalFrame.titleFont", myFont);
+	    saveProperties("CheckBoxMenuItem.acceleratorFont", myFont);
+	    saveProperties("Button.font", myFont);
+	    saveProperties("ToggleButton.font", myFont);
+	    saveProperties("RadioButton.font", myFont);
+	    saveProperties("CheckBox.font", myFont);
+	    saveProperties("ColorChooser.font", myFont);
+	    saveProperties("ComboBox.font", myFont);
+	    saveProperties("Label.font", myFont);
+	    saveProperties("List.font", myFont);
+	    saveProperties("MenuBar.font", myFont);
+	    saveProperties("Menu.acceleratorFont", myFont);
+	    saveProperties("RadioButtonMenuItem.acceleratorFont", myFont);
+	    saveProperties("MenuItem.acceleratorFont", myFont);
+	    saveProperties("MenuItem.font", myFont);
+	    saveProperties("RadioButtonMenuItem.font", myFont);
+	    saveProperties("CheckBoxMenuItem.font", myFont);
+	    saveProperties("OptionPane.buttonFont", myFont);
+	    saveProperties("OptionPane.messageFont", myFont);
+	    saveProperties("Menu.font", myFont);
+	    saveProperties("PopupMenu.font", myFont);
+	    saveProperties("OptionPane.font", myFont);
+	    saveProperties("Panel.font", myFont);
+	    saveProperties("ProgressBar.font", myFont);
+	    saveProperties("ScrollPane.font", myFont);
+	    saveProperties("Viewport.font", myFont);
+	    saveProperties("TabbedPane.font", myFont);
+	    saveProperties("Slider.font", myFont);
+	    saveProperties("Table.font", myFont);
+	    saveProperties("TableHeader.font", myFont);
+	    saveProperties("TextField.font", myFont);
+	    saveProperties("Spinner.font", myFont);
+	    saveProperties("TextArea.font", myFont);
+	    saveProperties("TextPane.font", myFont);
+	    saveProperties("EditorPane.font", myFont);
+	    saveProperties("TabbedPane.smallFont", myFont);
+	    saveProperties("TitledBorder.font", myFont);
+	    saveProperties("ToolBar.font", myFont);
+	    saveProperties("ToolTip.font", myFont);
+	    saveProperties("Tree.font", myFont);
+	    saveProperties("FormattedTextField.font", myFont);
+	    saveProperties("IconButton.font", myFont);
+	    saveProperties("InternalFrame.optionDialogTitleFont", myFont);
+	    saveProperties("InternalFrame.paletteTitleFont", myFont);
+	    saveProperties("InternalFrame.titleFont", myFont);
 	}
 
 }
