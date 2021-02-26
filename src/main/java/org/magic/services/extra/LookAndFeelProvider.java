@@ -17,6 +17,7 @@ import org.magic.services.MTGLogger;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.reflections.Reflections;
 
+import com.formdev.flatlaf.FlatLaf;
 import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class LookAndFeelProvider {
@@ -97,6 +98,15 @@ public class LookAndFeelProvider {
 			}
 		}
 	
+		classReflections = new Reflections("com.formdev.flatlaf");
+		for (Class<? extends FlatLaf> c : classReflections.getSubTypesOf(FlatLaf.class)) {
+			try {
+				FlatLaf look = c.getConstructor().newInstance();
+				list.add(new LookAndFeelInfo("FlatLaf " + look.getID(), c.getName()));
+			} catch (Exception e) {
+				logger.error("Loading " + c + " : " + e);
+			}
+		}
 
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}

@@ -63,6 +63,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>com.formdev</groupId>
+		    <artifactId>flatlaf</artifactId>
+		    <version>1.0</version>
+		</dependency>
+		<dependency>
 		    <groupId>com.h2database</groupId>
 		    <artifactId>h2</artifactId>
 		    <version>1.4.200</version>
