@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.Icon;
 
@@ -53,16 +55,15 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						{
 							List<MagicPrice> okz = new ArrayList<>();
 							try {
-								List<MagicPrice> list = prov.getPrice(alert.getCard());
-								for (MagicPrice p : list) {
-									if (p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")) )
-									{
-										//TODO  && (alert.isFoil() && p.isFoil()) || (!alert.isFoil())
-										alert.getOffers().add(p);
-										okz.add(p);
-										logger.info("Found offer " + prov + ":" + alert.getCard() + " " + p.getValue()+ p.getCurrency() + " foil=" + p.isFoil());
-									}
-								}
+								Stream<MagicPrice> stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
+								
+								if(alert.isFoil())
+									stream=stream.filter(MagicPrice::isFoil);
+								
+								
+								List<MagicPrice> res= stream.collect(Collectors.toList());
+								alert.getOffers().addAll(res);
+								okz.addAll(res);
 								prov.alertDetected(okz);
 								alert.orderDesc();
 							} catch (Exception e) {

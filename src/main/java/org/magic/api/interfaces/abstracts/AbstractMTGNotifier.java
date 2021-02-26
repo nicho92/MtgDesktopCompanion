@@ -17,5 +17,10 @@ public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements M
 	public PLUGINS getType() {
 		return PLUGINS.NOTIFIER;
 	}
+	
+	@Override
+	public boolean isExternal() {
+		return false;
+	}
 
 }

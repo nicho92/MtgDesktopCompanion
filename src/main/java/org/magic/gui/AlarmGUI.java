@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -221,11 +222,10 @@ public class AlarmGUI extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 				resultListModel.removeAllElements();
-				
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
-					int modelRow = table.convertRowIndexToModel(viewRow);
-					MagicCardAlert selected = (MagicCardAlert) table.getModel().getValueAt(modelRow, 0);
+					
+					MagicCardAlert selected = UITools.getTableSelection(table, 0);
 					updateInfo(selected);
 					table.setRowSelectionInterval(viewRow, viewRow);
 					for (MagicPrice mp : selected.getOffers())
@@ -284,8 +284,20 @@ public class AlarmGUI extends MTGUIComponent {
 								List<MagicPrice> prices=new ArrayList<>();
 								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
 									try {
-										prices.addAll(p.getPrice(alert.getCard()));
-										alert.setOffers(prices);
+										
+										
+										if(alert.isFoil())
+										{
+											prices.addAll(p.getPrice(alert.getCard()).stream().filter(MagicPrice::isFoil).collect(Collectors.toList()));
+										}
+										else
+										{
+											prices.addAll(p.getPrice(alert.getCard()));
+											
+										}
+										
+										alert.setOffers(prices);	
+										
 										
 									} catch (IOException e1) {
 										logger.error("error adding price for" + alert.getCard() + " with " + p,e1);
