@@ -85,7 +85,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.14.7</version>
+			<version>3.14.8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -234,7 +234,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_228</version>
+			<version>4.2.0_229</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>

@@ -149,7 +149,7 @@ public class UITools {
 				
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					logger.error(e1);
 				}
 				

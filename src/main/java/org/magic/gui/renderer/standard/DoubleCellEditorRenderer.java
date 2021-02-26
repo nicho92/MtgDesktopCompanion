@@ -72,7 +72,7 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 			val = (Double)value;
 		
 
-		JLabel l= new JLabel(format.format(val),SwingConstants.RIGHT);
+		JLabel l= new JLabel(format.format(val),SwingConstants.CENTER);
 		l.setOpaque(true);
 		if(isSelected)
 		{
