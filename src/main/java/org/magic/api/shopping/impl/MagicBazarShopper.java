@@ -24,7 +24,7 @@ import org.magic.tools.URLToolsClient;
 public class MagicBazarShopper extends AbstractMagicShopper {
 
 	
-	String urlBase= "https://en.magicbazar.fr";
+	String urlBase= "https://en.play-in.com/";
 
 	String urlListOrders = urlBase + "/user/list_order.php";
 	String urlLogin = urlBase+"/user/signin.php";
