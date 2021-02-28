@@ -98,6 +98,7 @@ public class LookAndFeelProvider {
 		for (Class<? extends FlatLaf> c : classReflections.getSubTypesOf(FlatLaf.class)) {
 			try {
 				FlatLaf look = c.getConstructor().newInstance();
+				
 				list.add(new LookAndFeelInfo("FlatLaf " + look.getID(), c.getName()));
 			} catch (Exception e) {
 				logger.error("Loading " + c + " : " + e);
@@ -107,8 +108,27 @@ public class LookAndFeelProvider {
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
 	
+//	public void storeFile()
+//	{
+//		
+//		Properties props = new Properties();
+//		UIDefaults defaults = UIManager.getDefaults();
+//
+//		defaults.entrySet().forEach(entry->{
+//			props.put(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));
+//		});
+//		
+//		try {
+//			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"ui.properties"), props);
+//		} catch (IOException e) {
+//			logger.error(e);
+//		}
+//		
+//	}
+	
 	public void saveProperties(Object key,Object value)
 	{
+		
 		UIManager.put(key, value);
 	}
 	

@@ -51,6 +51,16 @@ public class FileTools {
 	}
 
 	
+
+	public static void appendLine(File f,String line) throws IOException
+	{
+		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
+		f=new File(f.getParentFile(),correctFilename);
+		logger.debug("saving file " + f);
+		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
+	}
+	
+	
 	public static void saveFile(File f,String data) throws IOException
 	{
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
