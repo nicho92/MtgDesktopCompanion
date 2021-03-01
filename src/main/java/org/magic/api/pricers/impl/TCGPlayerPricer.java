@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.magic.api.beans.MagicCard;
@@ -47,10 +46,10 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() + " looking " + " for " + link);
 
-		DocumentBuilderFactory dbFactory = XMLTools.createSecureXMLFactory();
+		
 		DocumentBuilder dBuilder;
 		try {
-			dBuilder = dbFactory.newDocumentBuilder();
+			dBuilder =  XMLTools.createSecureXMLDocumentBuilder();
 		} catch (ParserConfigurationException e1) {
 			throw new IOException(e1);
 		}

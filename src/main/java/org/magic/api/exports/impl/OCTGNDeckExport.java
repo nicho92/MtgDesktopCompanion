@@ -66,7 +66,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		deck.setName(dname);
 
 		try (StringReader sr = new StringReader(f)){
-			Document d = XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(new InputSource(sr));
+			Document d = XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(sr));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr = xpath.compile("//section[@name='Main']/card");
 			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);

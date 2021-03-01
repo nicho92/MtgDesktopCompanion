@@ -1,7 +1,9 @@
 package org.magic.tools;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
@@ -13,6 +15,12 @@ public class XMLTools {
 	private XMLTools() {}
 	
 	private static DocumentBuilderFactory dbf;
+	
+	
+	public static DocumentBuilder createSecureXMLDocumentBuilder() throws ParserConfigurationException
+	{
+		return createSecureXMLFactory().newDocumentBuilder();
+	}
 	
 	
 	public static DocumentBuilderFactory createSecureXMLFactory()

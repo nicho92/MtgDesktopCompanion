@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -45,8 +44,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	private void init()
 	{
 		try {
-			DocumentBuilderFactory	builderFactory = XMLTools.createSecureXMLFactory();
-			DocumentBuilder builder = builderFactory.newDocumentBuilder();
+			DocumentBuilder builder =  XMLTools.createSecureXMLDocumentBuilder();
 			document = builder.parse(URLTools.openConnection(getURL("URL")).getInputStream());
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {

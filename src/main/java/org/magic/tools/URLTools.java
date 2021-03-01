@@ -132,7 +132,7 @@ public class URLTools {
 	public static org.w3c.dom.Document extractXML(URL url) throws IOException {
 		try {
 			HttpURLConnection con = openConnection(url);
-			org.w3c.dom.Document doc = XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(con.getInputStream());
+			org.w3c.dom.Document doc =  XMLTools.createSecureXMLDocumentBuilder().parse(con.getInputStream());
 			close(con);
 			return doc;
 			
@@ -216,7 +216,7 @@ public class URLTools {
 	
 	public static org.w3c.dom.Document extractXML(File f) throws IOException {
 		try {
-			return XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(new FileInputStream(f));
+			return  XMLTools.createSecureXMLDocumentBuilder().parse(new FileInputStream(f));
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 

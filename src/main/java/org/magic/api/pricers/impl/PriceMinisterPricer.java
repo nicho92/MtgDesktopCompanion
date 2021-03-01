@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -31,8 +30,8 @@ public class PriceMinisterPricer extends AbstractMagicPricesProvider {
 		List<MagicPrice> list = new ArrayList<>();
 		try {
 
-			DocumentBuilderFactory dbFactory = XMLTools.createSecureXMLFactory();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			DocumentBuilder dBuilder = XMLTools.createSecureXMLDocumentBuilder();
+
 			StringBuilder url = new StringBuilder();
 
 			url.append(getString("URL"))

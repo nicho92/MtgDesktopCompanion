@@ -73,7 +73,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(n);
 		try {
-			Document d = XMLTools.createSecureXMLFactory().newDocumentBuilder().parse(new InputSource(new StringReader(f)));
+			Document d =  XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(new StringReader(f)));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");

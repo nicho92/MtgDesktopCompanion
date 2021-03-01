@@ -538,7 +538,7 @@
     </sniffer>
     <sniffer>
       <class>org.magic.api.decksniffer.impl.CardMarketDeckSniffer</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </sniffer>
     <sniffer>
       <class>org.magic.api.decksniffer.impl.MagicVilleDeckSniffer</class>
@@ -580,7 +580,7 @@
     </export>
     <export>
       <class>org.magic.api.exports.impl.MTGDesktopCompanionExport</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </export>
     <export>
       <class>org.magic.api.exports.impl.MTGODeckExport</class>

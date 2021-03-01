@@ -15,10 +15,6 @@ import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 
 	NumberFormat format = NumberFormat.getCurrencyInstance();
