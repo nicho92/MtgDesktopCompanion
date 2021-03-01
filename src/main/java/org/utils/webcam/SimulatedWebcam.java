@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.magic.services.MTGConstants;
@@ -61,7 +62,6 @@ class DummyWebcamDevice implements WebcamDevice
     private long time;
 
     private Dimension[] dimensions;
-    private Random r;
     boolean open;
 
     public DummyWebcamDevice(File f) {
@@ -81,7 +81,7 @@ class DummyWebcamDevice implements WebcamDevice
           buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
           display = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
           g = buffer.createGraphics();
-          r = new Random();
+          Random  r = new SecureRandom();
           xvel = (r.nextDouble()-0.5)*MAX_VEL*2;
           yvel = (r.nextDouble()-0.5)*MAX_VEL*2;
           dimensions = new Dimension[1];
