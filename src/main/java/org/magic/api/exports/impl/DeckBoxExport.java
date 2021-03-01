@@ -220,7 +220,12 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return getProperty(REGEX,getDefault());
+		if(getString(REGEX).isEmpty())
+			setProperty(REGEX,getDefault());
+			
+			
+			
+			return getString(REGEX);
 	}
 
 	@Override
