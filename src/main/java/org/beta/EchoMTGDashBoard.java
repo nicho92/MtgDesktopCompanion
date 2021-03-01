@@ -22,6 +22,7 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.exports.impl.EchoMTGExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
@@ -97,6 +98,9 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	
 	
 	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance();
+		
 		MTGCardsProvider prov = getEnabledPlugin(MTGCardsProvider.class);
 		prov.init();
 		MagicEdition ed = prov.getSetById("UMA");
