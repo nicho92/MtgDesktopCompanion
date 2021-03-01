@@ -14,32 +14,26 @@ public class XMLTools {
 	
 	private XMLTools() {}
 	
-	private static DocumentBuilderFactory dbf;
-	
 	
 	public static DocumentBuilder createSecureXMLDocumentBuilder() throws ParserConfigurationException
 	{
-		return createSecureXMLFactory().newDocumentBuilder();
-	}
-	
-	
-	public static DocumentBuilderFactory createSecureXMLFactory()
-	{
+		
 		try {
 			
-			if(dbf==null) {
-				dbf= DocumentBuilderFactory.newInstance();
-		    	dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-		    	dbf.setXIncludeAware(false);
-		    	dbf.setExpandEntityReferences(false);
-			}
-			return dbf;
+				DocumentBuilderFactory df= DocumentBuilderFactory.newInstance();
+		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+		    	df.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+		    	df.setXIncludeAware(false);
+		    	df.setExpandEntityReferences(false);
+		    	return df.newDocumentBuilder();
+			
 		}
 		catch(Exception e)
 		{
 			return null;
 		}
-		
 	}
 	
 	

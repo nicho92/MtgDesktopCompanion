@@ -150,7 +150,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 			}
 
-			tok.setId(DigestUtils.sha1Hex(tok.getCurrentSet().getId() + tok.getName()));
+			tok.setId(DigestUtils.sha256Hex(tok.getCurrentSet().getId() + tok.getName()));
 
 			return tok;
 

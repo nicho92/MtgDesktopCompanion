@@ -204,7 +204,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		if(getString(THUMBNAIL_IMAGE).equalsIgnoreCase("THUMBNAIL"))
 			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		else
-			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
+			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		
 		if(getBoolean(SHOWPRICE))
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
