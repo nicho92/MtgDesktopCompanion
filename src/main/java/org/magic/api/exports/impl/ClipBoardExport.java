@@ -15,7 +15,7 @@ public class ClipBoardExport extends AbstractCardExport {
 	
 	
 	public ClipBoardExport() {
-		clipboard = new TCache<>("clipboard");
+		clipboard = new TCache<>(getName());
 	}
 	
 	@Override
