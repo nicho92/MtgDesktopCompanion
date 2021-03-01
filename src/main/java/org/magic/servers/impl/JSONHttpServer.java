@@ -151,6 +151,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}
 			return RETURN_OK;
 		});
+		
+		
 
 	}
 
@@ -481,10 +483,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEventsManager().getEventById(Integer.parseInt(request.params(":id")));
 		}, transformer);
 		
-		
-		
-		
-		get("/",URLTools.HEADER_JSON,(request,response) -> RETURN_OK);
+				
+		get("/",URLTools.HEADER_HTML,(request,response) -> {
+			
+			StringBuilder temp = new StringBuilder();
+			response.type(URLTools.HEADER_HTML);
+			
+			Spark.routes().forEach(rm->{
+				temp.append(rm.getHttpMethod());
+				temp.append("<a href='").append(rm.getMatchUri()).append("'>").append(rm.getMatchUri()).append("</a>");
+				temp.append("<br/>");
+			});
+			
+			return temp.toString();
+			
+		});
 
 	}
 
