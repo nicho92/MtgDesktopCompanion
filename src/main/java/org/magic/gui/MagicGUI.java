@@ -41,10 +41,10 @@ import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ShortKeyManager;
 import org.magic.services.VersionChecker;
 import org.magic.services.extra.GithubUtils;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.ShortKeyManager;
 import org.magic.tools.UITools;
 import org.mkm.gui.MkmPanel;
 

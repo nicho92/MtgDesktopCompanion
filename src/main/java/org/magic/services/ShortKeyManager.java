@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -12,9 +12,8 @@ import java.util.Properties;
 import javax.swing.JButton;
 
 import org.apache.log4j.Logger;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.tools.FileTools;
+import org.magic.tools.IDGenerator;
 
 public class ShortKeyManager {
 	protected static Logger logger = MTGLogger.getLogger(ShortKeyManager.class);

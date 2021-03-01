@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.tools.ShortKeyManager;
+import org.magic.services.ShortKeyManager;
 
 
 public class ShortKeyModel extends GenericTableModel<JButton>

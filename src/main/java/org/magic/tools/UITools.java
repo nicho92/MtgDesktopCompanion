@@ -77,6 +77,7 @@ import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ShortKeyManager;
 import org.magic.services.threads.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
