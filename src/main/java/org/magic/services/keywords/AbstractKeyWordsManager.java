@@ -30,11 +30,14 @@ public abstract class AbstractKeyWordsManager {
 	public abstract List<MTGKeyWord> getKeywordActions();
 	public abstract List<MTGKeyWord> getWordsAbilities();
 	private static AbstractKeyWordsManager inst;
-		
+	
+	private JsonObject ret;
+	
+	
 	public static AbstractKeyWordsManager getInstance()
 	{
 		if(inst ==null)
-			inst = new MTGGamePediaKeywordProvider();
+			inst = new MTGJsonKeyWordsProvider();
 		
 		return inst;
 	}
@@ -90,6 +93,11 @@ public abstract class AbstractKeyWordsManager {
 
 	public JsonObject toJson()
 	{
+		if(ret!=null)
+			return ret;
+		
+		ret = new JsonObject();
+		
 		getStaticsAbilities().forEach(mk->{
 			try {
 				Elements trs = URLTools.extractHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("table.infobox tr");
@@ -101,7 +109,7 @@ public abstract class AbstractKeyWordsManager {
 		});
 		
 		
-		JsonObject ret = new JsonObject();
+		
 		
 		for(TYPE t : TYPE.values())
 		{
