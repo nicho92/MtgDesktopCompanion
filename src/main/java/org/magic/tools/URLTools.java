@@ -47,6 +47,8 @@ public class URLTools {
 	public static final String UPGR_INSECURE_REQ= "Upgrade-Insecure-Requests";
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CONTENT_TYPE="Content-Type";
+
+	public static final String REFERER_POLICY = "Referrer Policy";
 	
 	
 	private URLTools()	{}

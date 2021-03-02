@@ -70,16 +70,24 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
-
+		
 		RequestBuilder b = httpclient.build().method(METHOD.POST)
 						  .url(URI_BASE+"/accounts/login/")
-						  .addContent("next", "/")
 						  .addContent("username", getString(LOGIN2))
 						  .addContent("password", getString(PASS))
 						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
 						  .addHeader(URLTools.REFERER, URI_BASE+"/accounts/login/?next=/")
 						  .addHeader(URLTools.UPGR_INSECURE_REQ, "1")
-				          .addHeader(URLTools.ORIGIN, URI_BASE);
+				          .addHeader(URLTools.ORIGIN, URI_BASE)
+						  .addHeader(URLTools.REFERER_POLICY,"strict-origin-when-cross-origin")
+						  .addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
+						  .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
+						  .addHeader("pragma","no-cache")
+						  .addHeader("sec-fetch-dest", "document")
+						  .addHeader("sec-fetch-mode", "navigate")
+						  .addHeader("sec-fetch-site", "same-origin")
+						  .addHeader("sec-fetch-user", "?1")
+						  .addHeader("cache-control","no-cache");
 		
 		httpclient.execute(b);
 
@@ -173,9 +181,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(obj.get("name").getAsString());
 			try {
-				URI u = new URI(obj.get("resource_uri").getAsString());
-				
-				deck.setUrl(u);
+				deck.setUrl(new URI(obj.get("resource_uri").getAsString()));
 			} catch (URISyntaxException e) {
 				deck.setUrl(null);
 			}

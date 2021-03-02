@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -54,7 +56,11 @@ public class URLToolsClient {
 	
 	
 	public URLToolsClient() {
-		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
+		httpclient = HttpClients.custom()
+					 .setUserAgent(MTGConstants.USER_AGENT)
+					 .setRedirectStrategy(new LaxRedirectStrategy())
+					 .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+					 .build();
 		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();
 		httpContext.setCookieStore(cookieStore);
