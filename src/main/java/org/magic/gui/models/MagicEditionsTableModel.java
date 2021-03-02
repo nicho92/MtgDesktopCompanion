@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 
 public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	

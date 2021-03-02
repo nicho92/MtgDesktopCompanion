@@ -41,7 +41,7 @@ import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.BinderTagsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.extra.PackagesProvider.LOGO;
+import org.magic.services.providers.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
 public class BinderTagsEditorComponent extends MTGUIComponent {
 	

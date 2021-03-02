@@ -16,7 +16,7 @@ import org.magic.api.beans.Packaging;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.extra.PackagesProvider;
+import org.magic.services.providers.PackagesProvider;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 	

@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 
 public class MagicEditionsJLabelRenderer implements TableCellRenderer {
 

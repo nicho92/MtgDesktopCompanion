@@ -39,7 +39,7 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.extra.PackagesProvider;
+import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 

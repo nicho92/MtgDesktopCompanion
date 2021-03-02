@@ -1,11 +1,10 @@
 
-package org.magic.services.extra;
+package org.magic.tools;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.magic.services.MTGConstants;
-import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

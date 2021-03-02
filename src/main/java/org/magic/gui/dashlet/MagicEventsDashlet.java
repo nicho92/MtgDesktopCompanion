@@ -19,7 +19,7 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.extra.MTGEventProvider;
+import org.magic.services.providers.MTGEventProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 

@@ -33,7 +33,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.MTGUIChartComponent;
 import org.magic.services.MTGConstants;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 import org.magic.tools.UITools;
 
 public class HistoryPricesPanel extends MTGUIChartComponent<Void> {

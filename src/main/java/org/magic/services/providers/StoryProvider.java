@@ -1,4 +1,4 @@
-package org.magic.services.extra;
+package org.magic.services.providers;
 
 import java.awt.Image;
 import java.io.IOException;

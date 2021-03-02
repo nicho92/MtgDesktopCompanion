@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
-import org.magic.services.extra.PackagesProvider;
-import org.magic.services.extra.PackagesProvider.LOGO;
+import org.magic.services.providers.PackagesProvider;
+import org.magic.services.providers.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
 
 

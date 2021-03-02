@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGLogger;
-import org.magic.services.extra.PackagesProvider;
+import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.URLTools;
 
 public class BoosterProviderTests {

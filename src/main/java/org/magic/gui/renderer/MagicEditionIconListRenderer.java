@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 
 public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEdition> {
 

@@ -20,7 +20,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;

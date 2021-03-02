@@ -18,7 +18,7 @@ import org.magic.api.beans.Packaging;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 
 public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 

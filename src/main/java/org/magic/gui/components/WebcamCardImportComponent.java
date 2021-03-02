@@ -49,7 +49,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.gui.tools.JListFilterDecorator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.services.extra.IconSetProvider;
+import org.magic.services.providers.IconSetProvider;
 import org.magic.services.recognition.LoadedRecognitionEdition;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.area.AutoDetectAreaStrat;
