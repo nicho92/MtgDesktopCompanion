@@ -19,6 +19,7 @@ import org.magic.tools.FileTools;
 public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	
+	private static final String REGEX = "REGEX";
 	private String columns= "Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price";
 	
 	@Override
@@ -153,6 +154,14 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	protected String getStringPattern() {
+		
+		if(getString(REGEX).isBlank())
+			setProperty(REGEX,defaultRegex());
+		
+		return getString(REGEX);
+	}
+
+	private String defaultRegex() {
 		return "\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
 	}
 
@@ -164,6 +173,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	@Override
 	public void initDefault() {
 		setProperty("SEPARATOR", ",");
+		setProperty(REGEX,"\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"");
 	}
 	
 
