@@ -31,8 +31,8 @@
         </layout>
     </appender>
     <logger name="freemarker.cache"><level value="ERROR"/></logger>
-    <logger name="org.api.mkm"><level value="DEBUG"/></logger>
-    <logger name="org.mtgstock.services"><level value="DEBUG"/></logger>
+    <logger name="org.api.mkm"><level value="WARN"/></logger>
+    <logger name="org.mtgstock.services"><level value="WARN"/></logger>
     <logger name="org.apache.http"><level value="WARN"/></logger>
     <logger name="org.apache.commons"><level value="ERROR"/></logger>
     <logger name="org.apache.commons.jcs"><level value="ERROR"/></logger>
