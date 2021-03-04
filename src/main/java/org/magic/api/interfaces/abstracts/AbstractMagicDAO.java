@@ -155,6 +155,16 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		return listOrders.values();
 	}
+	
+	
+
+	
+	@Override
+	public MagicCardStock getStockWithTiersID(String key, Object id) throws SQLException {
+		return listStocks().stream().filter(st->st.getTiersAppIds().get(key).toString().equals(id)).findAny().orElse(null);
+	}
+	
+	
 
 	@Override
 	public void duplicateTo(MTGDao dao) throws SQLException {

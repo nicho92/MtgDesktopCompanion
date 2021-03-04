@@ -587,6 +587,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pst.executeUpdate(sql);
 		}
 	}
+	
+	
+	
 
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {

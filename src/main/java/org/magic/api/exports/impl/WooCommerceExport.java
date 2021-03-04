@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,11 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTG;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
@@ -207,11 +210,46 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		for(JsonElement e : ret)
 		{
-			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-						   st.getTiersAppIds().put(getName(), e.getAsJsonObject().get("id").getAsInt());
-						   st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
-			List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true);
-						   st.setMagicCard(cards.get(0));
+			
+			int id = e.getAsJsonObject().get("id").getAsInt();
+			
+			MagicCardStock st =null;
+			
+			try {
+				
+				
+				st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
+				
+				if(st==null)
+				{
+					logger.debug("stock not found . Create new one");
+					st = MTGControler.getInstance().getDefaultStock();
+					st.getTiersAppIds().put(getName(), id);
+					
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true).stream().findFirst().orElse(null);
+					if(mc!=null)
+					{
+						st.setMagicCard(mc);
+					}
+					else
+					{
+						logger.debug(e.getAsJsonObject().get("name").getAsString() + " is not found");
+						continue;
+					}
+					
+				}
+				else
+				{
+					logger.debug("Found " + st.getIdstock() + " item with " + getName()+" id = "+id);
+					st.setUpdate(true);
+				}
+				
+				st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
+				
+			
+			} catch (SQLException e1) {
+				logger.error(e1);
+			}
 			
 			stocks.add(st);
 			
@@ -226,7 +264,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
-		if(wooCommerce==null)
+		//if(wooCommerce==null)
 			init();
 		
 		if(stocks.size()>getInt("BATCH_THRESHOLD"))
