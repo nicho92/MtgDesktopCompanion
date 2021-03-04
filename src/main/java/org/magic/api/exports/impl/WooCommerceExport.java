@@ -217,7 +217,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			
 			try {
 				
-				
+				logger.trace(e);
 				st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 				
 				if(st==null)
@@ -245,7 +245,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				}
 				
 				st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
-				
+				st.setQte(e.getAsJsonObject().get("stock_quantity").getAsInt());
 			
 			} catch (SQLException e1) {
 				logger.error(e1);
@@ -304,7 +304,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				}
 				else
 				{
-					st.getTiersAppIds().put(getName(), ret.get("id"));
+					st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
 					st.setUpdate(true);
 				}
 				
@@ -322,7 +322,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			return productInfo;
 		
 		if(st.getTiersAppIds().get(getName())!=null)
-			productInfo.put("id", st.getTiersAppIds().get(getName()));
+			productInfo.put("id", st.getTiersAppIds(getName()));
 		
 		
         productInfo.put("name", toForeign(st.getMagicCard()).getName());

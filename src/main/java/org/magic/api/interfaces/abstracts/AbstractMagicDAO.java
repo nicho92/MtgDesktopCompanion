@@ -161,7 +161,11 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public MagicCardStock getStockWithTiersID(String key, Object id) throws SQLException {
-		return listStocks().stream().filter(st->st.getTiersAppIds().get(key).toString().equals(id)).findAny().orElse(null);
+		
+		if(key==null)
+			return null;
+		
+		return listStocks().stream().filter(st->st.getTiersAppIds(key)==id).findAny().orElse(null);
 	}
 	
 	
