@@ -491,7 +491,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							try {
 								Collections.sort(cards, new CardsEditionSorter());
 							}
-							catch(IllegalArgumentException e)
+							catch(Exception e)
 							{
 								logger.error("error sorting result "+e);
 							}
