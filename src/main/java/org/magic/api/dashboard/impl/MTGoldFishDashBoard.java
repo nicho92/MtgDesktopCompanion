@@ -193,6 +193,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			
 			
+			if(mc.getCurrentSet().getId().equals("PUMA"))
+				extend="";
+			
+			
 			url = getString(WEBSITE) + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
 		}
 
