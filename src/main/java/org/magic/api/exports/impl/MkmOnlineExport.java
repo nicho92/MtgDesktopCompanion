@@ -286,7 +286,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 						if(mcs.getTiersAppIds().get(getName())!=null)
 						{
 							try {
-								Integer id = ((Double)mcs.getTiersAppIds().get(getName())).intValue();
+								Integer id = mcs.getTiersAppIds().get(getName());
 								a.setIdArticle(id);
 								logger.debug("Item " + mcs + " is present for " + getName() +" with id="+id + " and idproduct="+p.getIdProduct());
 								Inserted retour  = serv.updateArticles(a);

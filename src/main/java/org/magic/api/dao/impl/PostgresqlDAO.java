@@ -65,12 +65,12 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	
 
 	@Override
-	protected Map<String, Object> readTiersApps(ResultSet rs) throws SQLException {
+	protected Map<String, Integer> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
 	}
 	
 	@Override
-	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Object> tiersAppIds) throws SQLException {
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Integer> tiersAppIds) throws SQLException {
 		
 		PGobject jsonObject = new PGobject();
 		jsonObject.setType("json");

@@ -69,12 +69,12 @@ public class H2DAO extends AbstractSQLMagicDAO {
 	
 
 	@Override
-	protected Map<String, Object> readTiersApps(ResultSet rs) throws SQLException {
+	protected Map<String, Integer> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
 	}
 	
 	@Override
-	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Object> tiersAppIds) throws SQLException {
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Integer> tiersAppIds) throws SQLException {
 		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
 	}
 	

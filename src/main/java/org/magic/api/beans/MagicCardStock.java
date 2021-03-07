@@ -26,7 +26,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private double price=0.0;
 	private boolean oversize=false;
 	private Grading grade;
-	private transient Map<String,Object> tiersAppIds;
+	private transient Map<String,Integer> tiersAppIds;
 	
 	
 	public Object getTiersAppIds(String name) {
@@ -34,11 +34,11 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	}
 	
 	
-	public Map<String, Object> getTiersAppIds() {
+	public Map<String, Integer> getTiersAppIds() {
 		return tiersAppIds;
 	}
 
-	public void setTiersAppIds(Map<String, Object> tiersAppIds) {
+	public void setTiersAppIds(Map<String, Integer> tiersAppIds) {
 		this.tiersAppIds = tiersAppIds;
 	}
 

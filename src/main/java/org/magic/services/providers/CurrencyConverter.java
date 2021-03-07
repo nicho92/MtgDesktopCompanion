@@ -78,7 +78,7 @@ public class CurrencyConverter {
 		}
 		catch(Exception e)
 		{
-			logger.error("Error convert " + from + " to " + to +", return default value");
+			logger.error("Error convert " + from + " to " + to +", return default value",e);
 			return value;
 		}
 		
