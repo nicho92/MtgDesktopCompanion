@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.ThreadManager;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
@@ -93,6 +94,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		download();
 		pool = new HikariPool();
 		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);
+		
+		ThreadManager.getInstance().executeThread(()->{
+			logger.debug("Loading " +getName() + " extra data cards in background");
+				initForeign();
+				initLegalities();
+				initRules();
+				
+			
+		}, getName() + "extradata loading");
+		
+		
 	}
 
 	@Override
@@ -391,8 +403,60 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		
 		mc.getForeignNames().add(defaultName);
 		
+		
 		if(mapForeignData.isEmpty())
+			initForeign();
+		
+		return (List<MagicCardNames>) mapForeignData.get(mc.getId());
+		
+	}
+	
+	private void initRules()
+	{
+		logger.debug("rulings empty. Loading it");
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM rulings")) 
 		{
+			try (ResultSet rs = pst.executeQuery())
+			{ 
+				while(rs.next())
+				{
+					MagicRuling names = new MagicRuling();
+					names.setText(rs.getString("text"));
+					names.setDate(rs.getString("date"));
+					String id = rs.getString(UUID);
+					
+					mapRules.put(id, names);
+				}
+			}
+			
+		} catch (SQLException e) {
+			logger.error("error loading rules" ,e);
+		}
+	}
+	
+	
+	private void initLegalities()
+	{
+		logger.debug("legalities empty. Loading it");
+		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM legalities")) 
+		{
+			try (ResultSet rs = pst.executeQuery())
+			{ 
+				while(rs.next())
+				{
+					String id = rs.getString(UUID);
+					mapLegalities.put(id, new MagicFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
+				}
+			}
+			
+		} catch (SQLException e) {
+			logger.error("error loading legalities",e);
+		}
+	}
+	
+	private void initForeign() {
+		
+		
 			logger.debug("foreignData empty. Loading it");
 				try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM foreign_data")) 
 				{
@@ -414,62 +478,23 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					}
 					
 				} catch (SQLException e) {
-					logger.error("error getting foreignData for " + mc ,e);
+					logger.error("error loading foreignData",e);
 				}
-		}
 		
-		return (List<MagicCardNames>) mapForeignData.get(mc.getId());
 		
 	}
-	
+
 	private List<MagicRuling> getRulings(String uuid) {
-		
 		if(mapRules.isEmpty())
-		{
-			logger.debug("rulings empty. Loading it");
-				try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM rulings")) 
-				{
-					try (ResultSet rs = pst.executeQuery())
-					{ 
-						while(rs.next())
-						{
-							MagicRuling names = new MagicRuling();
-							names.setText(rs.getString("text"));
-							names.setDate(rs.getString("date"));
-							String id = rs.getString(UUID);
-							
-							mapRules.put(id, names);
-						}
-					}
-					
-				} catch (SQLException e) {
-					logger.error("error getting rules for " + uuid ,e);
-				}
-		}
+			initRules();
 		
 		return (List<MagicRuling>) mapRules.get(uuid);
-		
 	}
 	
 	private List<MagicFormat> getLegalities(String uuid){
 		if(mapLegalities.isEmpty())
-		{
-			logger.debug("legalities empty. Loading it");
-				try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM legalities")) 
-				{
-					try (ResultSet rs = pst.executeQuery())
-					{ 
-						while(rs.next())
-						{
-							String id = rs.getString(UUID);
-							mapLegalities.put(id, new MagicFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
-						}
-					}
-					
-				} catch (SQLException e) {
-					logger.error("error getting legalities for " + uuid ,e);
-				}
-		}
+			initLegalities();
+		
 		
 		return (List<MagicFormat>) mapLegalities.get(uuid);
 	}
