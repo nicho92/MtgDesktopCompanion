@@ -160,7 +160,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	
 	@Override
-	public MagicCardStock getStockWithTiersID(String key, Object id) throws SQLException {
+	public MagicCardStock getStockWithTiersID(String key, Integer id) throws SQLException {
 		
 		if(key==null)
 			return null;

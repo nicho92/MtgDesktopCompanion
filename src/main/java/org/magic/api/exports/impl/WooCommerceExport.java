@@ -210,19 +210,15 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		for(JsonElement e : ret)
 		{
-			
-			int id = e.getAsJsonObject().get("id").getAsInt();
-			
-			MagicCardStock st =null;
-			
 			try {
-				
+				int id = e.getAsJsonObject().get("id").getAsInt();
+				MagicCardStock st =null;
 				logger.trace(e);
 				st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 				
 				if(st==null)
 				{
-					logger.debug("stock not found . Create new one");
+					logger.debug("stock not found with id="+id+". Create new one");
 					st = MTGControler.getInstance().getDefaultStock();
 					st.getTiersAppIds().put(getName(), id);
 					
@@ -247,13 +243,15 @@ public class WooCommerceExport extends AbstractCardExport {
 				st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
 				st.setQte(e.getAsJsonObject().get("stock_quantity").getAsInt());
 			
-			} catch (SQLException e1) {
+				stocks.add(st);
+				
+				notify(st.getMagicCard());
+				
+			} catch (Exception e1) {
 				logger.error(e1);
 			}
 			
-			stocks.add(st);
 			
-			notify(st.getMagicCard());
 			
 		}
 		return stocks;

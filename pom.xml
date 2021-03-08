@@ -244,7 +244,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_231</version>
+			<version>4.2.0_236</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -504,7 +504,7 @@
 		<dependency>
 			<groupId>net.coderazzi</groupId>
 			<artifactId>tablefilter-swing</artifactId>
-			<version>5.5.2</version>
+			<version>5.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
