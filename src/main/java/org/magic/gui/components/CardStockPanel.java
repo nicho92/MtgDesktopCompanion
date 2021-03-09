@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
@@ -124,6 +126,17 @@ public class CardStockPanel extends MTGUIComponent {
 			logger.error(e);
 		}
 		}
+	}
+	
+	@Override
+	public void onHide() {
+		boolean isUpdatedModel = model.getItems().stream().anyMatch(MagicCardStock::isUpdate);
+		
+		if(isUpdatedModel)
+		{
+			MTGControler.getInstance().notify(new MTGNotification("Item Updated", "Don't forget to save your updates", MESSAGE_TYPE.WARNING));
+		}
+		
 	}
 
 	public void addLine()
