@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -15,6 +16,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -59,11 +61,21 @@ public class JsonExport extends AbstractCardExport {
 		return toJsonElement(o).getAsJsonArray();
 	}
 	
+
+	public <U,V> Map<U,V> fromJsonCollection(String json, Class<U> class1,Class<V> class2) {
+		return gson.fromJson(json, new TypeToken<Map<U, V>>() 
+		{
+			private static final long serialVersionUID = 1L;
+		}.getType());
 		
+	}
+	
+			
 	public <T> T fromJson(String s,Class<T> classe)
 	{
 		return gson.fromJson(s, classe);
 	}
+	
 	
 	public <T> List<T> fromJsonList(String s,Class<T> classe)
 	{
@@ -235,8 +247,6 @@ public class JsonExport extends AbstractCardExport {
 		}
 		return arr;
 	}
-	
 
-	
 	
 }

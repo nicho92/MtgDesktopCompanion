@@ -492,7 +492,6 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void addStock(MagicCardStock mcs) {
-		mcs.setIdstock(-1);
 		mcs.setUpdate(true);
 		model.addItem(mcs);
 	}

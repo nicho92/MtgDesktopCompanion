@@ -31,7 +31,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
-import org.magic.services.providers.CurrencyConverter;
+import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
@@ -47,7 +47,7 @@ public class MTGControler {
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
 	private EventsManager eventsManager;
-	private CurrencyConverter currencyService;
+	private ApilayerCurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	
@@ -97,7 +97,7 @@ public class MTGControler {
 		}
 		
 		
-		currencyService = new CurrencyConverter(get("currencylayer-access-api"));
+		currencyService = new ApilayerCurrencyConverter(get("currencylayer-access-api"));
 		try {
 			currencyService.init();
 		}
@@ -220,7 +220,7 @@ public class MTGControler {
 	
 	
 
-	public CurrencyConverter getCurrencyService() {
+	public ApilayerCurrencyConverter getCurrencyService() {
 		return currencyService;
 	}
 

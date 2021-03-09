@@ -182,6 +182,9 @@ public class WooCommerceExport extends AbstractCardExport {
 								   header.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 				Map<String,JsonElement> ret = new HashMap<>();
 				try {
+					
+					logger.debug("POST json =" + object);
+					
 					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes()), header);
 					
 					JsonObject obj = URLTools.toJson(str).getAsJsonObject();
@@ -211,9 +214,8 @@ public class WooCommerceExport extends AbstractCardExport {
 		for(JsonElement e : ret)
 		{
 			try {
-				int id = e.getAsJsonObject().get("id").getAsInt();
+				String id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
 				MagicCardStock st =null;
-				logger.trace(e);
 				st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 				
 				if(st==null)
@@ -236,7 +238,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				}
 				else
 				{
-					logger.debug("Found " + st.getIdstock() + " item with " + getName()+" id = "+id);
+					logger.debug("Found idMTGStock=" + st.getIdstock() + "with " + getName()+" id = "+id);
 					st.setUpdate(true);
 				}
 				
@@ -248,7 +250,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				notify(st.getMagicCard());
 				
 			} catch (Exception e1) {
-				logger.error(e1);
+				logger.error("error importStock",e1);
 			}
 			
 			
@@ -302,7 +304,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				}
 				else
 				{
-					st.getTiersAppIds().put(getName(), ret.get("id").getAsInt());
+					st.getTiersAppIds().put(getName(), ret.get("id").getAsString());
 					st.setUpdate(true);
 				}
 				
@@ -405,7 +407,7 @@ public class WooCommerceExport extends AbstractCardExport {
 							}
 							else
 							{
-								creates.get(i).getTiersAppIds().put(getName(), obj.get("id").getAsInt());
+								creates.get(i).getTiersAppIds().put(getName(), String.valueOf(obj.get("id").getAsInt()));
 								creates.get(i).setUpdate(true);
 							}
 					}

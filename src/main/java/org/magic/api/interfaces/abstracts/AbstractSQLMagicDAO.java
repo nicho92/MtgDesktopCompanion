@@ -56,8 +56,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected abstract Grading readGrading(ResultSet rs) throws SQLException;
 	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
-	protected abstract Map<String, Integer> readTiersApps(ResultSet rs) throws SQLException;
-	protected abstract void storeTiersApps(PreparedStatement pst, int i, Map<String, Integer> tiersAppIds) throws SQLException;
+	protected abstract Map<String, String> readTiersApps(ResultSet rs) throws SQLException;
+	protected abstract void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException;
 
 	protected static final int COLLECTION_COLUMN_SIZE=30;
 	protected static final int CARD_ID_SIZE=50;

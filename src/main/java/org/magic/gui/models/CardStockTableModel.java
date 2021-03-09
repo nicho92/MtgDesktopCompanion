@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.util.Map;
 
+import org.jfree.chart.LegendItemSource;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -35,6 +36,26 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 				"COMMENTS",
 				"SYNC"};
 	}
+	
+	@Override
+	public void addItem(MagicCardStock t) {
+		if(t.getIdstock()==-1)
+		{
+			items.add(t);
+		}
+		else
+		{
+			for(int i=0;i<=items.size();i++)
+			{
+				if(items.get(i).getIdstock()==t.getIdstock())
+				{
+					items.set(i, t);
+					break;
+				}
+			}
+		}
+	}
+	
 
 	@Override
 	public int[] defaultHiddenColumns() {

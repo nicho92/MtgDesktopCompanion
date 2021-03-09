@@ -18,13 +18,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 
-public class CurrencyConverter {
+public class ApilayerCurrencyConverter {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HashMap<String, Double> map;
 	private File cache;
 	private String token;
 	
-	public CurrencyConverter(String token) {
+	public ApilayerCurrencyConverter(String token) {
 		this.token=token;
 		map = new HashMap<>();
 		cache=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"conversionData.json").toFile();

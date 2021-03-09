@@ -49,12 +49,12 @@ public class MariaDBDAO extends AbstractSQLMagicDAO {
 	
 
 	@Override
-	protected Map<String, Integer> readTiersApps(ResultSet rs) throws SQLException {
-		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
+	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
+		return  serialiser.fromJsonCollection(rs.getString("tiersAppIds"),String.class,String.class);
 	}
 	
 	@Override
-	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, Integer> tiersAppIds) throws SQLException {
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException {
 		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
 	}
 	

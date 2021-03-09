@@ -286,8 +286,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 						if(mcs.getTiersAppIds().get(getName())!=null)
 						{
 							try {
-								Integer id = mcs.getTiersAppIds().get(getName());
-								a.setIdArticle(id);
+								String id = mcs.getTiersAppIds().get(getName());
+								a.setIdArticle(Integer.parseInt(id));
 								logger.debug("Item " + mcs + " is present for " + getName() +" with id="+id + " and idproduct="+p.getIdProduct());
 								Inserted retour  = serv.updateArticles(a);
 								if(!retour.isSuccess())
@@ -314,7 +314,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 									}
 									else
 									{
-										mcs.getTiersAppIds().put(getName(), retour.getIdArticle().getIdArticle());
+										mcs.getTiersAppIds().put(getName(), String.valueOf(retour.getIdArticle().getIdArticle()));
 										mcs.setUpdate(true);
 									}
 								
@@ -379,7 +379,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
-			mcs.getTiersAppIds().put(getName(), a.getIdArticle());
+			mcs.getTiersAppIds().put(getName(), String.valueOf(a.getIdArticle()));
 			stock.add(mcs);
 			notify(mcs.getMagicCard());
 
