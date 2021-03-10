@@ -113,7 +113,7 @@ public class FileDAO extends AbstractMagicDAO{
 		new File(directory, STOCKDIR).mkdir();
 		new File(directory, NEWSDIR).mkdir();
 		new File(directory, ORDERSDIR).mkdir();
-		new File(directory,PACKAGESSDIR).mkdir();
+		new File(directory, PACKAGESSDIR).mkdir();
 		
 		new File(new File(directory, CARDSDIR), MTGControler.getInstance().get("default-library")).mkdir();
 		logger.debug("File DAO init");

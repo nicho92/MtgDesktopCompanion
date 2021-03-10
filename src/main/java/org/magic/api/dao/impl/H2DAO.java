@@ -106,10 +106,7 @@ public class H2DAO extends AbstractSQLMagicDAO {
 			return FileUtils.sizeOfDirectory(getFile(SERVERNAME));
 		else
 			return 0;
-		
-		
 	}
-
 
 	public String getName() {
 		return "h2";

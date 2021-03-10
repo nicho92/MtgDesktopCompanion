@@ -59,7 +59,6 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
 	
-
 	@Override
 	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
@@ -70,16 +69,13 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
 	}
 	
-
-	
 	@Override
 	protected String getdbSizeQuery() {
 		return null;
 	}
 	
 	@Override
-	protected boolean isJsonCompatible()
-	{
+	protected boolean isJsonCompatible() {
 		return false;
 	}
 
@@ -89,8 +85,8 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	}
 
 	@Override
-	public long getDBSize() {
-		
+	public long getDBSize() 
+	{
 		if(getString(MODE).equals("mem"))
 			return 0;
 		
@@ -98,8 +94,6 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 			return FileUtils.sizeOfDirectory(getFile(SERVERNAME));
 		else
 			return 0;
-		
-		
 	}
 
 
