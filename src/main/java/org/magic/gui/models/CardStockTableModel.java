@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.util.Map;
 
-import org.jfree.chart.LegendItemSource;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -184,27 +183,6 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		items.get(row).setUpdate(true);
 
 		
-	}
-
-	public void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
-		
-		try {
-			if(!magicCardStock.getMagicCard().getCurrentSet().equals(aValue))
-			{
-				getEnabledPlugin(MTGDao.class).deleteStock(magicCardStock);
-				magicCardStock.setMagicCard(MTGControler.getInstance().switchEditions(magicCardStock.getMagicCard(), aValue));
-				magicCardStock.setIdstock(-1);
-				
-				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(magicCardStock);
-				
-				
-			}
-			}
-			catch(Exception e)
-			{
-				logger.error("Error update edition for " + magicCardStock,e);
-			}
-
 	}
 
 
