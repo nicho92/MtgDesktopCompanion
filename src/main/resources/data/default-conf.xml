@@ -436,11 +436,11 @@
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.MariaDBDAO</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.SQLLiteDAO</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.H2DAO</class>
