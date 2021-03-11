@@ -36,7 +36,6 @@ public class MTGAssistantCardExport extends AbstractFormattedFileCardExport {
 		matches(content,true).forEach(m->{
 			
 			
-				System.out.println(m.group(1));
 			
 		});
 		
