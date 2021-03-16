@@ -18,6 +18,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.jdesktop.swingx.JXTree;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.tools.BeanTools;
 
@@ -82,18 +86,17 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 						});
 					
 				}
-				
-				if(e.getValue() instanceof Map)
-				{
-					Map<?,?> t = (Map<?,?>)e.getValue();
-					
-					if(!t.isEmpty())
-						BeanTools.describe(t.values().iterator().next()).entrySet().forEach(f->{
-							DefaultMutableTreeNode entryEd = new DefaultMutableTreeNode(f.getKey());
-							entry.add(entryEd);
-						});
-					
-				}
+//				
+//				if(e.getValue() instanceof Map)
+//				{
+//					Map<?,?> t = (Map<?,?>)e.getValue();
+//					
+//					if(!t.isEmpty())
+//						BeanTools.describe(t.values().iterator().next()).entrySet().forEach(f->{
+//							DefaultMutableTreeNode entryEd = new DefaultMutableTreeNode(f.getKey());
+//							entry.add(entryEd);
+//						});
+//				}
 				
 			}
 			root.add(entry);
@@ -110,4 +113,22 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public static void main(String[] args) {
+		ExportConfiguratorPanel panel = new ExportConfiguratorPanel();
+		
+		MagicCard mc = new MagicCard();
+		mc.setId("test");
+		
+		MagicDeck st = new MagicDeck();
+					   st.add(mc);
+					   st.addSide(mc);
+		panel.initTree(st);
+		
+		MTGUIComponent.createJDialog(panel,true,true).setVisible(true);
+	}
+	
+	
+	
 }

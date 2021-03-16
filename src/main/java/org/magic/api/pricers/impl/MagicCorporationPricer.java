@@ -66,13 +66,15 @@ public class MagicCorporationPricer extends AbstractMagicPricesProvider {
 						mp.setSeller(tr.select("td").first().text());
 						mp.setSite(getName());
 						mp.setLanguage("EN");
+						
 						if(tr.select("td").get(2).childNodeSize()>0)
 						{
-							if(tr.select("td").get(2).getElementsByTag("img").first().attr("href").contains("vo.gif"))
-								mp.setLanguage("EN");
-							
-							if(tr.select("td").get(2).getElementsByTag("img").first().attr("href").contains("vf.gif"))
+							if(tr.select("td").get(2).getElementsByTag("img").first().attr("src").contains("de.gif"))
+								mp.setLanguage("DE");
+							else if(tr.select("td").get(2).getElementsByTag("img").first().attr("src").contains("vf.gif"))
 								mp.setLanguage("FR");
+							else
+								mp.setLanguage("EN");
 						}
 						mp.setFoil(tr.select("td").get(2).childNodeSize()>1);
 						mp.setUrl(tr.select("td").first().getElementsByTag("a").attr("href"));
