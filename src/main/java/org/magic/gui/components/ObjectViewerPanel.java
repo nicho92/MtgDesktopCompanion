@@ -8,12 +8,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.tools.MemoryTools;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.magic.tools.BeanTools;
 
 public class ObjectViewerPanel extends MTGUIComponent {
 
@@ -60,28 +56,16 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		
 		if(rdoJson.isSelected())
 		{
-			Gson g = new GsonBuilder().setPrettyPrinting().create();
-			textpane.setText(g.toJson(currentObject));
+			textpane.setText(BeanTools.toJson(currentObject));
 			textpane.setCaretPosition(0);
 		}
 		else if(rdoMemory.isSelected())
 		{
-			textpane.setText(MemoryTools.statInstanceToString(currentObject));
+			textpane.setText(BeanTools.toMemory(currentObject));
 		}
 		else
 		{
-			StringBuilder build = new StringBuilder();
-			
-			try {
-				PropertyUtils.describe(currentObject).entrySet().forEach(e->
-						build.append(e.getKey()).append("\t").append(e.getValue()).append("\n")
-				);
-			} catch (Exception e) {
-				textpane.setText(e.getMessage());
-			} 
-			
-			textpane.setText(build.toString());
-			
+			textpane.setText(BeanTools.toString(currentObject,"\t"));
 		}
 		
 	}

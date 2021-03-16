@@ -38,7 +38,7 @@ public class JsonExport extends AbstractCardExport {
 	
 	public JsonExport() {
 		super();
-		gson=new GsonBuilder().create();
+		gson=new GsonBuilder().setPrettyPrinting().create();
 	}
 	
 	public String toJson(Object o)

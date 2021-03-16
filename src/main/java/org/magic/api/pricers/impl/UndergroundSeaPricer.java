@@ -31,16 +31,31 @@ public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
 		return "UnderGroundSea";
 	}
 
-	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	
+	private String getUrl()
+	{
 		String month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)+1);
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
+
+		if(!URLTools.isCorrectConnection(url))
+		{
+			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH));
+			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
+		}
 		
+		return url;
+	}
+	
+	
+	@Override
+	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
-		Document d = URLTools.extractHtml(url);
+		Document d = URLTools.extractHtml(getUrl());
 		AstNode root = new Parser().parse(d.select("script").get(1).html(), "", 1);
 		List<MagicPrice> ret = new ArrayList<>();
+		
+		String url = getUrl();
 		
 		root.visit(visitedNode -> {
 			if(visitedNode.getType()==Token.NEW)

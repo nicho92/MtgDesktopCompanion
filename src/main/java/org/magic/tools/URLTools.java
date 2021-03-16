@@ -263,6 +263,16 @@ public class URLTools {
 		}
 	}
 	
+	public static boolean isCorrectConnection(String url)
+	{
+		try {
+			return isCorrectConnection(openConnection(url));
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
+	
 	
 	public static boolean isCorrectConnection(HttpURLConnection connection) {
 			try {
