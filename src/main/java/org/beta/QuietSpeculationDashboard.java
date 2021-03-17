@@ -22,6 +22,9 @@ import org.magic.tools.URLTools;
 public class QuietSpeculationDashboard extends AbstractDashBoard {
 
 	
+	private static final String BASE_URL = "https://www.quietspeculation.com";
+
+
 	public static void main(String[] args) throws IOException {
 		QuietSpeculationDashboard dahs = new QuietSpeculationDashboard();
 		
@@ -60,7 +63,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
-		String uri = "https://www.quietspeculation.com/tradertools/prices/sets/"+ed.getSet().replace(" ", "%20");
+		String uri = BASE_URL+"/tradertools/prices/sets/"+ed.getSet().replace(" ", "%20");
 		EditionsShakers ret = new EditionsShakers();
 			ret.setEdition(ed);
 			ret.setDate(new Date());
