@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +9,16 @@ import java.util.regex.Matcher;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.tools.FileTools;
 
 public class MTGStandExport extends AbstractFormattedFileCardExport {
 
+	
+	private String columns = " Name,Quantity,Edition,\"Edition Code\",\"Collector Number\",Language,Foil,Condition,Rarity,Note";
+	
+	
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -39,10 +45,44 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		// TODO Auto-generated method stub
-		super.exportStock(stock, f);
+		
+		StringBuilder build = new StringBuilder();
+					  build.append(columns).append(System.lineSeparator());
+		
+		for(MagicCardStock st : stock)
+		{
+			
+			build.append("\"").append(st.getMagicCard().getName()).append("\",");
+			build.append(st.getQte()).append(",");
+			build.append("\"").append(st.getMagicCard().getCurrentSet().getSet()).append("\",");
+			build.append(st.getMagicCard().getCurrentSet().getId()).append(",");
+			build.append(st.getMagicCard().getCurrentSet().getNumber()).append(",");
+			build.append(st.getLanguage()).append(",");
+			if(st.isFoil())
+				build.append("1,");
+			else
+				build.append("0,");
+			
+			build.append(convert(st.getCondition())).append(",");
+			build.append(st.getMagicCard().getCurrentSet().getRarity()).append(",");
+			build.append(st.getComment()).append(System.lineSeparator());
+		}
+		
+		FileTools.saveFile(f, build.toString());
+		
 	}
 	
+	private String convert(EnumCondition condition) {
+		switch (condition)
+		{
+		case LIGHTLY_PLAYED: return "Slightly Played";
+		case PLAYED:return "Moderately Played";
+		case POOR: return "Heavily Played";
+		default: return "Near Mint";
+		
+		}
+	}
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		List<MagicCardStock> ret = new ArrayList<>();
@@ -89,7 +129,8 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "\"(.*?)\",(\\d+),(.*?),(.*?),(\\d+),(.*?),(\\d+),\"(.*?)\",(.*?),(.*?)$";
+		return "\\\"?(.*?)\\\"?,(\\d),\\\"?(.*?)\\\"?,(.*?),(\\d+),(.*?),(\\d),\"(.*?)\",(.*?),(.*?)?$";
+		
 	}
 
 	@Override
