@@ -45,7 +45,7 @@ public class AboutDialog extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		setPreferredSize(new Dimension(600, 400));
 		StringBuilder developper = new StringBuilder("<html><center>"); 
-			developper.append(capitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
+			developper.append(capitalize("DEVELOPPERS_ABOUT", "Nicho", "Apache License " + new SimpleDateFormat("yyyy").format(new Date())));
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
 			try {
 				developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
