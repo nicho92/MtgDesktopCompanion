@@ -10,10 +10,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 
-public class MagicBazarPricer extends AbstractMagicPricesProvider {
+public class MagicBazarPricer extends AbstractPricesProvider {
 
 	private static final String BASE_URL="https://en.play-in.com/";
 	

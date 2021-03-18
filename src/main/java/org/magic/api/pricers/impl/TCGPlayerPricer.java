@@ -9,13 +9,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-public class TCGPlayerPricer extends AbstractMagicPricesProvider {
+public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	@Override
 	public STATUT getStatut() {

@@ -9,12 +9,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-public class MagicVillePricer extends AbstractMagicPricesProvider {
+public class MagicVillePricer extends AbstractPricesProvider {
 	
 	private static final String MAX = "MAX";
 	private static final String WEBSITE = "WEBSITE";

@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
@@ -17,7 +17,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class MiniatureMarketPricer extends AbstractMagicPricesProvider {
+public class MiniatureMarketPricer extends AbstractPricesProvider {
 
 	@Override
 	public String getName() {

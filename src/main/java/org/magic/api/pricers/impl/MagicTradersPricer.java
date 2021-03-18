@@ -10,10 +10,10 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 
-public class MagicTradersPricer extends AbstractMagicPricesProvider {
+public class MagicTradersPricer extends AbstractPricesProvider {
 
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 

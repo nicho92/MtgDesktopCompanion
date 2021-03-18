@@ -6,14 +6,14 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class ChannelFireballPricer extends AbstractMagicPricesProvider {
+public class ChannelFireballPricer extends AbstractPricesProvider {
 
 	private static final String BASEURL="https://shop.channelfireball.com";
 	

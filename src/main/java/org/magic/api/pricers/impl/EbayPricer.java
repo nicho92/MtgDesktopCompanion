@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -14,7 +14,7 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-public class EbayPricer extends AbstractMagicPricesProvider {
+public class EbayPricer extends AbstractPricesProvider {
 
 	
 	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";

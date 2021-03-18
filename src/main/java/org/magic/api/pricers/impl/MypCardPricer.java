@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -18,7 +18,7 @@ import org.magic.tools.URLToolsClient;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class MypCardPricer extends AbstractMagicPricesProvider {
+public class MypCardPricer extends AbstractPricesProvider {
 
 	
 	private static final String BASE_URL="https://mypcards.com";

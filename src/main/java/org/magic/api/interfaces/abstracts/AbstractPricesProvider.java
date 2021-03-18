@@ -14,7 +14,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
 
-public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin implements MTGPricesProvider {
+public abstract class AbstractPricesProvider extends AbstractMTGPlugin implements MTGPricesProvider {
 
 	@Override
 	public PLUGINS getType() {

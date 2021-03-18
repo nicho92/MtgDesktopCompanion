@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class PriceMinisterPricer extends AbstractMagicPricesProvider {
+public class PriceMinisterPricer extends AbstractPricesProvider {
 
 	@Override
 	public STATUT getStatut() {

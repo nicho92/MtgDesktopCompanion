@@ -8,12 +8,12 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 
 import com.google.gson.stream.JsonReader;
 
-public class MTGPricePricer extends AbstractMagicPricesProvider {
+public class MTGPricePricer extends AbstractPricesProvider {
 
 	private static final String API_KEY = "API_KEY";
 

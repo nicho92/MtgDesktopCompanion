@@ -21,11 +21,11 @@ import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 
-public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
+public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 
 	private static final String IS_EXACT = "IS_EXACT";
 	private static final String FALSE = "false";

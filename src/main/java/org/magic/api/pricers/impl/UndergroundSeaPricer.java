@@ -10,7 +10,7 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
@@ -18,7 +18,7 @@ import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstNode;
 
 
-public class UndergroundSeaPricer extends AbstractMagicPricesProvider {
+public class UndergroundSeaPricer extends AbstractPricesProvider {
 
 	private static final String BASE_URL="http://www.usmtgproxy.com/";
 	private String priceToken="price = ";

@@ -10,12 +10,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
-public class StarCityGamesPricer extends AbstractMagicPricesProvider {
+public class StarCityGamesPricer extends AbstractPricesProvider {
 
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	

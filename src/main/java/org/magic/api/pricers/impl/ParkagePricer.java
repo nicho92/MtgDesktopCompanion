@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 
-public class ParkagePricer extends AbstractMagicPricesProvider {
+public class ParkagePricer extends AbstractPricesProvider {
 
 	
 	private static final String URL_BASE="https://www.parkage.com";

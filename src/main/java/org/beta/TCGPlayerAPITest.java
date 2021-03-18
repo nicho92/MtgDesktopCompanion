@@ -7,14 +7,14 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 
-public class TCGPlayerAPITest extends AbstractMagicPricesProvider {
+public class TCGPlayerAPITest extends AbstractPricesProvider {
 
 	public static void main(String[] args) throws IOException {
 		MagicCard mc = new MagicCard();

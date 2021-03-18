@@ -9,13 +9,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
-public class MagicCorporationPricer extends AbstractMagicPricesProvider {
+public class MagicCorporationPricer extends AbstractPricesProvider {
 
 	private static final String BASE_URL="http://www.magiccorporation.com/";
 	

@@ -12,14 +12,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
-public class CardKingdomPricer extends AbstractMagicPricesProvider {
+public class CardKingdomPricer extends AbstractPricesProvider {
 	
 	private static final String API_URI="https://api.cardkingdom.com/api/pricelist";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
