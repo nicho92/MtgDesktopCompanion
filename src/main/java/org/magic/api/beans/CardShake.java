@@ -1,10 +1,15 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-public class CardShake  {
+public class CardShake implements Serializable  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String link;
 	private Double price;
