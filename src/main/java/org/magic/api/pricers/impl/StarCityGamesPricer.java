@@ -27,18 +27,11 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search/?card_name="+cardName);
 		Document page = build.toHtml();
 		Elements divs = page.select("div.hawk-results-item");
-
-		System.out.println(page);
-		
-		
 		for(Element div : divs)
 		{
 			
 			try {
-			
-					System.out.println(div);
-				
-				
+					logger.debug(div);
 			}
 			catch(Exception e)
 			{

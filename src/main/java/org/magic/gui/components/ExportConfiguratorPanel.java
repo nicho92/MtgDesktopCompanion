@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,8 +18,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.tools.BeanTools;
