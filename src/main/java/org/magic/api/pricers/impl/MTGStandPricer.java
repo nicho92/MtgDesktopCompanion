@@ -28,7 +28,11 @@ public class MTGStandPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		String url=BASE_URL+"/api/"+getString("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
+		
+		
+		String cur=MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
+		
+		String url=BASE_URL+"/api/"+getString("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
 		logger.debug(getName() +" looking for prices at " + url);
 		
 		List<MagicPrice> ret = new ArrayList<>();
@@ -43,18 +47,27 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		for(JsonElement el : arr)
 		{
 			MagicPrice p = new MagicPrice();
-			p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+			p.setCurrency(cur);
 			p.setMagicCard(card);
 			p.setSeller(el.getAsJsonObject().get("username").getAsString());
 			p.setSellerUrl(el.getAsJsonObject().get("user_market_stand_url").getAsString());
 			p.setUrl(el.getAsJsonObject().get("user_market_stand_url").getAsString());
-			p.setValue(el.getAsJsonObject().get("SellingPrice"+MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode()).getAsDouble());
 			p.setQuality(el.getAsJsonObject().get("condition").getAsString());
 			p.setLanguage(el.getAsJsonObject().get("language").getAsString());
 			p.setQty(el.getAsJsonObject().get("quantity").getAsInt());
 			p.setCountry(el.getAsJsonObject().get("user_country").getAsString());
 			p.setSite(getName());
-			
+		
+			if(!el.getAsJsonObject().get("SellingPrice"+cur).isJsonNull())
+			{
+				p.setValue(el.getAsJsonObject().get("SellingPrice"+cur).getAsDouble());
+				p.setFoil(false);
+			}
+			else if(!el.getAsJsonObject().get("SellingPriceFoil"+cur).isJsonNull())
+			{
+				p.setValue(el.getAsJsonObject().get("SellingPriceFoil"+cur).getAsDouble());
+				p.setFoil(true);
+			}
 			ret.add(p);
 		}
 		
