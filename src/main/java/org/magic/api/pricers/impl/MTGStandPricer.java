@@ -52,6 +52,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 			p.setQuality(el.getAsJsonObject().get("condition").getAsString());
 			p.setLanguage(el.getAsJsonObject().get("language").getAsString());
 			p.setQty(el.getAsJsonObject().get("quantity").getAsInt());
+			p.setCountry(el.getAsJsonObject().get("user_country").getAsString());
 			p.setSite(getName());
 			
 			ret.add(p);
