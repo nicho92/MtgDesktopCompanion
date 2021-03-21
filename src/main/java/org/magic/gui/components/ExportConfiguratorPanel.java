@@ -18,7 +18,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.tools.BeanTools;
 
@@ -116,12 +121,16 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 		ExportConfiguratorPanel panel = new ExportConfiguratorPanel();
 		
 		MagicCard mc = new MagicCard();
+		mc.getEditions().add(new MagicEdition("test"));
 		mc.setId("test");
-		
+		mc.getLegalities().add(new MagicFormat());
+		mc.getRulings().add(new MagicRuling());
+		mc.getForeignNames().add(new MagicCardNames());
+		mc.setRotatedCard(mc);
 		MagicDeck st = new MagicDeck();
 					   st.add(mc);
 					   st.addSide(mc);
-		panel.initTree(st);
+		panel.initTree(mc);
 		
 		MTGUIComponent.createJDialog(panel,true,true).setVisible(true);
 	}
