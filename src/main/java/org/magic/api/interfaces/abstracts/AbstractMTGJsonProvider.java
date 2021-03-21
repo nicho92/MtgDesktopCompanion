@@ -88,6 +88,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String BORDER_COLOR = "borderColor";
 	protected static final String KEYRUNE_CODE = "keyruneCode";
 	protected static final String SCRYFALL_ILLUSTRATION_ID = "scryfallIllustrationId";
+	protected static final String TIMESHIFTED = "isTimeshifted";
 
 	
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";

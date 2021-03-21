@@ -314,6 +314,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(IS_REPRINT) != null)
 					mc.setReprintedCard(Boolean.valueOf(map.get(IS_REPRINT).toString()));
 			
+				if (map.get(TIMESHIFTED) != null)
+					mc.setTimeshifted(Boolean.valueOf(map.get(TIMESHIFTED).toString()));
+				
 				if (map.get(IS_FULLART) != null)
 					mc.setFullArt(Boolean.valueOf(map.get(IS_FULLART).toString()));
 

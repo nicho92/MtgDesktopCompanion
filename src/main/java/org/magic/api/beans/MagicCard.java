@@ -68,8 +68,16 @@ public class MagicCard implements Serializable {
 	private boolean hasContentWarning;
 	private MTGBorder border;
 	private String originalReleaseDate;
+	private boolean timeshifted;
 	
-	
+	public boolean isTimeshifted() {
+		return timeshifted;
+	}
+
+	public void setTimeshifted(boolean timeshifted) {
+		this.timeshifted = timeshifted;
+	}
+
 	public boolean isExtraCard()
 	{
 		
