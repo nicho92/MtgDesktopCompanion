@@ -21,6 +21,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexOptions;
@@ -306,7 +307,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            		   
            		  doc.add(new Field("type", mc.getFullType(), fieldType));
            		  doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
-     		      doc.add(new StringField("data",serializer.toJson(mc),Field.Store.YES));
+     		      doc.add(new TextField("data",serializer.toJson(mc),Field.Store.YES));
            		   
         		   
         		   

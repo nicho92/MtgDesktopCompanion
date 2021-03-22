@@ -22,12 +22,12 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -87,7 +87,9 @@ public class WooCommerceExport extends AbstractCardExport {
 		    private static final String API_URL_BATCH_FORMAT = "%s/wp-json/wc/%s/%s/batch";
 		    private static final String API_URL_ONE_ENTITY_FORMAT = "%s/wp-json/wc/%s/%s/%d";
 		    private static final String URL_SECURED_FORMAT = "%s?%s";
-			
+			private final String contentType=URLTools.HEADER_JSON +"; charset="+MTGConstants.DEFAULT_ENCODING.name();
+		    
+		    
 			@Override
 			public Map<String,JsonElement> update(String endpointBase, int id, Map<String, Object> object) {
 				Map<String,JsonElement> map = new HashMap<>();
@@ -95,9 +97,9 @@ public class WooCommerceExport extends AbstractCardExport {
 					String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase,id);
 					URLToolsClient c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
-									   header.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
-
-					String ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new Gson().toJson(object).getBytes()), header);
+									   header.put(URLTools.CONTENT_TYPE, contentType);
+									   
+					String ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					
 					JsonObject obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
@@ -118,9 +120,9 @@ public class WooCommerceExport extends AbstractCardExport {
 					String url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
 					URLToolsClient c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
-									   header.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
+									   header.put(URLTools.CONTENT_TYPE, contentType);
 
-					String ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new Gson().toJson(object).getBytes()), header);
+					String ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					
 					JsonObject obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
@@ -178,13 +180,14 @@ public class WooCommerceExport extends AbstractCardExport {
 				String url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
 				URLToolsClient c = URLTools.newClient();
 				Map<String,String> header = new HashMap<>();
-								   header.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
+				  				   header.put(URLTools.CONTENT_TYPE, contentType);
+					 
 				Map<String,JsonElement> ret = new HashMap<>();
 				try {
 					
 					logger.debug("POST json =" + object);
 					
-					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes()), header);
+					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					
 					JsonObject obj = URLTools.toJson(str).getAsJsonObject();
 					obj.entrySet().forEach(e->ret.put(e.getKey(), e.getValue()));
