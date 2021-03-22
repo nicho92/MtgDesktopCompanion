@@ -204,7 +204,6 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		if(wooCommerce==null)
 			init();
 		
 		List<MagicCardStock> stocks= new ArrayList<>();
@@ -266,8 +265,8 @@ public class WooCommerceExport extends AbstractCardExport {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
-		//if(wooCommerce==null)
-			init();
+		
+		init();
 		
 		if(stocks.size()>getInt("BATCH_THRESHOLD"))
 		{

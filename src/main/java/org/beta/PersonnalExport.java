@@ -3,14 +3,20 @@ package org.beta;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JDialog;
+
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ExportConfiguratorPanel;
+import org.magic.tools.BeanTools;
 import org.magic.tools.FileTools;
 
 public class PersonnalExport extends AbstractCardExport {
-
+	
+	private String regx = "";
+	
 	@Override
 	public String getFileExtension() {
 		return "";
@@ -20,13 +26,26 @@ public class PersonnalExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
 		ExportConfiguratorPanel panel = new ExportConfiguratorPanel();
+
+		JDialog d = MTGUIComponent.createJDialog(panel,true,true);
 		
-		panel.initTree(deck);
+		panel.getBtnExport().addActionListener(al->{
+			regx = panel.getResult();
+			d.dispose();
+		});
 		
-		MTGUIComponent.createJDialog(panel,true,true).setVisible(true);
+		
+		d.setVisible(true);
+		
+		StringBuilder temp = new StringBuilder();
+		
+		logger.debug("Parsing with : " + regx);
+		
+		for(MagicCard mc : deck.getMainAsList())
+			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
 		
 		
-		FileTools.saveFile(dest, panel.getResult());
+		FileTools.saveFile(dest, temp.toString());
 	}
 
 	@Override

@@ -1,10 +1,12 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -19,35 +21,41 @@ import org.apache.commons.lang3.ClassUtils;
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.beans.enums.MTGFrameEffects;
+import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGConstants;
 import org.magic.tools.BeanTools;
+import org.magic.tools.UITools;
 
 public class ExportConfiguratorPanel extends MTGUIComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private DefaultMutableTreeNode root = new DefaultMutableTreeNode();
 	private DefaultTreeModel model = new DefaultTreeModel(root);
+	private JTextField jtf;
+	private JButton btnExport ;
 	
 	public ExportConfiguratorPanel() {
 		setLayout(new BorderLayout(0, 0));
 		
 		JTextPane textPane = new JTextPane();
 		JPanel panel = new JPanel();
-		JTextField jtf = new JTextField(50);
+		jtf = new JTextField(50);
 		JXTree tree = new JXTree(model);
 		JPanel panelBas = new JPanel();
-		
+		btnExport = UITools.createBindableJButton(null, MTGConstants.ICON_EXPORT, KeyEvent.VK_E, "export");
 		
 		add(panel, BorderLayout.NORTH);
 		add(new JScrollPane(tree), BorderLayout.WEST);
 		panel.add(jtf);
 		add(new JScrollPane(textPane), BorderLayout.CENTER);
 		add(panelBas, BorderLayout.SOUTH);
+		
+		
+		panelBas.add(btnExport);
 				
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
@@ -57,11 +65,23 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 					TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
 					
 					if(selPath!=null)
-						jtf.setText(jtf.getText()+"{"+StringUtils.join(ArrayUtils.remove(selPath.getPath(), 0),".")+"}");
+						jtf.setText(jtf.getText()+BeanTools.TOKEN_START+StringUtils.join(ArrayUtils.remove(selPath.getPath(), 0),".")+BeanTools.TOKEN_END);
 	             
 	            }
 			}
 			});
+		
+		MagicCard mc = new MagicCard();
+		mc.getEditions().add(new MagicEdition("test"));
+		mc.setId("test");
+		mc.getLegalities().add(new MagicFormat());
+		mc.getRulings().add(new MagicRuling());
+		mc.getForeignNames().add(new MagicCardNames());
+		mc.setRotatedCard(mc);
+		mc.getColors().add(MTGColor.BLACK);
+	
+		initTree(mc);
+		
 	}
 	
 	public void initTree(Object o)
@@ -106,35 +126,18 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 		model.reload();
 	}
 
+	public JButton getBtnExport() {
+		return btnExport;
+	}
+
 	@Override
 	public String getTitle() {
 		return "Personnal Export";
 	}
 
 	public String getResult() {
-		// TODO Auto-generated method stub
-		return null;
+		return jtf.getText();
 	}
 	
-	
-	public static void main(String[] args) {
-		ExportConfiguratorPanel panel = new ExportConfiguratorPanel();
 		
-		MagicCard mc = new MagicCard();
-		mc.getEditions().add(new MagicEdition("test"));
-		mc.setId("test");
-		mc.getLegalities().add(new MagicFormat());
-		mc.getRulings().add(new MagicRuling());
-		mc.getForeignNames().add(new MagicCardNames());
-		mc.setRotatedCard(mc);
-		MagicDeck st = new MagicDeck();
-					   st.add(mc);
-					   st.addSide(mc);
-		panel.initTree(mc);
-		
-		MTGUIComponent.createJDialog(panel,true,true).setVisible(true);
-	}
-	
-	
-	
 }

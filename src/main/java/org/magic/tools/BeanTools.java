@@ -15,7 +15,8 @@ import org.magic.services.MTGLogger;
 public class BeanTools {
 
 	protected static Logger logger = MTGLogger.getLogger(BeanTools.class);
-	
+	public static final String TOKEN_START="{";
+	public static final String TOKEN_END="}";
 	
 	private BeanTools() {}
 	
@@ -62,8 +63,8 @@ public class BeanTools {
 		}
 	}
 
-	public static String createString(Object mc, String text,String start,String end) {
-		Pattern p = Pattern.compile("\\"+start+CardsPatterns.REGEX_ANY_STRING+"\\"+end);
+	public static String createString(Object mc, String text) {
+		Pattern p = Pattern.compile("\\"+TOKEN_START+CardsPatterns.REGEX_ANY_STRING+"\\"+TOKEN_END);
 		Matcher m = p.matcher(text);
 		StringBuilder temp = new StringBuilder();
 		
