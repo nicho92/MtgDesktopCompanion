@@ -7,10 +7,10 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -19,16 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.jdesktop.swingx.JXTree;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicRuling;
-import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.tools.BeanTools;
 import org.magic.tools.UITools;
+
+import static org.magic.tools.MTG.capitalize;
 
 public class ExportConfiguratorPanel extends MTGUIComponent {
 	
@@ -37,24 +33,28 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 	private DefaultTreeModel model = new DefaultTreeModel(root);
 	private JTextField jtf;
 	private JButton btnExport ;
+	private JTextField txtSeparator;
+	private JCheckBox chkseparator;
+	
+	
 	
 	public ExportConfiguratorPanel() {
 		setLayout(new BorderLayout(0, 0));
-		
-		JTextPane textPane = new JTextPane();
-		JPanel panel = new JPanel();
-		jtf = new JTextField(50);
 		JXTree tree = new JXTree(model);
 		JPanel panelBas = new JPanel();
-		btnExport = UITools.createBindableJButton(null, MTGConstants.ICON_EXPORT, KeyEvent.VK_E, "export");
+		jtf = new JTextField(50);
+		txtSeparator = new JTextField(10);
+		chkseparator = new JCheckBox(capitalize("AUTO_ADD"));
+
 		
-		add(panel, BorderLayout.NORTH);
+		btnExport = UITools.createBindableJButton(null, MTGConstants.ICON_EXPORT, KeyEvent.VK_E, "export");
 		add(new JScrollPane(tree), BorderLayout.WEST);
-		panel.add(jtf);
-		add(new JScrollPane(textPane), BorderLayout.CENTER);
+		add(new JScrollPane(jtf), BorderLayout.CENTER);
+
 		add(panelBas, BorderLayout.SOUTH);
 		
-		
+		panelBas.add(chkseparator);
+		panelBas.add(txtSeparator);
 		panelBas.add(btnExport);
 				
 		tree.addMouseListener(new MouseAdapter() {
@@ -65,23 +65,23 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 					TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
 					
 					if(selPath!=null)
+					{
 						jtf.setText(jtf.getText()+BeanTools.TOKEN_START+StringUtils.join(ArrayUtils.remove(selPath.getPath(), 0),".")+BeanTools.TOKEN_END);
+						
+						if(chkseparator.isSelected())
+							jtf.setText(jtf.getText()+txtSeparator.getText());
+						
+						jtf.requestFocus();
+						
+						
+						
+						
+					}
 	             
 	            }
 			}
 			});
-		
-		MagicCard mc = new MagicCard();
-		mc.getEditions().add(new MagicEdition("test"));
-		mc.setId("test");
-		mc.getLegalities().add(new MagicFormat());
-		mc.getRulings().add(new MagicRuling());
-		mc.getForeignNames().add(new MagicCardNames());
-		mc.setRotatedCard(mc);
-		mc.getColors().add(MTGColor.BLACK);
 	
-		initTree(mc);
-		
 	}
 	
 	public void initTree(Object o)
@@ -95,6 +95,15 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 				BeanTools.describe(e.getValue()).entrySet().forEach(f->{
 					DefaultMutableTreeNode entryEd = new DefaultMutableTreeNode(f.getKey());
 					entry.add(entryEd);
+					
+					if(f.getValue()!=null && !(ClassUtils.isPrimitiveOrWrapper(f.getValue().getClass())) && !(f.getValue() instanceof String))
+					{
+						
+						BeanTools.describe(f.getValue()).entrySet().forEach(g->{
+							DefaultMutableTreeNode entry2 = new DefaultMutableTreeNode(g.getKey());
+							entryEd.add(entry2);
+						});
+					}
 				});
 				
 				if(e.getValue() instanceof List)
@@ -108,18 +117,6 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 						});
 					
 				}
-//				
-//				if(e.getValue() instanceof Map)
-//				{
-//					Map<?,?> t = (Map<?,?>)e.getValue();
-//					
-//					if(!t.isEmpty())
-//						BeanTools.describe(t.values().iterator().next()).entrySet().forEach(f->{
-//							DefaultMutableTreeNode entryEd = new DefaultMutableTreeNode(f.getKey());
-//							entry.add(entryEd);
-//						});
-//				}
-				
 			}
 			root.add(entry);
 		});
@@ -137,6 +134,11 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 
 	public String getResult() {
 		return jtf.getText();
+	}
+
+	public void setRegex(String string) {
+		jtf.setText(string);
+		
 	}
 	
 		
