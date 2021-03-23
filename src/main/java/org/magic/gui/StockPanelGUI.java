@@ -502,7 +502,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		ms.setUpdate(true);
 		ms.setMagicCard(mc);
 		model.addItem(ms);
-
+		model.fireTableDataChanged();
 	}
 
 
