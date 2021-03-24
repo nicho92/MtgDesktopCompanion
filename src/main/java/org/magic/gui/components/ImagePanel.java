@@ -77,10 +77,6 @@ public class ImagePanel extends JXPanel {
 		initGUI();
 		setActions(moveable,rotable,zoomable);
 	}
-
-	public void showCard(MagicCard mc) {
-		showCard(mc, null);
-	}
 	
 	public void setDebug(boolean debug) {
 		this.debug = debug;
@@ -107,7 +103,7 @@ public class ImagePanel extends JXPanel {
     }
 	
 
-	public void showCard(MagicCard mc, MagicEdition edition) 
+	public void showCard(MagicCard mc) 
 	{
 		if(mc == null)
 			return;

@@ -615,7 +615,7 @@ public class CardSearchPanel extends MTGUIComponent {
 								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
 
 					logger.trace("change lang to " + selLang + " for " + ed);
-					cardsPicPanel.showCard(selectedCard, ed);
+					cardsPicPanel.showCard(selectedCard);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -702,7 +702,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 			detailCardPanel.setMagicCard(selectedCard, true);
 			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
-			cardsPicPanel.showCard(selectedCard, selectedEdition);
+			cardsPicPanel.showCard(selectedCard);
 			
 			for (MagicRuling mr : selectedCard.getRulings()) {
 				txtRulesArea.append(mr.toString());

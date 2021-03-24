@@ -107,24 +107,7 @@ public class LookAndFeelProvider {
 
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
-	
-//	public void storeFile()
-//	{
-//		
-//		Properties props = new Properties();
-//		UIDefaults defaults = UIManager.getDefaults();
-//
-//		defaults.entrySet().forEach(entry->{
-//			props.put(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));
-//		});
-//		
-//		try {
-//			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"ui.properties"), props);
-//		} catch (IOException e) {
-//			logger.error(e);
-//		}
-//		
-//	}
+
 	
 	public void saveProperties(Object key,Object value)
 	{
