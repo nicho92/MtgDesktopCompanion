@@ -218,8 +218,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 						
 						notify(mc);
 					}
-					
-				
 				}
 		}
 		return deck;

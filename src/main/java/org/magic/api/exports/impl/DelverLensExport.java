@@ -173,7 +173,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	@Override
 	public void initDefault() {
 		setProperty("SEPARATOR", ",");
-		setProperty(REGEX,"\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"");
+		setProperty(REGEX,defaultRegex());
 	}
 	
 
