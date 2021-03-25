@@ -24,6 +24,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.BeanTools;
 import org.magic.tools.MTG;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
@@ -40,6 +41,7 @@ import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceExport extends AbstractCardExport {
 
+	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
 	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
@@ -326,7 +328,13 @@ public class WooCommerceExport extends AbstractCardExport {
 			productInfo.put("id", st.getTiersAppIds(getName()));
 		
 		
-        productInfo.put("name", toForeign(st.getMagicCard()).getName());
+		if(getString(ARTICLE_NAME).isEmpty())
+			productInfo.put("name", toForeign(st.getMagicCard()).getName());
+		else
+			productInfo.put("name", toName( toForeign(st.getMagicCard())));
+		
+		
+		
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
         productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
@@ -372,6 +380,14 @@ public class WooCommerceExport extends AbstractCardExport {
       	}
       	
       	return productInfo;
+	}
+
+	private String toName(MagicCard card) {
+		String s = BeanTools.createString(card, getString(ARTICLE_NAME));
+		
+		logger.debug("generate name " + s);
+		
+		return s;
 	}
 
 	private void batchExport(List<List<MagicCardStock>> partition) {
@@ -527,6 +543,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		setProperty(PIC_PROVIDER_NAME,"");
 		setProperty("BATCH_THRESHOLD","50");
 		setProperty(CARD_LANG_DESCRIPTION,"English");
+		setProperty(ARTICLE_NAME,"");
 	}
 	
 	
