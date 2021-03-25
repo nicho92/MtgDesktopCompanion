@@ -104,7 +104,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getPrice()).append(getSeparator());
-				bw.append(mcs.getComment()==null ? ""  :mcs.getComment()).append(getSeparator());
+				bw.append(mcs.getComment()==null ? getSeparator()  :mcs.getComment()).append(getSeparator());
 				
 				writeExtraMap(mcs.getMagicCard(),bw);
 				bw.append(System.lineSeparator());
@@ -163,7 +163,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			{
 				String val = null;
 				try {
-					val = BeanUtils.getProperty(mc, k);
+					val = BeanUtils.getNestedProperty(mc, k);
 				} catch (Exception e) {
 					logger.error("Error reading bean", e);
 				}
@@ -172,6 +172,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					val = "";
 				
 				bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
+				
 			}
 			notify(mc);
 	}
@@ -236,15 +237,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		
-		
-		
 		return "(.*?);(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;";
 	}
 
 	@Override
 	public void initDefault() {
-		setProperty(EXTRA_PROPERTIES, "editions[0].number,cost,supertypes,types,subtypes");
+		setProperty(EXTRA_PROPERTIES, "id,editions[0].number,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
 		setProperty("SEPARATOR", ";");
 	}
 
