@@ -26,7 +26,7 @@ import org.magic.tools.UITools;
 public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private static final String EXTRA_PROPERTIES = "extraProperties";
-	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment";
+	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;Collection";
 
 
 	@Override
@@ -68,6 +68,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					mcs.setMagicCollection(new MagicCollection(part.group(9)));
 					mcs.setPrice(Double.valueOf(part.group(10)));
 					mcs.setComment(part.group(11));
+					mcs.setMagicCollection(new MagicCollection(part.group(12)));
 					mcs.setIdstock(-1);
 					mcs.setUpdate(true);
 					stock.add(mcs);
@@ -84,11 +85,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			StringBuilder bw = new StringBuilder();
 		
 			bw.append(columns).append(getSeparator());
-			
-			for (String k : getArray(EXTRA_PROPERTIES))
-				bw.append(k).append(getSeparator());
-			
-			bw.append(System.lineSeparator());
+			bw.append(StringUtils.join(getArray(EXTRA_PROPERTIES),getSeparator())).append(System.lineSeparator());
 			
 			for (MagicCardStock mcs : stock) 
 			{
@@ -104,7 +101,8 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getPrice()).append(getSeparator());
-				bw.append(mcs.getComment()==null ? getSeparator()  :mcs.getComment()).append(getSeparator());
+				bw.append(mcs.getComment()).append(getSeparator());
+				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				
 				writeExtraMap(mcs.getMagicCard(),bw);
 				bw.append(System.lineSeparator());
@@ -235,12 +233,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "(.*?);(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;";
+		return "(.*?);(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;";
 	}
 
 	@Override
 	public void initDefault() {
-		setProperty(EXTRA_PROPERTIES, "id,editions[0].number,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
+		setProperty(EXTRA_PROPERTIES, "id,currentSet.number,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
 		setProperty("SEPARATOR", ";");
 	}
 
