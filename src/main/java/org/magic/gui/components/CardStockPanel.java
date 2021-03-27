@@ -147,6 +147,7 @@ public class CardStockPanel extends MTGUIComponent {
 			st.setMagicCollection(col);
 			st.setUpdate(true);
 			model.addItem(st);
+			model.fireTableDataChanged();
 		} catch (Exception e) {
 			logger.error(e);
 		}
