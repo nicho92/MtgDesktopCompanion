@@ -3,7 +3,10 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -11,6 +14,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -29,6 +33,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
@@ -647,10 +652,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get("set_type").getAsString());
 
+		
+		
 		if (obj.get(DIGITAL) != null)
 			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
-
-		
 
 		if(obj.get("foil_only") !=null)
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
@@ -663,7 +668,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			ed.setBlock(obj.get("block").getAsString());
 
 		if (obj.get("released_at") != null)
+		{
 			ed.setReleaseDate(obj.get("released_at").getAsString());
+			ed.setPreview(LocalDate.parse(obj.get("released_at").getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
+		}
 
 		notify(ed);
 		
