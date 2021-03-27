@@ -420,7 +420,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 							 me.setRarity(mc.getRarity());
 							 me.setFlavor(mc.getFlavor());
 							 me.setScryfallId(mc.getScryfallId());
-
+							 
 							 if (map.get(NUMBER) != null)
 							 {
 								 me.setNumber(String.valueOf(map.get(NUMBER)));
@@ -652,6 +652,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			//do nothing
 		}
 		
+		try {
+			Boolean o = ctx.read(base+"."+ISPREVIEW,Boolean.class);
+			ed.setPreview(o);
+		}catch(Exception pnfe)
+		{
+			//do nothing
+		}
 		
 		
 		try {

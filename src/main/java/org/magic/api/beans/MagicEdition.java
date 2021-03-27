@@ -37,9 +37,17 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String keyRuneCode;
 	private int tcgplayerGroupId;
 	private String scryfallId;
+	private boolean preview;
 	
 	
-	
+	public boolean isPreview() {
+		return preview;
+	}
+
+	public void setPreview(boolean preview) {
+		this.preview = preview;
+	}
+
 	public int getCardCountOfficial() {
 		return cardCountOfficial;
 	}

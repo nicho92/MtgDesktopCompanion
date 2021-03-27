@@ -369,12 +369,13 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setCardCount(rs.getInt("totalSetSize"));
 								 ed.setCardCountOfficial(rs.getInt("baseSetSize"));
 								 ed.setType(rs.getString("type"));
-								 ed.setMkmName(rs.getString(MCM_NAME));
-								 ed.setMkmid(rs.getInt(MCM_ID));
+							//	 ed.setMkmName(rs.getString(MCM_NAME));
+							//	 ed.setMkmid(rs.getInt(MCM_ID));
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
+								 ed.setPreview(rs.getBoolean(ISPREVIEW));
 								 initTranslations(ed);
 								 eds.add(ed);
 				}
