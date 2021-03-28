@@ -52,7 +52,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String CONSUMER_KEY = "CONSUMER_KEY";
 	private static final String CONSUMER_SECRET = "CONSUMER_SECRET";
 	private static final String DEFAULT_STATUT = "DEFAULT_STATUT";
-	private  WooCommerce wooCommerce;
+	private WooCommerce wooCommerce;
 	
 	@Override
 	public CATEGORIES getCategory() {
@@ -332,8 +332,6 @@ public class WooCommerceExport extends AbstractCardExport {
 			productInfo.put("name", toForeign(st.getMagicCard()).getName());
 		else
 			productInfo.put("name", toName( toForeign(st.getMagicCard())));
-		
-		
 		
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
