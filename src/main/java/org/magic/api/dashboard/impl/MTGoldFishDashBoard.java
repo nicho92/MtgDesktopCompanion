@@ -189,6 +189,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-extended";
 			else if(mc.isShowCase())
 				extend="-showcase";
+			else if(mc.isTimeshifted())
+				extend="-timeshifted";
 			
 			
 			
