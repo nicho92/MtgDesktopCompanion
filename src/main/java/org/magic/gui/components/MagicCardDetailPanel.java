@@ -323,8 +323,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
-		btnStock.setEnabled(newMagicCard!=null);
-		btnCopy.setEnabled(newMagicCard!=null);
+		
+		btnStock.setEnabled(magicCard!=null);
+		btnCopy.setEnabled(magicCard!=null);
 		
 		if (update) {
 			if (mBindingGroup != null) {

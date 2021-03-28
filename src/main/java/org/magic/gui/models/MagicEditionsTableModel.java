@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
@@ -93,7 +91,8 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 				"QTY",
 				"EDITION_TYPE",
 				"EDITION_BLOCK",
-				"EDITION_ONLINE" };
+				"EDITION_ONLINE",
+				"PREVIEW"};
 
 	}
 
@@ -130,33 +129,14 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 		if (column == 8)
 			return e.isOnlineOnly();
+		
+		if (column == 9)
+			return e.isPreview();
 
 		return "";
 
 	}
 
-	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-
-		switch (columnIndex) {
-		case 0:
-			return ImageIcon.class;
-		case 1:
-			return MagicEdition.class;
-		case 2:
-			return Integer.class;
-		case 3:
-			return String.class;
-		case 4:
-			return double.class;
-		case 5:
-			return Integer.class;
-		case 8:
-			return Boolean.class;
-		default:
-			return Object.class;
-		}
-	}
 
 
 }
