@@ -369,12 +369,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setCardCount(rs.getInt("totalSetSize"));
 								 ed.setCardCountOfficial(rs.getInt("baseSetSize"));
 								 ed.setType(rs.getString("type"));
-							//	 ed.setMkmName(rs.getString(MCM_NAME));
-							//	 ed.setMkmid(rs.getInt(MCM_ID));
+								 testMkm(ed,rs);
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
+								 ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
 								 ed.setPreview(rs.getBoolean(ISPREVIEW));
 								 initTranslations(ed);
 								 eds.add(ed);
@@ -386,6 +386,19 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		return eds;
 	}
 	
+	private void testMkm(MagicEdition ed, ResultSet rs) {
+		
+		
+		 try {
+			ed.setMkmName(rs.getString(MCM_NAME));
+			ed.setMkmid(rs.getInt(MCM_ID));
+		} catch (SQLException e) {
+			//do nothing
+		}
+		
+		
+	}
+
 	private List<MagicCardNames> getTranslations(MagicCard mc) {
 	
 		MagicCardNames defaultName = new MagicCardNames();

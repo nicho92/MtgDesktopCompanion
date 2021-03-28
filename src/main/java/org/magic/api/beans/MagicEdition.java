@@ -38,8 +38,18 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private int tcgplayerGroupId;
 	private String scryfallId;
 	private boolean preview;
+	private boolean foreignOnly;
 	
 	
+	
+	public boolean isForeignOnly() {
+		return foreignOnly;
+	}
+
+	public void setForeignOnly(boolean foreignOnly) {
+		this.foreignOnly = foreignOnly;
+	}
+
 	public boolean isPreview() {
 		return preview;
 	}

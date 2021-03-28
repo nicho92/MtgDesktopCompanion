@@ -38,9 +38,12 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
@@ -86,6 +89,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private GridBagLayout gridBagLayout;
 	private JButton btnAlert;
 	private JButton btnCopy;
+	private JButton btnStock;
 	private JCheckBox chckbxReserved;
 	private boolean enableCollectionLookup = true;
 	private DefaultListModel<MagicCollection> listModelCollection;
@@ -179,6 +183,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		JPanel p = new JPanel();
 		
 		btnCopy = new JButton(MTGConstants.ICON_COPY);
+		btnCopy.setEnabled(false);
 		btnCopy.setToolTipText("Copy to clipboard");
 		btnCopy.addActionListener(ae -> {
 			try {
@@ -211,8 +216,26 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			}
 		});
 		
+		btnStock = new JButton(MTGConstants.ICON_STOCK);
+		btnStock.setEnabled(false);
+		btnStock.setToolTipText(capitalize("ADD_CARDS_STOCKS"));
+		btnStock.addActionListener(ae -> {
+			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+			st.setMagicCard(magicCard);
+			try {
+				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
+				MTGControler.getInstance().notify(new MTGNotification("Stock", "Added", MESSAGE_TYPE.INFO));
+			} catch (Exception e) {
+				logger.error(e);
+				MTGControler.getInstance().notify(e);
+			}
+		});
+		
+		
+		
 		p.add(btnCopy);
 		p.add(btnAlert);
+		p.add(btnStock);
 		
 		add(p, UITools.createGridBagConstraints(null, null, 8, 0));
 
@@ -300,6 +323,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
+		btnStock.setEnabled(newMagicCard!=null);
+		btnCopy.setEnabled(newMagicCard!=null);
+		
 		if (update) {
 			if (mBindingGroup != null) {
 				mBindingGroup.unbind();
@@ -322,7 +348,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	}
 
-	protected BindingGroup initDataBindings() {
+	private BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, Integer> cmcProperty = BeanProperty.create("cmc");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
 		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding = Bindings

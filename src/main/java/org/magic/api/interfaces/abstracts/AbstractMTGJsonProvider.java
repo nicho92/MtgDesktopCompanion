@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
@@ -90,13 +91,15 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String SCRYFALL_ILLUSTRATION_ID = "scryfallIllustrationId";
 	protected static final String TIMESHIFTED = "isTimeshifted";
 	protected static final String ISPREVIEW  = "isPartialPreview";
-	
+	protected static final String IS_FOREIGN_ONLY = "isForeignOnly";
+			
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	public static final String URL_DECKS_URI = "https://mtgjson.com/api/v5/decks/";
 	public static final String MTG_JSON_VERSION = "https://mtgjson.com/api/v5/Meta.json";
 	public static final String MTG_JSON_DECKS_LIST = "https://mtgjson.com/api/v5/DeckList.json";
 	public static final String MTG_JSON_KEYWORDS="https://mtgjson.com/api/v5/Keywords.json";
 	public static final String MTG_JSON_SETS_LIST="https://mtgjson.com/api/v5/SetList.json";
+	public static final String MTG_JSON_ENUM_VALUES = "https://mtgjson.com/api/v5/EnumValues.json";
 	
 	private File tempZipFile = new File(MTGConstants.DATA_DIR,"mtgJsonTempFile.zip");
 	private File fversion = new File(MTGConstants.DATA_DIR, "mtgjsonVersion");
@@ -175,7 +178,21 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	
 	@Override
 	public String[] getLanguages() {
-		return new String[] { "English", "Spanish", "French", "German", "Italian", "Portuguese", "Japanese", "Korean", "Russian", "Simplified Chinese","Traditional Chinese","Hebrew","Latin","Ancient Greek", "Arabic", "Sanskrit","Phyrexian" };
+		
+		String[] ret = new String[0];
+		try {
+			
+			
+			URLTools.extractJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->{
+				ArrayUtils.add(ret, je.getAsString());
+			});
+		} catch (IOException ex) {
+			logger.error(ex);
+		}
+		
+		return ret;
+		
+		
 	}
 
 	
