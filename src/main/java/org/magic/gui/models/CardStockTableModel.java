@@ -8,6 +8,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
 
@@ -19,6 +20,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		columns = new String[] { "ID",
 				"CARD",
 				"EDITION",
+				"RARITY",
 				"COLLECTION",
 				"QUALITY",
 				"QTY",
@@ -67,26 +69,28 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 2:
 			return MagicEdition.class;
 		case 3:
-			return MagicCollection.class;
+			return MTGRarity.class;
 		case 4:
-			return EnumCondition.class;
+			return MagicCollection.class;
 		case 5:
-			return Integer.class;
+			return EnumCondition.class;
 		case 6:
-			return String.class;
+			return Integer.class;
 		case 7:
-			return Boolean.class;
+			return String.class;
 		case 8:
 			return Boolean.class;
 		case 9:
 			return Boolean.class;
 		case 10:
-			return Double.class;
+			return Boolean.class;
 		case 11:
-			return Grading.class;
+			return Double.class;
 		case 12:
-			return String.class;
+			return Grading.class;
 		case 13:
+			return String.class;
+		case 14:
 			return Map.class;
 
 
@@ -97,7 +101,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return !(column ==1 || column==11 || column==2);
+		return !(column ==1 || column==12 || column==2|| column==3);
 	}
 
 	@Override
@@ -111,26 +115,28 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 2:
 			return items.get(row).getMagicCard().getCurrentSet();
 		case 3:
-			return items.get(row).getMagicCollection();
+			return items.get(row).getMagicCard().getRarity();
 		case 4:
-			return items.get(row).getCondition();
+			return items.get(row).getMagicCollection();
 		case 5:
-			return items.get(row).getQte();
+			return items.get(row).getCondition();
 		case 6:
-			return items.get(row).getLanguage();
+			return items.get(row).getQte();
 		case 7:
-			return items.get(row).isFoil();
+			return items.get(row).getLanguage();
 		case 8:
-			return items.get(row).isSigned();
+			return items.get(row).isFoil();
 		case 9:
-			return items.get(row).isAltered();
+			return items.get(row).isSigned();
 		case 10:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).isAltered();
 		case 11:
-			return items.get(row).getGrade();
+			return UITools.roundDouble(items.get(row).getPrice());
 		case 12:
-			return items.get(row).getComment();
+			return items.get(row).getGrade();
 		case 13:
+			return items.get(row).getComment();
+		case 14:
 			return items.get(row).getTiersAppIds();
 
 		default:
@@ -142,34 +148,34 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	public void setValueAt(Object aValue, int row, int column) {
 		
 		switch (column) {
-		case 3:
+		case 4:
 			items.get(row).setMagicCollection(new MagicCollection(aValue.toString()));
 			break;
-		case 4:
+		case 5:
 			items.get(row).setCondition((EnumCondition) aValue);
 			break;
-		case 5:
+		case 6:
 			items.get(row).setQte((Integer) aValue);
 			break;
-		case 6:
+		case 7:
 			items.get(row).setLanguage(String.valueOf(aValue));
 			break;
-		case 7:
+		case 8:
 			items.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 8:
+		case 9:
 			items.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 9:
+		case 10:
 			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 10:
+		case 11:
 			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
 			break;
-		case 11:
+		case 12:
 			items.get(row).setGrade((Grading)aValue);
 			break;
-		case 12:
+		case 13:
 			items.get(row).setComment(String.valueOf(aValue));
 			break;
 			
