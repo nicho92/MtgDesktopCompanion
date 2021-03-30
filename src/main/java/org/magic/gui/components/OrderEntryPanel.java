@@ -148,8 +148,8 @@ public class OrderEntryPanel extends MTGUIComponent {
 		ord.setEdition((MagicEdition)cboEditions.getSelectedItem());
 		ord.setCurrency((Currency)cboCurrency.getSelectedItem());
 		ord.setIdTransation(txtidTransaction.getText());
-		ord.setItemPrice(Double.parseDouble(txtPrice.getText()));
-		ord.setShippingPrice(Double.parseDouble(txtShipPrice.getText()));
+		ord.setItemPrice(UITools.parseDouble(txtPrice.getText()));
+		ord.setShippingPrice(UITools.parseDouble(txtShipPrice.getText()));
 		ord.setSource(txtSource.getText());
 		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
 		ord.setType((TYPE_ITEM)cboTypeItem.getSelectedItem());
