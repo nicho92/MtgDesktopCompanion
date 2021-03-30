@@ -74,7 +74,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 				mp.setSeller(set);
 				mp.setFoil(e.attr("data-foil").equals("O"));
 
-				if(mp.getSeller().equalsIgnoreCase(card.getCurrentSet().getSet()))
+				if(mp.getSeller().toLowerCase().startsWith(card.getCurrentSet().getSet().toLowerCase()))
 					list.add(mp);
 			}
 			logger.info(getName() + " found " + list.size() + " item(s)");
