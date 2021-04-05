@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -97,15 +98,18 @@ public class DeckPricePanel extends JComponent {
 				
 				@Override
 				protected void done() {
-					deck.setAveragePrice(total);
 					
-					try {
-						total = get().stream().mapToDouble(MagicPrice::getValue).sum();
-					} catch (Exception e) {
-						logger.error(e);
-					}
+						try {
+							total = get().stream().mapToDouble(MagicPrice::getValue).sum();
+						} catch (InterruptedException e) {
+							Thread.currentThread().interrupt();
+							logger.error("Interruption");
+						} catch (ExecutionException e) {
+							logger.error("error getting prices",e);
+						}
 					
-					
+						deck.setAveragePrice(total);
+						
 					updatePrice();
 				}
 				

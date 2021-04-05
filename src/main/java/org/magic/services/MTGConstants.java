@@ -48,7 +48,7 @@ public class MTGConstants {
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
 
-	public static final String MTG_APP_NAME = "MTG Desktop Companion";
+	public static final String MTG_APP_NAME = "MTG Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
 
@@ -109,7 +109,7 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final String ICON_DIR="/icons";
 	public static final String MTG_REPORTS_DIR = "/report";
-	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_29;
+	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_31;
 
 	public static final int TREE_ROW_HEIGHT = 32;
 	public static final int TABLE_ROW_HEIGHT = 18;

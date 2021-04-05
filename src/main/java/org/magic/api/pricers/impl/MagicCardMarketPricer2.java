@@ -66,8 +66,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 		} catch (MkmException e) {
 			logger.error(e);
 		}
-		
-		
 	}
 	
 

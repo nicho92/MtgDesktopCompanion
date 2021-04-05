@@ -79,6 +79,8 @@
   <currencylayer-converter-enable/>
   <langage>English</langage>
   <autocompletion>true</autocompletion>
+  <notifyPrerelease>true</notifyPrerelease>
+  
   <indexers>
     <index>
       <class>org.magic.api.indexer.impl.LuceneIndexer</class>
@@ -795,5 +797,4 @@
       <enable>false</enable>
     </strategy>
   </strategies>
-  <notifyPrerelease>true</notifyPrerelease>
 </conf>
