@@ -62,6 +62,7 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		
 		<dependency>
 		    <groupId>com.formdev</groupId>
 		    <artifactId>flatlaf</artifactId>

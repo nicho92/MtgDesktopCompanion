@@ -3,7 +3,7 @@ package org.magic.api.beans;
 import java.util.Currency;
 
 public class MagicPrice implements Comparable<MagicPrice> {
-	private Double value;
+	private Double value = 0.0;
 	private String seller;
 	private String url;
 	private Currency currency;
