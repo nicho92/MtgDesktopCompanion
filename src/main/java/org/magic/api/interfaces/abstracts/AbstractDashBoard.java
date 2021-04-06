@@ -62,9 +62,20 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	@Override
 	public Double getSuggestedPrice(MagicCard mc, boolean foil) {
 		try {
-			EditionsShakers c = getShakesForEdition(mc.getCurrentSet());
-			return c.getShakeFor(mc,foil).getPrice();
-		} catch (Exception e) {
+			
+			if(!foil) {
+				EditionsShakers c = getShakesForEdition(mc.getCurrentSet());
+				return c.getShakeFor(mc,foil).getPrice();
+			}
+			else
+			{
+			return getPriceVariation(mc,mc.getCurrentSet(),foil).getLastValue();
+			}
+			
+		} catch (NullPointerException e) {
+			logger.debug("no card found for " + mc +" foil="+foil );
+			return 0.0;
+		} catch (IOException e) {
 			logger.error(e);
 			return 0.0;
 		}
