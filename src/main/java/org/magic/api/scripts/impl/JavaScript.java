@@ -28,7 +28,7 @@ public class JavaScript extends AbstractJSR223MTGScript {
 	@Override
 	public void initDefault() {
 		super.initDefault();
-		setProperty("ENGINE", "nashorn");
+		setProperty("ENGINE", "rhino");
 	}
 	
 }

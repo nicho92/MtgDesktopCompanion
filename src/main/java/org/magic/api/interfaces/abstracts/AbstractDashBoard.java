@@ -64,7 +64,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		try {
 			EditionsShakers c = getShakesForEdition(mc.getCurrentSet());
 			return c.getShakeFor(mc,foil).getPrice();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return 0.0;
 		}

@@ -61,7 +61,7 @@ import org.magic.gui.components.GradingEditorPane;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
-import org.magic.gui.components.PriceCheckerComponent;
+import org.magic.gui.components.PriceSuggesterComponent;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.StockItemsSynchronizationPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -371,7 +371,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnGeneratePrice.addActionListener(ae -> {
 			lblLoading.start(table.getSelectedRows().length);
 			
-			PriceCheckerComponent comp = new PriceCheckerComponent();
+			PriceSuggesterComponent comp = new PriceSuggesterComponent();
 			JDialog jd = MTGUIComponent.createJDialog(comp, false, true);
 			comp.getBtnValidate().addActionListener(l->jd.dispose());
 			

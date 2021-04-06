@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -14,7 +15,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
-public class PriceCheckerComponent extends MTGUIComponent {
+public class PriceSuggesterComponent extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +25,7 @@ public class PriceCheckerComponent extends MTGUIComponent {
 	JComboBox<MTGDashBoard> cboDashBoard;
 	JButton btnValidate;
 	
-	public PriceCheckerComponent() {
+	public PriceSuggesterComponent() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel1 = new JPanel();
@@ -91,4 +92,10 @@ public class PriceCheckerComponent extends MTGUIComponent {
 		return "Prices Suggester";
 	}
 
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_DOLLARS;
+	}
+	
 }
