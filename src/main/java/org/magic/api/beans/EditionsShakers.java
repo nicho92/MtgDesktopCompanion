@@ -68,9 +68,9 @@ public class EditionsShakers implements Iterable<CardShake> {
 		return shakes.size();
 	}
 	
-	public CardShake getShakeFor(MagicCard mc)
+	public CardShake getShakeFor(MagicCard mc, boolean foil)
 	{
-		Optional<CardShake> opt = shakes.stream().filter(s->s.getName().equalsIgnoreCase(mc.getName())).findAny();
+		Optional<CardShake> opt = shakes.stream().filter(s->s.getName().equalsIgnoreCase(mc.getName()) && s.isFoil()==foil).findAny();
 		if(opt.isPresent())
 			return opt.get();
 		else

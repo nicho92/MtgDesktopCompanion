@@ -60,6 +60,19 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 	
 	@Override
+	public Double getSuggestedPrice(MagicCard mc, boolean foil) {
+		try {
+			EditionsShakers c = getShakesForEdition(mc.getCurrentSet());
+			return c.getShakeFor(mc,foil).getPrice();
+		} catch (IOException e) {
+			logger.error(e);
+			return 0.0;
+		}
+		
+	}
+	
+	
+	@Override
 	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, MagicEdition ed,boolean foil) throws IOException {
 		HistoryPrice<MagicCard> var = getOnlinePricesVariation(mc, ed,foil);
 		

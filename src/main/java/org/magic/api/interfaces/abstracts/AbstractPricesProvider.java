@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
+import org.magic.sorters.PricesCardsShakeSorter;
 
 public abstract class AbstractPricesProvider extends AbstractMTGPlugin implements MTGPricesProvider {
 
@@ -74,6 +75,17 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 		
 		
 		return ret;
+	}
+	
+	
+	@Override
+	public Double getSuggestedPrice(MagicCard mc, boolean foil) {
+		try {
+			return getPrice(mc).stream().filter(mp->mp.isFoil()==foil && mp.getMagicCard()==mc).min(new MagicPricesComparator()).orElse(new MagicPrice()).getValue();
+		} catch (Exception e) {
+			logger.error(e);
+			return 0.0;
+		}
 	}
 	
 	

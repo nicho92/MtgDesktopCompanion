@@ -1,54 +1,94 @@
 package org.magic.gui.components;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 
 public class PriceCheckerComponent extends MTGUIComponent {
+
+	private static final long serialVersionUID = 1L;
+
+	JRadioButton rdoPricer;
+	JRadioButton rdoDashBoard;
+	JComboBox<MTGPricesProvider> cboPricer;
+	JComboBox<MTGDashBoard> cboDashBoard;
+	JButton btnValidate;
+	
 	public PriceCheckerComponent() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel1 = new JPanel();
-		add(panel1);
-		
-		JRadioButton rdoDashBoard = new JRadioButton("DashBoard");
-		panel1.add(rdoDashBoard);
-		
-		JComboBox<MTGDashBoard> cboDashBoard = UITools.createCombobox(MTGDashBoard.class,false);
-		panel1.add(cboDashBoard);
-		
 		JPanel panel2 = new JPanel();
-		add(panel2);
+		JPanel panel3 = new JPanel();
 		
-		JRadioButton rdoPricer = new JRadioButton("Pricer");
+		btnValidate = new JButton(MTGConstants.ICON_SAVE);
+		
+		rdoDashBoard = new JRadioButton("DashBoard");
+		cboDashBoard = UITools.createCombobox(MTGDashBoard.class,false);
+		rdoPricer = new JRadioButton("Pricer");
+		cboPricer = UITools.createCombobox(MTGPricesProvider.class,false);
+		
+		
+		ButtonGroup group = new ButtonGroup();
+					group.add(rdoDashBoard);
+					group.add(rdoPricer);
+		
+		
+		panel1.add(rdoDashBoard);
+		panel1.add(cboDashBoard);
 		panel2.add(rdoPricer);
-		
-		JComboBox<MTGPricesProvider> cboPricer = UITools.createCombobox(MTGPricesProvider.class,false);
 		panel2.add(cboPricer);
+		panel3.add(btnValidate);
+
+		
+		add(panel1);
+		add(panel2);
+		add(panel3);
+		
+		
+		
+		rdoPricer.addItemListener(i->{
+			cboDashBoard.setEnabled(!rdoPricer.isEnabled());
+			cboPricer.setEnabled(rdoPricer.isEnabled());
+			
+		});
+		
+		rdoDashBoard.addItemListener(i->{
+			cboPricer.setEnabled(!rdoDashBoard.isEnabled());
+			cboDashBoard.setEnabled(rdoDashBoard.isEnabled());
+		});
+
+		
+		rdoDashBoard.doClick();
 	}
 
 	
-	
-	
-	public static void main(String[] args) {
-		MTGControler.getInstance();
-		MTGUIComponent.createJDialog(new PriceCheckerComponent(), false, false).setVisible(true);
-
+	public JButton getBtnValidate() {
+		return btnValidate;
 	}
-
-
-
+	
+	
+	public MTGPriceSuggester getSelectedPlugin()
+	{
+		if(rdoDashBoard.isSelected())
+			return (MTGDashBoard) cboDashBoard.getSelectedItem();
+		else
+			return (MTGPricesProvider)cboPricer.getSelectedItem();
+	}
 
 	@Override
 	public String getTitle() {
-		return "Get Price";
+		return "Prices Suggester";
 	}
 
 }

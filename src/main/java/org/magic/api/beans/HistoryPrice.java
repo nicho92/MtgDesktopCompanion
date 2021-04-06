@@ -97,6 +97,11 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		return Collections.min(variations.entrySet(), (Entry<Date,Double> e1, Entry<Date,Double> e2) -> e1.getValue().compareTo(e2.getValue()));
 	}
 	
+	public Double getLastValue()
+	{
+		return variations.get(getLastDay());
+	}
+	
 	
 	public List<Entry<Date, Double>> asList()
 	{

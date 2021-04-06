@@ -8,7 +8,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 
-public interface MTGPricesProvider extends MTGPlugin {
+public interface MTGPricesProvider extends MTGPriceSuggester {
 
 	public List<MagicPrice> getPrice(MagicCard card) throws IOException;
 	

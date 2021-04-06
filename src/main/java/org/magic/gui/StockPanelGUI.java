@@ -23,6 +23,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -51,6 +52,7 @@ import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
@@ -59,6 +61,7 @@ import org.magic.gui.components.GradingEditorPane;
 import org.magic.gui.components.JExportButton;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
+import org.magic.gui.components.PriceCheckerComponent;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.StockItemsSynchronizationPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -368,6 +371,14 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnGeneratePrice.addActionListener(ae -> {
 			lblLoading.start(table.getSelectedRows().length);
 			
+			PriceCheckerComponent comp = new PriceCheckerComponent();
+			JDialog jd = MTGUIComponent.createJDialog(comp, false, true);
+			comp.getBtnValidate().addActionListener(l->jd.dispose());
+			
+			jd.setVisible(true);
+			
+			MTGPriceSuggester suggester = comp.getSelectedPlugin();
+			
 			SwingWorker<Void,MagicCardStock> sw = new SwingWorker<>() {
 				
 				@Override
@@ -384,21 +395,16 @@ public class StockPanelGUI extends MTGUIComponent {
 				
 				@Override
 				protected Void doInBackground(){
-					
-					for (int i : table.getSelectedRows())
+					List<MagicCardStock> sts = UITools.getTableSelections(table,0);
+					for (MagicCardStock s : sts)
 					{
-						MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
 						try {
 							
-							EditionsShakers c = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(s.getMagicCard().getCurrentSet());
-							Double price =  c.getShakeFor(s.getMagicCard()).getPrice();
+							Double price = suggester.getSuggestedPrice(s.getMagicCard(), s.isFoil());
 							double old = s.getPrice();
 							s.setPrice(price);
 							if (old != s.getPrice())
 								s.setUpdate(true);
-						
-						} catch (IOException e) {
-							logger.error("error getting price for " + s.getMagicCard(),e);
 						}
 						catch (NullPointerException e) {
 							logger.error(s.getMagicCard() + " is not found : "+e);

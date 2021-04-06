@@ -16,7 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
 
-public interface MTGDashBoard extends MTGPlugin {
+public interface MTGDashBoard extends MTGPriceSuggester {
 
 	public List<CardShake> getShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
 	
