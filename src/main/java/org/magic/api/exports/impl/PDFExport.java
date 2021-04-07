@@ -31,6 +31,7 @@ import com.itextpdf.layout.element.Table;
 
 public class PDFExport extends AbstractCardExport {
 
+	private static final String SPACE = "SPACE";
 	private float userPoint=72f;
 	
 	@Override
@@ -52,14 +53,16 @@ public class PDFExport extends AbstractCardExport {
 			
 	        image.scaleAbsolute(2.49f*userPoint,3.48f*userPoint);
             Cell cell = new Cell();
-            
             if(getBoolean("PRINT_CUT_LINE"))
             {
             	cell.setBorder(new DottedBorder(0.5f));
             }
             else
             	cell.setBorder(Border.NO_BORDER);
-            	
+            
+            if(getInt(SPACE)!=null)
+            	cell.setPadding(getInt(SPACE));
+            
             cell.add(image);
 	
 		return cell;
@@ -115,6 +118,7 @@ public class PDFExport extends AbstractCardExport {
 	public void initDefault() {
 		setProperty("AUTHOR", System.getenv("user.name"));
 		setProperty("PRINT_CUT_LINE","true");
+		setProperty(SPACE,"0");
 	
 	}
 
