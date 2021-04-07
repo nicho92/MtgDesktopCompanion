@@ -33,11 +33,10 @@ import org.mozilla.javascript.ast.AstNode;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String TIMEOUT = "TIMEOUT";
-	private static final String URL_MOVERS = "URL_MOVERS";
-	private static final String URL_EDITIONS = "URL_EDITIONS";
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
-	private static final String WEBSITE = "WEBSITE";
+	private static final String WEBSITE = "https://www.mtggoldfish.com";
+	private static final String SET_EXTRA = "SET_EXTRA";
 	private Map<String, String> mapConcordance;
 	boolean isPaperparsing=true;
 
@@ -135,7 +134,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return history;
 							  
 							  
-		String url = getString(WEBSITE) +"/price/Sealed+Product/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+"+Booster+Box"+ "#"+ getString(FORMAT);					  
+		String url = WEBSITE +"/price/Sealed+Product/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+"+Booster+Box"+ "#"+ getString(FORMAT);					  
 		Document d = URLTools.extractHtml(url);
 		parsing(d, history);
 		
@@ -155,7 +154,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		if (mc == null)
 		{
-			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
+			url = WEBSITE+"/index/" + replace(me.getId(), false) + "#" + getString(FORMAT);
 		}
 		else 
 		{
@@ -200,7 +199,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="";
 			
 			
-			url = getString(WEBSITE) + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
+			url = WEBSITE + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
 		}
 
 		try {
@@ -222,8 +221,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(f!=null)
 			gameFormat=f.name();
 		
-		String urlW = getString(URL_MOVERS) + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
-		String urlL = getString(URL_MOVERS) + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
+		String urlW = WEBSITE+"/movers-details/" + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
+		String urlL = WEBSITE+"/movers-details/" + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
 		logger.trace("Loading Shake " + urlW + " and " + urlL);
 		Document doc = URLTools.extractHtml(urlW);
@@ -241,11 +240,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				CardShake cs = new CardShake();
 				cs.setProviderName(getName());
 				cs.setName(StringUtils.remove(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text(), "(RL)").trim());
-				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
-				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
+				cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
+				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				
-				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
-				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text())/100);
+				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
+				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text())/100);
 				cs.setFoil(false);
 				cs.setBorderless(false);
 				cs.setFullArt(false);
@@ -267,61 +266,61 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return list;
 
 	}
-
+	
+	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
-
 		EditionsShakers list = new EditionsShakers();
 		list.setEdition(edition);
 		list.setProviderName(getName());
 		list.setDate(new Date());
-		
 		if(edition==null)
 			return list;
 		
+		String urlEditionChecker = URLTools.getRedirectionFor(WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false));
 		
-		String oldID = edition.getId();
-		String urlEditionChecker = "";
+		String page = "Main+Set";
+		
+		if(getBoolean(SET_EXTRA))
+			page ="All+Cards";
+		
 		
 		if (edition.isOnlineOnly())
-			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + (edition.isFoilOnly()?"_F":"") + "#online";
+			urlEditionChecker += "/"+page+"#online";
 		else
-			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) +  (edition.isFoilOnly()?"_F":"")+"#"+ getString(FORMAT);
-
-		logger.trace("Parsing dashboard " + urlEditionChecker);
-
-		try {
-			Document doc = URLTools.extractHtml(urlEditionChecker);
-			Element table = null;
+			urlEditionChecker += "/"+page+"#"+getString(FORMAT);
+	
+		Document doc = URLTools.extractHtml(urlEditionChecker);
 		
-			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(1).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0);
-
-			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
-				CardShake cs = new CardShake();
-
-				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replace("\\(RL\\)", "").trim());
-				cs.setLink(getString(WEBSITE)+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("href"));
-				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
-				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-				cs.setPriceWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text()));
-				cs.setPercentWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text())/100);
-				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text())/100);
-				
-				cs.setEd(oldID);
-				cs.setProviderName(getName());
-				cs.setFoil(false);
-				cs.setBorderless(false);
-				cs.setFullArt(false);
-				cs.setExtendedArt(false);
-				notify(cs);
-				list.addShake(cs);
-				
-			}
-		}
-		catch(FileNotFoundException ex){
-			logger.error(edition + " is not found");
-		}
-		catch (IndexOutOfBoundsException e) {
-			logger.error("error getting CardShake for " + edition,e);
+		Elements trs = doc.select(MTGConstants.HTML_TAG_TABLE+".card-container-table tbody tr");
+		
+		trs.remove(0);
+		
+		for(Element e : trs)
+		{
+			String nameExtra= e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.badge").text();
+			
+			
+			if(nameExtra.contains("Sealed"))
+				continue;
+			
+			CardShake cs = new CardShake();
+						cs.setCurrency(getCurrency());
+						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").text().trim());
+						cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").attr("href"));
+						
+						cs.setExtendedArt(nameExtra.contains("Extended"));
+						cs.setFoil(nameExtra.contains("Foil"));
+						cs.setShowcase(nameExtra.contains("Showcase"));
+						cs.setBorderless(nameExtra.contains("Borderless"));
+						cs.setEd(edition.getId());
+						cs.setProviderName(getName());
+						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));						
+						cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
+						cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text())/100);
+						cs.setPriceWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
+						cs.setPercentWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(8).text())/100);
+			list.addShake(cs);
+			notify(cs);
 		}
 		
 		return list;
@@ -332,10 +331,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		// spells, creatures, all, lands
 		
-		String u = getString(WEBSITE) + "/format-staples/" + f.name().toLowerCase() + "/full/" + filter;
+		String u = WEBSITE + "/format-staples/" + f.name().toLowerCase() + "/full/" + filter;
 		
 		if(f == MagicFormat.FORMATS.COMMANDER)
-			u=getString(WEBSITE) + "/format-staples/commander_1v1/full/" + filter;
+			u=WEBSITE + "/format-staples/commander_1v1/full/" + filter;
 		
 		Document doc = URLTools.extractHtml(u);
 
@@ -462,10 +461,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	private double parseDouble(String number) {
-		return Double.parseDouble(number.replace(",", "").replace("%", "").replaceAll("\\$", ""));
-	}
-
 	@Override
 	public String getName() {
 		return "MTGoldFish";
@@ -474,7 +469,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public Date getUpdatedDate() {
 		try {
-			return UITools.parseDate(URLTools.extractHtml(getString(URL_MOVERS) + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+			return UITools.parseDate(URLTools.extractHtml(WEBSITE+"/movers-details/" + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 					
 		} catch (Exception e1) {
 			logger.error(e1);
@@ -490,18 +485,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	public void initDefault() {
-		setProperty(URL_MOVERS, "https://www.mtggoldfish.com/movers-details/");
-		setProperty(URL_EDITIONS, "https://www.mtggoldfish.com/index/");
-		setProperty(WEBSITE, "https://www.mtggoldfish.com/");
 		setProperty(FORMAT, "paper");
 		setProperty(TIMEOUT, "0");
 		setProperty(DAILY_WEEKLY, "wow");
-
+		setProperty(SET_EXTRA,"true");
 	}
 
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return "3.0";
 	}
 
 

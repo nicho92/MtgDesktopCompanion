@@ -46,6 +46,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
@@ -366,10 +367,19 @@ public class UITools {
 	
 	public static Double parseDouble(String text) {
 		try {
-			text=text.replace(",", ".").trim();
+			
+			if(text.isBlank())
+				return 0.0;
+			
+			text=text.replace(",", ".").replaceAll("[$,]","").replaceAll("[%,]", "").trim();
+			
+			if(StringUtils.countMatches(text, '.')>1)
+				text=text.replaceFirst("\\.", "");
+			
+			
 			return Double.parseDouble(text);
 		} catch (Exception e) {
-			logger.error("error parsing '" + text +"' :" + e);
+			logger.error("error parsing '" + text +"' :", e);
 			return 0.0;
 		}
 	}

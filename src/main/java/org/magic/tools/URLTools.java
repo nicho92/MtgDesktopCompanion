@@ -47,8 +47,11 @@ public class URLTools {
 	public static final String UPGR_INSECURE_REQ= "Upgrade-Insecure-Requests";
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CONTENT_TYPE="Content-Type";
-
+	private static final String LOCATION = "Location";
+	
 	public static final String REFERER_POLICY = "Referrer Policy";
+
+
 	
 	
 	private URLTools()	{}
@@ -143,7 +146,7 @@ public class URLTools {
 		} 
 	}
 	
-	public static HttpURLConnection getConnection(URL url,String userAgent) throws IOException {
+	private static HttpURLConnection getConnection(URL url,String userAgent,boolean follow) throws IOException {
 		
 		Chrono c = new Chrono();
 		c.start();
@@ -153,12 +156,12 @@ public class URLTools {
 			
 			connection.setRequestProperty(USER_AGENT, userAgent);
 			connection.setAllowUserInteraction(true);
-			connection.setInstanceFollowRedirects(true);
+			connection.setInstanceFollowRedirects(follow);
 			connection.setRequestMethod("GET");
 			connection.setReadTimeout(MTGConstants.CONNECTION_TIMEOUT);
 			int status = connection.getResponseCode();
-			if (!isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
-				return getConnection(connection.getHeaderField("Location"));
+			if (follow && !isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
+				return getConnection(connection.getHeaderField(URLTools.LOCATION));
 			}
 			logger.debug("GET " + url + " : " + connection.getResponseCode() + " [" + c.stopInMillisecond() + "ms]");
 		}
@@ -169,18 +172,29 @@ public class URLTools {
 		return connection;
 	}
 	
+
+	public static String getRedirectionFor(String url) throws IOException
+	{
+		return getRedirectionFor(new URL(url));
+	}
 	
+	
+	
+	public static String getRedirectionFor(URL url) throws IOException
+	{
+		return getConnection(url,MTGConstants.USER_AGENT,false).getHeaderFields().get(URLTools.LOCATION).get(0);
+	}
 	
 	public static HttpURLConnection openConnection(String url) throws IOException {
 		return openConnection(new URL(url));
 	}
 	
 	public static HttpURLConnection getConnection(String url) throws IOException {
-		return getConnection(new URL(url),MTGConstants.USER_AGENT);
+		return getConnection(new URL(url),MTGConstants.USER_AGENT,true);
 	}
 	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
-		HttpURLConnection con = getConnection(url,MTGConstants.USER_AGENT);
+		HttpURLConnection con = getConnection(url,MTGConstants.USER_AGENT,true);
 		con.connect();
 		return con;
 	}
