@@ -1,6 +1,5 @@
 package org.magic.api.dashboard.impl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +36,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
 	private static final String SET_EXTRA = "SET_EXTRA";
+	private static final String MOVERS_DETAILS = WEBSITE+"/movers-details/";
+
 	private Map<String, String> mapConcordance;
 	boolean isPaperparsing=true;
 
@@ -221,8 +222,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(f!=null)
 			gameFormat=f.name();
 		
-		String urlW = WEBSITE+"/movers-details/" + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
-		String urlL = WEBSITE+"/movers-details/" + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
+		String urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
+		String urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
 		logger.trace("Loading Shake " + urlW + " and " + urlL);
 		Document doc = URLTools.extractHtml(urlW);
@@ -351,8 +352,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				CardDominance d = new CardDominance();
 				d.setPosition(Integer.parseInt(tds.get(0).text()));
 				d.setCardName(tds.get(1).text());
-				d.setDecksPercent(Double.parseDouble(tds.get(3 - correct).text().replaceAll("\\%", "")));
-				d.setPlayers(Double.parseDouble(tds.get(4 - correct).text().replaceAll("\\%", "")));
+				d.setDecksPercent(UITools.parseDouble(tds.get(3 - correct).text()));
+				d.setPlayers(UITools.parseDouble(tds.get(4 - correct).text()));
 				
 				ret.add(d);
 			} catch (Exception ex) {
@@ -469,7 +470,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public Date getUpdatedDate() {
 		try {
-			return UITools.parseDate(URLTools.extractHtml(WEBSITE+"/movers-details/" + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+			return UITools.parseDate(URLTools.extractHtml(MOVERS_DETAILS + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 					
 		} catch (Exception e1) {
 			logger.error(e1);
