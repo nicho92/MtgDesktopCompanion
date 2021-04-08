@@ -1444,15 +1444,6 @@
 		<constructpack lang="en" num="2" url="https://i2.wp.com/mtgazone.com/wp-content/uploads/2020/12/630509922307_1_2048x2048.jpg"/>
 	</edition>
 
-	<edition id="STX">
-		<banner lang="en" url="https://youre.outof.cards/media/uploads/6f/98/6f98ac3b-0a27-4d12-b935-fd715a81cc86/en_loq0zmgx9v.png"/>
-		<box lang="en" num="1" url="https://www.candlekeep.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Clctr_01_01-324x324.png"/>
-		<box lang="en" num="2" url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Drft_01_03.png"/>
-		<box lang="en" num="3" url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Set_01_01.png"/>
-		
-	</edition>
-
-
 	<edition id="TSR">
 		<banner lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/41/Time_Spiral_Remastered_logo.png/revision/latest/scale-to-width-down/1200"/>
 		<box lang="en" num="1" url="http://www.magicspoiler.com/wp-content/uploads/2021/02/Time-Spiral-Packaging-01.png"/>
@@ -1460,6 +1451,33 @@
 		<booster lang="en" num="2" url="https://xenomorphe.ch/wp-content/uploads/2021/03/7381436048794eab9e03a9e07a64fcd2_MTGTSR_FR_Bstr_01_01.png"/>
 		<booster lang="en" num="3" url="https://cdn.shopify.com/s/files/1/1704/1809/products/fcaa9ff0df24aa2666c707254bfb0e2cba9e4801_1596x.png"/>
 	</edition>
+	
+	
+	<edition id="STX">
+		<banner lang="en" url="https://youre.outof.cards/media/uploads/6f/98/6f98ac3b-0a27-4d12-b935-fd715a81cc86/en_loq0zmgx9v.png"/>
+		<box lang="en" num="1" extra="collector" url="https://www.candlekeep.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Clctr_01_01-324x324.png"/>
+		<box lang="en" num="2" extra="draft" url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Drft_01_03.png"/>
+		<box lang="en" num="3" extra="set" url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Set_01_01.png"/>
+		<bundle lang="en" num="1" url="https://www.snapcaster.fr/wp-content/uploads/2021/02/strixhaven-fat-pack-magic-the-gathering.png"/>
+		<prereleasepack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/623437/files/31193791/preorder-mtg-prerelease-kit-strixhaven-witherbloom.jpg"/>
+		<prereleasepack lang="en" num="2" url="https://cdn.shoplightspeed.com/shops/623437/files/31193712/preorder-mtg-prerelease-kit-strixhaven-silverquill.jpg"/>
+		<prereleasepack lang="en" num="3" url="https://cdn.shoplightspeed.com/shops/623437/files/31193818/preorder-mtg-prerelease-kit-strixhaven-lorehold-in.jpg"/>
+		<prereleasepack lang="en" num="4" url="https://cdn.shoplightspeed.com/shops/623437/files/31193938/preorder-mtg-prerelease-kit-strixhaven-quandrix-in.jpg"/>
+		<prereleasepack lang="en" num="5" url="https://cdn.shoplightspeed.com/shops/623437/files/31193757/preorder-mtg-prerelease-kit-strixhaven-prismari-in.jpg"/>
+		<booster lang="en" num="1" url="https://themanashop.ch/51898-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg"/>
+		<booster lang="en" num="2" url="https://themanashop.ch/51899-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg"/>
+		<booster lang="en" num="3" url="https://themanashop.ch/51900-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg"/>
+		<booster lang="en" num="4" url="https://themanashop.ch/51901-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg"/>
+		<booster lang="en" num="5" url="https://themanashop.ch/51902-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg"/>
+		<booster lang="en" num="6" extra="collector" url="https://cdn11.bigcommerce.com/s-6k3asdl2tq/images/stencil/1280x1280/products/11650/6605/2__49272.1614622781.png"/>
+		<booster lang="en" num="7" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_1.png"/>
+		<booster lang="en" num="8" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_2.png"/>
+		<booster lang="en" num="9" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_3.png"/>
+		<booster lang="en" num="10" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_4.png"/>
+		<booster lang="en" num="11" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_5.png"/>
+	</edition>
+
+	
 
 	<edition id="CC1">
 		<banner lang="en" url="https://media.magic.wizards.com/dfq1vaatsd.png"/>
