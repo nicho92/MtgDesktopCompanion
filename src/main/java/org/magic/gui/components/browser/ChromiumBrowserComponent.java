@@ -46,7 +46,11 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 				
 				@Override
 				public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-					currentUrl=browser.getURL();
+					if(!isLoading)
+					{
+						observable.setChanged();
+						observable.notifyObservers(browser.getURL());
+					}
 				}
 					
 			});

@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class JIFrameDashlet extends AbstractJDashlet {
 
@@ -43,6 +45,8 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		if(!StringUtils.isBlank(getString("URL")))
 			comp.loadURL(getString("URL"));
 		
+		
+		comp.addObserver((Observable o, Object arg)->txtUrl.setText(arg.toString()));
 		
 		
 		txtUrl.addActionListener(al->{

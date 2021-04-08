@@ -8,6 +8,8 @@ import org.magic.gui.components.browser.ChromiumBrowserComponent;
 import org.magic.gui.components.browser.JEditorPaneBrowser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
@@ -17,6 +19,16 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
 	public abstract void loadURL(String url);
 	public abstract String getCurrentURL();
+	protected transient Observable observable;
+	
+	protected MTGUIBrowserComponent() {
+		observable = new Observable();
+	}
+	
+	public void addObserver(Observer o)
+	{
+		observable.addObserver(o);
+	}
 	
 	public void loadURL(URL url)
 	{
