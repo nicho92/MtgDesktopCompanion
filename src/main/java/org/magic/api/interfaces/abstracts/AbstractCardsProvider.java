@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.Booster;
@@ -140,6 +141,18 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
 		return searchCardByCriteria("name",name, me, exact);
+	}
+	
+	
+	@Override
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, boolean extended,boolean borderless, boolean showcase) throws IOException{
+		return searchCardByName(name, me, exact).stream().filter(mc->mc.isExtendedArt()==extended && mc.isBorderLess()==borderless && mc.isShowCase()==showcase).collect(Collectors.toList());
+	}
+	
+	
+	@Override
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, boolean extended, boolean borderless, boolean showcase) throws IOException {
+		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.isExtendedArt()==extended && mc.isBorderLess()==borderless && mc.isShowCase()==showcase).collect(Collectors.toList());
 	}
 	
 	@Override

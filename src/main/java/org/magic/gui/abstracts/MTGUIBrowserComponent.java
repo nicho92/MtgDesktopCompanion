@@ -16,7 +16,7 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
 
 	public abstract void loadURL(String url);
-	
+	public abstract String getCurrentURL();
 	
 	public void loadURL(URL url)
 	{
@@ -48,5 +48,8 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 		}
 	}
 
+	
+	
+	
 
 }

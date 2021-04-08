@@ -1476,7 +1476,10 @@
 		<booster lang="en" num="10" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_4.png"/>
 		<booster lang="en" num="11" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_5.png"/>
 	</edition>
-
+	<edition id="STA">
+		<banner lang="en" url="http://www.magiccorporation.com/images/magic/editions/maxi/strixhaven_mystical_archive.png"/>
+	</edition>	
+	
 	
 
 	<edition id="CC1">

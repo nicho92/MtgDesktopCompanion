@@ -3,6 +3,8 @@ package org.magic.gui.components.browser;
 import java.awt.BorderLayout;
 import java.io.IOException;
 
+import org.cef.browser.CefBrowser;
+import org.cef.handler.CefLoadHandlerAdapter;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
 import org.panda_lang.pandomium.Pandomium;
@@ -16,6 +18,8 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 	private static final long serialVersionUID = 1L;
 	private transient PandomiumClient client;
 	private transient PandomiumBrowser browser;
+	private String currentUrl;
+	
 	
 	public ChromiumBrowserComponent() throws IOException {
 		setLayout(new BorderLayout());
@@ -37,13 +41,32 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 			client = pandomium.createClient();
 			browser = client.loadURL("about:blank");
 			add(browser.toAWTComponent(),BorderLayout.CENTER);
+			
+			client.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
+				
+				@Override
+				public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+					currentUrl=browser.getURL();
+				}
+					
+			});
+			
+			
 		} catch (UnsatisfiedLinkError e) {
 			logger.error("maybe add : -Djava.library.path=\""+MTGConstants.NATIVE_DIR+"\" at jvm startup args");
 			throw new IOException(e);
 		} 
 			
 	}
+	
+	
+	
 
+	@Override
+	public String getCurrentURL() {
+		return currentUrl;
+				
+	}
 
 	@Override
 	public void loadURL(String url) {

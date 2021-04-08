@@ -20,6 +20,8 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	private static final long serialVersionUID = 1L;
 	private JEditorPane browse;
 	private transient URLToolsClient client;
+	private String currentUrl="";
+	
 	
 	public JEditorPaneBrowser() {
 		setLayout(new BorderLayout());
@@ -33,11 +35,16 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		
 	}
 	
+	@Override
+	public String getCurrentURL() {
+		return currentUrl;
+	}
+	
 	
 	@Override
 	public void loadURL(String url) {
 		logger.debug("loading " + url);
-		
+		currentUrl=url;
 		ThreadManager.getInstance().executeThread(()->{
 				try {
 					
