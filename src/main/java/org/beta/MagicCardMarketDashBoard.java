@@ -2,11 +2,9 @@ package org.beta;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.List;
 
 import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.CardDominance;
@@ -82,10 +80,17 @@ public class MagicCardMarketDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed, boolean foil) throws IOException {
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 		return null;
 		
 	}
+	
+	@Override
+	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

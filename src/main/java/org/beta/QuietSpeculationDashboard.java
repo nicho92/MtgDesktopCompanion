@@ -23,18 +23,6 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 
 	
 	private static final String BASE_URL = "https://www.quietspeculation.com";
-
-
-	public static void main(String[] args) throws IOException {
-		QuietSpeculationDashboard dahs = new QuietSpeculationDashboard();
-		
-		MagicEdition ed = new MagicEdition("A25");
-		ed.setSet("Masters 25");
-		
-		dahs.getOnlineShakesForEdition(ed);
-		
-	}
-	
 	
 	@Override
 	public STATUT getStatut() {
@@ -61,6 +49,11 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 		return new ArrayList<>();
 	}
 
+	@Override
+	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+		return null;
+	}
+	
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
 		String uri = BASE_URL+"/tradertools/prices/sets/"+ed.getSet().replace(" ", "%20");
@@ -96,7 +89,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed,boolean foil) throws IOException {
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,boolean foil) throws IOException {
 		return new HistoryPrice<>(mc);
 	}
 

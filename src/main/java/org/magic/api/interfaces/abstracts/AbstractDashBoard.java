@@ -69,7 +69,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			}
 			else
 			{
-			return getPriceVariation(mc,mc.getCurrentSet(),foil).getLastValue();
+			return getPriceVariation(mc,foil).getLastValue();
 			}
 			
 		} catch (NullPointerException e) {
@@ -84,8 +84,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	
 	
 	@Override
-	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, MagicEdition ed,boolean foil) throws IOException {
-		HistoryPrice<MagicCard> var = getOnlinePricesVariation(mc, ed,foil);
+	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, boolean foil) throws IOException {
+		HistoryPrice<MagicCard> var = getOnlinePricesVariation(mc, foil);
 		
 		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
@@ -95,6 +95,21 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		}
 		return var;
 	}
+	
+	
+	@Override
+	public HistoryPrice<MagicEdition> getPriceVariation(MagicEdition ed) throws IOException {
+		HistoryPrice<MagicEdition> var = getOnlinePricesVariation(ed);
+		
+		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		{
+			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
+			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+				
+		}
+		return var;
+	}
+	
 	
 	@Override
 	public HistoryPrice<Packaging> getPriceVariation(Packaging packaging) throws IOException {
@@ -146,7 +161,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	protected abstract HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException;
 	protected abstract List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
 	protected abstract EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException;
-	protected abstract HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,MagicEdition ed,boolean foil) throws IOException;
+	protected abstract HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,boolean foil) throws IOException;
+	protected abstract HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException;
 	
 	
 	public static void convert(List<CardShake> ret)

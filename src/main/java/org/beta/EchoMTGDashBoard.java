@@ -44,11 +44,10 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 	
 	
-	private JsonObject getCardId(MagicCard c,MagicEdition ed) throws IOException
+	private JsonObject getCardId(MagicCard c) throws IOException
 	{
 		MagicEdition edi = c.getCurrentSet();
-		if(ed!=null)
-			edi=ed;
+		
 		
 		JsonArray list = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/data/ajax.getsearchresults.php")
@@ -72,8 +71,14 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 	
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed,boolean foil) throws IOException {
-		JsonObject id = getCardId(mc,ed);
+	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+		return null;
+	}
+	
+	
+	@Override
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
+		JsonObject id = getCardId(mc);
 		HistoryPrice<MagicCard> history = new HistoryPrice<>(mc);
 							history.setCurrency(Currency.getInstance("USD"));
 							
@@ -94,19 +99,6 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 			history.put(new Date(aray.get(0).getAsLong()), aray.get(1).getAsDouble());
 		});
 		return history;
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance();
-		
-		MTGCardsProvider prov = getEnabledPlugin(MTGCardsProvider.class);
-		prov.init();
-		MagicEdition ed = prov.getSetById("UMA");
-		
-		MTGLogger.changeLevel(Level.ALL);
-		new EchoMTGDashBoard().getOnlineShakesForEdition(ed);
 	}
 	
 	

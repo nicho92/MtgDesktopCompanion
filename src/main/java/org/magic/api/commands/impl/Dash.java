@@ -56,7 +56,7 @@ public class Dash extends AbstractCommand {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return new ArrayResponse(HistoryPrice.class, null,json.toJsonElement(getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, ed,cl.hasOption("foil"))).getAsJsonObject().get("variations").getAsJsonObject());
+			return new ArrayResponse(HistoryPrice.class, null,json.toJsonElement(getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, cl.hasOption("foil"))).getAsJsonObject().get("variations").getAsJsonObject());
 		}
 		
 		

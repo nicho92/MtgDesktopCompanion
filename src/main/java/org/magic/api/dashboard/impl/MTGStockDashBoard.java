@@ -178,9 +178,16 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			});
 		return es;
 	}
+	
+	@Override
+	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition ed, boolean foil)throws IOException {
+	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil)throws IOException {
 		HistoryPrice<MagicCard> hp = new HistoryPrice<>(mc);
 		if(mc==null)
 		{
@@ -188,8 +195,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			return hp;
 		}
 		
-		if(ed==null)
-			ed=mc.getCurrentSet();
+		MagicEdition ed=mc.getCurrentSet();
 		
 		
 		Integer id = mc.getMtgstocksId();

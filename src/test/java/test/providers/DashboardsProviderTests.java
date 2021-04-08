@@ -70,14 +70,14 @@ public class DashboardsProviderTests {
 		
 			
 			try {
-				p.getPriceVariation(mc, mc.getCurrentSet(),false);
+				p.getPriceVariation(mc, false);
 				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") OK");
 			} catch (IOException e) {
 				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") ERROR "+e);
 			}
 			
 			try {
-				p.getPriceVariation(mc, mc.getCurrentSet(),true);
+				p.getPriceVariation(mc, true);
 				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") OK");
 			} catch (IOException e) {
 				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") ERROR "+e);

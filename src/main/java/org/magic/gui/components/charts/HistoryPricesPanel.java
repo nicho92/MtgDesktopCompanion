@@ -102,24 +102,34 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		this.title=title;
 		if(card==null && me==null)
 			return;
-		
-		if(me==null)
-			me=card.getCurrentSet();
-		
+				
 		if(isVisible()) 
 		{
-			try {
-				this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, me,false);
-				
-			} catch (IOException e) {
-				logger.error("error init " + card, e);
-			}
 			
-			try {
-				this.cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, me,true);
+			if(card==null)
+			{
+				try {
+					this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(me);
+				} catch (IOException e1) {
+					logger.error("error init " + me, e1);
+				}
+			}
+			else
+			{
+			
+				try {
+					this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
+					
+				} catch (IOException e) {
+					logger.error("error init " + card, e);
+				}
 				
-			} catch (IOException e) {
-				logger.error("error init FOIL " + card, e);
+				try {
+					this.cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, true);
+					
+				} catch (IOException e) {
+					logger.error("error init FOIL " + card, e);
+				}
 			}
 			refresh();
 		}

@@ -165,9 +165,15 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		return name;
 	}
+	
+	@Override
+	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+		return new HistoryPrice<>(ed);
+	}
+	
 
 	@Override
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me,boolean foil) throws IOException {
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setFoil(foil);
@@ -183,10 +189,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		String edition = "";
 
-		if (me == null)
-			edition = mc.getCurrentSet().getSet();
-		else
-			edition = me.getSet();
+		edition = mc.getCurrentSet().getSet();
 
 		edition = edition.replace(" ", "_");
 

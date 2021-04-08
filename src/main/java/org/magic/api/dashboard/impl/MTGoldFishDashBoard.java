@@ -133,16 +133,53 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		if(packaging==null || packaging.getEdition()==null)
 			return history;
+		
+		String selead="+Booster+Box";
+		
+		
+		switch(packaging.getType())
+		{
+		case BANNER:
+			break;
+		case BOOSTER:selead="+Booster+Pack";break;
+		case BOX:selead="+Booster+Box";break;
+		case BUNDLE:selead="+Bundle";break;
+		case CONSTRUCTPACK:		break;
+		case PRERELEASEPACK:	break;
+		case STARTER:			break;
+		default:				break;
+		
+		}
+		
 							  
 							  
-		String url = WEBSITE +"/price/Sealed+Product/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+"+Booster+Box"+ "#"+ getString(FORMAT);					  
+		String url = WEBSITE +"/price/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+"/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+selead+ "-sealed#"+ getString(FORMAT);					  
 		Document d = URLTools.extractHtml(url);
 		parsing(d, history);
 		
 		return history;
 	}
 	
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, MagicEdition me,boolean foil) throws IOException {
+	
+	@Override
+	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition me) throws IOException {
+		String url = WEBSITE+"/index/" + replace(me.getId(), false) + "#" + getString(FORMAT);
+		HistoryPrice<MagicEdition> historyPrice = new HistoryPrice<>(me);
+		historyPrice.setCurrency(getCurrency());
+		
+		try {
+			Document d = URLTools.extractHtml(url);
+			parsing(d,historyPrice);
+			return historyPrice;
+
+		} catch (Exception e) {
+			logger.error(e);
+			return historyPrice;
+		}
+	}
+	
+	
+	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
 		String url = "";
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
@@ -150,18 +187,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		historyPrice.setFoil(foil);
 		
 		
-		if(mc==null && me==null)
+		if(mc==null)
 			return historyPrice;
-		
-		if (mc == null)
-		{
-			url = WEBSITE+"/index/" + replace(me.getId(), false) + "#" + getString(FORMAT);
-		}
-		else 
-		{
-			
-			if (me == null)
-				me = mc.getCurrentSet();
 			
 			String cardName = RegExUtils.replaceAll(mc.getName(), " ", "+");
 			cardName = RegExUtils.replaceAll(cardName, "'", "");
@@ -171,14 +198,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			if (cardName.indexOf('/') > -1)
 				cardName = cardName.substring(0, cardName.indexOf('/')).trim();
 
-			String editionName = RegExUtils.replaceAll(me.toString(), " ", "+");
+			String editionName = RegExUtils.replaceAll(mc.getCurrentSet().toString(), " ", "+");
 			editionName = RegExUtils.replaceAll(editionName, "'", "");
 			editionName = RegExUtils.replaceAll(editionName, ",", "");
 			editionName = RegExUtils.replaceAll(editionName, ":", "");
 
 			String pfoil="";
 			
-			if(me.isFoilOnly() || foil)
+			if(mc.getCurrentSet().isFoilOnly() || foil)
 				pfoil=":Foil";
 			
 			String extra="";
@@ -201,7 +228,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			
 			url = WEBSITE + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
-		}
+		
 
 		try {
 			Document d = URLTools.extractHtml(url);
