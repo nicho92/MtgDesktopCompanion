@@ -20,12 +20,14 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.EXTRA;
 import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -194,6 +196,7 @@ public class PackagesProvider {
 			{
 				Packaging p = new Packaging();
 						  p.setType(TYPE.valueOf(n.item(i).getNodeName().toUpperCase()));
+						 
 						  try {
 							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
 						  }
@@ -201,6 +204,15 @@ public class PackagesProvider {
 						  {
 							  logger.error("no lang found for " + p + n.item(i),e);
 						  }
+						  
+						  
+						  try {
+							  p.setExtra(EXTRA.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
+						  } 
+						  catch (Exception e) {
+								//do nothing
+						  }
+						  
 						  
 						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
 						  p.setEdition(me);

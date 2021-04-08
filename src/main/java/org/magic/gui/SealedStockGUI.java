@@ -24,6 +24,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
+import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.models.SealedStockTableModel;
@@ -37,7 +38,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	
 	private SealedStockTableModel model;
 	private Packaging selectedItem;
-
+	private ObjectViewerPanel objectpanel;
 	
 	public SealedStockGUI() {
 		initGUI();
@@ -45,6 +46,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	
 	private void initGUI() {
 		model = new SealedStockTableModel();
+		objectpanel = new ObjectViewerPanel();
 		JXTable table = UITools.createNewTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
@@ -73,8 +75,12 @@ public class SealedStockGUI extends MTGUIComponent {
 		toolsPanel.add(buttonUpdate);
 		
 		panneauDetail.addTab(capitalize("INFO"),MTGConstants.ICON_TAB_PICTURE,packagePanel.getThumbnailPanel());
-		panneauDetail.addTab(historyPricePanel.getTitle(),historyPricePanel.getIcon(),historyPricePanel);
-		panneauDetail.addTab(gedPanel.getTitle(),MTGConstants.ICON_TAB_GED,gedPanel);
+		UITools.addTab(panneauDetail, historyPricePanel);
+		UITools.addTab(panneauDetail, gedPanel);
+		
+		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+			UITools.addTab(panneauDetail, objectpanel);
+		
 		
 		
 		add(packagePanel,BorderLayout.WEST);
@@ -101,6 +107,7 @@ public class SealedStockGUI extends MTGUIComponent {
 				
 				selectedItem = (Packaging)selectedNode.getUserObject();
 				historyPricePanel.init(selectedItem, selectedItem.getEdition()+"-"+selectedItem.getType());
+				objectpanel.show(selectedItem);
 			}
 		});
 		
@@ -113,6 +120,7 @@ public class SealedStockGUI extends MTGUIComponent {
 				{
 					historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
 					packagePanel.load(ss.getProduct());
+					objectpanel.show(selectedItem);
 				}
 			}
 		});

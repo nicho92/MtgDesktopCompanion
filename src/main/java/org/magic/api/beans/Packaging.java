@@ -7,12 +7,26 @@ public class Packaging implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public enum TYPE { BOX, BOOSTER, STARTER,BUNDLE,BANNER,CONSTRUCTPACK,PRERELEASEPACK}
+	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME}
+	
+	
 	
 	private TYPE type;
 	private String lang;
 	private int num;
 	private String url;
+	private EXTRA extra;
 	private MagicEdition edition;
+	
+	
+	
+	public EXTRA getExtra() {
+		return extra;
+	}
+	public void setExtra(EXTRA extra) {
+		this.extra = extra;
+	}
+	
 	
 	public TYPE getType() {
 		return type;
