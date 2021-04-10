@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -71,6 +72,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.addConvertor(MTGLayout.class,(MTGLayout source)->source.name().toLowerCase());
 		b.addConvertor(MTGFrameEffects.class,(MTGFrameEffects source)->source.name().toLowerCase());
 		b.addConvertor(MTGRarity.class,(MTGRarity source)->source.name().toLowerCase());
+		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
 	}
 	
 	

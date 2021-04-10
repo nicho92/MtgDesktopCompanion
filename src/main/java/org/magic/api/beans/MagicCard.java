@@ -9,6 +9,7 @@ import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.tools.IDGenerator;
 
@@ -69,7 +70,17 @@ public class MagicCard implements Serializable {
 	private MTGBorder border;
 	private String originalReleaseDate;
 	private boolean timeshifted;
+	private List<MTGPromoType> promotypes;
 	
+	
+	public List<MTGPromoType> getPromotypes() {
+		return promotypes;
+	}
+
+	public void setPromotypes(List<MTGPromoType> promotypes) {
+		this.promotypes = promotypes;
+	}
+
 	public boolean isTimeshifted() {
 		return timeshifted;
 	}
@@ -473,6 +484,7 @@ public class MagicCard implements Serializable {
 		legalities = new ArrayList<>();
 		frameEffects = new ArrayList<>();
 		keywords = new ArrayList<>();
+		promotypes = new ArrayList<>();
 	}
 
 	public String getOriginalText() {

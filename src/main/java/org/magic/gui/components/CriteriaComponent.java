@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
@@ -138,6 +139,9 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == MTGFrameEffects.class)
 			return init(UITools.createCombobox(MTGFrameEffects.values()));
+		else 
+		if(c.getType() == MTGPromoType.class)
+			return init(UITools.createCombobox(MTGPromoType.values()));
 		else
 		if(c.getName().equalsIgnoreCase("name")) {
 			JTextField f= UITools.createSearchField();

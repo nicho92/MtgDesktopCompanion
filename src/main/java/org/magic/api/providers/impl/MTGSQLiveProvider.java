@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -277,6 +278,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 						}
 					}
 				}
+				
+				if(rs.getString(PROMO_TYPE)!=null)
+				{
+					for(String s : rs.getString(PROMO_TYPE).split(","))
+					{
+						mc.getPromotypes().add(MTGPromoType.parseByLabel(s));
+					}
+				}
+				
 				
 				if(rs.getString(KEYWORDS)!=null)
 				{
@@ -569,16 +579,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGRarity.class));
 				else if(rs.getString(NAME).equals(FRAME_EFFECTS))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGFrameEffects.class));
+				else if(rs.getString(NAME).equals(PROMO_TYPE))
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGPromoType.class));
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
-				
 			}
-			
-			
 			ret.add(new QueryAttribute("sql",String.class));
 			Collections.sort(ret);
 			ret.remove(new QueryAttribute(NAME,String.class));
 			ret.add(0, new QueryAttribute(NAME,String.class));
+			
+			
 		} 
 		catch (SQLException e) {
 			logger.error(e);

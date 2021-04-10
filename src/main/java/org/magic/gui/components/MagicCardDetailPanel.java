@@ -352,74 +352,62 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, Integer> cmcProperty = BeanProperty.create("cmc");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, cmcProperty, cmcJTextField, textProperty);
+		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, cmcProperty, cmcJTextField, textProperty);
 		autoBinding.bind();
 		//
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
 		BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
-		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, costProperty, manaPanel, textProperty1);
+		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, costProperty, manaPanel, textProperty1);
 		autoBinding1.bind();
 		//
 		BeanProperty<MagicCard, String> fullTypeProperty = BeanProperty.create("fullType");
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(
-				UpdateStrategy.READ, magicCard, fullTypeProperty, fullTypeJTextField, textProperty2);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, fullTypeProperty, fullTypeJTextField, textProperty2);
 		autoBinding2.bind();
 		//
 		BeanProperty<MagicCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(
-				UpdateStrategy.READ, magicCard, loyaltyProperty, loyaltyJTextField, textProperty4);
+		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, loyaltyProperty, loyaltyJTextField, textProperty4);
 		autoBinding4.bind();
 		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, nameProperty, nameJTextField, textProperty5);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, nameProperty, nameJTextField, textProperty5);
 		autoBinding5.bind();
 		//
 		BeanProperty<MagicCard, String> powerProperty = BeanProperty.create("power");
 		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding6 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, powerProperty, powerJTextField, textProperty6);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, powerProperty, powerJTextField, textProperty6);
 		autoBinding6.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
 		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, textProperty8, txtTextPane, textProperty9);
+		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, textProperty8, txtTextPane, textProperty9);
 		autoBinding8.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
 		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding9 = Bindings.createAutoBinding(
-				UpdateStrategy.READ, magicCard, toughnessProperty, toughnessJTextField, textProperty10);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding9 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, toughnessProperty, toughnessJTextField, textProperty10);
 		autoBinding9.bind();
 
 		BeanProperty<MagicCard, String> flavorProperty = BeanProperty.create("flavor");
 		BeanProperty<JTextPane, String> textProperty11 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextPane, String> autoBinding10 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, flavorProperty, txtFlavorArea, textProperty11);
+		AutoBinding<MagicCard, String, JTextPane, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, flavorProperty, txtFlavorArea, textProperty11);
 		autoBinding10.bind();
 
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty12 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding11 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, artistProperty, txtArtist, textProperty12);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, artistProperty, txtArtist, textProperty12);
 		autoBinding11.bind();
 
 		BeanProperty<MagicCard, String> waterProperty = BeanProperty.create("watermarks");
 		BeanProperty<JTextField, String> textProperty14 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding13 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicCard, waterProperty, txtWatermark, textProperty14);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, waterProperty, txtWatermark, textProperty14);
 		autoBinding13.bind();
 
 		BeanProperty<MagicCard, Boolean> reservedProperty = BeanProperty.create("reserved");
 		BeanProperty<JCheckBox, Boolean> chkProperty15 = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding15 = Bindings.createAutoBinding(
-				UpdateStrategy.READ, magicCard, reservedProperty, chckbxReserved, chkProperty15);
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, reservedProperty, chckbxReserved, chkProperty15);
 		autoBinding15.bind();
 
 		try {
