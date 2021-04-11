@@ -303,6 +303,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				ci = rs.getString(COLORS);
 				if(ci!=null)
 					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
+				
+				ci = rs.getString(COLOR_INDICATOR);
+				if(ci!=null)
+					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
 
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
@@ -571,7 +575,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), Boolean.class));
 				else if(rs.getString(NAME).equals(SETCODE))
 					ret.add(new QueryAttribute(rs.getString(NAME), MagicEdition.class));
-				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY))
+				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY) || rs.getString(NAME).equals(COLOR_INDICATOR))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGColor.class));
 				else if(rs.getString(NAME).equals(LAYOUT))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGLayout.class));

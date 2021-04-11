@@ -95,6 +95,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String ISPREVIEW  = "isPartialPreview";
 	protected static final String IS_FOREIGN_ONLY = "isForeignOnly";
 	protected static final String PROMO_TYPE = "promoTypes";
+	protected static final String COLOR_INDICATOR = "colorIndicator";
 			
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	public static final String URL_DECKS_URI = "https://mtgjson.com/api/v5/decks/";

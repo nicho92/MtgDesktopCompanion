@@ -283,6 +283,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(COLORS) != null)
 					mc.getColors().addAll(MTGColor.parseByCode(((List<String>) map.get(COLORS))));
 			
+				if (map.get(COLOR_INDICATOR) != null)
+					mc.getColorIndicator().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_INDICATOR))));
+				
 				if (map.get(COLOR_IDENTITY) != null)
 					mc.getColorIdentity().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_IDENTITY))));
 				
