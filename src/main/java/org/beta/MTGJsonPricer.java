@@ -25,8 +25,8 @@ public class MTGJsonPricer {
 	
 	public MTGJsonPricer(File f) throws IOException 
 	{
-		List<Map<String, Object>> books =  JsonPath.parse(f).read("$.data.00010d56-fe38-5e35-8aed-518019aa36a5.paper.cardkingdom.retail.foil[*]");
-		books.stream().forEach(m->m.entrySet());
+		List<Map<String, Object>> books =  JsonPath.parse(f).read("$.data.00010d56-fe38-5e35-8aed-518019aa36a5.paper.cardkingdom.retail.foil");
+		books.stream().forEach(m->m.entrySet().stream().forEach(System.out::println));
 	}
 
 	private void buildPrice(JsonReader reader) throws IOException {
