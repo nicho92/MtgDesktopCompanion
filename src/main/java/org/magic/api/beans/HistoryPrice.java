@@ -19,7 +19,7 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 	private Currency currency;
 	private boolean foil;
 	private String serieName;
-	
+	private String support;
 	
 	
 	public HistoryPrice(T pack) {
@@ -27,6 +27,14 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		this.foil=false;
 		variations = new TreeMap<>();
 		currency=Currency.getInstance("USD");
+	}
+	
+	public String getSupport() {
+		return support;
+	}
+	
+	public void setSupport(String support) {
+		this.support = support;
 	}
 	
 
