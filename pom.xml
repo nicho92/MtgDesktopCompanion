@@ -171,7 +171,7 @@
 		<dependency>
 			<groupId>io.milton</groupId>
 			<artifactId>milton-server-ce</artifactId>
-			<version>3.0.0.180</version>
+			<version>3.0.0.194</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -220,22 +220,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.8.1</version>
+			<version>8.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.8.1</version>
+			<version>8.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.8.1</version>
+			<version>8.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.8.1</version>
+			<version>8.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -419,7 +419,7 @@
 		<dependency>
 		    <groupId>com.itextpdf</groupId>
 		    <artifactId>itext7-core</artifactId>
-		    <version>7.1.14</version>
+		    <version>7.1.15</version>
 		    <type>pom</type>
 		</dependency>
 		<dependency>
