@@ -9,6 +9,7 @@ import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.tools.IDGenerator;
 
@@ -40,6 +41,7 @@ public class MagicCard implements Serializable {
 	private List<MagicEdition> editions;
 	private List<MagicRuling> rulings;
 	private List<MTGColor> colorIdentity;
+	private List<MTGColor> colorIndicator;
 	private List<MagicFormat> legalities;
 	private List<MTGFrameEffects> frameEffects;
 	private String flavorName;
@@ -69,7 +71,25 @@ public class MagicCard implements Serializable {
 	private MTGBorder border;
 	private String originalReleaseDate;
 	private boolean timeshifted;
+	private List<MTGPromoType> promotypes;
 	
+	
+	public List<MTGColor> getColorIndicator() {
+		return colorIndicator;
+	}
+
+	public void setColorIndicator(List<MTGColor> colorIndicator) {
+		this.colorIndicator = colorIndicator;
+	}
+
+	public List<MTGPromoType> getPromotypes() {
+		return promotypes;
+	}
+
+	public void setPromotypes(List<MTGPromoType> promotypes) {
+		this.promotypes = promotypes;
+	}
+
 	public boolean isTimeshifted() {
 		return timeshifted;
 	}
@@ -473,6 +493,8 @@ public class MagicCard implements Serializable {
 		legalities = new ArrayList<>();
 		frameEffects = new ArrayList<>();
 		keywords = new ArrayList<>();
+		promotypes = new ArrayList<>();
+		colorIndicator = new ArrayList<>();
 	}
 
 	public String getOriginalText() {

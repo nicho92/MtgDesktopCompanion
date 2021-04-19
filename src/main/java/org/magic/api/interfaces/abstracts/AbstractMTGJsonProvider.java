@@ -14,7 +14,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
@@ -92,6 +94,8 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String TIMESHIFTED = "isTimeshifted";
 	protected static final String ISPREVIEW  = "isPartialPreview";
 	protected static final String IS_FOREIGN_ONLY = "isForeignOnly";
+	protected static final String PROMO_TYPE = "promoTypes";
+	protected static final String COLOR_INDICATOR = "colorIndicator";
 			
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	public static final String URL_DECKS_URI = "https://mtgjson.com/api/v5/decks/";
@@ -171,6 +175,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		arr.add(new QueryAttribute(RARITY, MTGRarity.class));
 		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
 		arr.add(new QueryAttribute(COLORS, MTGColor.class));
+		arr.add(new QueryAttribute(PROMO_TYPE, MTGPromoType.class));
+		arr.add(new QueryAttribute(FRAME_EFFECTS, MTGFrameEffects.class));
+		
 		
 		return arr;
 	}

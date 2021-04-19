@@ -138,14 +138,16 @@ public class EditionsDashlet extends AbstractJDashlet {
 						modEdition.init(get().getShakes());
 						table.packAll();
 						table.setRowSorter(new TableRowSorter<>(modEdition));
-						
-					} catch (Exception e) {
+					}
+					catch (InterruptedException e) {
+						logger.error("interruption",e);
+						Thread.currentThread().interrupt();
+					}
+					catch (Exception e) {
 						logger.error("error parsing",e);
 					}
 					lblLoading.end();
 				}
-				
-				
 			};
 			
 			ThreadManager.getInstance().runInEdt(sw,"loading " + cboEditions.getSelectedItem() + " in editionDashlet");

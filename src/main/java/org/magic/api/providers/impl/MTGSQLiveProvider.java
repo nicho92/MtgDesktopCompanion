@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -278,6 +279,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					}
 				}
 				
+				if(rs.getString(PROMO_TYPE)!=null)
+				{
+					for(String s : rs.getString(PROMO_TYPE).split(","))
+					{
+						mc.getPromotypes().add(MTGPromoType.parseByLabel(s));
+					}
+				}
+				
+				
 				if(rs.getString(KEYWORDS)!=null)
 				{
 					for(String s : rs.getString(KEYWORDS).split(","))
@@ -293,6 +303,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				ci = rs.getString(COLORS);
 				if(ci!=null)
 					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
+				
+				ci = rs.getString(COLOR_INDICATOR);
+				if(ci!=null)
+					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
 
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
@@ -561,7 +575,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), Boolean.class));
 				else if(rs.getString(NAME).equals(SETCODE))
 					ret.add(new QueryAttribute(rs.getString(NAME), MagicEdition.class));
-				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY))
+				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY) || rs.getString(NAME).equals(COLOR_INDICATOR))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGColor.class));
 				else if(rs.getString(NAME).equals(LAYOUT))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGLayout.class));
@@ -569,16 +583,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGRarity.class));
 				else if(rs.getString(NAME).equals(FRAME_EFFECTS))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGFrameEffects.class));
+				else if(rs.getString(NAME).equals(PROMO_TYPE))
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGPromoType.class));
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
-				
 			}
-			
-			
 			ret.add(new QueryAttribute("sql",String.class));
 			Collections.sort(ret);
 			ret.remove(new QueryAttribute(NAME,String.class));
 			ret.add(0, new QueryAttribute(NAME,String.class));
+			
+			
 		} 
 		catch (SQLException e) {
 			logger.error(e);
