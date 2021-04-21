@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.beta.MTGJsonPricer.RETAILER;
 import org.beta.MTGJsonPricer.STOCK;
 import org.beta.MTGJsonPricer.SUPPORT;
 import org.magic.services.MTGControler;
@@ -24,7 +25,7 @@ import com.google.gson.stream.JsonToken;
 public class MTGJsonPricer {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
-	
+	public enum RETAILER {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
 	
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -59,29 +60,32 @@ public class MTGJsonPricer {
 					var data = new Data();
 					data.setMtgjsonId(reader.nextName());
 					reader.beginObject();
+					String retailer = null;
+					String currency = null;
+					STOCK stock = null;
+					SUPPORT support = null;
 					
 					while(reader.hasNext())
 					{
-						data.setSupport(SUPPORT.valueOf(reader.nextName().toUpperCase()));
+						support = SUPPORT.valueOf(reader.nextName().toUpperCase());
 						reader.beginObject();
 						
 						while(reader.hasNext())
 						{
-							String retailer = reader.nextName();
+							retailer = reader.nextName();
 							reader.beginObject();
 							
 							while(reader.hasNext())
 							{
 								var p = new Prices();
-								p.setRetailer(retailer);
-								String currency =null;
-								STOCK stock  = null;
+								p.setRetailer(RETAILER.valueOf(retailer.toUpperCase()));
+								p.setSupport(support);
 								if(reader.peek()==JsonToken.NAME)
 								{
 									String val = reader.nextName();
 									if(val.equals("currency"))
 									{
-										currency = reader.nextString();
+										currency= reader.nextString();
 									}
 									else {
 										stock = STOCK.valueOf(val.toUpperCase());	
@@ -100,20 +104,19 @@ public class MTGJsonPricer {
 											p.getStockPrices().put(reader.nextName(), reader.nextDouble());
 										} // fin boucle map date/prix
 										reader.endObject();
+										
+										
+										
+										
 									}//fin boucle Foil/Normal
 									reader.endObject();
-									
+									if(currency!=null)									
+									{
+										p.setCurrency(currency);
+										p.setStock(stock);
+										data.getPrices().add(p);
+									}
 								}
-								
-								if(currency!=null)
-								{
-									p.setCurrency(currency);
-									p.setStock(stock);
-									data.getPrices().add(p);
-								}
-							
-								
-								
 								
 							}//fin de boucle buylist/retail/Currency
 							reader.endObject();	
@@ -168,15 +171,24 @@ class Prices
 	private Map<String,Double> stockPrices;
 	private Currency currency;
 	private STOCK stock;
-	private String retailer;
+	private RETAILER retailer;
+	private SUPPORT support;
 	
 	
 	
-	public String getRetailer() {
+	public SUPPORT getSupport() {
+		return support;
+	}
+
+	public void setSupport(SUPPORT support) {
+		this.support = support;
+	}
+
+	public RETAILER getRetailer() {
 		return retailer;
 	}
 
-	public void setRetailer(String retailer) {
+	public void setRetailer(RETAILER retailer) {
 		this.retailer = retailer;
 	}
 
@@ -192,7 +204,7 @@ class Prices
 	@Override
 	public String toString() {
 		var temp = new StringBuilder();
-		temp.append(retailer).append(" ").append(stock).append(" " ).append(foil?"Foil":"Normal").append(" ").append(currency).append(getStockPrices().size());
+		temp.append(retailer).append(" ").append(support).append(" ").append(stock).append(" " ).append(foil?"Foil":"Normal").append(" ").append(currency).append(" ").append(getStockPrices().size());
 //		for(Entry<String, Double> p : getStockPrices().entrySet())
 //			temp.append("\n\t").append(p);
 		
@@ -240,7 +252,7 @@ class Prices
 class Data
 {
 	private String mtgjsonId;
-	private SUPPORT support;
+
 	private List<Prices> prices;
 	
 	public Data()
@@ -259,7 +271,7 @@ class Data
 
 	@Override
 	public String toString() {
-		return mtgjsonId + " " + support + " " + prices ;
+		return mtgjsonId + " " + prices ;
 	}
 
 	public String getMtgjsonId() {
@@ -268,12 +280,6 @@ class Data
 	public void setMtgjsonId(String mtgjsonId) {
 		this.mtgjsonId = mtgjsonId;
 	}
-	public SUPPORT getSupport() {
-		return support;
-	}
-	public void setSupport(SUPPORT support) {
-		this.support = support;
-	}
-
+	
 }
 
