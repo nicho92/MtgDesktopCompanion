@@ -8,10 +8,9 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.beta.MTGJsonPricer.RETAILER;
+import org.beta.MTGJsonPricer.VENDOR;
 import org.beta.MTGJsonPricer.STOCK;
 import org.beta.MTGJsonPricer.SUPPORT;
 import org.magic.services.MTGControler;
@@ -25,7 +24,7 @@ import com.google.gson.stream.JsonToken;
 public class MTGJsonPricer {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
-	public enum RETAILER {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
+	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
 	
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -37,6 +36,15 @@ public class MTGJsonPricer {
 	}
 	
 	
+	
+	private Currency getCurrencyFor(VENDOR v)
+	{
+		if(v== VENDOR.CARDMARKET)
+			return Currency.getInstance("EUR");
+		
+		return Currency.getInstance("USD");
+		
+	}
 	
 	
 	private List<Data> buildPrice(File f) throws IOException {
@@ -60,8 +68,7 @@ public class MTGJsonPricer {
 					var data = new Data();
 					data.setMtgjsonId(reader.nextName());
 					reader.beginObject();
-					String retailer = null;
-					String currency = null;
+					String vendor = null;
 					STOCK stock = null;
 					SUPPORT support = null;
 					
@@ -72,20 +79,18 @@ public class MTGJsonPricer {
 						
 						while(reader.hasNext())
 						{
-							retailer = reader.nextName();
+							vendor = reader.nextName();
 							reader.beginObject();
 							
 							while(reader.hasNext())
 							{
-								var p = new Prices();
-								p.setRetailer(RETAILER.valueOf(retailer.toUpperCase()));
-								p.setSupport(support);
+								
 								if(reader.peek()==JsonToken.NAME)
 								{
 									String val = reader.nextName();
 									if(val.equals("currency"))
 									{
-										currency= reader.nextString();
+										reader.nextString();
 									}
 									else {
 										stock = STOCK.valueOf(val.toUpperCase());	
@@ -93,44 +98,34 @@ public class MTGJsonPricer {
 								}
 								else
 								{
+									var p = new Prices();
+									p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
+									p.setSupport(support);
+									p.setStock(stock);
+									p.setCurrency(getCurrencyFor(p.getVendor())); 
+									
+									
 									reader.beginObject();
 									while(reader.hasNext())
 									{
 										p.setFoil(reader.nextName().equals("foil"));
-										
 										reader.beginObject();
 										while(reader.hasNext())
 										{
 											p.getStockPrices().put(reader.nextName(), reader.nextDouble());
 										} // fin boucle map date/prix
 										reader.endObject();
-										
-										
-										
-										
 									}//fin boucle Foil/Normal
+									data.getPrices().add(p);
 									reader.endObject();
-									if(currency!=null)									
-									{
-										p.setCurrency(currency);
-										p.setStock(stock);
-										data.getPrices().add(p);
-									}
 								}
-								
 							}//fin de boucle buylist/retail/Currency
 							reader.endObject();	
-							
-							
 						}//fin boucle retailer;
 						reader.endObject();	
-						
 					}//fin boucle mtgjsonIds
 					ret.add(data);
-					if(reader.peek()==JsonToken.NAME)
-						System.out.println(reader.nextName());
-					else
-						reader.endObject();
+					reader.endObject();
 				}//fin boucle data
 				
 			}
@@ -171,10 +166,8 @@ class Prices
 	private Map<String,Double> stockPrices;
 	private Currency currency;
 	private STOCK stock;
-	private RETAILER retailer;
+	private VENDOR vendor;
 	private SUPPORT support;
-	
-	
 	
 	public SUPPORT getSupport() {
 		return support;
@@ -184,12 +177,12 @@ class Prices
 		this.support = support;
 	}
 
-	public RETAILER getRetailer() {
-		return retailer;
+	public VENDOR getVendor() {
+		return vendor;
 	}
 
-	public void setRetailer(RETAILER retailer) {
-		this.retailer = retailer;
+	public void setVendor(VENDOR v) {
+		this.vendor = v;
 	}
 
 	public void setStock(STOCK stock) {
@@ -204,11 +197,7 @@ class Prices
 	@Override
 	public String toString() {
 		var temp = new StringBuilder();
-		temp.append(retailer).append(" ").append(support).append(" ").append(stock).append(" " ).append(foil?"Foil":"Normal").append(" ").append(currency).append(" ").append(getStockPrices().size());
-//		for(Entry<String, Double> p : getStockPrices().entrySet())
-//			temp.append("\n\t").append(p);
-		
-		
+		temp.append(vendor).append(" ").append(support).append(" ").append(stock).append(" " ).append(foil?"Foil":"Normal").append(" ").append(currency).append(" ").append(getStockPrices().size());
 		return temp.toString();
 	}
 	
@@ -271,7 +260,14 @@ class Data
 
 	@Override
 	public String toString() {
-		return mtgjsonId + " " + prices ;
+		var temp = new StringBuilder();
+		temp.append(mtgjsonId).append(":");
+		
+		for(Prices p : getPrices())
+			temp.append("\n\t").append(p);
+		
+			
+		return temp.toString();
 	}
 
 	public String getMtgjsonId() {

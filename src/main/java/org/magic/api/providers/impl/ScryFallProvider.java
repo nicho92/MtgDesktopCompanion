@@ -6,7 +6,6 @@ import java.net.URLDecoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -14,7 +13,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -33,7 +31,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
-import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;

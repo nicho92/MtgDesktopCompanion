@@ -13,7 +13,6 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
-import org.magic.sorters.PricesCardsShakeSorter;
 
 public abstract class AbstractPricesProvider extends AbstractMTGPlugin implements MTGPricesProvider {
 

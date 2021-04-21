@@ -40,7 +40,6 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -51,7 +50,6 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;

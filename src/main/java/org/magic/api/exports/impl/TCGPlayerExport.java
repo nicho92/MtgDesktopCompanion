@@ -2,7 +2,9 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;

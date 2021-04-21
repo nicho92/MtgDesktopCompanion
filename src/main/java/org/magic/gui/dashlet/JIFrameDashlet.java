@@ -11,7 +11,6 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class JIFrameDashlet extends AbstractJDashlet {
 
