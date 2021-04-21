@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.beta.MTGJsonPricer.VENDOR;
 import org.beta.MTGJsonPricer.STOCK;
 import org.beta.MTGJsonPricer.SUPPORT;
-import org.magic.services.MTGControler;
+import org.beta.MTGJsonPricer.VENDOR;
 import org.magic.services.MTGLogger;
+import org.magic.tools.Chrono;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -29,40 +29,29 @@ public class MTGJsonPricer {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static void main(String[] args) throws JsonParseException, IOException {
-		File f = new File("C:\\Users\\Nicolas\\Google Drive\\test.json");
-	//	File f = new File("D:\\Téléchargements\\AllPrices.json");
-		MTGControler.getInstance();
-		new MTGJsonPricer().buildPrice(f).forEach(System.out::println);
-	}
-	
-	
-	
-	private Currency getCurrencyFor(VENDOR v)
-	{
-		if(v== VENDOR.CARDMARKET)
-			return Currency.getInstance("EUR");
+		File f = new File("D:\\Téléchargements\\AllPrices.json");
 		
-		return Currency.getInstance("USD");
+		var c = new Chrono();
+		var pricer = new MTGJsonPricer();
+		c.start();
+		System.out.println(pricer.buildPrice(f).size());
+		System.out.println(c.stop() +"s");
+		
 		
 	}
-	
 	
 	private List<Data> buildPrice(File f) throws IOException {
 		
 		List<Data> ret = new ArrayList<>();
-		
-		
+	
 		try(var reader = new JsonReader(new FileReader(f)))
 		{
-
 				reader.beginObject();
 				reader.nextName();
 				Meta m = new Gson().fromJson(reader, Meta.class);
 				logger.debug(m);
-				
 				reader.nextName();//data
 				reader.beginObject(); 
-				
 				while(reader.hasNext())
 				{	
 					var data = new Data();
@@ -129,10 +118,18 @@ public class MTGJsonPricer {
 				}//fin boucle data
 				
 			}
-		
 			return ret;
+	}
+	
+	private Currency getCurrencyFor(VENDOR v)
+	{
+		if(v== VENDOR.CARDMARKET)
+			return Currency.getInstance("EUR");
+		
+		return Currency.getInstance("USD");
 		
 	}
+	
 }
 
 class Meta
