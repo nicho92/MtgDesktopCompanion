@@ -95,7 +95,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 							rd.setAuthor("MtgJson");
 							try {
 								rd.setDescription(getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("type").getAsString()).getSet());
-								rd.setUrl(new URL(AbstractMTGJsonProvider.URL_DECKS_URI+ob.get("fileName").getAsString()+".json").toURI());
+								rd.setUrl(new URL(AbstractMTGJsonProvider.MTG_JSON_DECKS+ob.get("fileName").getAsString()+".json").toURI());
 							} catch (Exception e) {
 								logger.error(e);
 							}

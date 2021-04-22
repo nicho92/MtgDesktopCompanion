@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,13 @@ import org.apache.log4j.Logger;
 import org.beta.MTGJsonPricer.STOCK;
 import org.beta.MTGJsonPricer.SUPPORT;
 import org.beta.MTGJsonPricer.VENDOR;
+import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
+import org.magic.tools.FileTools;
+import org.magic.tools.UITools;
+import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -27,24 +33,32 @@ public class MTGJsonPricer {
 	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
 	
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
+	
 	public static void main(String[] args) throws JsonParseException, IOException {
-		File f = new File("D:\\Téléchargements\\AllPrices.json");
-		
 		var c = new Chrono();
 		var pricer = new MTGJsonPricer();
+		pricer.reloadPrices();
 		c.start();
-		System.out.println(pricer.buildPrice(f).size());
+		pricer.buildPrices(VENDOR.TCGPLAYER);
 		System.out.println(c.stop() +"s");
-		
-		
 	}
 	
-	private List<Data> buildPrice(File f) throws IOException {
+	public void reloadPrices() throws IOException
+	{
+		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
+		logger.info("Downloading updated File to " );
+		
+		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
+		FileTools.unZipIt(tmp,dataFile);
+	}
+	
+	
+	public List<Data> buildPrices(VENDOR v) throws IOException {
 		
 		List<Data> ret = new ArrayList<>();
 	
-		try(var reader = new JsonReader(new FileReader(f)))
+		try(var reader = new JsonReader(new FileReader(dataFile)))
 		{
 				reader.beginObject();
 				reader.nextName();
@@ -55,6 +69,7 @@ public class MTGJsonPricer {
 				while(reader.hasNext())
 				{	
 					var data = new Data();
+					data.setMeta(m);
 					data.setMtgjsonId(reader.nextName());
 					reader.beginObject();
 					String vendor = null;
@@ -88,10 +103,10 @@ public class MTGJsonPricer {
 								else
 								{
 									var p = new Prices();
-									p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
-									p.setSupport(support);
-									p.setStock(stock);
-									p.setCurrency(getCurrencyFor(p.getVendor())); 
+											p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
+											p.setSupport(support);
+											p.setStock(stock);
+											p.setCurrency(getCurrencyFor(p.getVendor())); 
 									
 									
 									reader.beginObject();
@@ -101,18 +116,22 @@ public class MTGJsonPricer {
 										reader.beginObject();
 										while(reader.hasNext())
 										{
-											p.getStockPrices().put(reader.nextName(), reader.nextDouble());
+											p.getStockPrices().put(UITools.parseDate(reader.nextName(),"yyyy-MM-dd"), reader.nextDouble());
 										} // fin boucle map date/prix
 										reader.endObject();
 									}//fin boucle Foil/Normal
-									data.getPrices().add(p);
+									
+									if(v==p.getVendor())
+										data.getPrices().add(p);
+									
+									
 									reader.endObject();
 								}
-							}//fin de boucle buylist/retail/Currency
+							}//buylist/retail/Currency
 							reader.endObject();	
-						}//fin boucle retailer;
+						}//retailer;
 						reader.endObject();	
-					}//fin boucle mtgjsonIds
+					}//mtgjsonIds
 					ret.add(data);
 					reader.endObject();
 				}//fin boucle data
@@ -160,7 +179,7 @@ class Meta
 class Prices
 {
 	private boolean foil;
-	private Map<String,Double> stockPrices;
+	private Map<Date,Double> stockPrices;
 	private Currency currency;
 	private STOCK stock;
 	private VENDOR vendor;
@@ -209,11 +228,11 @@ class Prices
 		this.foil = foil;
 	}
 	
-	public Map<String, Double> getStockPrices() {
+	public Map<Date, Double> getStockPrices() {
 		return stockPrices;
 	}
 	
-	public void setStockPrices(Map<String, Double> stockPrices) {
+	public void setStockPrices(Map<Date, Double> stockPrices) {
 		this.stockPrices = stockPrices;
 	}
 	
@@ -237,10 +256,20 @@ class Prices
 
 class Data
 {
+	private Meta meta;
 	private String mtgjsonId;
-
 	private List<Prices> prices;
 	
+	
+	
+	public Meta getMeta() {
+		return meta;
+	}
+
+	public void setMeta(Meta meta) {
+		this.meta = meta;
+	}
+
 	public Data()
 	{
 		prices = new ArrayList<>();

@@ -98,12 +98,15 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String COLOR_INDICATOR = "colorIndicator";
 			
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
-	public static final String URL_DECKS_URI = "https://mtgjson.com/api/v5/decks/";
-	public static final String MTG_JSON_VERSION = "https://mtgjson.com/api/v5/Meta.json";
-	public static final String MTG_JSON_DECKS_LIST = "https://mtgjson.com/api/v5/DeckList.json";
-	public static final String MTG_JSON_KEYWORDS="https://mtgjson.com/api/v5/Keywords.json";
-	public static final String MTG_JSON_SETS_LIST="https://mtgjson.com/api/v5/SetList.json";
-	public static final String MTG_JSON_ENUM_VALUES = "https://mtgjson.com/api/v5/EnumValues.json";
+	
+	public static final String MTGJSON_API_URL="https://mtgjson.com/api/v5";
+	public static final String MTG_JSON_DECKS =		     MTGJSON_API_URL+"/decks/";
+	public static final String MTG_JSON_VERSION = 	     MTGJSON_API_URL+"/Meta.json";
+	public static final String MTG_JSON_DECKS_LIST =     MTGJSON_API_URL+"/DeckList.json";
+	public static final String MTG_JSON_KEYWORDS= 	     MTGJSON_API_URL+"/Keywords.json";
+	public static final String MTG_JSON_SETS_LIST=	     MTGJSON_API_URL + "/SetList.json";
+	public static final String MTG_JSON_ENUM_VALUES =    MTGJSON_API_URL+ "/EnumValues.json";
+	public static final String MTG_JSON_ALL_PRICES_ZIP = MTGJSON_API_URL+"/AllPrices.json.zip";
 	
 	private File tempZipFile = new File(MTGConstants.DATA_DIR,"mtgJsonTempFile.zip");
 	private File fversion = new File(MTGConstants.DATA_DIR, "mtgjsonVersion");
