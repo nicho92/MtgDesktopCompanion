@@ -119,8 +119,8 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				double total = 0;
 				Map<MTGRarity, Double> priceRarity = new EnumMap<>(MTGRarity.class);
 
-				for (int i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
-					Booster booster = getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
+				for (var i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
+					var booster = getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
 					Collections.reverse(booster.getCards());
 					booster.setBoosterNumber(String.valueOf(i + 1));
 
@@ -143,7 +143,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					boostersModel.addItem(booster);
 					total = total + booster.getPrice();
 
-					StringBuilder temp = new StringBuilder();
+					var temp = new StringBuilder();
 					temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
 
 					for (Entry<MTGRarity, Double> s : priceRarity.entrySet())
@@ -173,7 +173,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);

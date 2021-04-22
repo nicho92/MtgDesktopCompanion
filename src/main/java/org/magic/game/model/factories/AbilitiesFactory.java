@@ -100,7 +100,7 @@ public class AbilitiesFactory implements Serializable{
 				Matcher m  = CardsPatterns.extract(s, CardsPatterns.LOYALTY_PATTERN);
 				if(m.matches()) {
 				
-				LoyaltyAbilities abilities = new LoyaltyAbilities();
+				var abilities = new LoyaltyAbilities();
 				abilities.setCard(mc);
 				String c = m.group(1);
 				if(c.startsWith("+"))
@@ -143,14 +143,14 @@ public class AbilitiesFactory implements Serializable{
 	public List<TriggeredAbilities> getTriggeredAbility(MagicCard mc)
 	{
 		List<TriggeredAbilities> arr =new ArrayList<>();
-		int i=0;
+		var i=0;
 		for(String s : listSentences(mc))
 		{
 			for(KEYWORDS k : TriggeredAbilities.KEYWORDS.values())
 			{
 				if(s.split(" ")[0].equalsIgnoreCase(k.name()))
 				{
-					TriggeredAbilities t = new TriggeredAbilities();
+					var t = new TriggeredAbilities();
 									   t.setCard(mc);
 									   t.setCost(null);
 									   t.init(k,listSentences(mc).subList(i, listSentences(mc).size()));

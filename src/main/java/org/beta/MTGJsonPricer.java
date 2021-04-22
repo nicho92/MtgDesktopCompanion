@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.beta.MTGJsonPricer.STOCK;
@@ -38,17 +39,17 @@ public class MTGJsonPricer {
 	public static void main(String[] args) throws JsonParseException, IOException {
 		var c = new Chrono();
 		var pricer = new MTGJsonPricer();
-		pricer.reloadPrices();
+		//pricer.reloadPrices();
 		c.start();
-		pricer.buildPrices(VENDOR.TCGPLAYER);
+		for(VENDOR v : VENDOR.values())
+			pricer.buildPrices(v);
+		
 		System.out.println(c.stop() +"s");
 	}
 	
 	public void reloadPrices() throws IOException
 	{
 		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
-		logger.info("Downloading updated File to " );
-		
 		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
 		FileTools.unZipIt(tmp,dataFile);
 	}
@@ -248,10 +249,7 @@ class Prices
 	public Currency getCurrency() {
 		return currency;
 	}
-	
-	
 }
-
 
 
 class Data
@@ -259,8 +257,6 @@ class Data
 	private Meta meta;
 	private String mtgjsonId;
 	private List<Prices> prices;
-	
-	
 	
 	public Meta getMeta() {
 		return meta;
@@ -279,11 +275,26 @@ class Data
 		return prices;
 	}
 	
-	public void setPrices(List<Prices> prices) {
-		this.prices = prices;
+	public List<Prices> listPricesByVendor(VENDOR v)
+	{
+		return getPrices().stream().filter(p->p.getVendor()==v).collect(Collectors.toList());
 	}
 	
-
+	public List<Prices> listPricesBySupport(SUPPORT v)
+	{
+		return getPrices().stream().filter(p->p.getSupport()==v).collect(Collectors.toList());
+	}
+	
+	public List<Prices> listPricesByStock(STOCK v)
+	{
+		return getPrices().stream().filter(p->p.getStock()==v).collect(Collectors.toList());
+	}
+	
+	public List<Prices> listPricesByFoil(Boolean v)
+	{
+		return getPrices().stream().filter(p->p.isFoil()==v).collect(Collectors.toList());
+	}
+	
 	@Override
 	public String toString() {
 		var temp = new StringBuilder();
@@ -291,7 +302,6 @@ class Data
 		
 		for(Prices p : getPrices())
 			temp.append("\n\t").append(p);
-		
 			
 		return temp.toString();
 	}

@@ -28,9 +28,9 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 	public PriceSuggesterComponent() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
+		var panel1 = new JPanel();
+		var panel2 = new JPanel();
+		var panel3 = new JPanel();
 		
 		btnValidate = new JButton(MTGConstants.ICON_SAVE);
 		
@@ -40,7 +40,7 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 		cboPricer = UITools.createCombobox(MTGPricesProvider.class,false);
 		
 		
-		ButtonGroup group = new ButtonGroup();
+		var group = new ButtonGroup();
 					group.add(rdoDashBoard);
 					group.add(rdoPricer);
 		

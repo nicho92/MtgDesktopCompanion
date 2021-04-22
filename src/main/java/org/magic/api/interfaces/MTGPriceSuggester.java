@@ -6,5 +6,4 @@ public interface MTGPriceSuggester extends MTGPlugin{
 
 	public Double getSuggestedPrice(MagicCard mc, boolean foil);
 	
-	
 }

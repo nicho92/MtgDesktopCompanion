@@ -111,39 +111,39 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	public CardBuilder2GUI() {
 		try {
 			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
-			JPanel panelEditionHaut = new JPanel();
-			JPanel panelSets = new JPanel();
-			JButton btnSaveEdition = new JButton("");
-			JButton btnNewSet = new JButton("");
-			JButton btnRemoveEdition = new JButton("");
-			JPanel buttonsForeignNamesPanel = new JPanel();
-			JButton btnRemoveName = new JButton("Remove");
-			JSplitPane splitcardEdPanel = new JSplitPane();
-			JPanel panelCards = new JPanel();
-			JPanel panelCardsHaut = new JPanel();
-			JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
-			JButton btnRefreshSet = new JButton(MTGConstants.ICON_REFRESH);
+			var panelEditionHaut = new JPanel();
+			var panelSets = new JPanel();
+			var btnSaveEdition = new JButton("");
+			var btnNewSet = new JButton("");
+			var btnRemoveEdition = new JButton("");
+			var buttonsForeignNamesPanel = new JPanel();
+			var btnRemoveName = new JButton("Remove");
+			var splitcardEdPanel = new JSplitPane();
+			var panelCards = new JPanel();
+			var panelCardsHaut = new JPanel();
+			var btnImport = new JButton(MTGConstants.ICON_IMPORT);
+			var btnRefreshSet = new JButton(MTGConstants.ICON_REFRESH);
 
-			JButton btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
-			JButton btnAddName = new JButton("add Languages");
-			JTabbedPane tabbedResult = new JTabbedPane(SwingConstants.TOP);
-			JButton btnRemoveCard = new JButton("");
-			JButton btnNewCard = new JButton("");
-			JPanel panelBooster = new JPanel();
-			JLabel lblCommon = new JLabel("Common :");
-			JLabel lblUncommon = new JLabel("Uncommon :");
-			JLabel lblRareMythic = new JLabel("Rare/Mythic :");
+			var btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
+			var btnAddName = new JButton("add Languages");
+			var tabbedResult = new JTabbedPane(SwingConstants.TOP);
+			var btnRemoveCard = new JButton("");
+			var btnNewCard = new JButton("");
+			var panelBooster = new JPanel();
+			var lblCommon = new JLabel("Common :");
+			var lblUncommon = new JLabel("Uncommon :");
+			var lblRareMythic = new JLabel("Rare/Mythic :");
 
-			JTabbedPane tabbedCards = new JTabbedPane(SwingConstants.TOP);
-			JPanel panelMisc = new JPanel();
-			JPanel panelCardEditions = new JPanel();
-			JPanel legalitiesPanel = new JPanel();
+			var tabbedCards = new JTabbedPane(SwingConstants.TOP);
+			var panelMisc = new JPanel();
+			var panelCardEditions = new JPanel();
+			var legalitiesPanel = new JPanel();
 			legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "",TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-			JToggleButton tglStd = new JToggleButton("STD");
-			JToggleButton tglMdn = new JToggleButton("MDN");
-			JToggleButton tglVin = new JToggleButton("VIN");
-			JToggleButton tglLeg = new JToggleButton("LEG");
+			var tglStd = new JToggleButton("STD");
+			var tglMdn = new JToggleButton("MDN");
+			var tglVin = new JToggleButton("VIN");
+			var tglLeg = new JToggleButton("LEG");
 
 			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
 			editionModel = new MagicEditionsTableModel();
@@ -202,19 +202,19 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelCards.setLayout(new BorderLayout(0, 0));
 			panelMisc.setLayout(new BorderLayout(0, 0));
 
-			GridBagLayout gblPanelBooster = new GridBagLayout();
+			var gblPanelBooster = new GridBagLayout();
 			gblPanelBooster.columnWidths = new int[] { 218, 218, 0 };
 			gblPanelBooster.rowHeights = new int[] { 38, 41, 37, 0 };
 			gblPanelBooster.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 			gblPanelBooster.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-			GridBagConstraints gbcLblCommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0);
-			GridBagConstraints gbcSpinCommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 0);
-			GridBagConstraints gbcLblUncommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1);
-			GridBagConstraints gbcSpinUnco = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
-			GridBagConstraints gbcLblRareMythic = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2);
-			GridBagConstraints gbcSpinRare = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2);
+			var gbcLblCommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0);
+			var gbcSpinCommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 0);
+			var gbcLblUncommon = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1);
+			var gbcSpinUnco = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
+			var gbcLblRareMythic = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2);
+			var gbcSpinRare = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2);
 		
-			GridBagLayout gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
+			var gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
 			gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0};
 			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 			gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
