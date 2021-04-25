@@ -72,8 +72,17 @@ public class MagicCard implements Serializable {
 	private String originalReleaseDate;
 	private boolean timeshifted;
 	private List<MTGPromoType> promotypes;
+	private boolean japanese;
 	
-	
+
+	public boolean isJapanese() {
+		return japanese;
+	}
+
+	public void setJapanese(boolean japanese) {
+		this.japanese = japanese;
+	}
+
 	public List<MTGColor> getColorIndicator() {
 		return colorIndicator;
 	}

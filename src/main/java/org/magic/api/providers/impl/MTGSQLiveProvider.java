@@ -48,7 +48,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	
 	@Override
 	public String getOnlineDataFileZip() {
-		return "https://mtgjson.com/api/v5/AllPrintings.sqlite.zip";
+		return MTGJSON_API_URL+"/AllPrintings.sqlite.zip";
 	}
 	
 	@Override

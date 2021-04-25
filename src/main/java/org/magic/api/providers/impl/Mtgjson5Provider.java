@@ -70,7 +70,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 	@Override
 	public String getOnlineDataFileZip() {
-		return "https://mtgjson.com/api/v5/AllPrintings.json.zip";
+		return MTGJSON_API_URL+"/AllPrintings.json.zip";
 	}
 	
 	
@@ -196,7 +196,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					if(split>0)
 					{
 						
-						String side = map.get(SIDE).toString();
+						var side = map.get(SIDE).toString();
 						
 						if(side.equals("a"))
 							mc.setName(String.valueOf(map.get(NAME)).substring(0, split).trim());

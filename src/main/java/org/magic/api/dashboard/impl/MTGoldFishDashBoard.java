@@ -220,6 +220,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-borderless";
 			else if(mc.isTimeshifted())
 				extend="-timeshifted";
+			else if(mc.isJapanese())
+				extend="-japanese";
 			
 			
 			
@@ -265,7 +267,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 																														// results
 
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
-				CardShake cs = new CardShake();
+				var cs = new CardShake();
 				cs.setProviderName(getName());
 				cs.setName(StringUtils.remove(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text(), "(RL)").trim());
 				cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
