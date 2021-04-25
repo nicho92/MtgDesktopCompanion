@@ -39,10 +39,10 @@ public class MTGJsonPricer {
 	public static void main(String[] args) throws JsonParseException, IOException {
 		var c = new Chrono();
 		var pricer = new MTGJsonPricer();
-		//pricer.reloadPrices();
+		pricer.reloadPrices();
 		c.start();
-		for(VENDOR v : VENDOR.values())
-			pricer.buildPrices(v);
+		//for(VENDOR v : VENDOR.values())
+			pricer.buildPrices(VENDOR.TCGPLAYER).forEach(d->d.getPrices().forEach(p->System.out.println(p.getStockPrices())));
 		
 		System.out.println(c.stop() +"s");
 	}

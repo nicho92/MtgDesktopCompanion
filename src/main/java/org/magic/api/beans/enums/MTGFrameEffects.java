@@ -11,6 +11,7 @@ public enum MTGFrameEffects{
 	LEGENDARY,
 	MIRACLE,
 	NYXTOUCHED,
+	NYXBORN,
 	DRAFT,
 	DEVOID,
 	TOMBSTONE,
@@ -23,6 +24,8 @@ public enum MTGFrameEffects{
 	MOONREVERSEMOONDFC,
 	SHOWCASE,
 	EXTENDEDART,
+	SNOW,
+	COMPANION,
 	WAXINGANDWANINGMOONDFC;
 	
 	public String toPrettyString() {

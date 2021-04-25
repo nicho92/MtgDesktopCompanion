@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.14.8</version>
+			<version>3.14.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -460,12 +460,12 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.23</version>
+			<version>8.0.24</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.19.jre7</version>
+			<version>42.2.20.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -521,7 +521,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.7</version>
+			<version>3.0.8</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

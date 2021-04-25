@@ -134,7 +134,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(packaging==null || packaging.getEdition()==null)
 			return history;
 		
-		String selead="+Booster+Box";
+		var selead="+Booster+Box";
 		
 		
 		switch(packaging.getType())
@@ -181,7 +181,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
-		String url = "";
+		var url = "";
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 		historyPrice.setFoil(foil);
@@ -203,13 +203,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			editionName = RegExUtils.replaceAll(editionName, ",", "");
 			editionName = RegExUtils.replaceAll(editionName, ":", "");
 
-			String pfoil="";
+			var pfoil="";
 			
 			if(mc.getCurrentSet().isFoilOnly() || foil)
 				pfoil=":Foil";
 			
-			String extra="";
-			String extend="";
+			var extra="";
+			var extend="";
 			if(mc.isExtraCard() && !mc.isExtendedArt() && !mc.isShowCase() && !mc.isBorderLess())
 				extra="+Promos";
 			else if(mc.isExtendedArt())
@@ -245,7 +245,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		
-		String gameFormat="all";
+		var gameFormat="all";
 		if(f!=null)
 			gameFormat=f.name();
 		
@@ -331,7 +331,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			if(nameExtra.contains("Sealed"))
 				continue;
 			
-			CardShake cs = new CardShake();
+					var cs = new CardShake();
 						cs.setCurrency(getCurrency());
 						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").text().trim());
 						cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").attr("href"));

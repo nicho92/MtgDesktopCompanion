@@ -102,7 +102,7 @@ public class MagicCard implements Serializable {
 	{
 		
 		try {
-			int number = Integer.parseInt(getCurrentSet().getNumber());
+			var number = Integer.parseInt(getCurrentSet().getNumber());
 		
 			if(number==0 || getCurrentSet().getCardCountOfficial()==0)
 				return false;
@@ -209,7 +209,7 @@ public class MagicCard implements Serializable {
 
 	public boolean isCompanion()
 	{
-		return isCreature() && getText()!=null && getText().contains("Companion —");
+		return isCreature() && getFrameEffects().contains(MTGFrameEffects.COMPANION);
 	}
 	
 	public String getScryfallId() {
