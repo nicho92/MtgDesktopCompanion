@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -18,7 +19,6 @@ import org.beta.MTGJsonPricer.VENDOR;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
@@ -37,24 +37,36 @@ public class MTGJsonPricer {
 	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
 	
 	public static void main(String[] args) throws JsonParseException, IOException {
-		var c = new Chrono();
 		var pricer = new MTGJsonPricer();
-		pricer.reloadPrices();
-		c.start();
-		//for(VENDOR v : VENDOR.values())
-			pricer.buildPrices(VENDOR.TCGPLAYER).forEach(d->d.getPrices().forEach(p->System.out.println(p.getStockPrices())));
+		var datas = pricer.buildPrices(VENDOR.CARDMARKET);
 		
-		System.out.println(c.stop() +"s");
+		pricer.export(datas,new File("d:/test.csv"));
+		
 	}
 	
+	private void export(List<Data> datas,File f) throws IOException {
+		StringBuilder temp = new StringBuilder();
+		
+		for(Data d : datas)
+		{
+			d.getPrices().forEach(p->{
+				temp.append(d.getMtgjsonId()).append(";").append(p.getSupport()).append(";").append(p.getStock()).append(";").append(p.getCurrency()).append("\n");
+				p.getStockPrices().entrySet().forEach(e->temp.append(" ;").append(e.getKey()).append(";").append(e.getValue()).append("\n"));
+			});
+		}
+		
+		FileTools.saveFile(f, temp.toString());
+		
+		
+	}
+
 	public void reloadPrices() throws IOException
 	{
 		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
 		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
 		FileTools.unZipIt(tmp,dataFile);
 	}
-	
-	
+		
 	public List<Data> buildPrices(VENDOR v) throws IOException {
 		
 		List<Data> ret = new ArrayList<>();
@@ -219,7 +231,7 @@ class Prices
 	}
 	
 	public Prices() {
-		stockPrices = new HashMap<>();
+		stockPrices = new TreeMap<>();
 	}
 	
 	public boolean isFoil() {
