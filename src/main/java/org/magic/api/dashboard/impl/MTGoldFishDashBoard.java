@@ -225,7 +225,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			
 			
-			if(mc.getCurrentSet().getId().equals("PUMA"))
+			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA"))
 				extend="";
 			
 			
