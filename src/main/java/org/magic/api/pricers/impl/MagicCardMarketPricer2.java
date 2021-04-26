@@ -113,7 +113,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 
 			logger.info(getName() + " looking for " + card + " " + card.getCurrentSet());
 
-			if (card.getCurrentSet().getRarity() != null && !getBoolean("COMMONCHECK") && card.getCurrentSet().getRarity()==MTGRarity.COMMON) {
+			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==MTGRarity.COMMON) {
 					MagicPrice mp = new MagicPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency("EUR");

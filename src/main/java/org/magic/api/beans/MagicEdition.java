@@ -14,7 +14,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
-	private MTGRarity rarity;
 	private String artist;
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseId;
 	private String flavor;
@@ -208,25 +207,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 
 	public void setSet(String set) {
 		this.set = set;
-	}
-
-	public MTGRarity getRarity() {
-		return rarity;
-	}
-
-	public void setRarity(String r) {
-		try {
-			rarity = MTGRarity.valueOf(r.toUpperCase());
-		}
-		catch(Exception e)
-		{
-			rarity=null;
-		}
-	}
-
-	
-	public void setRarity(MTGRarity rarity) {
-		this.rarity = rarity;
 	}
 
 	public String getArtist() {

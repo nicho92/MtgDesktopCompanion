@@ -364,7 +364,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
-					  arr.add(createAttributes("Mkm-Rarete", st.getMagicCard().getCurrentSet().getRarity().toPrettyString(),true));
+					  arr.add(createAttributes("Mkm-Rarete", st.getMagicCard().getRarity().toPrettyString(),true));
 					 
 					  if(st.getComment()!=null)
 						  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));

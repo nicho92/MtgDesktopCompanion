@@ -265,6 +265,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 				mc.setOriginalReleaseDate(rs.getString(ORIGINAL_RELEASE_DATE));
 				mc.setTimeshifted(rs.getBoolean(TIMESHIFTED));
+				mc.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
+				
 				
 				if(rs.getString(FRAME_EFFECTS)!=null)
 				{
@@ -338,10 +340,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 				MagicEdition set = getSetById(rs.getString(SETCODE));
 							 set.setNumber(rs.getString(NUMBER));
-							 set.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
 							 set.setFlavor(rs.getString(FLAVOR_TEXT));
 							 set.setScryfallId(rs.getString(SCRYFALL_ID));
-							 set.setMultiverseid(rs.getString("multiverseId"));
+							 set.setMultiverseid(rs.getString(MULTIVERSE_ID));
 							 set.setArtist(rs.getString(ARTIST));
 							 mc.getEditions().add(set);
 				
@@ -350,7 +351,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					if(!ids.equals(set.getId()))
 					{
 						MagicEdition ed = getSetById(ids);
-						ed.setRarity(set.getRarity());
 						mc.getEditions().add(ed);
 					}
 				}

@@ -132,7 +132,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 								booster.setPrice(price);
 								cs.setCard(mc);
 
-								MTGRarity rarity = mc.getCurrentSet().getRarity();
+								MTGRarity rarity = mc.getRarity();
 
 								if (priceRarity.get(rarity) != null)
 									priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice());

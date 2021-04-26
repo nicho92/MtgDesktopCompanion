@@ -23,6 +23,7 @@ import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -325,7 +326,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			mc.setStorySpotlight(false);
 		}
 
-		
+		try {
+			mc.setRarity(MTGRarity.valueOf(obj.get(RARITY).getAsString()));
+		} catch (NullPointerException e) {
+			mc.setStorySpotlight(false);
+		}
 		
 		try {
 			mc.setText(obj.get("oracle_text").getAsString());
@@ -519,7 +524,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 			try {
 				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
-				ed.setRarity(obj.get(RARITY).getAsString());
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 				ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 				ed.setArtist(mc.getArtist());
@@ -624,9 +628,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 					if (obj.get(MULTIVERSE_ID) != null)
 						ed.setMultiverseid(obj.get(MULTIVERSE_ID).getAsString());
-
-					if (obj.get(RARITY) != null)
-						ed.setRarity(obj.get(RARITY).getAsString());
 
 					if (obj.get(COLLECTOR_NUMBER) != null)
 						ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());

@@ -479,7 +479,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
 				MagicCard mc = magicCardEditorPanel.getMagicCard();
 				me.setNumber(mc.getCurrentSet().getNumber());
-				me.setRarity(mc.getRarity());
 				me.setArtist(mc.getArtist());
 				me.setFlavor(mc.getFlavor());
 

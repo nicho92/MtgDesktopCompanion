@@ -66,7 +66,7 @@ public class CardListPanel extends JPanel {
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getCurrentSet().toString());
 		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getCurrentSet().getId()));
-		lblRarity.setText(mc.getCurrentSet().getRarity().toPrettyString());
+		lblRarity.setText(mc.getRarity().toPrettyString());
 		manaPanel.setManaCost(mc.getCost());
 	}
 }

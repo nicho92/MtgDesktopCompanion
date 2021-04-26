@@ -323,6 +323,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(IS_FULLART) != null)
 					mc.setFullArt(Boolean.valueOf(map.get(IS_FULLART).toString()));
 
+				if (map.get(RARITY) != null)
+					mc.setRarity(MTGRarity.valueOf(map.get(RARITY).toString()));
+				
+				
 				
 				if(map.get(BORDER_COLOR)!=null)
 					mc.setBorder(MTGBorder.parseByLabel(map.get(BORDER_COLOR).toString()));
@@ -420,7 +424,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					codeEd = currentSet.get(indexSet++);
 			
 				MagicEdition me = getSetById(codeEd);
-							 me.setRarity(mc.getRarity());
 							 me.setFlavor(mc.getFlavor());
 							 me.setScryfallId(mc.getScryfallId());
 							 
@@ -475,11 +478,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 		if (cardsElement != null)
 			for (Map<String, Object> map : cardsElement) {
-				try {
-					me.setRarity(String.valueOf(map.get(RARITY)));
-				} catch (Exception e) {
-					me.setRarity(mc.getRarity());
-				}
 				
 				try {
 					me.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));

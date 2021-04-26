@@ -205,16 +205,16 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		try {
 			for (MagicCard mc : searchCardByEdition(me))
 			{
-				if (mc.getCurrentSet().getRarity()==MTGRarity.COMMON && !mc.isBasicLand())
+				if (mc.getRarity()==MTGRarity.COMMON && !mc.isBasicLand())
 					common.add(mc);
 
-				if (mc.getCurrentSet().getRarity()==MTGRarity.UNCOMMON)
+				if (mc.getRarity()==MTGRarity.UNCOMMON)
 					uncommon.add(mc);
 
-				if (mc.getCurrentSet().getRarity()==MTGRarity.RARE)
+				if (mc.getRarity()==MTGRarity.RARE)
 					rare.add(mc);
 				
-				if (mc.getCurrentSet().getRarity()==MTGRarity.MYTHIC)
+				if (mc.getRarity()==MTGRarity.MYTHIC)
 					rare.add(mc);
 				
 				

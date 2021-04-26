@@ -63,7 +63,6 @@ public class PicturesProviderTests {
 		MagicEdition ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
-					 ed.setRarity("Rare");
 					 ed.setArtist("Christopher Rush");
 					 ed.setMultiverseid("3");
 					 ed.setNumber("232");

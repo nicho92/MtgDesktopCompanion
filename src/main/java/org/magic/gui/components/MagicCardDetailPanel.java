@@ -412,7 +412,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		try {
 			if (magicCard != null)
-				rarityJTextField.setText(magicCard.getCurrentSet().getRarity().toPrettyString());
+				rarityJTextField.setText(magicCard.getRarity().toPrettyString());
 		} catch (Exception e) {
 			rarityJTextField.setText("");
 		}
@@ -435,8 +435,8 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) 
 		{
 		
-			if(magicCard.getCurrentSet().getRarity()!=null)
-				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getCurrentSet().getRarity().toPrettyString());
+			if(magicCard.getRarity()!=null)
+				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getRarity().toPrettyString());
 			
 			ThreadManager.getInstance().executeThread(() -> {
 				

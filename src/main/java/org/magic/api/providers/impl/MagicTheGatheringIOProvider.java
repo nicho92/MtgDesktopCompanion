@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
@@ -202,7 +203,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 				mc.getColorIdentity().add(MTGColor.colorByCode(it.next().getAsString()));
 		}
 		
-		
+		if (obj.get(RARITY) != null)
+			mc.setRarity(MTGRarity.valueOf(obj.get(RARITY).getAsString()));
 
 		if (obj.get("types") != null) {
 			Iterator<JsonElement> it = obj.get("types").getAsJsonArray().iterator();
@@ -247,9 +249,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		if (obj.get(MULTIVERSEID) != null)
 			currentEd.setMultiverseid(obj.get(MULTIVERSEID).getAsString());
-
-		if (obj.get(RARITY) != null)
-			currentEd.setRarity(obj.get(RARITY).getAsString());
 
 		if (obj.get(NUMBER) != null)
 			currentEd.setNumber(obj.get(NUMBER).getAsString());
@@ -309,8 +308,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 			temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
 
-			if (temp.get(RARITY) != null)
-				ed.setRarity(temp.get(RARITY).getAsString());
 			if (temp.get(MULTIVERSEID) != null)
 				ed.setMultiverseid(temp.get(MULTIVERSEID).getAsString());
 			if (temp.get(NUMBER) != null)

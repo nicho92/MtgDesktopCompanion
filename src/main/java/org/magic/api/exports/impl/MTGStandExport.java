@@ -64,7 +64,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 				build.append("0,");
 			
 			build.append(convert(st.getCondition())).append(",");
-			build.append(st.getMagicCard().getCurrentSet().getRarity()).append(",");
+			build.append(st.getMagicCard().getRarity()).append(",");
 			build.append(st.getComment()).append(System.lineSeparator());
 		}
 		
