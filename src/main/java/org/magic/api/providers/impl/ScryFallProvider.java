@@ -34,7 +34,6 @@ import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -146,7 +145,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (exact)
 			comparator = "!\"" + crit + "\"";
 
-		StringBuilder url = new StringBuilder(baseURI);
+		var url = new StringBuilder(baseURI);
 				url.append(CARDS);
 				
 		if (att.equals(NAME))
@@ -163,7 +162,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (me != null)
 			url.append("%20").append(URLTools.encode("e:" + me.getId()));
 
-		boolean hasMore = true;
+		var hasMore = true;
 		while (hasMore) {
 
 			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING.displayName()));
@@ -174,8 +173,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					list.add(loadCard(el.getAsJsonObject(), exact, crit));
 					hasMore = false;
 				} else {
-					JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
-					for (int i = 0; i < jsonList.size(); i++) {
+					var jsonList = el.getAsJsonObject().getAsJsonArray("data");
+					for (var i = 0; i < jsonList.size(); i++) {
 						MagicCard mc = loadCard(jsonList.get(i).getAsJsonObject(), exact, crit);
 						list.add(mc);
 					}
@@ -186,7 +185,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 					Thread.sleep(50);
 				}
-			} catch (Exception e) {
+			} catch (IOException e) {
+				logger.error("erreur", e);
+				hasMore = false;
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 				logger.error("erreur", e);
 				hasMore = false;
 			}
@@ -197,17 +200,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;
-		JsonObject root =  URLTools.extractJson(url).getAsJsonObject();
+		var root =  URLTools.extractJson(url).getAsJsonObject();
 		return loadCard(root, true, null);
 	}
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 			String url = baseURI + "/sets";
-			JsonObject root = URLTools.extractJson(url).getAsJsonObject(); 
+			var root = URLTools.extractJson(url).getAsJsonObject(); 
 			List<MagicEdition> eds = new ArrayList<>();
-			for (int i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
-				JsonObject e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
+			for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
+				var e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				eds.add(ed);
 			}
@@ -301,7 +304,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 
 	private MagicCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
-		MagicCard mc = new MagicCard();
+		var mc = new MagicCard();
 
 		mc.setId(obj.get("id").getAsString());
 		mc.setScryfallId(mc.getId());
@@ -343,7 +346,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(TYPE_LINE) != null)
 			generateTypes(mc, String.valueOf(obj.get(TYPE_LINE)));
 
-		MagicCardNames n = new MagicCardNames();
+		var n = new MagicCardNames();
 		n.setLanguage("English");
 		n.setName(mc.getName());
 		try {
@@ -432,11 +435,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		if (obj.get("legalities") != null) {
-			JsonObject legs = obj.get("legalities").getAsJsonObject();
+			var legs = obj.get("legalities").getAsJsonObject();
 			Iterator<Entry<String, JsonElement>> it = legs.entrySet().iterator();
 			while (it.hasNext()) {
 				Entry<String, JsonElement> ent = it.next();
-				MagicFormat format = new MagicFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
+				var format = new MagicFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
 			}
 		}
@@ -446,7 +449,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		
 		if (obj.get(GAMES) != null) {
-			JsonArray g = obj.get(GAMES).getAsJsonArray();
+			var g = obj.get(GAMES).getAsJsonArray();
 			
 			g.forEach(el->{
 				
@@ -460,7 +463,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		
 	
-		int idface = 0;
+		var idface = 0;
 
 		if (mc.getName().contains("//")) {
 			String[] names = mc.getName().split(" // ");
@@ -559,11 +562,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			String url = getString("URL")+CARDS + mc.getId() + "/rulings";
 		
 			JsonElement el = URLTools.extractJson(url);
-			JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
+			var arr = el.getAsJsonObject().get("data").getAsJsonArray();
 	
-			for (int i = 0; i < arr.size(); i++) {
-				JsonObject obr = arr.get(i).getAsJsonObject();
-				MagicRuling rul = new MagicRuling();
+			for (var i = 0; i < arr.size(); i++) {
+				var obr = arr.get(i).getAsJsonObject();
+				var rul = new MagicRuling();
 				rul.setDate(obr.get("published_at").getAsString());
 				rul.setText(obr.get("comment").getAsString());
 	
@@ -583,7 +586,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 
-		String sep = "\u2014";
+		var sep = "\u2014";
 
 		if (line.contains(sep)) {
 
@@ -605,15 +608,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		logger.trace("initOtherEdition " + URLDecoder.decode(url, MTGConstants.DEFAULT_ENCODING.displayName()));
 
-		boolean hasMore = true;
+		var hasMore = true;
 		while (hasMore) {
 	
 			try {
 				JsonElement el = URLTools.extractJson(url);
 
-				JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
-				for (int i = 0; i < jsonList.size(); i++) {
-					JsonObject obj = jsonList.get(i).getAsJsonObject();
+				var jsonList = el.getAsJsonObject().getAsJsonArray("data");
+				for (var i = 0; i < jsonList.size(); i++) {
+					var obj = jsonList.get(i).getAsJsonObject();
 					MagicEdition ed = getSetById(obj.get("set").getAsString());
 
 					if (obj.get(ARTIST) != null)
@@ -636,7 +639,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					url = el.getAsJsonObject().get("next_page").getAsString();
 
 				Thread.sleep(50);
-			} catch (Exception e) {
+			} catch (IOException e) {
+				logger.trace(e);
+				hasMore = false;
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 				logger.trace(e);
 				hasMore = false;
 			}
@@ -644,7 +651,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	private MagicEdition generateEdition(JsonObject obj) {
-		MagicEdition ed = new MagicEdition();
+		var ed = new MagicEdition();
 		ed.setId(obj.get("code").getAsString());
 		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get("set_type").getAsString());

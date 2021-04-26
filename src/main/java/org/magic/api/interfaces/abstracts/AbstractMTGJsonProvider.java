@@ -189,13 +189,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	@Override
 	public String[] getLanguages() {
 		
-		String[] ret = new String[0];
+		var ret = new String[0];
 		try {
-			
-			
-			URLTools.extractJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->{
-				ArrayUtils.add(ret, je.getAsString());
-			});
+			URLTools.extractJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->ArrayUtils.add(ret, je.getAsString()));
 		} catch (IOException ex) {
 			logger.error(ex);
 		}
@@ -233,7 +229,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 
 	protected boolean hasNewVersion() {
-		String temp = "";
+		var temp = "";
 			try  
 			{
 				temp = FileTools.readFile(fversion);

@@ -2,7 +2,6 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +33,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	private File setDirectory;
 	
 	public void removeEdition(MagicEdition me) {
-		File f = new File(setDirectory, me.getId() + ext);
+		var f = new File(setDirectory, me.getId() + ext);
 		try {
 			logger.debug("delete : " + f);
 			FileTools.deleteFile(f);
@@ -45,11 +44,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	
 	public boolean removeCard(MagicEdition me, MagicCard mc) throws IOException {
-		File f = new File(setDirectory, me.getId() + ext);
-		JsonObject root = FileTools.readJson(f).getAsJsonObject();
-		JsonArray cards = root.get(CARDS).getAsJsonArray();
+		var f = new File(setDirectory, me.getId() + ext);
+		var root = FileTools.readJson(f).getAsJsonObject();
+		var cards = root.get(CARDS).getAsJsonArray();
 
-		for (int i = 0; i < cards.size(); i++) {
+		for (var i = 0; i < cards.size(); i++) {
 			JsonElement el = cards.get(i);
 			if (el.getAsJsonObject().get("id").getAsString().equals(mc.getId())) {
 				cards.remove(el);
@@ -61,16 +60,16 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	public List<MagicCard> getCards(MagicEdition me) throws IOException {
-		JsonObject root =  FileTools.readJson(new File(setDirectory, me.getId() + ext)).getAsJsonObject();
+		var root =  FileTools.readJson(new File(setDirectory, me.getId() + ext)).getAsJsonObject();
 		JsonArray arr = (JsonArray) root.get(CARDS);
-		Type listType = new TypeToken<ArrayList<MagicCard>>() {}.getType();
+		var listType = new TypeToken<ArrayList<MagicCard>>() {}.getType();
 		return new Gson().fromJson(arr, listType);
 	}
 
 	public void addCard(MagicEdition me, MagicCard mc) throws IOException {
-		File f = new File(setDirectory, me.getId() + ext);
-		JsonObject root = FileTools.readJson(f).getAsJsonObject();
-		JsonArray cards = root.get(CARDS).getAsJsonArray();
+		var f = new File(setDirectory, me.getId() + ext);
+		var root = FileTools.readJson(f).getAsJsonObject();
+		var cards = root.get(CARDS).getAsJsonArray();
 
 		int index = indexOf(mc, cards);
 
@@ -85,7 +84,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	private int indexOf(MagicCard mc, JsonArray arr) {
-		for (int i = 0; i < arr.size(); i++)
+		for (var i = 0; i < arr.size(); i++)
 			if (arr.get(i).getAsJsonObject().get("id") != null
 					&& (arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId())))
 				return i;
@@ -94,7 +93,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	private MagicEdition getEdition(File f) throws IOException {
-		JsonObject root = FileTools.readJson(f).getAsJsonObject();
+		var root = FileTools.readJson(f).getAsJsonObject();
 		return new Gson().fromJson(root.get("main"), MagicEdition.class);
 	}
 
@@ -116,7 +115,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	
 	public void saveEdition(MagicEdition me) throws IOException {
-		int cardCount = 0;
+		var cardCount = 0;
 		try {
 			cardCount = getCards(me).size();
 
@@ -126,7 +125,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 		me.setCardCount(cardCount);
 
-		JsonObject jsonparams = new JsonObject();
+		var jsonparams = new JsonObject();
 		jsonparams.add("main", new Gson().toJsonTree(me));
 
 		if (cardCount == 0)

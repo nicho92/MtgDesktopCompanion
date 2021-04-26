@@ -137,7 +137,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
 		
-		String filterEdition = ".";
+		var filterEdition = ".";
 
 		if (ed != null)
 		{
@@ -182,10 +182,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			return null;
 		}).read(jsquery, List.class);
 		
-		int indexSet = 0;
+		var indexSet = 0;
 		for (Map<String, Object> map : cardsElement) 
 		{
-				MagicCard mc = new MagicCard();
+				var mc = new MagicCard();
 				  mc.setId(String.valueOf(String.valueOf(map.get(UUID))));
 				  mc.setText(String.valueOf(map.get(TEXT)));
 				  
@@ -338,7 +338,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(LEGALITIES) != null) {
 					
 					for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {
-						MagicFormat mf = new MagicFormat(String.valueOf(mapFormats.getKey()),AUTHORIZATION.valueOf(String.valueOf(mapFormats.getValue()).toUpperCase()));
+						var mf = new MagicFormat(String.valueOf(mapFormats.getKey()),AUTHORIZATION.valueOf(String.valueOf(mapFormats.getValue()).toUpperCase()));
 						mc.getLegalities().add(mf);
 					}
 				}
@@ -371,14 +371,14 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				if (map.get(RULINGS) != null) {
 					for (Map<String, Object> mapRules : (List<Map<String,Object>>) map.get(RULINGS)) {
-						MagicRuling mr = new MagicRuling();
+						var mr = new MagicRuling();
 						mr.setDate(String.valueOf(mapRules.get("date")));
 						mr.setText(String.valueOf(mapRules.get(TEXT)));
 						mc.getRulings().add(mr);
 					}
 				}
 				
-				MagicCardNames defnames = new MagicCardNames();
+				var defnames = new MagicCardNames();
 				
 						if(identifiers!=null && identifiers.get(MULTIVERSE_ID)!=null)
 							   defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
@@ -392,7 +392,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				if (map.get(FOREIGN_DATA) != null) {
 					for (Map<String, Object> mapNames : (List<Map<String, Object>>) map.get(FOREIGN_DATA)) {
-						MagicCardNames fnames = new MagicCardNames();
+						var fnames = new MagicCardNames();
 									   fnames.setLanguage(String.valueOf(mapNames.get(LANGUAGE)));
 									   fnames.setName(String.valueOf(mapNames.get(NAME)));
 									   
@@ -520,7 +520,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		String jsquery = "$.*";
+		var jsquery = "$.*";
 		chrono.start();
 		
 		List<MagicEdition> eds = new ArrayList<>();
@@ -555,7 +555,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		if(id.startsWith("p"))
 			id=id.toUpperCase();
 		
-		MagicEdition ed = new MagicEdition(id);
+		var ed = new MagicEdition(id);
 		String base = "$.data." + id.toUpperCase();
 		try{
 		ed.setSet(ctx.read(base + "."+NAME, String.class));

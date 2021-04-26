@@ -2,7 +2,6 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,9 +63,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 		
 		List<MagicCard> cards = new ArrayList<>();
-		try (Connection c = pool.getConnection(); Statement pst = c.createStatement()) 
+		try (var c = pool.getConnection(); Statement pst = c.createStatement()) 
 		{
-			String sql = getMTGQueryManager().build(crits).toString();
+			var sql = getMTGQueryManager().build(crits).toString();
 			logger.debug("sql="+sql);
 			try (ResultSet rs = pst.executeQuery(sql))
 			{
@@ -139,7 +138,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			
 		List<MagicCard> cards = new ArrayList<>();
 		
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString())) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString())) 
 		{
 			
 			if(!att.equalsIgnoreCase("sql"))
@@ -175,7 +174,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<MagicCard> listAllCards()throws IOException {
 		List<MagicCard> cards = new ArrayList<>();
 		
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * from cards")) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * from cards")) 
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{
@@ -193,9 +192,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	
 	private void initRotatedCard(MagicCard mc, String id, String side)
 	{
-		String sql ="SELECT * FROM cards WHERE uuid = ?" ;
+		var sql ="SELECT * FROM cards WHERE uuid = ?" ;
 		
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
 		{
 			pst.setString(1, id);
 			
@@ -227,7 +226,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 	
 	private MagicCard generateCardsFromRs(ResultSet rs,boolean load) throws SQLException {
-		MagicCard mc = new MagicCard();
+		var mc = new MagicCard();
 				mc.setName(rs.getString(NAME));
 				mc.setCmc(rs.getInt(CONVERTED_MANA_COST));
 				mc.setCost(rs.getString(MANA_COST));
@@ -296,7 +295,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					}
 				}
 				
-				String ci = rs.getString(COLOR_IDENTITY);
+				var ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
 					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
 
@@ -313,7 +312,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				} catch (NumberFormatException e) {
 					mc.setLoyalty(0);
 				} 
-				String types = rs.getString(SUPERTYPES);
+				var types = rs.getString(SUPERTYPES);
 				
 				if(types!=null)
 				{
@@ -369,13 +368,13 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<MagicEdition> loadEditions() throws IOException {
 		
 		List<MagicEdition> eds=new ArrayList<>();
-			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");ResultSet rs = pst.executeQuery()) 
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");ResultSet rs = pst.executeQuery()) 
 			{
 				
 				while(rs.next())
 				{
 					
-					MagicEdition ed = new MagicEdition();
+					var ed = new MagicEdition();
 								 ed.setSet(rs.getString(NAME));
 								 ed.setId(rs.getString("code"));
 								 ed.setBlock(rs.getString("block"));
@@ -415,7 +414,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private List<MagicCardNames> getTranslations(MagicCard mc) {
 	
-		MagicCardNames defaultName = new MagicCardNames();
+		var defaultName = new MagicCardNames();
 		defaultName.setFlavor(mc.getFlavor());
 		try{
 			defaultName.setGathererId(Integer.parseInt(mc.getCurrentSet().getMultiverseid()));
@@ -442,16 +441,16 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initRules()
 	{
 		logger.debug("rulings empty. Loading it");
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM rulings")) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM rulings")) 
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{ 
 				while(rs.next())
 				{
-					MagicRuling names = new MagicRuling();
+					var names = new MagicRuling();
 					names.setText(rs.getString("text"));
 					names.setDate(rs.getString("date"));
-					String id = rs.getString(UUID);
+					var id = rs.getString(UUID);
 					
 					mapRules.put(id, names);
 				}
@@ -466,13 +465,13 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initLegalities()
 	{
 		logger.debug("legalities empty. Loading it");
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM legalities")) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM legalities")) 
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{ 
 				while(rs.next())
 				{
-					String id = rs.getString(UUID);
+					var id = rs.getString(UUID);
 					mapLegalities.put(id, new MagicFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
 				}
 			}
@@ -486,20 +485,20 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		
 		
 			logger.debug("foreignData empty. Loading it");
-				try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM foreign_data")) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM foreign_data")) 
 				{
 					try (ResultSet rs = pst.executeQuery())
 					{ 
 						while(rs.next())
 						{
-							MagicCardNames names = new MagicCardNames();
+							var names = new MagicCardNames();
 							names.setFlavor(rs.getString(FLAVOR_TEXT));
 							names.setGathererId(rs.getInt(MULTIVERSE_ID));
 							names.setLanguage(rs.getString(LANGUAGE));
 							names.setName(rs.getString(NAME));
 							names.setText(rs.getString(TEXT));
 							names.setType(rs.getString(TYPE));
-							String id = rs.getString(UUID);
+							var id = rs.getString(UUID);
 							
 							mapForeignData.put(id, names);
 						}
@@ -530,7 +529,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initTranslations(MagicEdition ed)
 	{
 		
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM set_translations WHERE "+SETCODE+"=?")) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM set_translations WHERE "+SETCODE+"=?")) 
 		{
 			pst.setString(1, ed.getId());
 			try (ResultSet rs = pst.executeQuery())
@@ -547,7 +546,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public String[] getLanguages() {
 		List<String> ret = new ArrayList<>();
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT "+LANGUAGE+" from foreign_data");ResultSet rs = pst.executeQuery())
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT "+LANGUAGE+" from foreign_data");ResultSet rs = pst.executeQuery())
 		{
 			ret.add("English");
 			while(rs.next())
@@ -567,7 +566,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<QueryAttribute> loadQueryableAttributs() {
 		List<QueryAttribute> ret = new ArrayList<>();
 		
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cards)");ResultSet rs = pst.executeQuery())
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cards)");ResultSet rs = pst.executeQuery())
 		{
 			while(rs.next())
 			{

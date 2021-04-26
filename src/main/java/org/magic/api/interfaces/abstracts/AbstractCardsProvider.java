@@ -60,7 +60,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		NoneCriteriaBuilder b= new NoneCriteriaBuilder();
+		var b= new NoneCriteriaBuilder();
 		initBuilder(b);
 		return b;
 	}
@@ -200,7 +200,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		List<MagicCard> uncommon = new ArrayList<>();
 		List<MagicCard> rare = new ArrayList<>();
 		List<MagicCard> lands = new ArrayList<>();
-		Booster b = new Booster();
+		var b = new Booster();
 	
 		try {
 			for (MagicCard mc : searchCardByEdition(me))

@@ -299,7 +299,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
-		EditionsShakers list = new EditionsShakers();
+		var list = new EditionsShakers();
 		list.setEdition(edition);
 		list.setProviderName(getName());
 		list.setDate(new Date());
@@ -327,7 +327,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		for(Element e : trs)
 		{
-			String nameExtra= e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.badge").text();
+			var nameExtra= e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.badge").text();
 			
 			
 			if(nameExtra.contains("Sealed"))
