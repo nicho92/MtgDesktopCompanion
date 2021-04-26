@@ -42,7 +42,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		}
 		else
 		{
-			for(int i=0;i<=items.size();i++)
+			for(var i=0;i<=items.size();i++)
 			{
 				if(items.get(i).getIdstock()==t.getIdstock())
 				{
@@ -115,7 +115,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 2:
 			return items.get(row).getMagicCard().getCurrentSet();
 		case 3:
-			return items.get(row).getMagicCard().getRarity();
+			return items.get(row).getMagicCard().getCurrentSet().getRarity();
 		case 4:
 			return items.get(row).getMagicCollection();
 		case 5:

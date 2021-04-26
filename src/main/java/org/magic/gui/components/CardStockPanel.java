@@ -59,7 +59,7 @@ public class CardStockPanel extends MTGUIComponent {
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);	
 		}
 		
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
 		btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_ADD, "newStock");
