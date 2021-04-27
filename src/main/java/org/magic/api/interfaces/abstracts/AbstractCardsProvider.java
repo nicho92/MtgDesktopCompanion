@@ -252,7 +252,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public List<MagicEdition> listEditions() throws IOException {
 		if(cacheEditions.isEmpty())
 		{
-			logger.debug("cacheEditions not loaded. Filling it");
+			logger.trace("cacheEditions not loaded. Filling it");
 			loadEditions().forEach(ed->cacheEditions.put(ed.getId(), ed));
 		}
 		

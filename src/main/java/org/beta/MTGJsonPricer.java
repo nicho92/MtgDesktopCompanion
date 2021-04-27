@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,15 +15,16 @@ import org.apache.log4j.Logger;
 import org.beta.MTGJsonPricer.STOCK;
 import org.beta.MTGJsonPricer.SUPPORT;
 import org.beta.MTGJsonPricer.VENDOR;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
@@ -35,23 +35,63 @@ public class MTGJsonPricer {
 	
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
+	private List<Data> caches; 
 	
-	public static void main(String[] args) throws JsonParseException, IOException {
-		var pricer = new MTGJsonPricer();
-		var datas = pricer.buildPrices(VENDOR.CARDMARKET);
+	
+	public MTGJsonPricer() throws IOException {
 		
-		pricer.export(datas,new File("d:/test.csv"));
+		caches = new ArrayList<>();
 		
+		if(!dataFile.exists())
+			downloadDataFile();
 	}
 	
-	private void export(List<Data> datas,File f) throws IOException {
-		StringBuilder temp = new StringBuilder();
+	public Data getDataFor(String mtgjsonId) throws IOException
+	{
+		if(caches.isEmpty())
+			buildPrices();
+	
+		return caches.stream().filter(e->e.getMtgjsonId().equals(mtgjsonId)).findFirst().orElse(new Data());
+	}
+	
+	
+	public Meta getVersion()
+	{
+		try(var reader = new JsonReader(new FileReader(dataFile)))
+		{
+				reader.beginObject();
+				reader.nextName();
+				return new Gson().fromJson(reader, Meta.class);
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		} 
+	}
+	
+	
+	
+	private void export(List<Data> datas,File f,AbstractMTGJsonProvider provider) throws IOException {
+		var temp = new StringBuilder();
 		
 		for(Data d : datas)
 		{
 			d.getPrices().forEach(p->{
-				temp.append(d.getMtgjsonId()).append(";").append(p.getSupport()).append(";").append(p.getStock()).append(";").append(p.getCurrency()).append("\n");
-				p.getStockPrices().entrySet().forEach(e->temp.append(" ;").append(e.getKey()).append(";").append(e.getValue()).append("\n"));
+				try {
+					MagicCard mc = provider.getCardById(d.getMtgjsonId());
+					temp.append(d.getMtgjsonId()).append(";");
+					temp.append(mc.getName()).append(";");
+					temp.append(mc.getCurrentSet().getId()).append(";");
+					temp.append(mc.getCurrentSet().getSet()).append(";");
+					temp.append(p.getSupport()).append(";");
+					temp.append(p.getStock()).append(";");
+					temp.append(p.getCurrency()).append(";");
+					temp.append(p.isFoil()).append(";");
+					temp.append(p.getStockPrices());
+					temp.append("\n");
+				} catch (Exception e1) {
+					logger.error("Error for " + d.getMtgjsonId());
+				}
+				
 			});
 		}
 		
@@ -60,19 +100,20 @@ public class MTGJsonPricer {
 		
 	}
 
-	public void reloadPrices() throws IOException
+	public void downloadDataFile() throws IOException
 	{
 		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
 		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
 		FileTools.unZipIt(tmp,dataFile);
 	}
 		
-	public List<Data> buildPrices(VENDOR v) throws IOException {
-		
-		List<Data> ret = new ArrayList<>();
-	
+	public void buildPrices() throws IOException {
+		var c = new Chrono();
+		c.start();
 		try(var reader = new JsonReader(new FileReader(dataFile)))
 		{
+				
+				logger.info("Begin caching datas ");
 				reader.beginObject();
 				reader.nextName();
 				Meta m = new Gson().fromJson(reader, Meta.class);
@@ -115,7 +156,7 @@ public class MTGJsonPricer {
 								}
 								else
 								{
-									var p = new Prices();
+									var p = new PriceEntry();
 											p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
 											p.setSupport(support);
 											p.setStock(stock);
@@ -134,23 +175,23 @@ public class MTGJsonPricer {
 										reader.endObject();
 									}//fin boucle Foil/Normal
 									
-									if(v==p.getVendor())
-										data.getPrices().add(p);
-									
-									
+									data.getPrices().add(p);
 									reader.endObject();
 								}
 							}//buylist/retail/Currency
 							reader.endObject();	
-						}//retailer;
+						}//retailer
 						reader.endObject();	
 					}//mtgjsonIds
-					ret.add(data);
+					
+					caches.add(data);
+
 					reader.endObject();
 				}//fin boucle data
 				
 			}
-			return ret;
+			logger.info("Ending caching datas " + c.stop() +"s");
+			
 	}
 	
 	private Currency getCurrencyFor(VENDOR v)
@@ -159,9 +200,7 @@ public class MTGJsonPricer {
 			return Currency.getInstance("EUR");
 		
 		return Currency.getInstance("USD");
-		
 	}
-	
 }
 
 class Meta
@@ -189,7 +228,7 @@ class Meta
 } 
 
 
-class Prices
+class PriceEntry
 {
 	private boolean foil;
 	private Map<Date,Double> stockPrices;
@@ -230,7 +269,7 @@ class Prices
 		return temp.toString();
 	}
 	
-	public Prices() {
+	public PriceEntry() {
 		stockPrices = new TreeMap<>();
 	}
 	
@@ -268,7 +307,7 @@ class Data
 {
 	private Meta meta;
 	private String mtgjsonId;
-	private List<Prices> prices;
+	private List<PriceEntry> prices;
 	
 	public Meta getMeta() {
 		return meta;
@@ -283,26 +322,26 @@ class Data
 		prices = new ArrayList<>();
 	}
 	
-	public List<Prices> getPrices() {
+	public List<PriceEntry> getPrices() {
 		return prices;
 	}
 	
-	public List<Prices> listPricesByVendor(VENDOR v)
+	public List<PriceEntry> listPricesByVendor(VENDOR v)
 	{
 		return getPrices().stream().filter(p->p.getVendor()==v).collect(Collectors.toList());
 	}
 	
-	public List<Prices> listPricesBySupport(SUPPORT v)
+	public List<PriceEntry> listPricesBySupport(SUPPORT v)
 	{
 		return getPrices().stream().filter(p->p.getSupport()==v).collect(Collectors.toList());
 	}
 	
-	public List<Prices> listPricesByStock(STOCK v)
+	public List<PriceEntry> listPricesByStock(STOCK v)
 	{
 		return getPrices().stream().filter(p->p.getStock()==v).collect(Collectors.toList());
 	}
 	
-	public List<Prices> listPricesByFoil(Boolean v)
+	public List<PriceEntry> listPricesByFoil(Boolean v)
 	{
 		return getPrices().stream().filter(p->p.isFoil()==v).collect(Collectors.toList());
 	}
@@ -312,7 +351,7 @@ class Data
 		var temp = new StringBuilder();
 		temp.append(mtgjsonId).append(":");
 		
-		for(Prices p : getPrices())
+		for(PriceEntry p : getPrices())
 			temp.append("\n\t").append(p);
 			
 		return temp.toString();

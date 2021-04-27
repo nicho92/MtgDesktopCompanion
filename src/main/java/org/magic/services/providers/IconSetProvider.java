@@ -39,7 +39,7 @@ public class IconSetProvider {
 	private IconSetProvider() {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		Chrono chrono = new Chrono();
+		var chrono = new Chrono();
 		
 		localDirectory = new File(MTGConstants.DATA_DIR, "sets_icons");
 		
@@ -67,7 +67,7 @@ public class IconSetProvider {
 
 	private BufferedImage extract(String id) throws IOException {
 
-		File iconFile = new File(localDirectory, id + EXT);
+		var iconFile = new File(localDirectory, id + EXT);
 		if (iconFile.exists()) {
 			logger.trace("load from cache " + iconFile);
 			return ImageTools.read(iconFile);
@@ -243,6 +243,8 @@ public class IconSetProvider {
 		equiv.put("PLIST", "MB1");
 		equiv.put("KLR", "KLD");
 		equiv.put("J21", "J20");
+		equiv.put("ASTX", "STX");
+		equiv.put("AKHM", "KHM");
 	}
 	
 	private String getEquiv(String set) 

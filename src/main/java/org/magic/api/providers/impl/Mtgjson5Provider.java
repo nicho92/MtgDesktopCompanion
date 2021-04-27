@@ -2,6 +2,8 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -658,7 +660,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			ed.setPreview(o);
 		}catch(Exception pnfe)
 		{
-			//do nothing
+			 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
+				
 		}
 		
 		

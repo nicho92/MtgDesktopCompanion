@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -388,7 +390,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
 								 ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
-								 ed.setPreview(rs.getBoolean(ISPREVIEW));
+								 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 								 initTranslations(ed);
 								 eds.add(ed);
 				}
