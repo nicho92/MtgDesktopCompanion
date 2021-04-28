@@ -428,7 +428,7 @@ public class OrdersGUI extends MTGUIComponent {
 	
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_SHOP;
+		return MTGConstants.ICON_EURO;
 	}
 	
 	private void calulate(List<OrderEntry> entries)

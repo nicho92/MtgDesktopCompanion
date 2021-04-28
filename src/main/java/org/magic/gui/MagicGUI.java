@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.WindowAdapter;
@@ -26,6 +27,7 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
+import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -259,6 +261,9 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/event").equals("true"))
 			addTab(new EventManagerGUI());
 		
+	
+		addTab(new ShopGUI());
+		
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
 		{
@@ -269,7 +274,7 @@ public class MagicGUI extends JFrame {
 			{
 				logger.error(e);
 			}
-			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", MTGConstants.ICON_SHOP));
+			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/magicCardMarket.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH))));
 		}
 
 		
