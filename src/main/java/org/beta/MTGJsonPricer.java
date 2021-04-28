@@ -15,12 +15,15 @@ import org.apache.log4j.Logger;
 import org.beta.MTGJsonPricer.STOCK;
 import org.beta.MTGJsonPricer.SUPPORT;
 import org.beta.MTGJsonPricer.VENDOR;
+import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
@@ -28,22 +31,48 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
+
 public class MTGJsonPricer {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
 	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
+
+	private static MTGJsonPricer inst;
 	
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
 	private List<Data> caches; 
 	
-	
 	public MTGJsonPricer() throws IOException {
-		
 		caches = new ArrayList<>();
 		
 		if(!dataFile.exists())
 			downloadDataFile();
+	}
+	
+	public static void main(String[] args) throws IOException {
+		Data d = MTGJsonPricer.getInstance().getDataFor("f0c7dd4c-a925-54b7-a3e9-5114cecd3f2a");
+		d.getPrices().forEach(System.out::println);
+	}
+	
+	public HistoryPrice<MagicCard> toHistoryPrice(Data d, SUPPORT p, STOCK s, VENDOR v,boolean foil) throws IOException
+	{
+		var ret = new HistoryPrice<>(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardById(d.getMtgjsonId()));
+		PriceEntry priceEntries = d.listPricesByVendor(v).stream().filter(pe->pe.getStock()==s && pe.getSupport()==p && pe.isFoil()==foil).findFirst().orElse(new PriceEntry());
+		
+		ret.setCurrency(priceEntries.getCurrency());
+		ret.setFoil(priceEntries.isFoil());
+		ret.setSupport(p.name());
+		priceEntries.getStockPrices().forEach(ret::put);
+		return ret;
+	}
+	
+	public static MTGJsonPricer getInstance() throws IOException
+	{
+		if(inst==null)
+			inst = new MTGJsonPricer();
+		
+		return inst;
 	}
 	
 	public Data getDataFor(String mtgjsonId) throws IOException
@@ -68,38 +97,6 @@ public class MTGJsonPricer {
 		} 
 	}
 	
-	
-	
-	private void export(List<Data> datas,File f,AbstractMTGJsonProvider provider) throws IOException {
-		var temp = new StringBuilder();
-		
-		for(Data d : datas)
-		{
-			d.getPrices().forEach(p->{
-				try {
-					MagicCard mc = provider.getCardById(d.getMtgjsonId());
-					temp.append(d.getMtgjsonId()).append(";");
-					temp.append(mc.getName()).append(";");
-					temp.append(mc.getCurrentSet().getId()).append(";");
-					temp.append(mc.getCurrentSet().getSet()).append(";");
-					temp.append(p.getSupport()).append(";");
-					temp.append(p.getStock()).append(";");
-					temp.append(p.getCurrency()).append(";");
-					temp.append(p.isFoil()).append(";");
-					temp.append(p.getStockPrices());
-					temp.append("\n");
-				} catch (Exception e1) {
-					logger.error("Error for " + d.getMtgjsonId());
-				}
-				
-			});
-		}
-		
-		FileTools.saveFile(f, temp.toString());
-		
-		
-	}
-
 	public void downloadDataFile() throws IOException
 	{
 		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
@@ -142,7 +139,6 @@ public class MTGJsonPricer {
 							
 							while(reader.hasNext())
 							{
-								
 								if(reader.peek()==JsonToken.NAME)
 								{
 									String val = reader.nextName();
@@ -225,6 +221,8 @@ class Meta
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	
+	
 } 
 
 
@@ -308,6 +306,7 @@ class Data
 	private Meta meta;
 	private String mtgjsonId;
 	private List<PriceEntry> prices;
+	
 	
 	public Meta getMeta() {
 		return meta;
