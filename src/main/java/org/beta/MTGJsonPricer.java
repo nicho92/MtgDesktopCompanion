@@ -8,6 +8,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
+import org.magic.tools.IDGenerator;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
@@ -51,8 +53,34 @@ public class MTGJsonPricer {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		Data d = MTGJsonPricer.getInstance().getDataFor("f0c7dd4c-a925-54b7-a3e9-5114cecd3f2a");
-		d.getPrices().forEach(System.out::println);
+		List<Data> datas = MTGJsonPricer.getInstance().getDatas();
+		var exportD = new File("d:/datas.sql");
+		var exportP = new File("d:/prices.sql");
+		var temp = new StringBuilder();
+		for(Data d : datas)
+		{
+			String jsonnId=d.getMtgjsonId();
+			for(PriceEntry pe : d.getPrices())
+			{
+				
+				String k = IDGenerator.generateMD5(d.getMtgjsonId()+pe.getCurrency()+pe.isFoil()+pe.getStock()+pe.getSupport()+pe.getVendor());
+				
+				temp.append("INSERT INTO data VALUES ('").append(k).append("','").append(jsonnId).append("','").append(pe.getCurrency()).append("',").append(pe.isFoil()?1:0).append(",'").append(pe.getStock()).append("','").append(pe.getSupport()).append("','").append(pe.getVendor()).append("');\n");
+				FileTools.appendLine(exportD, temp.toString());
+				temp.setLength(0);
+				
+//				for(Entry<Date, Double> e : pe.getStockPrices().entrySet())
+//				{
+//					temp.append("INSERT INTO prices VALUES ('").append(k).append("','").append(e.getKey()).append("','").append(e.getValue()).append("');\n");
+//				}
+//				
+//				FileTools.appendLine(exportP, temp.toString());
+				temp.setLength(0);
+				
+			}
+			
+			
+		}
 	}
 	
 	public HistoryPrice<MagicCard> toHistoryPrice(Data d, SUPPORT p, STOCK s, VENDOR v,boolean foil) throws IOException
@@ -75,12 +103,19 @@ public class MTGJsonPricer {
 		return inst;
 	}
 	
-	public Data getDataFor(String mtgjsonId) throws IOException
+	public List<Data> getDatas() throws IOException
 	{
 		if(caches.isEmpty())
 			buildPrices();
+		
+		return caches;
+		
+	}
 	
-		return caches.stream().filter(e->e.getMtgjsonId().equals(mtgjsonId)).findFirst().orElse(new Data());
+	
+	public Data getDataFor(String mtgjsonId) throws IOException
+	{
+		return getDatas().stream().filter(e->e.getMtgjsonId().equals(mtgjsonId)).findFirst().orElse(new Data());
 	}
 	
 	
