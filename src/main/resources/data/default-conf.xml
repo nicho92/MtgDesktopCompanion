@@ -18,6 +18,7 @@
     <event>true</event>
     <mkm>false</mkm>
   </modules>
+  
   <currencylayer-access-api>e7871e261c34a67f43bbdde674436fde</currencylayer-access-api>
   <debug>INFO</debug>
   <tooltip>true</tooltip>

@@ -40,6 +40,7 @@ import org.magic.gui.components.ThreadMonitor;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.ChromeDownloader;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
+import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;

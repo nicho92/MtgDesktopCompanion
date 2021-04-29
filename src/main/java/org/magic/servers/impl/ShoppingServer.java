@@ -1,5 +1,7 @@
 package org.magic.servers.impl;
 
+import javax.swing.Icon;
+
 import org.magic.api.interfaces.abstracts.AbstractWebServer;
 import org.magic.services.MTGConstants;
 
@@ -7,8 +9,7 @@ public class ShoppingServer extends AbstractWebServer {
 
 	@Override
 	public String description() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Transaction web page";
 	}
 
 	@Override
@@ -21,4 +22,9 @@ public class ShoppingServer extends AbstractWebServer {
 		return MTGConstants.WEBSHOP_LOCATION;
 	}
 
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_SHOP;
+	}
+	
 }

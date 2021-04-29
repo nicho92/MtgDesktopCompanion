@@ -12,7 +12,20 @@ public class Contact implements Serializable {
 	private String telephone;
 	private String country;
 	private String address;
+	private String website;
 	
+	
+	
+	public String getWebsite() {
+		return website;
+	}
+
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+
 	@Override
 	public String toString() {
 		return getName() +" " + getLastName();
