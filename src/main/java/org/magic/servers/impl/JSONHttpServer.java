@@ -484,6 +484,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEventsManager().getEventById(Integer.parseInt(request.params(":id")));
 		}, transformer);
 		
+		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> {
+			return MTGControler.getInstance().getWebConfig();
+		}, transformer);
+		
 				
 		get("/",URLTools.HEADER_HTML,(request,response) -> {
 			

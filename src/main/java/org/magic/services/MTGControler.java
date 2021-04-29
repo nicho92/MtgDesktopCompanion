@@ -19,12 +19,14 @@ import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -156,16 +158,7 @@ public class MTGControler {
 			getEnabledPlugin(MTGDao.class).removeObserver(o);
 	}
 	
-	public void setDefaultStock(MagicCardStock st) {
-		
-			setProperty("collections/defaultStock/signed",st.isSigned());
-			setProperty("collections/defaultStock/altered",st.isAltered());
-			setProperty("collections/defaultStock/foil",st.isFoil());
-			setProperty("collections/defaultStock/oversized",st.isOversize());
-			setProperty("collections/defaultStock/language",st.getLanguage());
-			setProperty("collections/defaultStock/condition",st.getCondition().name());
-			setProperty("collections/defaultStock/qty",st.getQte());
-	}
+	
 	
 	private Font f;
 	public Font getFont()
@@ -176,8 +169,8 @@ public class MTGControler {
 		
 		try {
 		String family = get("/ui/font/family");
-		int style = Integer.parseInt(get("/ui/font/style"));
-		int size = Integer.parseInt(get("/ui/font/size"));
+		var style = Integer.parseInt(get("/ui/font/style"));
+		var size = Integer.parseInt(get("/ui/font/size"));
 		f = new Font(family,style,size);
 		}
 		catch(Exception e)
@@ -186,6 +179,57 @@ public class MTGControler {
 		}
 		
 		return f;
+	}
+	
+	public void setDefaultStock(MagicCardStock st) {
+		
+		setProperty("collections/defaultStock/signed",st.isSigned());
+		setProperty("collections/defaultStock/altered",st.isAltered());
+		setProperty("collections/defaultStock/foil",st.isFoil());
+		setProperty("collections/defaultStock/oversized",st.isOversize());
+		setProperty("collections/defaultStock/language",st.getLanguage());
+		setProperty("collections/defaultStock/condition",st.getCondition().name());
+		setProperty("collections/defaultStock/qty",st.getQte());
+	}
+	
+	public WebShopConfig getWebConfig()
+	{
+		var conf = new WebShopConfig();
+			conf.setAboutText(get("/shopSite/config/aboutText",""));
+			conf.setBannerText(get("/shopSite/config/bannerText",""));
+			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
+			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
+			
+			var contact = new Contact();
+			
+			
+			contact.setName(get("/shopSite/config/contact/name",""));
+			contact.setLastName(get("/shopSite/config/contact/lastName",""));
+			contact.setEmail(get("/shopSite/config/contact/email",""));
+			contact.setTelephone(get("/shopSite/config/contact/telephone",""));
+			contact.setCountry(get("/shopSite/config/contact/country",""));
+			contact.setAddress(get("/shopSite/config/contact/address",""));
+			contact.setWebsite(get("/shopSite/config/contact/website",""));
+			conf.setContact(contact);
+		
+		return conf;
+	}
+	
+
+	public void saveWebConfig(WebShopConfig wsc) {
+		
+		setProperty("/shopSite/config/siteTitle",wsc.getSiteTitle());
+		setProperty("/shopSite/config/bannerTitle",wsc.getBannerTitle());
+		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
+		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
+		
+		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
+		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());
+		setProperty("/shopSite/config/contact/email",wsc.getContact().getEmail());
+		setProperty("/shopSite/config/contact/telephone",wsc.getContact().getTelephone());
+		setProperty("/shopSite/config/contact/country",wsc.getContact().getCountry());
+		setProperty("/shopSite/config/contact/address",wsc.getContact().getAddress());
+		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
 	}
 	
 
@@ -410,6 +454,8 @@ public class MTGControler {
 			}
 		 }
 	}
+
+
 
 
 }
