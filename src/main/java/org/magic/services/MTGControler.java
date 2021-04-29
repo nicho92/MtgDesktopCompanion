@@ -17,6 +17,7 @@ import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Contact;
@@ -199,7 +200,9 @@ public class MTGControler {
 			conf.setBannerText(get("/shopSite/config/bannerText",""));
 			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
-			
+		    for(String s : get("/shopSite/config/links","").split("|"))
+		       conf.getLinks().add(s);
+			   
 			var contact = new Contact();
 			
 			
@@ -222,6 +225,8 @@ public class MTGControler {
 		setProperty("/shopSite/config/bannerTitle",wsc.getBannerTitle());
 		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
+		setProperty("/shopSite/config/links",StringUtils.join(wsc.getLinks(),"|"));
+		
 		
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
 		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());
@@ -243,7 +248,7 @@ public class MTGControler {
 					   st.setLanguage(get("collections/defaultStock/language","English"));
 					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));
-			   
+					 
 		return st;
 	}
 	
