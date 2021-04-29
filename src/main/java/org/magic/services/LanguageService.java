@@ -48,7 +48,7 @@ public class LanguageService {
 	}
 	
 	public Locale[] getAvailableLocale() {
-		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE};
+		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, new Locale("pt", "BR")};
 	}
 
 	public void changeLocal(Locale l) {
