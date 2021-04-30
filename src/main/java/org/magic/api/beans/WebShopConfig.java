@@ -16,7 +16,7 @@ public class WebShopConfig implements Serializable {
 	private List<String> slidesLinksImage;
 	private Contact contact;
 	private List<MagicCollection> collections;
-	
+	private MagicCard topProduct;
 	
 	
 	public WebShopConfig() {
@@ -25,6 +25,16 @@ public class WebShopConfig implements Serializable {
 		collections = new ArrayList<>();
 		slidesLinksImage = new ArrayList<>();
 		contact=new Contact();
+	}
+	
+	
+	public void setTopProduct(MagicCard topProduct) {
+		this.topProduct = topProduct;
+	}
+	
+	
+	public MagicCard getTopProduct() {
+		return topProduct;
 	}
 	
 	

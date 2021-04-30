@@ -319,7 +319,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					
 					cards.forEach(mc->mc.getCurrentSet().setNumber(null));
 					Collections.sort(cards,new CardsEditionSorter());
-					for(int i=0;i<cards.size();i++)
+					for(var i=0;i<cards.size();i++)
 						{
 							cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
 						}

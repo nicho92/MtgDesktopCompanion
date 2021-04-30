@@ -161,7 +161,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				lblLoading.start(tableCards.getSelectedRowCount());
 				lblLoading.setText(capitalize("ADD_CARDS_TO") + " " + collec);
 
-				for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
+				for (var i = 0; i < tableCards.getSelectedRowCount(); i++) {
 
 					int viewRow = tableCards.getSelectedRows()[i];
 					int modelRow = tableCards.convertRowIndexToModel(viewRow);

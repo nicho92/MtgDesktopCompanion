@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
@@ -200,6 +201,13 @@ public class MTGControler {
 			conf.setBannerText(get("/shopSite/config/bannerText",""));
 			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
+			try {
+			conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCard.class));
+			}
+			catch(Exception e)
+			{
+				//do nothing
+			}
 			
 			for(String s : get("/shopSite/config/collections","").split(";"))
 			   conf.getCollections().add(new MagicCollection(s));
@@ -232,6 +240,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
+		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
 		
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());

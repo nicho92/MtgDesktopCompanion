@@ -5,37 +5,39 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.LayoutManager;
-import java.awt.LayoutManager2;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.jdesktop.swingx.painter.MattePainter;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.WebShopConfig;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.components.ServerStatePanel;
+import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.MTGLogger;
+import org.magic.tools.MTG;
 
 public class WebShopConfigPanel extends JXTaskPaneContainer {
 	
@@ -54,7 +56,11 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 	private JTextField txtCountry;
 	private JTextField txtAddress;
 	private JTextField txtWebSite;
-	private JComboBox<MagicCollection> cboCollections;
+	private JCheckableListBox<MagicCollection> cboCollections;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private MagicCard topProduct;
+
+	
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -69,7 +75,13 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 	
 	public WebShopConfigPanel() {
 		
+		
+		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
+		var btnSave = new JButton("Save");
+		
+		
+		
 		
 		JPanel panelGeneral = createBoxPanel("GENERALE", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
 		
@@ -79,21 +91,14 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 			txtSiteTitle = new JTextField(conf.getSiteTitle());
 			panelGeneral.add(txtSiteTitle);
 			
-			JLabel lblBannerTitle = new JLabel("BANNERTITLE");
-			panelGeneral.add(lblBannerTitle);
+			panelGeneral.add(new JLabel("BANNERTITLE"));
 			
 			txtBannerTitle = new JTextField(conf.getBannerTitle());
 			panelGeneral.add(txtBannerTitle);
-			txtBannerTitle.setColumns(10);
-			
-			JLabel lblBannerText = new JLabel("BANNERTEXT");
-			panelGeneral.add(lblBannerText);
-			
+			panelGeneral.add(new JLabel("BANNERTEXT"));
 			txtBannerText = new JTextArea(conf.getBannerText());
 			panelGeneral.add(new JScrollPane(txtBannerText));
-			
-			JLabel lblAbout = new JLabel("ABOUT");
-			panelGeneral.add(lblAbout);
+			panelGeneral.add(new JLabel("ABOUT"));
 			
 			txtAbout = new JTextArea(conf.getAboutText());
 			panelGeneral.add(new JScrollPane(txtAbout));
@@ -119,11 +124,12 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		panelSlides.add(txtURLSlides, BorderLayout.NORTH);
 		
 		listSlides = new JList<>(listModel);
-		
+		listSlides.setVisibleRowCount(4);
+		listSlides.setFixedCellHeight(25);
 		panelSlides.add(new JScrollPane(listSlides), BorderLayout.CENTER);
 
 		
-		JPanel deleteButtonLinkPanel = new JPanel();
+		var deleteButtonLinkPanel = new JPanel();
 		panelSlides.add(deleteButtonLinkPanel, BorderLayout.EAST);
 		
 		deleteButtonLinkPanel.add(btnDeleteLink);
@@ -131,66 +137,40 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		
 		
 		JPanel panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
-		
-		JLabel lblContactName = new JLabel("NAME");
-		lblContactName.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblContactName);
-		
+
+		panelContact.add(new JLabel("NAME"));
 		txtContactName = new JTextField(conf.getContact().getName());
 		panelContact.add(txtContactName);
-		
-		JLabel lblLastName = new JLabel("LAST_NAME");
-		lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblLastName);
+		panelContact.add(new JLabel("LAST_NAME"));
 		
 		txtLastName = new JTextField(conf.getContact().getLastName());
 		panelContact.add(txtLastName);
-		
-		JLabel lblEmail = new JLabel("EMAIL");
-		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblEmail);
-		
+		panelContact.add(new JLabel("EMAIL"));
 		txtEmail = new JTextField(conf.getContact().getEmail());
 		panelContact.add(txtEmail);
-		
-		JLabel lblTelephone = new JLabel("TELEPHONE");
-		lblTelephone.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblTelephone);
-		
+		panelContact.add(new JLabel("TELEPHONE"));
 		txtTelephone = new JTextField(conf.getContact().getTelephone());
 		panelContact.add(txtTelephone);
 		
-		
-		JLabel lblCountry = new JLabel("COUNTRY");
-		lblCountry.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblCountry);
+		panelContact.add(new JLabel("COUNTRY"));
 		
 		txtCountry = new JTextField(conf.getContact().getCountry());
 		panelContact.add(txtCountry);
 		
-		JLabel lblAddress = new JLabel("ADDRESS");
-		lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblAddress);
+		panelContact.add(new JLabel("ADDRESS"));
 		
 		txtAddress = new JTextField(conf.getContact().getAddress());
 		panelContact.add(txtAddress);
 		txtAddress.setColumns(10);
 		
-		JLabel lblWebSite = new JLabel("WEBSITE");
-		lblWebSite.setHorizontalAlignment(SwingConstants.CENTER);
-		panelContact.add(lblWebSite);
+		panelContact.add(new JLabel("WEBSITE"));
 		
 		txtWebSite = new JTextField(conf.getContact().getWebsite());
 		panelContact.add(txtWebSite);
 		txtWebSite.setColumns(10);
 		
-		JButton btnSave = new JButton("Save");
-		GridBagConstraints gbcbtnSave = new GridBagConstraints();
-		gbcbtnSave.insets = new Insets(0, 0, 5, 0);
-		gbcbtnSave.gridwidth = 2;
-		gbcbtnSave.gridx = 0;
-		gbcbtnSave.gridy = 3;
-		add(btnSave, gbcbtnSave);
+		
+		add(btnSave);
 		
 		
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), true);
@@ -200,16 +180,42 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		
 		
 		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new FlowLayout(),true);
-		cboCollections = UITools.createComboboxCollection();
+		cboCollections = new JCheckableListBox<>();
+		
+		try {
+			for(MagicCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections())
+				cboCollections.addElement(mc, conf.getCollections().contains(mc));
+		} catch (SQLException e1) {
+			logger.error(e1);
+		}
 		
 		panelStock.add(new JLabel("SELL_STOCK_IN_COLLECTION"));
 		panelStock.add(cboCollections);
+		
+		
+		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new FlowLayout(),true);
+		topProduct = conf.getTopProduct();
+		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
+		var l = new JLabel(String.valueOf(topProduct));
+		
+		
+		b.addActionListener(il->{
+							   var diag = new CardSearchImportDialog();
+								   diag.setVisible(true); 
+								   topProduct= diag.getSelected();
+								   if(topProduct!=null)
+									   l.setText(topProduct.getName());
+		});
+		
+		panelProduct.add(b);
+		panelProduct.add(l);
 		
 		
 		add(panelGeneral);
 		add(panelSlides);
 		add(panelContact);
 		add(panelStock);
+		add(panelProduct);
 		add(panelServer);
 		
 		
@@ -217,30 +223,38 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		btnDeleteLink.addActionListener((ActionEvent e)->listModel.removeElement(listSlides.getSelectedValue()));
 		btnSave.addActionListener(al->{
 			
-			WebShopConfig bean = MTGControler.getInstance().getWebConfig();
+			WebShopConfig newBean = MTGControler.getInstance().getWebConfig();
 			
-			bean.setAboutText(txtAbout.getText());
-			bean.setBannerText(txtBannerText.getText());
-			bean.setBannerTitle(txtBannerTitle.getText());
-			bean.setSiteTitle(txtSiteTitle.getText());
-			bean.getCollections().add((MagicCollection)cboCollections.getSelectedItem());
-			bean.getSlidesLinksImage().clear();
+			newBean.setAboutText(txtAbout.getText());
+			newBean.setBannerText(txtBannerText.getText());
+			newBean.setBannerTitle(txtBannerTitle.getText());
+			newBean.setSiteTitle(txtSiteTitle.getText());
+			newBean.setTopProduct(topProduct);
+			
+			newBean.getCollections().clear();
+			newBean.getCollections().addAll(cboCollections.getSelectedElements());
+			
+			
+			
+			
+			
+			newBean.getSlidesLinksImage().clear();
 			Iterator<String> it = listModel.elements().asIterator();
 			while(it.hasNext())
-				bean.getSlidesLinksImage().add(it.next());
+				newBean.getSlidesLinksImage().add(it.next());
 			
 			
-			bean.getContact().setAddress(txtAddress.getText());
-			bean.getContact().setCountry(txtCountry.getText());
-			bean.getContact().setEmail(txtEmail.getText());
-			bean.getContact().setLastName(txtLastName.getText());
-			bean.getContact().setName(txtContactName.getText());
-			bean.getContact().setTelephone(txtTelephone.getText());
-			bean.getContact().setWebsite(txtWebSite.getText());
+			newBean.getContact().setAddress(txtAddress.getText());
+			newBean.getContact().setCountry(txtCountry.getText());
+			newBean.getContact().setEmail(txtEmail.getText());
+			newBean.getContact().setLastName(txtLastName.getText());
+			newBean.getContact().setName(txtContactName.getText());
+			newBean.getContact().setTelephone(txtTelephone.getText());
+			newBean.getContact().setWebsite(txtWebSite.getText());
 			
 			
 			
-			MTGControler.getInstance().saveWebConfig(bean);
+			MTGControler.getInstance().saveWebConfig(newBean);
 			
 		});
 		

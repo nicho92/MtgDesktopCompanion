@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -84,11 +86,15 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		});
 	}
 	
+	@Override
+	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {
+		return listStocks().stream().filter(st->cols.contains(st.getMagicCollection())).collect(Collectors.toList());
+	}
+	
 	
 	@Override
 	public void saveCollection(String name) throws SQLException {
 		saveCollection(new MagicCollection(name));
-		
 	}
 	
 	@Override
