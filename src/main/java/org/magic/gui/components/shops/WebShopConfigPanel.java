@@ -66,7 +66,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		
 		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
 		
-		JPanel panelGeneral = createBoxPanel("GENERALE", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), true );
+		JPanel panelGeneral = createBoxPanel("GENERALE", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
 		
 			var lblTitleSite = new JLabel("SITETITLE");
 			panelGeneral.add(lblTitleSite);
@@ -98,7 +98,8 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 			
 		JPanel panelSlides = createBoxPanel("SLIDES", MTGConstants.ICON_TAB_PICTURE, new BorderLayout(0, 0), true);
 		
-		JButton btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
+		var btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
+		btnDeleteLink.setEnabled(false);
 		listModel = new DefaultListModel<>();
 		
 		
@@ -111,25 +112,15 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 				txtURLSlides.setText("");
 		});
 		panelSlides.add(txtURLSlides, BorderLayout.NORTH);
-		txtURLSlides.setColumns(10);
-		
 		
 		listSlides = new JList<>(listModel);
-		listSlides.addListSelectionListener((ListSelectionEvent e)->{
-				btnDeleteLink.setEnabled(listSlides.getSelectedIndex()>-1);
-
-		});
-
+		
 		panelSlides.add(new JScrollPane(listSlides), BorderLayout.CENTER);
 
 		
 		JPanel deleteButtonLinkPanel = new JPanel();
 		panelSlides.add(deleteButtonLinkPanel, BorderLayout.EAST);
 		
-		
-		btnDeleteLink.addActionListener((ActionEvent e)->{
-				listModel.removeElement(listSlides.getSelectedValue());
-		});
 		deleteButtonLinkPanel.add(btnDeleteLink);
 		
 		
@@ -208,6 +199,9 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		add(panelContact);
 		add(panelServer);
 		
+		
+		listSlides.addListSelectionListener((ListSelectionEvent e)->btnDeleteLink.setEnabled(listSlides.getSelectedIndex()>-1));
+		btnDeleteLink.addActionListener((ActionEvent e)->listModel.removeElement(listSlides.getSelectedValue()));
 		btnSave.addActionListener(al->{
 			
 			WebShopConfig bean = MTGControler.getInstance().getWebConfig();

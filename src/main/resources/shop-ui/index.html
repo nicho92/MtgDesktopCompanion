@@ -8,6 +8,8 @@
     <!-- CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+    
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <!-- JS -->
@@ -46,10 +48,28 @@
 	       		$('#carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to='"+index+"'></li>");
 	       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
 	       	});
-	       	
-	       	
 	    });
     
+   	$(document).ready(function() {
+		   $("#searchText").autocomplete({
+			  minLength: 3,
+		      source: function( request, response ) { 
+		        $.ajax({
+		          url: restserver+"/cards/suggest/" + request.term,
+		          dataType: "json",
+		          data: {
+		            term: request.term
+		          },
+		          success: function( data ) {
+		            response( data );
+		          }
+		        });
+		      }
+		    });
+		 });
+   	 
+   	 
+   	 
     });
     
     </script>
@@ -86,7 +106,7 @@
 
             <form class="form-inline my-2 my-lg-0">
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="Search...">
+                    <div class="ui-widget"><input type="text" class="form-control" id="searchText" placeholder="Search..."></div>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-secondary btn-number">
                             <i class="fa fa-search"></i>
