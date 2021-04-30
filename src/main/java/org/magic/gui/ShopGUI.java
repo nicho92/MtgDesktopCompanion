@@ -24,9 +24,9 @@ public class ShopGUI extends MTGUIComponent {
 		
 		add(pane,BorderLayout.CENTER);
 		
-		
-		UITools.addTab(pane, new TransactionsPanel());
 		pane.addTab("config", new WebShopConfigPanel());
+		UITools.addTab(pane, new TransactionsPanel());
+		
 	}
 
 	@Override

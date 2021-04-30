@@ -33,6 +33,15 @@
 	       	$('#bannerText').html(data.bannerText);
 	       	$('#aboutText').html(data.aboutText);
 	       	
+	       	
+	    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+	    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+	    	$('#contactTelephone').html(data.contact.telephone);
+	    	$('#contactWebsite').html(data.contact.website);
+	    	$('#contactAddress').html(data.contact.address);
+	    	$('#contactCountry').html(data.contact.country);
+	       	
+	       	
 	       	jQuery.each(data.slidesLinksImage, function(index, value) {
 	       		$('#carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to='"+index+"'></li>");
 	       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
@@ -346,14 +355,16 @@
                 </ul>
             </div>
 
-            <div class="col-md-4 col-lg-3 col-xl-3">
+            <div class="col-md-4 col-lg-3 col-xl-4">
                 <h5>Contact</h5>
                 <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
                 <ul class="list-unstyled">
-                    <li><i class="fa fa-home mr-2"></i> My company</li>
-                    <li><i class="fa fa-envelope mr-2"></i> email@example.com</li>
-                    <li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
-                    <li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
+                 	<li><i class="fa fa-user mr-2"></i> <span id="contactName"/></li>
+                    <li><i class="fa fa-home mr-2"></i> <span id="contactAddress"/></li>
+                    <li><i class="fa fa-flag mr-2"></i> <span id="contactCountry"/></li>
+                    <li><i class="fa fa-envelope mr-2"></i> <span id="contactEmail"/></li>
+                    <li><i class="fa fa-phone mr-2"></i> <span id="contactTelephone"/></li>
+                    <li><i class="fa fa-globe mr-2"></i> <span id="contactWebsite"/></li>
                 </ul>
             </div>
             <div class="col-12 copyright mt-3">

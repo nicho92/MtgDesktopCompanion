@@ -1,16 +1,20 @@
 package org.magic.gui.components.shops;
 
+import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.LayoutManager2;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -18,18 +22,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 
+import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import javax.swing.SwingConstants;
 
-public class WebShopConfigPanel extends JPanel {
+public class WebShopConfigPanel extends JXTaskPaneContainer {
 	
 	
 	private JTextField txtSiteTitle;
@@ -47,102 +51,59 @@ public class WebShopConfigPanel extends JPanel {
 	private JTextField txtAddress;
 	private JTextField txtWebSite;
 	
+	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
+	{
+		var pane = new JXTaskPane();
+		pane.setTitle(capitalize(keyName));
+		pane.setIcon(ic);
+		pane.setCollapsed(collapsed);
+		pane.setLayout(layout);
+		return pane;
+	}
+	
+	
 	public WebShopConfigPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{137, 86, 0};
-		gridBagLayout.rowHeights = new int[]{31, 31, 58, 58, 101, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		
+		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
+		
+		JPanel panelGeneral = createBoxPanel("GENERALE", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), true );
+		
+			var lblTitleSite = new JLabel("SITETITLE");
+			panelGeneral.add(lblTitleSite);
+			
+			txtSiteTitle = new JTextField(conf.getSiteTitle());
+			panelGeneral.add(txtSiteTitle);
+			
+			JLabel lblBannerTitle = new JLabel("BANNERTITLE");
+			panelGeneral.add(lblBannerTitle);
+			
+			txtBannerTitle = new JTextField(conf.getBannerTitle());
+			panelGeneral.add(txtBannerTitle);
+			txtBannerTitle.setColumns(10);
+			
+			JLabel lblBannerText = new JLabel("BANNERTEXT");
+			panelGeneral.add(lblBannerText);
+			
+			txtBannerText = new JTextArea(conf.getBannerText());
+			panelGeneral.add(new JScrollPane(txtBannerText));
+			
+			JLabel lblAbout = new JLabel("ABOUT");
+			panelGeneral.add(lblAbout);
+			
+			txtAbout = new JTextArea(conf.getAboutText());
+			panelGeneral.add(new JScrollPane(txtAbout));
+		
+			
+			
+			
+		JPanel panelSlides = createBoxPanel("SLIDES", MTGConstants.ICON_TAB_PICTURE, new BorderLayout(0, 0), true);
 		
 		JButton btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
 		listModel = new DefaultListModel<>();
 		
 		
-		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
-		
-		
 		for(String s : conf.getSlidesLinksImage())
 			listModel.addElement(s);
-		
-		
-		
-		var lblTitleSite = new JLabel("SITETITLE");
-		GridBagConstraints gbclblTitleSite = new GridBagConstraints();
-		gbclblTitleSite.insets = new Insets(0, 0, 5, 5);
-		gbclblTitleSite.gridx = 0;
-		gbclblTitleSite.gridy = 0;
-		add(lblTitleSite, gbclblTitleSite);
-		
-		txtSiteTitle = new JTextField(conf.getSiteTitle());
-		GridBagConstraints gbctxtSiteTitle = new GridBagConstraints();
-		gbctxtSiteTitle.insets = new Insets(0, 0, 5, 0);
-		gbctxtSiteTitle.fill = GridBagConstraints.BOTH;
-		gbctxtSiteTitle.gridx = 1;
-		gbctxtSiteTitle.gridy = 0;
-		add(txtSiteTitle, gbctxtSiteTitle);
-		
-		JLabel lblBannerTitle = new JLabel("BANNERTITLE");
-		GridBagConstraints gbclblBannerTitle = new GridBagConstraints();
-		gbclblBannerTitle.insets = new Insets(0, 0, 5, 5);
-		gbclblBannerTitle.gridx = 0;
-		gbclblBannerTitle.gridy = 1;
-		add(lblBannerTitle, gbclblBannerTitle);
-		
-		txtBannerTitle = new JTextField(conf.getBannerTitle());
-		GridBagConstraints gbctxtBannerTitle = new GridBagConstraints();
-		gbctxtBannerTitle.insets = new Insets(0, 0, 5, 0);
-		gbctxtBannerTitle.fill = GridBagConstraints.BOTH;
-		gbctxtBannerTitle.gridx = 1;
-		gbctxtBannerTitle.gridy = 1;
-		add(txtBannerTitle, gbctxtBannerTitle);
-		txtBannerTitle.setColumns(10);
-		
-		JLabel lblBannerText = new JLabel("BANNERTEXT");
-		GridBagConstraints gbclblBannerText = new GridBagConstraints();
-		gbclblBannerText.insets = new Insets(0, 0, 5, 5);
-		gbclblBannerText.gridx = 0;
-		gbclblBannerText.gridy = 2;
-		add(lblBannerText, gbclblBannerText);
-		
-		txtBannerText = new JTextArea(conf.getBannerText());
-		GridBagConstraints gbctxtBannerText = new GridBagConstraints();
-		gbctxtBannerText.insets = new Insets(0, 0, 5, 0);
-		gbctxtBannerText.fill = GridBagConstraints.BOTH;
-		gbctxtBannerText.gridx = 1;
-		gbctxtBannerText.gridy = 2;
-		add(txtBannerText, gbctxtBannerText);
-		
-		JLabel lblAbout = new JLabel("ABOUT");
-		GridBagConstraints gbclblAbout = new GridBagConstraints();
-		gbclblAbout.insets = new Insets(0, 0, 5, 5);
-		gbclblAbout.gridx = 0;
-		gbclblAbout.gridy = 3;
-		add(lblAbout, gbclblAbout);
-		
-		txtAbout = new JTextArea(conf.getAboutText());
-		GridBagConstraints gbctxtAbout = new GridBagConstraints();
-		gbctxtAbout.insets = new Insets(0, 0, 5, 0);
-		gbctxtAbout.fill = GridBagConstraints.BOTH;
-		gbctxtAbout.gridx = 1;
-		gbctxtAbout.gridy = 3;
-		add(txtAbout, gbctxtAbout);
-		
-		JLabel lblSlides = new JLabel("SLIDES");
-		GridBagConstraints gbclblSlides = new GridBagConstraints();
-		gbclblSlides.insets = new Insets(0, 0, 5, 5);
-		gbclblSlides.gridx = 0;
-		gbclblSlides.gridy = 4;
-		add(lblSlides, gbclblSlides);
-		
-		JPanel panelSlides = new JPanel();
-		GridBagConstraints gbcpanelSlides = new GridBagConstraints();
-		gbcpanelSlides.insets = new Insets(0, 0, 5, 0);
-		gbcpanelSlides.fill = GridBagConstraints.BOTH;
-		gbcpanelSlides.gridx = 1;
-		gbcpanelSlides.gridy = 4;
-		add(panelSlides, gbcpanelSlides);
-		panelSlides.setLayout(new BorderLayout(0, 0));
 		
 		txtURLSlides = new JTextField();
 		txtURLSlides.addActionListener((ActionEvent e)->{
@@ -162,30 +123,18 @@ public class WebShopConfigPanel extends JPanel {
 		panelSlides.add(new JScrollPane(listSlides), BorderLayout.CENTER);
 
 		
-		JPanel panel1 = new JPanel();
-		panelSlides.add(panel1, BorderLayout.EAST);
+		JPanel deleteButtonLinkPanel = new JPanel();
+		panelSlides.add(deleteButtonLinkPanel, BorderLayout.EAST);
 		
 		
 		btnDeleteLink.addActionListener((ActionEvent e)->{
 				listModel.removeElement(listSlides.getSelectedValue());
 		});
-		panel1.add(btnDeleteLink);
+		deleteButtonLinkPanel.add(btnDeleteLink);
 		
-		JLabel lblContact = new JLabel("CONTACT");
-		GridBagConstraints gbc_lblContact = new GridBagConstraints();
-		gbc_lblContact.insets = new Insets(0, 0, 5, 5);
-		gbc_lblContact.gridx = 0;
-		gbc_lblContact.gridy = 5;
-		add(lblContact, gbc_lblContact);
 		
-		JPanel panelContact = new JPanel();
-		GridBagConstraints gbc_panelContact = new GridBagConstraints();
-		gbc_panelContact.insets = new Insets(0, 0, 5, 0);
-		gbc_panelContact.fill = GridBagConstraints.BOTH;
-		gbc_panelContact.gridx = 1;
-		gbc_panelContact.gridy = 5;
-		add(panelContact, gbc_panelContact);
-		panelContact.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JPanel panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
 		
 		JLabel lblContactName = new JLabel("NAME");
 		lblContactName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -244,18 +193,20 @@ public class WebShopConfigPanel extends JPanel {
 		gbcbtnSave.insets = new Insets(0, 0, 5, 0);
 		gbcbtnSave.gridwidth = 2;
 		gbcbtnSave.gridx = 0;
-		gbcbtnSave.gridy = 6;
+		gbcbtnSave.gridy = 3;
 		add(btnSave, gbcbtnSave);
 		
-		ServerStatePanel serverPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
-		GridBagConstraints gbcServer = new GridBagConstraints();
-		gbcServer.gridwidth = 2;
-		gbcServer.fill = GridBagConstraints.BOTH;
-		gbcServer.gridx = 0;
-		gbcServer.gridy = 7;
-		add(serverPanel, gbcServer);
+		
+		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), true);
+		ServerStatePanel serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
+		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		
 		
+		
+		add(panelGeneral);
+		add(panelSlides);
+		add(panelContact);
+		add(panelServer);
 		
 		btnSave.addActionListener(al->{
 			
