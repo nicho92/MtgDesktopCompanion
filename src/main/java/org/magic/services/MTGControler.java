@@ -200,8 +200,8 @@ public class MTGControler {
 			conf.setBannerText(get("/shopSite/config/bannerText",""));
 			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
-		    for(String s : get("/shopSite/config/links","").split("|"))
-		       conf.getLinks().add(s);
+		    for(String s : get("/shopSite/config/slides","").split(";"))
+		       conf.getSlidesLinksImage().add(s);
 			   
 			var contact = new Contact();
 			
@@ -225,7 +225,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/bannerTitle",wsc.getBannerTitle());
 		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
-		setProperty("/shopSite/config/links",StringUtils.join(wsc.getLinks(),"|"));
+		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		
 		
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());

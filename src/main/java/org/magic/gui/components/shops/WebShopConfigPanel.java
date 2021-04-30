@@ -25,6 +25,9 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+import javax.swing.SwingConstants;
 
 public class WebShopConfigPanel extends JPanel {
 	
@@ -35,12 +38,19 @@ public class WebShopConfigPanel extends JPanel {
 	private JTextArea txtAbout;
 	private JTextField txtURLSlides;
 	private DefaultListModel<String> listModel;
-	private JList listSlides;
+	private JList<String> listSlides;
+	private JTextField txtContactName;
+	private JTextField txtLastName;
+	private JTextField txtEmail;
+	private JTextField txtTelephone;
+	private JTextField txtCountry;
+	private JTextField txtAddress;
+	private JTextField txtWebSite;
 	
 	public WebShopConfigPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{137, 86, 0};
-		gridBagLayout.rowHeights = new int[]{31, 31, 58, 58, 30, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{31, 31, 58, 58, 101, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -48,10 +58,12 @@ public class WebShopConfigPanel extends JPanel {
 		JButton btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
 		listModel = new DefaultListModel<>();
 		
-		for(String s : MTGControler.getInstance().getWebConfig().getLinks())
-		{
+		
+		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
+		
+		
+		for(String s : conf.getSlidesLinksImage())
 			listModel.addElement(s);
-		}
 		
 		
 		
@@ -62,7 +74,7 @@ public class WebShopConfigPanel extends JPanel {
 		gbclblTitleSite.gridy = 0;
 		add(lblTitleSite, gbclblTitleSite);
 		
-		txtSiteTitle = new JTextField(MTGControler.getInstance().getWebConfig().getSiteTitle());
+		txtSiteTitle = new JTextField(conf.getSiteTitle());
 		GridBagConstraints gbctxtSiteTitle = new GridBagConstraints();
 		gbctxtSiteTitle.insets = new Insets(0, 0, 5, 0);
 		gbctxtSiteTitle.fill = GridBagConstraints.BOTH;
@@ -77,7 +89,7 @@ public class WebShopConfigPanel extends JPanel {
 		gbclblBannerTitle.gridy = 1;
 		add(lblBannerTitle, gbclblBannerTitle);
 		
-		txtBannerTitle = new JTextField(MTGControler.getInstance().getWebConfig().getBannerTitle());
+		txtBannerTitle = new JTextField(conf.getBannerTitle());
 		GridBagConstraints gbctxtBannerTitle = new GridBagConstraints();
 		gbctxtBannerTitle.insets = new Insets(0, 0, 5, 0);
 		gbctxtBannerTitle.fill = GridBagConstraints.BOTH;
@@ -93,7 +105,7 @@ public class WebShopConfigPanel extends JPanel {
 		gbclblBannerText.gridy = 2;
 		add(lblBannerText, gbclblBannerText);
 		
-		txtBannerText = new JTextArea(MTGControler.getInstance().getWebConfig().getBannerText());
+		txtBannerText = new JTextArea(conf.getBannerText());
 		GridBagConstraints gbctxtBannerText = new GridBagConstraints();
 		gbctxtBannerText.insets = new Insets(0, 0, 5, 0);
 		gbctxtBannerText.fill = GridBagConstraints.BOTH;
@@ -108,7 +120,7 @@ public class WebShopConfigPanel extends JPanel {
 		gbclblAbout.gridy = 3;
 		add(lblAbout, gbclblAbout);
 		
-		txtAbout = new JTextArea(MTGControler.getInstance().getWebConfig().getAboutText());
+		txtAbout = new JTextArea(conf.getAboutText());
 		GridBagConstraints gbctxtAbout = new GridBagConstraints();
 		gbctxtAbout.insets = new Insets(0, 0, 5, 0);
 		gbctxtAbout.fill = GridBagConstraints.BOTH;
@@ -159,6 +171,74 @@ public class WebShopConfigPanel extends JPanel {
 		});
 		panel1.add(btnDeleteLink);
 		
+		JLabel lblContact = new JLabel("CONTACT");
+		GridBagConstraints gbc_lblContact = new GridBagConstraints();
+		gbc_lblContact.insets = new Insets(0, 0, 5, 5);
+		gbc_lblContact.gridx = 0;
+		gbc_lblContact.gridy = 5;
+		add(lblContact, gbc_lblContact);
+		
+		JPanel panelContact = new JPanel();
+		GridBagConstraints gbc_panelContact = new GridBagConstraints();
+		gbc_panelContact.insets = new Insets(0, 0, 5, 0);
+		gbc_panelContact.fill = GridBagConstraints.BOTH;
+		gbc_panelContact.gridx = 1;
+		gbc_panelContact.gridy = 5;
+		add(panelContact, gbc_panelContact);
+		panelContact.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JLabel lblContactName = new JLabel("NAME");
+		lblContactName.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblContactName);
+		
+		txtContactName = new JTextField(conf.getContact().getName());
+		panelContact.add(txtContactName);
+		
+		JLabel lblLastName = new JLabel("LAST_NAME");
+		lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblLastName);
+		
+		txtLastName = new JTextField(conf.getContact().getLastName());
+		panelContact.add(txtLastName);
+		
+		JLabel lblEmail = new JLabel("EMAIL");
+		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblEmail);
+		
+		txtEmail = new JTextField(conf.getContact().getEmail());
+		panelContact.add(txtEmail);
+		
+		JLabel lblTelephone = new JLabel("TELEPHONE");
+		lblTelephone.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblTelephone);
+		
+		txtTelephone = new JTextField(conf.getContact().getTelephone());
+		panelContact.add(txtTelephone);
+		
+		
+		JLabel lblCountry = new JLabel("COUNTRY");
+		lblCountry.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblCountry);
+		
+		txtCountry = new JTextField(conf.getContact().getCountry());
+		panelContact.add(txtCountry);
+		
+		JLabel lblAddress = new JLabel("ADDRESS");
+		lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblAddress);
+		
+		txtAddress = new JTextField(conf.getContact().getAddress());
+		panelContact.add(txtAddress);
+		txtAddress.setColumns(10);
+		
+		JLabel lblWebSite = new JLabel("WEBSITE");
+		lblWebSite.setHorizontalAlignment(SwingConstants.CENTER);
+		panelContact.add(lblWebSite);
+		
+		txtWebSite = new JTextField(conf.getContact().getWebsite());
+		panelContact.add(txtWebSite);
+		txtWebSite.setColumns(10);
+		
 		JButton btnSave = new JButton("Save");
 		GridBagConstraints gbcbtnSave = new GridBagConstraints();
 		gbcbtnSave.insets = new Insets(0, 0, 5, 0);
@@ -172,7 +252,7 @@ public class WebShopConfigPanel extends JPanel {
 		gbcServer.gridwidth = 2;
 		gbcServer.fill = GridBagConstraints.BOTH;
 		gbcServer.gridx = 0;
-		gbcServer.gridy = 6;
+		gbcServer.gridy = 7;
 		add(serverPanel, gbcServer);
 		
 		
@@ -186,12 +266,21 @@ public class WebShopConfigPanel extends JPanel {
 			bean.setBannerTitle(txtBannerTitle.getText());
 			bean.setSiteTitle(txtSiteTitle.getText());
 			
-			bean.getLinks().clear();
-			
+			bean.getSlidesLinksImage().clear();
 			Iterator<String> it = listModel.elements().asIterator();
-			
 			while(it.hasNext())
-				bean.getLinks().add(it.next());
+				bean.getSlidesLinksImage().add(it.next());
+			
+			
+			bean.getContact().setAddress(txtAddress.getText());
+			bean.getContact().setCountry(txtCountry.getText());
+			bean.getContact().setEmail(txtEmail.getText());
+			bean.getContact().setLastName(txtLastName.getText());
+			bean.getContact().setName(txtContactName.getText());
+			bean.getContact().setTelephone(txtTelephone.getText());
+			bean.getContact().setWebsite(txtWebSite.getText());
+			
+			
 			
 			MTGControler.getInstance().saveWebConfig(bean);
 			
@@ -214,5 +303,26 @@ public class WebShopConfigPanel extends JPanel {
 	}
 	public JList getListSlides() {
 		return listSlides;
+	}
+	public JTextField getTxtContactName() {
+		return txtContactName;
+	}
+	public JTextField getTxtLastName() {
+		return txtLastName;
+	}
+	public JTextField getTxtEmail() {
+		return txtEmail;
+	}
+	public JTextField getTxtTelephone() {
+		return txtTelephone;
+	}
+	public JTextField getTxtCountry() {
+		return txtCountry;
+	}
+	public JTextField getTxtAddress() {
+		return txtAddress;
+	}
+	public JTextField getTxtWebSite() {
+		return txtWebSite;
 	}
 }
