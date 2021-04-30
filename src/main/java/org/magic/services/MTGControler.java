@@ -200,7 +200,12 @@ public class MTGControler {
 			conf.setBannerText(get("/shopSite/config/bannerText",""));
 			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
-		    for(String s : get("/shopSite/config/slides","").split(";"))
+			
+			for(String s : get("/shopSite/config/collections","").split(";"))
+			   conf.getCollections().add(new MagicCollection(s));
+				      
+			
+			for(String s : get("/shopSite/config/slides","").split(";"))
 		       conf.getSlidesLinksImage().add(s);
 			   
 			var contact = new Contact();
@@ -213,6 +218,7 @@ public class MTGControler {
 			contact.setCountry(get("/shopSite/config/contact/country",""));
 			contact.setAddress(get("/shopSite/config/contact/address",""));
 			contact.setWebsite(get("/shopSite/config/contact/website",""));
+			
 			conf.setContact(contact);
 		
 		return conf;
@@ -227,7 +233,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		
-		
+		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
 		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());
 		setProperty("/shopSite/config/contact/email",wsc.getContact().getEmail());
@@ -248,7 +254,7 @@ public class MTGControler {
 					   st.setLanguage(get("collections/defaultStock/language","English"));
 					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));
-					 
+					   
 		return st;
 	}
 	

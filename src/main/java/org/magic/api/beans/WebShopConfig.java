@@ -15,12 +15,14 @@ public class WebShopConfig implements Serializable {
 	private List<String> links;
 	private List<String> slidesLinksImage;
 	private Contact contact;
+	private List<MagicCollection> collections;
 	
 	
 	
 	public WebShopConfig() {
 		informations= new ArrayList<>();
 		links= new ArrayList<>();
+		collections = new ArrayList<>();
 		slidesLinksImage = new ArrayList<>();
 		contact=new Contact();
 	}
@@ -77,7 +79,10 @@ public class WebShopConfig implements Serializable {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	
-	
-	
+	public List<MagicCollection> getCollections() {
+		return collections;
+	}
+	public void setCollections(List<MagicCollection> collections) {
+		this.collections = collections;
+	}
 }

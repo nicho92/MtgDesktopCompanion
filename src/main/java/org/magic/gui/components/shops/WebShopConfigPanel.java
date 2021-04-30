@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -16,6 +17,7 @@ import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -27,11 +29,13 @@ import javax.swing.event.ListSelectionEvent;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class WebShopConfigPanel extends JXTaskPaneContainer {
 	
@@ -50,6 +54,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 	private JTextField txtCountry;
 	private JTextField txtAddress;
 	private JTextField txtWebSite;
+	private JComboBox<MagicCollection> cboCollections;
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -189,14 +194,22 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		
 		
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), true);
-		ServerStatePanel serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
+		var serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		
+		
+		
+		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new FlowLayout(),true);
+		cboCollections = UITools.createComboboxCollection();
+		
+		panelStock.add(new JLabel("SELL_STOCK_IN_COLLECTION"));
+		panelStock.add(cboCollections);
 		
 		
 		add(panelGeneral);
 		add(panelSlides);
 		add(panelContact);
+		add(panelStock);
 		add(panelServer);
 		
 		
@@ -210,7 +223,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 			bean.setBannerText(txtBannerText.getText());
 			bean.setBannerTitle(txtBannerTitle.getText());
 			bean.setSiteTitle(txtSiteTitle.getText());
-			
+			bean.getCollections().add((MagicCollection)cboCollections.getSelectedItem());
 			bean.getSlidesLinksImage().clear();
 			Iterator<String> it = listModel.elements().asIterator();
 			while(it.hasNext())
@@ -234,40 +247,4 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 
 	}
 
-	public JTextField getTxtSiteTitle() {
-		return txtSiteTitle;
-	}
-	public JTextField getTxtBannerTitle() {
-		return txtBannerTitle;
-	}
-	public JTextArea getTextArea() {
-		return txtBannerText;
-	}
-	public JTextArea getTextArea1() {
-		return txtAbout;
-	}
-	public JList getListSlides() {
-		return listSlides;
-	}
-	public JTextField getTxtContactName() {
-		return txtContactName;
-	}
-	public JTextField getTxtLastName() {
-		return txtLastName;
-	}
-	public JTextField getTxtEmail() {
-		return txtEmail;
-	}
-	public JTextField getTxtTelephone() {
-		return txtTelephone;
-	}
-	public JTextField getTxtCountry() {
-		return txtCountry;
-	}
-	public JTextField getTxtAddress() {
-		return txtAddress;
-	}
-	public JTextField getTxtWebSite() {
-		return txtWebSite;
-	}
 }
