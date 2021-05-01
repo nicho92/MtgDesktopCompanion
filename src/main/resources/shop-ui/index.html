@@ -25,7 +25,7 @@
 		
     $(document).ready(function() {	
     
-    
+    		var collection;
 		   	 $.ajax({
 			        url: restserver+"/webshop/config"
 			    }).then(function(data) {
@@ -50,26 +50,37 @@
 			       		$('#carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to='"+index+"'></li>");
 			       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
 			       	});
+			       	
+			       	
+			       	$.each( data.collections, function( key, value ) {
+			    		  
+			    		  $.ajax({
+						        url: restserver+"/stock/list/"+value.name
+						    }).then(function(data) {
+						    
+						    	
+						    	
+						    	for(let i=0;i<4;i++)
+						    		{
+						    			alert(data[i].idStock);
+						    		}
+						    	
+						    	
+						    	
+						    	
+						    });
+			    		  
+			    		  
+			    		  
+			    		});
+			       	
+			       	
 			  });
 		   	 
-		   	 
-		   	 $.ajax({
-			        url: restserver+"/stock/list/collections"
-			    }).then(function(data) {
-			    
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			  });
-		   	 
-		   	 
-		   	 
+		   	 	
+
+		    	
+		 
     
   			   $("#searchText").autocomplete({
 				  minLength: 3,
