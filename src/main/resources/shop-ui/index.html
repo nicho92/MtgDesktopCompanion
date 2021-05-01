@@ -57,17 +57,27 @@
 			    		  $.ajax({
 						        url: restserver+"/stock/list/"+value.name
 						    }).then(function(data) {
-						    
-						    	
-						    	
+						 		
+						    	data=data.reverse();
 						    	for(let i=0;i<4;i++)
 						    		{
-						    			alert(data[i].idStock);
+						    		
+						    			var append="<div class='col-sm'>";
+                          					append+="<div class='card'>";
+                                			append+="<img class='card-img-top' src='https://api.scryfall.com/cards/"+data[i].magicCard.scryfallId+"?format=image' alt='Card image cap'>";
+                               				append+="<div class='card-body'>";
+                                   			append+="<h4 class='card-title'><a href='product.html' title='View Product'>"+data[i].magicCard.name +"</a></h4>";
+                                   			append+="<p class='card-text'>"+data[i].magicCard.editions[0].set+"</p>";
+                                   			append+="<div class='row'>";
+                                        	append+="<div class='col'>";
+                                            append+="<p class='btn btn-danger btn-block'>"+data[i].price.toFixed(2)+" $</p>";
+                                        	append+="</div>";
+                                       		append+="<div class='col'>";
+                                            append+="<a href='cart.html' class='btn btn-success btn-block'>Add to cart</a>";
+                                        	append+="</div></div></div></div></div>"		
+						    		
+							    			$('#latest-product').append(append);
 						    		}
-						    	
-						    	
-						    	
-						    	
 						    });
 			    		  
 			    		  
@@ -207,81 +217,8 @@
                     <i class="fa fa-star"></i> Last products
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        
-                        
-                        
-                        <div class="col-sm">
-                            <div class="card">
-                                <img class="card-img-top" src="https://i.ebayimg.com/images/g/O88AAOSwsShdc9xI/s-l400.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <h4 class="card-title"><a href="product.html" title="View Product">Product title</a></h4>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="btn btn-danger btn-block">99.00 $</p>
-                                        </div>
-                                        <div class="col">
-                                            <a href="cart.html" class="btn btn-success btn-block">Add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                        
-                        <div class="col-sm">
-                            <div class="card">
-                                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShwgbURMWBa7nDxBzm-mV_-0cZS3CK-bIxtQ&usqp=CAU" alt="Card image cap">
-                                <div class="card-body">
-                                    <h4 class="card-title"><a href="product.html" title="View Product">Product title</a></h4>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="btn btn-danger btn-block">99.00 $</p>
-                                        </div>
-                                        <div class="col">
-                                            <a href="cart.html" class="btn btn-success btn-block">Add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="card">
-                                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbikLfTeHLA-fpZWoww49PNpr3zeBRtdXrGw&usqp=CAU" alt="Card image cap">
-                                <div class="card-body">
-                                    <h4 class="card-title"><a href="product.html" title="View Product">Product title</a></h4>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="btn btn-danger btn-block">99.00 $</p>
-                                        </div>
-                                        <div class="col">
-                                            <a href="cart.html" class="btn btn-success btn-block">Add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="card">
-                                <img class="card-img-top" src="https://www.play-in.com/images/cartes/unlimited/black_lotus.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <h4 class="card-title"><a href="product.html" title="View Product">Product title</a></h4>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="btn btn-danger btn-block">19999.00 $</p>
-                                        </div>
-                                        <div class="col">
-                                            <a href="cart.html" class="btn btn-success btn-block">Add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="latest-product" class="row">
+ 
                     </div>
                 </div>
             </div>
