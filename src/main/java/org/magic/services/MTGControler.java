@@ -201,6 +201,9 @@ public class MTGControler {
 			conf.setBannerText(get("/shopSite/config/bannerText",""));
 			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
+			conf.setCurrencySymbol(getCurrencyService().getCurrentCurrency().getSymbol());
+			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
+
 			try {
 			conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCard.class));
 			}
@@ -241,7 +244,8 @@ public class MTGControler {
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
-		
+		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
+			
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
 		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());
@@ -250,6 +254,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/contact/country",wsc.getContact().getCountry());
 		setProperty("/shopSite/config/contact/address",wsc.getContact().getAddress());
 		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
+		
 	}
 	
 

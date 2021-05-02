@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
@@ -59,7 +60,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 	private JCheckableListBox<MagicCollection> cboCollections;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCard topProduct;
-
+	private JSlider maxLastProductSlide;
 	
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
@@ -79,7 +80,6 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
 		var btnSave = new JButton("Save");
-		
 		
 		
 		
@@ -193,11 +193,19 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		panelStock.add(cboCollections);
 		
 		
-		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new FlowLayout(),true);
+		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(2,2),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
 		var l = new JLabel(String.valueOf(topProduct));
 		
+		JPanel paneSlide = new JPanel();
+		maxLastProductSlide = new JSlider(0, 12, conf.getMaxLastProduct());
+		JLabel valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
+		
+		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));
+		
+		paneSlide.add(maxLastProductSlide);
+		paneSlide.add(valueLbl);
 		
 		b.addActionListener(il->{
 							   var diag = new CardSearchImportDialog();
@@ -209,7 +217,8 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		
 		panelProduct.add(b);
 		panelProduct.add(l);
-		
+		panelProduct.add(new JLabel("X_LASTEST_PRODUCT"));
+		panelProduct.add(paneSlide);
 		
 		add(panelGeneral);
 		add(panelSlides);
@@ -230,6 +239,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 			newBean.setBannerTitle(txtBannerTitle.getText());
 			newBean.setSiteTitle(txtSiteTitle.getText());
 			newBean.setTopProduct(topProduct);
+			newBean.setMaxLastProduct(maxLastProductSlide.getValue());
 			
 			newBean.getCollections().clear();
 			newBean.getCollections().addAll(cboCollections.getSelectedElements());

@@ -17,6 +17,8 @@ public class WebShopConfig implements Serializable {
 	private Contact contact;
 	private List<MagicCollection> collections;
 	private MagicCard topProduct;
+	private int maxLastProduct = 4;
+	private String currencySymbol;
 	
 	
 	public WebShopConfig() {
@@ -25,6 +27,22 @@ public class WebShopConfig implements Serializable {
 		collections = new ArrayList<>();
 		slidesLinksImage = new ArrayList<>();
 		contact=new Contact();
+	}
+	
+	public String getCurrencySymbol() {
+		return currencySymbol;
+	}
+	
+	public void setCurrencySymbol(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
+	}
+	
+	public int getMaxLastProduct() {
+		return maxLastProduct;
+	}
+	
+	public void setMaxLastProduct(int maxLastProduct) {
+		this.maxLastProduct = maxLastProduct;
 	}
 	
 	
