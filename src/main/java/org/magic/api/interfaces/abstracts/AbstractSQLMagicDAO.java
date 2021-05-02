@@ -219,7 +219,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
 			logger.debug("Create table collections");
 			
-			stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments VARCHAR(250), conditions VARCHAR(30),foil boolean, signedcard boolean, langage VARCHAR(20), qte integer,altered boolean,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+")");
+			stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments VARCHAR(250), conditions VARCHAR(30),foil boolean, signedcard boolean, langage VARCHAR(20), qte integer,altered boolean,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched boolean)");
 			logger.debug("Create table stocks");
 			
 			stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil boolean,qte integer)");
@@ -668,6 +668,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				state.setPrice(rs.getDouble("price"));
 				state.setGrade(readGrading(rs));
 				state.setTiersAppIds(readTiersApps(rs));
+				state.setEtched(rs.getBoolean("etched"));
 				colls.add(state);
 				
 				if(state.getTiersAppIds()==null)
@@ -697,7 +698,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		if (state.getIdstock() < 0) {
 			logger.debug("save stock " + state);
 			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds) values (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					"insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getCondition()));
 				pst.setBoolean(2, state.isFoil());
@@ -712,6 +713,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setDouble(11, state.getPrice());
 				storeGrade(pst,12, state.getGrade());
 				storeTiersApps(pst,13, state.getTiersAppIds());
+				pst.setBoolean(14, state.isEtched());
 				pst.executeUpdate();
 				state.setIdstock(getGeneratedKey(pst));
 			} catch (Exception e) {
@@ -720,7 +722,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock " + state);
 			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=? where idstock=?")) {
+					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=? where idstock=?")) {
 				pst.setString(1, state.getComment());
 				pst.setString(2, state.getCondition().toString());
 				pst.setBoolean(3, state.isFoil());
@@ -733,7 +735,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(10, state.getMagicCollection().getName());
 				storeGrade(pst, 11,state.getGrade());
 				storeTiersApps(pst, 12,state.getTiersAppIds());
-				pst.setInt(13, state.getIdstock());
+				pst.setBoolean(13, state.isEtched());
+				pst.setInt(14, state.getIdstock());
 				pst.executeUpdate();
 			} catch (Exception e) {
 				logger.error(e);

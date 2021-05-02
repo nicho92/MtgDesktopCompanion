@@ -20,6 +20,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private EnumCondition condition = EnumCondition.NEAR_MINT;
 	private String comment;
 	private boolean foil=false;
+	private boolean etched=false;
 	private boolean signed=false;
 	private boolean altered=false;
 	private boolean update;
@@ -31,6 +32,16 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	
 	
 	
+	public boolean isEtched() {
+		return etched;
+	}
+
+
+	public void setEtched(boolean etched) {
+		this.etched = etched;
+	}
+
+
 	public String getTiersAppIds(String name) {
 		return tiersAppIds.get(name);
 	}

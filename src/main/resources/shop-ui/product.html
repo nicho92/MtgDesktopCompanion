@@ -65,7 +65,14 @@
 		   	 $.ajax({
 			        url: restserver+"/stock/get/"+$_GET("id")
 			    }).then(function(data) {
-			    	$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image");
+			    	
+			    		if(data.magicCard.scryfallId!=null)
+			    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image");
+						else
+							$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.magicCard.editions[0].multiverseId+"?format=image");
+			    	
+			    	
+			    	
 			    	$("#price").html(data.price.toFixed(2) +" "+currency);
 			    	$("#productModalLabel").html(data.magicCard.name);
 			    	$("#quantity").attr('max',data.qte);
@@ -152,7 +159,7 @@
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control"  id="quantity" name="quantity" min="1" max="2" value="1">
+                                <input type="text" class="form-control" id="quantity" name="quantity" min="1" max="10" value="1">
                                 <div class="input-group-append">
                                     <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
                                         <i class="fa fa-plus"></i>
@@ -160,6 +167,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        
                         <a href="cart.html" class="btn btn-success btn-lg btn-block text-uppercase">
                             <i class="fa fa-shopping-cart"></i> Add To Cart
                         </a>
@@ -217,22 +226,37 @@
 <!-- JS -->
 <script type="text/javascript">
     //Plus & Minus for Quantity product
-    $(document).ready(function(){
-        var quantity = 1;
+    $('.btn-number').click(function(e){
+    	
+    	e.preventDefault();
+    	
+        type      = $(this).attr('data-type');
+        var input = $("input[name='quantity']");
+        var currentVal = parseInt(input.val());
+         
+        if (!isNaN(currentVal)) {
+            if(type == 'minus') {
+                
+                if(currentVal > input.attr('min')) {
+                    input.val(currentVal - 1).change();
+                } 
+                if(parseInt(input.val()) == input.attr('min')) {
+                    $(this).attr('disabled', true);
+                }
 
-        $('.quantity-right-plus').click(function(e){
-            e.preventDefault();
-            var quantity = parseInt($('#quantity').val());
-            $('#quantity').val(quantity + 1);
-        });
+            } else if(type == 'plus') {
 
-        $('.quantity-left-minus').click(function(e){
-            e.preventDefault();
-            var quantity = parseInt($('#quantity').val());
-            if(quantity > 1){
-                $('#quantity').val(quantity - 1);
+                if(currentVal < input.attr('max')) {
+                    input.val(currentVal + 1).change();
+                }
+                if(parseInt(input.val()) == input.attr('max')) {
+                    $(this).attr('disabled', true);
+                }
+
             }
-        });
+        } else {
+            input.val(0);
+        }
 
     });
 </script>

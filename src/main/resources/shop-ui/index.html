@@ -22,14 +22,15 @@
 
 
 
-    <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
 	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
     <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
  
 
     <script src="../dist/js/rest-server.js"></script>
-
+   	<script src="js/js-var.js"></script>
+ 
     <script>
 		
     $(document).ready(function() {	
@@ -41,10 +42,9 @@
     		var collection;
     		var maxLastProduct=4;
     		var currency = "";
-		   	 $.ajax({
+		   	$.ajax({
 			        url: restserver+"/webshop/config"
 			    }).then(function(data) {
-			    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -78,33 +78,14 @@
 						    	data=data.reverse();
 						    	for(let i=0;i<maxLastProduct;i++)
 						    		{
-						    		
-						    			var append="<div class='col-sm'>";
-                          					append+="<div class='card'>";
-                                			append+="<img class='card-img-top' src='https://api.scryfall.com/cards/"+data[i].magicCard.scryfallId+"?format=image' alt='Card image cap'>";
-                               				append+="<div class='card-body'>";
-                                   			append+="<h5 class='card-title'><a href='product.html?id="+data[i].idstock+"' title='View Product'>"+data[i].magicCard.name +"</a></h5>";
-                                   			append+="<p class='card-text'>"+data[i].magicCard.editions[0].set+"</p>";
-                                   			append+="<div class='row'>";
-                                        	append+="<div class='col'>";
-                                            append+="<p class='btn btn-danger btn-block'>"+data[i].price.toFixed(2)+" " + currency +  "</p>";
-                                        	append+="</div>";
-                                       		append+="<div class='col'>";
-                                            append+="<a href='cart.html' class='btn btn-success btn-block'><i class='fa fa-shopping-cart'></i> Add to cart</a>";
-                                        	append+="</div></div></div></div></div>"		
-						    		
-							    			$('#latest-product').append(append);
+						    			$('#latest-product').append(generateStockCardHTML(data[i],currency));
 						    		}
 						    });
 			    		  
 			    		  
 			    		  
 			    		});
-			       	
-			       	
 			  });
-    
-  			  
 		 });
    	 
     

@@ -199,7 +199,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		var l = new JLabel(String.valueOf(topProduct));
 		
 		JPanel paneSlide = new JPanel();
-		maxLastProductSlide = new JSlider(0, 12, conf.getMaxLastProduct());
+		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
 		JLabel valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
 		
 		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));

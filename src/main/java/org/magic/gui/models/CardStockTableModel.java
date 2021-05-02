@@ -26,6 +26,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 				"QTY",
 				"CARD_LANGUAGE",
 				"FOIL",
+				"ETCHED",
 				"SIGNED",
 				"ALTERED",
 				"PRICE",
@@ -85,12 +86,14 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 10:
 			return Boolean.class;
 		case 11:
-			return Double.class;
+			return Boolean.class;
 		case 12:
-			return Grading.class;
+			return Double.class;
 		case 13:
-			return String.class;
+			return Grading.class;
 		case 14:
+			return String.class;
+		case 15:
 			return Map.class;
 
 
@@ -101,7 +104,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return !(column ==1 || column==12 || column==2|| column==3);
+		return !(column ==1 || column==13 || column==2|| column==3);
 	}
 
 	@Override
@@ -127,16 +130,18 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 8:
 			return items.get(row).isFoil();
 		case 9:
-			return items.get(row).isSigned();
+			return items.get(row).isEtched();
 		case 10:
-			return items.get(row).isAltered();
+			return items.get(row).isSigned();
 		case 11:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).isAltered();
 		case 12:
-			return items.get(row).getGrade();
+			return UITools.roundDouble(items.get(row).getPrice());
 		case 13:
-			return items.get(row).getComment();
+			return items.get(row).getGrade();
 		case 14:
+			return items.get(row).getComment();
+		case 15:
 			return items.get(row).getTiersAppIds();
 
 		default:
@@ -164,18 +169,21 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			items.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 9:
-			items.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
+			items.get(row).setEtched(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 10:
-			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
+			items.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 11:
-			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
+			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 12:
-			items.get(row).setGrade((Grading)aValue);
+			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
 			break;
 		case 13:
+			items.get(row).setGrade((Grading)aValue);
+			break;
+		case 14:
 			items.get(row).setComment(String.valueOf(aValue));
 			break;
 			
