@@ -221,7 +221,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setCost("");
 				
 				if (map.get(RARITY) != null)
+				{
 					mc.setRarity(MTGRarity.rarityByName(String.valueOf(map.get(RARITY))));
+				}
 			
 				if (map.get(TEXT) != null)
 					mc.setText(String.valueOf(map.get(TEXT)));
@@ -326,7 +328,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setFullArt(Boolean.valueOf(map.get(IS_FULLART).toString()));
 
 				if (map.get(RARITY) != null)
-					mc.setRarity(MTGRarity.valueOf(map.get(RARITY).toString()));
+					mc.setRarity(MTGRarity.rarityByName(map.get(RARITY).toString()));
 				
 				
 				
