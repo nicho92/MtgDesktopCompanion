@@ -93,7 +93,7 @@
 			    	
 			    	
 			    	$( "#addCartButton" ).click(function() {
-			    		data.qte= $('#quantity').val();
+			    		data.qte= parseInt($('#quantity').val());
 			    		addCartProduct(data);
 			    	});
 			    	

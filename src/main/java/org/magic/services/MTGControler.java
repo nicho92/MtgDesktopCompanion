@@ -60,7 +60,7 @@ public class MTGControler {
 	
 	private MTGControler() {
 		
-		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
+		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 		
 		if (!conf.exists())
 			try {
@@ -80,7 +80,7 @@ public class MTGControler {
 		
 		
 		
-		Parameters params = new Parameters();
+		var params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
 				.configure(params.xml()
 				.setFile(conf)

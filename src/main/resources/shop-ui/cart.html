@@ -80,27 +80,20 @@
 		        "paging":   false,
 		        
 		        "footerCallback": function ( row, data, start, end, display ) {
-		            var api = this.api(), data;
-		 
-		            // Remove the formatting to get integer data for summation
-		            var intVal = function ( i ) {
-		                return typeof i === 'string' ?
-		                    i.replace(/[\$,]/g, '')*1 :
-		                    typeof i === 'number' ?
-		                        i : 0;
-		            };
-		 
-		            // Total over all pages
+		        	
+		        	var api = this.api(), data;
+		        	// Total over all pages
 		            total = api
-		                .column(8)
-		                .data()
+		                .column(7)
+     					.cache('search')
 		                .reduce( function (a, b) {
-		                    return intVal(a) + intVal(b);
+		                	return parseFloat(a) + parseFloat(b);
 		                }, 0 );
-		 
+		 			
+		            
 		            // Update footer
 		            $( api.column( 7 ).footer() ).html(
-		                total.toFixed(2) + " "+currency
+		            	total.toFixed(2) + " "+currency
 		            );
 		        },
 		        
@@ -156,10 +149,10 @@
 			                }
 				    },
 				    { 
-					      "data": "price",
+					      "data": null,
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
-										data=data.toFixed(2) + " " +currency;
+										data=(row.qte*row.price).toFixed(2) + "" +currency;
 			                	 }
 			                   return data;
 			                }
@@ -185,8 +178,7 @@
 				dtTable.row($(this).parents('tr')).remove().draw(false);
 			});
 		  });
-	 
-	 
+	 	
 	 
 	 	});
 	 
@@ -208,34 +200,66 @@
 
 
 
-<div class="container mb-4">
+<div class="container mb-2">
     <div class="row">
-         <table id="tableCart" class="display">
-		        <thead>
-		            <tr>
-		            	<th></th>
-		                <th>Product</th>
-		                <th>Set</th>
-		                <th>Language</th>
-		                <th>Foil</th>
-		                <th>Quantity</th>
-		                <th>Price</th>
-		                <th>Total</th>
-		                <th>Action</th>
-		            </tr>
-		        </thead>
-		        <tfoot align="right">
-		        	<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-		        </tfoot>
-		</table>
+    	<div class="col">
+    		<div class="card">
+	    		<div class="card-header bg-primary text-white"><i class="fas fa-shopping-cart"></i> Cart</div>
+	    		<div class="card-body">
+			         <table id="tableCart" class="display">
+					        <thead>
+					            <tr>
+					            	<th></th>
+					                <th>Product</th>
+					                <th>Set</th>
+					                <th>Language</th>
+					                <th>Foil</th>
+					                <th>Quantity</th>
+					                <th>Price</th>
+					                <th>Total</th>
+					                <th>Action</th>
+					            </tr>
+					        </thead>
+					        <tfoot align="right">
+					        	<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+					        </tfoot>
+					</table>
+			</div>
+			</div>
+		
+		</div>
+		 <div class="col">
+            <div class="card">
+                <div class="card-header bg-primary text-white"><i class="fa fa-envelope"></i>Contact Information</div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                            <small id="emailHelp" class="form-text text-muted">will be used to contact you</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea class="form-control" id="message" rows="6" required></textarea>
+                        </div>
+                        <div class="mx-auto">
+                      	</div>
+                    </form>
+                </div>
+            </div>
+        </div>
 	</div>
 	<br/>
 	<div>
-            <div class="row">
-                <div class="col-sm-12 col-md-2 text-right">
-                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
-                </div>
-            </div>
+       <div class="row">
+           <div class="col-sm-12 col-md-2 text-right">
+           	<button class="btn btn-lg btn-block btn-success text-uppercase" >Checkout</button>
+           </div>
+       </div>
         
     </div>
 </div>

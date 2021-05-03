@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.magic.api.beans.Proposition;
+import org.magic.api.beans.Transaction;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -16,7 +16,7 @@ import org.magic.tools.UITools;
 
 public class TransactionsPanel extends MTGUIComponent {
 	private JTable table;
-	private GenericTableModel<Proposition> model;
+	private GenericTableModel<Transaction> model;
 	
 	
 	public TransactionsPanel() {

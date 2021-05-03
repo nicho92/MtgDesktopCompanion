@@ -3,7 +3,7 @@ package org.magic.api.beans;
 import java.util.Date;
 import java.util.List;
 
-public class Proposition {
+public class Transaction {
 	
 	private int id;
 	private Date dateProposition;
@@ -11,11 +11,11 @@ public class Proposition {
 	private Contact contact;
 	private String message;
 	
-	public Proposition() {
+	public Transaction() {
 		dateProposition = new Date();
 	}
 	
-	public Proposition(int id) {
+	public Transaction(int id) {
 		dateProposition = new Date();
 		this.id=id;
 	}
