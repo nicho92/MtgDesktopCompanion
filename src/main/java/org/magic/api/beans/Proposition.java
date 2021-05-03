@@ -9,7 +9,7 @@ public class Proposition {
 	private Date dateProposition;
 	private List<MagicCardStock> items;
 	private Contact contact;
-	
+	private String message;
 	
 	public Proposition() {
 		dateProposition = new Date();
@@ -20,7 +20,13 @@ public class Proposition {
 		this.id=id;
 	}
 	
+	public String getMessage() {
+		return message;
+	}
 	
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	
 	public int getId() {
 		return id;
