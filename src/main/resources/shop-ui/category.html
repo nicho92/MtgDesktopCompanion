@@ -27,7 +27,7 @@
 
      <script src="../dist/js/rest-server.js"></script>
    	<script src="js/js-var.js"></script>
- 
+ 	<script src="js/cart.js"></script>
     <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
     <link href="https://pagination.js.org/dist/2.1.5/pagination.css" rel="stylesheet" type="text/css">
     
@@ -90,22 +90,17 @@
 						    	    callback: function(data, pagination) {
 						    	    	var html = generateProduct(data);
 						    	        $('#products').html(html);
+						    	        $('button[name="addCartButton"]').each(function() {
+								       		$(this).click(function() {
+								    			addCartStockId($(this).attr("data"));
+								    		});
+								    	});
 						    	    }
 						    	})
-						       	
-						    	
-						    	
 						    });
-			    		  
 			    		});
-			       	
 			    	
-			    	
-			    	
-			       	
 			  });
-   
- 			  
 		 });
     
     </script>

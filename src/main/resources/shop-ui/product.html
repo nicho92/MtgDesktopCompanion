@@ -28,7 +28,7 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
  	<script src="../dist/js/rest-server.js"></script>
     <script src="js/js-var.js"></script>
-    
+    <script src="js/cart.js"></script>
     <script>
     
     
@@ -80,7 +80,7 @@
 			    	
 			    	var append=" <li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+data.language+"</li>";
 			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+data.condition+"</li>";
-			    		append+="<li class='list-inline-item'><i class='fas fa-star fa-2x'></i><br/>"+(data.foil?'foil':'Normal')+"</li>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-star fa-2x'></i><br/>"+(data.foil?'foil':(data.etched?'foil-etched':'Normal'))+"</li>";
 			    		
 			    		
 			    		if(data.altered)
@@ -89,9 +89,14 @@
 			    		if(data.signed)
 			    			append+="<li class='list-inline-item'><i class='fas fa-file-signature fa-2x'></i><br/>Signed</li>";
 			    		
-			    		
-			   	
 			    	$("#itemDetails").html(append);
+			    	
+			    	
+			    	$( "#addCartButton" ).click(function() {
+			    		data.qte= $('#quantity').val();
+			    		addCartProduct(data);
+			    	});
+			    	
 			  });
 		   	 
 		   	 
@@ -150,7 +155,7 @@
                         </ul>
                     </div>
                     
-                    <form method="get" action="cart.html">
+                    
                         <div class="form-group">
                             <label>Quantity :</label>
                             <div class="input-group mb-3">
@@ -169,10 +174,10 @@
                         </div>
                         
                         
-                        <a href="cart.html" class="btn btn-success btn-lg btn-block text-uppercase">
+                        <button id="addCartButton" class="btn btn-success btn-lg btn-block text-uppercase">
                             <i class="fa fa-shopping-cart"></i> Add To Cart
-                        </a>
-                    </form>
+                        </button>
+                   
                    
                     
                     
@@ -188,7 +193,7 @@
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> Description</div>
                 <div class="card-body">
                     <p class="card-text" id="cardDescription">
-                        Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.
+                       
                     </p>
                 </div>
             </div>

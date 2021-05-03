@@ -30,6 +30,7 @@
 
     <script src="../dist/js/rest-server.js"></script>
    	<script src="js/js-var.js"></script>
+   	<script src="js/cart.js"></script>
  
     <script>
 		
@@ -77,14 +78,20 @@
 						 		
 						    	data=data.reverse();
 						    	for(let i=0;i<maxLastProduct;i++)
-						    		{
-						    			$('#latest-product').append(generateStockCardHTML(data[i],currency));
-						    		}
+					    		{
+					    			$('#latest-product').append(generateStockCardHTML(data[i],currency));
+					    			
+					    		}
+
+						    	$('button[name="addCartButton"]').each(function() {
+						       		$(this).click(function() {
+						    			addCartStockId($(this).attr("data"));
+						    		});
+						    	});
 						    });
-			    		  
-			    		  
-			    		  
-			    		});
+			    	});
+			       	
+			       	
 			  });
 		 });
    	 

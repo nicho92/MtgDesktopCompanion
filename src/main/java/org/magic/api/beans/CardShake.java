@@ -27,7 +27,7 @@ public class CardShake implements Serializable  {
 	private boolean extendedArt;
 	private boolean showcase;
 	private boolean fullArt;
-	
+	private boolean etched;
 	
 	public CardShake() {
 		price = 0.0;
@@ -38,6 +38,7 @@ public class CardShake implements Serializable  {
 		currency=Currency.getInstance("USD");
 		dateUpdate=new Date();
 		foil = false;
+		etched = false;
 	}
 	
 	public CardShake(boolean foil) {
@@ -73,7 +74,13 @@ public class CardShake implements Serializable  {
 		dateUpdate=new Date();
 	}
 	
+	public boolean isEtched() {
+		return etched;
+	}
 	
+	public void setEtched(boolean etched) {
+		this.etched = etched;
+	}
 
 	
 	public boolean isBorderless() {

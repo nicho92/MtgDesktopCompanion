@@ -1,7 +1,7 @@
 
 
 <div class="container">
-        <a class="navbar-brand" href="index.html"><span id="siteTitle"/></a>
+        <a class="navbar-brand" href="index.html"><img src="img/logo.png"/> &nbsp;<span id="siteTitle"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,15 +32,13 @@
                     </div>
                 </div>
                 <a class="btn btn-success btn-sm ml-3" href="cart.html">
-                    <i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-light">3</span>
+                    <i class="fa fa-shopping-cart"></i> Cart <span id="cart" class="badge badge-light">3</span>
                 </a>
             </form>
         </div>
     </div>
+ 
  <script>
- 
- 
- 
  
  $("#searchText").autocomplete({
 	  minLength: 3,
@@ -57,5 +55,7 @@
        });
      }
    });
+ 
+  $("#cart").html(sessionStorage.length);
  
  </script>

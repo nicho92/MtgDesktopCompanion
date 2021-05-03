@@ -340,6 +340,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						
 						cs.setExtendedArt(nameExtra.contains("Extended"));
 						cs.setFoil(nameExtra.contains("Foil"));
+						cs.setEtched(nameExtra.contains("Etched"));
 						cs.setShowcase(nameExtra.contains("Showcase"));
 						cs.setBorderless(nameExtra.contains("Borderless"));
 						cs.setEd(edition.getId());

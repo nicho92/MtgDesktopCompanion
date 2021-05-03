@@ -24,12 +24,18 @@
     <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
  
-
+    <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+ 	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
+ 
+	<script src="js/js-var.js"></script>
+   	<script src="js/cart.js"></script>
     <script src="../dist/js/rest-server.js"></script>
 
 	<script>
 	 $(document).ready(function() {	
-	    	
+		 var array = [];	
 	   	 $("#footer").load("footer.html");
 	   	 $("#header").load("nav.html");
 	   	 $("#banner").load("banner.html");
@@ -55,11 +61,138 @@
 			    	$('#contactWebsite').html(data.contact.website);
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
-			    
-			    
-			  });
-		 });
-   	 
+			  
+		
+		   
+			for (var i = 0; i < sessionStorage.length; i++){
+				array.push(JSON.parse(sessionStorage.getItem(sessionStorage.key(i))));
+			}
+		
+		    
+			
+		 	var dtTable = $('#tableCart').DataTable({
+		 		"data":array,
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 10,
+		        "searching": false,
+		        "info":     false,
+		        "paging":   false,
+		        
+		        "footerCallback": function ( row, data, start, end, display ) {
+		            var api = this.api(), data;
+		 
+		            // Remove the formatting to get integer data for summation
+		            var intVal = function ( i ) {
+		                return typeof i === 'string' ?
+		                    i.replace(/[\$,]/g, '')*1 :
+		                    typeof i === 'number' ?
+		                        i : 0;
+		            };
+		 
+		            // Total over all pages
+		            total = api
+		                .column(8)
+		                .data()
+		                .reduce( function (a, b) {
+		                    return intVal(a) + intVal(b);
+		                }, 0 );
+		 
+		            // Update footer
+		            $( api.column( 7 ).footer() ).html(
+		                total.toFixed(2) + " "+currency
+		            );
+		        },
+		        
+		        "columns": [
+	        		{ 
+		        	  "data": "idstock",
+		        	  "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									data="<a class='fa fa-search fa-fw' href='product.html?id="+data+"'/>";		                		 
+		                	 }
+		                   return data;
+		                }
+		        	},
+	        		{ 
+			          "data": "magicCard.name"
+		        	},
+		        	{ 
+				          "data": "magicCard.editions",
+				          "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                	   //data="<i class='ss ss-"+data[0].id.toLowerCase()+"'/>"+data[0].set;	
+			                	   data=data[0].set;
+			                   }
+			                 return data;
+			              }
+			        },
+			        { 
+			          "data": "language"
+		        	},
+		        	{ 
+				       "data": "foil", 
+				       "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	  if(data)
+		                		  data = "<i class='fas fa-star fa-1x'/>";
+		                		  else
+		                			  data ="";  
+		                   }
+		                 return data;
+		              }
+			        },
+		        	
+		        	{ 
+				      "data": "qte"
+			        },
+			        { 
+					      "data": "price",
+					      "render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+										data=data.toFixed(2) + " " + currency;		                		 
+			                	 }
+			                   return data;
+			                }
+				    },
+				    { 
+					      "data": "price",
+					      "render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+										data=data.toFixed(2) + " " +currency;
+										
+			                	 }
+			                   return data;
+			                }
+				    },
+				    { 
+					      "data": "idstock",
+					      "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                	  data = "<i id='deleteFromCard' class='fas fa-trash-alt fa-1x' data='"+data+"'/>";
+			                   }
+			                 return data;
+					      }     
+				    }
+	        		],
+	        		
+		    } );
+		 
+	   	 	
+	 
+			
+			$('#tableCart').on('click', '#deleteFromCard', function (e) {
+				removeStockId($(this).attr("data"));
+				dtTable.row($(this).parents('tr')).remove().draw(false);
+			});
+		  });
+	 
+	 
+	 
+	 	});
+	 
+	 
+	 	
 	
 	
 	</script>
@@ -78,82 +211,33 @@
 
 <div class="container mb-4">
     <div class="row">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"> </th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Available</th>
-                            <th scope="col" class="text-center">Quantity</th>
-                            <th scope="col" class="text-right">Price</th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Dada</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">124,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Toto</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">33,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Titi</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">70,00 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Sub-Total</td>
-                            <td class="text-right">255,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Shipping</td>
-                            <td class="text-right">6,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total</strong></td>
-                            <td class="text-right"><strong>346,90 €</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col mb-2">
+         <table id="tableCart" class="display">
+		        <thead>
+		            <tr>
+		            	<th></th>
+		                <th>Product</th>
+		                <th>Set</th>
+		                <th>Language</th>
+		                <th>Foil</th>
+		                <th>Quantity</th>
+		                <th>Price</th>
+		                <th>Total</th>
+		                <th>Action</th>
+		            </tr>
+		        </thead>
+		        <tfoot align="right">
+		        	<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+		        </tfoot>
+		</table>
+	</div>
+	<br/>
+	<div>
             <div class="row">
-                <div class="col-sm-12  col-md-6">
-                    <button class="btn btn-block btn-light">Continue Shopping</button>
-                </div>
-                <div class="col-sm-12 col-md-6 text-right">
+                <div class="col-sm-12 col-md-2 text-right">
                     <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
                 </div>
             </div>
-        </div>
+        
     </div>
 </div>
 
