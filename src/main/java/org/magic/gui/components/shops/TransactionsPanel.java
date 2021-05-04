@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -9,9 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.magic.api.beans.Transaction;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class TransactionsPanel extends MTGUIComponent {
@@ -23,6 +26,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		var panneauHaut = new JPanel();
 		model = new GenericTableModel<>();
+		
+		
 		var btnValidate = new JButton(MTGConstants.ICON_CHECK);
 		var btnDecline = new JButton(MTGConstants.ICON_DELETE);
 		table = UITools.createNewTable(model);
@@ -38,7 +43,17 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 	}
 
-
+	@Override
+	public void onFirstShowing() {
+		try {
+			model.addItems(MTG.getEnabledPlugin(MTGDao.class).listTransactions());
+			model.fireTableDataChanged();
+		} catch (Exception e) {
+			logger.error("error loading transactions",e);
+		}
+		
+	}
+	
 	@Override
 	public String getTitle() {
 		return "Transaction";

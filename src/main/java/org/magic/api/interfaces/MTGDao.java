@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.Transaction;
 
 public interface MTGDao extends MTGPlugin {
 
@@ -67,6 +68,12 @@ public interface MTGDao extends MTGPlugin {
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException;
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException;
 	public void deleteOrderEntry(OrderEntry state) throws SQLException;
+	
+	public List<Transaction> listTransactions() throws SQLException;
+	public int saveTransaction(Transaction t)throws SQLException;
+	public void deleteTransaction(Transaction t)throws SQLException;
+	
+	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
 	public List<OrderEntry> listOrdersAt(Date d);
 	public List<Date> listDatesOrders();

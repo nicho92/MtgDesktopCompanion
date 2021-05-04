@@ -27,6 +27,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -604,5 +605,26 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+
+
+	@Override
+	public List<Transaction> listTransactions() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public int saveTransaction(Transaction t) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void deleteTransaction(Transaction t) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 }

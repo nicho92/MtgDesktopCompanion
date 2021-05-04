@@ -12,10 +12,12 @@ import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.put;
+import static spark.Spark.post;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -25,6 +27,7 @@ import java.util.Map.Entry;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -34,6 +37,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.Transaction;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -52,6 +56,9 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -500,7 +507,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				
 		get("/",URLTools.HEADER_HTML,(request,response) -> {
 			
-			StringBuilder temp = new StringBuilder();
+			var temp = new StringBuilder();
 			response.type(URLTools.HEADER_HTML);
 			
 			Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).forEach(rm->{
@@ -511,8 +518,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 			});
 			
 			return temp.toString();
+		});		
+		
+		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			
+			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+			
+			return getEnabledPlugin(MTGDao.class).saveTransaction(t);
 		});
+		
+
 
 	}
 

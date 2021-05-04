@@ -7,10 +7,12 @@ import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 
 public class MysqlDAO extends AbstractSQLMagicDAO {
@@ -33,6 +35,17 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 		return "LONGTEXT";
 	}
 
+	@Override
+	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
+		return serialiser.fromJsonList(rs.getString("stocksItem"), MagicCardStock.class);
+	}
+	
+	@Override
+	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(grd).toString());
+		
+	}
+	
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());

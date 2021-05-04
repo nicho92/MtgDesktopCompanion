@@ -18,7 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -31,8 +34,10 @@ import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumStock;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
@@ -43,6 +48,9 @@ import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	private static final String EDITION = "edition";
@@ -52,8 +60,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	protected abstract String beanStorage();
 	protected abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
 	protected abstract void storeGrade(PreparedStatement pst, int position,Grading grd) throws SQLException;
-	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
+	protected abstract void storeTransactionItems(PreparedStatement pst, int position,List<MagicCardStock> grd) throws SQLException;
+	
+	protected abstract List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException;
 	protected abstract Grading readGrading(ResultSet rs) throws SQLException;
+	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
 	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
 	protected abstract Map<String, String> readTiersApps(ResultSet rs) throws SQLException;
@@ -209,7 +220,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 
 	public boolean createDB() {
-		try (Connection cont =  pool.getConnection();Statement stat = cont.createStatement()) {
+		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
+			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction DATE, message VARCHAR(250), stocksItem "+beanStorage()+", contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250))");
+			logger.debug("Create table transactions");
+	
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
 			logger.debug("Create table Orders");
 			
@@ -232,6 +247,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			logger.debug("Create table selead");
 
 	
+	
 			logger.debug("populate collections");
 			
 			for(String s : MTGConstants.getDefaultCollectionsNames())
@@ -248,9 +264,82 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
+	public List<Transaction> listTransactions()  throws SQLException {
+		List<Transaction> colls = new ArrayList<>();
+		
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions");ResultSet rs = pst.executeQuery()) 
+		{
+				while (rs.next()) {
+					var state = new Transaction();
+					
+					state.setDateProposition(rs.getDate("dateTransaction"));
+					state.setId(rs.getInt("id"));
+					state.setMessage(rs.getString("message"));
+					
+					state.setItems(readTransactionItems(rs));
+					
+					var contact = new Contact();
+						contact.setName(rs.getString("contact_name"));
+						contact.setLastName(rs.getString("contact_lastname"));
+						contact.setTelephone(rs.getString("contact_telephone"));
+						contact.setCountry(rs.getString("contact_country"));
+						contact.setAddress(rs.getString("contact_address"));
+						contact.setWebsite(rs.getString("contact_website"));
+					
+					state.setContact(contact);	
+						
+						
+					colls.add(state);
+				}
+				logger.trace( colls.size() + " transactions");
+		}
+		return colls;
+	}
+	@Override
+	public int saveTransaction(Transaction t) {
+		
+		logger.debug("save transaction ");
+		
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, contact_name, contact_lastname, contact_telephone, contact_country, contact_address, contact_website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
+			pst.setDate(1, new java.sql.Date(t.getDateProposition().getTime()));
+			pst.setString(2, t.getMessage());
+			storeTransactionItems(pst,3, t.getItems());			
+			pst.setString(4, t.getContact().getName());
+			pst.setString(5, t.getContact().getLastName());
+			pst.setString(6, t.getContact().getTelephone());
+			pst.setString(7, t.getContact().getCountry());
+			pst.setString(8, t.getContact().getAddress());
+			pst.setString(9, t.getContact().getWebsite());
+			
+			
+			pst.executeUpdate();
+			t.setId(getGeneratedKey(pst));
+			
+			return t.getId();
+			
+		} catch (Exception e) {
+			logger.error("error insert", e);
+			return -1;
+		}
+		
+		
+		
+	}
+	@Override
+	public void deleteTransaction(Transaction t) throws SQLException {
+		logger.debug("delete " + t );
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM transactions where id=?")) {
+			pst.setInt(1, t.getId());
+			pst.executeUpdate();
+		}
+		
+	}
+	
+	
+	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
 		logger.debug("del " + state.getId() + " in sealed stock");
-		String sql = "DELETE FROM sealed WHERE id=?";
+		var sql = "DELETE FROM sealed WHERE id=?";
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
 		{
 			pst.setInt(1, state.getId());
@@ -263,10 +352,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public List<SealedStock> listSeleadStocks() throws SQLException {
 		List<SealedStock> colls = new ArrayList<>();
 		
-		try (Connection c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = pst.executeQuery()) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = pst.executeQuery()) 
 		{
 				while (rs.next()) {
-					SealedStock state = new SealedStock();
+					var state = new SealedStock();
 					
 					state.setComment(rs.getString("comment"));
 					state.setId(rs.getInt("id"));
@@ -302,7 +391,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		if (state.getId() < 0) {
 
 			logger.debug("save stock " + state);
-			try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
 					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct) VALUES (?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
@@ -1021,7 +1110,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	@Override
 	public void executeQuery(String query) throws SQLException {
-		try (Connection c = pool.getConnection(); Statement pst = c.createStatement())
+		try (var c = pool.getConnection(); Statement pst = c.createStatement())
 		{
 			pst.execute(query);
 		}

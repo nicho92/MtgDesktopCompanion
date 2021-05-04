@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,11 +14,14 @@ public class Transaction {
 	
 	public Transaction() {
 		dateProposition = new Date();
+		items = new ArrayList<>();
+		contact=new Contact();
 	}
 	
-	public Transaction(int id) {
-		dateProposition = new Date();
-		this.id=id;
+	
+	@Override
+	public String toString() {
+		return String.valueOf(getId());
 	}
 	
 	public String getMessage() {

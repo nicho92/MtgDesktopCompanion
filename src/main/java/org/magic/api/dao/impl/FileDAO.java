@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -521,6 +522,24 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public void executeQuery(String query) throws SQLException {
 		throw new SQLException("Execute query is not possible");
+		
+	}
+
+	@Override
+	public List<Transaction> listTransactions() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int saveTransaction(Transaction t) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void deleteTransaction(Transaction t) throws SQLException {
+		// TODO Auto-generated method stub
 		
 	}
 

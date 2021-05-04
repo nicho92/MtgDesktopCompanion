@@ -6,11 +6,13 @@ import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
@@ -47,6 +49,17 @@ public class HsqlDAO2 extends AbstractSQLMagicDAO {
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
+	}
+	
+	@Override
+	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
+		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MagicCardStock.class);
+	}
+	
+	@Override
+	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(grd).toString());
+		
 	}
 	
 	@Override
