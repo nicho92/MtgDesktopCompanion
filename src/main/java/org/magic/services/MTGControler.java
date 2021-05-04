@@ -215,7 +215,10 @@ public class MTGControler {
 			
 			for(String s : get("/shopSite/config/collections","").split(";"))
 			   conf.getCollections().add(new MagicCollection(s));
-				      
+			
+			for(String s : get("/shopSite/config/needCollections","").split(";"))
+				conf.getNeedcollections().add(new MagicCollection(s));
+					      
 			
 			for(String s : get("/shopSite/config/slides","").split(";"))
 		       conf.getSlidesLinksImage().add(s);
@@ -246,7 +249,9 @@ public class MTGControler {
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
-			
+		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
+		
+		
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
 		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());

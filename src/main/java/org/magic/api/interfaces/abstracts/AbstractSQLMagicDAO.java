@@ -32,6 +32,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
@@ -243,7 +244,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10))");
 			logger.debug("Create table selead");
 
 	
@@ -277,6 +278,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					state.setMessage(rs.getString("message"));
 					
 					state.setItems(readTransactionItems(rs));
+					state.setStatut(STAT.valueOf(rs.getString("statut")));
+					
 					
 					var contact = new Contact();
 						contact.setName(rs.getString("contact_name"));
@@ -300,7 +303,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 		logger.debug("save transaction ");
 		
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, contact_name, contact_lastname, contact_telephone, contact_country, contact_address, contact_website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, contact_name, contact_lastname, contact_telephone, contact_country, contact_address, contact_website,statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?);",Statement.RETURN_GENERATED_KEYS)) {
 			pst.setDate(1, new java.sql.Date(t.getDateProposition().getTime()));
 			pst.setString(2, t.getMessage());
 			storeTransactionItems(pst,3, t.getItems());			
@@ -310,7 +313,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pst.setString(7, t.getContact().getCountry());
 			pst.setString(8, t.getContact().getAddress());
 			pst.setString(9, t.getContact().getWebsite());
-			
+			pst.setString(10, t.getStatut().name());
 			
 			pst.executeUpdate();
 			t.setId(getGeneratedKey(pst));

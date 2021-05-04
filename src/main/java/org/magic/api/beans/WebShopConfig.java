@@ -16,6 +16,7 @@ public class WebShopConfig implements Serializable {
 	private List<String> slidesLinksImage;
 	private Contact contact;
 	private List<MagicCollection> collections;
+	private List<MagicCollection> needcollections;
 	private MagicCard topProduct;
 	private int maxLastProduct = 4;
 	private String currencySymbol;
@@ -26,7 +27,16 @@ public class WebShopConfig implements Serializable {
 		links= new ArrayList<>();
 		collections = new ArrayList<>();
 		slidesLinksImage = new ArrayList<>();
+		needcollections = new ArrayList<>();
 		contact=new Contact();
+	}
+	
+	public List<MagicCollection> getNeedcollections() {
+		return needcollections;
+	}
+	
+	public void setNeedcollections(List<MagicCollection> needcollections) {
+		this.needcollections = needcollections;
 	}
 	
 	public String getCurrencySymbol() {
@@ -113,4 +123,6 @@ public class WebShopConfig implements Serializable {
 	public void setCollections(List<MagicCollection> collections) {
 		this.collections = collections;
 	}
+
+	
 }

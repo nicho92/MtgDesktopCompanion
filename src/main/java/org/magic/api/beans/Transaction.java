@@ -6,16 +6,34 @@ import java.util.List;
 
 public class Transaction {
 	
+	public enum STAT {NEW,ACCEPTED,REFUSED} 
+	
 	private int id;
 	private Date dateProposition;
 	private List<MagicCardStock> items;
 	private Contact contact;
 	private String message;
+	private STAT statut;
+	
 	
 	public Transaction() {
 		dateProposition = new Date();
 		items = new ArrayList<>();
 		contact=new Contact();
+		statut = STAT.NEW;
+	}
+	
+	public void setStatut(STAT statut) {
+		this.statut = statut;
+	}
+	public STAT getStatut() {
+		return statut;
+	}
+	
+	
+	public double total()
+	{
+		return getItems().stream().mapToDouble(e->e.getQte()*e.getPrice()).sum();
 	}
 	
 	

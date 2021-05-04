@@ -14,6 +14,18 @@
 	    }
 	    
 
+function generateEditionHTML(data)
+{
+				var append="<div class='col-sm'>";
+  					append+="<div class='card'>";
+           			append+="<p class='card-text'><i class='ss ss-3x ss-"+data.keyRuneCode.toLowerCase()+"'></i>"+data.set+"</p>";
+                	append+="</div></div>";
+              
+                	
+                	
+         return append;
+}
+
 	   
 function generateStockCardHTML(data,currency)
 {

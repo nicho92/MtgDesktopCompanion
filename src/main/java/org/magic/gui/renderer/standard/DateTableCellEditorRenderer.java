@@ -16,21 +16,34 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 	
 	private static final long serialVersionUID = 1L;
 	private JXDatePicker picker;
-
+	private boolean enableTime;
+	
 	@Override
 	public Object getCellEditorValue() {
-		
 		return picker.getDate();
+		
 	}
 	
 	public DateTableCellEditorRenderer() {
 		picker = new JXDatePicker();
+		enableTime=false;
+		
+	}
+	
+	public DateTableCellEditorRenderer(boolean enableTime) {
+		picker = new JXDatePicker();
+		this.enableTime=enableTime;
 	}
 	
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l = new JLabel(UITools.formatDate((Date)value));
+		JLabel l = null;
+		if(enableTime)
+			l = new JLabel(UITools.formatDateTime((Date)value));
+		else 
+			l = new JLabel(UITools.formatDate((Date)value));
+		
 		l.setOpaque(true);
 		if(isSelected)
 		{

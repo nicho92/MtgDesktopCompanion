@@ -89,7 +89,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public Object getValueAt(int row, int column) {
 		T it = items.get(row);
 		try {
-			return PropertyUtils.getProperty(it, columns[column]);
+			return PropertyUtils.getNestedProperty(it, columns[column]);
 		} catch (Exception e) {
 			logger.error(e);
 		} 

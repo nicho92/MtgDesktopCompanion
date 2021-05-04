@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -13,6 +12,7 @@ import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -32,6 +32,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
@@ -39,8 +40,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.MTG;
+import org.magic.tools.UITools;
 
-public class WebShopConfigPanel extends JXTaskPaneContainer {
+public class WebShopConfigPanel extends MTGUIComponent {
 	
 	
 	private JTextField txtSiteTitle;
@@ -61,7 +63,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCard topProduct;
 	private JSlider maxLastProductSlide;
-	
+	private JCheckableListBox<MagicCollection> needCollection;
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -76,14 +78,19 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 	
 	public WebShopConfigPanel() {
 		
+		setLayout(new BorderLayout());
 		
-		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
+		JXTaskPaneContainer container = new JXTaskPaneContainer();
+		container.setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
+		
+		
+		
 		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
 		var btnSave = new JButton("Save");
 		
 		
 		
-		JPanel panelGeneral = createBoxPanel("GENERALE", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
+		JPanel panelGeneral = createBoxPanel("GENERAL", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
 		
 			var lblTitleSite = new JLabel("SITETITLE");
 			panelGeneral.add(lblTitleSite);
@@ -170,7 +177,7 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		txtWebSite.setColumns(10);
 		
 		
-		add(btnSave);
+		
 		
 		
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), true);
@@ -179,28 +186,37 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		
 		
 		
-		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new FlowLayout(),true);
+		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
 		cboCollections = new JCheckableListBox<>();
+		needCollection = new JCheckableListBox<>();
 		
 		try {
 			for(MagicCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections())
+			{
 				cboCollections.addElement(mc, conf.getCollections().contains(mc));
+				needCollection.addElement(mc, conf.getNeedcollections().contains(mc));
+			}
 		} catch (SQLException e1) {
 			logger.error(e1);
 		}
 		
 		panelStock.add(new JLabel("SELL_STOCK_IN_COLLECTION"));
 		panelStock.add(cboCollections);
+
+		panelStock.add(new JLabel("SEARCH_CARDS_IN_COLLECTION"));
+		panelStock.add(needCollection);
 		
 		
-		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(2,2),true);
+		
+		
+		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
 		var l = new JLabel(String.valueOf(topProduct));
 		
-		JPanel paneSlide = new JPanel();
+		var paneSlide = new JPanel();
 		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
-		JLabel valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
+		var valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
 		
 		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));
 		
@@ -220,12 +236,16 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		panelProduct.add(new JLabel("X_LASTEST_PRODUCT"));
 		panelProduct.add(paneSlide);
 		
-		add(panelGeneral);
-		add(panelSlides);
-		add(panelContact);
-		add(panelStock);
-		add(panelProduct);
-		add(panelServer);
+		
+		add(container,BorderLayout.CENTER);
+		
+		container.add(btnSave);
+		container.add(panelGeneral);
+		container.add(panelSlides);
+		container.add(panelContact);
+		container.add(panelStock);
+		container.add(panelProduct);
+		container.add(panelServer);
 		
 		
 		listSlides.addListSelectionListener((ListSelectionEvent e)->btnDeleteLink.setEnabled(listSlides.getSelectedIndex()>-1));
@@ -244,6 +264,8 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 			newBean.getCollections().clear();
 			newBean.getCollections().addAll(cboCollections.getSelectedElements());
 			
+			newBean.getNeedcollections().clear();
+			newBean.getNeedcollections().addAll(needCollection.getSelectedElements());
 			
 			
 			
@@ -269,6 +291,17 @@ public class WebShopConfigPanel extends JXTaskPaneContainer {
 		});
 		
 
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_ADMIN;
+	}
+
+
+	@Override
+	public String getTitle() {
+		return "WebShop Config";
 	}
 
 }
