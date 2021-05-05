@@ -147,7 +147,14 @@
 			        	  "width": "5%",
 			        	  "render": function(data, type, row, meta){
 			                   if(type === 'display'){
-			                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+data[0].rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+			                	   try {
+			                		   data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+			                	   }catch(error)
+			                	   {
+			                		   data="common";
+			                		   console.log(error);
+			                	   }
+			                       
 			                   }
 			                   return data;
 			                }

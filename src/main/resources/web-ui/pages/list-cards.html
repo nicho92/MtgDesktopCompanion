@@ -65,7 +65,9 @@
 		    	"responsive": true,
 		        "processing": true,
 		        "pageLength": 50,
-		        "ajax": {"url":set,"dataSrc":""},
+		        "ajax": {"url":set,
+		        		 "dataSrc":""
+		        		 },
 		        "columns": [
 		        	{ 
 			                "data": "id",
@@ -91,9 +93,15 @@
 		        	{ 
 		                "data": "editions",
 		                "width": "3%",
+		                "defaultContent": "common",
 		                "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	   data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+		                	   try {
+		                	   		data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+		                	   }catch(error)
+		                	   {
+		                		   console.log(error);
+		                	   }
 		                   }
 		                   return data;
 		                }
