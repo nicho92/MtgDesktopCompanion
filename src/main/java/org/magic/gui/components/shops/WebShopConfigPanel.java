@@ -180,7 +180,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		
-		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), true);
+		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
 		var serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		

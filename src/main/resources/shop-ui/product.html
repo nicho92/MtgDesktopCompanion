@@ -78,7 +78,8 @@
 			    	$("#quantity").attr('max',data.qte);
 			    	$("#cardDescription").html(data.magicCard.text);
 			    	
-			    	var append=" <li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+data.language+"</li>";
+			    	var append="<li class='list-inline-item'><i class='ss ss-"+data.magicCard.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+data.magicCard.editions[0].set+"</li><br/>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+data.language+"</li>";
 			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+data.condition+"</li>";
 			    		append+="<li class='list-inline-item'><i class='fas fa-star fa-2x'></i><br/>"+(data.foil?'foil':(data.etched?'foil-etched':'Normal'))+"</li>";
 			    		
