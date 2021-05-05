@@ -79,7 +79,7 @@
 						    	data=data.reverse();
 						    	for(let i=0;i<maxLastProduct;i++)
 					    		{
-					    			$('#latest-product').append(generateStockCardHTML(data[i],currency));
+					    			$('#latest-product').append(generateStockCardHTML(data[i],currency,));
 					    			
 					    		}
 
@@ -94,12 +94,12 @@
 			       	$.each( data.needcollections, function( key, value ) {
 			    		  
 			    		  $.ajax({
-						        url: restserver+"/editions/list/"+value.name
+						        url: restserver+"/stock/list/"+value.name
 						    }).then(function(data) {
-						 		
-						    	for(let i=0;i<data.length;i++)
+						    	data=data.reverse();
+						    	for(let i=0;i<maxLastProduct;i++)
 					    		{
-					    			$('#need-product').append(generateEditionHTML(data[i]));
+					    			$('#need-product').append(generateStockCardHTML(data[i],currency));
 					    			
 					    		}
 
@@ -169,13 +169,9 @@
     <div class="row">
         <div class="col-sm">
             <div class="card">
-                <div class="card-header bg-primary text-white text-uppercase">
-                    <i class="fa fa-star"></i> Last products
-                </div>
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-star"></i> Last products</div>
                 <div class="card-body">
-                    <div id="latest-product" class="row">
- 
-                    </div>
+                    <div id="latest-product" class="row"></div>
                 </div>
             </div>
         </div>
@@ -183,15 +179,18 @@
 </div>
 
 
-<div class="container mt-3 mb-4">
-    <div class="row">
-        <div class="col">
-            <div class="card" >
+<div class="container mt-3">
+	<div class="row">
+        <div class="col-sm">
+            <div class="card">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-search"></i> Searched Product</div>
-                <div class="container"><div id="need-product"></div></div>
-         	</div>
-    	</div>
+                <div class="card-body">
+                    <div id="need-product" class="row"></div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 
 

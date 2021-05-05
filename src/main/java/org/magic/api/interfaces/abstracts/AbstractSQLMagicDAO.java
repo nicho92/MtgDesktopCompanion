@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
@@ -32,13 +31,12 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
-import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumStock;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
@@ -48,9 +46,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 
 public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
@@ -737,11 +732,54 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 	}
 
+
+	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {
+		List<MagicCardStock> colls = new ArrayList<>();
+		
+		var stmt = String.format("SELECT * FROM stocks where collection in  (%s)",cols.stream().map(c->"'"+c.getName()+"'").collect(Collectors.joining(", ")));
+		logger.trace("loading stock with SQL=" + stmt);
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(stmt); ResultSet rs = pst.executeQuery();) {
+			while (rs.next()) {
+				var state = new MagicCardStock();
+
+				state.setComment(rs.getString("comments"));
+				state.setIdstock(rs.getInt("idstock"));
+				state.setMagicCard(readCard(rs));
+				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+				try {
+					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
+				} catch (Exception e) {
+					state.setCondition(null);
+				}
+				state.setFoil(rs.getBoolean("foil"));
+				state.setSigned(rs.getBoolean("signedcard"));
+				state.setLanguage(rs.getString("langage"));
+				state.setQte(rs.getInt("qte"));
+				state.setAltered(rs.getBoolean("altered"));
+				state.setPrice(rs.getDouble("price"));
+				state.setGrade(readGrading(rs));
+				state.setTiersAppIds(readTiersApps(rs));
+				state.setEtched(rs.getBoolean("etched"));
+				colls.add(state);
+				
+				if(state.getTiersAppIds()==null)
+					state.setTiersAppIds(new HashMap<>());
+
+			}
+			logger.debug("load " + colls.size() + " item(s) from stock for " + cols);
+		}
+		return colls;
+	}
+	
+	
+
+	
+	
 	public List<MagicCardStock> listStocks() throws SQLException {
 		List<MagicCardStock> colls = new ArrayList<>();
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				MagicCardStock state = new MagicCardStock();
+				var state = new MagicCardStock();
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
@@ -836,7 +874,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 		notify(state);
 	}
-
 
 	@Override
 	public void initAlerts() {

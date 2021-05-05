@@ -6,7 +6,7 @@
     <title>Site Title</title>
   
     <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
-    <link href="./dist/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
   	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
  	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
   	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
@@ -83,6 +83,16 @@
 						        url: restserver+"/stock/list/"+value.name
 						    }).then(function(data) {
 						    	
+						    	var unique = [...new Set(data.map(item => item.magicCard.editions[0].set))];
+						    	
+						    	
+						    	$.each(unique,function(key, value){
+						    			
+						    		$("#categories").append("<li class='list-group-item'><a href='category.html'>"+value+"</a></li>");
+						    		
+						    	});
+						    	
+						    	
 						    	$('#pagination').pagination({
 						    	    dataSource: data,
 						    	    pageSize: 12,
@@ -125,8 +135,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="category.html">Category</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+                    <li class="breadcrumb-item active"><a href="category.html">Products</a></li>
+
                 </ol>
             </nav>
         </div>
@@ -137,10 +147,8 @@
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
-                <ul class="list-group category_block">
-                    <li class="list-group-item"><a href="category.html">Foil</a></li>
-                    <li class="list-group-item"><a href="category.html">Altered</a></li>
-                    <li class="list-group-item"><a href="category.html">Set</a></li>
+                <ul id="categories" class="list-group category_block">
+                    
                 </ul>
             </div>
         </div>
