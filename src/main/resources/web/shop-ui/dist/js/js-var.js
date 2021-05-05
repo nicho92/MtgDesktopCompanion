@@ -16,10 +16,9 @@
 
 function generateEditionHTML(data)
 {
-				var append="<div class='col'>";
-  					append+="<div class='card'>";
+				var append="<div class='col-md-2'>";
            			append+="<p class='card-text'><i class='ss ss-3x ss-"+data.keyRuneCode.toLowerCase()+"'></i>"+data.set+"</p>";
-                	append+="</div></div>";
+                	append+="</div>";
               
                 	
                 	

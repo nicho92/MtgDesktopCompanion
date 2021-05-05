@@ -103,9 +103,9 @@ public class MTGConstants {
 	public static final String KEYSTORE_NAME = "jssecacerts";
 	public static final String KEYSTORE_PASS = "changeit";
 
-	public static final String WEBUI_LOCATION = "web-ui";
-	public static final String EVENTUI_LOCATION = "event-ui";
-	public static final String WEBSHOP_LOCATION = "shop-ui";
+	public static final String WEBUI_LOCATION = "web/web-ui";
+	public static final String EVENTUI_LOCATION = "web/event-ui";
+	public static final String WEBSHOP_LOCATION = "web/shop-ui";
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final String ICON_DIR="/icons";
