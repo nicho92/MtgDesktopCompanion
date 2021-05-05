@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -48,6 +49,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.abstracts.AbstractWebServer;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -62,6 +65,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class ConfigurationPanel extends JXTaskPaneContainer {
@@ -107,7 +111,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxPackages;
 	private JCheckBox chckbxSealed;
 	private JCheckBox chckbxEvents;
-
+	private JComboBox<MTGServer> cboServers;
 	public void loading(boolean show, String text) {
 		if (show) {
 			lblLoading.start();
@@ -317,7 +321,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		txtWebSiteCertificate = new JTextField("www.",10);
 		
 		JButton btnAdd = new JButton(capitalize("SAVE"));
-		
+		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(s->s instanceof AbstractWebServer).collect(Collectors.toList()));
 		
 		panelWebSite.add(new JLabel(capitalize("DIRECTORY") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
 		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -327,6 +331,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
 
 		panelWebSite.add(new JLabel(capitalize("WEB_SERVER_UI") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
+		panelWebSite.add(cboServers, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
 		panelWebSite.add(txtdirWebsserver, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
 		panelWebSite.add(btnWebServerExport, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 2));
 		
@@ -750,7 +755,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		btnWebServerExport.addActionListener(ae->{
 			try {
-				new WebManagerServer().exportWeb(txtdirWebsserver.getFile());
+				((AbstractWebServer)cboServers.getSelectedItem()).exportWeb(txtdirWebsserver.getFile());
 				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export ok : " + txtdirWebsserver.getFile(), MESSAGE_TYPE.INFO));
 			} catch (Exception e1) {
 				
