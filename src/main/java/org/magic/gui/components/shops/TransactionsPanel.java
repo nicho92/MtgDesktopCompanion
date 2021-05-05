@@ -2,19 +2,13 @@ package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.util.Date;
-import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.TransactionsModel;
