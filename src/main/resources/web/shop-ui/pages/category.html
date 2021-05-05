@@ -83,16 +83,11 @@
 						        url: restserver+"/stock/list/"+value.name
 						    }).then(function(data) {
 						    	
-						    	var unique = [...new Set(data.map(item => item.magicCard.editions[0].set))];
-						    	
-						    	
-						    	$.each(unique,function(key, value){
-						    			
-						    		$("#categories").append("<li class='list-group-item'><a href='category.html'>"+value+"</a></li>");
-						    		
+						    	/* data=data.sort(function(a,b){
+						    		return a.magicCard.name-b.magicCard.name;
 						    	});
-						    	
-						    	
+						    	 */
+						    
 						    	$('#pagination').pagination({
 						    	    dataSource: data,
 						    	    pageSize: 12,
@@ -109,6 +104,15 @@
 								    	});
 						    	    }
 						    	})
+						    	
+						    	
+						    	$.each([...new Set(data.map(item => item.magicCard.editions[0].set))].sort(),function(key, value){
+						    			
+						    		$("#categories").append("<li class='list-group-item'><a href='category.html'>"+value+"</a></li>");
+						    		
+						    	});
+						    	
+						    	
 						    });
 			    		});
 			    	
@@ -146,7 +150,7 @@
     <div class="row" >
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
-                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Sets</div>
                 <ul id="categories" class="list-group category_block">
                     
                 </ul>
