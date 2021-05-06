@@ -33,9 +33,9 @@
     <script src="../dist/js/rest-server.js"></script>
    	<script src="../dist/js/js-var.js"></script>
    	<script src="../dist/js/cart.js"></script>
- 
 
 	<script>
+	
 	 $(document).ready(function() {	
 		 var array = [];	
 	   	 $("#footer").load("footer.html");
@@ -45,6 +45,7 @@
     		var collection;
     		var maxLastProduct=4;
     		var currency = "";
+			var percentReduction = 0;
 		   	$.ajax({
 			        url: restserver+"/webshop/config"
 			    }).then(function(data) {
@@ -56,7 +57,8 @@
 			       	document.title = data.siteTitle;
 			       	currency = data.currencySymbol;
 			       	maxLastProduct=data.maxLastProduct;
-			       	
+			       	percentReduction = data.percentReduction;
+
 			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
 			    	$('#contactTelephone').html(data.contact.telephone);
@@ -65,10 +67,9 @@
 			    	$('#contactCountry').html(data.contact.country);
 			  
 		
-			
-		 	var dtTable = $('#tableCart').DataTable({
+			var dtTable = $('#tableCart').DataTable({
 		 		"data":getCartItems(),
-		    	"responsive": true,
+		    	"responsive": false,
 		        "processing": true,
 		        "pageLength": 10,
 		        "searching": false,
@@ -79,13 +80,19 @@
 		        	
 		        	var api = this.api(), data;
 		        	// Total over all pages
-		            total = api
-		                .column(7)
-     					.cache('search')
-		                .reduce( function (a, b) {
-		                	return parseFloat(a) + parseFloat(b);
-		                }, 0 );
+		            total = 0;
+					
+					console.log(data);
+
+					api.cells(null,7).render().each(function(item) {
+						
+						if(item.price<0)
+							total += item.qte*item.price;
+						else
+							total += item.qte*(item.price-(item.price*percentReduction));
+					})
 		 			
+					
 		            
 		            // Update footer
 		            $( api.column( 7 ).footer() ).html(
@@ -98,20 +105,25 @@
 		        	  "data": "idstock",
 		        	  "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									data="<a class='fa fa-search fa-fw' href='product.html?id="+data+"'/>";		                		 
+									if(row.price>0)
+										data="<a class='fa fa-search fa-fw' href='product.html?id="+data+"'/>";	
+									else
+										data="";	                		 
 		                	 }
 		                   return data;
 		                }
 		        	},
 	        		{ 
-			          "data": "magicCard.name"
+			          "data": "magicCard.name",
+ 					  "width": "25%"
 		        	},
 		        	{ 
 				          "data": "magicCard.editions",
+ 						  "width": "25%",
 				          "render": function(data, type, row, meta){
 			                   if(type === 'display'){
-			                	   //data="<i class='ss ss-"+data[0].id.toLowerCase()+"'/>"+data[0].set;	
-			                	   data=data[0].set;
+			                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> "+data[0].set;	
+			                	 //  data=data[0].set;
 			                   }
 			                 return data;
 			              }
@@ -133,29 +145,33 @@
 			        },
 		        	
 		        	{ 
-				      "data": "qte"
+				      "data": "qte",
+ 					  "width": "2%",
 			        },
 			        { 
 					      "data": "price",
+ 						  "width": "15%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
-										data=data.toFixed(2) + " " + currency;		                		 
+										data=(data-(data*percentReduction)).toFixed(2) + " " + currency;		                		 
 			                	 }
 			                   return data;
 			                }
 				    },
 				    { 
 					      "data": null,
+  						  "width": "15%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
-										data=(row.qte*row.price).toFixed(2) + "" +currency;
+										reductedPrice = (row.price-(row.price*percentReduction)).toFixed(2)
+										data=(row.qte*reductedPrice).toFixed(2) + "" +currency;
 			                	 }
 			                   return data;
 			                }
 				    },
 				    { 
 					      "data": "idstock",
-					      "render": function(data, type, row, meta){
+						  "render": function(data, type, row, meta){
 			                   if(type === 'display'){
 			                	  data = "<i id='deleteFromCard' class='fas fa-trash-alt fa-1x' data='"+data+"'/>";
 			                   }
@@ -215,24 +231,24 @@
 
 
 
-<div class="container mb-2">
+<div class="container">
     <div class="row">
-    	<div class="col">
+    	<div class="col-md-9">
     		<div class="card">
 	    		<div class="card-header bg-warning text-white"><i class="fas fa-shopping-cart"></i> Cart</div>
 	    		<div class="card-body">
-			         <table id="tableCart" class="display">
+			         <table id="tableCart" >
 					        <thead>
 					            <tr>
 					            	<th></th>
 					                <th>Product</th>
 					                <th>Set</th>
-					                <th>Language</th>
+					                <th>Lang</th>
 					                <th>Foil</th>
-					                <th>Quantity</th>
+					                <th>Qty</th>
 					                <th>Price</th>
 					                <th>Total</th>
-					                <th>Action</th>
+					                <th></th>
 					            </tr>
 					        </thead>
 					        <tfoot align="right">
@@ -243,9 +259,9 @@
 			</div>
 		
 		</div>
-		 <div class="col">
+		 <div class="col-md-3">
             <div class="card">
-                <div class="card-header bg-primary text-white"><i class="fa fa-envelope"></i>Contact Information</div>
+                <div class="card-header bg-primary text-white"><i class="fa fa-envelope"></i> Contact Information</div>
                 <div class="card-body">
                     <form>
                         <div class="form-group">
@@ -275,7 +291,7 @@
 	<br/>
 	<div>
        <div class="row">
-           <div class="col-sm-12 col-md-2 text-right">
+           <div class="col-sm-12 col-md-12 text-right">
            		<button id="checkoutBtn" class="btn btn-lg btn-block btn-success text-uppercase" >Checkout</button>
            	</div>
            	<div class="col-sm12 col-md2"><span id="result"></span></div>

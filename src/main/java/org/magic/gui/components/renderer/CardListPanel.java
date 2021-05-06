@@ -28,11 +28,17 @@ public class CardListPanel extends JPanel {
 	private JLabel lblRarity;
 
 	public CardListPanel() {
-
 		initGUI();
-
 	}
 
+	public CardListPanel(MagicCard mc) {
+		initGUI();
+		
+		if(mc!=null)
+			setMagicCard(mc);
+	}
+	
+	
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 

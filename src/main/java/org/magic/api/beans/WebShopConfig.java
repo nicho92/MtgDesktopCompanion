@@ -20,7 +20,7 @@ public class WebShopConfig implements Serializable {
 	private MagicCard topProduct;
 	private int maxLastProduct = 4;
 	private String currencySymbol;
-	
+	private double percentReduction=0;
 	
 	public WebShopConfig() {
 		informations= new ArrayList<>();
@@ -124,5 +124,13 @@ public class WebShopConfig implements Serializable {
 		this.collections = collections;
 	}
 
+	
+	public double getPercentReduction() {
+		return percentReduction;
+	}
+	
+	public void setPercentReduction(double percentReduction) {
+		this.percentReduction = percentReduction;
+	}
 	
 }

@@ -43,6 +43,7 @@
     		var collection;
     		var maxLastProduct=4;
     		var currency = "";
+    		var percentReduction= 0;
 		   	$.ajax({
 			        url: restserver+"/webshop/config"
 			    }).then(function(data) {
@@ -53,7 +54,7 @@
 			       	document.title = data.siteTitle;
 			       	currency = data.currencySymbol;
 			       	maxLastProduct=data.maxLastProduct;
-			       	
+			       	percentReduction = data.percentReduction;
 			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
 			    	$('#contactTelephone').html(data.contact.telephone);
@@ -79,15 +80,16 @@
 						    	data=data.reverse();
 						    	for(let i=0;i<maxLastProduct;i++)
 					    		{
-					    			$('#latest-product').append(generateStockCardHTML(data[i],currency,));
+					    			$('#latest-product').append(generateStockCardHTML(data[i],currency,false,percentReduction));
 					    			
 					    		}
 
 						    	$('button[name="addCartButton"]').each(function() {
 						       		$(this).click(function() {
-						    			addCartStockId($(this).attr("data"));
+						    			addCartStockId($(this).attr("data"),$(this).attr("sell"));
 						    		});
 						    	});
+			
 						    });
 			    	});
 			       	
@@ -99,7 +101,7 @@
 						    	data=data.reverse();
 						    	for(let i=0;i<maxLastProduct;i++)
 					    		{
-					    			$('#need-product').append(generateStockCardHTML(data[i],currency));
+					    			$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
 					    			
 					    		}
 
@@ -151,12 +153,7 @@
                 <div class="card-body">
                     <h4 class="card-title text-center"><a href="product.html" title="View Product"><span id="topProductTitle"/></a></h4>
                     <div class="row">
-                       <!--  <div class="col">
-                            <p class="btn btn-danger btn-block">99.00 $</p>
-                        </div>
-                        <div class="col">
-                            <a href="product.html" class="btn btn-success btn-block">View</a>
-                        </div> -->
+
                     </div>
                 </div>
             </div>

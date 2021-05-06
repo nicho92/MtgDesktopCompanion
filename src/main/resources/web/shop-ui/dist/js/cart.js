@@ -9,11 +9,18 @@ function addCartProduct(stockItem)
 
 
 
-function addCartStockId(idstock)
+function addCartStockId(idstock, toSell)
 {
 	
      $.getJSON(restserver+"/stock/get/"+idstock,function(data) {
      				data.qte=1;
+     				
+     				if(toSell=='true')
+     				{
+						data.price = -data.price;
+						console.log(data.price);
+					}	
+     				
 			    	sessionStorage.setItem(idstock, JSON.stringify(data) );
 			    	 $("#cart").html(sessionStorage.length);
 	 });

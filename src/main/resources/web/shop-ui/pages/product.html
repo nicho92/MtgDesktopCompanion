@@ -46,6 +46,7 @@
     
     		 var collection;
     		 var currency="";
+    		 var percentReduction=0;
 		   	 $.ajax({
 			        url: restserver+"/webshop/config"
 			    }).then(function(data) {
@@ -62,6 +63,7 @@
 			    	$('#contactWebsite').html(data.contact.website);
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
+			    	percentReduction = data.percentReduction;
 			  });
 		   	 
 		   	 $.ajax({
@@ -73,9 +75,16 @@
 						else
 							$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.magicCard.editions[0].multiverseId+"?format=image");
 			    	
+			    	if(percentReduction>0)
+			    	{
+			    		$("#priceDiscount").html(((data.price-(data.price*percentReduction)).toFixed(2) +" "+currency));
+			    		$("#price").html(data.price.toFixed(2) +" "+currency);
+			    	}
+			    	else
+			    	{
+			    		$("#priceDiscount").html(data.price.toFixed(2) +" "+currency);	
+			    	}
 			    	
-			    	
-			    	$("#price").html(data.price.toFixed(2) +" "+currency);
 			    	$("#productModalLabel").html(data.magicCard.name);
 			    	$("#quantity").attr('max',data.qte);
 			    	$("#cardDescription").html(data.magicCard.text);
@@ -101,12 +110,17 @@
 			    		
 			    	$("#itemDetails").html(append);
 			    	
-			    	
-			    	$( "#addCartButton" ).click(function() {
-			    		data.qte= parseInt($('#quantity').val());
-			    		addCartProduct(data);
-			    	});
-			    	
+					if(data.qte>0)
+					{
+						$( "#addCartButton" ).click(function() {
+				    		data.qte= parseInt($('#quantity').val());
+				    		addCartProduct(data);
+				    	});
+			    	}
+					else
+					{
+						$("#addCartButton").html("<span class='btn btn-secondary btn-block'><i class='fa fa-shopping-cart'></i>Out of stock</span>");
+					}
 			  });
 		   	 
 		   	 
@@ -156,8 +170,8 @@
                 <div class="card-body">
                 	
                 
-                    <p class="price" id="price"><span class="currency"></span></p>
-                    <p class="price_discounted" id="priceDiscount">149.90 </p>
+                    <p class="price" id="priceDiscount"><span class="currency"></span></p>
+                    <p class="price_discounted" id="price"><span class="currency"></span>	</p>
                     
                      <div class="product_rassurance">
                        <ul class="list-inline" id="itemDetails">

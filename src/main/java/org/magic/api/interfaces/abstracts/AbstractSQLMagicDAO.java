@@ -702,26 +702,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				
 				while (rs.next()) {
-					MagicCardStock state = new MagicCardStock();
-
-					state.setComment(rs.getString("comments"));
-					state.setIdstock(rs.getInt("idstock"));
-					state.setMagicCard(mc);
-					state.setMagicCollection(col);
-					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-					state.setFoil(rs.getBoolean("foil"));
-					state.setSigned(rs.getBoolean("signedcard"));
-					state.setLanguage(rs.getString("langage"));
-					state.setAltered(rs.getBoolean("altered"));
-					state.setQte(rs.getInt("qte"));
-					state.setPrice(rs.getDouble("price"));
-					state.setGrade(readGrading(rs));
-					state.setTiersAppIds(readTiersApps(rs));
+					var state = buildMCSfromRS(rs);
 					colls.add(state);
-					
-					if(state.getTiersAppIds()==null)
-						state.setTiersAppIds(new HashMap<>());
-					
 				}
 				logger.trace("loading " + colls.size() + " item FROM stock for " + mc);
 				
@@ -740,31 +722,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		logger.trace("loading stock with SQL=" + stmt);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(stmt); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				var state = new MagicCardStock();
-
-				state.setComment(rs.getString("comments"));
-				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(readCard(rs));
-				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
-				try {
-					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-				} catch (Exception e) {
-					state.setCondition(null);
-				}
-				state.setFoil(rs.getBoolean("foil"));
-				state.setSigned(rs.getBoolean("signedcard"));
-				state.setLanguage(rs.getString("langage"));
-				state.setQte(rs.getInt("qte"));
-				state.setAltered(rs.getBoolean("altered"));
-				state.setPrice(rs.getDouble("price"));
-				state.setGrade(readGrading(rs));
-				state.setTiersAppIds(readTiersApps(rs));
-				state.setEtched(rs.getBoolean("etched"));
+				var state = buildMCSfromRS(rs);
 				colls.add(state);
-				
-				if(state.getTiersAppIds()==null)
-					state.setTiersAppIds(new HashMap<>());
-
 			}
 			logger.debug("load " + colls.size() + " item(s) from stock for " + cols);
 		}
@@ -772,38 +731,58 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	
+	@Override
+	public MagicCardStock getStockById(Integer id) throws SQLException {
+		
+		
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks where idstock=?")) {
+			pst.setInt(1, id);
+			var rs = pst.executeQuery();
+			rs.first();
+			
+			return buildMCSfromRS(rs);
+		}
+	}
+	
+	private MagicCardStock buildMCSfromRS(ResultSet rs) throws SQLException
+	{
+		var state = new MagicCardStock();
+			state.setComment(rs.getString("comments"));
+			state.setIdstock(rs.getInt("idstock"));
+			state.setMagicCard(readCard(rs));
+			state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+			try {
+				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
+			} catch (Exception e) {
+				state.setCondition(null);
+			}
+			state.setFoil(rs.getBoolean("foil"));
+			state.setSigned(rs.getBoolean("signedcard"));
+			state.setLanguage(rs.getString("langage"));
+			state.setQte(rs.getInt("qte"));
+			state.setAltered(rs.getBoolean("altered"));
+			state.setPrice(rs.getDouble("price"));
+			state.setGrade(readGrading(rs));
+			state.setTiersAppIds(readTiersApps(rs));
+			state.setEtched(rs.getBoolean("etched"));
+			
+			if(state.getTiersAppIds()==null)
+				state.setTiersAppIds(new HashMap<>());
 
+		
+		
+		return state;
+
+	}
 	
 	
 	public List<MagicCardStock> listStocks() throws SQLException {
 		List<MagicCardStock> colls = new ArrayList<>();
 		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				var state = new MagicCardStock();
-
-				state.setComment(rs.getString("comments"));
-				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(readCard(rs));
-				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
-				try {
-					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-				} catch (Exception e) {
-					state.setCondition(null);
-				}
-				state.setFoil(rs.getBoolean("foil"));
-				state.setSigned(rs.getBoolean("signedcard"));
-				state.setLanguage(rs.getString("langage"));
-				state.setQte(rs.getInt("qte"));
-				state.setAltered(rs.getBoolean("altered"));
-				state.setPrice(rs.getDouble("price"));
-				state.setGrade(readGrading(rs));
-				state.setTiersAppIds(readTiersApps(rs));
-				state.setEtched(rs.getBoolean("etched"));
+				var state = buildMCSfromRS(rs);
 				colls.add(state);
-				
-				if(state.getTiersAppIds()==null)
-					state.setTiersAppIds(new HashMap<>());
-
+			
 			}
 			logger.debug("load " + colls.size() + " item(s) from stock");
 		}

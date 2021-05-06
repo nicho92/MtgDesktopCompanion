@@ -19,8 +19,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 
 import org.apache.log4j.Logger;
@@ -36,6 +38,8 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
+import org.magic.gui.components.renderer.CardListPanel;
+import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -64,6 +68,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private MagicCard topProduct;
 	private JSlider maxLastProductSlide;
 	private JCheckableListBox<MagicCollection> needCollection;
+	private JSpinner spinnerReduction ;	
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -212,14 +217,14 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
-		var l = new JLabel(String.valueOf(topProduct));
+		spinnerReduction = new JSpinner(new SpinnerNumberModel(conf.getPercentReduction(),0,100,0.5));
 		
 		var paneSlide = new JPanel();
 		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
 		var valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
 		
 		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));
-		
+		var cardPanel = new CardListPanel(topProduct);
 		paneSlide.add(maxLastProductSlide);
 		paneSlide.add(valueLbl);
 		
@@ -227,14 +232,15 @@ public class WebShopConfigPanel extends MTGUIComponent {
 							   var diag = new CardSearchImportDialog();
 								   diag.setVisible(true); 
 								   topProduct= diag.getSelected();
-								   if(topProduct!=null)
-									   l.setText(topProduct.getName());
+								   cardPanel.setMagicCard(topProduct);
 		});
 		
 		panelProduct.add(b);
-		panelProduct.add(l);
+		panelProduct.add(cardPanel);
 		panelProduct.add(new JLabel("X_LASTEST_PRODUCT"));
 		panelProduct.add(paneSlide);
+		panelProduct.add(new JLabel("PERCENT_REDUCTION_FOR_SELL"));
+		panelProduct.add(spinnerReduction);
 		
 		
 		add(container,BorderLayout.CENTER);
@@ -260,6 +266,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			newBean.setSiteTitle(txtSiteTitle.getText());
 			newBean.setTopProduct(topProduct);
 			newBean.setMaxLastProduct(maxLastProductSlide.getValue());
+			
+			newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
 			
 			newBean.getCollections().clear();
 			newBean.getCollections().addAll(cboCollections.getSelectedElements());

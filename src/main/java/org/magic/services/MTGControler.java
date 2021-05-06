@@ -204,7 +204,8 @@ public class MTGControler {
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
 			conf.setCurrencySymbol(getCurrencyService().getCurrentCurrency().getSymbol());
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
-
+			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
+			
 			try {
 			conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCard.class));
 			}
@@ -251,7 +252,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
 		
-		
+		setProperty("/shopSite/config/percentReduction",wsc.getPercentReduction());
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
 		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
 		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());

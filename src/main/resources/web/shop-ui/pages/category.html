@@ -35,13 +35,15 @@
     
     
     <script>
+
+	var percentReduction=0;
     var currency = "";
     function generateProduct(datas)
     {
     	var append="";
     	  $.each(datas, function(index, data){
     		
-	    	 	append+=generateStockCardHTML(data,currency);	
+	    	 	append+=generateStockCardHTML(data,currency,false,percentReduction);	
 	
     	  });
     	  return append;
@@ -69,6 +71,7 @@
 			       	$('#aboutText').html(data.aboutText);
 			       	document.title = data.siteTitle;
 			       	currency = data.currencySymbol;
+					percentReduction = data.percentReduction;
 			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
 			    	$('#contactTelephone').html(data.contact.telephone);
@@ -99,7 +102,7 @@
 						    	        $('#products').html(html);
 						    	        $('button[name="addCartButton"]').each(function() {
 								       		$(this).click(function() {
-								    			addCartStockId($(this).attr("data"));
+								    			addCartStockId($(this).attr("data"),$(this).attr("sell"));
 								    		});
 								    	});
 						    	    }
