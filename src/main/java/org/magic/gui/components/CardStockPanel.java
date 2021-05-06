@@ -47,6 +47,12 @@ public class CardStockPanel extends MTGUIComponent {
 		btnAdd.setEnabled(b);
 	}
 
+	public void showAllColumns()
+	{
+		for(int i=0;i<model.getColumnCount();i++)
+			table.getColumnExt(model.getColumnName(i)).setVisible(true);
+	}
+	
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();
@@ -177,6 +183,36 @@ public class CardStockPanel extends MTGUIComponent {
 		}
 
 	}
+	
+
+	public void disableCommands() {
+
+		btnAdd.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnDelete.setEnabled(false);
+		model.setWritable(false);
+		
+	}
+
+	
+	
+	public void initMagicCardStock(List<MagicCardStock> st) {
+		
+		btnAdd.setEnabled(true);
+		btnSave.setEnabled(true);
+		btnDelete.setEnabled(true);
+
+		try {
+			model.init(st);
+			table.packAll();
+		} catch (Exception e) {
+			logger.error(e);
+		}
+
+	}
+
+	
+	
 
 	@Override
 	public String getTitle() {

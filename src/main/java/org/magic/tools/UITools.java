@@ -56,6 +56,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.criterias.QueryAttribute;
@@ -147,6 +148,9 @@ public class UITools {
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
+				table.setDefaultEditor(STAT.class, new ComboBoxEditor<>(STAT.values()));
+				
+				
 				
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));

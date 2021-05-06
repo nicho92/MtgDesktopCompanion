@@ -4,15 +4,17 @@ import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class TransactionsModel extends GenericTableModel<Transaction> {
 
 	
 	public TransactionsModel() {
+		
+		setWritable(true);
 		columns = new String[] { "ID","DATEPROPOSITION","CONTACT","ITEMS","TOTAL","STATUT" };
 	}
-	
 	
 	
 	@Override
@@ -32,6 +34,18 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 		}
 	}
 	
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		if(writable)
+		{
+			return (column==5);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -40,6 +54,9 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 		
 		if(columnIndex==4)
 			return Double.class;
+		
+		if(columnIndex==5)
+			return STAT.class;
 		
 		return super.getColumnClass(columnIndex);
 	}

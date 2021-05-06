@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -25,23 +27,28 @@ public class TransactionsPanel extends MTGUIComponent {
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		var panneauHaut = new JPanel();
+		var panneauBas = new CardStockPanel();
 		model = new TransactionsModel();
 		
 		
-		var btnValidate = new JButton(MTGConstants.ICON_CHECK);
-		var btnDecline = new JButton(MTGConstants.ICON_DELETE);
 		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		table = UITools.createNewTable(model);
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		
 		table.packAll();
-		
+		panneauBas.showAllColumns();
 		
 		add(new JScrollPane(table));
 		add(panneauHaut, BorderLayout.NORTH);
+		add(panneauBas,BorderLayout.SOUTH);
 		panneauHaut.add(btnRefresh);
-		panneauHaut.add(btnValidate);
-		panneauHaut.add(btnDecline);
+		
+		table.getSelectionModel().addListSelectionListener(lsl->{
+			
+			Transaction t = UITools.getTableSelection(table, 0);
+			panneauBas.initMagicCardStock(t.getItems());
+			panneauBas.disableCommands();
+		});
 		
 		btnRefresh.addActionListener(al->reload());
 		

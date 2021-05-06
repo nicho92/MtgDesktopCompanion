@@ -17,6 +17,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	private static final long serialVersionUID = 1L;
 
 	public CardStockTableModel() {
+		setWritable(true);
 		columns = new String[] { "ID",
 				"CARD",
 				"EDITION",
@@ -104,7 +105,11 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return !(column ==1 || column==13 || column==2|| column==3);
+		
+		if(writable)
+			return !(column ==1 || column==13 || column==2|| column==3);
+		else
+			return false;
 	}
 
 	@Override
