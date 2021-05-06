@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
@@ -299,7 +300,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		logger.debug("save transaction ");
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, contact_name, contact_lastname, contact_telephone, contact_country, contact_address, contact_website,statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?);",Statement.RETURN_GENERATED_KEYS)) {
-			pst.setDate(1, new java.sql.Date(t.getDateProposition().getTime()));
+			pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
 			pst.setString(2, t.getMessage());
 			storeTransactionItems(pst,3, t.getItems());			
 			pst.setString(4, t.getContact().getName());

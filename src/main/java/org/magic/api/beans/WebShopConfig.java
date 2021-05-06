@@ -21,6 +21,8 @@ public class WebShopConfig implements Serializable {
 	private int maxLastProduct = 4;
 	private String currencySymbol;
 	private double percentReduction=0;
+	private String googleAnalyticsId;
+	
 	
 	public WebShopConfig() {
 		informations= new ArrayList<>();
@@ -29,6 +31,14 @@ public class WebShopConfig implements Serializable {
 		slidesLinksImage = new ArrayList<>();
 		needcollections = new ArrayList<>();
 		contact=new Contact();
+	}
+	
+	public String getGoogleAnalyticsId() {
+		return googleAnalyticsId;
+	}
+	
+	public void setGoogleAnalyticsId(String googleAnalyticsId) {
+		this.googleAnalyticsId = googleAnalyticsId;
 	}
 	
 	public List<MagicCollection> getNeedcollections() {
