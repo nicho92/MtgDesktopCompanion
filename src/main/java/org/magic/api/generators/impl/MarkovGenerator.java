@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -14,7 +13,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
-import rita.Util;
+
 import rita.RiMarkov;
 import rita.RiTa;
 

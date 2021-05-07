@@ -64,6 +64,14 @@
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
 			    	percentReduction = data.percentReduction;
+			    	
+			    	if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}
 			  });
 		   	 
 		   	 $.ajax({

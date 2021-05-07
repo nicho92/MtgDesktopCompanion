@@ -65,7 +65,13 @@
 			    	$('#contactWebsite').html(data.contact.website);
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
-			  
+			    	if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}
 		
 			var dtTable = $('#tableCart').DataTable({
 		 		"data":getCartItems(),

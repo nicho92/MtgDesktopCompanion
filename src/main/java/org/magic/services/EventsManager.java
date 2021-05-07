@@ -31,7 +31,7 @@ public class EventsManager {
 	public void saveEvents() throws IOException
 	{
 		
-		int max = events.stream().mapToInt(MagicEvent::getId).max().getAsInt();
+		var max = events.stream().mapToInt(MagicEvent::getId).max().getAsInt();
 		
 		for(MagicEvent e : events)
 		{

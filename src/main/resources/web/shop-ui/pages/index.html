@@ -14,7 +14,7 @@
  	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
   	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
  
-<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
 	
 	
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
@@ -35,6 +35,9 @@
     <script>
 		
     $(document).ready(function() {	
+    	
+    	 $.ajaxSetup({ cache: true });
+    	
 	   	 $("#footer").load("footer.html");
 	   	 $("#header").load("nav.html");
 	   	 $("#banner").load("banner.html");
@@ -69,6 +72,14 @@
 			       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
 			       	});
 			       	
+			        
+			       	if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}
 			       	
 			       	$.each( data.collections, function( key, value ) {
 			    		  
@@ -91,8 +102,6 @@
 			
 						    });
 			    	});
-			       	
-			       	console.log(data.needcollections.length);
 			       	
 			       	if(data.needcollections.length>0){
 			              	$.each( data.needcollections, function( key, value ) {

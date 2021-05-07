@@ -63,6 +63,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JTextField txtCountry;
 	private JTextField txtAddress;
 	private JTextField txtWebSite;
+	private JTextField txtAnalyticsGoogle;
 	private JCheckableListBox<MagicCollection> cboCollections;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCard topProduct;
@@ -103,18 +104,18 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			txtSiteTitle = new JTextField(conf.getSiteTitle());
 			panelGeneral.add(txtSiteTitle);
 			
-			panelGeneral.add(new JLabel("BANNERTITLE"));
-			
+			txtAnalyticsGoogle = new JTextField(conf.getGoogleAnalyticsId());
+			txtAbout = new JTextArea(conf.getAboutText());
 			txtBannerTitle = new JTextField(conf.getBannerTitle());
+			txtBannerText = new JTextArea(conf.getBannerText());
+			panelGeneral.add(new JLabel("BANNERTITLE"));
 			panelGeneral.add(txtBannerTitle);
 			panelGeneral.add(new JLabel("BANNERTEXT"));
-			txtBannerText = new JTextArea(conf.getBannerText());
 			panelGeneral.add(new JScrollPane(txtBannerText));
 			panelGeneral.add(new JLabel("ABOUT"));
-			
-			txtAbout = new JTextArea(conf.getAboutText());
 			panelGeneral.add(new JScrollPane(txtAbout));
-		
+			panelGeneral.add(new JLabel("GOOGLE_ID_ANALYTICS"));
+			panelGeneral.add(txtAnalyticsGoogle);
 			
 			
 			
@@ -266,6 +267,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			newBean.setSiteTitle(txtSiteTitle.getText());
 			newBean.setTopProduct(topProduct);
 			newBean.setMaxLastProduct(maxLastProductSlide.getValue());
+			newBean.setGoogleAnalyticsId(txtAnalyticsGoogle.getText());
+			
 			
 			newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
 			
