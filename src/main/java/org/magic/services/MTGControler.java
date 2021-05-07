@@ -215,10 +215,16 @@ public class MTGControler {
 			}
 			
 			for(String s : get("/shopSite/config/collections","").split(";"))
-			   conf.getCollections().add(new MagicCollection(s));
+			{
+				if(!s.isEmpty())
+					conf.getCollections().add(new MagicCollection(s));
+			}
 			
 			for(String s : get("/shopSite/config/needCollections","").split(";"))
-				conf.getNeedcollections().add(new MagicCollection(s));
+			{
+				if(!s.isEmpty())
+					conf.getNeedcollections().add(new MagicCollection(s));
+			}
 					      
 			
 			for(String s : get("/shopSite/config/slides","").split(";"))

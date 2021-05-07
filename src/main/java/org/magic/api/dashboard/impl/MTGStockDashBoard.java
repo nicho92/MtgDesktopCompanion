@@ -161,12 +161,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
 	
-		EditionsShakers es = new EditionsShakers();
+		var es = new EditionsShakers();
 						es.setProviderName(getName());
 						es.setDate(new Date());
 						es.setEdition(ed);
 		
-		PRICES c = PRICES.valueOf(getString(AVERAGE_MARKET).toUpperCase());
+		var c = PRICES.valueOf(getString(AVERAGE_MARKET).toUpperCase());
 						
 						
 		logger.debug("Parsing shakers for " + ed + " " + c);
@@ -206,7 +206,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			SearchResult rs = cardService.getBestResult(mc.getName());
 			FullPrint fp = cardService.getCard(rs);
 			CardSet set = cardService.getSetByCode(ed.getId());
-			Print fpSet = fp.getPrintForSetId(set.getId());
+			var fpSet = fp.getPrintForSetId(set.getId());
 			
 			if(fpSet==null)
 			{
@@ -238,7 +238,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private CardShake initFromPrint(Print p)
 	{
-		CardShake cs = new CardShake();
+		var cs = new CardShake();
 				cs.setCurrency(getCurrency());
 				cs.setName(p.getCleanName());
 				cs.setFoil(p.isFoil());
@@ -247,6 +247,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				cs.setShowcase(p.isShowcase());
 				cs.setExtendedArt(p.isExtendedArt());
 				cs.setFullArt(p.isFullArt());
+				cs.setEtched(p.isExtendedArt());
 				cs.setEd(cardService.getSetById(p.getSetId()).getAbbrevation());
 		return cs;
 	}

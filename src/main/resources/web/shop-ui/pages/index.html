@@ -35,7 +35,6 @@
     <script>
 		
     $(document).ready(function() {	
-    	
 	   	 $("#footer").load("footer.html");
 	   	 $("#header").load("nav.html");
 	   	 $("#banner").load("banner.html");
@@ -45,7 +44,7 @@
     		var currency = "";
     		var percentReduction= 0;
 		   	$.ajax({
-			        url: restserver+"/webshop/config"
+			        url: restserver+"/webshop/config" 
 			    }).then(function(data) {
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
@@ -93,23 +92,30 @@
 						    });
 			    	});
 			       	
-			       	$.each( data.needcollections, function( key, value ) {
-			    		  
-			    		  $.ajax({
-						        url: restserver+"/stock/list/"+value.name
-						    }).then(function(data) {
-						    	data=data.reverse();
-						    	for(let i=0;i<maxLastProduct;i++)
-					    		{
-					    			$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
-					    			
-					    		}
-
-						    	
-						    });
-			    	});
+			       	console.log(data.needcollections.length);
 			       	
+			       	if(data.needcollections.length>0){
+			              	$.each( data.needcollections, function( key, value ) {
+					    		  
+					    		  $.ajax({
+								        url: restserver+"/stock/list/"+value.name
+								    }).then(function(data) {
+								    	data=data.reverse();
+								    	for(let i=0;i<maxLastProduct;i++)
+							    		{
+							    			$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
+							    			
+							    		}
+		
+								    	
+								    });
+					    	});
 			       	
+			       	}
+			       	else
+		       		{
+		       				$("#searchcardContainer").hide();
+		       		}
 			  });
 		 });
    	 
@@ -176,7 +182,7 @@
 </div>
 
 
-<div class="container mt-3">
+<div class="container mt-3" id="searchcardContainer">
 	<div class="row">
         <div class="col-sm">
             <div class="card">

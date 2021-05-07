@@ -112,6 +112,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxSealed;
 	private JCheckBox chckbxEvents;
 	private JComboBox<MTGServer> cboServers;
+	private JCheckBox chckbxShopping;
 	public void loading(boolean show, String text) {
 		if (show) {
 			lblLoading.start();
@@ -376,6 +377,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxWallpaper = new JCheckBox(capitalize("WALLPAPER"));
 		chckbxSealed = new JCheckBox(capitalize("PACKAGES"));
 		chckbxEvents = new JCheckBox(capitalize("EVENTS"));
+		chckbxShopping = new JCheckBox(capitalize("SHOP"));
 		
 		chckbxStock.setSelected(MTGControler.getInstance().get("modules/stock").equals("true"));
 		chckbxAlert.setSelected(MTGControler.getInstance().get("modules/alarm").equals("true"));
@@ -388,6 +390,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
 		chckbxSealed.setSelected(MTGControler.getInstance().get("modules/sealed").equals("true"));
 		chckbxEvents.setSelected(MTGControler.getInstance().get("modules/event").equals("true"));
+		chckbxShopping.setSelected(MTGControler.getInstance().get("modules/webshop").equals("true"));
 		
 		chckbxDashboard.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
 		chckbxStock.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
@@ -403,6 +406,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxSearch.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
 		chckbxSealed.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/sealed",chckbxSealed.isSelected()));
 		chckbxEvents.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/event",chckbxEvents.isSelected()));
+		chckbxShopping.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/webshop",chckbxShopping.isSelected()));
 		
 		
 		
@@ -420,6 +424,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 2));
 		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 3));
 		panelModule.add(chckbxEvents, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
+		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 3));
 		
 
 	

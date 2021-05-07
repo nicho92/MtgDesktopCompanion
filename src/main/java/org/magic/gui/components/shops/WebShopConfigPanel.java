@@ -217,7 +217,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
-		spinnerReduction = new JSpinner(new SpinnerNumberModel(conf.getPercentReduction(),0,100,0.5));
+		spinnerReduction = new JSpinner(new SpinnerNumberModel(conf.getPercentReduction()*100,0,100,0.5));
 		
 		var paneSlide = new JPanel();
 		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());

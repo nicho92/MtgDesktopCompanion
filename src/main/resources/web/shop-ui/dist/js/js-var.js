@@ -1,4 +1,5 @@
- function $_GET(param) {
+ function $_GET(param) 
+ {
 	    	var vars = {};
 	    	window.location.href.replace( location.hash, '' ).replace( 
 	    		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
@@ -11,7 +12,7 @@
 	    		return vars[param] ? vars[param] : null;	
 	    	}
 	    	return vars;
-	    }
+}
 	    
 
 function generateEditionHTML(data)
@@ -19,8 +20,6 @@ function generateEditionHTML(data)
 				var append="<div class='col-md-2'>";
            			append+="<p class='card-text'><i class='ss ss-3x ss-"+data.keyRuneCode.toLowerCase()+"'></i>"+data.set+"</p>";
                 	append+="</div>";
-              
-                	
                 	
          return append;
 }
@@ -46,7 +45,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
            			append+="<div class='row'>";
                 	append+="<div class='col'>";
                 	
-                	if(percentReduction>0)
+					if(percentReduction>0 && tosell=='false')
                 		append+="<p class='btn btn-danger btn-block'>"+(data.price-(data.price*percentReduction)).toFixed(2)+" " + currency +  "</p>";
                 	else
                 		append+="<p class='btn btn-danger btn-block'>"+data.price.toFixed(2)+" " + currency +  "</p>";

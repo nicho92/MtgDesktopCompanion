@@ -18,6 +18,11 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	
 	
 	@Override
+	public void setValueAt(Object aValue, int row, int column) {
+		getItemAt(row).setStatut(STAT.valueOf(aValue.toString()));
+	}
+	
+	@Override
 	public Object getValueAt(int row, int column) {
 		
 		Transaction it = items.get(row);
