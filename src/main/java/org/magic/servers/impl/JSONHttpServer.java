@@ -366,7 +366,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(":idSet"))).collect(Collectors.toList()), transformer);
 		
+		get("/stock/search/:cardName", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(":idSet"))).collect(Collectors.toList()), transformer);
 
+		
+		
 		get("/dash/collection", URLTools.HEADER_JSON, (request, response) -> {
 			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			var model = new MagicEditionsTableModel();

@@ -95,6 +95,9 @@
 			    		if($_GET("idSet"))
 				    	{
 				    		url=restserver+"/stock/list/"+value.name+"/"+$_GET("idSet");
+				    		
+				    		$("#breadcrumb").append("<li class='breadcrumb-item active'>"+$_GET("idSet")+"</li>");
+				    		
 				    	}
 			    		
 			    		  
@@ -160,7 +163,7 @@
     <div class="row">
         <div class="col">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" id="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                     <li class="breadcrumb-item active"><a href="category.html">Products</a></li>
 
