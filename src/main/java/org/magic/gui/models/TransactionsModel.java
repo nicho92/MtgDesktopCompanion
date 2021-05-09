@@ -1,11 +1,14 @@
 package org.magic.gui.models;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.STAT;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.tools.MTG;
 
 public class TransactionsModel extends GenericTableModel<Transaction> {
 
@@ -20,6 +23,12 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		getItemAt(row).setStatut(STAT.valueOf(aValue.toString()));
+		
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(getItemAt(row));
+		} catch (SQLException e) {
+		logger.error(e);
+		}
 	}
 	
 	@Override

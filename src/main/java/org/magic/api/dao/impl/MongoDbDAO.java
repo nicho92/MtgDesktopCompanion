@@ -616,11 +616,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public int saveTransaction(Transaction t) throws SQLException {
+	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	
+	@Override
+	public Transaction getTransaction(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void deleteTransaction(Transaction t) throws SQLException {

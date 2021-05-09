@@ -532,7 +532,7 @@ public class FileDAO extends AbstractMagicDAO{
 	}
 
 	@Override
-	public int saveTransaction(Transaction t) throws SQLException {
+	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -543,5 +543,11 @@ public class FileDAO extends AbstractMagicDAO{
 		
 	}
 
+	@Override
+	public Transaction getTransaction(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 }

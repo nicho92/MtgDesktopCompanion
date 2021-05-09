@@ -200,15 +200,24 @@
 			
 			$('#checkoutBtn').click(function (e) {
 				var json = createJSONOrder($("[class=form-control]"));
-		
+			
+				$('input[class="form-group"]').blur(function(){
+			        if(!$(this).val()){
+			            $(this).addClass("error");
+			        } else{
+			            $(this).removeClass("error");
+			        }
+			    });
+				
+				
 				$.post(restserver+"/transaction/add",JSON.stringify(json)).done(function( data ) {
 					  												$( "#result" ).html("resultat="+data);
 					  													clearCart();
 																	}); 
-				
-				
-				
 			});
+			
+			
+			
 			
 			
 		  });
@@ -300,7 +309,7 @@
            <div class="col-sm-12 col-md-12 text-right">
            		<button id="checkoutBtn" class="btn btn-lg btn-block btn-success text-uppercase" >Checkout</button>
            	</div>
-           	<div class="col-sm12 col-md2"><span id="result"></span></div>
+           	<div class="col-sm12 col-md2 btn-success"><span id="result"></span></div>
        </div>
         
     </div>

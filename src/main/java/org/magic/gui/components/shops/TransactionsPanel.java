@@ -34,6 +34,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		table = UITools.createNewTable(model);
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
+		UITools.initTableFilter(table);
+		
 		
 		table.packAll();
 		panneauBas.showAllColumns();
@@ -46,6 +48,10 @@ public class TransactionsPanel extends MTGUIComponent {
 		table.getSelectionModel().addListSelectionListener(lsl->{
 			
 			Transaction t = UITools.getTableSelection(table, 0);
+			
+			if(t==null)
+				return;
+			
 			panneauBas.initMagicCardStock(t.getItems());
 			panneauBas.disableCommands();
 		});

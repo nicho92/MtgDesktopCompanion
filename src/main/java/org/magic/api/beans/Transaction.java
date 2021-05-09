@@ -8,7 +8,7 @@ public class Transaction {
 	
 	public enum STAT {NEW,ACCEPTED,REFUSED} 
 	
-	private int id;
+	private int id=-1;
 	private Date dateProposition;
 	private List<MagicCardStock> items;
 	private Contact contact;

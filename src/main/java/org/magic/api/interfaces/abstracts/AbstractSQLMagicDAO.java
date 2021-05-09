@@ -117,6 +117,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct);");
 		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct);");
 		
+		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (staut);");
+		
+		
 		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
 		
 		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
@@ -219,7 +222,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction DATE, message VARCHAR(250), stocksItem "+beanStorage()+", contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250))");
 			logger.debug("Create table transactions");
 	
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
@@ -260,6 +263,23 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 	}
 	
+	
+	@Override
+	public Transaction getTransaction(int id) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where id=?")) 
+		{
+				pst.setInt(1, id);
+				ResultSet rs = pst.executeQuery();
+			
+				rs.first();
+				return readTransaction(rs);
+				
+				
+		}
+	
+	}
+	
+	
 	@Override
 	public List<Transaction> listTransactions()  throws SQLException {
 		List<Transaction> colls = new ArrayList<>();
@@ -267,61 +287,84 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions");ResultSet rs = pst.executeQuery()) 
 		{
 				while (rs.next()) {
-					var state = new Transaction();
-					
-					state.setDateProposition(rs.getDate("dateTransaction"));
-					state.setId(rs.getInt("id"));
-					state.setMessage(rs.getString("message"));
-					
-					state.setItems(readTransactionItems(rs));
-					state.setStatut(STAT.valueOf(rs.getString("statut")));
-					
-					
-					var contact = new Contact();
-						contact.setName(rs.getString("contact_name"));
-						contact.setLastName(rs.getString("contact_lastname"));
-						contact.setTelephone(rs.getString("contact_telephone"));
-						contact.setCountry(rs.getString("contact_country"));
-						contact.setAddress(rs.getString("contact_address"));
-						contact.setWebsite(rs.getString("contact_website"));
-					
-					state.setContact(contact);	
-						
-						
-					colls.add(state);
+					colls.add(readTransaction(rs));
 				}
 				logger.trace( colls.size() + " transactions");
 		}
 		return colls;
 	}
+	
+	
+	private Transaction readTransaction(ResultSet rs) throws SQLException {
+		var state = new Transaction();
+		
+		state.setDateProposition(rs.getTimestamp("dateTransaction"));
+		state.setId(rs.getInt("id"));
+		state.setMessage(rs.getString("message"));
+		
+		state.setItems(readTransactionItems(rs));
+		state.setStatut(STAT.valueOf(rs.getString("statut")));
+		
+		
+		var contact = new Contact();
+			contact.setName(rs.getString("contact_name"));
+			contact.setLastName(rs.getString("contact_lastname"));
+			contact.setTelephone(rs.getString("contact_telephone"));
+			contact.setCountry(rs.getString("contact_country"));
+			contact.setAddress(rs.getString("contact_address"));
+			contact.setWebsite(rs.getString("contact_website"));
+		
+		state.setContact(contact);
+		return state;	
+	}
 	@Override
-	public int saveTransaction(Transaction t) {
+	public int saveOrUpdateTransaction(Transaction t) {
 		
-		logger.debug("save transaction ");
 		
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, contact_name, contact_lastname, contact_telephone, contact_country, contact_address, contact_website,statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?);",Statement.RETURN_GENERATED_KEYS)) {
-			pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
-			pst.setString(2, t.getMessage());
-			storeTransactionItems(pst,3, t.getItems());			
-			pst.setString(4, t.getContact().getName());
-			pst.setString(5, t.getContact().getLastName());
-			pst.setString(6, t.getContact().getTelephone());
-			pst.setString(7, t.getContact().getCountry());
-			pst.setString(8, t.getContact().getAddress());
-			pst.setString(9, t.getContact().getWebsite());
-			pst.setString(10, t.getStatut().name());
-			
-			pst.executeUpdate();
-			t.setId(getGeneratedKey(pst));
-			
-			return t.getId();
-			
-		} catch (Exception e) {
-			logger.error("error insert", e);
-			return -1;
+		if (t.getId() < 0) 
+		{
+		
+				logger.debug("save transaction ");
+				
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, contact_name, contact_lastname, contact_telephone, contact_country, contact_address, contact_website,statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?);",Statement.RETURN_GENERATED_KEYS)) {
+					pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
+					pst.setString(2, t.getMessage());
+					storeTransactionItems(pst,3, t.getItems());			
+					pst.setString(4, t.getContact().getName());
+					pst.setString(5, t.getContact().getLastName());
+					pst.setString(6, t.getContact().getTelephone());
+					pst.setString(7, t.getContact().getCountry());
+					pst.setString(8, t.getContact().getAddress());
+					pst.setString(9, t.getContact().getWebsite());
+					pst.setString(10, t.getStatut().name());
+					
+					pst.executeUpdate();
+					t.setId(getGeneratedKey(pst));
+					
+					return t.getId();
+					
+				} catch (Exception e) {
+					logger.error("error insert", e);
+					return -1;
+				}
+		
 		}
-		
-		
+		else
+		{
+
+			logger.debug("update transaction " + t.getId());
+			
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ? WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+				pst.setString(1, t.getStatut().name());
+				pst.setInt(2, t.getId());
+				pst.executeUpdate();
+				return t.getId();
+				
+			} catch (Exception e) {
+				logger.error("error update", e);
+				return -1;
+			}
+		}
 		
 	}
 	@Override

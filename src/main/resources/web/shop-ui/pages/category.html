@@ -87,11 +87,19 @@
 					}
 			    	
 			    	
-			    	var products;  
+			    	
+			    	
 			    	$.each( data.collections, function( key, value ) {
+			    		
+			    		var url=restserver+"/stock/list/"+value.name;
+			    		if($_GET("idSet"))
+				    	{
+				    		url=restserver+"/stock/list/"+value.name+"/"+$_GET("idSet");
+				    	}
+			    		
 			    		  
 			    		  $.ajax({
-						        url: restserver+"/stock/list/"+value.name
+						        url: url
 						    }).then(function(data) {
 						    	
 						    	/* data=data.sort(function(a,b){
@@ -117,10 +125,14 @@
 						    	})
 						    	
 						    	
-						    	$.each([...new Set(data.map(item => item.magicCard.editions[0].set))].sort(),function(key, value){
-						    			
-						    		$("#categories").append("<li class='list-group-item'><a href='category.html'>"+value+"</a></li>");
-						    		
+						    	 $.ajax({
+						       			 url: restserver+"/stock/sets/"+value.name
+						  			  }).then(function(data) {
+						  				
+						  				  $.each(data,function( i ) {
+						  					  
+						    				$("#categories").append("<li class='list-group-item'><i class='ss ss-2x ss-"+data[i].id.toLowerCase()+"'></i> <a href='category.html?idSet="+data[i].id+"'>"+data[i].set+"</a></li>");
+						  				});
 						    	});
 						    	
 						    	
