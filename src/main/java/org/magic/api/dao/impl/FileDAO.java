@@ -561,6 +561,12 @@ public class FileDAO extends AbstractMagicDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Contact getContactByLogin(String email, String password) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

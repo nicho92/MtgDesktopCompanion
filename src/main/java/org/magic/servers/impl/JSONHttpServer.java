@@ -11,8 +11,8 @@ import static spark.Spark.initExceptionHandler;
 import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
-import static spark.Spark.put;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.http.util.EntityUtils;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -57,8 +57,6 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -522,6 +520,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
 		}, transformer);
 		
+	
 				
 		get("/",URLTools.HEADER_HTML,(request,response) -> {
 			
@@ -544,6 +543,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 		});
+		
+		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) -> {
+			
+			var c= getEnabledPlugin(MTGDao.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
+			
+			if(c!=null)
+				request.session().attribute("user", c);
+			
+			
+			return c;
+		}, transformer);
+		
 		
 
 

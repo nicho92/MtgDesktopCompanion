@@ -77,6 +77,7 @@ public interface MTGDao extends MTGPlugin {
 	
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
 	public Contact getContactById(int id)  throws SQLException;
+	public Contact getContactByLogin(String email, String password)  throws SQLException;
 	
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed);

@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.enums.MTGRarity;
-
 import com.google.gson.annotations.SerializedName;
 
 public class MagicEdition implements Serializable, Comparable<MagicEdition> {

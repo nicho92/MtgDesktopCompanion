@@ -39,16 +39,18 @@ import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.renderer.CardListPanel;
-import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.MTG;
-import org.magic.tools.UITools;
 
 public class WebShopConfigPanel extends MTGUIComponent {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtSiteTitle;
 	private JTextField txtBannerTitle;
 	private JTextArea txtBannerText;

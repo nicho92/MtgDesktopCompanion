@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Site meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Site Title</title>
+    <!-- CSS -->
+    <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+    
+    <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
+    <!-- JS -->
+	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
+	
+	
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+ 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js" type="text/javascript"></script>
+ 	
+ 	
+ 	
+
+
+    <script src="../dist/js/rest-server.js"></script>
+   	<script src="../dist/js/js-var.js"></script>
+   	<script src="../dist/js/cart.js"></script>
+ 
+    <script>
+	    $(document).ready(function() {		
+		  	 $("#footer").load("footer.html");
+		  	 $("#header").load("nav.html");
+		  	 
+		 	$.ajax({
+		        url: restserver+"/webshop/config" 
+		    }).then(function(data) {
+		    	$('#siteTitle').html(data.siteTitle);
+		    	$('#bannerTitle').html(data.bannerTitle);
+		       	$('#bannerText').html(data.bannerText);
+		       	$('#aboutText').html(data.aboutText);
+		       	document.title = data.siteTitle;
+		       	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+		    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+		    	$('#contactTelephone').html(data.contact.telephone);
+		    	$('#contactWebsite').html(data.contact.website);
+		    	$('#contactAddress').html(data.contact.address);
+		    	$('#contactCountry').html(data.contact.country);
+		    });
+		  	 
+		  	 
+	    });
+	    
+    </script>
+    
+</head>
+
+<body>
+
+<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top"></nav>
+
+
+	<h4 class="card-title mt-3 text-center">Create Account</h4>
+	
+	<form>
+		<div class="form-group input-group">
+			<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+			 </div>
+	        <input name="" class="form-control" placeholder="Name" type="text"/>
+	    </div> 
+	    
+	    <div class="form-group input-group">
+			<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+			 </div>
+	        <input name="" class="form-control" placeholder="Last name" type="text"/>
+	    </div>
+	    
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+			 </div>
+	        <input name="" class="form-control" placeholder="Email address" type="email"/>
+	    </div>
+
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+			</div>
+			
+	    	<input name="" class="form-control" placeholder="Phone number" type="text"/>
+	    </div> 
+
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+			</div>
+			<textarea class="form-control" placeholder="Address" rows="3"></textarea>
+		</div>
+		
+		 <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-flag"></i> </span>
+			</div>
+			<select class="form-control input-medium bfh-countries"></select>
+		</div>
+
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+			</div>
+	        <input class="form-control" placeholder="Password" type="password"/>
+	    </div>
+
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+			</div>
+	        <input class="form-control" placeholder="Confirm password" type="password"/>
+	    </div> 
+                                    
+	    <div class="form-group">
+	        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+	    </div>      
+	                                                                     
+</form>
+
+
+<!-- Footer -->
+<footer id="footer" class="text-light"></footer>
+
+
+
+</body>
+</html>

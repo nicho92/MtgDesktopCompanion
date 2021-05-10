@@ -1,7 +1,36 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-80494557-1"></script>
+ 
+ 
+<script>
+
+$('#btnLogin').click(function (e) {
+		$.post(restserver+"/webshop/user/connect",{	//Tableau des paramètres 
+		    email : $( "#emailTxt" ).val(), 
+		    password : $( "#passwordTxt" ).val()
+			},
+				function( data ) {
+				
+					if(data==null)
+					{
+						alert("Error authentication");
+					}
+					else
+					{
+						$("#loggedUser").html(data.name);
+						
+					}
+				}
+				,'json'
+		
+		); 
+});
+
+
+</script> 
+ 
   
 <div class="container">
-        <a class="navbar-brand" href="index.html"><img src="../dist/img/logo.png" alt="logo"/> &nbsp;<span id="siteTitle"/></a>
+        <a class="navbar-brand" href="index.html"><img src="../dist/img/logo.png" alt="logo"/> &nbsp;<span id="siteTitle"></span></a>
         
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,9 +38,7 @@
 
 
         <div class="collapse navbar-collapse " id="navbarsExampleDefault">
-           
-
-			 <ul class="navbar-nav m-auto">
+         	 <ul class="navbar-nav m-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
@@ -25,7 +52,7 @@
                     <div class="ui-widget"><input type="text" class="form-control" id="searchText" placeholder="Search..."></div>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-secondary btn-number">
-                            <em class="fa fa-search"/>
+                            <em class="fa fa-search"></em>
                         </button>
                     </div>
                 </div>
@@ -34,23 +61,37 @@
 
 			 <ul class="navbar-nav m-auto">
             	<a class="btn btn-success btn-sm ml-3" href="cart.html">
-                    <em class="fa fa-shopping-cart"/> Cart <span id="cart" class="badge badge-light"></span>
+                    <em class="fa fa-shopping-cart"></em> Cart <span id="cart" class="badge badge-light"></span>
              	</a>
 			 </ul>
 		
  			<ul class="nav navbar-nav ms-auto justify-content-end">
 		 		<li class="nav-item dropdown">
-	             		<a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <em class="fas fa-user"/> Connect </a>
-				      
-	                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarScrollingDropdown">
-	                        <li><a class="dropdown-item" href="#">Login</a></li>
-	                        <li><a class="dropdown-item" href="#">Password</a></li>
-	                        <li>
-	                            <hr class="dropdown-divider">
-	                        </li>
-	                        <li><a class="dropdown-item" href="#">Logout</a></li>
-	                    </ul>
-	            </li>
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          <em class="fas fa-user"></em> <span id="loggedUser"></span>
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style=" width: 300px !important;">
+			        
+				        <form>
+				          	<div class="dropdown-item input-group mb-3">
+								<div class="input-group-append">
+									<span class="input-group-text"><em class="fas fa-user"></em></span>
+								</div>
+								<input type="text" name="" class="form-control input_user" value="" placeholder="email" id="emailTxt">
+							</div>
+				          <div class="dropdown-item input-group mb-2">
+								<div class="input-group-append">
+									<span class="input-group-text"><em class="fas fa-key"></em></span>
+								</div>
+								<input type="password" autocomplete name="" class="form-control input_pass" value="" placeholder="password" id="passwordTxt">
+							</div>
+						
+				          <div class="dropdown-divider"></div>
+				          <a class="dropdown-item" href="#"><button type="button" name="button" class="btn login_btn" id="btnLogin">Login</button></a>
+				          
+				          </form>
+			        </div>
+			      </li>
  			</ul>
 
 

@@ -2,7 +2,6 @@ package org.magic.gui.models;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.STAT;
