@@ -6,6 +6,7 @@ public class Contact implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
+	private int id=-1;
 	private String name;
 	private String lastName;
 	private String email;
@@ -13,9 +14,24 @@ public class Contact implements Serializable {
 	private String country;
 	private String address;
 	private String website;
+	private String password="changeit";
 	
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
+	public String getPassword() {
+		return password;
+	}
 	
 	public String getWebsite() {
 		return website;

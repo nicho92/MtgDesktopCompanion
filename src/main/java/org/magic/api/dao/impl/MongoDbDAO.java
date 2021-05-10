@@ -19,6 +19,7 @@ import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -632,5 +633,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void deleteTransaction(Transaction t) throws SQLException {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public int saveOrUpdateContact(Contact c) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public Contact getContactById(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

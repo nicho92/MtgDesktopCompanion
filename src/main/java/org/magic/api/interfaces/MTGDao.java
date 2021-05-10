@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -73,6 +74,10 @@ public interface MTGDao extends MTGPlugin {
 	public int saveOrUpdateTransaction(Transaction t)throws SQLException;
 	public void deleteTransaction(Transaction t)throws SQLException;
 	public Transaction getTransaction(int id) throws SQLException;
+	
+	public int saveOrUpdateContact(Contact c)  throws SQLException;
+	public Contact getContactById(int id)  throws SQLException;
+	
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
 	public List<OrderEntry> listOrdersAt(Date d);

@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -545,6 +546,18 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public Transaction getTransaction(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int saveOrUpdateContact(Contact c) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Contact getContactById(int id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -26,6 +26,11 @@ public class IDGenerator {
 		return DigestUtils.md5Hex(s).toUpperCase();
 	}
 	
+	public static String generateSha256(String s)
+	{
+		return DigestUtils.sha256Hex(s).toUpperCase();
+	}
+	
 
 	public static String generate(MagicCard mc, MagicEdition ed) {
 		
