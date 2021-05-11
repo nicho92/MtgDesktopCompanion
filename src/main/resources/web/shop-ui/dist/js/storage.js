@@ -10,6 +10,15 @@ function storeUser( user )
 	storage.setItem(userKey,JSON.stringify(user));
 }
 
+function getCurrentUser()
+{
+	if(storage.getItem(userKey))
+		return JSON.parse(storage.getItem(userKey));
+	
+	return null;
+}
+
+
 function logout()
 {
 	storage.setItem(userKey,"");
@@ -88,7 +97,7 @@ function createJSONOrder(contact) {
 	    
 	    
 	    var jsonObj = {
-	    	contact:contactObj,
+	    	contact:getCurrentUser(),
 	    	items : getCartItems(),
 	    	message:$(contact.get(3)).val()
 	    }

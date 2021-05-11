@@ -37,13 +37,30 @@
    	<script src="../dist/js/storage.js"></script>
  
     <script>
-	    $(document).ready(function() {		
-		  	 $("#footer").load("footer.html");
-		  	 $("#header").load("nav.html");
-		  	 
-
-
-			$("#subscription").validate({
+	    $(document).ready(function() {	
+			$("#footer").load("footer.html");
+		  	$("#header").load("nav.html");
+		  	
+			$.ajax({
+		        url: restserver+"/webshop/config" 
+		    }).then(function(data) {
+		    	$('#siteTitle').html(data.siteTitle);
+		    	$('#bannerTitle').html(data.bannerTitle);
+		       	$('#bannerText').html(data.bannerText);
+		       	$('#aboutText').html(data.aboutText);
+		       	document.title = data.siteTitle;
+		       	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+		    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+		    	$('#contactTelephone').html(data.contact.telephone);
+		    	$('#contactWebsite').html(data.contact.website);
+		    	$('#contactAddress').html(data.contact.address);
+		    	$('#contactCountry').html(data.contact.country);
+		    });
+			
+		
+			
+		   
+			 $("#subscription").validate({
 				  debug: false,
 					
 				  messages: {
@@ -67,7 +84,8 @@
 						myObject.telephone = $("input[name='telephone']").val();
 					
 						$.post(restserver+"/contact/add",JSON.stringify(myObject)).done(function(){			
-										alert("OK");						
+								
+								storeUser(myObject);						
 						});
 				  },
 
@@ -94,22 +112,7 @@
 			});
 			  	
 
-		 	$.ajax({
-		        url: restserver+"/webshop/config" 
-		    }).then(function(data) {
-		    	$('#siteTitle').html(data.siteTitle);
-		    	$('#bannerTitle').html(data.bannerTitle);
-		       	$('#bannerText').html(data.bannerText);
-		       	$('#aboutText').html(data.aboutText);
-		       	document.title = data.siteTitle;
-		       	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
-		    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
-		    	$('#contactTelephone').html(data.contact.telephone);
-		    	$('#contactWebsite').html(data.contact.website);
-		    	$('#contactAddress').html(data.contact.address);
-		    	$('#contactCountry').html(data.contact.country);
-		    });
-			
+		 	
 			
 	});
 	 

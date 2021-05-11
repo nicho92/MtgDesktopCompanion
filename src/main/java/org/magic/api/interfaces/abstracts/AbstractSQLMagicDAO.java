@@ -442,14 +442,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		{
 		
 				logger.debug("save transaction ");
-				int idCt = saveOrUpdateContact(t.getContact());
 				
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,fk_idcontact) VALUES (?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());			
 					pst.setString(4, t.getStatut().name());
-					pst.setInt(5, idCt);
+					pst.setInt(5, t.getContact().getId());
 					pst.executeUpdate();
 					t.setId(getGeneratedKey(pst));
 					
