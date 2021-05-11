@@ -32,7 +32,7 @@
 	
     <script src="../dist/js/rest-server.js"></script>
    	<script src="../dist/js/js-var.js"></script>
-   	<script src="../dist/js/cart.js"></script>
+   	<script src="../dist/js/storage.js"></script>
 
 	<script>
 	
@@ -88,7 +88,7 @@
 		        	// Total over all pages
 		            total = 0;
 					
-					console.log(data);
+					
 
 					api.cells(null,7).render().each(function(item) {
 						
@@ -213,6 +213,8 @@
 				$.post(restserver+"/transaction/add",JSON.stringify(json)).done(function( data ) {
 					  												$( "#result" ).html("resultat="+data);
 					  													clearCart();
+																		dtTable.clear()
+    																	.draw();
 																	}); 
 			});
 			
@@ -298,7 +300,7 @@
                         </div>
                         <div class="mx-auto">
                       	</div>
-                    </form>
+                   
                 </div>
             </div>
         </div>
@@ -314,10 +316,9 @@
        </div>
         
     </div>
+ </form>
 </div>
 
-<!-- Footer -->
-<!-- Footer -->
 <footer class="text-light" id="footer"></footer>
 
 

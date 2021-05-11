@@ -4,7 +4,7 @@
 <script>
 
 $('#btnLogin').click(function (e) {
-		$.post(restserver+"/webshop/user/connect",{	//Tableau des paramètres 
+		$.post(restserver+"/webshop/user/connect",{	 
 		    email : $( "#emailTxt" ).val(), 
 		    password : $( "#passwordTxt" ).val()
 			},
@@ -17,7 +17,7 @@ $('#btnLogin').click(function (e) {
 					else
 					{
 						$("#loggedUser").html(data.name);
-						
+						storeUser(data);
 					}
 				}
 				,'json'
@@ -116,7 +116,7 @@ $('#btnLogin').click(function (e) {
      }
    });
  
-  $("#cart").html(sessionStorage.length);
+  $("#cart").html(getCartItems().length);
  
  
   
