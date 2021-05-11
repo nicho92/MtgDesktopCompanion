@@ -86,20 +86,12 @@ function getCartItems()
 		return JSON.parse(storage.getItem(cartKey) || "[]");
 }
 
-function createJSONOrder(contact) {
+function createJSONOrder(msg) {
 	
-		var contactObj = {
-			name:$(contact.get(0)).val(),
-			lastName:$(contact.get(1)).val(),
-			email:$(contact.get(2)).val(),
-		}
-	    
-	    
-	    
-	    var jsonObj = {
+		var jsonObj = {
 	    	contact:getCurrentUser(),
 	    	items : getCartItems(),
-	    	message:$(contact.get(3)).val()
+	    	message:msg
 	    }
 	  	
 	  	return jsonObj;
