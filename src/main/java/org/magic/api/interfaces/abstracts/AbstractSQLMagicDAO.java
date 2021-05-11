@@ -387,9 +387,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 		if (ct.getId() < 0) 
 		{
-		
-				logger.debug("save Contact ");
-				
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_website,contact_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) 
 				{
 					pst.setString(1, ct.getName());
@@ -402,7 +399,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					pst.setString(8, ct.getEmail());
 					pst.executeUpdate();
 					ct.setId(getGeneratedKey(pst));
-					
+					logger.debug("save Contact with id="+ct.getId());
 					return ct.getId();
 					
 				} catch (Exception e) {

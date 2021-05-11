@@ -14,7 +14,7 @@ public class Contact implements Serializable {
 	private String country;
 	private String address;
 	private String website;
-	private transient String password="changeit";
+	private String password="changeit";
 	
 	
 	public int getId() {

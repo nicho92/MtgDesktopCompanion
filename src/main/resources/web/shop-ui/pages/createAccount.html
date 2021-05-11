@@ -27,20 +27,73 @@
     <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
  	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js" type="text/javascript"></script>
- 	
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
  	
  	
 
 
     <script src="../dist/js/rest-server.js"></script>
    	<script src="../dist/js/js-var.js"></script>
-   	<script src="../dist/js/cart.js"></script>
+   	<script src="../dist/js/storage.js"></script>
  
     <script>
 	    $(document).ready(function() {		
 		  	 $("#footer").load("footer.html");
 		  	 $("#header").load("nav.html");
 		  	 
+
+
+			$("#subscription").validate({
+				  debug: false,
+					
+				  messages: {
+				      name: "Please enter your firstname",
+				      lastname: "Please enter your lastname",
+				      password: {
+				        required: "Please provide a password",
+				        minlength: "Your password must be at least 5 characters long"
+				      },
+				      email: "Please enter a valid email address"
+					},
+					
+				  submitHandler: function(form) {
+					var myObject = new Object();
+						myObject.name = $("input[name='name']").val();
+						myObject.lastName = $("input[name='lastname']").val();
+						myObject.address = $("input[name='address']").val();
+						myObject.country = $("input[name='country']").val();
+						myObject.password = $("input[name='password']").val();
+						myObject.email = $("input[name='email']").val();
+						myObject.telephone = $("input[name='telephone']").val();
+					
+						$.post(restserver+"/contact/add",JSON.stringify(myObject)).done(function(){			
+										alert("OK");						
+						});
+				  },
+
+				  rules : {
+					name : {
+						required : true
+					},
+					lastname :  {
+						required : true
+					},
+					email : {
+				        required: true,
+				        email: true
+				      },
+			        password : {
+	                    required: true,
+						minlength:6
+	                },
+	                password_confirm : {
+		 				required: true,
+	                    equalTo : "#password"
+	                }
+				}
+			});
+			  	
+
 		 	$.ajax({
 		        url: restserver+"/webshop/config" 
 		    }).then(function(data) {
@@ -56,89 +109,91 @@
 		    	$('#contactAddress').html(data.contact.address);
 		    	$('#contactCountry').html(data.contact.country);
 		    });
-		  	
-	
-	
-		  	 
-	    });
+			
+			
+	});
+	 
 	    
     </script>
-    
+    <style>
+	form .error {
+		  color: #ff0000;
+		}
+	</style>
 </head>
 
 <body>
 
 <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top"></nav>
 
-
-	<h4 class="card-title mt-3 text-center">Create Account</h4>
-	
-	<form>
-		<div class="form-group input-group">
-			<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-			 </div>
-	        <input name="" class="form-control" placeholder="Name" type="text" required/>
-	    </div> 
-	    
-	    <div class="form-group input-group">
-			<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-			 </div>
-	        <input name="" class="form-control" placeholder="Last name" type="text" required/>
-	    </div>
-	    
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-			 </div>
-	        <input name="" class="form-control" placeholder="Email address" type="email" required/>
-	    </div>
-
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-			</div>
+	<div class="container">
+			<h4 class="mt-3 text-center">Registration</h4>
 			
-	    	<input name="" class="form-control" placeholder="Phone number" type="text" />
-	    </div> 
-
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-			</div>
-			<textarea class="form-control" placeholder="Address" rows="3" required></textarea>
-		</div>
+			<form id="subscription" action="">
+				<div class="form-group input-group">
+					<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+					 </div>
+			        <input name="name" class="form-control" placeholder="Name" type="text"/>
+			    </div> 
+			    
+			    <div class="form-group input-group">
+					<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+					 </div>
+			        <input name="lastname" class="form-control" placeholder="Last name" type="text"/>
+			    </div>
+			    
+			    <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+					 </div>
+			        <input name="email" class="form-control" placeholder="Email address" type="email"/>
+			    </div>
 		
-		 <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-flag"></i> </span>
-			</div>
-			<select class="form-control input-medium bfh-countries" required></select>
-		</div>
+			    <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+					</div>
+					
+			    	<input name="telephone" class="form-control" placeholder="Phone number" type="text" />
+			    </div> 
+		
+			    <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+					</div>
+					<textarea name="address" class="form-control" placeholder="Address" rows="3"></textarea>
+				</div>
+				
+				 <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-flag"></i> </span>
+					</div>
+					<select name="country" class="form-control input-medium bfh-countries"></select>
+				</div>
+		
+			    <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+					</div>
+			        <input class="form-control" placeholder="Password" name="password" id="password" type="password" />
+			    </div>
+		
+			    <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+					</div>
+			        <input class="form-control" placeholder="Confirm password" name="password_confirm" type="password"/>
+			    </div> 
+		                                    
+			    <div class="form-group">
+			        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+			    </div>      
+	     </form>
+	</div>
 
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-			</div>
-	        <input class="form-control" placeholder="Password" type="password" required />
-	    </div>
 
-	    <div class="form-group input-group">
-	    	<div class="input-group-prepend">
-			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-			</div>
-	        <input class="form-control" placeholder="Confirm password" type="password"/>
-	    </div> 
-                                    
-	    <div class="form-group">
-	        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
-	    </div>      
-	                                                                     
-</form>
-
-
-<!-- Footer -->
 <footer id="footer" class="text-light"></footer>
 
 

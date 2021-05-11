@@ -548,6 +548,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			var c= getEnabledPlugin(MTGDao.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			
+			c.setPassword(null);
 			if(c!=null)
 				request.session().attribute("user", c);
 			
@@ -555,7 +556,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return c;
 		}, transformer);
 		
-		
+		post("/contact/add", URLTools.HEADER_JSON, (request, response) -> {
+			
+			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
+			getEnabledPlugin(MTGDao.class).saveOrUpdateContact(t);
+			return t;
+			
+		});
 
 
 	}
