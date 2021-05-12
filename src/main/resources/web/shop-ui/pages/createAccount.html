@@ -42,7 +42,7 @@
 		  	
 		    $("#subscription").validate({
 				  debug: false,
-					
+				  errorClass: "alert-error",
 				  messages: {
 				      name: "Please enter your firstname",
 				      lastname: "Please enter your lastname",
@@ -62,14 +62,22 @@
 						myObject.password = $("input[name='password']").val();
 						myObject.email = $("input[name='email']").val();
 						myObject.telephone = $("input[name='telephone']").val();
-				
 						
-						 $.post(restserver+"/contact/add",JSON.stringify(myObject)).done(function( data ) {
-								console.log(data);
+						$.post(restserver+"/contact/add",JSON.stringify(myObject))
+							.done(function( data ) {
+								$("#confirmation").removeClass("alert-danger");
+								$("#confirmation").addClass("alert-success");	
 								$("#confirmation").html("Registration OK <a href='index.html'>Go to Main page</a>");
-								$("#subscription").hide();	
-						});  
-
+								$("#subscription").hide();
+								})
+								
+							.fail(function(xhr, status, error) {
+								$("#confirmation").addClass("alert-danger");	
+								$("#confirmation").html(xhr.responseText);
+     						},
+							"json");  
+						
+						return false;
 				  },
 				  
 				  rules : {
@@ -112,11 +120,6 @@
 				
 	});
     </script>
-    <style>
-	form .error {
-		  color: #ff0000;
-		}
-	</style>
 </head>
 
 <body>
@@ -125,7 +128,8 @@
 
 	<div class="container">
 			<h4 class="mt-3 text-center">Registration</h4>
-			<span id="confirmation"></span>
+			<div id="confirmation" class="alert" role="alert"></div>
+			
 			<form id="subscription" action="">
 				<div class="form-group input-group">
 					<div class="input-group-prepend">

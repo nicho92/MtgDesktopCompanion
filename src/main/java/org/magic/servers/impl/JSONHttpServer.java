@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -559,17 +560,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/contact/add", URLTools.HEADER_JSON, (request, response) -> {
 			
+			
+			
 			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
 			try{
 				getEnabledPlugin(MTGDao.class).saveOrUpdateContact(t);
 				return t;
-			}catch(Exception e)
+				
+			}
+			catch(SQLIntegrityConstraintViolationException e)
 			{
-				return e;	
+				response.status(500);
+				return "Email already exist";
 			}
 			
 			
-		});
+		}, transformer);
 
 
 	}

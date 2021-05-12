@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -382,7 +383,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public int saveOrUpdateContact(Contact ct) {
+	public int saveOrUpdateContact(Contact ct) throws SQLException {
 		
 		
 		if (ct.getId() < 0) 
@@ -401,12 +402,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					ct.setId(getGeneratedKey(pst));
 					logger.debug("save Contact with id="+ct.getId());
 					return ct.getId();
-					
-				} catch (Exception e) {
-					logger.error("error insert", e);
-					return -1;
-				}
-		
+				}	
+				
 		}
 		else
 		{
@@ -426,10 +423,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				
 				pst.executeUpdate();
 				return ct.getId();
-				
-			} catch (Exception e) {
-				logger.error("error update", e);
-				return -1;
 			}
 		}
 		

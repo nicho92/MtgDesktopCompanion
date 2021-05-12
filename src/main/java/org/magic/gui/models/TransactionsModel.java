@@ -12,10 +12,16 @@ import org.magic.tools.MTG;
 public class TransactionsModel extends GenericTableModel<Transaction> {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public TransactionsModel() {
 		
 		setWritable(true);
-		columns = new String[] { "ID","DATEPROPOSITION","CONTACT","ITEMS","TOTAL","STATUT" };
+		columns = new String[] { "ID","DATEPROPOSITION","CONTACT","ITEMS","TOTAL","MESSAGE","STATUT" };
 	}
 	
 	
@@ -42,7 +48,8 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 			case 2 : return it.getContact();
 			case 3 : return it.getItems().size();
 			case 4 : return it.total();
-			case 5 : return it.getStatut();
+			case 5 : return it.getMessage();
+			case 6 : return it.getStatut();
 			default : return 0;
 		}
 	}
@@ -50,8 +57,8 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		if(writable)
-		{
-			return (column==5);
+		{ 
+			return (column==6);
 		}
 		else
 		{
@@ -68,7 +75,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 		if(columnIndex==4)
 			return Double.class;
 		
-		if(columnIndex==5)
+		if(columnIndex==6)
 			return STAT.class;
 		
 		return super.getColumnClass(columnIndex);

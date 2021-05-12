@@ -3,7 +3,29 @@
  
 <script>
 
-$('#btnLogin').click(function (e) {
+
+
+
+$(document).ajaxStart(function () 
+	{
+	    $('#loading').html("<img src='../dist/img/loading.gif' width='25' height='25'>"); 
+	});
+
+	$(document).ajaxStop(function() 
+	{
+		 $('#loading').html("");  
+	});
+		
+		
+	 $("#logout").click(function(e){
+			logout();
+			$("#loggedUser").html("");
+			$('#quickauth').show();
+			$('#authenticatedMenu').hide();
+	});
+	
+	
+	$('#btnLogin').click(function (e) {
 		$.post(restserver+"/webshop/user/connect",{	 
 		    email : $( "#emailTxt" ).val(), 
 		    password : $( "#passwordTxt" ).val()
@@ -18,25 +40,25 @@ $('#btnLogin').click(function (e) {
 					{
 						$("#loggedUser").html(data.name);
 						storeUser(data);
+						$('#quickauth').hide();
+						$('#authenticatedMenu').show();
 					}
 				}
 				,'json'
 		
-		); 
+		);
 });
 
 
 </script> 
- 
-  
+
+
 <div class="container">
         <a class="navbar-brand" href="index.html"><img src="../dist/img/logo.png" alt="logo"/> &nbsp;<span id="siteTitle"></span></a>
         
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-
         <div class="collapse navbar-collapse " id="navbarsExampleDefault">
          	 <ul class="navbar-nav m-auto">
                 <li class="nav-item active">
@@ -72,7 +94,7 @@ $('#btnLogin').click(function (e) {
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style=" width: 300px !important;">
 			        
-				        <form>
+						<form id='quickauth'>
 				          	<div class="dropdown-item input-group mb-3">
 								<div class="input-group-append">
 									<span class="input-group-text"><em class="fas fa-user"></em></span>
@@ -90,11 +112,17 @@ $('#btnLogin').click(function (e) {
 				          <a class="dropdown-item" href="#"><button type="button" name="button" class="btn login_btn" id="btnLogin">Login</button></a>
 				          
 				          </form>
+
+						  <div id="authenticatedMenu">
+						  		<a class="dropdown-item" href="profil.html">My account</a>
+								<a class="dropdown-item" id="logout">Logout</a>
+						  </div>
+
+				        
 			        </div>
 			      </li>
  			</ul>
-
-
+			<span id="loading"></span>
         </div>
     </div>
  
@@ -117,7 +145,21 @@ $('#btnLogin').click(function (e) {
    });
  
   $("#cart").html(getCartItems().length);
- 
+  $("#loggedUser").html(function(){
+		var u = getCurrentUser();
+		if(u)
+		{
+			$("#loggedUser").html(u.name);
+			$('#quickauth').hide();
+			
+		}
+		else
+		{
+			$('#authenticatedMenu').hide();
+			
+		}
+		
+  });
  
   
   

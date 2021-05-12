@@ -194,8 +194,30 @@
 			$('#tableCart').on('click', '#deleteFromCard', function (e) {
 				removeStockId($(this).attr("data"));
 				dtTable.row($(this).parents('tr')).remove().draw(false);
+				
+				$("#checkoutBtn").prop('disabled',getCartItems().length==0)
+				
 			});
 			
+			
+			
+			$('#contactInformation').html(function(){
+				
+				var obj = getCurrentUser();
+				
+				if(obj==null)
+				{
+					return "need to be connected";
+				}	
+				
+				$("#checkoutBtn").prop('disabled', getCartItems().length<=0);
+				
+				var txt = obj.name + " " + obj.lastName + "<br/>";
+					txt += obj.address + "<br/>" ; 
+				
+				return txt;
+				
+			});
 			
 			
 			$('#checkoutBtn').click(function (e) {
@@ -208,14 +230,20 @@
 			            $(this).removeClass("error");
 			        }
 			    });
-				
+
+				$("#checkoutBtn").prop('disabled', true);
 				
 				$.post(restserver+"/transaction/add",JSON.stringify(json)).done(function( data ) {
-					  												$( "#result" ).html("resultat="+data);
-					  													clearCart();
-																		dtTable.clear()
-    																	.draw();
-																	}); 
+					
+									$("#result").addClass("alert-success");
+					
+									$( "#result" ).html("resultat="+data);
+										clearCart();
+										dtTable.clear()
+										.draw();
+									});
+									
+									$("#checkoutBtn").prop('disabled', false);
 			});
 			
 			
@@ -280,10 +308,12 @@
             <div class="card">
                 <div class="card-header bg-primary text-white"><i class="fa fa-envelope"></i> Contact Information</div>
                 <div class="card-body">
-                    	You need to be registered
-                    	<br/>Message: <br/>
+                    	<div id="contactInformation"></div>
+                    	<br/><br/>Message: <br/>
                     	<textarea class="form-control" placeholder="type a message" rows="5" id="message"></textarea>
-                    	
+	           				<br/>
+								<button id="checkoutBtn" class="btn btn-lg btn-block btn-success text-uppercase" type="submit" >Checkout</button>
+	           				<br/>
                 </div>
             </div>
         </div>
@@ -291,11 +321,7 @@
 	<br/>
 	<div>
        <div class="row">
-           <div class="col-sm-12 col-md-12 text-right">
-           		<button id="checkoutBtn" class="btn btn-lg btn-block btn-success text-uppercase" type="submit" >Checkout</button>
-           		<br/>
-           	</div>
-           	<div class="col-sm12 col-md2 btn-success"><span id="result"></span></div>
+           	<div id="result" class="alert"></div>
        </div>
         
     </div>

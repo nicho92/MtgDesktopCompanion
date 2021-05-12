@@ -21,7 +21,7 @@ function getCurrentUser()
 
 function logout()
 {
-	storage.setItem(userKey,"");
+	storage.removeItem(userKey);
 }
 
 
