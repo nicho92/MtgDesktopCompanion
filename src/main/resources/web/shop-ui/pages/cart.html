@@ -92,10 +92,7 @@
 
 					api.cells(null,7).render().each(function(item) {
 						
-						if(item.price<0)
 							total += item.qte*item.price;
-						else
-							total += item.qte*(item.price-(item.price*percentReduction));
 					})
 		 			
 					
@@ -159,7 +156,7 @@
  						  "width": "10%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
-										data=(data-(data*percentReduction)).toFixed(2) + " " + currency;		                		 
+										data=data.toFixed(2) + " " + currency;		                		 
 			                	 }
 			                   return data;
 			                }
@@ -169,8 +166,7 @@
   						  "width": "18%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
-										reductedPrice = (row.price-(row.price*percentReduction)).toFixed(2)
-										data=(row.qte*reductedPrice).toFixed(2) + "" +currency;
+										data=(row.qte*row.price).toFixed(2) + "" +currency;
 			                	 }
 			                   return data;
 			                }

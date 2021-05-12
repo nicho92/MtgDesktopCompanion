@@ -2,17 +2,37 @@
 var storage = sessionStorage; // or localStorage
 var cartKey = "cart";
 var userKey = "user";
+var configKey = "config";
 
 
+/////////////CONFIG
+
+function getConfig()
+{
+
+	if(!storage.getItem(configKey)){
+		$.getJSON(restserver+"/webshop/config",function(data) {
+		
+				storage.setItem(configKey,JSON.stringify(data));
+		
+				return data;
+		 });
+	 }
+	 
+	 return JSON.parse(storage.getItem(configKey));
+}
+
+
+/////////////USER
 
 function storeUser( user )
 {
-	localStorage.setItem(userKey,JSON.stringify(user));
+	storage.setItem(userKey,JSON.stringify(user));
 }
 
 function getCurrentUser()
 {
-	if(localStorage.getItem(userKey))
+	if(storage.getItem(userKey))
 		return JSON.parse(localStorage.getItem(userKey));
 	
 	return null;
@@ -21,20 +41,26 @@ function getCurrentUser()
 
 function logout()
 {
-	localStorage.removeItem(userKey);
+	storage.removeItem(userKey);
 }
 
 
+/////////////CART
 
-function addCartProduct(stockItem)
+
+function addCartProduct(stockItem, percentReduction)
 {
 	var array = JSON.parse(storage.getItem(cartKey) || "[]");
 	var it=	array.find(x => x.idstock == stockItem.idstock);
+	
+	if(percentReduction>0)
+		stockItem.price = stockItem.price-(stockItem.price*percentReduction);
 	
 	if(it)
 		it.qte = it.qte+1;
 	else
 		array.push(stockItem);
+	
 	
 	storage.setItem(cartKey, JSON.stringify(array) );
 	$("#cart").html(array.length);
@@ -42,14 +68,15 @@ function addCartProduct(stockItem)
 
 
 
-function addCartStockId(idstock, toSell)
+function addCartStockId(idstock, toSell,percentReduction)
 {
     $.getJSON(restserver+"/stock/get/"+idstock,function(data) {
 			data.qte=1;
+			
 			if(toSell=='true')
 				data.price = -data.price;
-	
-			addCartProduct(data);
+			
+			addCartProduct(data,percentReduction);
 	 });
 }
 
@@ -78,6 +105,7 @@ function clearCart()
 {
      	storage.setItem(cartKey,"[]");
 	   	$("#cart").html(getCartItems().length);
+	   	$("#checkoutBtn").prop('disabled',true);
 }
 	   
 	   
@@ -91,7 +119,8 @@ function createJSONOrder(msg) {
 		var jsonObj = {
 	    	contact:getCurrentUser(),
 	    	items : getCartItems(),
-	    	message:msg
+	    	message:escape(msg)
+	    	
 	    }
 	  	
 	  	return jsonObj;

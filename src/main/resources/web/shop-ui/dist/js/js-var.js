@@ -41,7 +41,14 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
            			
            			append+="<h5 class='card-title'><a href='product.html?id="+data.idstock+"' title='View Product'>"+data.magicCard.name +"</a></h5>";
            				
-           			append+="<p class='card-text'>"+data.magicCard.editions[0].set+"</p>";
+           			append+="<p class='card-text'>";
+							append+="<i class='ss ss-1x ss-"+data.magicCard.editions[0].id.toLowerCase()+"'></i>"+data.magicCard.editions[0].set +"<br/>";
+							append+= data.condition + " " + (data.foil?"<i class='fas fa-star fa-1x'/>":"") ;
+							
+					append+="</p>";
+							
+							
+							
            			append+="<div class='row'>";
                 	append+="<div class='col'>";
                 	
@@ -63,19 +70,19 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                		{
                		               		
                		if(data.qte>=1)                                       		
-                    	append+="<button name='addCartButton' data='"+ data.idstock+"' class='btn btn-success btn-block'><i class='fa fa-shopping-cart' ></i> Add to cart</button>";
+                    	append+="<button name='addCartButton' data='"+ data.idstock+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart</button>";
                     else
                     	append+="<span class='btn btn-secondary btn-block'><i class='fa fa-shopping-cart'></i>Out of stock</span>";
                     	
                		
                		}
                		
-                    	
-                    	
+                     	
                     	
                 	append+="</div></div></div></div></div>";
               
                 	
+                 
                 	
          return append;
 

@@ -20,6 +20,10 @@
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
+   <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+ 	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
 
 
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
@@ -41,6 +45,9 @@
 		  	$("#header").load("nav.html");
 			$("#footer").load("footer.html");
 		  	
+			
+			
+			
 		    $("#profilForm").validate({
 				  debug: false,
 				  errorClass: "alert-error",
@@ -99,6 +106,8 @@
 				}
 			});
 		  	
+		    var currency = "";
+	    	
 			$.ajax({
 		        url: restserver+"/webshop/config" 
 		    }).then(function(data) {
@@ -107,23 +116,100 @@
 		       	$('#bannerText').html(data.bannerText);
 		       	$('#aboutText').html(data.aboutText);
 		       	document.title = data.siteTitle;
+		       	currency = data.currencySymbol;
 		       	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 		    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
 		    	$('#contactTelephone').html(data.contact.telephone);
 		    	$('#contactWebsite').html(data.contact.website);
 		    	$('#contactAddress').html(data.contact.address);
 		    	$('#contactCountry').html(data.contact.country);
+		    	
+		    	
+		    	$("#tableTransactions").DataTable({
+			 		"ajax":{"url":restserver+"/transactions/contact/"+getCurrentUser().id,"dataSrc":""},
+			    	"responsive": true,
+			        "processing": true,
+			        "pageLength": 5,
+			        "searching": false,
+			        "info":     false,
+			        "paging":   false,
+			        
+			        "columns": [
+		        		{ 
+			        	  "data": "id"
+			        	},
+			        	{
+			        		"data":"dateProposition"
+			        		
+			        	},
+			        	{
+			        		"data":"statut"
+			        	},
+			        	{
+			        		"data":"items",
+			        		
+			        		"render": function(data, type, row, meta){
+				                   if(type === 'display'){
+				                	  var content="<ul>";
+				                	  $.each(data,function(index, value){
+				                		  content+= "<li>" + value.qte+" " + value.magicCard.name +" (" + value.magicCard.editions[0].set + ")";
+				                	  });
+				                	  content+="</ul>";
+				                	  
+				                	  data=content;
+				                   }
+				                   
+				                   return data;
+				                }
+			        		
+			        	},
+			        	{
+			        		"data":"items",
+			        		"render": function(data, type, row, meta){
+				                   if(type === 'display'){
+				                	  
+				                	   var total=0;
+				                	   
+				                	  $.each(data,function(index, value){
+				                		 total += (value.qte*value.price);
+				                	  });
+				                	  
+				                	  
+				                	  data=total.toFixed(2) + " " + currency;
+				                   }
+				                   
+				                   return data;
+				                }
+			        		
+			        	}
+			        	
+		        		
+		        		]
+			        
+				
+				});
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
 		    });
 
 
-			$("input[name=name]").val(getCurrentUser().name);
-			$("input[name=lastname]").val(getCurrentUser().lastName);
-			$("input[name=email]").val(getCurrentUser().email);
-			$("input[name=telephone]").val(getCurrentUser().telephone);
-			$("textarea[name=address]").val(getCurrentUser().address);
-			$("select[name=country]").val(getCurrentUser().country);
+				$("input[name=name]").val(getCurrentUser().name);
+				$("input[name=lastname]").val(getCurrentUser().lastName);
+				$("input[name=email]").val(getCurrentUser().email);
+				$("input[name=telephone]").val(getCurrentUser().telephone);
+				$("textarea[name=address]").val(getCurrentUser().address);
+				$("select[name=country]").val(getCurrentUser().country);
 
-
+			
+				
+				
 				
 	});
     </script>
@@ -136,10 +222,10 @@
 
 <br/>
 
-	<div class="container">
+	<div class="container-fluid ">
 			<div class="row">
     	
-			<div class="card" style="width: 18rem;">
+			<div class="card" style="width: 20%;">
 				<div class="card-header bg-info"><i class="fas fa-user"></i> My Account</div>
 				<div class="card-body ">
 						<form id="profilForm" action="">
@@ -192,20 +278,34 @@
 				     </form>
 				</div>
 				<div class=""><div id="confirmation" class="card-footer" role="alert"></div></div>
-
+				
 			</div>
 			
 			
-			<div class="card" style="width: 70%;">
-				<div class="card-header bg-info"><i class="fas fa-user"></i> My Orders</div>
-				
+			<div class="card ml-2" style="width: 75%;">
+				<div class="card-header bg-info"><i class="fas fa-file-alt"></i> My Orders</div>
+					<div class="card-body" >
+						<table id="tableTransactions">
+							<thead>
+					            <tr>
+					            	<th>id</th>
+					                <th>date</th>
+					                <th>statut</th>
+					                <th>Cards</th>
+					                <th>Prices</th>
+					            </tr>
+					        </thead>
+						
+						</table>
+					</div>
+					<div class=""><div id="confirmation" class="card-footer" role="alert"></div></div>
 			</div>
 			
 			
 			
 			</div>
 		</div>
-
+<<br/>
 
 <footer id="footer" class="text-light"></footer>
 

@@ -120,8 +120,9 @@
 						    	    	var html = generateProduct(data);
 						    	        $('#products').html(html);
 						    	        $('button[name="addCartButton"]').each(function() {
-								       		$(this).click(function() {
-								    			addCartStockId($(this).attr("data"),$(this).attr("sell"));
+								       		
+						    	        	$(this).click(function() {
+						    	        		addCartStockId($(this).attr("data"),$(this).attr("sell"),percentReduction);
 								    		});
 								    	});
 						    	    }
