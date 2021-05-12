@@ -179,7 +179,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			return 0;
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
-			rs.first();
+			rs.next();
 			return (long) rs.getDouble(1);
 		} catch (SQLException e) {
 			logger.error(e);
@@ -284,8 +284,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(2, IDGenerator.generateSha256(password));
 				
 				ResultSet rs = pst.executeQuery();
-			
-				rs.first();
+				rs.next();
+				
 				return readContact(rs);
 		}
 		catch(SQLDataException sqlde)
@@ -303,7 +303,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setInt(1, id);
 				ResultSet rs = pst.executeQuery();
 			
-				rs.first();
+				rs.next();
 				return readContact(rs);
 				
 				
@@ -336,7 +336,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setInt(1, id);
 				ResultSet rs = pst.executeQuery();
 			
-				rs.first();
+				rs.next();
 				return readTransaction(rs);
 				
 				
@@ -920,7 +920,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			pst.setInt(1, id);
 			var rs = pst.executeQuery();
 			
-			rs.first();
+			rs.next();
 			
 			return buildMCSfromRS(rs);
 		}
