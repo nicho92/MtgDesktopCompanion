@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Transaction {
 	
-	public enum STAT {NEW,ACCEPTED,REFUSED} 
+	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,REFUSED} 
 	
 	private int id=-1;
 	private Date dateProposition;
