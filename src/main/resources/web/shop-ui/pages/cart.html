@@ -124,15 +124,15 @@
  					  "width": "25%"
 		        	},
 		        	{ 
-				          "data": "magicCard.editions",
- 						  "width": "25%",
-				          "render": function(data, type, row, meta){
-			                   if(type === 'display'){
-			                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> "+data[0].set;	
-			                	 //  data=data[0].set;
-			                   }
-			                 return data;
-			              }
+			          "data": "magicCard.editions",
+					  "width": "25%",
+			          "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> "+data[0].set;	
+		                	 //  data=data[0].set;
+		                   }
+		                 return data;
+		              }
 			        },
 			        { 
 			          "data": "language"
@@ -156,7 +156,7 @@
 			        },
 			        { 
 					      "data": "price",
- 						  "width": "15%",
+ 						  "width": "10%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
 										data=(data-(data*percentReduction)).toFixed(2) + " " + currency;		                		 
@@ -166,7 +166,7 @@
 				    },
 				    { 
 					      "data": null,
-  						  "width": "15%",
+  						  "width": "18%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
 										reductedPrice = (row.price-(row.price*percentReduction)).toFixed(2)
@@ -207,6 +207,7 @@
 				
 				if(obj==null)
 				{
+					$("#checkoutBtn").prop('disabled',true);
 					return "need to be connected";
 				}	
 				

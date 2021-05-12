@@ -112,6 +112,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxEvents;
 	private JComboBox<MTGServer> cboServers;
 	private JCheckBox chckbxShopping;
+	
 	public void loading(boolean show, String text) {
 		if (show) {
 			lblLoading.start();

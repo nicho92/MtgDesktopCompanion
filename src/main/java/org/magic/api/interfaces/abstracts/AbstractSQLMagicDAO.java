@@ -308,10 +308,25 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				
 				
 		}
+	}
+	
+	@Override
+	public List<Contact> listContacts() throws SQLException {
+		List<Contact> colls = new ArrayList<>();
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts")) 
+		{
+				ResultSet rs = pst.executeQuery();
+			
+				while(rs.next())
+					colls.add(readContact(rs));
+				
+				
+		}
 		
-		
+		return colls;
 		
 	}
+	
 	
 	
 	@Override
@@ -327,6 +342,23 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				
 		}
 	
+	}
+	
+	@Override
+	public List<Transaction> listTransactions(int idct)  throws SQLException {
+		List<Transaction> colls = new ArrayList<>();
+		
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where fk_idcontact=?")) 
+		{
+			pst.setInt(1, idct);
+			ResultSet rs = pst.executeQuery();
+			
+				while (rs.next()) {
+					colls.add(readTransaction(rs));
+				}
+				logger.trace( colls.size() + " transactions");
+		}
+		return colls;
 	}
 	
 	
@@ -410,16 +442,15 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("update Contact " + ct.getId());
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_password = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_website = ?,contact_email=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_website = ?,contact_email=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
-				pst.setString(3, IDGenerator.generateSha256(ct.getPassword()));
-				pst.setString(4, ct.getTelephone());
-				pst.setString(5, ct.getCountry());
-				pst.setString(6, ct.getAddress());
-				pst.setString(7, ct.getWebsite());
-				pst.setString(8, ct.getEmail());
-				pst.setInt(9, ct.getId());
+				pst.setString(3, ct.getTelephone());
+				pst.setString(4, ct.getCountry());
+				pst.setString(5, ct.getAddress());
+				pst.setString(6, ct.getWebsite());
+				pst.setString(7, ct.getEmail());
+				pst.setInt(8, ct.getId());
 				
 				pst.executeUpdate();
 				return ct.getId();
@@ -888,6 +919,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks where idstock=?")) {
 			pst.setInt(1, id);
 			var rs = pst.executeQuery();
+			
 			rs.first();
 			
 			return buildMCSfromRS(rs);

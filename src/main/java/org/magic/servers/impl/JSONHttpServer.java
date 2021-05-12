@@ -83,6 +83,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String ENABLE_GZIP = "ENABLE_GZIP";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
+	
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
 	private ByteArrayOutputStream baos;
@@ -520,30 +521,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> {
 			return getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
 		}, transformer);
-		
-	
-				
-		get("/",URLTools.HEADER_HTML,(request,response) -> {
-			
-			var temp = new StringBuilder();
-			response.type(URLTools.HEADER_HTML);
-			
-			Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).forEach(rm->{
-				temp.append(rm.getHttpMethod());
-				temp.append("&nbsp;");
-				temp.append("<a href='").append(rm.getMatchUri()).append("'>").append(rm.getMatchUri()).append("</a>");
-				temp.append("<br/>");
-			});
-			
-			return temp.toString();
-		});		
-		
-		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
-			
-			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
-			
-			return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-		});
+
 		
 		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) -> {
 			
@@ -557,6 +535,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			return c;
 		}, transformer);
+		
+		
+		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
+			
+			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+			
+			return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+		});
+	
+		get("/transactions/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
+			return getEnabledPlugin(MTGDao.class).listTransactions(Integer.parseInt(request.params(":id")));
+		}, transformer);
+
 		
 		post("/contact/add", URLTools.HEADER_JSON, (request, response) -> {
 			
@@ -577,7 +568,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		}, transformer);
 
-
+		
+		
+		
+		get("/",URLTools.HEADER_HTML,(request,response) -> {
+			
+			var temp = new StringBuilder();
+			response.type(URLTools.HEADER_HTML);
+			
+			Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).forEach(rm->{
+				temp.append(rm.getHttpMethod());
+				temp.append("&nbsp;");
+				temp.append("<a href='").append(rm.getMatchUri()).append("'>").append(rm.getMatchUri()).append("</a>");
+				temp.append("<br/>");
+			});
+			
+			return temp.toString();
+		});		
 	}
 
 	@Override

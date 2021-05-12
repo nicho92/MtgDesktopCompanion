@@ -655,4 +655,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Transaction> listTransactions(int c) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Contact> listContacts() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

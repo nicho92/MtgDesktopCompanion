@@ -71,12 +71,14 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteOrderEntry(OrderEntry state) throws SQLException;
 	
 	public List<Transaction> listTransactions() throws SQLException;
+	public List<Transaction> listTransactions(int c) throws SQLException;
 	public int saveOrUpdateTransaction(Transaction t)throws SQLException;
 	public void deleteTransaction(Transaction t)throws SQLException;
 	public Transaction getTransaction(int id) throws SQLException;
 	
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
 	public Contact getContactById(int id)  throws SQLException;
+	public List<Contact> listContacts()  throws SQLException;
 	public Contact getContactByLogin(String email, String password)  throws SQLException;
 	
 	

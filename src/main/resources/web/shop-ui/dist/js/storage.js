@@ -7,13 +7,13 @@ var userKey = "user";
 
 function storeUser( user )
 {
-	storage.setItem(userKey,JSON.stringify(user));
+	localStorage.setItem(userKey,JSON.stringify(user));
 }
 
 function getCurrentUser()
 {
-	if(storage.getItem(userKey))
-		return JSON.parse(storage.getItem(userKey));
+	if(localStorage.getItem(userKey))
+		return JSON.parse(localStorage.getItem(userKey));
 	
 	return null;
 }
@@ -21,7 +21,7 @@ function getCurrentUser()
 
 function logout()
 {
-	storage.removeItem(userKey);
+	localStorage.removeItem(userKey);
 }
 
 

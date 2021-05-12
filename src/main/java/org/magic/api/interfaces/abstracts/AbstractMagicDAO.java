@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -15,6 +16,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.Transaction;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
@@ -226,6 +229,27 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateOrderEntry(oe);
+		}
+		
+		logger.debug("duplicate sealed");
+		for(SealedStock oe : listSeleadStocks())
+		{
+			oe.setId(-1);
+			dao.saveOrUpdateStock(oe);
+		}
+
+		logger.debug("duplicate contact");
+		for(Contact oe : listContacts())
+		{
+			oe.setId(-1);
+			dao.saveOrUpdateContact(oe);
+		}
+		
+		logger.debug("duplicate transactions");
+		for(Transaction oe : listTransactions())
+		{
+			oe.setId(-1);
+			dao.saveOrUpdateTransaction(oe);
 		}
 		
 	}

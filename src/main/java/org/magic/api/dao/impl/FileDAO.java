@@ -39,6 +39,8 @@ public class FileDAO extends AbstractMagicDAO{
 	private static final String NEWSDIR = "news";
 	private static final String ORDERSDIR = "orders";
 	private static final String PACKAGESSDIR = "sealed";
+	private static final String TRANSACTIONSDIR = "transactions";
+	private static final String CONTACTSSDIR = "contacts";
 	
 
 	@Override
@@ -528,8 +530,16 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<Transaction> listTransactions() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Transaction> ret = new ArrayList<>();
+
+		for (File f : FileUtils.listFiles(new File(directory, TRANSACTIONSDIR), null, false)) {
+			try {
+				ret.add(read(Transaction.class, f));
+			} catch (Exception e) {
+				logger.error("Error reading transactions", e);
+			}
+		}
+		return ret;
 	}
 
 	@Override
@@ -567,6 +577,16 @@ public class FileDAO extends AbstractMagicDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	@Override
+	public List<Transaction> listTransactions(int c) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Contact> listContacts() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
