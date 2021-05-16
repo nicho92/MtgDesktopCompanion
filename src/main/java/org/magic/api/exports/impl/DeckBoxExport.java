@@ -48,6 +48,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		{
 		 case "Good (Lightly Played)": return EnumCondition.LIGHTLY_PLAYED;
 		 case "Near Mint":  return EnumCondition.NEAR_MINT;
+		 case "Heavily Played": return EnumCondition.POOR;
 		 case "": return null;
 		 default : EnumCondition.valueOf(condition.toUpperCase());
 		}
