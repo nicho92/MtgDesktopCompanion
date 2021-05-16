@@ -101,7 +101,7 @@ public class LookAndFeelProvider {
 				
 				list.add(new LookAndFeelInfo("FlatLaf " + look.getID(), c.getName()));
 			} catch (Exception e) {
-				logger.error("Loading " + c + " : " + e);
+				logger.trace("Loading " + c + " : " + e);
 			}
 		}
 

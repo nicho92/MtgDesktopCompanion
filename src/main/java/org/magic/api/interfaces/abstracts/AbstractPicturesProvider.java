@@ -57,7 +57,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			logger.trace("cached " + mc + "(" + mc.getCurrentSet() + ") found");
 			return getEnabledPlugin(MTGPicturesCache.class).getPic(mc);
 		}
-		BufferedImage bufferedImage = getOnlinePicture(mc);
+		var bufferedImage = getOnlinePicture(mc);
 		if (bufferedImage != null)
 		{
 			getEnabledPlugin(MTGPicturesCache.class).put(bufferedImage, mc);

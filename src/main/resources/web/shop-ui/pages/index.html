@@ -46,7 +46,7 @@
     		var currency = "";
     		var percentReduction= 0;
 		   	$.ajax({
-			        url: restserver+"/webshop/config" 
+		   		    url: restserver+"/webshop/config" 
 			    }).then(function(data) {
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
