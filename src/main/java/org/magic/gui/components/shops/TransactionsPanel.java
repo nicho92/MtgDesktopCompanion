@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Transaction;
@@ -27,7 +28,9 @@ public class TransactionsPanel extends MTGUIComponent {
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		var panneauHaut = new JPanel();
-		var panneauBas = new CardStockPanel();
+		var stockDetailPanel = new CardStockPanel();
+		var tabbedPane = new JTabbedPane();
+		
 		model = new TransactionsModel();
 		
 		
@@ -36,13 +39,15 @@ public class TransactionsPanel extends MTGUIComponent {
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		UITools.initTableFilter(table);
 		
+		UITools.addTab(tabbedPane, stockDetailPanel);
+		
 		
 		table.packAll();
-		panneauBas.showAllColumns();
+		stockDetailPanel.showAllColumns();
 		
 		add(new JScrollPane(table));
 		add(panneauHaut, BorderLayout.NORTH);
-		add(panneauBas,BorderLayout.SOUTH);
+		add(tabbedPane,BorderLayout.SOUTH);
 		panneauHaut.add(btnRefresh);
 		
 		table.getSelectionModel().addListSelectionListener(lsl->{
@@ -52,8 +57,8 @@ public class TransactionsPanel extends MTGUIComponent {
 			if(t==null)
 				return;
 			
-			panneauBas.initMagicCardStock(t.getItems());
-			panneauBas.disableCommands();
+			stockDetailPanel.initMagicCardStock(t.getItems());
+			stockDetailPanel.disableCommands();
 		});
 		
 		btnRefresh.addActionListener(al->reload());

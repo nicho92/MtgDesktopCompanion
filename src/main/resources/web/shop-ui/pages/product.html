@@ -41,16 +41,15 @@
 
 		   	 $("#footer").load("footer.html");
 		   	 $("#header").load("nav.html");
-		   	 $("#banner").load("banner.html");
+		   	 $("#banner").load("banner.html", function() {
+				 
+					data = getConfig();
     
     
     		 var collection;
     		 var currency="";
     		 var percentReduction=0;
-		   	 $.ajax({
-			        url: restserver+"/webshop/config"
-			    }).then(function(data) {
-			    	
+		       	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -72,7 +71,7 @@
 				        gtag('js', new Date());
 				        gtag('config', data.googleAnalyticsId);
 					}
-			  });
+			
 		   	 
 		   	 $.ajax({
 			        url: restserver+"/stock/get/"+$_GET("id")
@@ -85,12 +84,12 @@
 			    	
 			    	if(percentReduction>0)
 			    	{
-			    		$("#priceDiscount").html(((data.price-(data.price*percentReduction)).toFixed(2) +" "+currency));
-			    		$("#price").html(data.price.toFixed(2) +" "+currency);
+			    		$("#price").html(((data.price-(data.price*percentReduction)).toFixed(2) +" "+currency));
+			    		$("#priceDiscount").html(data.price.toFixed(2) +" "+currency);
 			    	}
 			    	else
 			    	{
-			    		$("#priceDiscount").html(data.price.toFixed(2) +" "+currency);	
+			    		$("#price").html(data.price.toFixed(2) +" "+currency);	
 			    	}
 			    	
 			    	$("#productModalLabel").html(data.magicCard.name);
@@ -131,7 +130,7 @@
 					}
 			  });
 		   	 
-		   	 
+			    });
     }); 
 
 			  
@@ -178,8 +177,8 @@
                 <div class="card-body">
                 	
                 
-                    <p class="price" id="priceDiscount"><span class="currency"></span></p>
-                    <p class="price_discounted" id="price"><span class="currency"></span>	</p>
+                    <p class="price" id="price"><span class="currency"></span></p>
+                    <p class="price_discounted" id="priceDiscount"><span class="currency"></span>	</p>
                     
                      <div class="product_rassurance">
                        <ul class="list-inline" id="itemDetails">

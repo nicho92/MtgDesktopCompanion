@@ -552,12 +552,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		post("/contact/add", URLTools.HEADER_JSON, (request, response) -> {
-			
-			
-			
+	
 			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
 			try{
 				getEnabledPlugin(MTGDao.class).saveOrUpdateContact(t);
+				
 				return t;
 				
 			}

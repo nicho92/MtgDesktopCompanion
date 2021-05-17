@@ -87,14 +87,11 @@
 			    	
 			    	
 			    	$.each( data.collections, function( key, value ) {
-			    		
 			    		var url=restserver+"/stock/list/"+value.name;
 			    		if($_GET("idSet"))
 				    	{
 				    		url=restserver+"/stock/list/"+value.name+"/"+$_GET("idSet");
-				    		
 				    		$("#breadcrumb").append("<li class='breadcrumb-item active'>"+$_GET("idSet")+"</li>");
-				    		
 				    	}
 			    		
 			    		  
