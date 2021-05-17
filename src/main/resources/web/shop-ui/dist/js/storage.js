@@ -30,7 +30,7 @@ function storeUser( user )
 function getCurrentUser()
 {
 	if(storage.getItem(userKey))
-		return JSON.parse(localStorage.getItem(userKey));
+		return JSON.parse(storage.getItem(userKey));
 	
 	return null;
 }

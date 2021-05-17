@@ -42,12 +42,8 @@
  
     <script>
 	    $(document).ready(function() {	
-		  	$("#header").load("nav.html");
+		  	$("#header").load("nav.html");	
 			$("#footer").load("footer.html");
-		  	
-			
-			
-			
 		    $("#profilForm").validate({
 				  debug: false,
 				  errorClass: "alert-error",
@@ -125,78 +121,73 @@
 		    	$('#contactCountry').html(data.contact.country);
 		    	
 		    	
-		    	$("#tableTransactions").DataTable({
-			 		"ajax":{"url":restserver+"/transactions/contact/"+getCurrentUser().id,"dataSrc":""},
-			    	"responsive": true,
-			        "processing": true,
-			        "pageLength": 5,
-			        "searching": false,
-			        "info":     false,
-			        "paging":   false,
-			        
-			        "columns": [
-		        		{ 
-			        	  "data": "id"
-			        	},
-			        	{
-			        		"data":"dateProposition"
-			        		
-			        	},
-			        	{
-			        		"data":"statut"
-			        	},
-			        	{
-			        		"data":"items",
-			        		
-			        		"render": function(data, type, row, meta){
-				                   if(type === 'display'){
-				                	  var content="<ul>";
-				                	  $.each(data,function(index, value){
-				                		  content+= "<li>" + value.qte+" " + value.magicCard.name +" (" + value.magicCard.editions[0].set + ")";
-				                	  });
-				                	  content+="</ul>";
-				                	  
-				                	  data=content;
-				                   }
-				                   
-				                   return data;
-				                }
-			        		
-			        	},
-			        	{
-			        		"data":"items",
-			        		"render": function(data, type, row, meta){
-				                   if(type === 'display'){
-				                	  
-				                	   var total=0;
-				                	   
-				                	  $.each(data,function(index, value){
-				                		 total += (value.qte*value.price);
-				                	  });
-				                	  
-				                	  
-				                	  data=total.toFixed(2) + " " + currency;
-				                   }
-				                   
-				                   return data;
-				                }
-			        		
-			        	}
-			        	
-		        		
-		        		]
-			        
-				
-				});
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
+				$.post(restserver+"/transactions/contact",JSON.stringify(getCurrentUser()),function(datat){
+					
+					    	$("#tableTransactions").DataTable({
+						 		"data":datat,
+						    	"responsive": true,
+						        "processing": true,
+						        "pageLength": 5,
+						        "searching": false,
+						        "info":     false,
+						        "paging":   false,
+						        
+						        "columns": [
+					        		{ 
+						        	  "data": "id"
+						        	},
+						        	{
+						        		"data":"dateProposition"
+						        		
+						        	},
+						        	{
+						        		"data":"statut"
+						        	},
+						        	{
+						        		"data":"items",
+						        		
+						        		"render": function(data, type, row, meta){
+							                   if(type === 'display'){
+							                	  var content="<ul>";
+							                	  $.each(data,function(index, value){
+							                		  content+= "<li>" + value.qte+" " + value.magicCard.name +" (" + value.magicCard.editions[0].set + ")";
+							                	  });
+							                	  content+="</ul>";
+							                	  
+							                	  data=content;
+							                   }
+							                   
+							                   return data;
+							                }
+						        		
+						        	},
+						        	{
+						        		"data":"items",
+						        		"render": function(data, type, row, meta){
+							                   if(type === 'display'){
+							                	  
+							                	   var total=0;
+							                	   
+							                	  $.each(data,function(index, value){
+							                		 total += (value.qte*value.price);
+							                	  });
+							                	  
+							                	  
+							                	  data=total.toFixed(2) + " " + currency;
+							                   }
+							                   
+							                   return data;
+							                }
+						        		
+						        	}
+						        	
+					        		
+					        		]
+						        
+							
+							});
+					    	
+							});
 		    });
 
 

@@ -578,7 +578,7 @@ public class FileDAO extends AbstractMagicDAO{
 		return null;
 	}
 	@Override
-	public List<Transaction> listTransactions(int c) throws SQLException {
+	public List<Transaction> listTransactions(Contact c) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

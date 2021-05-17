@@ -200,7 +200,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				   "(misprint)?"+getSeparator()+
 				   "(promo)?"+getSeparator()+
 				   "(textless)?"+getSeparator()+
-				   "(\\d+(\\.\\d{1,2})?)";
+				   "\\$(\\d+(\\.\\d{1,2})?)";
 	}
 	
 	

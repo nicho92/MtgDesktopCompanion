@@ -301,12 +301,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?")) 
 		{
 				pst.setInt(1, id);
-				ResultSet rs = pst.executeQuery();
-			
-				rs.next();
-				return readContact(rs);
-				
-				
+				ResultSet rsC = pst.executeQuery();
+				rsC.next();
+				return readContact(rsC);
 		}
 	}
 	
@@ -345,12 +342,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public List<Transaction> listTransactions(int idct)  throws SQLException {
+	public List<Transaction> listTransactions(Contact idct)  throws SQLException {
 		List<Transaction> colls = new ArrayList<>();
 		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where fk_idcontact=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=? and contacts.id=transactions.fk_idcontact and contacts.contact_name=?")) 
 		{
-			pst.setInt(1, idct);
+			pst.setInt(1, idct.getId());
+			pst.setString(2, idct.getName());
 			ResultSet rs = pst.executeQuery();
 			
 				while (rs.next()) {
@@ -379,6 +377,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	private Contact readContact(ResultSet rs) throws SQLException
 	{
+		
 		var contact = new Contact();
 		contact.setId(rs.getInt("id"));
 		contact.setName(rs.getString("contact_name"));
@@ -389,7 +388,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		contact.setAddress(rs.getString("contact_address"));
 		contact.setWebsite(rs.getString("contact_website"));
 		contact.setPassword(rs.getString("contact_password"));
-		
 		
 		return contact;
 		
@@ -405,9 +403,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 		state.setItems(readTransactionItems(rs));
 		state.setStatut(STAT.valueOf(rs.getString("statut")));
-		
-		
-		
+			
 		state.setContact(getContactById(rs.getInt("fk_idcontact")));
 		
 		
