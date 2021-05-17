@@ -10,13 +10,17 @@ var configKey = "config";
 function getConfig()
 {
 
-	if(!sessionStorage.getItem(configKey)){
-		$.getJSON(restserver+"/webshop/config",function(data) {
-			sessionStorage.setItem(configKey,JSON.stringify(data));
-		 });
-	 }
-	 JSON.parse(sessionStorage.getItem(configKey));
-	
+	if(!storage.getItem(configKey))
+	{
+		$.ajax({
+			url: restserver+"/webshop/config",
+			async:false}
+			).done(function(data) {
+			storage.setItem(configKey,JSON.stringify(data));
+			return data;
+        });
+	}
+	return JSON.parse(storage.getItem(configKey));
 }
 
 

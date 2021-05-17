@@ -38,18 +38,18 @@
 	
 	 $(document).ready(function() {	
 		 var array = [];	
-	   	 $("#footer").load("footer.html");
+	   	
 	   	 $("#header").load("nav.html");
 	   	 $("#banner").load("banner.html");
-
-    		var collection;
+ 		 $("#footer").load("footer.html", function() {
+		 
+			var data = getConfig();
+			var collection;
     		var maxLastProduct=4;
     		var currency = "";
 			var percentReduction = 0;
-		   	$.ajax({
-			        url: restserver+"/webshop/config"
-			    }).then(function(data) {
-			    	
+			
+						    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -233,8 +233,8 @@
 				$.post(restserver+"/transaction/add",JSON.stringify(json)).done(function( data ) {
 					
 									$("#result").addClass("alert-success");
-					
-									$( "#result" ).html("resultat="+data);
+									
+									$( "#result" ).html("Transaction was successfully sent with id <b>"+data +"</b>");
 										clearCart();
 										dtTable.clear()
 										.draw();
@@ -318,7 +318,7 @@
 	<br/>
 	<div>
        <div class="row">
-           	<div id="result" class="alert"></div>
+           	<div id="result" class="alert" style="width:100%;"></div>
        </div>
         
     </div>

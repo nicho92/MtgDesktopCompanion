@@ -43,7 +43,9 @@
     <script>
 	    $(document).ready(function() {	
 		  	$("#header").load("nav.html");	
-			$("#footer").load("footer.html");
+			$("#footer").load("footer.html", function() {
+		 
+			var data = getConfig();
 		    $("#profilForm").validate({
 				  debug: false,
 				  errorClass: "alert-error",
@@ -104,9 +106,6 @@
 		  	
 		    var currency = "";
 	    	
-			$.ajax({
-		        url: restserver+"/webshop/config" 
-		    }).then(function(data) {
 		    	$('#siteTitle').html(data.siteTitle);
 		    	$('#bannerTitle').html(data.bannerTitle);
 		       	$('#bannerText').html(data.bannerText);
@@ -282,8 +281,8 @@
 					            	<th>id</th>
 					                <th>date</th>
 					                <th>statut</th>
-					                <th>Cards</th>
-					                <th>Prices</th>
+					                <th>cards</th>
+					                <th>prices</th>
 					            </tr>
 					        </thead>
 						
@@ -296,7 +295,7 @@
 			
 			</div>
 		</div>
-<<br/>
+<br/>
 
 <footer id="footer" class="text-light"></footer>
 

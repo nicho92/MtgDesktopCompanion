@@ -56,14 +56,11 @@
     
     $(document).ready(function() {	
     	
-	   	 $("#footer").load("footer.html");
-	   	 $("#header").load("nav.html");
 	   	 $("#banner").load("banner.html");
-
-   		
-		   	$.ajax({
-			        url: restserver+"/webshop/config"
-			    }).then(function(data) {
+	   	 $("#header").load("nav.html");
+	   	 $("#footer").load("footer.html", function() {
+		 
+			data = getConfig();
 			    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);

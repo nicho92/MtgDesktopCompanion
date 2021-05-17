@@ -34,20 +34,17 @@
     <script>
 		
     $(document).ready(function() {	
-    	
-    	 $.ajaxSetup({ cache: true });
-    	
-	   	 $("#footer").load("footer.html");
+		 $("#banner").load("banner.html");
 	   	 $("#header").load("nav.html");
-	   	 $("#banner").load("banner.html");
-
+	 	 $("#footer").load("footer.html", function() {
+		  
     		var collection;
     		var maxLastProduct=4;
     		var currency = "";
     		var percentReduction= 0;
-		   	$.ajax({
-		   		    url: restserver+"/webshop/config" 
-			    }).then(function(data) {
+			
+			data = getConfig();
+			
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -125,8 +122,9 @@
 		       				$("#searchcardContainer").hide();
 		       		}
 			  });
-		 });
+		
    	 
+	});
     
     </script>
     

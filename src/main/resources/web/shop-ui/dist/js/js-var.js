@@ -28,9 +28,11 @@ function generateEditionHTML(data)
 function generateStockCardHTML(data,currency, tosell, percentReduction)
 {
 
+			if(!data)
+				return;
+			
 			var append="<div class='col-sm'>";
   					append+="<div class='card'>";
-        			
         			
         			if(data.magicCard.scryfallId!=null)
     					append+="<img class='card-img-top' src='https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image' alt='Card image cap'>";
