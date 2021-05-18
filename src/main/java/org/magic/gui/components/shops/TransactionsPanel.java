@@ -31,7 +31,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		var stockDetailPanel = new CardStockPanel();
 		var tabbedPane = new JTabbedPane();
-		contactPanel = new ContactPanel();
+		contactPanel = new ContactPanel(true);
 		model = new TransactionsModel();
 		
 		

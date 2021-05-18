@@ -115,8 +115,8 @@
 		       	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 		    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
 		    	$('#contactTelephone').html(data.contact.telephone);
-		    	$('#contactWebsite').html(data.contact.website);
-		    	$('#contactAddress').html(data.contact.address);
+		    	$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
+			    $('#contactAddress').html(data.contact.address);
 		    	$('#contactCountry').html(data.contact.country);
 		    	
 		    	

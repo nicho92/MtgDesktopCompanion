@@ -35,6 +35,7 @@ import org.magic.api.beans.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
@@ -58,13 +59,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JTextField txtURLSlides;
 	private DefaultListModel<String> listModel;
 	private JList<String> listSlides;
-	private JTextField txtContactName;
-	private JTextField txtLastName;
-	private JTextField txtEmail;
-	private JTextField txtTelephone;
-	private JTextField txtCountry;
-	private JTextField txtAddress;
-	private JTextField txtWebSite;
 	private JTextField txtAnalyticsGoogle;
 	private JCheckableListBox<MagicCollection> cboCollections;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -72,6 +66,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JSlider maxLastProductSlide;
 	private JCheckableListBox<MagicCollection> needCollection;
 	private JSpinner spinnerReduction ;	
+	private ContactPanel contactPanel;
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -87,8 +82,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	public WebShopConfigPanel() {
 		
 		setLayout(new BorderLayout());
-		
-		JXTaskPaneContainer container = new JXTaskPaneContainer();
+		contactPanel = new ContactPanel(false);
+		var container = new JXTaskPaneContainer();
 		container.setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		
 		
@@ -152,41 +147,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		JPanel panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
-
-		panelContact.add(new JLabel("NAME"));
-		txtContactName = new JTextField(conf.getContact().getName());
-		panelContact.add(txtContactName);
-		panelContact.add(new JLabel("LAST_NAME"));
-		
-		txtLastName = new JTextField(conf.getContact().getLastName());
-		panelContact.add(txtLastName);
-		panelContact.add(new JLabel("EMAIL"));
-		txtEmail = new JTextField(conf.getContact().getEmail());
-		panelContact.add(txtEmail);
-		panelContact.add(new JLabel("TELEPHONE"));
-		txtTelephone = new JTextField(conf.getContact().getTelephone());
-		panelContact.add(txtTelephone);
-		
-		panelContact.add(new JLabel("COUNTRY"));
-		
-		txtCountry = new JTextField(conf.getContact().getCountry());
-		panelContact.add(txtCountry);
-		
-		panelContact.add(new JLabel("ADDRESS"));
-		
-		txtAddress = new JTextField(conf.getContact().getAddress());
-		panelContact.add(txtAddress);
-		txtAddress.setColumns(10);
-		
-		panelContact.add(new JLabel("WEBSITE"));
-		
-		txtWebSite = new JTextField(conf.getContact().getWebsite());
-		panelContact.add(txtWebSite);
-		txtWebSite.setColumns(10);
-		
-		
-		
-		
+		panelContact.setLayout(new BorderLayout());
+		panelContact.add(contactPanel,BorderLayout.CENTER);
+		contactPanel.setContact(MTGControler.getInstance().getWebConfig().getContact());
 		
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
 		var serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
@@ -289,13 +252,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.getSlidesLinksImage().add(it.next());
 			
 			
-			newBean.getContact().setAddress(txtAddress.getText());
-			newBean.getContact().setCountry(txtCountry.getText());
-			newBean.getContact().setEmail(txtEmail.getText());
-			newBean.getContact().setLastName(txtLastName.getText());
-			newBean.getContact().setName(txtContactName.getText());
-			newBean.getContact().setTelephone(txtTelephone.getText());
-			newBean.getContact().setWebsite(txtWebSite.getText());
+			newBean.setContact(contactPanel.getContact());
 			
 			
 			

@@ -39,7 +39,7 @@ public class ContactPanel extends MTGUIComponent {
 	private JTextField websiteJTextField;
 	private JCheckBox emailAcceptationCheckBox;
 
-	public ContactPanel() {
+	public ContactPanel(boolean enableSaveButton) {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 82, 0, 0, 0, 0, 0, 0 };
@@ -85,24 +85,26 @@ public class ContactPanel extends MTGUIComponent {
 		emailAcceptationCheckBox = new JCheckBox();
 		add(emailAcceptationCheckBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 		
-		var btnUpdate = new JButton(MTGConstants.ICON_SAVE);
-		add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
-		
+		if(enableSaveButton) {
+			var btnUpdate = new JButton(MTGConstants.ICON_SAVE);
+			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
+			btnUpdate.addActionListener(al->{
+				
+				try {
+					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateContact(getContact());
+				} catch (SQLException e) {
+					logger.error("error saving contact ",e);
+					MTGControler.getInstance().notify(e);
+				}
+				
+			});
+		}
 		if (contact != null) {
 			mbindingGroup = initDataBindings();
 		}
 		
 		
-		btnUpdate.addActionListener(al->{
-			
-			try {
-				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateContact(getContact());
-			} catch (SQLException e) {
-				logger.error("error saving contact ",e);
-				MTGControler.getInstance().notify(e);
-			}
-			
-		});
+		
 		
 		
 	}
