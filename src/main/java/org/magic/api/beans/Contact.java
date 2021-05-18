@@ -14,6 +14,7 @@ public class Contact implements Serializable {
 	private String country;
 	private String address;
 	private String website;
+	private boolean emailAccept;
 	private String password="changeit";
 	
 	
@@ -37,6 +38,14 @@ public class Contact implements Serializable {
 		return website;
 	}
 
+	public boolean isEmailAccept() {
+		return emailAccept;
+	}
+	
+	public void setEmailAccept(boolean emailAccept) {
+		this.emailAccept = emailAccept;
+	}
+	
 
 	public void setWebsite(String website) {
 		this.website = website;

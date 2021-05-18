@@ -234,7 +234,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean)");
 			logger.debug("Create table contacts");
 	
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
@@ -388,7 +388,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		contact.setAddress(rs.getString("contact_address"));
 		contact.setWebsite(rs.getString("contact_website"));
 		contact.setPassword(rs.getString("contact_password"));
-		
+		contact.setEmailAccept(rs.getBoolean("emailAccept"));
 		return contact;
 		
 	}
@@ -416,7 +416,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 		if (ct.getId() < 0) 
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_website,contact_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_website,contact_email, emailAccept) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?);",Statement.RETURN_GENERATED_KEYS)) 
 				{
 					pst.setString(1, ct.getName());
 					pst.setString(2, ct.getLastName());
@@ -426,6 +426,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					pst.setString(6, ct.getAddress());
 					pst.setString(7, ct.getWebsite());
 					pst.setString(8, ct.getEmail());
+					pst.setBoolean(9,ct.isEmailAccept());
 					pst.executeUpdate();
 					ct.setId(getGeneratedKey(pst));
 					logger.debug("save Contact with id="+ct.getId());
@@ -438,7 +439,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("update Contact " + ct.getId());
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_website = ?,contact_email=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_website = ?,contact_email=?,emailAccept=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
 				pst.setString(3, ct.getTelephone());
@@ -446,7 +447,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(5, ct.getAddress());
 				pst.setString(6, ct.getWebsite());
 				pst.setString(7, ct.getEmail());
-				pst.setInt(8, ct.getId());
+				pst.setBoolean(8, ct.isEmailAccept());
+				pst.setInt(9, ct.getId());
 				
 				pst.executeUpdate();
 				return ct.getId();

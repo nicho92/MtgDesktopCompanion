@@ -14,6 +14,7 @@ import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
+import org.magic.gui.components.ContactPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -23,14 +24,14 @@ import org.magic.tools.UITools;
 public class TransactionsPanel extends MTGUIComponent {
 	private JXTable table;
 	private TransactionsModel model;
-	
+	private ContactPanel contactPanel;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		var panneauHaut = new JPanel();
 		var stockDetailPanel = new CardStockPanel();
 		var tabbedPane = new JTabbedPane();
-		
+		contactPanel = new ContactPanel();
 		model = new TransactionsModel();
 		
 		
@@ -40,7 +41,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.initTableFilter(table);
 		
 		UITools.addTab(tabbedPane, stockDetailPanel);
-		
+		UITools.addTab(tabbedPane, contactPanel);
 		
 		table.packAll();
 		stockDetailPanel.showAllColumns();
@@ -58,6 +59,7 @@ public class TransactionsPanel extends MTGUIComponent {
 				return;
 			
 			stockDetailPanel.initMagicCardStock(t.getItems());
+			contactPanel.setContact(t.getContact());
 			stockDetailPanel.disableCommands();
 		});
 		

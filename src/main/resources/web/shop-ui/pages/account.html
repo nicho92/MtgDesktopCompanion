@@ -196,7 +196,7 @@
 				$("input[name=telephone]").val(getCurrentUser().telephone);
 				$("textarea[name=address]").val(getCurrentUser().address);
 				$("select[name=country]").val(getCurrentUser().country);
-
+				$("input[name=acceptEmail]").prop("checked",getCurrentUser().emailAccept);
 			
 				
 				
@@ -261,7 +261,16 @@
 								</div>
 								<select name="country" class="form-control input-medium bfh-countries"></select>
 							</div>
-					                                    
+							
+							<div class="form-group input-group">
+						    	<div class="input-group-prepend">
+								    <span class="input-group-text"> <i class="fa fa-envelope"></i>   </span>
+								</div>   Accept email :
+								<input type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
+							</div>					        
+
+
+                            
 						    <div class="form-group">
 						        <button type="submit" id="updateBtn" class="btn btn-primary btn-block"> Update  </button>
 						    </div>      

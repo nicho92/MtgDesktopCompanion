@@ -183,6 +183,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GRADING = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/grade.png"));
 	public static final ImageIcon ICON_GED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ged.png"));
 	public static final ImageIcon ICON_SHORTCUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/shortcut.png"));
+	public static final ImageIcon ICON_USER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/user.png"));
 	
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));
 	public static final ImageIcon ICON_NEW = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/new.png"));
@@ -253,6 +254,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_GRADING = new ImageIcon(ICON_GRADING.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_GED = new ImageIcon(ICON_GED.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_RECOGNITION = new ImageIcon(ICON_RECOGNITION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_TAB_USER = new ImageIcon(ICON_USER.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	
 	
 	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
