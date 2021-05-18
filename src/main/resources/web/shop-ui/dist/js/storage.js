@@ -120,7 +120,7 @@ function createJSONOrder(msg) {
 		var jsonObj = {
 	    	contact:getCurrentUser(),
 	    	items : getCartItems(),
-	    	message:escape(msg)
+	    	message:jQuery('<p>' + msg + '</p>').text()
 	    	
 	    }
 	  	

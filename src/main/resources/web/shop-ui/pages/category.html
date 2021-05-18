@@ -93,6 +93,12 @@
 				    		url=restserver+"/stock/list/"+value.name+"/"+$_GET("idSet");
 				    		$("#breadcrumb").append("<li class='breadcrumb-item active'>"+$_GET("idSet")+"</li>");
 				    	}
+						else if($_GET("search"))
+						{
+							url=restserver+"/stock/searchCard/"+value.name+"/"+$_GET("search");
+							$("#breadcrumb").append("<li class='breadcrumb-item active'>Search</li>");
+							
+						}
 			    		
 			    		  
 			    		  $.ajax({
@@ -111,6 +117,14 @@
 						    	    autoHideNext: true,
 						    	    pageRange: 8,
 						    	    callback: function(data, pagination) {
+							
+										if(data.length==0)
+										{
+											 $('#products').html("No result found");
+											return;
+										}	
+							
+							
 						    	    	var html = generateProduct(data);
 						    	        $('#products').html(html);
 						    	        $('button[name="addCartButton"]').each(function() {

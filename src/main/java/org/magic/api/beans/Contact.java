@@ -14,7 +14,7 @@ public class Contact implements Serializable {
 	private String country;
 	private String address;
 	private String website;
-	private boolean emailAccept;
+	private boolean emailAccept=true;
 	private String password="changeit";
 	
 	
