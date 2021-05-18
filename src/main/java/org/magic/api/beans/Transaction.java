@@ -16,7 +16,7 @@ public class Transaction {
 	private STAT statut;
 	private String transporter;
 	private double shippingPrice;
-	
+	private WebShopConfig config;
 	
 	
 	public Transaction() {
@@ -26,6 +26,14 @@ public class Transaction {
 		statut = STAT.NEW;
 	}
 	
+	
+	public void setConfig(WebShopConfig config) {
+		this.config = config;
+	}
+	
+	public WebShopConfig getConfig() {
+		return config;
+	}
 	
 	
 	

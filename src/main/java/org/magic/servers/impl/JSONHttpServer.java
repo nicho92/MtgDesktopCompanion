@@ -29,8 +29,10 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.junit.internal.runners.model.EachTestNotifier;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -45,16 +47,20 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
+import org.magic.services.ReportNotificationManager;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
+import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
@@ -540,8 +546,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			
 			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+						t.setConfig(MTGControler.getInstance().getWebConfig());
+			int ret = getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 			
-			return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+			if(t.getContact().isEmailAccept()) 
+			{
+				try {
+						EmailNotifier plug = (EmailNotifier)MTG.getPlugin("email", MTGNotifier.class);
+						var not = new MTGNotification("New transaction for ", notifFormater.generate(plug.getFormat(), t, Transaction.class), MTGNotification.MESSAGE_TYPE.INFO);
+						plug.send(t.getContact().getEmail(),not);
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+					}
+			}
+			return ret;
 		});
 	
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {

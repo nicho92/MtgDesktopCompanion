@@ -38,6 +38,30 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		setProperty("SSL", "true");
 	}
 
+	
+	public void send(String sendMail, MTGNotification notification) throws IOException {
+		HtmlEmail email;
+		try {
+			
+			email = new HtmlEmail();
+			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
+			email.setHostName(getString("SMTP"));
+			email.setSmtpPort(getInt("PORT"));
+			email.setAuthenticator(new DefaultAuthenticator(getString("SMTP_LOGIN"), getString("SMTP_PASS")));
+			email.setSSLOnConnect(getBoolean("SSL"));
+			email.setFrom(getString("FROM"));
+			email.setSubject(notification.getTitle());
+			email.setTextMsg(notification.getMessage());
+			email.addTo(sendMail);
+			email.send();
+			
+		}catch(EmailException ex)
+		{
+			throw new IOException(ex);
+		}
+		
+	}
+	
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
