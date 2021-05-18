@@ -160,6 +160,10 @@
 							                }
 						        		
 						        	},
+
+									{
+						        		"data":"shippingPrice"
+						        	},
 						        	{
 						        		"data":"items",
 						        		"render": function(data, type, row, meta){
@@ -169,6 +173,7 @@
 							                	   
 							                	  $.each(data,function(index, value){
 							                		 total += (value.qte*value.price);
+													 total += row.shippingPrice;
 							                	  });
 							                	  
 							                	  
@@ -291,6 +296,7 @@
 					                <th>date</th>
 					                <th>statut</th>
 					                <th>cards</th>
+ 									<th>shipping</th>
 					                <th>prices</th>
 					            </tr>
 					        </thead>

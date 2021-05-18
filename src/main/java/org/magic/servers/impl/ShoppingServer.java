@@ -27,4 +27,9 @@ public class ShoppingServer extends AbstractWebServer {
 		return MTGConstants.ICON_SHOP;
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 }

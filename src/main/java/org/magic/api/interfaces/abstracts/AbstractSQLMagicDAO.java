@@ -231,7 +231,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), fk_idcontact INTEGER)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean)");
@@ -403,7 +403,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 		state.setItems(readTransactionItems(rs));
 		state.setStatut(STAT.valueOf(rs.getString("statut")));
-			
+		state.setTransporter(rs.getString("transporter"));
+		state.setShippingPrice(rs.getDouble("shippingPrice"));
+		
 		state.setContact(getContactById(rs.getInt("fk_idcontact")));
 		
 		
@@ -465,12 +467,14 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 				logger.debug("save transaction ");
 				
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,fk_idcontact) VALUES (?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());			
 					pst.setString(4, t.getStatut().name());
-					pst.setInt(5, t.getContact().getId());
+					pst.setString(5, t.getTransporter());
+					pst.setDouble(6, t.getShippingPrice());
+					pst.setInt(7, t.getContact().getId());
 					pst.executeUpdate();
 					t.setId(getGeneratedKey(pst));
 					
@@ -487,9 +491,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("update transaction " + t.getId());
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ? WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?  WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, t.getStatut().name());
-				pst.setInt(2, t.getId());
+				pst.setString(2, t.getTransporter());
+				pst.setDouble(3, t.getShippingPrice());
+				pst.setInt(4, t.getId());
 				pst.executeUpdate();
 				return t.getId();
 				
@@ -972,9 +978,10 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	private int getGeneratedKey(PreparedStatement pst) {
 
 		try (ResultSet rs = pst.getGeneratedKeys()) {
-			rs.next();
-			return rs.getInt(1);
-		} catch (SQLException e) {
+			rs.first();
+				return rs.getInt(1);
+			
+		} catch (Exception e) {
 			logger.error("couldn't retrieve id", e);
 		}
 		return -1;

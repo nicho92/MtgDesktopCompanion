@@ -14,6 +14,9 @@ public class Transaction {
 	private Contact contact;
 	private String message;
 	private STAT statut;
+	private String transporter;
+	private double shippingPrice;
+	
 	
 	
 	public Transaction() {
@@ -23,6 +26,37 @@ public class Transaction {
 		statut = STAT.NEW;
 	}
 	
+	
+	
+	
+	public String getTransporter() {
+		return transporter;
+	}
+
+
+
+
+	public void setTransporter(String transporter) {
+		this.transporter = transporter;
+	}
+
+
+
+
+	public double getShippingPrice() {
+		return shippingPrice;
+	}
+
+
+
+
+	public void setShippingPrice(double shippingPrice) {
+		this.shippingPrice = shippingPrice;
+	}
+
+
+
+
 	public void setStatut(STAT statut) {
 		this.statut = statut;
 	}
