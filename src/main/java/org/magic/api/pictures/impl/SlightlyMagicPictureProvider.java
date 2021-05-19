@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,14 +38,8 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 	
 	@Override
 	public BufferedImage getPicture(MagicCard mc) throws IOException {
-		return getOnlinePicture(mc);
+		return resizeCard(getFullSizePicture(mc), newW, newH);
 	}
-	
-		public static void main(String[] args) {
-			FileUtils.listFiles(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\data\\forge\\IKO"), new WildcardFileFilter("Colossification*"),TrueFileFilter.INSTANCE).forEach(System.out::println);;
-			
-		}
-	
 	
 	@Override
 	public String generateUrl(MagicCard mc) {
@@ -60,13 +54,23 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 		
 		var edDir = new File(getFile(PICS_DIR),mc.getCurrentSet().getId());
 		int size = FileUtils.listFiles(edDir, new WildcardFileFilter(mc.getName()+"*"),TrueFileFilter.INSTANCE).size();
-		
-		String calculate = "";
-		
-		
-		
+		var calculate = "";
+		if(size>1)
+		{
+			calculate="1";
+			if(mc.isBorderLess())
+				calculate="2";
+			
+			
+		}
 		return new File(edDir, mc.getName() + calculate +".fullborder.jpg").getAbsolutePath();
 	}
+	
+	@Override
+	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
+		return getOnlinePicture(mc);
+	}
+	
 	
 	@Override
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {

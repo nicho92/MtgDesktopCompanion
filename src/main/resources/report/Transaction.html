@@ -79,15 +79,6 @@
                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
                     <tr>
                         <td align="center" valign="top" style="font-size:0; padding: 35px;" bgcolor="#F44336">
-                            <div style="display:inline-block; max-width:50%; min-width:100px; vertical-align:top; width:100%;">
-                                <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
-                                    <tr>
-                                        <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 36px; font-weight: 800; line-height: 48px;" class="mobile-center">
-                                            <h1 style="font-size: 36px; font-weight: 800; margin: 0; color: #ffffff;">${transaction.config.siteTitle}</h1>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
                             <div style="display:inline-block; max-width:50%; min-width:100px; vertical-align:top; width:100%;" class="mobile-hide">
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                     <tr>
@@ -171,8 +162,8 @@
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                                 <tr>
                                                     <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                        <p style="font-weight: 800;">Estimated Delivery Date</p>
-                                                        <p>January 1st, 2016</p>
+                                                        <p style="font-weight: 800;">Estimated Delivery</p>
+                                                        <p>${transaction.config.averageDeliveryTime} days</p>
                                                     </td>
                                                 </tr>
                                             </table>

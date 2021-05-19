@@ -51,6 +51,20 @@ public class MTGConstants {
 	public static final String MTG_APP_NAME = "MTG Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
+	public static final String DEFAULT_SHIPPING_RULES="var total=0;\r\n"
+			+ "$.each(getCartItems(),function(i,data){\r\n"
+			+ "    total += data.qte*data.price;\r\n"
+			+ "});\r\n"
+			+ "\r\n"
+			+ "if(total >=1)\r\n"
+			+ "total = 5\r\n"
+			+ "if(total>=50)\r\n"
+			+ "total = 15;\r\n"
+			+ "if(total>=65)\r\n"
+			+ "total=0;\r\n"
+			+ "\r\n"
+			+ "\r\n"
+			+ "total;";
 
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
@@ -236,6 +250,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_SERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/servers.png"));
 	public static final ImageIcon ICON_TAB_ACTIVESERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/active-server.png"));
 	public static final ImageIcon ICON_TAB_SYNC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/sync.png"));
+	public static final ImageIcon ICON_TAB_DELIVERY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/delivery.png"));
 	
 
 

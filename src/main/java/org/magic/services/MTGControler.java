@@ -206,6 +206,11 @@ public class MTGControler {
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
+			
+			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
+			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
+			
+			
 			try {
 			conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCard.class));
 			}
@@ -257,7 +262,6 @@ public class MTGControler {
 		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
-		
 		setProperty("/shopSite/config/ganalyticsId",wsc.getGoogleAnalyticsId());
 		setProperty("/shopSite/config/percentReduction",wsc.getPercentReduction());
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
@@ -268,13 +272,15 @@ public class MTGControler {
 		setProperty("/shopSite/config/contact/country",wsc.getContact().getCountry());
 		setProperty("/shopSite/config/contact/address",wsc.getContact().getAddress());
 		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
+		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
+		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
 		
 	}
 	
 
 	public MagicCardStock getDefaultStock() {
-		String defaultBool = "false";
-		MagicCardStock st = new MagicCardStock();
+		var defaultBool = "false";
+		var st = new MagicCardStock();
 					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",defaultBool)));
 					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",defaultBool)));
 					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",defaultBool)));
@@ -288,7 +294,7 @@ public class MTGControler {
 	}
 	
 	public ThreadPoolConfig getThreadPoolConfig() {
-		ThreadPoolConfig tpc = new ThreadPoolConfig();
+		var tpc = new ThreadPoolConfig();
 
 		tpc.setThreadPool(THREADPOOL.valueOf(get("threadsExecutor/threadPool","FIXED")));
 		tpc.setDaemon(Boolean.parseBoolean(get("threadsExecutor/daemon","true")));

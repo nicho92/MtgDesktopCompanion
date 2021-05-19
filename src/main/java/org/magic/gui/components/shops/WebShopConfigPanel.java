@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -47,10 +48,6 @@ import org.magic.tools.MTG;
 
 public class WebShopConfigPanel extends MTGUIComponent {
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtSiteTitle;
 	private JTextField txtBannerTitle;
@@ -65,9 +62,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private MagicCard topProduct;
 	private JSlider maxLastProductSlide;
 	private JCheckableListBox<MagicCollection> needCollection;
-	private JSpinner spinnerReduction ;	
+	private JSpinner spinnerReduction ;
+	private JSpinner averageDeliverayDay ;	
+	private JTextArea txtdeliveryRules ;
 	private ContactPanel contactPanel;
-	
+
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
 		var pane = new JXTaskPane();
@@ -105,6 +104,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			txtAbout = new JTextArea(conf.getAboutText());
 			txtBannerTitle = new JTextField(conf.getBannerTitle());
 			txtBannerText = new JTextArea(conf.getBannerText());
+			
 			panelGeneral.add(new JLabel("BANNERTITLE"));
 			panelGeneral.add(txtBannerTitle);
 			panelGeneral.add(new JLabel("BANNERTEXT"));
@@ -155,8 +155,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		var serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		
-		
-		
 		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
 		cboCollections = new JCheckableListBox<>();
 		needCollection = new JCheckableListBox<>();
@@ -176,10 +174,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 		panelStock.add(new JLabel("SEARCH_CARDS_IN_COLLECTION"));
 		panelStock.add(needCollection);
-		
-		
-		
-		
+	
 		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
@@ -207,16 +202,28 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelProduct.add(paneSlide);
 		panelProduct.add(new JLabel("PERCENT_REDUCTION_FOR_SELL"));
 		panelProduct.add(spinnerReduction);
+	
+		
+		
+		
+		JPanel panelDelivery = createBoxPanel("DELIVERY",MTGConstants.ICON_TAB_DELIVERY, new GridLayout(0, 2, 0, 0),true);
+		averageDeliverayDay = new JSpinner(new SpinnerNumberModel(conf.getAverageDeliveryTime(),0,15,1));
+		txtdeliveryRules = new JTextArea(5,1);
+		panelDelivery.add(new JLabel("DELIVERAY_DAY"));
+		panelDelivery.add(averageDeliverayDay);
+		panelDelivery.add(new JLabel("DELIVERY_RULES"));
+		panelDelivery.add(txtdeliveryRules);
+		
 		
 		
 		add(container,BorderLayout.CENTER);
-		
 		container.add(btnSave);
 		container.add(panelGeneral);
 		container.add(panelSlides);
 		container.add(panelContact);
 		container.add(panelStock);
 		container.add(panelProduct);
+		container.add(panelDelivery);
 		container.add(panelServer);
 		
 		
@@ -226,22 +233,22 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			
 			WebShopConfig newBean = MTGControler.getInstance().getWebConfig();
 			
-			newBean.setAboutText(txtAbout.getText());
-			newBean.setBannerText(txtBannerText.getText());
-			newBean.setBannerTitle(txtBannerTitle.getText());
-			newBean.setSiteTitle(txtSiteTitle.getText());
-			newBean.setTopProduct(topProduct);
-			newBean.setMaxLastProduct(maxLastProductSlide.getValue());
-			newBean.setGoogleAnalyticsId(txtAnalyticsGoogle.getText());
-			
-			
-			newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
-			
-			newBean.getCollections().clear();
-			newBean.getCollections().addAll(cboCollections.getSelectedElements());
-			
-			newBean.getNeedcollections().clear();
-			newBean.getNeedcollections().addAll(needCollection.getSelectedElements());
+				newBean.setAboutText(txtAbout.getText());
+				newBean.setBannerText(txtBannerText.getText());
+				newBean.setBannerTitle(txtBannerTitle.getText());
+				newBean.setSiteTitle(txtSiteTitle.getText());
+				newBean.setTopProduct(topProduct);
+				newBean.setMaxLastProduct(maxLastProductSlide.getValue());
+				newBean.setGoogleAnalyticsId(txtAnalyticsGoogle.getText());
+				newBean.setAverageDeliveryTime(Integer.parseInt(averageDeliverayDay.getValue().toString()));
+				newBean.setShippingRules(txtdeliveryRules.getText());
+				newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
+				
+				newBean.getCollections().clear();
+				newBean.getCollections().addAll(cboCollections.getSelectedElements());
+				
+				newBean.getNeedcollections().clear();
+				newBean.getNeedcollections().addAll(needCollection.getSelectedElements());
 			
 			
 			

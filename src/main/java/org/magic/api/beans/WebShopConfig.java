@@ -11,7 +11,7 @@ public class WebShopConfig implements Serializable {
 	private String bannerTitle;
 	private String bannerText;
 	private String aboutText;
-	private List<String> informations;
+	private List<String> delivery;
 	private List<String> links;
 	private List<String> slidesLinksImage;
 	private Contact contact;
@@ -22,15 +22,36 @@ public class WebShopConfig implements Serializable {
 	private String currencySymbol;
 	private double percentReduction=0;
 	private String googleAnalyticsId;
+	private int averageDeliveryTime;
+	private String shippingRules;
 	
 	
 	public WebShopConfig() {
-		informations= new ArrayList<>();
+		delivery= new ArrayList<>();
 		links= new ArrayList<>();
 		collections = new ArrayList<>();
 		slidesLinksImage = new ArrayList<>();
 		needcollections = new ArrayList<>();
 		contact=new Contact();
+	}
+	
+	
+	public String getShippingRules() {
+		return shippingRules;
+	}
+
+
+	public void setShippingRules(String shippingRules) {
+		this.shippingRules = shippingRules;
+	}
+
+
+	public void setAverageDeliveryTime(int averageDeliveryTime) {
+		this.averageDeliveryTime = averageDeliveryTime;
+	}
+	
+	public int getAverageDeliveryTime() {
+		return averageDeliveryTime;
 	}
 	
 	public String getGoogleAnalyticsId() {
@@ -109,12 +130,7 @@ public class WebShopConfig implements Serializable {
 	public void setAboutText(String aboutText) {
 		this.aboutText = aboutText;
 	}
-	public List<String> getInformations() {
-		return informations;
-	}
-	public void setInformations(List<String> informations) {
-		this.informations = informations;
-	}
+	
 	public List<String> getLinks() {
 		return links;
 	}
@@ -142,5 +158,11 @@ public class WebShopConfig implements Serializable {
 	public void setPercentReduction(double percentReduction) {
 		this.percentReduction = percentReduction;
 	}
+	public List<String> getDelivery() {
+		return delivery;
+	}
 	
+	public void setDelivery(List<String> delivery) {
+		this.delivery = delivery;
+	}
 }

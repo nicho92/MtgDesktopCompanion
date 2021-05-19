@@ -48,7 +48,9 @@
     		var maxLastProduct=4;
     		var currency = "";
 			var percentReduction = 0;
-			
+			console.log(data.shippingRules);
+			data.shippingPrice = eval(data.shippingRules);
+			console.log(data.shippingPrice);
 						    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
