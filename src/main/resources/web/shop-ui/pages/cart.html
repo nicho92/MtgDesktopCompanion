@@ -36,6 +36,9 @@
 
 	<script>
 	
+	
+	
+	
 	 $(document).ready(function() {	
 		 var array = [];	
 	   	
@@ -48,9 +51,6 @@
     		var maxLastProduct=4;
     		var currency = "";
 			var percentReduction = 0;
-			console.log(data.shippingRules);
-			data.shippingPrice = eval(data.shippingRules);
-			console.log(data.shippingPrice);
 						    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
@@ -89,19 +89,21 @@
 		        	var api = this.api(), data;
 		        	// Total over all pages
 		            total = 0;
-					
-					
-
 					api.cells(null,7).render().each(function(item) {
-						
-							total += item.qte*item.price;
+						total += item.qte*item.price;
 					})
 		 			
+					shippingPrice=eval(getConfig().shippingRules);
 					
-		            
+					 // Update footer
+		            $( api.column( 6 ).footer() ).html(
+		            	shippingPrice.toFixed(2) + " "+currency
+		            );
+
+ 					
 		            // Update footer
 		            $( api.column( 7 ).footer() ).html(
-		            	total.toFixed(2) + " "+currency
+		            	(shippingPrice + total).toFixed(2) + " "+currency
 		            );
 		        },
 		        
@@ -127,7 +129,7 @@
 					  "width": "25%",
 			          "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> "+data[0].set;	
+		                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> ";	
 		                	 //  data=data[0].set;
 		                   }
 		                 return data;
@@ -155,7 +157,7 @@
 			        },
 			        { 
 					      "data": "price",
- 						  "width": "10%",
+ 						  "width": "20%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
 										data=data.toFixed(2) + " " + currency;		                		 
@@ -165,7 +167,7 @@
 				    },
 				    { 
 					      "data": null,
-  						  "width": "18%",
+  						  "width": "20%",
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
 										data=(row.qte*row.price).toFixed(2) + "" +currency;
@@ -296,7 +298,7 @@
 					            </tr>
 					        </thead>
 					        <tfoot align="right">
-					        	<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+					        	<tr><th></th><th></th><th></th><th></th><th></th><th>Shipping: </th><th></th><th></th><th></th></tr>
 					        </tfoot>
 					</table>
 			</div>

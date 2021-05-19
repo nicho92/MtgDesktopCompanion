@@ -78,19 +78,12 @@
             <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
                     <tr>
-                        <td align="center" valign="top" style="font-size:0; padding: 35px;" bgcolor="#F44336">
+                        <td align="center" valign="top" style="font-size:0; padding: 35px;" bgcolor= "#343a40">
                             <div style="display:inline-block; max-width:50%; min-width:100px; vertical-align:top; width:100%;" class="mobile-hide">
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                     <tr>
-                                        <td align="right" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
-                                            <table cellspacing="0" cellpadding="0" border="0" align="right">
-                                                <tr>
-                                                    <td style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400;">
-                                                        <p style="font-size: 18px; font-weight: 400; margin: 0; color: #ffffff;"><a href="#" target="_blank" style="color: #ffffff; text-decoration: none;">${transaction.config.siteTitle}</a></p>
-                                                    </td>
-                                                    <td style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 24px;"> <a href="#" target="_blank" style="color: #ffffff; text-decoration: none;"><img src="https://www.mtgcompanion.org/img/logo.png" width="27" height="23" style="display: block; border: 0px;" /></a> </td>
-                                                </tr>
-                                            </table>
+                                        <td align="center" valign="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
+                                                  <p style="font-size: 18px; margin: 0; color: #ffffff;"><a href="#" target="_blank" style="color: #ffffff; text-decoration: none;"><img src="https://www.mtgcompanion.org/img/logo.png" width="27" height="23" style="display: block; border: 0px;" />${transaction.config.siteTitle}</a></p>
                                         </td>
                                     </tr>
                                 </table>
@@ -126,7 +119,10 @@
 	                                  			       <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> #{stock.price; M2} ${transaction.config.currencySymbol}</td>
 												</tr>
 										    </#list>
-											    
+											    <tr>
+											           <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">Shipping </td>
+	                                  			       <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> #{transaction.shippingPrice; M2} ${transaction.config.currencySymbol}</td>
+												</tr>
                                         </table>
                                     </td>
                                 </tr>
@@ -180,7 +176,7 @@
                         <td align="center" style="padding: 35px; background-color: #ffffff;" bgcolor="#ffffff">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
                                 <tr>
-                                    <td align="center"> <img src="logo-footer.png" width="37" height="37" style="display: block; border: 0px;" /> </td>
+                                    <td align="center">  </td>
                                 </tr>
                                 <tr>
                                     <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; padding: 5px 0 10px 0;">

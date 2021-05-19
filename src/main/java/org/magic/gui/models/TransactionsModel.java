@@ -21,7 +21,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	public TransactionsModel() {
 		
 		setWritable(true);
-		columns = new String[] { "ID","DATEPROPOSITION","CONTACT","ITEMS","TOTAL","MESSAGE","STATUT" };
+		columns = new String[] { "ID","DATEPROPOSITION","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT" };
 	}
 	
 	
@@ -48,8 +48,9 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 			case 2 : return it.getContact();
 			case 3 : return it.getItems().size();
 			case 4 : return it.total();
-			case 5 : return it.getMessage();
-			case 6 : return it.getStatut();
+			case 5 : return it.getShippingPrice();
+			case 6 : return it.getMessage();
+			case 7 : return it.getStatut();
 			default : return 0;
 		}
 	}
@@ -58,7 +59,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	public boolean isCellEditable(int row, int column) {
 		if(writable)
 		{ 
-			return (column==6);
+			return (column==7);
 		}
 		else
 		{
@@ -72,10 +73,10 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 		if(columnIndex==1)
 			return Date.class;
 		
-		if(columnIndex==4)
+		if(columnIndex==4 || columnIndex==5)
 			return Double.class;
 		
-		if(columnIndex==6)
+		if(columnIndex==7)
 			return STAT.class;
 		
 		return super.getColumnClass(columnIndex);

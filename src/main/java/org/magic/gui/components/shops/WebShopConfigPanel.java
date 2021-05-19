@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -27,6 +26,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 
 import org.apache.log4j.Logger;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -64,7 +65,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JCheckableListBox<MagicCollection> needCollection;
 	private JSpinner spinnerReduction ;
 	private JSpinner averageDeliverayDay ;	
-	private JTextArea txtdeliveryRules ;
+	private RSyntaxTextArea txtdeliveryRules ;
 	private ContactPanel contactPanel;
 
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
@@ -207,12 +208,14 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		JPanel panelDelivery = createBoxPanel("DELIVERY",MTGConstants.ICON_TAB_DELIVERY, new GridLayout(0, 2, 0, 0),true);
-		averageDeliverayDay = new JSpinner(new SpinnerNumberModel(conf.getAverageDeliveryTime(),0,15,1));
-		txtdeliveryRules = new JTextArea(5,1);
+		averageDeliverayDay = new JSpinner(new SpinnerNumberModel(conf.getAverageDeliveryTime(),0,8,1));
+		txtdeliveryRules = new RSyntaxTextArea(5,1);
+		txtdeliveryRules.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
+		txtdeliveryRules.setText(conf.getShippingRules());	
 		panelDelivery.add(new JLabel("DELIVERAY_DAY"));
 		panelDelivery.add(averageDeliverayDay);
 		panelDelivery.add(new JLabel("DELIVERY_RULES"));
-		panelDelivery.add(txtdeliveryRules);
+		panelDelivery.add(new JScrollPane(txtdeliveryRules));
 		
 		
 		

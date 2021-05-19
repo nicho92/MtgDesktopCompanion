@@ -112,7 +112,7 @@ function clearCart()
 	   
 function getCartItems()
 {
-		return JSON.parse(storage.getItem(cartKey) || "[]");
+	return JSON.parse(storage.getItem(cartKey) || "[]");
 }
 
 function createJSONOrder(msg) {
@@ -120,8 +120,8 @@ function createJSONOrder(msg) {
 		var jsonObj = {
 	    	contact:getCurrentUser(),
 	    	items : getCartItems(),
-	    	message:jQuery('<p>' + msg + '</p>').text()
-	    	
+	    	message:jQuery('<p>' + msg + '</p>').text(),
+	    	shippingPrice:eval(getConfig().shippingRules)
 	    }
 	  	
 	  	return jsonObj;
