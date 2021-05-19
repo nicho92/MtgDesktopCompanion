@@ -17,7 +17,7 @@ public class Transaction {
 	private String transporter;
 	private double shippingPrice;
 	private WebShopConfig config;
-	
+	private String transporterShippingCode;
 	
 	public Transaction() {
 		dateProposition = new Date();
@@ -27,6 +27,16 @@ public class Transaction {
 	}
 	
 	
+	public String getTransporterShippingCode() {
+		return transporterShippingCode;
+	}
+
+
+	public void setTransporterShippingCode(String transporterShippingCode) {
+		this.transporterShippingCode = transporterShippingCode;
+	}
+
+
 	public void setConfig(WebShopConfig config) {
 		this.config = config;
 	}

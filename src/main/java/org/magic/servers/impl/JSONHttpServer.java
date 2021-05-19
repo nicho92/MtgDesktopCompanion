@@ -205,7 +205,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			{
 				List<MagicCollection> cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
 				
-				JsonObject obj = new JsonObject();
+				var obj = new JsonObject();
 							obj.addProperty("name", mc.getName());
 							obj.addProperty("cost", mc.getCost());
 							obj.addProperty("type", mc.getFullType());
@@ -233,15 +233,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/cards/number/:idEd/:cNumber", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cNumber"), request.params(ID_ED)), transformer);
 
 		put("/cards/move/:from/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCollection from = new MagicCollection(request.params(":from"));
-			MagicCollection to = new MagicCollection(request.params(":to"));
+			var from = new MagicCollection(request.params(":from"));
+			var to = new MagicCollection(request.params(":to"));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
 			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
 			return RETURN_OK;
 		}, transformer);
 
 		put("/cards/add/:id", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCollection from = new MagicCollection(MTGControler.getInstance().get("default-library"));
+			var from = new MagicCollection(MTGControler.getInstance().get("default-library"));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
 			MTGControler.getInstance().saveCard(mc, from,null);
 			return RETURN_OK;
@@ -254,7 +254,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCollection col = new MagicCollection(request.params(":col"));
+			var col = new MagicCollection(request.params(":col"));
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
 		}, transformer);
@@ -335,7 +335,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		put("/alerts/add/:idCards", (request, response) -> {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
-			MagicCardAlert alert = new MagicCardAlert();
+			var alert = new MagicCardAlert();
 			alert.setCard(mc);
 			alert.setPrice(0.0);
 			getEnabledPlugin(MTGDao.class).saveAlert(alert);
@@ -553,7 +553,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			{
 				try {
 						EmailNotifier plug = (EmailNotifier)MTG.getPlugin("email", MTGNotifier.class);
-						var not = new MTGNotification("New transaction for ", notifFormater.generate(plug.getFormat(), t, Transaction.class), MTGNotification.MESSAGE_TYPE.INFO);
+						var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId(), notifFormater.generate(plug.getFormat(), t, Transaction.class), MTGNotification.MESSAGE_TYPE.INFO);
 						plug.send(t.getContact().getEmail(),not);
 					}
 					catch(Exception e)

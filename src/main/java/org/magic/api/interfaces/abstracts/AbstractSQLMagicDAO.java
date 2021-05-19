@@ -230,7 +230,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, fk_idcontact INTEGER)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean)");
@@ -406,7 +406,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		
 		state.setContact(getContactById(rs.getInt("fk_idcontact")));
-		
+		state.setTransporterShippingCode(getString("transporterShippingCode"));
 		
 		return state;	
 	}
@@ -466,14 +466,15 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 				logger.debug("save transaction ");
 				
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());			
 					pst.setString(4, t.getStatut().name());
 					pst.setString(5, t.getTransporter());
 					pst.setDouble(6, t.getShippingPrice());
-					pst.setInt(7, t.getContact().getId());
+					pst.setString(7, t.getTransporterShippingCode());
+					pst.setInt(8, t.getContact().getId());
 					pst.executeUpdate();
 					t.setId(getGeneratedKey(pst));
 					
@@ -490,11 +491,12 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("update transaction " + t.getId());
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?  WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=? transporterShippingCode=? WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
-				pst.setInt(4, t.getId());
+				pst.setString(4, t.getTransporterShippingCode());
+				pst.setInt(5, t.getId());
 				pst.executeUpdate();
 				return t.getId();
 				
@@ -543,7 +545,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					state.setId(rs.getInt("id"));
 					state.setQte(rs.getInt("qte"));
 					state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
-					Packaging p = new Packaging();
+					var p = new Packaging();
 					 		  p.setLang(rs.getString("lang"));
 							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
 							  try 
