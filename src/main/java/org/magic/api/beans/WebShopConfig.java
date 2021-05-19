@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 public class WebShopConfig implements Serializable {
@@ -20,6 +21,7 @@ public class WebShopConfig implements Serializable {
 	private MagicCard topProduct;
 	private int maxLastProduct = 4;
 	private String currencySymbol;
+	private String currencyCode;
 	private double percentReduction=0;
 	private String googleAnalyticsId;
 	private int averageDeliveryTime;
@@ -35,6 +37,13 @@ public class WebShopConfig implements Serializable {
 		contact=new Contact();
 	}
 	
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+	
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
 	
 	public String getShippingRules() {
 		return shippingRules;
@@ -72,6 +81,12 @@ public class WebShopConfig implements Serializable {
 	
 	public String getCurrencySymbol() {
 		return currencySymbol;
+	}
+	
+	public void setCurrency(Currency c)
+	{
+		setCurrencySymbol(c.getSymbol());
+		setCurrencyCode(c.getCurrencyCode());
 	}
 	
 	public void setCurrencySymbol(String currencySymbol) {

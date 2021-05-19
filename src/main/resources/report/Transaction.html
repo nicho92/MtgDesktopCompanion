@@ -109,12 +109,12 @@
 											<#assign total = total + (stock.qte*stock.price)>
 												<tr>
 											           <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> ${stock.qte}x ${stock.magicCard.name} (${stock.magicCard.editions[0].set}) </td>
-	                                  			       <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> #{stock.price; M2} ${transaction.config.currencySymbol}</td>
+	                                  			       <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> #{stock.price; M2} ${transaction.config.currencyCode}</td>
 												</tr>
 										    </#list>
 											    <tr>
 											           <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">Shipping </td>
-	                                  			       <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> #{transaction.shippingPrice; M2} ${transaction.config.currencySymbol}</td>
+	                                  			       <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> #{transaction.shippingPrice; M2} ${transaction.config.currencyCode}</td>
 												</tr>
                                         </table>
                                     </td>
@@ -124,7 +124,7 @@
                                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                             <tr>
                                                 <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> TOTAL </td>
-                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> #{total; M2} ${transaction.config.currencySymbol} </td>
+                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> #{total; M2} ${transaction.config.currencyCode} </td>
                                             </tr>
                                         </table>
                                     </td>
@@ -173,6 +173,7 @@
                                 </tr>
                                 <tr>
                                     <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; padding: 5px 0 10px 0;">
+                                    	<p style="font-size: 14px; font-weight: 800; line-height: 18px; color: #333333;"> ${transaction.config.contact} </p>
                                         <p style="font-size: 14px; font-weight: 800; line-height: 18px; color: #333333;"> ${transaction.config.contact.address} </p>
                                     </td>
                                 </tr>
