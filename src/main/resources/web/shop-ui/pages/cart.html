@@ -83,7 +83,9 @@
 		        "searching": false,
 		        "info":     false,
 		        "paging":   false,
-		        
+		        "language": {
+        				"emptyTable":     "Your cart is empty !!"
+    			},
 		        "footerCallback": function ( row, data, start, end, display ) {
 		        	
 		        	var api = this.api(), data;
@@ -106,7 +108,12 @@
 		            	(shippingPrice + total).toFixed(2) + " "+currency
 		            );
 		        },
-		        
+		        "columnDefs": [{
+	                "targets": '_all',
+		            "createdCell": function (td, cellData, rowData, row, col) {
+		                    $(td).css('padding', '2px')
+		                }
+				}],
 		        "columns": [
 	        		{ 
 		        	  "data": "idstock",
