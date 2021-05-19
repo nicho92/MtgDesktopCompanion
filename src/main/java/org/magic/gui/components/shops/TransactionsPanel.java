@@ -25,6 +25,8 @@ public class TransactionsPanel extends MTGUIComponent {
 	private JXTable table;
 	private TransactionsModel model;
 	private ContactPanel contactPanel;
+	private TransactionManagementPanel managementPanel;
+	
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -32,6 +34,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		var stockDetailPanel = new CardStockPanel();
 		var tabbedPane = new JTabbedPane();
 		contactPanel = new ContactPanel(true);
+		managementPanel= new TransactionManagementPanel();
 		model = new TransactionsModel();
 		
 		
@@ -42,6 +45,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		UITools.addTab(tabbedPane, stockDetailPanel);
 		UITools.addTab(tabbedPane, contactPanel);
+		tabbedPane.add("Management",managementPanel);
+		
 		
 		table.packAll();
 		stockDetailPanel.showAllColumns();

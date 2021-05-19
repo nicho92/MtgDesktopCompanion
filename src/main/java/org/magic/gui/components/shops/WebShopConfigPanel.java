@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -207,15 +208,19 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		
-		JPanel panelDelivery = createBoxPanel("DELIVERY",MTGConstants.ICON_TAB_DELIVERY, new GridLayout(0, 2, 0, 0),true);
+		JPanel panelDelivery = createBoxPanel("DELIVERY",MTGConstants.ICON_TAB_DELIVERY, new BorderLayout(),true);
 		averageDeliverayDay = new JSpinner(new SpinnerNumberModel(conf.getAverageDeliveryTime(),0,8,1));
-		txtdeliveryRules = new RSyntaxTextArea(5,1);
+		txtdeliveryRules = new RSyntaxTextArea(10,1);
 		txtdeliveryRules.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
 		txtdeliveryRules.setText(conf.getShippingRules());	
-		panelDelivery.add(new JLabel("DELIVERAY_DAY"));
-		panelDelivery.add(averageDeliverayDay);
-		panelDelivery.add(new JLabel("DELIVERY_RULES"));
-		panelDelivery.add(new JScrollPane(txtdeliveryRules));
+		var panelHaut = new JPanel();	
+			((FlowLayout)panelHaut.getLayout()).setAlignment(FlowLayout.LEFT);
+			panelHaut.add(new JLabel("DELIVERY_DAY"));
+			panelHaut.add(averageDeliverayDay);
+		
+		panelDelivery.add(panelHaut,BorderLayout.NORTH);
+		panelDelivery.add(new JLabel("DELIVERY_RULES"),BorderLayout.WEST);
+		panelDelivery.add(new JScrollPane(txtdeliveryRules), BorderLayout.CENTER);
 		
 		
 		
