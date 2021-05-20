@@ -52,7 +52,7 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 - Get alerted with many notifier (Telegram, mail, Discord,....) 
 - Cross-plateform : Discord Bot, Plugin for Chrome,...
 - Embedded webUI and JsonServer
-
+- Embedded webshop server
 
 
 # Portfolio
@@ -111,6 +111,9 @@ get your companion in discord's channels :
 
 get your companion in chrome :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/mtgchromecompanion.png](https://www.mtgcompanion.org/img/portfolio/fullsize/mtgchromecompanion.png)
+
+Publish your collection throught your embedded shopping website :
+![https://www.mtgcompanion.org/img/portfolio/fullsize/webshop.png](https://www.mtgcompanion.org/img/portfolio/fullsize/webshop.png)
 
 
 Generate Website of your collections :

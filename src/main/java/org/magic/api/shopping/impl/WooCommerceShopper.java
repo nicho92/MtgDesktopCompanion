@@ -17,6 +17,7 @@ import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceShopper extends AbstractMagicShopper{
 
+	private static final String PER_PAGE = "PER_PAGE";
 	private static final String STATUS = "STATUS";
 	private static final String WEBSITE = "WEBSITE";
 	private static final String CONSUMER_KEY = "CONSUMER_KEY";
@@ -29,6 +30,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 		setProperty(CONSUMER_KEY, "");
 		setProperty(CONSUMER_SECRET, "");
 		setProperty(STATUS,"any");
+		setProperty(PER_PAGE,"100");
 	}
 	
 
@@ -53,7 +55,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 		List<OrderEntry> list = new ArrayList<>();
 		
 		Map<String, String> parameters = new HashMap<>();
-						    parameters.put("per_page", "100");
+						    parameters.put("per_page", getString(PER_PAGE));
 						    parameters.put("status", getString(STATUS));
 						    
 		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
