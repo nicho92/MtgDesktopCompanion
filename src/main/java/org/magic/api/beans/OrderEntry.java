@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
+import org.magic.services.MTGControler;
+
 public class OrderEntry implements Serializable {
 
 	
@@ -67,6 +69,7 @@ public class OrderEntry implements Serializable {
 		updated=true;
 	}
 	
+
 	public boolean isUpdated() {
 		return updated;
 	}
@@ -115,6 +118,11 @@ public class OrderEntry implements Serializable {
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
+	
+	public void setCurrency(String currency) {
+		this.currency = Currency.getInstance(currency);
+	}
+	
 	public Date getTransactionDate() {
 		return transactionDate;
 	}

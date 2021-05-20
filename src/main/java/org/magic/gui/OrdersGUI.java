@@ -74,6 +74,7 @@ public class OrdersGUI extends MTGUIComponent {
 	
 	private void loadFinancialBook()
 	{
+		model.clear();
 		SwingWorker<List<OrderEntry>, OrderEntry> sw = new SwingWorker<>()
 				{
 
@@ -91,7 +92,7 @@ public class OrdersGUI extends MTGUIComponent {
 							logger.error(e);
 						} 
 						table.packAll();
-						UITools.initTableFilter(table);
+						
 					}
 			
 				};
@@ -113,7 +114,7 @@ public class OrdersGUI extends MTGUIComponent {
 
 		model = new ShoppingEntryTableModel();
 		table = UITools.createNewTable(model);
-		
+		UITools.initTableFilter(table);
 		
 		JButton btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
 		JButton btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"transactions save");
@@ -126,6 +127,9 @@ public class OrdersGUI extends MTGUIComponent {
 		editorPanel = new JPanel();
 		orderEntryPanel = new OrderEntryPanel();
 		JButton btnSaveOrder = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_A,"transaction add");
+		JButton btnReload = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R,"Reload");
+		
+		
 		JPanel panelButton = new JPanel();
 		JButton btnDeleteOrder = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_S,"transaction delete");
 		JButton btnNewEntry = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"transaction new");
@@ -163,6 +167,7 @@ public class OrdersGUI extends MTGUIComponent {
 		panneauHaut.add(btnSave);
 		panneauHaut.add(btnDeleteOrder);
 		panneauHaut.add(btnAddToCollection);
+		panneauHaut.add(btnReload);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -276,6 +281,7 @@ public class OrdersGUI extends MTGUIComponent {
 			calulate(model.getItems());
 		});
 		
+		btnReload.addActionListener(ae->loadFinancialBook());
 		
 		btnDeleteOrder.addActionListener(ae->{
 			
@@ -327,7 +333,14 @@ public class OrdersGUI extends MTGUIComponent {
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				try {
+					
+					if(table.getSelectedRow()<0)
+						return;
+					
 				OrderEntry o = UITools.getTableSelection(table, 0);
+				
+				
+				
 				orderEntryPanel.setOrderEntry(o);
 				
 				calulate(UITools.getTableSelections(table, 0));
