@@ -21,7 +21,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	public TransactionsModel() {
 		
 		setWritable(true);
-		columns = new String[] { "ID","DATEPROPOSITION","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT" };
+		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT" };
 	}
 	
 	

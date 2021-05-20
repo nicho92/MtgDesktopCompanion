@@ -34,6 +34,13 @@
    	<script src="../dist/js/js-var.js"></script>
    	<script src="../dist/js/storage.js"></script>
 
+<style>
+#tableCart tfoot th  {
+    padding: 2px;
+}
+</style>
+
+
 	<script>
 	
 	
@@ -111,7 +118,7 @@
 		        "columnDefs": [{
 	                "targets": '_all',
 		            "createdCell": function (td, cellData, rowData, row, col) {
-		                    $(td).css('padding', '2px')
+		                    $(td).css('padding', '2px');
 		                }
 				}],
 		        "columns": [
@@ -165,6 +172,7 @@
 			        { 
 					      "data": "price",
  						  "width": "20%",
+						  "className": 'dt-body-right',
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
 										data=data.toFixed(2) + " " + currency;		                		 
@@ -175,6 +183,7 @@
 				    { 
 					      "data": null,
   						  "width": "20%",
+						  "className": 'dt-body-right',
 					      "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
 										data=(row.qte*row.price).toFixed(2) + "" +currency;

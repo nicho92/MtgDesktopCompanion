@@ -1,13 +1,14 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Transaction {
-	
+public class Transaction implements Serializable {
 	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,REFUSED,PAID,SENT, CLOSED, CANCELED } 
 	
+	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Date dateProposition;
 	private List<MagicCardStock> items;

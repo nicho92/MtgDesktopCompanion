@@ -42,10 +42,14 @@ public class TransactionsPanel extends MTGUIComponent {
 		table = UITools.createNewTable(model);
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		UITools.initTableFilter(table);
-		
-		UITools.addTab(tabbedPane, stockDetailPanel);
+
+		var stockManagementPanel = new JPanel();
+			   stockManagementPanel.setLayout(new BorderLayout());
+			   stockManagementPanel.add(stockDetailPanel,BorderLayout.CENTER);
+			   stockManagementPanel.add(managementPanel,BorderLayout.EAST);
+			   
+		UITools.addTab(tabbedPane, MTGUIComponent.build(stockManagementPanel, stockDetailPanel.getName(), stockDetailPanel.getIcon()));
 		UITools.addTab(tabbedPane, contactPanel);
-		tabbedPane.add("Management",managementPanel);
 		
 		
 		table.packAll();
@@ -65,6 +69,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 			stockDetailPanel.initMagicCardStock(t.getItems());
 			contactPanel.setContact(t.getContact());
+			managementPanel.setTransaction(t);
 			stockDetailPanel.disableCommands();
 		});
 		

@@ -42,6 +42,7 @@ public class CardStockPanel extends MTGUIComponent {
 	private JButton btnSave;
 	private MagicCard mc;
 	private MagicCollection col;
+	private JPanel panneauHaut;
 
 	public void enabledAdd(boolean b) {
 		btnAdd.setEnabled(b);
@@ -65,7 +66,7 @@ public class CardStockPanel extends MTGUIComponent {
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);	
 		}
 		
-		var panneauHaut = new JPanel();
+		panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
 		btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_ADD, "newStock");
@@ -191,6 +192,8 @@ public class CardStockPanel extends MTGUIComponent {
 		btnSave.setEnabled(false);
 		btnDelete.setEnabled(false);
 		model.setWritable(false);
+		panneauHaut.setVisible(false);
+		
 		
 	}
 

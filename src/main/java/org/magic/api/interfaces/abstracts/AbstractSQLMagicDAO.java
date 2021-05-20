@@ -406,7 +406,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		
 		state.setContact(getContactById(rs.getInt("fk_idcontact")));
-		state.setTransporterShippingCode(getString("transporterShippingCode"));
+		state.setTransporterShippingCode(rs.getString("transporterShippingCode"));
 		
 		return state;	
 	}
