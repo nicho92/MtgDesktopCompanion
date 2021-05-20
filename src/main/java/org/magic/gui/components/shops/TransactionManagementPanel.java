@@ -107,7 +107,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 									   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
 									   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
 									   oe.setType(TYPE_ITEM.CARD);
-									    
+									   oe.setUpdated(false);
 									   if(stock.getPrice()>0)								   
 										   oe.setTypeTransaction(TYPE_TRANSACTION.SELL);
 									   else

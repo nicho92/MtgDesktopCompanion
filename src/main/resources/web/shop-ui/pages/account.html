@@ -68,6 +68,9 @@
 						myObject.country = $("select[name='country']").val();
 						myObject.email = $("input[name='email']").val();
 						myObject.telephone = $("input[name='telephone']").val();
+						myObject.emailAccept = $("input[name=acceptEmail]").prop("checked");
+						
+						
 						
 						$.post(restserver+"/contact/add",JSON.stringify(myObject))
 							.done(function( data ) {
@@ -202,7 +205,7 @@
 				$("textarea[name=address]").val(getCurrentUser().address);
 				$("select[name=country]").val(getCurrentUser().country);
 				$("input[name=acceptEmail]").prop("checked",getCurrentUser().emailAccept);
-			
+				
 				
 				
 				
