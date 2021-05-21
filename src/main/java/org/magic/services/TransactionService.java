@@ -3,14 +3,15 @@ package org.magic.services;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
@@ -100,6 +101,28 @@ public class TransactionService {
 		t.setStatut(STAT.ACCEPTED);
 		saveTransaction(t,false);
 		sendMail(t,"TransactionValid","your order validate !");	
+	
+	}
+	
+	public static void mergeTransactions(List<Transaction> ts) throws SQLException {
+		
+		Transaction t = ts.get(0);
+		
+		for(var i=1;i<ts.size();i++)
+		{
+			t.getItems().addAll(ts.get(i).getItems());
+			
+			try {
+				getEnabledPlugin(MTGDao.class).deleteTransaction(ts.get(i));
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+			
+		}
+		
+		
+		saveTransaction(t,false);
+			
 	
 	}
 	

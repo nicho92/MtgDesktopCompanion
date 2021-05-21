@@ -1,7 +1,9 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +20,8 @@ import org.magic.gui.components.ContactPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -39,6 +43,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		
 		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		var btnMerge = new JButton(MTGConstants.ICON_IMPORT);
+		btnMerge.setEnabled(false);
+		
 		table = UITools.createNewTable(model);
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		UITools.initTableFilter(table);
@@ -59,21 +66,39 @@ public class TransactionsPanel extends MTGUIComponent {
 		add(panneauHaut, BorderLayout.NORTH);
 		add(tabbedPane,BorderLayout.SOUTH);
 		panneauHaut.add(btnRefresh);
+		panneauHaut.add(btnMerge);
+		
 		
 		table.getSelectionModel().addListSelectionListener(lsl->{
 			
-			Transaction t = UITools.getTableSelection(table, 0);
-			
-			if(t==null)
+			List<Transaction> t = UITools.getTableSelections(table, 0);
+
+			if(t.isEmpty())
 				return;
 			
-			stockDetailPanel.initMagicCardStock(t.getItems());
-			contactPanel.setContact(t.getContact());
-			managementPanel.setTransaction(t);
+			
+			
+			btnMerge.setEnabled(t.size()>1);
+			
+			
+			stockDetailPanel.initMagicCardStock(t.get(0).getItems());
+			contactPanel.setContact(t.get(0).getContact());
+			managementPanel.setTransaction(t.get(0));
 			stockDetailPanel.disableCommands();
 		});
 		
 		btnRefresh.addActionListener(al->reload());
+		
+		
+		btnMerge.addActionListener(al->{
+			List<Transaction> t = UITools.getTableSelections(table, 0);
+			try {
+				TransactionService.mergeTransactions(t);
+			} catch (SQLException e) {
+				MTGControler.getInstance().notify(e);
+			}
+			
+		});
 		
 	}
 	
