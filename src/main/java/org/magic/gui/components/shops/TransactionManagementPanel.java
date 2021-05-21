@@ -89,13 +89,12 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			}
 			
 		});
-		
-		
+
 		btnAcceptTransaction.addActionListener(e->{
 			loader.start();
 			var sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
 			{
-
+				
 				@Override
 				protected Void doInBackground() throws Exception {
 					for(MagicCardStock transactionItem : t.getItems())
@@ -109,6 +108,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 							else
 							{
 								   stock.setQte(stock.getQte()-transactionItem.getQte());
+								   stock.setUpdate(true);
 								   plug.saveOrUpdateStock(stock);
 								   plug.saveOrUpdateOrderEntry(TransactionService.toOrder(t, transactionItem));
 								   t.setStatut(STAT.ACCEPTED);

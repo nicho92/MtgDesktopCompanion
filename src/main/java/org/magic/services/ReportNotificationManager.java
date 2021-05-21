@@ -42,8 +42,13 @@ public class ReportNotificationManager {
 	}
 	
 	
-	
 	public <T> String generate(FORMAT_NOTIFICATION f, List<T> list, Class<T> type)
+	{
+		return generate(f, list, type.getSimpleName());
+	}
+	
+	
+	public <T> String generate(FORMAT_NOTIFICATION f, List<T> list, String type)
 	{
 		if(errorLoading)
 			return list.toString();
@@ -52,8 +57,8 @@ public class ReportNotificationManager {
 		input.put("modele", list);
 		try {
 			
-			String tmpl = type.getSimpleName()+"."+f.name().toLowerCase();
-			Template template = cfg.getTemplate(tmpl);
+			String tmpl = type+"."+f.name().toLowerCase();
+			var template = cfg.getTemplate(tmpl);
 			Writer writer = new StringWriter();
 		     		template.process(input, writer);
 		    

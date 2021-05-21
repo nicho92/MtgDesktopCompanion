@@ -491,12 +491,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("update transaction " + t.getId());
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=? WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=? WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
 				pst.setString(4, t.getTransporterShippingCode());
-				pst.setInt(5, t.getId());
+				storeTransactionItems(pst,5, t.getItems());			
+				pst.setInt(6, t.getId());
 				pst.executeUpdate();
 				return t.getId();
 				

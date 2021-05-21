@@ -57,6 +57,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.services.ReportNotificationManager;
+import org.magic.services.TransactionService;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
@@ -546,22 +547,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			
 			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
-						t.setConfig(MTGControler.getInstance().getWebConfig());
-			int ret = getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-			
-			if(t.getContact().isEmailAccept()) 
-			{
-				try {
-						EmailNotifier plug = (EmailNotifier)MTG.getPlugin("email", MTGNotifier.class);
-						var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId(), notifFormater.generate(plug.getFormat(), t, Transaction.class), MTGNotification.MESSAGE_TYPE.INFO);
-						plug.send(t.getContact().getEmail(),not);
-					}
-					catch(Exception e)
-					{
-						logger.error(e);
-					}
-			}
-			return ret;
+			t.setConfig(MTGControler.getInstance().getWebConfig());
+			return TransactionService.saveTransaction(t);
 		});
 	
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {
