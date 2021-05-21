@@ -70,7 +70,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			
 		btnSave.addActionListener(e->{
 			try {
-				TransactionService.update(t);
+				TransactionService.saveTransaction(t,true);
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(e1);
 			}
@@ -81,9 +81,8 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			
 			String text = JOptionPane.showInputDialog(this, "Tracking number ?");
 			t.setTransporterShippingCode(text);
-			t.setStatut(STAT.SENT);
 			try {
-				TransactionService.update(t);
+				TransactionService.sendTransaction(t);
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(e1);
 			}
@@ -114,7 +113,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 								   t.setStatut(STAT.ACCEPTED);
 							}
 					}
-					TransactionService.update(t);
+					TransactionService.validateTransaction(t);
 					return null;
 				}
 			};

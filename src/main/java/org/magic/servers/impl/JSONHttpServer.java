@@ -547,8 +547,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			
 			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
-			t.setConfig(MTGControler.getInstance().getWebConfig());
-			return TransactionService.saveTransaction(t);
+			
+			return TransactionService.newTransaction(t);
 		});
 	
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {

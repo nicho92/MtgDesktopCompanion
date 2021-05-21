@@ -11,6 +11,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.EmailNotifier;
@@ -21,19 +22,19 @@ import org.magic.tools.UITools;
 public class TransactionService {
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
 
-	public static void update(Transaction t) throws SQLException {
-		
-		try {
-			var js = new JavaScript();
-			js.addVariable("total", t.getTotal());
-			Object ret = js.runContent(MTGControler.getInstance().getWebConfig().getShippingRules());
-			t.setShippingPrice(Double.parseDouble(ret.toString()));
-		} catch (Exception e1) {
-			logger.error("Error updating shipping price",e1);
+	public static int saveTransaction(Transaction t, boolean reloadShipping) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		if(reloadShipping) {
+			try {
+				var js = new JavaScript();
+				js.addVariable("total", t.getTotal());
+				Object ret = js.runContent(MTGControler.getInstance().getWebConfig().getShippingRules());
+				t.setShippingPrice(Double.parseDouble(ret.toString()));
+			} catch (Exception e1) {
+				logger.error("Error updating shipping price",e1);
+			}
 		}
-		getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-			
-		
+		return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 	}
 
 	public static OrderEntry toOrder(Transaction t,MagicCardStock transactionItem)
@@ -58,14 +59,13 @@ public class TransactionService {
 			   return oe;
 	}
 
-	public static int saveTransaction(Transaction t) throws SQLException {
-		int ret = getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-
+	public static void sendMail(Transaction t,String template,String msg)
+	{
+		EmailNotifier plug = (EmailNotifier)MTG.getPlugin("email", MTGNotifier.class);
 		if(t.getContact().isEmailAccept()) 
 		{
 			try {
-					EmailNotifier plug = (EmailNotifier)MTG.getPlugin("email", MTGNotifier.class);
-					var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId(), new ReportNotificationManager().generate(plug.getFormat(), t, Transaction.class), MTGNotification.MESSAGE_TYPE.INFO);
+					var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId() + ":" + msg , new ReportNotificationManager().generate(plug.getFormat(), t, template), MTGNotification.MESSAGE_TYPE.INFO);
 					plug.send(t.getContact().getEmail(),not);
 				}
 				catch(Exception e)
@@ -73,8 +73,34 @@ public class TransactionService {
 					logger.error(e);
 				}
 		}
-		return ret;
+		
 	}
 	
+	public static Integer newTransaction(Transaction t) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setStatut(STAT.NEW);
+		int ret = saveTransaction(t,false);
+		sendMail(t,"TransactionNew","Transaction received");
+		
+		return ret;
+	
+	}
+	
+	
+	public static void sendTransaction(Transaction t) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setStatut(STAT.SENT);
+		saveTransaction(t,false);
+		sendMail(t,"TransactionSent", "Shipped !");	
+	
+	}
+	
+	public static void validateTransaction(Transaction t) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setStatut(STAT.ACCEPTED);
+		saveTransaction(t,false);
+		sendMail(t,"TransactionValid","your order validate !");	
+	
+	}
 	
 }
