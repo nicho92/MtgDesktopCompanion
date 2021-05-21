@@ -73,14 +73,14 @@
 					}
 			
 		   	 
-		   	 $.ajax({
+		   	 	$.ajax({
 			        url: restserver+"/stock/get/"+$_GET("id")
 			    }).then(function(data) {
 			    	
-			    		if(data.magicCard.scryfallId!=null)
-			    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image");
-						else
-							$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.magicCard.editions[0].multiverseId+"?format=image");
+		    		if(data.magicCard.scryfallId!=null)
+		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image");
+					else
+						$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.magicCard.editions[0].multiverseId+"?format=image");
 			    	
 			    	if(percentReduction>0)
 			    	{
