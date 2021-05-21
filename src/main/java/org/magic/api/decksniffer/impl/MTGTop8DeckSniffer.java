@@ -60,42 +60,61 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 	}
+	
+	
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		
+		var d = new RetrievableDeck();
+		d.setUrl(new URI("http://mtgtop8.com/event?e=1440&f=EX"));
+		
+		new MTGTop8DeckSniffer().getDeck(d);
+	}
+	
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		Document root = URLTools.extractHtml(info.getUrl().toString());
 		MagicDeck d = info.toBaseDeck();
 	
-		Elements doc = root.select("table.Stable").get(1).select("td table").select(MTGConstants.HTML_TAG_TD);
-
-		boolean side = false;
-		for (Element e : doc.select("td table td")) {
-
-			if (e.hasClass("O13")) {
-				if (e.text().equalsIgnoreCase("SIDEBOARD"))
-					side = true;
-			} else {
-
-				int qte = Integer.parseInt(e.text().substring(0, e.text().indexOf(' ')));
-				String name = e.select("span.L14").text();
-				if (!name.equals("")) 
+		Elements blocks = root.select("div[style='margin:3px;flex:1;']");
+		
+		var side = false;
+		for (Element b : blocks) 
+		{
+			
+			for (Element line : b.children()) {
+				
+				if (line.hasClass("O14")) 
 				{
-					try {
-						
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
-					if (!side)
-						d.getMain().put(mc, qte);
-					else
-						d.getSideBoard().put(mc, qte);
+					if(line.text().equalsIgnoreCase("SIDEBOARD"))
+						side = true;
 					
-					notify(mc);
-
+				} 
+				else if(line.hasClass("deck_line"))
+				{
+						int qte = Integer.parseInt(line.text().substring(0, line.text().indexOf(' ')));
+						String name = line.select("span.L14").text();
+		
+						if (!name.equals("")) 
+						{
+							try {
+								
+							MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+							if (!side)
+								d.getMain().put(mc, qte);
+							else
+								d.getSideBoard().put(mc, qte);
+							
+							notify(mc);
+		
+							}
+							catch(IndexOutOfBoundsException err)
+							{
+								logger.error("Error getting " + name,err);
+							}
+						}
 					}
-					catch(IndexOutOfBoundsException err)
-					{
-						logger.error("Error getting " + name,err);
-					}
-				}
+				
 			}
 
 		}

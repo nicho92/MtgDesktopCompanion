@@ -66,12 +66,16 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			if (cardName.contains("//"))
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
-					.searchCardByName( cardName, ed, true).get(0);
+			MagicCard mc;
+			try {
+				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+				deck.getMain().put(mc, qte);
+				notify(mc);
+			} catch (IndexOutOfBoundsException e1) {
+				logger.error(cardName +" is not found : " + e1);
+			}
 
-			deck.getMain().put(mc, qte);
-
-			notify(mc);
+			
 		}
 
 		if (main.size() > 1) {
@@ -87,10 +91,15 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
-						.searchCardByName( cardName, ed, true).get(0);
-				deck.getSideBoard().put(mc, qte);
+				try {
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+					deck.getSideBoard().put(mc, qte);
+					
+				}
+				 catch (IndexOutOfBoundsException e1) {
+					logger.error(cardName +" is not found : " + e1);
+				}
+					
 			}
 		}
 
