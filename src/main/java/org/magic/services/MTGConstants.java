@@ -278,7 +278,7 @@ public class MTGConstants {
 	
 	public static final ImageIcon ICON_SMALL_COPY = new ImageIcon(ICON_COPY.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_PASTE = new ImageIcon(ICON_PASTE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-
+	public static final ImageIcon ICON_SMALL_SAVE = new ImageIcon(ICON_SAVE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_EQUALS = new ImageIcon(ICON_EQUALS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_CHECK = new ImageIcon(ICON_CHECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_DELETE = new ImageIcon(ICON_DELETE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));

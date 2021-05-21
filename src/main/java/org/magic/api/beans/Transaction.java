@@ -74,6 +74,10 @@ public class Transaction implements Serializable {
 	}
 
 
+	public Double getTotal() {
+		return getItems().stream().mapToDouble(e->e.getPrice()*e.getQte()).sum();
+	}
+
 
 
 	public void setStatut(STAT statut) {
@@ -129,6 +133,7 @@ public class Transaction implements Serializable {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
+
 
 	
 }

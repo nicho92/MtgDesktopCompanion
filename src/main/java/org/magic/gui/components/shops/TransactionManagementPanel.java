@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 
+import javax.script.ScriptException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,10 +16,12 @@ import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.scripts.impl.JavaScript;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
@@ -30,6 +33,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private Transaction t;
 	private JButton btnAcceptTransaction;
 	private JButton btnSend;
+	private JButton btnSave;
 	private AbstractBuzyIndicatorComponent loader;
 	
 	public void setTransaction(Transaction t)
@@ -37,6 +41,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		this.t=t;
 		btnAcceptTransaction.setEnabled(t!=null);
 		btnSend.setEnabled(t!=null);
+		btnSave.setEnabled(t!=null);
 	}
 	
 	
@@ -45,20 +50,32 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		loader = AbstractBuzyIndicatorComponent.createProgressComponent();
 		btnAcceptTransaction = new JButton("Accept Transaction",MTGConstants.ICON_SMALL_CHECK);
 		btnSend = new JButton("Mark as Sent",MTGConstants.ICON_TAB_DELIVERY);
+		btnSave = new JButton("Save",MTGConstants.ICON_SMALL_SAVE);
+		
 		
 		btnSend.setEnabled(false);
+		btnSave.setEnabled(false);
 		btnAcceptTransaction.setEnabled(false);
 		
 		
 		var panelCenter = new JPanel();
-		panelCenter.setLayout(new GridLayout(2,1));
+		panelCenter.setLayout(new GridLayout(3,1));
 		
+		panelCenter.add(btnSave);
 		panelCenter.add(btnAcceptTransaction);
 		panelCenter.add(btnSend);
 		
 		add(panelCenter, BorderLayout.NORTH);
 		add(loader,BorderLayout.SOUTH);
 			
+		btnSave.addActionListener(e->{
+			try {
+				TransactionService.update(t);
+			} catch (SQLException e1) {
+				MTGControler.getInstance().notify(e1);
+			}
+		});
+		
 		
 		btnSend.addActionListener(e->{
 			
@@ -66,13 +83,10 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			t.setTransporterShippingCode(text);
 			t.setStatut(STAT.SENT);
 			try {
-				getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+				TransactionService.update(t);
 			} catch (SQLException e1) {
-				logger.error("error updating " + t,e1);
 				MTGControler.getInstance().notify(e1);
-				
 			}
-			
 			
 		});
 		
@@ -84,50 +98,27 @@ public class TransactionManagementPanel extends MTGUIComponent {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					for(MagicCardStock st : t.getItems())
+					for(MagicCardStock transactionItem : t.getItems())
 					{
-							MagicCardStock stock = plug.getStockById(st.getIdstock());
-							if(st.getQte()>stock.getQte())
+							MagicCardStock stock = plug.getStockById(transactionItem.getIdstock());
+							if(transactionItem.getQte()>stock.getQte())
 							{
-								   logger.debug("Not enough stock for " + st.getIdstock() +":" + st.getMagicCard() + " " + st.getQte() +" > " + stock.getQte());
+								   logger.debug("Not enough stock for " + transactionItem.getIdstock() +":" + transactionItem.getMagicCard() + " " + transactionItem.getQte() +" > " + stock.getQte());
 								   t.setStatut(STAT.IN_PROGRESS);
 							}
 							else
 							{
-								   stock.setQte(stock.getQte()-st.getQte());
+								   stock.setQte(stock.getQte()-transactionItem.getQte());
 								   plug.saveOrUpdateStock(stock);
-								   
-								   var oe = new OrderEntry();
-									   oe.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-									   oe.setDescription(st.getMagicCard().getName());
-									   oe.setEdition(st.getMagicCard().getCurrentSet());
-									   oe.setIdTransation(String.valueOf(t.getId()));
-									   oe.setItemPrice(UITools.roundDouble(st.getPrice()));
-									   oe.setTransactionDate(t.getDateProposition());
-									   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
-									   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
-									   oe.setType(TYPE_ITEM.CARD);
-									   oe.setUpdated(false);
-									   if(stock.getPrice()>0)								   
-										   oe.setTypeTransaction(TYPE_TRANSACTION.SELL);
-									   else
-										   oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
-								   
-								   plug.saveOrUpdateOrderEntry(oe);
-								   
+								   plug.saveOrUpdateOrderEntry(TransactionService.toOrder(t, transactionItem));
 								   t.setStatut(STAT.ACCEPTED);
 							}
 					}
-					plug.saveOrUpdateTransaction(t);
+					TransactionService.update(t);
 					return null;
 				}
 			};
 			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
-			
-			
-			
-			
-			
 	});
 	
 	}
