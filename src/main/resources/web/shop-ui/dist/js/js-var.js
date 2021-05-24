@@ -72,7 +72,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                		{
                		               		
                		if(data.qte>=1)                                       		
-                    	append+="<button name='addCartButton' data='"+ data.idstock+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart</button>";
+                    	append+="<button name='addCartButton' data='"+ data.idstock+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart </button>";
                     else
                     	append+="<span class='btn btn-secondary btn-block'><i class='fa fa-shopping-cart'></i>Out of stock</span>";
                     	

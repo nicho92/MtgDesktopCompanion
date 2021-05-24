@@ -2,12 +2,12 @@
 
 	$(document).ajaxStart(function () 
 	{
-	    $('#loading').html("<img src='../dist/img/loading.gif' width='25' height='25'>"); 
+	    $('.loading').html("<img src='../dist/img/loading.gif' width='25' height='25'>"); 
 	});
 
 	$(document).ajaxStop(function() 
 	{
-		 $('#loading').html("");  
+		 $('.loading').html("");  
 	});
 		
 		
@@ -118,7 +118,7 @@
 			        </div>
 			      </li>
  			</ul>
-			<span id="loading"></span>
+			<span class="loading"></span>
         </div>
     </div>
  

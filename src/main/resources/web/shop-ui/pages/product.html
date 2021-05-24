@@ -95,7 +95,7 @@
 			    	$("#productModalLabel").html(data.magicCard.name);
 			    	$("#quantity").attr('max',data.qte);
 			    	$("#cardDescription").html(data.magicCard.text);
-			    	
+			    	$("#productComments").html(data.comment);
 			    	var append="";
 			    		try{
 			    		append+="<li class='list-inline-item'><i class='ss ss-"+data.magicCard.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+data.magicCard.editions[0].set+"</li><br/>";
@@ -217,6 +217,14 @@
                     
                 </div>
             </div>
+             <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> Description</div>
+                <div class="card-body">
+                    <p class="card-text" id="cardDescription">
+                       
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -224,9 +232,9 @@
         <!-- Description -->
         <div class="col-12">
             <div class="card border-light mb-3">
-                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> Description</div>
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-comment"></i> Comments</div>
                 <div class="card-body">
-                    <p class="card-text" id="cardDescription">
+                    <p class="card-text" id="productComments">
                        
                     </p>
                 </div>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
@@ -83,6 +84,7 @@ public class TransactionService {
 		int ret = saveTransaction(t,false);
 		sendMail(t,"TransactionNew","Transaction received");
 		
+		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New trnsaction from " + t.getContact(),MESSAGE_TYPE.INFO));
 		return ret;
 	
 	}
