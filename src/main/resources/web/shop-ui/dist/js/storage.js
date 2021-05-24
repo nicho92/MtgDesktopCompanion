@@ -69,15 +69,16 @@ function addCartProduct(stockItem, percentReduction)
 
 
 
-function addCartStockId(idstock, toSell,percentReduction)
+function addCartStockId(btn,percentReduction)
 {
-    $.getJSON(restserver+"/stock/get/"+idstock,function(data) {
+    $.getJSON(restserver+"/stock/get/"+btn.attr("data"),function(data) {
 			data.qte=1;
 			
-			if(toSell=='true')
+			if(btn.attr("sell")=='true')
 				data.price = -data.price;
 			
 			addCartProduct(data,percentReduction);
+			$('.alert').alert();
 	 });
 }
 

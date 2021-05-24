@@ -66,7 +66,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                			
                		if(tosell===true)
                		{
-               			append+="<button name='addCartButton' data='"+ data.idstock+"' class='btn btn-success btn-block' sell='true' ><i class='fa fa-shopping-cart'></i> Deal it</button>";
+               			append+="<button name='addCartButton' data-dismiss='alert'  data='"+ data.idstock+"' class='btn btn-success btn-block' sell='true' ><i class='fa fa-shopping-cart'></i> Deal it</button>";
                		}
                		else
                		{
