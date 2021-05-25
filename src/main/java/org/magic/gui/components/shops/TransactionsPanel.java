@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.ContactPanel;
+import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -25,12 +26,14 @@ import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
+import com.jogamp.newt.event.KeyEvent;
+
 public class TransactionsPanel extends MTGUIComponent {
 	private JXTable table;
 	private TransactionsModel model;
 	private ContactPanel contactPanel;
 	private TransactionManagementPanel managementPanel;
-	
+	private ObjectViewerPanel viewerPanel;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -40,10 +43,10 @@ public class TransactionsPanel extends MTGUIComponent {
 		contactPanel = new ContactPanel(true);
 		managementPanel= new TransactionManagementPanel();
 		model = new TransactionsModel();
+		viewerPanel = new ObjectViewerPanel();
 		
-		
-		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		var btnMerge = new JButton(MTGConstants.ICON_IMPORT);
+		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
+		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		btnMerge.setEnabled(false);
 		
 		table = UITools.createNewTable(model);
@@ -58,6 +61,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.addTab(tabbedPane, MTGUIComponent.build(stockManagementPanel, stockDetailPanel.getName(), stockDetailPanel.getIcon()));
 		UITools.addTab(tabbedPane, contactPanel);
 		
+		if(MTGControler.getInstance().get("debug-json-panel").equals("true"))
+			UITools.addTab(tabbedPane, viewerPanel);
 		
 		table.packAll();
 		stockDetailPanel.showAllColumns();
@@ -84,6 +89,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			stockDetailPanel.initMagicCardStock(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
 			managementPanel.setTransaction(t.get(0));
+			viewerPanel.show(t.get(0));
 			stockDetailPanel.disableCommands();
 		});
 		

@@ -2,8 +2,12 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.magic.services.MTGControler;
 
 public class Transaction implements Serializable {
 	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,REFUSED,PAID,SENT, CLOSED, CANCELED } 
@@ -19,6 +23,7 @@ public class Transaction implements Serializable {
 	private double shippingPrice;
 	private WebShopConfig config;
 	private String transporterShippingCode;
+	private Currency currency;
 	
 	public Transaction() {
 		dateProposition = new Date();
@@ -132,6 +137,14 @@ public class Transaction implements Serializable {
 	}
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	public void setCurrency(String string) {
+		currency = Currency.getInstance(string);
+	}
+	
+	public Currency getCurrency() {
+		return currency;
 	}
 
 

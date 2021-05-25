@@ -230,7 +230,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),fk_idcontact INTEGER)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean)");
@@ -404,7 +404,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		state.setStatut(STAT.valueOf(rs.getString("statut")));
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
-		
+		state.setCurrency(rs.getString("currency"));
 		state.setContact(getContactById(rs.getInt("fk_idcontact")));
 		state.setTransporterShippingCode(rs.getString("transporterShippingCode"));
 		
@@ -466,7 +466,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		
 				logger.debug("save transaction ");
 				
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateProposition().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());			
@@ -474,7 +474,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					pst.setString(5, t.getTransporter());
 					pst.setDouble(6, t.getShippingPrice());
 					pst.setString(7, t.getTransporterShippingCode());
-					pst.setInt(8, t.getContact().getId());
+					pst.setString(8, t.getConfig().getCurrencyCode());
+					pst.setInt(9, t.getContact().getId());
 					pst.executeUpdate();
 					t.setId(getGeneratedKey(pst));
 					
@@ -889,7 +890,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				
 				while (rs.next()) {
-					var state = buildMCSfromRS(rs);
+					var state = readStock(rs);
 					colls.add(state);
 				}
 				logger.trace("loading " + colls.size() + " item FROM stock for " + mc);
@@ -909,7 +910,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		logger.trace("loading stock with SQL=" + stmt);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(stmt); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				var state = buildMCSfromRS(rs);
+				var state = readStock(rs);
 				colls.add(state);
 			}
 			logger.debug("load " + colls.size() + " item(s) from stock for " + cols);
@@ -928,11 +929,11 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			
 			rs.next();
 			
-			return buildMCSfromRS(rs);
+			return readStock(rs);
 		}
 	}
 	
-	private MagicCardStock buildMCSfromRS(ResultSet rs) throws SQLException
+	private MagicCardStock readStock(ResultSet rs) throws SQLException
 	{
 		var state = new MagicCardStock();
 			state.setComment(rs.getString("comments"));
@@ -968,7 +969,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		List<MagicCardStock> colls = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				var state = buildMCSfromRS(rs);
+				var state = readStock(rs);
 				colls.add(state);
 			
 			}
