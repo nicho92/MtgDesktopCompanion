@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.ContactPanel;
+import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -24,13 +25,14 @@ import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
+import org.magic.tools.WooCommerceTools;
 
 public class TransactionsPanel extends MTGUIComponent {
 	private JXTable table;
 	private TransactionsModel model;
 	private ContactPanel contactPanel;
 	private TransactionManagementPanel managementPanel;
-	
+	private ObjectViewerPanel objectPanel;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -40,7 +42,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		contactPanel = new ContactPanel(true);
 		managementPanel= new TransactionManagementPanel();
 		model = new TransactionsModel();
-		
+		objectPanel = new ObjectViewerPanel();
 		
 		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		var btnMerge = new JButton(MTGConstants.ICON_IMPORT);
@@ -58,6 +60,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.addTab(tabbedPane, MTGUIComponent.build(stockManagementPanel, stockDetailPanel.getName(), stockDetailPanel.getIcon()));
 		UITools.addTab(tabbedPane, contactPanel);
 		
+		if(MTGControler.getInstance().get("debug-json-panel").equals("true"))
+				UITools.addTab(tabbedPane, objectPanel);
 		
 		table.packAll();
 		stockDetailPanel.showAllColumns();
@@ -68,7 +72,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
 		
-		
+		stockDetailPanel.disableCommands();
 		table.getSelectionModel().addListSelectionListener(lsl->{
 			
 			List<Transaction> t = UITools.getTableSelections(table, 0);
@@ -84,7 +88,8 @@ public class TransactionsPanel extends MTGUIComponent {
 			stockDetailPanel.initMagicCardStock(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
 			managementPanel.setTransaction(t.get(0));
-			stockDetailPanel.disableCommands();
+			objectPanel.show(t.get(0));
+			
 		});
 		
 		btnRefresh.addActionListener(al->reload());

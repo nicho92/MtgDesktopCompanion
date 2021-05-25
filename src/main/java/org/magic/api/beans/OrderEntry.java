@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-import org.magic.services.MTGControler;
-
 public class OrderEntry implements Serializable {
 
 	

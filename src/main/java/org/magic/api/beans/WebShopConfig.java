@@ -45,6 +45,11 @@ public class WebShopConfig implements Serializable {
 		return currencyCode;
 	}
 	
+	public Currency getCurrency()
+	{
+		return Currency.getInstance(getCurrencyCode());
+	}
+	
 	public String getShippingRules() {
 		return shippingRules;
 	}

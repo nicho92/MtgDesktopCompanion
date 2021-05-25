@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -27,7 +28,7 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		textpane.setEditable(false);
 		textpane.setWrapStyleWord(true);
 		add(new JScrollPane(textpane),BorderLayout.CENTER);
-		
+		setPreferredSize(new Dimension(1, 600));
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
@@ -35,7 +36,7 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		rdoJson.setSelected(true);
 		rdoMemory = new JRadioButton("Memory");		
 		rdoBeanUtils = new JRadioButton("Bean");
-		ButtonGroup group = new ButtonGroup();
+		var group = new ButtonGroup();
 					group.add(rdoJson);
 					group.add(rdoMemory);
 					group.add(rdoBeanUtils);

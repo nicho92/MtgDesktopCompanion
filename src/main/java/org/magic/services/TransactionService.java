@@ -81,6 +81,7 @@ public class TransactionService {
 	public static Integer newTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(STAT.NEW);
+		t.setCurrency(t.getConfig().getCurrency());
 		int ret = saveTransaction(t,false);
 		sendMail(t,"TransactionNew","Transaction received");
 		

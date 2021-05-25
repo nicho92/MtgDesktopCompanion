@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Transaction implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
-	private Date dateProposition;
+	private Date dateCreation;
 	private List<MagicCardStock> items;
 	private Contact contact;
 	private String message;
@@ -19,15 +20,26 @@ public class Transaction implements Serializable {
 	private double shippingPrice;
 	private WebShopConfig config;
 	private String transporterShippingCode;
+	private Currency currency;
 	
 	public Transaction() {
-		dateProposition = new Date();
+		dateCreation = new Date();
 		items = new ArrayList<>();
 		contact=new Contact();
 		statut = STAT.NEW;
 	}
 	
 	
+	public Currency getCurrency() {
+		return currency;
+	}
+
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+
 	public String getTransporterShippingCode() {
 		return transporterShippingCode;
 	}
@@ -116,10 +128,10 @@ public class Transaction implements Serializable {
 	}
 
 	public Date getDateProposition() {
-		return dateProposition;
+		return dateCreation;
 	}
 	public void setDateProposition(Date dateProposition) {
-		this.dateProposition = dateProposition;
+		this.dateCreation = dateProposition;
 	}
 	public List<MagicCardStock> getItems() {
 		return items;

@@ -82,7 +82,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	private void init()
 	{
-		 wooCommerce = WooCommerceTools.build(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString("WEBSITE"),getVersion());
+		 wooCommerce = WooCommerceTools.newClient(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString("WEBSITE"),getVersion());
 	}
 	
 	@Override

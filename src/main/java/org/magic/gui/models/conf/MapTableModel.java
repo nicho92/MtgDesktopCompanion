@@ -17,8 +17,20 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	
 	protected String[] columnsName =new String[] {"ID","VALUE"};
 	
+	private boolean writable;
+	
+	public void setWritable(boolean writable) {
+		this.writable = writable;
+	}
+	
+	public boolean isWritable() {
+		return writable;
+	}
+	
+	
 	public MapTableModel() {
 		this.keys = new ArrayList<>();
+		writable=false;
 	}
 	
 	public List<Entry<K, V>> getValues()
@@ -101,7 +113,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return false;
+		return writable;
 	}
 	
 	@Override
@@ -133,7 +145,9 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		return false;
 		
 	}
-
+	
+	
+	
 	public void updateRow(K k, V v) {
 		getValues().forEach(entry->{
 			if(entry.getKey()==k)
