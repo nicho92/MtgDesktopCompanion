@@ -2,14 +2,20 @@ package org.magic.tools;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.Transaction;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -26,7 +32,7 @@ public class WooCommerceTools {
 
 	protected static Logger logger = MTGLogger.getLogger(WooCommerceTools.class);
 
-	public static WooCommerce build(String key, String secret, String website,String version)
+	public static WooCommerce newClient(String key, String secret, String website,String version)
 	{
 		return new WooCommerce() {
 			
@@ -151,8 +157,38 @@ public class WooCommerceTools {
 		};
 	}
 
+	
+	public static JSONObject createOrder(Transaction t)
+	{
+		var obj = new JSONObject();
+		var items = new JSONArray();
+		
+		var contact = new JSONObject();
+				   contact.put("first_name", t.getContact().getName());
+				   contact.put("last_name", t.getContact().getLastName());
+				   contact.put("country", t.getContact().getCountry());
+				   contact.put("email", t.getContact().getEmail());
+				   contact.put("phone", t.getContact().getTelephone());
+				   contact.put("address_1", t.getContact().getAddress());
+				   
+		obj.put("billing", contact);
+		obj.put("shipping", contact);
+		obj.put("line_items", items);
+		obj.put("set_paid", t.getStatut().equals(STAT.PAID));
+		
+		
+		for(MagicCardStock st : t.getItems())
+		{
+			var line = new JSONObject();
+				line.put("product_id", st.getIdstock());
+				line.put("quantity", st.getQte());
+			items.put(line);
+		}
+		return obj;
+	}
+	
 	public static Date toDate(String asString) {
-		return javax.xml.bind.DatatypeConverter.parseDateTime(asString).getTime();
+		return DatatypeConverter.parseDateTime(asString).getTime();
 	}
 	
 	

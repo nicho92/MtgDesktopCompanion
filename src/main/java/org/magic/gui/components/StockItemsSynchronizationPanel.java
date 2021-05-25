@@ -7,36 +7,43 @@ import java.awt.event.KeyEvent;
 import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
+import org.magic.gui.renderer.standard.ComboBoxEditor;
 import org.magic.services.MTGConstants;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.UITools;
 public class StockItemsSynchronizationPanel extends JPanel {
 	 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JXTable table;
 	private MapTableModel<MTGPlugin, Object> model;
 	private MagicCardStock st;
 	
 	public StockItemsSynchronizationPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new MapTableModel<>();
-		table = new JTable(model);
-		add(new JScrollPane(table));
+		table = UITools.createNewTable(model);
 		
-		JPanel panel = new JPanel();
+		
+		add(new JScrollPane(table));
+		model.setWritable(true);
+		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
-		JButton btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "Delete Sync");
-		panel.add(btnDelete);
+		var btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "Delete Sync");
+		var btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "Add Sync");
 		
+		panel.add(btnDelete);
+		panel.add(btnAdd);
+		table.getColumn(0).setCellEditor(new ComboBoxEditor<>(PluginRegistry.inst().listEnabledPlugins(MTGCardsExport.class)));
 		
 		btnDelete.addActionListener(al->{
 			
@@ -47,10 +54,16 @@ public class StockItemsSynchronizationPanel extends JPanel {
 				st.setUpdate(true);
 				init(st);
 			}
+		}); 
+		
+		btnAdd.addActionListener(al->{
+			model.addRow(new WooCommerceExport(), "123");
+			model.fireTableDataChanged();
 		});
 		
 		
 		model.setColumnNames("Plugin", "id");
+		
 		
 	}
 

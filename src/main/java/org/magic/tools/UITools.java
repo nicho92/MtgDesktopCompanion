@@ -79,6 +79,7 @@ import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
 import org.magic.services.ShortKeyManager;
 import org.magic.services.threads.ThreadManager;
 
@@ -149,6 +150,8 @@ public class UITools {
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(EnumStock.class, new ComboBoxEditor<>(EnumStock.values()));
 				table.setDefaultEditor(STAT.class, new ComboBoxEditor<>(STAT.values()));
+				
+				
 				
 				
 				
