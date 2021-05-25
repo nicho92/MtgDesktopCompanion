@@ -32,10 +32,6 @@ public class Transaction implements Serializable {
 		statut = STAT.NEW;
 	}
 	
-	
-	public Currency getCurrency() {
-		return currency;
-	}
 
 
 	public void setCurrency(Currency currency) {
