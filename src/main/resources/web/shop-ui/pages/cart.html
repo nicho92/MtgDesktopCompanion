@@ -230,7 +230,8 @@
 				$("#checkoutBtn").prop('disabled', getCartItems().length<=0);
 				
 				var txt = obj.name + " " + obj.lastName + "<br/>";
-					txt += obj.address + "<br/>" ; 
+					txt += obj.address + "<br/>" ;
+					txt += obj.zipCode + " " + obj.city+ "<br/>" ; 
 				
 				return txt;
 				

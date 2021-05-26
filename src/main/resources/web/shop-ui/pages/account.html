@@ -69,7 +69,8 @@
 						myObject.email = $("input[name='email']").val();
 						myObject.telephone = $("input[name='telephone']").val();
 						myObject.emailAccept = $("input[name=acceptEmail]").prop("checked");
-						
+						myObject.zipCode = $("input[name='zipCode']").val();
+						myObject.city = $("input[name='city']").val();
 						
 						
 						$.post(restserver+"/contact/add",JSON.stringify(myObject))
@@ -205,6 +206,8 @@
 				$("textarea[name=address]").val(getCurrentUser().address);
 				$("select[name=country]").val(getCurrentUser().country);
 				$("input[name=acceptEmail]").prop("checked",getCurrentUser().emailAccept);
+				$("input[name=zipCode]").val(getCurrentUser().zipCode);
+				$("input[name=city]").val(getCurrentUser().city);
 				
 				
 				
@@ -260,8 +263,21 @@
 						    	<div class="input-group-prepend">
 								    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
 								</div>
-								<textarea name="address" class="form-control" placeholder="Address" rows="3"></textarea>
+								<textarea name="address" class="form-control" placeholder="Address" rows="2"></textarea>
 							</div>
+							 <div class="form-group input-group">
+						    	<div class="input-group-prepend">
+								    <span class="input-group-text"> <i class="fa fa-sort-numeric-up-alt"></i> </span>
+								</div>
+								<input name="zipCode" class="form-control" placeholder="Zip Code" type="text" />
+						    </div> 
+			
+			 				<div class="form-group input-group">
+						    	<div class="input-group-prepend">
+								    <span class="input-group-text"> <i class="fa fa-city"></i> </span>
+								</div>
+								<input name="city" class="form-control" placeholder="City" type="text" />
+						    </div> 
 							
 							 <div class="form-group input-group">
 						    	<div class="input-group-prepend">

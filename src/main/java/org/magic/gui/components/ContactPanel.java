@@ -37,6 +37,8 @@ public class ContactPanel extends MTGUIComponent {
 	private JTextField telephoneJTextField;
 	private JTextField websiteJTextField;
 	private JCheckBox emailAcceptationCheckBox;
+	private JTextField zipCodeJTextField;
+	private JTextField cityJTextField;
 
 	public ContactPanel(boolean enableSaveButton) {
 		var gridBagLayout = new GridBagLayout();
@@ -49,44 +51,53 @@ public class ContactPanel extends MTGUIComponent {
 		add(new JLabel("LastName:"), UITools.createGridBagConstraints(null, null, 0, 0));
 		add(new JLabel("Name:"), UITools.createGridBagConstraints(null, null, 0, 1));
 		add(new JLabel("Address:"), UITools.createGridBagConstraints(null, null, 0, 2));
-		add(new JLabel("Country:"), UITools.createGridBagConstraints(null, null, 0, 3));
-		add(new JLabel("Email:"), UITools.createGridBagConstraints(null, null, 0, 4));
-		add(new JLabel("Password:"), UITools.createGridBagConstraints(null, null, 0, 5));
-		add(new JLabel("Telephone:"), UITools.createGridBagConstraints(null, null, 0, 6));
-		add(new JLabel("Website:"), UITools.createGridBagConstraints(null, null, 0, 7));
-		add(new JLabel("Accept Email :"), UITools.createGridBagConstraints(null, null, 0, 8));
-		
-		
-		addressJTextArea = new JTextArea();
-		add(addressJTextArea, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2));
-		
-		countryJTextField = new JTextField();
-		add(countryJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
-
-		emailJTextField = new JTextField();
-		add(emailJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
-
+		add(new JLabel("ZipCode :"), UITools.createGridBagConstraints(null, null, 0, 3));
+		add(new JLabel("City :"), UITools.createGridBagConstraints(null, null, 0, 4));
+		add(new JLabel("Country:"), UITools.createGridBagConstraints(null, null, 0, 5));
+		add(new JLabel("Email:"), UITools.createGridBagConstraints(null, null, 0, 6));
+		add(new JLabel("Password:"), UITools.createGridBagConstraints(null, null, 0, 7));
+		add(new JLabel("Telephone:"), UITools.createGridBagConstraints(null, null, 0, 8));
+		add(new JLabel("Website:"), UITools.createGridBagConstraints(null, null, 0, 9));
+		add(new JLabel("Accept Email :"), UITools.createGridBagConstraints(null, null, 0, 10));
+	
 		lastNameJTextField = new JTextField();
 		add(lastNameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
 		nameJTextField = new JTextField();
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
+		
+		addressJTextArea = new JTextArea();
+		add(addressJTextArea, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2));
+		
+		zipCodeJTextField = new JTextField();
+		add(zipCodeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
+		
+		cityJTextField = new JTextField();
+		add(cityJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
+		
+		countryJTextField = new JTextField();
+		add(countryJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
+
+		emailJTextField = new JTextField();
+		add(emailJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
 		passwordJPasswordField = new JPasswordField();
-		add(passwordJPasswordField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
+		add(passwordJPasswordField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
 
 		telephoneJTextField = new JTextField();
-		add(telephoneJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
+		add(telephoneJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 
 		websiteJTextField = new JTextField();
-		add(websiteJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
+		add(websiteJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 
 		emailAcceptationCheckBox = new JCheckBox();
-		add(emailAcceptationCheckBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+		add(emailAcceptationCheckBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 		
+
+	
 		if(enableSaveButton) {
 			var btnUpdate = new JButton(MTGConstants.ICON_SAVE);
-			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
+			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 			btnUpdate.addActionListener(al->{
 				
 				try {
@@ -175,6 +186,16 @@ public class ContactPanel extends MTGUIComponent {
 		var autoBinding9 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, mailAcceptProperty, emailAcceptationCheckBox,boolProperty8);
 		autoBinding9.bind();
 		
+		var zipProperty = BeanProperty.create("zipCode");
+		var textProperty9 = BeanProperty.create("text");
+		var autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, zipProperty, cityJTextField, textProperty9);
+		autoBinding10.bind();
+		
+		var cityProperty = BeanProperty.create("city");
+		var textProperty10 = BeanProperty.create("text");
+		var autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, cityProperty, cityJTextField, textProperty10);
+		autoBinding11.bind();
+		
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -187,6 +208,9 @@ public class ContactPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding7);
 		bindingGroup.addBinding(autoBinding8);
 		bindingGroup.addBinding(autoBinding9);
+		bindingGroup.addBinding(autoBinding10);
+		bindingGroup.addBinding(autoBinding11);
+		
 		return bindingGroup;
 	}
 
