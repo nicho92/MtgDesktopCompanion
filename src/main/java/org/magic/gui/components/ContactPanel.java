@@ -188,7 +188,7 @@ public class ContactPanel extends MTGUIComponent {
 		
 		var zipProperty = BeanProperty.create("zipCode");
 		var textProperty9 = BeanProperty.create("text");
-		var autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, zipProperty, cityJTextField, textProperty9);
+		var autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, zipProperty, zipCodeJTextField, textProperty9);
 		autoBinding10.bind();
 		
 		var cityProperty = BeanProperty.create("city");

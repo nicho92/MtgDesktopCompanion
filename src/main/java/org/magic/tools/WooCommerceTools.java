@@ -178,6 +178,8 @@ public class WooCommerceTools {
 				   contact.put("email", t.getContact().getEmail());
 				   contact.put("phone", t.getContact().getTelephone());
 				   contact.put("address_1", t.getContact().getAddress());
+				   contact.put("city", t.getContact().getCity());
+				   contact.put("postcode", t.getContact().getZipCode());
 				   
 		obj.put("billing", contact);
 		obj.put("shipping", contact);

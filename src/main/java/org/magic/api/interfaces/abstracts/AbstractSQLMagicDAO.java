@@ -389,7 +389,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		contact.setPassword(rs.getString("contact_password"));
 		contact.setZipCode(rs.getString("contact_zipcode"));
 		contact.setCity(rs.getString("contact_city"));
-		
 		contact.setEmailAccept(rs.getBoolean("emailAccept"));
 		return contact;
 		
