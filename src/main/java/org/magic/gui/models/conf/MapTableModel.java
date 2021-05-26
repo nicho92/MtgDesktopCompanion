@@ -147,6 +147,12 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	}
 	
 	
+	@Override
+	public void setValueAt(Object aValue, int row, int column) {
+		
+		if(column==1)
+			keys.get(row).setValue((V) aValue);
+	}
 	
 	public void updateRow(K k, V v) {
 		getValues().forEach(entry->{

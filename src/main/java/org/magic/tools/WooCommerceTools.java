@@ -65,8 +65,7 @@ public class WooCommerceTools {
 				
 				return map;
 			}
-			
-
+		
 			@Override
 			public Map<String,JsonElement> create(String endpointBase, Map<String, Object> object) {
 				
@@ -76,8 +75,17 @@ public class WooCommerceTools {
 					URLToolsClient c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
-
-					String ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+									   
+					var ret = "";	
+									   
+					if(object.get("post")==null)				   
+					{
+						ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+					}
+					else
+					{
+						ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+					}
 					
 					JsonObject obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
@@ -180,7 +188,7 @@ public class WooCommerceTools {
 		for(MagicCardStock st : t.getItems())
 		{
 			var line = new JSONObject();
-				line.put("product_id", st.getIdstock());
+				line.put("product_id", st.getTiersAppIds("WooCommerce"));
 				line.put("quantity", st.getQte());
 			items.put(line);
 		}

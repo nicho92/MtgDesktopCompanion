@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -85,9 +86,22 @@ public class WooCommerceExport extends AbstractCardExport {
 		 wooCommerce = WooCommerceTools.newClient(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString("WEBSITE"),getVersion());
 	}
 	
+	
+	public Map sendOrder(Transaction t)
+	{
+		init();
+		
+		Map<String,Object> content = new HashMap<>();
+		content.put("post", WooCommerceTools.createOrder(t));
+		
+		return wooCommerce.create(EndpointBaseType.ORDERS.getValue(),content);
+		
+	}
+	
+	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-			init();
+		init();
 		
 		List<MagicCardStock> stocks= new ArrayList<>();
 		Map<String, String> productInfo = new HashMap<>();
@@ -98,7 +112,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		for(JsonElement e : ret)
 		{
 			try {
-				String id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
+				var id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
 				MagicCardStock st =null;
 				st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 				

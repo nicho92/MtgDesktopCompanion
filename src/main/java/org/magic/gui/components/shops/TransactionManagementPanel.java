@@ -1,22 +1,22 @@
 package org.magic.gui.components.shops;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import java.util.Map;
 
-import javax.script.ScriptException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.OrderEntry.TYPE_ITEM;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.beans.Transaction.STAT;
+import org.magic.api.exports.impl.WooCommerceExport;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.api.scripts.impl.JavaScript;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -24,9 +24,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.UITools;
-
-import static org.magic.tools.MTG.getEnabledPlugin;
+import org.magic.tools.MTG;
 
 public class TransactionManagementPanel extends MTGUIComponent {
 	
@@ -35,6 +33,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private JButton btnSend;
 	private JButton btnSave;
 	private AbstractBuzyIndicatorComponent loader;
+	private JButton btnWooCommerce;
 	
 	public void setTransaction(Transaction t)
 	{
@@ -51,7 +50,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnAcceptTransaction = new JButton("Accept Transaction",MTGConstants.ICON_SMALL_CHECK);
 		btnSend = new JButton("Mark as Sent",MTGConstants.ICON_TAB_DELIVERY);
 		btnSave = new JButton("Save",MTGConstants.ICON_SMALL_SAVE);
-		
+		btnWooCommerce = new JButton("Send WooCommerce", new WooCommerceExport().getIcon());
 		
 		btnSend.setEnabled(false);
 		btnSave.setEnabled(false);
@@ -59,15 +58,25 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		
 		
 		var panelCenter = new JPanel();
-		panelCenter.setLayout(new GridLayout(3,1));
+		panelCenter.setLayout(new GridLayout(4,1));
 		
 		panelCenter.add(btnSave);
 		panelCenter.add(btnAcceptTransaction);
 		panelCenter.add(btnSend);
+		panelCenter.add(btnWooCommerce);
+		
 		
 		add(panelCenter, BorderLayout.NORTH);
 		add(loader,BorderLayout.SOUTH);
 			
+		btnWooCommerce.addActionListener(e->{
+			
+			Map ret = ((WooCommerceExport)MTG.getPlugin("WooCommerce", MTGCardsExport.class)).sendOrder(t);
+			
+			logger.debug("Order created " + ret);			
+		});
+		
+		
 		btnSave.addActionListener(e->{
 			try {
 				TransactionService.saveTransaction(t,true);

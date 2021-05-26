@@ -27,7 +27,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private double price=0.0;
 	private boolean oversize=false;
 	private Grading grade;
-	private transient Map<String,String> tiersAppIds;
+	private Map<String,String> tiersAppIds;
 	
 	
 	
