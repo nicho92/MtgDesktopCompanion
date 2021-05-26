@@ -61,6 +61,8 @@
 						myObject.name = $("input[name='name']").val();
 						myObject.lastName = $("input[name='lastname']").val();
 						myObject.address = $("textarea[name='address']").val();
+						myObject.zipcode = $("input[name='zipcode']").val();
+						myObject.city = $("input[name='city']").val();
 						myObject.country = $("select[name='country']").val();
 						myObject.password = $("input[name='password']").val();
 						myObject.email = $("input[name='email']").val();
@@ -166,6 +168,20 @@
 					</div>
 					<textarea name="address" class="form-control" placeholder="Address" rows="3"></textarea>
 				</div>
+				
+				 <div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-sort-numeric-up-alt"></i> </span>
+					</div>
+					<input name="zipcode" class="form-control" placeholder="Zip Code" type="text" />
+			    </div> 
+
+ 				<div class="form-group input-group">
+			    	<div class="input-group-prepend">
+					    <span class="input-group-text"> <i class="fa fa-city"></i> </span>
+					</div>
+					<input name="city" class="form-building" placeholder="City" type="text" />
+			    </div> 
 				
 				 <div class="form-group input-group">
 			    	<div class="input-group-prepend">

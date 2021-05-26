@@ -13,11 +13,29 @@ public class Contact implements Serializable {
 	private String telephone;
 	private String country;
 	private String address;
+	private String zipCode;
+	private String city;
 	private String website;
 	private boolean emailAccept=true;
 	private String password="changeit";
 	
 	
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public int getId() {
 		return id;
 	}
