@@ -41,7 +41,7 @@
 	<script>
 	
 	 var currencyCode = "";
-	 var clientId="";
+	
 	 $(document).ready(function() {	
 		 var array = [];	
 	   	
@@ -350,7 +350,7 @@
 </body>
 
 
-<script src="https://www.paypal.com/sdk/js?client-id=AR2pgRkfwcZLXPzbZgONSP5AOJjVlf-bMgnIvcbPCrSH7fTlg_LmtVBlg8xB6wZuyEfHFcOradjPS8Uc&currency=USD" data-sdk-integration-source="button-factory"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AR2pgRkfwcZLXPzbZgONSP5AOJjVlf-bMgnIvcbPCrSH7fTlg_LmtVBlg8xB6wZuyEfHFcOradjPS8Uc&currency=USD"></script>
 <script>
 	    function initPayPalButton() {
 	      paypal.Buttons({
@@ -377,7 +377,7 @@
 	        },
 	
 	        onError: function(err) {
-	        	 $("#result").addClass("alert-error");
+	        	 $("#result").addClass("alert-");
 	        	  $( "#result" ).html(err);
 	        }
 	      }).render('#paypal-button-container');
