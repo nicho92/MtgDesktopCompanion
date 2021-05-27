@@ -112,28 +112,27 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 
 			server = new Server();
 			
-			File keystoreFile = getFile(KEYSTORE_URI);
-			
+		
 			var httpConfig = new HttpConfiguration();
 				 httpConfig.setSecureScheme("https");
 				 httpConfig.setSecurePort(getInt(SERVER_SSL_PORT));
 				 httpConfig.setOutputBufferSize(32768);
 			
-		
-			 var httpsConfig = new HttpConfiguration(httpConfig);
+				 
+			var httpsConfig = new HttpConfiguration(httpConfig);
 			        var src = new SecureRequestCustomizer();
 			        src.setStsMaxAge(2000);
 			        src.setStsIncludeSubDomains(true);
 			        httpsConfig.addCustomizer(src);
 				
 			        SslContextFactory sslContextFactory = new SslContextFactory.Server();
-			        sslContextFactory.setKeyStorePath(keystoreFile.getAbsolutePath());
+			        sslContextFactory.setKeyStorePath(getFile(KEYSTORE_URI).getAbsolutePath());
 			        sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
 			        
-				 
+			        
 			try(var http = new ServerConnector(server,new HttpConnectionFactory(httpConfig));
 				var https = new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig))
-					)
+				)
 			{
 				 http.setPort(getInt(SERVER_PORT));
 			     http.setIdleTimeout(30000);
