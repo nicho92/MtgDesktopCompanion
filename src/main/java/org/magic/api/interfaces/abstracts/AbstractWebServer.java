@@ -6,12 +6,15 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -92,7 +95,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		FileTools.copyDirJarToDirectory(getWebLocation(), dest);
 		logger.debug("copying " + getWebLocation() + " to " + dest);
 		
-		File js = Paths.get(dest.getAbsolutePath(),MTGConstants.WEBUI_LOCATION,"dist","js",REST_JS_FILENAME).toFile();
+		var js = Paths.get(dest.getAbsolutePath(),MTGConstants.WEBUI_LOCATION,"dist","js",REST_JS_FILENAME).toFile();
 		
 		logger.debug("copying " + js + " to " + dest);
 		
@@ -106,43 +109,58 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	}
 	
 	
+	public ServerConnector createHttpsConnector(HttpConfiguration httpConfig)
+	{
+
+		var httpsConfig = new HttpConfiguration(httpConfig);
+        var src = new SecureRequestCustomizer();
+        src.setStsMaxAge(2000);
+        src.setStsIncludeSubDomains(true);
+        httpsConfig.addCustomizer(src);
+	
+        SslContextFactory sslContextFactory = new SslContextFactory.Server();
+        sslContextFactory.setKeyStorePath(getFile(KEYSTORE_URI).getAbsolutePath());
+        sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
+        
+        var https = new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig));
+        	https.setPort(getInt(SERVER_SSL_PORT));
+        	https.setIdleTimeout(500000);
+	     
+	     
+	     
+        return https;
+	}
+	
+	
 	@Override
 	public void start() throws IOException {
 		try {
 
 			server = new Server();
+			Connector httpsConnector=null;
 			
-		
+			
 			var httpConfig = new HttpConfiguration();
 				 httpConfig.setSecureScheme("https");
 				 httpConfig.setSecurePort(getInt(SERVER_SSL_PORT));
 				 httpConfig.setOutputBufferSize(32768);
 			
-				 
-			var httpsConfig = new HttpConfiguration(httpConfig);
-			        var src = new SecureRequestCustomizer();
-			        src.setStsMaxAge(2000);
-			        src.setStsIncludeSubDomains(true);
-			        httpsConfig.addCustomizer(src);
-				
-			        SslContextFactory sslContextFactory = new SslContextFactory.Server();
-			        sslContextFactory.setKeyStorePath(getFile(KEYSTORE_URI).getAbsolutePath());
-			        sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
-			        
-			        
-			try(var http = new ServerConnector(server,new HttpConnectionFactory(httpConfig));
-				var https = new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig))
-				)
+		
+			
+			try(var http = new ServerConnector(server,new HttpConnectionFactory(httpConfig)))
 			{
 				 http.setPort(getInt(SERVER_PORT));
 			     http.setIdleTimeout(30000);
-			     
-			     https.setPort(getInt(SERVER_SSL_PORT));
-			     https.setIdleTimeout(500000);
-			     
-			     server.setConnectors(new Connector[] {http, https});
-					
+			     server.setConnectors(new Connector[] {http});
 			}
+			
+			
+
+			 if(getBoolean(SSL_ENABLED)) {
+				 httpsConnector = createHttpsConnector(httpConfig);
+				server.setConnectors(ArrayUtils.add(server.getConnectors(), httpsConnector));    
+			 }
+			
 	       
 	        
 	        
@@ -203,6 +221,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	public boolean isAutostart() {
 		return getBoolean(AUTOSTART);
 	}
+	
 
 	@Override
 	public void initDefault() {

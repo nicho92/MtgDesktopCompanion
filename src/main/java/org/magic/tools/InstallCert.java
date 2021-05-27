@@ -44,7 +44,7 @@ public class InstallCert {
 	
 	public static Map<String, Certificate> listTrustedCert()
 	{
-		File keystoreFile = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
+		File keystoreFile = getKeyStoreFile();
 		Map<String,Certificate> map = new HashMap<>();
 		try(FileInputStream fis = new FileInputStream(keystoreFile))
 		{
@@ -61,18 +61,27 @@ public class InstallCert {
 		return map;
 	}
 
+	public static File getKeyStoreFile()
+	{
+		return  new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
+		
+	}
+	
+	
 	public static void installCert(String website) throws IOException, KeyManagementException, KeyStoreException,NoSuchAlgorithmException, CertificateException {
 		String host;
 		int port;
 
-		File defaultF = Paths.get(System.getProperty("java.home"),"lib","security").toFile();
+		var defaultF = Paths.get(System.getProperty("java.home"),"lib","security").toFile();
 		char[] phrase;
 		String[] c = website.split(":");
 		host = c[0];
 		port = 443;
 		phrase = MTGConstants.KEYSTORE_PASS.toCharArray();
 
-		File keystoreFile = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
+		var keystoreFile = getKeyStoreFile();
+		
+		
 		if (!keystoreFile.exists()) {
 			boolean ret = keystoreFile.createNewFile();
 			if (ret)

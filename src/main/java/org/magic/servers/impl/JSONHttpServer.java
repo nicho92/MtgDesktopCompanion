@@ -16,6 +16,7 @@ import static spark.Spark.put;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -29,10 +30,8 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.junit.internal.runners.model.EachTestNotifier;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -47,21 +46,18 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.gui.models.MagicEditionsTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
-import org.magic.services.ReportNotificationManager;
 import org.magic.services.TransactionService;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
-import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
@@ -79,6 +75,7 @@ import spark.route.HttpMethod;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String ENABLE_SSL = "ENABLE_SSL";
 	private static final String NAME = ":name";
 	private static final String ID_SET = ":idSet";
 	private static final String ID_ED = ":idEd";
@@ -90,6 +87,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String ENABLE_GZIP = "ENABLE_GZIP";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
+	private static final String KEYSTORE_URI = "KEYSTORE_URI";
+	private static final String KEYSTORE_PASS = "KEYSTORE_PASS";
+
+	
 	
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
@@ -104,7 +105,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	public JSONHttpServer() {
 		super();
-
+		
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
 		transformer = new ResponseTransformer() {
@@ -118,6 +119,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public void start() throws IOException {
+		
+		if(getBoolean(ENABLE_SSL))
+			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
+		
 		initVars();
 		initRoutes();
 		Spark.init();
@@ -128,12 +133,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private void initVars() {
 		
 		
+		
 		Spark.
+		
+		
 		
 		threadPool(getInt("THREADS"));
 		
 		port(getInt(SERVER_PORT));
-
+		
+		
 		initExceptionHandler(e -> {
 			running = false;
 			logger.error(e);
@@ -175,6 +184,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 
+		
+		
 		before("/*", (request, response) -> {
 			response.type(URLTools.HEADER_JSON);
 			response.header(ACCESS_CONTROL_ALLOW_ORIGIN, getWhiteHeader(request));
@@ -578,7 +589,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		
-		
 		get("/",URLTools.HEADER_HTML,(request,response) -> {
 			
 			var temp = new StringBuilder();
@@ -639,6 +649,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		setProperty(PASSTOKEN, "");
 		setProperty("THREADS","8");
+		setProperty(ENABLE_SSL,"false");
+		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
+		setProperty(KEYSTORE_PASS, "changeit");
 	}
 
 	@Override
