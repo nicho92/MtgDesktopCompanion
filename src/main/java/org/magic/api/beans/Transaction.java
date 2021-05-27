@@ -6,15 +6,18 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.magic.services.MTGControler;
-
 public class Transaction implements Serializable {
 	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,REFUSED,PAID,SENT, CLOSED, CANCELED } 
+	public enum PAYMENT_PROVIDER {PAYPAL,VIREMENT,CASH} 
 	
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Date dateCreation;
+	
+	private Date datePayment;
+	private Date dateSend;
+	private PAYMENT_PROVIDER paymentProvider;
+
 	private List<MagicCardStock> items;
 	private Contact contact;
 	private String message;
@@ -25,6 +28,7 @@ public class Transaction implements Serializable {
 	private String transporterShippingCode;
 	private Currency currency;
 	
+	
 	public Transaction() {
 		dateCreation = new Date();
 		items = new ArrayList<>();
@@ -32,6 +36,54 @@ public class Transaction implements Serializable {
 		statut = STAT.NEW;
 	}
 	
+
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
+
+
+	public Date getDatePayment() {
+		return datePayment;
+	}
+
+
+
+	public void setDatePayment(Date datePayment) {
+		this.datePayment = datePayment;
+	}
+
+
+
+	public Date getDateSend() {
+		return dateSend;
+	}
+
+
+
+	public void setDateSend(Date dateSend) {
+		this.dateSend = dateSend;
+	}
+
+
+
+	public PAYMENT_PROVIDER getPaymentProvider() {
+		return paymentProvider;
+	}
+
+
+
+	public void setPaymentProvider(PAYMENT_PROVIDER paymentProvider) {
+		this.paymentProvider = paymentProvider;
+	}
+
 
 
 	public void setCurrency(Currency currency) {

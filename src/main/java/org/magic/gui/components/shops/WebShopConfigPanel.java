@@ -68,7 +68,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JSpinner averageDeliverayDay ;	
 	private RSyntaxTextArea txtdeliveryRules ;
 	private ContactPanel contactPanel;
-
+	private JTextField txtPaypalClientId;
+	
+	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
 		var pane = new JXTaskPane();
@@ -222,6 +224,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelDelivery.add(new JLabel("DELIVERY_RULES"),BorderLayout.WEST);
 		panelDelivery.add(new JScrollPane(txtdeliveryRules), BorderLayout.CENTER);
 		
+		JPanel panelPayment = createBoxPanel("PAYMENT",MTGConstants.ICON_TAB_PRICES, new FlowLayout(),true);
+		
+		txtPaypalClientId = new JTextField(conf.getPaypalClientId());
+		panelPayment.add(new JLabel("PAYPAL_CLIENT_ID"));
+		panelPayment.add(txtPaypalClientId);
 		
 		
 		add(container,BorderLayout.CENTER);
@@ -232,6 +239,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		container.add(panelStock);
 		container.add(panelProduct);
 		container.add(panelDelivery);
+		container.add(panelPayment);
+		
 		container.add(panelServer);
 		
 		
@@ -251,7 +260,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setAverageDeliveryTime(Integer.parseInt(averageDeliverayDay.getValue().toString()));
 				newBean.setShippingRules(txtdeliveryRules.getText());
 				newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
-				
+				newBean.setPaypalClientId(txtPaypalClientId.getText());
 				newBean.getCollections().clear();
 				newBean.getCollections().addAll(cboCollections.getSelectedElements());
 				

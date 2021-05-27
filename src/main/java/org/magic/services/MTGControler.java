@@ -206,6 +206,9 @@ public class MTGControler {
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
+			conf.setPaypalClientId(get("/shopSite/config/paypalclientId",""));
+			
+			
 			
 			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
@@ -274,7 +277,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
 		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
 		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
-		
+		setProperty("/shopSite/config/paypalclientId",wsc.getPaypalClientId());
 	}
 	
 

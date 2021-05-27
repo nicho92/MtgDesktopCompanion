@@ -26,7 +26,7 @@ public class WebShopConfig implements Serializable {
 	private String googleAnalyticsId;
 	private int averageDeliveryTime;
 	private String shippingRules;
-	
+	private String paypalClientId;
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -35,6 +35,14 @@ public class WebShopConfig implements Serializable {
 		slidesLinksImage = new ArrayList<>();
 		needcollections = new ArrayList<>();
 		contact=new Contact();
+	}
+	
+	public void setPaypalClientId(String paypalClientId) {
+		this.paypalClientId = paypalClientId;
+	}
+	
+	public String getPaypalClientId() {
+		return paypalClientId;
 	}
 	
 	public void setCurrencyCode(String currencyCode) {
