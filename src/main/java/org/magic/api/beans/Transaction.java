@@ -153,6 +153,11 @@ public class Transaction implements Serializable {
 		return currency;
 	}
 
-
+	@Override
+	public int hashCode() {
+		return id;
+	}
+	
+	
 	
 }

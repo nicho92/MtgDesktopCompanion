@@ -2,6 +2,7 @@ package org.magic.services;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -107,12 +108,17 @@ public class TransactionService {
 	
 	}
 	
-	public static void mergeTransactions(List<Transaction> ts) throws SQLException {
+	public static void mergeTransactions(List<Transaction> ts) throws SQLException, IOException {
 		
 		Transaction t = ts.get(0);
 		
 		for(var i=1;i<ts.size();i++)
 		{
+			if(t.getContact() != ts.get(0).getContact())
+			{
+				throw new IOException("Users are differents");
+			}
+			
 			t.getItems().addAll(ts.get(i).getItems());
 			
 			try {

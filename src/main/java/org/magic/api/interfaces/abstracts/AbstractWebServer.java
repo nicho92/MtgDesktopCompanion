@@ -12,11 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
+import org.eclipse.jetty.http.HttpVersion;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
@@ -30,8 +38,13 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	private static final String ALLOW_LIST_DIR = "ALLOW_LIST_DIR";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
+	private static final String SERVER_SSL_PORT = "SERVER-SSL-PORT";
 	private static final String REST_JS_FILENAME="rest-server.js";
 	private static final String JSON_SERVER_START = "JSONSERVER_START";
+	private static final String SSL_ENABLED = "SSL_ENABLED";
+	private static final String KEYSTORE_URI = "KEYSTORE_URI";
+	private static final String KEYSTORE_PASS = "KEYSTORE_PASS";
+	
 	
 	private Server server;
 	private URL webRootLocation;
@@ -40,15 +53,14 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	protected abstract String getWebLocation();
 	
 	private void initServlet() {
-
-		ServletContextHandler ctx = new ServletContextHandler();
+		var ctx = new ServletContextHandler();
 		ctx.setContextPath("/");
 		
-		ServletHolder holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());
+		var holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());
 					  holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
 					  holderPwd.setInitParameter("dirAllowed", getString(ALLOW_LIST_DIR));
 
-		ServletHolder holderJs = new ServletHolder("mtg-js-file", new DefaultServlet() {
+		var holderJs = new ServletHolder("mtg-js-file", new DefaultServlet() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -67,6 +79,8 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	
 		ctx.addServlet(holderJs,"/dist/js/"+REST_JS_FILENAME);
 		ctx.addServlet(holderPwd, "/*");
+		
+		
 		logger.trace(ctx.dump());
 		server.setHandler(ctx);
 		
@@ -95,8 +109,44 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		try {
+
+			server = new Server();
 			
-			server = new Server(getInt(SERVER_PORT));
+			File keystoreFile = getFile(KEYSTORE_URI);
+			
+			var httpConfig = new HttpConfiguration();
+				 httpConfig.setSecureScheme("https");
+				 httpConfig.setSecurePort(getInt(SERVER_SSL_PORT));
+				 httpConfig.setOutputBufferSize(32768);
+			
+		
+			 var httpsConfig = new HttpConfiguration(httpConfig);
+			        var src = new SecureRequestCustomizer();
+			        src.setStsMaxAge(2000);
+			        src.setStsIncludeSubDomains(true);
+			        httpsConfig.addCustomizer(src);
+				
+			        SslContextFactory sslContextFactory = new SslContextFactory.Server();
+			        sslContextFactory.setKeyStorePath(keystoreFile.getAbsolutePath());
+			        sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
+			        
+				 
+			try(var http = new ServerConnector(server,new HttpConnectionFactory(httpConfig));
+				var https = new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig))
+					)
+			{
+				 http.setPort(getInt(SERVER_PORT));
+			     http.setIdleTimeout(30000);
+			     
+			     https.setPort(getInt(SERVER_SSL_PORT));
+			     https.setIdleTimeout(500000);
+			     
+			     server.setConnectors(new Connector[] {http, https});
+					
+			}
+	       
+	        
+	        
 			
 			webRootLocation = MTGConstants.class.getResource("/"+getWebLocation());
 			if (webRootLocation == null) {
@@ -116,8 +166,9 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			}
 			
 			
-			logger.info("Server start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);
+			logger.info("Server "+ getName() + "("+getVersion()+") start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);
 		} catch (Exception e) {
+			logger.error(e);
 			throw new IOException(e);
 		}
 
@@ -157,8 +208,12 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	@Override
 	public void initDefault() {
 		setProperty(SERVER_PORT, "80");
+		setProperty(SERVER_SSL_PORT, "443");
 		setProperty(AUTOSTART, "false");
 		setProperty(ALLOW_LIST_DIR, "false");
+		setProperty(SSL_ENABLED, "false");
+		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
+		setProperty(KEYSTORE_PASS, "changeit");
 		try {
 			setProperty(REST_BACKEND_URI, "http://"+InetAddress.getLocalHost().getHostAddress()+":8080");
 		} catch (UnknownHostException e) {

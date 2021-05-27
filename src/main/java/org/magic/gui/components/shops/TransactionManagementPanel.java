@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.STAT;
@@ -70,9 +72,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		add(loader,BorderLayout.SOUTH);
 			
 		btnWooCommerce.addActionListener(e->{
-			
 			Map ret = ((WooCommerceExport)MTG.getPlugin("WooCommerce", MTGCardsExport.class)).sendOrder(t);
-			
 			logger.debug("Order created " + ret);			
 		});
 		
@@ -103,15 +103,20 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			var sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
 			{
 				
+				boolean fullTransaction=true;
+				StringBuilder temp = new StringBuilder();
 				@Override
 				protected Void doInBackground() throws Exception {
+					
+					
 					for(MagicCardStock transactionItem : t.getItems())
 					{
 							MagicCardStock stock = plug.getStockById(transactionItem.getIdstock());
 							if(transactionItem.getQte()>stock.getQte())
 							{
-								   logger.debug("Not enough stock for " + transactionItem.getIdstock() +":" + transactionItem.getMagicCard() + " " + transactionItem.getQte() +" > " + stock.getQte());
+								   temp.append("Not enough stock for " + transactionItem.getIdstock() +":" + transactionItem.getMagicCard() + " " + transactionItem.getQte() +" > " + stock.getQte()).append(System.lineSeparator());
 								   t.setStatut(STAT.IN_PROGRESS);
+								   fullTransaction=false;
 							}
 							else
 							{
@@ -119,12 +124,33 @@ public class TransactionManagementPanel extends MTGUIComponent {
 								   stock.setUpdate(true);
 								   plug.saveOrUpdateStock(stock);
 								   plug.saveOrUpdateOrderEntry(TransactionService.toOrder(t, transactionItem));
-								   t.setStatut(STAT.ACCEPTED);
 							}
 					}
-					TransactionService.validateTransaction(t);
+					
 					return null;
 				}
+				@Override
+				protected void notifyEnd() {
+					
+					if(fullTransaction)
+					{
+						t.setStatut(STAT.ACCEPTED);
+						try {
+							TransactionService.validateTransaction(t);
+						} catch (SQLException e) {
+							MTGControler.getInstance().notify(e);
+						}
+					}
+					else
+					{
+						logger.debug(temp);
+						  
+						MTGControler.getInstance().notify(new MTGNotification("Error Update", temp.toString(),MESSAGE_TYPE.WARNING));
+					}
+				}
+				
+				
+				
 			};
 			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
 	});

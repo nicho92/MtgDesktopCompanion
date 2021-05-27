@@ -19,6 +19,17 @@ public class Contact implements Serializable {
 	private boolean emailAccept=true;
 	private String password="changeit";
 	
+	public boolean equals(Object obj) {
+	    if(!(obj instanceof Contact))
+	    	return false;
+	    
+	    return ((Contact)obj).getId()==getId();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getId();
+	}
 	
 	public String getZipCode() {
 		return zipCode;

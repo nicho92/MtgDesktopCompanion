@@ -100,7 +100,8 @@ public class TransactionsPanel extends MTGUIComponent {
 			List<Transaction> t = UITools.getTableSelections(table, 0);
 			try {
 				TransactionService.mergeTransactions(t);
-			} catch (SQLException e) {
+				reload();
+			} catch (Exception e) {
 				MTGControler.getInstance().notify(e);
 			}
 			

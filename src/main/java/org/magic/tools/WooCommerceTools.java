@@ -147,15 +147,9 @@ public class WooCommerceTools {
 					 
 				Map<String,JsonElement> ret = new HashMap<>();
 				try {
-					
-					logger.debug("POST json =" + object);
-					
 					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
-					
-					JsonObject obj = URLTools.toJson(str).getAsJsonObject();
+					var obj = URLTools.toJson(str).getAsJsonObject();
 					obj.entrySet().forEach(e->ret.put(e.getKey(), e.getValue()));
-					
-					
 				} catch (IOException e) {
 					logger.error("Error in batch",e);
 				}    
