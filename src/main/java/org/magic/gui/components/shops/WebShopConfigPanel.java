@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Iterator;
 
@@ -26,7 +28,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 
-import org.apache.log4j.Logger;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jdesktop.swingx.JXTaskPane;
@@ -45,7 +46,6 @@ import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.renderer.CardListPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.MTG;
 
 public class WebShopConfigPanel extends MTGUIComponent {
@@ -60,7 +60,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JList<String> listSlides;
 	private JTextField txtAnalyticsGoogle;
 	private JCheckableListBox<MagicCollection> cboCollections;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCard topProduct;
 	private JSlider maxLastProductSlide;
 	private JCheckableListBox<MagicCollection> needCollection;
@@ -69,6 +68,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private RSyntaxTextArea txtdeliveryRules ;
 	private ContactPanel contactPanel;
 	private JTextField txtPaypalClientId;
+	private JTextField txtPaypalSendMoneyLink;
 	
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
@@ -221,11 +221,15 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelDelivery.add(new JLabel("DELIVERY_RULES"),BorderLayout.WEST);
 		panelDelivery.add(new JScrollPane(txtdeliveryRules), BorderLayout.CENTER);
 		
-		JPanel panelPayment = createBoxPanel("PAYMENT",MTGConstants.ICON_TAB_PRICES, new FlowLayout(),true);
+		JPanel panelPayment = createBoxPanel("PAYMENT",MTGConstants.ICON_TAB_PRICES, new GridLayout(0, 2, 0, 0),true);
 		
 		txtPaypalClientId = new JTextField(conf.getPaypalClientId());
 		panelPayment.add(new JLabel("PAYPAL_CLIENT_ID"));
 		panelPayment.add(txtPaypalClientId);
+		
+		txtPaypalSendMoneyLink = new JTextField(conf.getSetPaypalSendMoneyUri().toString());
+		panelPayment.add(new JLabel("PAYPAL_SEND_MONEY_LINK"));
+		panelPayment.add(txtPaypalSendMoneyLink);
 		
 		
 		add(container,BorderLayout.CENTER);
@@ -258,12 +262,18 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setShippingRules(txtdeliveryRules.getText());
 				newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
 				newBean.setPaypalClientId(txtPaypalClientId.getText());
+				try {
+					newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));
+				} catch (URISyntaxException e1) {
+					MTGControler.getInstance().notify(e1);
+				}
+				
 				newBean.getCollections().clear();
 				newBean.getCollections().addAll(cboCollections.getSelectedElements());
 				
 				newBean.getNeedcollections().clear();
 				newBean.getNeedcollections().addAll(needCollection.getSelectedElements());
-			
+				
 			
 			
 			

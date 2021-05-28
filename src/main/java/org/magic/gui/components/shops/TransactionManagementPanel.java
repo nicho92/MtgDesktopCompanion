@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -149,7 +148,6 @@ public class TransactionManagementPanel extends MTGUIComponent {
 					
 					if(fullTransaction)
 					{
-						t.setStatut(STAT.ACCEPTED);
 						try {
 							TransactionService.validateTransaction(t);
 						} catch (SQLException e) {
@@ -159,7 +157,6 @@ public class TransactionManagementPanel extends MTGUIComponent {
 					else
 					{
 						logger.debug(temp);
-						  
 						MTGControler.getInstance().notify(new MTGNotification("Error Update", temp.toString(),MESSAGE_TYPE.WARNING));
 					}
 				}

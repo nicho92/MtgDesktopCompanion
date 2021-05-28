@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -27,6 +28,7 @@ public class WebShopConfig implements Serializable {
 	private int averageDeliveryTime;
 	private String shippingRules;
 	private String paypalClientId;
+	private URI setPaypalSendMoneyUri;
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -193,4 +195,13 @@ public class WebShopConfig implements Serializable {
 	public void setDelivery(List<String> delivery) {
 		this.delivery = delivery;
 	}
+
+	public void setPaypalSendMoneyUri(URI ppuri) {
+		this.setPaypalSendMoneyUri = ppuri;
+	}
+	
+	public URI getSetPaypalSendMoneyUri() {
+		return setPaypalSendMoneyUri;
+	}
+	
 }

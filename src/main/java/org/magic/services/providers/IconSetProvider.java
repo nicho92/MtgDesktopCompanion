@@ -246,6 +246,7 @@ public class IconSetProvider {
 		equiv.put("ASTX", "STX");
 		equiv.put("AKHM", "KHM");
 		equiv.put("OC21","C21");
+		equiv.put("RMH1", "MH1");
 	}
 	
 	private String getEquiv(String set) 

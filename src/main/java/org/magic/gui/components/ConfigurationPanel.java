@@ -327,9 +327,10 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelWebSite.add(new JLabel(capitalize("DIRECTORY") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
 		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 0));
-		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1));
-		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
+	
+//		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1));
+//		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+//		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
 
 		panelWebSite.add(new JLabel(capitalize("WEB_SERVER_UI") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
 		panelWebSite.add(cboServers, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));

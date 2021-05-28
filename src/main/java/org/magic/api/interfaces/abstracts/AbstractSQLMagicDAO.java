@@ -231,7 +231,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP,dateSend, paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean)");
@@ -529,6 +529,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setDouble(3, t.getShippingPrice());
 				pst.setString(4, t.getTransporterShippingCode());
 				storeTransactionItems(pst,5, t.getItems());		
+				
 				if(t.getDatePayment()!=null)
 					pst.setTimestamp(6,  new Timestamp(t.getDatePayment().getTime()));
 				else

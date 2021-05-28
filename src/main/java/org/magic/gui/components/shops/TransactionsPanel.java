@@ -119,8 +119,6 @@ public class TransactionsPanel extends MTGUIComponent {
 			logger.error("error loading transactions",e);
 		}
 	}
-	
-	
 
 	@Override
 	public void onFirstShowing() {

@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Locale;
 
@@ -206,7 +208,14 @@ public class MTGControler {
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
-			conf.setPaypalClientId(get("/shopSite/config/paypalclientId",""));
+			
+			conf.setPaypalClientId(get("/shopSite/payments/paypalclientId",""));
+			try {
+				conf.setPaypalSendMoneyUri(new URI(get("/shopSite/payments/paypalSendMoneyUri","")));
+			} catch (URISyntaxException e1) {
+				logger.error(e1);
+				conf.setPaypalSendMoneyUri(null);
+			}
 			
 			
 			
@@ -277,7 +286,9 @@ public class MTGControler {
 		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
 		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
 		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
-		setProperty("/shopSite/config/paypalclientId",wsc.getPaypalClientId());
+		
+		setProperty("/shopSite/payments/paypalclientId",wsc.getPaypalClientId());
+		setProperty("/shopSite/payments/paypalSendMoneyUri",wsc.getSetPaypalSendMoneyUri().toString());
 	}
 	
 
