@@ -94,17 +94,10 @@ public class TransactionService {
 	}
 	
 	
-	public static void sendTransaction(Transaction t) throws SQLException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(STAT.SENT);
-		t.setDateSend(new Date());
-		saveTransaction(t,false);
-		sendMail(t,"TransactionSent", "Shipped !");	
-	}
 	
 	public static void validateTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(STAT.ACCEPTED);
+		t.setStatut(STAT.PAYMENT_WAITING);
 		saveTransaction(t,false);
 		sendMail(t,"TransactionValid","your order validate !");	
 	
@@ -116,9 +109,18 @@ public class TransactionService {
 		t.setPaymentProvider(PAYMENT_PROVIDER.valueOf(providerName.toUpperCase()));
 		t.setDatePayment(new Date());
 		saveTransaction(t,false);
+		sendMail(t,"TransactionPaid","Payment Accepted !");	
 	
 	}
 	
+
+	public static void sendTransaction(Transaction t) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setStatut(STAT.SENT);
+		t.setDateSend(new Date());
+		saveTransaction(t,false);
+		sendMail(t,"TransactionSent", "Shipped !");	
+	}
 	
 	public static void mergeTransactions(List<Transaction> ts) throws SQLException, IOException {
 		

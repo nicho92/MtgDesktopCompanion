@@ -83,7 +83,7 @@
 								storeUser(data);
 								
 								
-								})
+							})
 								
 							.fail(function(xhr, status, error) {
 								$("#confirmation").addClass("alert-danger");	
@@ -189,17 +189,16 @@
 						        	},
 						        	{
 						        		"data":"id",
-						        		"render": function(data, type, row, meta)
+						        		"render": function(d, type, row, meta)
 						        		{
 						        			if(type === 'display'){
-								              	if(row.statut=='PAYMENT_WAITING')
-								                   data="<a href='paypal.html?id="+data+"'><i class='fab fa-3x fa-cc-paypal'></i></a>";
+								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
+								                   d="<a href='paypal.html?id="+d+"'><i class='fab fa-3x fa-cc-paypal'></i></a>";
 							        			else
-						        				   data="";
-								        				
+						        				   d="";
 							        		}
 						        			
-						        			return data;
+						        			return d;
 						        		}	
 						        	}
 						        	
