@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -36,6 +37,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private JButton btnSave;
 	private AbstractBuzyIndicatorComponent loader;
 	private JButton btnWooCommerce;
+	private JButton btnPaid;
 	
 	public void setTransaction(Transaction t)
 	{
@@ -53,17 +55,18 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSend = new JButton("Mark as Sent",MTGConstants.ICON_TAB_DELIVERY);
 		btnSave = new JButton("Save",MTGConstants.ICON_SMALL_SAVE);
 		btnWooCommerce = new JButton("Send WooCommerce", new WooCommerceExport().getIcon());
-		
+		btnPaid = new JButton("Mark as Paid", MTGConstants.ICON_TAB_PRICES);
 		btnSend.setEnabled(false);
 		btnSave.setEnabled(false);
 		btnAcceptTransaction.setEnabled(false);
 		
 		
 		var panelCenter = new JPanel();
-		panelCenter.setLayout(new GridLayout(4,1));
+		panelCenter.setLayout(new GridLayout(5,1));
 		
 		panelCenter.add(btnSave);
 		panelCenter.add(btnAcceptTransaction);
+		panelCenter.add(btnPaid);
 		panelCenter.add(btnSend);
 		panelCenter.add(btnWooCommerce);
 		
@@ -85,11 +88,20 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			}
 		});
 		
+		btnPaid.addActionListener(e->{
+			try {
+				TransactionService.payingTransaction(t, "Paypal");
+			} catch (SQLException e1) {
+				MTGControler.getInstance().notify(e1);
+			}
+		});
+		
 		
 		btnSend.addActionListener(e->{
 			
 			String text = JOptionPane.showInputDialog(this, "Tracking number ?");
 			t.setTransporterShippingCode(text);
+			
 			try {
 				TransactionService.sendTransaction(t);
 			} catch (SQLException e1) {

@@ -6,6 +6,8 @@ var configKey = "config";
 
 
 /////////////CONFIG
+$.ajaxSetup({cache:true});
+
 
 function getConfig()
 {

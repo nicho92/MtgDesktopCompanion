@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Transaction implements Serializable {
-	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,PAYMENT_WAIT,REFUSED,PAID,SENT, CLOSED, CANCELED } 
+	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,PAYMENT_WAITING,REFUSED,PAID,SENT, CLOSED, CANCELED } 
 	public enum PAYMENT_PROVIDER {PAYPAL,VIREMENT,CASH,VISA,AMEX} 
 	
 	private static final long serialVersionUID = 1L;

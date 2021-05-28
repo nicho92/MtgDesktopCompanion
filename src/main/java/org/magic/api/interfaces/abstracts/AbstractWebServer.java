@@ -49,12 +49,12 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	
 	private Server server;
 	private URL webRootLocation;
-
+	protected ServletContextHandler ctx;
 	
 	protected abstract String getWebLocation();
 	
 	private void initServlet() {
-		var ctx = new ServletContextHandler();
+		ctx = new ServletContextHandler();
 		ctx.setContextPath("/");
 		
 		var holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());

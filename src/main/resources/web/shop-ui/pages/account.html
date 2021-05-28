@@ -186,7 +186,23 @@
 							                   return data;
 							                }
 						        		
+						        	},
+						        	{
+						        		"data":"id",
+						        		"render": function(data, type, row, meta)
+						        		{
+						        			if(type === 'display'){
+								              	if(row.statut=='PAYMENT_WAITING')
+								                   data="<a href='paypal.html?id="+data+"'><i class='fab fa-3x fa-cc-paypal'></i></a>";
+							        			else
+						        				   data="";
+								        				
+							        		}
+						        			
+						        			return data;
+						        		}	
 						        	}
+						        	
 						        	
 					        		
 					        		]
@@ -316,6 +332,7 @@
 					                <th>cards</th>
  									<th>shipping</th>
 					                <th>prices</th>
+					                <th>action</th>
 					            </tr>
 					        </thead>
 						

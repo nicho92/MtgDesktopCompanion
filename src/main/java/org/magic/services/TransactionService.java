@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.Transaction.PAYMENT_PROVIDER;
 import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
@@ -95,9 +97,9 @@ public class TransactionService {
 	public static void sendTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(STAT.SENT);
+		t.setDateSend(new Date());
 		saveTransaction(t,false);
 		sendMail(t,"TransactionSent", "Shipped !");	
-	
 	}
 	
 	public static void validateTransaction(Transaction t) throws SQLException {
@@ -107,6 +109,16 @@ public class TransactionService {
 		sendMail(t,"TransactionValid","your order validate !");	
 	
 	}
+	
+	public static void payingTransaction(Transaction t, String providerName) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setStatut(STAT.PAID);
+		t.setPaymentProvider(PAYMENT_PROVIDER.valueOf(providerName.toUpperCase()));
+		t.setDatePayment(new Date());
+		saveTransaction(t,false);
+	
+	}
+	
 	
 	public static void mergeTransactions(List<Transaction> ts) throws SQLException, IOException {
 		

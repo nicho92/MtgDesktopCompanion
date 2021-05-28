@@ -490,6 +490,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					pst.setDouble(6, t.getShippingPrice());
 					pst.setString(7, t.getTransporterShippingCode());
 					pst.setString(8, t.getConfig().getCurrencyCode());
+					
 					if(t.getDatePayment()!=null)
 						pst.setTimestamp(9, new Timestamp(t.getDatePayment().getTime()));
 					else
@@ -528,15 +529,16 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setDouble(3, t.getShippingPrice());
 				pst.setString(4, t.getTransporterShippingCode());
 				storeTransactionItems(pst,5, t.getItems());		
-				if(t.getDateSend()!=null)
-					pst.setTimestamp(6, new Timestamp(t.getDateSend().getTime()));
+				if(t.getDatePayment()!=null)
+					pst.setTimestamp(6,  new Timestamp(t.getDatePayment().getTime()));
 				else
 					pst.setTimestamp(6, null);
-				
-				if(t.getPaymentProvider()!=null)
-					pst.setString(7, t.getPaymentProvider().name());
+
+				if(t.getDateSend()!=null)
+					pst.setTimestamp(7, new Timestamp(t.getDateSend().getTime()));
 				else
-					pst.setString(7, null);
+					pst.setTimestamp(7, null);
+				
 				
 				if(t.getPaymentProvider()!=null)
 					pst.setString(8, t.getPaymentProvider().name());

@@ -40,7 +40,7 @@
 </style>
 	<script>
 	
-	 var currencyCode = "";
+	
 	
 	 $(document).ready(function() {	
 		 var array = [];	
@@ -54,7 +54,8 @@
     		var maxLastProduct=4;
     		var currency = "";
     		var percentReduction = 0;
-    		
+    		var currencyCode = "";
+    		 
 	    			$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -328,7 +329,7 @@
                     	<textarea class="form-control" placeholder="type a message" rows="5" id="message"></textarea>
 	           				<br/>
 								<button id="checkoutBtn" class="btn btn-lg btn-block btn-success text-uppercase" type="submit" >Checkout</button>
-								<div id="paypal-button-container"/>
+								
 	           				<br/>
                 </div>
             </div>
@@ -349,43 +350,5 @@
 
 </body>
 
-
-<script src="https://www.paypal.com/sdk/js?client-id=AR2pgRkfwcZLXPzbZgONSP5AOJjVlf-bMgnIvcbPCrSH7fTlg_LmtVBlg8xB6wZuyEfHFcOradjPS8Uc&currency=USD"></script>
-<script>
-	    function initPayPalButton() {
-	      paypal.Buttons({
-	        style: {
-	          shape: 'rect',
-	          color: 'gold',
-	          layout: 'vertical',
-	          label: 'paypal',
-	          
-	        },
-	
-	        createOrder: function(data, actions) {
-	          return actions.order.create({
-	            //purchase_units: [{"amount":{"currency_code":currencyCode,"value":total.toFixed(2)}}]
-	        	  purchase_units: [{"amount":{"currency_code":"USD","value":total.toFixed(2)}}]
-	          });
-	        },
-	
-	        onApprove: function(data, actions) {
-	          return actions.order.capture().then(function(details) {
-	        	  $("#result").addClass("alert-success");
-	        	  $( "#result" ).html('Transaction completed by ' + details.payer.name.given_name + '!');
-	          });
-	        },
-	
-	        onError: function(err) {
-	        	 $("#result").addClass("alert-");
-	        	  $( "#result" ).html(err);
-	        }
-	      }).render('#paypal-button-container');
-	    }
-	   
-	    
-	    initPayPalButton();
-	    
-	  </script>
 
 </html>
