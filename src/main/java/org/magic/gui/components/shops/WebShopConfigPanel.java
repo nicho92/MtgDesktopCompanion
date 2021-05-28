@@ -206,9 +206,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelProduct.add(paneSlide);
 		panelProduct.add(new JLabel("PERCENT_REDUCTION_FOR_SELL"));
 		panelProduct.add(spinnerReduction);
-	
-		
-		
 		
 		JPanel panelDelivery = createBoxPanel("DELIVERY",MTGConstants.ICON_TAB_DELIVERY, new BorderLayout(),true);
 		averageDeliverayDay = new JSpinner(new SpinnerNumberModel(conf.getAverageDeliveryTime(),0,8,1));

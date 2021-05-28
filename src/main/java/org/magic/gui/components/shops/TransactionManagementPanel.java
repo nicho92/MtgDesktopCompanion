@@ -43,8 +43,10 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	{
 		this.t=t;
 		btnAcceptTransaction.setEnabled(t!=null);
-		btnSend.setEnabled(t!=null);
 		btnSave.setEnabled(t!=null);
+		btnPaid.setEnabled(t!=null);
+		btnSend.setEnabled(t!=null);
+		btnWooCommerce.setEnabled(t!=null && t.isWoocommerceAvailable());
 	}
 	
 	
@@ -59,7 +61,8 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSend.setEnabled(false);
 		btnSave.setEnabled(false);
 		btnAcceptTransaction.setEnabled(false);
-		
+		btnPaid.setEnabled(false);
+		btnWooCommerce.setEnabled(false);
 		
 		var panelCenter = new JPanel();
 		panelCenter.setLayout(new GridLayout(5,1));

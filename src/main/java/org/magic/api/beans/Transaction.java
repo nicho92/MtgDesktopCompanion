@@ -6,6 +6,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+import org.magic.api.exports.impl.WooCommerceExport;
+
 public class Transaction implements Serializable {
 	public enum STAT {NEW,IN_PROGRESS,ACCEPTED,PAYMENT_WAITING,REFUSED,PAID,SENT, CLOSED, CANCELED } 
 	public enum PAYMENT_PROVIDER {PAYPAL,VIREMENT,CASH,VISA,AMEX} 
@@ -208,6 +210,18 @@ public class Transaction implements Serializable {
 	@Override
 	public int hashCode() {
 		return id;
+	}
+
+
+
+	public boolean isWoocommerceAvailable() {
+		for(MagicCardStock mcs : getItems())
+		{	
+			if(mcs.getTiersAppIds(new WooCommerceExport().getName())==null)
+				return false;
+		}
+		
+		return true;
 	}
 	
 	
