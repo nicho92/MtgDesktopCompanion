@@ -143,7 +143,23 @@
 						        		
 						        	},
 						        	{
-						        		"data":"statut"
+						        		"data":"statut",
+						        		"render": function(data, type, row, meta){
+								                   if(type === 'display'){
+									        			if(data=='IN_PROGRESS')
+									        					data="<i class='fa fa-2x fa-cogs'></i>";
+										        			else if(data=='CLOSED')
+										        				data="<i class='fa fa-2x fa-check'></i>";
+										        			else if(data=='CANCELED')
+										        				data="<i class='fa fa-2x fa-ban'></i>";
+										        			else if(data=='SENT')
+										        				data="<i class='fa fa-2x fa-truck'></i>";
+										        			else if(data=='PAYMENT_WAITING')
+											        				data="<i class='fa fa-2x fa-money-check-alt'></i>";
+										        		
+								                   }
+								                  return data;
+						        			}
 						        	},
 						        	{
 						        		"data":"items",
@@ -194,11 +210,11 @@
 						        			if(type === 'display'){
 								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
 								                   d="<a href='paypal.html?id="+d+"'><i class='fab fa-2x fa-cc-paypal'></i></a>";
-							        			else if(row.statut=='SENT')
-										                   d="<a href='"+row.transporterShippingCode+"'><i class='fa fa-2x fa-truck'></i></a>";
-									        			else
-								        				   d="";
-						        				  
+								                else  if(row.statut=='SENT')
+								                   d="<a href='"+row.transporterShippingCode+"'>"+row.transporterShippingCode+"</a>";
+								                else 
+								                	d="";
+								              	
 							        		}
 						        			
 						        			return d;
