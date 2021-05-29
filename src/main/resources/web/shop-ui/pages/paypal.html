@@ -137,6 +137,9 @@ function initButton()
 
 	        onApprove: function(data, actions) {
 	          return actions.order.capture().then(function(details) {
+	        	  
+	        	  console.log(details);
+	        	  
 	        	  $.post(restserver+"/transaction/paid/Paypal",JSON.stringify(transaction))
 	        	  	.done(function( data ) 
 	        		{
