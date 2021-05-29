@@ -45,6 +45,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -559,6 +560,11 @@ public class UITools {
 			pane.setForeground(SystemColor.textHighlightText);
 			pane.setBackground(SystemColor.inactiveCaption);
 	}
+	
+	public static Date parseGMTDate(String gmtDate) {
+		return DatatypeConverter.parseDateTime(gmtDate).getTime();
+	}
+	
 
 	public static Date parseDate(String indexDate) {
 		

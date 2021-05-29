@@ -191,9 +191,6 @@ public class WooCommerceTools {
 		return obj;
 	}
 	
-	public static Date toDate(String asString) {
-		return DatatypeConverter.parseDateTime(asString).getTime();
-	}
 	
 	
 }

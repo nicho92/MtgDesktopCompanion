@@ -13,11 +13,9 @@ public class Tracking implements Serializable{
 	private String number;
 	private Date deliveryDate;
 	
-	
-	
 	 @Override
 	public String toString() {
-		return getProductName();
+		return getProductName() +"#"+getNumber();
 	}
 	
 	public Date getDeliveryDate() {
@@ -56,6 +54,11 @@ public class Tracking implements Serializable{
 		list = new ArrayList<>();
 	}
 	
+	public Tracking(String number2) {
+		list = new ArrayList<>();
+		this.number=number2;
+	}
+
 	public void addStep(TrackingStep ts)
 	{
 		list.add(ts);
@@ -64,36 +67,4 @@ public class Tracking implements Serializable{
 }
 
 
-class TrackingStep
-{
-	private Date dateStep;
-	private String descriptionStep;
-	private String code;
-	
-	
-	public Date getDateStep() {
-		return dateStep;
-	}
-	public void setDateStep(Date dateStep) {
-		this.dateStep = dateStep;
-	}
-	public String getDescriptionStep() {
-		return descriptionStep;
-	}
-	public void setDescriptionStep(String descriptionStep) {
-		this.descriptionStep = descriptionStep;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	@Override
-	public String toString() {
-		return getDateStep() +" " + getDescriptionStep();
-	}
-	
-	
-}
+

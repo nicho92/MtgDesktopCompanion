@@ -9,6 +9,7 @@ import java.util.Map;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
 import com.google.gson.JsonElement;
@@ -69,7 +70,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 				var oe = new OrderEntry();
 				   oe.setCurrency(obj.get("currency").getAsString());
 				   oe.setIdTransation(obj.get("id").getAsString());
-				   oe.setTransactionDate(WooCommerceTools.toDate(obj.get("date_created").getAsString()));
+				   oe.setTransactionDate(UITools.parseGMTDate(obj.get("date_created").getAsString()));
 				   oe.setDescription(itemObj.get("name").getAsString());
 				   oe.setSeller(obj.get("billing").getAsJsonObject().get("last_name").getAsString());
 				   oe.setSource(getString(WEBSITE));
