@@ -193,9 +193,12 @@
 						        		{
 						        			if(type === 'display'){
 								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
-								                   d="<a href='paypal.html?id="+d+"'><i class='fab fa-3x fa-cc-paypal'></i></a>";
-							        			else
-						        				   d="";
+								                   d="<a href='paypal.html?id="+d+"'><i class='fab fa-2x fa-cc-paypal'></i></a>";
+							        			else if(row.statut=='SENT')
+										                   d="<a href='"+row.transporterShippingCode+"'><i class='fa fa-2x fa-truck'></i></a>";
+									        			else
+								        				   d="";
+						        				  
 							        		}
 						        			
 						        			return d;
