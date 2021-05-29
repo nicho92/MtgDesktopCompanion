@@ -1,6 +1,7 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.magic.api.beans.Tracking;
@@ -35,8 +36,11 @@ public class DHLTrackingService extends AbstractTrackingService {
 
 	@Override
 	public URL trackUriFor(String number) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new URL("https://www.dhl.com/fr-fr/home/tracking/tracking-parcel.html?submit=1&tracking-id="+number);
+		} catch (MalformedURLException e) {
+			return null;
+		}
 	}
 
 	@Override
