@@ -36,6 +36,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGSTrackingService;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
@@ -151,6 +152,7 @@ public class PluginRegistry {
 		registry.put(MTGGraders.class, new PluginEntry<>(MTGGraders.class,true, "/graders", "/grader", "org.magic.api.graders.impl",PLUGINS.GRADING));
 		registry.put(MTGGedStorage.class, new PluginEntry<>(MTGGedStorage.class,false, "/storages", "/storage", "org.magic.api.fs.impl",PLUGINS.GED));
 		registry.put(MTGCardRecognition.class, new PluginEntry<>(MTGCardRecognition.class,false, "/strategies", "/strategy", "org.magic.api.recognition.impl",PLUGINS.STRATEGY));
+		registry.put(MTGSTrackingService.class, new PluginEntry<>(MTGSTrackingService.class,true, "/trackings", "/tracker", "org.magic.api.tracking.impl",PLUGINS.TRACKING));
 		
 		
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));

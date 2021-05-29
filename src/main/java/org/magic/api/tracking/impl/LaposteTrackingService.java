@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.tracking.impl;
 
 import java.io.IOException;
 import java.net.URL;
