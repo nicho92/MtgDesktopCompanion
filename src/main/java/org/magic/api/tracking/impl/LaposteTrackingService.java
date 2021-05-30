@@ -1,7 +1,6 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.magic.api.beans.Tracking;
 import org.magic.api.beans.TrackingStep;
@@ -17,7 +16,10 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	
 	
 	public static void main(String[] args) throws IOException {
-		 System.out.println(new LaposteTrackingService().track("6T11111111110"));
+		 Tracking t = new LaposteTrackingService().track("3P11111111110");
+		 t.getSteps().forEach(System.out::println);
+		 
+		 
 		
 	}
 
@@ -42,7 +44,11 @@ public class LaposteTrackingService extends AbstractTrackingService{
 					 t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()), je.getAsJsonObject().get("label").getAsString(), je.getAsJsonObject().get("code").getAsString()));
 				 });
 		
-		logger.debug(e);
+		if(t.getProductName().equalsIgnoreCase("chronopost"))
+			t.setTrackingUri("https://www.chronopost.fr/tracking-no-cms/suivi-page?langue=fr&listeNumerosLT="+number);
+		else
+			t.setTrackingUri("https://www.laposte.fr/outils/suivre-vos-envois?code="+number);
+				 
 		return t;
 	}
 
@@ -51,12 +57,6 @@ public class LaposteTrackingService extends AbstractTrackingService{
 		return "La Poste";
 	}
 
-	@Override
-	public URL trackUriFor(String number) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	@Override
 	public void initDefault() {
 		setProperty("OKAPI-KEY", "");

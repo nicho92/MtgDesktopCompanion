@@ -27,20 +27,17 @@ public class DHLTrackingService extends AbstractTrackingService {
 		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUrl+number).method(METHOD.GET)
 				.addHeader("DHL-API-Key", getString("API_KEY"))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
+
+		t.setTrackingUri("https://www.dhl.com/fr-fr/home/tracking/tracking-parcel.html?submit=1&tracking-id="+number);
+		
 		
 		logger.debug(e);
+
 		
+		
+
 		return t;
 		
-	}
-
-	@Override
-	public URL trackUriFor(String number) {
-		try {
-			return new URL("https://www.dhl.com/fr-fr/home/tracking/tracking-parcel.html?submit=1&tracking-id="+number);
-		} catch (MalformedURLException e) {
-			return null;
-		}
 	}
 
 	@Override

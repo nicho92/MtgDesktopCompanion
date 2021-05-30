@@ -8,8 +8,12 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
@@ -19,6 +23,7 @@ import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -27,6 +32,7 @@ import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
+import org.magic.tools.UITools;
 
 public class TransactionManagementPanel extends MTGUIComponent {
 	
@@ -101,8 +107,34 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		
 		btnSend.addActionListener(e->{
 			
-			String text = JOptionPane.showInputDialog(this, "Tracking number ?");
-			t.setTransporterShippingCode(text);
+			var pane = new JPanel();
+			
+			JComboBox<MTGTrackingService> cboService = UITools.createCombobox(MTGTrackingService.class, false);
+			var field = new JTextField(t.getTransporterShippingCode());
+			var btnV = new JButton("OK");
+			var btnC = new JButton("Cancel");
+				
+			pane.add(cboService);
+			pane.add(new JLabel("Tracking #"));
+			pane.add(field);
+			pane.add(btnV);
+			pane.add(btnC);
+			var jd = MTGUIComponent.createJDialog(MTGUIComponent.build(pane,"Tracking",MTGConstants.ICON_TAB_DELIVERY),false,true);
+			
+			btnV.addActionListener(al->{
+				if(cboService.getSelectedItem()!=null)
+					t.setTransporter(cboService.getSelectedItem().toString());
+				
+				t.setTransporterShippingCode(field.getText());//8J00705313023
+				
+				jd.dispose();
+			});
+			
+			btnC.addActionListener(al->jd.dispose());
+			
+			jd.setVisible(true);
+			
+		
 			
 			try {
 				TransactionService.sendTransaction(t);

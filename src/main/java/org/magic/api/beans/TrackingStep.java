@@ -1,8 +1,9 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TrackingStep
+public class TrackingStep implements Serializable, Comparable<TrackingStep> 
 {
 	private Date dateStep;
 	private String descriptionStep;
@@ -45,6 +46,16 @@ public class TrackingStep
 	@Override
 	public String toString() {
 		return getDateStep() +" " + getDescriptionStep();
+	}
+
+
+
+	@Override
+	public int compareTo(TrackingStep o) {
+		if(o==null)
+			return -1;
+		
+		return getDateStep().compareTo(o.getDateStep());
 	}
 	
 	

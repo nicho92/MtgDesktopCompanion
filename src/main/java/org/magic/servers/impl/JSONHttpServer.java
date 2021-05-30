@@ -48,6 +48,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGConstants;
@@ -58,6 +59,7 @@ import org.magic.services.TransactionService;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
+import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
@@ -540,6 +542,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
 		}, transformer);
 
+		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> {
+			return MTG.getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params("number"));
+		}, transformer);
+		
 		
 		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) -> {
 			
@@ -572,8 +578,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {
 			
-			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			return getEnabledPlugin(MTGDao.class).listTransactions(t);
+			Contact c=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
+			return getEnabledPlugin(MTGDao.class).listTransactions(c);
 		}, transformer);
 
 		

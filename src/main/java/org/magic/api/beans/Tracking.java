@@ -7,13 +7,24 @@ import java.util.List;
 
 public class Tracking implements Serializable{
 
-	private List<TrackingStep> list;
+	private List<TrackingStep> steps;
 	private boolean finished;
 	private String productName;
 	private String number;
 	private Date deliveryDate;
+	private String trackingUri;
 	
-	 @Override
+	
+	
+	 public String getTrackingUri() {
+		return trackingUri;
+	}
+
+	public void setTrackingUri(String trackingUri) {
+		this.trackingUri = trackingUri;
+	}
+
+	@Override
 	public String toString() {
 		return getProductName() +"#"+getNumber();
 	}
@@ -51,18 +62,23 @@ public class Tracking implements Serializable{
 	}
 	
 	public Tracking() {
-		list = new ArrayList<>();
+		steps = new ArrayList<>();
 	}
 	
 	public Tracking(String number2) {
-		list = new ArrayList<>();
+		steps = new ArrayList<>();
 		this.number=number2;
 	}
 
 	public void addStep(TrackingStep ts)
 	{
-		list.add(ts);
+		steps.add(ts);
 	}
+	
+	public List<TrackingStep> getSteps() {
+		return steps;
+	}
+
 	
 }
 

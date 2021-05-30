@@ -30,7 +30,6 @@ public class Transaction implements Serializable {
 	private String transporterShippingCode;
 	private Currency currency;
 	
-	
 	public Transaction() {
 		dateCreation = new Date();
 		items = new ArrayList<>();
@@ -38,8 +37,6 @@ public class Transaction implements Serializable {
 		statut = STAT.NEW;
 	}
 	
-
-
 	public Date getDateCreation() {
 		return dateCreation;
 	}
