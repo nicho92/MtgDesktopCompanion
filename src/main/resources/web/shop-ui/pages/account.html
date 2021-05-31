@@ -147,15 +147,17 @@
 						        		"render": function(data, type, row, meta){
 								                   if(type === 'display'){
 									        			if(data=='IN_PROGRESS')
-									        					data="<i class='fa fa-2x fa-cogs'></i>";
+									        					data="<i class='fa fa-2x fa-cogs' title='"+data+"'></i>";
 										        			else if(data=='CLOSED')
-										        				data="<i class='fa fa-2x fa-check'></i>";
+										        				data="<i class='fa fa-2x fa-check' title='"+data+"'></i>"
 										        			else if(data=='CANCELED')
-										        				data="<i class='fa fa-2x fa-ban'></i>";
+										        				data="<i class='fa fa-2x fa-ban' title='"+data+"'></i>";
 										        			else if(data=='SENT')
-										        				data="<i class='fa fa-2x fa-truck'></i>";
+										        				data="<i class='fa fa-2x fa-truck' title='"+data+"'></i>";
 										        			else if(data=='PAYMENT_WAITING')
-											        				data="<i class='fa fa-2x fa-money-check-alt'></i>";
+											        				data="<i class='fa fa-2x fa-money-check-alt' title='"+data+"'></i>";
+											        		else if(data=='PAID')
+												        			data="<i class='fa fa-2x fa-hand-holding-usd' title='"+data+"'></i>";
 										        		
 								                   }
 								                  return data;
@@ -210,8 +212,9 @@
 						        			if(type === 'display'){
 								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
 								                   d="<a href='paypal.html?id="+d+"'><i class='fab fa-2x fa-cc-paypal'></i></a>";
-								                else  if(row.statut=='SENT')
-								                   d="<a data-toggle='modal' data-target='#exampleModal' href='#' trackid='"+row.transporterShippingCode+"' transporter='"+row.transporter+"' >"+row.transporterShippingCode+"</a>";
+								                else  
+								                	if(row.statut=='SENT')
+								                   d="<a data-toggle='modal' class='btn btn-primary btn-sm' data-target='#exampleModal' href='#' trackid='"+row.transporterShippingCode+"' transporter='"+row.transporter+"' ><i class='fas fa-1x fa-barcode'></i></a>";
 								                else 
 								                	d="";
 								              	

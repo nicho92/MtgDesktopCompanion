@@ -17,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -44,6 +45,7 @@ import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.renderer.CardListPanel;
+import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
@@ -69,7 +71,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private ContactPanel contactPanel;
 	private JTextField txtPaypalClientId;
 	private JTextField txtPaypalSendMoneyLink;
-	
+	private JCheckBox chkAutomaticValidation;
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -158,10 +160,16 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
 		var serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
+		var btnClearCache = new JButton("Clear Cache",MTGConstants.ICON_TAB_CACHE);
+		btnClearCache.addActionListener(il->((JSONHttpServer)getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache());
+		panelServer.add(btnClearCache,BorderLayout.SOUTH);
 		
 		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
 		cboCollections = new JCheckableListBox<>();
 		needCollection = new JCheckableListBox<>();
+		chkAutomaticValidation = new JCheckBox();
+		chkAutomaticValidation.setSelected(conf.isAutomaticValidation());
+		
 		
 		try {
 			for(MagicCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections())
@@ -178,6 +186,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 		panelStock.add(new JLabel("SEARCH_CARDS_IN_COLLECTION"));
 		panelStock.add(needCollection);
+		
+		panelStock.add(new JLabel("AUTOMATIC_VALIDATION"));
+		panelStock.add(chkAutomaticValidation);
+		
+		
+		
 	
 		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
 		topProduct = conf.getTopProduct();
@@ -262,6 +276,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setShippingRules(txtdeliveryRules.getText());
 				newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
 				newBean.setPaypalClientId(txtPaypalClientId.getText());
+				newBean.setAutomaticValidation(chkAutomaticValidation.isSelected());
 				try {
 					newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));
 				} catch (URISyntaxException e1) {

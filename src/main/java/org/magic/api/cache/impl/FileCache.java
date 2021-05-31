@@ -45,7 +45,7 @@ public class FileCache extends AbstractCacheProvider {
 
 			logger.trace("search in cache : " + mc + " " + mc.getCurrentSet());
 
-			File save = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
+			var save = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
 			if (!save.exists())
 				save.mkdir();
 

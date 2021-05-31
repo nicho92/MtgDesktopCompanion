@@ -221,7 +221,7 @@ public class MTGControler {
 			
 			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
-			
+			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
 			
 			try {
 			conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCard.class));
@@ -274,6 +274,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
+		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
 		setProperty("/shopSite/config/ganalyticsId",wsc.getGoogleAnalyticsId());
 		setProperty("/shopSite/config/percentReduction",wsc.getPercentReduction());

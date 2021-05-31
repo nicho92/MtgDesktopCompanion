@@ -19,8 +19,10 @@ import org.magic.api.beans.Transaction.PAYMENT_PROVIDER;
 import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
+import org.magic.servers.impl.JSONHttpServer;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -89,6 +91,11 @@ public class TransactionService {
 		sendMail(t,"TransactionNew","Transaction received");
 		
 		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New trnsaction from " + t.getContact(),MESSAGE_TYPE.INFO));
+		
+		if(t.getConfig().isAutomaticValidation())
+			validateTransaction(t);
+		
+		
 		return ret;
 	
 	}
@@ -99,6 +106,9 @@ public class TransactionService {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(STAT.PAYMENT_WAITING);
 		saveTransaction(t,false);
+		
+		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
+		
 		sendMail(t,"TransactionValid","your order validate !");	
 	
 	}

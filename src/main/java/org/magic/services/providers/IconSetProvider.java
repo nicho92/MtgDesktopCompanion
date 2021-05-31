@@ -159,6 +159,8 @@ public class IconSetProvider {
 		equiv.put("PJSE", "PDCI");
 		equiv.put("PWP09", "PDCI");
 		equiv.put("PWP08", "PDCI");
+		equiv.put("PWP21", "PDCI");
+		equiv.put("PWPN","PDCI");
 		equiv.put("PG08", "PDCI");
 		equiv.put("PG07", "PDCI");
 		equiv.put("MPR", "PDCI");

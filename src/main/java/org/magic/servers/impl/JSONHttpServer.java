@@ -19,11 +19,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -92,7 +95,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String KEYSTORE_URI = "KEYSTORE_URI";
 	private static final String KEYSTORE_PASS = "KEYSTORE_PASS";
 
-	
+	private Map<MagicCollection,List<MagicCardStock>> cache = new HashMap<>();
 	
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
@@ -105,6 +108,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "{\"error\":\"" + msg + "\"}";
 	}
 
+	public void clearCache()
+	{
+		logger.debug("Clearing " + getName() + " cache");
+		cache.clear();
+	}
+	
+	
 	public JSONHttpServer() {
 		super();
 		
@@ -375,16 +385,27 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Integer.parseInt(request.params(":idStock"))), transformer);
 		
 		
+	
 		
-		get("/stock/list/:collection", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))), transformer);
+		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
+			var col = new MagicCollection(request.params(":collection"));
+			return cache.computeIfAbsent(col, c->{
+				try {
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(c));
+				} catch (SQLException e) {
+					return new ArrayList<>();
+				}
+			});
+			
+		}, transformer);
 		
 		get("/stock/sets/:collection", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().map(mcs->mcs.getMagicCard().getCurrentSet()).distinct().sorted().collect(Collectors.toList()), transformer);
 	
 		
-		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(":idSet"))).collect(Collectors.toList()), transformer);
+		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) -> {
+			return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(":idSet"))).collect(Collectors.toList());
+		}, transformer);
 		
 		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MagicCollection(request.params(":collection")))), transformer);

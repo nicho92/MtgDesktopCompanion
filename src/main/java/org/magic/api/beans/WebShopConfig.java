@@ -29,6 +29,7 @@ public class WebShopConfig implements Serializable {
 	private String shippingRules;
 	private String paypalClientId;
 	private URI setPaypalSendMoneyUri;
+	private boolean automaticValidation;
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -202,6 +203,14 @@ public class WebShopConfig implements Serializable {
 	
 	public URI getSetPaypalSendMoneyUri() {
 		return setPaypalSendMoneyUri;
+	}
+
+	public void setAutomaticValidation(boolean selected) {
+		this.automaticValidation=selected;
+	}
+	
+	public boolean isAutomaticValidation() {
+		return automaticValidation;
 	}
 	
 }
