@@ -31,7 +31,7 @@ import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.MTGPool;
@@ -135,7 +135,7 @@ public class PluginRegistry {
 		registry.put(MTGDeckSniffer.class, new PluginEntry<>(MTGDeckSniffer.class,true,"/decksniffer","/sniffer", "org.magic.api.decksniffer.impl",PLUGINS.DECKS));
 		registry.put(MTGCardsExport.class, new PluginEntry<>(MTGCardsExport.class,true,"/deckexports","/export", "org.magic.api.exports.impl",PLUGINS.EXPORT));
 		registry.put(MTGNewsProvider.class, new PluginEntry<>(MTGNewsProvider.class,true,"/newsProvider","/news", "org.magic.api.news.impl",PLUGINS.NEWS));
-		registry.put(MTGPicturesCache.class, new PluginEntry<>(MTGPicturesCache.class,false,"/caches","/cache", "org.magic.api.cache.impl",PLUGINS.CACHE));
+		registry.put(MTGCache.class, new PluginEntry<>(MTGCache.class,false,"/caches","/cache", "org.magic.api.cache.impl",PLUGINS.CACHE));
 		registry.put(MTGPictureProvider.class, new PluginEntry<>(MTGPictureProvider.class,false,"/pictures","/picture", "org.magic.api.pictures.impl",PLUGINS.PICTURE));
 		registry.put(MTGPricesProvider.class, new PluginEntry<>(MTGPricesProvider.class,true,"/pricers","/pricer", "org.magic.api.pricers.impl",PLUGINS.PRICER));
 		registry.put(MTGCardsProvider.class, new PluginEntry<>(MTGCardsProvider.class,false,"/providers","/provider", "org.magic.api.providers.impl",PLUGINS.PROVIDER));

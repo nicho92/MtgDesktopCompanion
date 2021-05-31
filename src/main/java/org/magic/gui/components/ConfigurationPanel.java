@@ -48,7 +48,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractWebServer;
 import org.magic.game.gui.components.GamePanelGUI;
@@ -681,7 +681,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 					IconSetProvider.getInstance().clean();
 				
 				if(chckbxIconcards.isSelected())
-					getEnabledPlugin(MTGPicturesCache.class).clear();
+					getEnabledPlugin(MTGCache.class).clear();
 				
 				if(chckbxPackages.isSelected())
 					PackagesProvider.inst().clear();

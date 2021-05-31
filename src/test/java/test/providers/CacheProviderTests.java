@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGCache;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.PluginRegistry;
 
@@ -30,7 +30,7 @@ public class CacheProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGPicturesCache.class).forEach(p->{
+		PluginRegistry.inst().listPlugins(MTGCache.class).forEach(p->{
 			testPlugin(p);	
 		});
 	}
@@ -39,7 +39,7 @@ public class CacheProviderTests {
 	
 	
 	
-	public void testPlugin(MTGPicturesCache p)
+	public void testPlugin(MTGCache p)
 	{
 		
 		System.out.println("*****************************"+p.getName());

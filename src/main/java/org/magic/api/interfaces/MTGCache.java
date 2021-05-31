@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 
-public interface MTGPicturesCache extends MTGPlugin {
+public interface MTGCache extends MTGPlugin {
 
 	public BufferedImage getPic(MagicCard mc);
 

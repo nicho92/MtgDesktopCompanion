@@ -1,10 +1,10 @@
 package org.magic.api.interfaces.abstracts;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGCache;
 import org.magic.tools.IDGenerator;
 
-public abstract class AbstractCacheProvider extends AbstractMTGPlugin implements MTGPicturesCache {
+public abstract class AbstractCacheProvider extends AbstractMTGPlugin implements MTGCache {
 
 	@Override
 	public PLUGINS getType() {

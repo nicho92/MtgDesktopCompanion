@@ -23,7 +23,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGCache;
 import org.magic.gui.components.JTextFieldFileChooser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -37,7 +37,7 @@ public class SpeedConfigurator extends JFrame {
 	private JComboBox<MTGDao> cboDAOs;
 	private JComboBox<MTGPictureProvider> cboPictures;
 	private JComboBox<MTGDashBoard> cboDashboard;
-	private JComboBox<MTGPicturesCache> cboCaches;
+	private JComboBox<MTGCache> cboCaches;
 	private JComboBox<MTGCardsProvider> cboProvider;
 	
 	public static void main(String[] args) {
@@ -136,7 +136,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblCaches.gridy = 4;
 		panneau1.add(lblCaches, gbclblCaches);
 
-		cboCaches = UITools.createCombobox(MTGPicturesCache.class, true);
+		cboCaches = UITools.createCombobox(MTGCache.class, true);
 		GridBagConstraints gbccboCaches = new GridBagConstraints();
 		gbccboCaches.fill = GridBagConstraints.HORIZONTAL;
 		gbccboCaches.insets = new Insets(0, 0, 5, 0);
@@ -242,7 +242,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 
-		for (MTGPicturesCache prov : listPlugins(MTGPicturesCache.class)) {
+		for (MTGCache prov : listPlugins(MTGCache.class)) {
 			prov.enable(false);
 
 			if (prov.getName().equals(cboCaches.getSelectedItem().toString()))
