@@ -33,6 +33,13 @@ public class LaposteTrackingService extends AbstractTrackingService{
 		
 				 e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("event").getAsJsonArray().forEach(je->{
 					 t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()), je.getAsJsonObject().get("label").getAsString(), je.getAsJsonObject().get("code").getAsString()));
+					 
+					 if(je.getAsJsonObject().get("code").getAsString().equals("PC1"))
+					 {
+						 t.setDeliveryDate(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()));
+					 }
+					 
+					 
 				 });
 		
 		if(t.getProductName().equalsIgnoreCase("chronopost"))

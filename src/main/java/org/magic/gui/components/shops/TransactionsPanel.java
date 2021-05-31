@@ -1,12 +1,10 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;

@@ -9,9 +9,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -43,6 +41,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent loader;
 	private JButton btnWooCommerce;
 	private JButton btnPaid;
+	private JButton btnTrack;
 	
 	public void setTransaction(Transaction t)
 	{
@@ -52,6 +51,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnPaid.setEnabled(t!=null);
 		btnSend.setEnabled(t!=null);
 		btnWooCommerce.setEnabled(t!=null && t.isWoocommerceAvailable());
+		btnTrack.setEnabled(t!=null && t.getStatut()==STAT.SENT);
 	}
 	
 	
@@ -63,19 +63,23 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSave = new JButton("Save",MTGConstants.ICON_SMALL_SAVE);
 		btnWooCommerce = new JButton("Send WooCommerce", new WooCommerceExport().getIcon());
 		btnPaid = new JButton("Mark as Paid", MTGConstants.ICON_TAB_PRICES);
+		btnTrack = new JButton("Track", MTGConstants.ICON_TAB_DELIVERY);
+		
 		btnSend.setEnabled(false);
 		btnSave.setEnabled(false);
 		btnAcceptTransaction.setEnabled(false);
 		btnPaid.setEnabled(false);
 		btnWooCommerce.setEnabled(false);
+		btnTrack.setEnabled(false);
 		
 		var panelCenter = new JPanel();
-		panelCenter.setLayout(new GridLayout(5,1));
+		panelCenter.setLayout(new GridLayout(6,1));
 		
 		panelCenter.add(btnSave);
 		panelCenter.add(btnAcceptTransaction);
 		panelCenter.add(btnPaid);
 		panelCenter.add(btnSend);
+		panelCenter.add(btnTrack);
 		panelCenter.add(btnWooCommerce);
 		
 		
@@ -105,8 +109,30 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		});
 		
 		
+		btnTrack.addActionListener(e->{
+			try {
+				
+				var ret = MTG.getPlugin(t.getTransporter(), MTGTrackingService.class).track(t.getTransporterShippingCode());
+				
+				
+				if(ret.isFinished())
+				{
+					t.setStatut(STAT.CLOSED);
+					TransactionService.saveTransaction(t,false);
+					MTGControler.getInstance().notify(new MTGNotification("Tracking", "Delivery OK", MESSAGE_TYPE.INFO));
+				}
+				else
+				{
+					if(ret.last()!=null)
+						MTGControler.getInstance().notify(new MTGNotification("Tracking", ret.last().toString(), MESSAGE_TYPE.INFO));
+				}
+			} catch (Exception e1) {
+				MTGControler.getInstance().notify(e1);
+			}
+		});
+		
+		
 		btnSend.addActionListener(e->{
-			
 			var pane = new JPanel();
 			
 			JComboBox<MTGTrackingService> cboService = UITools.createCombobox(MTGTrackingService.class, false);
@@ -125,7 +151,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				if(cboService.getSelectedItem()!=null)
 					t.setTransporter(cboService.getSelectedItem().toString());
 				
-				t.setTransporterShippingCode(field.getText());//8J00705313023
+				t.setTransporterShippingCode(field.getText());
 				
 				jd.dispose();
 			});

@@ -29,8 +29,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		
 		if(trayNotifier==null)
 			init();
-		
-		
+
 		return trayNotifier;
 	}
 	

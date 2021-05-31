@@ -257,7 +257,8 @@ public class MTGControler {
 			contact.setCountry(get("/shopSite/config/contact/country",""));
 			contact.setAddress(get("/shopSite/config/contact/address",""));
 			contact.setWebsite(get("/shopSite/config/contact/website",""));
-			
+			contact.setZipCode(get("/shopSite/config/contact/zipcode",""));
+			contact.setCity(get("/shopSite/config/contact/city",""));
 			conf.setContact(contact);
 		
 		return conf;
@@ -283,6 +284,8 @@ public class MTGControler {
 		setProperty("/shopSite/config/contact/telephone",wsc.getContact().getTelephone());
 		setProperty("/shopSite/config/contact/country",wsc.getContact().getCountry());
 		setProperty("/shopSite/config/contact/address",wsc.getContact().getAddress());
+		setProperty("/shopSite/config/contact/zipcode",wsc.getContact().getZipCode());
+		setProperty("/shopSite/config/contact/city",wsc.getContact().getCity());
 		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
 		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
 		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
