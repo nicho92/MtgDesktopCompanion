@@ -227,8 +227,11 @@
 					        		"fnDrawCallback" :function(oSettings, json) {
 							        	$("a[data-toggle=modal]").click(function() {
 							        		 $.getJSON(restserver+"/track/"+$(this).attr("transporter") +"/"+ $(this).attr("trackid"), function(ret){
-							        			 $("#trackcontent").text(JSON.stringify(ret));
+							        			 
+							        			 var last = ret.steps[ret.steps.length-1];
+							        			 $("#trackcontent").html(last.dateStep + " " + last.descriptionStep);
 							        			 $("#idmodal").text(ret.productName +" #"+ret.number);
+							        			 $("#linkTrack").attr("href",ret.trackingUri);
 							        		 });
 							        	});
 							        }
@@ -275,7 +278,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        
+        <a id="linkTrack" class="btn btn-secondary" target="_blank" href="#" role="button">Details</a>
       </div>
     </div>
   </div>

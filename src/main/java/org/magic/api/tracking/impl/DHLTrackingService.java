@@ -1,14 +1,12 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.magic.api.beans.Tracking;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.tools.RequestBuilder;
-import org.magic.tools.URLTools;
 import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.tools.URLTools;
 
 public class DHLTrackingService extends AbstractTrackingService {
 

@@ -12,17 +12,8 @@ import org.magic.tools.URLTools;
 
 public class LaposteTrackingService extends AbstractTrackingService{
 
+	private static final String SHIPMENT = "shipment";
 	private final String baseUri="https://api.laposte.fr/suivi/"+getVersion()+"/idships";
-	
-	
-	public static void main(String[] args) throws IOException {
-		 Tracking t = new LaposteTrackingService().track("3P11111111110");
-		 t.getSteps().forEach(System.out::println);
-		 
-		 
-		
-	}
-
 	
 	@Override
 	public String getVersion() {
@@ -37,10 +28,10 @@ public class LaposteTrackingService extends AbstractTrackingService{
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 		
 		var t = new Tracking(number);
-				 t.setFinished(e.getAsJsonObject().get("shipment").getAsJsonObject().get("isFinal").getAsBoolean());
-				 t.setProductName(e.getAsJsonObject().get("shipment").getAsJsonObject().get("product").getAsString());
+				 t.setFinished(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("isFinal").getAsBoolean());
+				 t.setProductName(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("product").getAsString());
 		
-				 e.getAsJsonObject().get("shipment").getAsJsonObject().get("event").getAsJsonArray().forEach(je->{
+				 e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("event").getAsJsonArray().forEach(je->{
 					 t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()), je.getAsJsonObject().get("label").getAsString(), je.getAsJsonObject().get("code").getAsString()));
 				 });
 		
