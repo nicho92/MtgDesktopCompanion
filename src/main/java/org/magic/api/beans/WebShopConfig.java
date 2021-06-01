@@ -19,7 +19,7 @@ public class WebShopConfig implements Serializable {
 	private Contact contact;
 	private List<MagicCollection> collections;
 	private List<MagicCollection> needcollections;
-	private MagicCard topProduct;
+	private MagicCardStock topProduct;
 	private int maxLastProduct = 4;
 	private String currencySymbol;
 	private String currencyCode;
@@ -30,6 +30,7 @@ public class WebShopConfig implements Serializable {
 	private String paypalClientId;
 	private URI setPaypalSendMoneyUri;
 	private boolean automaticValidation;
+	private boolean automaticProduct;
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -118,12 +119,12 @@ public class WebShopConfig implements Serializable {
 	}
 	
 	
-	public void setTopProduct(MagicCard topProduct) {
+	public void setTopProduct(MagicCardStock topProduct) {
 		this.topProduct = topProduct;
 	}
 	
 	
-	public MagicCard getTopProduct() {
+	public MagicCardStock getTopProduct() {
 		return topProduct;
 	}
 	
@@ -211,6 +212,14 @@ public class WebShopConfig implements Serializable {
 	
 	public boolean isAutomaticValidation() {
 		return automaticValidation;
+	}
+
+	public boolean isAutomaticProduct() {
+		return automaticProduct;
+	}
+	
+	public void setAutomaticProduct(boolean automaticProduct) {
+		this.automaticProduct = automaticProduct;
 	}
 	
 }

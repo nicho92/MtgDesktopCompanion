@@ -4,8 +4,13 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -26,7 +31,8 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
-public class TransactionService {
+public class TransactionService 
+{
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
 
 	public static int saveTransaction(Transaction t, boolean reloadShipping) throws SQLException {
@@ -43,6 +49,8 @@ public class TransactionService {
 		}
 		return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 	}
+	
+	
 
 	public static OrderEntry toOrder(Transaction t,MagicCardStock transactionItem)
 	{
@@ -100,7 +108,16 @@ public class TransactionService {
 	
 	}
 	
+	public static MagicCardStock getBestProduct() throws SQLException {
 	
+		Map<MagicCardStock, Integer> items = new HashMap<>() ;
+		for(var t : getEnabledPlugin(MTGDao.class).listTransactions())
+			for(var m : t.getItems())
+				items.put(m, items.getOrDefault(m, 0)+m.getQte());
+
+		int max = Collections.max(items.values());
+		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(entry -> entry.getKey()).findAny().orElse(null);
+	}
 	
 	public static void validateTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());

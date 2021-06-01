@@ -222,9 +222,14 @@ public class MTGControler {
 			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
 			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
+			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection","false").equalsIgnoreCase("true"));
 			
 			try {
-			conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCard.class));
+				
+				if(conf.isAutomaticProduct())
+					conf.setTopProduct(TransactionService.getBestProduct());
+				else
+					conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCardStock.class));
 			}
 			catch(Exception e)
 			{
@@ -273,6 +278,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
+		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));

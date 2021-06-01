@@ -35,6 +35,7 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
@@ -48,6 +49,7 @@ import org.magic.gui.components.renderer.CardListPanel;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
 
 public class WebShopConfigPanel extends MTGUIComponent {
@@ -62,7 +64,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JList<String> listSlides;
 	private JTextField txtAnalyticsGoogle;
 	private JCheckableListBox<MagicCollection> cboCollections;
-	private MagicCard topProduct;
+	private MagicCardStock topProduct;
 	private JSlider maxLastProductSlide;
 	private JCheckableListBox<MagicCollection> needCollection;
 	private JSpinner spinnerReduction ;
@@ -72,7 +74,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JTextField txtPaypalClientId;
 	private JTextField txtPaypalSendMoneyLink;
 	private JCheckBox chkAutomaticValidation;
-	
+	private JCheckBox chkAutoProduct;
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
 		var pane = new JXTaskPane();
@@ -196,6 +198,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
+		chkAutoProduct = new JCheckBox("Automatic Top Product");
+		b.setEnabled(!chkAutoProduct.isSelected());
+		
 		spinnerReduction = new JSpinner(new SpinnerNumberModel(conf.getPercentReduction()*100,0,100,0.5));
 		
 		var paneSlide = new JPanel();
@@ -203,18 +208,39 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		var valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
 		
 		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));
-		var cardPanel = new CardListPanel(topProduct);
+		var cardPanel = new CardListPanel(topProduct.getMagicCard());
 		paneSlide.add(maxLastProductSlide);
 		paneSlide.add(valueLbl);
 		
 		b.addActionListener(il->{
 							   var diag = new CardSearchImportDialog();
 								   diag.setVisible(true); 
-								   topProduct= diag.getSelected();
-								   cardPanel.setMagicCard(topProduct);
+								   topProduct= MTGControler.getInstance().getDefaultStock();
+								   topProduct.setMagicCard(diag.getSelected());
+								   cardPanel.setMagicCard(topProduct.getMagicCard());
 		});
 		
-		panelProduct.add(b);
+		chkAutoProduct.addItemListener(il->{
+			  		
+				if(chkAutoProduct.isSelected())
+					try {
+			  			b.setEnabled(!chkAutoProduct.isSelected());
+			  			topProduct = TransactionService.getBestProduct();
+						cardPanel.setMagicCard(topProduct.getMagicCard());
+					} catch (Exception e1) {
+						logger.error(e1);
+					} 
+		});
+		chkAutoProduct.setSelected(conf.isAutomaticProduct());
+		
+		
+		var panelButton = new JPanel();
+		panelButton.setLayout(new GridLayout(2, 1));
+		panelButton.add(b);
+		panelButton.add(chkAutoProduct);
+		
+		
+		panelProduct.add(panelButton);
 		panelProduct.add(cardPanel);
 		panelProduct.add(new JLabel("X_LASTEST_PRODUCT"));
 		panelProduct.add(paneSlide);
@@ -277,6 +303,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setPercentReduction(Double.parseDouble(spinnerReduction.getValue().toString())/100);
 				newBean.setPaypalClientId(txtPaypalClientId.getText());
 				newBean.setAutomaticValidation(chkAutomaticValidation.isSelected());
+				newBean.setAutomaticProduct(chkAutoProduct.isSelected());
+				
+				
 				try {
 					newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));
 				} catch (URISyntaxException e1) {

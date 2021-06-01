@@ -60,9 +60,9 @@
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
 			       	
-			    	$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.scryfallId+"?format=image");
-			    	$("#topProductTitle").append(data.topProduct.name);
-			    	
+			    	$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.magicCard.scryfallId+"?format=image");
+			    	$("#topProductTitle").append(data.topProduct.magicCard.name);
+			    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.idstock);
 			       	jQuery.each(data.slidesLinksImage, function(index, value) {
 			       		$('#carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to='"+index+"'></li>");
 			       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
@@ -158,7 +158,7 @@
                 </div>
                 <img id="topProductImage" class="img-fluid border-0" src="" alt="Card image cap">
                 <div class="card-body">
-                    <h4 class="card-title text-center"><a href="product.html" title="View Product"><span id="topProductTitle"/></a></h4>
+                    <h4 class="card-title text-center"><a id="topProductLink" href="product.html" title="View Product"><span id="topProductTitle"/></a></h4>
                     <div class="row">
 
                     </div>
