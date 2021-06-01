@@ -33,7 +33,7 @@ public class GuavaCache extends AbstractCacheProvider {
 	
 	
 	@Override
-	public BufferedImage getPic(MagicCard mc) {
+	public BufferedImage getItem(MagicCard mc) {
 		return cache.getIfPresent(generateIdIndex(mc));
 	}
 

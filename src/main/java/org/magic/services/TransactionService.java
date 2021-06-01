@@ -90,7 +90,7 @@ public class TransactionService {
 		int ret = saveTransaction(t,false);
 		sendMail(t,"TransactionNew","Transaction received");
 		
-		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New trnsaction from " + t.getContact(),MESSAGE_TYPE.INFO));
+		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New transaction from " + t.getContact(),MESSAGE_TYPE.INFO));
 		
 		if(t.getConfig().isAutomaticValidation())
 			validateTransaction(t);

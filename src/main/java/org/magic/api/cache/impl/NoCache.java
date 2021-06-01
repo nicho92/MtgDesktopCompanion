@@ -20,7 +20,7 @@ public class NoCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc) {
+	public BufferedImage getItem(MagicCard mc) {
 		return null;
 	}
 

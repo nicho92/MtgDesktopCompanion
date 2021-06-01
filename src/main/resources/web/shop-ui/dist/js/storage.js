@@ -11,13 +11,12 @@ $.ajaxSetup({cache:true});
 
 function getConfig()
 {
-
 	if(!storage.getItem(configKey))
 	{
 		$.ajax({
 			url: restserver+"/webshop/config",
-			async:false}
-			).done(function(data) {
+			async:false
+			}).done(function(data) {
 			storage.setItem(configKey,JSON.stringify(data));
 			return data;
         });

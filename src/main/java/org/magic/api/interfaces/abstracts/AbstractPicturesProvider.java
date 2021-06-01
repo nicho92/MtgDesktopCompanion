@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGCache;
+import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
@@ -53,14 +53,14 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
-		if (getEnabledPlugin(MTGCache.class).getPic(mc) != null) {
+		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
 			logger.trace("cached " + mc + "(" + mc.getCurrentSet() + ") found");
-			return getEnabledPlugin(MTGCache.class).getPic(mc);
+			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
 		var bufferedImage = getOnlinePicture(mc);
 		if (bufferedImage != null)
 		{
-			getEnabledPlugin(MTGCache.class).put(bufferedImage, mc);
+			getEnabledPlugin(MTGPictureCache.class).put(bufferedImage, mc);
 			return bufferedImage;
 		}
 		else
@@ -68,6 +68,8 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return getBackPicture();
 		}
 	}
+	
+	
 	
 	
 	

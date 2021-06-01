@@ -14,7 +14,7 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGCache;
+import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MagidexPicturesProvider;
@@ -34,13 +34,13 @@ public class PicturesProviderTests {
 	{
 		MTGLogger.changeLevel(Level.ERROR);
 		
-		List<MTGCache> caches = listPlugins(MTGCache.class);
-		listPlugins(MTGCache.class).removeAll(caches);
+		List<MTGPictureCache> caches = listPlugins(MTGPictureCache.class);
+		listPlugins(MTGPictureCache.class).removeAll(caches);
 		
-		MTGCache cache = new NoCache();
+		MTGPictureCache cache = new NoCache();
 		cache.enable(true);
 		
-		listPlugins(MTGCache.class).add(cache);
+		listPlugins(MTGPictureCache.class).add(cache);
 	}
 
 	

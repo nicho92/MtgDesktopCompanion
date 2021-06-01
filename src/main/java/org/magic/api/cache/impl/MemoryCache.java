@@ -29,7 +29,7 @@ public class MemoryCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc) {
+	public BufferedImage getItem(MagicCard mc) {
 		return cache.get(generateIdIndex(mc));
 	}
 

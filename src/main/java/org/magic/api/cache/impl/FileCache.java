@@ -40,7 +40,7 @@ public class FileCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc) {
+	public BufferedImage getItem(MagicCard mc) {
 		try {
 
 			logger.trace("search in cache : " + mc + " " + mc.getCurrentSet());
