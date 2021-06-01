@@ -103,6 +103,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private ByteArrayOutputStream baos;
 	private boolean running = false;
 	private static final String RETURN_OK = "{\"result\":\"OK\"}";
+	private static final String CACHE_TIMEOUT = "CACHE_TIMEOUT";
 	private JsonExport converter;
 
 	private MTGCache<String, Object> cache;
@@ -129,16 +130,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 				return converter.toJson(model);
 			}
 		};
+		
 		cache = new AbstractEmbeddedCacheProvider<>() {
 			
-			Cache<String, Object> guava = CacheBuilder.newBuilder()
-		 			 .expireAfterAccess(1, TimeUnit.MINUTES)
-		 			 .build();
+			Cache<String, Object> guava = CacheBuilder.newBuilder().build();
+			
 			
 			public String getName() {
 				return "";
 			}
-			
 			
 			@Override
 			public void clear() {
@@ -157,7 +157,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 				
 			}
 		};
-
 	}
 	
 
@@ -748,6 +747,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty(ENABLE_SSL,"false");
 		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		setProperty(KEYSTORE_PASS, "changeit");
+		setProperty(CACHE_TIMEOUT, "-1");
 	}
 
 	@Override
