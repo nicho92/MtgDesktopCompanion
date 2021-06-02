@@ -217,8 +217,8 @@ public class MTGControler {
 				conf.setPaypalSendMoneyUri(null);
 			}
 			
-			
-			
+			conf.setBic(get("/shopSite/payments/banqAccount/bic",""));
+			conf.setIban(get("/shopSite/payments/banqAccount/iban",""));
 			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
 			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
@@ -297,6 +297,8 @@ public class MTGControler {
 		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
 		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
 		
+		setProperty("/shopSite/payments/banqAccount/bic",wsc.getBic());
+		setProperty("/shopSite/payments/banqAccount/iban",wsc.getIban());
 		setProperty("/shopSite/payments/paypalclientId",wsc.getPaypalClientId());
 		setProperty("/shopSite/payments/paypalSendMoneyUri",wsc.getSetPaypalSendMoneyUri().toString());
 	}

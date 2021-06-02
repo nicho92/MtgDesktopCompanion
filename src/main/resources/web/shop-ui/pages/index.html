@@ -61,9 +61,14 @@
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
 			       	
-			    	$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.magicCard.scryfallId+"?format=image");
-			    	$("#topProductTitle").append(data.topProduct.magicCard.name);
-			    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.idstock);
+
+					if(data.topProduct){
+				    	$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.magicCard.scryfallId+"?format=image");
+				    	$("#topProductTitle").append(data.topProduct.magicCard.name);
+				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.idstock);
+					}
+					
+					
 			       	jQuery.each(data.slidesLinksImage, function(index, value) {
 			       		$('#carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to='"+index+"'></li>");
 			       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
@@ -108,7 +113,7 @@
 								    	data=data.reverse();
 								    	for(let i=0;i<maxLastProduct;i++)
 							    		{
-											if(data[i].qte>0)
+											//if(data[i].qte>0)
 							    				$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
 							    		}
 								    });

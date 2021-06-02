@@ -47,6 +47,7 @@ import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.renderer.CardListPanel;
 import org.magic.servers.impl.JSONHttpServer;
+import org.magic.servers.impl.ShoppingServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
@@ -75,6 +76,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JTextField txtPaypalSendMoneyLink;
 	private JCheckBox chkAutomaticValidation;
 	private JCheckBox chkAutoProduct;
+	private JTextField txtIban;
+	private JTextField txtBic;
+	
+	
+	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
 		var pane = new JXTaskPane();
@@ -160,7 +166,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		contactPanel.setContact(MTGControler.getInstance().getWebConfig().getContact());
 		
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
-		var serverStatPanel = new ServerStatePanel(false,getPlugin("Shopping Server", MTGServer.class));
+		var serverStatPanel = new ServerStatePanel(false,getPlugin(new ShoppingServer().getName(), MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		var btnClearCache = new JButton("Clear Cache",MTGConstants.ICON_TAB_CACHE);
 		btnClearCache.addActionListener(il->((JSONHttpServer)getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache());
@@ -271,6 +277,20 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelPayment.add(new JLabel("PAYPAL_SEND_MONEY_LINK"));
 		panelPayment.add(txtPaypalSendMoneyLink);
 		
+		txtIban = new JTextField(conf.getIban(),20);
+		txtBic = new JTextField(conf.getBic(),10);
+		var panelIbanBic  = new JPanel();
+		
+		((FlowLayout)panelIbanBic.getLayout()).setAlignment(FlowLayout.LEFT);
+		
+		panelIbanBic.add(txtIban);
+		panelIbanBic.add(new JLabel("BIC"));
+		panelIbanBic.add(txtBic);
+		
+		
+		panelPayment.add(new JLabel("IBAN"));
+		panelPayment.add(panelIbanBic);
+		
 		
 		add(container,BorderLayout.CENTER);
 		container.add(btnSave);
@@ -304,7 +324,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setPaypalClientId(txtPaypalClientId.getText());
 				newBean.setAutomaticValidation(chkAutomaticValidation.isSelected());
 				newBean.setAutomaticProduct(chkAutoProduct.isSelected());
-				
+				newBean.setIban(txtIban.getText());
+				newBean.setBic(txtBic.getText());
 				
 				try {
 					newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));

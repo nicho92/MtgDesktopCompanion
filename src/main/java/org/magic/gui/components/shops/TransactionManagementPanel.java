@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -172,50 +173,18 @@ public class TransactionManagementPanel extends MTGUIComponent {
 
 		btnAcceptTransaction.addActionListener(e->{
 			loader.start();
-			var sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
+			var sw = new AbstractObservableWorker<List<MagicCardStock>, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
 			{
-				
-				boolean fullTransaction=true;
-				StringBuilder temp = new StringBuilder();
 				@Override
-				protected Void doInBackground() throws Exception {
-					
-					
-					for(MagicCardStock transactionItem : t.getItems())
-					{
-							MagicCardStock stock = plug.getStockById(transactionItem.getIdstock());
-							if(transactionItem.getQte()>stock.getQte())
-							{
-								   temp.append("Not enough stock for " + transactionItem.getIdstock() +":" + transactionItem.getMagicCard() + " " + transactionItem.getQte() +" > " + stock.getQte()).append(System.lineSeparator());
-								   t.setStatut(STAT.IN_PROGRESS);
-								   fullTransaction=false;
-							}
-							else
-							{
-								   stock.setQte(stock.getQte()-transactionItem.getQte());
-								   stock.setUpdate(true);
-								   plug.saveOrUpdateStock(stock);
-								   plug.saveOrUpdateOrderEntry(TransactionService.toOrder(t, transactionItem));
-							}
-					}
-					
-					return null;
+				protected List<MagicCardStock> doInBackground() throws Exception {
+					return TransactionService.validateTransaction(t);
 				}
 				@Override
 				protected void notifyEnd() {
 					
-					if(fullTransaction)
+					if(t.getStatut()==STAT.IN_PROGRESS)
 					{
-						try {
-							TransactionService.validateTransaction(t);
-						} catch (SQLException e) {
-							MTGControler.getInstance().notify(e);
-						}
-					}
-					else
-					{
-						logger.debug(temp);
-						MTGControler.getInstance().notify(new MTGNotification("Error Update", temp.toString(),MESSAGE_TYPE.WARNING));
+						MTGControler.getInstance().notify(new MTGNotification("Error Update", getResult().toString(),MESSAGE_TYPE.WARNING));
 					}
 				}
 				

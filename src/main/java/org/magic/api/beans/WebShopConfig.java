@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
+import org.iban4j.Bic;
+import org.iban4j.Iban;
+
 public class WebShopConfig implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -32,6 +35,9 @@ public class WebShopConfig implements Serializable {
 	private boolean automaticValidation;
 	private boolean automaticProduct;
 	
+	private String iban;
+	private String bic;
+	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
 		links= new ArrayList<>();
@@ -41,6 +47,26 @@ public class WebShopConfig implements Serializable {
 		contact=new Contact();
 	}
 	
+	public String getIban() {
+		return iban;
+	}
+
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
+	public String getBic() {
+		return bic;
+	}
+
+	public void setBic(String bic) {
+		this.bic = bic;
+	}
+
+
+
+
+
 	public void setPaypalClientId(String paypalClientId) {
 		this.paypalClientId = paypalClientId;
 	}
@@ -52,6 +78,8 @@ public class WebShopConfig implements Serializable {
 	public void setCurrencyCode(String currencyCode) {
 		this.currencyCode = currencyCode;
 	}
+	
+	
 	
 	public String getCurrencyCode() {
 		return currencyCode;

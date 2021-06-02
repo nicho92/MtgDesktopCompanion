@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -28,8 +28,11 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
 import org.magic.servers.impl.JSONHttpServer;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class TransactionService 
 {
@@ -101,8 +104,14 @@ public class TransactionService
 		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New transaction from " + t.getContact(),MESSAGE_TYPE.INFO));
 		
 		if(t.getConfig().isAutomaticValidation())
-			validateTransaction(t);
-		
+			ThreadManager.getInstance().executeThread(()->{
+					try {
+						validateTransaction(t);
+					} catch (Exception e) {
+						logger.error(e);
+					}
+			}, "Transaction " + t.getId() +" validation");
+			
 		
 		return ret;
 	
@@ -116,18 +125,38 @@ public class TransactionService
 				items.put(m, items.getOrDefault(m, 0)+m.getQte());
 
 		int max = Collections.max(items.values());
-		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(entry -> entry.getKey()).findAny().orElse(null);
+		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);
 	}
 	
-	public static void validateTransaction(Transaction t) throws SQLException {
+	public static List<MagicCardStock> validateTransaction(Transaction t) throws Exception {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(STAT.PAYMENT_WAITING);
+		List<MagicCardStock> st = new ArrayList<>();
+
+		for(MagicCardStock transactionItem : t.getItems())
+		{
+				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getIdstock());
+				if(transactionItem.getQte()>stock.getQte())
+				{
+					   t.setStatut(STAT.IN_PROGRESS);
+					   st.add(transactionItem);
+					   transactionItem.setComment("Not enought Stock ( "+stock.getQte()+")");
+				}
+				else
+				{
+					   stock.setQte(stock.getQte()-transactionItem.getQte());
+					   stock.setUpdate(true);
+					   t.setStatut(STAT.PAYMENT_WAITING);
+					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
+					   getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, transactionItem));
+					   sendMail(t,"TransactionValid","your order validate !");	
+				}
+		}
+			
 		saveTransaction(t,false);
-		
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 		
-		sendMail(t,"TransactionValid","your order validate !");	
-	
+		return st;
+		
 	}
 	
 	public static void payingTransaction(Transaction t, String providerName) throws SQLException {

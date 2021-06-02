@@ -14,7 +14,7 @@ public class ShoppingServer extends AbstractWebServer {
 
 	@Override
 	public String getName() {
-		return "Shopping Server";
+		return "WebShop";
 	}
 
 	@Override
