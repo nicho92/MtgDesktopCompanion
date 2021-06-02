@@ -357,8 +357,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/editions/list", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).listEditions(), transformer);
 
-		get("/e"
-				+ "ditions/:idSet", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
+		get("/editions/:idSet", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
 
 		
 		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) -> {
@@ -447,6 +446,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 			});
 
 		}, transformer);
+		
+		get("/stock/virtual/:collection", URLTools.HEADER_JSON,(request, response) ->{
+			return getCached(request.pathInfo(), new Callable<Object>() {
+
+				@Override
+				public Object call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(":collection"))).stream().map(e->{
+						var mcs =  MTGControler.getInstance().getDefaultStock();
+						mcs.setMagicCard(e);
+						return mcs;
+						
+					}).collect(Collectors.toList());
+				}
+			});
+
+		}, transformer);
+		
 		
 		get("/stock/sets/:collection", URLTools.HEADER_JSON,(request, response) ->{
 			

@@ -108,7 +108,8 @@
 								    	data=data.reverse();
 								    	for(let i=0;i<maxLastProduct;i++)
 							    		{
-							    			$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
+											if(data[i].qte>0)
+							    				$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
 							    		}
 								    });
 					    	});

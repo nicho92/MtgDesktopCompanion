@@ -234,15 +234,15 @@ public class JsonExport extends AbstractCardExport {
 
 	
 	public <T extends MTGPlugin> JsonArray convert(List<T> l) {
-		JsonArray arr = new JsonArray();
+		var arr = new JsonArray();
 		for (MTGPlugin plug : l) {
-			JsonObject obj = new JsonObject();
+			var obj = new JsonObject();
 			obj.addProperty("name", plug.getName());
 			obj.addProperty("type", plug.getType().toString());
 			obj.addProperty("enabled", plug.isEnable());
 			obj.addProperty("version", plug.getVersion());
 			obj.addProperty("status", plug.getStatut().name());
-			obj.add("config", toJsonElement(plug.getProperties()));
+			//obj.add("config", toJsonElement(plug.getProperties()));
 			arr.add(obj);
 		}
 		return arr;
