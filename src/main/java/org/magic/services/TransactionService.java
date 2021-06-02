@@ -31,8 +31,6 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class TransactionService 
 {
@@ -128,7 +126,7 @@ public class TransactionService
 		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);
 	}
 	
-	public static List<MagicCardStock> validateTransaction(Transaction t) throws Exception {
+	public static List<MagicCardStock> validateTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		List<MagicCardStock> st = new ArrayList<>();
 
