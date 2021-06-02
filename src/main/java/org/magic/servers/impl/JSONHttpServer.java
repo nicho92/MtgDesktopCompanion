@@ -562,8 +562,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/decks/list", URLTools.HEADER_JSON, (request, response) -> {
 
-			JsonArray arr = new JsonArray();
-			JsonExport exp = new JsonExport();
+			var arr = new JsonArray();
+			var exp = new JsonExport();
 
 			for (MagicDeck d : manager.listDecks()) {
 				JsonElement el = exp.toJsonDeck(d);
@@ -598,7 +598,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/admin/plugins/list", URLTools.HEADER_JSON, (request, response) -> {
-			JsonObject obj = new JsonObject();
+			var obj = new JsonObject();
 			PluginRegistry.inst().entrySet().forEach(entry->obj.add(entry.getValue().getType().name(), converter.convert(listPlugins(entry.getKey()))));
 			return obj;
 		}, transformer);
@@ -616,7 +616,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> {
-			return MTGControler.getInstance().getWebConfig();
+			
+			return getCached(request.pathInfo(), new Callable<Object>() {
+
+				@Override
+				public Object call() throws Exception {
+					return MTGControler.getInstance().getWebConfig();
+				}
+			});
+			
 		}, transformer);
 		
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> {

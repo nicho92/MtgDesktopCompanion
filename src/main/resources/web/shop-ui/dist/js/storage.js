@@ -11,6 +11,22 @@ $.ajaxSetup({cache:true});
 
 function getConfig()
 {
+		var d;
+		$.ajax({
+			url: restserver+"/webshop/config",
+			async:false,
+			success: function(data)
+			{
+				d=data;
+			}
+			});
+        
+		return  d;
+}
+
+
+/*function getConfig()
+{
 	if(!storage.getItem(configKey))
 	{
 		$.ajax({
@@ -22,7 +38,7 @@ function getConfig()
         });
 	}
 	return JSON.parse(storage.getItem(configKey));
-}
+}*/
 
 
 /////////////USER
