@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -164,7 +163,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	@Override
 	public String getVersion() {
 		try {
-			Driver d = DriverManager.getDriver(getjdbcUrl());
+			var d = DriverManager.getDriver(getjdbcUrl());
 			return d.getMajorVersion()+"."+d.getMinorVersion();
 		} catch (SQLException e) {
 			return "1.0";
@@ -568,6 +567,24 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 		
 	}
+	
+	
+	@Override
+	public void deleteTransaction(List<Transaction> state) throws SQLException {
+		logger.debug("remove " + state.size() + " transactions");
+		StringBuilder st = new StringBuilder();
+		st.append("DELETE FROM transactions where id IN (");
+		for (Transaction sto : state) {
+			st.append(sto.getId()).append(",");
+			notify(sto);
+		}
+		st.append(")");
+		String sql = st.toString().replace(",)", ")");
+		try (var c = pool.getConnection();Statement pst = c.createStatement()) {
+			pst.executeUpdate(sql);
+		}
+	}
+	
 	
 	
 	@Override

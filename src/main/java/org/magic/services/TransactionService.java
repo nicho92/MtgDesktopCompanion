@@ -141,21 +141,44 @@ public class TransactionService
 				}
 				else
 				{
+					   transactionItem.setComment("");
 					   stock.setQte(stock.getQte()-transactionItem.getQte());
 					   stock.setUpdate(true);
 					   t.setStatut(STAT.PAYMENT_WAITING);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, transactionItem));
-					   sendMail(t,"TransactionValid","your order validate !");	
+					 
 				}
 		}
-			
+		
+		if(st.isEmpty())
+			  sendMail(t,"TransactionValid","your order validate !");	
+		
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 		
 		return st;
 		
 	}
+	
+	public static void cancelTransaction(Transaction t) throws SQLException {
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		
+		for(MagicCardStock transactionItem : t.getItems())
+		{
+				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getIdstock());
+					   stock.setQte(stock.getQte()+transactionItem.getQte());
+					   stock.setUpdate(true);
+					   t.setStatut(STAT.CANCELED);
+					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
+		}
+		
+		saveTransaction(t,false);
+		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
+	}
+	
+	
+	
 	
 	public static void payingTransaction(Transaction t, String providerName) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());

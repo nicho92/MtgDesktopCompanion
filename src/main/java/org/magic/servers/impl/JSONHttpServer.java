@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.swing.Icon;
@@ -44,6 +43,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -648,7 +648,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> {
-			return getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params("number"));
+			return getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params(":number"));
 		}, transformer);
 		
 		
@@ -663,6 +663,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			
 			return c;
+		}, transformer);
+		
+		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
+			
+			Contact c=new Gson().fromJson(request.queryParams("user"), Contact.class);
+			
+			var t = getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
+			
+			if(t.getContact().getId()==c.getId())
+			{
+				t.setStatut(STAT.CANCELATION_ASK);
+				getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+				return "OK";
+			}
+			else
+			{
+				return "Wrong User";	
+			}
+			
 		}, transformer);
 		
 		

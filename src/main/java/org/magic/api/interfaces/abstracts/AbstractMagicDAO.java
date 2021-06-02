@@ -139,6 +139,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 	}
 	
+	@Override
+	public void deleteTransaction(List<Transaction> t) throws SQLException {
+		for(Transaction transaction : t)
+			deleteTransaction(transaction);
+		
+	}
+	
 	
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException {

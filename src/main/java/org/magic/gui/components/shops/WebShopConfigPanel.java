@@ -214,7 +214,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		var valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
 		
 		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));
-		var cardPanel = new CardListPanel(topProduct.getMagicCard());
+		var cardPanel = new CardListPanel();
+		
+		if(topProduct!=null)
+			cardPanel.setMagicCard(topProduct.getMagicCard());
+		
+		
 		paneSlide.add(maxLastProductSlide);
 		paneSlide.add(valueLbl);
 		
@@ -230,12 +235,14 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			  		
 				if(chkAutoProduct.isSelected())
 					try {
-			  			b.setEnabled(!chkAutoProduct.isSelected());
+			  			
 			  			topProduct = TransactionService.getBestProduct();
 						cardPanel.setMagicCard(topProduct.getMagicCard());
 					} catch (Exception e1) {
 						logger.error(e1);
-					} 
+					}
+				
+				b.setEnabled(!chkAutoProduct.isSelected());
 		});
 		chkAutoProduct.setSelected(conf.isAutomaticProduct());
 		

@@ -43,6 +43,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private JButton btnWooCommerce;
 	private JButton btnPaid;
 	private JButton btnTrack;
+	private JButton btnCancel;
 	
 	public void setTransaction(Transaction t)
 	{
@@ -53,6 +54,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSend.setEnabled(t!=null);
 		btnWooCommerce.setEnabled(t!=null && t.isWoocommerceAvailable());
 		btnTrack.setEnabled(t!=null && t.getStatut()==STAT.SENT);
+		btnCancel.setEnabled(t!=null  && (t.getStatut()==STAT.PAID || t.getStatut()==STAT.CANCELATION_ASK || t.getStatut()==STAT.IN_PROGRESS || t.getStatut()==STAT.PAYMENT_WAITING || t.getStatut()==STAT.NEW) );
 	}
 	
 	
@@ -65,6 +67,8 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnWooCommerce = new JButton("Send WooCommerce", new WooCommerceExport().getIcon());
 		btnPaid = new JButton("Mark as Paid", MTGConstants.ICON_TAB_PRICES);
 		btnTrack = new JButton("Track", MTGConstants.ICON_TAB_DELIVERY);
+		btnCancel = new JButton("Cancel", MTGConstants.ICON_SMALL_CANCEL);
+		
 		
 		btnSend.setEnabled(false);
 		btnSave.setEnabled(false);
@@ -72,13 +76,16 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnPaid.setEnabled(false);
 		btnWooCommerce.setEnabled(false);
 		btnTrack.setEnabled(false);
+		btnCancel.setEnabled(false);
 		
 		var panelCenter = new JPanel();
-		panelCenter.setLayout(new GridLayout(6,1));
+		panelCenter.setLayout(new GridLayout(7,1));
 		
 		panelCenter.add(btnSave);
 		panelCenter.add(btnAcceptTransaction);
 		panelCenter.add(btnPaid);
+		panelCenter.add(btnCancel);
+		
 		panelCenter.add(btnSend);
 		panelCenter.add(btnTrack);
 		panelCenter.add(btnWooCommerce);
@@ -133,6 +140,8 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		});
 		
 		
+		
+		
 		btnSend.addActionListener(e->{
 			var pane = new JPanel();
 			
@@ -154,21 +163,43 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				
 				t.setTransporterShippingCode(field.getText());
 				
+				try {
+					TransactionService.sendTransaction(t);
+				} catch (SQLException e1) {
+					MTGControler.getInstance().notify(e1);
+				}
+				
 				jd.dispose();
 			});
 			
 			btnC.addActionListener(al->jd.dispose());
 			
 			jd.setVisible(true);
-			
+				
+		});
 		
-			
-			try {
-				TransactionService.sendTransaction(t);
-			} catch (SQLException e1) {
-				MTGControler.getInstance().notify(e1);
-			}
-			
+		btnCancel.addActionListener(e->{
+			loader.start();
+			var sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
+			{
+				@Override
+				protected Void doInBackground() throws Exception {
+					TransactionService.cancelTransaction(t);
+					return null;
+				}
+				@Override
+				protected void notifyEnd() {
+					
+					if(t.getStatut()!=STAT.CANCELED)
+					{
+						MTGControler.getInstance().notify(new MTGNotification("Error Update", getResult().toString(),MESSAGE_TYPE.WARNING));
+					}
+				}
+				
+				
+				
+			};
+			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
 		});
 
 		btnAcceptTransaction.addActionListener(e->{

@@ -147,17 +147,17 @@
 						        		"render": function(data, type, row, meta){
 								                   if(type === 'display'){
 									        			if(data=='IN_PROGRESS')
-									        					data="<i class='fa fa-2x fa-cogs' title='"+data+"'></i>";
+									        					data="<em class='fa fa-2x fa-cogs' title='"+data+"'></em>";
 										        			else if(data=='CLOSED')
-										        				data="<i class='fa fa-2x fa-check' title='"+data+"'></i>"
+										        				data="<em class='fa fa-2x fa-check' title='"+data+"'></em>"
 										        			else if(data=='CANCELED')
-										        				data="<i class='fa fa-2x fa-ban' title='"+data+"'></i>";
+										        				data="<em class='fa fa-2x fa-ban' title='"+data+"'></em>";
 										        			else if(data=='SENT')
-										        				data="<i class='fa fa-2x fa-truck' title='"+data+"'></i>";
+										        				data="<em class='fa fa-2x fa-truck' title='"+data+"'></em>";
 										        			else if(data=='PAYMENT_WAITING')
-											        				data="<i class='fa fa-2x fa-money-check-alt' title='"+data+"'></i>";
+											        				data="<em class='fa fa-2x fa-money-check-alt' title='"+data+"'></em>";
 											        		else if(data=='PAID')
-												        			data="<i class='fa fa-2x fa-hand-holding-usd' title='"+data+"'></i>";
+												        			data="<em class='fa fa-2x fa-hand-holding-usd' title='"+data+"'></em>";
 										        		
 								                   }
 								                  return data;
@@ -184,6 +184,7 @@
 
 									{
 						        		"data":"shippingPrice"
+						        		
 						        	},
 						        	{
 						        		"data":"items",
@@ -207,16 +208,21 @@
 						        	},
 						        	{
 						        		"data":"id",
+						        		
 						        		"render": function(d, type, row, meta)
 						        		{
 						        			if(type === 'display'){
 								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
-								                   d="<a href='paypal.html?id="+d+"'><i class='fab fa-2x fa-cc-paypal'></i></a>";
+								                   d="<a href='paypal.html?id="+d+"'><em class='fab fa-2x fa-cc-paypal'></em></a>";
 								                else  
 								                	if(row.statut=='SENT')
-								                   d="<a data-toggle='modal' class='btn btn-primary btn-sm' data-target='#exampleModal' href='#' trackid='"+row.transporterShippingCode+"' transporter='"+row.transporter+"' ><i class='fas fa-1x fa-barcode'></i></a>";
+								                   d="<a data-toggle='modal' class='btn btn-primary btn-sm' data-target='#exampleModal' href='#' trackid='"+row.transporterShippingCode+"' transporter='"+row.transporter+"' ><em class='fas fa-1x fa-barcode'></em></a>";
 								                else 
 								                	d="";
+								              	
+								              	
+								              	if(row.statut=='PAYMENT_WAITING' || row.statut=='IN_PROGRESS' || row.statut=='NEW' || row.statut=='PAYMENT_WAITING')
+								              		d=d+"<a name='linkCancel' transaction='"+row.id+"' class='btn btn-primary btn-sm' href='#' title='ask cancelation'><em class='fas fa-1x fa-window-close'></em></a>";
 								              	
 							        		}
 						        			
@@ -230,13 +236,30 @@
 					        		"fnDrawCallback" :function(oSettings, json) {
 							        	$("a[data-toggle=modal]").click(function() {
 							        		 $.getJSON(restserver+"/track/"+$(this).attr("transporter") +"/"+ $(this).attr("trackid"), function(ret){
-							        			 
-							        			 var last = ret.steps[ret.steps.length-1];
+							        			 var last = ret.steps[0];
 							        			 $("#trackcontent").html(last.dateStep + " " + last.descriptionStep);
 							        			 $("#idmodal").text(ret.productName +" #"+ret.number);
 							        			 $("#linkTrack").attr("href",ret.trackingUri);
 							        		 });
 							        	});
+							        	
+							        	$("a[name=linkCancel]").click(function(){
+							        		$.post(restserver+"/webshop/transaction/cancel/"+$( this ).attr("transaction"),
+							        			{	 
+							        		    "user" : JSON.stringify(getCurrentUser())
+							        			},
+							        			function( data ) {
+						        					if(data==null)
+						        					{
+						        						alert("Error Cancelation");
+						        					}
+						        				}
+						        				,'json');
+							        	});
+							        	
+							        	
+							        	
+							        	
 							        }
 						        
 							
@@ -292,70 +315,70 @@
 			<div class="row">
     	
 			<div class="card" style="width: 20%;">
-				<div class="card-header bg-info"><i class="fas fa-user"></i> My Account</div>
+				<div class="card-header bg-info"><em class="fas fa-user"></em> My Account</div>
 				<div class="card-body ">
 						<form id="profilForm" action="">
 							<div class="form-group input-group">
 								<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
 								 </div>
-						        <input name="name" class="form-control" placeholder="Name" type="text"/>
+						        <emnput name="name" class="form-control" placeholder="Name" type="text"/>
 						    </div> 
 						    
 						    <div class="form-group input-group">
 								<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
 								 </div>
-						        <input name="lastname" class="form-control" placeholder="Last name" type="text"/>
+						        <emnput name="lastname" class="form-control" placeholder="Last name" type="text"/>
 						    </div>
 						    
 						    <div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-envelope"></em> </span>
 								 </div>
-						        <input name="email" class="form-control" placeholder="Email address" type="email" disabled/>
+						        <emnput name="email" class="form-control" placeholder="Email address" type="email" disabled/>
 						    </div>
 					
 						    <div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-phone"></em> </span>
 								</div>
 								
-						    	<input name="telephone" class="form-control" placeholder="Phone number" type="text" />
+						    	<emnput name="telephone" class="form-control" placeholder="Phone number" type="text" />
 						    </div> 
 					
 						    <div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-building"></em> </span>
 								</div>
 								<textarea name="address" class="form-control" placeholder="Address" rows="2"></textarea>
 							</div>
 							 <div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-sort-numeric-up-alt"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-sort-numeric-up-alt"></em> </span>
 								</div>
-								<input name="zipCode" class="form-control" placeholder="Zip Code" type="text" maxlength="10"/>
+								<emnput name="zipCode" class="form-control" placeholder="Zip Code" type="text" maxlength="10"/>
 						    </div> 
 			
 			 				<div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-city"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-city"></em> </span>
 								</div>
-								<input name="city" class="form-control" placeholder="City" type="text" maxlength="50"/>
+								<emnput name="city" class="form-control" placeholder="City" type="text" maxlength="50"/>
 						    </div> 
 							
 							 <div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-flag"></i> </span>
+								    <span class="input-group-text"> <em class="fa fa-flag"></em> </span>
 								</div>
 								<select name="country" class="form-control input-medium bfh-countries"></select>
 							</div>
 							
 							<div class="form-group input-group">
 						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <i class="fa fa-envelope"></i>   </span>
+								    <span class="input-group-text"> <em class="fa fa-envelope"></em>   </span>
 								</div>   Accept email :
-								<input type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
+								<emnput type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
 							</div>					        
 
 
@@ -371,9 +394,9 @@
 			
 			
 			<div class="card ml-2" style="width: 75%;">
-				<div class="card-header bg-info"><i class="fas fa-file-alt"></i> My Orders</div>
+				<div class="card-header bg-info"><em class="fas fa-file-alt"></em> My Orders</div>
 					<div class="card-body" >
-						<table id="tableTransactions">
+						<table id="tableTransactions" aria-describedby="">
 							<thead>
 					            <tr>
 					            	<th>id</th>

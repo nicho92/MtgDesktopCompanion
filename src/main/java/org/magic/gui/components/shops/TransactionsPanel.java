@@ -1,10 +1,13 @@
 package org.magic.gui.components.shops;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -45,7 +48,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
+		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
 		btnMerge.setEnabled(false);
+		btnDelete.setEnabled(false);
 		
 		table = UITools.createNewTable(model);
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
@@ -70,6 +75,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		add(tabbedPane,BorderLayout.SOUTH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
+		panneauHaut.add(btnDelete);
 		
 		
 		table.getSelectionModel().addListSelectionListener(lsl->{
@@ -82,7 +88,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 			
 			btnMerge.setEnabled(t.size()>1);
-			
+			btnDelete.setEnabled(!t.isEmpty());
 			
 			stockDetailPanel.initMagicCardStock(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
@@ -93,6 +99,24 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		btnRefresh.addActionListener(al->reload());
 		
+		
+		btnDelete.addActionListener(al->{
+			
+			
+			int res = JOptionPane.showConfirmDialog(this, "Sure ?","Delete Transaction will NOT update stock",JOptionPane.YES_NO_OPTION);
+			
+			
+			if(res == JOptionPane.YES_OPTION) {
+			
+				List<Transaction> t = UITools.getTableSelections(table, 0);
+				try {
+					getEnabledPlugin(MTGDao.class).deleteTransaction(t);
+					reload();
+				} catch (Exception e) {
+					MTGControler.getInstance().notify(e);
+				}
+			}
+		});
 		
 		btnMerge.addActionListener(al->{
 			List<Transaction> t = UITools.getTableSelections(table, 0);

@@ -76,6 +76,8 @@ public interface MTGDao extends MTGPlugin {
 	public int saveOrUpdateTransaction(Transaction t)throws SQLException;
 	public void deleteTransaction(Transaction t)throws SQLException;
 	public Transaction getTransaction(int id) throws SQLException;
+	public void deleteTransaction(List<Transaction> t) throws SQLException;
+	
 	
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
 	public Contact getContactById(int id)  throws SQLException;
@@ -108,5 +110,6 @@ public interface MTGDao extends MTGPlugin {
 	public void executeQuery(String query)throws SQLException;
 	
 	public boolean isSQL();
+
 
 }
