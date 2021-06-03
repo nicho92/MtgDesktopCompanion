@@ -21,6 +21,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
@@ -62,7 +63,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		addVariable("shoppers",listEnabledPlugins(MTGShopper.class));
 		addVariable("importexporters",listEnabledPlugins(MTGCardsExport.class));
 		addVariable("controler",MTGControler.getInstance());
-		
+		addVariable("servers",listEnabledPlugins(MTGServer.class));
 	}
 	
 	@Override

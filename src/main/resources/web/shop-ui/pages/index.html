@@ -45,7 +45,7 @@
     		var percentReduction= 0;
 			
 			data = getConfig();
-			
+	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -113,7 +113,7 @@
 								    	data=data.reverse();
 								    	for(let i=0;i<maxLastProduct;i++)
 							    		{
-											//if(data[i].qte>0)
+											if(data[i].qte>0)
 							    				$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
 							    		}
 								    });
