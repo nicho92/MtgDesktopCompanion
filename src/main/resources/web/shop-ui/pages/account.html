@@ -46,6 +46,19 @@
 			$("#footer").load("footer.html", function() {
 		 
 			var data = getConfig();
+			
+			
+				$("input[name=name]").val(getCurrentUser().name);
+				$("input[name=lastname]").val(getCurrentUser().lastName);
+				$("input[name=email]").val(getCurrentUser().email);
+				$("input[name=telephone]").val(getCurrentUser().telephone);
+				$("textarea[name=address]").val(getCurrentUser().address);
+				$("select[name=country]").val(getCurrentUser().country);
+				$("input[name=acceptEmail]").prop("checked",getCurrentUser().emailAccept);
+				$("input[name=zipCode]").val(getCurrentUser().zipCode);
+				$("input[name=city]").val(getCurrentUser().city);
+			
+			
 		    $("#profilForm").validate({
 				  debug: false,
 				  errorClass: "alert-error",
@@ -269,15 +282,7 @@
 		    });
 
 
-				$("input[name=name]").val(getCurrentUser().name);
-				$("input[name=lastname]").val(getCurrentUser().lastName);
-				$("input[name=email]").val(getCurrentUser().email);
-				$("input[name=telephone]").val(getCurrentUser().telephone);
-				$("textarea[name=address]").val(getCurrentUser().address);
-				$("select[name=country]").val(getCurrentUser().country);
-				$("input[name=acceptEmail]").prop("checked",getCurrentUser().emailAccept);
-				$("input[name=zipCode]").val(getCurrentUser().zipCode);
-				$("input[name=city]").val(getCurrentUser().city);
+			
 				
 				
 				
@@ -322,21 +327,21 @@
 								<div class="input-group-prepend">
 								    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
 								 </div>
-						        <emnput name="name" class="form-control" placeholder="Name" type="text"/>
+						        <input name="name" class="form-control" placeholder="Name" type="text"/>
 						    </div> 
 						    
 						    <div class="form-group input-group">
 								<div class="input-group-prepend">
 								    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
 								 </div>
-						        <emnput name="lastname" class="form-control" placeholder="Last name" type="text"/>
+						        <input name="lastname" class="form-control" placeholder="Last name" type="text"/>
 						    </div>
 						    
 						    <div class="form-group input-group">
 						    	<div class="input-group-prepend">
 								    <span class="input-group-text"> <em class="fa fa-envelope"></em> </span>
 								 </div>
-						        <emnput name="email" class="form-control" placeholder="Email address" type="email" disabled/>
+						        <input name="email" class="form-control" placeholder="Email address" type="email" disabled/>
 						    </div>
 					
 						    <div class="form-group input-group">
@@ -344,7 +349,7 @@
 								    <span class="input-group-text"> <em class="fa fa-phone"></em> </span>
 								</div>
 								
-						    	<emnput name="telephone" class="form-control" placeholder="Phone number" type="text" />
+						    	<input name="telephone" class="form-control" placeholder="Phone number" type="text" />
 						    </div> 
 					
 						    <div class="form-group input-group">
@@ -357,14 +362,14 @@
 						    	<div class="input-group-prepend">
 								    <span class="input-group-text"> <em class="fa fa-sort-numeric-up-alt"></em> </span>
 								</div>
-								<emnput name="zipCode" class="form-control" placeholder="Zip Code" type="text" maxlength="10"/>
+								<input name="zipCode" class="form-control" placeholder="Zip Code" type="text" maxlength="10"/>
 						    </div> 
 			
 			 				<div class="form-group input-group">
 						    	<div class="input-group-prepend">
 								    <span class="input-group-text"> <em class="fa fa-city"></em> </span>
 								</div>
-								<emnput name="city" class="form-control" placeholder="City" type="text" maxlength="50"/>
+								<input name="city" class="form-control" placeholder="City" type="text" maxlength="50"/>
 						    </div> 
 							
 							 <div class="form-group input-group">
@@ -378,7 +383,7 @@
 						    	<div class="input-group-prepend">
 								    <span class="input-group-text"> <em class="fa fa-envelope"></em>   </span>
 								</div>   Accept email :
-								<emnput type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
+								<input type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
 							</div>					        
 
 
