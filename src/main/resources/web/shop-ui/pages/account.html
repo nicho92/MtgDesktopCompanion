@@ -20,7 +20,7 @@
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-   <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+    <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
  	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
@@ -32,7 +32,7 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
  	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js" type="text/javascript"></script>
  	<script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
- 	
+	<script src="//cdn.datatables.net/plug-ins/1.10.24/dataRender/datetime.js" type="text/javascript"></script>
  	
 
 
@@ -141,18 +141,21 @@
 					
 					    	$("#tableTransactions").DataTable({
 						 		"data":datat,
+								"iDisplayLength": 5,
+								"sDom": '<"top"flp>rt<"bottom"i><"clear">',
 						    	"responsive": true,
 						        "processing": true,
 						        "pageLength": 5,
 						        "info":     false,
-						        "paging":   false,
+						        "paging":   true,
 						        "searching": false,
 								"columns": [
 					        		{ 
 						        	  "data": "id"
 						        	},
 						        	{
-						        		"data":"dateCreation"
+						        		"data":"dateCreation",
+										//"render" : $.fn.dataTable.render.moment( 'DD MMM YYYY' )
 						        		
 						        	},
 						        	{
@@ -171,14 +174,12 @@
 											        				data="<em class='fa fa-2x fa-money-check-alt' title='"+data+"'></em>";
 											        		else if(data=='PAID')
 												        			data="<em class='fa fa-2x fa-hand-holding-usd' title='"+data+"'></em>";
-										        		
 								                   }
 								                  return data;
 						        			}
 						        	},
 						        	{
 						        		"data":"items",
-						        		
 						        		"render": function(data, type, row, meta){
 							                   if(type === 'display'){
 							                	  var content="<ul>";
@@ -196,7 +197,10 @@
 						        	},
 
 									{
-						        		"data":"shippingPrice"
+						        		"data":"shippingPrice",
+										"render": function(data, type, row, meta){
+											return data.toFixed(2) +  " " +currency;
+										}
 						        		
 						        	},
 						        	{
@@ -221,10 +225,10 @@
 						        	},
 						        	{
 						        		"data":"id",
-						        		
 						        		"render": function(d, type, row, meta)
 						        		{
-						        			if(type === 'display'){
+						        			if(type === 'display')
+											{
 								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
 								                   d="<a href='paypal.html?id="+d+"'><em class='fab fa-2x fa-cc-paypal'></em></a>";
 								                else  
@@ -235,10 +239,8 @@
 								              	
 								              	
 								              	if(row.statut=='PAYMENT_WAITING' || row.statut=='IN_PROGRESS' || row.statut=='NEW' || row.statut=='PAYMENT_WAITING')
-								              		d=d+"<a name='linkCancel' transaction='"+row.id+"' class='btn btn-primary btn-sm' href='#' title='ask cancelation'><em class='fas fa-1x fa-window-close'></em></a>";
-								              	
+								              		d=d+" <a name='linkCancel' transaction='"+row.id+"' href='#' title='ask cancelation'><em class='fas fa-2x fa-window-close'></em></a>";
 							        		}
-						        			
 						        			return d;
 						        		}	
 						        	}
@@ -270,9 +272,7 @@
 						        				,'json');
 							        	});
 							        	
-							        	
-							        	
-							        	
+									
 							        }
 						        
 							
@@ -299,7 +299,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="idmodal">Modal title</h5>
+        <h5 class="modal-title" id="idmodal">No Information</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -319,108 +319,102 @@
 	<div class="container-fluid ">
 			<div class="row">
     	
-			<div class="card" style="width: 20%;">
-				<div class="card-header bg-info"><em class="fas fa-user"></em> My Account</div>
-				<div class="card-body ">
-						<form id="profilForm" action="">
-							<div class="form-group input-group">
-								<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
-								 </div>
-						        <input name="name" class="form-control" placeholder="Name" type="text"/>
-						    </div> 
-						    
-						    <div class="form-group input-group">
-								<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
-								 </div>
-						        <input name="lastname" class="form-control" placeholder="Last name" type="text"/>
-						    </div>
-						    
-						    <div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-envelope"></em> </span>
-								 </div>
-						        <input name="email" class="form-control" placeholder="Email address" type="email" disabled/>
-						    </div>
-					
-						    <div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-phone"></em> </span>
-								</div>
-								
-						    	<input name="telephone" class="form-control" placeholder="Phone number" type="text" />
-						    </div> 
-					
-						    <div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-building"></em> </span>
-								</div>
-								<textarea name="address" class="form-control" placeholder="Address" rows="2"></textarea>
-							</div>
-							 <div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-sort-numeric-up-alt"></em> </span>
-								</div>
-								<input name="zipCode" class="form-control" placeholder="Zip Code" type="text" maxlength="10"/>
-						    </div> 
-			
-			 				<div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-city"></em> </span>
-								</div>
-								<input name="city" class="form-control" placeholder="City" type="text" maxlength="50"/>
-						    </div> 
+					<div class="card" style="width: 20%;">
+						<div class="card-header bg-info"><em class="fas fa-user"></em> My Account</div>
+						<div class="card-body ">
+								<form id="profilForm" action="">
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
+										 </div>
+								        <input name="name" class="form-control" placeholder="Name" type="text"/>
+								    </div> 
+								    
+								    <div class="form-group input-group">
+										<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-user"></em> </span>
+										 </div>
+								        <input name="lastname" class="form-control" placeholder="Last name" type="text"/>
+								    </div>
+								    
+								    <div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-envelope"></em> </span>
+										 </div>
+								        <input name="email" class="form-control" placeholder="Email address" type="email" disabled/>
+								    </div>
 							
-							 <div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-flag"></em> </span>
-								</div>
-								<select name="country" class="form-control input-medium bfh-countries"></select>
-							</div>
+								    <div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-phone"></em> </span>
+										</div>
+										
+								    	<input name="telephone" class="form-control" placeholder="Phone number" type="text" />
+								    </div> 
 							
-							<div class="form-group input-group">
-						    	<div class="input-group-prepend">
-								    <span class="input-group-text"> <em class="fa fa-envelope"></em>   </span>
-								</div>   Accept email :
-								<input type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
-							</div>					        
-
-
-                            
-						    <div class="form-group">
-						        <button type="submit" id="updateBtn" class="btn btn-primary btn-block"> Update  </button>
-						    </div>      
-				     </form>
-				</div>
-				<div class=""><div id="confirmation" class="card-footer" role="alert"></div></div>
-				
-			</div>
-			
-			
-			<div class="card ml-2" style="width: 75%;">
-				<div class="card-header bg-info"><em class="fas fa-file-alt"></em> My Orders</div>
-					<div class="card-body" >
-						<table id="tableTransactions" aria-describedby="">
-							<thead>
-					            <tr>
-					            	<th>id</th>
-					                <th>date</th>
-					                <th>statut</th>
-					                <th>cards</th>
- 									<th>shipping</th>
-					                <th>prices</th>
-					                <th>action</th>
-					            </tr>
-					        </thead>
+								    <div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-building"></em> </span>
+										</div>
+										<textarea name="address" class="form-control" placeholder="Address" rows="2"></textarea>
+									</div>
+									 <div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-sort-numeric-up-alt"></em> </span>
+										</div>
+										<input name="zipCode" class="form-control" placeholder="Zip Code" type="text" maxlength="10"/>
+								    </div> 
+					
+					 				<div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-city"></em> </span>
+										</div>
+										<input name="city" class="form-control" placeholder="City" type="text" maxlength="50"/>
+								    </div> 
+									
+									 <div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-flag"></em> </span>
+										</div>
+										<select name="country" class="form-control input-medium bfh-countries"></select>
+									</div>
+									
+									<div class="form-group input-group">
+								    	<div class="input-group-prepend">
+										    <span class="input-group-text"> <em class="fa fa-envelope"></em>   </span>
+										</div>   Accept email :
+										<input type="checkbox" name="acceptEmail" class="form-control input-medium bfh-acceptEmail"></input>
+									</div>					        
+								    <div class="form-group">
+								        <button type="submit" id="updateBtn" class="btn btn-primary btn-block"> Update  </button>
+								    </div>      
+						     </form>
+						</div>
+						<div class=""><div id="confirmation" class="card-footer" role="alert"></div></div>
 						
-						</table>
 					</div>
-					<div class=""><div id="confirmation" class="card-footer" role="alert"></div></div>
-			</div>
-			
-			
-			
+					
+					
+					<div class="card" style="width: 75%;">
+						<div class="card-header bg-info"><em class="fas fa-file-alt"></em> My Orders</div>
+							<div class="card-body"style="width:100%" >
+								<table id="tableTransactions" aria-describedby="" class="cell-border table table-striped table-bordered" style="width:100%" >
+									<thead>
+							            <tr>
+							            	<th>id</th>
+							                <th>date</th>
+							                <th>statut</th>
+							                <th>cards</th>
+		 									<th>shipping</th>
+							                <th>prices</th>
+							                <th>action</th>
+							            </tr>
+							        </thead>
+								
+								</table>
+							</div>
+							<div class=""><div id="confirmation" class="card-footer" role="alert"></div></div>
+					</div>
 			</div>
 		</div>
 <br/>

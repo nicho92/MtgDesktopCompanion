@@ -9,7 +9,7 @@ var configKey = "config";
 $.ajaxSetup({cache:true});
 
 
-function getConfig()
+/*function getConfig()
 {
 		var d;
 		$.ajax({
@@ -23,9 +23,9 @@ function getConfig()
         
 		return  d;
 }
+*/
 
-
-/*function getConfig()
+function getConfig()
 {
 	if(!storage.getItem(configKey))
 	{
@@ -38,7 +38,7 @@ function getConfig()
         });
 	}
 	return JSON.parse(storage.getItem(configKey));
-}*/
+}
 
 
 /////////////USER

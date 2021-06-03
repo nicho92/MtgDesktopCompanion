@@ -103,7 +103,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnDelete.addActionListener(al->{
 			
 			
-			int res = JOptionPane.showConfirmDialog(this, "Sure ?","Delete Transaction will NOT update stock",JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(this, "Delete Transaction will NOT update stock","Sure ?",JOptionPane.YES_NO_OPTION);
 			
 			
 			if(res == JOptionPane.YES_OPTION) {
