@@ -15,7 +15,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 # Website : 
 [MTG Companion website](https://www.MtgCompanion.org/)
 
-[![GitHub stars](https://img.shields.io/badge/download-2.24-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[![GitHub stars](https://img.shields.io/badge/download-2.25-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 
 # Launch
 
