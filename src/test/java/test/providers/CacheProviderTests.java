@@ -96,7 +96,7 @@ public class CacheProviderTests {
 			System.out.println("putPictures ERROR "+e );
 		}
 		
-		p.clear(new MagicEdition("LEA"));
+		
 		p.clear();
 
 	}

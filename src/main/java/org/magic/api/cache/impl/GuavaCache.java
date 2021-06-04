@@ -51,12 +51,7 @@ public class GuavaCache extends AbstractCacheProvider {
 		setProperty("EXPIRATION_MINUTE", "10");
 	}
 
-	@Override
-	public void clear(MagicEdition ed) {
-		cache.invalidate(ed);
-	}
-	
-	
+
 	@Override
 	public void clear() {
 		cache.invalidateAll();

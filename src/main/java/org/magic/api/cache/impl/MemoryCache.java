@@ -43,12 +43,7 @@ public class MemoryCache extends AbstractCacheProvider {
 	public void clear() {
 		cache.clear();
 	}
-	
-	@Override
-	public void clear(MagicEdition ed) {
-		logger.debug("not implemented");
-		
-	}
+
 
 	@Override
 	public String getVersion() {

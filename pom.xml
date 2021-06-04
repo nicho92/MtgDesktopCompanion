@@ -63,6 +63,16 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>org.cache2k</groupId>
+		    <artifactId>cache2k-api</artifactId>
+		    <version>2.1.2.Alpha</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.cache2k</groupId>
+		    <artifactId>cache2k-core</artifactId>
+		    <version>2.1.2.Alpha</version>
+		</dependency>
+		<dependency>
 		  <groupId>org.iban4j</groupId>
 		  <artifactId>iban4j</artifactId>
 		  <version>3.2.3-RELEASE</version>
@@ -168,7 +178,7 @@
 			<version>67.0.6</version>
 		</dependency>
 		<dependency>
-			<groupId>com.atlassian.commonmark</groupId>
+			<groupId>org.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
 			<version>0.17.0</version>
 		</dependency>
