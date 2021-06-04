@@ -16,14 +16,15 @@ public class Cache2kCache extends AbstractCacheProvider {
 	
 	public Cache2kCache() {
 		cache = new Cache2kBuilder<String, BufferedImage>() {}
-	    .expireAfterWrite(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)    // expire/refresh after 5 minutes
+	    .expireAfterWrite(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
+	    .entryCapacity(getLong("CAPACITY"))
 	    .build();
 	}
 	
 	
 	@Override
 	public BufferedImage getItem(MagicCard mc) {
-		return cache.getEntry(generateIdIndex(mc)).getValue();
+		return cache.get(generateIdIndex(mc));
 	}
 
 	@Override
@@ -47,6 +48,7 @@ public class Cache2kCache extends AbstractCacheProvider {
 	@Override
 	public void initDefault() {
 		setProperty("EXPIRATION_MINUTE", "10");
+		setProperty("CAPACITY","100");
 	}
 	
 	@Override

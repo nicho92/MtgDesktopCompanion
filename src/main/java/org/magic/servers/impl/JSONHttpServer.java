@@ -83,9 +83,11 @@ import spark.route.HttpMethod;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String COLLECTION = ":collection";
+	private static final String ID_SET2 = ":idSet";
 	private static final String ENABLE_SSL = "ENABLE_SSL";
 	private static final String NAME = ":name";
-	private static final String ID_SET = ":idSet";
+	private static final String ID_SET = ID_SET2;
 	private static final String ID_ED = ":idEd";
 	private static final String ID_CARDS = ":idCards";
 	private static final String PASSTOKEN = "PASSWORD-TOKEN";
@@ -265,7 +267,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/cards/light/:name", URLTools.HEADER_JSON,(request, response) -> {
 			List<MagicCard> list= getEnabledPlugin(MTGCardsProvider.class).searchCardByName(request.params(NAME), null, true);
-			JsonArray arr = new JsonArray();
+			var arr = new JsonArray();
 			
 			for(MagicCard mc : list)
 			{
@@ -436,57 +438,56 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 	
 		
-		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
+			 getCached(request.pathInfo(), new Callable<Object>() {
 
 				@Override
 				public Object call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection"))));
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
 				}
-			});
+			})
 
-		}, transformer);
+		, transformer);
 		
-		get("/stock/virtual/:collection", URLTools.HEADER_JSON,(request, response) ->{
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/stock/virtual/:collection", URLTools.HEADER_JSON,(request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
 
 				@Override
 				public Object call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(":collection"))).stream().map(e->{
+					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(COLLECTION))).stream().map(e->{
 						var mcs =  MTGControler.getInstance().getDefaultStock();
 						mcs.setMagicCard(e);
 						return mcs;
 						
 					}).collect(Collectors.toList());
 				}
-			});
+			})
 
-		}, transformer);
+		, transformer);
 		
 		
-		get("/stock/sets/:collection", URLTools.HEADER_JSON,(request, response) ->{
+		get("/stock/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
 			
-			return getCached(request.pathInfo(), new Callable<Object>() {
+			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<Object> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().map(mcs->mcs.getMagicCard().getCurrentSet()).distinct().sorted().collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(mcs->mcs.getMagicCard().getCurrentSet()).distinct().sorted().collect(Collectors.toList());
 				}
-			});
-		}, transformer);
+			})
+		, transformer);
 	
 		
-		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) -> {
-			
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<Object> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(":collection")))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(":idSet"))).collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(ID_SET2))).collect(Collectors.toList());
 				}
-			});
-		}, transformer);
+			})
+		, transformer);
 		
 		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MagicCollection(request.params(":collection")))), transformer);
+				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MagicCollection(request.params(COLLECTION)))), transformer);
 		
 		get("/dash/collection", URLTools.HEADER_JSON, (request, response) -> {
 			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
@@ -496,7 +497,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var arr = new JsonArray();
 			double pc = 0;
 			for (MagicEdition ed : eds) {
-				JsonObject obj = new JsonObject();
+				var obj = new JsonObject();
 				obj.add("edition", converter.toJsonElement(ed));
 				obj.addProperty("set", ed.getId());
 				obj.addProperty("name", ed.getSet());
@@ -520,11 +521,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/dash/card/:idCards/:foil", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 
-			JsonArray arr = new JsonArray();
+			var arr = new JsonArray();
 			HistoryPrice<MagicCard> res = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,request.params(":foil").equals("true"));
 
 			for (Entry<Date, Double> val : res) {
-				JsonObject obj = new JsonObject();
+				var obj = new JsonObject();
 				obj.add("date", new JsonPrimitive(val.getKey().getTime()));
 				obj.add("value", new JsonPrimitive(val.getValue()));
 
@@ -535,7 +536,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 		get("/dash/edition/:idEd", URLTools.HEADER_JSON, (request, response) -> {
-			MagicEdition ed = new MagicEdition();
+			var ed = new MagicEdition();
 			ed.setId(request.params(ID_ED));
 			return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 		}, transformer);
@@ -601,7 +602,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			MagicDeck d = manager.getDeck(request.params(NAME));
 
-			JsonObject obj = new JsonObject();
+			var obj = new JsonObject();
 
 			obj.add("cmc", converter.toJsonElement(manager.analyseCMC(d.getMainAsList())));
 			obj.add("types", converter.toJsonElement(manager.analyseTypes(d.getMainAsList())));
@@ -631,25 +632,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEventsManager().getEventById(Integer.parseInt(request.params(":id")));
 		}, transformer);
 		
-		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> {
+		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
 			
-			return getCached(request.pathInfo(), new Callable<Object>() {
+			 getCached(request.pathInfo(), new Callable<Object>() {
 
 				@Override
 				public Object call() throws Exception {
 					return MTGControler.getInstance().getWebConfig();
 				}
-			});
+			})
 			
-		}, transformer);
+		, transformer);
 		
-		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> {
-			return getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
-		}, transformer);
+		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> 
+			getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")))
+		, transformer);
 
-		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> {
-			return getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params(":number"));
-		}, transformer);
+		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
+			getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params(":number"))
+		, transformer);
 		
 		
 		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) -> {
@@ -780,14 +781,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@Override
 	public void initDefault() {
 		setProperty(SERVER_PORT, "8080");
-		setProperty(AUTOSTART, "false");
-		setProperty(ENABLE_GZIP, "false");
+		setProperty(AUTOSTART, FALSE);
+		setProperty(ENABLE_GZIP, FALSE);
 		setProperty(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		setProperty(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
 		setProperty(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		setProperty(PASSTOKEN, "");
 		setProperty("THREADS","8");
-		setProperty(ENABLE_SSL,"false");
+		setProperty(ENABLE_SSL,FALSE);
 		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		setProperty(KEYSTORE_PASS, "changeit");
 		setProperty(CACHE_TIMEOUT, "-1");
