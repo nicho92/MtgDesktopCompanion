@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.magic.api.beans.Contact;
@@ -36,9 +35,9 @@ import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.ServerAddress;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
@@ -59,6 +58,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colNews = "news";
 	private String colOrders = "orders";
 	private String colSealed = "sealed";
+	private String colContacts = "contacts";
+	private String colTransactions = "transactions";
 	
 	private String dbIDField = "db_id";
 	private String dbCardIDField = "card_id";
@@ -67,17 +68,38 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbOrdersField = "orderItem";
 	private String dbNewsField = "newsItem";
 	private String dbStockField = "stockItem";
+	private String dbTransactionField = "transactionItem";
+	private String dbContactField = "contactItem";
 	private String dbStockSealedField = "stockSealedItem";
 	private String dbColIDField = "collection.name";
 	private String dbTypeNewsField = "typeNews";
+	private String dbContactIDField ="contact_id";
 	private MongoClient client;
 
-	
+	@Override
+	public void initDefault() {
+		setProperty(SERVERNAME, "localhost");
+		setProperty(SERVERPORT, "27017");
+		setProperty(DB_NAME, "mtgdesktopcompanion");
+		setProperty(LOGIN, "login");
+		setProperty(PASS, "");
+		setProperty(DRIVER, "mongodb://");
+		setProperty(PARAMETERS, "");
+
+	}
 
 	@Override
 	public String getVersion() {
 		return "3.12.2";
 	
+	}
+	
+	
+	public static void main(String[] args) throws SQLException {
+		MongoDbDAO dao = new MongoDbDAO();
+		dao.init();
+	
+		System.out.println(dao.listTransactions());
 	}
 
 
@@ -101,7 +123,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		logger.debug("saving stock " + state);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
-			BasicDBObject obj = new BasicDBObject();
+			var obj = new BasicDBObject();
 			obj.put(dbStockSealedField, state);
 			db.getCollection(colSealed, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
@@ -142,8 +164,25 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	public void init() throws SQLException {
 
-		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-			client = new MongoClient(new ServerAddress(getString(SERVERNAME), getInt(SERVERPORT)),MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+			
+
+		
+		var temp = new StringBuilder();
+					  temp.append(getString(DRIVER)).append(getString(LOGIN)).append(":").append(getString(PASS));
+					  temp.append("@").append(getString(SERVERNAME));
+					  if(!getString(SERVERPORT).isEmpty())
+						  temp.append(":").append(getString(SERVERPORT));
+					  
+					  temp.append("/");
+					  if(!getString(PARAMETERS).isEmpty())
+						  temp.append("?").append(getString(PARAMETERS));
+					  
+					  
+			logger.debug(getName() + " connected to " + temp);		  
+					  
+			client = MongoClients.create(temp.toString());
+		
 			db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);
 			createDB();
 			logger.info("init " + getName() + " done");
@@ -161,6 +200,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.createCollection(colNews);
 			db.createCollection(colOrders);
 			db.createCollection(colSealed);
+			db.createCollection(colTransactions);
+			db.createCollection(colContacts);
 		} catch (Exception e) {
 			logger.debug(e);
 			return false;
@@ -337,7 +378,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public long getDBSize() {
-		return db.runCommand(new BasicDBObject("dbstats", 1)).getDouble("dataSize").longValue();
+		return db.runCommand(new BasicDBObject("dbstats", 1)).getLong("dataSize");
 	}
 
 	@Override
@@ -349,7 +390,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 
 		List<MagicCollection> ret = new ArrayList<>();
-		BasicDBObject query = new BasicDBObject();
+		var query = new BasicDBObject();
 		query.put(dbIDField, IDGenerator.generate(mc));
 		db.getCollection(colCards, BasicDBObject.class).distinct(dbColIDField, query, String.class)
 				.forEach((Consumer<String>) result -> {
@@ -370,7 +411,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		ArrayList<MagicCardStock> ret = new ArrayList<>();
 		//TODO manage editionStrict value
 
-		BasicDBObject filter = new BasicDBObject(dbCardIDField, IDGenerator.generate(mc));
+		var filter = new BasicDBObject(dbCardIDField, IDGenerator.generate(mc));
 		filter.put("stockItem.magicCollection.name", col.getName());
 		logger.debug(filter);
 		db.getCollection(colStocks, BasicDBObject.class).find(filter).forEach((Consumer<BasicDBObject>) result -> ret
@@ -537,15 +578,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 
-	@Override
-	public void initDefault() {
-		setProperty(SERVERNAME, "localhost");
-		setProperty(SERVERPORT, "27017");
-		setProperty(DB_NAME, "mtgdesktopcompanion");
-		setProperty(LOGIN, "login");
-		setProperty(PASS, "");
 
-	}
 
 	@Override
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
@@ -553,13 +586,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		state.setUpdated(false);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
-			BasicDBObject obj = new BasicDBObject();
+			var obj = new BasicDBObject();
 			obj.put(dbOrdersField, state);
 			db.getCollection(colOrders, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
 			Bson filter = new Document(dbOrdersField+".id", state.getId());
-			BasicDBObject obj = new BasicDBObject();
+			var obj = new BasicDBObject();
 			obj.put(dbOrdersField, state);
 			logger.debug(filter);
 			UpdateResult res = db.getCollection(colOrders, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
@@ -608,64 +641,98 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return getName().hashCode();
 	}
 
-
 	@Override
-	public List<Transaction> listTransactions() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<Transaction> listTransactions(Contact c) throws SQLException {
+		List<Transaction> trans = new ArrayList<>();
+		db.getCollection(colTransactions,BasicDBObject.class).find(Filters.eq("contact.id", c.getId())).forEach((Consumer<BasicDBObject>) result ->{
+			Transaction o = deserialize(result.toString(), Transaction.class);
+			trans.add(o);
+		});
+		
+		return trans;
 	}
 
 	
+	
 	@Override
-	public Transaction getTransaction(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Transaction> listTransactions() throws SQLException {
+
+		List<Transaction> trans = new ArrayList<>();
+		db.getCollection(colTransactions, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+			Transaction o = deserialize(result.toString(), Transaction.class);
+			trans.add(o);
+		});
+		
+		
+		return trans;
 	}
+
+
+	@Override
+	public List<Contact> listContacts() throws SQLException {
+		MongoCollection<Contact> collection = db.getCollection(colContacts, Contact.class);
+		List<Contact> cols = new ArrayList<>();
+		collection.find().into(cols);
+		return cols;
+	}
+	
+	@Override
+	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
+		if (t.getId() == -1) {
+			t.setId(Integer.parseInt(getNextSequence().toString()));
+			db.getCollection(colTransactions, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(t)));
+
+		} else {
+			UpdateResult res = db.getCollection(colTransactions, BasicDBObject.class).replaceOne(Filters.eq("id",t.getId()),BasicDBObject.parse(serialize(t)));
+			logger.trace(res);
+		}
+		return t.getId();
+	}
+
+
 
 	@Override
 	public void deleteTransaction(Transaction t) throws SQLException {
-		// TODO Auto-generated method stub
+		logger.debug("remove " + t);
+		Bson filter = new Document(dbTransactionField+".id", t.getId());
+		db.getCollection(colTransactions).deleteOne(filter);
 		
 	}
 
 
 	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		c.setPassword(IDGenerator.generateSha256(c.getPassword()));
+		if (c.getId() == -1) {
+			c.setId(Integer.parseInt(getNextSequence().toString()));
+			
+		db.getCollection(colContacts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(c)));
+
+		} else {
+			UpdateResult res = db.getCollection(colContacts, BasicDBObject.class).replaceOne(Filters.eq("id",c.getId()),BasicDBObject.parse(serialize(c)));
+			logger.debug(res);
+		}
+		return c.getId();
 	}
 
 
+	
+	@Override
+	public Transaction getTransaction(int id) throws SQLException {
+		return db.getCollection(colTransactions,Transaction.class).find(Filters.eq("id", id)).first();
+	}
+	
 	@Override
 	public Contact getContactById(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return deserialize(db.getCollection(colContacts).find(Filters.eq("id", id),BasicDBObject.class).first(),Contact.class);
 	}
 
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return deserialize(db.getCollection(colContacts,BasicDBObject.class).find(Filters.and(Filters.eq("email", email),Filters.eq("password", IDGenerator.generateSha256(password)))).first(),Contact.class);
 	}
 	
-	@Override
-	public List<Transaction> listTransactions(Contact c) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
-	@Override
-	public List<Contact> listContacts() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
