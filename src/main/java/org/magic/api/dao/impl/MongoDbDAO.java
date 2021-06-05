@@ -324,11 +324,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
-		logger.debug("remove collection " + c);
 		var query = new BasicDBObject();
 		query.put(dbColIDField, c.getName());
-		DeleteResult dr = db.getCollection(colCards).deleteMany(query);
-		logger.trace(dr);
 		db.getCollection(colCollects, MagicCollection.class).deleteOne(Filters.eq("name", c.getName()));
 	}
 
@@ -392,10 +389,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		ArrayList<MagicCardStock> ret = new ArrayList<>();
 		//TODO manage editionStrict value
 
-		var filter = new BasicDBObject(dbCardIDField, IDGenerator.generate(mc));
-		filter.put("stockItem.magicCollection.name", col.getName());
-		logger.trace(filter);
-		db.getCollection(colStocks, BasicDBObject.class).find(filter).forEach((Consumer<BasicDBObject>) result -> ret
+		
+		
+		db.getCollection(colStocks, BasicDBObject.class)
+				.find(Filters.and(Filters.eq(dbCardIDField,IDGenerator.generate(mc)),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
+				.forEach((Consumer<BasicDBObject>) result -> ret
 				.add(deserialize(result.get(dbStockField).toString(), MagicCardStock.class)));
 
 		return ret;
