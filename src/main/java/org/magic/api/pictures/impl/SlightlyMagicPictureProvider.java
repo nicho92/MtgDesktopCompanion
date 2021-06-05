@@ -51,8 +51,13 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 				logger.error("Couldn't create " + getString(PICS_DIR) + " directory");
 			}
 			
+		String dirName = mc.getCurrentSet().getId();
 		
-		var edDir = new File(getFile(PICS_DIR),mc.getCurrentSet().getId());
+		if(dirName.equalsIgnoreCase("con"))
+			dirName="CON_";
+		
+		
+		var edDir = new File(getFile(PICS_DIR),dirName);
 		int size = FileUtils.listFiles(edDir, new WildcardFileFilter(mc.getName()+"*"),TrueFileFilter.INSTANCE).size();
 		var calculate = "";
 		if(size>1)
