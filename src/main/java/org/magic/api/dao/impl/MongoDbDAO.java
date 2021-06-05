@@ -6,7 +6,6 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +15,7 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.bson.BsonReader;
-import org.bson.BsonWriter;
 import org.bson.Document;
-import org.bson.codecs.Codec;
-import org.bson.codecs.DecoderContext;
-import org.bson.codecs.EncoderContext;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.magic.api.beans.Contact;
@@ -91,7 +85,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		setProperty(PARAMETERS, "");
 
 	}
-	
+		
 	private <T> T deserialize(Object o, Class<T> classe) {
 		
 		if(o==null)
@@ -277,12 +271,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 		logger.debug("getCardsCount " + cols + " me:" + me);
 		if (me != null) {
-			BasicDBObject andQuery = new BasicDBObject();
-			List<BasicDBObject> obj = new ArrayList<>();
-			obj.add(new BasicDBObject(dbColIDField, cols.getName()));
-			obj.add(new BasicDBObject(dbEditionField, me.getId().toUpperCase()));
-			andQuery.put("$and", obj);
-			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(andQuery);
+			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq(dbEditionField,me.getId().toUpperCase())));
 		} else {
 			return (int) db.getCollection(colCards, BasicDBObject.class)
 					.countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
@@ -294,20 +283,18 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
 	
-		var query = new BasicDBObject();
 		List<MagicCard> ret = new ArrayList<>();
 		
-		List<BasicDBObject> obj = new ArrayList<>();
-		query.put(dbColIDField, collection.getName());
-
+		var b = Filters.eq(dbColIDField,collection.getName());
+		
+		
 		if (me != null) {
-			obj.add(new BasicDBObject(dbEditionField, me.getId().toUpperCase()));
-			query.put("$and", obj);
+			b = Filters.and(b,Filters.eq(dbEditionField,me.getId().toUpperCase()));
 		}
 		var c = new Chrono();
 		c.start();
-		db.getCollection(colCards, BasicDBObject.class).find(query).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MagicCard.class)));
-		logger.trace("list cards from " + collection + "/" + me + " :" + query+": done in "+c.stop()+"s.");
+		db.getCollection(colCards, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MagicCard.class)));
+		logger.trace("list cards from " + collection + "/" + me + " :" + b+": done in "+c.stop()+"s.");
 		
 		return ret;
 	}
@@ -542,7 +529,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteNews(MagicNews n) {
-		logger.debug("remove " + n);
 		Bson filter = new Document("newsItem.id", n.getId());
 		db.getCollection(colNews).deleteOne(filter);
 	}
