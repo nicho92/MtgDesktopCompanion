@@ -124,7 +124,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, GridBagLayout layout,boolean collapsed)
 	{
-		JXTaskPane pane = new JXTaskPane();
+		var pane = new JXTaskPane();
 		pane.setTitle(capitalize(keyName));
 		pane.setIcon(ic);
 		pane.setCollapsed(collapsed);
@@ -142,43 +142,43 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 /////////////CONFIG PANEL BOX		
 		
 	
-		GridBagLayout daoPanelLayout = new GridBagLayout();
+					var daoPanelLayout = new GridBagLayout();
 					daoPanelLayout.columnWidths = new int[] { 172, 130, 0, 0 };
 					daoPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
 					daoPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 					daoPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };			
 		
-		GridBagLayout configPanelLayout = new GridBagLayout();
+					var configPanelLayout = new GridBagLayout();
 					configPanelLayout.columnWidths = new int[] { 0, 0, 0, 0 };
 					configPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 					configPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 					configPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	
-		GridBagLayout websitePanelLayout = new GridBagLayout();
+					var websitePanelLayout = new GridBagLayout();
 					websitePanelLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 					websitePanelLayout.rowHeights = new int[] { 0, 0, 0 };
 					websitePanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 					websitePanelLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		
-		GridBagLayout gameProfilPanelLayout = new GridBagLayout();
+					var gameProfilPanelLayout = new GridBagLayout();
 					gameProfilPanelLayout.columnWidths = new int[] { 0, 71, 0, 0 };
 					gameProfilPanelLayout.rowHeights = new int[] { 0, 0, 29, 0, 0 };
 					gameProfilPanelLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 					gameProfilPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		
-		GridBagLayout modulesPanelLayout = new GridBagLayout();
+					var modulesPanelLayout = new GridBagLayout();
 					modulesPanelLayout.columnWidths = new int[] { 0, 0, 0, 103, 0, 121, 0, 0 };
 					modulesPanelLayout.rowHeights = new int[] { 0, 0, 0, 0,  };
 					modulesPanelLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 					modulesPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		
-		GridBagLayout currencyPanelLayout = new GridBagLayout();
+					var currencyPanelLayout = new GridBagLayout();
 					currencyPanelLayout.columnWidths = new int[] { 106, 67, 0, 0 };
 					currencyPanelLayout.rowHeights = new int[] { 23, 0, 0, 0 };
 					currencyPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 					currencyPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		
-		GridBagLayout guiPanelLayout = new GridBagLayout();
+					var guiPanelLayout = new GridBagLayout();
 					guiPanelLayout.columnWidths = new int[] { 188, 38, 0, 0 };
 					guiPanelLayout.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0, 0 };
 					guiPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
@@ -201,24 +201,24 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelCurrency);
 		
 		
-		GridBagConstraints gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
+		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
 		gbclblLoading.gridwidth = 2;
 		add(lblLoading,gbclblLoading);
 		
 		
 /////////////DAO BOX		
-		JLabel lblBackupDao = new JLabel(capitalize("DAO_BACKUP") + " : ");
+		var lblBackupDao = new JLabel(capitalize("DAO_BACKUP") + " : ");
 		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
-		JButton btnBackup = new JButton(capitalize(EXPORT));
-		JLabel lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
-		JButton btnDuplicate = new JButton((capitalize(EXPORT)));
-		JLabel lblLocation = new JLabel(capitalize("LOCATION") + " : ");
-		JLabel lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
-		JLabel lblSize = new JLabel(capitalize("SIZE") + " : ");
-		JLabel lblSizeValue  = new JLabel(String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
-		JLabel lblIndexation = new JLabel("Indexation : ");
-		JLabel lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
-		JButton btnIndexation = new JButton("Reindexation");
+		var btnBackup = new JButton(capitalize(EXPORT));
+		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
+		var btnDuplicate = new JButton((capitalize(EXPORT)));
+		var lblLocation = new JLabel(capitalize("LOCATION") + " : ");
+		var lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
+		var lblSize = new JLabel(capitalize("SIZE") + " : ");
+		var lblSizeValue  = new JLabel(String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
+		var lblIndexation = new JLabel("Indexation : ");
+		var lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
+		var btnIndexation = new JButton("Reindexation");
 		cboTargetDAO = UITools.createCombobox(MTGDao.class, true);
 		cboTargetDAO.removeItem(getEnabledPlugin(MTGDao.class));
 
@@ -243,26 +243,26 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		cboCollections = UITools.createComboboxCollection();
 		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
 		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"),25);
-		JButton btnSavePrice = new JButton(capitalize("SAVE"));
-		JLabel lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
-		JButton btnClean = new JButton(capitalize("CLEAN"));
-		JPanel panelCheckCache = new JPanel();
-		JLabel lblAutoStock = new JLabel(capitalize("AUTO_STOCK") + ": ");
-		JCheckBox chkboxAutoAdd = new JCheckBox(capitalize("AUTO_STOCK_ADD"));
+		var btnSavePrice = new JButton(capitalize("SAVE"));
+		var lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
+		var btnClean = new JButton(capitalize("CLEAN"));
+		var panelCheckCache = new JPanel();
+		var lblAutoStock = new JLabel(capitalize("AUTO_STOCK") + ": ");
+		var chkboxAutoAdd = new JCheckBox(capitalize("AUTO_STOCK_ADD"));
 		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
 		chckbxPackages = new JCheckBox(capitalize("PACKAGES"));
-		JCheckBox chkboxAutoDelete = new JCheckBox(capitalize("AUTO_STOCK_DELETE"));
-		JButton btnDefaultStock = new JButton("Default Stock");
-		JCheckBox chkboxPrerelease = new JCheckBox();		
+		var chkboxAutoDelete = new JCheckBox(capitalize("AUTO_STOCK_DELETE"));
+		var btnDefaultStock = new JButton("Default Stock");
+		var chkboxPrerelease = new JCheckBox();		
 	
 		
-		JPanel panelAutoStock = new JPanel();
+		var panelAutoStock = new JPanel();
 		cboEditionLands = UITools.createComboboxEditions();
 		
-		JPanel panelBtnConfigBackup = new JPanel();
-		JButton btnExportConfig = new JButton(capitalize(EXPORT));
-		JButton btnImportConfig = new JButton(capitalize("IMPORT"));
+		var panelBtnConfigBackup = new JPanel();
+		var btnExportConfig = new JButton(capitalize(EXPORT));
+		var btnImportConfig = new JButton(capitalize("IMPORT"));
 		
 		
 		((FlowLayout) panelAutoStock.getLayout()).setAlignment(FlowLayout.LEFT);
@@ -315,22 +315,22 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 /////////////WEBSITE BOX		
 	
 		txtdirWebsite = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
-		JTextFieldFileChooser txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
-		JButton btnWebsiteSave = new JButton(capitalize("SAVE"));
-		JButton btnWebServerExport = new JButton(capitalize(EXPORT));
+		var txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
+		var btnWebsiteSave = new JButton(capitalize("SAVE"));
+		var btnWebServerExport = new JButton(capitalize(EXPORT));
 		
 		txtWebSiteCertificate = new JTextField("www.",10);
 		
-		JButton btnAdd = new JButton(capitalize("SAVE"));
-		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(s->s instanceof AbstractWebServer).collect(Collectors.toList()));
+		var btnAdd = new JButton(capitalize("SAVE"));
+		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(AbstractWebServer.class::isInstance).collect(Collectors.toList()));
 		
 		panelWebSite.add(new JLabel(capitalize("DIRECTORY") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
 		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 0));
 	
-//		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1));
-//		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-//		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1));
+//		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1))
+//		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1))
+//		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1))
 
 		panelWebSite.add(new JLabel(capitalize("WEB_SERVER_UI") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
 		panelWebSite.add(cboServers, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
@@ -342,13 +342,13 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 /////////////PROFIL BOX		
 		
-		JLabel lblName = new JLabel(capitalize("NAME") + " :");
+		var lblName = new JLabel(capitalize("NAME") + " :");
 		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"),10);
-		JLabel lblAvatar = new JLabel("Avatar :");
+		var lblAvatar = new JLabel("Avatar :");
 		lblIconAvatar = new JLabel();
 		lblIconAvatar.setBorder(new LineBorder(Color.RED, 1, true));
-		JResizerPanel gamePicsResizerPanel = new JResizerPanel(MTGControler.getInstance().getCardsGameDimension());
-		JButton btnSaveProfilGame = new JButton(capitalize("SAVE"));
+		var gamePicsResizerPanel = new JResizerPanel(MTGControler.getInstance().getCardsGameDimension());
+		var btnSaveProfilGame = new JButton(capitalize("SAVE"));
 	
 		panelGameProfil.add(lblName, UITools.createGridBagConstraints(GridBagConstraints.EAST, null,  0, 0));
 		panelGameProfil.add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -431,13 +431,13 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	
 /////////////CURRENCY BOX				
 
-		JLabel lblCurrency = new JLabel(capitalize("CURRENCY") + " :");
+		var lblCurrency = new JLabel(capitalize("CURRENCY") + " :");
 		JComboBox<Currency> cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
-		JLabel lclCodeCurrency = new JLabel("CurrencyLayer API code :");
-		JTextField txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"),10);
-		JButton btnSaveCode = new JButton(capitalize("SAVE"));
-		JButton btnUpdateCurrency = new JButton("Update Currency");
-		JCheckBox chkEnablePriceConversion = new JCheckBox(capitalize("ENABLED"));
+		var lclCodeCurrency = new JLabel("CurrencyLayer API code :");
+		var txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"),10);
+		var btnSaveCode = new JButton(capitalize("SAVE"));
+		var btnUpdateCurrency = new JButton("Update Currency");
+		var chkEnablePriceConversion = new JCheckBox(capitalize("ENABLED"));
 		dateCurrencyCache = new JLabel(UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
 		
 		if (MTGControler.getInstance().get(CURRENCY).isEmpty())
@@ -458,28 +458,28 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 /////////////GUI BOX			
 		
-		JLabel lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
+		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
-		JLabel lblCardsLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
+		var lblCardsLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
 		JComboBox<String> cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
-		JLabel lblLook = new JLabel(capitalize("LOOK") + " :");
+		var lblLook = new JLabel(capitalize("LOOK") + " :");
 		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
-		JLabel lblPicsSize = new JLabel(capitalize("THUMBNAIL_SIZE") + ": ");
-		JButton btnSavePicSize = new JButton(capitalize("SAVE"));
+		var lblPicsSize = new JLabel(capitalize("THUMBNAIL_SIZE") + ": ");
+		var btnSavePicSize = new JButton(capitalize("SAVE"));
 		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
-		JLabel lblShowJsonPanel = new JLabel(capitalize("SHOW_OBJECT_PANEL") + " :");
+		var lblShowJsonPanel = new JLabel(capitalize("SHOW_OBJECT_PANEL") + " :");
 		cbojsonView = new JCheckBox();
-		JLabel lblShowTooltip = new JLabel(capitalize("SHOW_TOOLTIP") + " :");
+		var lblShowTooltip = new JLabel(capitalize("SHOW_TOOLTIP") + " :");
 		chkToolTip = new JCheckBox("");
-		JLabel lblToolPosition = new JLabel(capitalize("TAB_POSITION") + " :");
+		var lblToolPosition = new JLabel(capitalize("TAB_POSITION") + " :");
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
-		JLabel lblFont = new JLabel(capitalize("FONT") + " :");
-		JFontChooser chooseFontPanel = new JFontChooser();
+		var lblFont = new JLabel(capitalize("FONT") + " :");
+		var chooseFontPanel = new JFontChooser();
 		chooseFontPanel.initFont(MTGControler.getInstance().getFont());
-		JButton btnSaveFont = new JButton(capitalize("SAVE"));
-		JCheckBox chkEnabledAutocomplete = new JCheckBox();
-		JCheckBox chkEnabledChrome = new JCheckBox();
-		JButton btnShortKeys = new JButton(capitalize("SHORTKEYS"));
+		var btnSaveFont = new JButton(capitalize("SAVE"));
+		var chkEnabledAutocomplete = new JCheckBox();
+		var chkEnabledChrome = new JCheckBox();
+		var btnShortKeys = new JButton(capitalize("SHORTKEYS"));
 		
 		
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
@@ -562,7 +562,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		btnExportConfig.addActionListener(ae->{
 			try {
-				File f =  new File(MTGConstants.DATA_DIR,"config.backup.zip");
+				var f =  new File(MTGConstants.DATA_DIR,"config.backup.zip");
 				
 				FileTools.extractConfig(f);
 				
@@ -574,7 +574,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		btnImportConfig.addActionListener(ae->{
 			
-				JFileChooser chooser = new JFileChooser(MTGConstants.DATA_DIR);
+			var chooser = new JFileChooser(MTGConstants.DATA_DIR);
 				int res = chooser.showOpenDialog(null);
 				chooser.setFileFilter(new FileFilter() {
 					
@@ -738,7 +738,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		
 		btnDefaultStock.addActionListener(ae -> {
-			DefaultStockEditorDialog diag = new DefaultStockEditorDialog();
+			var diag = new DefaultStockEditorDialog();
 			diag.setMagicCardStock(MTGControler.getInstance().getDefaultStock());
 			diag.setVisible(true);
 
@@ -747,7 +747,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		lblIconAvatar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent paramMouseEvent) {
-				JFileChooser jf = new JFileChooser();
+				var jf = new JFileChooser();
 				jf.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "gif", "jpg", "jpeg", "png"));
 				int result = jf.showOpenDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -809,7 +809,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 		
 		
-		for (int i = 0; i < cboLogLevels.getItemCount(); i++) {
+		for (var i = 0; i < cboLogLevels.getItemCount(); i++) {
 			if (cboLogLevels.getItemAt(i).toString().equals(MTGControler.getInstance().get("loglevel")))
 				cboLogLevels.setSelectedIndex(i);
 
