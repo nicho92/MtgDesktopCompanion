@@ -75,7 +75,7 @@ public class CardTraderExport extends AbstractCardExport {
 	public void downloadCSV() throws IOException
 	{
 		String url = baseUrl+"/simple/"+getVersion()+"/products/download_csv?token="+getString(TOKEN_SIMPLE);
-		File temp = new File(MTGConstants.DATA_DIR,"export.gz");
+		var temp = new File(MTGConstants.DATA_DIR,"export.gz");
 		URLTools.download(url,temp);
 		logger.debug("Downloading " + url + " to " + temp.getAbsolutePath());
 		FileTools.decompressGzipFile(temp, MTGConstants.DATA_DIR);
@@ -83,7 +83,7 @@ public class CardTraderExport extends AbstractCardExport {
 	
 	public File downloadProducts() throws IOException {
 		String url = baseUrl+"/full/"+getVersion()+"/blueprints/export";
-		File f = new File(MTGConstants.DATA_DIR,"test.json");
+		var f = new File(MTGConstants.DATA_DIR,"test.json");
 		FileTools.saveFile(f, RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(url)
 							.addContent("category_id", "1")
 							.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))

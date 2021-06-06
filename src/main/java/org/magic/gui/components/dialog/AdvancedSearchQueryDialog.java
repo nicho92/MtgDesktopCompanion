@@ -31,10 +31,10 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		
 		layout = new GridLayout(1,1);
 		
-		JButton btnNewButton = new JButton(MTGConstants.ICON_NEW);
-		JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
+		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
+		var btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 		
-		JPanel bottom = new JPanel();
+		var bottom = new JPanel();
 		
 		bottom .add(btnNewButton);
 		bottom.add(btnSearch);
@@ -50,9 +50,9 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		btnNewButton.addActionListener(al->
 			SwingUtilities.invokeLater(()->{
 				
-				CriteriaComponent cc = new CriteriaComponent();
+				var cc = new CriteriaComponent();
 				
-				JButton delete = new JButton("X");
+				var delete = new JButton("X");
 				delete.addActionListener(el->{
 					pContent.remove(cc);
 					pContent.revalidate();
@@ -72,7 +72,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		btnSearch.addActionListener(al->{
 			
 			crits.clear();
-			for(int i = 0 ; i<pContent.getComponentCount();i++)
+			for(var i = 0 ; i<pContent.getComponentCount();i++)
 			{
 				if(pContent.getComponent(i) instanceof CriteriaComponent)
 				{

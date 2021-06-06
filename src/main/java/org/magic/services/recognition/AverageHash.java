@@ -28,15 +28,15 @@ public class AverageHash
     {
         g.drawImage(img.getScaledInstance(8 * w, 8 * h, Image.SCALE_FAST), 0, 0, null);
 
-        AverageHash d = new AverageHash();
+        var d = new AverageHash();
         d.digest = new long[w * h];
         d.width = w;
         d.height = h;
 
-        int ix = 0;
-        for (int i = 0; i < w; i++)
+        var ix = 0;
+        for (var i = 0; i < w; i++)
         {
-            for (int j = 0; j < w; j++)
+            for (var j = 0; j < w; j++)
             {
                 d.digest[ix] = hashChunk(gray.getSubimage(i * 8, j * 8, 8, 8));
                 ix++;
@@ -49,18 +49,18 @@ public class AverageHash
     {
         WritableRaster r = chunk.getRaster();
         long hash = 0;
-        int avg = 0;
-        for (int x = 0; x < 8; x++)
+        var avg = 0;
+        for (var x = 0; x < 8; x++)
         {
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
                 avg += r.getSample(x, y, 0);
             }
         }
         avg /= 64;
-        for (int x = 0; x < 8; x++)
+        for (var x = 0; x < 8; x++)
         {
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
                 if (r.getSample(x, y, 0) < avg)
                 {
@@ -85,12 +85,12 @@ public class AverageHash
         }
         int ix = width * height;
 
-        int bits = 0;
-        for (int i = 0; i < ix; i++)
+        var bits = 0;
+        for (var i = 0; i < ix; i++)
         {
             long d1 = digest[i];
             long d2 = b.digest[i];
-            for (int j = 0; j < 64; j++)
+            for (var j = 0; j < 64; j++)
             {
                 if ((d1 & 1) == (d2 & 1))
                 {
@@ -112,7 +112,7 @@ public class AverageHash
     {
         out.writeInt(width);
         out.writeInt(height);
-        for (int i = 0; i < width * height; i++)
+        for (var i = 0; i < width * height; i++)
         {
             out.writeLong(digest[i]);
         }
@@ -120,11 +120,11 @@ public class AverageHash
 
     public static AverageHash readIn(ByteBuffer buf)
     {
-        AverageHash d = new AverageHash();
+    	var d = new AverageHash();
         d.width = buf.getInt();
         d.height = buf.getInt();
         d.digest = new long[d.width * d.height];
-        for (int i = 0; i < d.width * d.height; i++)
+        for (var i = 0; i < d.width * d.height; i++)
         {
             d.digest[i] = buf.getLong();
         }

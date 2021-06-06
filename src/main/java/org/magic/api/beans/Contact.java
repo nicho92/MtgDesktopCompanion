@@ -18,6 +18,9 @@ public class Contact implements Serializable {
 	private String website;
 	private boolean emailAccept=true;
 	private String password="changeit";
+	private boolean active=true;
+	
+	
 	
 	public boolean equals(Object obj) {
 	    if(!(obj instanceof Contact))
@@ -41,6 +44,14 @@ public class Contact implements Serializable {
 
 	public String getCity() {
 		return city;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public void setCity(String city) {

@@ -32,19 +32,19 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+
+
 public class AboutDialog extends MTGUIComponent {
 
 	private static final String NEW_VERSION = "NEW_VERSION";
 	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() {
-		VersionChecker check = new VersionChecker();
+		var check = new VersionChecker();
 		setLayout(new BorderLayout(0, 0));
 		setPreferredSize(new Dimension(600, 400));
-		StringBuilder developper = new StringBuilder("<html><center>"); 
+		var developper = new StringBuilder("<html><center>"); 
 			developper.append(capitalize("DEVELOPPERS_ABOUT", "Nicho", "Apache License " + new SimpleDateFormat("yyyy").format(new Date())));
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
 			try {
@@ -56,7 +56,7 @@ public class AboutDialog extends MTGUIComponent {
 			
 			developper.append("</center></html>");
 		
-		JLabel icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
+			var icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
 				icon.setFont(new Font("Tahoma", Font.BOLD, 16));
 				icon.setVerticalTextPosition(SwingConstants.BOTTOM);
 				icon.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -67,32 +67,32 @@ public class AboutDialog extends MTGUIComponent {
 					logger.error(e3);
 				}
 				
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 			panneauHaut.setLayout(new BorderLayout());
 				
-		JTextArea copyText=new JTextArea(MTGConstants.COPYRIGHT_STRING);
+		var copyText=new JTextArea(MTGConstants.COPYRIGHT_STRING);
 				copyText.setWrapStyleWord(true);
 				copyText.setLineWrap(true);
 				copyText.setRows(4);
 	
-		JPanel centers = new JPanel();
+		var centers = new JPanel();
 			   centers.setLayout(new BorderLayout());
 			   centers.add(new JLabel("Special thanks to my supporters:"),BorderLayout.NORTH);
 			   
 			   
-		JPanel supporters = new JPanel();
+		var supporters = new JPanel();
 		((FlowLayout) supporters.getLayout()).setAlignment(FlowLayout.LEFT);
 		
 		 supporters.setForeground(SystemColor.activeCaption);
 			   
 			   try {
-				JsonArray obj = URLTools.extractJson(MTGConstants.MTG_SUPPORTERS_URI).getAsJsonArray();
+				   var obj = URLTools.extractJson(MTGConstants.MTG_SUPPORTERS_URI).getAsJsonArray();
 				
 				for(JsonElement element : obj)
 				{
-					JsonObject supp = element.getAsJsonObject();
-					ImageIcon ic = new ImageIcon(ImageTools.readBase64(supp.get("logo").getAsString()).getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-					JLabel lab = new JLabel(ic);
+					var supp = element.getAsJsonObject();
+					var ic = new ImageIcon(ImageTools.readBase64(supp.get("logo").getAsString()).getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+					var lab = new JLabel(ic);
 							lab.setText(supp.get("name").getAsString());
 							lab.setVerticalTextPosition(SwingConstants.BOTTOM);
 							lab.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -117,7 +117,7 @@ public class AboutDialog extends MTGUIComponent {
 			   
 		
 		panneauHaut.add(icon,BorderLayout.NORTH);
-		JButton button = new JButton("UPDATE");
+		var button = new JButton("UPDATE");
 		button.addActionListener(e->{
 				
 				if(check.hasNewVersion())
@@ -131,7 +131,7 @@ public class AboutDialog extends MTGUIComponent {
 		});
 		
 		panneauHaut.add(button,BorderLayout.EAST);
-		JLabel label = new JLabel(developper.toString());
+		var label = new JLabel(developper.toString());
 		
 		label.addMouseListener(new MouseAdapter() {
 			@Override

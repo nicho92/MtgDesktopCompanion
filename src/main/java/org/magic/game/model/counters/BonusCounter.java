@@ -16,8 +16,8 @@ public class BonusCounter extends AbstractCounter {
 
 	@Override
 	public void apply(DisplayableCard displayableCard) {
-		int power = 0;
-		int toughness = 0;
+		var power = 0;
+		var toughness = 0;
 
 		try {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
@@ -40,8 +40,8 @@ public class BonusCounter extends AbstractCounter {
 
 	@Override
 	public void remove(DisplayableCard displayableCard) {
-		int power = 0;
-		int toughness = 0;
+		var power = 0;
+		var toughness = 0;
 
 		try {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
@@ -66,7 +66,7 @@ public class BonusCounter extends AbstractCounter {
 	@Override
 	public String describe() {
 
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 
 		if (powerModifier >= 0)
 			build.append("+").append(powerModifier);

@@ -39,6 +39,7 @@ public class ContactPanel extends MTGUIComponent {
 	private JCheckBox emailAcceptationCheckBox;
 	private JTextField zipCodeJTextField;
 	private JTextField cityJTextField;
+	private JCheckBox activeCheckBox;
 
 	public ContactPanel(boolean enableSaveButton) {
 		var gridBagLayout = new GridBagLayout();
@@ -59,6 +60,7 @@ public class ContactPanel extends MTGUIComponent {
 		add(new JLabel("Telephone:"), UITools.createGridBagConstraints(null, null, 0, 8));
 		add(new JLabel("Website:"), UITools.createGridBagConstraints(null, null, 0, 9));
 		add(new JLabel("Accept Email :"), UITools.createGridBagConstraints(null, null, 0, 10));
+		add(new JLabel("Active :"), UITools.createGridBagConstraints(null, null, 0, 11));
 	
 		lastNameJTextField = new JTextField();
 		add(lastNameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
@@ -93,11 +95,12 @@ public class ContactPanel extends MTGUIComponent {
 		emailAcceptationCheckBox = new JCheckBox();
 		add(emailAcceptationCheckBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 		
-
+		activeCheckBox = new JCheckBox();
+		add(activeCheckBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 	
 		if(enableSaveButton) {
 			var btnUpdate = new JButton(MTGConstants.ICON_SAVE);
-			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
+			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 12));
 			btnUpdate.addActionListener(al->{
 				
 				try {
@@ -196,8 +199,14 @@ public class ContactPanel extends MTGUIComponent {
 		var autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, cityProperty, cityJTextField, textProperty10);
 		autoBinding11.bind();
 		
+		var activeProperty = BeanProperty.create("active");
+		var boolProperty11 = BeanProperty.create("selected");
+		var autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, activeProperty, activeCheckBox,boolProperty11);
+		autoBinding12.bind();
+		
+		
 		//
-		BindingGroup bindingGroup = new BindingGroup();
+		var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding1);
@@ -210,6 +219,7 @@ public class ContactPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding9);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
+		bindingGroup.addBinding(autoBinding12);
 		
 		return bindingGroup;
 	}

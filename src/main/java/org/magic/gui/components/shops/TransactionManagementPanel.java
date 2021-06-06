@@ -35,6 +35,7 @@ import org.magic.tools.UITools;
 
 public class TransactionManagementPanel extends MTGUIComponent {
 	
+	private static final String TRACKING = "Tracking";
 	private Transaction t;
 	private JButton btnAcceptTransaction;
 	private JButton btnSend;
@@ -48,7 +49,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	public void setTransaction(Transaction t)
 	{
 		this.t=t;
-		btnAcceptTransaction.setEnabled(t!=null);
+		btnAcceptTransaction.setEnabled(t!=null && t.getStatut()==STAT.NEW);
 		btnSave.setEnabled(t!=null);
 		btnPaid.setEnabled(t!=null);
 		btnSend.setEnabled(t!=null);
@@ -127,12 +128,12 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				{
 					t.setStatut(STAT.CLOSED);
 					TransactionService.saveTransaction(t,false);
-					MTGControler.getInstance().notify(new MTGNotification("Tracking", "Delivery OK", MESSAGE_TYPE.INFO));
+					MTGControler.getInstance().notify(new MTGNotification(TRACKING, "Delivery OK", MESSAGE_TYPE.INFO));
 				}
 				else
 				{
 					if(ret.last()!=null)
-						MTGControler.getInstance().notify(new MTGNotification("Tracking", ret.last().toString(), MESSAGE_TYPE.INFO));
+						MTGControler.getInstance().notify(new MTGNotification(TRACKING, ret.last().toString(), MESSAGE_TYPE.INFO));
 				}
 			} catch (Exception e1) {
 				MTGControler.getInstance().notify(e1);
@@ -155,7 +156,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			pane.add(field);
 			pane.add(btnV);
 			pane.add(btnC);
-			var jd = MTGUIComponent.createJDialog(MTGUIComponent.build(pane,"Tracking",MTGConstants.ICON_TAB_DELIVERY),false,true);
+			var jd = MTGUIComponent.createJDialog(MTGUIComponent.build(pane,TRACKING,MTGConstants.ICON_TAB_DELIVERY),false,true);
 			
 			btnV.addActionListener(al->{
 				if(cboService.getSelectedItem()!=null)

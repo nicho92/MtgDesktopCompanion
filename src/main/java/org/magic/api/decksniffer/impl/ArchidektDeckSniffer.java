@@ -18,9 +18,7 @@ import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
@@ -44,26 +42,26 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		
 		MagicDeck deck = info.toBaseDeck();
 				  
-				  	   JsonObject obj = RequestBuilder.build()
-									   .setClient(URLTools.newClient())
-									   .url(info.getUrl().toString())
-									   .method(METHOD.GET)
-									   .toJson().getAsJsonObject();
+		var obj = RequestBuilder.build()
+				   .setClient(URLTools.newClient())
+				   .url(info.getUrl().toString())
+				   .method(METHOD.GET)
+				   .toJson().getAsJsonObject();
 		
 		
-		JsonArray cards = obj.get("cards").getAsJsonArray();
+		var cards = obj.get("cards").getAsJsonArray();
 		
 		for(JsonElement e : cards)
 		{
 			try {
-				int qty = e.getAsJsonObject().get("quantity").getAsInt();
+				var qty = e.getAsJsonObject().get("quantity").getAsInt();
 				
 				MagicEdition ed = null;
 				if( e.getAsJsonObject().get("card").getAsJsonObject().get("edition")!=null) {
-					String edcode = e.getAsJsonObject().get("card").getAsJsonObject().get("edition").getAsJsonObject().get("editioncode").getAsString();
+					var edcode = e.getAsJsonObject().get("card").getAsJsonObject().get("edition").getAsJsonObject().get("editioncode").getAsString();
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(edcode);
 				}
-				String number = e.getAsJsonObject().get("card").getAsJsonObject().get("collectorNumber").getAsString();
+				var number = e.getAsJsonObject().get("card").getAsJsonObject().get("collectorNumber").getAsString();
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 				
 				if(mc!=null)
@@ -88,7 +86,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> ret = new ArrayList<>();
 		
 		
-		JsonArray arr = RequestBuilder.build()
+		var arr = RequestBuilder.build()
 						.setClient(URLTools.newClient())
 						.url(BASE_URI+"/decks/cards/").method(METHOD.GET)
 						.addContent("orderBy", "-createdAt")
@@ -103,15 +101,15 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		for(JsonElement el : arr)
 		{
 			try {
-				RetrievableDeck d = new RetrievableDeck();
+				var d = new RetrievableDeck();
 							d.setAuthor(el.getAsJsonObject().get("owner").getAsJsonObject().get("username").getAsString());
 							d.setName(el.getAsJsonObject().get("name").getAsString());
 							
-							StringBuilder build = new StringBuilder();						
+							var build = new StringBuilder();						
 								build.append(BASE_URI).append("/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
 							
 							d.setUrl(new URI(build.toString()));
-							StringBuilder tmp = new StringBuilder("");
+							var tmp = new StringBuilder("");
 							
 							for(String s : el.getAsJsonObject().get("colors").getAsJsonObject().keySet())
 								tmp.append("{").append(s).append("}");

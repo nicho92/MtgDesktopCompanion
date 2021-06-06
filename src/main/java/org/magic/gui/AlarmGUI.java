@@ -8,7 +8,6 @@ import static org.magic.tools.MTG.listEnabledPlugins;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -115,22 +114,22 @@ public class AlarmGUI extends MTGUIComponent {
 		
 		model = new CardAlertTableModel();
 		globalSearchPanel = new DeckPricePanel();
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel(true);
-		JPanel panelRight = new JPanel();
+		var panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
 		groupShopPanel = new GroupedShoppingPanel();
 		list = new JList<>(resultListModel);
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		btnRefresh = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh Alarm");
 		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "import Alarm");
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "delete Alarm");
 		btnSuggestPrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_S, "suggestPrices Alarm");
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
-		JPanel serversPanel = new JPanel();
-		ServerStatePanel oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
-		ServerStatePanel serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
+		var serversPanel = new JPanel();
+		var oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
+		var serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
 		
@@ -204,7 +203,7 @@ public class AlarmGUI extends MTGUIComponent {
 		
 		
 		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
-			MagicDeck tdek = new MagicDeck();
+			var tdek = new MagicDeck();
 			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),e.getQty()));
 			globalSearchPanel.initDeck(tdek);
 		});
@@ -355,6 +354,11 @@ public class AlarmGUI extends MTGUIComponent {
 						try {
 							get();
 						}
+						
+						catch(InterruptedException ex)
+						{
+							Thread.currentThread().interrupt();
+						}
 						catch(Exception e)
 						{
 							MTGControler.getInstance().notify(e);
@@ -377,13 +381,13 @@ public class AlarmGUI extends MTGUIComponent {
 		
 		
 		btnImport.addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
+			var menu = new JPopupMenu();
 
-			JMenuItem mnuImportSearch = new JMenuItem(capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+			var mnuImportSearch = new JMenuItem(capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(importAE -> {
-				CardSearchImportDialog cdSearch = new CardSearchImportDialog();
+				var cdSearch = new CardSearchImportDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.getSelection() != null) {
 					for (MagicCard mc : cdSearch.getSelection())
@@ -395,11 +399,11 @@ public class AlarmGUI extends MTGUIComponent {
 			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
-					JMenuItem it = new JMenuItem();
+					var it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
 					it.addActionListener(itEvent -> {
-						JFileChooser jf = new JFileChooser(".");
+						var jf = new JFileChooser(".");
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
@@ -455,7 +459,7 @@ public class AlarmGUI extends MTGUIComponent {
 			}
 
 			Component b = (Component) ae.getSource();
-			Point point = b.getLocationOnScreen();
+			var point = b.getLocationOnScreen();
 			menu.show(b, 0, 0);
 			menu.setLocation(point.x, point.y + b.getHeight());
 
@@ -472,7 +476,7 @@ public class AlarmGUI extends MTGUIComponent {
 	}
 
 	private void addCard(MagicCard mc) {
-		MagicCardAlert alert = new MagicCardAlert();
+		var alert = new MagicCardAlert();
 		alert.setCard(mc);
 		alert.setPrice(1.0);
 		alert.setId(IDGenerator.generate(mc));

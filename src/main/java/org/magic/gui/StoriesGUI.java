@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -18,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
-import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.magic.api.beans.MTGStory;

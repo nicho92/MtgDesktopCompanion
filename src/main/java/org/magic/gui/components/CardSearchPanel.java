@@ -149,11 +149,11 @@ public class CardSearchPanel extends MTGUIComponent {
 	}
 
 	public void initPopupCollection() throws SQLException {
-		JMenu menuItemAdd = new JMenu(capitalize("ADD"));
+		var menuItemAdd = new JMenu(capitalize("ADD"));
 		menuItemAdd.setIcon(MTGConstants.ICON_NEW);
 		for (MagicCollection mc : getEnabledPlugin(MTGDao.class).listCollections()) {
 
-			JMenuItem adds = new JMenuItem(mc.getName());
+			var adds = new JMenuItem(mc.getName());
 			adds.setIcon(MTGConstants.ICON_COLLECTION);
 			adds.addActionListener(addEvent -> {
 
@@ -211,12 +211,12 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		//////// INIT COMPONENTS
 
-		JScrollPane scrollThumbnails = new JScrollPane();
-		JSplitPane panneauCentral = new JSplitPane();
+		var scrollThumbnails = new JScrollPane();
+		var panneauCentral = new JSplitPane();
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
-		JTabbedPane tabbedCardsInfo = new JTabbedPane(SwingConstants.TOP);
+		var tabbedCardsInfo = new JTabbedPane(SwingConstants.TOP);
 		editionDetailPanel = new JPanel();
 		panelResultsCards = new JPanel();
 		abilitiesPanel = new CardAbilitiesPanel();
@@ -231,7 +231,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		detailCardPanel = new MagicCardDetailPanel();
 		panelmana = new JPanel();
 		panelFilters = new JPanel();
-		ManaPanel pan = new ManaPanel();
+		var pan = new ManaPanel();
 		panelJson = new ObjectViewerPanel();
 		tabbedCardsView = new JTabbedPane(SwingConstants.TOP);
 		thumbnailPanel = new HandPanel();
@@ -243,9 +243,9 @@ public class CardSearchPanel extends MTGUIComponent {
 		similarityPanel = new SimilarityCardPanel();
 		tableCards = UITools.createNewTable(null);
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
-		JLabel lblFilter = new JLabel();
+		var lblFilter = new JLabel();
 		listEdition = new JList<>();
-		JButton advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH_ADVANCED, KeyEvent.VK_A, "AdvancedSearch");
+		var advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH_ADVANCED, KeyEvent.VK_A, "AdvancedSearch");
 		searchComponent = new CriteriaComponent(false);
 		defaultEnterButton = new JButton(MTGConstants.ICON_SEARCH);
 		txtRulesArea = new JTextArea();
@@ -294,10 +294,10 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelResultsCards.setLayout(new BorderLayout(0, 0));
 		panelmana.setLayout(new GridLayout(1, 0, 2, 2));
 
-		FlowLayout flpanelFilters = (FlowLayout) panelFilters.getLayout();
+		var flpanelFilters = (FlowLayout) panelFilters.getLayout();
 		flpanelFilters.setAlignment(FlowLayout.LEFT);
 
-		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
+		var flowLayout = (FlowLayout) panneauHaut.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 
 		/////// DIMENSION
@@ -317,7 +317,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	
 		////// ADD PANELS
 		for (String s : new String[] { "W", "U", "B", "R", "G", "C", "1" }) {
-			final JButton btnG = new JButton();
+			final var btnG = new JButton();
 			btnG.setToolTipText(s);
 			if (s.equals("1"))
 				btnG.setToolTipText("[0-9]*");
@@ -412,7 +412,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		
 		advancedSearch.addActionListener(il->{
-			AdvancedSearchQueryDialog diag = new AdvancedSearchQueryDialog();
+			var diag = new AdvancedSearchQueryDialog();
 									  diag.setVisible(true);
 									
 			if(diag.getCrits().isEmpty())
@@ -543,7 +543,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				
 				
 				if (SwingUtilities.isRightMouseButton(evt)) {
-					Point point = evt.getPoint();
+					var point = evt.getPoint();
 					popupMenu.show(tableCards, (int) point.getX(), (int) point.getY());
 				} else {
 					try {
@@ -596,7 +596,11 @@ public class CardSearchPanel extends MTGUIComponent {
 									cardsPicPanel.showCard(selectedCard); // backcard
 									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 									priceTablePanel.init(selectedCard);
-								} catch (Exception e) {
+								}catch(InterruptedException ex)
+								{
+									Thread.currentThread().interrupt();
+								}
+								catch (Exception e) {
 									logger.error(e);
 								} 
 							}

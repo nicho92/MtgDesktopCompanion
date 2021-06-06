@@ -77,7 +77,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 	
 	private void init()
 	{
-		Dimension d = new Dimension(567,2173);
+		var d = new Dimension(567,2173);
 		double mmW = ImageTools.toMM(d.getWidth());
  		double mmH = ImageTools.toMM(d.getHeight());
  		String res = JOptionPane.showInputDialog("Dimension in mm", mmW+"x"+mmH);
@@ -107,7 +107,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		init();
 		
 		leftPanel = new JPanel();
-		JPanel editorPanel = new JPanel();
+		var editorPanel = new JPanel();
 		model = new DefaultListModel<>();
 		modelSelect = new DefaultListModel<>();
 		listSelected = new JList<>(modelSelect);
@@ -143,7 +143,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		previewPanel.setBackground(Color.white);
 		
 		
-		JScrollPane scrollPane = new JScrollPane(previewPanel);
+		var scrollPane = new JScrollPane(previewPanel);
 		scrollPane.setPreferredSize(new Dimension(250, 250));
 		add(scrollPane, BorderLayout.CENTER);
 		add(leftPanel, BorderLayout.WEST);
@@ -159,7 +159,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		
 		panel1 = new JPanel();
 		panneauBas.add(panel1);
-		FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
+		var flowLayout = (FlowLayout) panel1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		
 		chckbxAddHeader = new JCheckBox("add Header");
@@ -172,7 +172,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		
 		panelInterspace = new JPanel();
 		panneauBas.add(panelInterspace);
-		FlowLayout flowLayout1 = (FlowLayout) panelInterspace.getLayout();
+		var flowLayout1 = (FlowLayout) panelInterspace.getLayout();
 		flowLayout1.setAlignment(FlowLayout.LEFT);
 		
 		lblInterSpace = new JLabel("Space :");
@@ -202,7 +202,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panel.add(new JLabel("\u2193"));
 		
 		panel.add(new JScrollPane(listSelected));
-		JPanel commandsPanel = new JPanel();
+		var commandsPanel = new JPanel();
 		leftPanel.add(commandsPanel, BorderLayout.SOUTH);
 		
 		btnNew = new JButton(MTGConstants.ICON_NEW);
@@ -230,7 +230,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		
 		
 		btnBackgroundColor.addActionListener(ae->{
-			Color selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
+			var selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
 			tagMaker.setBackColor(selected);
 			updateInfo();
 		});
@@ -270,7 +270,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		});
 		
 		btnSave.addActionListener(e->{
-			JFileChooser choose = new JFileChooser(MTGConstants.DATA_DIR);
+			var choose = new JFileChooser(MTGConstants.DATA_DIR);
 			
 			choose.setFileFilter(new FileFilter() {
 				
@@ -290,7 +290,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 			int res= choose.showSaveDialog(null);
 						 
 			if(res==JFileChooser.APPROVE_OPTION) {			 
-				File f = choose.getSelectedFile();
+				var f = choose.getSelectedFile();
 				try {
 					ImageTools.saveImageInPng(img, f);
 				} catch (Exception e1) {

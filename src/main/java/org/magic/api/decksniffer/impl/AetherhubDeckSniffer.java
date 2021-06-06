@@ -23,9 +23,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
@@ -87,16 +85,16 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		
 		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
 		
-		String data = URLTools.extractAsString(uri);
+		var data = URLTools.extractAsString(uri);
 		MagicDeck deck = info.toBaseDeck();
 		
-		boolean sideboard=false;
+		var sideboard=false;
 		data = RegExUtils.replaceAll(data,"\\\\r\\\\n","\n");
 		data = RegExUtils.replaceAll(data,"\"","");
 
 		String[] lines = data.split("\n");
 		
-		for(int i=0;i<lines.length;i++)
+		for(var i=0;i<lines.length;i++)
 		{
 			String line=lines[i].trim();
 			
@@ -136,42 +134,42 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		String ret = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
 		
 		logger.trace(ret);
-		JsonObject el = URLTools.toJson(ret).getAsJsonObject();
-		JsonArray arr = el.get("metadecks").getAsJsonArray();
+		var el = URLTools.toJson(ret).getAsJsonObject();
+		var arr = el.get("metadecks").getAsJsonArray();
 		
 		for(JsonElement je : arr)
 		{
-			RetrievableDeck d = new RetrievableDeck();
-						    d.setAuthor(je.getAsJsonObject().get("username").getAsString());
-						    d.setName(je.getAsJsonObject().get("name").getAsString());
-						    d.setDescription(je.getAsJsonObject().get("updated").toString());
-						    
-						    JsonArray colors = je.getAsJsonObject().get("color").getAsJsonArray();
-						    StringBuilder temp = new StringBuilder();
-						    if (colors.get(0).getAsInt() > 0) {
-	                           temp.append("{W}");
-	                        }
-	                        if (colors.get(1).getAsInt() > 0) {
-	                        	temp.append("{U}");
-	                        }
-	                        if (colors.get(2).getAsInt() > 0) {
-	                        	temp.append("{B}");
-	                        }
-	                        if (colors.get(3).getAsInt() > 0) {
-	                        	temp.append("{R}");
-	                        }
-	                        if (colors.get(4).getAsInt() > 0) {
-	                        	temp.append("{G}");
-	                        }
-	                        d.setColor(temp.toString());
-	                        
-	                        try {
-								d.setUrl(new URI("https://aetherhub.com/Deck/Public?id="+je.getAsJsonObject().get("id").getAsInt()));
-							} catch (URISyntaxException e) {
-								logger.error(e);
-							}
-	                       
-						    list.add(d);
+			var d = new RetrievableDeck();
+			    d.setAuthor(je.getAsJsonObject().get("username").getAsString());
+			    d.setName(je.getAsJsonObject().get("name").getAsString());
+			    d.setDescription(je.getAsJsonObject().get("updated").toString());
+			    
+			    var colors = je.getAsJsonObject().get("color").getAsJsonArray();
+			    var temp = new StringBuilder();
+			    if (colors.get(0).getAsInt() > 0) {
+                   temp.append("{W}");
+                }
+                if (colors.get(1).getAsInt() > 0) {
+                	temp.append("{U}");
+                }
+                if (colors.get(2).getAsInt() > 0) {
+                	temp.append("{B}");
+                }
+                if (colors.get(3).getAsInt() > 0) {
+                	temp.append("{R}");
+                }
+                if (colors.get(4).getAsInt() > 0) {
+                	temp.append("{G}");
+                }
+                d.setColor(temp.toString());
+                
+                try {
+					d.setUrl(new URI("https://aetherhub.com/Deck/Public?id="+je.getAsJsonObject().get("id").getAsInt()));
+				} catch (URISyntaxException e) {
+					logger.error(e);
+				}
+               
+			    list.add(d);
 		}
 		return list;
 	}

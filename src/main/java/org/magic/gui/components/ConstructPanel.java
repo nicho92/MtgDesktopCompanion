@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -143,62 +142,62 @@ public class ConstructPanel extends MTGUIComponent {
 	
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		Player p = new Player();
+		var p = new Player();
 		
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		JButton btnUpdate;
-		JButton btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
+		var btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
 		HandPanel thumbnail;
 		JTabbedPane panelBottom;
-		CriteriaComponent searchComponent = new CriteriaComponent(false);
+		var searchComponent = new CriteriaComponent(false);
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
-		AbstractBuzyIndicatorComponent buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
+		var buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
 		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
 		panelBottom = new JTabbedPane();
 		thumbnail = new HandPanel();
-		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
+		var flowLayout = (FlowLayout) panneauHaut.getLayout();
 		comboPanel = new ComboFinderPanel();
-		LoggerViewPanel importLogPanel = new LoggerViewPanel();
+		var importLogPanel = new LoggerViewPanel();
 		
 		lblCards = new JLabel();
-		JButton btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
-		JButton btnOpen = UITools.createBindableJButton("", MTGConstants.ICON_OPEN, KeyEvent.VK_O, "Open");
+		var btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
+		var btnOpen = UITools.createBindableJButton("", MTGConstants.ICON_OPEN, KeyEvent.VK_O, "Open");
 		btnUpdate = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Refresh");
-		JButton btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
-		JButton btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
+		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
+		var btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
-		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		JPanel panneauBas = new JPanel();
+		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		var panneauBas = new JPanel();
 		tabbedPane = new JTabbedPane(SwingConstants.TOP);
-		JSplitPane panneauDeck = new JSplitPane();
+		var panneauDeck = new JSplitPane();
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		cardDrawProbaPanel = new DrawProbabilityPanel();
 		tableDeck = UITools.createNewTable(null);
 		tableSide = UITools.createNewTable(null);
-		final JTabbedPane tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
-		JPanel panelInfoDeck = new JPanel();
+		final var tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
+		var panelInfoDeck = new JPanel();
 		cmcChartPanel = new CmcChartPanel();
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		drawProbabilityPanel = new DrawProbabilityPanel();
-		JPanel randomHandPanel = new JPanel();
-		JPanel statPanel = new JPanel();
+		var randomHandPanel = new JPanel();
+		var statPanel = new JPanel();
 		deckPricePanel = new DeckPricePanel();
-		JPanel panel = new JPanel();
-		JButton btnDrawAHand = new JButton(capitalize("DRAW_HAND"));
-		JPanel panneauResultFilter = new JPanel();
-		JToggleButton tglbtnStd = new JToggleButton("STD");
-		JToggleButton tglbtnMdn = new JToggleButton("MDN");
-		JToggleButton tglbtnLeg = new JToggleButton("LEG");
-		JToggleButton tglbtnVin = new JToggleButton("VIN");
-		JToggleButton tglbtnCmd = new JToggleButton("CMD");
+		var panel = new JPanel();
+		var btnDrawAHand = new JButton(capitalize("DRAW_HAND"));
+		var panneauResultFilter = new JPanel();
+		var tglbtnStd = new JToggleButton("STD");
+		var tglbtnMdn = new JToggleButton("MDN");
+		var tglbtnLeg = new JToggleButton("LEG");
+		var tglbtnVin = new JToggleButton("VIN");
+		var tglbtnCmd = new JToggleButton("CMD");
 		defaultEnterButton = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH, KeyEvent.VK_S, "search");
-		JPanel panneauGauche = new JPanel();
+		var panneauGauche = new JPanel();
 		listResult = new JList<>(new DefaultListModel<>());
 		stockDetailPanel = new CardStockPanel();
 		
@@ -317,7 +316,7 @@ public class ConstructPanel extends MTGUIComponent {
 		
 //////////////////////////////////////////////////////////////////ACTIONS		
 		btnNewDeck.addActionListener(newDeckEvent -> {
-			MagicDeck newDeck = new MagicDeck();
+			var newDeck = new MagicDeck();
 			setDeck(newDeck);
 		});
 		
@@ -343,7 +342,11 @@ public class ConstructPanel extends MTGUIComponent {
 							deckSidemodel.init(deck);
 							setDeck(deck);
 							updatePanels();
-						}  catch (Exception e) {
+						}catch (InterruptedException e) {
+							Thread.currentThread().interrupt();
+							MTGControler.getInstance().notify(e);
+						}
+						catch (Exception e) {
 							MTGControler.getInstance().notify(e);
 						}
 						buzyLabel.end();
@@ -362,7 +365,7 @@ public class ConstructPanel extends MTGUIComponent {
 		
 		btnOpen.addActionListener(openEvent -> {
 			try {
-				JDeckChooserDialog choose = new JDeckChooserDialog();
+				var choose = new JDeckChooserDialog();
 				choose.setVisible(true);
 				deck = choose.getSelectedDeck();
 				if (deck != null) {
@@ -508,15 +511,15 @@ public class ConstructPanel extends MTGUIComponent {
 		tabbedDeckSide.addChangeListener(e -> selectedIndex = tabbedDeckSide.getSelectedIndex());
 
 		btnImport.addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
+			var menu = new JPopupMenu();
 			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) 
 			{
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 					
-					JMenuItem it = new JMenuItem(exp.getName(),exp.getIcon());
+					var it = new JMenuItem(exp.getName(),exp.getIcon());
 					it.addActionListener(itEvent -> {
 						
-						JFileChooser jf = new JFileChooser(MTGConstants.DATA_DIR);
+						var jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
@@ -562,7 +565,10 @@ public class ConstructPanel extends MTGUIComponent {
 									try {
 										setDeck(get());
 										updatePanels();
-									} catch (Exception e) {
+									} catch (InterruptedException e) {
+										Thread.currentThread().interrupt();
+										MTGControler.getInstance().notify(e);
+									}catch (Exception e) {
 										logger.error(e);
 									} 
 								}
@@ -577,7 +583,7 @@ public class ConstructPanel extends MTGUIComponent {
 			}
 
 			Component b = (Component) ae.getSource();
-			Point point = b.getLocationOnScreen();
+			var point = b.getLocationOnScreen();
 			menu.show(b, 0, 0);
 			menu.setLocation(point.x, point.y + b.getHeight());
 
@@ -605,7 +611,7 @@ public class ConstructPanel extends MTGUIComponent {
 				@Override
 				protected void process(List<MagicCard> chunks) {
 					super.process(chunks);
-					MagicFormat form = new MagicFormat();
+					var form = new MagicFormat();
 					for (MagicCard m : chunks) {
 						if (groupsFilterResult.getSelection() != null) {
 							form.setFormat(groupsFilterResult.getSelection().getActionCommand());
@@ -698,9 +704,9 @@ public class ConstructPanel extends MTGUIComponent {
 				
 				if(SwingUtilities.isRightMouseButton(ev))
 				{
-					JPopupMenu menu = new JPopupMenu();
+					var menu = new JPopupMenu();
 	
-					JMenuItem itemDel = new JMenuItem(capitalize("DELETE"));
+					var itemDel = new JMenuItem(capitalize("DELETE"));
 					menu.add(itemDel);
 					itemDel.addActionListener(ae->{
 						
@@ -714,21 +720,20 @@ public class ConstructPanel extends MTGUIComponent {
 					
 							if((deck.getCommander()!=null) && mc.getName().equals(deck.getCommander().getName()))
 							{
-								JMenuItem itemRemoveCommander = new JMenuItem(capitalize("REMOVE_COMMANDER"));
+								var itemRemoveCommander = new JMenuItem(capitalize("REMOVE_COMMANDER"));
 								menu.add(itemRemoveCommander);
 								itemRemoveCommander.addActionListener(ae->deck.setCommander(null));	
 							}
 							else
 							{
-								JMenuItem itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
+								var itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
 								menu.add(itemSelCommander);
 								itemSelCommander.addActionListener(ae->deck.setCommander(mc));
 							
 							}
 					}
 					
-					
-					JMenuItem itemMove = new JMenuItem(capitalize("MOVE_CARD_TO") + ((f==STACK.MAIN)? " Side":" Main"));
+					var itemMove = new JMenuItem(capitalize("MOVE_CARD_TO") + ((f==STACK.MAIN)? " Side":" Main"));
 					menu.add(itemMove);
 					
 					
@@ -763,7 +768,7 @@ public class ConstructPanel extends MTGUIComponent {
 					});
 					
 					
-					JMenuItem item = new JMenuItem(capitalize("MORE_LIKE_THIS"));
+					var item = new JMenuItem(capitalize("MORE_LIKE_THIS"));
 					menu.add(item);
 					item.addActionListener(ae->{
 						
@@ -780,7 +785,7 @@ public class ConstructPanel extends MTGUIComponent {
 							logger.error(e);
 						}
 					});
-					Point point = ev.getPoint();
+					var point = ev.getPoint();
 					menu.show(table, (int) point.getX(), (int) point.getY());
 					
 				}

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import de.vandermeer.asciitable.AsciiTable;
 
@@ -29,7 +28,7 @@ public class ArrayResponse extends AbstractResponse {
 
 	@Override
 	public String show() {
-		AsciiTable at = new AsciiTable();
+		var at = new AsciiTable();
 		at.getContext().setWidth(200);
 		at.addRule();
 		at.addRow(getAttributes());
@@ -40,9 +39,9 @@ public class ArrayResponse extends AbstractResponse {
 		
 		if(element.isJsonArray())
 		{	
-			for(int i=0;i<getElement().getAsJsonArray().size();i++)
+			for(var i=0;i<getElement().getAsJsonArray().size();i++)
 			{
-				JsonObject obj = getElement().getAsJsonArray().get(i).getAsJsonObject();
+				var obj = getElement().getAsJsonArray().get(i).getAsJsonObject();
 				List<String> values = new ArrayList<>();
 				for(String k : getAttributes())
 				{

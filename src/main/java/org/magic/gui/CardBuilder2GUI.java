@@ -347,7 +347,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 			btnAddName.addActionListener(e -> {
 
-				MagicCardNames name = new MagicCardNames();
+				var name = new MagicCardNames();
 				name.setLanguage("");
 				name.setName("");
 				magicCardEditorPanel.getMagicCard().getForeignNames().add(name);
@@ -355,7 +355,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 			btnNewCard.addActionListener(e -> {
-				MagicCard mc = new MagicCard();
+				var mc = new MagicCard();
 				mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
 				try {
 					mc.getCurrentSet().setNumber(
@@ -383,13 +383,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			btnSaveEdition.addActionListener(e -> {
 				try {
-					MagicEdition ed = magicEditionDetailPanel.getMagicEdition();
+					var ed = magicEditionDetailPanel.getMagicEdition();
 					List<Object> boos = new ArrayList<>();
-					for (int i = 0; i < (Integer) spinCommon.getValue(); i++)
+					for (var i = 0; i < (Integer) spinCommon.getValue(); i++)
 						boos.add("common");
-					for (int i = 0; i < (Integer) spinUnco.getValue(); i++)
+					for (var i = 0; i < (Integer) spinUnco.getValue(); i++)
 						boos.add("uncommon");
-					for (int i = 0; i < (Integer) spinRare.getValue(); i++)
+					for (var i = 0; i < (Integer) spinRare.getValue(); i++)
 						boos.add(new String[] { "rare", "mythic rare" });
 
 					ed.setBooster(boos);
@@ -407,7 +407,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 			btnImport.addActionListener(e -> {
-				CardSearchImportDialog l = new CardSearchImportDialog();
+				var l = new CardSearchImportDialog();
 				l.setVisible(true);
 				if (l.getSelected() != null)
 					initCard(l.getSelected());
@@ -477,7 +477,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				btnRefresh.doClick();
 				
 				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
-				MagicCard mc = magicCardEditorPanel.getMagicCard();
+				var mc = magicCardEditorPanel.getMagicCard();
 				me.setNumber(mc.getCurrentSet().getNumber());
 				me.setArtist(mc.getArtist());
 				me.setFlavor(mc.getFlavor());
@@ -489,7 +489,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					mc.getEditions().add(0, me);
 				try {
 					provider.addCard(me, mc);
-					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
+					var bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
 					Graphics2D g = bi.createGraphics();
 					panelPictures.paint(g);
 					g.dispose();

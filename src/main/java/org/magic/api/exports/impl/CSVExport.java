@@ -82,7 +82,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 
-			StringBuilder bw = new StringBuilder();
+		var bw = new StringBuilder();
 		
 			bw.append(columns).append(getSeparator());
 			bw.append(StringUtils.join(getArray(EXTRA_PROPERTIES),getSeparator())).append(System.lineSeparator());
@@ -116,7 +116,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
 
 		
-		StringBuilder bw = new StringBuilder();
+		var bw = new StringBuilder();
 		String[] extraProperties = getArray(EXTRA_PROPERTIES);
 		
 		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qty");
@@ -178,9 +178,9 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String content,String n) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(n);
-		boolean isSide=false;
+		var isSide=false;
 		
 		for(String line : UITools.stringLineSplit(content, false)) {
 				
