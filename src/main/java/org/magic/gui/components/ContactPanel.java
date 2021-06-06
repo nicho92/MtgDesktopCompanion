@@ -26,7 +26,7 @@ import org.magic.tools.UITools;
 
 public class ContactPanel extends MTGUIComponent {
 
-	private BindingGroup mbindingGroup;
+	private transient BindingGroup mbindingGroup;
 	private Contact contact = new Contact();
 	private JTextArea addressJTextArea;
 	private JTextField countryJTextField;

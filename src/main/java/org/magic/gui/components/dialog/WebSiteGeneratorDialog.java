@@ -57,10 +57,10 @@ public class WebSiteGeneratorDialog extends JDialog {
 		setIconImage(MTGConstants.ICON_WEBSITE.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		File f = new File(MTGConstants.MTG_TEMPLATES_DIR);
+		var f = new File(MTGConstants.MTG_TEMPLATES_DIR);
 
 		List<String> arrayTemplates = new ArrayList<>();
 
@@ -74,30 +74,30 @@ public class WebSiteGeneratorDialog extends JDialog {
 		txtDest = new JTextFieldFileChooser(20,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
 		panel.add(txtDest);
 
-		JPanel panneauBas = new JPanel();
+		var panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 
-		JButton btnGenerate = new JButton(capitalize("START"));
+		var btnGenerate = new JButton(capitalize("START"));
 
 		panneauBas.add(btnGenerate);
 
-		JPanel panneaucentral = new JPanel();
+		var panneaucentral = new JPanel();
 		getContentPane().add(panneaucentral, BorderLayout.CENTER);
-		GridBagLayout gblpanneaucentral = new GridBagLayout();
+		var gblpanneaucentral = new GridBagLayout();
 		gblpanneaucentral.columnWidths = new int[] { 258, 258, 0 };
 		gblpanneaucentral.rowHeights = new int[] { 35, 191, 0 };
 		gblpanneaucentral.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		gblpanneaucentral.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		panneaucentral.setLayout(gblpanneaucentral);
 
-		JLabel lblChooseYourCollections = new JLabel(
+		var lblChooseYourCollections = new JLabel(
 				capitalize("CHOOSE_COLLECTIONS") + " :");
-		GridBagConstraints gbclblChooseYourCollections = UITools.createGridBagConstraints(null, null, 0, 0);
+		var gbclblChooseYourCollections = UITools.createGridBagConstraints(null, null, 0, 0);
 		panneaucentral.add(lblChooseYourCollections, gbclblChooseYourCollections);
 
-		JLabel lblChooseYourPrices = new JLabel(
+		var lblChooseYourPrices = new JLabel(
 				capitalize("CHOOSE_PRICER") + " :");
-		GridBagConstraints gbclblChooseYourPrices = UITools.createGridBagConstraints(null, null,1, 0);
+		var gbclblChooseYourPrices = UITools.createGridBagConstraints(null, null,1, 0);
 		panneaucentral.add(lblChooseYourPrices, gbclblChooseYourPrices);
 
 		

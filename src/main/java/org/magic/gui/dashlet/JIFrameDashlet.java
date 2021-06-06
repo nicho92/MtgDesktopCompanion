@@ -51,9 +51,7 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		});
 		
 		
-		txtUrl.addActionListener(al->{
-			init();
-		});
+		txtUrl.addActionListener(al->init());
 		
 	}
 

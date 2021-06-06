@@ -653,10 +653,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		
-		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) -> {
-			
-			return getEnabledPlugin(MTGDao.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
-		}, transformer);
+		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
 		
 		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
 			

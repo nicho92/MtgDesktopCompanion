@@ -199,14 +199,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saveCard " + mc + " in " + collection);
-
+		
 		var obj = new BasicDBObject();
 		obj.put(dbIDField, IDGenerator.generate(mc));
 		obj.put("card", mc);
 		obj.put(dbEditionField, mc.getCurrentSet().getId().toUpperCase());
 		obj.put("collection", collection);
 		String json = serialize(obj);
-
+		
 		db.getCollection(colCards, BasicDBObject.class).insertOne(BasicDBObject.parse(json));
 	}
 
@@ -284,9 +284,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		List<String> ret = new ArrayList<>();
-		var query = new BasicDBObject();
-		query.put(dbColIDField, collection.getName());
-		db.getCollection(colCards, BasicDBObject.class).distinct(dbEditionField, query, String.class).into(ret);
+		db.getCollection(colCards, BasicDBObject.class).distinct(dbEditionField, Filters.eq(dbColIDField, collection.getName()), String.class).into(ret);
 		return ret;
 	}
 
@@ -387,17 +385,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colStocks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
-			Bson filter = new Document("stockItem.idstock", state.getIdstock());
+			
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
 			obj.put(dbIDField, IDGenerator.generate(state.getMagicCard()));
-			logger.debug(filter);
-			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
-			logger.trace(res);
+			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.idstock", state.getIdstock()),BasicDBObject.parse(serialize(obj)));
+			logger.debug(res);
 		}
-		
 		notify(state);
-		
 	}
 
 	@Override
@@ -675,4 +670,3 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 
 }
-

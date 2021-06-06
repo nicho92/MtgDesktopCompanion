@@ -2,12 +2,9 @@ package org.magic.tools;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.log4j.Logger;
@@ -49,14 +46,14 @@ public class WooCommerceTools {
 			public Map<String,JsonElement> update(String endpointBase, int id, Map<String, Object> object) {
 				Map<String,JsonElement> map = new HashMap<>();
 				try {
-					String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase,id);
+					var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase,id);
 					URLToolsClient c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
 									   
 					String ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					
-					JsonObject obj = URLTools.toJson(ret).getAsJsonObject();
+					var obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 				} catch (IOException e) {
 					logger.error(e);
@@ -87,7 +84,7 @@ public class WooCommerceTools {
 						ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					}
 					
-					JsonObject obj = URLTools.toJson(ret).getAsJsonObject();
+					var obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 				} catch (Exception e) {
 					logger.error(e);
@@ -100,9 +97,9 @@ public class WooCommerceTools {
 			
 			@Override
 			public List<JsonElement> getAll(String endpointBase, Map<String, String> params) {
-				String url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
-		        String signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
-		        String securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
+				var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
+				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
+				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
 		        List<JsonElement> ret = new ArrayList<>();
 		        try {
 					for(JsonElement e : URLTools.extractJson(securedUrl).getAsJsonArray())
@@ -117,9 +114,9 @@ public class WooCommerceTools {
 			
 			@Override
 			public Map<String,JsonElement> get(String endpointBase, int id) {
-				String url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
-		        String signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
-		        String securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
+				var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
+				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
+				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
 		        Map<String,JsonElement> map = new HashMap<>();
 				try {
 					JsonObject el = URLTools.extractJson(securedUrl).getAsJsonObject();
@@ -140,7 +137,7 @@ public class WooCommerceTools {
 			
 			@Override
 			public Map<String,JsonElement> batch(String endpointBase, Map<String, Object> object) {
-				String url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
+				var url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
 				URLToolsClient c = URLTools.newClient();
 				Map<String,String> header = new HashMap<>();
 				  				   header.put(URLTools.CONTENT_TYPE, contentType);

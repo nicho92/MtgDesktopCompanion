@@ -39,9 +39,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		d.setName(name);
 		d.setDescription("import from " + getName());
 		
-		importStock(f).forEach(mcs->{
-			d.add(mcs.getMagicCard());
-		});
+		importStock(f).forEach(mcs->d.add(mcs.getMagicCard()));
 		
 		return d;
 	}

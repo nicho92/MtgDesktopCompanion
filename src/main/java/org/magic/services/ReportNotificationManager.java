@@ -12,7 +12,6 @@ import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
-import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 
 public class ReportNotificationManager {

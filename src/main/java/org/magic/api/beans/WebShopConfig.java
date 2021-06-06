@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.iban4j.Bic;
-import org.iban4j.Iban;
-
 public class WebShopConfig implements Serializable {
 
 	private static final long serialVersionUID = 1L;

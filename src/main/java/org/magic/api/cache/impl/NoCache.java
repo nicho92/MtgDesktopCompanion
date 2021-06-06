@@ -3,7 +3,6 @@ package org.magic.api.cache.impl;
 import java.awt.image.BufferedImage;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 
 public class NoCache extends AbstractCacheProvider {

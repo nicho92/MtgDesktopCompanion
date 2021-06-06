@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.collections4.ListUtils;
-import org.apache.http.entity.ByteArrayEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -23,23 +22,16 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.BeanTools;
 import org.magic.tools.MTG;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 import org.magic.tools.WooCommerceTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.icoderman.woocommerce.ApiVersionType;
 import com.icoderman.woocommerce.EndpointBaseType;
-import com.icoderman.woocommerce.HttpMethod;
 import com.icoderman.woocommerce.WooCommerce;
-import com.icoderman.woocommerce.oauth.OAuthConfig;
-import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceExport extends AbstractCardExport {
 
@@ -255,7 +247,7 @@ public class WooCommerceExport extends AbstractCardExport {
         }
       	
       	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
-			JsonArray arr = new JsonArray();
+      		var arr = new JsonArray();
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
@@ -276,7 +268,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 
 	private String toName(MagicCard card) {
-		String s = BeanTools.createString(card, getString(ARTICLE_NAME));
+		var s = BeanTools.createString(card, getString(ARTICLE_NAME));
 		
 		logger.debug("generate name " + s);
 		
@@ -304,11 +296,11 @@ public class WooCommerceExport extends AbstractCardExport {
 			logger.debug(ret);
 		
 			if(ret.get(CREATE)!=null) {
-				JsonArray arrRet = ret.get(CREATE).getAsJsonArray();
+				var arrRet = ret.get(CREATE).getAsJsonArray();
 					
-				for(int i=0;i<arrRet.size();i++)
+				for(var i=0;i<arrRet.size();i++)
 				{
-					JsonObject obj = arrRet.get(i).getAsJsonObject();
+					var obj = arrRet.get(i).getAsJsonObject();
 					
 					try {
 							if(obj.get("id").getAsInt()==0)
@@ -350,11 +342,11 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	private JsonObject createAttributes(String key ,String[] val,boolean visible)
 	{
-			JsonObject obj = new JsonObject();
+					var obj = new JsonObject();
 					   obj.addProperty("name", key);
 					   obj.addProperty("visible", String.valueOf(visible));
 					   
-					   JsonArray arr  =new JsonArray();
+					   var arr  =new JsonArray();
 					   for(String s : val)
 						   arr.add(s);
 					   
@@ -364,7 +356,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	private String desc(MagicCard mc) {
 		MagicCard mc2 = toForeign(mc);
-		StringBuilder build =new StringBuilder();
+		var build =new StringBuilder();
 		build.append("<html>").append(mc2).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText())
 		.append("</html>");
 		
@@ -391,18 +383,18 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	private JsonArray toJson(String string, String value) {
 
-		JsonObject obj = new JsonObject();
-				   obj.addProperty(string, value);
+		var obj = new JsonObject();
+		    obj.addProperty(string, value);
 				   
-		JsonArray arr = new JsonArray();
-				  arr.add(obj);
-				   
-				  return arr;
+		var arr = new JsonArray();
+		    arr.add(obj);
+		
+		return arr;
 	}
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))

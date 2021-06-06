@@ -104,7 +104,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		setLayout(new BorderLayout(0, 0));
 		
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
@@ -112,21 +112,21 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		JPanel panelControl = new JPanel();
+		var panelControl = new JPanel();
 		JComboBox<Webcam> cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
 		JComboBox<AbstractRecognitionArea> cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
-		JCheckBox chkpause = new JCheckBox("Pause");
-		JSlider sldThreshold = new JSlider(0,100,27);
-		JLabel lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
-		JPanel thrsh = new JPanel();
-		JPanel controlWebcamPanel = new JPanel();
-		JButton btnStarting = new JButton("Detect");
-		JPanel panneauBas = new JPanel();
-		JPanel panneauBasButtons = new JPanel();
-		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
-		JButton btnClose = new JButton(MTGConstants.ICON_IMPORT);
-		JButton btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
-		JButton btnAddCam = new JButton(MTGConstants.ICON_NEW);
+		var chkpause = new JCheckBox("Pause");
+		var sldThreshold = new JSlider(0,100,27);
+		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
+		var thrsh = new JPanel();
+		var controlWebcamPanel = new JPanel();
+		var btnStarting = new JButton("Detect");
+		var panneauBas = new JPanel();
+		var panneauBasButtons = new JPanel();
+		var btnRemove = new JButton(MTGConstants.ICON_DELETE);
+		var btnClose = new JButton(MTGConstants.ICON_IMPORT);
+		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
+		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
 		
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
@@ -139,7 +139,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		}
 		tableResults = UITools.createNewTable(modelCards);
 		JList<LoadedRecognitionEdition> listEds = new JList<>(listModel);
-		JListFilterDecorator deco = JListFilterDecorator.decorate(listEds,(LoadedRecognitionEdition t, String u)->t.getEdition().getSet().toLowerCase().contains(u.toLowerCase()));
+		var deco = JListFilterDecorator.decorate(listEds,(LoadedRecognitionEdition t, String u)->t.getEdition().getSet().toLowerCase().contains(u.toLowerCase()));
 
 		
 		webcamCanvas = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
@@ -174,7 +174,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		panneauBasButtons.add(btnRemove);
 		panneauBasButtons.add(btnClose);
 		panneauBas.add(panneauBasButtons,BorderLayout.EAST);
-		JScrollPane scrollPane = new JScrollPane(tableResults);
+		var scrollPane = new JScrollPane(tableResults);
 		scrollPane.setPreferredSize(new Dimension(2, 150));
 		panneauBas.add(scrollPane,BorderLayout.CENTER);
 
@@ -235,7 +235,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		});
 		
 		btnAddCam.addActionListener(al->{
-			IPCamAddDialog diag = new IPCamAddDialog();
+			var diag = new IPCamAddDialog();
 						   diag.setModal(true);
 						   diag.setVisible(true);
 			if(diag.isHasNew())
@@ -372,7 +372,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	}
 	
 	public MagicDeck getSelectedDeck() {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setDescription("Imported from " + getTitle());
 		d.setName(getName());
 		getFindedCards().forEach(d::add);
