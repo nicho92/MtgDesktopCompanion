@@ -123,7 +123,7 @@ public class BinderTagsManager {
 
 	public BufferedImage generate() {
 
-		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		var newImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2 = newImage.createGraphics();
 		
 		if(backColor!=null)
@@ -134,14 +134,14 @@ public class BinderTagsManager {
 		
 		if(border)
 		{
-			int thik=1;
+			var thik=1;
 			g2.setColor(Color.BLACK);
 			g2.setStroke(new BasicStroke(thik));
 			g2.drawRect(0, 0, newImage.getWidth()-thik,newImage.getHeight()-thik);
 		}
 		
 		
-		int x = 10;
+		var x = 10;
 		for (BufferedImage im : lst) {
 			g2.drawImage(im, null, 0, x);
 			x += im.getHeight()+space;

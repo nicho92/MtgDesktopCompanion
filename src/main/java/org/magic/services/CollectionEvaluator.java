@@ -103,7 +103,7 @@ public class CollectionEvaluator extends Observable
 	
 	public EditionsShakers initCache(MagicEdition edition,String provider) throws IOException
 	{
-		EditionsShakers ret = new EditionsShakers();
+		var ret = new EditionsShakers();
 			try {
 				ret= getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
 			} catch (FileNotFoundException e) {
@@ -156,7 +156,7 @@ public class CollectionEvaluator extends Observable
 	
 	public Date getCacheDate(MagicEdition ed)
 	{
-		File fich = new File(directory,ed.getId()+PRICE_JSON);
+		var fich = new File(directory,ed.getId()+PRICE_JSON);
 		if(fich.exists())
 		{
 			EditionsShakers r = loadFromCache(ed);
@@ -178,7 +178,7 @@ public class CollectionEvaluator extends Observable
 		
 		Map<MagicCard,CardShake> ret = new HashMap<>();
 		try {
-			File fich = new File(directory,ed.getId()+PRICE_JSON);
+			var fich = new File(directory,ed.getId()+PRICE_JSON);
 			EditionsShakers list;
 			if(fich.exists())
 			{
@@ -205,7 +205,7 @@ public class CollectionEvaluator extends Observable
 					}
 					else
 					{
-						CardShake csn = new CardShake();
+						var csn = new CardShake();
 						csn.setName(mc.getName());
 						csn.setCard(mc);
 						csn.setPrice(0.0);
@@ -240,7 +240,7 @@ public class CollectionEvaluator extends Observable
 			logger.error("error loading " + ed, e);
 		}
 		
-		EditionsShakers eds = new EditionsShakers();
+		var eds = new EditionsShakers();
 		eds.setEdition(ed);
 		return eds;
 		
@@ -249,7 +249,7 @@ public class CollectionEvaluator extends Observable
 
 	public void export(File f) throws IOException{
 		
-		StringBuilder temp = new StringBuilder("EDITION;CARDNAME;PRICE");
+		var temp = new StringBuilder("EDITION;CARDNAME;PRICE");
 		temp.append(System.lineSeparator());
 		for(Entry<MagicCard, CardShake> e : prices().entrySet())
 		{

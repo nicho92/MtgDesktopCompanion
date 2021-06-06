@@ -23,7 +23,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 			Document d = URLTools.extractHtml(getString("URL") + "/?s=" + search);
 
 			for (Element e : d.select("article.result")) {
-				Wallpaper w = new Wallpaper();
+				var w = new Wallpaper();
 				w.setName(e.select("h2 a").text());
 				w.setUrl(new URI(e.select("a img").attr("src")));
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
@@ -46,7 +46,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 			Document d = URLTools.extractHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replace(" ", "-"));
 					
 			for (Element e : d.select("div.elastic-portfolio-item img")) {
-				Wallpaper w = new Wallpaper();
+				var w = new Wallpaper();
 				w.setName(e.attr("title"));
 				w.setUrl(new URI(e.attr("src")));
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));

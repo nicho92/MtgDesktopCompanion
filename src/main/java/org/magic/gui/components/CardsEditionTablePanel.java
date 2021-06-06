@@ -62,7 +62,7 @@ public class CardsEditionTablePanel extends JPanel {
 	public CardsEditionTablePanel() {
 		setLayout(new BorderLayout(0, 0));
 		
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
 		
 		table = UITools.createNewTable(model);
@@ -86,7 +86,7 @@ public class CardsEditionTablePanel extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauHaut,BorderLayout.NORTH);
 		
-		JPanel panneauBas = new JPanel();
+		var panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
 		
 		cboCollection =  UITools.createComboboxCollection();

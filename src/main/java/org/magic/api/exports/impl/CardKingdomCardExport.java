@@ -47,7 +47,7 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		String s = BASE_URL+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
 		

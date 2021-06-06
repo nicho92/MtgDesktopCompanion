@@ -14,7 +14,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -27,7 +26,7 @@ public class CardTraderShopper extends AbstractMagicShopper {
 	public List<OrderEntry> listOrders() throws IOException {
 		
 		List<OrderEntry> orders = new ArrayList<>();
-		JsonArray arr = URLTools.extractJson(BASE+"/orders?token="+getString(TOKEN)).getAsJsonArray();
+		var arr = URLTools.extractJson(BASE+"/orders?token="+getString(TOKEN)).getAsJsonArray();
 		
 		for(JsonElement o : arr)
 		{
@@ -45,9 +44,9 @@ public class CardTraderShopper extends AbstractMagicShopper {
 		
 		for(JsonElement e :obj.get("order_items").getAsJsonArray())
 		{
-			JsonObject entry = e.getAsJsonObject();
+			var entry = e.getAsJsonObject();
 			
-			OrderEntry ord = new OrderEntry();
+			var ord = new OrderEntry();
 				   ord.setIdTransation(entry.get("id").getAsString());
 				   ord.setCurrency(Currency.getInstance(entry.get("price_currency").getAsString()));
 				   ord.setSource(getName());

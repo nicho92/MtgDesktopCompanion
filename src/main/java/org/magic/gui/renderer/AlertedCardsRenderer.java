@@ -12,7 +12,7 @@ public class AlertedCardsRenderer implements TableCellRenderer {
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		Component comp = new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		var comp = new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	
 		if ((Integer) value > 0)
 			comp.setBackground(Color.GREEN);

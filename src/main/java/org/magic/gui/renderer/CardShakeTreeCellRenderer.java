@@ -41,7 +41,7 @@ public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRen
 		
 		if(value instanceof CardShake)
 		{
-			JLabel l = new JLabel(value.toString());
+			var l = new JLabel(value.toString());
 			l.setIcon(MTGConstants.ICON_TAB_CARD);
 			return l;
 		}

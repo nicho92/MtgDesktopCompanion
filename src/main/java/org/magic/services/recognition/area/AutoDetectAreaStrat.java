@@ -25,7 +25,7 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
         {
             BufferedImage norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
             BufferedImage flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
-            ImageDesc i = new ImageDesc(norm,flip);
+            var i = new ImageDesc(norm,flip);
           
             MatchResult mr = strat.getMatch(i, recogTresh/100.0);
             if (mr != null) {

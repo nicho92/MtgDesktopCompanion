@@ -58,7 +58,7 @@ public class ClipBoardExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName("ClipBoard");
 		
 		for(MagicCard mc : clipboard.values())

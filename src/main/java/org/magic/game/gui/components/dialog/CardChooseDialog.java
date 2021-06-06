@@ -32,13 +32,13 @@ public class CardChooseDialog extends JDialog {
 
 		getContentPane().add(comboBox, BorderLayout.CENTER);
 
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		JButton btnOK = new JButton("Select");
+		var btnOK = new JButton("Select");
 		panel.add(btnOK);
 
-		JButton btnCancel = new JButton("Cancel");
+		var btnCancel = new JButton("Cancel");
 		panel.add(btnCancel);
 
 		pack();

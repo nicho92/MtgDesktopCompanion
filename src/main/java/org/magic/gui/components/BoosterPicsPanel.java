@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.AbstractMap.SimpleEntry;
@@ -87,7 +86,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 
 	private Image resizeBooster(BufferedImage boosterFor) {
 		
-		Dimension d= MTGControler.getInstance().getPictureProviderDimension();
+		var d= MTGControler.getInstance().getPictureProviderDimension();
 		return ImageTools.resize(ImageTools.trimAlpha(boosterFor), (int)d.getHeight(), (int)d.getWidth()-15);
 		
 	}

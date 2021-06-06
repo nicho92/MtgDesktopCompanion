@@ -21,7 +21,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		build.append(header).append("\n");
 		
 		deck.getMain().entrySet().forEach(entry->{
@@ -43,7 +43,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(name);
 
 		matches(f,true).forEach(m->{

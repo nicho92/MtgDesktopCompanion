@@ -71,13 +71,13 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		BoostersTableModel boostersModel;
 		DefaultListModel<MagicCard> cardsModel;
 		JTextPane txtDetailBox;
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
 		cboEditions.insertItemAt(null, 0);
 		panneauHaut.add(cboEditions);
 
-		JLabel lblBoxSize = new JLabel("Box size: ");
+		var lblBoxSize = new JLabel("Box size: ");
 		panneauHaut.add(lblBoxSize);
 
 		boxSizeSpinner = new JSpinner();
@@ -91,20 +91,20 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		table = UITools.createNewTable(boostersModel);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		JPanel panneauBas = new JPanel();
+		var panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 
-		JButton btnCalculate = new JButton(MTGConstants.ICON_OPEN);
+		var btnCalculate = new JButton(MTGConstants.ICON_OPEN);
 		panneauBas.add(btnCalculate);
 
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.EAST);
 
 		txtDetailBox = new JTextPane();
 		txtDetailBox.setEditable(false);
 		tabbedPane.addTab("Box", null, txtDetailBox, null);
 
-		JScrollPane scrollPane1 = new JScrollPane();
+		var scrollPane1 = new JScrollPane();
 		tabbedPane.addTab("Booster", null, scrollPane1, null);
 
 		JList<MagicCard> list1 = new JList<>();

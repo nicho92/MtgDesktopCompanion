@@ -53,7 +53,7 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 			return;
 		
 
-			StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 			temp.append("KEYWORDS : \n");
 			AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc).forEach(kw->{
 				temp.append("\t").append(kw.getKeyword()).append(" ");

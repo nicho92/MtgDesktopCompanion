@@ -107,7 +107,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				{
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 					MagicCard mc = MTGControler.getInstance().switchEditions(alert.getCard(), ed);
-					MagicCardAlert alert2 = new MagicCardAlert();
+					var alert2 = new MagicCardAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
 					getEnabledPlugin(MTGDao.class).saveAlert(alert2);

@@ -3,7 +3,6 @@ package org.magic.tools;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -31,7 +30,7 @@ public class BeanTools {
 	
 	public static String toString(Object o,String separator)
 	{
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		try {
 			describe(o).entrySet().forEach(e->
 				build.append(e.getKey()).append(separator).append(e.getValue()).append(System.lineSeparator())
@@ -64,9 +63,9 @@ public class BeanTools {
 	}
 
 	public static String createString(Object mc, String text) {
-		Pattern p = Pattern.compile("\\"+TOKEN_START+CardsPatterns.REGEX_ANY_STRING+"\\"+TOKEN_END);
-		Matcher m = p.matcher(text);
-		StringBuilder temp = new StringBuilder();
+		var p = Pattern.compile("\\"+TOKEN_START+CardsPatterns.REGEX_ANY_STRING+"\\"+TOKEN_END);
+		var m = p.matcher(text);
+		var temp = new StringBuilder();
 		
 		while(m.find())
 		{

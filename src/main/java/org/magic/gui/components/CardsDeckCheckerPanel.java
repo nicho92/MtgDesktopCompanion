@@ -29,7 +29,7 @@ public class CardsDeckCheckerPanel extends JComponent {
 	public CardsDeckCheckerPanel() {
 		setLayout(new BorderLayout(0, 0));
 		buzyLabel = AbstractBuzyIndicatorComponent.createLabelComponent();
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		manager = new MTGDeckManager();
 		model = new DeckSelectionTableModel();
 		table = UITools.createNewTable(model);

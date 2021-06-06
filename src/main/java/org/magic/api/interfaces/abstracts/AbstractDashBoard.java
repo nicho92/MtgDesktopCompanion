@@ -127,8 +127,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	@Override
 	public synchronized EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException {
 		
-		Date c = evaluator.getCacheDate(edition);
-		Date d = new Date();
+		var c = evaluator.getCacheDate(edition);
+		var d = new Date();
 		
 		logger.trace(edition + " cache : " + c);
 		

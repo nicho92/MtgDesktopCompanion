@@ -95,12 +95,12 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			ByteBuffer buf = FileTools.getBuffer(handle);
 			FileTools.readUTF8(buf);
 			buf.getInt();
-			int rec = buf.getInt();
-			for(int i=0;i<rec;i++)
+			var rec = buf.getInt();
+			for(var i=0;i<rec;i++)
 			{
 				String s = FileTools.readUTF8(buf);
-				ImageDesc id = ImageDesc.readIn(buf);
-				DescContainer dc = new DescContainer(id,s);
+				var id = ImageDesc.readIn(buf);
+				var dc = new DescContainer(id,s);
 				if(!MagicCard.isBasicLand(dc.getName()))
 				{
 					add(dc);

@@ -21,7 +21,7 @@ public class CmcChartPanel extends MTGUIChartComponent<MagicCard> {
 
 
 	private CategoryDataset getDataSet() {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		var dataset = new DefaultCategoryDataset();
 		for (Entry<Integer, Integer> k : manager.analyseCMC(items).entrySet())
 			dataset.addValue(k.getValue(), "cmc", k.getKey());
 

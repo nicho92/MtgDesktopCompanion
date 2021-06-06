@@ -41,13 +41,13 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 
 	@Override
 	public void initGUI() {
-		JScrollPane scrollPane = new JScrollPane();
+		var scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new CardAlertTableModel();
 		JXTable table = UITools.createNewTable(model);
 		scrollPane.setViewportView(table);
 
-		HistoryPricesPanel historyPricesPanel = new HistoryPricesPanel(false);
+		var historyPricesPanel = new HistoryPricesPanel(false);
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
@@ -65,7 +65,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);

@@ -80,7 +80,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			return "6th Edition";
 		
 		double leven = 100;
-		String name = "";
+		var name = "";
 		EditDistance<Double> d = new JaccardDistance();
 		for (String s : eds) 
 		{
@@ -104,7 +104,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		
 		
 		List<MagicPrice> list = new ArrayList<>();
-		String html = getString("URL");
+		var html = getString("URL");
 
 
 		String url = html + format(findGoodEds(card.getCurrentSet().getSet())) + "/" + format(card.getName());
@@ -123,8 +123,8 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		}
 
 		List<MagicPrice> lstPrices = new ArrayList<>();
-		for (int i = 0; i < qualities.size(); i++) {
-			MagicPrice mp = new MagicPrice();
+		for (var i = 0; i < qualities.size(); i++) {
+			var mp = new MagicPrice();
 
 			String price = prices.get(i).html().replaceAll("\\$", "");
 			mp.setMagicCard(card);

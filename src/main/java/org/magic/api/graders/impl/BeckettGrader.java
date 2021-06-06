@@ -62,7 +62,7 @@ public class BeckettGrader extends AbstractGradersProvider{
 				
 				
 			Elements trs=table.select("tr");
-			Grading grad = new Grading();
+			var grad = new Grading();
 			grad.setGraderName(getName());
 			grad.setNumberID(identifier);
 			grad.setUrlInfo(getWebSite()+"?item_id="+identifier);

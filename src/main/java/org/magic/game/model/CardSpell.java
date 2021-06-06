@@ -19,7 +19,7 @@ public class CardSpell extends AbstractSpell {
 		this.c = card;
 		setCard(c.getMagicCard());
 		setCost(CostsFactory.getInstance().parseCosts(c.getMagicCard().getCost()));
-		OneShotEffect e = new OneShotEffect();
+		var e = new OneShotEffect();
 					  e.setCard(card.getMagicCard());
 					  e.setEffectDescription(card.getMagicCard().getText());
 					  e.setCost(CostsFactory.getInstance().parseCosts(card.getMagicCard().getCost()));

@@ -28,7 +28,7 @@ public class BoosterPanel extends JPanel {
 
 	public BoosterPanel() {
 		super();
-		FlowLayout flowLayout = new FlowLayout();
+		var flowLayout = new FlowLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		setLayout(flowLayout);
 	}

@@ -98,7 +98,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			line = line.trim();
 			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
 				
-				Matcher m = getPattern().matcher(line);
+				var m = getPattern().matcher(line);
 				
 				if(m.find())
 					ret.add(m);

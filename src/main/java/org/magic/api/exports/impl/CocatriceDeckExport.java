@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
@@ -37,8 +36,8 @@ public class CocatriceDeckExport extends AbstractCardExport {
 	}
 
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
-		String endZoneTag = "</zone>";
+		var temp = new StringBuilder();
+		var endZoneTag = "</zone>";
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("'?>");
 		temp.append("<cockatrice_deck version='" + getString(VERSION) + "'>");
@@ -70,11 +69,11 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String n) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(n);
 		try {
 			Document d =  XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(new StringReader(f)));
-			XPath xpath = XPathFactory.newInstance().newXPath();
+			var xpath = XPathFactory.newInstance().newXPath();
 
 			XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");
 			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
@@ -87,7 +86,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 			expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
 			result = ((NodeList) expr.evaluate(d, XPathConstants.NODESET));
-			for (int i = 0; i < result.getLength(); i++) {
+			for (var i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
@@ -96,7 +95,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			}
 			expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
 			result = ((NodeList) expr.evaluate(d, XPathConstants.NODESET));
-			for (int i = 0; i < result.getLength(); i++) {
+			for (var i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);

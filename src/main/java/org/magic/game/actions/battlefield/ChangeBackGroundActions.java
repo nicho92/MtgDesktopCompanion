@@ -37,7 +37,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		JFileChooser choose = new JFileChooser(lastDir);
+		var choose = new JFileChooser(lastDir);
 		choose.showOpenDialog(null);
 		if (choose.getSelectedFile() != null) {
 			

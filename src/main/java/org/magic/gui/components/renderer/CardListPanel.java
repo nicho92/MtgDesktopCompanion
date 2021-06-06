@@ -42,7 +42,7 @@ public class CardListPanel extends JPanel {
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 137, 129, 0 };
 		gridBagLayout.rowHeights = new int[] { 12, 12, 12, 12, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };

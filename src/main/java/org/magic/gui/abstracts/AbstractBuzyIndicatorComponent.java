@@ -44,7 +44,7 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	
 	public void progressSmooth(int step)
 	{
-		for(int i=0;i<step;i++)
+		for(var i=0;i<step;i++)
 			progress();
 	}
 	

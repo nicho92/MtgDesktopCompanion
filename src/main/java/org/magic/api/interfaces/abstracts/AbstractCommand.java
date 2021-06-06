@@ -56,7 +56,7 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	
 
 	protected JsonElement toObject(String string) {
-		JsonObject obj = new JsonObject();
+		var obj = new JsonObject();
 		obj.addProperty("result", string);
 		return obj;
 	}
@@ -65,9 +65,9 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	
 	@Override
 	public AbstractResponse usage() {
-		HelpFormatter formatter = new HelpFormatter();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PrintWriter ps = new PrintWriter(baos);
+		var formatter = new HelpFormatter();
+		var baos = new ByteArrayOutputStream();
+		var ps = new PrintWriter(baos);
 		formatter.printHelp(ps, 50, getCommandName(), null, opts, 0, 0, null);
 		ps.close();
 		try {

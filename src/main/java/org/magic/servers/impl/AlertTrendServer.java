@@ -61,7 +61,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 							HistoryPrice<MagicCard> cpv= getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),alert.isFoil());
 							if(cpv!=null)
 							{
-								CardShake cs = cpv.toCardShake();
+								var cs = cpv.toCardShake();
 								
 								if(cs!=null) {
 								alert.setShake(cs);
@@ -80,6 +80,10 @@ public class AlertTrendServer extends AbstractMTGServer {
 							logger.error(e1);
 							alert.setShake(new CardShake());
 						}
+						catch(InterruptedException ex)
+						{
+							Thread.currentThread().interrupt();
+						}
 						catch(Exception e)
 						{
 							logger.error("Error starting", e);
@@ -90,7 +94,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 				
 				if(!ret.isEmpty())
 				{
-					MTGNotification notif = new MTGNotification();
+					var notif = new MTGNotification();
 					notif.setTitle("Alert Trend Cards");
 					notif.setType(MESSAGE_TYPE.INFO);
 					

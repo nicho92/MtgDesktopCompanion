@@ -39,15 +39,15 @@ public enum CardsPatterns {
 
 	public static Matcher extract(String s , CardsPatterns pat)
 	{
-		Pattern p = Pattern.compile(pat.getPattern());
+		var p = Pattern.compile(pat.getPattern());
 		return p.matcher(s);
 	}
 	
 	
 	public static boolean hasPattern(String s , CardsPatterns pat)
 	{
-		Pattern p = Pattern.compile(pat.getPattern());
-		Matcher m = p.matcher(s);
+		var p = Pattern.compile(pat.getPattern());
+		var m = p.matcher(s);
 		return m.find();
 	}
 	

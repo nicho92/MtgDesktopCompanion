@@ -52,7 +52,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))
@@ -64,7 +64,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		for(MagicCardStock mcs : stock)
 		{

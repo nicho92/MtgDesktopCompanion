@@ -51,7 +51,7 @@ public class CardTransfertHandler extends TransferHandler {
 
 	@Override
 	protected Transferable createTransferable(JComponent c) {
-		final DataHandler dh = new DataHandler(c, localObjectFlavor.getMimeType());
+		final var dh = new DataHandler(c, localObjectFlavor.getMimeType());
 		return new Transferable() {
 			@Override
 			public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {

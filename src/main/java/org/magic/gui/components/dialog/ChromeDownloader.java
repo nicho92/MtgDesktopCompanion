@@ -28,20 +28,20 @@ public class ChromeDownloader extends JDialog {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		JPanel panelCenter = new JPanel();
+		var panelCenter = new JPanel();
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
 		txtDirectory = new JTextFieldFileChooser(30,JFileChooser.DIRECTORIES_ONLY,System.getProperty("user.home"));
 		panelCenter.add(txtDirectory);
 		
-		JPanel panelButtons = new JPanel();
+		var panelButtons = new JPanel();
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
 		
-		JButton btnCancel = new JButton(MTGConstants.ICON_DELETE);
+		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
 		btnCancel.addActionListener(ae->dispose());
 		
 		panelButtons.add(btnCancel);
 		
-		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
+		var btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnExport.addActionListener(e-> {
 			try {
 				FileTools.copyDirJarToDirectory(MTGConstants.MTG_CHROME_PLUGIN_DIR, txtDirectory.getFile());

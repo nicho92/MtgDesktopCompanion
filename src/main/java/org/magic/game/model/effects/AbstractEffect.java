@@ -43,7 +43,7 @@ public abstract class AbstractEffect extends AbstractSpell {
 	
 	@Override
 	public String toString() {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		build.append(getEffectDescription());
 		if(hasChild())
 			build.append("\nAND ").append(getChildEffect());

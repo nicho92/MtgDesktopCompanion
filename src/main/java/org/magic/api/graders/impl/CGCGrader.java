@@ -13,7 +13,7 @@ public class CGCGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		Document d = URLTools.extractHtml(getWebSite()+"/certlookup/"+identifier+"/");
-		Grading g = new Grading();
+		var g = new Grading();
 		g.setNumberID(identifier);
 		g.setGraderName(getName());
 		g.setGradeNote(UITools.parseDouble(d.select("div.related-info:contains(Grade) dd").text()));

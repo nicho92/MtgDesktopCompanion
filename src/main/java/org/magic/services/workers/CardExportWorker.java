@@ -31,7 +31,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 	
 	public CardExportWorker(MTGCardsExport exp,List<MagicCard> export,AbstractBuzyIndicatorComponent buzy,File f) {
 		
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName("Export Alerts");
 		export.stream().forEach(mc->d.getMain().put(mc, 1));
 		

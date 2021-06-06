@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -44,7 +43,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	private void init()
 	{
 		try {
-			DocumentBuilder builder =  XMLTools.createSecureXMLDocumentBuilder();
+			var builder =  XMLTools.createSecureXMLDocumentBuilder();
 			document = builder.parse(URLTools.openConnection(getURL("URL")).getInputStream());
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
@@ -62,7 +61,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
 		logger.trace("looking for token : " + expression);
 		try {
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
 		} catch (XPathExpressionException e) {
 			return false;
@@ -83,7 +82,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		
 		logger.trace("looking for emblem : " + expression);
 		try {
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
 		} catch (XPathExpressionException e) {
 			return false;
@@ -99,15 +98,15 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		try {
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Element value = (Element) nodeList.item(0);
-			MagicCard tok = new MagicCard();
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var value = (Element) nodeList.item(0);
+			var tok = new MagicCard();
 			tok.setLayout(MTGLayout.TOKEN);
 			tok.setCmc(0);
 			tok.setName(value.getElementsByTagName("name").item(0).getTextContent());
 
 			if (value.getElementsByTagName(COLOR).item(0) != null) {
-				MTGColor c = MTGColor.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
+				var c = MTGColor.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
 				tok.getColors().add(c);
 				tok.getColorIdentity().add(c);
 			}
@@ -140,7 +139,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.getCurrentSet().setNumber("T");
 
 			NodeList sets = value.getElementsByTagName("set");
-			for (int s = 0; s < sets.getLength(); s++) {
+			for (var s = 0; s < sets.getLength(); s++) {
 				String idSet = sets.item(s).getTextContent();
 
 				if (idSet.equals(mc.getCurrentSet().getId())) {
@@ -172,9 +171,9 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		logger.debug(expression);
 		try {
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Element value = (Element) nodeList.item(0);
-			MagicCard tok = new MagicCard();
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var value = (Element) nodeList.item(0);
+			var tok = new MagicCard();
 			tok.setLayout(MTGLayout.EMBLEM);
 			tok.setCmc(0);
 			tok.setName(
@@ -218,13 +217,13 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 		Map<String, URL> map = null;
 
-		for (int i = 0; i < nodeList.getLength(); i++) {
+		for (var i = 0; i < nodeList.getLength(); i++) {
 			Element value = (Element) nodeList.item(i);
 			NodeList sets = value.getElementsByTagName("set");
 			map = new HashMap<>();
-			for (int s = 0; s < sets.getLength(); s++) {
-				String set = sets.item(s).getTextContent();
-				String pic = "";
+			for (var s = 0; s < sets.getLength(); s++) {
+				var set = sets.item(s).getTextContent();
+				var pic = "";
 				if (sets.item(s).getAttributes().getNamedItem("picURL") != null)
 					pic = sets.item(s).getAttributes().getNamedItem("picURL").getNodeValue();
 

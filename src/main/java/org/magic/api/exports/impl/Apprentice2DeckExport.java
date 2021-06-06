@@ -29,7 +29,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		for (MagicCard mc : deck.getMain().keySet()) {
 			temp.append("MD,");
 			temp.append(deck.getMain().get(mc) + getSeparator());
@@ -53,7 +53,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {
-			MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 			deck.setName(name);
 			
 			

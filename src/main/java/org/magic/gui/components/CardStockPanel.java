@@ -50,7 +50,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	public void showAllColumns()
 	{
-		for(int i=0;i<model.getColumnCount();i++)
+		for(var i=0;i<model.getColumnCount();i++)
 			table.getColumnExt(model.getColumnName(i)).setVisible(true);
 	}
 	

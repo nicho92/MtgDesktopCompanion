@@ -33,7 +33,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 			
 			
 			
-			Pandomium pandomium = new Pandomium(setts);
+			var pandomium = new Pandomium(setts);
 			logger.debug("loading pandomium for " + PandomiumOS.getOS());
 			
 			pandomium.initialize();

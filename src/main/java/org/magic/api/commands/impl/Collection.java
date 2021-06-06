@@ -49,12 +49,12 @@ public class Collection extends AbstractCommand {
 		
 		if (cl.hasOption("s")) {
 			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			MagicEditionsTableModel model = new MagicEditionsTableModel();
+			var model = new MagicEditionsTableModel();
 			model.init(eds);
 			double pc=0;
-			JsonArray arr =new JsonArray();
+			var arr =new JsonArray();
 			for (MagicEdition ed : eds) {
-				JsonObject obj = new JsonObject();
+				var obj = new JsonObject();
 				obj.addProperty("edition", ed.getSet());
 				obj.addProperty("release", ed.getReleaseDate());
 				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));

@@ -40,7 +40,7 @@ public class AbstractMTGDavResource implements DigestResource  {
 	@Override
 	public Object authenticate(DigestResponse digestRequest) {
 		if (digestRequest.getUser().equals(user)) {
-            DigestGenerator gen = new DigestGenerator();
+			var gen = new DigestGenerator();
             String actual = gen.generateDigest(digestRequest, pass);
             if (actual.equals(digestRequest.getResponseDigest())) {
                 return digestRequest.getUser();

@@ -94,7 +94,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 			Elements topDeck = topDecks.select("select");
 			for (Element option : topDeck.select("option").subList(1, topDeck.select("option").size())) {
 				try {
-					RetrievableDeck deck = new RetrievableDeck();
+					var deck = new RetrievableDeck();
 
 					String[] text = option.html().split("&nbsp;");
 					String deckName = text[1];
@@ -112,7 +112,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 					
 					  Document deckurl = URLTools.extractHtml(deck.getUrl().toString()); Elements
 					  maincardslist = deckurl.select(".mainboard.clearfix").select(CARDLIST2);
-					  StringBuilder deckColor = new StringBuilder();
+					  var deckColor = new StringBuilder();
 					  if(maincardslist.select("li").text().contains("Plain") ||
 							  maincardslist.select("li").text().contains("Plains")) {
 					  deckColor.append("{W}"); }

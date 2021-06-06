@@ -113,10 +113,10 @@ public abstract class AbstractKeyWordsManager {
 		
 		for(TYPE t : TYPE.values())
 		{
-			JsonArray arr = new JsonArray();
+			var arr = new JsonArray();
 
 			getList().stream().filter(k->k.getType()==t).forEach(kw->{
-				JsonObject o = new JsonObject();
+				var o = new JsonObject();
 						   o.addProperty("name", kw.getKeyword());
 						   o.addProperty("reminder", kw.getReminder());
 						   o.addProperty("description", kw.getDescription());

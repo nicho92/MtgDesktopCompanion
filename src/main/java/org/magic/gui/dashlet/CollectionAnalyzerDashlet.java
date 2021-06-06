@@ -54,9 +54,9 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		modelCache.setColumnNames("EDITION", "DATE");
 		JXTable tableCache = UITools.createNewTable(modelCache);
 		tableCache.setModel(modelCache);
-		JLabel lblValue = new JLabel();
+		var lblValue = new JLabel();
 		
-		JPanel panelHaut = new JPanel();
+		var panelHaut = new JPanel();
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
@@ -65,33 +65,33 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
-		JPanel panneauColl = new JPanel();
+		var panneauColl = new JPanel();
 		tabbedPane.addTab("Collection", null, panneauColl, null);
 		
 		treeTable = new JXTreeTable();
-		CardShakeTreeCellRenderer ren = new CardShakeTreeCellRenderer();
+		var ren = new CardShakeTreeCellRenderer();
 		treeTable.setDefaultRenderer(Object.class, ren);
 		treeTable.setTreeCellRenderer(ren);
 		
 		panneauColl.setLayout(new BorderLayout(0, 0));
 		panneauColl.add(new JScrollPane(treeTable));
 		
-		JPanel panneauh = new JPanel();
+		var panneauh = new JPanel();
 		panneauColl.add(panneauh, BorderLayout.NORTH);
 		
-		JButton btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		
 		panneauh.add(btnRefresh);
 		
-		JPanel panelCacheDetail = new JPanel();
+		var panelCacheDetail = new JPanel();
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
 		
 		
-		JPanel panelPriceMin = new JPanel();
+		var panelPriceMin = new JPanel();
 		slider = new JSlider(0, 100);
 		
 		slider.setMajorTickSpacing(10);
@@ -118,16 +118,16 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		
 		panelCacheDetail.add(new JScrollPane(tableCache));
 		
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		panelCacheDetail.add(panel, BorderLayout.NORTH);
 		
-		JButton btnUpdateCache = new JButton("Update selected Cache");
+		var btnUpdateCache = new JButton("Update selected Cache");
 		
 		panel.add(btnUpdateCache);
 		
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);

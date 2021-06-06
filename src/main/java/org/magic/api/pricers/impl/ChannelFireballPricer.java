@@ -9,9 +9,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class ChannelFireballPricer extends AbstractPricesProvider {
 
@@ -25,30 +23,30 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		ArrayList<MagicPrice> list = new ArrayList<>();
-		JsonObject el = URLTools.extractJson(BASEURL+"/search/suggest.json?q="+URLTools.encode(card.getName())+"&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bfields%5D=title").getAsJsonObject();
-		JsonArray products = el.get("resources").getAsJsonObject().get("results").getAsJsonObject().get("products").getAsJsonArray();
+		var el = URLTools.extractJson(BASEURL+"/search/suggest.json?q="+URLTools.encode(card.getName())+"&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bfields%5D=title").getAsJsonObject();
+		var products = el.get("resources").getAsJsonObject().get("results").getAsJsonObject().get("products").getAsJsonArray();
 		
 		
 		for(JsonElement product : products)
 		{
-			JsonObject obj = product.getAsJsonObject();
+			var obj = product.getAsJsonObject();
 			
 			if(obj.get("available").getAsBoolean() && obj.get("type").getAsString().equals("MTG Single"))
 			{
-				String docPage = URLTools.extractAsString(BASEURL+obj.get("url").getAsString());
-				String startTag = "product: ";
+				var docPage = URLTools.extractAsString(BASEURL+obj.get("url").getAsString());
+				var startTag = "product: ";
 				docPage = docPage.substring(docPage.indexOf(startTag)+startTag.length());
-				String endTag = "\n";
+				var endTag = "\n";
 				docPage = docPage.substring(0,docPage.indexOf(endTag)-1);
 			
-				JsonArray arrArticles = URLTools.toJson(docPage).getAsJsonObject().get("variants").getAsJsonArray();
+				var arrArticles = URLTools.toJson(docPage).getAsJsonObject().get("variants").getAsJsonArray();
 				for(JsonElement article : arrArticles)
 				{
-					JsonObject art = article.getAsJsonObject();
+					var art = article.getAsJsonObject();
 					
 					if(art.get("available").getAsBoolean())
 					{
-						MagicPrice mp = new MagicPrice();
+						var mp = new MagicPrice();
 								   mp.setSite(getName());
 								   mp.setUrl(BASEURL+obj.get("url").getAsString());
 								   mp.setCurrency("USD");
@@ -60,14 +58,14 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 								   mp.setLanguage("English");
 								   
 								   
-								   String set = art.get("name").getAsString().substring(art.get("name").getAsString().indexOf("["));
+								   var set = art.get("name").getAsString().substring(art.get("name").getAsString().indexOf("["));
 								   mp.setSeller(set.substring(1,set.indexOf("]")));
-								   
-								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)");
-								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)");
-								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)");
-								   
-								   //TODO filter for card extra properties
+//								   
+//								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)")
+//								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)")
+//								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)")
+//								   
+								  
 								   
 								   list.add(mp);
 								   

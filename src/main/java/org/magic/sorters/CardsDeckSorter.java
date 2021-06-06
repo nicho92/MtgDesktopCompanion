@@ -16,7 +16,7 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 	
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
-		int ret =0;
+		var ret =0;
 		try 
 		{
 			ret = test(o1, o2);
