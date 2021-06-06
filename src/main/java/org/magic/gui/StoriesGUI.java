@@ -97,10 +97,10 @@ public class StoriesGUI extends MTGUIComponent {
 
 		
 
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
-		JButton btnLoadNext = UITools.createBindableJButton("Load next",MTGConstants.ICON_LOADING,KeyEvent.VK_N,"Storie loading");
+		var btnLoadNext = UITools.createBindableJButton("Load next",MTGConstants.ICON_LOADING,KeyEvent.VK_N,"Storie loading");
 		btnLoadNext.addActionListener(ae -> initStories());
 		panel.add(btnLoadNext);
 
@@ -111,11 +111,11 @@ public class StoriesGUI extends MTGUIComponent {
 		editorPane.setEditable(false);
 		editorPane.setContentType(URLTools.HEADER_HTML);
 
-		HTMLEditorKit kit = new HTMLEditorKit();
+		var kit = new HTMLEditorKit();
 		editorPane.setEditorKit(kit);
-		Document doc = kit.createDefaultDocument();
+		var doc = kit.createDefaultDocument();
 		editorPane.setDocument(doc);
-		JSplitPane splitPane = new JSplitPane();
+		var splitPane = new JSplitPane();
 		splitPane.setLeftComponent(new JScrollPane(listResult));
 		splitPane.setRightComponent(new JScrollPane(editorPane));
 		add(splitPane, BorderLayout.CENTER);

@@ -33,8 +33,8 @@ public class WebDavMTGResourceFactory implements ResourceFactory
     public Resource getResource(String host, String url) {
         log.trace("getResource: host: " + host + " - url:" + url);
         
-        Path ioPath = Path.path(url);
-        MTGPath mtgpath = (MTGPath) fs.getPath(ioPath.toPath());
+        var ioPath = Path.path(url);
+        var mtgpath = (MTGPath) fs.getPath(ioPath.toPath());
         
         if(mtgpath.isCard())
         	return new MTGDavFileResource(mtgpath,fs,serv.getLogin(),serv.getPassword());

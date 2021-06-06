@@ -96,7 +96,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		panelThumnail.setLayout(new GridBagLayout());
 
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
 		cboWallpapersProv = UITools.createCombobox(MTGWallpaperProvider.class, false);
@@ -143,7 +143,7 @@ public class WallpaperGUI extends MTGUIComponent {
 				@Override
 				protected void process(List<Wallpaper> chunks) {
 					for (Wallpaper w : chunks) {
-						JWallThumb thumb = new JWallThumb(w);
+						var thumb = new JWallThumb(w);
 						addComponent(thumb);
 						
 						thumb.addMouseListener(new MouseAdapter() {
@@ -170,7 +170,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoad);
 
-		JPanel panel1 = new JPanel();
+		var panel1 = new JPanel();
 		add(panel1, BorderLayout.SOUTH);
 
 		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
@@ -179,7 +179,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		btnImport.addActionListener(ae -> {
 
-			boolean error = false;
+			var error = false;
 			for (Component comp : panelThumnail.getComponents()) {
 				JWallThumb th = (JWallThumb) comp;
 

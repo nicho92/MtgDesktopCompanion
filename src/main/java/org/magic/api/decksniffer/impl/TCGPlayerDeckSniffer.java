@@ -11,7 +11,6 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -51,11 +50,11 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			deck.getTags().add(e.text());
 		}
 
-		Elements main = d.getElementsByClass("subdeck");
+		var main = d.getElementsByClass("subdeck");
 
 		int taille = main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).size();
-		for (int i = 0; i < taille; i++) {
-			int qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
+		for (var i = 0; i < taille; i++) {
+			var qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
 
 			MagicEdition ed = null;
@@ -80,8 +79,8 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 		if (main.size() > 1) {
 			int tailleSide = main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).size();
-			for (int i = 0; i < tailleSide; i++) {
-				int qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
+			for (var i = 0; i < tailleSide; i++) {
+				var qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
 
 				MagicEdition ed = null;
@@ -114,14 +113,14 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 		int maxPage = getInt(MAX_PAGE);
 
-		for (int i = 1; i <= maxPage; i++) {
+		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + i;
 			Document d = Jsoup.parse(IncapsulaParser.readUrl(url));
 			
 			for (Element tr : d.getElementsByClass("gradeA")) {
-				RetrievableDeck deck = new RetrievableDeck();
+				var deck = new RetrievableDeck();
 
-				String mana = "";
+				var mana = "";
 
 				Element manaEl = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0);
 				if (manaEl.toString().contains("white-mana"))

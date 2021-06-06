@@ -98,7 +98,7 @@ public class UITools {
 	public static final int getComponentIndex(Component component) {
 	    if (component != null && component.getParent() != null) {
 	      Container c = component.getParent();
-	      for (int i = 0; i < c.getComponentCount(); i++) {
+	      for (var i = 0; i < c.getComponentCount(); i++) {
 	        if (c.getComponent(i) == component)
 	          return i;
 	      }
@@ -109,7 +109,7 @@ public class UITools {
 	
 	public static void setDefaultRenderer(JTable table, TableCellRenderer render) {
 
-		for (int i = 0; i < table.getColumnCount(); i++) {
+		for (var i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(render);
 		}
 	}
@@ -126,7 +126,7 @@ public class UITools {
 	
 	public static JXTable createNewTable(TableModel mod)
 	{
-		JXTable table = new JXTable();
+		var table = new JXTable();
 				if(mod!=null)
 					table.setModel(mod);
 		
@@ -179,7 +179,7 @@ public class UITools {
 	
 	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line)
 	{
-		GridBagConstraints cons = new GridBagConstraints();
+		var cons = new GridBagConstraints();
 		
 		if(anchor!=null)
 			cons.anchor = anchor;
@@ -196,7 +196,7 @@ public class UITools {
 	
 	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line,Integer gridW, Integer gridH)
 	{
-		GridBagConstraints cons = createGridBagConstraints(anchor,fill,col,line);
+		var cons = createGridBagConstraints(anchor,fill,col,line);
 		
 		if(gridW!=null)
 			cons.gridwidth = gridW;
@@ -262,7 +262,7 @@ public class UITools {
 	
 	public static JButton createBindableJButton(String text, Icon ic, int key, String name)
 	{
-		JButton b = new JButton(text, ic);
+		var b = new JButton(text, ic);
 				b.setName(name);
 		ShortKeyManager.inst().setShortCutTo(key, b);
 		return b;
@@ -405,7 +405,7 @@ public class UITools {
 	{
 			try {
 				FilterSettings.ignoreCase=true;
-				TableFilterHeader filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
+				var filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 				filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 			}
 			catch(Exception e)
@@ -415,7 +415,7 @@ public class UITools {
 	}
 	
 	public static <V> void initCardToolTipTable(final JTable table, final int cardPos, Callable<V> dblClick) {
-		final JPopupMenu popUp = new JPopupMenu();
+		final var popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -430,13 +430,13 @@ public class UITools {
 					else 
 					{
 						
-						int row = table.rowAtPoint(e.getPoint());
+						var row = table.rowAtPoint(e.getPoint());
 						
 						
 						if(row<0)
 							return;
 						
-						MagicCardDetailPanel pane = new MagicCardDetailPanel();
+						var pane = new MagicCardDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
 						
@@ -462,7 +462,7 @@ public class UITools {
 	
 	
 	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, Callable<V> dblClick) {
-		final JPopupMenu popUp = new JPopupMenu();
+		final var popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -477,11 +477,11 @@ public class UITools {
 					else 
 					{
 						
-						int row = table.rowAtPoint(e.getPoint());
-						MagicCardDetailPanel pane = new MagicCardDetailPanel();
+						var row = table.rowAtPoint(e.getPoint());
+						var pane = new MagicCardDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
-						String cardName = table.getValueAt(row, cardPos.intValue()).toString();
+						var cardName = table.getValueAt(row, cardPos.intValue()).toString();
 	
 						if (cardName.indexOf('(') >= 0)
 							cardName = cardName.substring(0, cardName.indexOf('(')).trim();
@@ -489,7 +489,7 @@ public class UITools {
 						MagicEdition ed = null;
 						try {
 							if (edPos != null) {
-								String edID = table.getValueAt(row, edPos).toString();
+								var edID = table.getValueAt(row, edPos).toString();
 								ed = new MagicEdition();
 								ed.setId(edID);
 							}
@@ -548,7 +548,7 @@ public class UITools {
 	public static <T> List<T> getTablesItems(JTable tableCards, int columnID)
 	{
 		List<T> listCards = new ArrayList<>();
-		for (int count = 0; count < tableCards.getModel().getRowCount(); count++){
+		for (var count = 0; count < tableCards.getModel().getRowCount(); count++){
 			listCards.add((T) tableCards.getValueAt(count, columnID));
 		}
 		

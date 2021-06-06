@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
@@ -24,9 +23,7 @@ import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
@@ -110,18 +107,18 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		JsonElement root = URLTools.toJson(responseBody);
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());
-		for (int i = 0; i < root.getAsJsonObject().get("inventory").getAsJsonArray().size(); i++) {
-			JsonArray inv = root.getAsJsonObject().get("inventory").getAsJsonArray().get(i).getAsJsonArray();
-			String cardName = inv.get(0).getAsString();
-			String position = inv.get(1).getAsJsonObject().get("b").getAsString();
-			int qte = inv.get(1).getAsJsonObject().get("qty").getAsInt();
+		for (var i = 0; i < root.getAsJsonObject().get("inventory").getAsJsonArray().size(); i++) {
+			var inv = root.getAsJsonObject().get("inventory").getAsJsonArray().get(i).getAsJsonArray();
+			var cardName = inv.get(0).getAsString();
+			var position = inv.get(1).getAsJsonObject().get("b").getAsString();
+			var qte = inv.get(1).getAsJsonObject().get("qty").getAsInt();
 
 			// remove foil if present
 			cardName = RegExUtils.replaceAll(cardName, "\\*.+?\\*", "").trim();
 
 			// ged ed if present
 			String idSet = null;
-			Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(cardName);
+			var m = Pattern.compile("\\(([^)]+)\\)").matcher(cardName);
 			while (m.find()) {
 				idSet = (m.group(1));
 			}
@@ -137,7 +134,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			List<MagicCard> ret;
 			if (idSet == null) {
 				if (MagicCard.isBasicLand(cardName)) {
-					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
+					var ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 					ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed,
 							true);
 				} else {
@@ -146,7 +143,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				}
 
 			} else {
-				MagicEdition ed = new MagicEdition(idSet);
+				var ed = new MagicEdition(idSet);
 				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
 			}
 
@@ -176,9 +173,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		JsonElement root = URLTools.toJson(responseBody);
 		List<RetrievableDeck> list = new ArrayList<>();
 
-		for (int i = 0; i < root.getAsJsonArray().size(); i++) {
-			JsonObject obj = root.getAsJsonArray().get(i).getAsJsonObject();
-			RetrievableDeck deck = new RetrievableDeck();
+		for (var i = 0; i < root.getAsJsonArray().size(); i++) {
+			var obj = root.getAsJsonArray().get(i).getAsJsonObject();
+			var deck = new RetrievableDeck();
 			deck.setName(obj.get("name").getAsString());
 			try {
 				deck.setUrl(new URI(obj.get("resource_uri").getAsString()));

@@ -74,7 +74,7 @@ public class URLTools {
 	public static String extractAsString(URL url,Charset enc) throws IOException
 	{
 		HttpURLConnection con = openConnection(url);
-		String ret = IOUtils.toString(con.getInputStream(), enc);
+		var ret = IOUtils.toString(con.getInputStream(), enc);
 		close(con);
 		return ret;
 	}
@@ -90,7 +90,7 @@ public class URLTools {
 	
 	public static String toHtmlStringFromMarkdown(String c)
 	{
-		Parser parser = Parser.builder().build();
+		var parser = Parser.builder().build();
 		Node document = parser.parse(c);
 		return HtmlRenderer.builder().build().render(document);
 	}
@@ -98,7 +98,7 @@ public class URLTools {
 	
 	public static String extractMarkDownAsString(String url) throws IOException
 	{
-		String ret = toHtmlStringFromMarkdown(extractAsString(url));
+		var ret = toHtmlStringFromMarkdown(extractAsString(url));
 		
 		ret=ret.replace("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
 		return ret; 
@@ -118,7 +118,7 @@ public class URLTools {
 	public static JsonElement extractJson(String url) throws IOException
 	{
 		HttpURLConnection con = openConnection(url);
-		JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream()));
+		var reader = new JsonReader(new InputStreamReader(con.getInputStream()));
 		reader.setLenient(true);
 		JsonElement e= JsonParser.parseReader(reader);
 		reader.close();
@@ -148,7 +148,7 @@ public class URLTools {
 	
 	private static HttpURLConnection getConnection(URL url,String userAgent,boolean follow) throws IOException {
 		
-		Chrono c = new Chrono();
+		var c = new Chrono();
 		c.start();
 
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
