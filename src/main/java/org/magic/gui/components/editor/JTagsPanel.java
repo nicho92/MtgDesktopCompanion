@@ -55,7 +55,7 @@ public class JTagsPanel extends JComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		panelTags = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panelTags.getLayout();
+		var flowLayout = (FlowLayout) panelTags.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panelTags, BorderLayout.CENTER);
 
@@ -69,7 +69,7 @@ public class JTagsPanel extends JComponent {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				JTextField field = new JTextField(10);
+				var field = new JTextField(10);
 				panelTags.add(field);
 				field.requestFocus();
 				panelTags.revalidate();
@@ -171,7 +171,7 @@ public class JTagsPanel extends JComponent {
 	}
 	
 	private void addLabel(String s) {
-		TagLabel tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
+		var tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
 	
 		if (isEditable)
 			tab.addMouseListener(new TagMouseListener(tab));

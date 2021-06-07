@@ -175,7 +175,7 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 			double valWeek = get(now) - get(week);		 
 			double pcWeek = (get(now) - get(week))/get(week)*100;
 			double pcDay = (get(now) - get(yesterday))/get(yesterday)*100;
-			CardShake cs = new CardShake();
+			var cs = new CardShake();
 			
 			if(pack instanceof MagicCard) {
 				cs.setCard((MagicCard)pack);

@@ -50,9 +50,9 @@ public class JTextFieldFileChooser extends JComponent {
 	private void init()
 	{
 		setLayout(new BorderLayout(0, 0));
-		JButton btnOpenDialog = new JButton("...");
+		var btnOpenDialog = new JButton("...");
 		btnOpenDialog.addActionListener(ae->{
-			JFileChooser f = new JFileChooser(textField.getText());
+			var f = new JFileChooser(textField.getText());
 			 			 f.setFileSelectionMode(mode);
 			   
 			int res = f.showOpenDialog(null);

@@ -22,7 +22,7 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 
 	public IntegerCellEditorRenderer() {
 		spinner = new JSpinner();
-		SpinnerNumberModel model1 = new SpinnerNumberModel();
+		var model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
 		spinner.setModel(model1);
 	}
@@ -42,7 +42,7 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		
-		String text = String.valueOf(value);
+		var text = String.valueOf(value);
 		
 		if(value instanceof Integer) 
 		{
@@ -50,7 +50,7 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 		}
 		
 		
-		JLabel l= new JLabel(text,SwingConstants.CENTER);
+		var l= new JLabel(text,SwingConstants.CENTER);
 		   l.setOpaque(true);
 			if(isSelected)
 			{

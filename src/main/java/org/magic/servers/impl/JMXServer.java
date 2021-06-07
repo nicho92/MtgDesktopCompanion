@@ -34,7 +34,7 @@ public class JMXServer extends AbstractMTGServer {
 	
 	@Override
 	public void start() throws IOException {
-		Chrono c = new Chrono();
+		var c = new Chrono();
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer(); 
 			
@@ -57,7 +57,7 @@ public class JMXServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		
 		logger.debug(getName() +" is stopping");
-		boolean ok=true;
+		var ok=true;
 		for(ObjectName n : names)
 		{
 			try {

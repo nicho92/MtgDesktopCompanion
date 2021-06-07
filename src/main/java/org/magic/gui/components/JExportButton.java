@@ -44,11 +44,11 @@ public class JExportButton extends JButton {
 	public void initAlertsExport(Callable<List<MagicCardAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 		
 		addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
+			var menu = new JPopupMenu();
 
 			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
-					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
+					var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
@@ -65,7 +65,7 @@ public class JExportButton extends JButton {
 						
 						if(exp.needFile())
 						{
-							JFileChooser jf = new JFileChooser(".");
+							var jf = new JFileChooser(".");
 							jf.setSelectedFile(new File("alerts" + exp.getFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
@@ -96,11 +96,11 @@ public class JExportButton extends JButton {
 	public void initCardsExport(Callable<MagicDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 		
 		addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
+			var menu = new JPopupMenu();
 
 			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
-					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
+					var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
@@ -117,7 +117,7 @@ public class JExportButton extends JButton {
 						
 						if(exp.needFile())
 						{
-							JFileChooser jf = new JFileChooser(".");
+							var jf = new JFileChooser(".");
 							jf.setSelectedFile(new File(export.getName() + exp.getFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
@@ -147,11 +147,11 @@ public class JExportButton extends JButton {
 	public void initStockExport(Callable<List<MagicCardStock>> callable,AbstractBuzyIndicatorComponent lblLoading) {
 		
 		addActionListener(ae -> {
-			JPopupMenu menu = new JPopupMenu();
+			var menu = new JPopupMenu();
 
 			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
-					JMenuItem it = new JMenuItem(exp.getName(), exp.getIcon());
+					var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(exportEvent -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
@@ -169,7 +169,7 @@ public class JExportButton extends JButton {
 						
 						if(exp.needFile())
 						{
-							JFileChooser jf = new JFileChooser(".");
+							var jf = new JFileChooser(".");
 							jf.setSelectedFile(new File("stocks" + exp.getFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();

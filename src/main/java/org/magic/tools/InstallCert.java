@@ -44,15 +44,15 @@ public class InstallCert {
 	
 	public static Map<String, Certificate> listTrustedCert()
 	{
-		File keystoreFile = getKeyStoreFile();
+		var keystoreFile = getKeyStoreFile();
 		Map<String,Certificate> map = new HashMap<>();
-		try(FileInputStream fis = new FileInputStream(keystoreFile))
+		try(var fis = new FileInputStream(keystoreFile))
 		{
-			KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+			var keystore = KeyStore.getInstance(KeyStore.getDefaultType());
 			keystore.load(fis, MTGConstants.KEYSTORE_PASS.toCharArray());
 			Enumeration<String> enumeration = keystore.aliases();
 			while(enumeration.hasMoreElements()) {
-		            String alias = enumeration.nextElement();
+					var alias = enumeration.nextElement();
 		            map.put(alias, keystore.getCertificate(alias));
 		    }
 		} catch (Exception e) {
@@ -92,14 +92,14 @@ public class InstallCert {
 
 		logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");
 		try (InputStream in = new FileInputStream(keystoreFile)) {
-			KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+			var ks = KeyStore.getInstance(KeyStore.getDefaultType());
 			ks.load(in, phrase);
 
-			SSLContext context = SSLContext.getInstance(MTGConstants.SSL_PROTO);
-			TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+			var context = SSLContext.getInstance(MTGConstants.SSL_PROTO);
+			var tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			tmf.init(ks);
-			X509TrustManager defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];
-			SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
+			var defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];
+			var tm = new SavingTrustManager(defaultTrustManager);
 			context.init(null, new TrustManager[] { tm }, null);
 			SSLSocketFactory factory = context.getSocketFactory();
 
@@ -121,10 +121,10 @@ public class InstallCert {
 			}
 
 			logger.debug("Server sent " + chain.length + " certificate(s):");
-			MessageDigest sha1 = MessageDigest.getInstance("SHA1");
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			var sha1 = MessageDigest.getInstance("SHA1");
+			var md5 = MessageDigest.getInstance("MD5");
 
-			int i = 0;
+			var i = 0;
 			X509Certificate cert = chain[0];
 
 			sha1.update(cert.getEncoded());
@@ -133,7 +133,7 @@ public class InstallCert {
 			String alias = host + "-" + (i++);
 			ks.setCertificateEntry(alias, cert);
 
-			File f = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
+			var f = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
 			
 			OutputStream out = new FileOutputStream(f);
 			ks.store(out, phrase);

@@ -57,8 +57,8 @@ public class JFontChooser extends JComponent {
 
 		
 		cboFontFamilies.setRenderer((JList<? extends String> arg0, String f, int arg2,boolean arg3, boolean arg4)->{
-			Font ft = new Font(f, Font.PLAIN, 14);
-			JLabel l = new JLabel(f);
+			var ft = new Font(f, Font.PLAIN, 14);
+			var l = new JLabel(f);
 				   l.setFont(ft);
 			return l;
 		});

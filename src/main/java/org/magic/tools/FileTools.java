@@ -85,7 +85,7 @@ public class FileTools {
 	
 	public static void saveFile(File f,Properties props) throws IOException
 	{
-		try (FileOutputStream fos = new FileOutputStream(f)){
+		try (var fos = new FileOutputStream(f)){
 			props.store(fos, "");
 		}
 	}

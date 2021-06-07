@@ -35,7 +35,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 	
 	public void initGUI() {
 	
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		try {
@@ -50,7 +50,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		indexModel = new MapTableModel<>();
 		indexModel.setColumnNameAt(0, "Term");
 		indexModel.setColumnNameAt(1, "Occurences");
-		JXTable table = UITools.createNewTable(indexModel);
+		var table = UITools.createNewTable(indexModel);
 		
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		
@@ -61,7 +61,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 

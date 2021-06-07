@@ -28,7 +28,7 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		
 		if (getProperties().size() > 0) 
 		{
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			

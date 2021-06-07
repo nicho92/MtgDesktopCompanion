@@ -118,7 +118,7 @@ public class JDeckChooserDialog extends JDialog {
 		
 		model = new DefaultTreeModel(root);
 		manager = new MTGDeckManager();
-		DeckSelectionTableModel decksModel = new DeckSelectionTableModel();
+		var decksModel = new DeckSelectionTableModel();
 		manager.addObserver((o,d)->decksModel.addItem((MagicDeck)d));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
@@ -149,7 +149,12 @@ public class JDeckChooserDialog extends JDialog {
 						try {
 							decksModel.init(get());
 							table.packAll();
-						} catch (Exception e) {
+						}catch(InterruptedException ex)
+						{
+							Thread.currentThread().interrupt();
+						}
+						
+						catch (Exception e) {
 							MTGControler.getInstance().notify(e);
 						}
 						
@@ -191,10 +196,10 @@ public class JDeckChooserDialog extends JDialog {
 
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		JPanel panelBas = new JPanel();
+		var panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 
-		JButton btnSelect = new JButton(MTGConstants.ICON_OPEN);
+		var btnSelect = new JButton(MTGConstants.ICON_OPEN);
 		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(e -> {
 			if (selectedDeck == null)
@@ -204,7 +209,7 @@ public class JDeckChooserDialog extends JDialog {
 		});
 		panelBas.add(btnSelect);
 
-		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(e -> {
 			selectedDeck = null;
@@ -213,7 +218,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		panelBas.add(btnCancel);
 
-		JButton btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		var btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setToolTipText(capitalize("DELETE"));
 		btnDelete.addActionListener(e -> {
 			
@@ -237,7 +242,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		panelBas.add(btnDelete);
 
-		JSplitPane panelRight = new JSplitPane();
+		var panelRight = new JSplitPane();
 		panelRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		getContentPane().add(panelRight, BorderLayout.EAST);
 
@@ -256,7 +261,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		panelRight.setDividerLocation(300);
 
-		JPanel panelTree = new JPanel();
+		var panelTree = new JPanel();
 		panelTree.setLayout(new BorderLayout(0, 0));
 		panelRight.setTopComponent(panelTree);
 		tree = new JTree();

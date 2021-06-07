@@ -21,10 +21,10 @@ public class JSuggestedPanel extends JComponent {
 	public JSuggestedPanel(MagicTextPane jTextPane,MTGTextGenerator gen) {
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		JPanel suggestions = new JPanel();
+		var suggestions = new JPanel();
 		suggestions.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JButton btn = new JButton(MTGConstants.ICON_TAB_SUGGESTION);
+		var btn = new JButton(MTGConstants.ICON_TAB_SUGGESTION);
 		btn.setToolTipText("text generator");
 		btn.addActionListener(al->jTextPane.setText(gen.generateText()));
 		
@@ -67,7 +67,7 @@ public class JSuggestedPanel extends JComponent {
 					
 					for(String s : gen.suggestWords(caracters))
 					{
-						TagLabel t = new TagLabel(s);
+						var t = new TagLabel(s);
 						t.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent e) {

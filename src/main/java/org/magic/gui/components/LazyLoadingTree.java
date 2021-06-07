@@ -111,7 +111,7 @@ public class LazyLoadingTree extends JTree {
 
 					List<MyNode> children = new ArrayList<>();
 					for (MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections()) {
-						MyNode n = new MyNode(c);
+						var n = new MyNode(c);
 						children.add(n);
 					}
 					return children;
@@ -122,7 +122,12 @@ public class LazyLoadingTree extends JTree {
 					try {
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					} catch (Exception e) {
+					}catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
+					}
+					
+					catch (Exception e) {
 						logger.error(e);
 					}
 					super.done();
@@ -145,7 +150,7 @@ public class LazyLoadingTree extends JTree {
 						Collections.sort(res, new CardsEditionSorter());
 
 						for (MagicCard card : res) {
-							MyNode n = new MyNode(card);
+							var n = new MyNode(card);
 							children.add(n);
 						}
 					} catch (SQLException e) {
@@ -160,7 +165,12 @@ public class LazyLoadingTree extends JTree {
 						logger.trace("loading cards from " + col + "/" + ed + " done");
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					} catch (Exception e) {
+					}
+					catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
+					}
+					catch (Exception e) {
 						logger.error("error loading tree",e);
 					}
 					super.done();
@@ -179,7 +189,7 @@ public class LazyLoadingTree extends JTree {
 					logger.debug("loading editions from " + c);
 					List<MyNode> children = new ArrayList<>();
 					for (String ed : getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(c)) {
-						MyNode n = new MyNode(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed));
+						var n = new MyNode(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed));
 						children.add(n);
 					}
 					Collections.sort(children);
@@ -192,7 +202,11 @@ public class LazyLoadingTree extends JTree {
 						logger.debug("loading editions from " + c + " done");
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					} catch (Exception e) {
+					}catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
+					}
+					catch (Exception e) {
 						logger.error("error loading edition from " +c,e);
 					}
 					super.done();

@@ -50,7 +50,7 @@ public class IncapsulaParser {
 
 	public static String readUrl(String url) throws IOException {
 
-		StringBuilder response = new StringBuilder();
+		var response = new StringBuilder();
 		BufferedReader in = null;
 
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -61,7 +61,7 @@ public class IncapsulaParser {
 
 		in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-		String inputLine = "";
+		var inputLine = "";
 		while ((inputLine = in.readLine()) != null) {
 			response.append(inputLine);
 		}

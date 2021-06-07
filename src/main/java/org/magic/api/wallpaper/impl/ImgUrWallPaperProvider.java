@@ -41,12 +41,12 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			
 			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
 				
-				String defaultTitle =je.getAsJsonObject().get(TITLE_TAG).getAsString();
+				var defaultTitle =je.getAsJsonObject().get(TITLE_TAG).getAsString();
 				
 				if(je.getAsJsonObject().get(IMAGES_TAG)!=null)
 				{
 					je.getAsJsonObject().get(IMAGES_TAG).getAsJsonArray().forEach(im->{
-						Wallpaper w = new Wallpaper();
+						var w = new Wallpaper();
 						
 						if(!im.getAsJsonObject().get(TITLE_TAG).isJsonNull())
 							w.setName(im.getAsJsonObject().get(TITLE_TAG).getAsString());
@@ -61,7 +61,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 				}
 				else
 				{
-					Wallpaper w = new Wallpaper();
+					var w = new Wallpaper();
 							w.setName(defaultTitle);
 							w.setUrl(URI.create(je.getAsJsonObject().get("link").getAsString()));
 							w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));

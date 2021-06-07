@@ -27,7 +27,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		setLayout(new BorderLayout());
 		browse = new JEditorPane() ;
 		browse.setContentType(URLTools.HEADER_HTML);
-		HTMLEditorKit kit = new HTMLEditorKit();
+		var kit = new HTMLEditorKit();
 		browse.setEditorKit(kit);
 		browse.setEditable(false);
 		add(browse,BorderLayout.CENTER);
@@ -48,7 +48,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		ThreadManager.getInstance().executeThread(()->{
 				try {
 					
-					Whitelist w = Whitelist.basic();
+					var w = Whitelist.basic();
 					w.addTags("img");
 					w.addAttributes("img", "src");
 					

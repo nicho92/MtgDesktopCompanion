@@ -23,7 +23,7 @@ public class JListFilterDecorator {
       }
       DefaultListModel<T> model = (DefaultListModel<T>) jList.getModel();
       List<T> items = getItems(model);
-      JTextField textField = new JTextField();
+      var textField = new JTextField();
       textField.getDocument().addDocumentListener(new DocumentListener() {
           @Override
           public void insertUpdate(DocumentEvent e) {
@@ -51,13 +51,13 @@ public class JListFilterDecorator {
           }
       });
 
-      JPanel panel = new JPanel(new BorderLayout());
+      var panel = new JPanel(new BorderLayout());
       panel.add(textField, BorderLayout.SOUTH);
-      JScrollPane pane = new JScrollPane(jList);
+      var pane = new JScrollPane(jList);
       panel.add(pane);
 
 
-      JListFilterDecorator decorator = new JListFilterDecorator();
+      var decorator = new JListFilterDecorator();
       decorator.contentPanel =panel;
       decorator.filterField = textField;
       return decorator;

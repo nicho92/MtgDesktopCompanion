@@ -166,7 +166,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	
 	public Grading getGrading()
 	{
-		Grading g = new Grading();
+		var g = new Grading();
 				g.setCentering((Double)spinnerCentering.getValue());
 				g.setCorners((Double)spinnerCorner.getValue());
 				g.setEdges((Double)spinnerEdges.getValue());
