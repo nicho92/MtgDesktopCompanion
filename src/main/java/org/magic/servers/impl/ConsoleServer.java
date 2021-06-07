@@ -35,7 +35,7 @@ public class ConsoleServer extends AbstractMTGServer {
 				new ProtocolCodecFilter(new TextLineCodecFactory(MTGConstants.DEFAULT_ENCODING)));
 		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, getInt("IDLE-TIME"));
-		MTGConsoleHandler handler = new MTGConsoleHandler();
+		var handler = new MTGConsoleHandler();
 		handler.setWelcomeMessage(getString("STARTUP_MESSAGE"));
 		acceptor.setHandler(handler);
 		acceptor.bind(new InetSocketAddress(getInt(SERVER_PORT)));

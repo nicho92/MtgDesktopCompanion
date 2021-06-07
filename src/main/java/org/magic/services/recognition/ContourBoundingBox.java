@@ -81,7 +81,7 @@ public class ContourBoundingBox
 	        GThresholdImageOps.localMean(img, binary, ConfigLength.fixed(20), 1.0, true, null, null,null);
 
 	        GrayU8 filtered = BinaryImageOps.erode8(binary, 2, null);
-	        GrayS32 label = new GrayS32(img.width,img.height);
+	        var label = new GrayS32(img.width,img.height);
 
 	        int imgArea = img.getHeight()*img.getWidth();
 
@@ -89,7 +89,7 @@ public class ContourBoundingBox
 	        bounds.clear();
 	        for(Contour contour:contours)
 	        {
-	            ContourBoundingBox bb = new ContourBoundingBox(contour.external);
+	        	var bb = new ContourBoundingBox(contour.external);
 	            double ratio = bb.area()/imgArea;
 	            if(ratio > 0.05 && ratio < 0.5 && bb.isRoughlyRecttangular())
 	            {
@@ -108,7 +108,7 @@ public class ContourBoundingBox
 
         for(Point2D_I32 p : contour)
         {
-            for(int i=0; i<4; i++)
+            for(var i=0; i<4; i++)
             {
                 if(corners[i]==null)
                 {
@@ -126,7 +126,7 @@ public class ContourBoundingBox
             }
         }
 
-        for(int i=0; i<4; i++)
+        for(var i=0; i<4; i++)
         {
             cornersf[i] = new Point2D_F64(corners[i].x, corners[i].y);
             int j = (i+1)%4;
@@ -142,8 +142,8 @@ public class ContourBoundingBox
     public int longEdge()
     {
         double shortest = Integer.MAX_VALUE;
-        int shortestIX = 0;
-        for(int i=0; i<4; i++)
+        var shortestIX = 0;
+        for(var i=0; i<4; i++)
         {
             int j = (i+1)%4;
             double d = corners[i].distance(corners[j]);
@@ -160,7 +160,7 @@ public class ContourBoundingBox
     {
         shortestSide = Integer.MAX_VALUE;
         longestSide = 0;
-        for(int i=0; i<4; i++)
+        for(var i=0; i<4; i++)
         {
             int j = (i+1)%4;
             double d = corners[i].distance(corners[j]);
@@ -219,7 +219,7 @@ public class ContourBoundingBox
 
     public void draw(Graphics g)
     {
-        for(int i=0; i<4; i++)
+        for(var i=0; i<4; i++)
         {
             if(i%2==longEdge()%2)
             {

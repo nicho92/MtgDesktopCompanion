@@ -2,7 +2,6 @@ package org.magic.game.model.factories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
@@ -30,7 +29,7 @@ public class CountersFactory {
 	
 	public List<AbstractCounter> createCounter(String text)
 	{
-		MagicCard mc = new MagicCard();
+		var mc = new MagicCard();
 		mc.setText(text);
 		return createCounter(mc);
 	}
@@ -38,14 +37,14 @@ public class CountersFactory {
 	public List<ItemCounter> createItemCounter(MagicCard mc)
 	{
 		ArrayList<ItemCounter> arr = new ArrayList<>();
-		Pattern p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
-		Matcher m = p.matcher(mc.getText());
+		var p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
+		var m = p.matcher(mc.getText());
 		while(m.find())
 		{
 			String value = m.group(2);
 			if(!value.contains("/"))
 			{
-				ItemCounter bonus = new ItemCounter(value);
+				var bonus = new ItemCounter(value);
 				arr.add(bonus);
 			}
 		}
@@ -63,22 +62,22 @@ public class CountersFactory {
 	{
 		ArrayList<AbstractCounter> arr = new ArrayList<>();
 		
-		Pattern p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
-			Matcher m = p.matcher(mc.getText());
+		var p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
+		var m = p.matcher(mc.getText());
 			while(m.find())
 			{
 				String value = m.group(2);
 				if(value.contains("/"))
 				{
 					String[] splitedValue = value.split("/");
-					int power = Integer.parseInt(splitedValue[0].replaceAll("\\+", ""));
-					int toughness = Integer.parseInt(splitedValue[1].replaceAll("\\+", ""));
-					BonusCounter bonus = new BonusCounter(power, toughness);
+					var power = Integer.parseInt(splitedValue[0].replaceAll("\\+", ""));
+					var toughness = Integer.parseInt(splitedValue[1].replaceAll("\\+", ""));
+					var bonus = new BonusCounter(power, toughness);
 					arr.add(bonus);
 				}
 				else
 				{
-					ItemCounter item = new ItemCounter(value);
+					var item = new ItemCounter(value);
 					arr.add(item);
 				}
 			}

@@ -50,9 +50,9 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	
 	public DashBoardGUI2() {
 		desktop = new JDesktopPane();
-		JMenuBar menuBar = new JMenuBar();
+		var menuBar = new JMenuBar();
 		mnNewMenu = new JMenu(capitalize("ADD"));
-		JMenu mnWindow = new JMenu(capitalize("WINDOW"));
+		var mnWindow = new JMenu(capitalize("WINDOW"));
 		mntmSaveDisplay = new JMenuItem(capitalize("SAVE_DISPLAY"));
 		desktop.setBackground(SystemColor.activeCaption);
 		menuBar.setBounds(0, 0, 120, 21);
@@ -66,7 +66,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		
 		try {
 			for (AbstractJDashlet dash : listPlugins(AbstractJDashlet.class)) {
-				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
+				var mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
 				mntmNewMenuItem.addActionListener(e -> {
 					try {
 						addDash(PluginRegistry.inst().newInstance(dash.getClass()));
@@ -99,8 +99,8 @@ public class DashBoardGUI2 extends MTGUIComponent {
 					@Override
 					protected void process(List<File> chunks) {
 						for (File f : chunks) {
-							try (FileInputStream fis = new FileInputStream(f)){
-								Properties p = new Properties();
+							try (var fis = new FileInputStream(f)){
+								var p = new Properties();
 								p.load(fis);
 								AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
 								dash.setProperties(p);
@@ -118,7 +118,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 	private void initActions() {
 		mntmSaveDisplay.addActionListener(ae -> {
-			int i = 0;
+			var i = 0;
 
 			try {
 				FileUtils.cleanDirectory(AbstractJDashlet.confdir);
@@ -129,16 +129,16 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			
 			for (JInternalFrame jif : desktop.getAllFrames()) {
 				i++;
-				AbstractJDashlet dash = (AbstractJDashlet) jif;
+				var dash = (AbstractJDashlet) jif;
 				dash.setProperty("x", String.valueOf(dash.getBounds().getX()));
 				dash.setProperty("y", String.valueOf(dash.getBounds().getY()));
 				dash.setProperty("w", String.valueOf(dash.getBounds().getWidth()));
 				dash.setProperty("h", String.valueOf(dash.getBounds().getHeight()));
 				dash.setProperty("class", dash.getClass().getName());
 				dash.setProperty("id", String.valueOf(i));
-				File f = new File(AbstractJDashlet.confdir, i + ".conf");
+				var f = new File(AbstractJDashlet.confdir, i + ".conf");
 
-				try (FileOutputStream fos = new FileOutputStream(f)) {
+				try (var fos = new FileOutputStream(f)) {
 					dash.getProperties().store(fos, "");
 					logger.trace("saving " + f + " :" + dash.getProperties());
 					

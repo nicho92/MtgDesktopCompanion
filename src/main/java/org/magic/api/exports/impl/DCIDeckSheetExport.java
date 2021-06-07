@@ -19,7 +19,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.Version;
-import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -68,7 +67,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	{
 
 		try {
-			PdfFont font  = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+			var font  = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 		
 			return new Paragraph(text)
 					.setFont(font)
@@ -92,10 +91,10 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
 		try (
-			 PdfDocument pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet.pdf").openStream()));
-			 Document docSrc = new Document(pdfSrc);
-			 PdfDocument pdfDest = new PdfDocument(new PdfWriter(dest));
-		     Document docDest = new Document(pdfDest)
+				var pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet.pdf").openStream()));
+				var docSrc = new Document(pdfSrc);
+				var pdfDest = new PdfDocument(new PdfWriter(dest));
+				var docDest = new Document(pdfDest)
 			)
 			{
 			
@@ -125,7 +124,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			
 			
 			// MAIN DECK
-			int count = 0;
+			var count = 0;
 			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).collect(Collectors.toList())) {
 				docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/6.4f,h-240-count));
 				count += 18;
@@ -151,7 +150,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			docDest.add(createParagraphe(String.valueOf(deck.getSideAsList().size()),w-55,95));
 			
 			// LEFT TEXT
-			Paragraph p = createParagraphe(getString(LAST_NAME),60,90);
+			var p = createParagraphe(getString(LAST_NAME),60,90);
 					  p.setRotationAngle(1.5708f);
 			docDest.add(p);
 			
@@ -161,10 +160,10 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			
 			
 			
-			String dci = getString(DCI_NUMBER);
+			var dci = getString(DCI_NUMBER);
 			count = 0;
-			for (int i = 0; i < dci.length(); i++) {
-				char c = dci.charAt(i);
+			for (var i = 0; i < dci.length(); i++) {
+				var c = dci.charAt(i);
 				
 				p = createParagraphe(String.valueOf(c),60,(430 + count));
 				p.setRotationAngle(1.5708f);

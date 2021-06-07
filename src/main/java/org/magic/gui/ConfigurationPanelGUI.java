@@ -77,10 +77,10 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 		setLayout(new BorderLayout(0, 0));
 
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 
-		JPanel providerConfigPanel = new JPanel();
+		var providerConfigPanel = new JPanel();
 		tabbedPane.addTab(capitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN,providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 
@@ -147,7 +147,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		if(pe.getPlugins().isEmpty())
 			PluginRegistry.inst().listPlugins(pe.getParametrizedClass());
 		
-		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<>(pe.isMultiprovider(), pe.getPlugins()));
+		var table = new JXTreeTable(new PluginTreeTableModel<>(pe.isMultiprovider(), pe.getPlugins()));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
 		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
