@@ -80,9 +80,9 @@ public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
 	@Override
 	public JFreeChart initChart() {
 
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		var dataset = new TimeSeriesCollection();
 
-		TimeSeries series1 = new TimeSeries(title);
+		var series1 = new TimeSeries(title);
 			if(cpVariations!=null)
 				for (Entry<Date, Double> d : cpVariations.entrySet())
 					series1.add(new Day(d.getKey()), d.getValue().doubleValue());

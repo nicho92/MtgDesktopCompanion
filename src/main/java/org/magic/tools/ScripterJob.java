@@ -25,13 +25,13 @@ public class ScripterJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		
 		
-		String name=context.getJobDetail().getJobDataMap().get("SCRIPT_NAME").toString();
+		var name=context.getJobDetail().getJobDataMap().get("SCRIPT_NAME").toString();
 		
-		Optional<MTGScript> optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().filter(s->FilenameUtils.getExtension(name).toLowerCase().endsWith(s.getExtension().toLowerCase())).findAny();
+		var optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().filter(s->FilenameUtils.getExtension(name).toLowerCase().endsWith(s.getExtension().toLowerCase())).findAny();
 		if(optScripter.isPresent())
 		{
-			MTGScript p = optScripter.get();
-			File f = new File(p.getScriptDirectory(),name);
+			var p = optScripter.get();
+			var f = new File(p.getScriptDirectory(),name);
 			try {
 				p.run(f);
 			} catch (ScriptException e) {

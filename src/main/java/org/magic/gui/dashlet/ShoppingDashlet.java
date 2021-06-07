@@ -35,7 +35,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 	
 	public void initGUI() {
 		var panel = new JPanel();
-		GroupedShoppingPanel groupedShoppingPanel = new GroupedShoppingPanel();
+		var groupedShoppingPanel = new GroupedShoppingPanel();
 		var btnPast = new JButton(MTGConstants.ICON_PASTE);
 		DefaultListModel<MagicCard> model = new DefaultListModel<>();
 		JList<MagicCard> list = new JList<>(model);

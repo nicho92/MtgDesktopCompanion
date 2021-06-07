@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -51,22 +50,22 @@ public class SealedStockGUI extends MTGUIComponent {
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
 		
-		JPanel toolsPanel = new JPanel();
-		JSplitPane centerPanel = new JSplitPane();
+		var toolsPanel = new JPanel();
+		var centerPanel = new JSplitPane();
 		centerPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		centerPanel.setDividerLocation(0.5);
 		centerPanel.setResizeWeight(0.5);
-		JTabbedPane panneauDetail = new JTabbedPane();
-		SealedHistoryPricesPanel historyPricePanel= new SealedHistoryPricesPanel();
+		var panneauDetail = new JTabbedPane();
+		var historyPricePanel= new SealedHistoryPricesPanel();
 		
-		JButton buttonNew = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "stock new");
+		var buttonNew = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "stock new");
 		buttonNew.setEnabled(false);
-		JButton buttonDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_N, "stock delete");
-		JButton buttonUpdate = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_N, "stock refresh");
+		var buttonDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_N, "stock delete");
+		var buttonUpdate = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_N, "stock refresh");
 		
 		setLayout(new BorderLayout());
 		
-		JLabel lblNewLabel = new JLabel("WARNING THIS MODULE IS NOT YET STABLE");
+		var lblNewLabel = new JLabel("WARNING THIS MODULE IS NOT YET STABLE");
 		lblNewLabel.setForeground(Color.RED);
 		toolsPanel.add(lblNewLabel);
 		
@@ -156,7 +155,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		buttonNew.addActionListener(el->{
 			try {
 				
-				SealedStock s = new SealedStock(selectedItem,1);
+				var s = new SealedStock(selectedItem,1);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(s);
 				model.addItem(s);
 			} catch (SQLException e) {

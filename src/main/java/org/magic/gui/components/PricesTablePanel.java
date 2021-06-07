@@ -46,7 +46,7 @@ public class PricesTablePanel extends JPanel {
 	private boolean foilOnly;
 	
 	public PricesTablePanel() {
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 		panel.setPreferredSize(new Dimension(0,32));
@@ -65,7 +65,7 @@ public class PricesTablePanel extends JPanel {
 		
 		tablePrices.setRowSorter(sorterPrice);
 
-		for(int i : model.defaultHiddenColumns())
+		for(var i : model.defaultHiddenColumns())
 			tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
 	
 		
@@ -121,7 +121,7 @@ public class PricesTablePanel extends JPanel {
 			List<MTGPricesProvider> providers = listEnabledPlugins(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
 			
-			CountDownLatch cdl = new CountDownLatch(listEnabledPlugins(MTGPricesProvider.class).size());
+			var cdl = new CountDownLatch(listEnabledPlugins(MTGPricesProvider.class).size());
 	
 			
 			for(MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))

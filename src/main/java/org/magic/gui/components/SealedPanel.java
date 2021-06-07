@@ -129,14 +129,14 @@ public class SealedPanel extends JPanel {
 
 		panel = new JPanel();
 		panelControl.add(panel, BorderLayout.NORTH);
-		GridBagLayout gblpanel = new GridBagLayout();
+		var gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[] { 105, 65, 0, 0, 0 };
 		gblpanel.rowHeights = new int[] { 41, 0, 0 };
 		gblpanel.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gblpanel);
 		cboEditions = UITools.createComboboxEditions();
-		GridBagConstraints gbccboEditions = new GridBagConstraints();
+		var gbccboEditions = new GridBagConstraints();
 		gbccboEditions.fill = GridBagConstraints.HORIZONTAL;
 		gbccboEditions.gridwidth = 4;
 		gbccboEditions.insets = new Insets(0, 0, 5, 0);
@@ -145,7 +145,7 @@ public class SealedPanel extends JPanel {
 		panel.add(cboEditions, gbccboEditions);
 	
 		btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
-		GridBagConstraints gbcbtnAddBoosters = new GridBagConstraints();
+		var gbcbtnAddBoosters = new GridBagConstraints();
 		gbcbtnAddBoosters.anchor = GridBagConstraints.NORTH;
 		gbcbtnAddBoosters.insets = new Insets(0, 0, 0, 5);
 		gbcbtnAddBoosters.gridx = 0;
@@ -153,23 +153,19 @@ public class SealedPanel extends JPanel {
 		panel.add(btnAddBoosters, gbcbtnAddBoosters);
 
 		btnOpen = new JButton(MTGConstants.ICON_OPEN);
-		GridBagConstraints gbcbtnOpen = new GridBagConstraints();
-		gbcbtnOpen.insets = new Insets(0, 0, 0, 5);
-		gbcbtnOpen.anchor = GridBagConstraints.NORTH;
-		gbcbtnOpen.gridx = 1;
-		gbcbtnOpen.gridy = 1;
+		var gbcbtnOpen = UITools.createGridBagConstraints(GridBagConstraints.NORTH, null, 1, 1);
 		panel.add(btnOpen, gbcbtnOpen);
 		btnOpen.setEnabled(false);
 
 		btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
-		GridBagConstraints gbcbtnSaveDeck = new GridBagConstraints();
+		var gbcbtnSaveDeck = new GridBagConstraints();
 		gbcbtnSaveDeck.insets = new Insets(0, 0, 0, 5);
 		gbcbtnSaveDeck.gridx = 2;
 		gbcbtnSaveDeck.gridy = 1;
 		panel.add(btnSaveDeck, gbcbtnSaveDeck);
 
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
-		GridBagConstraints gbclblLoading = new GridBagConstraints();
+		var gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;
 		panel.add(lblLoading, gbclblLoading);
@@ -204,14 +200,14 @@ public class SealedPanel extends JPanel {
 
 		panelSorters.add(rdiotypeSort);
 
-		ButtonGroup groupSorter = new ButtonGroup();
+		var groupSorter = new ButtonGroup();
 		groupSorter.add(rdioCmcSortButton);
 		groupSorter.add(rdiocolorSort);
 		groupSorter.add(rdiotypeSort);
 
 		panelAnalyseChooser = new JPanel();
 		panelSorters.add(panelAnalyseChooser);
-		FlowLayout flowLayout = (FlowLayout) panelAnalyseChooser.getLayout();
+		var flowLayout = (FlowLayout) panelAnalyseChooser.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 
 		rdioBoosterAnalyse = new JRadioButton("Booster");
@@ -224,7 +220,7 @@ public class SealedPanel extends JPanel {
 
 		panelAnalyseChooser.add(rdioDeckAnalyse);
 
-		ButtonGroup groupAnalyser = new ButtonGroup();
+		var groupAnalyser = new ButtonGroup();
 		groupAnalyser.add(rdioBoosterAnalyse);
 		groupAnalyser.add(rdioDeckAnalyse);
 
@@ -298,17 +294,16 @@ public class SealedPanel extends JPanel {
 		cboLands = new JComboBox<>(new DefaultComboBoxModel<>(new String[] { "Plains", "Island", "Swamp", "Mountain", "Forest" }));
 		panelLands.add(cboLands);
 
-		JButton btnAddLands = new JButton("+");
+		var btnAddLands = new JButton("+");
 		btnAddLands.addActionListener(ae -> addLands());
 		panelLands.add(btnAddLands);
 
 	}
 
 	private void addLands() {
-		int qte = Integer.parseInt(txtNumberLand.getText());
-		String land = cboLands.getSelectedItem().toString();
-
-		MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
+		var qte = Integer.parseInt(txtNumberLand.getText());
+		var land = cboLands.getSelectedItem().toString();
+		var ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 		try {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, ed, true)
 					.get(0);
@@ -380,7 +375,7 @@ public class SealedPanel extends JPanel {
 				for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
 					try {
 						for (var i = 0; i < ed.getValue(); i++) {
-							Booster b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(ed.getKey());
+							var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(ed.getKey());
 							publish(b);
 						}
 					} catch (IOException e) {
@@ -398,7 +393,7 @@ public class SealedPanel extends JPanel {
 	}
 
 	private DisplayableCard createCard(MagicCard mc) {
-		DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true, false);
+		var c = new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true, false);
 		c.addObserver(panelDetail);
 		return c;
 

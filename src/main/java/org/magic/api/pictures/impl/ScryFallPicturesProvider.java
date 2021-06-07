@@ -72,7 +72,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
 	@Override
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
-		URL url = generateLink(mc, false);
+		var url = generateLink(mc, false);
 		try {
 			return URLTools.extractImage(url);
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		URL u = generateLink(mc,true);
+		var u = generateLink(mc,true);
 		try {
 			return URLTools.extractImage(u);
 		} catch (Exception e) {
