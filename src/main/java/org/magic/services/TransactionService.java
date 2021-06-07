@@ -36,6 +36,8 @@ public class TransactionService
 {
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
 
+	private TransactionService() {}
+	
 	public static int saveTransaction(Transaction t, boolean reloadShipping) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		if(reloadShipping) {

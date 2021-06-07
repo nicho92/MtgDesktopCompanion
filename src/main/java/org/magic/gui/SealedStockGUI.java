@@ -43,7 +43,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	}
 	
 	private void initGUI() {
-		;
+		
 		model = new SealedStockTableModel();
 		var objectpanel = new ObjectViewerPanel();
 		JXTable table = UITools.createNewTable(model);

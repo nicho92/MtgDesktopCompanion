@@ -28,6 +28,9 @@ public class WooCommerceTools {
 
 	protected static Logger logger = MTGLogger.getLogger(WooCommerceTools.class);
 
+	private WooCommerceTools() {}
+	
+	
 	public static WooCommerce newClient(String key, String secret, String website,String version)
 	{
 		return new WooCommerce() {
