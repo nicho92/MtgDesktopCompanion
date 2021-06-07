@@ -70,11 +70,11 @@ public class GedPanel<T> extends MTGUIComponent {
 	public GedPanel() {
 		setLayout(new BorderLayout());
 
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		viewPanel = new ImagePanel(true, false, true);
 		
-		AbstractBuzyIndicatorComponent buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
+		var buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
@@ -133,7 +133,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	}
 
 	private void addEntry(GedEntry<?> c) {
-		GedEntryComponent e = new GedEntryComponent(c,150,100);
+		var e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 		
 		e.setCallable(new Callable<Void>() {
@@ -148,7 +148,7 @@ public class GedPanel<T> extends MTGUIComponent {
 				else
 				{
 					try {
-						File tmp = File.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
+						var tmp = File.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
 						FileTools.saveFile(tmp, e.getEntry().getContent());
 						Desktop.getDesktop().open(tmp);
 					}catch(Exception e)

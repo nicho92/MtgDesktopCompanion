@@ -57,7 +57,7 @@ public class ImagePanel extends JXPanel {
 	
 	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
 	{
-		GestionnaireEvenements interactionManager = new GestionnaireEvenements();
+		var interactionManager = new GestionnaireEvenements();
 		this.rotable=rotable;
 		this.moveable=moveable;
 		this.zoomable=zoomable;
@@ -168,7 +168,7 @@ public class ImagePanel extends JXPanel {
 			printed = imgFront;
 
 		
-		AffineTransform at = new AffineTransform();
+		var at = new AffineTransform();
 					    at.translate(pX+xDiff, pY+yDiff);
 					    at.scale(xScale, 1);
 	
@@ -256,7 +256,7 @@ public class ImagePanel extends JXPanel {
 			if(!moveable)
 				return;
 			
-			 Point curPoint = e.getPoint();
+			var curPoint = e.getPoint();
 		        xDiff = (double)curPoint.x - startPoint.x;
 		        yDiff = (double)curPoint.y - startPoint.y;
 		        repaint();

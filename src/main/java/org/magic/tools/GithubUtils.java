@@ -42,7 +42,7 @@ public class GithubUtils {
 	
 	private void update() {
 
-		int selected=0;
+		var selected=0;
 		
 		if(!updatetoprerelease)
 			while(releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean())
@@ -103,7 +103,7 @@ public class GithubUtils {
 	
 	public int downloadCount()
 	{
-		int count=0;
+		var count=0;
 		for(JsonElement obj : releases)
 		{
 			if(obj.getAsJsonObject().get(ASSETS).getAsJsonArray().size()>0)

@@ -65,10 +65,10 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		
 		if(showOption) {
 		
-		JPanel panelActions = new JPanel();
+		var panelActions = new JPanel();
 		add(panelActions, BorderLayout.EAST);
 		
-		GridBagLayout gblpanel = new GridBagLayout();
+		var gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[] { 91, 0 };
 		gblpanel.rowHeights = new int[] { 23, 0, 0 };
 		gblpanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
@@ -138,7 +138,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	@Override
 	public JFreeChart initChart() {
 
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		var dataset = new TimeSeriesCollection();
 
 		TimeSeries series1=null;
 		
@@ -154,7 +154,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 			}
 			if(cpVariationsF!=null && !cpVariationsF.isEmpty())
 			{
-				TimeSeries series2 = new TimeSeries(cpVariationsF.toString());
+				var series2 = new TimeSeries(cpVariationsF.toString());
 
 				for (Entry<Date, Double> d : cpVariationsF.entrySet())
 					series2.add(new Day(d.getKey()), d.getValue().doubleValue());
@@ -187,9 +187,9 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 
 					if (item != null) {
 
-						double x = item.getPeriod().getFirstMillisecond();
-						double y = item.getValue().doubleValue();
-						XYImageAnnotation annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage()); 
+						var x = item.getPeriod().getFirstMillisecond();
+						var y = item.getValue().doubleValue();
+						var annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage()); 
 										  annot.setToolTipText(edition.getSet());
 						XYPlot plot = (XYPlot) chart.getPlot();
 						plot.addAnnotation(annot);

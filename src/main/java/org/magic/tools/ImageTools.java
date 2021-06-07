@@ -2,7 +2,6 @@ package org.magic.tools;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -32,7 +31,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -79,7 +77,7 @@ public class ImageTools {
 
         int w = (int) (width * cos + height * sin + 0.5);
         int h = (int) (width * sin + height * cos + 0.5);
-        BufferedImage result = new BufferedImage(w, h, img.getType());
+        var result = new BufferedImage(w, h, img.getType());
 
         Graphics2D g = result.createGraphics();
         g.translate((w - img.getWidth()) / 2, (h - img.getHeight()) / 2);
@@ -92,9 +90,9 @@ public class ImageTools {
 	
 	public static BufferedImage getScaledImage(BufferedImage src){
 		
-		int squareSize = 300;
-		int finalw = squareSize;
-		int finalh = squareSize;
+		var squareSize = 300;
+		var finalw = squareSize;
+		var finalh = squareSize;
 		double factor;
 		if(src.getWidth() > src.getHeight()){
 			factor = ((double)src.getHeight()/(double)src.getWidth());
@@ -104,7 +102,7 @@ public class ImageTools {
 			finalw = (int)(finalh * factor);
 		}   
 
-		BufferedImage resizedImg = new BufferedImage(finalw, finalh, Transparency.TRANSLUCENT);
+		var resizedImg = new BufferedImage(finalw, finalh, Transparency.TRANSLUCENT);
 		Graphics2D g2 = resizedImg.createGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g2.drawImage(src, 0, 0, finalw, finalh, null);
@@ -118,18 +116,18 @@ public class ImageTools {
 		if(imgs!=null)
 			return imgs;
 		
-		int cols = 10;
-		int rows = 7;
-		int chunkWidth = 100;
-		int chunkHeight = 100;
+		var cols = 10;
+		var rows = 7;
+		var chunkWidth = 100;
+		var chunkHeight = 100;
 		
-		int count=0;
+		var count=0;
 		BufferedImage image;
 		imgs= new BufferedImage[cols*rows];
 			try {
 				image = ImageIO.read(MTGConstants.URL_MANA_SYMBOLS);
-				for (int x = 0; x < rows; x++) {
-					for (int y = 0; y < cols; y++) {
+				for (var x = 0; x < rows; x++) {
+					for (var y = 0; y < cols; y++) {
 						imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
 						Graphics2D gr = imgs[count++].createGraphics();
 						gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x,
@@ -147,7 +145,7 @@ public class ImageTools {
 	public static byte[] toByteArray(BufferedImage o) {
         if(o != null) {
             BufferedImage image = o;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
+            var baos = new ByteArrayOutputStream(1024);
             try {
                 ImageIO.write(image, "png", baos);
             } catch (IOException e) {
@@ -227,9 +225,9 @@ public class ImageTools {
 	
 	
 	public static BufferedImage mirroring(BufferedImage image) {
-		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+		var tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.translate(-image.getWidth(null), 0);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		image = op.filter(image, null);
 		return image;
 	}
@@ -244,8 +242,8 @@ public class ImageTools {
 	}
 	
 	public static BufferedImage resize(BufferedImage img, int newH, int newW) {
-		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g2d = dimg.createGraphics();
 				  initGraphics(g2d);
@@ -259,8 +257,8 @@ public class ImageTools {
 	
 	public static BufferedImage imageToBufferedImage(Image im) {
 		
-	     BufferedImage bi = new BufferedImage(im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
-	     Graphics bg = bi.getGraphics();
+		var bi = new BufferedImage(im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
+		var bg = bi.getGraphics();
 	     bg.drawImage(im, 0, 0, null);
 	     bg.dispose();
 	     return bi;
@@ -268,9 +266,9 @@ public class ImageTools {
 
 	public static BufferedImage joinBufferedImage(List<Image> imgs) {
 
-		int offset = 0;
+		var offset = 0;
 		int wid = offset;
-		int height = 0;
+		var height = 0;
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
 			wid += imgb.getWidth();
@@ -279,9 +277,9 @@ public class ImageTools {
 		}
 
 		// create a new buffer and draw two image into the new image
-		BufferedImage newImage = new BufferedImage(wid, height, BufferedImage.TYPE_INT_ARGB);
+		var newImage = new BufferedImage(wid, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = newImage.createGraphics();
-		int x = 0;
+		var x = 0;
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
 
@@ -299,7 +297,7 @@ public class ImageTools {
 		if(img==null)
 			return null;
 	
-		try (ByteArrayOutputStream os = new ByteArrayOutputStream())
+		try (var os = new ByteArrayOutputStream())
 		{
 		    ImageIO.write((BufferedImage)img, "png", os);
 		    return Base64.getEncoder().encodeToString(os.toByteArray());
@@ -313,7 +311,7 @@ public class ImageTools {
 
 
 	public static Icon resize(Icon icon, int newH, int newW) {
-		Image ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);
+		var ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);
 		return new ImageIcon(ic);
 	}
 
@@ -328,7 +326,7 @@ public class ImageTools {
 		
 		imageByte = Base64.getDecoder().decode(base);
 		
-		try(ByteArrayInputStream bis = new ByteArrayInputStream(imageByte))
+		try(var bis = new ByteArrayInputStream(imageByte))
 		{
 			image = ImageIO.read(bis);	
 		}
@@ -346,11 +344,11 @@ public class ImageTools {
 		ImageWriter writer = iw.next();
 
 		ImageWriteParam writeParam = writer.getDefaultWriteParam();
-		ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+		var typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
 		IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
 		setDPI(metadata);
 
-		ImageOutputStream stream = ImageIO.createImageOutputStream(f);
+		var stream = ImageIO.createImageOutputStream(f);
 		try {
 			writer.setOutput(stream);
 			writer.write(metadata, new IIOImage(img, null, metadata), writeParam);
@@ -363,10 +361,10 @@ public class ImageTools {
 	
 	public static Dimension toMM(Dimension d)
 	{
-		BigDecimal bd = BigDecimal.valueOf((d.getWidth() * 25.4) / MTGConstants.DPI);
+		var bd = BigDecimal.valueOf((d.getWidth() * 25.4) / MTGConstants.DPI);
 				   bd=bd.setScale(2, RoundingMode.HALF_UP);
 				   
-	    BigDecimal bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / MTGConstants.DPI);
+		var bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / MTGConstants.DPI);
 	    		   bd2=bd2.setScale(2, RoundingMode.HALF_UP);				   
 				   
 		return new Dimension((int)bd.doubleValue(), (int)bd2.doubleValue());
@@ -375,14 +373,14 @@ public class ImageTools {
 	
 	public static double toMM(double d)
 	{
-		BigDecimal bd = BigDecimal.valueOf((d * 25.4) / MTGConstants.DPI);
+		var bd = BigDecimal.valueOf((d * 25.4) / MTGConstants.DPI);
 		bd=bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
 	
 	public static double toPX(double val)
 	{
-		BigDecimal bd = BigDecimal.valueOf((val / 25.4) * MTGConstants.DPI);
+		var bd = BigDecimal.valueOf((val / 25.4) * MTGConstants.DPI);
 		bd=bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
@@ -390,14 +388,14 @@ public class ImageTools {
 
 	 private static void setDPI(IIOMetadata metadata) throws IIOInvalidTreeException {
 			double dotsPerMilli = 1.0 * MTGConstants.DPI / 10 / 2.54;
-			IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
+			var horiz = new IIOMetadataNode("HorizontalPixelSize");
 			horiz.setAttribute("value", Double.toString(dotsPerMilli));
-			IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");
+			var vert = new IIOMetadataNode("VerticalPixelSize");
 			vert.setAttribute("value", Double.toString(dotsPerMilli));
-			IIOMetadataNode dim = new IIOMetadataNode("Dimension");
+			var dim = new IIOMetadataNode("Dimension");
 			dim.appendChild(horiz);
 			dim.appendChild(vert);
-			IIOMetadataNode root = new IIOMetadataNode("javax_imageio_1.0");
+			var root = new IIOMetadataNode("javax_imageio_1.0");
 			root.appendChild(dim);
 			metadata.mergeTree("javax_imageio_1.0", root);
 	 }

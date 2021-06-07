@@ -14,7 +14,7 @@ public class History extends AbstractCommand {
 	@Override
 	public AbstractResponse run(String[] array) throws ClassNotFoundException, InstantiationException,IllegalAccessException, ParseException, IOException, InvocationTargetException, NoSuchMethodException {
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		handler.getHistory().forEach(c->temp.append(c.toString()).append(MTGConsoleHandler.EOL));
 		

@@ -129,26 +129,26 @@ public class GamingRoomPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 	
 		btnLogout = new JButton(capitalize("LOGOUT"));
-		JLabel lblIp = new JLabel(capitalize("HOST") + " :");
+		var lblIp = new JLabel(capitalize("HOST") + " :");
 		btnConnect = new JButton(capitalize("CONNECT"));
-		JLabel lblName = new JLabel(capitalize("NAME") + " :");
-		JPanel panneauHaut = new JPanel();
+		var lblName = new JLabel(capitalize("NAME") + " :");
+		var panneauHaut = new JPanel();
 		txtServer = new JTextField();
-		JLabel lblPort = new JLabel("Port :");
+		var lblPort = new JLabel("Port :");
 		txtPort = new JTextField();
 		txtName = new JTextField();
 		mod = new PlayerTableModel();
 		table = UITools.createNewTable(mod);
-		JPanel panneauBas = new JPanel();
+		var panneauBas = new JPanel();
 		btnDeck = new JButton("Change deck");
 		btnPlayGame = new JButton("Ask for Game");
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		editorPane = new JTextArea();
-		JPanel panel1 = new JPanel();
+		var panel1 = new JPanel();
 		btnShareDeck = new JButton(MTGConstants.ICON_DECK);
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATE.values()));
-		JPanel panelChatBox = new JPanel();
+		var panelChatBox = new JPanel();
 		
 		txtServer.setText("");
 		txtServer.setColumns(10);
@@ -179,8 +179,7 @@ public class GamingRoomPanel extends JPanel {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
-				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
-						cellHasFocus);
+				var label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
 				try {
 					label.setForeground(((SpeakAction) value).getColor());
 				} catch (Exception e) {
@@ -276,7 +275,7 @@ public class GamingRoomPanel extends JPanel {
 		
 		
 		btnColorChoose.addActionListener(ae -> {
-			Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
+			var c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 			
 			if(c!=null) {
 			editorPane.setForeground(c);
@@ -307,7 +306,7 @@ public class GamingRoomPanel extends JPanel {
 
 		btnDeck.addActionListener(ae -> {
 
-			JDeckChooserDialog diag = new JDeckChooserDialog();
+			var diag = new JDeckChooserDialog();
 			diag.setVisible(true);
 			MagicDeck d = diag.getSelectedDeck();
 			client.updateDeck(d);
@@ -316,10 +315,10 @@ public class GamingRoomPanel extends JPanel {
 	
 
 		btnShareDeck.addActionListener(ae -> {
-			JDeckChooserDialog diag = new JDeckChooserDialog();
+			var diag = new JDeckChooserDialog();
 			diag.setVisible(true);
-			MagicDeck d = diag.getSelectedDeck();
-			Player p = (Player) table.getModel().getValueAt(table.getSelectedRow(), 0);
+			var d = diag.getSelectedDeck();
+			var p = (Player) table.getModel().getValueAt(table.getSelectedRow(), 0);
 			client.sendDeck(d, p);
 		});
 		

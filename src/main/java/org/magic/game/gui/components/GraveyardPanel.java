@@ -68,7 +68,7 @@ public class GraveyardPanel extends DraggablePanel {
 	@Override
 	public void postTreatment(DisplayableCard c) {
 
-		int nb = 0;
+		var nb = 0;
 
 		for (var i = getComponents().length - 1; i >= 0; i--) {
 			DisplayableCard card = (DisplayableCard) getComponent(i);

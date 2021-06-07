@@ -42,7 +42,7 @@ public class HikariPool extends AbstractPool {
 	
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
-		HikariConfig c = new HikariConfig(props);
+		var c = new HikariConfig(props);
 					 c.setJdbcUrl(url);
 					 c.setUsername(user);
 					 c.setPassword(pass);

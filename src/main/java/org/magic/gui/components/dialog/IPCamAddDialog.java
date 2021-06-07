@@ -26,7 +26,7 @@ public class IPCamAddDialog extends JDialog
 	
 	public IPCamAddDialog() 
 	{
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -48,9 +48,9 @@ public class IPCamAddDialog extends JDialog
 		getContentPane().add(comboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 		
 		
-		JButton btnAdd = new JButton(MTGConstants.ICON_CHECK);
-		JButton btnCancel = new JButton(MTGConstants.ICON_DELETE);
-		JPanel panel = new JPanel();
+		var btnAdd = new JButton(MTGConstants.ICON_CHECK);
+		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
+		var panel = new JPanel();
 		       panel.add(btnAdd);
 		       panel.add(btnCancel);
 		getContentPane().add(panel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4));

@@ -10,9 +10,9 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 	
 	public synchronized MatchResult getMatch(ImageDesc in, double threshhold)
 	{
-		int ix = 0;
+		var ix = 0;
 		double max = 0;
-		for(int i=0;i<desc.size();i++)
+		for(var i=0;i<desc.size();i++)
 		{
 			double score = in.compareSURF(desc.get(i).getDescData() );
 			if(score>max)

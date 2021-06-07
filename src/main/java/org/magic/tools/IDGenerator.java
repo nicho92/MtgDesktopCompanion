@@ -40,7 +40,7 @@ public class IDGenerator {
 		if(number!=null&&number.isEmpty() )
 			number=null;
 			
-		String id = String.valueOf((mc.getName() + ed + number + ed.getMultiverseid()));
+		var id = String.valueOf((mc.getName() + ed + number + ed.getMultiverseid()));
 		id = DigestUtils.sha1Hex(id);
 
 		logger.trace("Generate ID for " + (mc.getName() + "|" + ed + "|" + number + "|" + ed.getMultiverseid())+ "=" + id);

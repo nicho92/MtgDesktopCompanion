@@ -44,11 +44,11 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	public MatchResult getMatch(ImageDesc in, double threshhold)
 	{
 		sortByHash(in);
-		int ix = 0;
+		var ix = 0;
 		double max = 0;
 		int size = Math.min(desc.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
 
-		for(int i=0;i<size;i++)
+		for(var i=0;i<size;i++)
 		{
 			double score = in.compareSURF(desc.get(i).getDescData());
 			if(score>max)
@@ -66,7 +66,7 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 
 	private void sortByHash(ImageDesc id)
 	{
-		for(int i=0;i<desc.size();i++)
+		for(var i=0;i<desc.size();i++)
 		{
 			DescContainer d = desc.get(i);
 			d.setMatch(id.compareHashWithFlip(d.getDescData()));

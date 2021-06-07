@@ -56,7 +56,7 @@ public class GedEntryComponent extends JPanel {
 		add(lblDelete, BorderLayout.NORTH);
 		
 		
-		JXLabel l = new JXLabel();
+		var l = new JXLabel();
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		this.entry = e;
 		l.setText(entry.getName());

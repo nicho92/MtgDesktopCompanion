@@ -50,15 +50,15 @@ public class ImageExporter extends AbstractCardExport{
 		int  picHeight = suggestedNbLines * (tempPic.getHeight()+((cardGroup+1)*cardSpace))+headerSize;
 		
 		
-		BufferedImage ret = new BufferedImage((cardWidthSize+columnsSpace)*columnsCount, picHeight, BufferedImage.TYPE_INT_ARGB);
+		var ret = new BufferedImage((cardWidthSize+columnsSpace)*columnsCount, picHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) ret.getGraphics();
 		
 		
-		int start = headerSize + 10;
-		int ycard=start;
-		int xcard=0;
-		int cardCount = 0;
-		int columnNumber=1;
+		var start = headerSize + 10;
+		var ycard=start;
+		var xcard=0;
+		var cardCount = 0;
+		var columnNumber=1;
 		
 		drawHeader(g,d,ret);
 		

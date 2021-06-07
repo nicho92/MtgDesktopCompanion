@@ -558,7 +558,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			id=id.toUpperCase();
 		
 		var ed = new MagicEdition(id);
-		String base = "$.data." + id.toUpperCase();
+		var base = "$.data." + id.toUpperCase();
 		try{
 		ed.setSet(ctx.read(base + "."+NAME, String.class));
 		}

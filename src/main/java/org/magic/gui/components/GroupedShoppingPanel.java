@@ -74,7 +74,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		
 		add(panel, BorderLayout.NORTH);
 
@@ -90,9 +90,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		lblitems = new JLabel();
 		panel.add(lblitems);
 		
-		GroupedPriceTreeTableModel treetModel = new GroupedPriceTreeTableModel();
+		var treetModel = new GroupedPriceTreeTableModel();
 		
-		JXTreeTable tree = new JXTreeTable(treetModel);
+		var tree = new JXTreeTable(treetModel);
 		tree.setTreeCellRenderer(new MagicPriceShoppingTreeCellRenderer());
 		tree.setShowGrid(true, false);
 		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
@@ -137,6 +137,10 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 					try {
 						treetModel.init(get());
 						} 
+					catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
+					}
 					catch (Exception e) {
 						logger.error("error",e);
 					}

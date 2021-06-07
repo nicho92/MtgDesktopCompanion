@@ -9,7 +9,7 @@ public class ScryfallCriteriaBuilder extends AbstractQueryBuilder<String> {
 	public String build(MTGCrit<?>... crits) {
 		
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		
 		for(MTGCrit<?> c : crits)

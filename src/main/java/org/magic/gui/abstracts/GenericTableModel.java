@@ -72,7 +72,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 	
 		try {
-			T it = items.get(0);
+			var it = items.get(0);
 			return PropertyUtils.getNestedProperty(it, columns[columnIndex]).getClass();
 		} catch (Exception e) {
 			return super.getColumnClass(columnIndex);	
@@ -87,7 +87,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	
 	@Override
 	public Object getValueAt(int row, int column) {
-		T it = items.get(row);
+		var it = items.get(row);
 		try {
 			return PropertyUtils.getNestedProperty(it, columns[column]);
 		} catch (Exception e) {

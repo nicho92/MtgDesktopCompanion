@@ -35,7 +35,7 @@ public class EffectsFactory {
 		}
 		else
 		{
-			for(int i=0;i<sentences.size();i++)
+			for(var i=0;i<sentences.size();i++)
 			{
 				arr.add(parseEffect(mc,sentences.get(i)));
 				

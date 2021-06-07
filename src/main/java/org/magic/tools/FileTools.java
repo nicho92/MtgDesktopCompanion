@@ -43,7 +43,7 @@ public class FileTools {
 
 	public static void saveFile(File f, byte[] content) throws IOException {
 		 Files.touch(f);
-		 try (FileOutputStream fileOuputStream = new FileOutputStream(f)) 
+		 try (var fileOuputStream = new FileOutputStream(f)) 
 		 {
 	            fileOuputStream.write(content);
 		 } 

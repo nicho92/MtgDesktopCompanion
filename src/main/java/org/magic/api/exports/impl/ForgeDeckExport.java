@@ -18,7 +18,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		temp.append("[metadata]\n");
 		temp.append("Name=").append(deck.getName()).append("\n");

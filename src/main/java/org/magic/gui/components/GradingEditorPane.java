@@ -48,7 +48,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	private JLabel lblCertified= new JLabel(MTGConstants.ICON_CHECK);
 	
 	public void initGUI(Grading grade) {
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{166, 136, 69, 149, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -74,7 +74,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		
 		
 		txtSerialNumber = new JTextField(10);
-		JButton btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE, KeyEvent.VK_L, "Grade info loading");
+		var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE, KeyEvent.VK_L, "Grade info loading");
 		btnSave = UITools.createBindableJButton(capitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G, "Grade info saving");
 		
 		
@@ -145,7 +145,12 @@ public class GradingEditorPane extends MTGUIComponent {
 							grad.setCertified(true);
 							setGrading(grad);
 						}
-					} catch (Exception e) {
+					}
+					catch(InterruptedException ex)
+					{
+							Thread.currentThread().interrupt();
+					} 
+					catch (Exception e) {
 						MTGControler.getInstance().notify(e);
 					} 
 				}

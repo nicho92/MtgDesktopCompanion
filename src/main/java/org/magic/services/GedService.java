@@ -47,7 +47,7 @@ public class GedService {
 	
 	public void store(GedEntry<?> entry) throws IOException
 	{
-		Path p = getPath(entry);
+		var p = getPath(entry);
 		logger.info("store :"+ p.toAbsolutePath());
 		
 		if(p.getParent()!=null && !Files.exists(p.getParent()))
