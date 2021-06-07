@@ -122,7 +122,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit) + "&page=" + page++;
 			logger.trace(url);
 			JsonArray jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
-			for (int i = 0; i < jsonList.size(); i++) {
+			for (var i = 0; i < jsonList.size(); i++) {
 				lists.add(loadCard(jsonList.get(i).getAsJsonObject()));
 			}
 			count += con.getHeaderFieldInt("Count", 0);
@@ -226,7 +226,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		if (obj.get("legalities") != null) {
 			JsonArray arr = obj.get("legalities").getAsJsonArray();
-			for (int i = 0; i < arr.size(); i++) {
+			for (var i = 0; i < arr.size(); i++) {
 				JsonObject k = arr.get(i).getAsJsonObject();
 				MagicFormat format = new MagicFormat(k.get("format").getAsString(),AUTHORIZATION.valueOf(k.get("legality").getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
@@ -235,7 +235,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		if (obj.get("rulings") != null) {
 			JsonArray arr = obj.get("rulings").getAsJsonArray();
-			for (int i = 0; i < arr.size(); i++) {
+			for (var i = 0; i < arr.size(); i++) {
 				JsonObject k = arr.get(i).getAsJsonObject();
 				MagicRuling rule = new MagicRuling();
 				rule.setDate(k.get("date").getAsString());
@@ -257,7 +257,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		if (obj.get("printings") != null) {
 			JsonArray arr = obj.get("printings").getAsJsonArray();
-			for (int i = 0; i < arr.size(); i++) {
+			for (var i = 0; i < arr.size(); i++) {
 				String k = arr.get(i).getAsString();
 				if (!k.equals(currentSet)) {
 					MagicEdition ed = getSetById(k);
@@ -280,7 +280,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		if (obj.get(FOREIGN_NAMES) != null) {
 			JsonArray arr = obj.get(FOREIGN_NAMES).getAsJsonArray();
-			for (int i = 0; i < arr.size(); i++) {
+			for (var i = 0; i < arr.size(); i++) {
 				JsonObject lang = arr.get(i).getAsJsonObject();
 				MagicCardNames mcn = new MagicCardNames();
 				mcn.setName(lang.get(NAME).getAsString());
@@ -360,7 +360,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	public List<MagicEdition> loadEditions() throws IOException {
 			JsonArray root = URLTools.extractJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
 			List<MagicEdition> eds = new ArrayList<>();
-			for (int i = 0; i < root.size(); i++) {
+			for (var i = 0; i < root.size(); i++) {
 				JsonObject e = root.get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				eds.add(ed);

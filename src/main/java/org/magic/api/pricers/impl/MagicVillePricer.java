@@ -61,7 +61,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 		Elements rows = table.select(MTGConstants.HTML_TAG_TR);
 
-		for (int i = 3; i < rows.size(); i = i + 2) {
+		for (var i = 3; i < rows.size(); i = i + 2) {
 			Element ligne = rows.get(i);
 			Elements cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
 			MagicPrice mp = new MagicPrice();

@@ -127,7 +127,7 @@ public class MassMoverDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground(){
-					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
+					for (var i = 0; i < tableCards.getSelectedRowCount(); i++) {
 						int viewRow = tableCards.getSelectedRows()[i];
 						int modelRow = tableCards.convertRowIndexToModel(viewRow);
 						MagicCard mc = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);

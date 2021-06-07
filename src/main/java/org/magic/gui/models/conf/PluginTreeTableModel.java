@@ -32,7 +32,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	}
 
 	protected int getPosition(Entry<String, Object> k, Properties p) {
-		for (int i = 0; i < p.keySet().size(); i++) {
+		for (var i = 0; i < p.keySet().size(); i++) {
 			if (p.keySet().toArray()[i].toString().equals(k.getKey()))
 				return i;
 		}

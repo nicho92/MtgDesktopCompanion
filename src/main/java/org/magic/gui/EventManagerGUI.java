@@ -55,12 +55,12 @@ public class EventManagerGUI extends MTGUIComponent{
 		
 		tournamentPanel = new TournamentPanel();
 		players = new PlayersPanel();
-		JPanel pannhaut = new JPanel();
+		var pannhaut = new JPanel();
 
-		JButton newTournament = UITools.createBindableJButton("New Event", MTGConstants.ICON_NEW, KeyEvent.VK_N, "newEvent");
-		JButton saveTournament = UITools.createBindableJButton("Save Event", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "saveEvent");
-		JButton startTournament = UITools.createBindableJButton("Start Event", MTGConstants.ICON_SAVE, KeyEvent.VK_T, "startTournament");
-		JButton deleteTournament = UITools.createBindableJButton("Delete Event", MTGConstants.ICON_DELETE, KeyEvent.VK_R, "deleteTournament");
+		var newTournament = UITools.createBindableJButton("New Event", MTGConstants.ICON_NEW, KeyEvent.VK_N, "newEvent");
+		var saveTournament = UITools.createBindableJButton("Save Event", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "saveEvent");
+		var startTournament = UITools.createBindableJButton("Start Event", MTGConstants.ICON_SAVE, KeyEvent.VK_T, "startTournament");
+		var deleteTournament = UITools.createBindableJButton("Delete Event", MTGConstants.ICON_DELETE, KeyEvent.VK_R, "deleteTournament");
 		
 		startTournament.setEnabled(false);
 		deleteTournament.setEnabled(false);

@@ -65,7 +65,7 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	public DeckDetailsPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 0, 132, 31, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
@@ -78,7 +78,7 @@ public class DeckDetailsPanel extends JComponent {
 
 		add(new JLabel(capitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 1, 1));
 		panelLegalities = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panelLegalities.getLayout();
+		var flowLayout = (FlowLayout) panelLegalities.getLayout();
 		flowLayout.setHgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panelLegalities, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 1));
@@ -210,7 +210,7 @@ public class DeckDetailsPanel extends JComponent {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (int i = 0; i < 4; i++) {
+				for (var i = 0; i < 4; i++) {
 					BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MagicCard) magicDeck.getMain().keySet().toArray()[i]);
 					publish(im);
 				}
@@ -267,14 +267,14 @@ public class DeckDetailsPanel extends JComponent {
 		autoBinding4.bind();
 		//
 
-		BindingGroup bindingGroup = new BindingGroup();
+		var bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(autoBinding1);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding4);
 
 		if (magicDeck != null && magicDeck.getDateCreation() != null) {
-			DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());
+			var df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());
 			lblDateInformation.setText(df.format(magicDeck.getDateCreation()));
 		}
 

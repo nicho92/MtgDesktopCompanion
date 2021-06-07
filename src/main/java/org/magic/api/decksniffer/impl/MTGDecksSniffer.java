@@ -103,7 +103,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		int nbPage = 1;
 		int maxPage = getInt(MAX_PAGE);
 
-		for (int i = 1; i <= maxPage; i++) {
+		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:" + nbPage;
 			Document d = URLTools.extractHtml(url);
 

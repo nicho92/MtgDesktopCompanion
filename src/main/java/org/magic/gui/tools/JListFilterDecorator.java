@@ -65,7 +65,7 @@ public class JListFilterDecorator {
 
   private static <T> List<T> getItems(DefaultListModel<T> model) {
       List<T> list = new ArrayList<>();
-      for (int i = 0; i < model.size(); i++) {
+      for (var i = 0; i < model.size(); i++) {
           list.add(model.elementAt(i));
       }
       return list;

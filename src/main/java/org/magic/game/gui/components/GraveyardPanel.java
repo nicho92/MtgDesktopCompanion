@@ -70,7 +70,7 @@ public class GraveyardPanel extends DraggablePanel {
 
 		int nb = 0;
 
-		for (int i = getComponents().length - 1; i >= 0; i--) {
+		for (var i = getComponents().length - 1; i >= 0; i--) {
 			DisplayableCard card = (DisplayableCard) getComponent(i);
 			card.setBounds(5, 10 + nb, card.getWidth(), card.getHeight());
 			nb = nb + 30;

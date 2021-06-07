@@ -5,13 +5,10 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -212,8 +209,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private void drawString(Graphics g, String s, Color background, Color foreground, int x, int y) {
 		g.setFont(new Font("default", Font.BOLD, 12));
 		g.setColor(background);
-		FontMetrics fm = g.getFontMetrics();
-		Rectangle2D rect = fm.getStringBounds(s, g);
+		var fm = g.getFontMetrics();
+		var rect = fm.getStringBounds(s, g);
 		g.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
 		g.setColor(foreground);
 		g.drawString(s, x, y);
@@ -327,9 +324,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private AbstractAction generateActionFromKey(MTGKeyWord k) throws NoSuchMethodException,InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
-			Class a = PluginRegistry.inst().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
-			Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
-			AbstractAction aaction = (AbstractAction) ctor.newInstance(this);
+			var a = PluginRegistry.inst().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
+			var ctor = a.getDeclaredConstructor(DisplayableCard.class);
+			var aaction = (AbstractAction) ctor.newInstance(this);
 			aaction.putValue(Action.LONG_DESCRIPTION, k.getKeyword());
 		return aaction;
 	}
@@ -346,7 +343,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 						menu.add(new JMenuItem(new TapActions(this)));
 
 					if (magicCard.isCreature()) {
-						JMenu mnuModifier = new JMenu("P/T");
+						var mnuModifier = new JMenu("P/T");
 						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
 						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
 						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
@@ -359,13 +356,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 					
 					
 					if (!counters.isEmpty()) {
-						JMenu mnuModifier = new JMenu("Remove Counter");
+						var mnuModifier = new JMenu("Remove Counter");
 						counters.forEach(count->mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count))));
 						menu.add(mnuModifier);
 					}
 					
 					if (magicCard.isPlaneswalker()) {
-						JMenu mnuModifier = new JMenu("Loyalty");
+						var mnuModifier = new JMenu("Loyalty");
 						AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
 						menu.add(mnuModifier);
 					}	
@@ -375,7 +372,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
 			if(!abs.isEmpty()) 
 			{
-				JMenu mnuAbilities = new JMenu("Activate");
+				var mnuAbilities = new JMenu("Activate");
 				abs.stream().filter(c->!c.isLoyalty())
 							.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
 				menu.add(mnuAbilities);
@@ -384,7 +381,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			Set<MTGKeyWord> l = AbstractKeyWordsManager.getInstance().getKeywordsFrom(magicCard);
 			
 			if (!l.isEmpty()) {
-				JMenu actions = new JMenu("Abilities");
+				var actions = new JMenu("Abilities");
 
 				for (final MTGKeyWord k : l) {
 					JMenuItem it;
@@ -403,7 +400,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			List<ItemCounter> items = CountersFactory.getInstance().createItemCounter(getMagicCard());
 			if(!items.isEmpty())
 			{ 
-				JMenu mnuCounter = new JMenu("Counters");
+				var mnuCounter = new JMenu("Counters");
 				items.forEach(c->mnuCounter.add(new ItemCounterActions(this, c)));
 				menu.add(mnuCounter);
 			}
@@ -444,7 +441,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 				GamePanelGUI.getInstance().getPlayer().logAction("Tap " + magicCard);
 		}
 
-		int angle = 0;
+		var angle = 0;
 		if (t)
 			angle = 90;
 		else
@@ -496,7 +493,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 					image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 					revalidate();
 					repaint();
-				} catch (Exception e) {
+				}catch(InterruptedException ew)
+				{
+					Thread.currentThread().interrupt();
+				}
+				catch (Exception e) {
 					logger.error(e);
 				} 
 			}

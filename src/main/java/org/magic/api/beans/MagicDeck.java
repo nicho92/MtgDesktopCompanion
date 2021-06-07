@@ -134,7 +134,7 @@ public class MagicDeck implements Serializable {
 		ArrayList<MagicCard> deck = new ArrayList<>();
 
 		for (Entry<MagicCard, Integer> c : entrySet)
-			for (int i = 0; i < c.getValue(); i++)
+			for (var i = 0; i < c.getValue(); i++)
 				deck.add(c.getKey());
 		
 		return deck;

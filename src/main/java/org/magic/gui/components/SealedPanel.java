@@ -313,7 +313,7 @@ public class SealedPanel extends JPanel {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, ed, true)
 					.get(0);
 
-			for (int i = 0; i < qte; i++) {
+			for (var i = 0; i < qte; i++) {
 				deck.add(mc);
 				DisplayableCard c = createCard(mc);
 				panelDeck.addComponent(c);
@@ -379,7 +379,7 @@ public class SealedPanel extends JPanel {
 				column=0;
 				for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
 					try {
-						for (int i = 0; i < ed.getValue(); i++) {
+						for (var i = 0; i < ed.getValue(); i++) {
 							Booster b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(ed.getKey());
 							publish(b);
 						}

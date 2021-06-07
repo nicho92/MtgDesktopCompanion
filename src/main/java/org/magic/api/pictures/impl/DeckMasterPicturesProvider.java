@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.magic.api.beans.MagicCard;
@@ -37,18 +36,18 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	private BufferedImage resizeIconSet(BufferedImage img) {
-		String mode = getString("ICON_SET_SIZE");
+		var mode = getString("ICON_SET_SIZE");
 
-		int newW = 27;
-		int newH = 30;
+		var newW = 27;
+		var newH = 30;
 
 		if (mode.equalsIgnoreCase("large")) {
 			newW = 118;
 			newH = 130;
 		}
 
-		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g2d = dimg.createGraphics();
 		
@@ -90,9 +89,9 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			break;
 		}
 
-		URL u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png");
-		HttpURLConnection con = URLTools.openConnection(u);
-		BufferedImage im = ImageTools.read(con.getInputStream());
+		var u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png");
+		var con = URLTools.openConnection(u);
+		var im = ImageTools.read(con.getInputStream());
 		return resizeIconSet(im);
 	}
 

@@ -159,7 +159,7 @@ public class Player extends Observable implements Serializable {
 		manaPool.addMana(color, number);
 
 		StringBuilder mana = new StringBuilder();
-		for (int i = 0; i < number; i++)
+		for (var i = 0; i < number; i++)
 			mana.append(color);
 
 		logAction("Add " + mana + " to manapool");
@@ -251,7 +251,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public void drawCard(int number) {
-		for (int i = 0; i < number; i++) {
+		for (var i = 0; i < number; i++) {
 			hand.add(library.getCards().get(i));
 			library.getCards().remove(i);
 		}
@@ -295,7 +295,7 @@ public class Player extends Observable implements Serializable {
 	public List<MagicCard> discardCardFromLibrary(int parseInt) {
 
 		List<MagicCard> ret = new ArrayList<>();
-		for (int i = 0; i < parseInt; i++) {
+		for (var i = 0; i < parseInt; i++) {
 			MagicCard mc = library.getCards().get(i);
 			ret.add(mc);
 			graveyard.add(mc);

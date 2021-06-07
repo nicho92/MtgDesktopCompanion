@@ -180,7 +180,7 @@ public class PluginRegistry {
 			return entry.getPlugins();
 		
 		logger.debug("loading " + classe.getSimpleName());
-		for (int i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) {
+		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) {
 			String s = config.getString(entry.getXpath()+"[" + i + "]/class");
 			T prov = null;
 			try{

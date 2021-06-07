@@ -16,7 +16,7 @@ public class EnergyCost extends NumberCost {
 	
 	@Override
 	public String toString() {
-		StringBuilder append = new StringBuilder();
+		var append = new StringBuilder();
 		
 		for(int i=0;i<value;i++)
 			append.append(text);

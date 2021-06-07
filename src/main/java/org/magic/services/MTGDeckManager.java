@@ -218,7 +218,7 @@ public class MTGDeckManager extends Observable {
 
 		for (MagicCard mc : d.getUniqueCards()) {
 			List<Double> list = new ArrayList<>();
-			for (int i = 0; i < 10; i++) {
+			for (var i = 0; i < 10; i++) {
 				list.add(getProbability(d,i, mc));
 			}
 

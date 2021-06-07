@@ -106,7 +106,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 	
 		if(c.getType() == Integer.class || c.getType() == Float.class)
 		{
-			JSpinner s= new JSpinner(new SpinnerNumberModel(0,0,1000000,1));
+			var s= new JSpinner(new SpinnerNumberModel(0,0,1000000,1));
 			s.setValue(0);
 			s.addChangeListener(l->val = s.getValue());
 			val=0;
@@ -115,7 +115,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == Boolean.class)
 		{
-			JCheckBox ch = new JCheckBox();
+			var ch = new JCheckBox();
 			val=false;
 			ch.setSelected(false);
 			ch.addItemListener(l->val=ch.isSelected());
@@ -189,7 +189,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		
 		//else
 		
-		JTextField f= new JTextField(50);
+		var f= new JTextField(50);
 		f.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

@@ -209,7 +209,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 			List<List<WantItem>> decoupes = ListUtils.partition(wants, max);
 
-			for (int i = 0; i < decoupes.size(); i++) {
+			for (var i = 0; i < decoupes.size(); i++) {
 				Wantslist wl = wlService.createWantList(deck.getName() + "-" + (i + 1));
 				logger.debug("Create " + wl + " list with " + decoupes.get(i).size() + " items");
 				wlService.addItem(wl, decoupes.get(i));

@@ -103,7 +103,7 @@ public class ImageDesc
     public void writeOut(DataOutputStream out) throws IOException
     {
         out.writeInt(size);
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             BrightFeature f = desc.get(i);
             for (double val : f.value)
@@ -122,7 +122,7 @@ public class ImageDesc
         int size = buf.getInt();
         List<Point2D_F64> points = new ArrayList<>(size);
         FastQueue<BrightFeature> descs = UtilFeature.createQueue(detDesc, size);
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             BrightFeature f = detDesc.createDescription();
             for (int j = 0; j < f.size(); j++)
@@ -142,7 +142,7 @@ public class ImageDesc
     {
         detDesc.detect(input);
         int size = detDesc.getNumberOfFeatures();
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             descs.grow().setTo(detDesc.getDescription(i));
             points.add(detDesc.getLocation(i));
@@ -159,7 +159,7 @@ public class ImageDesc
         double max = Math.max(desc.size(), i2.desc.size());
         FastQueue<AssociatedIndex> matches = associate.getMatches();
         double score = 0;
-        for (int i = 0; i < matches.size(); i++)
+        for (var i = 0; i < matches.size(); i++)
         {
             AssociatedIndex match = matches.get(i);
             score += 1 - match.fitScore;

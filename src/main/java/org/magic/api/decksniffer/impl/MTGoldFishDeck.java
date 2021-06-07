@@ -113,7 +113,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		if (metagames)
 			maxPage = 1;
 
-		for (int i = 1; i <= maxPage; i++) {
+		for (var i = 1; i <= maxPage; i++) {
 
 			if (!metagames)
 				url = getString("URL") + "/deck/custom/" + getString(FORMAT) + "?page=" + nbPage + "#"+ getString(SUPPORT);

@@ -62,7 +62,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			}
 		});
 		model.reload();
-		for (int i = 0; i < tree.getRowCount(); i++) {
+		for (var i = 0; i < tree.getRowCount(); i++) {
 		    tree.expandRow(i);
 		}
 		

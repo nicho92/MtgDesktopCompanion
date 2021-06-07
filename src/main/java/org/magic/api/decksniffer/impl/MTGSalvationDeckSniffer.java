@@ -116,7 +116,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		int nbPage = 1;
 		
 
-		for (int i = 1; i <= getInt("MAX_PAGE"); i++) {
+		for (var i = 1; i <= getInt("MAX_PAGE"); i++) {
 			String link = url + "&page=" + nbPage;
 			logger.debug("sniff url : " + link);
 
@@ -159,7 +159,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		manajson = "";
 		boolean hascolor = false;
 		StringBuilder build = new StringBuilder(manajson);
-		for (int i = 0; i < arr.size(); i++) {
+		for (var i = 0; i < arr.size(); i++) {
 			JsonObject obj = arr.get(i).getAsJsonObject();
 			MTGColor c = MTGColor.colorByName(obj.get("name").getAsString());
 			JsonArray tab = obj.get("data").getAsJsonArray();

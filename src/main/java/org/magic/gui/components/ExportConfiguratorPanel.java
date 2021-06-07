@@ -40,8 +40,8 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 	
 	public ExportConfiguratorPanel() {
 		setLayout(new BorderLayout(0, 0));
-		JXTree tree = new JXTree(model);
-		JPanel panelBas = new JPanel();
+		var tree = new JXTree(model);
+		var panelBas = new JPanel();
 		jtf = new JTextField(50);
 		txtSeparator = new JTextField(10);
 		chkseparator = new JCheckBox(capitalize("AUTO_ADD"));
@@ -62,7 +62,7 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) 
 				{
-					TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+					var selPath = tree.getPathForLocation(e.getX(), e.getY());
 					
 					if(selPath!=null)
 					{
@@ -88,19 +88,19 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 	{
 		BeanTools.describe(o).entrySet().forEach(e->{
 			
-			DefaultMutableTreeNode entry = new DefaultMutableTreeNode(e.getKey());
+			var entry = new DefaultMutableTreeNode(e.getKey());
 			
 			if(e.getValue()!=null && !(ClassUtils.isPrimitiveOrWrapper(e.getValue().getClass())) && !(e.getValue() instanceof String))
 			{
 				BeanTools.describe(e.getValue()).entrySet().forEach(f->{
-					DefaultMutableTreeNode entryEd = new DefaultMutableTreeNode(f.getKey());
+					var entryEd = new DefaultMutableTreeNode(f.getKey());
 					entry.add(entryEd);
 					
 					if(f.getValue()!=null && !(ClassUtils.isPrimitiveOrWrapper(f.getValue().getClass())) && !(f.getValue() instanceof String))
 					{
 						
 						BeanTools.describe(f.getValue()).entrySet().forEach(g->{
-							DefaultMutableTreeNode entry2 = new DefaultMutableTreeNode(g.getKey());
+							var entry2 = new DefaultMutableTreeNode(g.getKey());
 							entryEd.add(entry2);
 						});
 					}
@@ -112,7 +112,7 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 					
 					if(!t.isEmpty())
 						BeanTools.describe(t.get(0)).entrySet().forEach(f->{
-							DefaultMutableTreeNode entryEd = new DefaultMutableTreeNode(f.getKey());
+							var entryEd = new DefaultMutableTreeNode(f.getKey());
 							entry.add(entryEd);
 						});
 					

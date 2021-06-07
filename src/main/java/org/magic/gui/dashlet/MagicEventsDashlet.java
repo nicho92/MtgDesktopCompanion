@@ -71,10 +71,10 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		c = Calendar.getInstance();
 		c.setTime(new Date());
 
-		for (int i = c.get(Calendar.YEAR) - 1; i <= c.get(Calendar.YEAR) + 1; i++)
+		for (var i = c.get(Calendar.YEAR) - 1; i <= c.get(Calendar.YEAR) + 1; i++)
 			cboYear.addItem(i);
 
-		for (int i = 1; i < 13; i++)
+		for (var i = 1; i < 13; i++)
 			cboMonth.addItem(i);
 
 		cboYear.setSelectedItem(c.get(Calendar.YEAR));

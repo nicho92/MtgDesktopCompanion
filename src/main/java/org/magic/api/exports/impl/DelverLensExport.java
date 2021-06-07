@@ -34,7 +34,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		StringBuilder temp = new StringBuilder(columns);
+		var temp = new StringBuilder(columns);
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
@@ -127,7 +127,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	
 	@Override
 	public MagicDeck importDeck(String content, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(content))

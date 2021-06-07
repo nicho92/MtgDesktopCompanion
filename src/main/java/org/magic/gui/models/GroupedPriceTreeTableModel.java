@@ -53,7 +53,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	}
 	
 	protected int getPosition(MagicPrice k, List<MagicPrice> p) {
-		for (int i = 0; i < p.size(); i++) {
+		for (var i = 0; i < p.size(); i++) {
 			if (p.get(i).equals(k))
 				return i;
 		}

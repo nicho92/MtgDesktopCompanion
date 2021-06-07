@@ -70,7 +70,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr = xpath.compile("//section[@name='Main']/card");
 			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
-			for (int i = 0; i < result.getLength(); i++) {
+			for (var i = 0; i < result.getLength(); i++) {
 				Node it = result.item(i);
 				String name = it.getTextContent();
 				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
@@ -83,7 +83,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 			expr = xpath.compile("//section[@name='Sideboard']/card");
 			result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
-			for (int i = 0; i < result.getLength(); i++) {
+			for (var i = 0; i < result.getLength(); i++) {
 				Node it = result.item(i);
 				String name = it.getTextContent();
 				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();

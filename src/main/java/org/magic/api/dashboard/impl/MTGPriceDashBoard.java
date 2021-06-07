@@ -133,7 +133,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		data = data.substring(data.indexOf('['), data.indexOf(']') + 1);
 		JsonElement root = URLTools.toJson(data);
 		JsonArray arr = root.getAsJsonArray();
-		for (int i = 0; i < arr.size(); i++) {
+		for (var i = 0; i < arr.size(); i++) {
 			JsonObject card = arr.get(i).getAsJsonObject();
 			CardShake shake = new CardShake();
 			shake.setProviderName(getName());

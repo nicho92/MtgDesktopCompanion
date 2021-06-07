@@ -42,7 +42,7 @@ public class StoryProvider {
 		JsonElement el = URLTools.extractJson(url);
 		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
 
-		for (int i = 0; i < arr.size(); i++) {
+		for (var i = 0; i < arr.size(); i++) {
 			JsonElement e = arr.get(i);
 			String finale = StringEscapeUtils.unescapeJava(e.toString());
 			Document d = Jsoup.parse(finale);

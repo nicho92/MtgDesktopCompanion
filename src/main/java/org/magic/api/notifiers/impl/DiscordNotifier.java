@@ -11,7 +11,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 public class DiscordNotifier extends AbstractMTGNotifier {
@@ -43,11 +42,11 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		try {
 			
 			jda = JDABuilder.createDefault(getString("TOKEN")).build().awaitReady();
-			TextChannel chan = jda.getTextChannelById(chanID);
+			var chan = jda.getTextChannelById(chanID);
 			notification.setSender(String.valueOf(jda.getSelfUser()));
-			StringBuilder msg = new StringBuilder();
+			var msg = new StringBuilder();
 			
-			String emoji="";
+			var emoji="";
 			switch(notification.getType())
 			{
 				case ERROR : emoji=":error:";break;
@@ -59,7 +58,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			msg.append(emoji).append(notification.getMessage());
 			msg.append("*").append(notification.getTitle()).append("*\n");
 			
-			String message=msg.toString();
+			var message=msg.toString();
 			
 			if(message.length()>MAXSIZE)
 			{

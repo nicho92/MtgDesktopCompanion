@@ -169,36 +169,36 @@ public class MagicCardEditorPanel extends JPanel {
 						cost.append("{X}");
 					}
 
-					for (int i = 0; i < cboC.getSelectedIndex(); i++) {
+					for (var i = 0; i < cboC.getSelectedIndex(); i++) {
 						cost.append("{C}");
 						cmc += 1;
 					}
 
-					for (int i = 0; i < cboW.getSelectedIndex(); i++) {
+					for (var i = 0; i < cboW.getSelectedIndex(); i++) {
 						cost.append(MTGColor.WHITE.toManaCode());
 						cmc += 1;
 						colors.add(MTGColor.WHITE);
 					}
 
-					for (int i = 0; i < cboU.getSelectedIndex(); i++) {
+					for (var i = 0; i < cboU.getSelectedIndex(); i++) {
 						cost.append(MTGColor.BLUE.toManaCode());
 						cmc += 1;
 						colors.add(MTGColor.BLUE);
 					}
 
-					for (int i = 0; i < cboB.getSelectedIndex(); i++) {
+					for (var i = 0; i < cboB.getSelectedIndex(); i++) {
 						cost.append(MTGColor.BLACK.toManaCode());
 						cmc += 1;
 						colors.add(MTGColor.BLACK);
 					}
 
-					for (int i = 0; i < cboR.getSelectedIndex(); i++) {
+					for (var i = 0; i < cboR.getSelectedIndex(); i++) {
 						cost.append(MTGColor.RED.toManaCode());
 						cmc += 1;
 						colors.add(MTGColor.RED);
 					}
 
-					for (int i = 0; i < cboG.getSelectedIndex(); i++) {
+					for (var i = 0; i < cboG.getSelectedIndex(); i++) {
 						cost.append(MTGColor.GREEN.toManaCode());
 						cmc += 1;
 						colors.add(MTGColor.GREEN);

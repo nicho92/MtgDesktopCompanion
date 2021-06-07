@@ -189,7 +189,7 @@ public class PackagesProvider {
 			return ret;
 		
 		
-		for (int i = 0; i < n.getLength(); i++)
+		for (var i = 0; i < n.getLength(); i++)
 		{
 			if(n.item(i).getNodeType()==1)
 			{
@@ -241,7 +241,7 @@ public class PackagesProvider {
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			String expression = "//edition/@id";
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			for (int i = 0; i < nodeList.getLength(); i++)
+			for (var i = 0; i < nodeList.getLength(); i++)
 			{
 				list.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));
 			}

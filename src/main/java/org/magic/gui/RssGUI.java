@@ -258,7 +258,7 @@ public class RssGUI extends MTGUIComponent {
 			protected void done() {
 				((DefaultTreeModel) tree.getModel()).reload();
 
-				for (int i = 0; i < tree.getRowCount(); i++)
+				for (var i = 0; i < tree.getRowCount(); i++)
 					tree.expandRow(i + 1);
 
 			}

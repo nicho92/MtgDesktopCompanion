@@ -114,13 +114,13 @@ public class JsonExport extends AbstractCardExport {
 		
 		if (!root.get(TAGS).isJsonNull()) {
 			JsonArray arr = root.get(TAGS).getAsJsonArray();
-			for (int i = 0; i < arr.size(); i++)
+			for (var i = 0; i < arr.size(); i++)
 				deck.getTags().add(arr.get(i).getAsString());
 		}
 
 		JsonArray main = root.get("main").getAsJsonArray();
 
-		for (int i = 0; i < main.size(); i++) {
+		for (var i = 0; i < main.size(); i++) {
 			JsonObject line = main.get(i).getAsJsonObject();
 			int qte = line.get("qty").getAsInt();
 			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
@@ -130,7 +130,7 @@ public class JsonExport extends AbstractCardExport {
 
 		JsonArray side = root.get("side").getAsJsonArray();
 
-		for (int i = 0; i < side.size(); i++) {
+		for (var i = 0; i < side.size(); i++) {
 			JsonObject line = side.get(i).getAsJsonObject();
 			int qte = line.get("qty").getAsInt();
 			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
@@ -216,7 +216,7 @@ public class JsonExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		JsonArray root = URLTools.toJson(content).getAsJsonArray();
 		List<MagicCardStock> list = new ArrayList<>();
-		for (int i = 0; i < root.size(); i++) {
+		for (var i = 0; i < root.size(); i++) {
 			JsonObject line = root.get(i).getAsJsonObject();
 			MagicCardStock mc = new Gson().fromJson(line, MagicCardStock.class);
 			notify(mc.getMagicCard());

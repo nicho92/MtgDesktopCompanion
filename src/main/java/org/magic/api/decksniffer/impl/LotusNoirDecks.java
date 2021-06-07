@@ -83,7 +83,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
 
-		for (int i = 1; i <= nbPage; i++) {
+		for (var i = 1; i <= nbPage; i++) {
 			Document d = URLTools.extractHtml(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT));
 
 			Elements e = d.select("div.thumb_page");

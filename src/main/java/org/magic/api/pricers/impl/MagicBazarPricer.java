@@ -49,7 +49,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 			Elements els = doc.select("div.filterElement"); 
 			String lang = "";
 			String set = "";
-			for (int i = 0; i < els.size(); i++) {
+			for (var i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
 				MagicPrice mp = new MagicPrice();
 				

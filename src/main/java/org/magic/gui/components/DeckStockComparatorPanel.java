@@ -65,7 +65,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		
 		setLayout(new BorderLayout(0, 0));
 		btnCompare = new JButton("Compare");
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		cboCollections = UITools.createComboboxCollection();
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
@@ -73,7 +73,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		btnExportMissing.setText("Export Missing");
 		UITools.bindJButton(btnExportMissing, KeyEvent.VK_M, "ExportMissing");
 		
-		JSplitPane pan = new JSplitPane();
+		var pan = new JSplitPane();
 		pan.setDividerLocation(0.5);
 		pan.setResizeWeight(0.5);
 		
@@ -102,7 +102,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 			@Override
 			public MagicDeck call() throws Exception {
 				
-				MagicDeck d = new MagicDeck();
+				var d = new MagicDeck();
 				d.setName(currentDeck.getName());
 				d.setDescription("Missing cards for deck " + d.getName());
 				model.getItems().forEach(l->d.getMain().put(l.getMc(), l.getResult()));
@@ -119,10 +119,10 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		add(pan,BorderLayout.CENTER);
 		
 		table.setDefaultRenderer(Integer.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
-				Integer val = (Integer)value;
+			var val = (Integer)value;
 				if(column==4)
 				{
-					JLabel c = new JLabel(value.toString(),SwingConstants.CENTER);
+					var c = new JLabel(value.toString(),SwingConstants.CENTER);
 					c.setOpaque(true);
 					if(val==0)
 					{
@@ -168,13 +168,13 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							currentDeck.getMain().entrySet().forEach(entry->
 							{
 								try {
-									boolean has = false;
+									var has = false;
 									
 									if(chkCollectionCheck.isSelected())
 										has = getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
 									
 									List<MagicCardStock> stocks = getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
-									int qty = currentDeck.getMain().get(entry.getKey());
+									var qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());
 								} catch (SQLException e) {
@@ -191,7 +191,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 					
 							List<MagicCard> pricList = new ArrayList<>();
 							model.getItems().stream().filter(l->l.getResult()>0).forEach(l->{
-								for(int i=0;i<l.getResult();i++)
+								for(var i=0;i<l.getResult();i++)
 									pricList.add(l.getMc());
 							});
 							

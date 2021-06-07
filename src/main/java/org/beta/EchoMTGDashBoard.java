@@ -23,7 +23,6 @@ import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class EchoMTGDashBoard extends AbstractDashBoard {
@@ -40,10 +39,10 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	
 	private JsonObject getCardId(MagicCard c) throws IOException
 	{
-		MagicEdition edi = c.getCurrentSet();
+		var edi = c.getCurrentSet();
 		
 		
-		JsonArray list = RequestBuilder.build().method(METHOD.GET).setClient(client)
+		var list = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/data/ajax.getsearchresults.php")
 				 .addContent("term", c.getName())
 				 .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON+", text/javascript, */*; q=0.01")
@@ -54,9 +53,9 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 				 .toJson().getAsJsonArray();
 		
-		for(int i = 0; i<list.getAsJsonArray().size();i++)
+		for(var i = 0; i<list.getAsJsonArray().size();i++)
 		{
-			JsonObject obj = list.get(i).getAsJsonObject();
+			var obj = list.get(i).getAsJsonObject();
 			if(obj.get("setcode").getAsString().equalsIgnoreCase(edi.getId()))
 				return obj;
 		}		
@@ -72,12 +71,12 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	
 	@Override
 	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
-		JsonObject id = getCardId(mc);
-		HistoryPrice<MagicCard> history = new HistoryPrice<>(mc);
-							history.setCurrency(Currency.getInstance("USD"));
+		var id = getCardId(mc);
+		var history = new HistoryPrice<>(mc);
+			history.setCurrency(Currency.getInstance("USD"));
 							
 							
-		JsonArray ret = RequestBuilder.build().method(METHOD.GET).setClient(client)
+				var ret = RequestBuilder.build().method(METHOD.GET).setClient(client)
 				 .url(EchoMTGExport.BASE_URL+"/cache/"+id.get("emid").getAsString()+".r.json")
 				 .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON+", text/javascript, */*; q=0.01")
 				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
@@ -89,7 +88,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		
 		ret.forEach(arr->{
-			JsonArray aray = arr.getAsJsonArray();
+			var aray = arr.getAsJsonArray();
 			history.put(new Date(aray.get(0).getAsLong()), aray.get(1).getAsDouble());
 		});
 		return history;
@@ -99,31 +98,31 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
 		
-		EditionsShakers variations = new EditionsShakers();
+		var variations = new EditionsShakers();
 		variations.setDate(new Date());
 		variations.setEdition(ed);
 		variations.setProviderName(getName());
 		
-		Document d = RequestBuilder.build().method(METHOD.GET).setClient(client)
+		var d = RequestBuilder.build().method(METHOD.GET).setClient(client)
 		 .url(EchoMTGExport.BASE_URL+"/set/"+ed.getId().toUpperCase()+"/"+ed.getSet().replace(" ", "-").toLowerCase()+"/")
 		 .addHeader(URLTools.HOST, WEBSITE)
 		 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL)
 		 .toHtml();
 		
 		
-		Elements trs = d.select("table#set-table tr");
+		var trs = d.select("table#set-table tr");
 		trs.remove(trs.first());
 		trs.remove(trs.last());
 		
 		trs.forEach(tr->{
 			
-			Elements tds = tr.getElementsByTag("td");
-			CardShake cs = new CardShake();
+			var tds = tr.getElementsByTag("td");
+			var cs = new CardShake();
 					  cs.setEd(ed.getId());
 					  cs.setName(tds.get(2).getElementsByTag("a").first().text());
 				  
-					  double price =Double.parseDouble(tds.get(4).getElementsByTag("a").first().attr("data-price"));
-					  double lastWeekPrice = price;
+					  var price =Double.parseDouble(tds.get(4).getElementsByTag("a").first().attr("data-price"));
+					  var lastWeekPrice = price;
 					  
 					  if(!tds.get(3).text().isEmpty())
 					  {

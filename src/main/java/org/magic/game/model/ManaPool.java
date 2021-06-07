@@ -86,7 +86,7 @@ public class ManaPool extends Observable implements Serializable {
 
 		StringBuilder build = new StringBuilder();
 		for (Entry<String, Integer> key : pool.entrySet())
-			for (int i = 0; i < key.getValue(); i++)
+			for (var i = 0; i < key.getValue(); i++)
 				build.append(key.getKey());
 
 		return build.toString();

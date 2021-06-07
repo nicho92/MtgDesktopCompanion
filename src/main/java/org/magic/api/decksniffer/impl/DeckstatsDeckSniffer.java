@@ -132,7 +132,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
 		
-		for (int i = 1; i <= nbPage; i++) {
+		for (var i = 1; i <= nbPage; i++) {
 			Document d = URLTools.extractHtml(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i);
 			Elements e = d.select("tr.deck_row");
 

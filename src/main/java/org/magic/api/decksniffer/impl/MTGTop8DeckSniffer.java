@@ -125,7 +125,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		URLToolsClient httpClient = URLTools.newClient();
 		StringBuilder res = new StringBuilder();
-		for (int i = 0; i < getInt("MAX_PAGE"); i++) {
+		for (var i = 0; i < getInt("MAX_PAGE"); i++) {
 			
 			Builder<String,String> nvps = httpClient.buildMap();
 			
@@ -153,7 +153,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		Elements els = d.select("tr.hover_tr");
 
 		List<RetrievableDeck> ret = new ArrayList<>();
-		for (int i = 0; i < els.size(); i++) {
+		for (var i = 0; i < els.size(); i++) {
 			Element e = els.get(i);
 			RetrievableDeck dk = new RetrievableDeck();
 			dk.setName(e.select("td.s11 a").text());

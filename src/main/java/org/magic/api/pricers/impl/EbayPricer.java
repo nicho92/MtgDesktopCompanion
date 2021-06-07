@@ -11,7 +11,6 @@ import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 public class EbayPricer extends AbstractPricesProvider {
@@ -25,7 +24,7 @@ public class EbayPricer extends AbstractPricesProvider {
 			   keyword += " " + card.getCurrentSet().getSet();
 		
 		
-		RequestBuilder b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
+			   var b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
 				.url(URL_BASE)
 				.addContent("SECURITY-APPNAME", getString("API_KEY"))
 				.addContent("OPERATION-NAME", "findItemsByKeywords")
@@ -51,20 +50,20 @@ public class EbayPricer extends AbstractPricesProvider {
 			return prices;
 		}
 
-		JsonArray items = articles.getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
+		var items = articles.getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
 
 		logger.trace(items);
 
 		for (JsonElement el : items) {
-			MagicPrice mp = new MagicPrice();
+			var mp = new MagicPrice();
 		
-			String etat = "";
-			String title = el.getAsJsonObject().get("title").getAsString();
-			String consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
-			String country = el.getAsJsonObject().get("location").getAsJsonArray().toString();
-			double price = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
+			var etat = "";
+			var title = el.getAsJsonObject().get("title").getAsString();
+			var consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
+			var country = el.getAsJsonObject().get("location").getAsJsonArray().toString();
+			var price = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
 					.get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("__value__").getAsDouble();
-			String currency = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
+			var currency = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
 					.get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("@currencyId").getAsString();
 			try {
 				etat = el.getAsJsonObject().get("condition").getAsJsonArray().get(0).getAsJsonObject()

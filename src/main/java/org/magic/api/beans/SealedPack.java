@@ -67,7 +67,7 @@ public class SealedPack implements Serializable {
 		List<MagicEdition> ret = new ArrayList<>();
 
 		for (Entry<MagicEdition, Integer> e : pack.entrySet()) {
-			for (int i = 0; i < e.getValue(); i++)
+			for (var i = 0; i < e.getValue(); i++)
 				ret.add(e.getKey());
 		}
 		return ret;

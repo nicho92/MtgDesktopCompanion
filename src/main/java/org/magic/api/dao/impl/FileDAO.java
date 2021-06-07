@@ -45,7 +45,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void deleteStock(SealedStock s) throws SQLException {
-			File f = Paths.get(directory.getAbsolutePath(), PACKAGESSDIR,String.valueOf(s.getId())).toFile();
+		var f = Paths.get(directory.getAbsolutePath(), PACKAGESSDIR,String.valueOf(s.getId())).toFile();
 			try {
 				FileTools.deleteFile(f);
 				notify(s);
@@ -58,7 +58,7 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public List<SealedStock> listSeleadStocks() throws SQLException {
 		List<SealedStock> st = new ArrayList<>();
-		File f = new File(directory, PACKAGESSDIR);
+		var f = new File(directory, PACKAGESSDIR);
 		for (File fstock : f.listFiles()) {
 			try {
 				SealedStock s = read(SealedStock.class, fstock);
@@ -74,7 +74,7 @@ public class FileDAO extends AbstractMagicDAO{
 	
 	@Override
 	public void saveOrUpdateStock(SealedStock state) throws SQLException {
-		File f = new File(directory, PACKAGESSDIR);
+		var f = new File(directory, PACKAGESSDIR);
 
 		if (state.getId() == -1)
 			state.setId(f.listFiles().length + 1);
@@ -137,7 +137,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		File f = new File(new File(directory, CARDSDIR), collection.getName());
+		var f = new File(new File(directory, CARDSDIR), collection.getName());
 
 		if (!f.exists())
 			f.mkdir();
@@ -158,9 +158,9 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		File f = Paths.get(directory.getAbsolutePath(), CARDSDIR, collection.getName(),
+		var f = Paths.get(directory.getAbsolutePath(), CARDSDIR, collection.getName(),
 				removeCon(mc.getCurrentSet().getId()), IDGenerator.generate(mc)).toFile();
-		File parent = f.getParentFile();
+		var parent = f.getParentFile();
 
 		if (f.exists())
 			FileUtils.deleteQuietly(f);
@@ -177,7 +177,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException {
-		File f = new File(new File(directory, CARDSDIR), list.getName());
+		var f = new File(new File(directory, CARDSDIR), list.getName());
 
 		if (me != null)
 			f = new File(f, removeCon(me.getId()));
@@ -188,7 +188,7 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		File eds = new File(new File(directory, CARDSDIR), c.getName());
+		var eds = new File(new File(directory, CARDSDIR), c.getName());
 		for (File ed : eds.listFiles())
 			map.put(removeCon(ed.getName()), ed.listFiles().length);
 
@@ -202,7 +202,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection c, MagicEdition me) throws SQLException {
-		File col = new File(new File(directory, CARDSDIR), c.getName());
+		var col = new File(new File(directory, CARDSDIR), c.getName());
 
 		if (me != null)
 			col = new File(col, removeCon(me.getId()));
@@ -211,7 +211,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 		List<MagicCard> ret = new ArrayList<>();
 
-		for (File f : FileUtils.listFilesAndDirs(col, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)) {
+		for (var f : FileUtils.listFilesAndDirs(col, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)) {
 			try {
 				if (!f.isDirectory())
 					ret.add(read(MagicCard.class, f));
@@ -227,7 +227,7 @@ public class FileDAO extends AbstractMagicDAO{
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 
 		String id = IDGenerator.generate(mc);
-		File f = new File(directory, CARDSDIR);
+		var f = new File(directory, CARDSDIR);
 		List<MagicCollection> ret = new ArrayList<>();
 		Collection<File> res = FileUtils.listFiles(f, new NameFileFilter(id), TrueFileFilter.INSTANCE);
 
@@ -239,7 +239,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<String> listEditionsIDFromCollection(MagicCollection c) throws SQLException {
-		File col = new File(new File(directory, CARDSDIR), c.getName());
+		var col = new File(new File(directory, CARDSDIR), c.getName());
 		List<String> ret = new ArrayList<>();
 
 		for (File f : col.listFiles())
@@ -255,7 +255,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void saveCollection(MagicCollection c) throws SQLException {
-		File f = new File(new File(directory, CARDSDIR), c.getName());
+		var f = new File(new File(directory, CARDSDIR), c.getName());
 
 		if (!f.exists())
 			f.mkdir();
@@ -264,7 +264,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
-		File f = new File(new File(directory, CARDSDIR), c.getName());
+		var f = new File(new File(directory, CARDSDIR), c.getName());
 
 		if (f.exists())
 			try {
@@ -289,7 +289,7 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException {
 
-		File f = Paths.get(directory.getAbsolutePath(), CARDSDIR, col.getName(), removeCon(ed.getId())).toFile();
+		var f = Paths.get(directory.getAbsolutePath(), CARDSDIR, col.getName(), removeCon(ed.getId())).toFile();
 
 		if (f.exists())
 			try {
@@ -303,7 +303,7 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
 		List<MagicCardStock> st = new ArrayList<>();
-		File f = new File(directory, STOCKDIR);
+		var f = new File(directory, STOCKDIR);
 		for (File fstock : FileUtils.listFiles(f, new WildcardFileFilter("*" + IDGenerator.generate(mc)),TrueFileFilter.INSTANCE)) {
 			try {
 				MagicCardStock s = read(MagicCardStock.class, fstock);
@@ -321,7 +321,7 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
 
-		File f = new File(directory, STOCKDIR);
+		var f = new File(directory, STOCKDIR);
 
 		if (state.getIdstock() == -1)
 			state.setIdstock(f.listFiles().length + 1);
@@ -340,7 +340,7 @@ public class FileDAO extends AbstractMagicDAO{
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
 
 		for (MagicCardStock s : state) {
-			File f = Paths.get(directory.getAbsolutePath(), STOCKDIR,
+			var f = Paths.get(directory.getAbsolutePath(), STOCKDIR,
 					s.getIdstock() + "-" + IDGenerator.generate(s.getMagicCard())).toFile();
 			logger.debug("Delete " + f);
 			try {
@@ -382,7 +382,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
-		File f = new File(directory, ORDERSDIR);
+		var f = new File(directory, ORDERSDIR);
 
 		if (state.getId() == -1 || state.getId()==null)
 			state.setId(f.listFiles().length + 1);
@@ -399,7 +399,7 @@ public class FileDAO extends AbstractMagicDAO{
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
 		for (OrderEntry s : state) {
-			File f = Paths.get(directory.getAbsolutePath(), ORDERSDIR,String.valueOf(s.getId())).toFile();
+			var f = Paths.get(directory.getAbsolutePath(), ORDERSDIR,String.valueOf(s.getId())).toFile();
 			logger.debug("Delete " + f);
 			try {
 				FileTools.deleteFile(f);
@@ -413,7 +413,7 @@ public class FileDAO extends AbstractMagicDAO{
 	
 	@Override
 	public void initAlerts() {
-		for (File f : FileUtils.listFiles(new File(directory, ALERTSDIR), null, false)) {
+		for (var f : FileUtils.listFiles(new File(directory, ALERTSDIR), null, false)) {
 			try {
 				MagicCardAlert a = read(MagicCardAlert.class, f);
 				
@@ -435,7 +435,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws SQLException {
-		File f = Paths.get(directory.getAbsolutePath(), ALERTSDIR,IDGenerator.generate(alert.getCard())).toFile();
+		var f = Paths.get(directory.getAbsolutePath(), ALERTSDIR,IDGenerator.generate(alert.getCard())).toFile();
 		if (f.exists())
 			FileUtils.deleteQuietly(f);
 	}
@@ -471,7 +471,7 @@ public class FileDAO extends AbstractMagicDAO{
 	public List<MagicNews> listNews() {
 		List<MagicNews> ret = new ArrayList<>();
 
-		for (File f : FileUtils.listFiles(new File(directory, NEWSDIR), null, false)) {
+		for (var f : FileUtils.listFiles(new File(directory, NEWSDIR), null, false)) {
 			try {
 				ret.add(read(MagicNews.class, f));
 			} catch (Exception e) {
@@ -483,8 +483,8 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void deleteNews(MagicNews n) {
-		File dir = new File(new File(directory, NEWSDIR), n.getCategorie());
-		File f = new File(dir, n.getId() + "-" + n.getName());
+		var dir = new File(new File(directory, NEWSDIR), n.getCategorie());
+		var f = new File(dir, n.getId() + "-" + n.getName());
 		try {
 			FileTools.deleteFile(f);
 		} catch (IOException e) {
@@ -494,14 +494,14 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public void saveOrUpdateNews(MagicNews n) throws SQLException {
-		File dir = new File(new File(directory, NEWSDIR), n.getCategorie());
+		var dir = new File(new File(directory, NEWSDIR), n.getCategorie());
 		if (!dir.exists())
 			dir.mkdir();
 
 		if (n.getId() == -1)
 			n.setId(dir.listFiles().length + 1);
 
-		File f = new File(dir, n.getId() + "-" + n.getName());
+		var f = new File(dir, n.getId() + "-" + n.getName());
 		try {
 			save(n, f);
 		} catch (Exception e) {
@@ -544,19 +544,24 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void deleteTransaction(Transaction t) throws SQLException {
-		// TODO Auto-generated method stub
+	
+		if (t.getId() == -1)
+			t.setId(Paths.get(directory.getAbsolutePath(), TRANSACTIONSDIR).toFile().list().length + 1);
 		
+		try {
+			save(t, Paths.get(directory.getAbsolutePath(), TRANSACTIONSDIR,String.valueOf(t.getId())).toFile());
+		} catch (IOException e) {
+			throw new SQLException(e);
+		}
 	}
 
 	@Override
 	public Transaction getTransaction(int id) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

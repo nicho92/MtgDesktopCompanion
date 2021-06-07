@@ -17,7 +17,6 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.security.auth.login.LoginException;
@@ -87,8 +86,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void analyseCard(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 		final List<MagicCard> liste = new ArrayList<>();
-		Pattern p = Pattern.compile(getString(REGEX));
-		Matcher m = p.matcher(event.getMessage().getContentRaw());
+		var p = Pattern.compile(getString(REGEX));
+		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
 			logger.debug(m.group());
@@ -118,12 +117,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 					return;
 				}
 				
-				NavigableEmbed.Builder builder = new NavigableEmbed.Builder(event.getChannel());
-				for (int x = 0; x < liste.size(); x++) {
+				var builder = new NavigableEmbed.Builder(event.getChannel());
+				for (var x = 0; x < liste.size(); x++) {
 					MagicCard result = liste.get(x);
 					BiFunction<MagicCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
-						MessageEmbed embed=parseCard(result);
-						EmbedBuilder eb = new EmbedBuilder(embed);
+						var embed=parseCard(result);
+						var eb = new EmbedBuilder(embed);
 						if (liste.size() > 1)
 							eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
 						
@@ -141,7 +140,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 					applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
 					applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
 			
-					ReactionListener rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
+					var rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
 					rl.addController(event.getAuthor());
 					rl.addResponse(EmbedButton.PREVIOUS.getIcon(), ev -> {
 						navEb.setY(0);
@@ -169,7 +168,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 								   .forEach(r -> {
 									   	try {
 											r.retrieveUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
-										} catch (Exception e) {
+										} 
+									   	catch(InterruptedException ex)
+									   	{
+									   		Thread.currentThread().interrupt();
+									   	}catch (Exception e) {
 											logger.error(e);
 										}
 								   	});
@@ -179,12 +182,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 	
 	private MessageEmbed parseCard(MagicCard mc) {
 		
-		EmbedBuilder eb = new EmbedBuilder();
+		var eb = new EmbedBuilder();
 		eb.setDescription("");
 		eb.setTitle(mc.getName()+ " " + mc.getCost());
 		eb.setColor(MTGColor.determine(mc.getColors()).toColor());
 			
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");
 		temp.append(mc.getText()).append("\n");
 		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
