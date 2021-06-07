@@ -33,8 +33,8 @@ public class MadnessActions extends AbstractAction {
 		try {
 			String regex = "/*" + k + " \\{(.*?)\\ ";
 			String text = card.getMagicCard().getText();
-			Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-			Matcher m = p.matcher(text);
+			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+			var m = p.matcher(text);
 
 			if (m.find())
 				cost = m.group().replaceAll(k, "").trim();

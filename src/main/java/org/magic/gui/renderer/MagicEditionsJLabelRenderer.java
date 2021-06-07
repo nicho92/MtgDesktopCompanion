@@ -16,7 +16,7 @@ import org.magic.services.providers.IconSetProvider;
 public class MagicEditionsJLabelRenderer implements TableCellRenderer {
 
 	public MagicEditionsJLabelRenderer() {
-		FlowLayout flowLayout = new FlowLayout();
+		var flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		pane.setLayout(flowLayout);
@@ -31,7 +31,7 @@ public class MagicEditionsJLabelRenderer implements TableCellRenderer {
 		pane.setBackground(new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 
 		for (MagicEdition ed : (List<MagicEdition>) value) {
-			JLabel l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
+			var l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
 			l.setToolTipText(ed.getSet());
 			l.setOpaque(false);
 			pane.add(l);

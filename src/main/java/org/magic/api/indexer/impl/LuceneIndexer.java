@@ -165,9 +165,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 
 		 try {
 			 IndexReader reader = DirectoryReader.open(dir);
-			 		Terms terms = MultiTerms.getTerms(reader, field);
-		            TermsEnum it = terms.iterator();
-		            BytesRef term = it.next();
+			 		var terms = MultiTerms.getTerms(reader, field);
+			 		var it = terms.iterator();
+			 		var term = it.next();
 		            while (term != null) {
 		               map.put(term.utf8ToString(), it.totalTermFreq());
 		               term = it.next();

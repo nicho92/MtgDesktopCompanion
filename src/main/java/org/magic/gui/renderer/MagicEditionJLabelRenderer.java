@@ -20,7 +20,7 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 	
 	
 	public MagicEditionJLabelRenderer() {
-		FlowLayout flowLayout = new FlowLayout();
+		var flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		pane.setLayout(flowLayout);
@@ -39,7 +39,7 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 		pane.setBackground(table.getBackground());
 		
 		MagicEdition ed = (MagicEdition) value;
-			JLabel l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
+		var l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
 			l.setText(ed.getSet());
 			l.setToolTipText(ed.getSet());
 			l.setOpaque(false);

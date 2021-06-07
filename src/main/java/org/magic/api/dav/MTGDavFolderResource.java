@@ -87,7 +87,7 @@ public class MTGDavFolderResource extends AbstractMTGDavResource implements Fold
 	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException, NotAuthorizedException, BadRequestException, NotFoundException {
        
 		
-		XmlWriter w = new XmlWriter(out);
+		var w = new XmlWriter(out);
 	        w.open("html");
 	        w.open("body");
 	       	w.begin("h1").open().writeText(this.getName()).close();

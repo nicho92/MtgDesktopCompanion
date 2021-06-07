@@ -38,7 +38,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 	
 	private OrderEntry toOrder(LightArticle a, Order o,TYPE_TRANSACTION t)
 	{
-		OrderEntry entrie = new OrderEntry();
+		var entrie = new OrderEntry();
 		entrie.setIdTransation(""+o.getIdOrder());
 		entrie.setCurrency(Currency.getInstance("EUR"));
 		entrie.setTransactionDate(o.getState().getDatePaid());
@@ -74,7 +74,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 			init();
 		
 		List<OrderEntry> entries = new ArrayList<>();
-		OrderService serv = new OrderService();
+		var serv = new OrderService();
 		
 		serv.listOrders(ACTOR.buyer, STATE.bought, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY))));
 		serv.listOrders(ACTOR.buyer, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY))));

@@ -21,7 +21,7 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		deck.getMain().entrySet().forEach(e->build.append(e.getValue()).append(" ").append(e.getKey()).append("\n"));
 		
 		build.append(">").append(deck.getDescription());
@@ -31,13 +31,13 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(name);
 		matches(f, true).forEach(m->{
 			
 			try {
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4),null,true).get(0);
-				int qty = Integer.parseInt(m.group(3));
+				var qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(mc, qty);
 				
 			} catch (Exception e) {

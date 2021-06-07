@@ -91,7 +91,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 				} 
 				else if(line.hasClass("deck_line"))
 				{
-						int qte = Integer.parseInt(line.text().substring(0, line.text().indexOf(' ')));
+					var qte = Integer.parseInt(line.text().substring(0, line.text().indexOf(' ')));
 						String name = line.select("span.L14").text();
 		
 						if (!name.equals("")) 
@@ -124,7 +124,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		URLToolsClient httpClient = URLTools.newClient();
-		StringBuilder res = new StringBuilder();
+		var res = new StringBuilder();
 		for (var i = 0; i < getInt("MAX_PAGE"); i++) {
 			
 			Builder<String,String> nvps = httpClient.buildMap();
@@ -155,7 +155,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> ret = new ArrayList<>();
 		for (var i = 0; i < els.size(); i++) {
 			Element e = els.get(i);
-			RetrievableDeck dk = new RetrievableDeck();
+			var dk = new RetrievableDeck();
 			dk.setName(e.select("td.s11 a").text());
 			try {
 				dk.setUrl(new URI(getString("URL") + e.select("td.s11 a").attr("href")));

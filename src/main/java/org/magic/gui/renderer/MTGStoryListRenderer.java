@@ -14,7 +14,7 @@ public class MTGStoryListRenderer implements ListCellRenderer<MTGStory> {
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MTGStory> list, MTGStory value, int index,
 			boolean isSelected, boolean cellHasFocus) {
-		MTGStoryListPanel render = new MTGStoryListPanel(value);
+		var render = new MTGStoryListPanel(value);
 		if (isSelected) {
 			render.setBackground(SystemColor.inactiveCaption);
 		}

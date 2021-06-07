@@ -63,7 +63,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		panneauHaut = new JPanel();
 		
 		setLayout(new BorderLayout(0, 0));
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0E-4 };
@@ -216,7 +216,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		
 		
 		//
-		BindingGroup bindingGroup = new BindingGroup();
+		var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding7);

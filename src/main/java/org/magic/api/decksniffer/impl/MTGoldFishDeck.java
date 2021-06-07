@@ -60,7 +60,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		Document d = URLTools.extractHtml(info.getUrl().toString());
 	
 		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
-		boolean sideboard = false;
+		var sideboard = false;
 		for (Element tr : trs) 
 		{
 			if (tr.hasClass("deck-category-header") && tr.text().contains("Sideboard"))
@@ -72,10 +72,10 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				Elements tds = tr.select("td");
 				if(!tds.isEmpty())
 				{
-					Integer qty = Integer.parseInt(tds.get(0).text().trim());
-					String name = tds.get(1).select("a").first().text();
-					Pattern p = Pattern.compile("\\["+CardsPatterns.REGEX_ANY_STRING+"\\]");
-					Matcher m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
+					var qty = Integer.parseInt(tds.get(0).text().trim());
+					var name = tds.get(1).select("a").first().text();
+					var p = Pattern.compile("\\["+CardsPatterns.REGEX_ANY_STRING+"\\]");
+					var m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
 					MagicEdition ed  = null;
 					
 					if(m.find())
@@ -103,12 +103,12 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	
 	
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url = "";
+		var url = "";
 		metagames = getBoolean("METAGAME");
 
 		List<RetrievableDeck> list = new ArrayList<>();
-		int nbPage = 1;
-		int maxPage = getInt("MAX_PAGE");
+		var nbPage = 1;
+		var maxPage = getInt("MAX_PAGE");
 
 		if (metagames)
 			maxPage = 1;

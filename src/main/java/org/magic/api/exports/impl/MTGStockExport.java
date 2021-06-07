@@ -74,7 +74,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 					  temp.append(columns).append("\n");
 		
 		stock.forEach(st->{
@@ -140,7 +140,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	public MagicDeck importDeck(String f,String dname) throws IOException 
 	{
 		
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(dname);
 		
 		matches(f,true).forEach(m->{

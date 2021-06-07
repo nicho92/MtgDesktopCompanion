@@ -27,7 +27,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 
 		temp.append("//NAME: " + deck.getName() + " from MTGDeskTopCompanion\n");
 		temp.append("//MAIN\n");
@@ -46,9 +46,9 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f, String deckName) throws IOException {
-			MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 			deck.setName(deckName);
-			boolean side=false;
+			var side=false;
 			
 			for(Matcher m : matches(f,false))
 			{
@@ -61,7 +61,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					String cname = cleanName(m.group(2));
 					try{
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, null, true).get(0);
-						int qty = Integer.parseInt(m.group(1));
+						var qty = Integer.parseInt(m.group(1));
 						
 						if(side)
 						{

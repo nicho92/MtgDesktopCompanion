@@ -47,11 +47,11 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 		try {
 			Document doc = URLTools.extractHtml(page);
 			Elements els = doc.select("div.filterElement"); 
-			String lang = "";
-			String set = "";
+			var lang = "";
+			var set = "";
 			for (var i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
-				MagicPrice mp = new MagicPrice();
+				var mp = new MagicPrice();
 				
 				if(!e.select("img.langue_big").first().attr("alt").isEmpty())
 					lang=e.select("img.langue_big").first().attr("alt");

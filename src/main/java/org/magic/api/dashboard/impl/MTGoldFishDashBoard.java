@@ -86,7 +86,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		AstNode root = new Parser().parse(js.html(), "", 1);
 		isPaperparsing=true;
 		root.visit(visitedNode -> {
-			boolean stop = false;
+			var stop = false;
 			
 			if (!stop && visitedNode.toSource().startsWith("d"))
 			{
@@ -102,7 +102,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				String[] res = val.split(",");
 				
 				try {
-					Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
+					var date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
 					if (historyPrice.get(date) == null)
 					{
 						
@@ -306,9 +306,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 		
-		String urlEditionChecker = URLTools.getRedirectionFor(WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false));
+		var urlEditionChecker = URLTools.getRedirectionFor(WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false));
 		
-		String page = "Main+Set";
+		var page = "Main+Set";
 		
 		if(getBoolean(SET_EXTRA))
 			page ="All+Cards";
@@ -379,7 +379,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			try {
 				int correct = filter.equalsIgnoreCase("lands") ? 1 : 0;
 
-				CardDominance d = new CardDominance();
+				var d = new CardDominance();
 				d.setPosition(Integer.parseInt(tds.get(0).text()));
 				d.setCardName(tds.get(1).text());
 				d.setDecksPercent(UITools.parseDouble(tds.get(3 - correct).text()));

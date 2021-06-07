@@ -133,7 +133,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	public static JFrame createJFrame(MTGUIComponent p, boolean resizable,boolean exitOnClose)
 	{
-		JFrame f = new JFrame(p.getTitle());
+		var f = new JFrame(p.getTitle());
 		f.setIconImage(p.getIcon().getImage());
 		f.getContentPane().add(p);
 		f.pack();
@@ -154,7 +154,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	public static JDialog createJDialog(MTGUIComponent c, boolean resizable,boolean modal)
 	{
-		JDialog j = new JDialog();
+		var j = new JDialog();
 		
 		
 		j.getContentPane().setLayout(new BorderLayout());

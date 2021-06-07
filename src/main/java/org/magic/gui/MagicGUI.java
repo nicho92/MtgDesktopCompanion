@@ -121,16 +121,16 @@ public class MagicGUI extends JFrame {
 		mnuAbout = new JMenu("?");
 		mntmExit = new JMenuItem(capitalize("EXIT"),MTGConstants.ICON_EXIT);
 
-		JMenuItem mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
-		JMenuItem mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
-		JMenuItem mntmThreadItem = new JMenuItem(capitalize("THREADS"),MTGConstants.ICON_CONFIG);
-		JMenuItem mntmLogsItem = new JMenuItem(capitalize("LOGS"),MTGConstants.ICON_CONFIG);
-		JMenuItem mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
-		JMenuItem mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
-		JMenuItem mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
-		JMenuItem mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
-		JMenuItem mntmFilePackageExplorer = new JMenuItem(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE);
-		JMenuItem mntmFileScript = new JMenuItem(capitalize("SCRIPT"),MTGConstants.ICON_SCRIPT);
+		var mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
+		var mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
+		var mntmThreadItem = new JMenuItem(capitalize("THREADS"),MTGConstants.ICON_CONFIG);
+		var mntmLogsItem = new JMenuItem(capitalize("LOGS"),MTGConstants.ICON_CONFIG);
+		var mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
+		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
+		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
+		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
+		var mntmFilePackageExplorer = new JMenuItem(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE);
+		var mntmFileScript = new JMenuItem(capitalize("SCRIPT"),MTGConstants.ICON_SCRIPT);
 		
 		
 		mtgMnuBar.add(mnFile);
@@ -149,15 +149,15 @@ public class MagicGUI extends JFrame {
 	
 		
 		mntmFileChromePlugin.addActionListener(ae->{
-			ChromeDownloader dow = new ChromeDownloader();
+			var dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
 		
 		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> {
 			
-			PackagesBrowserPanel pane = new PackagesBrowserPanel(true);
+			var pane = new PackagesBrowserPanel(true);
 			pane.initTree();
-			JDialog j = MTGUIComponent.createJDialog(pane, true, false);
+			var j = MTGUIComponent.createJDialog(pane, true, false);
 			pane.setPreferredSize(new Dimension(1024, 768));
 			j.setVisible(true);
 			
@@ -188,7 +188,7 @@ public class MagicGUI extends JFrame {
 
 		if (update) 
 		{
-			JMenuItem newversion = new JMenuItem(
+			var newversion = new JMenuItem(
 					capitalize("DOWNLOAD_LAST_VERSION") + " : "
 							+ serviceUpdate.getOnlineVersion());
 			newversion.addActionListener(e -> {
@@ -203,7 +203,7 @@ public class MagicGUI extends JFrame {
 		
 		
 		String pos = MTGControler.getInstance().get("ui/moduleTabPosition");
-		int position=0;
+		var position=0;
 		switch(pos)
 		{
 		case "TOP": position = SwingConstants.TOP;break;
@@ -286,10 +286,10 @@ public class MagicGUI extends JFrame {
 			{	
 				osNotifier.getTrayNotifier().addActionListener(e -> setVisible(!isVisible()));
 			
-				PopupMenu menuTray = new PopupMenu();
-				for (int index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
+				var menuTray = new PopupMenu();
+				for (var index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
 					final int index = index_tab;
-					MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
+					var it = new MenuItem(tabbedPane.getTitleAt(index_tab));
 					it.addActionListener(e -> {
 						setVisible(true);
 						setSelectedTab(index);
@@ -305,7 +305,7 @@ public class MagicGUI extends JFrame {
 					String msg=(capitalize("NEW_VERSION") + " "
 									+ serviceUpdate.getOnlineVersion() + " "
 									+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
-					MTGNotification notif = new MTGNotification(getTitle(),msg,MESSAGE_TYPE.INFO);
+					var notif = new MTGNotification(getTitle(),msg,MESSAGE_TYPE.INFO);
 					osNotifier.send(notif);
 				}
 			}

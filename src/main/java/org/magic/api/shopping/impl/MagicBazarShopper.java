@@ -43,7 +43,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		Elements e = listOrders.select("div.total_list a");
 		
 		logger.debug("Found " + e.size() + " orders");
-		for(int i=0;i<e.size();i++)
+		for(var i=0;i<e.size();i++)
 		{
 			String id = e.get(i).select("div.num_commande").text();
 			String link = e.get(i).attr("href");
@@ -60,7 +60,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		table.remove(0);
 		
 		
-		for(int i=0;i<table.size();i++)
+		for(var i=0;i<table.size();i++)
 		{
 			Element e = table.get(i);
 			boolean iscard=e.hasClass("filterElement");
@@ -70,7 +70,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			if(!name.isEmpty())
 			{
 
-				OrderEntry entrie = new OrderEntry();
+				var entrie = new OrderEntry();
 					entrie.setIdTransation(id);
 					entrie.setSource(getName());
 					entrie.setCurrency(Currency.getInstance("EUR"));

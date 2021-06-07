@@ -31,21 +31,21 @@ public class MTGPricePricer extends AbstractPricesProvider {
 		String set = card.getCurrentSet().getSet().replace(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
-		InputStream stream = URLTools.openConnection(url).getInputStream();
+		var stream = URLTools.openConnection(url).getInputStream();
 		List<MagicPrice> ret = new ArrayList<>();
 
 		logger.info(getName() + " looking for price at " + url);
 
 		try {
-			JsonReader reader = new JsonReader(new InputStreamReader(stream));
+			var reader = new JsonReader(new InputStreamReader(stream));
 			reader.setLenient(true);
 			reader.beginObject();
 			reader.nextName();
 			reader.beginArray();
 
-			String name = "";
-			String fairPrice = "";
-			String mtgpriceID = "";
+			var name = "";
+			var fairPrice = "";
+			var mtgpriceID = "";
 
 			while (reader.hasNext()) {
 				reader.beginObject();
@@ -58,14 +58,14 @@ public class MTGPricePricer extends AbstractPricesProvider {
 				reader.endObject();
 
 				if (name.equalsIgnoreCase(card.getName())) {
-					MagicPrice price = new MagicPrice();
+					var price = new MagicPrice();
 					price.setCurrency("USD");
 					price.setMagicCard(card);
 					price.setSeller(getName());
 					price.setUrl(getString("WEBSITE") + "/sets/" + set + "/"+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
 					price.setValue(Double.parseDouble(fairPrice.replaceAll("\\$", "")));
 					price.setQuality("NM");
-					int start=mtgpriceID.indexOf(set) + set.length();
+					var start=mtgpriceID.indexOf(set) + set.length();
 					price.setFoil(mtgpriceID.indexOf("true", start)>-1);
 					price.setSite(getName());
 					ret.add(price);

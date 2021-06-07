@@ -25,7 +25,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();
-		int maxpage = 0;
+		var maxpage = 0;
 		Document d = URLTools.extractHtml(n.getUrl());
 		try {
 			
@@ -35,12 +35,12 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 			maxpage = 1;
 		}
 
-		String suffix = n.getUrl().replaceAll(getString(SITE) + prefixForum, "");
-		String idForum = suffix.split("-")[0];
-		String idTopic = suffix.split("-")[1];
-		String endUri = n.getUrl().substring(n.getUrl().indexOf(idTopic) + idTopic.length() + 1);
+		var suffix = n.getUrl().replaceAll(getString(SITE) + prefixForum, "");
+		var idForum = suffix.split("-")[0];
+		var idTopic = suffix.split("-")[1];
+		var endUri = n.getUrl().substring(n.getUrl().indexOf(idTopic) + idTopic.length() + 1);
 
-		String id = "";
+		var id = "";
 		for (var i = 0; i < maxpage * getInt(PAGINATION); i += getInt(PAGINATION)) {
 			MagicNewsContent cont = new MagicNewsContent();
 			cont.setAuthor("MagicCorp");

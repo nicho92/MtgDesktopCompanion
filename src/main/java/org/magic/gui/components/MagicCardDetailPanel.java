@@ -180,7 +180,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		txtWatermark = new JTextField(10);
 		add(txtWatermark, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 7,3,null));
 
-		JPanel p = new JPanel();
+		var p = new JPanel();
 		
 		btnCopy = new JButton(MTGConstants.ICON_COPY);
 		btnCopy.setEnabled(false);
@@ -247,7 +247,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
-		FlowLayout flowLayout = (FlowLayout) panelDetailCreature.getLayout();
+		var flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panelDetailCreature.add(loyaltyJTextField);
 		panelDetailCreature.add(new JLabel(capitalize("CARD_POWER") + " :"));
@@ -300,7 +300,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		
 		
 		panelSwitchLangage = new JPanel();
-		FlowLayout flowLayout1 = (FlowLayout) panelSwitchLangage.getLayout();
+		var flowLayout1 = (FlowLayout) panelSwitchLangage.getLayout();
 		flowLayout1.setAlignment(FlowLayout.LEFT);
 
 		add(panelSwitchLangage, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 10,9,null));
@@ -479,7 +479,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		
 		
-		ButtonGroup groupLanguagesButtons = new ButtonGroup();
+		var groupLanguagesButtons = new ButtonGroup();
 		
 		if(magicCard!=null)
 		{
@@ -496,7 +496,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 					protected void process(List<MagicCardNames> chunks) {
 						
 						chunks.forEach(fn->{
-							JToggleButton tglLangButton = new JToggleButton(fn.getLanguage());
+							var tglLangButton = new JToggleButton(fn.getLanguage());
 							tglLangButton.setContentAreaFilled(false);
 							tglLangButton.setActionCommand(fn.getLanguage());
 							tglLangButton.setFont(tglLangButton.getFont().deriveFont(tglLangButton.getFont().getSize()-2));
@@ -547,7 +547,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		
 		
 		//
-		BindingGroup bindingGroup = new BindingGroup();
+		var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding1);

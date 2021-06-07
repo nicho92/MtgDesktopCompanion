@@ -42,7 +42,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 	public void calculate() {
 
-		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
+		var mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		Map<String, Integer> temp;
 		try {
 			temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(mc);

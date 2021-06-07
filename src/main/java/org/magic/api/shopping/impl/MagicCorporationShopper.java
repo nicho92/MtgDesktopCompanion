@@ -39,7 +39,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		Elements numCommands = doc.select("table tbody tr");
 		
 		logger.debug("found "+ numCommands.size()+ " orders. Parsing details");
-		for(int i=0;i<numCommands.size();i++)
+		for(var i=0;i<numCommands.size();i++)
 		{
 			String id=numCommands.get(i).select("td").get(0).text();
 			String date=numCommands.get(i).select("td").get(1).text();
@@ -67,10 +67,10 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		List<OrderEntry> entries = new ArrayList<>();
 		Elements detail = d.select("table tbody tr");
 		
-		for(int i=0;i<detail.size();i++)
+		for(var i=0;i<detail.size();i++)
 		{
 			try {
-				OrderEntry e = new OrderEntry();
+				var e = new OrderEntry();
 				e.setSource(getName());
 				e.setCurrency(Currency.getInstance("EUR"));
 				e.setIdTransation(id);

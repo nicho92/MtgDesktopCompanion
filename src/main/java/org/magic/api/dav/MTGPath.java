@@ -119,12 +119,12 @@ public class MTGPath implements Path {
 	@Override
 	public boolean startsWith(Path other) {
 		
-		boolean ret = false;
+		var ret = false;
 		
 		if(other instanceof MTGPath)
 		{
 			List<String> l = ((MTGPath)other).getParts();
-			for(int i=0;i<=l.size()-1;i++)
+			for(var i=0;i<=l.size()-1;i++)
 			{
 				ret = l.get(i).equalsIgnoreCase(parts.get(i));
 			}
@@ -137,7 +137,7 @@ public class MTGPath implements Path {
 
 	@Override
 	public boolean endsWith(Path other) {
-		boolean ret = false;
+		var ret = false;
 		
 		if(other instanceof MTGPath)
 		{

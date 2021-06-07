@@ -29,14 +29,14 @@ public class MagicPricePanel extends JPanel {
 	
 		setBackground(SystemColor.inactiveCaptionBorder);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 55, 108, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 25, 0, 20, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		JLabel lblName = new JLabel(price.getSite());
+		var lblName = new JLabel(price.getSite());
 		try{
 			lblName.setIcon(PluginRegistry.inst().getPlugin(price.getSite(), MTGPricesProvider.class).getIcon());
 		}
@@ -48,25 +48,25 @@ public class MagicPricePanel extends JPanel {
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblName, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0,2,null));
 
-		JLabel lblPrice = new JLabel(capitalize("PRICE") + " :");
+		var lblPrice = new JLabel(capitalize("PRICE") + " :");
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
-		JLabel lblpriceValue = new JLabel(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
+		var lblpriceValue = new JLabel(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
 		add(lblpriceValue, UITools.createGridBagConstraints(null, GridBagConstraints.VERTICAL, 1, 1));
 
-		JLabel lblSeller = new JLabel(capitalize("SELLER") + " :");
+		var lblSeller = new JLabel(capitalize("SELLER") + " :");
 		lblSeller.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblSeller, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
 
-		JLabel lblSellerinfo = new JLabel(price.getSeller());
+		var lblSellerinfo = new JLabel(price.getSeller());
 		add(lblSellerinfo, UITools.createGridBagConstraints(null, null, 1, 2));
 
-		JLabel lblInfos = new JLabel(capitalize("INFORMATIONS") + " :");
+		var lblInfos = new JLabel(capitalize("INFORMATIONS") + " :");
 		lblInfos.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
-		JLabel lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
+		var lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
 		add(lblNewLabel, UITools.createGridBagConstraints(null, null, 1, 3));
 	}
 }

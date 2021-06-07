@@ -62,9 +62,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
 		List<CardDominance> ret = new ArrayList<>();
 		
-		int i=1;
+		var i=1;
 		for(Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
-			CardDominance cd = new CardDominance();
+			var cd = new CardDominance();
 			cd.setCardName(p.getName());
 			cd.setPlayers(p.getQuantity());
 			cd.setPosition(i++);			
@@ -126,7 +126,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		
-		CATEGORY c=CATEGORY.valueOf(getString(AVERAGE_MARKET).toUpperCase());
+		var c=CATEGORY.valueOf(getString(AVERAGE_MARKET).toUpperCase());
 		
 		
 		logger.debug("Parsing shakers for " + f +" "+ c);

@@ -20,7 +20,7 @@ public class MagicCollectionIconListRenderer extends JLabel implements ListCellR
 	public Component getListCellRendererComponent(JList<? extends MagicCollection> list, MagicCollection value, int index,boolean isSelected, boolean cellHasFocus) {
 
 		if (value != null) {
-			JLabel l = new JLabel(value.getName());
+			var l = new JLabel(value.getName());
 			l.setOpaque(true);
 			l.setToolTipText(value.getName());
 			if (isSelected) {

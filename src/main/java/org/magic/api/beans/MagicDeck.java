@@ -115,7 +115,7 @@ public class MagicDeck implements Serializable {
 				}
 			}
 		}
-		StringBuilder tmp = new StringBuilder();
+		var tmp = new StringBuilder();
 		
 		cmap.stream().sorted().map(MTGColor::toManaCode).forEach(tmp::append);
 		return tmp.toString();
@@ -155,7 +155,7 @@ public class MagicDeck implements Serializable {
 
 
 	public static MagicDeck toDeck(List<MagicCard> cards) {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName("export");
 		d.setDescription("");
 

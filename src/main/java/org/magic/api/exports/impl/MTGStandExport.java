@@ -33,7 +33,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))
@@ -46,7 +46,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 					  build.append(columns).append(System.lineSeparator());
 		
 		for(MagicCardStock st : stock)
@@ -88,12 +88,12 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 		List<MagicCardStock> ret = new ArrayList<>();
 		for(Matcher m : matches(content, true))
 		{
-			MagicCard mc = parseMatcherWithGroup(m, 1, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			var mc = parseMatcherWithGroup(m, 1, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 			
 			if(mc !=null )
 			{
 				
-				MagicCardStock st = new MagicCardStock();
+				var st = new MagicCardStock();
 				st.setMagicCard(mc);
 				st.setQte(Integer.parseInt(m.group(2)));
 				st.setLanguage(m.group(6));

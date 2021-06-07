@@ -51,7 +51,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		for(Map.Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
 		{
@@ -83,7 +83,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				notify(entry.getKey());
 			}
 
-		StringSelection selection = new StringSelection(temp.toString());
+		var selection = new StringSelection(temp.toString());
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
 		
 		logger.debug("saved in clipboard");
@@ -112,7 +112,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(dname);
 		side=false;
 		Transferable trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
@@ -123,7 +123,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 			return deck;
 		}
 		
-		String txt ="";
+		var txt ="";
 		try {
 			txt =trf.getTransferData(DataFlavor.stringFlavor).toString();
 		
@@ -141,7 +141,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 			else
 			{
 				try {
-					int qte = Integer.parseInt(m.group(1));
+					var qte = Integer.parseInt(m.group(1));
 					String name = m.group(2).trim();
 					String ed =  reverse( m.group(3).trim());
 					MagicEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);

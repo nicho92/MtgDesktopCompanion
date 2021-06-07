@@ -34,7 +34,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		
 		List<MagicPrice> ret = new ArrayList<>();
 		
-		JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+		var arr = URLTools.extractJson(url).getAsJsonArray();
 		
 		if(arr.size()<=0)
 		{
@@ -43,7 +43,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		
 		for(JsonElement el : arr)
 		{
-			MagicPrice p = new MagicPrice();
+			var p = new MagicPrice();
 			p.setCurrency(cur);
 			p.setMagicCard(card);
 			p.setSeller(el.getAsJsonObject().get("username").getAsString());
