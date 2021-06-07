@@ -29,15 +29,15 @@ public class NewsEditorPanel extends JPanel {
 	}
 
 	public NewsEditorPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		JLabel lblType = new JLabel("Type:");
-		GridBagConstraints gbclblType = new GridBagConstraints();
+		var lblType = new JLabel("Type:");
+		var gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.EAST;
 		gbclblType.insets = new Insets(0, 0, 5, 5);
 		gbclblType.gridx = 0;
@@ -46,52 +46,52 @@ public class NewsEditorPanel extends JPanel {
 
 		cboType = UITools.createCombobox(MTGNewsProvider.class, false);
 
-		GridBagConstraints gbccboType = new GridBagConstraints();
+		var gbccboType = new GridBagConstraints();
 		gbccboType.insets = new Insets(0, 0, 5, 0);
 		gbccboType.fill = GridBagConstraints.HORIZONTAL;
 		gbccboType.gridx = 1;
 		gbccboType.gridy = 0;
 		add(cboType, gbccboType);
 
-		JLabel categorieLabel = new JLabel("Category:");
-		GridBagConstraints labelGbc0 = new GridBagConstraints();
+		var categorieLabel = new JLabel("Category:");
+		var labelGbc0 = new GridBagConstraints();
 		labelGbc0.insets = new Insets(5, 5, 5, 5);
 		labelGbc0.gridx = 0;
 		labelGbc0.gridy = 1;
 		add(categorieLabel, labelGbc0);
 
 		categorieJTextField = new JTextField();
-		GridBagConstraints componentGbc0 = new GridBagConstraints();
+		var componentGbc0 = new GridBagConstraints();
 		componentGbc0.insets = new Insets(5, 0, 5, 0);
 		componentGbc0.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc0.gridx = 1;
 		componentGbc0.gridy = 1;
 		add(categorieJTextField, componentGbc0);
 
-		JLabel nameLabel = new JLabel(capitalize("NAME") + ": ");
-		GridBagConstraints labelGbc2 = new GridBagConstraints();
+		var nameLabel = new JLabel(capitalize("NAME") + ": ");
+		var labelGbc2 = new GridBagConstraints();
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;
 		labelGbc2.gridy = 2;
 		add(nameLabel, labelGbc2);
 
 		nameJTextField = new JTextField();
-		GridBagConstraints componentGbc2 = new GridBagConstraints();
+		var componentGbc2 = new GridBagConstraints();
 		componentGbc2.insets = new Insets(5, 0, 5, 0);
 		componentGbc2.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc2.gridx = 1;
 		componentGbc2.gridy = 2;
 		add(nameJTextField, componentGbc2);
 
-		JLabel urlLabel = new JLabel("Url:");
-		GridBagConstraints labelGbc3 = new GridBagConstraints();
+		var urlLabel = new JLabel("Url:");
+		var labelGbc3 = new GridBagConstraints();
 		labelGbc3.insets = new Insets(5, 5, 0, 5);
 		labelGbc3.gridx = 0;
 		labelGbc3.gridy = 3;
 		add(urlLabel, labelGbc3);
 
 		urlJTextField = new JTextField();
-		GridBagConstraints componentGbc3 = new GridBagConstraints();
+		var componentGbc3 = new GridBagConstraints();
 		componentGbc3.insets = new Insets(5, 0, 0, 0);
 		componentGbc3.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc3.gridx = 1;

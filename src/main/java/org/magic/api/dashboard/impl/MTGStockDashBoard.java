@@ -80,7 +80,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
 		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
-		SetPricesAnalysis sp = pricesService.getSetPricesAnalysis(cs);
+		var sp = pricesService.getSetPricesAnalysis(cs);
 		
 		PRICES p = PRICES.AVG;
 		
@@ -181,7 +181,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

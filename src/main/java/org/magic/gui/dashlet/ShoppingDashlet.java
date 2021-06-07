@@ -34,13 +34,13 @@ public class ShoppingDashlet extends AbstractJDashlet {
 	
 	
 	public void initGUI() {
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		GroupedShoppingPanel groupedShoppingPanel = new GroupedShoppingPanel();
-		JButton btnPast = new JButton(MTGConstants.ICON_PASTE);
+		var btnPast = new JButton(MTGConstants.ICON_PASTE);
 		DefaultListModel<MagicCard> model = new DefaultListModel<>();
 		JList<MagicCard> list = new JList<>(model);
-		JPanel panneauHaut = new JPanel();
-		JButton btnClear = new JButton(MTGConstants.ICON_DELETE);
+		var panneauHaut = new JPanel();
+		var btnClear = new JButton(MTGConstants.ICON_DELETE);
 		
 		getContentPane().add(panel, BorderLayout.NORTH);
 		list.setCellRenderer(new MagicCardListRenderer());
@@ -76,7 +76,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 	
 		
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 

@@ -45,16 +45,16 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinW.addChangeListener(ce -> player.setMana("{W}", (int) spinW.getValue()));
 		setLayout(new GridLayout(0, 2, 0, 0));
 
-		ManaPanel panelW = new ManaPanel();
-		FlowLayout flowLayout5 = (FlowLayout) panelW.getLayout();
+		var panelW = new ManaPanel();
+		var flowLayout5 = (FlowLayout) panelW.getLayout();
 		flowLayout5.setAlignment(FlowLayout.CENTER);
 		panelW.setManaCost("{W}");
 		add(panelW);
 		spinW.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinW);
 
-		ManaPanel panelU = new ManaPanel();
-		FlowLayout flowLayout2 = (FlowLayout) panelU.getLayout();
+		var panelU = new ManaPanel();
+		var flowLayout2 = (FlowLayout) panelU.getLayout();
 		flowLayout2.setAlignment(FlowLayout.CENTER);
 		panelU.setManaCost("{U}");
 		add(panelU);
@@ -65,8 +65,8 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinU.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinU);
 
-		ManaPanel panelB = new ManaPanel();
-		FlowLayout flowLayout4 = (FlowLayout) panelB.getLayout();
+		var panelB = new ManaPanel();
+		var flowLayout4 = (FlowLayout) panelB.getLayout();
 		flowLayout4.setAlignment(FlowLayout.CENTER);
 		panelB.setManaCost("{B}");
 		add(panelB);
@@ -77,8 +77,8 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinB.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinB);
 
-		ManaPanel panelR = new ManaPanel();
-		FlowLayout flowLayout1 = (FlowLayout) panelR.getLayout();
+		var panelR = new ManaPanel();
+		var flowLayout1 = (FlowLayout) panelR.getLayout();
 		flowLayout1.setAlignment(FlowLayout.CENTER);
 		panelR.setManaCost("{R}");
 		add(panelR);
@@ -89,8 +89,8 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinR.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinR);
 
-		ManaPanel panelG = new ManaPanel();
-		FlowLayout flowLayout3 = (FlowLayout) panelG.getLayout();
+		var panelG = new ManaPanel();
+		var flowLayout3 = (FlowLayout) panelG.getLayout();
 		flowLayout3.setAlignment(FlowLayout.CENTER);
 		panelG.setManaCost("{G}");
 		add(panelG);
@@ -101,8 +101,8 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinG.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinG);
 
-		ManaPanel panelC = new ManaPanel();
-		FlowLayout flowLayout = (FlowLayout) panelC.getLayout();
+		var panelC = new ManaPanel();
+		var flowLayout = (FlowLayout) panelC.getLayout();
 		flowLayout.setAlignment(FlowLayout.CENTER);
 		panelC.setManaCost("{C}");
 		add(panelC);
@@ -112,8 +112,8 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinC.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinC);
 
-		ManaPanel panelE = new ManaPanel();
-		FlowLayout flowLayout6 = (FlowLayout) panelE.getLayout();
+		var panelE = new ManaPanel();
+		var flowLayout6 = (FlowLayout) panelE.getLayout();
 		flowLayout6.setAlignment(FlowLayout.CENTER);
 		add(panelE);
 

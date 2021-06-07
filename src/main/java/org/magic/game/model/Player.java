@@ -158,7 +158,7 @@ public class Player extends Observable implements Serializable {
 	public void addMana(String color, int number) {
 		manaPool.addMana(color, number);
 
-		StringBuilder mana = new StringBuilder();
+		var mana = new StringBuilder();
 		for (var i = 0; i < number; i++)
 			mana.append(color);
 
@@ -460,7 +460,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public String toDetailledString() {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 
 		build.append("Turn :").append(GameManager.getInstance().getTurns().size()).append("\n");
 		build.append("Phases:").append(GameManager.getInstance().getActualTurn().currentPhase()).append("\n");

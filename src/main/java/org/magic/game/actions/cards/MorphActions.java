@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
@@ -42,8 +41,8 @@ public class MorphActions extends AbstractAction {
 		try {
 			String regex = "/*" + k + " \\{(.*?)\\ ";
 			String text = card.getMagicCard().getText();
-			Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-			Matcher m = p.matcher(text);
+			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+			var m = p.matcher(text);
 
 			if (m.find())
 				cost = m.group().replaceAll(k, "").trim();
@@ -60,7 +59,7 @@ public class MorphActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!card.isRotated()) {
-			MagicCard mc = new MagicCard();
+			var mc = new MagicCard();
 			mc.setName("Morphed Creature");
 			mc.setPower("2");
 			mc.setToughness("2");
@@ -68,7 +67,7 @@ public class MorphActions extends AbstractAction {
 			mc.setCost("{3}");
 			mc.setEditions(card.getMagicCard().getEditions());
 			mc.setRotatedCard(card.getMagicCard());
-			MagicRuling r = new MagicRuling();
+			var r = new MagicRuling();
 					r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
 			mc.getRulings().add(r);
 			mc.setText(k + " " + cost);

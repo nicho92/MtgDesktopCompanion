@@ -58,7 +58,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 			return new ArrayList<>();
 		}
 		
-		int qtyVariation = o.get("qtd").getAsInt();
+		var qtyVariation = o.get("qtd").getAsInt();
 		
 		if(qtyVariation==1)
 		{
@@ -92,7 +92,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 				return;
 			}
 			
-			MagicPrice mp = new MagicPrice();
+			var mp = new MagicPrice();
 				mp.setMagicCard(card);
 				mp.setCountry("Brazil");
 				mp.setCurrency(Currency.getInstance("BRL"));

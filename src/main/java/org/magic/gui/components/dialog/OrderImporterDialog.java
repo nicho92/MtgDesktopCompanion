@@ -54,10 +54,10 @@ public class OrderImporterDialog extends JDialog {
 		table = UITools.createNewTable(model);
 		
 		panelChoose = new JPanel();
-		JPanel panel = new JPanel();
-		JPanel panelButton = new JPanel();
-		JButton btnClose = new JButton(MTGConstants.ICON_CANCEL);
-		JButton btnLoad = new JButton(MTGConstants.ICON_OPEN);
+		var panel = new JPanel();
+		var panelButton = new JPanel();
+		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
+		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		cboSniffers =UITools.createCombobox(MTGShopper.class,false);
 		

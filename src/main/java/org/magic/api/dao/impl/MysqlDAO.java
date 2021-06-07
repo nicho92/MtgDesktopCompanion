@@ -2,7 +2,6 @@ package org.magic.api.dao.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -98,20 +97,20 @@ public class MysqlDAO extends AbstractSQLMagicDAO {
 		if (!getFile(MYSQL_DUMP_PATH).exists())
 			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
 
-		StringBuilder dumpCommand = new StringBuilder();
+		var dumpCommand = new StringBuilder();
 		dumpCommand.append(getString(MYSQL_DUMP_PATH)).append("/mysqldump ").append(getString(DB_NAME))
 				   .append(" -h ").append(getString(SERVERNAME))
 				   .append(" -u ").append(getString(LOGIN))
 				   .append(" -p").append(getString(PASS))
 				   .append(" --port ").append(getString(SERVERPORT));
 		
-		Runtime rt = Runtime.getRuntime();
+		var rt = Runtime.getRuntime();
 		logger.info("begin Backup " + getString(DB_NAME));
 		Process child;
 
 		child = rt.exec(dumpCommand.toString());
-		try (PrintStream ps = new PrintStream(f)) {
-			InputStream in = child.getInputStream();
+		try (var ps = new PrintStream(f)) {
+			var in = child.getInputStream();
 			int ch;
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);

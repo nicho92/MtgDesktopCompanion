@@ -15,7 +15,7 @@ public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 	
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
-		JLabel lab = new JLabel();
+		var lab = new JLabel();
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 		lab.setBackground(tree.getBackground());
 		lab.setForeground(tree.getForeground());

@@ -30,11 +30,11 @@ public class MkmWantListChooserDialog extends JDialog {
 		
 		try {
 			
-			JPanel pane = new JPanel();
+			var pane = new JPanel();
 			cboWants = UITools.createCombobox(serv.getWantList());
-			JButton btnNewWantList = new JButton(MTGConstants.ICON_NEW);
-			JButton btnOK = new JButton(MTGConstants.ICON_CHECK);
-			JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+			var btnNewWantList = new JButton(MTGConstants.ICON_NEW);
+			var btnOK = new JButton(MTGConstants.ICON_CHECK);
+			var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 			
 			pane.add(btnNewWantList);
 			pane.add(btnOK);

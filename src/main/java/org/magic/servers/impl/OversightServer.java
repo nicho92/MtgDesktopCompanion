@@ -51,7 +51,7 @@ public class OversightServer extends AbstractMTGServer {
 						logger.error(e1);
 					}
 				
-					MTGNotification notif = new MTGNotification();
+					var notif = new MTGNotification();
 									notif.setTitle("Oversight");
 									notif.setType(MESSAGE_TYPE.INFO);
 									

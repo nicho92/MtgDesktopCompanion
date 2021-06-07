@@ -29,7 +29,7 @@ public class MoveGraveyardActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		String res = JOptionPane.showInputDialog("How many card to discard ?");
 		if (res != null) {
-			int c = Integer.parseInt(res);
+			var c = Integer.parseInt(res);
 			List<MagicCard> disc = GamePanelGUI.getInstance().getPlayer().discardCardFromLibrary(c);
 
 			for (MagicCard mc : disc) {

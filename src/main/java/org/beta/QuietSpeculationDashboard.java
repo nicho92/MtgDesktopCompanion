@@ -57,7 +57,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
 		String uri = BASE_URL+"/tradertools/prices/sets/"+ed.getSet().replace(" ", "%20");
-		EditionsShakers ret = new EditionsShakers();
+		var ret = new EditionsShakers();
 			ret.setEdition(ed);
 			ret.setDate(new Date());
 			ret.setProviderName(getName());
@@ -67,7 +67,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 		
 		Elements trs = content.getElementById("SetCards").select("tr[id]");
 		trs.forEach(tr->{
-			CardShake cs = new CardShake();
+			var cs = new CardShake();
 				cs.setName(tr.getElementsByTag("td").get(0).text());
 				
 				try {

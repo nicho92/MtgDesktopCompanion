@@ -77,7 +77,7 @@ public class MinaClient  extends Observable implements NetworkClient {
 
 	@Override
 	public void sendMessage(String text) {
-		SpeakAction act = new SpeakAction(p, text);
+		var act = new SpeakAction(p, text);
 		session.write(act);
 	}
 
@@ -88,7 +88,7 @@ public class MinaClient  extends Observable implements NetworkClient {
 
 	@Override
 	public void sendMessage(String text, Color c) {
-		SpeakAction act = new SpeakAction(p, text);
+		var act = new SpeakAction(p, text);
 		act.setColor(c);
 		session.write(act);
 	}

@@ -78,7 +78,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	private void init()
 	{
 		try {
-			MagicCardMarketPricer2 mkmPricer = new MagicCardMarketPricer2();
+			var mkmPricer = new MagicCardMarketPricer2();
 			MkmAPIConfig.getInstance().init(mkmPricer.getString("APP_ACCESS_TOKEN_SECRET"),
 					mkmPricer.getString("APP_ACCESS_TOKEN"), mkmPricer.getString("APP_SECRET"),
 					mkmPricer.getString("APP_TOKEN"));
@@ -107,13 +107,13 @@ public class MkmOnlineExport extends AbstractCardExport {
 		if(!init)
 			init();
 		
-		WantsService service = new WantsService();
-		MagicDeck d = new MagicDeck();
+		var service = new WantsService();
+		var d = new MagicDeck();
 		d.setName("import mkm");
 		
-		MkmWantListChooserDialog diag = new MkmWantListChooserDialog();
+		var diag = new MkmWantListChooserDialog();
 		diag.setVisible(true);
-		Wantslist list = diag.getSelectedWantList();
+		var list = diag.getSelectedWantList();
 
 		if (list == null)
 			throw new NullPointerException(getName() + " can't import deck for " + f);
@@ -121,7 +121,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		service.loadItems(list);
 		for (WantItem w : list.getItem()) {
 			try {
-				Product p = w.getProduct();
+				var p = w.getProduct();
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 				
@@ -150,7 +150,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			init();
 
 		
-		WantsService wlService = new WantsService();
+		var wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
 		for (MagicCard mc : deck.getMain().keySet()) 
@@ -168,7 +168,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 					if(!list.isEmpty())
 					{
 						logger.debug("found multiple product for " + mc +" : " + list.size());
-						Product prod = MagicCardMarketPricer2.getProductFromCard(mc,list);
+						var prod = MagicCardMarketPricer2.getProductFromCard(mc,list);
 						
 						if(prod!=null)
 							p=prod.getIdProduct();
@@ -182,7 +182,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			}	
 		
 			if (p != null) {
-				WantItem w = new WantItem();
+				var w = new WantItem();
 				w.setIdProduct(p);
 				w.setCount(deck.getMain().get(mc));
 				w.setFoil(new MkmBoolean(false));
@@ -202,7 +202,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		int max = getInt(MAX_WANTLIST_SIZE);
 		if (wants.size() <= max) {
-			Wantslist l = wlService.createWantList(deck.getName());
+			var l = wlService.createWantList(deck.getName());
 			logger.debug("Create " + l + " list with " + wants.size() + " items id="+l.getIdWantsList());
 			wlService.addItem(l, wants);
 		} else {
@@ -210,7 +210,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			List<List<WantItem>> decoupes = ListUtils.partition(wants, max);
 
 			for (var i = 0; i < decoupes.size(); i++) {
-				Wantslist wl = wlService.createWantList(deck.getName() + "-" + (i + 1));
+				var wl = wlService.createWantList(deck.getName() + "-" + (i + 1));
 				logger.debug("Create " + wl + " list with " + decoupes.get(i).size() + " items");
 				wlService.addItem(wl, decoupes.get(i));
 			}
@@ -230,7 +230,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			init();
 
 		if (!getBoolean(STOCK_USE)) {
-			MagicDeck d = new MagicDeck();
+			var d = new MagicDeck();
 			d.setName("export");
 			for (MagicCardStock mcs : stock) {
 				d.getMain().put(mcs.getMagicCard(), mcs.getQte());
@@ -240,8 +240,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		else {
 
-			StockService serv = new StockService();
-			ProductServices prods = new ProductServices();
+			var serv = new StockService();
+			var prods = new ProductServices();
 			EnumMap<PRODUCT_ATTS, String> enumAtts = new EnumMap<>(PRODUCT_ATTS.class);
 			enumAtts.put(PRODUCT_ATTS.idGame, "1");
 			enumAtts.put(PRODUCT_ATTS.exact, "true");
@@ -269,7 +269,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				else
 				{
 					
-					Article a = new Article();
+					var a = new Article();
 						a.setAltered(mcs.isAltered());
 						a.setSigned(mcs.isSigned());
 						a.setCount(mcs.getQte());
@@ -344,7 +344,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		if (!getBoolean(STOCK_USE))
 			return importFromDeck(importDeckFromFile(f));
 
-		StockService serv = new StockService();
+		var serv = new StockService();
 		List<LightArticle> list = serv.getStock();
 		List<MagicCardStock> stock = new ArrayList<>();
 		
@@ -353,7 +353,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		
 		for (LightArticle a : list) {
-			MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
+			var mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setUpdate(true);
 			mcs.setIdstock(-1);
 			mcs.setComment(a.getComments());
@@ -388,7 +388,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	private Localization convertLang(String s) {
-		Localization l = new Localization();
+		var l = new Localization();
 		l.setIdLanguage(1);
 		l.setLanguageName(s);
 		return l;

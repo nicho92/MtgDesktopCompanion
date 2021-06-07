@@ -13,7 +13,6 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -35,7 +34,7 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 		logger.debug(getName() + " looking for prices at " + url);
 		
 		JsonElement el = URLTools.extractJson(url);
-		JsonArray arr = el.getAsJsonObject().get("response").getAsJsonObject().get("products").getAsJsonArray();
+		var arr = el.getAsJsonObject().get("response").getAsJsonObject().get("products").getAsJsonArray();
 		
 		JsonObject je = null;
 		
@@ -60,7 +59,7 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 			
 			for(Element div : divs)
 			{
-				MagicPrice mp = new MagicPrice();
+				var mp = new MagicPrice();
 						mp.setCountry("USA");
 						mp.setMagicCard(card);
 						mp.setCurrency("USD");

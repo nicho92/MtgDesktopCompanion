@@ -42,7 +42,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 		var id = "";
 		for (var i = 0; i < maxpage * getInt(PAGINATION); i += getInt(PAGINATION)) {
-			MagicNewsContent cont = new MagicNewsContent();
+			var cont = new MagicNewsContent();
 			cont.setAuthor("MagicCorp");
 
 			if (i == 0)

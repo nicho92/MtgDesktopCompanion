@@ -19,7 +19,7 @@ public class PluginIconListRenderer extends JLabel implements ListCellRenderer<M
 	public Component getListCellRendererComponent(JList<? extends MTGPlugin> list, MTGPlugin value, int index,boolean isSelected, boolean cellHasFocus) {
 
 		if (value != null) {
-			JLabel l = new JLabel(value.getName());
+			var l = new JLabel(value.getName());
 			l.setOpaque(true);
 			l.setToolTipText(value.getName());
 			if (isSelected) {

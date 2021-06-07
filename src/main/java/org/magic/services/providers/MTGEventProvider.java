@@ -18,7 +18,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicEvent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;

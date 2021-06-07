@@ -10,7 +10,6 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 public class MTGStandPricer extends AbstractPricesProvider {

@@ -200,7 +200,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		btnAlert = new JButton(MTGConstants.ICON_ALERT);
 		btnAlert.setEnabled(false);
 		btnAlert.addActionListener(ae -> {
-			MagicCardAlert alert = new MagicCardAlert();
+			var alert = new MagicCardAlert();
 			alert.setCard(magicCard);
 			String price = JOptionPane.showInputDialog(null,
 					capitalize("SELECT_MAXIMUM_PRICE"),
@@ -259,7 +259,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setCellRenderer((JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4)->{
-					JLabel l = new JLabel(obj.getFormat());
+			var l = new JLabel(obj.getFormat());
 					
 					if(obj.getFormatLegality()!=null)
 					{
@@ -588,6 +588,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				try {
 					lblThumbnail.setIcon(get());
 					repaint();
+				}catch(InterruptedException ex)
+				{
+					Thread.currentThread().interrupt();
 				} catch (Exception e) {
 					logger.error(e);
 				}

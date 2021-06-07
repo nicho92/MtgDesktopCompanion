@@ -25,8 +25,8 @@ public class MatchResult {
 	}
 
 	public int hashCode() {
-		final int prime = 31;
-		int r = 1;
+		final var prime = 31;
+		var r = 1;
 		r = prime * r + ((this.result == null) ? 0 : this.result.hashCode());
 		return r;
 	}
@@ -38,7 +38,7 @@ public class MatchResult {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MatchResult other = (MatchResult) obj;
+		var other = (MatchResult) obj;
 		if (result == null) {
 			if (other.result != null)
 				return false;

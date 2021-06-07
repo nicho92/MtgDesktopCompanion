@@ -46,7 +46,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		
-		PGobject jsonObject = new PGobject();
+		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(mc).toString());
 		pst.setObject(position, jsonObject);
@@ -59,7 +59,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	
 	@Override
 	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
-		PGobject jsonObject = new PGobject();
+		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(grd).toString());
 		pst.setObject(position,jsonObject );
@@ -73,7 +73,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	
 	@Override
 	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
-		PGobject jsonObject = new PGobject();
+		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(grd).toString());
 		pst.setObject(position, jsonObject);
@@ -88,7 +88,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 	@Override
 	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException {
 		
-		PGobject jsonObject = new PGobject();
+		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(tiersAppIds).toString());
 		pst.setObject(i, jsonObject);
@@ -109,7 +109,7 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 
 	@Override
 	public long getDBSize() {
-		try (Connection c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(getdbSizeQuery(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = pst.executeQuery();) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(getdbSizeQuery(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = pst.executeQuery();) {
 			rs.first();
 			return (long) rs.getDouble(1);
 		} catch (SQLException e) {
@@ -134,12 +134,12 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 				+ " -h" + getString(SERVERNAME) + " -U" + getString(LOGIN) + " -p"
 				+ getString(SERVERPORT);
 
-		Runtime rt = Runtime.getRuntime();
+		var rt = Runtime.getRuntime();
 		logger.info("begin Backup :" + dumpCommand);
 
 		Process child = rt.exec(dumpCommand);
-		try (PrintStream ps = new PrintStream(f)) {
-			InputStream in = child.getInputStream();
+		try (var ps = new PrintStream(f)) {
+			var in = child.getInputStream();
 			int ch;
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);

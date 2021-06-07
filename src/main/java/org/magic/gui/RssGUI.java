@@ -74,12 +74,12 @@ public class RssGUI extends MTGUIComponent {
 		model = new MagicNewsTableModel();
 		table = UITools.createNewTable(model);
 		tree = new JTree();
-		JSplitPane splitNews = new JSplitPane();
+		var splitNews = new JSplitPane();
 		editorPane = MTGUIBrowserComponent.createBrowser();
-		JSplitPane splitTreeTable = new JSplitPane();
-		JPanel leftPanel = new JPanel();
+		var splitTreeTable = new JSplitPane();
+		var leftPanel = new JPanel();
 		rootNode = new DefaultMutableTreeNode(capitalize("RSS_MODULE"));
-		JPanel panelControl = new JPanel();
+		var panelControl = new JPanel();
 		btnNewButton = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"new news entry");
 		btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save news entry");
 		btnDelete =UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete news entry");
@@ -146,7 +146,7 @@ public class RssGUI extends MTGUIComponent {
 		});
 
 		tree.addTreeSelectionListener(tse -> {
-			TreePath path = tse.getPath();
+			var path = tse.getPath();
 			curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof MagicNews)
@@ -166,7 +166,11 @@ public class RssGUI extends MTGUIComponent {
 							model.init(get());
 							model.fireTableDataChanged();
 							
-						} catch (Exception e) {
+						}catch(InterruptedException ex)
+						{
+							Thread.currentThread().interrupt();
+						}
+						catch (Exception e) {
 							logger.error(e);
 						} 
 						lblLoading.end();

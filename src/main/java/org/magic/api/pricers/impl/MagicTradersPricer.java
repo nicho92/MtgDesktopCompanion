@@ -2,7 +2,6 @@ package org.magic.api.pricers.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,11 +16,11 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
-		URL link = new URL(getString("URL"));
+		var link = new URL(getString("URL"));
 		logger.info(getName() + " looking for prices " + link);
 
-		InputStream is = URLTools.openConnection(link).getInputStream();
-		try (BufferedReader read = new BufferedReader(new InputStreamReader(is))) {
+		var is = URLTools.openConnection(link).getInputStream();
+		try (var read = new BufferedReader(new InputStreamReader(is))) {
 			String line;
 			List<MagicPrice> list = new ArrayList<>();
 
@@ -30,8 +29,8 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 				if (fields.length < 8)
 					continue;
 
-				String name = fields[0].trim();
-				String price = fields[1].trim();
+				var name = fields[0].trim();
+				var price = fields[1].trim();
 				double f =0;
 				try {
 					f = Double.parseDouble(price);
@@ -41,7 +40,7 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 					String cname = getCorrectName(card.getName());
 					if (name.startsWith(cname)) {
 						logger.info(getName() + " found " + cname);
-						MagicPrice mp = new MagicPrice();
+						var mp = new MagicPrice();
 						mp.setMagicCard(card);
 						mp.setSeller(getName());
 						mp.setUrl("http://store.eudogames.com/products/search?query="

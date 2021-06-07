@@ -79,38 +79,38 @@ public class MassCollectionImporterDialog extends JDialog {
 	private void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		deck = new MagicDeck();
-		JPanel panelCollectionInput = new JPanel();
+		var panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
 
-		JLabel lblImport = new JLabel(capitalize("IMPORT") + " ");
+		var lblImport = new JLabel(capitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
 		
 		
 		cboEditions =UITools.createComboboxEditions();
 		panelCollectionInput.add(cboEditions);
 		
-		JLabel lblNewLabel = new JLabel(capitalize("BY"));
+		var lblNewLabel = new JLabel(capitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 
 		cboByType = UITools.createCombobox(new String[] { NUMBER, NAME });
 		panelCollectionInput.add(cboByType);
 
-		JLabel lblIn = new JLabel("in");
+		var lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
 		
 		JComboBox<MagicCollection> cboCollections = UITools.createComboboxCollection();
 		panelCollectionInput.add(cboCollections);
 
-		JPanel panneauBas = new JPanel();
+		var panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
-		AbstractBuzyIndicatorComponent progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
+		var progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 
-		final JCheckBox checkNewOne = new JCheckBox(capitalize("IMPORT_OTHER_SERIE"));
+		final var checkNewOne = new JCheckBox(capitalize("IMPORT_OTHER_SERIE"));
 
-		JButton btnInverse = new JButton("Inverse");
+		var btnInverse = new JButton("Inverse");
 		
-		JButton btnImport = new JButton(capitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
+		var btnImport = new JButton(capitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
 
 		panneauBas.add(btnInverse);
 
@@ -120,7 +120,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		panneauBas.add(progressBar);
 
-		JTextPane txtNumbersInput = new JTextPane();
+		var txtNumbersInput = new JTextPane();
 		
 		txtNumbersInput.setPreferredSize(new Dimension(600, 300));
 		
@@ -135,7 +135,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		btnInverse.addActionListener(e -> {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" "));
-			StringBuilder temp = new StringBuilder();
+			var temp = new StringBuilder();
 			for (MagicCard s : ids(elements))
 				temp.append(s.getCurrentSet().getNumber()).append(" ");
 

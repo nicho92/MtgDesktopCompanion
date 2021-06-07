@@ -27,7 +27,6 @@ import org.utils.patterns.observer.Observable;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
@@ -61,7 +60,7 @@ public class MagicWebSiteGenerator extends Observable {
 		this.pricesProvider = providers;
 		this.cols = cols;
 
-		Template generatedTemplate = cfg.getTemplate("index.html");
+		var generatedTemplate = cfg.getTemplate("index.html");
 		try (Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile())) {
 			Map<String, List<MagicCard>> root = new HashMap<>();
 			for (MagicCollection col : cols)
@@ -74,7 +73,7 @@ public class MagicWebSiteGenerator extends Observable {
 
 	// lister les editions disponibles
 	private void generateCollectionsTemplate() throws IOException, TemplateException, SQLException {
-		Template generatedColTemplate = cfg.getTemplate("page-col.html");
+		var generatedColTemplate = cfg.getTemplate("page-col.html");
 
 		for (MagicCollection col : cols) {
 			Map<String,Object> rootEd = new HashMap<>();
@@ -88,7 +87,7 @@ public class MagicWebSiteGenerator extends Observable {
 
 			rootEd.put("editions", eds);
 
-			FileWriter out = new FileWriter(Paths.get(dest, "page-col-" + col.getName() + ".htm").toFile());
+			var out = new FileWriter(Paths.get(dest, "page-col-" + col.getName() + ".htm").toFile());
 			generatedColTemplate.process(rootEd, out);
 
 			generateEditionsTemplate(eds, col);
@@ -98,7 +97,7 @@ public class MagicWebSiteGenerator extends Observable {
 	}
 
 	private void generateEditionsTemplate(Set<MagicEdition> eds, MagicCollection col)throws IOException, SQLException, TemplateException {
-		Template cardTemplate = cfg.getTemplate("page-ed.html");
+		var cardTemplate = cfg.getTemplate("page-ed.html");
 		Map<String,Object> rootEd = new HashMap<>();
 		rootEd.put("cols", cols);
 		rootEd.put("editions", eds);
@@ -107,7 +106,7 @@ public class MagicWebSiteGenerator extends Observable {
 		for (MagicEdition ed : eds) {
 			rootEd.put("cards", getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed));
 			rootEd.put("edition", ed);
-			FileWriter out = new FileWriter(
+			var out = new FileWriter(
 					Paths.get(dest, "page-ed-" + col.getName() + "-" + ed.getId() + ".htm").toFile());
 			cardTemplate.process(rootEd, out);
 		}
@@ -116,7 +115,7 @@ public class MagicWebSiteGenerator extends Observable {
 
 	
 	private void generateCardsTemplate(MagicCard mc) throws IOException, TemplateException {
-		Template cardTemplate = cfg.getTemplate("page-card.html");
+		var cardTemplate = cfg.getTemplate("page-card.html");
 
 		Map<String,Object> rootEd = new HashMap<>();
 		rootEd.put("card", mc);
@@ -133,7 +132,7 @@ public class MagicWebSiteGenerator extends Observable {
 			}
 		}
 		rootEd.put("prices", prices);
-		FileWriter out = new FileWriter(Paths.get(dest, "page-card-" + mc.getId() + ".htm").toFile());
+		var out = new FileWriter(Paths.get(dest, "page-card-" + mc.getId() + ".htm").toFile());
 		cardTemplate.process(rootEd, out);
 
 		setChanged();

@@ -10,7 +10,6 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.core.QuartzScheduler;
@@ -21,13 +20,6 @@ public class QwartzServer extends AbstractMTGServer {
 
 	private static final String ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES = "org.quartz.plugin.jobInitializer.fileNames";
 	private  Scheduler scheduler;
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance();
-		QwartzServer s = new QwartzServer();
-		s.start();
-	}
 	
 	public QwartzServer() {
 		try {

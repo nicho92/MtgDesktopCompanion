@@ -48,7 +48,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	public void setMagicEdition(MagicEdition ed)
 	{
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
+		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.setUserObject(ed);
 		root.removeAllChildren();
 		Arrays.asList(Packaging.TYPE.values()).forEach(t->{
@@ -56,7 +56,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			logger.trace("loading " + ed + " " + pks);
 			if(!pks.isEmpty())
 			{
-				DefaultMutableTreeNode dir = new DefaultMutableTreeNode(t);
+				var dir = new DefaultMutableTreeNode(t);
 				pks.forEach(p->dir.add(new DefaultMutableTreeNode(p)));
 				root.add(dir);
 			}
@@ -117,19 +117,19 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	public void initTree()
 	{
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
+		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.removeAllChildren();
 		
 		provider.listEditions().forEach(ed->{
 			
-			DefaultMutableTreeNode edNode = new DefaultMutableTreeNode(ed);
+			var edNode = new DefaultMutableTreeNode(ed);
 			root.add(edNode);
 			
 			Arrays.asList(Packaging.TYPE.values()).forEach(t->{
 				List<Packaging> pks = provider.get(ed, t);
 				if(!pks.isEmpty())
 				{
-					DefaultMutableTreeNode dir = new DefaultMutableTreeNode(t);
+					var dir = new DefaultMutableTreeNode(t);
 					pks.forEach(p->dir.add(new DefaultMutableTreeNode(p)));
 					edNode.add(dir);
 				}

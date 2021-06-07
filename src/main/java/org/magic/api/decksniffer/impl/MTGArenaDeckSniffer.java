@@ -16,7 +16,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.tools.MTGArenaTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class MTGArenaDeckSniffer extends AbstractDeckSniffer {

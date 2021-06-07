@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
@@ -25,9 +24,6 @@ import org.magic.services.MTGControler;
 import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
@@ -62,7 +58,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
 		String url = info.getUrl() + "#Details:deck-export";
-		MagicDeck deck = info.toBaseDeck();
+		var deck = info.toBaseDeck();
 
 		var d = URLTools.extractHtml(url);
 
@@ -127,7 +123,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			e = d.select("tr.deck-row");
 
 			for (Element cont : e) {
-				RetrievableDeck deck = new RetrievableDeck();
+				var deck = new RetrievableDeck();
 				deck.setName(cont.select("a.deck-name").html());
 				deck.setAuthor(cont.select("small.deck-credit a").text());
 				try {

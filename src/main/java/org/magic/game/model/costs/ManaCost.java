@@ -31,11 +31,11 @@ public class ManaCost implements Cost {
 	@Override
 	public String toString() {
 		
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		
 		mcost.entrySet().forEach(e->
 		{
-			for(int i=0;i<e.getValue();i++)
+			for(var i=0;i<e.getValue();i++)
 				build.append(e.getKey());
 		});
 		return build.toString();

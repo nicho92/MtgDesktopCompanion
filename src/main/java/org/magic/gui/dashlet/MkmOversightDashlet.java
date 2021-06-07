@@ -60,12 +60,12 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	{
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		model=new GenericTableModel<>();
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		comboBox = UITools.createCombobox(INSIGHT_SELECTION.values());
 		panneauHaut.add(comboBox);
 		service = new InsightService();
-		JXTable table = UITools.createNewTable(model);
+		var table = UITools.createNewTable(model);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		comboBox.addItemListener(pcl->{
 		
@@ -76,7 +76,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		
 		
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);

@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;

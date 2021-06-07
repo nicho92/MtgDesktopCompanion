@@ -27,14 +27,14 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		build.append(header);
 		FileTools.saveFile(dest, build.toString());
 	}
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))
@@ -68,13 +68,13 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			}
 			
 			if(mc!=null) {
-				MagicCardStock stock = new MagicCardStock();
+				var stock = new MagicCardStock();
 				stock.setMagicCard(mc);
 				stock.setLanguage(m.group(3));
 				stock.setFoil(Boolean.parseBoolean(m.group(9)));
 				stock.setSigned(Boolean.parseBoolean(m.group(10)));
 				stock.setAltered(Boolean.parseBoolean(m.group(11)));
-				int count = Integer.parseInt(m.group(5));
+				var count = Integer.parseInt(m.group(5));
 				if(Boolean.parseBoolean(m.group(12)))
 					count = count*4;
 				

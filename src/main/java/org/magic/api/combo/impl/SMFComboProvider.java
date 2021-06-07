@@ -62,12 +62,12 @@ public class SMFComboProvider extends AbstractComboProvider {
 			
 			d.select("div.media-body").forEach(el->{
 				
-				MTGCombo cbo = new MTGCombo();
+				var cbo = new MTGCombo();
 						 cbo.setName(el.getElementsByTag("h4").text());
 						 cbo.setPlugin(this);
 					 try {
-						Document details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
-						Elements article = details.getElementsByTag("article");
+						 var details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
+						var article = details.getElementsByTag("article");
 						article.select("div.panel").remove();
 						cbo.setComment(article.text());
 						cbos.add(cbo);				

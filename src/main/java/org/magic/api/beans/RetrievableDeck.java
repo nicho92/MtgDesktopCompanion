@@ -16,7 +16,7 @@ public class RetrievableDeck {
 	
 	public MagicDeck toBaseDeck()
 	{
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(getName());
 		deck.setDescription("Import from : " + getUrl());
 			

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;

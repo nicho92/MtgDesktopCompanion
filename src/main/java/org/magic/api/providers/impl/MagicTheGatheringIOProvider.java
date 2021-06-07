@@ -31,7 +31,6 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -77,7 +76,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	@Override
 	public void init() {
 		propsCache = new Properties();
-		try (FileReader fs = new FileReader(fcacheCount))
+		try (var fs = new FileReader(fcacheCount))
 		{
 			propsCache.load(fs);
 		} 
@@ -109,19 +108,19 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> lists = new ArrayList<>();
 		URLConnection con = null;
-		int page = 1;
-		String url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit);
+		var page = 1;
+		var url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit);
 		logger.debug(url);
 
 		con = URLTools.openConnection(url);
 	
-		int count = 0;
-		int totalcount = con.getHeaderFieldInt("Total-Count", 0);
+		var count = 0;
+		var totalcount = con.getHeaderFieldInt("Total-Count", 0);
 
 		while (count < totalcount) {
 			url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit) + "&page=" + page++;
 			logger.trace(url);
-			JsonArray jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
+			var jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
 			for (var i = 0; i < jsonList.size(); i++) {
 				lists.add(loadCard(jsonList.get(i).getAsJsonObject()));
 			}
@@ -156,7 +155,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	
 	
 	private MagicCard generateCard(JsonObject obj) {
-		MagicCard mc = new MagicCard();
+		var mc = new MagicCard();
 
 		if (obj.get("id") != null)
 			mc.setId(obj.get("id").getAsString());
@@ -225,27 +224,27 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		}
 
 		if (obj.get("legalities") != null) {
-			JsonArray arr = obj.get("legalities").getAsJsonArray();
+			var arr = obj.get("legalities").getAsJsonArray();
 			for (var i = 0; i < arr.size(); i++) {
-				JsonObject k = arr.get(i).getAsJsonObject();
-				MagicFormat format = new MagicFormat(k.get("format").getAsString(),AUTHORIZATION.valueOf(k.get("legality").getAsString().toUpperCase()));
+				var k = arr.get(i).getAsJsonObject();
+				var format = new MagicFormat(k.get("format").getAsString(),AUTHORIZATION.valueOf(k.get("legality").getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
 			}
 		}
 
 		if (obj.get("rulings") != null) {
-			JsonArray arr = obj.get("rulings").getAsJsonArray();
+			var arr = obj.get("rulings").getAsJsonArray();
 			for (var i = 0; i < arr.size(); i++) {
-				JsonObject k = arr.get(i).getAsJsonObject();
-				MagicRuling rule = new MagicRuling();
+				var k = arr.get(i).getAsJsonObject();
+				var rule = new MagicRuling();
 				rule.setDate(k.get("date").getAsString());
 				rule.setText(k.get(TEXT).getAsString());
 				mc.getRulings().add(rule);
 			}
 		}
 
-		String currentSet = obj.get("set").getAsString();
-		MagicEdition currentEd = getSetById(currentSet);
+		var currentSet = obj.get("set").getAsString();
+		var currentEd = getSetById(currentSet);
 
 		if (obj.get(MULTIVERSEID) != null)
 			currentEd.setMultiverseid(obj.get(MULTIVERSEID).getAsString());
@@ -256,9 +255,9 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		mc.getEditions().add(0, currentEd);
 
 		if (obj.get("printings") != null) {
-			JsonArray arr = obj.get("printings").getAsJsonArray();
+			var arr = obj.get("printings").getAsJsonArray();
 			for (var i = 0; i < arr.size(); i++) {
-				String k = arr.get(i).getAsString();
+				var k = arr.get(i).getAsString();
 				if (!k.equals(currentSet)) {
 					MagicEdition ed = getSetById(k);
 					mc.getEditions().add(ed);
@@ -266,7 +265,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			}
 		}
 
-		MagicCardNames defaultMcn = new MagicCardNames();
+		var defaultMcn = new MagicCardNames();
 		defaultMcn.setName(mc.getName());
 		defaultMcn.setLanguage("English");
 		try {
@@ -278,10 +277,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		mc.getForeignNames().add(defaultMcn);
 
 		if (obj.get(FOREIGN_NAMES) != null) {
-			JsonArray arr = obj.get(FOREIGN_NAMES).getAsJsonArray();
+			var arr = obj.get(FOREIGN_NAMES).getAsJsonArray();
 			for (var i = 0; i < arr.size(); i++) {
-				JsonObject lang = arr.get(i).getAsJsonObject();
-				MagicCardNames mcn = new MagicCardNames();
+				var lang = arr.get(i).getAsJsonObject();
+				var mcn = new MagicCardNames();
 				mcn.setName(lang.get(NAME).getAsString());
 				mcn.setLanguage(lang.get("language").getAsString());
 
@@ -319,7 +318,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	private MagicEdition generateEdition(JsonObject obj) throws IOException {
-		MagicEdition ed = new MagicEdition();
+		var ed = new MagicEdition();
 		ed.setId(obj.get("code").getAsString());
 		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get(TYPE).getAsString());
@@ -339,12 +338,12 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	private int getCount(String id) throws IOException {
-		int count = URLTools.openConnection(getString(JSON_URL) + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
+		var count = URLTools.openConnection(getString(JSON_URL) + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
 		propsCache.put(id, String.valueOf(count));
 		try {
 			logger.trace("update cache " + id);
 
-			try (FileOutputStream fos = new FileOutputStream(fcacheCount)) {
+			try (var fos = new FileOutputStream(fcacheCount)) {
 				propsCache.store(fos, new Date().toString());
 			}
 
@@ -357,11 +356,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-			JsonArray root = URLTools.extractJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
+		var root = URLTools.extractJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
 			List<MagicEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.size(); i++) {
-				JsonObject e = root.get(i).getAsJsonObject();
-				MagicEdition ed = generateEdition(e.getAsJsonObject());
+				var e = root.get(i).getAsJsonObject();
+				var ed = generateEdition(e.getAsJsonObject());
 				eds.add(ed);
 			}
 		return eds;
@@ -421,7 +420,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardByArenaId(String id) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,7 +1,6 @@
 package org.magic.sorters;
 
 import java.util.Comparator;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumberSorter implements Comparator<String>{
@@ -14,8 +13,8 @@ public class NumberSorter implements Comparator<String>{
 	@Override
 	public int compare(String num1, String num2)
 	{
-		Matcher m1 = p.matcher(num1);
-		Matcher m2 = p.matcher(num2);
+		var m1 = p.matcher(num1);
+		var m2 = p.matcher(num2);
 		
 		if(m1.find() && m2.find())
 		{

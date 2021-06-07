@@ -50,10 +50,10 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document doc = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(info.getUrl()).toHtml();
-		String urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
-		String content = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(urlimport).execute();
-		MagicWorkStationDeckExport imp = new MagicWorkStationDeckExport();
+		var doc = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(info.getUrl()).toHtml();
+		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
+		var content = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(urlimport).execute();
+		var imp = new MagicWorkStationDeckExport();
 		
 		try {
 			imp.addObserver(listObservers().get(0));
@@ -65,7 +65,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		
 		content = content.replace("<br />","").replace("[U]", "["+MTGControler.getInstance().get("default-land-deck").toUpperCase()+"]");
 		
-		MagicDeck d = imp.importDeck(content, info.getName());
+		var d = imp.importDeck(content, info.getName());
 		d.setCreationDate(new Date());
 		d.setDateUpdate(new Date());
 		d.setDescription(getName() +" at  " + info.getUrl());	
@@ -82,9 +82,9 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		int maxPage=getInt("MAX_PAGE");
 		
 		
-		for(int currPage=0;currPage<maxPage;currPage++)
+		for(var currPage=0;currPage<maxPage;currPage++)
 		{
-			Document d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
+			var d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
 						.url(baseUrl + mapCodes.get(getString(FORMAT))+"&pointeur="+currPage)
 						.toHtml();
 				Elements trs = d.select("tr[height=33]");
@@ -94,13 +94,13 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 					
 					
 					try {
-						RetrievableDeck de = new RetrievableDeck();
+						var de = new RetrievableDeck();
 						de.setName(tds.get(0).text());
 						de.setUrl(new URI(baseUrl+tds.get(0).select("a").attr("href")+"&decklanglocal=eng"));
 						de.setAuthor(tds.get(1).text());
-						StringBuilder temp = new StringBuilder();
+						var temp = new StringBuilder();
 						tds.get(3).select("img").forEach(e->{
-							String img = e.attr("src");
+							var img = e.attr("src");
 							img = img.substring(img.indexOf("png/")+4,img.indexOf(".png"));
 							
 							if(img.length()>1)

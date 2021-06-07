@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
@@ -61,14 +60,14 @@ public class ManaPanel extends JPanel {
 		if (manaCost == null)
 			return;
 
-		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
-		Matcher m = p.matcher(manaCost);
+		var p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
+		var m = p.matcher(manaCost);
 
 		fl.setVgap(0);
 		fl.setHgap(0);
 		while (m.find()) {
-			JLabel lab = new JLabel();
-			Image img = getManaSymbol(m.group(1));
+			var lab = new JLabel();
+			var img = getManaSymbol(m.group(1));
 			lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
 			lab.setHorizontalAlignment(SwingConstants.CENTER);
 			add(lab);
@@ -123,7 +122,7 @@ public class ManaPanel extends JPanel {
 
 	public Image getManaSymbol(String el) {
 		rowWidth = 18;
-		int val = 0;
+		var val = 0;
 		try {
 			val = Integer.parseInt(el);
 		} catch (NumberFormatException ne) {

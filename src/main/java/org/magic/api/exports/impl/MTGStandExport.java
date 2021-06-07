@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;

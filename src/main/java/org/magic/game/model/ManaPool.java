@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -68,8 +67,8 @@ public class ManaPool extends Observable implements Serializable {
 		if (mc.getCmc() == null)
 			return;
 
-		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
-		Matcher m = p.matcher(mc.getCost());
+		var p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
+		var m = p.matcher(mc.getCost());
 
 		while (m.find()) {
 			String c = m.group();
@@ -84,7 +83,7 @@ public class ManaPool extends Observable implements Serializable {
 
 	public String toString() {
 
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		for (Entry<String, Integer> key : pool.entrySet())
 			for (var i = 0; i < key.getValue(); i++)
 				build.append(key.getKey());

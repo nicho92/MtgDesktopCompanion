@@ -40,7 +40,7 @@ public class PCAGrader extends AbstractGradersProvider {
 		els.get(3).select("strong").remove();
 		els.get(5).select("strong").remove();
 	
-		Grading g = new Grading();
+		var g = new Grading();
 		g.setGraderName(getName());
 		g.setNumberID(identifier);
 		g.setGradeNote(Double.parseDouble(els.get(3).text()));

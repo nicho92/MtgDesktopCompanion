@@ -52,20 +52,20 @@ public class SpeedConfigurator extends JFrame {
 		setIconImage(MTGConstants.ICON_CONFIG.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane);
 
-		JPanel panneau1 = new JPanel();
+		var panneau1 = new JPanel();
 		tabbedPane.addTab("Configuration", null, panneau1, null);
-		GridBagLayout gblpanneau1 = new GridBagLayout();
+		var gblpanneau1 = new GridBagLayout();
 		gblpanneau1.columnWidths = new int[] { 47, 160, 0 };
 		gblpanneau1.rowHeights = new int[] { 33, 0, 0, 0, 0, 0, 0 };
 		gblpanneau1.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		gblpanneau1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panneau1.setLayout(gblpanneau1);
 
-		JLabel lblProvider = new JLabel("Provider :");
-		GridBagConstraints gbclblProvider = new GridBagConstraints();
+		var lblProvider = new JLabel("Provider :");
+		var gbclblProvider = new GridBagConstraints();
 		gbclblProvider.anchor = GridBagConstraints.WEST;
 		gbclblProvider.insets = new Insets(0, 0, 5, 5);
 		gbclblProvider.gridx = 0;
@@ -73,15 +73,15 @@ public class SpeedConfigurator extends JFrame {
 		panneau1.add(lblProvider, gbclblProvider);
 
 		cboProvider = UITools.createCombobox(MTGCardsProvider.class, true);
-		GridBagConstraints gbccboProvider = new GridBagConstraints();
+		var gbccboProvider = new GridBagConstraints();
 		gbccboProvider.fill = GridBagConstraints.HORIZONTAL;
 		gbccboProvider.insets = new Insets(0, 0, 5, 0);
 		gbccboProvider.gridx = 1;
 		gbccboProvider.gridy = 0;
 		panneau1.add(cboProvider, gbccboProvider);
 
-		JLabel lblDatasource = new JLabel("Datasource : ");
-		GridBagConstraints gbclblDatasource = new GridBagConstraints();
+		var lblDatasource = new JLabel("Datasource : ");
+		var gbclblDatasource = new GridBagConstraints();
 		gbclblDatasource.anchor = GridBagConstraints.WEST;
 		gbclblDatasource.insets = new Insets(0, 0, 5, 5);
 		gbclblDatasource.gridx = 0;
@@ -89,15 +89,15 @@ public class SpeedConfigurator extends JFrame {
 		panneau1.add(lblDatasource, gbclblDatasource);
 
 		cboDAOs = UITools.createCombobox(MTGDao.class, true);
-		GridBagConstraints gbccboDAOs = new GridBagConstraints();
+		var gbccboDAOs = new GridBagConstraints();
 		gbccboDAOs.fill = GridBagConstraints.HORIZONTAL;
 		gbccboDAOs.insets = new Insets(0, 0, 5, 0);
 		gbccboDAOs.gridx = 1;
 		gbccboDAOs.gridy = 1;
 		panneau1.add(cboDAOs, gbccboDAOs);
 
-		JLabel lblPictures = new JLabel("Picture :");
-		GridBagConstraints gbclblPictures = new GridBagConstraints();
+		var lblPictures = new JLabel("Picture :");
+		var gbclblPictures = new GridBagConstraints();
 		gbclblPictures.anchor = GridBagConstraints.WEST;
 		gbclblPictures.insets = new Insets(0, 0, 5, 5);
 		gbclblPictures.gridx = 0;
@@ -105,15 +105,15 @@ public class SpeedConfigurator extends JFrame {
 		panneau1.add(lblPictures, gbclblPictures);
 
 		cboPictures = UITools.createCombobox(MTGPictureProvider.class, true);
-		GridBagConstraints gbccboPictures = new GridBagConstraints();
+		var gbccboPictures = new GridBagConstraints();
 		gbccboPictures.fill = GridBagConstraints.HORIZONTAL;
 		gbccboPictures.insets = new Insets(0, 0, 5, 0);
 		gbccboPictures.gridx = 1;
 		gbccboPictures.gridy = 2;
 		panneau1.add(cboPictures, gbccboPictures);
 
-		JLabel lblDashboard = new JLabel("Dashboard :");
-		GridBagConstraints gbclblDashboard = new GridBagConstraints();
+		var lblDashboard = new JLabel("Dashboard :");
+		var gbclblDashboard = new GridBagConstraints();
 		gbclblDashboard.anchor = GridBagConstraints.WEST;
 		gbclblDashboard.insets = new Insets(0, 0, 5, 5);
 		gbclblDashboard.gridx = 0;
@@ -121,15 +121,15 @@ public class SpeedConfigurator extends JFrame {
 		panneau1.add(lblDashboard, gbclblDashboard);
 
 		cboDashboard = UITools.createCombobox(MTGDashBoard.class, true);
-		GridBagConstraints gbccboDashboard = new GridBagConstraints();
+		var gbccboDashboard = new GridBagConstraints();
 		gbccboDashboard.fill = GridBagConstraints.HORIZONTAL;
 		gbccboDashboard.insets = new Insets(0, 0, 5, 0);
 		gbccboDashboard.gridx = 1;
 		gbccboDashboard.gridy = 3;
 		panneau1.add(cboDashboard, gbccboDashboard);
 
-		JLabel lblCaches = new JLabel("Cache :");
-		GridBagConstraints gbclblCaches = new GridBagConstraints();
+		var lblCaches = new JLabel("Cache :");
+		var gbclblCaches = new GridBagConstraints();
 		gbclblCaches.anchor = GridBagConstraints.WEST;
 		gbclblCaches.insets = new Insets(0, 0, 5, 5);
 		gbclblCaches.gridx = 0;
@@ -137,61 +137,61 @@ public class SpeedConfigurator extends JFrame {
 		panneau1.add(lblCaches, gbclblCaches);
 
 		cboCaches = UITools.createCombobox(MTGPictureCache.class, true);
-		GridBagConstraints gbccboCaches = new GridBagConstraints();
+		var gbccboCaches = new GridBagConstraints();
 		gbccboCaches.fill = GridBagConstraints.HORIZONTAL;
 		gbccboCaches.insets = new Insets(0, 0, 5, 0);
 		gbccboCaches.gridx = 1;
 		gbccboCaches.gridy = 4;
 		panneau1.add(cboCaches, gbccboCaches);
 
-		JPanel panel = new JPanel();
-		GridBagConstraints gbcpanel = new GridBagConstraints();
+		var panel = new JPanel();
+		var gbcpanel = new GridBagConstraints();
 		gbcpanel.gridwidth = 2;
 		gbcpanel.anchor = GridBagConstraints.NORTH;
 		gbcpanel.gridx = 0;
 		gbcpanel.gridy = 5;
 		panneau1.add(panel, gbcpanel);
 
-		JButton btnSave = new JButton("Save");
+		var btnSave = new JButton("Save");
 		btnSave.addActionListener(e -> save());
 		panel.add(btnSave);
 		
-		JPanel panneau2 = new JPanel();
+		var panneau2 = new JPanel();
 		tabbedPane.addTab("Update", null, panneau2, null);
-		GridBagLayout gblpanneau2 = new GridBagLayout();
+		var gblpanneau2 = new GridBagLayout();
 		gblpanneau2.columnWidths = new int[]{272, 272, 0, 0};
 		gblpanneau2.rowHeights = new int[]{47, 47, 0};
 		gblpanneau2.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gblpanneau2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panneau2.setLayout(gblpanneau2);
 		
-		JLabel lblNewLabel = new JLabel("Update Zip File :");
-		GridBagConstraints gbclblNewLabel = new GridBagConstraints();
+		var lblNewLabel = new JLabel("Update Zip File :");
+		var gbclblNewLabel = new GridBagConstraints();
 		gbclblNewLabel.fill = GridBagConstraints.BOTH;
 		gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbclblNewLabel.gridx = 0;
 		gbclblNewLabel.gridy = 0;
 		panneau2.add(lblNewLabel, gbclblNewLabel);
 		
-		JTextFieldFileChooser textFieldFileChooser = new JTextFieldFileChooser();
+		var textFieldFileChooser = new JTextFieldFileChooser();
 		textFieldFileChooser.getTextField().setColumns(25);
-		GridBagConstraints gbctextFieldFileChooser = new GridBagConstraints();
+		var gbctextFieldFileChooser = new GridBagConstraints();
 		gbctextFieldFileChooser.fill = GridBagConstraints.BOTH;
 		gbctextFieldFileChooser.insets = new Insets(0, 0, 5, 5);
 		gbctextFieldFileChooser.gridx = 1;
 		gbctextFieldFileChooser.gridy = 0;
 		panneau2.add(textFieldFileChooser, gbctextFieldFileChooser);
 		
-		JButton btnUpdate = new JButton("Update");
-		GridBagConstraints gbcbtnUpdate = new GridBagConstraints();
+		var btnUpdate = new JButton("Update");
+		var gbcbtnUpdate = new GridBagConstraints();
 		gbcbtnUpdate.insets = new Insets(0, 0, 5, 0);
 		gbcbtnUpdate.fill = GridBagConstraints.BOTH;
 		gbcbtnUpdate.gridx = 2;
 		gbcbtnUpdate.gridy = 0;
 		panneau2.add(btnUpdate, gbcbtnUpdate);
 		
-		JTextFieldFileChooser lblNewLabel1 = new JTextFieldFileChooser(Paths.get("..").toAbsolutePath().normalize().toString(),JFileChooser.SAVE_DIALOG);
-		GridBagConstraints gbclblNewLabel1 = new GridBagConstraints();
+		var lblNewLabel1 = new JTextFieldFileChooser(Paths.get("..").toAbsolutePath().normalize().toString(),JFileChooser.SAVE_DIALOG);
+		var gbclblNewLabel1 = new GridBagConstraints();
 		gbclblNewLabel1.gridwidth = 3;
 		gbclblNewLabel1.insets = new Insets(0, 0, 0, 5);
 		gbclblNewLabel1.fill = GridBagConstraints.BOTH;

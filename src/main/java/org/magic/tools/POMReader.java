@@ -1,10 +1,8 @@
 package org.magic.tools;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
 
 public class POMReader {
@@ -22,11 +20,11 @@ public class POMReader {
 	 */
 	public static synchronized String readVersionFromPom(Class<?> clazz, String pomProperties) {
 		String version = null;
-		Logger logger = MTGLogger.getLogger(POMReader.class);
+		var logger = MTGLogger.getLogger(POMReader.class);
 		// try reading the pom.properties file from the jar
 		try {
-			Properties p = new Properties();
-			try (InputStream is = clazz.getResourceAsStream(pomProperties)) {
+			var p = new Properties();
+			try (var is = clazz.getResourceAsStream(pomProperties)) {
 				if (is != null) {
 					p.load(is);
 					version = p.getProperty("version", null);
@@ -39,7 +37,7 @@ public class POMReader {
 
 		// using Java API
 		if (version == null) {
-			Package p = clazz.getPackage();
+			var p = clazz.getPackage();
 			if (p != null) {
 				version = p.getImplementationVersion();
 				if (version == null) {

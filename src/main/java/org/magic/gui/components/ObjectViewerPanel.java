@@ -37,7 +37,7 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		rdoJson.setSelected(true);
 		rdoMemory = new JRadioButton("Memory");		
 		rdoBeanUtils = new JRadioButton("Bean");
-		ButtonGroup group = new ButtonGroup();
+		var group = new ButtonGroup();
 					group.add(rdoJson);
 					group.add(rdoMemory);
 					group.add(rdoBeanUtils);

@@ -32,7 +32,7 @@ public class Party implements Serializable {
 		
 		rounds = new ArrayList<>();
 		
-		for(int i=0;i<nbRounds;i++)
+		for(var i=0;i<nbRounds;i++)
 			rounds.add(new Round(i+1));
 	}
 	

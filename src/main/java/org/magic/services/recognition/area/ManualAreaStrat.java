@@ -1,7 +1,6 @@
 package org.magic.services.recognition.area;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -27,11 +26,11 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     @Override
     public ArrayList<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
 		ArrayList<MatchResult> res = new ArrayList<>();
-		BufferedImage norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
-        BufferedImage flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
+		var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
+		var flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
        
-        ImageDesc id = new ImageDesc(norm,flip);
-        MatchResult m = strat.getMatch(id, recogTresh/100f);
+        var id = new ImageDesc(norm,flip);
+        var m = strat.getMatch(id, recogTresh/100f);
         if(m != null)
         {
             res.add(m);
@@ -42,7 +41,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     private void updateBoundedZone()
 	{
 		List<Point2D_I32> pts = new ArrayList<>();
-		for(int ix=0; ix<points.length; ix++)
+		for(var ix=0; ix<points.length; ix++)
 		{
 			pts.add(new Point2D_I32(points[ix].x,points[ix].y));
 		}
@@ -62,8 +61,8 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Point p = e.getPoint();
-		for(int i=0;i<4;i++){
+    	var p = e.getPoint();
+		for(var i=0;i<4;i++){
 			Point2D_I32 pt = points[i];
 			if(Math.abs(p.x-pt.x)<=3 && Math.abs(p.y-pt.y)<=3)
 			{
@@ -92,7 +91,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     public void mouseDragged(MouseEvent e) {
         if(draggingPoint != -1)
 		{
-			Point p = e.getPoint();
+        	var p = e.getPoint();
 			if(p.x >= 0 && p.x <= this.width)
 			{
 				points[draggingPoint].x = p.x;
@@ -136,7 +135,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 	{
 		g.setColor(Color.WHITE);
 		bound.draw(g);
-		for(int i=0;i<4;i++){
+		for(var i=0;i<4;i++){
 			Point2D_I32 p = points[i];
 			if(draggingPoint == i)
 			{

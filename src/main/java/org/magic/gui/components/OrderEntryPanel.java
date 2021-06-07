@@ -85,7 +85,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	
 	
 	public void initGUI() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{126, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0};
@@ -114,7 +114,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		cboTypeItem = UITools.createCombobox(OrderEntry.TYPE_ITEM.values());
 		add(cboTypeItem, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 		
-		JPanel panelPrice = new JPanel();
+		var panelPrice = new JPanel();
 			
 			((FlowLayout)panelPrice.getLayout()).setAlignment(FlowLayout.LEFT);
 			txtPrice = new JTextField(5);
@@ -142,7 +142,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	}
 
 	public OrderEntry newOrderEntry() {
-		OrderEntry ord = new OrderEntry();
+		var ord = new OrderEntry();
 	
 		ord.setDescription(txtDescription.getText());
 		ord.setEdition((MagicEdition)cboEditions.getSelectedItem());

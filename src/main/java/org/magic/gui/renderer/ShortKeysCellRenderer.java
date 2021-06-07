@@ -18,19 +18,19 @@ public class ShortKeysCellRenderer implements TableCellRenderer{
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)
 	{
 		
-		String val="";
+		var val="";
 		Icon ic = null;
 		
 		if(value instanceof JButton)
 		{
-			JButton b = (JButton)value;	
+			var b = (JButton)value;	
 			val=b.getName();
 			ic = b.getIcon();
 		}
 		
 		if(value instanceof MTGUIComponent)
 		{
-			MTGUIComponent b = (MTGUIComponent)value;	
+			var b = (MTGUIComponent)value;	
 			val=b.getTitle();
 			ic = b.getIcon();
 		}
@@ -38,7 +38,7 @@ public class ShortKeysCellRenderer implements TableCellRenderer{
 		
 		
 		table.setRowHeight(MTGConstants.ICON_NEW.getIconHeight());
-		JLabel l= new JLabel(val, ic, SwingConstants.LEFT);
+		var l= new JLabel(val, ic, SwingConstants.LEFT);
 		l.setOpaque(true);
 		
 		if(isSelected)

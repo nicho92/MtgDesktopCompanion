@@ -42,8 +42,8 @@ public class MagicVillePricer extends AbstractPricesProvider {
 			return list;
 		}
 		
-		String key = "ref=";
-		String code = res.substring(res.indexOf(key), res.indexOf("\";"));
+		var key = "ref=";
+		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
 		String url = getString(WEBSITE)+"/fr/register/show_card_sale?"+code;
 		
 		logger.info(getName() + " looking for prices " + url);
@@ -62,9 +62,9 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		Elements rows = table.select(MTGConstants.HTML_TAG_TR);
 
 		for (var i = 3; i < rows.size(); i = i + 2) {
-			Element ligne = rows.get(i);
-			Elements cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
-			MagicPrice mp = new MagicPrice();
+			var ligne = rows.get(i);
+			var cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
+			var mp = new MagicPrice();
 
 			String price = cols.get(4).text();
 			price = price.substring(0, price.length() - 1);

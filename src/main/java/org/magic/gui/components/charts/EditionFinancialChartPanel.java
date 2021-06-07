@@ -13,7 +13,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;

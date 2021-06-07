@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -28,7 +27,6 @@ import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PackagesProvider {
@@ -63,10 +61,10 @@ public class PackagesProvider {
 	{
 		String eval = null;
 		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
+			var xPath = XPathFactory.newInstance().newXPath();
 			eval = "//edition[@id='"+p.getEdition().getId()+"']/"+p.getType().name().toLowerCase()+"[@lang='"+p.getLang()+"']";
-			NodeList nodeList = (NodeList) xPath.compile(eval).evaluate(document, XPathConstants.NODESET);
-			Node item = nodeList.item(0);
+			var nodeList = (NodeList) xPath.compile(eval).evaluate(document, XPathConstants.NODESET);
+			var item = nodeList.item(0);
 			return item.getAttributes().getNamedItem("url").getNodeValue(); 
 		} catch (Exception e) {
 			logger.error("Error loading url for " + eval + p);
@@ -91,8 +89,8 @@ public class PackagesProvider {
 		if(p.getUrl()==null)
 			return null;
 		
-		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
-		File pkgFile = new File(f,p.toString()+".png");
+		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
+		var pkgFile = new File(f,p.toString()+".png");
 		
 		try {
 			FileUtils.forceMkdir(f);
@@ -112,13 +110,13 @@ public class PackagesProvider {
 	
 	public BufferedImage getLogo(LOGO logo)
 	{
-		String url = "";
+		var url = "";
 		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
+			var xPath = XPathFactory.newInstance().newXPath();
+			var expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
 			logger.trace(expression);
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Node item = nodeList.item(0);
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractImage(url);
 		} catch (IOException e) {
@@ -137,7 +135,7 @@ public class PackagesProvider {
 	public BufferedImage get(Packaging p)
 	{
 		try {
-			File b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
+			var b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
 			
 			if(b.exists())
 				return ImageTools.read(b);
@@ -151,7 +149,7 @@ public class PackagesProvider {
 	
 
 	public void clear() {
-		File f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME).toFile();
+		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME).toFile();
 		try {
 			FileUtils.cleanDirectory(f);
 		} catch (IOException e) {
@@ -177,7 +175,7 @@ public class PackagesProvider {
 		NodeList n = null ;
 		NodeList nodeList = null;
 		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
+			var xPath = XPathFactory.newInstance().newXPath();
 			nodeList = (NodeList) xPath.compile("//edition[@id='" + me.getId().toUpperCase() + "']").evaluate(document, XPathConstants.NODESET);
 			n = nodeList.item(0).getChildNodes();
 			
@@ -193,7 +191,7 @@ public class PackagesProvider {
 		{
 			if(n.item(i).getNodeType()==1)
 			{
-				Packaging p = new Packaging();
+				var p = new Packaging();
 						  p.setType(TYPE.valueOf(n.item(i).getNodeName().toUpperCase()));
 						 
 						  try {
@@ -238,9 +236,9 @@ public class PackagesProvider {
 			return list;
 
 		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//edition/@id";
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var xPath = XPathFactory.newInstance().newXPath();
+			var expression = "//edition/@id";
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			for (var i = 0; i < nodeList.getLength(); i++)
 			{
 				list.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));

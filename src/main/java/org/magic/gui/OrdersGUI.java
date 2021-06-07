@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -88,7 +87,11 @@ public class OrdersGUI extends MTGUIComponent {
 						try {
 							model.addItems(get());
 							calulate(model.getItems());
-						} catch (Exception e) {
+						}catch(InterruptedException ex)
+						{
+							Thread.currentThread().interrupt();
+						}
+						catch (Exception e) {
 							logger.error(e);
 						} 
 						table.packAll();
@@ -108,16 +111,16 @@ public class OrdersGUI extends MTGUIComponent {
 	
 	public OrdersGUI() {
 		
-		JPanel panneauBas = new JPanel();
-		JPanel panneauHaut = new JPanel();
-		JPanel panneauRight = new JPanel();
+		var panneauBas = new JPanel();
+		var panneauHaut = new JPanel();
+		var panneauRight = new JPanel();
 
 		model = new ShoppingEntryTableModel();
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
 		
-		JButton btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
-		JButton btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"transactions save");
+		var btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
+		var btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"transactions save");
 		totalBuy = new JLabel(MTGConstants.ICON_DOWN);
 		totalSell = new JLabel(MTGConstants.ICON_UP);
 		total = new JLabel();
@@ -126,19 +129,19 @@ public class OrdersGUI extends MTGUIComponent {
 		selectionBuy=new JLabel(MTGConstants.ICON_DOWN);
 		editorPanel = new JPanel();
 		orderEntryPanel = new OrderEntryPanel();
-		JButton btnSaveOrder = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_A,"transaction add");
-		JButton btnReload = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R,"Reload");
+		var btnSaveOrder = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_A,"transaction add");
+		var btnReload = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R,"Reload");
 		
 		
-		JPanel panelButton = new JPanel();
-		JButton btnDeleteOrder = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_S,"transaction delete");
-		JButton btnNewEntry = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"transaction new");
+		var panelButton = new JPanel();
+		var btnDeleteOrder = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_S,"transaction delete");
+		var btnNewEntry = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"transaction new");
 		panelComparator = new JPanel();
 		panelComparator.setPreferredSize(new Dimension(10, 30));
 		panelComparator.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblComparator = new JLabel("Values");
 		editionFinancialChartPanel = new EditionFinancialChartPanel();
-		JButton btnAddToCollection = UITools.createBindableJButton(null,MTGConstants.ICON_MASS_IMPORT,KeyEvent.VK_C,"transaction add collection");
+		var btnAddToCollection = UITools.createBindableJButton(null,MTGConstants.ICON_MASS_IMPORT,KeyEvent.VK_C,"transaction add collection");
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
 		setLayout(new BorderLayout(0, 0));
@@ -201,11 +204,11 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		
 		btnAddToCollection.addActionListener(ae ->{
-				JPopupMenu popupMenu = new JPopupMenu("Title");
+			var popupMenu = new JPopupMenu("Title");
 				try {
 						for(MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections())
 						{
-							JMenuItem cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
+							var cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
 							popupMenu.add(cutMenuItem);
 							
 							
@@ -423,7 +426,7 @@ public class OrdersGUI extends MTGUIComponent {
 		
 		
 		btnImportTransaction.addActionListener(ae->{
-			OrderImporterDialog diag = new OrderImporterDialog();
+			var diag = new OrderImporterDialog();
 			diag.setVisible(true);
 			
 			if(diag.getSelectedEntries()!=null) {

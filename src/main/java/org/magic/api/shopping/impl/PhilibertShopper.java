@@ -26,7 +26,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		List<OrderEntry> ret = new ArrayList<>();
 		
 		
-		Document s = RequestBuilder.build()
+		var s = RequestBuilder.build()
 					  .method(METHOD.POST)
 					  .url(BASE_URL+"/en/authentication")
 					  .setClient(c)
@@ -44,7 +44,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		{
 			String id = a.text().trim();
 			try {
-				Document orderPage = RequestBuilder.build().url(BASE_URL+"/en/index.php?controller=order-detail&id_order="+id+"&ajax=true")
+				var orderPage = RequestBuilder.build().url(BASE_URL+"/en/index.php?controller=order-detail&id_order="+id+"&ajax=true")
 														   .setClient(c)
 														   .method(METHOD.GET)
 														   .addHeader("x-requested-with","XMLHttpRequest")
@@ -58,7 +58,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 					
 					int index = tr.selectFirst("td:has(input)")!=null?0:1; //check if first column is checkbox or not
 			
-					OrderEntry oe = new OrderEntry();
+					var oe = new OrderEntry();
 								oe.setSource(getName());
 								oe.setIdTransation(id);
 								oe.setCurrency(Currency.getInstance("EUR"));

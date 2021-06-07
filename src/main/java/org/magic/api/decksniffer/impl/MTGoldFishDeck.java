@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
@@ -122,19 +121,19 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 			logger.debug("sniff url : " + url);
 
-			Document d = URLTools.extractHtml(url);
+			var d = URLTools.extractHtml(url);
 			logger.trace(d);
 			
 			Elements e = d.select("div.archetype-tile");
 
 			for (Element cont : e) {
 				
-				RetrievableDeck deck = new RetrievableDeck();
+				var deck = new RetrievableDeck();
 				try 
 				{
-					Elements desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
-					String colors = cont.select("span.manacost").attr("aria-label");
-					StringBuilder deckColor = new StringBuilder();
+					var desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
+					var colors = cont.select("span.manacost").attr("aria-label");
+					var deckColor = new StringBuilder();
 						
 					if (colors.contains("white"))
 						deckColor.append("{W}");

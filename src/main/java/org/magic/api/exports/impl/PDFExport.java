@@ -49,7 +49,7 @@ public class PDFExport extends AbstractCardExport {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);
 		}
 		
-		Image image = new Image(imageData);
+		var image = new Image(imageData);
 			
 	        image.scaleAbsolute(2.49f*userPoint,3.48f*userPoint);
             Cell cell = new Cell();
@@ -75,9 +75,9 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
-			Table table = new Table(3).useAllAvailableWidth();
+		var table = new Table(3).useAllAvailableWidth();
 		
-			try(PdfDocument pdfDocDest = new PdfDocument(new PdfWriter(f));	Document doc = new Document(pdfDocDest) )
+			try(var pdfDocDest = new PdfDocument(new PdfWriter(f));	Document doc = new Document(pdfDocDest) )
 			{
 				pdfDocDest.setDefaultPageSize(PageSize.A4);
 				PdfDocumentInfo info = pdfDocDest.getDocumentInfo();

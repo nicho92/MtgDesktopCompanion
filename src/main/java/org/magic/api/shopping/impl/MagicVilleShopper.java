@@ -79,11 +79,11 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		
 		logger.trace(table);
 		
-		for(int i=0;i<table.size();i++)
+		for(var i=0;i<table.size();i++)
 		{
 			Element e = table.get(i);
 		
-			OrderEntry entrie = new OrderEntry();
+			var entrie = new OrderEntry();
 						entrie.setIdTransation(id);
 						entrie.setSource(getName());
 						entrie.setCurrency(Currency.getInstance("EUR"));

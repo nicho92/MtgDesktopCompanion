@@ -19,9 +19,9 @@ public class OrderEntryRenderer implements TableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		
-		OrderEntry o = (OrderEntry)table.getValueAt(row, 0);
+		var o = (OrderEntry)table.getValueAt(row, 0);
 		
-		JLabel comp = new JLabel(String.valueOf(value));
+		var comp = new JLabel(String.valueOf(value));
 		comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.PLAIN));
 		comp.setHorizontalAlignment(SwingConstants.CENTER);
 		comp.setHorizontalTextPosition(SwingConstants.RIGHT);

@@ -28,11 +28,11 @@ public class PersonnalExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		
-		ExportConfiguratorPanel panel = new ExportConfiguratorPanel();
+		var panel = new ExportConfiguratorPanel();
 		panel.setRegex(getString(REGEX));
 		panel.initTree(deck.getMainAsList().get(0));
 		
-		JDialog d = MTGUIComponent.createJDialog(panel,true,true);
+		var d = MTGUIComponent.createJDialog(panel,true,true);
 		
 		panel.getBtnExport().addActionListener(al->{
 			regx = panel.getResult();
@@ -43,7 +43,7 @@ public class PersonnalExport extends AbstractCardExport {
 		
 		d.setVisible(true);
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		logger.debug("Parsing with : " + regx);
 		
@@ -57,10 +57,10 @@ public class PersonnalExport extends AbstractCardExport {
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
-		ExportConfiguratorPanel panel = new ExportConfiguratorPanel();
+		var panel = new ExportConfiguratorPanel();
 		panel.initTree(stock.get(0));
 		panel.setRegex(getString(REGEX));
-		JDialog d = MTGUIComponent.createJDialog(panel,true,true);
+		var d = MTGUIComponent.createJDialog(panel,true,true);
 		
 		panel.getBtnExport().addActionListener(al->{
 			regx = panel.getResult();
@@ -71,7 +71,7 @@ public class PersonnalExport extends AbstractCardExport {
 		
 		d.setVisible(true);
 		
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		logger.debug("Parsing with : " + regx);
 		

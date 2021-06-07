@@ -57,9 +57,9 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 
 
 	private TimeSeriesCollection getTimeDataSet() {
-		TimeSeriesCollection col = new TimeSeriesCollection();
+		var col = new TimeSeriesCollection();
 		
-		TimeSeries series1 = new TimeSeries("");
+		var series1 = new TimeSeries("");
 		groupOrdersBy().entrySet().forEach(d->series1.add(new Day((Date)d.getKey()), d.getValue().doubleValue()));
 		
 		col.addSeries(series1);

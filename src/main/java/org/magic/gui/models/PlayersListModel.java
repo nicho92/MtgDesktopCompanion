@@ -18,7 +18,7 @@ public class PlayersListModel extends DefaultListModel<Player> {
 		
 		List<Player> ret = new ArrayList<>();
 		
-		for(int i =0;i<getSize();i++)
+		for(var i =0;i<getSize();i++)
 			ret.add(getElementAt(i));
 		
 		return ret;
