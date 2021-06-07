@@ -37,15 +37,15 @@ public class SealedStockGUI extends MTGUIComponent {
 	
 	private SealedStockTableModel model;
 	private Packaging selectedItem;
-	private ObjectViewerPanel objectpanel;
 	
 	public SealedStockGUI() {
 		initGUI();
 	}
 	
 	private void initGUI() {
+		;
 		model = new SealedStockTableModel();
-		objectpanel = new ObjectViewerPanel();
+		var objectpanel = new ObjectViewerPanel();
 		JXTable table = UITools.createNewTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();

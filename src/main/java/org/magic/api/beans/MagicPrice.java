@@ -135,20 +135,6 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		return (int) (getValue() - o.getValue());
 	}
 	
-//	@Override
-//	public int hashCode() {
-//		return getValue().hashCode();
-//	}
-//	
-//	@Override
-//	public boolean equals(Object obj) {
-//		
-//		if(obj instanceof MagicPrice)
-//			return getValue()==((MagicPrice)obj).getValue();
-//		
-//		return false;
-//	}
-
 	public void setCountry(String c) {
 		country = c;
 

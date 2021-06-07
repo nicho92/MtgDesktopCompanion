@@ -12,8 +12,6 @@ import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonElement;
-
 public class TCGPlayerAPITest extends AbstractPricesProvider {
 
 	public static void main(String[] args) throws IOException {

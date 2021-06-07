@@ -28,12 +28,12 @@ public class ManaRepartitionPanel extends MTGUIChartComponent<MagicCard> {
 	@Override
 	public JFreeChart initChart() {
 		
-		JFreeChart chart = ChartFactory.createPieChart3D("Color repartition", // chart title
-				getDataSet(), // data
-				false, // include legend
+		JFreeChart chart = ChartFactory.createPieChart3D("Color repartition", 
+				getDataSet(), 
+				false, 
 				true, true);
 		
-		PiePlot plot = (PiePlot) chart.getPlot();
+		var plot = (PiePlot) chart.getPlot();
 		
 		for(MTGColor c : MTGColor.values())
 		{

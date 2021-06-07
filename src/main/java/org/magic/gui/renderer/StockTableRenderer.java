@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.Map;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;

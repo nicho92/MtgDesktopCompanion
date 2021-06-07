@@ -567,6 +567,16 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
+		if (c.getId() == -1)
+			c.setId(Paths.get(directory.getAbsolutePath(), CONTACTSSDIR).toFile().list().length + 1);
+		
+		try {
+			save(c, Paths.get(directory.getAbsolutePath(), CONTACTSSDIR,String.valueOf(c.getId())).toFile());
+		} catch (IOException e) {
+			throw new SQLException(e);
+		}
+		
+		
 		return 0;
 	}
 

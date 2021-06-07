@@ -23,7 +23,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
-import org.magic.tools.IDGenerator;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
@@ -51,36 +50,7 @@ public class MTGJsonPricer {
 			downloadDataFile();
 	}
 	
-	public static void main(String[] args) throws IOException {
-		List<Data> datas = MTGJsonPricer.getInstance().getDatas();
-		var exportD = new File("d:/datas.sql");
-		var exportP = new File("d:/prices.sql");
-		var temp = new StringBuilder();
-		for(Data d : datas)
-		{
-			String jsonnId=d.getMtgjsonId();
-			for(PriceEntry pe : d.getPrices())
-			{
-				
-				String k = IDGenerator.generateMD5(d.getMtgjsonId()+pe.getCurrency()+pe.isFoil()+pe.getStock()+pe.getSupport()+pe.getVendor());
-				
-				temp.append("INSERT INTO data VALUES ('").append(k).append("','").append(jsonnId).append("','").append(pe.getCurrency()).append("',").append(pe.isFoil()?1:0).append(",'").append(pe.getStock()).append("','").append(pe.getSupport()).append("','").append(pe.getVendor()).append("');\n");
-				FileTools.appendLine(exportD, temp.toString());
-				temp.setLength(0);
-				
-//				for(Entry<Date, Double> e : pe.getStockPrices().entrySet())
-//				{
-//					temp.append("INSERT INTO prices VALUES ('").append(k).append("','").append(e.getKey()).append("','").append(e.getValue()).append("');\n");
-//				}
-//				
-//				FileTools.appendLine(exportP, temp.toString());
-				temp.setLength(0);
-				
-			}
-			
-			
-		}
-	}
+	
 	
 	public HistoryPrice<MagicCard> toHistoryPrice(Data d, SUPPORT p, STOCK s, VENDOR v,boolean foil) throws IOException
 	{

@@ -60,16 +60,6 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 	}
 	
-	
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		
-		var d = new RetrievableDeck();
-		d.setUrl(new URI("http://mtgtop8.com/event?e=1440&f=EX"));
-		
-		new MTGTop8DeckSniffer().getDeck(d);
-	}
-	
-
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		Document root = URLTools.extractHtml(info.getUrl().toString());
