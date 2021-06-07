@@ -65,7 +65,7 @@ public class FileCache extends AbstractCacheProvider {
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
 		logger.debug("save in cache : " + mc + " " + mc.getCurrentSet());
 
-		File f = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
+		var f = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
 		if (!f.exists())
 			f.mkdir();
 

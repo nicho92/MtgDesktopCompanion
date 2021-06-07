@@ -66,7 +66,7 @@ public class FileDropDecorator
                 {   
                     try 
                     { 
-                        Transferable tr = evt.getTransferable();
+                    	var tr = evt.getTransferable();
                         if (tr.isDataFlavorSupported (DataFlavor.javaFileListFlavor))
                         {
                             evt.acceptDrop ( DnDConstants.ACTION_COPY );
@@ -88,7 +88,7 @@ public class FileDropDecorator
                     {
                         if( c instanceof JComponent )
                         {   
-                        	JComponent jc = (JComponent) c;
+                        	var jc = (JComponent) c;
                             jc.setBorder( normalBorder );
                         }
                     } 
@@ -98,7 +98,7 @@ public class FileDropDecorator
                 {   
                 	if( c instanceof JComponent )
                     {   
-                		JComponent jc = (JComponent) c;
+                		var jc = (JComponent) c;
                         jc.setBorder( normalBorder );
                     }
                 }  
@@ -117,7 +117,7 @@ public class FileDropDecorator
      
     private void makeDropTarget(final Component c)
     {
-        final DropTarget dt = new DropTarget();
+        final var dt = new DropTarget();
         try
         {  
         	dt.addDropTargetListener( dropListener );
@@ -148,9 +148,9 @@ public class FileDropDecorator
     
     private boolean isDragOk( final DropTargetDragEvent evt )
     {   
-    	boolean ok = false;
+    	var ok = false;
         DataFlavor[] flavors = evt.getCurrentDataFlavors();
-        int i = 0;
+        var i = 0;
         while( !ok && i < flavors.length )
         {   
            final DataFlavor curFlavor = flavors[i];
@@ -173,7 +173,7 @@ public class FileDropDecorator
             c.setDropTarget( null );
             if( recursive && ( c instanceof Container ) )
             {   Component[] comps = ((Container)c).getComponents();
-                for( int i = 0; i < comps.length; i++ )
+                for( var i = 0; i < comps.length; i++ )
                     remove( comps[i], recursive );
                 return true;
             } 

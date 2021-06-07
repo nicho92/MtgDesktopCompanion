@@ -50,11 +50,11 @@ public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> 
 
 	private CategoryDataset getDataSet() {
 		
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		var dataset = new DefaultCategoryDataset();
 		try {
-			MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
+			var ed = (MagicEdition)cboEditions.getSelectedItem();
 			items = getEnabledPlugin(MTGDao.class).listOrderForEdition(ed);
-			EditionsShakers price = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
+			var price = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.getShakes().stream().mapToDouble(CardShake::getPrice).sum();
 			
 			if(!items.isEmpty()) {

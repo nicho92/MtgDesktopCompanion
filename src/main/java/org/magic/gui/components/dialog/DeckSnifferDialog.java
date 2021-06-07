@@ -61,7 +61,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
@@ -114,10 +114,10 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 				
 						cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
 	
-		JPanel panelButton = new JPanel();
+						var panelButton = new JPanel();
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
 
-		JButton btnClose = new JButton(MTGConstants.ICON_CANCEL);
+		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
 		btnClose.setToolTipText(capitalize("CANCEL"));
 		
 		btnClose.addActionListener(e -> dispose());

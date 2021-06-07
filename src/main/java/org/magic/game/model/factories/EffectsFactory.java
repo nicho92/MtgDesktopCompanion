@@ -51,7 +51,7 @@ public class EffectsFactory {
 	
 	public AbstractEffect parseEffect(MagicCard mc,String s)
 	{
-			OneShotEffect e = new OneShotEffect();
+		var e = new OneShotEffect();
 			e.setEffectDescription(s);
 			e.setCard(mc);
 			return e;

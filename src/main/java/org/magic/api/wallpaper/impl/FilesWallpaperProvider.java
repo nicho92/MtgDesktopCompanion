@@ -25,7 +25,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 			Collection<File> res = FileUtils.listFiles(getFile("DIRECTORY"),new WildcardFileFilter("*"+search+"*", IOCase.INSENSITIVE),TrueFileFilter.INSTANCE);
 
 			for (File f : res) {
-				Wallpaper w = new Wallpaper();
+				var w = new Wallpaper();
 				w.setName(f.getName());
 				w.setUrl(f.toURI());
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));

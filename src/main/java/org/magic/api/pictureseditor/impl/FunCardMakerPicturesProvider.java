@@ -119,7 +119,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    	List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
 						    	build.addContent("template", "modern-planeswalker"+abs.size());
 						    	build.addContent("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
-						    	for(int i=0;i<abs.size();i++)
+						    	for(var i=0;i<abs.size();i++)
 						    	{
 						    		build.addContent("fields[capa"+(i+1)+"-cost]", abs.get(i).getCost().toString().trim());
 						    		build.addContent("fields[capa"+(i+1)+"]", abs.get(i).getEffect().toString().trim());
@@ -163,7 +163,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 							
 						    if(mc.getImageName()!=null && !mc.getImageName().startsWith("http"))
 						    {
-						    	File f = new File(mc.getImageName());
+						    	var f = new File(mc.getImageName());
 						    	if(f.exists())
 						    	{
 						    		String filename=upload(f);
@@ -190,7 +190,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		if(httpclient==null)
 			connect();
 		
-		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		var builder = MultipartEntityBuilder.create();
 								builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 								builder.addPart("fcm-file-media", new FileBody(f, ContentType.DEFAULT_BINARY));
 								builder.addTextBody("fcm-field-illuscrop-x", "0");
@@ -206,7 +206,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 									.put("Referer",WEBSITE)
 									.put("X-Requested-With","XMLHttpRequest").build();
 	            
-				 JsonElement response = URLTools.toJson(httpclient.doPost(UPLOAD_URL, ent, map));
+				var response = URLTools.toJson(httpclient.doPost(UPLOAD_URL, ent, map));
 				 logger.trace("response:"+response);
 				 
 				 if(response.getAsJsonObject().get("error")!=null)

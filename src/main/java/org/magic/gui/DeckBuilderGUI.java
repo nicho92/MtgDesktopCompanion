@@ -33,7 +33,7 @@ public class DeckBuilderGUI extends MTGUIComponent {
 	
 	public DeckBuilderGUI() {
 		setLayout(new BorderLayout());
-		JTabbedPane tab = new JTabbedPane();
+		var tab = new JTabbedPane();
 		add(tab, BorderLayout.CENTER);
 
 		tab.addTab(capitalize("CONSTRUCT"),MTGConstants.ICON_TAB_CONSTRUCT, new ConstructPanel());

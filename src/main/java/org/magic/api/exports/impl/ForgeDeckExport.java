@@ -43,10 +43,10 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String content, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 				  d.setName(name);
 		
-		String deckNameTag ="Name=";
+				  var deckNameTag ="Name=";
 		for(String s : splitLines(content,true))
 		{
 			if(s.startsWith(deckNameTag))
@@ -58,8 +58,8 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 				  
 				  
 				  
-		boolean side=false;
-		boolean commander = false;
+		var side=false;
+		var commander = false;
 		for(Matcher m : matches(content, true))
 		{
 			if(m.group().equalsIgnoreCase("[Sideboard]"))
@@ -76,7 +76,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 			{
 				try {
 				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-				int qty = Integer.parseInt(m.group(2));
+				var qty = Integer.parseInt(m.group(2));
 				
 					if(mc!=null)
 					{

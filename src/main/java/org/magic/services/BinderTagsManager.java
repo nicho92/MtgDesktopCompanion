@@ -92,7 +92,7 @@ public class BinderTagsManager {
 	
 	private void create(List<BufferedImage> imgs) {
 
-		int offset = 1;
+		var offset = 1;
 		height = offset;
 		width=1;
 	

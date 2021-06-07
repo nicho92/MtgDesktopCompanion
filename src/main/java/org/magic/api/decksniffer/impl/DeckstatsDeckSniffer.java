@@ -137,13 +137,13 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 			Elements e = d.select("tr.deck_row");
 
 			for (Element cont : e) {
-				RetrievableDeck deck = new RetrievableDeck();
-				Element info = cont.select("a").get(0);
-				String idColor = cont.select("img").get(0).attr("src");
+				var deck = new RetrievableDeck();
+				var info = cont.select("a").get(0);
+				var idColor = cont.select("img").get(0).attr("src");
 				idColor = idColor.substring(idColor.lastIndexOf('/') + 1, idColor.lastIndexOf('.'));
-				String name = info.text();
-				String url = info.attr("href") + "/fr?get_code=1&code_type=bb_deck&code_extended=0&code_html_nl=off";
-				String auteur = cont.select("a").get(1).text();
+				var name = info.text();
+				var url = info.attr("href") + "/fr?get_code=1&code_type=bb_deck&code_extended=0&code_html_nl=off";
+				var auteur = cont.select("a").get(1).text();
 
 				deck.setName(name);
 				try {

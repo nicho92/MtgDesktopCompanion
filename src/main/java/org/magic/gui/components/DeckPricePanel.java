@@ -75,7 +75,7 @@ public class DeckPricePanel extends JComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		
 		add(panel, BorderLayout.NORTH);
 

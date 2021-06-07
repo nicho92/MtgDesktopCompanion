@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
@@ -35,8 +34,8 @@ public class EmbalmActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
-			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
+			var tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.addCounter(new ItemCounter("Embalm"));
 
 			dc.setMagicCard(tok);

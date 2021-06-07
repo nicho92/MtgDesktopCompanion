@@ -64,7 +64,7 @@ public class EventsManager {
 	public void start(MagicEvent e)
 	{
 		
-		Timer t = new Timer(e.getTitle(), true);
+		var t = new Timer(e.getTitle(), true);
 		Collections.shuffle(e.getPlayers());
 		
 		
@@ -89,7 +89,7 @@ public class EventsManager {
 		
 		if(byes!=null)
 		{
-			Party p = new Party(byes, null, 1, false);
+			var p = new Party(byes, null, 1, false);
 			p.getRounds().get(0).getScore().put(byes, 1);
 			e.getParties().add(p);
 		}

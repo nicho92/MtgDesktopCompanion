@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.List;
@@ -71,7 +70,7 @@ public class FileTools {
 	
 	public static void saveProperties(File f,Properties props) throws IOException
 	{
-		try (FileOutputStream fos = new FileOutputStream(f)){
+		try (var fos = new FileOutputStream(f)){
 			props.store(fos, "");
 		}
 	}
@@ -79,7 +78,7 @@ public class FileTools {
 	public static void loadProperties(File f,Properties props) throws IOException
 	{
 		props.clear();
-		try (FileInputStream fis = new FileInputStream(f)){
+		try (var fis = new FileInputStream(f)){
 			props.load(fis);
 		}
 	}
@@ -103,8 +102,8 @@ public class FileTools {
 
 	public static String readUTF8(ByteBuffer buf)
 	{
-		short len = buf.getShort();
-		byte[] str = new byte[len];
+		var len = buf.getShort();
+		var str = new byte[len];
 		buf.get(str);
 		String res = null;
 		res = new String(str,StandardCharsets.UTF_8);
@@ -137,7 +136,7 @@ public class FileTools {
 		IOFileFilter exceptFilter =   FileFilterUtils.and(fileFilter1, fileFilter2 );
 		
 		
-		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(fzip))) {
+		try (var out = new ZipOutputStream(new FileOutputStream(fzip))) {
 			for(File f : FileUtils.listFilesAndDirs(MTGConstants.CONF_DIR, FileFileFilter.FILE, exceptFilter))
 				addFile(f,out);
 		}
@@ -156,12 +155,12 @@ public class FileTools {
 			dest=new File(dest,FilenameUtils.removeExtension(fileZip.getName()));
 		
         try (
-            FileInputStream fis = new FileInputStream(fileZip);
-            GZIPInputStream gis = new GZIPInputStream(fis);
-            FileOutputStream fos = new FileOutputStream(dest);
+        		var fis = new FileInputStream(fileZip);
+        		var gis = new GZIPInputStream(fis);
+        		var fos = new FileOutputStream(dest);
         	)
         	{
-            byte[] buffer = new byte[512];
+        	var buffer = new byte[512];
             int len;
             while((len = gis.read(buffer)) != -1){
                 fos.write(buffer, 0, len);
@@ -183,13 +182,13 @@ public class FileTools {
 			
 		
 		
-		try(DataOutputStream out = new DataOutputStream(new FileOutputStream(f)))
+		try(var out = new DataOutputStream(new FileOutputStream(f)))
 		{
 			out.writeUTF(ed.getSet());
 			out.writeInt(sizeOfSet);
 			out.writeInt(desc.size());
 				
-				for(int i=0;i<desc.size();i++)
+				for(var i=0;i<desc.size();i++)
 				{
 					out.writeUTF(desc.get(i).getStringData());
 					desc.get(i).getDescData().writeOut(out);
@@ -200,11 +199,11 @@ public class FileTools {
 	
 	public static ByteBuffer getBuffer(File f) throws IOException
 	{
-		try(RandomAccessFile aFile = new RandomAccessFile(f.getAbsolutePath(),"r"))
+		try(var aFile = new RandomAccessFile(f.getAbsolutePath(),"r"))
 		{
-			FileChannel inChannel = aFile.getChannel();
+			var inChannel = aFile.getChannel();
 			long fileSize = inChannel.size();
-			ByteBuffer buffer = ByteBuffer.allocate((int) fileSize);
+			var buffer = ByteBuffer.allocate((int) fileSize);
 			inChannel.read(buffer);
 			buffer.flip();
 			return buffer;
@@ -218,12 +217,12 @@ public class FileTools {
 		if(!dest.isDirectory())
 			throw new IOException(dest + " is not a directory");
 		
-		try(ZipFile zipFile = new ZipFile(fileZip)){
+		try(var zipFile = new ZipFile(fileZip)){
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) 
 			{
-				ZipEntry zipEntry = entries.nextElement();
-	        	File f = new File(dest, zipEntry.getName());
+				var zipEntry = entries.nextElement();
+				var f = new File(dest, zipEntry.getName());
 	        	
 	        	if(zipEntry.isDirectory())
 	        	{
@@ -236,7 +235,7 @@ public class FileTools {
 	        	}
 	        	
 	        	
-		       	try(FileOutputStream fos = new FileOutputStream(f))
+		       	try(var fos = new FileOutputStream(f))
 		       	{
 		       		IOUtils.write(zipFile.getInputStream(zipEntry).readAllBytes(), fos);
 		       	}
@@ -251,7 +250,7 @@ public class FileTools {
 		if(f.isDirectory())
 			return;
 		
-		try (FileInputStream in = new FileInputStream(f)) {
+		try (var in = new FileInputStream(f)) {
 			out.putNextEntry(new ZipEntry(MTGConstants.CONF_DIR.toPath().relativize(f.toPath()).toString()));
 			IOUtils.write(in.readAllBytes(), out);
 			out.closeEntry();
@@ -260,7 +259,7 @@ public class FileTools {
 	
 	
 	public static void zip(File dir,File dest) throws IOException {
-		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest))) {
+		try (var out = new ZipOutputStream(new FileOutputStream(dest))) {
 			for (File doc : dir.listFiles()) {
 				if (!doc.getName().endsWith(".tmp")) {
 					addFile(doc,out);
@@ -271,12 +270,12 @@ public class FileTools {
 	
 	
 	public static void unZipIt(File src,File dst) {
- 		byte[] buffer = new byte[1024];
- 		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(src))) {
- 			ZipEntry ze = zis.getNextEntry();
+		var buffer = new byte[1024];
+ 		try (var zis = new ZipInputStream(new FileInputStream(src))) {
+ 			var ze = zis.getNextEntry();
  			while (ze != null) {
 				logger.info("unzip : " + src.getAbsoluteFile());
- 				try (FileOutputStream fos = new FileOutputStream(dst)) {
+ 				try (var fos = new FileOutputStream(dst)) {
 					int len;
 					while ((len = zis.read(buffer)) > 0) {
 						fos.write(buffer, 0, len);
@@ -293,7 +292,7 @@ public class FileTools {
 
 	public static void copyDirJarToDirectory(String path, File writeDirectory) throws IOException {
 		
-		try(JarFile jarFile = new JarFile(FileTools.class.getProtectionDomain().getCodeSource().getLocation().getPath()))
+		try(var jarFile = new JarFile(FileTools.class.getProtectionDomain().getCodeSource().getLocation().getPath()))
 		{
 		    final Enumeration<JarEntry> entries = jarFile.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
@@ -302,7 +301,7 @@ public class FileTools {
 		        if (name.startsWith(path + "/")) { //filter according to the path
 		        	
 		        	
-		        	File f = new File(writeDirectory,name);
+		        	var f = new File(writeDirectory,name);
 		        	
 		        	logger.debug("writing " + f);
 		        	

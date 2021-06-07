@@ -40,10 +40,10 @@ public class FlipActions extends AbstractAction {
 			MagicCard mc =card.getMagicCard().getRotatedCard();
 			card.setMagicCard(mc);
 			
-			BufferedImage bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(),BufferedImage.TYPE_INT_RGB);
-			AffineTransform tx = AffineTransform.getScaleInstance(-1, -1);
+			var bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(),BufferedImage.TYPE_INT_RGB);
+			var tx = AffineTransform.getScaleInstance(-1, -1);
 							tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
-			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+							var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 			bufferedImage = op.filter(bufferedImage, null);
 
 			Graphics2D g2 = bufferedImage.createGraphics();

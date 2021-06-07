@@ -139,17 +139,17 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panneauDroit.add(panelInfo, BorderLayout.WEST);
 		panelInfo.setLayout(new BorderLayout(0, 0));
 
-		JPanel panelActions = new JPanel();
+		var panelActions = new JPanel();
 		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(panelActions, BorderLayout.SOUTH);
-		GridBagLayout gblpanelActions = new GridBagLayout();
+		var gblpanelActions = new GridBagLayout();
 		gblpanelActions.columnWidths = new int[] { 30, 20, 0, 0 };
 		gblpanelActions.rowHeights = new int[] { 0, 23, 0, 0, 0 };
 		gblpanelActions.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gblpanelActions.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panelActions.setLayout(gblpanelActions);
 		
-				JButton btnStart = new JButton(MTGConstants.PLAY_ICON);
+		var btnStart = new JButton(MTGConstants.PLAY_ICON);
 				btnStart.setToolTipText(capitalize("START"));
 				btnStart.addActionListener(ae -> {
 					GameManager.getInstance().removePlayers();
@@ -166,24 +166,24 @@ public class GamePanelGUI extends JPanel implements Observer {
 					clean();
 				});
 						
-								JButton btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
+				var btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
 								btnSideboard.setToolTipText(capitalize("SIDEBOARD"));
 								btnSideboard.addActionListener(e -> {
-									DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
+									var gui = new DeckSideBoardSwitcherDialog(player.getDeck());
 									gui.setVisible(true);
 									player.setDeck(gui.getDeck());
 								});
 								
-										JButton btnNewGame = new JButton(MTGConstants.ICON_OPEN);
+								var btnNewGame = new JButton(MTGConstants.ICON_OPEN);
 										btnNewGame.setToolTipText(capitalize("CHOOSE_DECK"));
 										btnNewGame.addActionListener(ae -> {
-											JDeckChooserDialog choose = new JDeckChooserDialog();
+											var choose = new JDeckChooserDialog();
 											choose.setVisible(true);
 											try {
 												MagicDeck deck = choose.getSelectedDeck();
 												if (deck != null) {
 
-													Player p1 = MTGControler.getInstance().getProfilPlayer();
+													var p1 = MTGControler.getInstance().getProfilPlayer();
 													p1.setDeck(deck);
 													setPlayer(p1);
 													GameManager.getInstance().initGame();
@@ -193,28 +193,28 @@ public class GamePanelGUI extends JPanel implements Observer {
 												logger.error("Error loading deck", e);
 											}
 										});
-										GridBagConstraints gbcbtnNewGame = new GridBagConstraints();
+										var gbcbtnNewGame = new GridBagConstraints();
 										gbcbtnNewGame.fill = GridBagConstraints.BOTH;
 										gbcbtnNewGame.insets = new Insets(0, 0, 5, 5);
 										gbcbtnNewGame.gridx = 0;
 										gbcbtnNewGame.gridy = 0;
 										panelActions.add(btnNewGame, gbcbtnNewGame);
-								GridBagConstraints gbcbtnSideboard = new GridBagConstraints();
+										var gbcbtnSideboard = new GridBagConstraints();
 								gbcbtnSideboard.fill = GridBagConstraints.HORIZONTAL;
 								gbcbtnSideboard.insets = new Insets(0, 0, 5, 5);
 								gbcbtnSideboard.gridx = 1;
 								gbcbtnSideboard.gridy = 0;
 								panelActions.add(btnSideboard, gbcbtnSideboard);
 				
-						GridBagConstraints gbcbtnStart = new GridBagConstraints();
+								var gbcbtnStart = new GridBagConstraints();
 						gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
 						gbcbtnStart.insets = new Insets(0, 0, 5, 0);
 						gbcbtnStart.gridx = 2;
 						gbcbtnStart.gridy = 0;
 						panelActions.add(btnStart, gbcbtnStart);
 
-		JPanel panel1 = new JPanel();
-		GridBagConstraints gbcpanel1 = new GridBagConstraints();
+						var panel1 = new JPanel();
+						var gbcpanel1 = new GridBagConstraints();
 		gbcpanel1.gridheight = 2;
 		gbcpanel1.gridwidth = 3;
 		gbcpanel1.insets = new Insets(0, 0, 5, 0);
@@ -240,12 +240,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 		});
 		txtChat.setColumns(10);
 
-		JPanel panelPoolandDescribes = new JPanel();
+		var panelPoolandDescribes = new JPanel();
 		panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
 
 		panelPoolandDescribes.setLayout(new BorderLayout(0, 0));
 
-		JPanel panelPoolandHandsLib = new JPanel();
+		var panelPoolandHandsLib = new JPanel();
 		panelPoolandDescribes.add(panelPoolandHandsLib, BorderLayout.NORTH);
 		panelPoolandHandsLib.setLayout(new BorderLayout(0, 0));
 
@@ -253,7 +253,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		manaPoolPanel.setMinimumSize(new Dimension(0, 0));
 		panelPoolandHandsLib.add(manaPoolPanel, BorderLayout.CENTER);
 
-		JPanel panelHandLib = new JPanel();
+		var panelHandLib = new JPanel();
 		panelPoolandHandsLib.add(panelHandLib, BorderLayout.SOUTH);
 		panelHandLib.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -270,10 +270,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblLibraryCount.setIcon(MTGConstants.ICON_GAME_LIBRARY);
 		panelHandLib.add(lblLibraryCount);
 
-		JPanel lifePanel = new JPanel();
+		var lifePanel = new JPanel();
 		panelPoolandHandsLib.add(lifePanel, BorderLayout.WEST);
 		lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
-		GridBagLayout gbllifePanel = new GridBagLayout();
+		var gbllifePanel = new GridBagLayout();
 		gbllifePanel.columnWidths = new int[] { 60, 0 };
 		gbllifePanel.rowHeights = new int[] { 64, 0, 0 };
 		gbllifePanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
@@ -283,22 +283,22 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblPlayer = new JLabel("");
 		lblPlayer.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblPlayer.setIcon(MTGConstants.ICON_GAME_PLANESWALKER);
-		GridBagConstraints gbclblPlayer = new GridBagConstraints();
+		var gbclblPlayer = new GridBagConstraints();
 		gbclblPlayer.anchor = GridBagConstraints.WEST;
 		gbclblPlayer.insets = new Insets(0, 0, 5, 0);
 		gbclblPlayer.gridx = 0;
 		gbclblPlayer.gridy = 0;
 		lifePanel.add(lblPlayer, gbclblPlayer);
 
-		JPanel panel = new JPanel();
-		GridBagConstraints gbcpanel = new GridBagConstraints();
+		var panel = new JPanel();
+		var gbcpanel = new GridBagConstraints();
 		gbcpanel.anchor = GridBagConstraints.NORTHWEST;
 		gbcpanel.gridx = 0;
 		gbcpanel.gridy = 1;
 		lifePanel.add(panel, gbcpanel);
 		panel.setLayout(new GridLayout(2, 2, 0, 0));
 
-		JLabel lblLife = new JLabel("");
+		var lblLife = new JLabel("");
 		panel.add(lblLife);
 		lblLife.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLife.setIcon(MTGConstants.ICON_GAME_LIFE);
@@ -307,7 +307,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panel.add(spinLife);
 		spinLife.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 17));
 
-		JLabel lblPoison = new JLabel("");
+		var lblPoison = new JLabel("");
 		panel.add(lblPoison);
 		lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoison.setIcon(MTGConstants.ICON_GAME_POISON);
@@ -326,20 +326,20 @@ public class GamePanelGUI extends JPanel implements Observer {
 				player.setLife((int) spinLife.getValue());
 		});
 
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 
 
 		listActions = new JList<>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listActions.setModel(new DefaultListModel<>());
-		JScrollPane scrollActions = new JScrollPane(listActions);
+		var scrollActions = new JScrollPane(listActions);
 		scrollActions.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
 		tabbedPane.addTab(capitalize("EVENTS"), null, scrollActions,null);
 
 		
 		
-		JPanel pane = new JPanel();
+		var pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 
 		panneauHaut = new LightDescribeCardPanel();
@@ -349,7 +349,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		tabbedPane.addTab(capitalize("STACK"), MTGConstants.ICON_TAB_DECK, stackPanel, null);
 		
 		
-		JPanel panelPics = new JPanel();
+		var panelPics = new JPanel();
 		tabbedPane.addTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
 		panelPics.setLayout(new BorderLayout(0, 0));
 
@@ -358,11 +358,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblThumbnailPics.setHorizontalAlignment(SwingConstants.CENTER);
 		panelPics.add(lblThumbnailPics);
 
-		JPanel panelLibraryAndGrave = new JPanel();
+		var panelLibraryAndGrave = new JPanel();
 		panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
 		panelLibraryAndGrave.setLayout(new BorderLayout(0, 0));
 
-		JPanel panelDeck = new JPanel();
+		var panelDeck = new JPanel();
 		panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
 
 		panelLibrary = new LibraryPanel();
@@ -387,7 +387,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 			}
 		});
-		JScrollPane js = new JScrollPane();
+		var js = new JScrollPane();
 		panelGrave = new GraveyardPanel();
 		js.setViewportView(panelGrave);
 		panelLibraryAndGrave.add(js);
@@ -396,7 +396,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panneauDroit.add(panelBattleField, BorderLayout.CENTER);
 		panelBattleField.setLayout(null);
 
-		JPanel panelBottom = new JPanel();
+		var panelBottom = new JPanel();
 		panneauDroit.add(panelBottom, BorderLayout.SOUTH);
 
 		handPanel = new HandPanel();
@@ -406,7 +406,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelBottom.setLayout(new BorderLayout(0, 0));
 		handPanel.setRupture(7);
 
-		JScrollPane scrollPane = new JScrollPane(handPanel);
+		var scrollPane = new JScrollPane(handPanel);
 		panelBottom.add(scrollPane);
 		scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
 

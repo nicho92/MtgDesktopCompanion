@@ -50,7 +50,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 	@Override
 	public void initGUI() {
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		cboFormat = UITools.createCombobox(MagicFormat.FORMATS.values());
