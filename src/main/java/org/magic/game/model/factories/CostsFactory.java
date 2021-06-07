@@ -2,7 +2,6 @@ package org.magic.game.model.factories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,8 +55,8 @@ public class CostsFactory {
 			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
 		
 		////////////////
-		Pattern p = Pattern.compile(CardsPatterns.COST_LIFE_PATTERN.getPattern());
-		Matcher m=p.matcher(c);
+		var p = Pattern.compile(CardsPatterns.COST_LIFE_PATTERN.getPattern());
+		var m=p.matcher(c);
 		if(m.find())
 			return new LifeCost(Integer.parseInt(m.group(1)));
 		
@@ -67,7 +66,7 @@ public class CostsFactory {
 		if(m.matches()) 
 		{
 			m=m.reset();
-			ManaCost mana = new ManaCost();
+			var mana = new ManaCost();
 			while(m.find())
 				mana.add(m.group());
 
@@ -76,7 +75,7 @@ public class CostsFactory {
 		
 	
 		////////////////		
-		ActionCost ac = new ActionCost();
+		var ac = new ActionCost();
 		ac.setAction(c);
 		
 		return ac;

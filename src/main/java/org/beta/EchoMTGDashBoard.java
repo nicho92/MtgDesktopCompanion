@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;

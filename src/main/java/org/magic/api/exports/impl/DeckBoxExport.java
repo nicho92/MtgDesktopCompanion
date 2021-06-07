@@ -57,7 +57,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
-		StringBuilder line = new StringBuilder(columns);
+		var line = new StringBuilder(columns);
 		for(MagicCardStock mc : stock)
 		{
 			String name=mc.getMagicCard().getName();
@@ -95,7 +95,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))
