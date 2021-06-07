@@ -91,11 +91,11 @@ public class EchoMTGExport extends AbstractCardExport {
 		if(client==null)
 			connect();
 		
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 				  d.setName(name);
 				  d.setDescription("import from "+getName());
 				  
-		JsonElement list = RequestBuilder.build().method(METHOD.GET)
+				  var list = RequestBuilder.build().method(METHOD.GET)
 				 .url(BASE_URL+"/api/inventory/view/")
 				 .addContent("auth", authToken)
 				 .addContent("start", "0")
@@ -104,10 +104,10 @@ public class EchoMTGExport extends AbstractCardExport {
 				 .toJson();
 		
 		
-		JsonArray arr = list.getAsJsonObject().get("items").getAsJsonArray();
+		var arr = list.getAsJsonObject().get("items").getAsJsonArray();
 		
 		arr.forEach(element -> {
-			JsonObject ob = element.getAsJsonObject();
+			var ob = element.getAsJsonObject();
 			MagicEdition ed =null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("set_code").getAsString());

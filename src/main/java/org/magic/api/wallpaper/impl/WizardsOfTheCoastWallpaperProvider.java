@@ -9,7 +9,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
@@ -30,9 +29,9 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		logger.debug("retrieve from " + url);
 		HttpClient httpClient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(new LaxRedirectStrategy()).build();
-		HttpGet req = new HttpGet(url);
+		var req = new HttpGet(url);
 		req.addHeader("content-type", URLTools.HEADER_JSON);
-		HttpResponse resp = httpClient.execute(req);
+		var resp = httpClient.execute(req);
 		return EntityUtils.toString(resp.getEntity());
 	}
 
@@ -45,12 +44,12 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	private List<Wallpaper> construct(String url) {
 		ArrayList<Wallpaper> list = new ArrayList<>();
 		try {
-			String json = read(url);
+			var json = read(url);
 
-			String doc = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
+			var doc = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
 
 			for (Element e : Jsoup.parse(doc).select("div.wrap")) {
-				Wallpaper w = new Wallpaper();
+				var w = new Wallpaper();
 				w.setName(e.getElementsByTag("h3").text());
 				w.setUrl(new URI(e.select("a").first().attr("download")));
 				w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));

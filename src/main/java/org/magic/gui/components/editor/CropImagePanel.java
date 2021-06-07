@@ -2,7 +2,6 @@ package org.magic.gui.components.editor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -46,10 +45,10 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 		}
 
 		// Create a buffered image with transparency
-		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		var bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
 		// Draw the image on to the buffered image
-		Graphics2D bGr = bimage.createGraphics();
+		var bGr = bimage.createGraphics();
 		bGr.drawImage(img, 0, 0, null);
 		bGr.dispose();
 
@@ -74,7 +73,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 			int h = c2 - c4;
 			w = w * -1;
 			h = h * -1;
-			BufferedImage img = toBufferedImage(selectedImage);
+			var img = toBufferedImage(selectedImage);
 			return img.getSubimage(c1, c2, w, h);
 		} catch (Exception nue) {
 			return null;

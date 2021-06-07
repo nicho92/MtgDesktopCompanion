@@ -57,9 +57,9 @@ public class StockTableRenderer implements TableCellRenderer{
 			Grading g = (Grading)value;
 			
 			try {
-			Icon c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
-			pane= new JLabel(g.toString(),c,SwingConstants.LEFT);
-			((JLabel)pane).setOpaque(true);
+				var c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
+				pane= new JLabel(g.toString(),c,SwingConstants.LEFT);
+				((JLabel)pane).setOpaque(true);
 			}
 			catch(Exception e)
 			{

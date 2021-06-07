@@ -30,7 +30,7 @@ public class TurnsPanel extends JPanel {
 	JLabel lblTurnNumber;
 
 	public TurnsPanel() {
-		FlowLayout flowLayout = (FlowLayout) getLayout();
+		var flowLayout = (FlowLayout) getLayout();
 		flowLayout.setVgap(1);
 		flowLayout.setHgap(1);
 		flowLayout.setAlignment(FlowLayout.LEFT);

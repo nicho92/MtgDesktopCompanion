@@ -11,7 +11,6 @@ import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Played;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SearchResult;
-import org.api.mtgstock.modele.SetPricesAnalysis;
 import org.api.mtgstock.services.AnalyticsService;
 import org.api.mtgstock.services.CardsService;
 import org.api.mtgstock.services.InterestsService;

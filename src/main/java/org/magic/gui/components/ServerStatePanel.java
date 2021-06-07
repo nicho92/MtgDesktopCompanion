@@ -71,14 +71,14 @@ public class ServerStatePanel extends JPanel {
 		icons.put(true, MTGConstants.ICON_CHECK);
 		
 		
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 36, 229, 47, 42, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 48, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		JLabel lblName = new JLabel(server.getName(),ImageTools.resize(server.getIcon(), 32, 32),SwingConstants.LEFT);
+		var lblName = new JLabel(server.getName(),ImageTools.resize(server.getIcon(), 32, 32),SwingConstants.LEFT);
 		lblName.setToolTipText(server.description());
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblName, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 0));
@@ -130,7 +130,7 @@ public class ServerStatePanel extends JPanel {
 				}
 			
 		};
-		Timer timer = new Timer("Timer-" + server.getName());
+		var timer = new Timer("Timer-" + server.getName());
 
 		timer.scheduleAtFixedRate(tache, 0, 1000);
 

@@ -2,7 +2,6 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
@@ -31,8 +30,8 @@ public class FlashbackActions extends AbstractAction {
 		try {
 			String regex = "/*" + k + " \\{(.*?)\\ ";
 			String text = card.getMagicCard().getText();
-			Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-			Matcher m = p.matcher(text);
+			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+			var m = p.matcher(text);
 
 			if (m.find())
 				cost = m.group().replaceAll(k, "").trim();

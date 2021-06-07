@@ -74,14 +74,14 @@ public class ImageDesc
         {
             flipped = AverageHash.avgHash(flipin, 2, 2);
         }
-        int[] histogram = new int[256];
-        int[] transform = new int[256];
-        GrayU8 img = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
-        GrayU8 norm = img.createSameShape();
+        var histogram = new int[256];
+        var transform = new int[256];
+        var img = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
+        var norm = img.createSameShape();
         ImageStatistics.histogram(img, 0, histogram);
         EnhanceImageOps.equalize(histogram, transform);
         EnhanceImageOps.applyTransform(img, transform, norm);
-        GrayF32 normf = new GrayF32(img.width, img.height);
+        var normf = new GrayF32(img.width, img.height);
         ConvertImage.convert(norm, normf);
         desc.reset();
         size = describeImage(normf, desc, points);
@@ -119,13 +119,13 @@ public class ImageDesc
 
     public static ImageDesc readIn(ByteBuffer buf)
     {
-        int size = buf.getInt();
+    	var size = buf.getInt();
         List<Point2D_F64> points = new ArrayList<>(size);
         FastQueue<BrightFeature> descs = UtilFeature.createQueue(detDesc, size);
         for (var i = 0; i < size; i++)
         {
-            BrightFeature f = detDesc.createDescription();
-            for (int j = 0; j < f.size(); j++)
+        	var f = detDesc.createDescription();
+            for (var j = 0; j < f.size(); j++)
             {
                 f.value[j] = buf.getDouble();
             }
@@ -134,14 +134,14 @@ public class ImageDesc
                     buf.getDouble(), buf.getDouble()
             ));
         }
-        AverageHash hash = AverageHash.readIn(buf);
+        var hash = AverageHash.readIn(buf);
         return new ImageDesc(descs, points, hash);
     }
 
     public static int describeImage(GrayF32 input, FastQueue<BrightFeature> descs, List<Point2D_F64> points)
     {
         detDesc.detect(input);
-        int size = detDesc.getNumberOfFeatures();
+        var size = detDesc.getNumberOfFeatures();
         for (var i = 0; i < size; i++)
         {
             descs.grow().setTo(detDesc.getDescription(i));

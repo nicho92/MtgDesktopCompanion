@@ -78,29 +78,27 @@ public class MagicTextPane extends JComponent {
 	public void updateTextWithIcons() {
 
 		textPane.setText(textPane.getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
-		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
-		Matcher m = p.matcher(textPane.getText());
+		var p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
+		var m = p.matcher(textPane.getText());
 
-		String text = textPane.getText();
-		StyleContext context = new StyleContext();
-		StyledDocument document = new DefaultStyledDocument(context);
-
-		Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
-
-		Style italic = context.addStyle("italicStyle", labelStyle);
+		var text = textPane.getText();
+		var context = new StyleContext();
+		var document = new DefaultStyledDocument(context);
+		var labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+		var italic = context.addStyle("italicStyle", labelStyle);
 		StyleConstants.setItalic(italic, true);
 
-		int cumule = 0;
+		var cumule = 0;
 		try {
 			document.insertString(0, text, null);
 			while (m.find()) {
-				Image ic = manaPanel.getManaSymbol(m.group(1));
+				var ic = manaPanel.getManaSymbol(m.group(1));
 
-				int width = 15;
+				var width = 15;
 				if (m.group().equals("{100}"))
 					width = 30;
 
-				JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
+				var label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
 				label.setAlignmentY(SwingConstants.TOP);
 
 				StyleConstants.setComponent(labelStyle, label);

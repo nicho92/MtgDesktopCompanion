@@ -2,7 +2,6 @@ package org.magic.gui.components;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -105,8 +104,8 @@ public class WebcamCanvas extends JPanel
 		{
 			buf = new BufferedImage(lastDrawn.getWidth(),lastDrawn.getHeight(),BufferedImage.TYPE_3BYTE_BGR);
 		}
-		Graphics gi = canvas.getGraphics();
-		Graphics g = buf.getGraphics();
+		var gi = canvas.getGraphics();
+		var g = buf.getGraphics();
 		g.drawImage(lastDrawn, 0, 0, null);
 		strat.draw(g);
 		if(gi!=null)

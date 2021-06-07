@@ -34,7 +34,7 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	
 	private String getUrl()
 	{
-		String month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)+1);
+		var month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)+1);
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
 

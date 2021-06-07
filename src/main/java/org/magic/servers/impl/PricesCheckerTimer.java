@@ -72,7 +72,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						}
 					}
 				
-					MTGNotification notif = new MTGNotification();
+				var notif = new MTGNotification();
 					notif.setTitle("New offers");
 					notif.setType(MESSAGE_TYPE.INFO);
 					for(String not : getString("NOTIFIER").split(","))

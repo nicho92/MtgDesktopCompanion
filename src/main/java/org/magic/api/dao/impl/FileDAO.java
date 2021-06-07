@@ -581,12 +581,12 @@ public class FileDAO extends AbstractMagicDAO{
 	}
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws SQLException {
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Contact> listContacts() throws SQLException {
-		return null;
+		return new ArrayList<>();
 	}
 	
 }

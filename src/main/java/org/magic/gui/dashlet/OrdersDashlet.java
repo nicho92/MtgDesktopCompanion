@@ -39,7 +39,7 @@ public class OrdersDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
 		cboProperty = UITools.createCombobox(Lists.newArrayList("source", "transactionDate","edition","typeTransaction","type"));
@@ -63,7 +63,7 @@ public class OrdersDashlet extends AbstractJDashlet {
 		
 		
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 

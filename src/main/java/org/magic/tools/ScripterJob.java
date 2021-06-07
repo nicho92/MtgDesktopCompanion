@@ -1,7 +1,6 @@
 package org.magic.tools;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.script.ScriptException;

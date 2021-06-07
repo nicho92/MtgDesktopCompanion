@@ -34,16 +34,16 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
-			HttpURLConnection openConnection = URLTools.openConnection(rssBean.getUrl());
+			var openConnection = URLTools.openConnection(rssBean.getUrl());
 			logger.debug("reading " + rssBean.getUrl());
 			is = openConnection.getInputStream();
-			InputSource source = new InputSource(is);
+			var source = new InputSource(is);
 
 			feed = input.build(source);
-			String baseURI = feed.getLink();
+			var baseURI = feed.getLink();
 
 			for (SyndEntry s : feed.getEntries()) {
-				MagicNewsContent content = new MagicNewsContent();
+				var content = new MagicNewsContent();
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
 				if(s.getPublishedDate()==null)

@@ -13,7 +13,6 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 public class TCGPlayerPricer extends AbstractPricesProvider {
 
@@ -26,15 +25,15 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-		String url = getString("URL");
+		var url = getString("URL");
 		url = url.replace("%API_KEY%", getString("API_KEY"));
 
-		String set = URLTools.encode(card.getCurrentSet().getSet());
+		var set = URLTools.encode(card.getCurrentSet().getSet());
 
 		if (set.contains("Edition"))
 			set = set.replace("Edition", "");
 
-		String name = card.getName();
+		var name = card.getName();
 		name = name.replaceAll(" \\(.*$", "");
 		name = name.replace("'", "%27");
 		name = name.replace(" ", "+");
@@ -62,9 +61,9 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 			doc.getDocumentElement().normalize();
 
-			NodeList nodes = doc.getElementsByTagName("product");
+			var nodes = doc.getElementsByTagName("product");
 
-			MagicPrice mp = new MagicPrice();
+			var mp = new MagicPrice();
 			mp.setMagicCard(card);
 			mp.setCurrency("USD");
 			mp.setSite(getName());

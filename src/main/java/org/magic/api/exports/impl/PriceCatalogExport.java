@@ -41,7 +41,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 			String[] exportedPricesProperties = getArray("PROPERTIES_PRICE");
 			String[] exportedCardsProperties = getArray("PROPERTIES_CARD");
-			StringBuilder bw = new StringBuilder();
+			var bw = new StringBuilder();
 			
 			
 			for (String k : exportedCardsProperties)

@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 
 import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
-import org.jdesktop.swingx.JXTable;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.GenericTableModel;

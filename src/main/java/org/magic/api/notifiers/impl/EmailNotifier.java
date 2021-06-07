@@ -11,6 +11,10 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
 public class EmailNotifier extends AbstractMTGNotifier{
 
+	private static final String SMTP_PASS = "SMTP_PASS";
+	private static final String SMTP_LOGIN = "SMTP_LOGIN";
+
+
 	@Override
 	public FORMAT_NOTIFICATION getFormat() {
 		return FORMAT_NOTIFICATION.HTML;
@@ -33,8 +37,8 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		setProperty("PORT", "25");
 		setProperty("FROM", "me@server.com");
 		setProperty("SEND_TO", "you@server.com");
-		setProperty("SMTP_LOGIN", "login");
-		setProperty("SMTP_PASS", "password");
+		setProperty(SMTP_LOGIN, "login");
+		setProperty(SMTP_PASS, "password");
 		setProperty("SSL", "true");
 	}
 
@@ -47,7 +51,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
 			email.setHostName(getString("SMTP"));
 			email.setSmtpPort(getInt("PORT"));
-			email.setAuthenticator(new DefaultAuthenticator(getString("SMTP_LOGIN"), getString("SMTP_PASS")));
+			email.setAuthenticator(new DefaultAuthenticator(getString(SMTP_LOGIN), getString(SMTP_PASS)));
 			email.setSSLOnConnect(getBoolean("SSL"));
 			email.setFrom(getString("FROM"));
 			email.setSubject(notification.getTitle());
@@ -72,7 +76,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
 			email.setHostName(getString("SMTP"));
 			email.setSmtpPort(getInt("PORT"));
-			email.setAuthenticator(new DefaultAuthenticator(getString("SMTP_LOGIN"), getString("SMTP_PASS")));
+			email.setAuthenticator(new DefaultAuthenticator(getString(SMTP_LOGIN), getString(SMTP_PASS)));
 			email.setSSLOnConnect(getBoolean("SSL"));
 			email.setFrom(getString("FROM"));
 			email.setSubject(notification.getTitle());

@@ -11,7 +11,6 @@ import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.MTGConstants;
 
-import net.dean.jraw.RedditClient;
 import net.dean.jraw.Version;
 import net.dean.jraw.http.NetworkAdapter;
 import net.dean.jraw.http.OkHttpNetworkAdapter;
@@ -34,14 +33,14 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		
 		List<MagicNewsContent> ret = new ArrayList<>();
-		Credentials credentials = Credentials.script(getString("USER"), getString("PASSWORD"),getString("APPID"), getString("SECRET"));
-		RedditClient reddit = OAuthHelper.automatic(adapter, credentials);
+		var credentials = Credentials.script(getString("USER"), getString("PASSWORD"),getString("APPID"), getString("SECRET"));
+		var reddit = OAuthHelper.automatic(adapter, credentials);
 		Paginator<Submission> pagin = reddit.subreddit(n.getName()).posts().limit(getInt("LIMIT")).build();
 		
 		List<Submission> l = pagin.next();
 		
 		l.forEach(s->{
-			MagicNewsContent content = new MagicNewsContent();
+			var content = new MagicNewsContent();
 			content.setAuthor(s.getAuthor());
 			content.setTitle(s.getTitle());
 			content.setDate(s.getCreated());

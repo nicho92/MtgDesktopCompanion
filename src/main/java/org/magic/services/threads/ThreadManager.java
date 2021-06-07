@@ -65,7 +65,7 @@ public class ThreadManager {
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		runnable.execute();
-		Chrono c = new Chrono();
+		var c = new Chrono();
 		
 		runnable.addPropertyChangeListener((PropertyChangeEvent ev)->{
 			if(ev.getNewValue().toString().equals("STARTED"))
@@ -81,7 +81,7 @@ public class ThreadManager {
 	}
 	
 	public String log() {
-		String s = String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
+		var s = String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
 				executor.getPoolSize(),
 				executor.getCorePoolSize(), 
 				executor.getActiveCount(), 
@@ -94,7 +94,7 @@ public class ThreadManager {
 
 	private ThreadManager() {
 		
-		ThreadPoolConfig tpc = MTGControler.getInstance().getThreadPoolConfig();
+		var tpc = MTGControler.getInstance().getThreadPoolConfig();
 		
 		factory = new ThreadFactoryBuilder()
 						.setNameFormat(tpc.getNameFormat())

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
@@ -35,7 +34,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 	
-		StringBuilder temp = new StringBuilder(COLUMNS);
+		var temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
 			temp.append(st.getQte()).append(getSeparator());
@@ -87,14 +86,14 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 		List<MagicCardStock> stocks = new ArrayList<>();
 		
 		matches(content,true).forEach(m->{
-			Integer qtyRegular = Integer.parseInt(m.group(2));
-			Integer qtyFoil = Integer.parseInt(m.group(3));
-			MagicCard mc = parseMatcherWithGroup(m, 4, 5, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
+			var qtyRegular = Integer.parseInt(m.group(2));
+			var qtyFoil = Integer.parseInt(m.group(3));
+			var mc = parseMatcherWithGroup(m, 4, 5, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 			if(mc!=null)
 			{
 				if(qtyFoil>0)
 				{
-					MagicCardStock stock = new MagicCardStock();
+					var stock = new MagicCardStock();
 								   stock.setMagicCard(mc);
 								   stock.setPrice(Double.parseDouble(m.group(12)));
 								   stock.setFoil(true);
@@ -104,7 +103,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 				
 				if(qtyRegular>0)
 				{
-					MagicCardStock stock = new MagicCardStock();
+					var stock = new MagicCardStock();
 					   stock.setMagicCard(mc);
 					   stock.setPrice(Double.parseDouble(m.group(11)));
 					   stock.setFoil(false);
@@ -119,7 +118,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f, String dname) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(dname);
 		
 		for(MagicCardStock st : importStock(f))

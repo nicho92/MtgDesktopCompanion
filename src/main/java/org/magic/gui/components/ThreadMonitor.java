@@ -35,7 +35,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 		
 		
 		add(new JScrollPane(tableT), BorderLayout.CENTER);
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		btnRefresh = new JButton("Pause");
 		btnRefresh.addActionListener(ae -> {

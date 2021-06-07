@@ -68,7 +68,7 @@ public class URLToolsClient {
 	
 	public String extractAndClose(HttpResponse response) throws IOException
 	{
-		String ret = EntityUtils.toString(response.getEntity());
+		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
 	}
@@ -108,7 +108,7 @@ public class URLToolsClient {
 	}
 
 	public String doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
-		HttpPut putReq = new HttpPut(string);
+		var putReq = new HttpPut(string);
 		try {
 			if(entities!=null)
 				putReq.setEntity(entities);
@@ -131,7 +131,7 @@ public class URLToolsClient {
 	
 	public String doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
-			HttpPost postReq = new HttpPost(url);
+		var postReq = new HttpPost(url);
 			try {
 				if(entities!=null)
 					postReq.setEntity(entities);
@@ -149,12 +149,12 @@ public class URLToolsClient {
 	
 	public String doGet(String url, Map<String,String> headers,Map<String,String> entities) throws IOException
 	{
-		HttpGet getReq = new HttpGet(url);
+		var getReq = new HttpGet(url);
 		
 		if(entities!=null && !entities.isEmpty()) 
 		{
 			try {
-				URIBuilder builder = new URIBuilder(url);
+				var builder = new URIBuilder(url);
 				entities.entrySet().forEach(e->builder.addParameter(e.getKey(),e.getValue()));
 				getReq = new HttpGet(builder.build());
 			} catch (URISyntaxException e1) {

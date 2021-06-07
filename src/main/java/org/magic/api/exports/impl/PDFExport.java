@@ -52,7 +52,7 @@ public class PDFExport extends AbstractCardExport {
 		var image = new Image(imageData);
 			
 	        image.scaleAbsolute(2.49f*userPoint,3.48f*userPoint);
-            Cell cell = new Cell();
+	        var cell = new Cell();
             if(getBoolean("PRINT_CUT_LINE"))
             {
             	cell.setBorder(new DottedBorder(0.5f));

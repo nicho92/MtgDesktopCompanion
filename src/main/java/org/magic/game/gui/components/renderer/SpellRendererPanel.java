@@ -80,7 +80,7 @@ public class SpellRendererPanel extends JPanel {
 		}
 		
 		textPane.updateTextWithIcons();
-		Color c = MTGColor.determine(value.getCard().getColors()).toColor();
+		var c = MTGColor.determine(value.getCard().getColors()).toColor();
 		setColor(Color.BLACK,c);
 	
 		

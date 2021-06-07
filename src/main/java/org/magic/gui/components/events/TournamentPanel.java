@@ -41,7 +41,7 @@ public class TournamentPanel extends MTGUIComponent{
 		
 		currentEvent = new MagicEvent();
 		
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{112, 0, 0};
 		gridBagLayout.rowHeights = new int[]{37, 37, 36, 37, 37, 36, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -145,7 +145,7 @@ public class TournamentPanel extends MTGUIComponent{
 	}
 
 	public MagicEvent newEvent() {
-		MagicEvent eventNew = new MagicEvent();
+		var eventNew = new MagicEvent();
 		eventNew.setTitle(txtEventName.getText());
 		eventNew.setDescription(editorPane.getText());
 		eventNew.setLocalisation(txtLocation.getText());

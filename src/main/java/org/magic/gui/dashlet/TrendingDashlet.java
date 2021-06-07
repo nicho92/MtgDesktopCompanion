@@ -47,7 +47,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		JButton btnRefresh;
 		JPanel panel;
-		JPanel panneauHaut = new JPanel();
+		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		cboFormats = UITools.createCombobox(MagicFormat.FORMATS.values());
@@ -87,7 +87,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		
 		
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 
@@ -137,14 +137,19 @@ public class TrendingDashlet extends AbstractJDashlet {
 				try {
 					modStandard.init(get());
 					table.setModel(modStandard);
-				} catch (Exception e) {
+				}
+				catch(InterruptedException ex)
+				{
+					Thread.currentThread().interrupt();
+				}
+				catch (Exception e) {
 					logger.error(e);
 				} 
 				lblLoading.end();
 				setProperty("FORMAT", ((MagicFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 
 				List<SortKey> keys = new ArrayList<>();
-				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
+				var sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
 				keys.add(sortKey);
 				try {
 					table.setRowSorter(new TableRowSorter<>(modStandard));

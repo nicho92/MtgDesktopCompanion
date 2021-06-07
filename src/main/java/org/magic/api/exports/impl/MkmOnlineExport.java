@@ -18,7 +18,6 @@ import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
-import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;

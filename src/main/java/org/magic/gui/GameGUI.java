@@ -28,7 +28,7 @@ public class GameGUI extends MTGUIComponent {
 		return capitalize("GAME_MODULE");
 	}
 	public GameGUI() {
-		JTabbedPane pane = new JTabbedPane();
+		var pane = new JTabbedPane();
 		
 		pane.addTab(capitalize("GAME"), MTGConstants.ICON_TAB_GAME,GamePanelGUI.getInstance());
 		pane.addTab(capitalize("CHAT_ROOM"),MTGConstants.ICON_TAB_CHAT, new GamingRoomPanel());

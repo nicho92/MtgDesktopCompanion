@@ -42,7 +42,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public Object getChild(Object parent, int index) {
 		if (parent instanceof MTGPlugin) {
-			T dept = (T) parent;
+			var dept = (T) parent;
 			return dept.getProperties().entrySet().toArray()[index];
 		}
 		return new ArrayList<>(listElements).get(index);
@@ -52,7 +52,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof MTGPlugin) {
-			T dept = (T) parent;
+			var dept = (T) parent;
 			return dept.getProperties().size();
 		}
 		return listElements.size();
@@ -61,7 +61,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public void setValueAt(Object value, Object node, int column) {
 
-		String strValue = String.valueOf(value);
+		var strValue = String.valueOf(value);
 
 		if (node instanceof MTGPlugin) {
 			selectedProvider = (T) node;

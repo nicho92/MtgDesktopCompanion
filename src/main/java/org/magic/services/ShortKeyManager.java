@@ -44,7 +44,7 @@ public class ShortKeyManager {
 	public void setShortCutTo(int key, JButton b) {
 		b.setMnemonic(key);
 		
-		String tt= b.getToolTipText();
+		var tt= b.getToolTipText();
 		
 		if(tt==null)
 			b.setToolTipText("( Alt+" + KeyEvent.getKeyText(key)+" )");
@@ -67,7 +67,7 @@ public class ShortKeyManager {
 	
 	
 	public void store() {
-		Properties p = new Properties();
+		var p = new Properties();
 		mapping.entrySet().forEach(e->p.put(e.getKey(), String.valueOf(e.getValue().getMnemonic())));
 		
 		try {
@@ -79,7 +79,7 @@ public class ShortKeyManager {
 	
 	public void load()
 	{
-		Properties p = new Properties();
+		var p = new Properties();
 		try {
 			FileTools.loadProperties(configFile, p);
 		} catch (IOException e1) {
@@ -89,7 +89,7 @@ public class ShortKeyManager {
 		
 		p.entrySet().forEach(e->{
 			try {
-				JButton b = mapping.get(e.getKey());
+				var b = mapping.get(e.getKey());
 				if(b!=null)
 					b.setMnemonic(Integer.parseInt(e.getValue().toString()));
 				

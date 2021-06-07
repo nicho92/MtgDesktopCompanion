@@ -59,9 +59,9 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		DeckSnifferDialog diag = new DeckSnifferDialog();
+		var diag = new DeckSnifferDialog();
 		diag.setVisible(true);
-		MagicDeck d = diag.getSelectedDeck();
+		var d = diag.getSelectedDeck();
 
 		return importFromDeck(d);
 	}
@@ -69,7 +69,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
-		DeckSnifferDialog diag = new DeckSnifferDialog();
+		var diag = new DeckSnifferDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
 

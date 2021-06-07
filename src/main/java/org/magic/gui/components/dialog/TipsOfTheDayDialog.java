@@ -15,7 +15,7 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 	private static final long serialVersionUID = 1L;
 
 	public TipsOfTheDayDialog() throws IOException {
-		Properties tips = new Properties();
+		var tips = new Properties();
 		
 		try(InputStream st = MTGConstants.TOOLTIPS_FILE.openStream())
 		{
@@ -28,7 +28,7 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 	}
 	
 	public void shows() {
-		String key = "tooltip";
+		var key = "tooltip";
 		showDialog(null, new JXTipOfTheDay.ShowOnStartupChoice() {
 			public boolean isShowingOnStartup() {
 				return MTGControler.getInstance().get(key, "true").equalsIgnoreCase("true");

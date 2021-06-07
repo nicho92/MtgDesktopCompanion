@@ -30,9 +30,9 @@ public class PriceMinisterPricer extends AbstractPricesProvider {
 		List<MagicPrice> list = new ArrayList<>();
 		try {
 
-			DocumentBuilder dBuilder = XMLTools.createSecureXMLDocumentBuilder();
+			var dBuilder = XMLTools.createSecureXMLDocumentBuilder();
 
-			StringBuilder url = new StringBuilder();
+			var url = new StringBuilder();
 
 			url.append(getString("URL"))
 				.append("&login=").append(getString("LOGIN"))
@@ -45,15 +45,15 @@ public class PriceMinisterPricer extends AbstractPricesProvider {
 
 			logger.debug(getName() + " parsing items from " + url);
 
-			Document doc = dBuilder.parse(url.toString());
+			var doc = dBuilder.parse(url.toString());
 			doc.getDocumentElement().normalize();
 
 			NodeList lst = doc.getElementsByTagName("product");
-			for (int temp = 0; temp < lst.getLength(); temp++) {
-				Node nNode = lst.item(temp);
+			for (var temp = 0; temp < lst.getLength(); temp++) {
+				var nNode = lst.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element e = (Element) nNode;
-					MagicPrice it = new MagicPrice();
+					var e = (Element) nNode;
+					var it = new MagicPrice();
 					it.setMagicCard(card);
 					it.setUrl(e.getElementsByTagName("url").item(0).getTextContent());
 					it.setSite(getName());

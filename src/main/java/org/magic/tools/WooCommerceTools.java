@@ -18,7 +18,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.ApiVersionType;
 import com.icoderman.woocommerce.HttpMethod;
 import com.icoderman.woocommerce.WooCommerce;
@@ -68,8 +67,8 @@ public class WooCommerceTools {
 				
 				Map<String,JsonElement> map = new HashMap<>();
 				try {
-					String url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
-					URLToolsClient c = URLTools.newClient();
+					var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
+					var c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
 									   
@@ -119,7 +118,7 @@ public class WooCommerceTools {
 				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
 		        Map<String,JsonElement> map = new HashMap<>();
 				try {
-					JsonObject el = URLTools.extractJson(securedUrl).getAsJsonObject();
+					var el = URLTools.extractJson(securedUrl).getAsJsonObject();
 					el.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 					return map;
 				       

@@ -62,7 +62,7 @@ public class TransactionService
 			   oe.setEdition(transactionItem.getMagicCard().getCurrentSet());
 			   oe.setIdTransation(String.valueOf(t.getId()));
 			   oe.setItemPrice(UITools.roundDouble(transactionItem.getPrice()));
-			   oe.setTransactionDate(t.getDateProposition());
+			   oe.setTransactionDate(t.getDateCreation());
 			   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
 			   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
 			   oe.setType(TYPE_ITEM.CARD);

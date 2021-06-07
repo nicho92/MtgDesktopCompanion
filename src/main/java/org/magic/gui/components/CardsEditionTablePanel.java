@@ -122,7 +122,10 @@ public class CardsEditionTablePanel extends JPanel {
 					protected void notifyEnd() {
 						try {
 							model.removeItem(get());
-						} catch (Exception e) {
+						} catch(InterruptedException ex)
+						{
+							Thread.currentThread().interrupt();
+						}catch (Exception e) {
 							logger.error(e);
 						}
 					}
@@ -257,7 +260,10 @@ public class CardsEditionTablePanel extends JPanel {
 				super.done();
 				try {
 					model.init(get());
-				} catch (Exception e) {
+				} catch(InterruptedException ex)
+				{
+					Thread.currentThread().interrupt();
+				}catch (Exception e) {
 					logger.error(e);
 				}
 			}

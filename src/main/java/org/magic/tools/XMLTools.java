@@ -22,7 +22,7 @@ public class XMLTools {
 	{
 		try {
 			
-				DocumentBuilderFactory df= DocumentBuilderFactory.newInstance();
+			var df= DocumentBuilderFactory.newInstance();
 		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
 		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
 		    	df.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);

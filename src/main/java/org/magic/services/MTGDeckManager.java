@@ -66,7 +66,7 @@ public class MTGDeckManager extends Observable {
 		if(magicDeck.getMainAsList().size()<60)
 			return false;
 		
-		MagicFormat mf = new MagicFormat();
+		var mf = new MagicFormat();
 		mf.setFormat(MagicFormat.toString(format));
 		return magicDeck.isCompatibleFormat(mf);
 
@@ -89,7 +89,7 @@ public class MTGDeckManager extends Observable {
 	
 
 	public MagicDeck getDeck(String name) throws IOException {
-		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
+		var f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
 		return serialis.importDeckFromFile(f);
 	}
 	
@@ -108,7 +108,7 @@ public class MTGDeckManager extends Observable {
 		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase()))) 
 		{
 			try {
-				MagicDeck deck = serialis.importDeckFromFile(f);
+				var deck = serialis.importDeckFromFile(f);
 				decks.add(deck);
 				setChanged();
 				//notifyObservers(deck)
@@ -171,8 +171,8 @@ public class MTGDeckManager extends Observable {
 
 	public void remove(MagicDeck selectedDeck) throws IOException {
 		
-		String name = selectedDeck.getName();
-		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
+		var name = selectedDeck.getName();
+		var f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
 		FileTools.deleteFile(f);
 	}
 
@@ -242,21 +242,21 @@ public class MTGDeckManager extends Observable {
 		if(mc==null)
 			return  0;
 		
-		int drawedCards = 7;
+		var drawedCards = 7;
 
 		if (turn <= 0)
 			drawedCards = 7;
 		else
 			drawedCards = drawedCards + turn;
 		
-		int numberInDeck = 0;
+		var numberInDeck = 0;
 		try {
 			numberInDeck = deck.getMain().get(mc);
 		}catch(NullPointerException e)
 		{
 			logger.error(mc + " is not found in main deck");
 		}
-		int numberCardsInDeck = deck.getNbCards();
+		var numberCardsInDeck = deck.getNbCards();
 		try {
 			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
 		} catch (Exception e) {

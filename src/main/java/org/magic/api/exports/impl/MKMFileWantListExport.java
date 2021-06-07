@@ -16,12 +16,12 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
 
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(dname);
 		
 		matches(f,true).forEach(m->{
-			Integer qty = Integer.parseInt(m.group(1));
-			MagicCard mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
+			var qty = Integer.parseInt(m.group(1));
+			var mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 			if(mc!=null)
 			{
 				deck.getMain().put(mc, qty);
@@ -36,7 +36,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 
-			StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 			
 			for (MagicCard mc : deck.getMain().keySet()) {
 				if (mc.getCurrentSet().getMkmName() != null)

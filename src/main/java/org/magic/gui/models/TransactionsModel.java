@@ -44,7 +44,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 		switch (column) 
 		{
 			case 0 : return it;
-			case 1 : return it.getDateProposition();
+			case 1 : return it.getDateCreation();
 			case 2 : return it.getContact();
 			case 3 : return it.getItems().size();
 			case 4 : return it.total();

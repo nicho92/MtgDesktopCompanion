@@ -70,7 +70,10 @@ public class HelpCompononent extends MTGUIComponent {
 						
 						d.select("img").attr("width", String.valueOf(width));
 						pane.setText(d.html().replace("$USER_HOME", SystemUtils.USER_HOME));
-					} catch (Exception e) {
+					} catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
+					}catch (Exception e) {
 						logger.error("error loading help",e);
 						pane.setText(e.getLocalizedMessage());
 					} 

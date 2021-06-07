@@ -6,9 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.magic.api.beans.MagicCard;
@@ -18,7 +16,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
 import org.magic.tools.XMLTools;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -32,7 +29,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	}
 
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");
 		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
@@ -62,19 +59,19 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
-		MagicDeck deck = new MagicDeck();
+		var deck = new MagicDeck();
 		deck.setName(dname);
 
-		try (StringReader sr = new StringReader(f)){
-			Document d = XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(sr));
-			XPath xpath = XPathFactory.newInstance().newXPath();
-			XPathExpression expr = xpath.compile("//section[@name='Main']/card");
-			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
+		try (var sr = new StringReader(f)){
+			var d = XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(sr));
+			var xpath = XPathFactory.newInstance().newXPath();
+			var expr = xpath.compile("//section[@name='Main']/card");
+			var result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
 			for (var i = 0; i < result.getLength(); i++) {
-				Node it = result.item(i);
-				String name = it.getTextContent();
-				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
+				var it = result.item(i);
+				var name = it.getTextContent();
+				var qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+				var mc = getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
 				deck.getMain().put(mc, Integer.parseInt(qte));
@@ -84,10 +81,10 @@ public class OCTGNDeckExport extends AbstractCardExport {
 			expr = xpath.compile("//section[@name='Sideboard']/card");
 			result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
 			for (var i = 0; i < result.getLength(); i++) {
-				Node it = result.item(i);
-				String name = it.getTextContent();
-				String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
+				var it = result.item(i);
+				var name = it.getTextContent();
+				var qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+				var mc = getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName( name, null, true).get(0);
 
 				deck.getSideBoard().put(mc, Integer.parseInt(qte));

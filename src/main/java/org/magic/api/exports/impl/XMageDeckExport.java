@@ -29,7 +29,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		temp.append("NAME: " + deck.getName() + "\n");
 	
 		
@@ -59,12 +59,12 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
-			MagicDeck deck = new MagicDeck();
+			var deck = new MagicDeck();
 			deck.setName(dname);
 
 			matches(f,true).forEach(m->{
 			
-				String cname = cleanName(m.group(5));
+				var cname = cleanName(m.group(5));
 				MagicEdition ed = null;
 				try {			   
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(3));
@@ -115,7 +115,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				
 				if(deck.getSideAsList().size()==1 && deck.getMainAsList().size()>=99)
 				{
-					MagicCard card = deck.getSideAsList().get(0);
+					var card = deck.getSideAsList().get(0);
 					deck.getMain().put(card, 1);
 					deck.setCommander(card);
 					deck.getSideBoard().clear();

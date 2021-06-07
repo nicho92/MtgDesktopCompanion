@@ -38,10 +38,10 @@ public class WebDAVServer extends AbstractMTGServer {
 		pas = getString(PASS);
 		
 		
-		ServletContextHandler ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		var ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		ctx.setContextPath("/");
 		
-		ServletHandler handler = new ServletHandler();
+		var handler = new ServletHandler();
 		
 		ctx.addServlet(new ServletHolder("default", new MiltonServlet()),"/");
 		

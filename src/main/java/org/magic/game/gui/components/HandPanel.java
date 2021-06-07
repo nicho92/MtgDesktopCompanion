@@ -100,7 +100,7 @@ public class HandPanel extends DraggablePanel {
 			@Override
 			protected void process(List<MagicCard> cards) {
 				for(MagicCard mc : cards) {
-						DisplayableCard lab = new DisplayableCard(mc, d, activateCards, rightClick);
+					var lab = new DisplayableCard(mc, d, activateCards, rightClick);
 						lab.setTappable(activateCards);
 						addComponent(lab);
 				}

@@ -81,7 +81,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			add(panelDraw, BorderLayout.CENTER);
 		}
 		
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
 		if(!view)
 		{

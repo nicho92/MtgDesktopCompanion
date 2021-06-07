@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;

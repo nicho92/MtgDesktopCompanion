@@ -43,7 +43,7 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 	
 	@Override
 	protected Void doInBackground() throws Exception {
-		MagicWebSiteGenerator gen = new MagicWebSiteGenerator(templateName, dest.getAbsolutePath());
+		var gen = new MagicWebSiteGenerator(templateName, dest.getAbsolutePath());
 		gen.addObserver(o);
 		gen.generate(cols,pricers );
 
@@ -63,6 +63,10 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 		try {
 			get();
 		}
+		catch(InterruptedException ex)
+		{
+			Thread.currentThread().interrupt();
+		}
 		catch(Exception e)
 		{
 			logger.error("error generating website",e);
@@ -75,7 +79,7 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 		int res = JOptionPane.showConfirmDialog(null,capitalize("WEBSITE_CONFIRMATION_VIEW"));
 
 		if (res == JOptionPane.YES_OPTION) {
-			Path p = Paths.get(dest.getAbsolutePath());
+			var p = Paths.get(dest.getAbsolutePath());
 			UITools.browse(p.toUri().toASCIIString());
 			
 		}

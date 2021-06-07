@@ -339,7 +339,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
 					running=false;
 					get();
-				} catch (Exception e) {
+				} catch(InterruptedException ex)
+				{
+					Thread.currentThread().interrupt();
+				}catch (Exception e) {
 					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
 				} 
 				

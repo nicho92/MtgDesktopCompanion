@@ -75,7 +75,7 @@ public class SealedPack implements Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		for (Entry<MagicEdition, Integer> e : pack.entrySet())
 			temp.append(e.getKey()).append("(").append(e.getValue()).append(")");
 

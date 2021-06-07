@@ -27,7 +27,7 @@ public class SearchActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("search in " + pos);
-		SearchCardFrame f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(), pos);
+		var f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(), pos);
 		f.setVisible(true);
 
 	}

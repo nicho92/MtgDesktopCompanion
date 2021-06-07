@@ -36,7 +36,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	
 	public void addItem(MagicCard mc, Integer qty, boolean has, List<MagicCardStock> stocks)
 	{
-		Line l = new Line(mc, qty, has, stocks);
+		var l = new Line(mc, qty, has, stocks);
 		l.setResult(calculate(l));
 		
 		addItem(l);
@@ -71,7 +71,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		}
 		else if (!line.getStocks().isEmpty())
 		{
-			int count =0;
+			var count =0;
 			for(MagicCardStock st : line.getStocks())
 				count +=st.getQte();
 			

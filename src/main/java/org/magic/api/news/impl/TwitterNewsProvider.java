@@ -12,7 +12,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.Version;
@@ -35,8 +34,8 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 
-		Twitter twitter = tf.getInstance();
-		Query query = new Query(n.getName());
+		var twitter = tf.getInstance();
+		var query = new Query(n.getName());
 		query.setCount(getInt("MAX_RESULT"));
 
 		List<MagicNewsContent> ret = new ArrayList<>();
@@ -47,7 +46,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 			for (Status status : result.getTweets()) {
 
 				if (!status.isRetweet()) {
-					MagicNewsContent content = new MagicNewsContent();
+					var content = new MagicNewsContent();
 					content.setAuthor(status.getUser().getScreenName());
 					content.setDate(status.getCreatedAt());
 					content.setContent(status.getText());

@@ -31,9 +31,9 @@ public class MTGArenaTools {
 	
 	public String getAccount()
 	{
-			String token = "Successfully logged in to account:";
+		var token = "Successfully logged in to account:";
 			
-			String content= contentFile.substring(contentFile.indexOf(token)+token.length());
+		var content= contentFile.substring(contentFile.indexOf(token)+token.length());
 			content = content.substring(0,contentFile.indexOf(System.lineSeparator()));
 			
 			return content.trim();
@@ -43,7 +43,7 @@ public class MTGArenaTools {
 	private JsonObject readForToken(String token) throws IOException
 	{
 		try {
-			String json =contentFile.substring(token.length()+contentFile.lastIndexOf(token));
+			var json =contentFile.substring(token.length()+contentFile.lastIndexOf(token));
 			json = json.substring(0,json.indexOf(System.lineSeparator())).trim();
 			return URLTools.toJson(json).getAsJsonObject();
 		} catch (Exception e) {

@@ -40,8 +40,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 								   .addContent("client_secret", getString("CLIENT_SECRET"))
 								   .toJson().getAsJsonObject().get("access_token").getAsString();
 		    
-		    int offset = 0;
-		    JsonObject ret= readOffset(offset,search);
+		    var offset = 0;
+		    var ret= readOffset(offset,search);
 				    while(ret.get("has_more").getAsBoolean()) 
 				    {
 				    	logger.trace(ret);
@@ -49,7 +49,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    	
 					    	logger.trace(el);
 					    	try {
-					    		Wallpaper p = new Wallpaper();
+					    		var p = new Wallpaper();
 					    		p.setFormat("png");
 					    		p.setName(el.getAsJsonObject().get("title").getAsString());
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));

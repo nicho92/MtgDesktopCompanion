@@ -659,7 +659,7 @@ public class MagicCard implements Serializable {
 	}
 
 	public String getFullType() {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		if (!getSupertypes().isEmpty())
 			for (String s : getSupertypes())
 				temp.append(s).append(" ");
@@ -733,8 +733,8 @@ public class MagicCard implements Serializable {
 	public MagicCard toForeign(MagicCardNames fn)
 	{	
 		try {
-			MagicCard mc2 = new MagicCard();
-			MagicEdition ed = new MagicEdition();
+			var mc2 = new MagicCard();
+			var ed = new MagicEdition();
 			
 			BeanUtils.copyProperties(mc2,this);
 			BeanUtils.copyProperties(ed,this.getCurrentSet());

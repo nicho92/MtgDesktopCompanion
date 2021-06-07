@@ -59,7 +59,7 @@ public class TriggeredAbilities extends AbstractAbilities {
 	
 	@Override
 	public String toString() {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		build.append("\nTRIGGER:\n").append(key).append(":\n\t").append(event).append("\n\tDO :");
 		getEffects().forEach(e->build.append("\n\t").append(e));
 		build.append("\nEND");

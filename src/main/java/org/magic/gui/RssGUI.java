@@ -23,7 +23,6 @@ import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicNews;

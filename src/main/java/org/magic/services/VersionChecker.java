@@ -2,7 +2,6 @@ package org.magic.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
@@ -16,10 +15,10 @@ public class VersionChecker {
 
 	
 	public String getVersion() {
-		InputStream input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
-		try (BufferedReader read = new BufferedReader(new InputStreamReader(input)))
+		var input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
+		try (var read = new BufferedReader(new InputStreamReader(input)))
 		{
-			String version = read.readLine();
+			var version = read.readLine();
 
 			if (version.startsWith("${"))
 				return "0.0";
@@ -35,7 +34,7 @@ public class VersionChecker {
 	public VersionChecker() {
 		actualVersion = getVersion();
 		
-		boolean updatePRL =Boolean.parseBoolean(MTGControler.getInstance().get("notifyPrerelease","false"));
+		var updatePRL =Boolean.parseBoolean(MTGControler.getInstance().get("notifyPrerelease","false"));
 		
 		
 		try {
@@ -52,7 +51,7 @@ public class VersionChecker {
 	public boolean hasNewVersion() {
 		
 		try {
-			boolean res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
+			var res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
 			logger.info("check update:" + actualVersion + " found:" + onlineVersion);
 			
 			return res;

@@ -85,43 +85,43 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	
 	@Override
 	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, boolean foil) throws IOException {
-		HistoryPrice<MagicCard> var = getOnlinePricesVariation(mc, foil);
+		HistoryPrice<MagicCard> varh = getOnlinePricesVariation(mc, foil);
 		
-		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
-			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
-			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+			varh.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(varh.getCurrency(), e.getValue())));
+			varh.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				
 		}
-		return var;
+		return varh;
 	}
 	
 	
 	@Override
 	public HistoryPrice<MagicEdition> getPriceVariation(MagicEdition ed) throws IOException {
-		HistoryPrice<MagicEdition> var = getOnlinePricesVariation(ed);
+		HistoryPrice<MagicEdition> varh = getOnlinePricesVariation(ed);
 		
-		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
-			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
-			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+			varh.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(varh.getCurrency(), e.getValue())));
+			varh.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				
 		}
-		return var;
+		return varh;
 	}
 	
 	
 	@Override
 	public HistoryPrice<Packaging> getPriceVariation(Packaging packaging) throws IOException {
-		HistoryPrice<Packaging> var = getOnlinePricesVariation(packaging);
+		HistoryPrice<Packaging> varh = getOnlinePricesVariation(packaging);
 		
-		if(MTGControler.getInstance().getCurrencyService().isEnable() && var.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
+		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
-			var.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(var.getCurrency(), e.getValue())));
-			var.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+			varh.entrySet().forEach(e->e.setValue(MTGControler.getInstance().getCurrencyService().convertTo(varh.getCurrency(), e.getValue())));
+			varh.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				
 		}
-		return var;
+		return varh;
 	}
 
 	@Override

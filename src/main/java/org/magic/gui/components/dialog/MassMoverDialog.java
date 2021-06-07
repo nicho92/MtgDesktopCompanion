@@ -62,7 +62,7 @@ public class MassMoverDialog extends JDialog {
 		this.toSaveCol = col;
 		this.toSaveEd = ed;
 
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
 		btnMove = new JButton(capitalize("MOVE_TO"));

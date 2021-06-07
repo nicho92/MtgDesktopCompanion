@@ -225,9 +225,9 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty(SERVER_PORT, "80");
 		setProperty(SERVER_SSL_PORT, "443");
-		setProperty(AUTOSTART, "false");
-		setProperty(ALLOW_LIST_DIR, "false");
-		setProperty(SSL_ENABLED, "false");
+		setProperty(AUTOSTART, FALSE);
+		setProperty(ALLOW_LIST_DIR, FALSE);
+		setProperty(SSL_ENABLED, FALSE);
 		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		setProperty(KEYSTORE_PASS, "changeit");
 		try {

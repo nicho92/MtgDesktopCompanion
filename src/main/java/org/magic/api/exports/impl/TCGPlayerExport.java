@@ -20,7 +20,7 @@ import org.magic.tools.UITools;
 public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
 	
-	private final String columns="Quantity,Name,Simple Name,Set,Card Number,Set Code,External ID,Printing,Condition,Language,Rarity,Product ID,SKU,Price,Price Each";
+	private static final String columns="Quantity,Name,Simple Name,Set,Card Number,Set Code,External ID,Printing,Condition,Language,Rarity,Product ID,SKU,Price,Price Each";
 	
 	
 	@Override
@@ -35,7 +35,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		MagicDeck d = new MagicDeck();
+		var d = new MagicDeck();
 		d.setName(name);
 		d.setDescription("import from " + getName());
 		
@@ -48,7 +48,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
 	
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 		temp.append(columns).append(System.lineSeparator());
 		
@@ -91,7 +91,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	
 
 	private String toFullName(MagicCard magicCard) {
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		
 			if(magicCard.getName().contains(","))
 				temp.append("\"").append(magicCard.getName()).append("\"");
@@ -113,17 +113,17 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		
 		List<MagicCardStock> ret = new ArrayList<>();
 		matches(content, true).forEach(m->{
-			MagicCardStock st = new MagicCardStock();
+			var st = new MagicCardStock();
 			st.setQte(Integer.parseInt(m.group(1)));
 			st.setLanguage(m.group(10));
 			st.getTiersAppIds().put(getName(), m.group(12));
 			st.setPrice(UITools.parseDouble(m.group(14)));
 			st.setFoil(m.group(8).equalsIgnoreCase("foil"));
 			st.setCondition(translate(m.group(9)));
-			boolean found = false;
+			var found = false;
 			
 			try {
-				MagicCard mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)));
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)));
 				st.setMagicCard(mc);
 				found = true;
 			} catch (Exception e) {
@@ -134,7 +134,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			if(!found)
 			{
 				try {
-					MagicCard mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)),true).get(0);
+					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)),true).get(0);
 					st.setMagicCard(mc);
 					found = true;
 				} catch (Exception e) {

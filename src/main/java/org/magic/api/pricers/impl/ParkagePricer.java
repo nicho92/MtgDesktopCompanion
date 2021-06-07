@@ -30,7 +30,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 			try {
 				if(!tr.select("select").hasAttr("disabled"))
 				{
-					MagicPrice mp = new MagicPrice();
+					var mp = new MagicPrice();
 							mp.setCountry("FR");
 							mp.setMagicCard(card);
 							mp.setCurrency("EUR");
@@ -38,12 +38,12 @@ public class ParkagePricer extends AbstractPricesProvider {
 							mp.setUrl(tr.select("td").first().select("a").attr("href"));
 							mp.setSeller(tr.select("td").get(2).text());
 					
-					String urlFlag =tr.select("td").first().select("img").attr("src");
-					mp.setLanguage(urlFlag.substring(urlFlag.lastIndexOf('/')+1,urlFlag.lastIndexOf('.')));
+							var urlFlag =tr.select("td").first().select("img").attr("src");
+							mp.setLanguage(urlFlag.substring(urlFlag.lastIndexOf('/')+1,urlFlag.lastIndexOf('.')));
 					
-					String price = tr.select("td.col-price").text().replace(',', '.').replace("€","");
-					mp.setValue(Double.parseDouble(price));
-					mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
+							var price = tr.select("td.col-price").text().replace(',', '.').replace("€","");
+							mp.setValue(Double.parseDouble(price));
+							mp.setFoil(!tr.select("td").first().select("i.fa-star").isEmpty());
 					
 					ret.add(mp);
 				}

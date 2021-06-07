@@ -68,10 +68,10 @@ public class PluginRegistry {
 		Method[] mths = classe.getMethods();
 		for(Method m : mths)
 		{
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 			sb.append(m.getName()).append('(');
             Class<?>[] params = m.getParameterTypes();
-            for (int j = 0; j < params.length; j++) {
+            for (var j = 0; j < params.length; j++) {
                 sb.append(params[j].getSimpleName());
                 if (j < (params.length - 1))
                     sb.append(',');
@@ -181,7 +181,7 @@ public class PluginRegistry {
 		
 		logger.debug("loading " + classe.getSimpleName());
 		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) {
-			String s = config.getString(entry.getXpath()+"[" + i + "]/class");
+			var s = config.getString(entry.getXpath()+"[" + i + "]/class");
 			T prov = null;
 			try{
 				prov = newInstance(s);
@@ -225,7 +225,7 @@ public class PluginRegistry {
 	
 	public List<Class> getClasses(String packageName) {
 		ArrayList<Class> classes = new ArrayList<>();
-		Reflections classReflections = new Reflections(packageName);
+		var classReflections = new Reflections(packageName);
 		for (Class<? extends MTGPlugin> c : classReflections.getSubTypesOf(MTGPlugin.class)) {
 			if (!c.isInterface() && !Modifier.isAbstract(c.getModifiers()))
 				classes.add(c);
@@ -247,7 +247,7 @@ public class PluginRegistry {
 	private List<Class> extractMissing(String packages, String k) {
 
 		List<Class> retour = new ArrayList<>();
-		for (Class c : getClasses(packages)) {
+		for (var c : getClasses(packages)) {
 			if (!c.isAnonymousClass() && !c.getName().contains("$")) {
 				String path = k + "[class='" + c.getName() + "']/class";
 				String s = MTGControler.getInstance().get(path);

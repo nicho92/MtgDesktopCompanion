@@ -27,9 +27,9 @@ public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
 	@Override
 	public JFreeChart initChart() {
 		
-		JFreeChart chart = ChartFactory.createPieChart3D("Type repartition", getDataSet(), false,true, true);
+		var chart = ChartFactory.createPieChart3D("Type repartition", getDataSet(), false,true, true);
 	
-		PiePlot plot = (PiePlot) chart.getPlot();
+		var plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("B", Color.BLACK);
 		plot.setSectionPaint("W", Color.WHITE);
 		plot.setSectionPaint("U", Color.BLUE);
@@ -47,7 +47,7 @@ public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
 
 
 	private PieDataset getDataSet() {
-		DefaultPieDataset dataset = new DefaultPieDataset();
+		var dataset = new DefaultPieDataset();
 		for (Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {
 			dataset.setValue(entry.getKey(), entry.getValue());
 		}

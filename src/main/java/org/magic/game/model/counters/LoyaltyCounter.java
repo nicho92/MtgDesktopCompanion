@@ -29,7 +29,7 @@ public class LoyaltyCounter extends AbstractCounter {
 	@Override
 	public void apply(DisplayableCard displayableCard) {
 
-		int loy = 0;
+		var loy = 0;
 		try {
 			loy = displayableCard.getMagicCard().getLoyalty();
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class LoyaltyCounter extends AbstractCounter {
 
 	@Override
 	public void remove(DisplayableCard displayableCard) {
-		int loy = 0;
+		var loy = 0;
 		try {
 			loy = displayableCard.getMagicCard().getLoyalty();
 		} catch (Exception e) {

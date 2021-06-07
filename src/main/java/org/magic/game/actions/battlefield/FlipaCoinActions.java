@@ -25,7 +25,7 @@ public class FlipaCoinActions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		boolean b = new SecureRandom().nextBoolean();
+		var b = new SecureRandom().nextBoolean();
 		if (b)
 			GamePanelGUI.getInstance().getPlayer().logAction("Flip a coin : Tails");
 		else

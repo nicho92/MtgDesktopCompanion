@@ -59,7 +59,7 @@ public class RequestBuilder
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		var builder = new StringBuilder();
 		
 		builder.append(method).append(" ").append(url).append("\n");
 		

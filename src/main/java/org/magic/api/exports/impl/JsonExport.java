@@ -62,7 +62,7 @@ public class JsonExport extends AbstractCardExport {
 	}
 	
 
-	public <U,V> Map<U,V> fromJsonCollection(String json, Class<U> class1,Class<V> class2) {
+	public <U,V> Map<U,V> fromJsonCollection(String json) {
 		return gson.fromJson(json, new TypeToken<Map<U, V>>() 
 		{
 			private static final long serialVersionUID = 1L;

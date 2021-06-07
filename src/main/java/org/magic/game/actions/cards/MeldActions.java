@@ -70,9 +70,9 @@ public class MeldActions extends AbstractAction {
 		try {
 			mc = card.getMagicCard().getRotatedCard();
 
-			Dimension d = new Dimension((int) (MTGControler.getInstance().getCardsGameDimension().getWidth() * 1.5),
+			var d = new Dimension((int) (MTGControler.getInstance().getCardsGameDimension().getWidth() * 1.5),
 					(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 1.5));
-			DisplayableCard c = new DisplayableCard(mc, d, true);
+			var c = new DisplayableCard(mc, d, true);
 			c.initActions();
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(c);
 		} catch (Exception e1) {

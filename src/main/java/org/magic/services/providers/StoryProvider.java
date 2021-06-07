@@ -15,9 +15,6 @@ import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-
 public class StoryProvider {
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -37,24 +34,24 @@ public class StoryProvider {
 	}
 
 	public List<MTGStory> next() throws IOException {
-		String url = baseURI + "/" + local.getLanguage() + "/section-articles-see-more-ajax?l=" + "en"+ "&sort=DESC&f=13961&offset=" + (offset++);
+		var url = baseURI + "/" + local.getLanguage() + "/section-articles-see-more-ajax?l=" + "en"+ "&sort=DESC&f=13961&offset=" + (offset++);
 		List<MTGStory> list = new ArrayList<>();
-		JsonElement el = URLTools.extractJson(url);
-		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
+		var el = URLTools.extractJson(url);
+		var arr = el.getAsJsonObject().get("data").getAsJsonArray();
 
 		for (var i = 0; i < arr.size(); i++) {
-			JsonElement e = arr.get(i);
-			String finale = StringEscapeUtils.unescapeJava(e.toString());
+			var e = arr.get(i);
+			var finale = StringEscapeUtils.unescapeJava(e.toString());
 			Document d = Jsoup.parse(finale);
 			
-				MTGStory story = new MTGStory();
+			var story = new MTGStory();
 				story.setTitle(d.select("div.title h3").html());
 				story.setAuthor(StringEscapeUtils.unescapeHtml3(d.select("span.author").html()));
 				story.setDescription(StringEscapeUtils.unescapeHtml3(d.select("div.description").html()));
 				story.setUrl(new URL(baseURI + d.select("a").first().attr("href")));
 				story.setDate(d.select("span.date").text());
 			try {
-				String bgImage = d.select("div.image").attr("style");
+				var bgImage = d.select("div.image").attr("style");
 				story.setIcon(loadPics(new URL(bgImage.substring(bgImage.indexOf("url(") + 5, bgImage.indexOf("');")))));
 				
 			} catch (Exception e2) {

@@ -17,7 +17,7 @@ import com.google.gson.JsonElement;
 public class TCGPlayerAPITest extends AbstractPricesProvider {
 
 	public static void main(String[] args) throws IOException {
-		MagicCard mc = new MagicCard();
+		var mc = new MagicCard();
 		mc.setTcgPlayerId(179466);
 		new TCGPlayerAPITest().getLocalePrice(mc);
 	}
@@ -37,18 +37,18 @@ public class TCGPlayerAPITest extends AbstractPricesProvider {
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
-			RequestBuilder build = RequestBuilder.build()
+		var build = RequestBuilder.build()
 							  .setClient(URLTools.newClient())
 							  .url("https://api.tcgplayer.com/token")
 							  .method(METHOD.POST)
 							  .addContent("grant_type","client_credentials")
 							  .addContent("client_id",getString("CLIENT_ID"))
 							  .addContent("client_secret",getString("CLIENT_SECRET"));
-			String bearer = build.toJson().getAsJsonObject().get("access_token").getAsString();
+		var bearer = build.toJson().getAsJsonObject().get("access_token").getAsString();
 
 
 			
-			JsonElement ret = build.clean()
+		var ret = build.clean()
 								   .url("http://api.tcgplayer.com/v1.20.0/pricing/product/"+card.getTcgPlayerId())
 								   .method(METHOD.GET)
 								   .addHeader("Authorization", "bearer "+bearer).toJson();
@@ -58,7 +58,7 @@ public class TCGPlayerAPITest extends AbstractPricesProvider {
 		ret.getAsJsonObject().get("results").getAsJsonArray().forEach(el->{
 			
 			if(!el.getAsJsonObject().get("marketPrice").isJsonNull()) {
-				MagicPrice p = new MagicPrice();
+				var p = new MagicPrice();
 					   p.setCountry("USA");
 					   p.setCurrency("USD");
 					   p.setSite(getName());

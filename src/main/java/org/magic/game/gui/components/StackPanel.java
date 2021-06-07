@@ -62,7 +62,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 			});
 			
 			lblCounter = new JLabel(String.valueOf(startTime));
-			JPanel panelChrono = new JPanel();
+			var panelChrono = new JPanel();
 		
 			add(panelChrono, BorderLayout.NORTH);
 			panelChrono.add(lblCounter);

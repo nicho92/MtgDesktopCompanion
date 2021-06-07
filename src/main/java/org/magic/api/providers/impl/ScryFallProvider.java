@@ -75,7 +75,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		{
 			try {
 				InstallCert.installCert("scryfall.com");
-				setProperty(LOAD_CERTIFICATE, "false");
+				setProperty(LOAD_CERTIFICATE, FALSE);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -95,8 +95,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public void initDefault() {
 		setProperty(LOAD_CERTIFICATE, "true");
 		setProperty("URL", "https://api.scryfall.com");
-		setProperty("MULTILANG","false");
-		setProperty("LOAD_RULING","false");
+		setProperty("MULTILANG",FALSE);
+		setProperty("LOAD_RULING",FALSE);
 	}
 	
 	@Override

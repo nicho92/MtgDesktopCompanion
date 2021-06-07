@@ -114,7 +114,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 			logger.info(getName() + " looking for " + card + " " + card.getCurrentSet());
 
 			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==MTGRarity.COMMON) {
-					MagicPrice mp = new MagicPrice();
+				var mp = new MagicPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency("EUR");
 					mp.setValue(0.01);
@@ -124,7 +124,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 					return lists;
 				}
 
-			ProductServices pService = new ProductServices();
+			var pService = new ProductServices();
 			EnumMap<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 			atts.put(PRODUCT_ATTS.idGame, "1");
 			
@@ -136,11 +136,11 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 				atts.put(PRODUCT_ATTS.idLanguage, getString(LANGUAGE_ID));
 
 			if (!getBoolean("USER_ARTICLE")) {
-				Product p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
+				var p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
 
 				if (p != null) {
 					p = pService.getProductById(p.getIdProduct());
-					MagicPrice mp = new MagicPrice();
+					var mp = new MagicPrice();
 					mp.setSeller(String.valueOf(p.getExpansionName()));
 					mp.setValue(p.getPriceGuide().getLOW());
 					mp.setQuality("");
@@ -156,13 +156,13 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 			} 
 			else {
 				List<Product> list = pService.findProduct(card.getName(), atts);
-				Product resultat = getProductFromCard(card, list);
+				var resultat = getProductFromCard(card, list);
 				if (resultat == null) {
 					logger.info(getName() + " found no product for " + card);
 					return lists;
 				}
 
-				ArticleService aServ = new ArticleService();
+				var aServ = new ArticleService();
 				EnumMap<ARTICLES_ATT, String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 				aatts.put(ARTICLES_ATT.start, "0");
 				aatts.put(ARTICLES_ATT.maxResults, getString("MAX"));
@@ -179,7 +179,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 
 				for (Article a : articles) 
 				{
-					MagicPrice mp = new MagicPrice();
+					var mp = new MagicPrice();
 							mp.setSeller(String.valueOf(a.getSeller()));
 							mp.setSellerUrl(MkmConstants.MKM_SITE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
 							
@@ -219,7 +219,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 	
 		ThreadManager.getInstance().executeThread(() -> {
 			if (!p.isEmpty() && getBoolean("AUTOMATIC_ADD_CARD_ALERT")) {
-				CartServices cart = new CartServices();
+				var cart = new CartServices();
 				try {
 					List<Article> list = new ArrayList<>();
 

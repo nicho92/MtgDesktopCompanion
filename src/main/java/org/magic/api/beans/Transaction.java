@@ -177,9 +177,6 @@ public class Transaction implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDateProposition() {
-		return dateCreation;
-	}
 	public void setDateProposition(Date dateProposition) {
 		this.dateCreation = dateProposition;
 	}

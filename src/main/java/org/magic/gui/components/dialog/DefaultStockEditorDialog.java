@@ -61,82 +61,82 @@ public class DefaultStockEditorDialog extends JDialog {
 		mcontentPane = new JPanel();
 		setContentPane(mcontentPane);
 		//
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 109, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		mcontentPane.setLayout(gridBagLayout);
 
-		JLabel alteredLabel = new JLabel("Altered:");
-		GridBagConstraints labelGbc0 = new GridBagConstraints();
+		var alteredLabel = new JLabel("Altered:");
+		var labelGbc0 = new GridBagConstraints();
 		labelGbc0.insets = new Insets(5, 5, 5, 5);
 		labelGbc0.gridx = 0;
 		labelGbc0.gridy = 0;
 		mcontentPane.add(alteredLabel, labelGbc0);
 
 		alteredJCheckBox = new JCheckBox();
-		GridBagConstraints componentGbc0 = new GridBagConstraints();
+		var componentGbc0 = new GridBagConstraints();
 		componentGbc0.insets = new Insets(5, 0, 5, 5);
 		componentGbc0.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc0.gridx = 1;
 		componentGbc0.gridy = 0;
 		mcontentPane.add(alteredJCheckBox, componentGbc0);
 		
-				JLabel signedLabel = new JLabel("Signed:");
-				GridBagConstraints labelGbc5 = new GridBagConstraints();
+		var signedLabel = new JLabel("Signed:");
+				var labelGbc5 = new GridBagConstraints();
 				labelGbc5.insets = new Insets(5, 5, 5, 5);
 				labelGbc5.gridx = 2;
 				labelGbc5.gridy = 0;
 				mcontentPane.add(signedLabel, labelGbc5);
 		
 				signedJCheckBox = new JCheckBox();
-				GridBagConstraints componentGbc5 = new GridBagConstraints();
+				var componentGbc5 = new GridBagConstraints();
 				componentGbc5.insets = new Insets(5, 0, 5, 0);
 				componentGbc5.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc5.gridx = 3;
 				componentGbc5.gridy = 0;
 				mcontentPane.add(signedJCheckBox, componentGbc5);
 
-		JLabel foilLabel = new JLabel("Foil:");
-		GridBagConstraints labelGbc1 = new GridBagConstraints();
+				var foilLabel = new JLabel("Foil:");
+				var labelGbc1 = new GridBagConstraints();
 		labelGbc1.insets = new Insets(5, 5, 5, 5);
 		labelGbc1.gridx = 0;
 		labelGbc1.gridy = 1;
 		mcontentPane.add(foilLabel, labelGbc1);
 
 		foilJCheckBox = new JCheckBox();
-		GridBagConstraints componentGbc1 = new GridBagConstraints();
+		var componentGbc1 = new GridBagConstraints();
 		componentGbc1.insets = new Insets(5, 0, 5, 5);
 		componentGbc1.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc1.gridx = 1;
 		componentGbc1.gridy = 1;
 		mcontentPane.add(foilJCheckBox, componentGbc1);
 		
-				JLabel oversizeLabel = new JLabel("Oversize:");
-				GridBagConstraints labelGbc3 = new GridBagConstraints();
+		var oversizeLabel = new JLabel("Oversize:");
+				var labelGbc3 = new GridBagConstraints();
 				labelGbc3.insets = new Insets(5, 5, 5, 5);
 				labelGbc3.gridx = 2;
 				labelGbc3.gridy = 1;
 				mcontentPane.add(oversizeLabel, labelGbc3);
 		
 				oversizeJCheckBox = new JCheckBox();
-				GridBagConstraints componentGbc3 = new GridBagConstraints();
+				var componentGbc3 = new GridBagConstraints();
 				componentGbc3.insets = new Insets(5, 0, 5, 0);
 				componentGbc3.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc3.gridx = 3;
 				componentGbc3.gridy = 1;
 				mcontentPane.add(oversizeJCheckBox, componentGbc3);
 				
-						JLabel qteLabel = new JLabel("Qte:");
-						GridBagConstraints labelGbc4 = new GridBagConstraints();
+				var qteLabel = new JLabel("Qte:");
+						var labelGbc4 = new GridBagConstraints();
 						labelGbc4.insets = new Insets(5, 5, 5, 5);
 						labelGbc4.gridx = 0;
 						labelGbc4.gridy = 2;
 						mcontentPane.add(qteLabel, labelGbc4);
 				
 				panel1 = new JPanel();
-				GridBagConstraints gbcpanel1 = new GridBagConstraints();
+				var gbcpanel1 = new GridBagConstraints();
 				gbcpanel1.gridwidth = 3;
 				gbcpanel1.insets = new Insets(0, 0, 5, 0);
 				gbcpanel1.fill = GridBagConstraints.BOTH;
@@ -154,15 +154,15 @@ public class DefaultStockEditorDialog extends JDialog {
 						
 						panel1.add(lblQtyValue);
 		
-				JLabel languageLabel = new JLabel("Language:");
-				GridBagConstraints labelGbc2 = new GridBagConstraints();
+						var languageLabel = new JLabel("Language:");
+				var labelGbc2 = new GridBagConstraints();
 				labelGbc2.insets = new Insets(5, 5, 5, 5);
 				labelGbc2.gridx = 0;
 				labelGbc2.gridy = 3;
 				mcontentPane.add(languageLabel, labelGbc2);
 				
 						languageJTextField = new JTextField();
-						GridBagConstraints componentGbc2 = new GridBagConstraints();
+						var componentGbc2 = new GridBagConstraints();
 						componentGbc2.gridwidth = 3;
 						componentGbc2.insets = new Insets(5, 0, 5, 0);
 						componentGbc2.fill = GridBagConstraints.HORIZONTAL;
@@ -171,7 +171,7 @@ public class DefaultStockEditorDialog extends JDialog {
 						mcontentPane.add(languageJTextField, componentGbc2);
 						
 						lblCondition = new JLabel("Condition :");
-						GridBagConstraints gbclblCondition = new GridBagConstraints();
+						var gbclblCondition = new GridBagConstraints();
 						gbclblCondition.anchor = GridBagConstraints.EAST;
 						gbclblCondition.fill = GridBagConstraints.VERTICAL;
 						gbclblCondition.insets = new Insets(0, 0, 5, 5);
@@ -190,7 +190,7 @@ public class DefaultStockEditorDialog extends JDialog {
 									
 						});
 						
-						GridBagConstraints gbccboConditions = new GridBagConstraints();
+						var gbccboConditions = new GridBagConstraints();
 						gbccboConditions.gridwidth = 3;
 						gbccboConditions.insets = new Insets(0, 0, 5, 5);
 						gbccboConditions.fill = GridBagConstraints.HORIZONTAL;
@@ -199,7 +199,7 @@ public class DefaultStockEditorDialog extends JDialog {
 						mcontentPane.add(cboConditions, gbccboConditions);
 						
 						panel = new JPanel();
-						GridBagConstraints gbcpanel = new GridBagConstraints();
+						var gbcpanel = new GridBagConstraints();
 						gbcpanel.gridwidth = 4;
 						gbcpanel.fill = GridBagConstraints.BOTH;
 						gbcpanel.gridx = 0;
@@ -271,7 +271,7 @@ public class DefaultStockEditorDialog extends JDialog {
 						signedJCheckBox, selectedProperty3);
 		autoBinding5.bind();
 		//
-		BindingGroup bindingGroup = new BindingGroup();
+		var bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding1);
 		bindingGroup.addBinding(autoBinding2);

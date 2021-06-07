@@ -55,15 +55,15 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		setTitle(capitalize("MANUAL_IMPORT"));
 		setIconImage(MTGConstants.ICON_TAB_IMPORT.getImage());
 		setModal(true);
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		tagsPanel = new JTagsPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		JButton btnImport = new JButton(MTGConstants.ICON_SAVE);
+		var btnImport = new JButton(MTGConstants.ICON_SAVE);
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		panel.add(btnImport);
 
-		JButton btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(e -> {
 			editorPane.setText("");
@@ -74,11 +74,11 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
 
-		JLabel lblPastYourDeck = new JLabel(capitalize("IMPORT_HELP"));
+		var lblPastYourDeck = new JLabel(capitalize("IMPORT_HELP"));
 		
 		getContentPane().add(lblPastYourDeck, BorderLayout.NORTH);
 		
-		JPanel panelCenter = new JPanel();
+		var panelCenter = new JPanel();
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
 		panelCenter.setLayout(new BorderLayout(0, 0));
 		editorPane = new JTextPane();
@@ -96,12 +96,12 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 		tagsPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String name = tagsPanel.getTagAt(e.getPoint());
+				var name = tagsPanel.getTagAt(e.getPoint());
 				try {
 					editorPane.getDocument().remove(start,position-start);
 					editorPane.getDocument().insertString(start, " "+name, null);
 					editorPane.requestFocus();
-					Robot r = new Robot();
+					var r = new Robot();
 					r.keyPress(KeyEvent.VK_ENTER);
 					start=0;
 					
