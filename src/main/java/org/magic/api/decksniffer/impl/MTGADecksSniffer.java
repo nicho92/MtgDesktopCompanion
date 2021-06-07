@@ -22,8 +22,6 @@ import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
-
 public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	private static final String TRUE = "true";
@@ -121,13 +119,13 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 					 e.addContent("data", "archetype="+ArrayUtils.indexOf(listFilter(), getString(FORMAT)));
 					 
 					 
-				 JsonArray arr = e.toJson().getAsJsonObject().get("data").getAsJsonArray();
+				 var arr = e.toJson().getAsJsonObject().get("data").getAsJsonArray();
 
 				 arr.forEach(a->{
 					
-					 RetrievableDeck deck = new RetrievableDeck();
+					 var deck = new RetrievableDeck();
 					
-					 String name = URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").text();
+					 var name = URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").text();
 			 			name = name.substring(0,name.indexOf(" by "));
 			 			name = RegExUtils.replaceAll(name, "BO1","").trim();
 			 			deck.setName(name);
@@ -141,10 +139,10 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 					 deck.setAuthor(URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("p").text());
 
 					 
-					 String colors = URLTools.toHtml(a.getAsJsonArray().get(1).getAsString()).select("img").attr("alt");
-					 StringBuilder deckColor = new StringBuilder();
+					 var colors = URLTools.toHtml(a.getAsJsonArray().get(1).getAsString()).select("img").attr("alt");
+					 var deckColor = new StringBuilder();
 					
-					 for(int i=0;i<colors.length();i++)
+					 for(var i=0;i<colors.length();i++)
 						 	deckColor.append("{").append(String.valueOf(colors.charAt(i)).toUpperCase()).append("}");
 					 
 					 deck.setColor(deckColor.toString());

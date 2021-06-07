@@ -30,8 +30,8 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File name) throws IOException {
 		deck.setDateUpdate(new Date());
 
-		FileOutputStream fos = new FileOutputStream(name);
-		try (ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+		var fos = new FileOutputStream(name);
+		try (var oos = new ObjectOutputStream(fos)) {
 			oos.writeObject(deck);
 			oos.flush();
 		}
@@ -39,7 +39,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 
 	@SuppressWarnings("unchecked")
 	private <T> T read(File f) throws ClassNotFoundException, IOException {
-		try (ObjectInputStream oos = new ObjectInputStream(new FileInputStream(f))) {
+		try (var oos = new ObjectInputStream(new FileInputStream(f))) {
 			return (T) oos.readObject();
 		}
 	}

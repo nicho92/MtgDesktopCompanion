@@ -40,10 +40,10 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	}
 
 	public int count(String manaCost, String item) {
-		int count = 0;
-		String regex = CardsPatterns.MANA_PATTERN.getPattern();
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(manaCost);
+		var count = 0;
+		var regex = CardsPatterns.MANA_PATTERN.getPattern();
+		var p = Pattern.compile(regex);
+		var m = p.matcher(manaCost);
 		while (m.find()) {
 			if (m.group().equals(item))
 				count++;
@@ -73,7 +73,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	private URL getPictureURL(MagicCard mc) throws MalformedURLException {
 
-		String color = "colorless";
+		var color = "colorless";
 		if (!mc.getColors().isEmpty())
 			color = (mc.getColors().size() > 1 ? "Gold" : mc.getColors().get(0).toPrettyString());
 

@@ -64,7 +64,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		String url = info.getUrl() + "#Details:deck-export";
 		MagicDeck deck = info.toBaseDeck();
 
-		Document d = URLTools.extractHtml(url);
+		var d = URLTools.extractHtml(url);
 
 		deck.setDescription(info.getUrl().toString() + "\n" + d.select("section.guide div").text());
 
@@ -73,7 +73,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		String plainDeck = d.select("section.deck-export-section pre").get(1).text();
 
-		boolean sideboard = false;
+		var sideboard = false;
 
 		List<String> elements = new ArrayList<>(Arrays.asList(plainDeck.split("\n")));
 		elements.remove(0);
@@ -83,7 +83,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 				sideboard = true;
 			} else if (s.length() > 1) {
 				try {
-					int qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
+					var qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
 					cardName = s.substring(s.indexOf(' '), s.length()).trim();
 					MagicEdition ed = null;
 					if (MagicCard.isBasicLand(cardName)) {
@@ -113,14 +113,14 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		List<RetrievableDeck> list = new ArrayList<>();
 
-		int nbPage = 1;
+		var nbPage = 1;
 		
 
 		for (var i = 1; i <= getInt("MAX_PAGE"); i++) {
 			String link = url + "&page=" + nbPage;
 			logger.debug("sniff url : " + link);
 
-			Document d = URLTools.extractHtml(link);
+			var d = URLTools.extractHtml(link);
 
 			Elements e = null;
 
@@ -155,16 +155,16 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		manajson = manajson.substring(manajson.indexOf("series") + "series: ".length(), manajson.length() - 8);
 
-		JsonArray arr = URLTools.toJson(manajson).getAsJsonArray();
+		var arr = URLTools.toJson(manajson).getAsJsonArray();
 		manajson = "";
-		boolean hascolor = false;
-		StringBuilder build = new StringBuilder(manajson);
+		var hascolor = false;
+		var build = new StringBuilder(manajson);
 		for (var i = 0; i < arr.size(); i++) {
-			JsonObject obj = arr.get(i).getAsJsonObject();
-			MTGColor c = MTGColor.colorByName(obj.get("name").getAsString());
-			JsonArray tab = obj.get("data").getAsJsonArray();
+			var obj = arr.get(i).getAsJsonObject();
+			var c = MTGColor.colorByName(obj.get("name").getAsString());
+			var tab = obj.get("data").getAsJsonArray();
 			hascolor = false;
-			for (int j = 0; j < tab.size(); j++) {
+			for (var j = 0; j < tab.size(); j++) {
 				if (tab.get(j).getAsInt() > 0)
 					hascolor = true;
 			}

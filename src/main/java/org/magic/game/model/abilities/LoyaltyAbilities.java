@@ -17,7 +17,7 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 	
 	@Override
 	public String toString() {
-		StringBuilder build = new StringBuilder();
+		var build = new StringBuilder();
 		build.append("\nLOYALTY: WHEN ").append("PUT ").append(getCosts()).append(" COUNTER DO ").append(getEffects().get(0)).append(" END");
 		return build.toString();
 	}

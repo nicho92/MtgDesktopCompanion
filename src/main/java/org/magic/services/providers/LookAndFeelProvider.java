@@ -73,7 +73,7 @@ public class LookAndFeelProvider {
 		if (!list.isEmpty())
 			return list.toArray(new LookAndFeelInfo[list.size()]);
 		
-		Reflections classReflections = new Reflections("org.pushingpixels.substance.api.skin");
+		var classReflections = new Reflections("org.pushingpixels.substance.api.skin");
 		list = new ArrayList<>();
 		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
 			try {
@@ -87,7 +87,7 @@ public class LookAndFeelProvider {
 		classReflections = new Reflections("com.jtattoo.plaf");
 		for (Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
 			try {
-				AbstractLookAndFeel look = c.getConstructor().newInstance();
+				var look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo("JTatoo " + look.getID(), c.getName()));
 			} catch (Exception e) {
 				logger.error("Loading " + c, e);

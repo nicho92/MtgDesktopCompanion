@@ -114,7 +114,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 				else if(parts.size()==2)
 				{
 					try {
-						MagicCollection c = new MagicCollection(parts.get(1));
+						var c = new MagicCollection(parts.get(1));
 						dao.listEditionsIDFromCollection(c).forEach(ed->paths.add(new MTGPath(fs, parts.get(0),c.getName(),ed)));
 					} catch (SQLException e) 
 					{
@@ -124,8 +124,8 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 				else if(parts.size()==3)
 				{
 					try {
-						MagicCollection c = new MagicCollection(parts.get(1));
-						String idEdition = parts.get(2);
+						var c = new MagicCollection(parts.get(1));
+						var idEdition = parts.get(2);
 						dao.listCardsFromCollection(c,new MagicEdition(idEdition)).forEach(card->paths.add(new MTGPath(fs, parts.get(0),c.getName(),idEdition,card.getName())));
 					} catch (SQLException e) 
 					{

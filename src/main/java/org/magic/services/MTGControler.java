@@ -376,15 +376,15 @@ public class MTGControler {
 	
 
 	public Dimension getPictureProviderDimension() {
-		int w = Integer.parseInt(get("/card-pictures-dimension/width"));
-		int h = Integer.parseInt(get("/card-pictures-dimension/height"));
+		var w = Integer.parseInt(get("/card-pictures-dimension/width"));
+		var h = Integer.parseInt(get("/card-pictures-dimension/height"));
 		return new Dimension(w, h);
 	}
 
 	
 	public Dimension getCardsGameDimension() {
-		int w = Integer.parseInt(get("/game/cards/card-width"));
-		int h = Integer.parseInt(get("/game/cards/card-height"));
+		var w = Integer.parseInt(get("/game/cards/card-width"));
+		var h = Integer.parseInt(get("/game/cards/card-height"));
 		return new Dimension(w, h);
 	}
 
@@ -417,7 +417,7 @@ public class MTGControler {
 	
 	public void setProperty(Object k, Object c) {
 		try {
-			String path = "";
+			var path = "";
 			logger.debug("set " + k + " to " + c);
 
 			if(k instanceof MTGPlugin){
@@ -468,10 +468,10 @@ public class MTGControler {
 	}
 
 	public Player getProfilPlayer() {
-		Player p = new Player();
+		var p = new Player();
 		p.setName(config.getString("/game/player-profil/name"));
 
-		String url = config.getString("/game/player-profil/avatar");
+		var url = config.getString("/game/player-profil/avatar");
 		try {
 			p.setIcon(ImageTools.read(new File(url)));
 		} catch (Exception e) {

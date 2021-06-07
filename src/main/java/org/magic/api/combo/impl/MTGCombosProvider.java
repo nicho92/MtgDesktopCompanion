@@ -34,10 +34,10 @@ public class MTGCombosProvider extends AbstractComboProvider {
 			
 			Elements elsTitles = d.select("td span.text15");
 			Elements elsContent = d.select("td[bgcolor=#CFDEDA]");
-			for(int i=0;i<elsTitles.size();i++)
+			for(var i=0;i<elsTitles.size();i++)
 			{
 						try {
-							MTGCombo cbo = new MTGCombo();
+							var cbo = new MTGCombo();
 							 cbo.setName(elsTitles.get(i).html().replace("Combo Name:", "").trim());
 							 cbo.setPlugin(this);
 							 cbo.setComment(elsContent.get(i).text().trim());

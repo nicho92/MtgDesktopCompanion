@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
@@ -28,9 +27,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class MTGPriceDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE = "WEBSITE";
@@ -53,22 +50,22 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			
 			String date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "")
 					.replace("UTC ", "").trim();
-			SimpleDateFormat forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
+			var forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
 			updateTime = forma.parse(date);
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-		String gameFormat= MagicFormat.toString(f);
+		var gameFormat= MagicFormat.toString(f);
 		if (f == MagicFormat.FORMATS.LEGACY || f == MagicFormat.FORMATS.COMMANDER)
 			gameFormat = "All";
 
-		Element table = doc.getElementById("top50" + gameFormat);
-		Element table2 = doc.getElementById("bottom50" + gameFormat);
+		var table = doc.getElementById("top50" + gameFormat);
+		var table2 = doc.getElementById("bottom50" + gameFormat);
 
 		try {
 
 			for (Element e : table.select(MTGConstants.HTML_TAG_TR)) {
-				CardShake cs = new CardShake();
+				var cs = new CardShake();
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
@@ -82,7 +79,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			}
 
 			for (Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
-				CardShake cs = new CardShake();
+				var cs = new CardShake();
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
@@ -123,7 +120,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
-		EditionsShakers list = new EditionsShakers();
+		var list = new EditionsShakers();
 		list.setProviderName(getName());
 		list.setEdition(edition);
 		list.setDate(new Date());
@@ -132,10 +129,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String data = table.html();
 		data = data.substring(data.indexOf('['), data.indexOf(']') + 1);
 		JsonElement root = URLTools.toJson(data);
-		JsonArray arr = root.getAsJsonArray();
+		var arr = root.getAsJsonArray();
 		for (var i = 0; i < arr.size(); i++) {
-			JsonObject card = arr.get(i).getAsJsonObject();
-			CardShake shake = new CardShake();
+			var card = arr.get(i).getAsJsonObject();
+			var shake = new CardShake();
 			shake.setProviderName(getName());
 			shake.setName(card.get("name").getAsString());
 			shake.setEd(edition.getId());
@@ -177,7 +174,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setFoil(foil);
-		String name = "";
+		var name = "";
 
 		if (mc == null)
 		{
@@ -187,7 +184,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		name = mc.getName().replace(" ", "_");
 
-		String edition = "";
+		var edition = "";
 
 		edition = mc.getCurrentSet().getSet();
 
@@ -203,11 +200,11 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String html = js.html();
 		html = html.substring(html.indexOf("[[") + 1, html.indexOf("]]") + 1);
 
-		Pattern p = Pattern.compile("\\[(.*?)\\]");
-		Matcher m = p.matcher(html);
+		var p = Pattern.compile("\\[(.*?)\\]");
+		var m = p.matcher(html);
 		while (m.find()) {
 
-			Date date = new Date(Long.parseLong(m.group(1).split(",")[0]));
+			var date = new Date(Long.parseLong(m.group(1).split(",")[0]));
 			Double val = Double.parseDouble(m.group(1).split(",")[1]);
 
 			historyPrice.put(date, val);

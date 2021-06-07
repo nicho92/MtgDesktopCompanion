@@ -17,8 +17,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
@@ -29,8 +27,8 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		JsonObject el = URLTools.extractJson(info.getUrl().toString()).getAsJsonObject();
-		JsonArray mainBoard = el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray();
+		var el = URLTools.extractJson(info.getUrl().toString()).getAsJsonObject();
+		var mainBoard = el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray();
 		JsonArray sideBoard=null;
 		
 		if(el.getAsJsonObject().get("sideBoard")!=null)
@@ -61,9 +59,9 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 	{
 			arr.forEach(element->{
 			
-			String ed = element.getAsJsonObject().get("printings").getAsJsonArray().get(0).getAsString();
-			int qty = element.getAsJsonObject().get("count").getAsInt();
-			String name = element.getAsJsonObject().get("name").getAsString();
+			var ed = element.getAsJsonObject().get("printings").getAsJsonArray().get(0).getAsString();
+			var qty = element.getAsJsonObject().get("count").getAsInt();
+			var name = element.getAsJsonObject().get("name").getAsString();
 			try {
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), true).get(0);
 				if(!side)
@@ -82,15 +80,15 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		JsonElement d = URLTools.extractJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
-		JsonArray arr = d.getAsJsonObject().get("data").getAsJsonArray();
+		var d = URLTools.extractJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
+		var arr = d.getAsJsonObject().get("data").getAsJsonArray();
 		
 		List<RetrievableDeck> decks = new ArrayList<>();
 		arr.forEach(element ->{
 			
-			JsonObject ob = element.getAsJsonObject();
+			var ob = element.getAsJsonObject();
 			
-			RetrievableDeck rd = new RetrievableDeck();
+			var rd = new RetrievableDeck();
 							rd.setName(ob.get("name").getAsString());
 							rd.setAuthor("MtgJson");
 							try {

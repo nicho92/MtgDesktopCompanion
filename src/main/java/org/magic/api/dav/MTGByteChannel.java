@@ -103,8 +103,8 @@ public class MTGByteChannel implements SeekableByteChannel {
 
 	@Override
 	public int write(ByteBuffer src) throws IOException {
-		int len = src.remaining();
-	    byte[] buf = new byte[len];
+		var len = src.remaining();
+		var buf = new byte[len];
 	    while (src.hasRemaining()) {
 	      src.get(buf);
 	    }

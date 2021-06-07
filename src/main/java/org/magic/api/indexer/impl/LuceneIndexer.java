@@ -104,9 +104,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public List<String> suggestCardName(String q)
 	{
 		
-		StringBuilder query = new StringBuilder("");
+		var query = new StringBuilder("");
 		String[] split = q.split(" ");
-		for(int i=0;i<split.length;i++)
+		for(var i=0;i<split.length;i++)
 		{
 			query.append("name:").append(split[i]);
 			
@@ -129,16 +129,16 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		
 		try (IndexReader indexReader = DirectoryReader.open(dir))
 		{
-			 IndexSearcher searcher = new IndexSearcher(indexReader);
-			 Query query = new QueryParser("name", analyzer).parse(q);
+			var searcher = new IndexSearcher(indexReader);
+			var query = new QueryParser("name", analyzer).parse(q);
 			 logger.trace(query);
 			 
-			 TotalHitCountCollector collector = new TotalHitCountCollector();
+			 var collector = new TotalHitCountCollector();
 			 searcher.search(query,collector);
 			 
-			 TopDocs top= searcher.search(query, Math.max(1, collector.getTotalHits()));
+			 var top= searcher.search(query, Math.max(1, collector.getTotalHits()));
 			 
-			 for(int i =0;i<top.totalHits.value;i++)
+			 for(var i =0;i<top.totalHits.value;i++)
 				 ret.add(serializer.fromJson(searcher.doc(top.scoreDocs[i].doc).get("data"),MagicCard.class));
 			 
 			 
@@ -195,14 +195,14 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		try (IndexReader indexReader = DirectoryReader.open(dir))
 		{
 			
-		 IndexSearcher searcher = new IndexSearcher(indexReader);
-		 Query query = new QueryParser("text", analyzer).parse("name:\""+mc.getName()+"\"");
+		 var searcher = new IndexSearcher(indexReader);
+		 var query = new QueryParser("text", analyzer).parse("name:\""+mc.getName()+"\"");
 		 logger.trace(query);
-		 TopDocs top = searcher.search(query, 1);
+		 var top = searcher.search(query, 1);
 		 
 		 if(top.totalHits.value>0)
 		 {
-			 MoreLikeThis mlt = new MoreLikeThis(indexReader);
+			 var mlt = new MoreLikeThis(indexReader);
 			  mlt.setFieldNames(getArray(FIELDS));
 			  mlt.setAnalyzer(analyzer);
 			  mlt.setMinTermFreq(getInt(MIN_TERM_FREQ));
@@ -212,11 +212,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			  
 			 ScoreDoc d = top.scoreDocs[0];
 			 logger.trace("found doc id="+d.doc);
-			 Query like = mlt.like(d.doc);
+			 var like = mlt.like(d.doc);
 			 
 			 logger.trace("mlt="+Arrays.asList(mlt.retrieveInterestingTerms(d.doc)));
 			 logger.trace("Like query="+like);
-			 TopDocs likes = searcher.search(like,getInt(MAX_RESULTS));
+			 var likes = searcher.search(like,getInt(MAX_RESULTS));
 			 
 			 for(ScoreDoc l : likes.scoreDocs)
 				 ret.put(serializer.fromJson(searcher.doc(l.doc).get("data"),MagicCard.class),l.score);
@@ -243,9 +243,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		if(dir==null)
 			open();
 		
-		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+		var iwc = new IndexWriterConfig(analyzer);
 		  				   iwc.setOpenMode(OpenMode.CREATE);
-	    IndexWriter indexWriter = new IndexWriter(dir, iwc);
+		var indexWriter = new IndexWriter(dir, iwc);
 	    
 		for(MagicCard mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards())
 		{
@@ -279,9 +279,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	}
 	
 	private Document toDocuments(MagicCard mc) {
-          Document doc = new Document();
-          			
-          		FieldType fieldType = new FieldType();
+			var doc = new Document();
+          	var fieldType = new FieldType();
 		          		fieldType.setStored(true);
 		          		fieldType.setStoreTermVectors(true);
 		          		fieldType.setTokenized(true);

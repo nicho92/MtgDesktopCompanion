@@ -46,19 +46,14 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 		
 		if(arena==null)
 			init();
-
 		
-		MagicDeck d = info.toBaseDeck();
-				  
-		
+			var d = info.toBaseDeck();
 			arena.readDecks().get("payload").getAsJsonArray().forEach(je->{
-				JsonObject obj = je.getAsJsonObject();
+				var obj = je.getAsJsonObject();
 				if(obj.get("id").getAsString().equals(info.getUrl().toString()))
 				{
 					load(obj,d.getMain(),"mainDeck");
 					load(obj,d.getSideBoard(),"sideboard");
-					
-					
 				}
 			});
 				  
@@ -68,18 +63,18 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	private void load(JsonObject obj, Map<MagicCard, Integer> map, String string) {
-		JsonArray arr = obj.get(string).getAsJsonArray();
+		var arr = obj.get(string).getAsJsonArray();
 		
 		List<String> ids= new ArrayList<>();
 		List<Integer> qtys = new ArrayList<>();
 		
 		
-		for(int i=0;i<arr.size();i=i+2)
+		for(var i=0;i<arr.size();i=i+2)
 		{
 			ids.add(arr.get(i).getAsString());
 		}
 		
-		for(int i=1;i<arr.size();i=i+2)
+		for(var i=1;i<arr.size();i=i+2)
 		{
 			qtys.add(arr.get(i).getAsInt());
 		}
@@ -87,10 +82,10 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 		logger.debug("found " + ids.size() +" ids and " + qtys.size() +" qty");
 		
 		
-		for(int i=0;i<ids.size();i++)
+		for(var i=0;i<ids.size();i++)
 		{
 			try {
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByArenaId(ids.get(i));
+				var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByArenaId(ids.get(i));
 				map.put(mc, qtys.get(i));
 				notify(mc);
 			} catch (IOException e) {
@@ -111,8 +106,8 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 		
 		json.get("payload").getAsJsonArray().forEach(je->{
 			
-			JsonObject obj = je.getAsJsonObject();
-			RetrievableDeck d = new RetrievableDeck();
+			var obj = je.getAsJsonObject();
+			var d = new RetrievableDeck();
 							d.setName(obj.get("name").getAsString());
 							
 							if(d.getName().startsWith("?"))

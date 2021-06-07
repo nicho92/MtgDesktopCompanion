@@ -60,15 +60,15 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 			deck.getTags().add(e.text());
 
 		Elements tables = d.select("div.wholeDeck table");
-		boolean isSideboard = false;
+		var isSideboard = false;
 
 		for (Element table : tables) {
 			isSideboard = table.select("th").first().hasClass("Sideboard");
 
 			for (Element tr : table.select("tr.cardItem")) {
-				Element td = tr.select("td.number").first();
-				String qte = td.text().substring(0, td.text().indexOf(' '));
-				String name = td.select("a").text();
+				var td = tr.select("td.number").first();
+				var qte = td.text().substring(0, td.text().indexOf(' '));
+				var name = td.select("a").text();
 				if (name.contains("/"))
 					name = name.substring(0, name.indexOf('/')).trim();
 
@@ -97,11 +97,11 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:1";
+		var url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
-		int nbPage = 1;
-		int maxPage = getInt(MAX_PAGE);
+		var nbPage = 1;
+		var maxPage = getInt(MAX_PAGE);
 
 		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:" + nbPage;
@@ -109,9 +109,9 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 			Elements trs = d.select("table.table tr");
 
-			for (int j = 1; j < trs.size(); j++) {
+			for (var j = 1; j < trs.size(); j++) {
 				Element tr = trs.get(j);
-				RetrievableDeck deck = new RetrievableDeck();
+				var deck = new RetrievableDeck();
 
 				deck.setName(tr.select("td a").first().text());
 				try {
@@ -123,7 +123,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 				String manas = tr.select("td").get(3).html();
 
-				StringBuilder build = new StringBuilder();
+				var build = new StringBuilder();
 
 				if (manas.contains("ms-w"))
 					build.append("{W}");

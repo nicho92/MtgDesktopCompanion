@@ -567,30 +567,25 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public Contact getContactById(int id) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Contact> listContacts() throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

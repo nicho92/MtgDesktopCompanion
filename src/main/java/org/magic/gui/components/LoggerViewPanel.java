@@ -40,7 +40,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 	public LoggerViewPanel() {
 		model = new LogTableModel();
 		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
-		JPanel panel = new JPanel();
+		var panel = new JPanel();
 		table = UITools.createNewTable(model);
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		t = new Timer(1000, e -> model.fireTableDataChanged());
@@ -57,7 +57,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		
 		datesorter = new TableRowSorter<>(table.getModel());
 		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-		int columnIndexToSort = 1;
+		var columnIndexToSort = 1;
 		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.DESCENDING));
 		datesorter.setSortKeys(sortKeys);
 		table.setRowSorter(datesorter);

@@ -65,7 +65,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		HttpEntity p = httpclient.execute(new HttpGet(u), httpContext).getEntity();
 		String token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
-		HttpPost login = new HttpPost(u);
+		var login = new HttpPost(u);
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("email", getString("LOGIN")));
 							nvps.add(new BasicNameValuePair("password", getString("PASS")));
@@ -103,7 +103,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 				mc.getEditions().set(0, new MagicEdition("Fake"));
 		}
 		
-		URIBuilder build = new URIBuilder();
+		var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 		
 
@@ -197,7 +197,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 				}
 				
 				build.addParameter("pw-size", String.valueOf(abs.size()));
-				for(int i=0;i<abs.size();i++)
+				for(var i=0;i<abs.size();i++)
 					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
 			}
 		}
@@ -245,7 +245,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		try {
 			logger.debug("generate " + build.build());
-			HttpGet get = new HttpGet(build.build());
+			var get = new HttpGet(build.build());
 			HttpResponse resp = httpclient.execute(get, httpContext);
 			logger.debug("generate " + resp.getStatusLine().getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());

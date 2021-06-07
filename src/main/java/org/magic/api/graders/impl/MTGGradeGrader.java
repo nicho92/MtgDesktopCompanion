@@ -36,7 +36,7 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 		
 		
 		
-		Grading grad = new Grading();
+		var grad = new Grading();
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url);

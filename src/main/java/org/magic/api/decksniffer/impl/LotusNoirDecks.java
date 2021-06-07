@@ -37,11 +37,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		Document d = URLTools.extractHtml(info.getUrl().toString());
-		Elements e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
-		boolean sideboard = false;
+		var d = URLTools.extractHtml(info.getUrl().toString());
+		var e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
+		var sideboard = false;
 		for (Element cont : e) {
-			Elements cont2 = cont.select("span.card_title_us");
+			var cont2 = cont.select("span.card_title_us");
 
 			if (cont.text().startsWith("R\u00E9serve"))
 				sideboard = true;
@@ -89,37 +89,31 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 			Elements e = d.select("div.thumb_page");
 
 			for (Element cont : e) {
-				RetrievableDeck deck = new RetrievableDeck();
-				Element info = cont.select("a").get(0);
-
-				String name = info.attr("title").replace("Lien vers ", "").trim();
-				String url = info.attr("href");
-				String auteur = cont.select("small").select("a").text();
-				Elements value = URLTools.extractHtml(url).select("span.card_title_us");
-				StringBuilder deckColor = new StringBuilder();
+				var deck = new RetrievableDeck();
+				var info = cont.select("a").get(0);
+				var name = info.attr("title").replace("Lien vers ", "").trim();
+				var url = info.attr("href");
+				var auteur = cont.select("small").select("a").text();
+				var value = URLTools.extractHtml(url).select("span.card_title_us");
+				var deckColor = new StringBuilder();
 				for (Element element : value)
 				{
 					String land = element.text().split(" ")[1];
 					switch (land) 
 					{
-						case "Plain":
-						case "Plains":
+						case "Plain","Plains":
 							deckColor.append("{W}");
 							break;
-						case "Island":
-						case "Islands":
+						case "Island","Islands":
 							deckColor.append("{U}");
 							break;
-						case "Swamp":
-						case "Swamps":
+						case "Swamp","Swamps":
 							deckColor.append("{B}");
 							break;
-						case "Mountain":
-						case "Mountains":
+						case "Mountain","Mountains":
 							deckColor.append("{R}");
 							break;
-						case "Forest":
-						case "Forests":
+						case "Forest","Forests":
 							deckColor.append("{G}");
 							break;
 						default:

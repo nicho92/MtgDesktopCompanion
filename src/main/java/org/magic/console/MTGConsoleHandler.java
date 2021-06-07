@@ -76,9 +76,9 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
         if (stringCommand == null || stringCommand.isEmpty()) {
           return new String[0];
         }
-        StringTokenizer tok = new StringTokenizer(stringCommand, " ", false);
+        var tok = new StringTokenizer(stringCommand, " ", false);
         List<String> list = new ArrayList<>();
-        StringBuilder current = new StringBuilder();
+        var current = new StringBuilder();
         
         while (tok.hasMoreTokens()) 
         {
@@ -103,7 +103,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
         	list.add(current.toString().trim());
         
         
-        final String[] args = new String[list.size()];
+        final var args = new String[list.size()];
         return list.toArray(args);
     }
 	
@@ -115,9 +115,9 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			return;
 		
 		
-			String line = message.toString();
-			String[] commandeLine = translateCommandline(line);
-			MTGCommand c = commandFactory(commandeLine[0]);
+			var line = message.toString();
+			var commandeLine = translateCommandline(line);
+			var c = commandFactory(commandeLine[0]);
 			
 			if(c==null)
 			{

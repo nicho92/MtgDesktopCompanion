@@ -30,7 +30,7 @@ public class MTGEventProvider {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public List<MagicEvent> listEvents(Date date) throws IOException {
-		Calendar cal = Calendar.getInstance();
+		var cal = Calendar.getInstance();
 		cal.setTime(date);
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -41,7 +41,7 @@ public class MTGEventProvider {
 		logger.debug("retrieve events from " + url);
 		HttpClient httpClient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(new LaxRedirectStrategy()).build();
-		HttpGet req = new HttpGet(url);
+		var req = new HttpGet(url);
 		req.addHeader("content-type", URLTools.HEADER_JSON);
 		HttpResponse resp = httpClient.execute(req);
 		return EntityUtils.toString(resp.getEntity());
@@ -53,13 +53,13 @@ public class MTGEventProvider {
 
 		String json = read(link);
 
-		String e = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
-		Elements trs = Jsoup.parse(e).select("tr.multi-day,tr.single-day");
+		var e = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
+		var trs = Jsoup.parse(e).select("tr.multi-day,tr.single-day");
 		for (Element td : trs.select(MTGConstants.HTML_TAG_TD)) {
 
 			if (!td.select("a").isEmpty()) {
-				MagicEvent event = new MagicEvent();
-				int nbDay = Integer.parseInt(td.attr("colspan"));
+				var event = new MagicEvent();
+				var nbDay = Integer.parseInt(td.attr("colspan"));
 				Date startDate;
 				try {
 					startDate = new SimpleDateFormat("yyyy-MM-dd").parse(td.attr("data-date"));
@@ -67,7 +67,7 @@ public class MTGEventProvider {
 					logger.error(e1);
 					startDate = new Date();
 				}
-				Calendar c = Calendar.getInstance();
+				var c = Calendar.getInstance();
 				c.setTime(startDate);
 				c.add(Calendar.DATE, nbDay);
 
