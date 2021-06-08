@@ -5,20 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
+import org.jfree.chart3d.Chart3D;
+import org.jfree.chart3d.Chart3DChangeEvent;
+import org.jfree.chart3d.Chart3DPanel;
+import org.jfree.chart3d.graphics3d.swing.DisplayPanel3D;
 import org.magic.services.MTGDeckManager;
 
-public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
+public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 
 
 	private static final long serialVersionUID = 1L;
 	protected transient List<T> items;
 	protected transient MTGDeckManager manager;
-	protected ChartPanel chartPanel;
-
+	protected Chart3DPanel chartPanel;
+	protected DisplayPanel3D panel;
 	
-	protected MTGUIChartComponent() {
+	protected MTGUI3DChartComponent() {
 		onlyOneRefresh=false;
 		init();
 	}
@@ -28,25 +30,21 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 		items = new ArrayList<>();
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout());
-		chartPanel = new ChartPanel(null,true);
-		add(chartPanel, BorderLayout.CENTER);
+		chartPanel = new Chart3DPanel(initChart());
+		panel = new DisplayPanel3D(chartPanel);
+		add(panel, BorderLayout.CENTER);
 		
-		chartPanel.addMouseWheelListener(mwe -> {
-			if (mwe.getWheelRotation() > 0) {
-				chartPanel.zoomOutDomain(0.5, 0.5);
-
-			} else if (mwe.getWheelRotation() < 0) {
-				chartPanel.zoomInDomain(1.5, 1.5);
-			}
-		});
-
+		
+		
 	}
+	
 	
 
 	@Override
 	public void onFirstShowing() {
-		init(items);	
+		init(items);
 	}
+	
 	
 	
 	public void init(Set<T> items)
@@ -60,25 +58,25 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	public void init(List<T> items)
 	{
 		this.items = items;
-		
+
 		if(isVisible())
 			refresh();
 	}
 	
-	public abstract JFreeChart initChart();
+	public abstract Chart3D initChart();
 	
 	public void refresh()
 	{
-
-		if(items==null)
-			return;
+		if(chartPanel!=null)
+		{
+			panel.remove(chartPanel);
+		}
 		
-		var chart = initChart();
-		chartPanel.setChart(chart);
+		chartPanel = new Chart3DPanel(initChart());
 		
-		if(chart!=null)
-			chart.fireChartChanged();
-
+		panel.add(chartPanel, BorderLayout.CENTER);
+		
+		
 	}
 
 

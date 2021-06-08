@@ -1,20 +1,19 @@
 package org.magic.gui.components.charts;
 
-import java.awt.Color;
-import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
+import org.jfree.chart3d.Chart3D;
+import org.jfree.chart3d.Chart3DFactory;
+import org.jfree.chart3d.Chart3DPanel;
+import org.jfree.chart3d.Orientation;
+import org.jfree.chart3d.data.PieDataset3D;
+import org.jfree.chart3d.data.StandardPieDataset3D;
+import org.jfree.chart3d.graphics2d.Anchor2D;
+import org.jfree.chart3d.legend.LegendAnchor;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI3DChartComponent;
 
-public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
+public class TypeRepartitionPanel extends  MTGUI3DChartComponent<MagicCard> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,33 +24,29 @@ public class TypeRepartitionPanel extends  MTGUIChartComponent<MagicCard> {
 	}
 
 	@Override
-	public JFreeChart initChart() {
+	public Chart3D initChart() {
+		var chart = Chart3DFactory.createPieChart(
+		                "Types", 
+		                "", 
+		                getDataSet());
+		 
+		chart.setTitleAnchor(Anchor2D.TOP_CENTER);
+		chart.setLegendPosition(LegendAnchor.BOTTOM_CENTER,Orientation.HORIZONTAL);
+		chartPanel = new Chart3DPanel(chart);
+		chartPanel.setMargin(0.05);
 		
-		var chart = ChartFactory.createPieChart3D("Type repartition", getDataSet(), false,true, true);
-	
-		var plot = (PiePlot) chart.getPlot();
-		plot.setSectionPaint("B", Color.BLACK);
-		plot.setSectionPaint("W", Color.WHITE);
-		plot.setSectionPaint("U", Color.BLUE);
-		plot.setSectionPaint("G", Color.GREEN);
-		plot.setSectionPaint("R", Color.RED);
-		plot.setSectionPaint("multi", Color.YELLOW);
-		plot.setSectionPaint("uncolor", Color.GRAY);
-
-		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),
-				new DecimalFormat("0.00%"));
-		plot.setLabelGenerator(generator);
 		
 		return chart;
 	}
 
 
-	private PieDataset getDataSet() {
-		var dataset = new DefaultPieDataset();
+	private PieDataset3D<String> getDataSet() {
+		var dataset = new StandardPieDataset3D<String>();
 		for (Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {
-			dataset.setValue(entry.getKey(), entry.getValue());
+			dataset.add(entry.getKey(), entry.getValue());
 		}
 
+		
 		return dataset;
 	}
 
