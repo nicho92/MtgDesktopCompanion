@@ -1,53 +1,64 @@
 package org.magic.gui.components.charts;
 
-import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
+import org.jfree.chart3d.Chart3D;
+import org.jfree.chart3d.Chart3DFactory;
+import org.jfree.chart3d.data.PieDataset3D;
+import org.jfree.chart3d.data.StandardPieDataset3D;
+import org.jfree.chart3d.plot.PiePlot3D;
+import org.jfree.chart3d.plot.StandardColorSource;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI3DChartComponent;
 
-public class RarityRepartitionPanel extends MTGUIChartComponent<MagicCard> {
+public class RarityRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 
 	private static final long serialVersionUID = 1L;
+	private Chart3D chart;
 
-	
+
 	@Override
 	public String getTitle() {
-		return "Rarity Chart";
+		return "Rarity";
 	}
 	
 	@Override
-	public JFreeChart initChart() {
-		JFreeChart chart = ChartFactory.createPieChart3D("Rarity repartition", getDataSet(), false, true, true);
-		PiePlot plot = (PiePlot) chart.getPlot();
+	protected Chart3D createNewChart() {
+		chart= Chart3DFactory.createPieChart(
+                getTitle(), 
+                "", 
+                getDataSet());
+		
+		var plot = (PiePlot3D) chart.getPlot();
+		var source = new StandardColorSource<String>();
 		
 		for(MTGRarity r : MTGRarity.values())
-		{
-			plot.setSectionPaint(r.toPrettyString(),r.toColor());
-		}
+			source.setColor(r.toPrettyString(),r.toColor());
 		
-
-		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),new DecimalFormat("0.00%"));
-		plot.setLabelGenerator(generator);
+		plot.setSectionColorSource(source);
+		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
 		
 		return chart;
 	}
+	
 
-	private PieDataset<String> getDataSet() {
-		DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
+	public PieDataset3D<String> getDataSet() {
+		
+		var dataset = new StandardPieDataset3D<String>();
 		for (Entry<MTGRarity, Integer> data : manager.analyseRarities(items).entrySet()) {
-			dataset.setValue(data.getKey().toPrettyString(), data.getValue());
+			dataset.add(data.getKey().toPrettyString(), data.getValue());
 		}
-
 		return dataset;
 	}
+
+	@Override
+	public void refresh() {
+		PiePlot3D plot = (PiePlot3D) chart.getPlot();
+        plot.setDataset(getDataSet());
+		
+	}
+	
+
 
 }
