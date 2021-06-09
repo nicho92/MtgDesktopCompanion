@@ -46,8 +46,6 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 	private JCheckBox chckbxShowEditions;
 	private transient HistoryPrice<?> cpVariations;
 	private String title="";
-	private MagicCard mc;
-	private MagicEdition me;
 	private transient HistoryPrice<?> cpVariationsF;
 	
 	@Override
@@ -89,7 +87,7 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
-				init(mc,me,title);
+			
 			}
 		});
 		
@@ -97,8 +95,6 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 
 	
 	public void init(MagicCard card, MagicEdition me, String title) {
-		this.mc = card;
-		this.me = me;
 		this.title=title;
 		if(card==null && me==null)
 			return;
