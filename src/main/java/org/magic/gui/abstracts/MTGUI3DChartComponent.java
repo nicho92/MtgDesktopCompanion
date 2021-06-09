@@ -1,6 +1,7 @@
 package org.magic.gui.abstracts;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,7 @@ import org.jfree.chart3d.Orientation;
 import org.jfree.chart3d.graphics2d.Anchor2D;
 import org.jfree.chart3d.graphics3d.swing.DisplayPanel3D;
 import org.jfree.chart3d.legend.LegendAnchor;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 
 public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
@@ -66,13 +68,12 @@ public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 	}
 	
 	
-	
 	public Chart3D initChart()
 	{
 		var chart = createNewChart();
  		chart.setTitleAnchor(Anchor2D.TOP_CENTER);
 		chart.setLegendPosition(LegendAnchor.BOTTOM_CENTER,Orientation.HORIZONTAL);
-		
+		chart.setTitle(getTitle(),MTGControler.getInstance().getFont().deriveFont(20f),Color.BLACK);
 		return chart;
 	}
 	

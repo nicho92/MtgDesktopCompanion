@@ -43,6 +43,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -123,7 +124,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					  if(!getString(SERVERPORT).isEmpty())
 						  temp.append(":").append(getString(SERVERPORT));
 					  
-					  temp.append("/");
+					  temp.append("/").append(getString(DB_NAME));
+					  
 					  if(!getString(PARAMETERS).isEmpty())
 						  temp.append("?").append(getString(PARAMETERS));
 					  
@@ -202,6 +204,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		obj.put(dbIDField, IDGenerator.generate(mc));
 		obj.put("card", mc);
 		obj.put("collection", collection);
+		obj.put("set", mc.getCurrentSet().getId().toUpperCase());
 		String json = serialize(obj);
 		
 		db.getCollection(colCards, BasicDBObject.class).insertOne(BasicDBObject.parse(json));
@@ -225,23 +228,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return list;
 	}
 	
-	public static void main(String[] args) throws SQLException {
-		MongoDbDAO dao = new MongoDbDAO();
-		dao.init();
-		System.out.println(dao.getCardsCountGlobal(new MagicCollection("Library")));
-	}
-
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		List<Bson> aggr = Arrays.asList(
+		List<Bson> aggr =  	Arrays.asList(
 										Aggregates.match(Filters.eq(dbColIDField, c.getName())),
-										Aggregates.group("$card.editions.0.id", Accumulators.sum("count", 1))
+										Aggregates.group("$set", Accumulators.sum("count", 1))
 									   );
-
-		System.out.println(aggr);
-		
-		
 		db.getCollection(colCards, BasicDBObject.class).aggregate(aggr).forEach(
 				(Consumer<BasicDBObject>) document -> { 
 				map.put(document.getString("_id"), document.getInt("count"));	
@@ -258,14 +251,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public int getCardsCount(MagicCollection cols, MagicEdition me) throws SQLException {
-
 		logger.debug("getCardsCount " + cols + " me:" + me);
 		if (me != null) {
 			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq("card.editions.0.id",me.getId().toUpperCase())));
 		} else {
 			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
 		}
-
 	}
 	
 	
@@ -275,7 +266,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		List<MagicCard> ret = new ArrayList<>();
 		
 		var b = Filters.eq(dbColIDField,collection.getName());
-		
 		
 		if (me != null) {
 			b = Filters.and(b,Filters.eq("card.editions.0.id",me.getId().toUpperCase()));

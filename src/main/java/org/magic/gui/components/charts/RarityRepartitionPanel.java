@@ -38,7 +38,8 @@ public class RarityRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 		
 		plot.setSectionColorSource(source);
 		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
-		
+	  	plot.setToolTipGenerator((PieDataset3D dataset, Comparable<?> key)->String.valueOf(key + ":" + dataset.getValue(key)));
+	  	 
 		return chart;
 	}
 	

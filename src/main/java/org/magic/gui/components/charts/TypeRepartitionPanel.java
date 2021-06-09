@@ -31,6 +31,8 @@ public class TypeRepartitionPanel extends  MTGUI3DChartComponent<MagicCard> {
 		var plot = (PiePlot3D) chart.getPlot();
 		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
 		plot.setSectionColors(Colors.createPastelColors());
+	  	plot.setToolTipGenerator((PieDataset3D dataset, Comparable<?> key)->String.valueOf(key + ":" + dataset.getValue(key)));
+	  	 
 		return chart;
 	}
 	

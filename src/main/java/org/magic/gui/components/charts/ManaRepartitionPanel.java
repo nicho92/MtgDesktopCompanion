@@ -40,7 +40,7 @@ public class ManaRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 	
 		plot.setSectionColorSource(source);
 		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
-		
+			
 		return chart;
 	}
 	
@@ -48,6 +48,7 @@ public class ManaRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 	public void refresh() {
 		PiePlot3D plot = (PiePlot3D) chart.getPlot();
         plot.setDataset(getDataSet());
+    	plot.setToolTipGenerator((PieDataset3D dataset, Comparable<?> key)->String.valueOf(key + ":" + dataset.getValue(key)));
     	chartPanel.zoomToFit();
     }
 	
