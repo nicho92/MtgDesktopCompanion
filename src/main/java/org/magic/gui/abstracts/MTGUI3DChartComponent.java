@@ -19,6 +19,7 @@ public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	protected transient List<T> items;
 	protected transient MTGDeckManager manager;
+	protected Chart3DPanel chartPanel;
 	
 	protected MTGUI3DChartComponent() {
 		onlyOneRefresh=false;
@@ -33,7 +34,7 @@ public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 		items = new ArrayList<>();
 		manager = new MTGDeckManager();
 		
-		var chartPanel = new Chart3DPanel(initChart());
+		chartPanel = new Chart3DPanel(initChart());
 		add( new DisplayPanel3D(chartPanel), BorderLayout.CENTER);
 		chartPanel.setMargin(0.05);
 		

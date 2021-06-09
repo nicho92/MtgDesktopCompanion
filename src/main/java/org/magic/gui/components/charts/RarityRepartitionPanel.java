@@ -56,7 +56,7 @@ public class RarityRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 	public void refresh() {
 		PiePlot3D plot = (PiePlot3D) chart.getPlot();
         plot.setDataset(getDataSet());
-		
+    	chartPanel.zoomToFit();
 	}
 	
 

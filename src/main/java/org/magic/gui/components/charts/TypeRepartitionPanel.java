@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import org.jfree.chart3d.Chart3D;
 import org.jfree.chart3d.Chart3DFactory;
+import org.jfree.chart3d.Colors;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.PiePlot3D;
@@ -29,7 +30,7 @@ public class TypeRepartitionPanel extends  MTGUI3DChartComponent<MagicCard> {
 		
 		var plot = (PiePlot3D) chart.getPlot();
 		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
-		
+		plot.setSectionColors(Colors.createPastelColors());
 		return chart;
 	}
 	
@@ -37,7 +38,7 @@ public class TypeRepartitionPanel extends  MTGUI3DChartComponent<MagicCard> {
 	public void refresh() {
 		PiePlot3D plot = (PiePlot3D) chart.getPlot();
         plot.setDataset(getDataSet());
-		
+        chartPanel.zoomToFit();
 	}
 	
 	@SuppressWarnings("unchecked")
