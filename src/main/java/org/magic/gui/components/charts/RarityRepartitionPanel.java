@@ -24,6 +24,7 @@ public class RarityRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 	}
 	
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected Chart3D createNewChart() {
 		chart= Chart3DFactory.createPieChart(
                 getTitle(), 
@@ -37,7 +38,7 @@ public class RarityRepartitionPanel extends MTGUI3DChartComponent<MagicCard> {
 			source.setColor(r.toPrettyString(),r.toColor());
 		
 		plot.setSectionColorSource(source);
-		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
+		plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->"");
 	  	plot.setToolTipGenerator((PieDataset3D dataset, Comparable<?> key)->String.valueOf(key + ":" + dataset.getValue(key)));
 	  	 
 		return chart;

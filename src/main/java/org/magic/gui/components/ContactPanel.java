@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,6 +22,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.IDGenerator;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -33,7 +35,7 @@ public class ContactPanel extends MTGUIComponent {
 	private JTextField emailJTextField;
 	private JTextField lastNameJTextField;
 	private JTextField nameJTextField;
-	private JPasswordField passwordJPasswordField;
+	private JButton passwordJPasswordBtn;
 	private JTextField telephoneJTextField;
 	private JTextField websiteJTextField;
 	private JCheckBox emailAcceptationCheckBox;
@@ -83,8 +85,8 @@ public class ContactPanel extends MTGUIComponent {
 		emailJTextField = new JTextField();
 		add(emailJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
-		passwordJPasswordField = new JPasswordField();
-		add(passwordJPasswordField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
+		passwordJPasswordBtn = new JButton("CHANGE_PASSWORD");
+		add(passwordJPasswordBtn, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
 
 		telephoneJTextField = new JTextField();
 		add(telephoneJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
@@ -118,7 +120,11 @@ public class ContactPanel extends MTGUIComponent {
 		
 		
 		
-		
+		passwordJPasswordBtn.addActionListener(el->{
+			
+			String content = JOptionPane.showInputDialog("Type new password");
+			contact.setPassword(content);
+		});
 		
 	}
 
@@ -169,11 +175,6 @@ public class ContactPanel extends MTGUIComponent {
 		var autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, nameProperty, nameJTextField, textProperty4);
 		autoBinding5.bind();
 		//
-		var passwordProperty = BeanProperty.create("password");
-		var textProperty5 = BeanProperty.create("text");
-		var autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, passwordProperty, passwordJPasswordField, textProperty5);
-		autoBinding6.bind();
-		//
 		var telephoneProperty = BeanProperty.create("telephone");
 		var textProperty6 = BeanProperty.create("text");
 		var autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, telephoneProperty, telephoneJTextField, textProperty6);
@@ -213,7 +214,6 @@ public class ContactPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding4);
 		bindingGroup.addBinding(autoBinding5);
-		bindingGroup.addBinding(autoBinding6);
 		bindingGroup.addBinding(autoBinding7);
 		bindingGroup.addBinding(autoBinding8);
 		bindingGroup.addBinding(autoBinding9);
