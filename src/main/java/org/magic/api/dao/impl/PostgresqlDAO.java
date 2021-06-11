@@ -147,8 +147,6 @@ public class PostgresqlDAO extends AbstractSQLMagicDAO {
 
 	}
 
-	
-	
 	@Override
 	public void initDefault() {
 		super.initDefault();

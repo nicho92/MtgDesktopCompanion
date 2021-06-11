@@ -63,7 +63,12 @@
 			       	
 
 					if(data.topProduct){
-				    	$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.magicCard.scryfallId+"?format=image");
+						if(data.topProduct.magicCard.scryfallId)
+				    		$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.magicCard.scryfallId+"?format=image");
+						else
+							$("#topProductImage").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.topProduct.magicCard.editions[0].multiverseId+"?format=image");
+						
+						
 				    	$("#topProductTitle").append(data.topProduct.magicCard.name);
 				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.idstock);
 					}
