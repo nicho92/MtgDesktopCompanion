@@ -18,15 +18,25 @@ public class Contact implements Serializable {
 	private String website;
 	private boolean emailAccept=true;
 	private String password="changeit";
-	private boolean active=true;
+	private boolean active=false;
+	private String temporaryToken;
 	
-	
-	
+
 	public boolean equals(Object obj) {
 	    if(!(obj instanceof Contact))
 	    	return false;
 	    
 	    return ((Contact)obj).getId()==getId();
+	}
+	
+
+	
+	public String getTemporaryToken() {
+		return temporaryToken;
+	}
+
+	public void setTemporaryToken(String temporaryToken) {
+		this.temporaryToken = temporaryToken;
 	}
 	
 	@Override

@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
@@ -34,9 +36,33 @@ import org.magic.tools.UITools;
 
 public class TransactionService 
 {
+	
+	public static final Integer TOKENSIZE = 50;
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
 
 	private TransactionService() {}
+	
+	public static int createContact(Contact c) throws SQLException
+	{
+		c.setTemporaryToken(RandomStringUtils.random(TOKENSIZE, true, true));
+		c.setActive(false);
+		c.setTemporaryToken(MTGControler.getInstance().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
+		
+		int ret= getEnabledPlugin(MTGDao.class).saveOrUpdateContact(c);
+		
+		EmailNotifier plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
+			try {
+					var not = new MTGNotification("["+MTGControler.getInstance().getWebConfig().getSiteTitle()+ "] Email verification", new ReportNotificationManager().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
+					plug.send(c.getEmail(),not);
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+		return ret;
+		
+	}
+	
 	
 	public static int saveTransaction(Transaction t, boolean reloadShipping) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
@@ -79,7 +105,7 @@ public class TransactionService
 
 	public static void sendMail(Transaction t,String template,String msg)
 	{
-		EmailNotifier plug = (EmailNotifier)MTG.getPlugin("email", MTGNotifier.class);
+		EmailNotifier plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
 		if(t.getContact().isEmailAccept()) 
 		{
 			try {
@@ -93,6 +119,7 @@ public class TransactionService
 		}
 		
 	}
+	
 	
 	public static Integer newTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());

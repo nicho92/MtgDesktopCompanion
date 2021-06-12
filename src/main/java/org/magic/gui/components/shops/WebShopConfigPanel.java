@@ -73,6 +73,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private ContactPanel contactPanel;
 	private JTextField txtPaypalClientId;
 	private JTextField txtPaypalSendMoneyLink;
+	private JTextField txtWebsiteUrl;
 	private JCheckBox chkAutomaticValidation;
 	private JCheckBox chkAutoProduct;
 	private JTextField txtIban;
@@ -117,13 +118,15 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			txtAbout = new JTextArea(conf.getAboutText());
 			txtBannerTitle = new JTextField(conf.getBannerTitle());
 			txtBannerText = new JTextArea(conf.getBannerText());
-			
+			txtWebsiteUrl = new JTextField(conf.getWebsiteUrl());
 			panelGeneral.add(new JLabel("BANNERTITLE"));
 			panelGeneral.add(txtBannerTitle);
 			panelGeneral.add(new JLabel("BANNERTEXT"));
 			panelGeneral.add(new JScrollPane(txtBannerText));
 			panelGeneral.add(new JLabel("ABOUT"));
 			panelGeneral.add(new JScrollPane(txtAbout));
+			panelGeneral.add(new JLabel("WEBSITE_URL"));
+			panelGeneral.add(txtWebsiteUrl);
 			panelGeneral.add(new JLabel("GOOGLE_ID_ANALYTICS"));
 			panelGeneral.add(txtAnalyticsGoogle);
 			
@@ -332,7 +335,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setAutomaticProduct(chkAutoProduct.isSelected());
 				newBean.setIban(txtIban.getText());
 				newBean.setBic(txtBic.getText());
-				
+				newBean.setWebsiteUrl(txtWebsiteUrl.getText());
 				try {
 					newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));
 				} catch (URISyntaxException e1) {

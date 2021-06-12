@@ -112,6 +112,7 @@ public interface MTGDao extends MTGPlugin {
 	public void executeQuery(String query)throws SQLException;
 	
 	public boolean isSQL();
+	public boolean enableContact(String token) throws SQLException;
 
 
 }

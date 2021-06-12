@@ -598,5 +598,11 @@ public class FileDAO extends AbstractMagicDAO{
 	public List<Contact> listContacts() throws SQLException {
 		return new ArrayList<>();
 	}
+
+	@Override
+	public boolean enableContact(String token) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

@@ -109,7 +109,9 @@
 						    });
 			    	});
 			       	
-			       	if(data.needcollections.length>0){
+			       	if(data.needcollections.length>0)
+			       	{
+			       		$("#navSearch").show();
 			              	$.each( data.needcollections, function( key, value ) {
 					    		  
 					    		  $.ajax({
@@ -127,6 +129,7 @@
 			       	}
 			       	else
 		       		{
+			       		$("#navSearch").hide();
 		       				$("#searchcardContainer").hide();
 		       		}
 			  });

@@ -701,10 +701,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
 			try{
-				getEnabledPlugin(MTGDao.class).saveOrUpdateContact(t);
-				
+				TransactionService.createContact(t);
 				return t;
-				
 			}
 			catch(SQLIntegrityConstraintViolationException e)
 			{
@@ -715,6 +713,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		}, transformer);
 
+		
+		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) -> {
+			
+			return getEnabledPlugin(MTGDao.class).enableContact(request.params(":token"));
+			
+			
+		}, transformer);
+		
 		
 		
 		get("/",URLTools.HEADER_HTML,(request,response) -> {

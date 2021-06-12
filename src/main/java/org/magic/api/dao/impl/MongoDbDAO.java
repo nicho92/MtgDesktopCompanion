@@ -15,6 +15,8 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.bson.BasicBSONObject;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -628,10 +630,27 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
+	public boolean enableContact(String token) throws SQLException {
+		
+		Contact doc = deserialize(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq("temporaryToken",token)).first(),Contact.class);
+		
+		if(doc!=null)
+		{
+			doc.setTemporaryToken(null);
+			doc.setActive(true);
+			saveOrUpdateContact(doc);
+			return true;
+		}
+		
+		return false;
+			
+	}
+	
+	
+	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
 		
 		c.setPassword(IDGenerator.generateSha256(c.getPassword()));
-		
 		if (c.getId() == -1) {
 			if(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq("email",c.getEmail())).first()!=null)
 				throw new SQLException("Please choose another email");

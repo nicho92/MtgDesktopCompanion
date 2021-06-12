@@ -43,6 +43,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.tools.ImageTools;
+import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observer;
 
 
@@ -223,7 +224,7 @@ public class MTGControler {
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
 			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
 			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection","false").equalsIgnoreCase("true"));
-			
+			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://"+URLTools.getExternalIp()));
 			try {
 				
 				if(conf.isAutomaticProduct())
@@ -276,6 +277,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/bannerTitle",wsc.getBannerTitle());
 		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
+		setProperty("/shopSite/config/websiteUrl",wsc.getWebsiteUrl());
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
 		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());

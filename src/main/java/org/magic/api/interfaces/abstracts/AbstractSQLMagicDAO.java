@@ -44,6 +44,7 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.TransactionService;
 import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
@@ -233,7 +234,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean, contact_active boolean)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean, contact_active boolean, temporaryToken VARCHAR("+TransactionService.TOKENSIZE+")");
 			logger.debug("Create table contacts");
 	
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
@@ -421,13 +422,38 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		return state;	
 	}
 	
+	
+	@Override
+	public boolean enableContact(String token) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=false")) 
+		{
+				pst.setString(1, token);
+				ResultSet rs = pst.executeQuery();
+				rs.next();
+				var ct= readContact(rs);
+				
+				ct.setActive(true);
+				ct.setTemporaryToken(null);
+				
+				saveOrUpdateContact(ct);
+				
+				return true;
+				
+		}
+		catch(Exception sqlde)
+		{
+			logger.error(sqlde);
+			return false;
+		}
+	}
+	
 	@Override
 	public int saveOrUpdateContact(Contact ct) throws SQLException {
 		
 		
 		if (ct.getId() < 0) 
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) 
 				{
 					pst.setString(1, ct.getName());
 					pst.setString(2, ct.getLastName());
@@ -441,6 +467,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					pst.setString(10, ct.getEmail());
 					pst.setBoolean(11,ct.isEmailAccept());
 					pst.setBoolean(12,ct.isActive());
+					pst.setString(13,ct.getTemporaryToken());
 					pst.executeUpdate();
 					ct.setId(getGeneratedKey(pst));
 					logger.debug("save Contact with id="+ct.getId());
@@ -453,7 +480,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("update Contact " + ct.getId());
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
 				pst.setString(3, ct.getTelephone());
@@ -465,7 +492,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(9, ct.getEmail());
 				pst.setBoolean(10, ct.isEmailAccept());
 				pst.setBoolean(11, ct.isActive());
-				pst.setInt(12, ct.getId());
+				pst.setString(12, ct.getTemporaryToken());
+				pst.setInt(13, ct.getId());
 				
 				pst.executeUpdate();
 				return ct.getId();

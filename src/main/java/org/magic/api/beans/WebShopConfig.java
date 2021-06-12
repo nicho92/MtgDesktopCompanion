@@ -34,6 +34,7 @@ public class WebShopConfig implements Serializable {
 	
 	private String iban;
 	private String bic;
+	private String websiteUrl;
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -245,6 +246,14 @@ public class WebShopConfig implements Serializable {
 	
 	public void setAutomaticProduct(boolean automaticProduct) {
 		this.automaticProduct = automaticProduct;
+	}
+
+	public String getWebsiteUrl() {
+		return websiteUrl;
+	}
+	
+	public void setWebsiteUrl(String websiteUrl) {
+		this.websiteUrl = websiteUrl;
 	}
 	
 }
