@@ -195,12 +195,12 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>3.1.2</version>
+			<version>3.1.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
-			<version>3.1.1</version>
+			<version>3.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.dean.jraw</groupId>
@@ -480,7 +480,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.20.jre7</version>
+			<version>42.2.21.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -521,7 +521,7 @@
 		<dependency>
 			<groupId>net.coderazzi</groupId>
 			<artifactId>tablefilter-swing</artifactId>
-			<version>5.5.3</version>
+			<version>5.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
