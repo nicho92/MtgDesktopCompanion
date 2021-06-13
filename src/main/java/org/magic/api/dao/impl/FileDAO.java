@@ -545,20 +545,25 @@ public class FileDAO extends AbstractMagicDAO{
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
-		return 0;
-	}
 
-	@Override
-	public void deleteTransaction(Transaction t) throws SQLException {
-	
 		if (t.getId() == -1)
 			t.setId(Paths.get(directory.getAbsolutePath(), TRANSACTIONSDIR).toFile().list().length + 1);
 		
 		try {
 			save(t, Paths.get(directory.getAbsolutePath(), TRANSACTIONSDIR,String.valueOf(t.getId())).toFile());
+			
+			
 		} catch (IOException e) {
 			throw new SQLException(e);
 		}
+		
+		return t.getId();
+		
+	}
+
+	@Override
+	public void deleteTransaction(Transaction t) throws SQLException {
+	
 	}
 
 	@Override
