@@ -8,6 +8,7 @@ import org.apache.commons.mail.HtmlEmail;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
+import org.magic.services.MTGConstants;
 
 public class EmailNotifier extends AbstractMTGNotifier{
 
@@ -22,7 +23,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 	
 	@Override
 	public String getName() {
-		return "Email";
+		return MTGConstants.EMAIL_NOTIFIER_NAME;
 	}
 
 	@Override

@@ -224,7 +224,7 @@ public class MTGControler {
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
 			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
 			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection","false").equalsIgnoreCase("true"));
-			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://"+URLTools.getExternalIp()));
+			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://localhost"));
 			try {
 				
 				if(conf.isAutomaticProduct())

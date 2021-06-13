@@ -46,9 +46,10 @@ public class TransactionService
 	{
 		c.setTemporaryToken(RandomStringUtils.random(TOKENSIZE, true, true));
 		c.setActive(false);
-		c.setTemporaryToken(MTGControler.getInstance().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
 		
 		int ret= getEnabledPlugin(MTGDao.class).saveOrUpdateContact(c);
+		
+		c.setTemporaryToken(MTGControler.getInstance().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
 		
 		EmailNotifier plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
 			try {
@@ -62,7 +63,6 @@ public class TransactionService
 		return ret;
 		
 	}
-	
 	
 	public static int saveTransaction(Transaction t, boolean reloadShipping) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
@@ -254,5 +254,5 @@ public class TransactionService
 			
 	
 	}
-	
+
 }

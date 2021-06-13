@@ -68,7 +68,7 @@
 						myObject.password = $("input[name='password']").val();
 						myObject.email = $("input[name='email']").val();
 						myObject.telephone = $("input[name='telephone']").val();
-						
+						$('#btnRegister').prop('disabled',true);
 						$.post(restserver+"/contact/add",JSON.stringify(myObject))
 							.done(function( data ) {
 								$("#confirmation").removeClass("alert-danger");
@@ -80,6 +80,7 @@
 							.fail(function(xhr, status, error) {
 								$("#confirmation").addClass("alert-danger");	
 								$("#confirmation").html(xhr.responseText);
+								$('#btnRegister').prop('disabled',false);
      						},
 							"json");  
 						
@@ -206,7 +207,7 @@
 			    </div> 
 		                                    
 			    <div class="form-group">
-			        <button type="submit"  class="btn btn-primary btn-block"> Register  </button>
+			        <button id="btnRegister" type="submit"  class="btn btn-primary btn-block"> Register  </button>
 			    </div>      
 	     </form>
 	</div>

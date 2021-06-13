@@ -604,5 +604,11 @@ public class FileDAO extends AbstractMagicDAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void changePassword(Contact c, String newPassword) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

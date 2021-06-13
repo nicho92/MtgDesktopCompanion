@@ -121,9 +121,13 @@ public class ContactPanel extends MTGUIComponent {
 		
 		
 		passwordJPasswordBtn.addActionListener(el->{
-			
 			String content = JOptionPane.showInputDialog("Type new password");
-			contact.setPassword(content);
+			try {
+				MTG.getEnabledPlugin(MTGDao.class).changePassword(getContact(),content);
+			} catch (SQLException e) {
+				logger.error("error updating password",e);
+				MTGControler.getInstance().notify(e);
+			}
 		});
 		
 	}

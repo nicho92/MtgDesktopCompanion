@@ -81,6 +81,7 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteTransaction(List<Transaction> t) throws SQLException;
 	
 	
+	public void changePassword(Contact c, String newPassword)  throws SQLException;
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
 	public Contact getContactById(int id)  throws SQLException;
 	public List<Contact> listContacts()  throws SQLException;

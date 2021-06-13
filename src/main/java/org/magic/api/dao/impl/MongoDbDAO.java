@@ -15,8 +15,6 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.bson.BasicBSONObject;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -45,7 +43,6 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -648,16 +645,22 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	
 	@Override
+	public void changePassword(Contact c, String newPassword) throws SQLException {
+		c.setPassword(IDGenerator.generateSha256(newPassword));
+		saveOrUpdateContact(c);
+	}
+	
+	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
-		
-		c.setPassword(IDGenerator.generateSha256(c.getPassword()));
-		if (c.getId() == -1) {
+		if (c.getId() == -1) 
+		{
+			c.setPassword(IDGenerator.generateSha256(c.getPassword()));
 			if(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq("email",c.getEmail())).first()!=null)
 				throw new SQLException("Please choose another email");
 		
-		c.setId(Integer.parseInt(getNextSequence().toString()));
+			c.setId(Integer.parseInt(getNextSequence().toString()));
 			
-		db.getCollection(colContacts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(c)));
+			db.getCollection(colContacts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(c)));
 
 		} else {
 			UpdateResult res = db.getCollection(colContacts, BasicDBObject.class).replaceOne(Filters.eq("id",c.getId()),BasicDBObject.parse(serialize(c)));

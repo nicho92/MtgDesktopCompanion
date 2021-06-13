@@ -187,7 +187,19 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 		return getIdstock()-o.getIdstock();
 	}
 	
+	@Override
+	public int hashCode() {
+		return getIdstock();
+	}
 	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof MagicCardStock))
+			return false;
+		
+		return getIdstock() == ((MagicCardStock)obj).getIdstock();
+	}
 	
 
 }
