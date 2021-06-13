@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.NameFileFilter;
@@ -591,12 +592,21 @@ public class FileDAO extends AbstractMagicDAO{
 	}
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws SQLException {
-		return new ArrayList<>();
+		return listTransactions().stream().filter(t->t.getContact().getId()==c.getId()).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Contact> listContacts() throws SQLException {
-		return new ArrayList<>();
+		List<Contact> ret = new ArrayList<>();
+
+		for (File f : FileUtils.listFiles(new File(directory, CONTACTSSDIR), null, false)) {
+			try {
+				ret.add(read(Contact.class, f));
+			} catch (Exception e) {
+				logger.error("Error reading transactions", e);
+			}
+		}
+		return ret;
 	}
 
 	@Override
