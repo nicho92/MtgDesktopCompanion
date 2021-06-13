@@ -6,6 +6,7 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -28,6 +31,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -646,9 +650,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
-		c.setPassword(IDGenerator.generateSha256(newPassword));
-		saveOrUpdateContact(c);
+		var passBson = new BasicDBObject();
+		passBson.put("password", IDGenerator.generateSha256(newPassword)); 
+
+		var updateBson = new BasicDBObject();
+		updateBson.put("$set", passBson); // (3)
+		
+		
+		var res = db.getCollection(colContacts, BasicDBObject.class).updateOne(Filters.eq("id",c.getId()),updateBson);
+		logger.debug(res);
 	}
+	
 	
 	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
@@ -662,8 +674,30 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			
 			db.getCollection(colContacts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(c)));
 
-		} else {
-			UpdateResult res = db.getCollection(colContacts, BasicDBObject.class).replaceOne(Filters.eq("id",c.getId()),BasicDBObject.parse(serialize(c)));
+		} 
+		else {
+			var contactUpdateData = new BasicDBObject();
+			try {
+				BeanUtils.describe(c).keySet().forEach(k->{
+					try {
+						if(!k.equalsIgnoreCase("password"))
+							contactUpdateData.put(k, PropertyUtils.getProperty(c,k));
+						
+					}  catch (Exception e) {
+						logger.error(e);
+					}
+					
+				});
+			} catch (Exception e) {
+				logger.error(e);
+			}
+			
+		
+			var update = new BasicDBObject();
+						  update.put("$set", contactUpdateData);
+		
+			
+			var res = db.getCollection(colContacts, BasicDBObject.class).updateOne(Filters.eq("id",c.getId()),update);
 			logger.debug(res);
 		}
 		return c.getId();
