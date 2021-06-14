@@ -56,7 +56,6 @@ public class OrdersDashlet extends AbstractJDashlet {
 		
 		chkSumOrTotal.addChangeListener(e->init());
 		cboProperty.addItemListener(ie -> {
-			
 			if(ie.getStateChange()==ItemEvent.SELECTED)
 				init();	
 		});

@@ -1,7 +1,5 @@
 package org.magic.gui.components.charts;
 
-import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,53 +7,76 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
+import org.jfree.chart3d.Chart3D;
+import org.jfree.chart3d.Chart3DFactory;
+import org.jfree.chart3d.Colors;
+import org.jfree.chart3d.Orientation;
+import org.jfree.chart3d.data.PieDataset3D;
+import org.jfree.chart3d.data.StandardPieDataset3D;
+import org.jfree.chart3d.graphics2d.Anchor2D;
+import org.jfree.chart3d.plot.PiePlot3D;
+import org.jfree.chart3d.plot.Plot3D;
+import org.jfree.chart3d.style.ChartStyle;
+import org.jfree.chart3d.table.TextElement;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.OrderEntry;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI3DChartComponent;
 import org.magic.tools.UITools;
+	
 
-
-public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
+public class OrdersChartPanel extends MTGUI3DChartComponent<OrderEntry> {
 
 	private static final long serialVersionUID = 1L;
 	private String p;
 	private boolean count;
-
+	private Chart3D chart;
+	
 
 	@Override
-	public JFreeChart initChart() {
+	protected Chart3D createNewChart() {
+		chart=null ;
 		
-		JFreeChart chart=null ;
-		try {
-			if(PropertyUtils.getProperty(new OrderEntry(), p) instanceof Date)
-			{
-				chart = ChartFactory.createTimeSeriesChart("Orders", "Date", "Value", getTimeDataSet(), true, true,false);
-
-			}
-			else
-			{
-				chart = ChartFactory.createPieChart3D("Orders", getPieDataSet(), false, true, true);
-				PiePlot plot = (PiePlot) chart.getPlot();
-				PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),new DecimalFormat("0.00%"));
-				plot.setLabelGenerator(generator);
-					
-			}
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			logger.error(e);
-		}
+		
+//		try {
+//			if(PropertyUtils.getProperty(new OrderEntry(), p) instanceof Date)
+//			{
+//				//chart = ChartFactory.createTimeSeriesChart("Orders", "Date", "Value", getTimeDataSet(), true, true,false);
+//
+//			}
+//			else
+//			{
+				chart=Chart3DFactory.createPieChart(
+		                getTitle(), 
+		                "", 
+		                getDataSet());
+				
+				chart.setLegendBuilder((Plot3D plot, Anchor2D anchor, Orientation orientation, ChartStyle style)->new TextElement(""));
+//			}
+//		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//			logger.error(e);
+//		}
 		return chart;
 	}
 
 
+	@Override
+	public void refresh() {
+		
+		logger.debug(p);
+		
+		
+		PiePlot3D plot = (PiePlot3D) chart.getPlot();
+        plot.setDataset(getDataSet());
+    	plot.setSectionColors(Colors.createPastelColors());
+    	plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->String.valueOf(key));
+    	
+    	plot.setToolTipGenerator((PieDataset3D dataset, Comparable<?> key)->String.valueOf(key + ":" + dataset.getValue(key)));
+    	chartPanel.zoomToFit();
+		
+	}
+	
 	private TimeSeriesCollection getTimeDataSet() {
 		var col = new TimeSeriesCollection();
 		
@@ -68,10 +89,11 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 	}
 
 
-	private PieDataset<String> getPieDataSet() {
-		DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
+	private PieDataset3D<String> getDataSet() {
+		var dataset = new StandardPieDataset3D<String>();
+		
 		for (Entry<Object, Double> data : groupOrdersBy().entrySet()) {
-			dataset.setValue(String.valueOf(data.getKey()), data.getValue());
+			dataset.add(String.valueOf(data.getKey()), data.getValue());
 		}
 
 		return dataset;
@@ -80,7 +102,7 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 
 	@Override
 	public String getTitle() {
-		return "Orders Chart";
+		return "Orders";
 	}
 
 
@@ -113,6 +135,7 @@ public class OrdersChartPanel extends MTGUIChartComponent<OrderEntry> {
 		});
 		return ret;
 	}
-	
+
+
 
 }
