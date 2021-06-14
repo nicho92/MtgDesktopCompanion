@@ -69,7 +69,7 @@
 						myObject.email = $("input[name='email']").val();
 						myObject.telephone = $("input[name='telephone']").val();
 						$('#btnRegister').prop('disabled',true);
-						$.post(restserver+"/contact/add",JSON.stringify(myObject))
+						$.post(restserver+"/contact/save",JSON.stringify(myObject))
 							.done(function( data ) {
 								$("#confirmation").removeClass("alert-danger");
 								$("#confirmation").addClass("alert-success");	

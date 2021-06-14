@@ -654,7 +654,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		passBson.put("password", IDGenerator.generateSha256(newPassword)); 
 
 		var updateBson = new BasicDBObject();
-		updateBson.put("$set", passBson); // (3)
+		updateBson.put("$set", passBson); 
 		
 		
 		var res = db.getCollection(colContacts, BasicDBObject.class).updateOne(Filters.eq("id",c.getId()),updateBson);

@@ -696,29 +696,40 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return getEnabledPlugin(MTGDao.class).listTransactions(c);
 		}, transformer);
 
-		
-		post("/contact/add", URLTools.HEADER_JSON, (request, response) -> {
-	
+		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
+			
 			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			try{
-				TransactionService.createContact(t);
-				return t;
-			}
-			catch(SQLIntegrityConstraintViolationException e)
+			
+			
+			if(t.getId()<=0)
 			{
-				response.status(500);
-				return "Email already exist";
+				try{
+					TransactionService.createContact(t);
+					return t;
+				}
+				catch(SQLIntegrityConstraintViolationException e)
+				{
+					response.status(500);
+					return "Email already exist";
+				}
 			}
-			
-			
+			else
+			{
+				try{
+					getEnabledPlugin(MTGDao.class).saveOrUpdateContact(t);
+					return t;
+				}
+				catch(SQLIntegrityConstraintViolationException e)
+				{
+					response.status(500);
+					return e.getMessage();
+				}
+			}
 		}, transformer);
-
+		
 		
 		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) -> {
-			
 			return getEnabledPlugin(MTGDao.class).enableContact(request.params(":token"));
-			
-			
 		}, transformer);
 		
 		

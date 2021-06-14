@@ -84,9 +84,9 @@
 						myObject.emailAccept = $("input[name=acceptEmail]").prop("checked");
 						myObject.zipCode = $("input[name='zipCode']").val();
 						myObject.city = $("input[name='city']").val();
+						myObject.active = 'true';
 						
-						
-						$.post(restserver+"/contact/add",JSON.stringify(myObject))
+						$.post(restserver+"/contact/save",JSON.stringify(myObject))
 							.done(function( data ) {
 								$("#confirmation").removeClass("alert-danger");
 								$("#confirmation").addClass("alert-success");	
