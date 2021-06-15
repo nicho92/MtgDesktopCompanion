@@ -18,11 +18,12 @@ import org.jfree.chart3d.plot.Plot3D;
 import org.jfree.chart3d.style.ChartStyle;
 import org.jfree.chart3d.table.TextElement;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.Transaction;
 import org.magic.gui.abstracts.MTGUI3DChartComponent;
 import org.magic.tools.UITools;
 	
 
-public class OrdersChartPanel extends MTGUI3DChartComponent<OrderEntry> {
+public class TransactionChartPanel extends MTGUI3DChartComponent<Transaction> {
 
 	private static final long serialVersionUID = 1L;
 	private String property;
@@ -66,11 +67,11 @@ public class OrdersChartPanel extends MTGUI3DChartComponent<OrderEntry> {
 
 	@Override
 	public String getTitle() {
-		return "Orders";
+		return "Transactions";
 	}
 
 
-	public void init(List<OrderEntry> listOrders, String p, boolean count) {
+	public void init(List<Transaction> listOrders, String p, boolean count) {
 		this.property=p;
 		this.count=count;
 		init(listOrders);
@@ -87,7 +88,7 @@ public class OrdersChartPanel extends MTGUI3DChartComponent<OrderEntry> {
 				if(count)
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
 				else
-					ret.put(val, ret.get(val)==null? o.getItemPrice() : UITools.roundDouble(ret.get(val)+o.getItemPrice()));
+					ret.put(val, ret.get(val)==null? o.total() : UITools.roundDouble(ret.get(val)+o.total()));
 			
 
 			} catch (Exception e) {

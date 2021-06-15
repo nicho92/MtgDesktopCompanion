@@ -69,7 +69,7 @@ public class TransactionService
 		if(reloadShipping) {
 			try {
 				var js = new JavaScript();
-				js.addVariable("total", t.getTotal());
+				js.addVariable("total", t.total());
 				Object ret = js.runContent(MTGControler.getInstance().getWebConfig().getShippingRules());
 				t.setShippingPrice(Double.parseDouble(ret.toString()));
 			} catch (Exception e1) {

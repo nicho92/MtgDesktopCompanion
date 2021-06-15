@@ -135,13 +135,6 @@ public class Transaction implements Serializable {
 		this.shippingPrice = shippingPrice;
 	}
 
-
-	public Double getTotal() {
-		return getItems().stream().mapToDouble(e->e.getPrice()*e.getQte()).sum();
-	}
-
-
-
 	public void setStatut(STAT statut) {
 		this.statut = statut;
 	}
