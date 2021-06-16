@@ -44,6 +44,14 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	}
 	
 	@Override
+	public String getCategory() {
+		return "Market";
+	}
+	
+	
+	
+	
+	@Override
 	public String getName() {
 		return "Most Played cards";
 	}

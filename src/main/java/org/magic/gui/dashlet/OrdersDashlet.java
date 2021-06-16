@@ -34,6 +34,12 @@ public class OrdersDashlet extends AbstractJDashlet {
 		initGUI();
 		
 	}
+	
+	@Override
+	public String getCategory() {
+		return "Financial";
+	}
+	
 
 	@Override
 	public void initGUI() {

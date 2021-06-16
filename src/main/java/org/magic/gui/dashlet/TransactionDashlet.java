@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.components.charts.OrdersChartPanel;
 import org.magic.gui.components.charts.TransactionChartPanel;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -35,6 +34,11 @@ public class TransactionDashlet extends AbstractJDashlet {
 		
 		initGUI();
 		
+	}
+	
+	@Override
+	public String getCategory() {
+		return "Financial";
 	}
 
 	@Override

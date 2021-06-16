@@ -36,7 +36,10 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	private enum INSIGHT_SELECTION  { STOCK_REDUCTION,BEST_BARGAIN,TOP_CARDS,BIGGEST_START_PRICE,BIGGEST_START_PRICE_FOIL,BIGGEST_AVG_SALES,BIGGEST_AVG_SALES_FOIL }
 	
 	
-	
+	@Override
+	public String getCategory() {
+		return "Market";
+	}
 	
 	@Override
 	public ImageIcon getDashletIcon() {

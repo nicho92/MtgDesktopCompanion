@@ -42,6 +42,10 @@ public class EditionsDashlet extends AbstractJDashlet {
 		return MTGConstants.ICON_EURO;
 	}
 	
+	@Override
+	public String getCategory() {
+		return "Market";
+	}
 	
 	public void initGUI() {
 		var panel = new JPanel();

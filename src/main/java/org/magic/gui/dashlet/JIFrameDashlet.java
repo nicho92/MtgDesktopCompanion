@@ -18,6 +18,11 @@ public class JIFrameDashlet extends AbstractJDashlet {
 	JTextField txtUrl;
 	
 	@Override
+	public String getCategory() {
+		return "Tools";
+	}
+	
+	@Override
 	public void initGUI() {
 
 		setLayout(new BorderLayout());

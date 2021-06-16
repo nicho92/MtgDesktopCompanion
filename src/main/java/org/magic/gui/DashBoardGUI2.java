@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -25,6 +26,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -60,16 +63,12 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	private void initNewDashBoardContainer(String name)
 	{
 		JMenuItem mntmSaveDisplay;
-		JMenu mnNewMenu;
 		var desktop = new JDesktopPane();
-		
-		
-		
 		
 		
 		tabbedPane.addTab(name,desktop);		
 		var menuBar = new JMenuBar();
-		mnNewMenu = new JMenu(capitalize("ADD"));
+		var mnNewMenu = new JMenu(capitalize("ADD"));
 		var mnWindow = new JMenu(capitalize("WINDOW"));
 		mntmSaveDisplay = new JMenuItem(capitalize("SAVE_DISPLAY"));
 		desktop.setBackground(SystemColor.activeCaption);
@@ -79,24 +78,8 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		mnWindow.add(mntmSaveDisplay);
 		desktop.add(menuBar);
 		
-		try {
-			for (AbstractJDashlet dash : listPlugins(AbstractJDashlet.class)) {
-				var mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
-				mntmNewMenuItem.addActionListener(e -> {
-					try {
-						addDash(desktop,PluginRegistry.inst().newInstance(dash.getClass()));
-					} catch (Exception ex) {
-						logger.error("Error Loading " + dash, ex);
-					}
-				});
-				mnNewMenu.add(mntmNewMenuItem);
-			}
-
-		} catch (Exception ex) {
-			logger.error("Error", ex);
-		}
 		
-		
+		initNewDashletAction(mnNewMenu,desktop);
 		initSaveDisplayAction(mntmSaveDisplay,desktop,name);
 		
 		SwingWorker<Void, File> sw = new SwingWorker<>()
@@ -113,6 +96,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 						var p = new Properties();
 						p.load(fis);
 						AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
+						
 						dash.setProperties(p);
 						addDash(desktop,dash);
 
@@ -124,50 +108,38 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw, "Loading dashlets");	
-		
-			
 	}
-		
-	private void initSaveDisplayAction(JMenuItem mntmSaveDisplay, JDesktopPane desktop,String name) {
-		mntmSaveDisplay.addActionListener(ae -> {
-			var i = 0;
-
-			var dir = new File(AbstractJDashlet.confdir,name);
+	
+	private void initNewDashletAction(JMenu mnNewMenu,JDesktopPane desktop) {
+		try {
 			
-			try {
-				FileUtils.cleanDirectory(dir);
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
-
+			List<AbstractJDashlet> dashs = listPlugins(AbstractJDashlet.class);
 			
-			for (JInternalFrame jif : desktop.getAllFrames()) {
-				i++;
-				var dash = (AbstractJDashlet) jif;
-				dash.setProperty("x", String.valueOf(dash.getBounds().getX()));
-				dash.setProperty("y", String.valueOf(dash.getBounds().getY()));
-				dash.setProperty("w", String.valueOf(dash.getBounds().getWidth()));
-				dash.setProperty("h", String.valueOf(dash.getBounds().getHeight()));
-				dash.setProperty("class", dash.getClass().getName());
-				dash.setProperty("id", String.valueOf(i));
-				var f = new File(dir, i + ".conf");
-
-				try (var fos = new FileOutputStream(f)) {
-					dash.getProperties().store(fos, "");
-					logger.trace("saving " + f + " :" + dash.getProperties());
+			dashs.stream().map(AbstractJDashlet::getCategory).distinct().forEach(n->{
+				var mntmCategory = new JMenu(n);
+				
+				for (AbstractJDashlet dash : dashs.stream().filter(d->d.getCategory().equalsIgnoreCase(n)).collect(Collectors.toList()))
+				{
+					var mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
+						mntmNewMenuItem.addActionListener(e -> {
+							try {
+								addDash(desktop,PluginRegistry.inst().newInstance(dash.getClass()));
+							} catch (Exception ex) {
+								logger.error("Error Loading " + dash, ex);
+							}
+						});
+					mntmCategory.add(mntmNewMenuItem);
 					
-				} catch (IOException e) {
-					logger.error(e);
 				}
-			}	
+				mnNewMenu.add(mntmCategory);
+			});
+			
+		} catch (Exception ex) {
+			logger.error("Error", ex);
+		}
 		
-	});
-
 	}
-	
-	
-	
-	
+
 	public DashBoardGUI2() {
 		setLayout(new BorderLayout());
 		
@@ -177,10 +149,10 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		
 		
 		var popup = new JPopupMenu();
-		var mnuAdd = new JMenuItem("Add");
+		var mnuAdd = new JMenuItem("New dashboard",MTGConstants.ICON_NEW);
 		
 		mnuAdd.addActionListener(al->{
-			var defaultName="DashBoard-" + tabbedPane.getTabCount()+1;
+			var defaultName="DashBoard-" + (tabbedPane.getTabCount()+1);
 			var dir = new File(AbstractJDashlet.confdir,defaultName);
 			
 			try {
@@ -233,10 +205,14 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			}
 			
 			@Override
-			public void editingStarted(TabEditingEvent e) {		}
+			public void editingStarted(TabEditingEvent e) {		
+				//do nothing
+			}
 			
 			@Override
-			public void editingCanceled(TabEditingEvent e) {	}
+			public void editingCanceled(TabEditingEvent e) {	
+				//do nothing
+			}
 		});
 		
 		
@@ -248,7 +224,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		
 
 	}
-	
 	
 	@Override
 	public void onFirstShowing() {
@@ -262,6 +237,42 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 	}
 
+	private void initSaveDisplayAction(JMenuItem mntmSaveDisplay, JDesktopPane desktop,String name) {
+		mntmSaveDisplay.addActionListener(ae -> {
+			var i = 0;
+
+			var dir = new File(AbstractJDashlet.confdir,name);
+			
+			try {
+				FileUtils.cleanDirectory(dir);
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+
+			
+			for (JInternalFrame jif : desktop.getAllFrames()) {
+				i++;
+				var dash = (AbstractJDashlet) jif;
+				dash.setProperty("x", String.valueOf(dash.getBounds().getX()));
+				dash.setProperty("y", String.valueOf(dash.getBounds().getY()));
+				dash.setProperty("w", String.valueOf(dash.getBounds().getWidth()));
+				dash.setProperty("h", String.valueOf(dash.getBounds().getHeight()));
+				dash.setProperty("class", dash.getClass().getName());
+				dash.setProperty("id", String.valueOf(i));
+				var f = new File(dir, i + ".conf");
+
+				try (var fos = new FileOutputStream(f)) {
+					dash.getProperties().store(fos, "");
+					logger.trace("saving " + f + " :" + dash.getProperties());
+					
+				} catch (IOException e) {
+					logger.error(e);
+				}
+			}	
+		
+	});
+
+	}
 
 	public void addDash(JDesktopPane desktop, AbstractJDashlet dash) {
 				try {

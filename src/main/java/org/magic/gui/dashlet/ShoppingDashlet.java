@@ -32,6 +32,10 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		return MTGConstants.ICON_SHOP;
 	}
 	
+	@Override
+	public String getCategory() {
+		return "Market";
+	}
 	
 	public void initGUI() {
 		var panel = new JPanel();

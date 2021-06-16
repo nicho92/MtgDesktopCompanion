@@ -43,6 +43,11 @@ public class TrendingDashlet extends AbstractJDashlet {
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_EURO;
 	}
+	
+	@Override
+	public String getCategory() {
+		return "Market";
+	}
 
 	public void initGUI() {
 		JButton btnRefresh;

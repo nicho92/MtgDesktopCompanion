@@ -37,6 +37,10 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	private Calendar c;
 
 
+	@Override
+	public String getCategory() {
+		return "Event";
+	}
 
 	@Override
 	public ImageIcon getDashletIcon() {

@@ -47,6 +47,12 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private transient CollectionAnalyzerWorker sw;
 	private JSlider slider ;
 	
+	
+	@Override
+	public String getCategory() {
+		return "Collection";
+	}
+	
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));

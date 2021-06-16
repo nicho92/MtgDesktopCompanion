@@ -40,6 +40,12 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 	}
 
 	@Override
+	public String getCategory() {
+		return "Collection";
+	}
+	
+	
+	@Override
 	public void initGUI() {
 		var scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);

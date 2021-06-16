@@ -32,6 +32,12 @@ public class IndexationDashlet extends AbstractJDashlet {
 		return MTGConstants.ICON_TAB_ANALYSE;
 	}
 	
+	@Override
+	public String getCategory() {
+		return "Collection";
+	}
+	
+	
 	public void initGUI() {
 	
 		var panneauHaut = new JPanel();

@@ -57,6 +57,12 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 	public String getName() {
 		return "Booster Box";
 	}
+	
+	@Override
+	public String getCategory() {
+		return "Financial";
+	}
+	
 
 	@Override
 	public void init() {

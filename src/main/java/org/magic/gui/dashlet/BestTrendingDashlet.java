@@ -68,6 +68,11 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	}
 
 	@Override
+	public String getCategory() {
+		return "Market";
+	}
+	
+	@Override
 	public void init() {
 		
 		
