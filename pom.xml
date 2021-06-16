@@ -63,9 +63,9 @@
 	</repositories>
 	<dependencies>
 	  	<dependency>
-		    <groupId>com.jidesoft</groupId>
-		    <artifactId>jide-oss</artifactId>
-		    <version>3.6.18</version>
+		  <groupId>com.formdev</groupId>
+		  <artifactId>jide-oss</artifactId>
+		  <version>3.7.11.1</version>
 		</dependency>
 
 		<dependency>
@@ -241,22 +241,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.8.2</version>
+			<version>8.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.8.2</version>
+			<version>8.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.8.2</version>
+			<version>8.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.8.2</version>
+			<version>8.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -486,7 +486,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.21.jre7</version>
+			<version>42.2.22.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>

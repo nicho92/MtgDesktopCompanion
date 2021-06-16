@@ -1,7 +1,5 @@
 package org.magic.gui.components.charts;
 
-import java.util.Map.Entry;
-
 import org.jfree.chart3d.Chart3D;
 import org.jfree.chart3d.Chart3DFactory;
 import org.jfree.chart3d.Colors;
@@ -9,30 +7,43 @@ import org.jfree.chart3d.data.DefaultKeyedValues;
 import org.jfree.chart3d.data.category.CategoryDataset3D;
 import org.jfree.chart3d.data.category.StandardCategoryDataset3D;
 import org.jfree.chart3d.plot.CategoryPlot3D;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.Transaction;
 import org.magic.gui.abstracts.MTGUI3DChartComponent;
 
-public class CmcChart3DPanel extends MTGUI3DChartComponent<MagicCard> {
+public class TransactionBalance3DChartPanel extends MTGUI3DChartComponent<Transaction> {
 	
+	private static final String BALANCE = "Balance";
 	private static final long serialVersionUID = 1L;
 	private Chart3D chart;
 
-	private CategoryDataset3D<String,Integer,Integer>  getDataSet() {
-		var dataset = new StandardCategoryDataset3D<String, Integer,Integer>();
-		var serie = new DefaultKeyedValues<Integer, Integer>();
+	private CategoryDataset3D<String,Double, String>  getDataSet() {
+		var dataset = new StandardCategoryDataset3D<String,Double, String>();
+		var serieB = new DefaultKeyedValues<String, Double>();
+		var serieS = new DefaultKeyedValues<String, Double>();
 		
-		for (Entry<Integer, Integer> k : manager.analyseCMC(items).entrySet())
-			serie.put(k.getKey(),k.getValue());
+		serieB.put(BALANCE,0.0);
+		serieS.put(BALANCE,0.0);
 		
-		dataset.addSeriesAsRow("cmc", serie);
 		
+		for (Transaction t : items)
+			for(MagicCardStock mcs : t.getItems())
+				{
+					if(mcs.getPrice()>0)
+						serieB.put(BALANCE,serieB.getValue(BALANCE)+(mcs.getPrice()*mcs.getQte()));
+					else
+						serieS.put(BALANCE,serieS.getValue(BALANCE)+(mcs.getPrice()*mcs.getQte()));
+				}
+		
+		dataset.addSeriesAsRow("Sell",serieS);
+		dataset.addSeriesAsRow("Buy",serieB);
 		
 		return dataset;
 	}
 
 	@Override
 	public String getTitle() {
-		return "CMC";
+		return BALANCE;
 	}
 
 
@@ -42,7 +53,7 @@ public class CmcChart3DPanel extends MTGUI3DChartComponent<MagicCard> {
                 getTitle(), 
                 "", 
                 getDataSet(), 
-                "", "cost", "");
+                "", "", "");
 		
 		return chart;
 	}
