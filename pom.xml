@@ -62,6 +62,12 @@
 		</repository>
 	</repositories>
 	<dependencies>
+	  	<dependency>
+		    <groupId>com.jidesoft</groupId>
+		    <artifactId>jide-oss</artifactId>
+		    <version>3.6.18</version>
+		</dependency>
+
 		<dependency>
 		    <groupId>org.jfree</groupId>
 		    <artifactId>org.jfree.chart3d</artifactId>
