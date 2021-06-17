@@ -17,7 +17,6 @@ import org.jfree.chart3d.plot.PiePlot3D;
 import org.jfree.chart3d.plot.Plot3D;
 import org.jfree.chart3d.style.ChartStyle;
 import org.jfree.chart3d.table.TextElement;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction;
 import org.magic.gui.abstracts.MTGUI3DChartComponent;
 import org.magic.tools.UITools;

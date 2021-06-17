@@ -84,12 +84,6 @@ public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
 		
 		}
 		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-			
-			}
-		});
 		
 	}
 
