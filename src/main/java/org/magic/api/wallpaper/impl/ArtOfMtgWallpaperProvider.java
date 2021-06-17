@@ -15,6 +15,7 @@ import org.magic.tools.URLTools;
 
 public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 
+	
 	@Override
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();
@@ -24,8 +25,8 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 
 			for (Element e : d.select("article.result")) {
 				var w = new Wallpaper();
-				w.setName(e.select("h2 a").text());
-				w.setUrl(new URI(e.select("a img").attr("src")));
+				w.setName(e.select("a img").attr("title"));
+				w.setUrl(new URI(e.select("a img").attr("data-src")));
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 				notify(w);

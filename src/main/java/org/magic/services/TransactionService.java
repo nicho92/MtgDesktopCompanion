@@ -211,7 +211,13 @@ public class TransactionService
 	
 	public static void payingTransaction(Transaction t, String providerName) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(STAT.PAID);
+		
+		if(PAYMENT_PROVIDER.VIREMENT.equals(t.getPaymentProvider()) || PAYMENT_PROVIDER.PAYPALME.equals(t.getPaymentProvider()))
+			t.setStatut(STAT.PAYMENT_SENT);
+		else
+			t.setStatut(STAT.PAID);
+		
+		
 		t.setPaymentProvider(PAYMENT_PROVIDER.valueOf(providerName.toUpperCase()));
 		t.setDatePayment(new Date());
 		saveTransaction(t,false);

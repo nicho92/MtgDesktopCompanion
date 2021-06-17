@@ -221,7 +221,7 @@
 		<dependency>
 			<groupId>org.pushing-pixels</groupId>
 			<artifactId>radiance-substance</artifactId>
-			<version>3.5.1</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>

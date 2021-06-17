@@ -62,28 +62,26 @@
 				    	html+="<b>Price</b> : " + total.toFixed(2) +" " +currency +"<br/>";
 				    	
 				    	$('#transaction-content').html(html);
-				    	
-
 				    });
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			    	
-			    
-			  	});
-				 
+
+						$("#btnSendTransfert").click(function() 
+						{
+							$("#btnSendTransfert").prop('disabled', true);
+						  		$.post(restserver+"/transaction/paid/VIREMENT",JSON.stringify(transaction))
+									.done(function( data ) {
+										$("#result").addClass("alert-success");
+										$("#result").html("Payment was successfully sent</b>");
+									});
+						});
+						
+
+			 
 			});
+});
 	  </script>
 </head>
 
 <body>
-
-
-
 
 <nav id="header" class="navbar navbar-expand-md navbar-dark bg-dark"></nav>
 <section id="banner" class="jumbotron text-center"></section>
@@ -105,8 +103,12 @@
 						<strong>IBAN : </strong><div id='iban'/></div>
 						<br/>
 						<strong>BIC : </strong><div id='bic'></div>
+						<br/>
+						
+						<button type="button" id='btnSendTransfert' class="btn btn-primary">Click here when transfert is done</button>
+					
 					</div>
-					<div id="confirmation" class="card-footer" role="alert"></div>
+					<div id="result" class="card-footer" role="alert"></div>
 			</div>
 			
 			
@@ -117,6 +119,3 @@
 
 <footer id="footer" class="text-light"></footer>
 </body>
-<script>
-
-
