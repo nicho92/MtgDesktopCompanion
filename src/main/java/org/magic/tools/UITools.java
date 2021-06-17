@@ -82,6 +82,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ShortKeyManager;
 import org.magic.services.threads.ThreadManager;
+import org.panda_lang.pandomium.Pandomium;
+import org.panda_lang.pandomium.settings.PandomiumSettings;
+import org.panda_lang.pandomium.util.os.PandomiumOS;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
@@ -90,6 +93,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class UITools {
 
 	private static final String DATE_FORMAT = "DATE_FORMAT";
+	private static Pandomium instance;
 
 	private UITools() {}
 	
@@ -113,6 +117,28 @@ public class UITools {
 			table.getColumnModel().getColumn(i).setCellRenderer(render);
 		}
 	}
+	
+	
+	public static Pandomium getPandomiumInstance()
+	{
+		if(instance==null)
+		{
+			PandomiumSettings.getDefaultSettings();
+			PandomiumSettings setts = PandomiumSettings.getDefaultSettingsBuilder()
+											.nativeDirectory(MTGConstants.NATIVE_DIR.getAbsolutePath())
+											.loadAsync(false)
+											.build();
+			instance = new Pandomium(setts);
+			
+			instance.initialize();
+			logger.debug("loading pandomium for " + PandomiumOS.getOS());
+			
+		}
+		
+		return instance;
+	}
+	
+	
 	
 	public static void browse(String uri)
 	{

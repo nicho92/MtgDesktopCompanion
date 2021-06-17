@@ -7,6 +7,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 import org.panda_lang.pandomium.Pandomium;
 import org.panda_lang.pandomium.settings.PandomiumSettings;
 import org.panda_lang.pandomium.util.os.PandomiumOS;
@@ -23,22 +24,10 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 	
 	public ChromiumBrowserComponent() throws IOException {
 		setLayout(new BorderLayout());
-		PandomiumSettings.getDefaultSettings();
-		PandomiumSettings setts = PandomiumSettings.getDefaultSettingsBuilder()
-										.nativeDirectory(MTGConstants.NATIVE_DIR.getAbsolutePath())
-										.loadAsync(false)
-										.build();
+		
 		
 		try {
-			
-			
-			
-			var pandomium = new Pandomium(setts);
-			logger.debug("loading pandomium for " + PandomiumOS.getOS());
-			
-			pandomium.initialize();
-			
-			client = pandomium.createClient();
+			client = UITools.getPandomiumInstance().createClient();
 			browser = client.loadURL("about:blank");
 			add(browser.toAWTComponent(),BorderLayout.CENTER);
 			
