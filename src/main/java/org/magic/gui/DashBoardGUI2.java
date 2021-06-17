@@ -245,7 +245,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			
 			try {
 				FileUtils.cleanDirectory(dir);
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				logger.error(e1);
 			}
 
@@ -274,18 +274,18 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 	}
 
-	public void addDash(JDesktopPane desktop, AbstractJDashlet dash) {
-				try {
-					logger.debug("loading " + dash.getName());
-					dash.initGUI();
-					desktop.add(dash);
-					dash.init();
-					dash.setVisible(true);
-					
-				} catch (Exception e) {
-					logger.error("error adding " + dash,e);
-					MTGControler.getInstance().notify(e);
-				} 
+	private void addDash(JDesktopPane desktop, AbstractJDashlet dash) {
+			try {
+				logger.debug("loading " + dash.getName());
+				dash.initGUI();
+				desktop.add(dash);
+				dash.init();
+				dash.setVisible(true);
+				
+			} catch (Exception e) {
+				logger.error("error adding " + dash,e);
+				MTGControler.getInstance().notify(e);
+			} 
 	}
 
 }

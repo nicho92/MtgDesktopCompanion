@@ -9,7 +9,7 @@ import java.util.List;
 import org.magic.api.exports.impl.WooCommerceExport;
 
 public class Transaction implements Serializable {
-	public enum STAT {NEW,IN_PROGRESS,PAYMENT_WAITING, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
+	public enum STAT {NEW,IN_PROGRESS,PAYMENT_WAITING,PAYMENT_SENT, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
 	public enum PAYMENT_PROVIDER {PAYPAL,VIREMENT,CASH,VISA, AMEX} 
 	
 	private static final long serialVersionUID = 1L;

@@ -229,10 +229,21 @@
 						        		{
 						        			if(type === 'display')
 											{
-								              	if(row.statut=='PAYMENT_WAITING' && data.paypalClientId!="")
-								                   d="<a href='paypal.html?id="+d+"'><em class='fab fa-2x fa-cc-paypal'></em></a>";
-								                else  
-								                	if(row.statut=='SENT')
+								              	if(row.statut=='PAYMENT_WAITING')
+								                {
+													var id=d;
+									
+													if(data.paypalClientId!="")
+														d="<a data-toggle='tooltip' title='Pay with paypal' href='paypal.html?id="+id+"'><em class='fab fa-2x fa-cc-paypal'></em></a>";
+												
+													if(data.iban!="")	
+														d+=" <a data-toggle='tooltip' title='Pay with banq Transfert' href='banqTransfert.html?id="+id+"'><em class='fas fa-2x fa-university'></em></a>";
+														
+													if(data.setPaypalSendMoneyUri!="")	
+														d+=" <a data-toggle='tooltip' target='_blank' 'title='Pay with paypal.me' href='"+data.setPaypalSendMoneyUri+"'><em class='fab fa-2x fa-paypal'></em></a>";	
+															
+												}
+												else if(row.statut=='SENT')
 								                   d="<a data-toggle='modal' class='btn btn-primary btn-sm' data-target='#exampleModal' href='#' trackid='"+row.transporterShippingCode+"' transporter='"+row.transporter+"' ><em class='fas fa-1x fa-barcode'></em></a>";
 								                else 
 								                	d="";
