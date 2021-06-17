@@ -12,10 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -104,25 +106,41 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		ThreadManager.getInstance().executeThread(() -> {
-			lblLoading.start();
+		lblLoading.start();
+		SwingWorker<List<CardDominance>, Void> sw = new SwingWorker<List<CardDominance>, Void>() {
 			
-			List<CardDominance> list;
-			try {
-				list = getEnabledPlugin(MTGDashBoard.class).getBestCards((MagicFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
-				models.init(list);
-				models.fireTableDataChanged();
-				table.packAll();
-				table.setRowSorter(new TableRowSorter<>(models));
-				setProperty("FORMAT", cboFormat.getSelectedItem().toString());
-				setProperty("FILTER", cboFilter.getSelectedItem().toString());
-			} catch (IOException e) {
-				logger.error(e);
+			@Override
+			protected List<CardDominance> doInBackground() throws Exception {
+				return getEnabledPlugin(MTGDashBoard.class).getBestCards((MagicFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
 			}
-			lblLoading.end();
 			
+			@Override
+			protected void done() {
+
+				try {
+					models.init(get());
+					models.fireTableDataChanged();
+					table.packAll();
+					table.setRowSorter(new TableRowSorter<>(models));
+					setProperty("FORMAT", cboFormat.getSelectedItem().toString());
+					setProperty("FILTER", cboFilter.getSelectedItem().toString());
+					
+				}
+				catch(InterruptedException ex)
+				{
+					Thread.currentThread().interrupt();
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+				lblLoading.end();
+			}
 			
-		}, "init BestCardsDashlet");
+		};
+		
+		
+		ThreadManager.getInstance().runInEdt(sw, "Loading best cards");
 	}
 
 }
