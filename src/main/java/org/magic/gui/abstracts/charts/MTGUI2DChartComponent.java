@@ -6,7 +6,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 
-public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T> {
+public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends AbstractChartComponent<T> {
 
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +31,7 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 	
 	}
 	
-	public abstract <U extends Dataset> U getDataSet() ;
+	public abstract U getDataSet() ;
 	
 	public void updatePlot()
 	{

@@ -1,13 +1,13 @@
 package org.magic.gui.abstracts.charts;
 
 import org.jfree.chart3d.Chart3DFactory;
-import org.jfree.chart3d.Colors;
-import org.jfree.chart3d.plot.PiePlot3D;
+import org.jfree.chart3d.data.category.CategoryDataset3D;
+import org.jfree.chart3d.plot.CategoryPlot3D;
 
-public abstract class Abstract3DBarChart<B> extends MTGUI3DChartComponent<B> {
+public abstract class Abstract3DBarChart<B> extends MTGUI3DChartComponent<B,CategoryDataset3D> {
 
 	private static final long serialVersionUID = 1L;
-	protected PiePlot3D plot;
+	protected CategoryPlot3D plot;
 	
 	@Override
 	public void refresh() {
@@ -18,11 +18,10 @@ public abstract class Abstract3DBarChart<B> extends MTGUI3DChartComponent<B> {
 
 	protected void initPlot()
 	{
-		plot.setSectionColors(Colors.createPastelColors());
+		
 	}
 
 	@Override
-	@SuppressWarnings({ "rawtypes"})
 	protected void createNewChart() {
 		chart = Chart3DFactory.createBarChart(
                 getTitle(), 
@@ -31,6 +30,7 @@ public abstract class Abstract3DBarChart<B> extends MTGUI3DChartComponent<B> {
                 "", "", "");
 	
 		
+		plot = (CategoryPlot3D) chart.getPlot();
 	}
 	
 

@@ -10,7 +10,7 @@ import org.jfree.chart3d.plot.Plot3D;
 import org.jfree.chart3d.style.ChartStyle;
 import org.jfree.chart3d.table.TextElement;
 
-public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B> {
+public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B,PieDataset3D> {
 
 	private static final long serialVersionUID = 1L;
 	protected PiePlot3D plot;

@@ -1,16 +1,17 @@
 package org.magic.gui.abstracts.charts;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
-public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B> {
+public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B,TimeSeriesCollection> {
 
 	private static final long serialVersionUID = 1L;
 
 
 	@Override
 	protected void createNewChart() {
-		chart = ChartFactory.createTimeSeriesChart(getTitle(), "Date", "Value", (XYDataset)getDataSet(),showLegend(), true, false);
+		chart = ChartFactory.createTimeSeriesChart(getTitle(), "Date", "Value", getDataSet(),showLegend(), true, false);
 	}
 	
 }

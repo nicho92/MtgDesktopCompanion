@@ -12,7 +12,7 @@ import org.jfree.chart3d.graphics3d.swing.DisplayPanel3D;
 import org.jfree.chart3d.legend.LegendAnchor;
 import org.magic.services.MTGControler;
 
-public abstract class MTGUI3DChartComponent<T> extends AbstractChartComponent<T> {
+public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends AbstractChartComponent<T> {
 
 
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public abstract class MTGUI3DChartComponent<T> extends AbstractChartComponent<T>
 	protected Chart3D chart;
 
 	
-	public abstract <U extends Dataset3D> U getDataSet() ;
+	public abstract U getDataSet() ;
 
 	
 	protected MTGUI3DChartComponent() {
@@ -29,7 +29,11 @@ public abstract class MTGUI3DChartComponent<T> extends AbstractChartComponent<T>
 		init();
 	}
 	
-
+	
+	protected void initPlot()
+	{
+		
+	}
 	
 	public boolean showDisplayPanel()
 	{
