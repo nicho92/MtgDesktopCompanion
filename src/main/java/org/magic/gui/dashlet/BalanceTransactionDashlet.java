@@ -4,22 +4,15 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.TransactionBalance3DChartPanel;
-import org.magic.gui.components.charts.TransactionChartPanel;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
-
-import com.google.common.collect.Lists;
 
 public class BalanceTransactionDashlet extends AbstractJDashlet {
 	

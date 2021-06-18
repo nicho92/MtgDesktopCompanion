@@ -5,9 +5,9 @@ import java.util.Map.Entry;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
+import org.magic.gui.abstracts.charts.Abstract2DBarChart;
 
-public class CmcChartPanel extends Abstract2DHistoChart<MagicCard> {
+public class CmcChartPanel extends Abstract2DBarChart<MagicCard> {
 	
 	private static final long serialVersionUID = 1L;
 

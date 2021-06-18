@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import javax.swing.SwingWorker;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.data.general.Dataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -48,9 +47,6 @@ public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 		
 	}
 	
-	public HistoryPrice getVariations() {
-		return cpVariations;
-	}
 	
 	public void init(Packaging pack, String title) {
 		this.pack=pack;

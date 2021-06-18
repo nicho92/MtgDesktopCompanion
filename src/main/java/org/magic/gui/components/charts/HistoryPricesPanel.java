@@ -16,10 +16,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.general.Dataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -29,22 +27,24 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.charts.MTGUI2DChartComponent;
+import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.tools.UITools;
 
-public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
+public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	boolean showEdition = false;
 	private JCheckBox chckbxShowEditions;
 	private transient HistoryPrice<?> cpVariations;
 	private String title="";
 	private transient HistoryPrice<?> cpVariationsF;
+	private MagicCard mc;
+	private MagicEdition me;
+	
+	
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -53,7 +53,7 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 	
 	@Override
 	public String getTitle() {
-		return "Price History Chart";
+		return title;
 	}
 	
 	
@@ -76,21 +76,27 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 			showEdition = chckbxShowEditions.isSelected();
 			refresh();
 		});
+		
 		panelActions.add(chckbxShowEditions, UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
-
-		
-		
 		}
-		
-		
 	}
-
+	
+	@Override
+	public void onVisible() {
+		init(mc,me,title);
+	}
+	
 	
 	public void init(MagicCard card, MagicEdition me, String title) {
+		this.mc = card;
+		this.me = me;
 		this.title=title;
+		
+		
 		if(card==null && me==null)
 			return;
-				
+	
+		
 		if(isVisible()) 
 		{
 			
@@ -104,7 +110,6 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 			}
 			else
 			{
-			
 				try {
 					this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
 					
@@ -141,6 +146,7 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 
 				dataset.addSeries(series1);
 			}
+			
 			if(cpVariationsF!=null && !cpVariationsF.isEmpty())
 			{
 				var series2 = new TimeSeries(cpVariationsF.toString());
@@ -157,7 +163,6 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 
 			if (showEdition)
 			{		
-				
 				List<MagicEdition> list = new ArrayList<>();
 				try {
 					list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
@@ -165,36 +170,31 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 					logger.error(e1);
 				}
 				
-					for (MagicEdition edition : list) 
-					{
+				for (MagicEdition edition : list) 
+				{
+					if(!edition.getReleaseDate().isEmpty()) {
 						try {	
 						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 						TimeSeriesDataItem item = series1.getDataItem(new Day(d));
-
-						if (item != null) {
-
+						if (item != null) 
+						{
 							var x = item.getPeriod().getFirstMillisecond();
 							var y = item.getValue().doubleValue();
 							var annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage()); 
-											  annot.setToolTipText(edition.getSet());
-							XYPlot plot = (XYPlot) chart.getPlot();
-							plot.addAnnotation(annot);
+								annot.setToolTipText(edition.getSet());
+								
+							 ((XYPlot) chart.getPlot()).addAnnotation(annot);
 						}
 					
-				} catch (Exception e) {
-					logger.error("error show eds " + edition+ " :" + e);
-				}
+					} catch (Exception e) {
+						logger.error("error show eds " + edition+ " :" + e);
 					}
+					}
+				}
 			}
 			
 			return dataset;
 	}
 	
-	
-	@Override
-	public void createNewChart() {
-		chart = ChartFactory.createTimeSeriesChart(title, "Date", "Value", getDataSet(), showLegend(), true,false);
-	}
-
 
 }

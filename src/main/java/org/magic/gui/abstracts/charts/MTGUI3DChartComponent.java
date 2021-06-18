@@ -20,13 +20,15 @@ public abstract class MTGUI3DChartComponent<T> extends AbstractChartComponent<T>
 	protected Chart3D chart;
 
 	
+	public abstract <U extends Dataset3D> U getDataSet() ;
+
+	
 	protected MTGUI3DChartComponent() {
 		super();
 		onlyOneRefresh=false;
 		init();
 	}
 	
-	public abstract <U extends Dataset3D> U getDataSet() ;
 
 	
 	public boolean showDisplayPanel()

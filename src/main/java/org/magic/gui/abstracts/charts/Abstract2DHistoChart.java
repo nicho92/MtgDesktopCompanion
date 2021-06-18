@@ -1,8 +1,7 @@
 package org.magic.gui.abstracts.charts;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.xy.XYDataset;
 
 public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B> {
 
@@ -11,8 +10,7 @@ public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B> {
 
 	@Override
 	protected void createNewChart() {
-		chart = ChartFactory.createBarChart(getTitle(), "", "", (CategoryDataset)getDataSet(),PlotOrientation.VERTICAL, showLegend(), true, false);
+		chart = ChartFactory.createTimeSeriesChart(getTitle(), "", "", (XYDataset)getDataSet(),showLegend(), true, false);
 	}
 	
-
 }

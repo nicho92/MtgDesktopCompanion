@@ -22,8 +22,6 @@ public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B> {
     	chartPanel.zoomToFit();
 	}
 
-	
-	
 	protected void initPlot()
 	{
 		plot.setSectionColors(Colors.createPastelColors());
@@ -40,13 +38,17 @@ public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B> {
 		plot = (PiePlot3D) chart.getPlot();
 		
 		
-		if(showLegend())
+		if(!showLegend())
 			chart.setLegendBuilder((Plot3D plotA, Anchor2D anchor, Orientation orientation, ChartStyle style)->new TextElement(""));
 		
 		if(showLabel())
 			plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString());
 		else
 			plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->"");
+		
+		
+		plot.setToolTipGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString() + " : " + dataset.getValue(key));
+		
 	}
 	
 

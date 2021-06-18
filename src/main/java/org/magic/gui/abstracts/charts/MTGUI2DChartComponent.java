@@ -12,38 +12,11 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 	private static final long serialVersionUID = 1L;
 	protected ChartPanel chartPanel;
 	protected JFreeChart chart;
-
+	
+	
 	protected MTGUI2DChartComponent() {
 		super();
 		onlyOneRefresh=false;
-		init();
-	}
-	
-
-	public void refresh()
-	{
-
-		if(items==null)
-			return;
-		
-		createNewChart();
-		
-		
-		if(!showLegend())
-			chart.removeLegend();
-		
-		chartPanel.setChart(chart);
-		
-		if(chart!=null)
-			chart.fireChartChanged();
-
-	}
-	
-	
-	public abstract <U extends Dataset> U getDataSet() ;
-
-	
-	private void init() {
 		chartPanel = new ChartPanel(null,true);
 		add(chartPanel, BorderLayout.CENTER);
 		
@@ -55,10 +28,24 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 				chartPanel.zoomInDomain(1.5, 1.5);
 			}
 		});
-		
-
 	}
 	
+	public abstract <U extends Dataset> U getDataSet() ;
+
+	
+	@Override
+	public void refresh()
+	{
+		createNewChart();
+		chartPanel.setChart(chart);
+		
+//		if(chart!=null)
+//			chart.fireChartChanged();
+		
+	}
+	
+	
+
 	
 
 }
