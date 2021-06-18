@@ -8,9 +8,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI2DChartComponent;
 
-public class CmcChartPanel extends MTGUIChartComponent<MagicCard> {
+public class CmcChartPanel extends MTGUI2DChartComponent<MagicCard> {
 	
 	private static final long serialVersionUID = 1L;
 

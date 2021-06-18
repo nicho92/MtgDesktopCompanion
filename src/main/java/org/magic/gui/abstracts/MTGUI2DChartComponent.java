@@ -9,7 +9,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.magic.services.MTGDeckManager;
 
-public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
+public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
 
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@ public abstract class MTGUIChartComponent<T> extends MTGUIComponent {
 	protected ChartPanel chartPanel;
 
 	
-	protected MTGUIChartComponent() {
+	protected MTGUI2DChartComponent() {
 		onlyOneRefresh=false;
 		init();
 	}

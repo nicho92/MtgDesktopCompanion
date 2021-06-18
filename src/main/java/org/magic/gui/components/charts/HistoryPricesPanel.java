@@ -31,12 +31,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI2DChartComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.tools.UITools;
 
-public class HistoryPricesPanel extends MTGUIChartComponent<Void> {
+public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 
 	/**
 	 * 

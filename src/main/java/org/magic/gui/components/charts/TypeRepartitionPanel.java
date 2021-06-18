@@ -2,46 +2,16 @@ package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
 
-import org.jfree.chart3d.Chart3D;
-import org.jfree.chart3d.Chart3DFactory;
-import org.jfree.chart3d.Colors;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
-import org.jfree.chart3d.plot.PiePlot3D;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.abstracts.MTGUI3DChartComponent;
+import org.magic.gui.abstracts.AbstractPieChart;
 
-public class TypeRepartitionPanel extends  MTGUI3DChartComponent<MagicCard> {
+public class TypeRepartitionPanel extends AbstractPieChart<MagicCard> {
 
 	private static final long serialVersionUID = 1L;
-	private Chart3D chart;
 	
-	@Override
-	public String getTitle() {
-		return "Types";
-	}
-
-	@Override
-	protected Chart3D createNewChart() {
-		chart= Chart3DFactory.createPieChart(
-                "Types", 
-                "", 
-                getDataSet());
-		
-		var plot = (PiePlot3D) chart.getPlot();
-		plot.setSectionLabelGenerator((PieDataset3D dataset, Comparable<?> key)->"");
-		plot.setSectionColors(Colors.createPastelColors());
-	  	plot.setToolTipGenerator((PieDataset3D dataset, Comparable<?> key)->String.valueOf(key + ":" + dataset.getValue(key)));
-	  	 
-		return chart;
-	}
 	
-	@Override
-	public void refresh() {
-		PiePlot3D plot = (PiePlot3D) chart.getPlot();
-        plot.setDataset(getDataSet());
-        chartPanel.zoomToFit();
-	}
 	
 	@SuppressWarnings("unchecked")
 	public PieDataset3D<String> getDataSet() {
@@ -52,6 +22,12 @@ public class TypeRepartitionPanel extends  MTGUI3DChartComponent<MagicCard> {
 		return dataset;
 		
 		
+	}
+
+
+	@Override
+	public String getTitle() {
+		return "Type";
 	}
 
 }

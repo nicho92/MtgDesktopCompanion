@@ -26,8 +26,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -217,11 +215,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		
 		
 		add(tabbedPane,BorderLayout.CENTER);
-		
-		
-		
-		
-		
 
 	}
 	

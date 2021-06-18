@@ -18,10 +18,10 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI2DChartComponent;
 import org.magic.tools.UITools;
 
-public class EditionFinancialChartPanel extends MTGUIChartComponent<OrderEntry> {
+public class EditionFinancialChartPanel extends MTGUI2DChartComponent<OrderEntry> {
 
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicEdition> cboEditions;

@@ -17,10 +17,10 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.MTGUIChartComponent;
+import org.magic.gui.abstracts.MTGUI2DChartComponent;
 import org.magic.services.threads.ThreadManager;
 
-public class SealedHistoryPricesPanel extends MTGUIChartComponent<Void> {
+public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 
 	/**
 	 * 
