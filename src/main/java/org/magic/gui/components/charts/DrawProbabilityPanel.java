@@ -39,6 +39,7 @@ public class DrawProbabilityPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		calc = new MTGDeckManager();
 		table = UITools.createNewTable(null);
+		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer(true,false));
 		
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -110,7 +111,6 @@ public class DrawProbabilityPanel extends JPanel {
 
 		table.setModel(model);
 		model.fireTableDataChanged();
-		table.getColumnModel().getColumn(1).setCellRenderer(new DoubleCellEditorRenderer(true,false));
 		table.packAll();
 	}
 

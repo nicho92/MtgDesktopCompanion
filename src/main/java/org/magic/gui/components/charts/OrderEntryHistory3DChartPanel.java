@@ -17,7 +17,8 @@ public class OrderEntryHistory3DChartPanel extends MTGUI3DChartComponent<OrderEn
 	
 	private static final long serialVersionUID = 1L;
 	
-	private CategoryDataset3D<String,Long, Date>  getDataSet() {
+	@SuppressWarnings("unchecked")
+	public CategoryDataset3D<String,Long, Date>  getDataSet() {
 		var dataset = new StandardCategoryDataset3D<String,Long,Date>();
 		
 	

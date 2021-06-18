@@ -30,6 +30,7 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard> {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public PieDataset3D<MTGColor> getDataSet() {
 		var dataset = new StandardPieDataset3D<MTGColor>();
 		for (Entry<MTGColor, Integer> data : manager.analyseColors(items).entrySet()) {

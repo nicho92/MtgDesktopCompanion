@@ -15,7 +15,7 @@ public class TransactionBalance3DChartPanel extends MTGUI3DChartComponent<Transa
 	private static final String BALANCE = "Balance";
 	private static final long serialVersionUID = 1L;
 
-	private CategoryDataset3D<String,Double, String>  getDataSet() {
+	public CategoryDataset3D<String,Double, String>  getDataSet() {
 		var dataset = new StandardCategoryDataset3D<String,Double, String>();
 		var serieB = new DefaultKeyedValues<String, Double>();
 		var serieS = new DefaultKeyedValues<String, Double>();

@@ -19,6 +19,8 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 
 	
 	protected AbstractChartComponent() {
+		items = new ArrayList<>();
+		
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout());
 		
@@ -29,12 +31,7 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 	{
 		return true;
 	}
-	
-	public boolean showDisplayPanel()
-	{
-		return true;
-	}
-	
+
 	
 	public boolean showLabel()
 	{

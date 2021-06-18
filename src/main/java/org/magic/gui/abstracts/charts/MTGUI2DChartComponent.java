@@ -1,10 +1,10 @@
 package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.Dataset;
 
 public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T> {
 
@@ -38,10 +38,12 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 			chart.fireChartChanged();
 
 	}
+	
+	
+	public abstract <U extends Dataset> U getDataSet() ;
 
 	
 	private void init() {
-		items = new ArrayList<>();
 		chartPanel = new ChartPanel(null,true);
 		add(chartPanel, BorderLayout.CENTER);
 		

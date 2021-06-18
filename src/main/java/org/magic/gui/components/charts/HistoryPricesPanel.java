@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -122,9 +123,10 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 		}
 	}
 
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public void createNewChart() {
-
+	public TimeSeriesCollection getDataSet() {
 		var dataset = new TimeSeriesCollection();
 
 		TimeSeries series1=null;
@@ -149,45 +151,49 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 				dataset.addSeries(series2);
 			}
 			
-		chart = ChartFactory.createTimeSeriesChart(title, "Date", "Value", dataset, true, true,false);
-		
-		
-		if(series1==null)
-			return;
-		
-
-		if (showEdition)
-		{		
+			if(series1==null)
+				return dataset;
 			
-			List<MagicEdition> list = new ArrayList<>();
-			try {
-				list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
-			
-				for (MagicEdition edition : list) 
-				{
-					try {	
-					Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
-					TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 
-					if (item != null) {
-
-						var x = item.getPeriod().getFirstMillisecond();
-						var y = item.getValue().doubleValue();
-						var annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage()); 
-										  annot.setToolTipText(edition.getSet());
-						XYPlot plot = (XYPlot) chart.getPlot();
-						plot.addAnnotation(annot);
-					}
+			if (showEdition)
+			{		
 				
-			} catch (Exception e) {
-				logger.error("error show eds " + edition+ " :" + e);
-			}
+				List<MagicEdition> list = new ArrayList<>();
+				try {
+					list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+				} catch (IOException e1) {
+					logger.error(e1);
 				}
-		}
-		
+				
+					for (MagicEdition edition : list) 
+					{
+						try {	
+						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
+						TimeSeriesDataItem item = series1.getDataItem(new Day(d));
+
+						if (item != null) {
+
+							var x = item.getPeriod().getFirstMillisecond();
+							var y = item.getValue().doubleValue();
+							var annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage()); 
+											  annot.setToolTipText(edition.getSet());
+							XYPlot plot = (XYPlot) chart.getPlot();
+							plot.addAnnotation(annot);
+						}
+					
+				} catch (Exception e) {
+					logger.error("error show eds " + edition+ " :" + e);
+				}
+					}
+			}
+			
+			return dataset;
+	}
+	
+	
+	@Override
+	public void createNewChart() {
+		chart = ChartFactory.createTimeSeriesChart(title, "Date", "Value", getDataSet(), showLegend(), true,false);
 	}
 
 

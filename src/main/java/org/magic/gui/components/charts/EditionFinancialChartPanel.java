@@ -46,7 +46,9 @@ public class EditionFinancialChartPanel extends MTGUI2DChartComponent<OrderEntry
 			refresh();
 	}
 
-	private CategoryDataset getDataSet() {
+	
+	@SuppressWarnings("unchecked")
+	public CategoryDataset getDataSet() {
 		
 		var dataset = new DefaultCategoryDataset();
 		try {

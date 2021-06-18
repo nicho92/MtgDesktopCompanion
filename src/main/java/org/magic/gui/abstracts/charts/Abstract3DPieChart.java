@@ -23,14 +23,10 @@ public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B> {
 	}
 
 	
-	public abstract PieDataset3D<?> getDataSet() ;
-
 	
 	protected void initPlot()
 	{
 		plot.setSectionColors(Colors.createPastelColors());
-		
-	
 	}
 
 	@Override

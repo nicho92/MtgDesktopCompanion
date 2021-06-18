@@ -30,7 +30,6 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard> {
 		
 	}
 	
-	
 	public PieDataset3D<String> getDataSet() {
 		
 		var dataset = new StandardPieDataset3D<String>();

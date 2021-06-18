@@ -17,7 +17,7 @@ public class CmcChartPanel extends Abstract2DHistoChart<MagicCard> {
 	public CategoryDataset getDataSet() {
 		var dataset = new DefaultCategoryDataset();
 		for (Entry<Integer, Integer> k : manager.analyseCMC(items).entrySet())
-			dataset.addValue(k.getValue(), "cmc", k.getKey());
+			dataset.addValue(k.getValue(), getTitle(), k.getKey());
 
 		return dataset;
 	}

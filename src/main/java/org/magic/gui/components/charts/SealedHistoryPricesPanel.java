@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import javax.swing.SwingWorker;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -75,20 +76,24 @@ public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 				ThreadManager.getInstance().runInEdt(s, "loading history price booster");
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public TimeSeriesCollection getDataSet() {
+		var dataset = new TimeSeriesCollection();
+		var series1 = new TimeSeries(title);
+		if(cpVariations!=null)
+			for (Entry<Date, Double> d : cpVariations.entrySet())
+				series1.add(new Day(d.getKey()), d.getValue().doubleValue());
+
+		dataset.addSeries(series1);
+		return dataset;
+	}
+	
 
 	@Override
 	public void createNewChart() {
-
-		var dataset = new TimeSeriesCollection();
-
-		var series1 = new TimeSeries(title);
-			if(cpVariations!=null)
-				for (Entry<Date, Double> d : cpVariations.entrySet())
-					series1.add(new Day(d.getKey()), d.getValue().doubleValue());
-
-			dataset.addSeries(series1);
-		
-		chart= ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", dataset, true, true,false);
+		chart= ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", getDataSet(), showLegend(), true,false);
 	}
 
 

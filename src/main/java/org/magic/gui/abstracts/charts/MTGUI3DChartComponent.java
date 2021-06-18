@@ -2,11 +2,11 @@ package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.ArrayList;
 
 import org.jfree.chart3d.Chart3D;
 import org.jfree.chart3d.Chart3DPanel;
 import org.jfree.chart3d.Orientation;
+import org.jfree.chart3d.data.Dataset3D;
 import org.jfree.chart3d.graphics2d.Anchor2D;
 import org.jfree.chart3d.graphics3d.swing.DisplayPanel3D;
 import org.jfree.chart3d.legend.LegendAnchor;
@@ -26,9 +26,17 @@ public abstract class MTGUI3DChartComponent<T> extends AbstractChartComponent<T>
 		init();
 	}
 	
+	public abstract <U extends Dataset3D> U getDataSet() ;
+
+	
+	public boolean showDisplayPanel()
+	{
+		return true;
+	}
+	
+	
 	
 	private void init() {
-		items = new ArrayList<>();
 		
 		createNewChart();
  		
