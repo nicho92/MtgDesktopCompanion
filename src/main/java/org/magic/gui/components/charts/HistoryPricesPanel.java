@@ -5,8 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -126,7 +124,7 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 	}
 
 	@Override
-	public JFreeChart initChart() {
+	public void createNewChart() {
 
 		var dataset = new TimeSeriesCollection();
 
@@ -152,11 +150,11 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 				dataset.addSeries(series2);
 			}
 			
-		JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "Date", "Value", dataset, true, true,false);
+		chart = ChartFactory.createTimeSeriesChart(title, "Date", "Value", dataset, true, true,false);
 		
 		
 		if(series1==null)
-			return chart;
+			return;
 		
 
 		if (showEdition)
@@ -190,7 +188,7 @@ public class HistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 			}
 				}
 		}
-		return chart;
+		
 	}
 
 

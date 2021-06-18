@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.JComboBox;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -33,12 +32,12 @@ public class EditionFinancialChartPanel extends MTGUI2DChartComponent<OrderEntry
 		cboEditions.addItemListener(il->refresh());
 	}
 
-	public JFreeChart initChart() {
+	public void createNewChart() {
 
 		if(cboEditions.getSelectedItem()==null)
-			return null;
+			return;
 		
-		return ChartFactory.createBarChart("BALANCE", "MOUV", "VALUE", getDataSet(),PlotOrientation.VERTICAL, true, true, false);
+		chart = ChartFactory.createBarChart("BALANCE", "MOUV", "VALUE", getDataSet(),PlotOrientation.VERTICAL, true, true, false);
 	}
 
 	public void init(MagicEdition ed) {

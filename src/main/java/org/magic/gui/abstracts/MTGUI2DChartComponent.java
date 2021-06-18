@@ -16,13 +16,30 @@ public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
 	protected transient List<T> items;
 	protected transient MTGDeckManager manager;
 	protected ChartPanel chartPanel;
+	protected JFreeChart chart;
 
-	
 	protected MTGUI2DChartComponent() {
 		onlyOneRefresh=false;
 		init();
 	}
 	
+
+	protected abstract void createNewChart();
+
+	public void refresh()
+	{
+
+		if(items==null)
+			return;
+		
+		createNewChart();
+		chartPanel.setChart(chart);
+		
+		if(chart!=null)
+			chart.fireChartChanged();
+
+	}
+
 	
 	public void init() {
 		items = new ArrayList<>();
@@ -65,21 +82,7 @@ public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
 			refresh();
 	}
 	
-	public abstract JFreeChart initChart();
 	
-	public void refresh()
-	{
-
-		if(items==null)
-			return;
-		
-		var chart = initChart();
-		chartPanel.setChart(chart);
-		
-		if(chart!=null)
-			chart.fireChartChanged();
-
-	}
-
+	
 
 }

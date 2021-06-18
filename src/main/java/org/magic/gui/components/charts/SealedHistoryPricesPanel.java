@@ -78,7 +78,7 @@ public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 	}
 
 	@Override
-	public JFreeChart initChart() {
+	public void createNewChart() {
 
 		var dataset = new TimeSeriesCollection();
 
@@ -89,7 +89,7 @@ public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 
 			dataset.addSeries(series1);
 		
-		return ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", dataset, true, true,false);
+		chart= ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", dataset, true, true,false);
 	}
 
 

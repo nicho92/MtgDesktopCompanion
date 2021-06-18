@@ -30,6 +30,10 @@ public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 	}
 	
 	
+	protected abstract Chart3D createNewChart();
+
+	public abstract void refresh();
+	
 	
 	
 	public void init() {
@@ -68,7 +72,7 @@ public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 	}
 	
 	
-	public Chart3D initChart()
+	private Chart3D initChart()
 	{
 		var chart = createNewChart();
  		chart.setTitleAnchor(Anchor2D.TOP_CENTER);
@@ -76,10 +80,6 @@ public abstract class MTGUI3DChartComponent<T> extends MTGUIComponent {
 		chart.setTitle(getTitle(),MTGControler.getInstance().getFont().deriveFont(20f),Color.BLACK);
 		return chart;
 	}
-	
-	protected abstract Chart3D createNewChart();
 
-	public abstract void refresh();
-	
 
 }
