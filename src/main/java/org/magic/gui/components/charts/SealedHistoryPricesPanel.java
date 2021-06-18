@@ -2,24 +2,22 @@ package org.magic.gui.components.charts;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.Date;
 import java.util.Map.Entry;
 
 import javax.swing.SwingWorker;
 
-import org.jfree.chart.ChartFactory;
+import org.apache.commons.lang.StringUtils;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.charts.MTGUI2DChartComponent;
+import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.threads.ThreadManager;
 
-public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
+public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 	/**
 	 * 
@@ -32,21 +30,14 @@ public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 	
 	@Override
 	public String getTitle() {
-		return "Sealed Price History";
+		return StringUtils.isBlank(title)?"Price History":title;
 	}
 	
 	
-	public SealedHistoryPricesPanel() {
-		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(pack,title);
-			}
-		});
-		
+	@Override
+	public void onVisible() {
+		init(pack,title);
 	}
-	
 	
 	public void init(Packaging pack, String title) {
 		this.pack=pack;
@@ -86,11 +77,4 @@ public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
 		return dataset;
 	}
 	
-
-	@Override
-	public void createNewChart() {
-		chart= ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Value", getDataSet(), showLegend(), true,false);
-	}
-
-
 }

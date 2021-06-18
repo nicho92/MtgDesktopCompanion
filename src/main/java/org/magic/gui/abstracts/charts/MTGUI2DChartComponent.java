@@ -3,7 +3,7 @@ package org.magic.gui.abstracts.charts;
 import java.awt.BorderLayout;
 
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 
 public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T> {

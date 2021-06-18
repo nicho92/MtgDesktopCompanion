@@ -22,7 +22,6 @@ public abstract class MTGUIComponent extends JComponent {
 	protected static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(getClass());
 	protected boolean onlyOneRefresh=true;
-	public abstract String getTitle();
 	private boolean alreadyShow=false;
 	private transient ComponentListener windowsListener;
 	
@@ -32,6 +31,9 @@ public abstract class MTGUIComponent extends JComponent {
 		return getName();
 	}
 	
+	public abstract String getTitle();
+	
+	
 	public void setEnclosingScrollPane(JScrollPane scrollPane) {
 		JScrollPane  enclosingScrollPane = scrollPane;
 		  if (enclosingScrollPane != null) {
@@ -39,6 +41,8 @@ public abstract class MTGUIComponent extends JComponent {
 		  }
 		}
 	
+	
+
 	
 	protected MTGUIComponent()
 	{
