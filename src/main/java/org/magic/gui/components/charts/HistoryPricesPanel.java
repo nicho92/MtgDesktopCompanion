@@ -46,7 +46,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	private MagicCard mc;
 	private MagicEdition me;
 	
-	
+	private TimeSeries series1;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -87,7 +87,6 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	public void onVisible() {
 		init(mc,me,title);
 	}
-	
 	
 	public void init(MagicCard card, MagicEdition me, String title) {
 		this.mc = card;
@@ -149,7 +148,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	public TimeSeriesCollection getDataSet() {
 		var dataset = new TimeSeriesCollection();
 
-		TimeSeries series1=null;
+			series1=null;
 		
 			if(cpVariations!=null && !cpVariations.isEmpty())
 			{	
@@ -171,24 +170,27 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				
 				dataset.addSeries(series2);
 			}
+		
 			
-			if(series1==null)
-				return dataset;
-			
+			return dataset;
+	}
 
-			if (showEdition)
-			{		
-				List<MagicEdition> list = new ArrayList<>();
-				try {
-					list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-				} catch (IOException e1) {
-					logger.error(e1);
-				}
-				
-				for (MagicEdition edition : list) 
+	@Override
+	public void updatePlot() {
+		if (showEdition)
+		{		
+			List<MagicEdition> list = new ArrayList<>();
+			try {
+				list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+			
+			for (MagicEdition edition : list) 
+			{
+				if(!edition.getReleaseDate().isEmpty()) 
 				{
-					if(!edition.getReleaseDate().isEmpty()) {
-						try {	
+					try {	
 						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 						TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 						if (item != null) 
@@ -200,15 +202,13 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 								
 							 ((XYPlot) chart.getPlot()).addAnnotation(annot);
 						}
-					
+				
 					} catch (Exception e) {
 						logger.error("error show eds " + edition+ " :" + e);
 					}
-					}
 				}
 			}
-			
-			return dataset;
+		}
 	}
 	
 

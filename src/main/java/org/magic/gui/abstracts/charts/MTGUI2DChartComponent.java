@@ -3,7 +3,7 @@ package org.magic.gui.abstracts.charts;
 import java.awt.BorderLayout;
 
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
+import org.jfree.chart.JFreeChart;import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.general.Dataset;
 
 public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T> {
@@ -32,18 +32,22 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 	}
 	
 	public abstract <U extends Dataset> U getDataSet() ;
-
+	
+	public void updatePlot()
+	{
+		//do nothing
+	}
 	
 	@Override
 	public void refresh()
 	{
-		
 		createNewChart();
 		chartPanel.setChart(chart);
 		
-//		if(chart!=null)
-//			chart.fireChartChanged();
+		if(chart!=null)
+			chart.fireChartChanged();
 		
+		updatePlot();
 	}
 	
 	
