@@ -28,6 +28,7 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 				chartPanel.zoomInDomain(1.5, 1.5);
 			}
 		});
+	
 	}
 	
 	public abstract <U extends Dataset> U getDataSet() ;
@@ -36,6 +37,7 @@ public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T>
 	@Override
 	public void refresh()
 	{
+		
 		createNewChart();
 		chartPanel.setChart(chart);
 		

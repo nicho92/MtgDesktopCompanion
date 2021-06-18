@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
@@ -30,6 +31,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
@@ -99,32 +101,45 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		
 		if(isVisible()) 
 		{
-			
-			if(card==null)
-			{
-				try {
-					this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(me);
-				} catch (IOException e1) {
-					logger.error("error init " + me, e1);
-				}
-			}
-			else
-			{
-				try {
-					this.cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
-					
-				} catch (IOException e) {
-					logger.error("error init " + card, e);
+			SwingWorker<Void, Void> sw=  new SwingWorker<>(){
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					if(card==null)
+					{
+						try {
+							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(me);
+						} catch (IOException e1) {
+							logger.error("error init " + me, e1);
+						}
+					}
+					else
+					{
+						try {
+							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
+							
+						} catch (IOException e) {
+							logger.error("error init " + card, e);
+						}
+						
+						try {
+							cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, true);
+							
+						} catch (IOException e) {
+							logger.error("error init FOIL " + card, e);
+						}
+					}
+					return null;
 				}
 				
-				try {
-					this.cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, true);
-					
-				} catch (IOException e) {
-					logger.error("error init FOIL " + card, e);
+				@Override
+				protected void done() {
+					refresh();
 				}
-			}
-			refresh();
+				
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw, "loading history");
 		}
 	}
 
