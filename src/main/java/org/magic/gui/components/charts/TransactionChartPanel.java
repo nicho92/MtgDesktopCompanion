@@ -9,7 +9,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.Transaction;
-import org.magic.gui.abstracts.Abstract3DPieChart;
+import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
 	
 
@@ -21,7 +21,7 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction> {
 	
 
 	@Override
-	public boolean viewLegend() {
+	public boolean showLegend() {
 		return false;
 	}
 	

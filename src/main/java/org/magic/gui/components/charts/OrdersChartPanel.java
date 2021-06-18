@@ -9,7 +9,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.OrderEntry;
-import org.magic.gui.abstracts.Abstract3DPieChart;
+import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
 	
 
@@ -31,11 +31,6 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry> {
 	}
 	
 	
-	@Override
-	public boolean viewLegend() {
-		return false;
-	}
-
 	@Override
 	public String getTitle() {
 		return "Orders";

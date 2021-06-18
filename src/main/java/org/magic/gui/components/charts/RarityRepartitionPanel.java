@@ -7,7 +7,7 @@ import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.gui.abstracts.Abstract3DPieChart;
+import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
 public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard> {
 

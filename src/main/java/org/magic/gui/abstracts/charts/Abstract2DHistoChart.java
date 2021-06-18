@@ -1,4 +1,4 @@
-package org.magic.gui.abstracts;
+package org.magic.gui.abstracts.charts;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.PlotOrientation;

@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.abstracts.Abstract2DHistoChart;
+import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 
 public class CmcChartPanel extends Abstract2DHistoChart<MagicCard> {
 	

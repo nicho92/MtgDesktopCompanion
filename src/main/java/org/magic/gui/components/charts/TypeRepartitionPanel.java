@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.abstracts.Abstract3DPieChart;
+import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
 public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard> {
 

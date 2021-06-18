@@ -1,6 +1,5 @@
 package org.magic.gui.components.charts;
 
-import org.jfree.chart3d.Chart3D;
 import org.jfree.chart3d.Chart3DFactory;
 import org.jfree.chart3d.Colors;
 import org.jfree.chart3d.data.DefaultKeyedValues;
@@ -9,13 +8,12 @@ import org.jfree.chart3d.data.category.StandardCategoryDataset3D;
 import org.jfree.chart3d.plot.CategoryPlot3D;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
-import org.magic.gui.abstracts.MTGUI3DChartComponent;
+import org.magic.gui.abstracts.charts.MTGUI3DChartComponent;
 
 public class TransactionBalance3DChartPanel extends MTGUI3DChartComponent<Transaction> {
 	
 	private static final String BALANCE = "Balance";
 	private static final long serialVersionUID = 1L;
-	private Chart3D chart;
 
 	private CategoryDataset3D<String,Double, String>  getDataSet() {
 		var dataset = new StandardCategoryDataset3D<String,Double, String>();
@@ -48,14 +46,12 @@ public class TransactionBalance3DChartPanel extends MTGUI3DChartComponent<Transa
 
 
 	@Override
-	protected Chart3D createNewChart() {
+	protected void createNewChart() {
 		chart = Chart3DFactory.createBarChart(
                 getTitle(), 
                 "", 
                 getDataSet(), 
                 "", "", "");
-		
-		return chart;
 	}
 
 

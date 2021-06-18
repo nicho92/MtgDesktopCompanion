@@ -17,7 +17,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.MTGUI2DChartComponent;
+import org.magic.gui.abstracts.charts.MTGUI2DChartComponent;
 import org.magic.tools.UITools;
 
 public class EditionFinancialChartPanel extends MTGUI2DChartComponent<OrderEntry> {

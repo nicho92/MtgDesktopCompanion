@@ -17,7 +17,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
@@ -29,7 +28,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.MTGUI2DChartComponent;
+import org.magic.gui.abstracts.charts.MTGUI2DChartComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.tools.UITools;

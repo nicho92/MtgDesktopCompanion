@@ -1,30 +1,24 @@
-package org.magic.gui.abstracts;
+package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.magic.services.MTGDeckManager;
 
-public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
+public abstract class MTGUI2DChartComponent<T> extends AbstractChartComponent<T> {
 
 
 	private static final long serialVersionUID = 1L;
-	protected transient List<T> items;
-	protected transient MTGDeckManager manager;
 	protected ChartPanel chartPanel;
 	protected JFreeChart chart;
 
 	protected MTGUI2DChartComponent() {
+		super();
 		onlyOneRefresh=false;
 		init();
 	}
 	
-
-	protected abstract void createNewChart();
 
 	public void refresh()
 	{
@@ -33,6 +27,11 @@ public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
 			return;
 		
 		createNewChart();
+		
+		
+		if(!showLegend())
+			chart.removeLegend();
+		
 		chartPanel.setChart(chart);
 		
 		if(chart!=null)
@@ -41,10 +40,8 @@ public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
 	}
 
 	
-	public void init() {
+	private void init() {
 		items = new ArrayList<>();
-		manager = new MTGDeckManager();
-		setLayout(new BorderLayout());
 		chartPanel = new ChartPanel(null,true);
 		add(chartPanel, BorderLayout.CENTER);
 		
@@ -56,32 +53,9 @@ public abstract class MTGUI2DChartComponent<T> extends MTGUIComponent {
 				chartPanel.zoomInDomain(1.5, 1.5);
 			}
 		});
-
-	}
-	
-
-	@Override
-	public void onFirstShowing() {
-		init(items);	
-	}
-	
-	
-	public void init(Set<T> items)
-	{
-		this.items = new ArrayList<>(items);
-	
-		if(isVisible())
-			refresh();
-	}
-	
-	public void init(List<T> items)
-	{
-		this.items = items;
 		
-		if(isVisible())
-			refresh();
+
 	}
-	
 	
 	
 

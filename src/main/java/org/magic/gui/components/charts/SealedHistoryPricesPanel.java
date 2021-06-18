@@ -10,14 +10,13 @@ import java.util.Map.Entry;
 import javax.swing.SwingWorker;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.gui.abstracts.MTGUI2DChartComponent;
+import org.magic.gui.abstracts.charts.MTGUI2DChartComponent;
 import org.magic.services.threads.ThreadManager;
 
 public class SealedHistoryPricesPanel extends MTGUI2DChartComponent<Void> {
