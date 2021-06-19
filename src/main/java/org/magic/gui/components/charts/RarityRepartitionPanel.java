@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
-public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard> {
+public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 
 	private static final long serialVersionUID = 1L;
 	

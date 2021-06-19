@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
-public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard> {
+public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -30,7 +30,6 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard> {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public PieDataset3D<MTGColor> getDataSet() {
 		var dataset = new StandardPieDataset3D<MTGColor>();
 		for (Entry<MTGColor, Integer> data : manager.analyseColors(items).entrySet()) {

@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
 import org.magic.gui.abstracts.charts.Abstract3DBarChart;
 
-public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transaction> {
+public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transaction,String,Double, String> {
 	
 	private static final String BALANCE = "Balance";
 	private static final long serialVersionUID = 1L;

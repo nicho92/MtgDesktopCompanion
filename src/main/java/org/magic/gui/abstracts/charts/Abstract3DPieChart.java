@@ -10,7 +10,7 @@ import org.jfree.chart3d.plot.Plot3D;
 import org.jfree.chart3d.style.ChartStyle;
 import org.jfree.chart3d.table.TextElement;
 
-public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B,PieDataset3D> {
+public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGUI3DChartComponent<B,PieDataset3D<C>> {
 
 	private static final long serialVersionUID = 1L;
 	protected PiePlot3D plot;
@@ -22,13 +22,14 @@ public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B,PieD
     	chartPanel.zoomToFit();
 	}
 
+	@Override
 	protected void initPlot()
 	{
 		plot.setSectionColors(Colors.createPastelColors());
 	}
 
 	@Override
-	@SuppressWarnings({ "rawtypes"})
+	@SuppressWarnings("rawtypes")
 	protected void createNewChart() {
 		chart= Chart3DFactory.createPieChart(
                 getTitle(), 
@@ -42,7 +43,7 @@ public abstract class Abstract3DPieChart<B> extends MTGUI3DChartComponent<B,PieD
 			chart.setLegendBuilder((Plot3D plotA, Anchor2D anchor, Orientation orientation, ChartStyle style)->new TextElement(""));
 		
 		if(showLabel())
-			plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString());
+			plot.setSectionLabelGenerator((  PieDataset3D dataset, Comparable<?> key)->key.toString());
 		else
 			plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->"");
 		

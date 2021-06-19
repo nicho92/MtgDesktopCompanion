@@ -2,7 +2,6 @@ package org.magic.gui.abstracts.charts;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.XYDataset;
 
 public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B,TimeSeriesCollection> {
 

@@ -22,10 +22,7 @@ public class OrderEntryHistory3DChartPanel extends Abstract2DHistoChart<OrderEnt
 		
 		for(Date d : items.stream().map(OrderEntry::getTransactionDate).sorted().distinct().collect(Collectors.toList()))
 			data.add(new Day(d), items.stream().filter(oe->DateUtils.isSameDay(d,oe.getTransactionDate())).count());
-		
-		
-		
-		
+			
 		dataset.addSeries(data);
 		
 		return dataset;

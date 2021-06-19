@@ -13,7 +13,7 @@ import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
 	
 
-public class TransactionChartPanel extends Abstract3DPieChart<Transaction> {
+public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String> {
 
 	private static final long serialVersionUID = 1L;
 	private String property;

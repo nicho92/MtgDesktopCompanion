@@ -13,14 +13,13 @@ import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
 	
 
-public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry> {
+public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 
 	private static final long serialVersionUID = 1L;
 	private String property;
 	private boolean count;
 
 
-	@Override
 	public PieDataset3D<String> getDataSet() {
 		var dataset = new StandardPieDataset3D<String>();
 		

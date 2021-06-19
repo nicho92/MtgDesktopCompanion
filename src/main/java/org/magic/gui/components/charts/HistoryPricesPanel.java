@@ -174,9 +174,9 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 			
 			return dataset;
 	}
-
+	
 	@Override
-	public void updatePlot() {
+	protected void initPlot() {
 		if (showEdition)
 		{		
 			List<MagicEdition> list = new ArrayList<>();

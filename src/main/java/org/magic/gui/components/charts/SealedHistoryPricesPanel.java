@@ -64,7 +64,6 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public TimeSeriesCollection getDataSet() {
 		var dataset = new TimeSeriesCollection();

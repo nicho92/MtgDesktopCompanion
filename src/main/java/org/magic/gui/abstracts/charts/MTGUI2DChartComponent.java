@@ -33,11 +33,7 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 	
 	public abstract U getDataSet() ;
 	
-	public void updatePlot()
-	{
-		//do nothing
-	}
-	
+
 	@Override
 	public void refresh()
 	{
@@ -47,7 +43,7 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 		if(chart!=null)
 			chart.fireChartChanged();
 		
-		updatePlot();
+		initPlot();
 	}
 	
 	

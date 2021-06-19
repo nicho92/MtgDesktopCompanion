@@ -4,7 +4,7 @@ import org.jfree.chart3d.Chart3DFactory;
 import org.jfree.chart3d.data.category.CategoryDataset3D;
 import org.jfree.chart3d.plot.CategoryPlot3D;
 
-public abstract class Abstract3DBarChart<B> extends MTGUI3DChartComponent<B,CategoryDataset3D> {
+public abstract class Abstract3DBarChart<B,C extends Comparable<C>,D extends Comparable<D>,E extends Comparable<E>> extends MTGUI3DChartComponent<B,CategoryDataset3D<C,D,E>> {
 
 	private static final long serialVersionUID = 1L;
 	protected CategoryPlot3D plot;
@@ -14,11 +14,6 @@ public abstract class Abstract3DBarChart<B> extends MTGUI3DChartComponent<B,Cate
 		initPlot();
         plot.setDataset(getDataSet());
     	chartPanel.zoomToFit();
-	}
-
-	protected void initPlot()
-	{
-		
 	}
 
 	@Override

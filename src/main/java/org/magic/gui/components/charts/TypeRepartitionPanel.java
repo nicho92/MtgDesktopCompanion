@@ -7,13 +7,10 @@ import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
-public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard> {
+public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 
 	private static final long serialVersionUID = 1L;
 	
-	
-	
-	@SuppressWarnings("unchecked")
 	public PieDataset3D<String> getDataSet() {
 		var dataset = new StandardPieDataset3D<String>();
 		for (Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {

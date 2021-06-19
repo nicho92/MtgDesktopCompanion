@@ -26,6 +26,11 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 		
 	}
 	
+	protected void initPlot()
+	{	
+		
+		
+	}
 	
 	public boolean showLegend()
 	{

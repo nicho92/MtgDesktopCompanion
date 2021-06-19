@@ -30,10 +30,7 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 	}
 	
 	
-	protected void initPlot()
-	{
-		
-	}
+
 	
 	public boolean showDisplayPanel()
 	{
