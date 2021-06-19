@@ -42,7 +42,6 @@ public class EditionFinancialChartPanel extends Abstract2DBarChart<OrderEntry> {
 		return "Orders by Editions";
 	}
 	
-	@SuppressWarnings("unchecked")
 	public CategoryDataset getDataSet() {
 		
 		var dataset = new DefaultCategoryDataset();

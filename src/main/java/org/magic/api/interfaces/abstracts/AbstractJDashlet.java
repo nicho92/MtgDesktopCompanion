@@ -48,14 +48,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return "";
 	}
 	
-	
 	@Override
 	public Icon getIcon() {
 		try {
 			return new ImageIcon(getDashletIcon().getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}

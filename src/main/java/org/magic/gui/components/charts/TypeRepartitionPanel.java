@@ -17,8 +17,6 @@ public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 			dataset.add(entry.getKey(), entry.getValue());
 		}
 		return dataset;
-		
-		
 	}
 
 

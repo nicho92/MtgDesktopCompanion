@@ -54,7 +54,6 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
 				else
 					ret.put(val, ret.get(val)==null? o.getItemPrice() : UITools.roundDouble(ret.get(val)+o.getItemPrice()));
-			
 
 			} catch (Exception e) {
 				logger.error(e);

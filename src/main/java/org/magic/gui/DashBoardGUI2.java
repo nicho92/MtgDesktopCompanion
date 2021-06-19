@@ -196,7 +196,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			
 			@Override
 			public void editingStopped(TabEditingEvent e) {
-				
 				var f = new File(AbstractJDashlet.confdir,e.getOldTitle());
 				boolean res = f.renameTo(new File(AbstractJDashlet.confdir,e.getNewTitle()));
 				logger.debug("Renaming dashbord "+e.getOldTitle() + " to " + e.getNewTitle()+ ":"+res);
