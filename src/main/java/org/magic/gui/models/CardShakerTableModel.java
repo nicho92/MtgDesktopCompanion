@@ -73,14 +73,20 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 	}
 
 	private String getLayout(CardShake mp) {
+		
+		StringBuilder temp = new StringBuilder();
+		
+		
 		if(mp.isShowcase())
 			return "showcase";
-			else if(mp.isExtendedArt())
-				return "extendedArt";
-			else if(mp.isBorderless())
-				return "borderless";
-			else if(mp.isFullArt())
-				return "Full Art";
+		else if(mp.isExtendedArt())
+			return "extendedArt";
+		else if(mp.isBorderless())
+			return "borderless";
+		else if(mp.isFullArt())
+			return "Full Art";
+		else if(mp.isTimeshifted())
+			return "TimeShifted";
 			else return "";
 	}
 

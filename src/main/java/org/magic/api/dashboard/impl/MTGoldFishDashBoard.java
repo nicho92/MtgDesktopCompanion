@@ -342,6 +342,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						cs.setEtched(nameExtra.contains("Etched"));
 						cs.setShowcase(nameExtra.contains("Showcase"));
 						cs.setBorderless(nameExtra.contains("Borderless"));
+						cs.setTimeshifted(nameExtra.contains("timeshifted")||nameExtra.contains("retro"));
 						cs.setEd(edition.getId());
 						cs.setProviderName(getName());
 						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));						

@@ -23,11 +23,16 @@ public class CardShake implements Serializable  {
 	private Currency currency;
 	private String providerName;
 	private boolean foil;
-	private boolean borderless;
-	private boolean extendedArt;
-	private boolean showcase;
-	private boolean fullArt;
 	private boolean etched;
+	
+	
+	
+	@Deprecated private boolean borderless;
+	@Deprecated private boolean extendedArt;
+	@Deprecated private boolean showcase;
+	@Deprecated private boolean fullArt;
+	@Deprecated private boolean timeshifted;
+	
 	
 	public CardShake() {
 		price = 0.0;
@@ -89,6 +94,14 @@ public class CardShake implements Serializable  {
 
 	public void setBorderless(boolean borderless) {
 		this.borderless = borderless;
+	}
+
+	public boolean isTimeshifted() {
+		return timeshifted;
+	}
+
+	public void setTimeshifted(boolean timeshifted) {
+		this.timeshifted = timeshifted;
 	}
 
 	public boolean isExtendedArt() {

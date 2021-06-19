@@ -27,6 +27,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"SHOWCASE",
 				"EXTENDED ART",
 				"BORDERLESS",
+				"TIMESHIFTED",
 				"SIDE"};
 
 	}
@@ -34,7 +35,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	
 	@Override
 	public int[] defaultHiddenColumns() {
-		return new int[] {1,8,9,10,11,12,13,14};
+		return new int[] {1,8,9,10,11,12,13,14,15};
 	}
 
 	@Override
@@ -49,6 +50,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			case 11: return Boolean.class;
 			case 12: return Boolean.class;
 			case 13: return Boolean.class;
+			case 14: return Boolean.class;
 			default:return String.class;
 		}
 	}
@@ -87,6 +89,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			case 13:
 				return mc.isBorderLess();
 			case 14:
+				return mc.isTimeshifted();
+			case 15:
 				return mc.getSide();
 			default:
 				return mc;
