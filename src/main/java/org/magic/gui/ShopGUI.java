@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.shops.ContactsManagementPanel;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.components.shops.WebShopConfigPanel;
 import org.magic.services.MTGConstants;
@@ -26,7 +27,7 @@ public class ShopGUI extends MTGUIComponent {
 		
 		UITools.addTab(pane,new WebShopConfigPanel());
 		UITools.addTab(pane, new TransactionsPanel());
-		
+		UITools.addTab(pane, new ContactsManagementPanel());
 	}
 
 	@Override
