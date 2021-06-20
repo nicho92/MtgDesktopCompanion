@@ -64,6 +64,8 @@ public class ThreadManager {
 	}
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
+		
+		logger.trace("running EDT : " + name);
 		runnable.execute();
 		var c = new Chrono();
 		

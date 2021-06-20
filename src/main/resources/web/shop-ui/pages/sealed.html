@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Site Title</title>
+  
+    <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+    <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
+  	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
+	
+	
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+ 
+
+    
+    <script src="../dist/js/rest-server.js"></script>
+   	<script src="../dist/js/js-var.js"></script>
+   	<script src="../dist/js/storage.js"></script>
+ 
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+    <link href="https://pagination.js.org/dist/2.1.5/pagination.css" rel="stylesheet" type="text/css">
+    
+    
+    <script>
+
+	var percentReduction=0;
+    var currency = "";
+    function generateProduct(datas)
+    {
+    	var append="";
+    	  $.each(datas, function(index, data){
+    		
+	    	 	append+=generateStockSealedHTML(data,currency,false,percentReduction);	
+	
+    	  });
+    	  return append;
+    	
+    }
+    
+    
+    
+    
+    
+    $(document).ready(function() {	
+    	
+	   	 $("#banner").load("banner.html");
+	   	 $("#header").load("nav.html");
+	   	 $("#footer").load("footer.html", function() {
+		 
+			data = getConfig();
+			    	
+			    	$('#siteTitle').html(data.siteTitle);
+			    	$('#bannerTitle').html(data.bannerTitle);
+			       	$('#bannerText').html(data.bannerText);
+			       	$('#aboutText').html(data.aboutText);
+			       	document.title = data.siteTitle;
+			       	currency = data.currencySymbol;
+					percentReduction = data.percentReduction;
+			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+			    	$('#contactTelephone').html(data.contact.telephone);
+			    	$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
+			    	$('#contactAddress').html(data.contact.address);
+			    	$('#contactCountry').html(data.contact.country);
+			    	if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}
+			    		  
+			    		  $.ajax({
+						        url: restserver+"/sealed/list"
+						    }).then(function(data) {
+						    	
+						    	$('#pagination').pagination({
+						    	    dataSource: data,
+						    	    pageSize: 12,
+						    	    autoHidePrevious: true,
+						    	    autoHideNext: true,
+						    	    pageRange: 8,
+						    	    callback: function(data, pagination) {
+							
+										if(data.length==0)
+										{
+											 $('#products').html("No result found");
+											return;
+										}	
+							
+							
+						    	    	var html = generateProduct(data);
+						    	        $('#products').html(html);
+						    	       
+						    	    }
+						    	
+						    	
+						    	
+						    });
+			    		});
+			    	
+			  });
+		 });
+    
+    </script>
+    
+    
+</head>
+
+
+<body>
+
+<nav id="header" class="navbar navbar-expand-md navbar-dark bg-dark"></nav>
+<section id="banner" class="jumbotron text-center"></section>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" id="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="category.html">Products</a></li>
+
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" >
+        <div class="col-12 col-sm-3">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Sets</div>
+                <ul id="categories" class="list-group category_block">
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+        	<div class="row">
+             	<div class="paginationjs paginationjs-big" id="pagination"></div>  
+            </div>
+            <br/>
+            <div class="row" id="products"></div>
+     	</div>
+	</div>
+</div>
+
+<!-- Footer -->
+<footer class="text-light" id="footer"></footer>
+
+
+</body>
+</html>

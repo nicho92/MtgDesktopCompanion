@@ -76,6 +76,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JTextField txtWebsiteUrl;
 	private JCheckBox chkAutomaticValidation;
 	private JCheckBox chkAutoProduct;
+	private JCheckBox chkEnableStock;
 	private JTextField txtIban;
 	private JTextField txtBic;
 	
@@ -177,6 +178,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
 		cboCollections = new JCheckableListBox<>();
 		needCollection = new JCheckableListBox<>();
+		chkEnableStock = new JCheckBox();
+		chkEnableStock.setSelected(conf.isSealedEnabled());
 		chkAutomaticValidation = new JCheckBox();
 		chkAutomaticValidation.setSelected(conf.isAutomaticValidation());
 		
@@ -199,6 +202,10 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		panelStock.add(new JLabel("AUTOMATIC_VALIDATION"));
 		panelStock.add(chkAutomaticValidation);
+		
+		panelStock.add(new JLabel("ENABLE_SEALED_STOCK"));
+		panelStock.add(chkEnableStock);
+		
 		
 		
 		
@@ -325,6 +332,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setBannerTitle(txtBannerTitle.getText());
 				newBean.setSiteTitle(txtSiteTitle.getText());
 				newBean.setTopProduct(topProduct);
+				newBean.setSealedEnabled(chkEnableStock.isSelected());
 				newBean.setMaxLastProduct(maxLastProductSlide.getValue());
 				newBean.setGoogleAnalyticsId(txtAnalyticsGoogle.getText());
 				newBean.setAverageDeliveryTime(Integer.parseInt(averageDeliverayDay.getValue().toString()));

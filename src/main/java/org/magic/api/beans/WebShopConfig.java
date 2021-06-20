@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
+import javax.swing.Icon;
+
 public class WebShopConfig implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +37,7 @@ public class WebShopConfig implements Serializable {
 	private String iban;
 	private String bic;
 	private String websiteUrl;
+	private boolean sealedEnabled;
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -255,5 +258,12 @@ public class WebShopConfig implements Serializable {
 	public void setWebsiteUrl(String websiteUrl) {
 		this.websiteUrl = websiteUrl;
 	}
+
+	public boolean isSealedEnabled() {
+		return sealedEnabled;
+	}
 	
+	public void setSealedEnabled(boolean sealedEnabled) {
+		this.sealedEnabled = sealedEnabled;
+	}
 }

@@ -225,6 +225,7 @@ public class MTGControler {
 			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
 			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection","false").equalsIgnoreCase("true"));
 			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://localhost"));
+			conf.setSealedEnabled(get("/shopSite/config/sealedEnabled","false").equalsIgnoreCase("true"));
 			try {
 				
 				if(conf.isAutomaticProduct())
@@ -284,6 +285,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
+		setProperty("/shopSite/config/sealedEnabled",wsc.isSealedEnabled());
 		setProperty("/shopSite/config/ganalyticsId",wsc.getGoogleAnalyticsId());
 		setProperty("/shopSite/config/percentReduction",wsc.getPercentReduction());
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));

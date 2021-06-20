@@ -108,6 +108,11 @@
 						    	});
 						    });
 			    	});
+
+					if(data.sealedEnabled == false)
+					{
+						$("#navSealed").hide();
+					}
 			       	
 			       	if(data.needcollections.length>0)
 			       	{
@@ -130,7 +135,7 @@
 			       	else
 		       		{
 			       		$("#navSearch").hide();
-		       				$("#searchcardContainer").hide();
+		       			$("#searchcardContainer").hide();
 		       		}
 			  });
 		

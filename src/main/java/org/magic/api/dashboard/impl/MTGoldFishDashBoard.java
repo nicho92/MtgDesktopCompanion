@@ -129,41 +129,48 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
 		
+
 		HistoryPrice<Packaging> history =  new HistoryPrice<>(packaging);
 							  history.setCurrency(getCurrency());
 
+		logger.debug("loading prices for " + packaging);							  
+							  
 		if(packaging==null || packaging.getEdition()==null)
 			return history;
 		
+		
 		var selead="";
 		
-		switch (packaging.getExtra())
-		{
-			case COLLECTOR: selead="+Collector";break;
-			case DRAFT: selead="+Draft";break;
-			case SET: selead="+Set";break;
-			case THEME: selead="+Collector";break;
-			default: selead="";break;
-			
-		}
+		if(packaging.getExtra()!=null) {
+			switch (packaging.getExtra())
+			{
+				case COLLECTOR: selead="+Collector";break;
+				case DRAFT: selead="+Draft";break;
+				case SET: selead="+Set";break;
+				case THEME: selead="+Collector";break;
+				default: selead="";break;
+				
+			}
+		}		
 		
 		switch(packaging.getType())
 		{
-			case BANNER:
-				break;
+			case BANNER:break;
 			case BOOSTER:selead+="+Booster+Pack";break;
 			case BOX:selead+="+Booster+Box";break;
 			case BUNDLE:selead+="+Bundle";break;
-			case CONSTRUCTPACK:		break;
+			case CONSTRUCTPACK:break;
 			case PRERELEASEPACK:selead+="+Prerelease+Pack";break;
-			case STARTER:			break;
-			default:				break;
+			case STARTER: break;
+			default:break;
 		
 		}
 		
 							  
 							  
-		String url = WEBSITE +"/price/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+"/"+convert(packaging.getEdition().getSet().replace(" ", "+"))+selead+ "-sealed#"+ getString(FORMAT);					  
+		String url = WEBSITE +"/price/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+"/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+selead+ "-sealed#"+ getString(FORMAT);
+		
+		
 		Document d = URLTools.extractHtml(url);
 		parsing(d, history);
 		
