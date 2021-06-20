@@ -57,22 +57,6 @@ public class PackagesProvider {
 		return inst;
 	}
 	
-	public String getURLFor(Packaging p)
-	{
-		String eval = null;
-		try {
-			var xPath = XPathFactory.newInstance().newXPath();
-			eval = "//edition[@id='"+p.getEdition().getId()+"']/"+p.getType().name().toLowerCase()+"[@lang='"+p.getLang()+"']";
-			var nodeList = (NodeList) xPath.compile(eval).evaluate(document, XPathConstants.NODESET);
-			var item = nodeList.item(0);
-			return item.getAttributes().getNamedItem("url").getNodeValue(); 
-		} catch (Exception e) {
-			logger.error("Error loading url for " + eval + p);
-			return null;
-		}
-	}
-	
-	
 	public List<Packaging> getItemsFor(String me)
 	{
 		return getItemsFor(new MagicEdition(me));
@@ -250,7 +234,6 @@ public class PackagesProvider {
 		}
 		return list;
 	}
-	//TODO manage extra
 
 	public List<Packaging> get(MagicEdition me,TYPE t, String lang, EXTRA extra)
 	{
