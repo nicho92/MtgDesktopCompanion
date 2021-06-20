@@ -392,6 +392,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return pricesret;
 
 		}, transformer);
+		
+		get("/sealed/list", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGDao.class).listSeleadStocks(), transformer);
+		
 
 		get("/alerts/list", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
