@@ -50,6 +50,8 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.throwsSpec_return;
+
 public class MongoDbDAO extends AbstractMagicDAO {
 
 	private MongoDatabase db;
@@ -174,6 +176,21 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		notify(state);
 		
 	}
+	
+
+	@Override
+	public void deleteContact(Contact contact)throws SQLException {
+		
+		if(!listTransactions(contact).isEmpty())
+			throw new SQLException(contact + " has transactions and can't be removed ");
+		
+		db.getCollection(colContacts).deleteOne(Filters.eq("id", contact.getId()));
+		notify(contact);
+		
+	}
+	
+
+	
 	
 	@Override
 	public List<SealedStock> listSeleadStocks() throws SQLException {
@@ -723,6 +740,5 @@ public class MongoDbDAO extends AbstractMagicDAO {
 							 .first()
 							 ,Contact.class);
 	}
-	
 
 }

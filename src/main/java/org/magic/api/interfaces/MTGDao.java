@@ -86,7 +86,9 @@ public interface MTGDao extends MTGPlugin {
 	public Contact getContactById(int id)  throws SQLException;
 	public List<Contact> listContacts()  throws SQLException;
 	public Contact getContactByLogin(String email, String password)  throws SQLException;
-	
+	public boolean enableContact(String token) throws SQLException;
+	public void deleteContact(Contact contact) throws SQLException;
+
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
 	public List<OrderEntry> listOrdersAt(Date d);
@@ -113,7 +115,6 @@ public interface MTGDao extends MTGPlugin {
 	public void executeQuery(String query)throws SQLException;
 	
 	public boolean isSQL();
-	public boolean enableContact(String token) throws SQLException;
 
 
 }

@@ -1489,7 +1489,16 @@
 		<booster lang="en" extra="set" num="2" url="https://media.wpn.wizards.com/styles/product-detail--product-section-image/public/MTGMH2_EN_Bstr_Set_01_02_1620317148.png"/>
 		<booster lang="en" extra="collector" num="3" url="https://media.wpn.wizards.com/styles/product-detail--product-section-image/public/MTGMH2_EN_Bstr_Clctr_01_02_1620317149.png"/>
 	</edition>
-		
+	
+	<edition id="AFR">
+		<banner lang="en" url="http://www.parkage.com/files/img/products/magic/afr/mtgafr-sta-black-fr-lg.png"/>
+		<box lang="en" num="1" extra="draft" url="https://tcgladen.ch/wp-content/uploads/2021/05/MTGAFR_EN_BstrDspBx_01_01.png"/>	
+		<box lang="en" num="2" extra="collector" url="https://cdn.shopify.com/s/files/1/1704/1809/products/1199dc6e890e1caf21e4fa9434e09493f7696e78_1024x1024.png"/>
+		<box lang="en" num="3" extra="set" url="https://cdn.shopify.com/s/files/1/1633/7907/products/AdventuresintheForgottenRealmsBoosterBoxSet1_953x953.png?v=1620679771"/>
+		<booster lang="en" num="1" extra="collector" url="https://media.miniaturemarket.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/a/i/aitfgcollectorpack.png"/>
+		<prereleasepack lang="en" num="1" url="https://cdn.shopify.com/s/files/1/1633/7907/products/AdventuresintheForgottenRealmsPrereleasePack1_1000x1000.png"/>
+		<bundle lang="en" num="1" url="https://thegamesden.co.uk/wp-content/uploads/2021/06/MTGAFR_EN_BndlSetupBx_01_03-1.png"/>
+	</edition>	
 	
 	
 

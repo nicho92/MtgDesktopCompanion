@@ -463,6 +463,24 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	
 	@Override
+	public void deleteContact(Contact t) throws SQLException {
+		logger.debug("delete Contact " + t );
+		
+		if(listTransactions(t).isEmpty()) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM contacts where id=?")) {
+				pst.setInt(1, t.getId());
+				pst.executeUpdate();
+			}
+		}
+		else
+		{
+			throw new SQLException(t + " has transactions and can't be removed ");
+		}
+		
+	}
+	
+	
+	@Override
 	public int saveOrUpdateContact(Contact ct) throws SQLException {
 		
 		
@@ -1089,7 +1107,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				return rs.getInt(1);
 			
 		} catch (Exception e) {
-			logger.error("couldn't retrieve id", e);
+			logger.error("couldn't retrieve id :"+ e);
 		}
 		return -1;
 

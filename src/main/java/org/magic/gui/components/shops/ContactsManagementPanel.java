@@ -3,12 +3,12 @@ package org.magic.gui.components.shops;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
@@ -28,6 +28,8 @@ import org.magic.tools.UITools;
 import com.jogamp.newt.event.KeyEvent;
 
 public class ContactsManagementPanel extends MTGUIComponent {
+	
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private ContactTableModel model;
 	private ContactPanel contactPanel;
@@ -44,7 +46,12 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnNewContact = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "NewContact");
+		var btnDeleteContact = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "DeleteContact");
+		
+		
 		table = UITools.createNewTable(model);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		UITools.initTableFilter(table);
 
 		UITools.addTab(tabbedPane, contactPanel);
@@ -58,21 +65,40 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		add(new JScrollPane(table));
 		add(panneauHaut, BorderLayout.NORTH);
 		add(tabbedPane,BorderLayout.SOUTH);
+		
+		
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnNewContact);
+		panneauHaut.add(btnDeleteContact);
+		
 		
 		table.getSelectionModel().addListSelectionListener(lsl->{
 			
-			List<Contact> t = UITools.getTableSelections(table, 0);
+			Contact t = UITools.getTableSelection(table, 0);
 
-			if(t.isEmpty())
+			if(t==null)
 				return;
 			
-			contactPanel.setContact(t.get(0));
-			viewerPanel.show(t.get(0));
+			contactPanel.setContact(t);
+			viewerPanel.show(t);
+			
 		});
 		
 		btnRefresh.addActionListener(al->reload());
+		
+		
+		btnDeleteContact.addActionListener(al->{
+			try {
+					MTG.getEnabledPlugin(MTGDao.class).deleteContact(contactPanel.getContact());
+					reload();
+			} catch (SQLException e) {
+				MTGControler.getInstance().notify(e);
+			}
+			
+			
+			
+		});
+		
 		
 		btnNewContact.addActionListener(al->{
 			var c = new Contact();
@@ -92,9 +118,15 @@ public class ContactsManagementPanel extends MTGUIComponent {
 						protected void done() {
 							try {
 								get();
-								model.fireTableDataChanged();
-							} catch (InterruptedException | ExecutionException e) {
+								reload();
+							} 
+							catch (InterruptedException e)
+							{
 								Thread.currentThread().interrupt();
+								
+							}
+							catch (Exception e) 
+							{
 								logger.error(e);
 								MTGControler.getInstance().notify(e);
 							}

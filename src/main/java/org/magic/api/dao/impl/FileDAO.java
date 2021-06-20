@@ -625,5 +625,11 @@ public class FileDAO extends AbstractMagicDAO{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void deleteContact(Contact contact) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
