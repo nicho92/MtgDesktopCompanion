@@ -32,6 +32,8 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.EXTRA;
+import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.PAYMENT_PROVIDER;
@@ -671,40 +673,30 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = pst.executeQuery()) 
 		{
 				while (rs.next()) {
-					var state = new SealedStock();
-					
-					state.setComment(rs.getString("comment"));
-					state.setId(rs.getInt("id"));
-					state.setQte(rs.getInt("qte"));
-					state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
-					state.setCollection(new MagicCollection(rs.getString("collection")));
+						var state = new SealedStock();
+							state.setComment(rs.getString("comment"));
+							state.setId(rs.getInt("id"));
+							state.setQte(rs.getInt("qte"));
+							state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
+							state.setCollection(new MagicCollection(rs.getString("collection")));
 							
-					var p = new Packaging();
-					 		  p.setLang(rs.getString("lang"));
-							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
-							  
-							  try {
-							  p.setExtra(Packaging.EXTRA.valueOf(rs.getString("extra")));
-							  }
-							  catch(Exception e)
-							  {
-								 //do nothing
-							  }
-							  
 							  try 
 							  {
-								p.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
+								var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
+												TYPE.valueOf(rs.getString("typeProduct")),
+												(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra"))
+												).get(0);
+								
+								p.setLang(rs.getString("lang"));
+								
+								
+								state.setProduct(p);
 							  } 
-							  catch (IOException e) 
+							  catch (Exception e) 
 							  {
-								logger.error(e);
-								throw new SQLException(e);
+								logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString("extra") + " " +rs.getString(EDITION),e);
 							  }
-							
-							  p.setUrl(PackagesProvider.inst().getURLFor(p));
-							  
-							  
-					state.setProduct(p);
+					
 					colls.add(state);
 				}
 		}

@@ -252,6 +252,11 @@ public class PackagesProvider {
 	}
 	//TODO manage extra
 
+	public List<Packaging> get(MagicEdition me,TYPE t, String lang, EXTRA extra)
+	{
+		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang) && e.getExtra()==extra).collect(Collectors.toList());
+	}
+	
 	public List<Packaging> get(MagicEdition me,TYPE t, String lang)
 	{
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).collect(Collectors.toList());
@@ -259,6 +264,9 @@ public class PackagesProvider {
 	
 	public List<Packaging> get(MagicEdition me,TYPE t, EXTRA extra)
 	{
+		if(extra==null)
+			return get(me,t);
+		
 		return get(me,t).stream().filter(e->e.getExtra()==extra).collect(Collectors.toList());
 	}
 	
