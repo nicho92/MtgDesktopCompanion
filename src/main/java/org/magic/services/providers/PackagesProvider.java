@@ -254,10 +254,14 @@ public class PackagesProvider {
 
 	public List<Packaging> get(MagicEdition me,TYPE t, String lang)
 	{
-		return getItemsFor(me).stream().filter(e->e.getType()==t && e.getLang().equalsIgnoreCase(lang)).collect(Collectors.toList());
+		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).collect(Collectors.toList());
 	}
 	
-
+	public List<Packaging> get(MagicEdition me,TYPE t, EXTRA extra)
+	{
+		return get(me,t).stream().filter(e->e.getExtra()==extra).collect(Collectors.toList());
+	}
+	
 	public List<Packaging> get(MagicEdition me,TYPE t)
 	{
 		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());

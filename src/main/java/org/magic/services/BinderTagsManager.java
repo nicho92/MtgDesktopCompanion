@@ -66,18 +66,9 @@ public class BinderTagsManager {
 		List<BufferedImage> ims = new ArrayList<>();
 		for(String id :ids)
 		{
-				BufferedImage im=null;
+				BufferedImage im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0));
+					ims.add(im);
 				
-				if(!prov.get(new MagicEdition(id),Packaging.TYPE.BANNER,"en").isEmpty())
-				{
-					im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER,"en").get(0));
-					ims.add(im);
-				}
-				else
-				{
-					im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0));
-					ims.add(im);
-				}
 					
 		}
 		create(ims);
