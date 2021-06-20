@@ -290,11 +290,11 @@
 		<constructpack lang='en' num='5' url="http://www.manaleak.com/magic-the-gathering/images/worldwake_intro_pack___rapid_fire.jpg"/>
 	</edition>
 	<edition id='ROE'>
-		<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/403_bpack1.jpg"/>
-		<booster lang='en' num='2' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/403_bpack2.jpg"/>
-		<booster lang='en' num='3' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/403_bpack3.jpg"/>
-		<booster lang='en' num='4' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/403_bpack4.jpg"/>
-		<booster lang='en' num='5' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/403_bpack5.jpg"/>
+		<booster lang='en' num='1' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack1.jpg"/>
+		<booster lang='en' num='2' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack2.jpg"/>
+		<booster lang='en' num='3' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack3.jpg"/>
+		<booster lang='en' num='4' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack4.jpg"/>
+		<booster lang='en' num='5' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack5.jpg"/>
 		<box lang='en' num='1' url="https://cdn10.bigcommerce.com/s-yiw8w10u/products/1618/images/473/Magic_the_Gathering_Rise_of_the_Eldrazi_Booster_Box_english__29271.1421532111.1280.1280.JPG?c=2"/>
 		<box lang='en' num='2' url="https://www.coolstuffinc.com/s3_image.php?img=http://s3.gatheringmagic.com/uploads/2010/03/BoosterBox.png"/>				
 		<banner lang='en' url="http://mtgen.net/roe/images/logo-word.png"/>
@@ -1288,11 +1288,12 @@
 		<banner lang="en" url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png"/>
 	</edition>
 	<edition id="ELD">
-		<booster lang="en" num="1" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_01_01.png"/>
-		<booster lang="en" num="2" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_03_01.png"/>
-		<booster lang="en" num="3" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_02_01.png"/>
-		<bundle lang="en" url="https://media.wizards.com/2019/images/daily/OT9OLX6H0L.png"/>
-		<box lang="en" url="https://startspeler.com/pub/media/catalog/product/cache/9d08971813a040f8f96067a40f75c615/m/t/mtgeld_en_bstrdspcls_01.png"/>
+		<booster lang="en" extra="draft" num="1" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_01_01.png"/>
+		<booster lang="en" extra="draft" num="2" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_03_01.png"/>
+		<booster lang="en" extra="draft" num="3" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_02_01.png"/>
+		<bundle lang="en" url="https://shop.novalisgames.com/product/image/large/witrobuen_1.png"/>
+		<bundle lang="en" num="2" url="https://quickbutik.imgix.net/14471m/products/5df9f23c6cd1f.png"/>
+		<box lang="en" url="https://media.miniaturemarket.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/w/o/wocc61360-box_1.png"/>
 		<banner lang="en" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/e/ef/ELD_logo.png"/>
 		<constructpack lang="en" num="1" url="https://www.radaddel.de/media/image/88/a2/99/MTGELDPWDRowan-png-120449-00.png"/>
 		<constructpack lang="en" num="2" url="https://www.radaddel.de/media/image/e2/2f/ce/MTGELDPWDOKO-png-120450-00_600x600.png"/>
