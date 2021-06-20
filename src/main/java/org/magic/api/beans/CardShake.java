@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
+import org.magic.api.beans.enums.MTGCardVariation;
+
 public class CardShake implements Serializable  {
 
 	/**
@@ -24,14 +26,7 @@ public class CardShake implements Serializable  {
 	private String providerName;
 	private boolean foil;
 	private boolean etched;
-	
-	
-	
-	@Deprecated private boolean borderless;
-	@Deprecated private boolean extendedArt;
-	@Deprecated private boolean showcase;
-	@Deprecated private boolean fullArt;
-	@Deprecated private boolean timeshifted;
+	private MTGCardVariation cardVariation;
 	
 	
 	public CardShake() {
@@ -87,46 +82,14 @@ public class CardShake implements Serializable  {
 		this.etched = etched;
 	}
 
+	public MTGCardVariation getCardVariation() {
+		return cardVariation;
+	}
 	
-	public boolean isBorderless() {
-		return borderless;
+	public void setCardVariation(MTGCardVariation cardVariation) {
+		this.cardVariation = cardVariation;
 	}
 
-	public void setBorderless(boolean borderless) {
-		this.borderless = borderless;
-	}
-
-	public boolean isTimeshifted() {
-		return timeshifted;
-	}
-
-	public void setTimeshifted(boolean timeshifted) {
-		this.timeshifted = timeshifted;
-	}
-
-	public boolean isExtendedArt() {
-		return extendedArt;
-	}
-
-	public void setExtendedArt(boolean extendedArt) {
-		this.extendedArt = extendedArt;
-	}
-
-	public boolean isShowcase() {
-		return showcase;
-	}
-
-	public void setShowcase(boolean showcase) {
-		this.showcase = showcase;
-	}
-
-	public boolean isFullArt() {
-		return fullArt;
-	}
-
-	public void setFullArt(boolean fullArt) {
-		this.fullArt = fullArt;
-	}
 
 	public boolean isFoil() {
 		return foil;

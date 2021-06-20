@@ -2,10 +2,15 @@ package org.magic.api.beans.enums;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum EnumCondition {
+public enum MTGCardVariation {
 
-	MINT, NEAR_MINT, GOOD,LIGHTLY_PLAYED, PLAYED, POOR,PROXY, OVERSIZED,ONLINE;
-
+	SHOWCASE, 
+	EXTENDEDART, 
+	FULLART,
+	BORDERLESS,
+	TIMESHIFTED,
+	JAPANESEALT;
+	
 	
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());

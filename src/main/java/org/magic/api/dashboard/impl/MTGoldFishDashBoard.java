@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -275,9 +276,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
 				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text())/100);
 				cs.setFoil(false);
-				cs.setBorderless(false);
-				cs.setFullArt(false);
-				cs.setExtendedArt(false);
+				
 				
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span svg title").text();
 				
@@ -336,13 +335,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						cs.setCurrency(getCurrency());
 						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").text().trim());
 						cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").attr("href"));
-						
-						cs.setExtendedArt(nameExtra.contains("Extended"));
 						cs.setFoil(nameExtra.contains("Foil"));
 						cs.setEtched(nameExtra.contains("Etched"));
-						cs.setShowcase(nameExtra.contains("Showcase"));
-						cs.setBorderless(nameExtra.contains("Borderless"));
-						cs.setTimeshifted(nameExtra.contains("timeshifted")||nameExtra.contains("retro"));
+						
+						if(nameExtra.contains("Extended"))
+							cs.setCardVariation(MTGCardVariation.EXTENDEDART);
+						else if(nameExtra.contains("Showcase"))
+							cs.setCardVariation(MTGCardVariation.SHOWCASE);
+						else if(nameExtra.contains("Borderless"))
+							cs.setCardVariation(MTGCardVariation.BORDERLESS);
+						else if (nameExtra.contains("timeshifted")||nameExtra.contains("retro"))
+							cs.setCardVariation(MTGCardVariation.TIMESHIFTED);
+						
 						cs.setEd(edition.getId());
 						cs.setProviderName(getName());
 						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));						

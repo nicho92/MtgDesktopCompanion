@@ -1,6 +1,8 @@
 package org.magic.gui.models;
 
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.MTGLayout;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
 
@@ -31,7 +33,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 7:
 				return Boolean.class;
 			case 8:
-				return String.class;
+				return MTGCardVariation.class;
 			
 		default:
 			return Double.class;
@@ -61,7 +63,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 6:
 				return UITools.roundDouble(mp.getPercentWeekChange());
 			case 7: return mp.isFoil();
-			case 8: return getLayout(mp);
+			case 8: return mp.getCardVariation();
 				
 
 			default:return 0;
@@ -71,20 +73,5 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			return null;
 		}
 	}
-
-	private String getLayout(CardShake mp) {
-		if(mp.isShowcase())
-			return "showcase";
-		else if(mp.isExtendedArt())
-			return "extendedArt";
-		else if(mp.isBorderless())
-			return "borderless";
-		else if(mp.isFullArt())
-			return "Full Art";
-		else if(mp.isTimeshifted())
-			return "TimeShifted";
-			else return "";
-	}
-
 
 }

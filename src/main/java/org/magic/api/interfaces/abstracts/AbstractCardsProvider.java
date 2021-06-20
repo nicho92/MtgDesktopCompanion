@@ -13,6 +13,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -147,14 +148,14 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	
 	@Override
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, boolean extended,boolean borderless, boolean showcase) throws IOException{
-		return searchCardByName(name, me, exact).stream().filter(mc->mc.isExtendedArt()==extended && mc.isBorderLess()==borderless && mc.isShowCase()==showcase).collect(Collectors.toList());
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, MTGCardVariation extra) throws IOException{
+		return searchCardByCriteria("name",name, me, exact,extra);
 	}
 	
 	
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, boolean extended, boolean borderless, boolean showcase) throws IOException {
-		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.isExtendedArt()==extended && mc.isBorderLess()==borderless && mc.isShowCase()==showcase).collect(Collectors.toList());
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, MTGCardVariation extra) throws IOException {
+		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.isExtendedArt()==extra.equals(MTGCardVariation.EXTENDEDART) && mc.isBorderLess()==extra.equals(MTGCardVariation.BORDERLESS) && mc.isShowCase()==extra.equals(MTGCardVariation.SHOWCASE)).collect(Collectors.toList());
 	}
 	
 	@Override

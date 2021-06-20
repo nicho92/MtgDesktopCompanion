@@ -106,7 +106,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		}
 
 		UITools.initTableFilter(table);
-		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
+		UITools.initCardToolTipTable(table, 0, 1, null,new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
 				try {

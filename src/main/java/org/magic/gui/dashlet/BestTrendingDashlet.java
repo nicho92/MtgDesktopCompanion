@@ -214,7 +214,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		UITools.initTableFilter(table);
-		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
+		UITools.initCardToolTipTable(table, 0, 1, null,new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
 				CardShake cs=null;

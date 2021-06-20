@@ -26,6 +26,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.Packaging;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 
@@ -241,11 +242,16 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				cs.setName(p.getCleanName());
 				cs.setFoil(p.isFoil());
 				cs.setLink(p.getWebPage());
-				cs.setBorderless(p.isBorderless());
-				cs.setShowcase(p.isShowcase());
-				cs.setExtendedArt(p.isExtendedArt());
-				cs.setFullArt(p.isFullArt());
-				cs.setEtched(p.isExtendedArt());
+				
+				if(p.isExtendedArt())
+					cs.setCardVariation(MTGCardVariation.EXTENDEDART);
+				else if(p.isShowcase())
+					cs.setCardVariation(MTGCardVariation.SHOWCASE);
+				else if(p.isBorderless())
+					cs.setCardVariation(MTGCardVariation.BORDERLESS);
+//				else if (p.getRarity()==RARITY.S)
+//					cs.setCardVariation(MTGCardVariation.TIMESHIFTED);
+				
 				cs.setEd(cardService.getSetById(p.getSetId()).getAbbrevation());
 		return cs;
 	}

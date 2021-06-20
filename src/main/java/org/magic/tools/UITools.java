@@ -60,6 +60,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumStock;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -440,54 +441,8 @@ public class UITools {
 			}
 	}
 	
-	public static <V> void initCardToolTipTable(final JTable table, final int cardPos, Callable<V> dblClick) {
-		final var popUp = new JPopupMenu();
-		table.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-					e.consume();
-					if(e.getClickCount()==2 && dblClick!=null)
-					{
-					
-						ThreadManager.getInstance().submitCallable(dblClick,"initTooltip");
-					}
-					else 
-					{
-						
-						var row = table.rowAtPoint(e.getPoint());
-						
-						
-						if(row<0)
-							return;
-						
-						var pane = new MagicCardDetailPanel();
-						pane.enableThumbnail(true);
-						table.setRowSelectionInterval(row, row);
-						
-						try {
-								MagicCard mc = UITools.getTableSelection(table,cardPos);
-								pane.setMagicCard(mc);
-								
-								popUp.setBorder(new LineBorder(Color.black));
-								popUp.setVisible(false);
-								popUp.removeAll();
-								popUp.setLayout(new BorderLayout());
-								popUp.add(pane, BorderLayout.CENTER);
-								popUp.show(table, e.getX()+5, e.getY()+5);
-								popUp.setVisible(true);
-		
-							} catch (IndexOutOfBoundsException ex) {
-								logger.error(ex);
-							} 
-				}
-			}
-		});
-	}
 	
-	
-	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, Callable<V> dblClick) {
+	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, final Integer extraPos, Callable<V> dblClick) {
 		final var popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
 			
@@ -507,7 +462,7 @@ public class UITools {
 						var pane = new MagicCardDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
-						var cardName = table.getValueAt(row, cardPos.intValue()).toString();
+						var cardName = table.getModel().getValueAt(row, cardPos.intValue()).toString();
 	
 						if (cardName.indexOf('(') >= 0)
 							cardName = cardName.substring(0, cardName.indexOf('(')).trim();
@@ -527,7 +482,22 @@ public class UITools {
 						
 						
 						try {
-								MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+							MagicCard mc =null;
+							if (extraPos != null) {
+								var key = table.getModel().getValueAt(row, extraPos);
+								if(key!=null) {
+									var extraVariations = MTGCardVariation.valueOf(key.toString());
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false,extraVariations).get(0);	
+								}
+								else
+								{
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+								}
+							}
+							else
+							{
+								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+							}
 								pane.setMagicCard(mc);
 								
 								popUp.setBorder(new LineBorder(Color.black));
@@ -570,16 +540,6 @@ public class UITools {
 		}
 	}
 
-	
-	public static <T> List<T> getTablesItems(JTable tableCards, int columnID)
-	{
-		List<T> listCards = new ArrayList<>();
-		for (var count = 0; count < tableCards.getModel().getRowCount(); count++){
-			listCards.add((T) tableCards.getValueAt(count, columnID));
-		}
-		
-		return listCards;
-	}
 
 	public static void applyDefaultSelection(Component pane) {
 			pane.setForeground(SystemColor.textHighlightText);

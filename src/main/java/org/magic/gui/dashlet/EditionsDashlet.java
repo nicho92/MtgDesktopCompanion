@@ -95,7 +95,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		}
 		
 		UITools.initTableFilter(table);
-		UITools.initCardToolTipTable(table, 0, 1, new Callable<Void>() {
+		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
 				try {
