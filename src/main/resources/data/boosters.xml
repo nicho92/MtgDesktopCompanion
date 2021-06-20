@@ -73,9 +73,9 @@
 		<starter lang='jp' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1130840.jpg"/>
 		<starter lang='fr' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1122759.jpg"/>
 		<starter lang='en' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/94544.jpg"/>
-		<bundle lang='en' num="1" url="https://thumbs.worthpoint.com/zoom/images1/1/0518/09/4th-edition-gift-box-sealed_1_e77d191daa1b5bb4f03120ea79c3ae47.jpg"/>
-		<bundle lang='en' num="2" url="https://thumbs.worthpoint.com/zoom/images3/1/0518/09/4th-edition-gift-box-sealed_1_e77d191daa1b5bb4f03120ea79c3ae47.jpg"/>
-		<bundle lang='en' num="3" url="https://thumbs.worthpoint.com/zoom/images2/1/0518/09/4th-edition-gift-box-sealed_1_e77d191daa1b5bb4f03120ea79c3ae47.jpg"/>
+		<bundle lang='en' num="1" url="https://www.magicmadhouse.co.uk/images/mtg-4th-edition-2-player-gift-box-p252255-310611_medium.jpg"/>
+		<bundle lang='en' num="2" url="https://i.ebayimg.com/images/g/eLkAAOSwsWRgjx73/s-l640.jpg"/>
+		<bundle lang='en' num="3" url="https://thumbs.worthpoint.com/zoom/images1/1/0515/05/4th-edition-gift-box-factory-sealed_1_df019742217b97ca66058e7d8a6a0139.jpg"/>
 	</edition>
 	<edition id='5ED'>
 		<booster lang='en' num='1' url="https://crystal-cdn4.crystalcommerce.com/photos/30693/zxx7xFbYzwRtkWS8.jpg"/>
@@ -1292,7 +1292,7 @@
 		<booster lang="en" extra="draft" num="2" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_03_01.png"/>
 		<booster lang="en" extra="draft" num="3" url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_02_01.png"/>
 		<bundle lang="en" url="https://shop.novalisgames.com/product/image/large/witrobuen_1.png"/>
-		<gift lang="en" num="2" url="https://quickbutik.imgix.net/14471m/products/5df9f23c6cd1f.png"/>
+		<bundle extra="gift" lang="en" num="2" url="https://quickbutik.imgix.net/14471m/products/5df9f23c6cd1f.png"/>
 		<box lang="en" url="https://media.miniaturemarket.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/w/o/wocc61360-box_1.png"/>
 		<banner lang="en" url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/e/ef/ELD_logo.png"/>
 		<constructpack lang="en" num="1" url="https://www.radaddel.de/media/image/88/a2/99/MTGELDPWDRowan-png-120449-00.png"/>
@@ -1409,7 +1409,7 @@
 		<box lang="en" num="3" extra="set" url="https://media.miniaturemarket.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/z/e/zen-rising-set-booster.png"/>
 		<prereleasepack lang="en" url="https://www.trader-online.de/out/pictures/generated/product/1/800_800_75/Zendikar-Rising-prerelease-pre-release-booster-pack-box-guenstig-billig-kaufen-ZNR-englisch-english.png"/>
 		<bundle lang="en" num="1" url="https://www.illusive-isle.com/uploads/1/7/2/6/17261402/s236435389559391257_p822_i1_w900.png?width=640"/>
-		<gift lang="en" num="2" url="https://cdn.shopify.com/s/files/1/1368/4821/products/MTGM21_EN_GftBndlSlv_01_01_1024x1024.png"/>
+		<bundle  extra="gift" lang="en" num="2" url="https://cdn.shopify.com/s/files/1/1368/4821/products/MTGM21_EN_GftBndlSlv_01_01_1024x1024.png"/>
 		<banner lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/2/2b/ZNR_logo.png"/>
 		<booster lang="en" num="1" extra="draft" url="https://cdn.shopify.com/s/files/1/0361/1479/2588/products/MTGZNR_EN_DrftBstr_01_02.png"/>
 		<booster lang="en" num="2" extra="draft" url="https://cdn.shopify.com/s/files/1/0361/1479/2588/products/MTGZNR_EN_DrftBstr_02_02.png"/>
