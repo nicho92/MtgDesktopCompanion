@@ -26,13 +26,13 @@ public class SealedStock {
 		setQte(qte);
 	}
 	
-	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang)
+	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra)
 	{
 		product = new Packaging();
 		product.setEdition(e);
 		product.setType(type);
 		product.setLang(lang);
-		
+		product.setExtra(extra);
 		setProduct(product);
 		
 	}

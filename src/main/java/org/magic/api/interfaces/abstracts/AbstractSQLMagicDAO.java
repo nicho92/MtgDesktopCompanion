@@ -117,6 +117,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_sld_lang ON sealed (lang);");
 		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct);");
 		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct);");
+		stat.executeUpdate("CREATE INDEX idx_sld_ext ON sealed (extra);");
+		
 		
 		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut);");
 		
@@ -124,6 +126,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_country ON contacts (contact_country);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_address ON contacts (contact_address);");
+		stat.executeUpdate("CREATE INDEX idx_ctc_zip ON contacts (contact_zipcode);");
+		stat.executeUpdate("CREATE INDEX idx_ctc_city ON contacts (contact_city);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_site ON contacts (contact_website);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_mail ON contacts (contact_email);");
 		
@@ -255,7 +259,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10))");
 			logger.debug("Create table selead");
 
 	
@@ -676,6 +680,15 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					var p = new Packaging();
 					 		  p.setLang(rs.getString("lang"));
 							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
+							  
+							  try {
+							  p.setExtra(Packaging.EXTRA.valueOf(rs.getString("extra")));
+							  }
+							  catch(Exception e)
+							  {
+								 //do nothing
+							  }
+							  
 							  try 
 							  {
 								p.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
@@ -703,13 +716,19 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("save stock " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct) VALUES (?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra) VALUES (?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
 				pst.setString(4, state.getProduct().getLang());
 				pst.setString(5, state.getProduct().getType().name());
 				pst.setString(6, state.getCondition().name());
+				if(state.getProduct().getExtra()!=null)
+					pst.setString(7, state.getProduct().getExtra().name());
+				else
+					pst.setString(7, null);
+				
+				
 				pst.executeUpdate();
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {

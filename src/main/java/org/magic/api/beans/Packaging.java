@@ -55,7 +55,7 @@ public class Packaging implements Serializable{
 	
 	@Override
 	public String toString() {
-		return getLang()+"-" + getNum();
+		return getLang()+"-" + (getExtra()!=null?getExtra()+"-":"")+ getNum();
 	}
 
 	public void setEdition(MagicEdition me) {
