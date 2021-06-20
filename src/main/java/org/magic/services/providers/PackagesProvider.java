@@ -250,6 +250,7 @@ public class PackagesProvider {
 		}
 		return list;
 	}
+	//TODO manage extra
 
 	public List<Packaging> get(MagicEdition me,TYPE t, String lang)
 	{

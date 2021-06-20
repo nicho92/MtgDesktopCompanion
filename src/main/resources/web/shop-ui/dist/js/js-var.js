@@ -31,8 +31,11 @@ function generateStockSealedHTML(data,currency, tosell, percentReduction)
 			
 			var append="<div class='col-sm'>";
   					append+="<div class='card'>";
-        			
-        			append+="<img class='card-img-top' src='"+data.product.url+"' alt='"+data.product.edition.set+"'>";
+        			if(data.product.url)
+        				append+="<img class='card-img-top' src='"+data.product.url+"' alt='"+data.product.edition.set+"'>";
+        			else
+        				append+="<img class='card-img-top' src='https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg' alt='"+data.product.edition.set+"'>";
+        				
     				
        				append+="<div class='card-body'>";
            			
