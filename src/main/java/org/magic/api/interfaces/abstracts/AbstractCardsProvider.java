@@ -74,6 +74,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.addConvertor(MTGFrameEffects.class,(MTGFrameEffects source)->source.name().toLowerCase());
 		b.addConvertor(MTGRarity.class,(MTGRarity source)->source.name().toLowerCase());
 		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
+		b.addConvertor(MTGCardVariation.class,(MTGCardVariation source)->source.name().toLowerCase());
 	}
 	
 	
@@ -155,7 +156,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, MTGCardVariation extra) throws IOException {
-		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.isExtendedArt()==extra.equals(MTGCardVariation.EXTENDEDART) && mc.isBorderLess()==extra.equals(MTGCardVariation.BORDERLESS) && mc.isShowCase()==extra.equals(MTGCardVariation.SHOWCASE)).collect(Collectors.toList());
+		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.getExtra()==extra).collect(Collectors.toList());
 	}
 	
 	@Override

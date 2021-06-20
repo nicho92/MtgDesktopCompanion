@@ -327,7 +327,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		try {
-			mc.setRarity(MTGRarity.valueOf(obj.get(RARITY).getAsString()));
+			mc.setRarity(MTGRarity.valueOf(obj.get(RARITY).getAsString().toUpperCase()));
 		} catch (NullPointerException e) {
 			mc.setStorySpotlight(false);
 		}

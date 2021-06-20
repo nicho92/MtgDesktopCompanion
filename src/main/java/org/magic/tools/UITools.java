@@ -462,7 +462,8 @@ public class UITools {
 						var pane = new MagicCardDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
-						var cardName = table.getModel().getValueAt(row, cardPos.intValue()).toString();
+						
+						var cardName = getModelValueAt(table,row, cardPos.intValue()).toString();
 	
 						if (cardName.indexOf('(') >= 0)
 							cardName = cardName.substring(0, cardName.indexOf('(')).trim();
@@ -470,7 +471,7 @@ public class UITools {
 						MagicEdition ed = null;
 						try {
 							if (edPos != null) {
-								var edID = table.getValueAt(row, edPos).toString();
+								var edID = getModelValueAt(table,row, edPos).toString();
 								ed = new MagicEdition();
 								ed.setId(edID);
 							}
@@ -483,8 +484,9 @@ public class UITools {
 						
 						try {
 							MagicCard mc =null;
-							if (extraPos != null) {
-								var key = table.getModel().getValueAt(row, extraPos);
+							if (extraPos != null) 
+							{
+								var key = getModelValueAt(table,row, extraPos);
 								if(key!=null) {
 									var extraVariations = MTGCardVariation.valueOf(key.toString());
 									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false,extraVariations).get(0);	
@@ -523,9 +525,7 @@ public class UITools {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
 		for (int i : viewRow) {
-			int modelRow = tableCards.convertRowIndexToModel(i);
-			T mc = (T) tableCards.getModel().getValueAt(modelRow, columnID);
-			listCards.add(mc);
+			listCards.add(getModelValueAt(tableCards,i,columnID));
 		}
 		return listCards;
 	}
@@ -540,6 +540,11 @@ public class UITools {
 		}
 	}
 
+	public static <T> T getModelValueAt(JTable tableCards, int row, int column)
+	{
+		return (T) tableCards.getModel().getValueAt(tableCards.convertRowIndexToModel(row), column);
+	}
+	
 
 	public static void applyDefaultSelection(Component pane) {
 			pane.setForeground(SystemColor.textHighlightText);

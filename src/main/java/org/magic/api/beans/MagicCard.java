@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.enums.MTGBorder;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
@@ -74,6 +75,23 @@ public class MagicCard implements Serializable {
 	private List<MTGPromoType> promotypes;
 	private boolean japanese;
 	
+	
+	public MTGCardVariation getExtra()
+	{
+		if(isJapanese())
+			return MTGCardVariation.JAPANESEALT;
+		else if(isShowCase())
+			return MTGCardVariation.SHOWCASE;
+		else if(isFullArt())
+			return MTGCardVariation.FULLART;
+		else if(isExtendedArt())
+			return MTGCardVariation.EXTENDEDART;
+		else if(isBorderLess())
+			return MTGCardVariation.BORDERLESS;
+		
+		return null;
+		
+	}
 
 	public boolean isJapanese() {
 		return japanese;

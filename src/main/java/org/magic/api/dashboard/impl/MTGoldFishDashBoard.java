@@ -344,7 +344,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							cs.setCardVariation(MTGCardVariation.SHOWCASE);
 						else if(nameExtra.contains("Borderless"))
 							cs.setCardVariation(MTGCardVariation.BORDERLESS);
-						else if (nameExtra.contains("timeshifted")||nameExtra.contains("retro"))
+						else if (nameExtra.contains("Timeshifted")||nameExtra.contains("Retro"))
 							cs.setCardVariation(MTGCardVariation.TIMESHIFTED);
 						
 						cs.setEd(edition.getId());
