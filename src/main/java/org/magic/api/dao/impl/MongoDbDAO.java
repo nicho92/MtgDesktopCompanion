@@ -6,7 +6,6 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +30,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
@@ -49,8 +47,6 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-
-import groovyjarjarantlr4.v4.parse.ANTLRParser.throwsSpec_return;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 

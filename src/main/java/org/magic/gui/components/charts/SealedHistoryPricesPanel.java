@@ -60,7 +60,7 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 					
 				};
 						
-				ThreadManager.getInstance().runInEdt(s, "loading history price booster");
+				ThreadManager.getInstance().runInEdt(s, "loading history price for "+ pack);
 		}
 	}
 	

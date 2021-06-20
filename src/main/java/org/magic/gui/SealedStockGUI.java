@@ -65,10 +65,6 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		setLayout(new BorderLayout());
 		
-		var lblNewLabel = new JLabel("WARNING THIS MODULE IS NOT YET STABLE");
-		lblNewLabel.setForeground(Color.RED);
-		toolsPanel.add(lblNewLabel);
-		
 		toolsPanel.add(buttonNew);
 		toolsPanel.add(buttonDelete);
 		toolsPanel.add(buttonUpdate);

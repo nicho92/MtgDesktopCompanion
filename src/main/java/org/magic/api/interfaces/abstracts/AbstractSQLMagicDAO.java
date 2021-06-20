@@ -259,7 +259,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment VARCHAR(250),lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"))");
 			logger.debug("Create table selead");
 
 	
@@ -677,6 +677,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					state.setId(rs.getInt("id"));
 					state.setQte(rs.getInt("qte"));
 					state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
+					state.setCollection(new MagicCollection(rs.getString("collection")));
+							
 					var p = new Packaging();
 					 		  p.setLang(rs.getString("lang"));
 							  p.setType(Packaging.TYPE.valueOf(rs.getString("typeProduct")));
@@ -716,7 +718,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 
 			logger.debug("save stock " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra) VALUES (?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
@@ -728,6 +730,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				else
 					pst.setString(7, null);
 				
+				pst.setString(8, (state.getCollection()==null)?MTGControler.getInstance().get("default-library"):state.getCollection().getName());
 				
 				pst.executeUpdate();
 				state.setId(getGeneratedKey(pst));
@@ -737,14 +740,15 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=? where id=?")) {
+					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=? where id=?")) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
 				pst.setString(4, state.getProduct().getLang());
 				pst.setString(5, state.getProduct().getType().name());
 				pst.setString(6, state.getCondition().name());
-				pst.setInt(7, state.getId());
+				pst.setString(7, (state.getCollection()==null)?MTGControler.getInstance().get("default-library"):state.getCollection().getName());
+				pst.setInt(8, state.getId());
 				pst.executeUpdate();
 			} catch (Exception e) {
 				logger.error("error update",e);

@@ -224,9 +224,6 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/collection").equals("true"))
 			addTab(new CollectionPanelGUI()); 
 		
-		if (MTGControler.getInstance().get("modules/sealed").equals("true"))
-			addTab(new SealedStockGUI());
-		
 		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
 			addTab(new DeckBuilderGUI()); 
 
@@ -235,7 +232,10 @@ public class MagicGUI extends JFrame {
 	
 		if (MTGControler.getInstance().get("modules/stock").equals("true"))
 			addTab(new StockPanelGUI()); 
-
+		
+		if (MTGControler.getInstance().get("modules/sealed").equals("true"))
+			addTab(new SealedStockGUI());
+		
 		if (MTGControler.getInstance().get("modules/dashboard").equals("true"))
 			addTab(new DashBoardGUI2());
 

@@ -9,6 +9,8 @@ public class SealedStock {
 	private int qte=1;
 	private String comment;
 	private EnumStock condition = EnumStock.SELEAD;
+	private MagicCollection collection;
+	
 	
 	public SealedStock()
 	{
@@ -26,7 +28,7 @@ public class SealedStock {
 		setQte(qte);
 	}
 	
-	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra)
+	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra, MagicCollection magicCollection)
 	{
 		product = new Packaging();
 		product.setEdition(e);
@@ -34,9 +36,17 @@ public class SealedStock {
 		product.setLang(lang);
 		product.setExtra(extra);
 		setProduct(product);
-		
+		setCollection(magicCollection);
 	}
 	
+	public MagicCollection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(MagicCollection collection) {
+		this.collection = collection;
+	}
+
 	@Override
 	public String toString() {
 		return getId()+"-"+getProduct();
