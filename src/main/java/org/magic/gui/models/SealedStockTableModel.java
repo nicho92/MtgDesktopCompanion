@@ -11,6 +11,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.tools.UITools;
 
 public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 
@@ -18,7 +19,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 	private static final long serialVersionUID = 1L;
 
 	public SealedStockTableModel() {
-		setColumns("ID","Type","Edition","LANGUAGE","Quality","Qty","Collection");
+		setColumns("ID","Type","Edition","LANGUAGE","Quality","Qty","Collection","Price");
 	}
 	
 	@Override
@@ -31,6 +32,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		case 4: return EnumStock.class;
 		case 5: return Integer.class;
 		case 6: return MagicCollection.class;
+		case 7: return Double.class;
 		default: return super.getColumnClass(columnIndex);
 		}
 	}
@@ -47,6 +49,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			case 4: return it.getCondition();
 			case 5 : return it.getQte();
 			case 6 : return it.getCollection();
+			case 7 : return it.getPrices();
 			default : return super.getValueAt(row, column);
 		}
 	}
@@ -63,6 +66,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			case 4: it.setCondition(EnumStock.valueOf(aValue.toString()));break;
 			case 5: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
 			case 6: it.setCollection(new MagicCollection(String.valueOf(aValue)));break;
+			case 7: it.setPrices(UITools.parseDouble(aValue.toString()));break;
 			default: break;
 		}
 		

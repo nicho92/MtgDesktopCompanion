@@ -10,7 +10,7 @@ public class SealedStock {
 	private String comment;
 	private EnumStock condition = EnumStock.SELEAD;
 	private MagicCollection collection;
-	
+	private double prices=0.0;
 	
 	public SealedStock()
 	{
@@ -39,6 +39,14 @@ public class SealedStock {
 		setCollection(magicCollection);
 	}
 	
+	public double getPrices() {
+		return prices;
+	}
+
+	public void setPrices(double prices) {
+		this.prices = prices;
+	}
+
 	public MagicCollection getCollection() {
 		return collection;
 	}

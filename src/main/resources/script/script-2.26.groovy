@@ -3,6 +3,7 @@ if(dao.isSQL()) {
 	dao.executeQuery("ALTER TABLE contacts ADD contact_active boolean");
 	dao.executeQuery("ALTER TABLE sealed ADD extra VARCHAR(10)");
 	dao.executeQuery("ALTER TABLE sealed ADD collection VARCHAR(255)");
+	dao.executeQuery("ALTER TABLE sealed ADD price DECIMAL");
 	printf("--done");
 }
 else
