@@ -51,9 +51,6 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		o=(Observable obs, Object c)->publish((V)c);
 		plug.addObserver(o);
 		
-		
-		
-		
 		if(size>-1)
 			buzy.start(size);
 		else

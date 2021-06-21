@@ -15,6 +15,7 @@ public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedS
 	private EnumStock condition = EnumStock.SELEAD;
 	private MagicCollection magicCollection;
 	private Double price=0.0;
+	private boolean updated=false;
 	
 	public SealedStock(){
 		
@@ -114,6 +115,15 @@ public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedS
 	public int compareTo(SealedStock o) {
 		return getId()-o.getId();
 		
+	}
+
+	public void setUpdated(boolean b) {
+		this.updated=b;
+		
+	}
+	
+	public boolean isUpdated() {
+		return updated;
 	}
 	
 	

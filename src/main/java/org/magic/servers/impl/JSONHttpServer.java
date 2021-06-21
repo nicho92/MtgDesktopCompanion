@@ -161,6 +161,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		};
 	}
 	
+	
+	
 
 
 	
@@ -220,7 +222,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				response.header("Content-Encoding", "gzip");
 			}
 		});
-
+		
 		options("/*", (request, response) -> {
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 			if (accessControlRequestHeaders != null) {
@@ -248,8 +250,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
 			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
 		});
-		
-		
 	
 		get("/cards/search/:att/:val", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)
@@ -393,9 +393,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 		
-		get("/sealed/list", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listSeleadStocks(), transformer);
-		
+		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->
+				
+				getCached(request.pathInfo(), new Callable<Object>() {
+
+					@Override
+					public Object call() throws Exception {
+						return getEnabledPlugin(MTGDao.class).listSeleadStocks();
+					}
+				})
+
+			, transformer);
 
 		get("/alerts/list", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);

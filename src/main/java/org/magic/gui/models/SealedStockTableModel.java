@@ -70,13 +70,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			default: break;
 		}
 		
-		try {
-			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(it);
-			changed=true;
-		} catch (SQLException e) {
-			logger.error("Error saving " + it , e);
-		}
-		
+		it.setUpdated(true);
 		
 	}
 }

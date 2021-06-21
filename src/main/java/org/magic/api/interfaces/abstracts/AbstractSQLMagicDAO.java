@@ -662,6 +662,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		{
 			pst.setInt(1, state.getId());
 			pst.executeUpdate();
+			notify(state);
 		}
 		
 	}
@@ -745,6 +746,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setDouble(8, state.getPrice());
 				pst.setInt(9, state.getId());
 				pst.executeUpdate();
+				
+				state.setUpdated(false);
 			} catch (Exception e) {
 				logger.error("error update",e);
 			}
