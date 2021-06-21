@@ -678,8 +678,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 							state.setId(rs.getInt("id"));
 							state.setQte(rs.getInt("qte"));
 							state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
-							state.setCollection(new MagicCollection(rs.getString("collection")));
-							state.setPrices(rs.getDouble("price"));
+							state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+							state.setPrice(rs.getDouble("price"));
 							  try 
 							  {
 								var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
@@ -722,8 +722,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				else
 					pst.setString(7, null);
 				
-				pst.setString(8, (state.getCollection()==null)?MTGControler.getInstance().get("default-library"):state.getCollection().getName());
-				pst.setDouble(9, state.getPrices());
+				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
+				pst.setDouble(9, state.getPrice());
 				
 				
 				pst.executeUpdate();
@@ -741,8 +741,8 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getProduct().getLang());
 				pst.setString(5, state.getProduct().getType().name());
 				pst.setString(6, state.getCondition().name());
-				pst.setString(7, (state.getCollection()==null)?MTGControler.getInstance().get("default-library"):state.getCollection().getName());
-				pst.setDouble(8, state.getPrices());
+				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
+				pst.setDouble(8, state.getPrice());
 				pst.setInt(9, state.getId());
 				pst.executeUpdate();
 			} catch (Exception e) {

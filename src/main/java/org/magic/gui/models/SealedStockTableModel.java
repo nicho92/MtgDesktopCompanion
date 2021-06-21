@@ -48,8 +48,8 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			case 3: return it.getProduct().getLang();
 			case 4: return it.getCondition();
 			case 5 : return it.getQte();
-			case 6 : return it.getCollection();
-			case 7 : return it.getPrices();
+			case 6 : return it.getMagicCollection();
+			case 7 : return it.getPrice();
 			default : return super.getValueAt(row, column);
 		}
 	}
@@ -65,8 +65,8 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			case 3: it.getProduct().setLang(String.valueOf(aValue));break;
 			case 4: it.setCondition(EnumStock.valueOf(aValue.toString()));break;
 			case 5: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
-			case 6: it.setCollection(new MagicCollection(String.valueOf(aValue)));break;
-			case 7: it.setPrices(UITools.parseDouble(aValue.toString()));break;
+			case 6: it.setMagicCollection(new MagicCollection(String.valueOf(aValue)));break;
+			case 7: it.setPrice(UITools.parseDouble(aValue.toString()));break;
 			default: break;
 		}
 		

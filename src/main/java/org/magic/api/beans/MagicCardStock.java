@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGShoppable;
 
-public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
+public class MagicCardStock implements Serializable, Comparable<MagicCardStock>, MTGShoppable{
 
 	/**
 	 * 
@@ -29,6 +30,17 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 	private Grading grade;
 	private Map<String,String> tiersAppIds;
 	
+
+	@Override
+	public String itemName() {
+		return getMagicCard().toString();
+	}
+
+
+	@Override
+	public MagicEdition getEdition() {
+		return getMagicCard().getCurrentSet();
+	}
 	
 	
 	
@@ -68,7 +80,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 		return grade;
 	}
 	
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
@@ -200,6 +212,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>{
 		
 		return getIdstock() == ((MagicCardStock)obj).getIdstock();
 	}
-	
+
+
 
 }

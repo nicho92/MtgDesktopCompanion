@@ -1,21 +1,35 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
+
 import org.magic.api.beans.enums.EnumStock;
+import org.magic.api.interfaces.MTGShoppable;
 
-public class SealedStock {
+public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedStock> {
 
+	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Packaging product;
 	private int qte=1;
 	private String comment;
 	private EnumStock condition = EnumStock.SELEAD;
-	private MagicCollection collection;
-	private double prices=0.0;
+	private MagicCollection magicCollection;
+	private Double price=0.0;
 	
-	public SealedStock()
-	{
+	public SealedStock(){
 		
 	}
+	
+	@Override
+	public String itemName() {
+		return (getProduct()!=null)?getProduct().toString():"";
+	}
+
+	@Override
+	public MagicEdition getEdition() {
+		return (getProduct()!=null)?getProduct().getEdition():null;
+	}
+	
 	
 	public SealedStock(Packaging p)
 	{
@@ -36,23 +50,23 @@ public class SealedStock {
 		product.setLang(lang);
 		product.setExtra(extra);
 		setProduct(product);
-		setCollection(magicCollection);
+		setMagicCollection(magicCollection);
 	}
 	
-	public double getPrices() {
-		return prices;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setPrices(double prices) {
-		this.prices = prices;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
-	public MagicCollection getCollection() {
-		return collection;
+	public MagicCollection getMagicCollection() {
+		return magicCollection;
 	}
 
-	public void setCollection(MagicCollection collection) {
-		this.collection = collection;
+	public void setMagicCollection(MagicCollection collection) {
+		this.magicCollection = collection;
 	}
 
 	@Override
@@ -73,12 +87,16 @@ public class SealedStock {
 	public void setProduct(Packaging product) {
 		this.product = product;
 	}
+	
+	@Override
 	public int getQte() {
 		return qte;
 	}
-	public void setQte(int qte) {
-		this.qte = qte;
+	
+	public void setQte(int qty) {
+		this.qte = qty;
 	}
+
 	public String getComment() {
 		return comment;
 	}
@@ -90,6 +108,12 @@ public class SealedStock {
 	}
 	public void setCondition(EnumStock condition) {
 		this.condition = condition;
+	}
+
+	@Override
+	public int compareTo(SealedStock o) {
+		return getId()-o.getId();
+		
 	}
 	
 	
