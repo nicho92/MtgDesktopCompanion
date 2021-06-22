@@ -10,4 +10,5 @@ public interface MTGShoppable {
 	public String itemName();
 	public MagicEdition getEdition();
 	public MagicCollection getMagicCollection();
+	public Integer getId();
 }

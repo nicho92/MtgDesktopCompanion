@@ -38,7 +38,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	
 	@Override
 	public void addItem(MagicCardStock t) {
-		if(t.getIdstock()==-1)
+		if(t.getId()==-1)
 		{
 			items.add(t);
 		}
@@ -46,7 +46,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		{
 			for(var i=0;i<=items.size();i++)
 			{
-				if(items.get(i).getIdstock()==t.getIdstock())
+				if(items.get(i).getId()==t.getId())
 				{
 					items.set(i, t);
 					break;

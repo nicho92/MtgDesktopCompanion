@@ -71,6 +71,8 @@ public class SealedStockGUI extends MTGUIComponent {
 		var buttonNew = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "stock new");
 		buttonNew.setEnabled(false);
 		var buttonDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_N, "stock delete");
+		buttonDelete.setEnabled(false);
+		
 		var buttonUpdate = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_U, "stock refresh");
 		var buttonSave= UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S, "stock save");
 		
@@ -110,7 +112,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			
 			boolean isPackage = selectedNode.getUserObject() instanceof Packaging;
 			buttonNew.setEnabled(isPackage);
-			
+		
 			if(selectedNode!=null && isPackage)
 			{
 				
@@ -125,8 +127,12 @@ public class SealedStockGUI extends MTGUIComponent {
 			if(!l.getValueIsAdjusting())
 			{
 				SealedStock ss = UITools.getTableSelection(table, 0);
+				
+				buttonDelete.setEnabled(ss!=null);
+				
 				if(ss!=null)
 				{
+					
 					historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
 					packagePanel.load(ss.getProduct());
 					objectpanel.show(ss);

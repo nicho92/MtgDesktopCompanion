@@ -13,7 +13,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int idstock;
+	private int id;
 	private MagicCard magicCard;
 	private MagicCollection magicCollection;
 	private int qte=1;
@@ -89,7 +89,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>,
 	}
 
 	public MagicCardStock() {
-		idstock = -1;
+		id = -1;
 		tiersAppIds = new HashMap<>();
 	}
 
@@ -111,15 +111,15 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>,
 
 	@Override
 	public String toString() {
-		return String.valueOf(idstock);
+		return String.valueOf(id);
 	}
 
-	public int getIdstock() {
-		return idstock;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdstock(int idstock) {
-		this.idstock = idstock;
+	public void setId(Integer idstock) {
+		this.id = idstock;
 	}
 
 	public MagicCollection getMagicCollection() {
@@ -196,12 +196,12 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>,
 
 	@Override
 	public int compareTo(MagicCardStock o) {
-		return getIdstock()-o.getIdstock();
+		return getId()-o.getId();
 	}
 	
 	@Override
 	public int hashCode() {
-		return getIdstock();
+		return getId();
 	}
 	
 	
@@ -210,7 +210,7 @@ public class MagicCardStock implements Serializable, Comparable<MagicCardStock>,
 		if(!(obj instanceof MagicCardStock))
 			return false;
 		
-		return getIdstock() == ((MagicCardStock)obj).getIdstock();
+		return getId() == ((MagicCardStock)obj).getId();
 	}
 
 

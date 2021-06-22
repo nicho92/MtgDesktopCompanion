@@ -11,3 +11,12 @@ MTG.getPlugin("Party Web Server",MTGServer.class).initDefault();
 MTG.getPlugin("Web UI Server",MTGServer.class).initDefault();
 
 
+if(dao.isSQL()) {
+	printf("Executing db update on " + dao.getName());
+	dao.executeQuery("ALTER TABLE stocks ADD etched boolean");
+	printf("--done");
+}
+else
+{
+	printf("Your DAO is not SQL. Don't need to pass script");
+}

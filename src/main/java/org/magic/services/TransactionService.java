@@ -161,7 +161,7 @@ public class TransactionService
 
 		for(MagicCardStock transactionItem : t.getItems())
 		{
-				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getIdstock());
+				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(STAT.IN_PROGRESS);
@@ -195,7 +195,7 @@ public class TransactionService
 		
 		for(MagicCardStock transactionItem : t.getItems())
 		{
-				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getIdstock());
+				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdate(true);
 					   t.setStatut(STAT.CANCELED);

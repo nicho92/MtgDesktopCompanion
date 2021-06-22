@@ -1078,9 +1078,7 @@
 		<banner lang='en' url="http://www.magiccorporation.com/images/magic/editions/maxi/duel_decks_mind_vs_might.png"/>
 	</edition>
 	<edition id='HOU'>
-		
-			<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Hour%2Bof%2BDevastation%2BBooster%2B%255BBOOSTER%255D.jpg"/>
-		
+		<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Hour%2Bof%2BDevastation%2BBooster%2B%255BBOOSTER%255D.jpg"/>
 		<banner lang='en' url="http://mtgen.net/hou/images/logo-word.png"/>
 	</edition>
 	<edition id='CMA'>

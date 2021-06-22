@@ -123,7 +123,7 @@ public class CardStockPanel extends MTGUIComponent {
 		List<MagicCardStock> st = UITools.getTableSelections(table, 0);
 		
 		model.removeItem(st);
-		st.removeIf(s->s.getIdstock()==-1);
+		st.removeIf(s->s.getId()==-1);
 		
 		if(!st.isEmpty())
 		{

@@ -101,7 +101,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public MagicCardStock getStockById(Integer id) throws SQLException {
-		return listStocks().stream().filter(mc->mc.getIdstock()==id).findAny().orElse(null);
+		return listStocks().stream().filter(mc->mc.getId()==id).findAny().orElse(null);
 	}
 	
 	
@@ -223,7 +223,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		logger.debug("duplicate stock");
 		for(MagicCardStock stock : listStocks())
 		{
-			stock.setIdstock(-1);
+			stock.setId(-1);
 			dao.saveOrUpdateStock(stock);
 		}
 			

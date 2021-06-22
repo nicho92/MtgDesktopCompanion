@@ -324,10 +324,10 @@ public class FileDAO extends AbstractMagicDAO{
 
 		var f = new File(directory, STOCKDIR);
 
-		if (state.getIdstock() == -1)
-			state.setIdstock(f.listFiles().length + 1);
+		if (state.getId() == -1)
+			state.setId(f.listFiles().length + 1);
 
-		f = new File(f, state.getIdstock() + "-" + IDGenerator.generate(state.getMagicCard()));
+		f = new File(f, state.getId() + "-" + IDGenerator.generate(state.getMagicCard()));
 		try {
 			save(state, f);
 			notify(state);
@@ -342,7 +342,7 @@ public class FileDAO extends AbstractMagicDAO{
 
 		for (MagicCardStock s : state) {
 			var f = Paths.get(directory.getAbsolutePath(), STOCKDIR,
-					s.getIdstock() + "-" + IDGenerator.generate(s.getMagicCard())).toFile();
+					s.getId() + "-" + IDGenerator.generate(s.getMagicCard())).toFile();
 			logger.debug("Delete " + f);
 			try {
 				FileTools.deleteFile(f);

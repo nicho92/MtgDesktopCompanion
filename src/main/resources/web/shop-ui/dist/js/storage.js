@@ -69,7 +69,7 @@ function logout()
 function addCartProduct(stockItem, percentReduction)
 {
 	var array = JSON.parse(storage.getItem(cartKey) || "[]");
-	var it=	array.find(x => x.idstock == stockItem.idstock);
+	var it=	array.find(x => x.id == stockItem.id);
 	
 	if(percentReduction>0)
 		stockItem.price = stockItem.price-(stockItem.price*percentReduction);
@@ -103,7 +103,7 @@ function removeStockId(idstock)
 {
 
 		var array = jQuery.grep(getCartItems(), function(value) {
-			 return value.idstock != idstock;
+			 return value.id != idstock;
 		});
 
 
@@ -115,7 +115,7 @@ function removeStockId(idstock)
 function isPresent(idstock)
 {
 
-	return getCartItems().find(x => x.idstock == idstock);
+	return getCartItems().find(x => x.id == idstock);
 }
 
 

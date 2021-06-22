@@ -128,7 +128,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				}
 				else
 				{
-					logger.debug("Found idMTGStock=" + st.getIdstock() + "with " + getName()+" id = "+id);
+					logger.debug("Found idMTGStock=" + st.getId() + "with " + getName()+" id = "+id);
 					st.setUpdate(true);
 				}
 				

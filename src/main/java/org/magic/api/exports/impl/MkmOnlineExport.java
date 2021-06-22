@@ -354,7 +354,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		for (LightArticle a : list) {
 			var mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setUpdate(true);
-			mcs.setIdstock(-1);
+			mcs.setId(-1);
 			mcs.setComment(a.getComments());
 			try{
 				mcs.setLanguage(a.getLanguage().getLanguageName());

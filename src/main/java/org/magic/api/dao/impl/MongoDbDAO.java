@@ -390,8 +390,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
 		logger.debug("saving stock " + state);
 		state.setUpdate(false);
-		if (state.getIdstock() == -1) {
-			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
+		if (state.getId() == -1) {
+			state.setId(Integer.parseInt(getNextSequence().toString()));
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
 			obj.put(dbIDField, IDGenerator.generate(state.getMagicCard()));
@@ -402,7 +402,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
 			obj.put(dbIDField, IDGenerator.generate(state.getMagicCard()));
-			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.idstock", state.getIdstock()),BasicDBObject.parse(serialize(obj)));
+			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.idstock", state.getId()),BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
 		notify(state);
@@ -453,7 +453,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
 		logger.debug("remove stocks : " + state.size() + " items");
 		for (MagicCardStock s : state) {
-			Bson filter = new Document("stockItem.idstock", s.getIdstock());
+			Bson filter = new Document("stockItem.idstock", s.getId());
 			db.getCollection(colStocks).deleteOne(filter);
 			notify(s);
 		}

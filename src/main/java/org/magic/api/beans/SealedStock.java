@@ -76,7 +76,7 @@ public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedS
 	}
 	
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {

@@ -98,7 +98,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
     				
        				append+="<div class='card-body'>";
            			
-           			append+="<h5 class='card-title'><a href='product.html?id="+data.idstock+"' title='View Product'>"+data.magicCard.name +"</a></h5>";
+           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"' title='View Product'>"+data.magicCard.name +"</a></h5>";
            				
            			append+="<p class='card-text'>";
 							append+="<i class='ss ss-1x ss-"+data.magicCard.editions[0].id.toLowerCase()+"'></i>"+data.magicCard.editions[0].set +"<br/>";
@@ -123,13 +123,13 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                			
                		if(tosell===true)
                		{
-               			append+="<button name='addCartButton' data-dismiss='alert'  data='"+ data.idstock+"' class='btn btn-success btn-block' sell='true' ><i class='fa fa-shopping-cart'></i> Deal it</button>";
+               			append+="<button name='addCartButton' data-dismiss='alert'  data='"+ data.id+"' class='btn btn-success btn-block' sell='true' ><i class='fa fa-shopping-cart'></i> Deal it</button>";
                		}
                		else
                		{
                		               		
                		if(data.qte>=1)                                       		
-                    	append+="<button name='addCartButton' qty='"+ data.qte +"' data='"+ data.idstock+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart </button>";
+                    	append+="<button name='addCartButton' qty='"+ data.qte +"' data='"+ data.id+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart </button>";
                     else
                     	append+="<span class='btn btn-secondary btn-block'><i class='fa fa-shopping-cart'></i>Out of stock</span>";
                     	

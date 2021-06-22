@@ -183,7 +183,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGDao.class),stocks.size()) {
 					@Override
 					protected Void doInBackground(){
-						stocks.removeIf(st->st.getIdstock()==-1);
+						stocks.removeIf(st->st.getId()==-1);
 						if(!stocks.isEmpty())
 						{
 							try {
@@ -501,7 +501,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 	public void addCard(MagicCard mc) {
 		MagicCardStock ms = MTGControler.getInstance().getDefaultStock();
-		ms.setIdstock(-1);
+		ms.setId(-1);
 		ms.setUpdate(true);
 		ms.setMagicCard(mc);
 		model.addItem(ms);
