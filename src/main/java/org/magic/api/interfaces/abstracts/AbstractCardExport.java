@@ -68,7 +68,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		d.setName(FilenameUtils.getBaseName(f.getName()));
 
 		for (MagicCardStock mcs : stock) {
-			d.getMain().put(mcs.getMagicCard(), mcs.getQte());
+			d.getMain().put(mcs.getProduct(), mcs.getQte());
 		}
 		exportDeck(d, f); 
 	}
@@ -78,7 +78,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 		for (MagicCard mc : deck.getMain().keySet()) {
 			MagicCardStock stock = MTGControler.getInstance().getDefaultStock();
-			stock.setMagicCard(mc);
+			stock.setProduct(mc);
 			stock.setQte(deck.getMain().get(mc));
 			stock.setComment("import from " + deck.getName());
 			stock.setId(-1);

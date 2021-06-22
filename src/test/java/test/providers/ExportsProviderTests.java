@@ -79,7 +79,7 @@ public class ExportsProviderTests {
 					for(MagicCard mc : cards)
 					{ 
 						MagicCardStock s = MTGControler.getInstance().getDefaultStock();
-									s.setMagicCard(mc);
+									s.setProduct(mc);
 									s.setMagicCollection(new MagicCollection("TEST"));
 									s.setPrice(9999.0);
 									s.setComment("Test");

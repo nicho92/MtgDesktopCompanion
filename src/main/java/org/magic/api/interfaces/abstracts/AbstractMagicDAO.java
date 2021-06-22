@@ -95,7 +95,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException {
-		return listStocks(cols).stream().filter(st->st.getMagicCard().getName().equalsIgnoreCase(cardName)).collect(Collectors.toList());
+		return listStocks(cols).stream().filter(st->st.getProduct().getName().equalsIgnoreCase(cardName)).collect(Collectors.toList());
 	}
 	
 	
@@ -150,7 +150,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException {
-		return listStocks().stream().filter(st->st.getMagicCard().getName().equals(mc.getName())).collect(Collectors.toList());
+		return listStocks().stream().filter(st->st.getProduct().getName().equals(mc.getName())).collect(Collectors.toList());
 	}
 		
 	@Override
@@ -276,8 +276,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		List<MagicCard> toSave = listStocks().stream()
 				  .filter(st->st.getMagicCollection().equals(col))
-				  .filter(st->!cols.contains(st.getMagicCard()))
-				  .map(MagicCardStock::getMagicCard)
+				  .filter(st->!cols.contains(st.getProduct()))
+				  .map(MagicCardStock::getProduct)
 				  .collect(Collectors.toList());
 		
 		List<MagicCard> ret = new ArrayList<>();

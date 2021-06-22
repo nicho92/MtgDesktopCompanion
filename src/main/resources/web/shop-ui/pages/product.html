@@ -77,10 +77,10 @@
 			        url: restserver+"/stock/get/"+$_GET("id")
 			    }).then(function(data) {
 			    	
-		    		if(data.magicCard.scryfallId!=null)
-		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image");
+		    		if(data.product.scryfallId!=null)
+		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.product.scryfallId+"?format=image");
 					else
-						$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.magicCard.editions[0].multiverseId+"?format=image");
+						$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.product.editions[0].multiverseId+"?format=image");
 			    	
 			    	if(percentReduction>0)
 			    	{
@@ -92,17 +92,17 @@
 			    		$("#price").html(data.price.toFixed(2) +" "+currency);	
 			    	}
 			    	
-			    	$("#productModalLabel").html(data.magicCard.name);
+			    	$("#productModalLabel").html(data.product.name);
 			    	$("#quantity").attr('max',data.qte);
-			    	$("#cardDescription").html(data.magicCard.text);
+			    	$("#cardDescription").html(data.product.text);
 			    	$("#productComments").html(data.comment);
 			    	var append="";
 			    		try{
-			    		append+="<li class='list-inline-item'><i class='ss ss-"+data.magicCard.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+data.magicCard.editions[0].set+"</li><br/>";
+			    		append+="<li class='list-inline-item'><i class='ss ss-"+data.product.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+data.product.editions[0].set+"</li><br/>";
 			    		}
 			    		catch(error)
 			    		{
-			    			append+="<li class='list-inline-item'><i class='ss ss-"+data.magicCard.editions[0].id.toLowerCase()+" ss-2x'></i><br/>"+data.magicCard.editions[0].set+"</li><br/>";
+			    			append+="<li class='list-inline-item'><i class='ss ss-"+data.product.editions[0].id.toLowerCase()+" ss-2x'></i><br/>"+data.product.editions[0].set+"</li><br/>";
 			    		}
 			    		append+="<li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+data.language+"</li>";
 			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+data.condition+"</li>";

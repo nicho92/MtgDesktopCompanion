@@ -130,7 +130,7 @@ public class DAOProviderTests {
 			
 			System.out.println("STOCKS");
 			MagicCardStock stock = new MagicCardStock();
-							stock.setMagicCard(mc);
+							stock.setProduct(mc);
 							stock.setComment("TEST");
 							stock.setQte(1);
 							stock.setCondition(EnumCondition.MINT);

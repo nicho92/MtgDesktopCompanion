@@ -1081,7 +1081,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		var state = new MagicCardStock();
 			state.setComment(rs.getString("comments"));
 			state.setId(rs.getInt("idstock"));
-			state.setMagicCard(readCard(rs));
+			state.setProduct(readCard(rs));
 			state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 			try {
 				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
@@ -1148,9 +1148,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getLanguage());
 				pst.setInt(5, state.getQte());
 				pst.setString(6, state.getComment());
-				pst.setString(7, IDGenerator.generate(state.getMagicCard()));
+				pst.setString(7, IDGenerator.generate(state.getProduct()));
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
-				storeCard(pst, 9, state.getMagicCard());
+				storeCard(pst, 9, state.getProduct());
 				pst.setBoolean(10, state.isAltered());
 				pst.setDouble(11, state.getPrice());
 				storeGrade(pst,12, state.getGrade());
@@ -1173,7 +1173,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 				pst.setInt(6, state.getQte());
 				pst.setBoolean(7, state.isAltered());
 				pst.setDouble(8, state.getPrice());
-				pst.setString(9, IDGenerator.generate(state.getMagicCard()));
+				pst.setString(9, IDGenerator.generate(state.getProduct()));
 				pst.setString(10, state.getMagicCollection().getName());
 				storeGrade(pst, 11,state.getGrade());
 				storeTiersApps(pst, 12,state.getTiersAppIds());

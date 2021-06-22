@@ -68,6 +68,10 @@ public class CardListPanel extends JPanel {
 	}
 
 	public void setMagicCard(MagicCard mc) {
+		
+		if(mc==null)
+			return;
+		
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getCurrentSet().toString());

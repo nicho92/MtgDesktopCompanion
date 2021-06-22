@@ -38,7 +38,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			 if(mc!=null)
 			 {
 				 
-				 st.setMagicCard(mc);
+				 st.setProduct(mc);
 				 st.setFoil(m.group(3).equalsIgnoreCase("true"));
 				 st.setCondition(reverse(m.group(4)));
 				 st.setLanguage(m.group(5));
@@ -56,7 +56,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(f))
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 	
 		return d;
 	}
@@ -69,14 +69,14 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		for(MagicCardStock mcs : stock)
 		{
 			temp.append(mcs.getQte()).append(getSeparator());
-			temp.append("\"").append(mcs.getMagicCard().getName()).append("\"").append(getSeparator());
+			temp.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
 			temp.append(StringUtils.capitalize(String.valueOf(mcs.isFoil()))).append(getSeparator());
 			temp.append(reverse(mcs.getCondition())).append(getSeparator());
 			temp.append(mcs.getLanguage()).append(getSeparator());
 			temp.append(getSeparator());
-			temp.append(mcs.getMagicCard().getCurrentSet()).append(getSeparator());
-			temp.append(mcs.getMagicCard().getCurrentSet().getId()).append(getSeparator());
-			temp.append(mcs.getMagicCard().getCurrentSet().getMultiverseid());
+			temp.append(mcs.getProduct().getCurrentSet()).append(getSeparator());
+			temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
+			temp.append(mcs.getProduct().getCurrentSet().getMultiverseid());
 			temp.append(System.lineSeparator());
 		}
 		

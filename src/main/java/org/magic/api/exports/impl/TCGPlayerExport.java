@@ -39,7 +39,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		d.setName(name);
 		d.setDescription("import from " + getName());
 		
-		importStock(f).forEach(mcs->d.add(mcs.getMagicCard()));
+		importStock(f).forEach(mcs->d.add(mcs.getProduct()));
 		
 		return d;
 	}
@@ -56,24 +56,24 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		{
 			try {
 			temp.append(mcs.getQte()).append(getSeparator());
-			temp.append(toFullName(mcs.getMagicCard())).append(getSeparator());
+			temp.append(toFullName(mcs.getProduct())).append(getSeparator());
 			
-			if(mcs.getMagicCard().getName().contains(","))
-				temp.append("\"").append(mcs.getMagicCard()).append("\"");
+			if(mcs.getProduct().getName().contains(","))
+				temp.append("\"").append(mcs.getProduct()).append("\"");
 			else
-				temp.append(mcs.getMagicCard());
+				temp.append(mcs.getProduct());
 			
 			temp.append(getSeparator());
 			
-			temp.append(mcs.getMagicCard().getCurrentSet().getSet()).append(getSeparator());
-			temp.append(mcs.getMagicCard().getCurrentSet().getNumber()).append(getSeparator());
-			temp.append(mcs.getMagicCard().getCurrentSet().getId()).append(getSeparator());
+			temp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
+			temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
+			temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
 			temp.append(0).append(getSeparator());
 			temp.append(mcs.isFoil()?"Foil":"Normal").append(getSeparator());
 			temp.append(translate(mcs.getCondition())).append(getSeparator());
 			temp.append(mcs.getLanguage()).append(getSeparator());
-			temp.append(mcs.getMagicCard().isLand()?"Land":mcs.getMagicCard().getRarity().toPrettyString()).append(getSeparator());
-			temp.append(mcs.getMagicCard().getTcgPlayerId()).append(getSeparator());
+			temp.append(mcs.getProduct().isLand()?"Land":mcs.getProduct().getRarity().toPrettyString()).append(getSeparator());
+			temp.append(mcs.getProduct().getTcgPlayerId()).append(getSeparator());
 			temp.append("").append(getSeparator());
 			temp.append("$").append(mcs.getQte() * UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getPrice()))).append(getSeparator());
 			temp.append("$").append(UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getPrice())));
@@ -124,7 +124,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			
 			try {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)));
-				st.setMagicCard(mc);
+				st.setProduct(mc);
 				found = true;
 			} catch (Exception e) {
 				logger.error("error for " + m.group(),e);
@@ -135,7 +135,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			{
 				try {
 					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)),true).get(0);
-					st.setMagicCard(mc);
+					st.setProduct(mc);
 					found = true;
 				} catch (Exception e) {
 					logger.error("error for " + m.group());

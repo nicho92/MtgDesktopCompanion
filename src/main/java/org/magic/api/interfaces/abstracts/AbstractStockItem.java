@@ -2,10 +2,12 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.Serializable;
 
+import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.interfaces.MTGShoppable;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.Packaging;
 
-public abstract class AbstractStockItem implements MTGShoppable, Serializable, Comparable<AbstractStockItem> {
+public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
 
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;
@@ -14,8 +16,32 @@ public abstract class AbstractStockItem implements MTGShoppable, Serializable, C
 	protected String comment;
 	protected String language="English";
 	protected boolean updated=false;
-	protected Double price;
+	protected Double price=0.0;
+	protected Grading grade;
+	protected T product;
 	
+	public abstract MagicEdition getEdition();
+	
+	public T getProduct() {
+		return product;
+	}
+	
+	public void setProduct(T product)
+	{
+		this.product=product;
+	}
+	
+	
+	
+	public void setGrade(Grading grade) {
+		this.grade = grade;
+	}
+
+	
+	public Grading getGrade() {
+		return grade;
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf(getId());
@@ -71,7 +97,7 @@ public abstract class AbstractStockItem implements MTGShoppable, Serializable, C
 	}
 
 	@Override
-	public int compareTo(AbstractStockItem o) {
+	public int compareTo(AbstractStockItem<T> o) {
 		return getId()-o.getId();
 	}
 	
@@ -87,14 +113,15 @@ public abstract class AbstractStockItem implements MTGShoppable, Serializable, C
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
 	}
+
 	
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof MTGShoppable))
+		if(!(obj instanceof AbstractStockItem))
 			return false;
 		
-		return getId() == ((MTGShoppable)obj).getId();
+		return getId() == ((AbstractStockItem<?>)obj).getId();
 	}
 
 

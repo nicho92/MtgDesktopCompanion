@@ -117,7 +117,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true).stream().findFirst().orElse(null);
 					if(mc!=null)
 					{
-						st.setMagicCard(mc);
+						st.setProduct(mc);
 					}
 					else
 					{
@@ -137,7 +137,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			
 				stocks.add(st);
 				
-				notify(st.getMagicCard());
+				notify(st.getProduct());
 				
 			} catch (Exception e1) {
 				logger.error("error importStock",e1);
@@ -173,24 +173,24 @@ public class WooCommerceExport extends AbstractCardExport {
 	        
 				if(st.getTiersAppIds(getName())!=null)
 				{
-					logger.debug(st.getMagicCard() + "is already present in "+getName() + ". Update it");
+					logger.debug(st.getProduct() + "is already present in "+getName() + ". Update it");
 					ret = wooCommerce.update(EndpointBaseType.PRODUCTS.getValue(),(int)Double.parseDouble(st.getTiersAppIds().get(getName())),productInfo);
 					if(ret.isEmpty())
 					{
-						logger.info("No update for " + st + "-" + st.getMagicCard() +". Create it");
+						logger.info("No update for " + st + "-" + st.getProduct() +". Create it");
 						ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
 					   
 					}
 				}
 				else
 				{
-					logger.debug(st.getMagicCard() + "is not present in "+getName() + ". create it");
+					logger.debug(st.getProduct() + "is not present in "+getName() + ". create it");
 					ret = wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productInfo);
 				}
 				
 				if(ret.isEmpty() || ret.get("id")==null)
 				{
-					logger.error("No export for " + st + "-" + st.getMagicCard() +":"+ret);
+					logger.error("No export for " + st + "-" + st.getProduct() +":"+ret);
 				}
 				else
 				{
@@ -198,7 +198,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					st.setUpdated(true);
 				}
 				
-				notify(st.getMagicCard());
+				notify(st.getProduct());
 		}
 	}
 	
@@ -208,7 +208,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		Map<String, Object> productInfo = new HashMap<>();
 		
 		
-		if(st.getMagicCard()==null)
+		if(st.getProduct()==null)
 			return productInfo;
 		
 		if(st.getTiersAppIds().get(getName())!=null)
@@ -216,15 +216,15 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		
 		if(getString(ARTICLE_NAME).isEmpty())
-			productInfo.put("name", toForeign(st.getMagicCard()).getName());
+			productInfo.put("name", toForeign(st.getProduct()).getName());
 		else
-			productInfo.put("name", toName( toForeign(st.getMagicCard())));
+			productInfo.put("name", toName( toForeign(st.getProduct())));
 		
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
         productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
-        productInfo.put("description",desc(st.getMagicCard()));
-        productInfo.put("short_description", toForeign(st.getMagicCard()).getName()+"-"+st.getCondition());
+        productInfo.put("description",desc(st.getProduct()));
+        productInfo.put("short_description", toForeign(st.getProduct()).getName()+"-"+st.getCondition());
         productInfo.put("enable_html_description", "true");
         productInfo.put("status", getString(DEFAULT_STATUT));
         
@@ -237,11 +237,11 @@ public class WooCommerceExport extends AbstractCardExport {
         if(!getString(PIC_PROVIDER_NAME).isEmpty())
         {
         	try {
-        	productInfo.put("images", toJson("src",new ScryFallProvider().getJsonFor(st.getMagicCard()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
+        	productInfo.put("images", toJson("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
         	//productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)))
         	}catch(Exception e)
         	{
-        		logger.error("error getting image for " + st.getMagicCard(),e);	
+        		logger.error("error getting image for " + st.getProduct(),e);	
         	}
         	
         }
@@ -251,13 +251,13 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
-					  arr.add(createAttributes("Mkm-Rarete", st.getMagicCard().getRarity().toPrettyString(),true));
+					  arr.add(createAttributes("Mkm-Rarete", st.getProduct().getRarity().toPrettyString(),true));
 					 
 					  if(st.getComment()!=null)
 						  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));
 					  
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
-					  arr.add(createAttributes("Mkm-Extension", st.getMagicCard().getEditions().stream().map(MagicEdition::getSet).toArray(String[]::new),true));
+					  arr.add(createAttributes("Mkm-Extension", st.getProduct().getEditions().stream().map(MagicEdition::getSet).toArray(String[]::new),true));
 			productInfo.put("attributes", arr);
 			
 			productInfo.entrySet().forEach(e->logger.trace(e.getKey() +" " + e.getValue()));
@@ -329,7 +329,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			
 			
 			for(MagicCardStock st : stocks)
-				notify(st.getMagicCard());
+				notify(st.getProduct());
 			
 		}
 		
@@ -399,7 +399,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		for(MagicCardStock st : importStock(f))
 		{
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}

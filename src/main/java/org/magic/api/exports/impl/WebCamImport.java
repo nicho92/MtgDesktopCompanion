@@ -59,7 +59,7 @@ public class WebCamImport extends AbstractCardExport {
 				
 		return c.getFindedCards().stream().map(card->{
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-			st.setMagicCard(card);
+			st.setProduct(card);
 			return st;
 		}).collect(Collectors.toList());
 	}

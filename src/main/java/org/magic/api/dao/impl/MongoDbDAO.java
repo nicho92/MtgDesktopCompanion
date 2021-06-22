@@ -394,14 +394,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
-			obj.put(dbIDField, IDGenerator.generate(state.getMagicCard()));
+			obj.put(dbIDField, IDGenerator.generate(state.getProduct()));
 			db.getCollection(colStocks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
 			
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
-			obj.put(dbIDField, IDGenerator.generate(state.getMagicCard()));
+			obj.put(dbIDField, IDGenerator.generate(state.getProduct()));
 			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.idstock", state.getId()),BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}

@@ -232,7 +232,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			var d = new MagicDeck();
 			d.setName("export");
 			for (MagicCardStock mcs : stock) {
-				d.getMain().put(mcs.getMagicCard(), mcs.getQte());
+				d.getMain().put(mcs.getProduct(), mcs.getQte());
 			}
 			exportDeck(d, f);
 		} 
@@ -251,11 +251,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 				
 				Product p = null;
 				try {
-					p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(),prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
+					p = MagicCardMarketPricer2.getProductFromCard(mcs.getProduct(),prods.findProduct(mcs.getProduct().getName(), enumAtts));
 				}
 				catch(Exception e)
 				{
-					logger.error("Error getting mkm product for " + mcs.getMagicCard() + " " + mcs.getMagicCard().getCurrentSet() + " : " +e.getMessage());
+					logger.error("Error getting mkm product for " + mcs.getProduct() + " " + mcs.getProduct().getCurrentSet() + " : " +e.getMessage());
 					logger.trace(e);
 				}
 				
@@ -263,7 +263,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				
 				if(p==null)
 				{
-					logger.error("No product found for " + mcs.getMagicCard() + " "+ mcs.getMagicCard().getCurrentSet());
+					logger.error("No product found for " + mcs.getProduct() + " "+ mcs.getProduct().getCurrentSet());
 				}
 				else
 				{
@@ -328,7 +328,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				}
 				
 				
-				notify(mcs.getMagicCard());
+				notify(mcs.getProduct());
 				
 			}
 		
@@ -376,11 +376,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 			
 			
-			mcs.setMagicCard(mc);
+			mcs.setProduct(mc);
 			mcs.setCondition(convert(a.getCondition()));
 			mcs.getTiersAppIds().put(getName(), String.valueOf(a.getIdArticle()));
 			stock.add(mcs);
-			notify(mcs.getMagicCard());
+			notify(mcs.getProduct());
 
 		}
 		return stock;

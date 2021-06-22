@@ -91,17 +91,17 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
 			var append="<div class='col-sm'>";
   					append+="<div class='card'>";
         			
-        			if(data.magicCard.scryfallId!=null)
-    					append+="<img class='card-img-top' src='https://api.scryfall.com/cards/"+data.magicCard.scryfallId+"?format=image' alt='"+data.magicCard.name +"'>";
+        			if(data.product.scryfallId!=null)
+    					append+="<img class='card-img-top' src='https://api.scryfall.com/cards/"+data.product.scryfallId+"?format=image' alt='"+data.product.name +"'>";
     				else
-    					append+="<img class='card-img-top' src='https://api.scryfall.com/cards/multiverse/"+data.magicCard.editions[0].multiverseId+"?format=image' alt='Card image cap'>";
+    					append+="<img class='card-img-top' src='https://api.scryfall.com/cards/multiverse/"+data.product.editions[0].multiverseId+"?format=image' alt='Card image cap'>";
     				
        				append+="<div class='card-body'>";
            			
-           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"' title='View Product'>"+data.magicCard.name +"</a></h5>";
+           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"' title='View Product'>"+data.product.name +"</a></h5>";
            				
            			append+="<p class='card-text'>";
-							append+="<i class='ss ss-1x ss-"+data.magicCard.editions[0].id.toLowerCase()+"'></i>"+data.magicCard.editions[0].set +"<br/>";
+							append+="<i class='ss ss-1x ss-"+data.product.editions[0].id.toLowerCase()+"'></i>"+data.product.editions[0].set +"<br/>";
 							append+= data.condition + " " + (data.foil?"<i class='fas fa-star fa-1x'/>":"") ;
 							
 					append+="</p>";

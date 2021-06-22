@@ -37,7 +37,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 		
 		for(MagicCardStock st : importStock(f))
 		{
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}
@@ -51,11 +51,11 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 		for(MagicCardStock st : stock)
 		{
 			
-			build.append("\"").append(st.getMagicCard().getName()).append("\",");
+			build.append("\"").append(st.getProduct().getName()).append("\",");
 			build.append(st.getQte()).append(",");
-			build.append("\"").append(st.getMagicCard().getCurrentSet().getSet()).append("\",");
-			build.append(st.getMagicCard().getCurrentSet().getId()).append(",");
-			build.append(st.getMagicCard().getCurrentSet().getNumber()).append(",");
+			build.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\",");
+			build.append(st.getProduct().getCurrentSet().getId()).append(",");
+			build.append(st.getProduct().getCurrentSet().getNumber()).append(",");
 			build.append(st.getLanguage()).append(",");
 			if(st.isFoil())
 				build.append("1,");
@@ -63,7 +63,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 				build.append("0,");
 			
 			build.append(convert(st.getCondition())).append(",");
-			build.append(st.getMagicCard().getRarity()).append(",");
+			build.append(st.getProduct().getRarity()).append(",");
 			build.append(st.getComment()).append(System.lineSeparator());
 		}
 		
@@ -93,7 +93,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 			{
 				
 				var st = new MagicCardStock();
-				st.setMagicCard(mc);
+				st.setProduct(mc);
 				st.setQte(Integer.parseInt(m.group(2)));
 				st.setLanguage(m.group(6));
 				st.setFoil(m.group(7).equals("1"));

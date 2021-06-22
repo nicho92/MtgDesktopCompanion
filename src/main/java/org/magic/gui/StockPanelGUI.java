@@ -397,14 +397,14 @@ public class StockPanelGUI extends MTGUIComponent {
 					{
 						try {
 							
-							Double price = suggester.getSuggestedPrice(s.getMagicCard(), s.isFoil());
+							Double price = suggester.getSuggestedPrice(s.getProduct(), s.isFoil());
 							double old = s.getPrice();
 							s.setPrice(price);
 							if (old != s.getPrice())
 								s.setUpdated(true);
 						}
 						catch (NullPointerException e) {
-							logger.error(s.getMagicCard() + " is not found : "+e);
+							logger.error(s.getProduct() + " is not found : "+e);
 						}
 				
 						publish(s);
@@ -483,11 +483,11 @@ public class StockPanelGUI extends MTGUIComponent {
 	private void updatePanels(MagicCardStock selectedStock) {
 		
 		if(selectedStock!=null) {
-		magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
-		historyPricePanel.init(selectedStock.getMagicCard(), null, selectedStock.getMagicCard().getName());
-		pricePanel.init(selectedStock.getMagicCard(), selectedStock.isFoil());
+		magicCardDetailPanel.setMagicCard(selectedStock.getProduct());
+		historyPricePanel.init(selectedStock.getProduct(), null, selectedStock.getProduct().getName());
+		pricePanel.init(selectedStock.getProduct(), selectedStock.isFoil());
 		jsonPanel.show(selectedStock);
-		deckPanel.init(selectedStock.getMagicCard());
+		deckPanel.init(selectedStock.getProduct());
 		tiercesIdsPanel.init(selectedStock);
 		gradePanel.setGrading(selectedStock.getGrade());
 		gedPanel.init(MagicCardStock.class, selectedStock);
@@ -503,7 +503,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		MagicCardStock ms = MTGControler.getInstance().getDefaultStock();
 		ms.setId(-1);
 		ms.setUpdated(true);
-		ms.setMagicCard(mc);
+		ms.setProduct(mc);
 		model.addItem(ms);
 		model.fireTableDataChanged();
 	}

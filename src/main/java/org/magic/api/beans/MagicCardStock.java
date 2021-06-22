@@ -4,35 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.interfaces.MTGShoppable;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
-public class MagicCardStock extends AbstractStockItem{
+public class MagicCardStock extends AbstractStockItem<MagicCard>{
 
 	private static final long serialVersionUID = 1L;
-	private MagicCard magicCard;
 	private EnumCondition condition = EnumCondition.NEAR_MINT;
 	private boolean foil=false;
 	private boolean etched=false;
 	private boolean signed=false;
 	private boolean altered=false;
 	private boolean oversize=false;
-	private Grading grade;
 	private Map<String,String> tiersAppIds;
+
 	
-
-	@Override
-	public String itemName() {
-		return getMagicCard().toString();
-	}
-
-
 	@Override
 	public MagicEdition getEdition() {
-		return getMagicCard().getCurrentSet();
+		return getProduct().getCurrentSet();
 	}
-	
-	
 	
 	public boolean isEtched() {
 		return etched;
@@ -59,15 +48,6 @@ public class MagicCardStock extends AbstractStockItem{
 
 	public boolean isGrade() {
 		return grade!=null;
-	}
-
-	public void setGrade(Grading grade) {
-		this.grade = grade;
-	}
-
-	
-	public Grading getGrade() {
-		return grade;
 	}
 
 	public MagicCardStock() {
@@ -99,14 +79,6 @@ public class MagicCardStock extends AbstractStockItem{
 		this.signed = signed;
 	}
 
-	public MagicCard getMagicCard() {
-		return magicCard;
-	}
-
-	public void setMagicCard(MagicCard magicCard) {
-		this.magicCard = magicCard;
-	}
-
 	public EnumCondition getCondition() {
 		return condition;
 	}
@@ -122,5 +94,6 @@ public class MagicCardStock extends AbstractStockItem{
 	public void setOversize(boolean oversize) {
 		this.oversize = oversize;
 	}
+
 
 }

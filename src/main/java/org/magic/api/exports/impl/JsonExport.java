@@ -205,7 +205,7 @@ public class JsonExport extends AbstractCardExport {
 
 		for (MagicCardStock mc : stock) {
 			jsonparams.add(new Gson().toJsonTree(mc));
-			notify(mc.getMagicCard());
+			notify(mc.getProduct());
 		}
 		try (var out = new FileWriter(f)) {
 			out.write(jsonparams.toString());
@@ -219,7 +219,7 @@ public class JsonExport extends AbstractCardExport {
 		for (var i = 0; i < root.size(); i++) {
 			var line = root.get(i).getAsJsonObject();
 			var mc = new Gson().fromJson(line, MagicCardStock.class);
-			notify(mc.getMagicCard());
+			notify(mc.getProduct());
 			list.add(mc);
 		}
 

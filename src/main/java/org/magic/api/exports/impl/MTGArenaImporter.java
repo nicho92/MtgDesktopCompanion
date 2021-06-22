@@ -65,7 +65,7 @@ public class MTGArenaImporter extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		return MagicDeck.toDeck(importStock(f).stream().map(MagicCardStock::getMagicCard).collect(Collectors.toList()));
+		return MagicDeck.toDeck(importStock(f).stream().map(MagicCardStock::getProduct).collect(Collectors.toList()));
 	}
 	
 
@@ -91,7 +91,7 @@ public class MTGArenaImporter extends AbstractCardExport {
 					MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					
 					mcs.setCondition(EnumCondition.ONLINE);
-					mcs.setMagicCard(mc);
+					mcs.setProduct(mc);
 					mcs.setQte(qty);
 					
 					ret.add(mcs);

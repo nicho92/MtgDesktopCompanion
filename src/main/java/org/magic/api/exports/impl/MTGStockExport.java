@@ -78,15 +78,15 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 					  temp.append(columns).append("\n");
 		
 		stock.forEach(st->{
-			temp.append("\"").append(st.getMagicCard().getName()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getMagicCard().getCurrentSet().getSet()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
 			temp.append(st.getQte()).append(getSeparator());
 			temp.append(st.getPrice()).append(getSeparator());
 			temp.append(reverse(st.getCondition())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
 			temp.append(st.isFoil()?"Yes":"No").append(getSeparator());
 			temp.append(st.isSigned()?"Yes":"No").append("\n");
-			notify(st.getMagicCard());
+			notify(st.getProduct());
 		});
 		FileTools.saveFile(f, temp.toString());
 	}
@@ -120,7 +120,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			{
 				Integer qty = Integer.parseInt(m.group(3));
 				MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-				st.setMagicCard(card);
+				st.setProduct(card);
 				st.setQte(qty);
 				st.setPrice(Double.parseDouble(m.group(4)));
 				st.setLanguage(m.group(6));

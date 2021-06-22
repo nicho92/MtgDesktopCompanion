@@ -39,7 +39,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 		
 		for(MagicCardStock st : importStock(f))
 		{
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}
@@ -69,7 +69,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			
 			if(mc!=null) {
 				var stock = new MagicCardStock();
-				stock.setMagicCard(mc);
+				stock.setProduct(mc);
 				stock.setLanguage(m.group(3));
 				stock.setFoil(Boolean.parseBoolean(m.group(9)));
 				stock.setSigned(Boolean.parseBoolean(m.group(10)));

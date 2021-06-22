@@ -44,23 +44,23 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			else
 				temp.append(st.getQte()).append(getSeparator()).append(0).append(getSeparator());
 			
-			if(st.getMagicCard().getName().contains(","))
-				temp.append("\"").append(st.getMagicCard().getName()).append("\"").append(getSeparator());
+			if(st.getProduct().getName().contains(","))
+				temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
 			else
-				temp.append(st.getMagicCard().getName()).append(getSeparator());
+				temp.append(st.getProduct().getName()).append(getSeparator());
 			
-			temp.append(st.getMagicCard().getCurrentSet().getSet()).append(getSeparator());
-			temp.append(st.getMagicCard().getCost()).append(getSeparator());
-			temp.append(st.getMagicCard().getFullType()).append(getSeparator());
+			temp.append(st.getProduct().getCurrentSet().getSet()).append(getSeparator());
+			temp.append(st.getProduct().getCost()).append(getSeparator());
+			temp.append(st.getProduct().getFullType()).append(getSeparator());
 			
 			
-			if(st.getMagicCard().getColors().size()>1)
+			if(st.getProduct().getColors().size()>1)
 				temp.append("Gold").append(getSeparator());
 			else
-				temp.append(st.getMagicCard().getColors()).append(getSeparator());
+				temp.append(st.getProduct().getColors()).append(getSeparator());
 			
-			temp.append(st.getMagicCard().getRarity()).append(getSeparator());
-			temp.append(st.getMagicCard().getCurrentSet().getMultiverseid()).append(getSeparator());
+			temp.append(st.getProduct().getRarity()).append(getSeparator());
+			temp.append(st.getProduct().getCurrentSet().getMultiverseid()).append(getSeparator());
 			
 			if(st.isFoil())
 				temp.append(0.0).append(getSeparator()).append(st.getPrice()).append(getSeparator());
@@ -94,7 +94,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 				if(qtyFoil>0)
 				{
 					var stock = new MagicCardStock();
-								   stock.setMagicCard(mc);
+								   stock.setProduct(mc);
 								   stock.setPrice(Double.parseDouble(m.group(12)));
 								   stock.setFoil(true);
 								   stock.setQte(qtyFoil);
@@ -104,7 +104,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 				if(qtyRegular>0)
 				{
 					var stock = new MagicCardStock();
-					   stock.setMagicCard(mc);
+					   stock.setProduct(mc);
 					   stock.setPrice(Double.parseDouble(m.group(11)));
 					   stock.setFoil(false);
 					   stock.setQte(qtyRegular);
@@ -123,7 +123,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 		
 		for(MagicCardStock st : importStock(f))
 		{
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}

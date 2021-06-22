@@ -1018,7 +1018,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				for(MagicCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
 				{
 					MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-					st.setMagicCard(mc);
+					st.setProduct(mc);
 					st.setMagicCollection(col);
 					
 					getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);

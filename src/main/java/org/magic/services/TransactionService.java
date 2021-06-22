@@ -86,8 +86,8 @@ public class TransactionService
 		 
 		   var oe = new OrderEntry();
 			   oe.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-			   oe.setDescription(transactionItem.getMagicCard().getName());
-			   oe.setEdition(transactionItem.getMagicCard().getCurrentSet());
+			   oe.setDescription(transactionItem.getProduct().getName());
+			   oe.setEdition(transactionItem.getProduct().getCurrentSet());
 			   oe.setIdTransation(String.valueOf(t.getId()));
 			   oe.setItemPrice(UITools.roundDouble(transactionItem.getPrice()));
 			   oe.setTransactionDate(t.getDateCreation());

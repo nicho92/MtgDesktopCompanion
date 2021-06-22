@@ -1,28 +1,17 @@
 package org.magic.api.beans;
 
 import org.magic.api.beans.enums.EnumStock;
-import org.magic.api.interfaces.MTGShoppable;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
-public class SealedStock extends AbstractStockItem implements MTGShoppable {
+public class SealedStock extends AbstractStockItem<Packaging>  {
 
 	private static final long serialVersionUID = 1L;
-	private Packaging product;
 	private EnumStock condition = EnumStock.SELEAD;
 	
 	public SealedStock(){
 		
 	}
 	
-	@Override
-	public String itemName() {
-		return (getProduct()!=null)?getProduct().toString():"";
-	}
-
-	@Override
-	public MagicEdition getEdition() {
-		return (getProduct()!=null)?getProduct().getEdition():null;
-	}
 	
 	
 	public SealedStock(Packaging p)
@@ -35,6 +24,20 @@ public class SealedStock extends AbstractStockItem implements MTGShoppable {
 		setProduct(p);
 		setQte(qte);
 	}
+
+	
+	public EnumStock getCondition() {
+		return condition;
+	}
+	public void setCondition(EnumStock condition) {
+		this.condition = condition;
+	}
+	
+	@Override
+	public MagicEdition getEdition() {
+		return (getProduct()!=null)?getProduct().getEdition():null;
+	}
+
 	
 	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra, MagicCollection magicCollection)
 	{
@@ -52,22 +55,6 @@ public class SealedStock extends AbstractStockItem implements MTGShoppable {
 		return getId()+"-"+getProduct();
 	}
 	
-
-	public Packaging getProduct() {
-		return product;
-	}
-	public void setProduct(Packaging product) {
-		this.product = product;
-	}
-	
-	
-	
-	public EnumStock getCondition() {
-		return condition;
-	}
-	public void setCondition(EnumStock condition) {
-		this.condition = condition;
-	}
 
 	
 }

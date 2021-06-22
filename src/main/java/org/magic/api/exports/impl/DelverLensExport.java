@@ -39,9 +39,9 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		stock.forEach(st->{
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getMagicCard().getName()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getMagicCard().getCurrentSet().getSet()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getMagicCard().getCurrentSet().getNumber()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getProduct().getCurrentSet().getNumber()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getCondition()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getLanguage()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.isFoil()?"foil":"").append("\"").append(getSeparator());
@@ -107,7 +107,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 			if(mc!=null)
 			{
 				MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-				st.setMagicCard(mc);
+				st.setProduct(mc);
 				st.setLanguage(m.group(7));
 				st.setQte(Integer.parseInt(m.group(1)));
 				st.setFoil(m.group(8)!=null);
@@ -132,7 +132,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		
 		for(MagicCardStock st : importStock(content))
 		{
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}

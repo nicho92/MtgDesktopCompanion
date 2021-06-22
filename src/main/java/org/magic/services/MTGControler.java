@@ -154,7 +154,7 @@ public class MTGControler {
 		if(get("collections/stockAutoAdd").equals("true"))
 		{ 
 			MagicCardStock st = getDefaultStock();
-			st.setMagicCard(mc);
+			st.setProduct(mc);
 			st.setMagicCollection(collection);
 			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
 		}
@@ -280,7 +280,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
 		setProperty("/shopSite/config/websiteUrl",wsc.getWebsiteUrl());
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
-		setProperty("/shopSite/config/products/top",new JsonExport().toJson(wsc.getTopProduct()));
+		setProperty("/shopSite/config/products/top",new JsonExport().toJsonElement(wsc.getTopProduct()));
 		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());

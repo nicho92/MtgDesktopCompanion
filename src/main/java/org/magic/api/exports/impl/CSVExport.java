@@ -58,7 +58,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				
 				if(mc!=null) {
 				
-					mcs.setMagicCard(mc);
+					mcs.setProduct(mc);
 					mcs.setLanguage(part.group(3));
 					mcs.setQte(Integer.parseInt(part.group(4)));
 					mcs.setCondition(EnumCondition.valueOf(part.group(5)));
@@ -89,8 +89,8 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			
 			for (MagicCardStock mcs : stock) 
 			{
-				bw.append(mcs.getMagicCard().getName()).append(getSeparator());
-				bw.append(mcs.getMagicCard().getCurrentSet()).append(getSeparator());
+				bw.append(mcs.getProduct().getName()).append(getSeparator());
+				bw.append(mcs.getProduct().getCurrentSet()).append(getSeparator());
 				bw.append(mcs.getLanguage()).append(getSeparator());
 				bw.append(mcs.getQte()).append(getSeparator());
 				bw.append(mcs.getCondition()).append(getSeparator());
@@ -104,10 +104,10 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getComment()).append(getSeparator());
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				
-				writeExtraMap(mcs.getMagicCard(),bw);
+				writeExtraMap(mcs.getProduct(),bw);
 				bw.append(System.lineSeparator());
 				
-				notify(mcs.getMagicCard());
+				notify(mcs.getProduct());
 			}
 			FileTools.saveFile(f, bw.toString());
 	}

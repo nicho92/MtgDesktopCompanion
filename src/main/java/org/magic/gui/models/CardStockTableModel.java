@@ -119,11 +119,11 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 0:
 			return items.get(row);
 		case 1:
-			return items.get(row).getMagicCard();
+			return items.get(row).getProduct();
 		case 2:
-			return items.get(row).getMagicCard().getCurrentSet();
+			return items.get(row).getProduct().getCurrentSet();
 		case 3:
-			return items.get(row).getMagicCard().getRarity();
+			return items.get(row).getProduct().getRarity();
 		case 4:
 			return items.get(row).getMagicCollection();
 		case 5:

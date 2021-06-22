@@ -427,7 +427,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 			MagicCardStock stock = MTGControler.getInstance().getDefaultStock();
 			stock.setQte(1);
-			stock.setMagicCard(mc);
+			stock.setProduct(mc);
 
 			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 			return RETURN_OK;
@@ -468,7 +468,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				public Object call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(COLLECTION))).stream().map(e->{
 						var mcs =  MTGControler.getInstance().getDefaultStock();
-						mcs.setMagicCard(e);
+						mcs.setProduct(e);
 						return mcs;
 						
 					}).collect(Collectors.toList());
@@ -483,7 +483,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<Object> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(mcs->mcs.getMagicCard().getCurrentSet()).distinct().sorted().collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(mcs->mcs.getProduct().getCurrentSet()).distinct().sorted().collect(Collectors.toList());
 				}
 			})
 		, transformer);
@@ -493,7 +493,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<Object> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getMagicCard().getCurrentSet().getId().equalsIgnoreCase(request.params(ID_SET2))).collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getProduct().getCurrentSet().getId().equalsIgnoreCase(request.params(ID_SET2))).collect(Collectors.toList());
 				}
 			})
 		, transformer);

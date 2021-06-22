@@ -226,7 +226,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		var cardPanel = new CardListPanel();
 		
 		if(topProduct!=null)
-			cardPanel.setMagicCard(topProduct.getMagicCard());
+			cardPanel.setMagicCard(topProduct.getProduct());
 		
 		
 		paneSlide.add(maxLastProductSlide);
@@ -236,8 +236,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 							   var diag = new CardSearchImportDialog();
 								   diag.setVisible(true); 
 								   topProduct= MTGControler.getInstance().getDefaultStock();
-								   topProduct.setMagicCard(diag.getSelected());
-								   cardPanel.setMagicCard(topProduct.getMagicCard());
+								   topProduct.setProduct(diag.getSelected());
+								   cardPanel.setMagicCard(topProduct.getProduct());
 		});
 		
 		chkAutoProduct.addItemListener(il->{
@@ -246,7 +246,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 					try {
 			  			
 			  			topProduct = TransactionService.getBestProduct();
-						cardPanel.setMagicCard(topProduct.getMagicCard());
+						cardPanel.setMagicCard(topProduct.getProduct());
 					} catch (Exception e1) {
 						logger.error(e1);
 					}

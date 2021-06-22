@@ -60,16 +60,16 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		var line = new StringBuilder(columns);
 		for(MagicCardStock mc : stock)
 		{
-			String name=mc.getMagicCard().getName();
-			if(mc.getMagicCard().getName().contains(getSeparator()))
-				name="\""+mc.getMagicCard().getName()+"\"";
+			String name=mc.getProduct().getName();
+			if(mc.getProduct().getName().contains(getSeparator()))
+				name="\""+mc.getProduct().getName()+"\"";
 			
 			
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(name).append(getSeparator());
-			line.append(mc.getMagicCard().getCurrentSet().getSet()).append(getSeparator());
-			line.append(mc.getMagicCard().getCurrentSet().getNumber()).append(getSeparator());
+			line.append(mc.getProduct().getCurrentSet().getSet()).append(getSeparator());
+			line.append(mc.getProduct().getCurrentSet().getNumber()).append(getSeparator());
 			line.append(translate(mc.getCondition())).append(getSeparator());
 			line.append(mc.getLanguage()).append(getSeparator());
 			line.append(mc.isFoil()?"foil":"").append(getSeparator());
@@ -80,7 +80,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(getSeparator());
 			line.append(getSeparator());
 			line.append(mc.getPrice()).append(System.lineSeparator());
-			notify(mc.getMagicCard());
+			notify(mc.getProduct());
 		}
 		FileTools.saveFile(dest, line.toString());
 	}
@@ -100,7 +100,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		
 		for(MagicCardStock st : importStock(f))
 		{
-			d.getMain().put(st.getMagicCard(), st.getQte());
+			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}
@@ -157,7 +157,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			if(mc!=null) {
 				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
-					   mcs.setMagicCard(mc);
+					   mcs.setProduct(mc);
 					   mcs.setCondition(reverse(m.group(6)));
 					   
 					   if(!m.group(7).isEmpty())

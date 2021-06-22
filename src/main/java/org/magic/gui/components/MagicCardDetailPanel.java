@@ -221,7 +221,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		btnStock.setToolTipText(capitalize("ADD_CARDS_STOCKS"));
 		btnStock.addActionListener(ae -> {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-			st.setMagicCard(magicCard);
+			st.setProduct(magicCard);
 			try {
 				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
 				MTGControler.getInstance().notify(new MTGNotification("Stock", "Added", MESSAGE_TYPE.INFO));
