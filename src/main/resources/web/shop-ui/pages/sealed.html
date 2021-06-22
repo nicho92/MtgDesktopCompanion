@@ -86,7 +86,9 @@
 			    		  $.ajax({
 						        url: restserver+"/sealed/list"
 						    }).then(function(data) {
-						    	
+			
+						   
+			
 						    	$('#pagination').pagination({
 						    	    dataSource: data,
 						    	    pageSize: 12,
@@ -100,19 +102,26 @@
 											 $('#products').html("No result found");
 											return;
 										}	
-							
-							
 						    	    	var html = generateProduct(data);
 						    	        $('#products').html(html);
-						    	       
+										$('button[name="addCartButton"]').each(function() {
+								       		$(this).click(function() {
+								       			addCartStockId($(this),percentReduction);
+								    		});
+								    	});
 						    	    }
-						    	
-						    	
-						    	
-						    });
+						   		 });
+					
+					
 			    		});
 			    	
 			  });
+	
+	
+				
+	 		
+
+	
 		 });
     
     </script>

@@ -19,10 +19,12 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected Grading grade;
 	protected T product;
 	
+	
 	public abstract MagicEdition getEdition();
 	
 	
 	
+
 	public T getProduct() {
 		return product;
 	}

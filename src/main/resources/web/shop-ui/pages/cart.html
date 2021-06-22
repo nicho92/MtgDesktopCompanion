@@ -134,11 +134,13 @@
 		        	},
 	        		{ 
 			          "data": "product.name",
- 					  "width": "25%"
+ 					  "width": "25%",
+					  "defaultContent": "<i>Not set</i>"
 		        	},
 		        	{ 
 			          "data": "product.editions",
 					  "width": "25%",
+					  "defaultContent": "",
 			          "render": function(data, type, row, meta){
 		                   if(type === 'display'){
 		                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> ";	
