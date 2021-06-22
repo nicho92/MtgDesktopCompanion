@@ -3,14 +3,12 @@
 <head>
     <!-- Site meta -->
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Site Title</title>
-    <!-- CSS -->
     <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
-    
     <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
-    <!-- JS -->
-	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
  	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
   	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
  
@@ -68,9 +66,10 @@
 						else
 							$("#topProductImage").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.topProduct.product.editions[0].multiverseId+"?format=image");
 						
-						
+						topProductImage
 				    	$("#topProductTitle").append(data.topProduct.product.name);
 				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.id);
+						$("#topProductImage").attr('alt',data.topProduct.product.name);
 					}
 					
 					
@@ -176,7 +175,7 @@
                 <div class="card-header bg-success text-white text-uppercase">
                     <i class="fa fa-heart"></i> Top product
                 </div>
-                <img id="topProductImage" class="img-fluid border-0" src="" alt="Card image cap">
+                <img id="topProductImage" class="img-fluid border-0" src="" alt="">
                 <div class="card-body">
                     <h4 class="card-title text-center"><a id="topProductLink" href="product.html" title="View Product"><span id="topProductTitle"/></a></h4>
                     <div class="row">

@@ -393,18 +393,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 		
-		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->
-				
-				getCached(request.pathInfo(), new Callable<Object>() {
-
-					@Override
-					public Object call() throws Exception {
-						return getEnabledPlugin(MTGDao.class).listSeleadStocks();
-					}
-				})
-
-			, transformer);
-
+	
 		get("/alerts/list", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
 
@@ -432,6 +421,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 			return RETURN_OK;
 		});
+
+		
+		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->
+		
+		getCached(request.pathInfo(), new Callable<Object>() {
+
+			@Override
+			public Object call() throws Exception {
+				return getEnabledPlugin(MTGDao.class).listSeleadStocks();
+			}
+		})
+
+		, transformer);
 
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
 			

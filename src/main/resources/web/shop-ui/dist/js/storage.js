@@ -66,6 +66,21 @@ function logout()
 /////////////CART
 
 
+
+function addCartStockId(btn,percentReduction)
+{
+    $.getJSON(restserver+"/stock/get/"+btn.attr("data"),function(data) {
+			data.qte=1;
+			
+			if(btn.attr("sell")=='true')
+				data.price = -data.price;
+			
+			addCartProduct(data,percentReduction);
+			$('.alert').alert();
+	 });
+}
+
+
 function addCartProduct(stockItem, percentReduction)
 {
 	var array = JSON.parse(storage.getItem(cartKey) || "[]");
@@ -85,19 +100,6 @@ function addCartProduct(stockItem, percentReduction)
 }
 
 
-
-function addCartStockId(btn,percentReduction)
-{
-    $.getJSON(restserver+"/stock/get/"+btn.attr("data"),function(data) {
-			data.qte=1;
-			
-			if(btn.attr("sell")=='true')
-				data.price = -data.price;
-			
-			addCartProduct(data,percentReduction);
-			$('.alert').alert();
-	 });
-}
 
 function removeStockId(idstock)
 {

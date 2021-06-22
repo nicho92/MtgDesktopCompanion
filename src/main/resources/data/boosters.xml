@@ -1203,16 +1203,14 @@
 	</edition>
 	
 	<edition id='GRN'>
-		
 			<booster lang='en' num='1' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-5.png"/>
 			<booster lang='en' num='2' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-4.png"/>
 			<booster lang='en' num='3' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-3.png"/>
 			<booster lang='en' num='4' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-2.png"/>
 			<booster lang='en' num='5' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Booster-1.png"/>
-		
-		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0106/4013/0105/articles/636642489565717979_4d7f9555-60be-4e61-b50f-d6301f4268f6.png?v=1536104706"/>
-		<box lang='fr' url="https://www.vaultgames.com.au/assets/thumbL/TCG-10117.png"/>
-		<bundle lang='en' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Bundle.png"/>
+			<banner lang='en' url="https://cdn.shopify.com/s/files/1/0106/4013/0105/articles/636642489565717979_4d7f9555-60be-4e61-b50f-d6301f4268f6.png?v=1536104706"/>
+			<box lang='en' url="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/5371/9284/MTGGRN_EN_BstrDsp_01__35060.1607621709.png"/>
+			<bundle lang='en' url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Bundle.png"/>
 	</edition>
 	<edition id='C18'>
 		<booster lang='en' num='1' url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185"/>"
