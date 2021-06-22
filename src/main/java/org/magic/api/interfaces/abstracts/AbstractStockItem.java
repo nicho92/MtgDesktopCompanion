@@ -23,7 +23,6 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	public abstract MagicEdition getEdition();
 	
 	
-	
 
 	public T getProduct() {
 		return product;
