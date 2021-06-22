@@ -129,7 +129,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				else
 				{
 					logger.debug("Found idMTGStock=" + st.getId() + "with " + getName()+" id = "+id);
-					st.setUpdate(true);
+					st.setUpdated(true);
 				}
 				
 				st.setPrice(e.getAsJsonObject().get("price").getAsDouble());
@@ -195,7 +195,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				else
 				{
 					st.getTiersAppIds().put(getName(), ret.get("id").getAsString());
-					st.setUpdate(true);
+					st.setUpdated(true);
 				}
 				
 				notify(st.getMagicCard());
@@ -310,7 +310,7 @@ public class WooCommerceExport extends AbstractCardExport {
 							else
 							{
 								creates.get(i).getTiersAppIds().put(getName(), String.valueOf(obj.get("id").getAsInt()));
-								creates.get(i).setUpdate(true);
+								creates.get(i).setUpdated(true);
 							}
 					}
 					catch(Exception e)

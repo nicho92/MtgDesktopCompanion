@@ -222,7 +222,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		else
 			stock.setGrade(getGrading());
 		
-		stock.setUpdate(true);
+		stock.setUpdated(true);
 	}
 	
 	

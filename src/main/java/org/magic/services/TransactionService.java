@@ -172,7 +172,7 @@ public class TransactionService
 				{
 					   transactionItem.setComment("");
 					   stock.setQte(stock.getQte()-transactionItem.getQte());
-					   stock.setUpdate(true);
+					   stock.setUpdated(true);
 					   t.setStatut(STAT.PAYMENT_WAITING);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, transactionItem));
@@ -197,7 +197,7 @@ public class TransactionService
 		{
 				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
-					   stock.setUpdate(true);
+					   stock.setUpdated(true);
 					   t.setStatut(STAT.CANCELED);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 		}

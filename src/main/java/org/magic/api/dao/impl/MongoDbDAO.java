@@ -389,7 +389,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
 		logger.debug("saving stock " + state);
-		state.setUpdate(false);
+		state.setUpdated(false);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			var obj = new BasicDBObject();

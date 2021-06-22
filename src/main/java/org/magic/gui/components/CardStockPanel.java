@@ -96,10 +96,10 @@ public class CardStockPanel extends MTGUIComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (MagicCardStock ms : model.getItems())
-					if (ms.isUpdate())
+					if (ms.isUpdated())
 						try {
 							getEnabledPlugin(MTGDao.class).saveOrUpdateStock(ms);
-							ms.setUpdate(false);
+							ms.setUpdated(false);
 							
 						} catch (SQLException e1) {
 							MTGControler.getInstance().notify(e1);
@@ -137,7 +137,7 @@ public class CardStockPanel extends MTGUIComponent {
 	
 	@Override
 	public void onHide() {
-		boolean isUpdatedModel = model.getItems().stream().anyMatch(MagicCardStock::isUpdate);
+		boolean isUpdatedModel = model.getItems().stream().anyMatch(MagicCardStock::isUpdated);
 		
 		if(isUpdatedModel)
 		{
@@ -152,7 +152,7 @@ public class CardStockPanel extends MTGUIComponent {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setMagicCard(mc);
 			st.setMagicCollection(col);
-			st.setUpdate(true);
+			st.setUpdated(true);
 			model.addItem(st);
 			model.fireTableDataChanged();
 		} catch (Exception e) {

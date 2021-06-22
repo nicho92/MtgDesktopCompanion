@@ -195,7 +195,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		default:
 			break;
 		}
-		items.get(row).setUpdate(true);
+		items.get(row).setUpdated(true);
 
 		
 	}

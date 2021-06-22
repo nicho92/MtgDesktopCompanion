@@ -49,14 +49,14 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 			
 			if(name!=null) {
 				st.getTiersAppIds().remove(name);
-				st.setUpdate(true);
+				st.setUpdated(true);
 				init();
 			}
 		}); 
 		
 		btnAdd.addActionListener(al->{
 			st.getTiersAppIds().put(cboPlugins.getSelectedItem().toString(), "-1");
-			st.setUpdate(true);
+			st.setUpdated(true);
 			init();
 		});
 		

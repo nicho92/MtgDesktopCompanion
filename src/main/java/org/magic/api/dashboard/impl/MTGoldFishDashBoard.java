@@ -226,7 +226,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var extra="";
 			var extend="";
-			if(mc.isExtraCard() && !mc.isExtendedArt() && !mc.isShowCase() && !mc.isBorderLess())
+			if(mc.isExtraCard() && !mc.isExtendedArt() && !mc.isShowCase() && !mc.isBorderLess() && !mc.isTimeshifted())
 				extra="+Promos";
 			else if(mc.isExtendedArt())
 				extend="-extended";
@@ -234,6 +234,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-showcase";
 			else if(mc.isBorderLess())
 				extend="-borderless";
+			else if(mc.isTimeshifted() && mc.getCurrentSet().getId().equalsIgnoreCase("MH2"))
+				extend="-retro";
 			else if(mc.isTimeshifted())
 				extend="-timeshifted";
 			else if(mc.isJapanese())

@@ -132,7 +132,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		initGUI();
 
 		btnSave.addActionListener(e ->{
-			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdate).collect(Collectors.toList());
+			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdated).collect(Collectors.toList());
 			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
 			{
 				@Override
@@ -147,7 +147,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					{
 						try {
 							plug.saveOrUpdateStock(ms);
-							ms.setUpdate(false);
+							ms.setUpdated(false);
 						} catch (Exception e1) {
 							logger.error(e1);
 						}
@@ -401,7 +401,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							double old = s.getPrice();
 							s.setPrice(price);
 							if (old != s.getPrice())
-								s.setUpdate(true);
+								s.setUpdated(true);
 						}
 						catch (NullPointerException e) {
 							logger.error(s.getMagicCard() + " is not found : "+e);
@@ -433,7 +433,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				table.clearSelection();
 
 				for (var i = 0; i < table.getRowCount(); i++) {
-					if (((MagicCardStock) table.getValueAt(i, 0)).isUpdate())
+					if (((MagicCardStock) table.getValueAt(i, 0)).isUpdated())
 						table.addRowSelectionInterval(i, i);
 				}
 			}
@@ -455,7 +455,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				List<MagicCardStock> list = UITools.getTableSelections(table,0);
 				
 				for (MagicCardStock  s : list) {
-					s.setUpdate(true);
+					s.setUpdated(true);
 					if (((Integer) spinner.getValue()).intValue() > -1)
 						s.setQte((Integer) spinner.getValue());
 					if (!textPane.getText().equals(""))
@@ -495,14 +495,14 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void addStock(MagicCardStock mcs) {
-		mcs.setUpdate(true);
+		mcs.setUpdated(true);
 		model.addItem(mcs);
 	}
 
 	public void addCard(MagicCard mc) {
 		MagicCardStock ms = MTGControler.getInstance().getDefaultStock();
 		ms.setId(-1);
-		ms.setUpdate(true);
+		ms.setUpdated(true);
 		ms.setMagicCard(mc);
 		model.addItem(ms);
 		model.fireTableDataChanged();

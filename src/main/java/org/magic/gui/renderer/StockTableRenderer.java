@@ -73,7 +73,7 @@ public class StockTableRenderer implements TableCellRenderer{
 		
 		
 		
-		if (((MagicCardStock) table.getModel().getValueAt(row, 0)).isUpdate()) {
+		if (((MagicCardStock) table.getModel().getValueAt(row, 0)).isUpdated()) {
 			pane.setBackground(Color.GREEN);
 			pane.setForeground(table.getForeground());
 		} else if (isSelected) {

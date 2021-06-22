@@ -1,21 +1,14 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
-
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.MTGShoppable;
+import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
-public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedStock> {
+public class SealedStock extends AbstractStockItem implements MTGShoppable {
 
 	private static final long serialVersionUID = 1L;
-	private int id=-1;
 	private Packaging product;
-	private int qte=1;
-	private String comment;
 	private EnumStock condition = EnumStock.SELEAD;
-	private MagicCollection magicCollection;
-	private Double price=0.0;
-	private boolean updated=false;
 	
 	public SealedStock(){
 		
@@ -54,34 +47,12 @@ public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedS
 		setMagicCollection(magicCollection);
 	}
 	
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public MagicCollection getMagicCollection() {
-		return magicCollection;
-	}
-
-	public void setMagicCollection(MagicCollection collection) {
-		this.magicCollection = collection;
-	}
-
 	@Override
 	public String toString() {
 		return getId()+"-"+getProduct();
 	}
 	
-	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public Packaging getProduct() {
 		return product;
 	}
@@ -89,21 +60,8 @@ public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedS
 		this.product = product;
 	}
 	
-	@Override
-	public int getQte() {
-		return qte;
-	}
 	
-	public void setQte(int qty) {
-		this.qte = qty;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+	
 	public EnumStock getCondition() {
 		return condition;
 	}
@@ -111,21 +69,5 @@ public class SealedStock implements Serializable,MTGShoppable,Comparable<SealedS
 		this.condition = condition;
 	}
 
-	@Override
-	public int compareTo(SealedStock o) {
-		return getId()-o.getId();
-		
-	}
-
-	public void setUpdated(boolean b) {
-		this.updated=b;
-		
-	}
-	
-	public boolean isUpdated() {
-		return updated;
-	}
-	
-	
 	
 }

@@ -82,7 +82,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 			stock.setQte(deck.getMain().get(mc));
 			stock.setComment("import from " + deck.getName());
 			stock.setId(-1);
-			stock.setUpdate(true);
+			stock.setUpdated(true);
 			mcs.add(stock);
 		}
 		return mcs;

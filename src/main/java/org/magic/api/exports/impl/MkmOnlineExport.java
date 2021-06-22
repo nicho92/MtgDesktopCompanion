@@ -314,7 +314,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 									else
 									{
 										mcs.getTiersAppIds().put(getName(), String.valueOf(retour.getIdArticle().getIdArticle()));
-										mcs.setUpdate(true);
+										mcs.setUpdated(true);
 									}
 								
 								}
@@ -353,7 +353,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		for (LightArticle a : list) {
 			var mcs = MTGControler.getInstance().getDefaultStock();
-			mcs.setUpdate(true);
+			mcs.setUpdated(true);
 			mcs.setId(-1);
 			mcs.setComment(a.getComments());
 			try{

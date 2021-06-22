@@ -70,7 +70,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					mcs.setComment(part.group(11));
 					mcs.setMagicCollection(new MagicCollection(part.group(12)));
 					mcs.setId(-1);
-					mcs.setUpdate(true);
+					mcs.setUpdated(true);
 					stock.add(mcs);
 				}
 			}

@@ -5,10 +5,12 @@ import org.magic.api.beans.MagicEdition;
 
 public interface MTGShoppable {
 
-	public int getQte();
+	public Integer getQte();
 	public Double getPrice();
 	public String itemName();
 	public MagicEdition getEdition();
 	public MagicCollection getMagicCollection();
 	public Integer getId();
+	public String getComment();
+
 }
