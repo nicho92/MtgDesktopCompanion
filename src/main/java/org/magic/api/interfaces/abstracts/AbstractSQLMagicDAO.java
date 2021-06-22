@@ -668,36 +668,25 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public List<SealedStock> listSeleadStocks() throws SQLException {
+	public SealedStock getSealedStockById(int id) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed where id=?")) 
+		{
+				pst.setInt(1, id);
+				ResultSet rsC = pst.executeQuery();
+				rsC.next();
+				return readSealed(rsC);
+		}
+	}
+	
+	
+	@Override
+	public List<SealedStock> listSealedStocks() throws SQLException {
 		List<SealedStock> colls = new ArrayList<>();
 		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = pst.executeQuery()) 
 		{
 				while (rs.next()) {
-						var state = new SealedStock();
-							state.setComment(rs.getString("comment"));
-							state.setId(rs.getInt("id"));
-							state.setQte(rs.getInt("qte"));
-							state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
-							state.setMagicCollection(new MagicCollection(rs.getString("collection")));
-							state.setPrice(rs.getDouble("price"));
-							  try 
-							  {
-								var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
-												TYPE.valueOf(rs.getString("typeProduct")),
-												(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra"))
-												).get(0);
-								
-								p.setLang(rs.getString("lang"));
-								
-								
-								state.setProduct(p);
-							  } 
-							  catch (Exception e) 
-							  {
-								logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString("extra") + " " +rs.getString(EDITION),e);
-							  }
-					
+					var state = readSealed(rs);
 					colls.add(state);
 				}
 		}
@@ -1076,36 +1065,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		}
 	}
 	
-	private MagicCardStock readStock(ResultSet rs) throws SQLException
-	{
-		var state = new MagicCardStock();
-			state.setComment(rs.getString("comments"));
-			state.setId(rs.getInt("idstock"));
-			state.setProduct(readCard(rs));
-			state.setMagicCollection(new MagicCollection(rs.getString("collection")));
-			try {
-				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-			} catch (Exception e) {
-				state.setCondition(null);
-			}
-			state.setFoil(rs.getBoolean("foil"));
-			state.setSigned(rs.getBoolean("signedcard"));
-			state.setLanguage(rs.getString("langage"));
-			state.setQte(rs.getInt("qte"));
-			state.setAltered(rs.getBoolean("altered"));
-			state.setPrice(rs.getDouble("price"));
-			state.setGrade(readGrading(rs));
-			state.setTiersAppIds(readTiersApps(rs));
-			state.setEtched(rs.getBoolean("etched"));
-			
-			if(state.getTiersAppIds()==null)
-				state.setTiersAppIds(new HashMap<>());
 
-		
-		
-		return state;
-
-	}
 	
 	
 	public List<MagicCardStock> listStocks() throws SQLException {
@@ -1488,6 +1448,63 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		return (getType()+getName()).hashCode();
 	}
 
+	private SealedStock readSealed(ResultSet rs) throws SQLException {
+		var state = new SealedStock();
+		state.setComment(rs.getString("comment"));
+		state.setId(rs.getInt("id"));
+		state.setQte(rs.getInt("qte"));
+		state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
+		state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+		state.setPrice(rs.getDouble("price"));
+		  try 
+		  {
+			var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
+							TYPE.valueOf(rs.getString("typeProduct")),
+							(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra"))
+							).get(0);
+			
+			p.setLang(rs.getString("lang"));
+			
+			
+			state.setProduct(p);
+		  } 
+		  catch (Exception e) 
+		  {
+			logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString("extra") + " " +rs.getString(EDITION),e);
+		  }
+		 return state;
+	}
+	
+	private MagicCardStock readStock(ResultSet rs) throws SQLException
+	{
+		var state = new MagicCardStock();
+			state.setComment(rs.getString("comments"));
+			state.setId(rs.getInt("idstock"));
+			state.setProduct(readCard(rs));
+			state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+			try {
+				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
+			} catch (Exception e) {
+				state.setCondition(null);
+			}
+			state.setFoil(rs.getBoolean("foil"));
+			state.setSigned(rs.getBoolean("signedcard"));
+			state.setLanguage(rs.getString("langage"));
+			state.setQte(rs.getInt("qte"));
+			state.setAltered(rs.getBoolean("altered"));
+			state.setPrice(rs.getDouble("price"));
+			state.setGrade(readGrading(rs));
+			state.setTiersAppIds(readTiersApps(rs));
+			state.setEtched(rs.getBoolean("etched"));
+			
+			if(state.getTiersAppIds()==null)
+				state.setTiersAppIds(new HashMap<>());
 
+		
+		
+		return state;
+
+	}
+	
 
 }

@@ -246,7 +246,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 		
 		logger.debug("duplicate sealed");
-		for(SealedStock oe : listSeleadStocks())
+		for(SealedStock oe : listSealedStocks())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateStock(oe);

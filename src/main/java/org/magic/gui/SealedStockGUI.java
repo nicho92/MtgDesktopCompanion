@@ -161,7 +161,7 @@ public class SealedStockGUI extends MTGUIComponent {
 					protected void notifyEnd()
 					{
 						try {
-							model.init(getEnabledPlugin(MTGDao.class).listSeleadStocks());
+							model.init(getEnabledPlugin(MTGDao.class).listSealedStocks());
 						} catch (SQLException e) {
 							logger.error(e);
 						}
@@ -177,7 +177,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		buttonUpdate.addActionListener(el->{
 			try {
-				model.init(getEnabledPlugin(MTGDao.class).listSeleadStocks());
+				model.init(getEnabledPlugin(MTGDao.class).listSealedStocks());
 			} catch (SQLException e1) {
 				MTGControler.getInstance().notify(e1);
 			}			
@@ -245,7 +245,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		packagePanel.initTree();
 		
 		try {
-			model.init(getEnabledPlugin(MTGDao.class).listSeleadStocks());
+			model.init(getEnabledPlugin(MTGDao.class).listSealedStocks());
 		} catch (SQLException e) {
 			MTGControler.getInstance().notify(e);
 		}

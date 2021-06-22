@@ -57,7 +57,7 @@ public class FileDAO extends AbstractMagicDAO{
 	}
 	
 	@Override
-	public List<SealedStock> listSeleadStocks() throws SQLException {
+	public List<SealedStock> listSealedStocks() throws SQLException {
 		List<SealedStock> st = new ArrayList<>();
 		var f = new File(directory, PACKAGESSDIR);
 		for (File fstock : f.listFiles()) {
@@ -630,6 +630,12 @@ public class FileDAO extends AbstractMagicDAO{
 	public void deleteContact(Contact contact) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public SealedStock getSealedStockById(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

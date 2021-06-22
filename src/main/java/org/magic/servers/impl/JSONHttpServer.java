@@ -424,16 +424,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->
+				getCached(request.pathInfo(), new Callable<Object>() {
 		
-		getCached(request.pathInfo(), new Callable<Object>() {
-
-			@Override
-			public Object call() throws Exception {
-				return getEnabledPlugin(MTGDao.class).listSeleadStocks();
-			}
-		})
-
+					@Override
+					public Object call() throws Exception {
+						return getEnabledPlugin(MTGDao.class).listSealedStocks();
+					}
+				})
 		, transformer);
+		
+		get("/sealed/get/:id", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Integer.parseInt(request.params(":id"))), transformer);
+		
+		
+		
 
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
 			

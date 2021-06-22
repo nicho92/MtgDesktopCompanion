@@ -189,7 +189,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public List<SealedStock> listSeleadStocks() throws SQLException {
+	public List<SealedStock> listSealedStocks() throws SQLException {
 		List<SealedStock> stocks = new ArrayList<>();
 		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, SealedStock.class)));
 		return stocks;
@@ -728,6 +728,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return deserialize(db.getCollection(colContacts).find(Filters.eq("id", id),BasicDBObject.class).first(),Contact.class);
 	}
 
+	@Override
+	public SealedStock getSealedStockById(int id) throws SQLException {
+		return deserialize(db.getCollection(colSealed).find(Filters.eq("id", id),BasicDBObject.class).first(),SealedStock.class);
+	}
+
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
@@ -737,4 +742,5 @@ public class MongoDbDAO extends AbstractMagicDAO {
 							 ,Contact.class);
 	}
 
+	
 }

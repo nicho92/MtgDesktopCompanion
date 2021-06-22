@@ -62,9 +62,10 @@ public interface MTGDao extends MTGPlugin {
 	
 	
 	
-	public List<SealedStock> listSeleadStocks() throws SQLException;
+	public List<SealedStock> listSealedStocks() throws SQLException;
 	public void saveOrUpdateStock(SealedStock state) throws SQLException;
 	public void deleteStock(SealedStock state) throws SQLException;
+	public SealedStock getSealedStockById(int id) throws SQLException;
 	
 	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException;
 		
@@ -72,6 +73,12 @@ public interface MTGDao extends MTGPlugin {
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException;
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException;
 	public void deleteOrderEntry(OrderEntry state) throws SQLException;
+	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
+	public List<OrderEntry> listOrdersAt(Date d);
+	public List<Date> listDatesOrders();
+	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict);
+
+	
 	
 	public List<Transaction> listTransactions() throws SQLException;
 	public List<Transaction> listTransactions(Contact c) throws SQLException;
@@ -79,7 +86,6 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteTransaction(Transaction t)throws SQLException;
 	public Transaction getTransaction(int id) throws SQLException;
 	public void deleteTransaction(List<Transaction> t) throws SQLException;
-	
 	
 	public void changePassword(Contact c, String newPassword)  throws SQLException;
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
@@ -90,11 +96,7 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteContact(Contact contact) throws SQLException;
 
 	
-	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
-	public List<OrderEntry> listOrdersAt(Date d);
-	public List<Date> listDatesOrders();
-	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict);
-
+	
 	public List<MagicCardAlert> listAlerts();
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Packaging;
 
 public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
 
@@ -21,6 +20,8 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected T product;
 	
 	public abstract MagicEdition getEdition();
+	
+	
 	
 	public T getProduct() {
 		return product;
