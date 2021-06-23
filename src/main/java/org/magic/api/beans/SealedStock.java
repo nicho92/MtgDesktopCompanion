@@ -23,12 +23,10 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	{
 		setProduct(p);
 		setQte(qte);
-		edition = p.getEdition();
 	}
 	
 	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra, MagicCollection magicCollection)
 	{
-		edition=e;
 		product = new Packaging();
 		product.setEdition(e);
 		product.setType(type);
@@ -48,7 +46,7 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	
 	@Override
 	public MagicEdition getEdition() {
-		return (getProduct()!=null)?edition:null;
+		return (getProduct()!=null)?getProduct().getEdition():null;
 	}
 
 	

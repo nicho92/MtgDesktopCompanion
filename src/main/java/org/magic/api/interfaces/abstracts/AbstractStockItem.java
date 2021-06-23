@@ -18,16 +18,11 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected Double price=0.0;
 	protected Grading grade;
 	protected T product;
-	protected MagicEdition edition;
-	
-	public MagicEdition getEdition()
-	{
-		return edition;
-	}
 	
 	
+	public abstract MagicEdition getEdition();
 	
-
+	
 	public T getProduct() {
 		return product;
 	}

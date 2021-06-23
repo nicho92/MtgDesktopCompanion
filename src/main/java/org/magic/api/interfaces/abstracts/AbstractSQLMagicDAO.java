@@ -1456,6 +1456,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
 		state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 		state.setPrice(rs.getDouble("price"));
+
 		  try 
 		  {
 			var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
@@ -1464,8 +1465,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 							).get(0);
 			
 			p.setLang(rs.getString("lang"));
-			
-			
 			state.setProduct(p);
 		  } 
 		  catch (Exception e) 

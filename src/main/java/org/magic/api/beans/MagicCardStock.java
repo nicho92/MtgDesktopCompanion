@@ -23,7 +23,6 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 		id = -1;
 		tiersAppIds = new HashMap<>();
 		setProduct(c);
-		edition=c.getCurrentSet();
 	}
 	
 	public MagicCardStock() {
@@ -31,6 +30,10 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 		tiersAppIds= new HashMap<>();
 	}
 	
+	@Override
+	public MagicEdition getEdition() {
+		return getProduct().getCurrentSet();
+	}
 	
 	
 	public boolean isEtched() {
