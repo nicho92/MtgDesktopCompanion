@@ -138,12 +138,15 @@
 					  "defaultContent": "<i>Not set</i>"
 		        	},
 		        	{ 
-			          "data": "product.editions",
+			          "data": "typeStock",
 					  "width": "25%",
 					  "defaultContent": "",
 			          "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	   data="<i class='ss ss-2x ss-"+data[0].id.toLowerCase()+"'></i> ";	
+		                	   if(data=="CARD")
+			                	   data="<i class='ss ss-2x ss-"+row.product.editions[0].id.toLowerCase()+"'></i> ";	
+			                	   else
+			                	   data="<i class='ss ss-2x ss-"+row.product.edition.id.toLowerCase()+"'></i> ";
 		                	 //  data=data[0].set;
 		                   }
 		                 return data;

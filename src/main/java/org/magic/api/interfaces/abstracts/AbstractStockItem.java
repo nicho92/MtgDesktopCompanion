@@ -7,6 +7,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 
 public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
+	public enum TYPESTOCK  { SEALED, CARD}
 
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;
@@ -18,9 +19,19 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected Double price=0.0;
 	protected Grading grade;
 	protected T product;
+	protected TYPESTOCK typeStock;
 	
 	
 	public abstract MagicEdition getEdition();
+	
+	
+	public void setTypeStock(TYPESTOCK typeStock) {
+		this.typeStock = typeStock;
+	}
+	
+	public TYPESTOCK getTypeStock() {
+		return typeStock;
+	}
 	
 	
 	public T getProduct() {

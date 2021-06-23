@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
+import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 
 public class MagicCardStock extends AbstractStockItem<MagicCard>{
 
@@ -23,11 +24,13 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 		id = -1;
 		tiersAppIds = new HashMap<>();
 		setProduct(c);
+		setTypeStock(TYPESTOCK.CARD);
 	}
 	
 	public MagicCardStock() {
 		id=-1;
 		tiersAppIds= new HashMap<>();
+		setTypeStock(TYPESTOCK.CARD);
 	}
 	
 	@Override

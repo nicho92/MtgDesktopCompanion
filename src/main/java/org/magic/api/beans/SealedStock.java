@@ -9,7 +9,7 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	private EnumStock condition = EnumStock.SELEAD;
 	
 	public SealedStock(){
-		
+		setTypeStock(TYPESTOCK.SEALED);
 	}
 	
 	
@@ -17,12 +17,14 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	public SealedStock(Packaging p)
 	{
 		setProduct(p);
+		setTypeStock(TYPESTOCK.SEALED);
 	}
 	
 	public SealedStock(Packaging p, int qte)
 	{
 		setProduct(p);
 		setQte(qte);
+		setTypeStock(TYPESTOCK.SEALED);
 	}
 	
 	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra, MagicCollection magicCollection)
