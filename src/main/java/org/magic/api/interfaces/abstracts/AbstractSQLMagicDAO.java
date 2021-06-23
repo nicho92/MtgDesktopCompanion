@@ -1477,10 +1477,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	
 	private MagicCardStock readStock(ResultSet rs) throws SQLException
 	{
-		var state = new MagicCardStock();
+		var state = new MagicCardStock(readCard(rs));
 			state.setComment(rs.getString("comments"));
 			state.setId(rs.getInt("idstock"));
-			state.setProduct(readCard(rs));
 			state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 			try {
 				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));

@@ -234,7 +234,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-showcase";
 			else if(mc.isBorderLess())
 				extend="-borderless";
-			else if(mc.isTimeshifted() && mc.getCurrentSet().getId().equalsIgnoreCase("MH2"))
+			else if(mc.isTimeshifted() && (mc.getCurrentSet().getId().equalsIgnoreCase("MH2") || mc.getCurrentSet().getId().equalsIgnoreCase("H1R")))
 				extend="-retro";
 			else if(mc.isTimeshifted())
 				extend="-timeshifted";
@@ -455,7 +455,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return "Guru+Lands";
 		case "Modern+Masters+2017":
 			return "Modern+Masters+2017+Edition";
-			
+		case "Modern+Horizons+1+Timeshifts":
+			return "Modern+Horizons+2";
 		default:
 			return editionName;
 		}

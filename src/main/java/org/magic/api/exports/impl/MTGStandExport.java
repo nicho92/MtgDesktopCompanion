@@ -92,8 +92,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 			if(mc !=null )
 			{
 				
-				var st = new MagicCardStock();
-				st.setProduct(mc);
+				var st = new MagicCardStock(mc);
 				st.setQte(Integer.parseInt(m.group(2)));
 				st.setLanguage(m.group(6));
 				st.setFoil(m.group(7).equals("1"));

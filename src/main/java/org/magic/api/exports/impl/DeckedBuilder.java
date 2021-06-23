@@ -93,8 +93,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			{
 				if(qtyFoil>0)
 				{
-					var stock = new MagicCardStock();
-								   stock.setProduct(mc);
+					var stock = new MagicCardStock(mc);
 								   stock.setPrice(Double.parseDouble(m.group(12)));
 								   stock.setFoil(true);
 								   stock.setQte(qtyFoil);
@@ -103,8 +102,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 				
 				if(qtyRegular>0)
 				{
-					var stock = new MagicCardStock();
-					   stock.setProduct(mc);
+					var stock = new MagicCardStock(mc);
 					   stock.setPrice(Double.parseDouble(m.group(11)));
 					   stock.setFoil(false);
 					   stock.setQte(qtyRegular);

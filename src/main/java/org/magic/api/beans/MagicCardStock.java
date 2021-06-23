@@ -18,10 +18,20 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 	private Map<String,String> tiersAppIds;
 
 	
-	@Override
-	public MagicEdition getEdition() {
-		return getProduct().getCurrentSet();
+
+	public MagicCardStock(MagicCard c) {
+		id = -1;
+		tiersAppIds = new HashMap<>();
+		setProduct(c);
+		edition=c.getCurrentSet();
 	}
+	
+	public MagicCardStock() {
+		id=-1;
+		tiersAppIds= new HashMap<>();
+	}
+	
+	
 	
 	public boolean isEtched() {
 		return etched;
@@ -50,10 +60,6 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 		return grade!=null;
 	}
 
-	public MagicCardStock() {
-		id = -1;
-		tiersAppIds = new HashMap<>();
-	}
 
 	public boolean isAltered() {
 		return altered;

@@ -68,8 +68,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			}
 			
 			if(mc!=null) {
-				var stock = new MagicCardStock();
-				stock.setProduct(mc);
+				var stock = new MagicCardStock(mc);
 				stock.setLanguage(m.group(3));
 				stock.setFoil(Boolean.parseBoolean(m.group(9)));
 				stock.setSigned(Boolean.parseBoolean(m.group(10)));
