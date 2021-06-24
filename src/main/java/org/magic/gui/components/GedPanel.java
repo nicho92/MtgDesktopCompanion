@@ -125,12 +125,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		});
 	}
 
-	public GedEntry<?> read(Path p) throws IOException
-	{
-		GedEntry<?> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
-		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getFullName());
-		return ged;
-	}
+	
 
 	private void addEntry(GedEntry<?> c) {
 		var e = new GedEntryComponent(c,150,100);
@@ -195,13 +190,13 @@ public class GedPanel<T> extends MTGUIComponent {
 		{
 			protected Void doInBackground() throws Exception {
 				
-				try(Stream<Path> s = Files.list(p))
+				try(Stream<Path> s = GedService.inst().listDirectory(p))
 				{
 					s.forEach(p->{
 						try 
 						{
 							if(!Files.isDirectory(p))
-								publish(read(p));
+								publish(GedService.inst().read(p));
 						}
 						catch (Exception e) 
 						{

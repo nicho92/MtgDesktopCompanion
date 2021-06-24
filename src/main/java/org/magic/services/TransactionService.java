@@ -157,36 +157,45 @@ public class TransactionService
 	
 	public static List<MagicCardStock> validateTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		List<MagicCardStock> st = new ArrayList<>();
-
+		List<MagicCardStock> rejectsT = new ArrayList<>();
+		List<MagicCardStock> accepteds = new ArrayList<>();
 		for(MagicCardStock transactionItem : t.getItems())
 		{
 				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(STAT.IN_PROGRESS);
-					   st.add(transactionItem);
-					   transactionItem.setComment("Not enought Stock ( "+stock.getQte()+")");
+					   rejectsT.add(transactionItem);
+					   transactionItem.setComment("Not enought Stock ( "+stock.getQte()+"/"+transactionItem.getQte()+")");
 				}
 				else
 				{
 					   transactionItem.setComment("");
 					   stock.setQte(stock.getQte()-transactionItem.getQte());
 					   stock.setUpdated(true);
-					   t.setStatut(STAT.PAYMENT_WAITING);
-					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
-					   getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, transactionItem));
-					 
+					   accepteds.add(stock);
 				}
 		}
 		
-		if(st.isEmpty())
-			  sendMail(t,"TransactionValid","your order validate !");	
+		if(rejectsT.isEmpty() && !accepteds.isEmpty())
+		{
+			t.setStatut(STAT.PAYMENT_WAITING);
+			for(MagicCardStock stock : accepteds) {
+				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
+				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
+			}
+			sendMail(t,"TransactionValid"," your order is validate !");	
+			((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
+			
+		}
+		else
+		{
+			t.setStatut(STAT.IN_PROGRESS);
+		}
 		
 		saveTransaction(t,false);
-		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 		
-		return st;
+		return rejectsT;
 		
 	}
 	

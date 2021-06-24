@@ -75,7 +75,7 @@
 		   	 
 		   	 	$.ajax({
 			        url: restserver+"/stock/get/"+$_GET("id")
-			    }).then(function(data) {
+			    }).then(function(data){
 			    	
 		    		if(data.product.scryfallId!=null)
 		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.product.scryfallId+"?format=image");
@@ -115,23 +115,37 @@
 			    		if(data.signed)
 			    			append+="<li class='list-inline-item'><i class='fas fa-file-signature fa-2x'></i><br/>Signed</li>";
 			    		
-			    	$("#itemDetails").html(append);
-			    	
-					if(data.qte>0)
-					{
-						$( "#addCartButton" ).click(function() {
-				    		data.qte= parseInt($('#quantity').val());
-				    		addCartProduct(data,percentReduction);
-				    	});
-			    	}
-					else
-					{
-						$("#addCartButton").removeClass();
-						$("#addCartButton").addClass("btn btn-secondary btn-lg btn-block text-uppercase");
-						$("#addCartButton").text("Out of stock");
+				    	$("#itemDetails").html(append);
+				    	
+						if(data.qte>0)
+						{
+							$( "#addCartButton" ).click(function() {
+					    		data.qte= parseInt($('#quantity').val());
+					    		addCartProduct(data,percentReduction);
+					    	});
+				    	}
+						else
+						{
+							$("#addCartButton").removeClass();
+							$("#addCartButton").addClass("btn btn-secondary btn-lg btn-block text-uppercase");
+							$("#addCartButton").text("Out of stock");
+							
+						}
 						
-					}
-			  });
+						
+							/*$.ajax({
+					        	url: restserver+"/ged/MagicCardStock/"+$_GET("id")
+					    	}).then(function(data) {
+								var base64img = data[0].data;
+								
+								Base64ToImage(base64img, function(img) {
+								    $("#ged").appendChild(img);
+								});
+							});
+						*/
+						
+						
+				  });
 		   	 
 			    });
     }); 
@@ -235,7 +249,7 @@
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-comment"></i> Comments</div>
                 <div class="card-body">
                     <p class="card-text" id="productComments">
-                       
+                       <img id="ged"></img>
                     </p>
                 </div>
             </div>

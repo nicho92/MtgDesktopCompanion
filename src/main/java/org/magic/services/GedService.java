@@ -45,6 +45,14 @@ public class GedService {
 		}
 	}
 	
+	public GedEntry<?> read(Path p) throws IOException
+	{
+		GedEntry<?> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
+		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getFullName());
+		return ged;
+	}
+	
+	
 	public void store(GedEntry<?> entry) throws IOException
 	{
 		var p = getPath(entry);
@@ -56,6 +64,12 @@ public class GedService {
 		Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
 		
 	}
+	
+	public Stream<Path> listDirectory(Path p) throws IOException {
+		return Files.list(p);
+	}
+	
+	
 	
 	public List<Path> list(String dir)
 	{
@@ -93,8 +107,6 @@ public class GedService {
 			logger.error(e);
 			return false;
 		}
-		
-		
 	}
 
 	public <T> Path getPath(Class<T> classe, T instance) {
@@ -108,5 +120,6 @@ public class GedService {
 		
 		return getFileSystem().getPath(classe.getSimpleName(),instance.toString());
 	}
+
 	
 }

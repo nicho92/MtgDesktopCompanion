@@ -50,7 +50,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	public void setTransaction(Transaction t)
 	{
 		this.t=t;
-		btnAcceptTransaction.setEnabled(t!=null && t.getStatut()==STAT.NEW);
+		btnAcceptTransaction.setEnabled(t!=null && (t.getStatut()==STAT.NEW||t.getStatut()==STAT.IN_PROGRESS||t.getStatut()==STAT.CANCELED));
 		btnSave.setEnabled(t!=null);
 		btnPaid.setEnabled(t!=null);
 		btnSend.setEnabled(t!=null);

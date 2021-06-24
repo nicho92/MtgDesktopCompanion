@@ -22,6 +22,8 @@ import java.util.TooManyListenersException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import org.apache.log4j.Logger;
@@ -34,7 +36,8 @@ public class FileDropDecorator
     private DropTargetListener dropListener;
     private static Color defaultBorderColor = new Color( 0f, 0f, 1f, 0.25f );
     private Logger logger = MTGLogger.getLogger(this.getClass());
-  
+    private Color defaultColor;
+    
     public void init(final Component c,final Listener listener) 
     {   
             dropListener = new DropTargetListener()
@@ -48,6 +51,7 @@ public class FileDropDecorator
                         	JComponent jc = (JComponent) c;
                             normalBorder = jc.getBorder();
                             jc.setBorder( BorderFactory.createMatteBorder( 2, 2, 2, 2, defaultBorderColor ) );
+                            defaultColor = jc.getBackground();
                         }    
                         evt.acceptDrag(DnDConstants.ACTION_COPY);
                     } 
@@ -56,7 +60,7 @@ public class FileDropDecorator
                         evt.rejectDrag();
                     } 
                 }  
-
+            
                 public void dragOver( DropTargetDragEvent evt ) 
                 {   
                 	c.setBackground(Color.BLUE);
@@ -76,6 +80,7 @@ public class FileDropDecorator
                                 listener.filesDropped( fileList.toArray(new File[fileList.size()]) );
                            
                             evt.getDropTargetContext().dropComplete(true);
+                            c.setBackground(defaultColor);
                         }
                         
                     } 
@@ -100,7 +105,9 @@ public class FileDropDecorator
                     {   
                 		var jc = (JComponent) c;
                         jc.setBorder( normalBorder );
+                        c.setBackground(defaultColor);
                     }
+                	
                 }  
 
                 public void dropActionChanged( DropTargetDragEvent evt ) 

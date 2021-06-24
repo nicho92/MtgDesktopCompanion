@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.Contact;
+import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -56,6 +58,7 @@ import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
+import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -282,6 +285,33 @@ public class JSONHttpServer extends AbstractMTGServer {
 							obj.add("collections", converter.toJsonElement(cols));
 				arr.add(obj);			
 			}
+			return arr;
+			
+		},transformer);
+		
+		
+		get("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
+			
+			var arr = new JsonArray();
+			GedService.inst().list(request.params(":class")+"/"+request.params(":id")).forEach(p->{
+				try {
+					var e = GedService.inst().read(p);
+					if(e.isImage()) {
+						var obj = new JsonObject();
+						    obj.addProperty("name", e.getName());
+						    obj.addProperty("ext",e.getExt());
+						    obj.addProperty("obj",e.getObject().toString());
+						    obj.addProperty("data",ImageTools.toBase64(e.getContent()));
+						    arr.add(obj);
+					}
+				} catch (IOException e) {
+					logger.error(e);
+				}
+				
+				
+			});
+			
+			
 			return arr;
 			
 		},transformer);

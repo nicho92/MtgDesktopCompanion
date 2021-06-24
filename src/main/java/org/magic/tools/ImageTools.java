@@ -300,7 +300,7 @@ public class ImageTools {
 		try (var os = new ByteArrayOutputStream())
 		{
 		    ImageIO.write((BufferedImage)img, "png", os);
-		    return Base64.getEncoder().encodeToString(os.toByteArray());
+		    return toBase64(os.toByteArray());
 		}
 		catch (IOException ioe)
 		{
@@ -308,9 +308,13 @@ public class ImageTools {
 		   return null;
 		}
 	}
+	
+	public static String toBase64(byte[] img) {
+	    return Base64.getEncoder().encodeToString(img);	
+	}
 
 
-	public static Icon resize(Icon icon, int newH, int newW) {
+	public static ImageIcon resize(Icon icon, int newH, int newW) {
 		var ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);
 		return new ImageIcon(ic);
 	}
