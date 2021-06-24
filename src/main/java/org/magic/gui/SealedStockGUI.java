@@ -136,6 +136,7 @@ public class SealedStockGUI extends MTGUIComponent {
 					historyPricePanel.init(ss.getProduct(), ss.getProduct().getEdition()+"-"+ ss.getProduct().getType());
 					packagePanel.load(ss.getProduct());
 					objectpanel.show(ss);
+					gedPanel.init(SealedStock.class, ss);
 				}
 			}
 		});
