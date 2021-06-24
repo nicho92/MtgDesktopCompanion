@@ -43,7 +43,7 @@
 		   	 $("#header").load("nav.html");
 		   	 $("#banner").load("banner.html", function() {
 				 
-					data = getConfig();
+			data = getConfig();
     
     
     		 var collection;
@@ -75,53 +75,53 @@
 		   	 
 		   	 	$.ajax({
 			        url: restserver+"/stock/get/"+$_GET("id")
-			    }).then(function(data){
+			    }).then(function(stockItem){
 			    	
-		    		if(data.product.scryfallId!=null)
-		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+data.product.scryfallId+"?format=image");
+		    		if(stockItem.product.scryfallId!=null)
+		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+stockItem.product.scryfallId+"?format=image");
 					else
-						$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.product.editions[0].multiverseId+"?format=image");
+						$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+stockItem.product.editions[0].multiverseId+"?format=image");
 			    	
 			    	if(percentReduction>0)
 			    	{
-			    		$("#price").html(((data.price-(data.price*percentReduction)).toFixed(2) +" "+currency));
-			    		$("#priceDiscount").html(data.price.toFixed(2) +" "+currency);
+			    		$("#price").html(((stockItem.price-(stockItem.price*percentReduction)).toFixed(2) +" "+currency));
+			    		$("#priceDiscount").html(stockItem.price.toFixed(2) +" "+currency);
 			    	}
 			    	else
 			    	{
-			    		$("#price").html(data.price.toFixed(2) +" "+currency);	
+			    		$("#price").html(stockItem.price.toFixed(2) +" "+currency);	
 			    	}
 			    	
-			    	$("#productModalLabel").html(data.product.name);
-			    	$("#quantity").attr('max',data.qte);
-			    	$("#cardDescription").html(data.product.text);
-			    	$("#productComments").html(data.comment);
+			    	$("#productModalLabel").html(stockItem.product.name);
+			    	$("#quantity").attr('max',stockItem.qte);
+			    	$("#cardDescription").html(stockItem.product.text);
+			    	$("#productComments").html(stockItem.comment);
 			    	var append="";
 			    		try{
-			    		append+="<li class='list-inline-item'><i class='ss ss-"+data.product.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+data.product.editions[0].set+"</li><br/>";
+			    		append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.product.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+stockItem.product.editions[0].set+"</li><br/>";
 			    		}
 			    		catch(error)
 			    		{
-			    			append+="<li class='list-inline-item'><i class='ss ss-"+data.product.editions[0].id.toLowerCase()+" ss-2x'></i><br/>"+data.product.editions[0].set+"</li><br/>";
+			    			append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.product.editions[0].id.toLowerCase()+" ss-2x'></i><br/>"+stockItem.product.editions[0].set+"</li><br/>";
 			    		}
-			    		append+="<li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+data.language+"</li>";
-			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+data.condition+"</li>";
-			    		append+="<li class='list-inline-item'><i class='fas fa-star fa-2x'></i><br/>"+(data.foil?'foil':(data.etched?'foil-etched':'Normal'))+"</li>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+stockItem.language+"</li>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+stockItem.condition+"</li>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-star fa-2x'></i><br/>"+(stockItem.foil?'foil':(stockItem.etched?'foil-etched':'Normal'))+"</li>";
 			    		
 			    		
-			    		if(data.altered)
+			    		if(stockItem.altered)
 			    			append+="<li class='list-inline-item'><i class='fas fa-edit fa-2x'></i><br/>Altered</li>";
 			    		
-			    		if(data.signed)
+			    		if(stockItem.signed)
 			    			append+="<li class='list-inline-item'><i class='fas fa-file-signature fa-2x'></i><br/>Signed</li>";
 			    		
 				    	$("#itemDetails").html(append);
 				    	
-						if(data.qte>0)
+						if(stockItem.qte>0)
 						{
 							$( "#addCartButton" ).click(function() {
-					    		data.qte= parseInt($('#quantity').val());
-					    		addCartProduct(data,percentReduction);
+								stockItem.qte= parseInt($('#quantity').val());
+					    		addCartProduct(stockItem,percentReduction);
 					    	});
 				    	}
 						else
@@ -132,17 +132,31 @@
 							
 						}
 						
-						
-							/*$.ajax({
+					
+						if(data.enableGed==true)
+						{
+							$.ajax({
 					        	url: restserver+"/ged/MagicCardStock/"+$_GET("id")
-					    	}).then(function(data) {
-								var base64img = data[0].data;
+					    	}).then(function(geds) {
 								
-								Base64ToImage(base64img, function(img) {
-								    $("#ged").appendChild(img);
-								});
+					    		$.each( geds, function( key, value ) {
+					    			var base64img = value.data;
+					    			var img = $('<img />', { 
+					    				  id: 'Myid',
+					    				  src: 'data:image/'+value.ext+';base64,' + base64img,
+					    				  width: 150,
+					    				  alt: value.name
+					    				});
+					    			
+					    			$("#portfolio").append(img);				    			
+					    			
+					    		});
 							});
-						*/
+						}
+						else
+						{
+							$("#rowGed").hide();
+						}
 						
 						
 				  });
@@ -243,20 +257,32 @@
     </div>
 
     <div class="row">
-        <!-- Description -->
         <div class="col-12">
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-comment"></i> Comments</div>
                 <div class="card-body">
                     <p class="card-text" id="productComments">
-                       <img id="ged"></img>
+                      
                     </p>
                 </div>
             </div>
         </div>
-
-
     </div>
+    
+    <div class="row" id="rowGed">
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-images"></i> Portfolio</div>
+                <div class="card-body">
+                    <p class="card-text" id="portfolio">
+                       
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
 </div>
 
 

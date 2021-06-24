@@ -33,7 +33,7 @@ public class WebShopConfig implements Serializable {
 	private URI setPaypalSendMoneyUri;
 	private boolean automaticValidation;
 	private boolean automaticProduct;
-	
+	private boolean enableGed;
 	private String iban;
 	private String bic;
 	private String websiteUrl;
@@ -48,6 +48,14 @@ public class WebShopConfig implements Serializable {
 		contact=new Contact();
 	}
 	
+	public boolean isEnableGed() {
+		return enableGed;
+	}
+
+	public void setEnableGed(boolean enableGed) {
+		this.enableGed = enableGed;
+	}
+
 	public String getIban() {
 		return iban;
 	}

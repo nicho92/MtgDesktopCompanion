@@ -77,6 +77,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JCheckBox chkAutomaticValidation;
 	private JCheckBox chkAutoProduct;
 	private JCheckBox chkEnableStock;
+	private JCheckBox chkEnableGed;
 	private JTextField txtIban;
 	private JTextField txtBic;
 	
@@ -120,6 +121,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			txtBannerTitle = new JTextField(conf.getBannerTitle());
 			txtBannerText = new JTextArea(conf.getBannerText());
 			txtWebsiteUrl = new JTextField(conf.getWebsiteUrl());
+			chkEnableGed = new JCheckBox();
+			chkEnableGed.setSelected(conf.isEnableGed());
 			panelGeneral.add(new JLabel("BANNERTITLE"));
 			panelGeneral.add(txtBannerTitle);
 			panelGeneral.add(new JLabel("BANNERTEXT"));
@@ -130,6 +133,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			panelGeneral.add(txtWebsiteUrl);
 			panelGeneral.add(new JLabel("GOOGLE_ID_ANALYTICS"));
 			panelGeneral.add(txtAnalyticsGoogle);
+			panelGeneral.add(new JLabel("GED_ENABLE"));
+			panelGeneral.add(chkEnableGed);
 			
 			
 			
@@ -344,6 +349,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setIban(txtIban.getText());
 				newBean.setBic(txtBic.getText());
 				newBean.setWebsiteUrl(txtWebsiteUrl.getText());
+				newBean.setEnableGed(chkEnableGed.isSelected());
 				try {
 					newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));
 				} catch (URISyntaxException e1) {
