@@ -15,11 +15,11 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
 
-public class H2DAO extends AbstractSQLMagicDAO {
+public class H2DAO extends AbstractMagicSQLDAO {
 
 	private static final String MODE = "MODE";
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -202,7 +203,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			}
 		}
 		
-		if(!mc.getFlavor().isEmpty())
+		if(!StringUtils.isEmpty(mc.getFlavor()))
 			build.addParameter("flavor-text", mc.getFlavor());
 		
 		if(mc.getColors().size()==1)

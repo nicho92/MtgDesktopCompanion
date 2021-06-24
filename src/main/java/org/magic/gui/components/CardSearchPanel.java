@@ -200,7 +200,9 @@ public class CardSearchPanel extends MTGUIComponent {
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(cardsModeltable);
 		sorterCards.setComparator(7, new NumberSorter());
-
+		
+		setPreferredSize(new Dimension(1024,768));
+		
 		List<MagicEdition> li = new ArrayList<>();
 		try {
 			li = getEnabledPlugin(MTGCardsProvider.class).listEditions();

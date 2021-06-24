@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -220,6 +221,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		obj.put(dbIDField, IDGenerator.generate(mc));
 		obj.put("card", mc);
 		obj.put("collection", collection);
+		obj.put("dateUpdate", new Date().getTime());
 		obj.put("set", mc.getCurrentSet().getId().toUpperCase());
 		String json = serialize(obj);
 		

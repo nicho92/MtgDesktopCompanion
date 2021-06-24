@@ -12,9 +12,9 @@ import java.util.Map;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 
-public class MariaDBDAO extends AbstractSQLMagicDAO {
+public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 	private static final String MARIA_DUMP_PATH = "MARIA_DUMP_PATH";
 

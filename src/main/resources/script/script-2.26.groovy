@@ -4,6 +4,7 @@ if(dao.isSQL()) {
 	dao.executeQuery("ALTER TABLE sealed ADD extra VARCHAR(10)");
 	dao.executeQuery("ALTER TABLE sealed ADD collection VARCHAR(255)");
 	dao.executeQuery("ALTER TABLE sealed ADD price DECIMAL");
+	dao.executeQuery("ALTER TABLE cards ADD dateUpdate TIMESTAMP");
 	printf("--done");
 }
 else

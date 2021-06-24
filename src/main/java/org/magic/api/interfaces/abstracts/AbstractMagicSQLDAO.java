@@ -3,12 +3,10 @@ package org.magic.api.interfaces.abstracts;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -31,7 +29,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
-import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.EXTRA;
 import org.magic.api.beans.Packaging.TYPE;
 import org.magic.api.beans.SealedStock;
@@ -51,7 +48,7 @@ import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
-public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
+public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
@@ -90,14 +87,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
 		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
-		
+		stat.executeUpdate("CREATE INDEX idx_dateUpdt ON cards (dateUpdate);");
 		
 		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc);");
 		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection);");
 		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments);");
 		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage);");
-		
 		
 		stat.executeUpdate("CREATE INDEX idx_ord_idt ON orders (idTransaction);");
 		stat.executeUpdate("CREATE INDEX idx_ord_des ON orders (description);");
@@ -107,7 +103,6 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ord_tra ON orders (typeTransaction);");
 		stat.executeUpdate("CREATE INDEX idx_ord_src ON orders (sources);");
 		stat.executeUpdate("CREATE INDEX idx_ord_sel ON orders (seller);");
-		
 		
 		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name);");
 		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url);");
@@ -121,8 +116,9 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct);");
 		stat.executeUpdate("CREATE INDEX idx_sld_ext ON sealed (extra);");
 		
-		
 		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut);");
+		stat.executeUpdate("CREATE INDEX idx_trx_msg ON transactions (message);");
+		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter²);");
 		
 		stat.executeUpdate("CREATE INDEX idx_ctc_name ON contacts (contact_name);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname);");
@@ -246,7 +242,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
 			logger.debug("Create table orders");
 			
-			stat.executeUpdate("create TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"))");
+			stat.executeUpdate("create TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
 			logger.debug("Create table cards");
 			
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
@@ -749,12 +745,13 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc + " in " + collection);
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards values (?,?,?,?,?)")) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			storeCard(pst, 2, mc);
 			pst.setString(3, mc.getCurrentSet().getId());
 			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
+			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
 			pst.executeUpdate();
 		}
 	}
@@ -820,7 +817,7 @@ public abstract class AbstractSQLMagicDAO extends AbstractMagicDAO {
 					map.put(rs.getString(1), rs.getInt(2));
 			}
 		}
-		logger.debug("getCardsCountGlobal(\""+col+"\") calcuation done in " + ch.stopInMillisecond()/1000+"s");
+		logger.debug("getCardsCountGlobal(\""+col+"\") calcuation done in " + ch.stop()+"s");
 		return map;
 	}
 

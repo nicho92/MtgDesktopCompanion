@@ -12,9 +12,9 @@ import java.util.Map;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 
-public class MysqlDAO extends AbstractSQLMagicDAO {
+public class MysqlDAO extends AbstractMagicSQLDAO {
 
 	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
 

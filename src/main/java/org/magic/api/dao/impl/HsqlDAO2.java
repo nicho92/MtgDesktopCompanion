@@ -13,11 +13,11 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.interfaces.abstracts.AbstractSQLMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
 
-public class HsqlDAO2 extends AbstractSQLMagicDAO {
+public class HsqlDAO2 extends AbstractMagicSQLDAO {
 
 	private static final String MODE = "MODE";
 
