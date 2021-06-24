@@ -19,13 +19,9 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.OrderEntry.TYPE_ITEM;
 import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.dao.impl.FileDAO;
-import org.magic.api.dao.impl.HsqlDAO2;
-import org.magic.api.dao.impl.MongoDbDAO;
-import org.magic.api.dao.impl.PostgresqlDAO;
-import org.magic.api.dao.impl.SQLLiteDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 
 import test.TestTools;
 
@@ -47,14 +43,10 @@ public class DAOProviderTests {
 	@Test
 	public void launch()
 	{
-//		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
-//			testPlugin(p);	
-//		});
-		testPlugin(new PostgresqlDAO());
-		testPlugin(new HsqlDAO2());
-		testPlugin(new SQLLiteDAO());
-		testPlugin(new FileDAO());
-		testPlugin(new MongoDbDAO());
+		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
+			testPlugin(p);	
+		});
+		
 	}
 	
 	
