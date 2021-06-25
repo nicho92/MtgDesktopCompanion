@@ -64,6 +64,13 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		return "json";
 	}
 	
+	
+	@Override
+	protected String longTextStorage() {
+		return "TEXT";
+	}
+	
+	
 	@Override
 	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
 		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MagicCardStock.class);

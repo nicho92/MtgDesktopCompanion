@@ -241,7 +241,7 @@ public class CardsEditionTablePanel extends JPanel {
 					cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter() );
 					return cards;
-				} catch (IOException e) {
+				} catch (Exception e) {
 					logger.error(e);
 					return cards;
 				}
@@ -263,7 +263,8 @@ public class CardsEditionTablePanel extends JPanel {
 				} catch(InterruptedException ex)
 				{
 					Thread.currentThread().interrupt();
-				}catch (Exception e) {
+				}
+				catch (Exception e) {
 					logger.error(e);
 				}
 			}

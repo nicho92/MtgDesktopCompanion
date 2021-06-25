@@ -35,6 +35,11 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		return "json";
 	}
 
+
+	@Override
+	protected String longTextStorage() {
+		return "TEXT";
+	}
 	
 	@Override
 	protected String createListStockSQL() {

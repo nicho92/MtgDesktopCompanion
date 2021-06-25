@@ -351,6 +351,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(TYPE_LINE) != null)
 			generateTypes(mc, String.valueOf(obj.get(TYPE_LINE)));
 
+		
+		mc.setJapanese(String.valueOf(obj.get("LANG")).equals("en"));
+		
 		var n = new MagicCardNames();
 		n.setLanguage("English");
 		n.setName(mc.getName());
@@ -581,7 +584,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void generateTypes(MagicCard mc, String line) {
 
-		line = line.replaceAll("\"", "");
+		line = line.replace("\"", "");
 
 		for (String k : new String[] { "Legendary", "Basic", "Ongoing", "Snow", "World" }) {
 			if (line.contains(k)) {
@@ -595,13 +598,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (line.contains(sep)) {
 
 			for (String s : line.substring(0, line.indexOf(sep)).trim().split(" "))
-				mc.getTypes().add(s.replaceAll("\"", ""));
+				mc.getTypes().add(s.replace("\"", ""));
 
 			for (String s : line.substring(line.indexOf(sep) + 1).trim().split(" "))
 				mc.getSubtypes().add(s);
 		} else {
 			for (String s : line.split(" "))
-				mc.getTypes().add(s.replaceAll("\"", ""));
+				mc.getTypes().add(s.replace("\"", ""));
 		}
 
 	}

@@ -77,16 +77,21 @@
 				        gtag('config', data.googleAnalyticsId);
 					}
 			
+			
+				var url=restserver+"/stock/get/"+$_GET("id");
+				
+				if($_GET("product")=="SEALED")
+				{
+					url=restserver+"/sealed/get/"+$_GET("id");
+				}
+			
 		   	 
 		   	 	$.ajax({
-			        url: restserver+"/stock/get/"+$_GET("id")
+			        url: url
 			    }).then(function(stockItem){
-			    	
-		    		if(stockItem.product.scryfallId!=null)
-		    			$(".imageCard").attr('src',"https://api.scryfall.com/cards/"+stockItem.product.scryfallId+"?format=image");
-					else
-						$(".imageCard").attr('src',"https://api.scryfall.com/cards/multiverse/"+stockItem.product.editions[0].multiverseId+"?format=image");
-			    	
+			   	
+					$(".imageCard").attr('src',stockItem.url);
+				
 			    	if(percentReduction>0)
 			    	{
 			    		$("#price").html(((stockItem.price-(stockItem.price*percentReduction)).toFixed(2) +" "+currency));
@@ -97,17 +102,19 @@
 			    		$("#price").html(stockItem.price.toFixed(2) +" "+currency);	
 			    	}
 			    	
-			    	$("#productModalLabel").html(stockItem.product.name);
+			    	$("#productModalLabel").html(stockItem.productName);
 			    	$("#quantity").attr('max',stockItem.qte);
 			    	$("#cardDescription").html(stockItem.product.text);
 			    	$("#productComments").html(stockItem.comment);
-			    	var append="";
+			    	$("#productName").html(stockItem.productName);
+
+						var append="";
 			    		try{
-			    		append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.product.editions[0].keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+stockItem.product.editions[0].set+"</li><br/>";
+			    		append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.edition.keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+stockItem.edition.set+"</li><br/>";
 			    		}
 			    		catch(error)
 			    		{
-			    			append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.product.editions[0].id.toLowerCase()+" ss-2x'></i><br/>"+stockItem.product.editions[0].set+"</li><br/>";
+			    			append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.edition.id.toLowerCase()+" ss-2x'></i><br/>"+stockItem.edition.set+"</li><br/>";
 			    		}
 			    		append+="<li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+stockItem.language+"</li>";
 			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+stockItem.condition+"</li>";
@@ -217,7 +224,7 @@
             <div class="card bg-light mb-3">
                 <div class="card-body">
                 	
-                
+                 	<p class="productName" id="productName"></p>
                     <p class="price" id="price"><span class="currency"></span></p>
                     <p class="price_discounted" id="priceDiscount"><span class="currency"></span>	</p>
                     
@@ -284,7 +291,6 @@
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-images"></i> Portfolio</div>
                 <div class="card-body">
-                    mouse over the picture for details
                     <p class="card-text" id="portfolio"></p>
                 </div>
             </div>

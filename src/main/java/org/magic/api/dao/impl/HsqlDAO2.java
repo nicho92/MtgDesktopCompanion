@@ -36,6 +36,12 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 		return "LONGVARCHAR";
 	}
 	
+
+	@Override
+	protected String longTextStorage() {
+		return "LONGVARCHAR";
+	}
+	
 	@Override
 	protected String getjdbcnamedb() {
 		return "hsqldb"+(getString(MODE).isEmpty()?"":":"+getString(MODE));

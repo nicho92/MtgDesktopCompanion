@@ -133,21 +133,17 @@
 		                }
 		        	},
 	        		{ 
-			          "data": "product.name",
+			          "data": "productName",
  					  "width": "25%",
 					  "defaultContent": "<i>Not set</i>"
 		        	},
 		        	{ 
-			          "data": "typeStock",
+			          "data": "edition",
 					  "width": "25%",
 					  "defaultContent": "",
 			          "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	   if(data=="CARD")
-			                	   data="<i class='ss ss-2x ss-"+row.product.editions[0].id.toLowerCase()+"'></i> ";	
-			                	   else
-			                	   data="<i class='ss ss-2x ss-"+row.product.edition.id.toLowerCase()+"'></i> ";
-		                	 //  data=data[0].set;
+		                	    data="<i class='ss ss-2x ss-"+data.id.toLowerCase()+"'></i> ";	
 		                   }
 		                 return data;
 		              }

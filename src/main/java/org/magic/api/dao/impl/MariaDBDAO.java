@@ -33,6 +33,12 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 		return "LONGTEXT";
 	}
 
+
+	@Override
+	protected String longTextStorage() {
+		return "LONGTEXT";
+	}
+	
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());

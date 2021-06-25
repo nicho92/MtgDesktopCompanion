@@ -24,6 +24,15 @@
     font-size: 200%;
     margin-bottom: 0;
 }
+
+.add_to_cart_block .productName {
+    color: #343a40;
+    text-align: center;
+    font-weight: bold;
+    font-size: 200%;
+    margin-bottom: 0;
+}
+
 .add_to_cart_block .price_discounted {
     color: #343a40;
     text-align: center;

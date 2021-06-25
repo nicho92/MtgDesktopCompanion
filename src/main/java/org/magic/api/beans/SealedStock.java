@@ -1,7 +1,9 @@
 package org.magic.api.beans;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
+import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 
 public class SealedStock extends AbstractStockItem<Packaging>  {
 
@@ -12,32 +14,20 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 		setTypeStock(TYPESTOCK.SEALED);
 	}
 	
-	
-	
 	public SealedStock(Packaging p)
 	{
 		setProduct(p);
+	}
+	
+	
+	@Override
+	public void setProduct(Packaging product) {
+		this.product=product;
+		edition = product.getEdition();
+		url = product.getUrl();
 		setTypeStock(TYPESTOCK.SEALED);
+		setProductName(product.getType() +" "+  product.getEdition().getSet());
 	}
-	
-	public SealedStock(Packaging p, int qte)
-	{
-		setProduct(p);
-		setQte(qte);
-		setTypeStock(TYPESTOCK.SEALED);
-	}
-	
-	public SealedStock(MagicEdition e, Packaging.TYPE type,String lang,Packaging.EXTRA extra, MagicCollection magicCollection)
-	{
-		product = new Packaging();
-		product.setEdition(e);
-		product.setType(type);
-		product.setLang(lang);
-		product.setExtra(extra);
-		setProduct(product);
-		setMagicCollection(magicCollection);
-	}
-	
 	
 	public EnumStock getCondition() {
 		return condition;
@@ -48,10 +38,8 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	
 	@Override
 	public MagicEdition getEdition() {
-		return (getProduct()!=null)?getProduct().getEdition():null;
+		return (getProduct()!=null)?getProduct().getEdition():edition;
 	}
-
-	
 	
 	@Override
 	public String toString() {

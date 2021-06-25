@@ -18,11 +18,26 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected boolean updated=false;
 	protected Double price=0.0;
 	protected Grading grade;
+	protected String productName;
+	protected MagicEdition edition;
 	protected T product;
 	protected TYPESTOCK typeStock;
+	protected String url;
 	
+	public abstract void setProduct(T product);
 	
-	public abstract MagicEdition getEdition();
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public MagicEdition getEdition()
+	{
+		return edition;
+	}
 	
 	
 	public void setTypeStock(TYPESTOCK typeStock) {
@@ -38,10 +53,6 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 		return product;
 	}
 	
-	public void setProduct(T product)
-	{
-		this.product=product;
-	}
 	
 	
 	

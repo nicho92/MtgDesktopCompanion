@@ -45,6 +45,11 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	}
 	
 	@Override
+	protected String longTextStorage() {
+		return "LONGVARCHAR";
+	}
+	
+	@Override
 	protected String getjdbcnamedb() {
 		return "h2"+(getString(MODE).isEmpty()?"":":"+getString(MODE));
 	}

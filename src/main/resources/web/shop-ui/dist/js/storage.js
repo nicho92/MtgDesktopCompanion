@@ -69,7 +69,14 @@ function logout()
 
 function addCartStockId(btn,percentReduction)
 {
-	 $.getJSON(restserver+"/"+btn.attr("type")+"/get/"+btn.attr("data"),function(data) {
+	
+	var serv=btn.attr("type");
+	
+	if(serv=="CARD")
+		serv="stock";
+	
+	
+	 $.getJSON(restserver+"/"+serv.toLowerCase()+"/get/"+btn.attr("data"),function(data) {
 			data.qte=1;
 			
 			if(btn.attr("sell")=='true')

@@ -3,9 +3,9 @@ package org.magic.api.beans;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 
 public class MagicCardStock extends AbstractStockItem<MagicCard>{
 
@@ -18,20 +18,30 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 	private boolean oversize=false;
 	private Map<String,String> tiersAppIds;
 
-	
 
 	public MagicCardStock(MagicCard c) {
 		id = -1;
 		tiersAppIds = new HashMap<>();
 		setProduct(c);
-		setTypeStock(TYPESTOCK.CARD);
 	}
 	
 	public MagicCardStock() {
 		id=-1;
 		tiersAppIds= new HashMap<>();
+		setTypeStock(TYPESTOCK.CARD);		
+	}
+	
+
+	@Override
+	public void setProduct(MagicCard c) {
+		product=c;
+		setProductName(c.getName());
+		edition=c.getCurrentSet();
+		url = "https://api.scryfall.com/cards/"+(StringUtils.isBlank(product.getScryfallId())?"/multiverse/"+c.getCurrentSet().getMultiverseid():product.getScryfallId())+"?format=image";
 		setTypeStock(TYPESTOCK.CARD);
 	}
+	
+	
 	
 	@Override
 	public MagicEdition getEdition() {
