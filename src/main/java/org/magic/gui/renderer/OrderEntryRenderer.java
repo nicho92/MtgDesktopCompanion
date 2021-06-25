@@ -10,7 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 

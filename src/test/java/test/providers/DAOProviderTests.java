@@ -16,10 +16,10 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.OrderEntry.TYPE_ITEM;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 
@@ -108,7 +108,7 @@ public class DAOProviderTests {
 						oe.setSeller("Junit");
 						oe.setSource("JUNIT TEST DAO");
 						oe.setEdition(new MagicEdition("UMA"));
-						oe.setType(TYPE_ITEM.LOTS);
+						oe.setType(TYPESTOCK.LOTS);
 						oe.setTransactionDate(new Date());
 						oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
 			p.saveOrUpdateOrderEntry(oe);

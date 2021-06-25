@@ -7,7 +7,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 
 public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
-	public enum TYPESTOCK  { SEALED, CARD}
+	public enum TYPESTOCK  { SEALED, CARD,BOX,BOOSTER,FULLSET,LOTS,BUNDLE}
 
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;

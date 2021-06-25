@@ -15,10 +15,10 @@ import org.api.mkm.services.OrderService.ACTOR;
 import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.OrderEntry.TYPE_ITEM;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 
 public class MagicCardmarketShopper extends AbstractMagicShopper {
@@ -51,7 +51,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		
 		if(a.getProduct().getExpansion()!=null)
 		{
-			entrie.setType(TYPE_ITEM.CARD);
+			entrie.setType(TYPESTOCK.CARD);
 			
 			try {
 				entrie.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansion()));
@@ -61,7 +61,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		}
 		else if(a.getProduct().getEnName().toLowerCase().contains("booster box"))
 		{
-			entrie.setType(TYPE_ITEM.BOX);
+			entrie.setType(TYPESTOCK.BOX);
 		}
 		
 		return entrie;

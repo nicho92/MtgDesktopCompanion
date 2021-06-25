@@ -11,7 +11,8 @@ import org.magic.api.exports.impl.WooCommerceExport;
 public class Transaction implements Serializable {
 	public enum STAT {NEW,IN_PROGRESS,PAYMENT_WAITING,PAYMENT_SENT, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
 	public enum PAYMENT_PROVIDER {PAYPAL,VIREMENT,PAYPALME,CASH,VISA, AMEX} 
-	
+	public enum TYPE_TRANSACTION {BUY,SELL}
+
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Date dateCreation;

@@ -8,10 +8,10 @@ import java.util.Currency;
 import java.util.List;
 
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.OrderEntry.TYPE_ITEM;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
@@ -69,10 +69,10 @@ public class CardTraderShopper extends AbstractMagicShopper {
 
 
 
-	private TYPE_ITEM parseType(int idC) {
+	private TYPESTOCK parseType(int idC) {
 		switch (idC) {
-		case 1 : return TYPE_ITEM.CARD;
-		case 2 : return TYPE_ITEM.BOOSTER;
+		case 1 : return TYPESTOCK.CARD;
+		case 2 : return TYPESTOCK.BOOSTER;
 		default: return null;
 		}
 	}

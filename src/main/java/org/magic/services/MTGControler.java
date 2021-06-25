@@ -43,7 +43,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 import org.utils.patterns.observer.Observer;
 
 

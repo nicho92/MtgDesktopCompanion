@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.OrderEntry.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;

@@ -1,9 +1,7 @@
 package org.magic.api.beans;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 
 public class SealedStock extends AbstractStockItem<Packaging>  {
 

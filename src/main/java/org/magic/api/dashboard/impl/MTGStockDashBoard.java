@@ -26,8 +26,8 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
-import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 
 public class MTGStockDashBoard extends AbstractDashBoard {

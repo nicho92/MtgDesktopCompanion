@@ -1,15 +1,10 @@
 package org.magic.gui.models;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
-import java.sql.SQLException;
-
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumStock;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
 
