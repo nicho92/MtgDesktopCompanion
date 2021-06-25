@@ -1457,6 +1457,17 @@
 		<bundle lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/bOhrwktp1vu4UwamIxJO8/9c9f724a2ed32593f88cbb4ef1c7825f/EN_H1bdPCmV0z.png"/>
 	</edition>
 	
+	<edition id="C21">
+		<banner lang="en" url="https://media.mtgsalvation.com/avatars/thumbnails/281/229/320/160/637532447769315792.png"/>
+		<constructpack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/609025/files/32448914/mtg-strixhaven-commander-decks-2021.jpg"/>
+		<constructpack lang="en" num="2" url="https://cdn.shoplightspeed.com/shops/609025/files/32448878/mtg-strixhaven-commander-decks-2021.jpg"/>
+		<constructpack lang="en" num="3" url="https://cdn.shoplightspeed.com/shops/609025/files/32448898/mtg-strixhaven-commander-decks-2021.jpg"/>
+		<constructpack lang="en" num="4" url="https://cdn.shoplightspeed.com/shops/609025/files/32448935/mtg-strixhaven-commander-decks-2021.jpg"/>
+		<constructpack lang="en" num="5" url="https://cdn.shoplightspeed.com/shops/609025/files/32448944/mtg-strixhaven-commander-decks-2021.jpg"/>
+	
+	
+	</edition>
+	
 	
 	<edition id="STX">
 		<banner lang="en" url="https://youre.outof.cards/media/uploads/6f/98/6f98ac3b-0a27-4d12-b935-fd715a81cc86/en_loq0zmgx9v.png"/>

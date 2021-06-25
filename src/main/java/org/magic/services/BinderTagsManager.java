@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.services.providers.PackagesProvider;
@@ -27,6 +28,7 @@ public class BinderTagsManager {
 	int height=1;
 	int width=1;
 	private int space;
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public Dimension getDimension() {
 		return d;
@@ -66,9 +68,13 @@ public class BinderTagsManager {
 		List<BufferedImage> ims = new ArrayList<>();
 		for(String id :ids)
 		{
+			try {
 				BufferedImage im = prov.get(prov.get(new MagicEdition(id),EnumItems.BANNER).get(0));
-					ims.add(im);
-				
+				ims.add(im);
+			}catch(IndexOutOfBoundsException ioobe)
+			{
+				logger.error("No "+EnumItems.BANNER+" found for " + id);
+			}
 					
 		}
 		create(ims);
