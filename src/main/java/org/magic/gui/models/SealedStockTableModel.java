@@ -4,6 +4,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
@@ -21,7 +22,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:return Packaging.class;
-		case 1: return Packaging.TYPE.class;
+		case 1: return EnumItems.class;
 		case 2: return MagicEdition.class;
 		case 3: return String.class;
 		case 4: return EnumStock.class;

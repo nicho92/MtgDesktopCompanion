@@ -5,9 +5,10 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
-public class MagicCardStock extends AbstractStockItem<MagicCard>{
+public class MagicCardStock extends AbstractStockItem<MagicCard> {
 
 	private static final long serialVersionUID = 1L;
 	private EnumCondition condition = EnumCondition.NEAR_MINT;
@@ -28,7 +29,7 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 	public MagicCardStock() {
 		id=-1;
 		tiersAppIds= new HashMap<>();
-		setTypeStock(TYPESTOCK.CARD);		
+		setTypeStock(EnumItems.CARD);		
 	}
 	
 
@@ -38,7 +39,7 @@ public class MagicCardStock extends AbstractStockItem<MagicCard>{
 		setProductName(c.getName());
 		edition=c.getCurrentSet();
 		url = "https://api.scryfall.com/cards/"+(StringUtils.isBlank(product.getScryfallId())?"/multiverse/"+c.getCurrentSet().getMultiverseid():product.getScryfallId())+"?format=image";
-		setTypeStock(TYPESTOCK.CARD);
+		setTypeStock(EnumItems.CARD);
 	}
 	
 	

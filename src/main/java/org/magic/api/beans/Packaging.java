@@ -2,16 +2,15 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
+import org.magic.api.beans.enums.EnumItems;
+
 public class Packaging implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	public enum TYPE { BOX, BOOSTER, STARTER,BUNDLE,BANNER,CONSTRUCTPACK,PRERELEASEPACK}
 	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT}
 	
-	
-	
-	private TYPE type;
+	private EnumItems type;
 	private String lang;
 	private int num;
 	private String url;
@@ -28,10 +27,10 @@ public class Packaging implements Serializable{
 	}
 	
 	
-	public TYPE getType() {
+	public EnumItems getType() {
 		return type;
 	}
-	public void setType(TYPE type) {
+	public void setType(EnumItems type) {
 		this.type = type;
 	}
 	public String getLang() {

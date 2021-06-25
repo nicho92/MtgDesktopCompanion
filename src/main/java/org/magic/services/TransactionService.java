@@ -23,10 +23,10 @@ import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.PAYMENT_PROVIDER;
 import org.magic.api.beans.Transaction.STAT;
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
 import org.magic.servers.impl.JSONHttpServer;
@@ -93,7 +93,7 @@ public class TransactionService
 			   oe.setTransactionDate(t.getDateCreation());
 			   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
 			   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
-			   oe.setType(TYPESTOCK.CARD);
+			   oe.setType(EnumItems.CARD);
 			   oe.setUpdated(false);
 			   if(t.total()>0)								   
 				   oe.setTypeTransaction(TYPE_TRANSACTION.SELL);

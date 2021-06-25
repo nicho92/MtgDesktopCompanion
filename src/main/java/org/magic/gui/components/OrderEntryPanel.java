@@ -15,7 +15,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
@@ -31,7 +31,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	private JXDatePicker txtDateTransaction;
 	private JComboBox<MagicEdition> cboEditions;
 	private JComboBox<TYPE_TRANSACTION> cboTransactionType;
-	private JComboBox<TYPESTOCK> cboTypeItem;
+	private JComboBox<EnumItems> cboTypeItem;
 	private JComboBox<Currency> cboCurrency;
 	private OrderEntry o;
 	
@@ -76,7 +76,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		o.setShippingPrice(Double.parseDouble(txtShipPrice.getText()));
 		o.setSource(txtSource.getText());
 		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
-		o.setType((TYPESTOCK)cboTypeItem.getSelectedItem());
+		o.setType((EnumItems)cboTypeItem.getSelectedItem());
 		o.setTransactionDate(txtDateTransaction.getDate());
 		o.setUpdated(true);
 	}
@@ -111,7 +111,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		cboTransactionType = UITools.createCombobox(TYPE_TRANSACTION.values());
 		add(cboTransactionType, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 				
-		cboTypeItem = UITools.createCombobox(TYPESTOCK.values());
+		cboTypeItem = UITools.createCombobox(EnumItems.values());
 		add(cboTypeItem, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 		
 		var panelPrice = new JPanel();
@@ -152,7 +152,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		ord.setShippingPrice(UITools.parseDouble(txtShipPrice.getText()));
 		ord.setSource(txtSource.getText());
 		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
-		ord.setType((TYPESTOCK)cboTypeItem.getSelectedItem());
+		ord.setType((EnumItems)cboTypeItem.getSelectedItem());
 		ord.setTransactionDate(txtDateTransaction.getDate());
 		ord.setUpdated(true);
 		return ord;

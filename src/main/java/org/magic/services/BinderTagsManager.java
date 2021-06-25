@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.services.providers.PackagesProvider;
 import org.magic.services.providers.PackagesProvider.LOGO;
 import org.magic.tools.ImageTools;
@@ -66,7 +66,7 @@ public class BinderTagsManager {
 		List<BufferedImage> ims = new ArrayList<>();
 		for(String id :ids)
 		{
-				BufferedImage im = prov.get(prov.get(new MagicEdition(id),Packaging.TYPE.BANNER).get(0));
+				BufferedImage im = prov.get(prov.get(new MagicEdition(id),EnumItems.BANNER).get(0));
 					ims.add(im);
 				
 					

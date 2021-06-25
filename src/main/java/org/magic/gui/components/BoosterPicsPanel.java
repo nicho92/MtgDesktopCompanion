@@ -14,7 +14,7 @@ import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
-import org.magic.api.beans.Packaging.TYPE;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.providers.PackagesProvider;
@@ -62,7 +62,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 				@Override
 				protected ImageIcon doInBackground() {
 					
-					List<Packaging> l = PackagesProvider.inst().get(ed,TYPE.BOOSTER);
+					List<Packaging> l = PackagesProvider.inst().get(ed,EnumItems.BOOSTER);
 					logger.trace("loading booster :" + l);
 					l.forEach(i->
 					{

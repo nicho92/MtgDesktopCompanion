@@ -5,10 +5,10 @@ import java.io.Serializable;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumItems;
 
 public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
-	public enum TYPESTOCK  { SEALED, CARD,BOX,BOOSTER,FULLSET,LOTS,BUNDLE}
-
+	
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;
 	protected MagicCollection magicCollection;
@@ -21,7 +21,7 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected String productName;
 	protected MagicEdition edition;
 	protected T product;
-	protected TYPESTOCK typeStock;
+	protected EnumItems typeStock;
 	protected String url;
 	
 	public abstract void setProduct(T product);
@@ -40,11 +40,11 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	}
 	
 	
-	public void setTypeStock(TYPESTOCK typeStock) {
+	public void setTypeStock(EnumItems typeStock) {
 		this.typeStock = typeStock;
 	}
 	
-	public TYPESTOCK getTypeStock() {
+	public EnumItems getTypeStock() {
 		return typeStock;
 	}
 	

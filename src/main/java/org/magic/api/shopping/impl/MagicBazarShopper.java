@@ -14,9 +14,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
@@ -80,7 +80,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 					entrie.setDescription(name);
 					if(iscard)
 					{
-						entrie.setType(TYPESTOCK.CARD);
+						entrie.setType(EnumItems.CARD);
 						entrie.setDescription(e.select("div.td.name.name_mobile").text());
 						entrie.setItemPrice(UITools.parseDouble(e.attr("attribute_price")));
 						String set = e.select("div.td.ext img").attr("title");
@@ -100,13 +100,13 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 						String price =e.select("div.new_price").html().replaceAll("&nbsp;"+Currency.getInstance("EUR").getSymbol(), "").trim(); 
 						entrie.setItemPrice(UITools.parseDouble(price));
 						if(entrie.getDescription().contains("Set")||entrie.getDescription().toLowerCase().contains("collection"))
-							entrie.setType(TYPESTOCK.FULLSET);
+							entrie.setType(EnumItems.FULLSET);
 						else if(entrie.getDescription().toLowerCase().contains("booster"))
-							entrie.setType(TYPESTOCK.BOOSTER);
+							entrie.setType(EnumItems.BOOSTER);
 						else if(entrie.getDescription().toLowerCase().startsWith("boite de") || entrie.getDescription().contains("Display") )
-							entrie.setType(TYPESTOCK.BOX);
+							entrie.setType(EnumItems.BOX);
 						else
-							entrie.setType(TYPESTOCK.LOTS);
+							entrie.setType(EnumItems.LOTS);
 					}
 					notify(entrie);
 					entries.add(entrie);	

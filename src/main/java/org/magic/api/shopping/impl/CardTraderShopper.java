@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
@@ -69,10 +69,10 @@ public class CardTraderShopper extends AbstractMagicShopper {
 
 
 
-	private TYPESTOCK parseType(int idC) {
+	private EnumItems parseType(int idC) {
 		switch (idC) {
-		case 1 : return TYPESTOCK.CARD;
-		case 2 : return TYPESTOCK.BOOSTER;
+		case 1 : return EnumItems.CARD;
+		case 2 : return EnumItems.BOOSTER;
 		default: return null;
 		}
 	}

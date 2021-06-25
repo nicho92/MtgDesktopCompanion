@@ -35,10 +35,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.OrderEntryPanel;
@@ -218,10 +218,10 @@ public class OrdersGUI extends MTGUIComponent {
 								
 								List<MagicCard> toSave = new ArrayList<>();
 								
-								entries.stream().filter(o->o.getType()==TYPESTOCK.CARD || o.getType()==TYPESTOCK.FULLSET).forEach(order->{
+								entries.stream().filter(o->o.getType()==EnumItems.CARD || o.getType()==EnumItems.FULLSET).forEach(order->{
 									
 									try {
-											if(order.getType()==TYPESTOCK.CARD)
+											if(order.getType()==EnumItems.CARD)
 											{
 												List<MagicCard> l = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(order.getDescription(), order.getEdition(), false);
 												if(l.size()>1)
@@ -229,7 +229,7 @@ public class OrdersGUI extends MTGUIComponent {
 												
 												toSave.add(l.get(0));
 											}
-											else if(order.getType()==TYPESTOCK.FULLSET)
+											else if(order.getType()==EnumItems.FULLSET)
 											{
 												toSave.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
 											}

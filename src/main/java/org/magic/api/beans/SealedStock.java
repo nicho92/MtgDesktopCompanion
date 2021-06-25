@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
@@ -9,7 +10,7 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	private EnumStock condition = EnumStock.SELEAD;
 	
 	public SealedStock(){
-		setTypeStock(TYPESTOCK.SEALED);
+		setTypeStock(EnumItems.SEALED);
 	}
 	
 	public SealedStock(Packaging p)
@@ -23,7 +24,7 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 		this.product=product;
 		edition = product.getEdition();
 		url = product.getUrl();
-		setTypeStock(TYPESTOCK.SEALED);
+		setTypeStock(EnumItems.SEALED);
 		setProductName(product.getType() +" "+  product.getEdition().getSet());
 	}
 	

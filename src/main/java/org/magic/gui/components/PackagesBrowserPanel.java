@@ -13,6 +13,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
@@ -51,7 +52,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.setUserObject(ed);
 		root.removeAllChildren();
-		Arrays.asList(Packaging.TYPE.values()).forEach(t->{
+		Arrays.asList(EnumItems.values()).forEach(t->{
 			List<Packaging> pks = provider.get(ed, t);
 			logger.trace("loading " + ed + " " + pks);
 			if(!pks.isEmpty())
@@ -125,7 +126,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			var edNode = new DefaultMutableTreeNode(ed);
 			root.add(edNode);
 			
-			Arrays.asList(Packaging.TYPE.values()).forEach(t->{
+			Arrays.asList(EnumItems.values()).forEach(t->{
 				List<Packaging> pks = provider.get(ed, t);
 				if(!pks.isEmpty())
 				{

@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.EXTRA;
-import org.magic.api.beans.Packaging.TYPE;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -176,7 +176,7 @@ public class PackagesProvider {
 			if(n.item(i).getNodeType()==1)
 			{
 				var p = new Packaging();
-						  p.setType(TYPE.valueOf(n.item(i).getNodeName().toUpperCase()));
+						  p.setType(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
 						 
 						  try {
 							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
@@ -235,17 +235,17 @@ public class PackagesProvider {
 		return list;
 	}
 
-	public List<Packaging> get(MagicEdition me,TYPE t, String lang, EXTRA extra)
+	public List<Packaging> get(MagicEdition me,EnumItems t, String lang, EXTRA extra)
 	{
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang) && e.getExtra()==extra).collect(Collectors.toList());
 	}
 	
-	public List<Packaging> get(MagicEdition me,TYPE t, String lang)
+	public List<Packaging> get(MagicEdition me,EnumItems t, String lang)
 	{
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).collect(Collectors.toList());
 	}
 	
-	public List<Packaging> get(MagicEdition me,TYPE t, EXTRA extra)
+	public List<Packaging> get(MagicEdition me,EnumItems t, EXTRA extra)
 	{
 		if(extra==null)
 			return get(me,t);
@@ -253,7 +253,7 @@ public class PackagesProvider {
 		return get(me,t).stream().filter(e->e.getExtra()==extra).collect(Collectors.toList());
 	}
 	
-	public List<Packaging> get(MagicEdition me,TYPE t)
+	public List<Packaging> get(MagicEdition me,EnumItems t)
 	{
 		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());
 	}

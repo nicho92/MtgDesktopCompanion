@@ -5,7 +5,7 @@ import java.util.Currency;
 import java.util.Date;
 
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
+import org.magic.api.beans.enums.EnumItems;
 
 public class OrderEntry implements Serializable {
 
@@ -14,7 +14,7 @@ public class OrderEntry implements Serializable {
 	
 	
 	private Integer id=-1;
-	private TYPESTOCK type;
+	private EnumItems type;
 	private String description;
 	private Double itemPrice=0.0;
 	private Double shippingPrice=0.0;
@@ -87,10 +87,10 @@ public class OrderEntry implements Serializable {
 	public void setTypeTransaction(TYPE_TRANSACTION typeTransaction) {
 		this.typeTransaction = typeTransaction;
 	}
-	public TYPESTOCK getType() {
+	public EnumItems getType() {
 		return type;
 	}
-	public void setType(TYPESTOCK type) {
+	public void setType(EnumItems type) {
 		this.type = type;
 	}
 	public String getDescription() {

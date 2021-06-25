@@ -11,8 +11,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.api.interfaces.abstracts.AbstractStockItem.TYPESTOCK;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
@@ -89,7 +89,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 						entrie.setCurrency(Currency.getInstance("EUR"));
 						entrie.setTypeTransaction(TYPE_TRANSACTION.BUY);
 						entrie.setTransactionDate(date);
-						entrie.setType(TYPESTOCK.CARD);
+						entrie.setType(EnumItems.CARD);
 						entrie.setDescription(e.select("td").get(1).text());
 						entrie.setItemPrice(UITools.parseDouble(e.select("td").get(6).html().replaceAll("\u0080", "").trim()));
 					notify(entrie);
