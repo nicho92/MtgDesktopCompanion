@@ -1,7 +1,6 @@
 package org.magic.api.beans;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumCondition;
@@ -17,12 +16,11 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	private boolean signed=false;
 	private boolean altered=false;
 	private boolean oversize=false;
-	private Map<String,String> tiersAppIds;
-
+	
 
 	public MagicCardStock(MagicCard c) {
+		super();
 		id = -1;
-		tiersAppIds = new HashMap<>();
 		setProduct(c);
 	}
 	
@@ -60,18 +58,6 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	}
 
 
-	public String getTiersAppIds(String name) {
-		return tiersAppIds.get(name);
-	}
-	
-	
-	public Map<String, String> getTiersAppIds() {
-		return tiersAppIds;
-	}
-
-	public void setTiersAppIds(Map<String, String> tiersAppIds) {
-		this.tiersAppIds = tiersAppIds;
-	}
 
 	public boolean isGrade() {
 		return grade!=null;

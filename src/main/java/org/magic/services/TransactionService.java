@@ -24,9 +24,11 @@ import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.Transaction.TransactionPayementProvider;
 import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
 import org.magic.servers.impl.JSONHttpServer;
@@ -269,5 +271,18 @@ public class TransactionService
 			
 	
 	}
+
+	
+	public static boolean isWoocommerceAvailable(Transaction t) {
+		for(MTGStockItem mcs : t.getItems())
+		{	
+			if(mcs.getTiersAppIds(new WooCommerceExport().getName())==null)
+				return false;
+		}
+		
+		return true;
+	}
+	
+	
 
 }

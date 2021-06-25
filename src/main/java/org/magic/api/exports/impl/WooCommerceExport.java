@@ -413,8 +413,8 @@ public class WooCommerceExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		exportStock(importFromDeck(deck), dest);
-		
 	}
+
 	
 	@Override
 	public void initDefault() {

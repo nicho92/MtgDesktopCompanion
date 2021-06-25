@@ -54,7 +54,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSave.setEnabled(t!=null);
 		btnPaid.setEnabled(t!=null);
 		btnSend.setEnabled(t!=null);
-		btnWooCommerce.setEnabled(t!=null && t.isWoocommerceAvailable());
+		btnWooCommerce.setEnabled(t!=null && TransactionService.isWoocommerceAvailable(t));
 		btnTrack.setEnabled(t!=null && t.getStatut()==TransactionStatus.SENT);
 		btnCancel.setEnabled(t!=null  && (t.getStatut()==TransactionStatus.PAID || t.getStatut()==TransactionStatus.CANCELATION_ASK || t.getStatut()==TransactionStatus.IN_PROGRESS || t.getStatut()==TransactionStatus.PAYMENT_WAITING || t.getStatut()==TransactionStatus.NEW) );
 	}

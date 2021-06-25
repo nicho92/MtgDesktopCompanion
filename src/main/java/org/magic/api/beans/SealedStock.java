@@ -18,7 +18,6 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 		setProduct(p);
 	}
 	
-	
 	@Override
 	public void setProduct(Packaging product) {
 		this.product=product;

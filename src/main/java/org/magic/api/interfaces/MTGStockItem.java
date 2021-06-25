@@ -1,14 +1,14 @@
-package org.magic.api.interfaces.abstracts;
+package org.magic.api.interfaces;
+
+import java.io.Serializable;
+import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGShoppable;
 
-public interface MTGStockItem<T extends MTGShoppable> {
-
-	void setProduct(T product);
+public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 
 	String getProductName();
 
@@ -19,8 +19,6 @@ public interface MTGStockItem<T extends MTGShoppable> {
 	void setTypeStock(EnumItems typeStock);
 
 	EnumItems getTypeStock();
-
-	T getProduct();
 
 	void setGrade(Grading grade);
 
@@ -52,8 +50,6 @@ public interface MTGStockItem<T extends MTGShoppable> {
 
 	void setLanguage(String language);
 
-	int compareTo(MTGStockItem<T> o);
-
 	int hashCode();
 
 	boolean isUpdated();
@@ -61,5 +57,11 @@ public interface MTGStockItem<T extends MTGShoppable> {
 	void setUpdated(boolean updated);
 
 	boolean equals(Object obj);
+
+	String getTiersAppIds(String name);
+
+	void setTiersAppIds(Map<String, String> tiersAppIds);
+
+	Map<String, String> getTiersAppIds();
 
 }

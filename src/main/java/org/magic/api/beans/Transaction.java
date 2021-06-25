@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.magic.api.exports.impl.WooCommerceExport;
+import org.magic.api.interfaces.MTGStockItem;
 
 public class Transaction implements Serializable {
 	public enum TransactionStatus {NEW,IN_PROGRESS,PAYMENT_WAITING,PAYMENT_SENT, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
@@ -195,16 +196,4 @@ public class Transaction implements Serializable {
 		return currency;
 	}
 
-	public boolean isWoocommerceAvailable() {
-		for(MagicCardStock mcs : getItems())
-		{	
-			if(mcs.getTiersAppIds(new WooCommerceExport().getName())==null)
-				return false;
-		}
-		
-		return true;
-	}
-	
-	
-	
 }

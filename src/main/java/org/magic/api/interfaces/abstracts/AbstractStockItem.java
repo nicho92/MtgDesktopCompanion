@@ -1,13 +1,16 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGStockItem;
 
-public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
+public abstract class AbstractStockItem<T extends Serializable> implements MTGStockItem {
 	
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;
@@ -23,6 +26,26 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	protected T product;
 	protected EnumItems typeStock;
 	protected String url;
+	protected Map<String,String> tiersAppIds;
+	
+	protected AbstractStockItem() {
+		tiersAppIds = new HashMap<>();
+	}
+
+	@Override
+	public String getTiersAppIds(String name) {
+		return tiersAppIds.get(name);
+	}
+	
+	@Override
+	public Map<String, String> getTiersAppIds() {
+		return tiersAppIds;
+	}
+
+	@Override
+	public void setTiersAppIds(Map<String, String> tiersAppIds) {
+		this.tiersAppIds = tiersAppIds;
+	}
 	
 	public abstract void setProduct(T product);
 	
@@ -54,12 +77,13 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	
 	
 	
-	
+	@Override
 	public void setGrade(Grading grade) {
 		this.grade = grade;
 	}
 
-	
+
+	@Override
 	public Grading getGrade() {
 		return grade;
 	}
@@ -118,10 +142,6 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 		this.language = language;
 	}
 
-	@Override
-	public int compareTo(AbstractStockItem<T> o) {
-		return getId()-o.getId();
-	}
 	
 	@Override
 	public int hashCode() {
@@ -136,6 +156,10 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 		this.updated = updated;
 	}
 
+	@Override
+	public int compareTo(MTGStockItem o) {
+		return getId()-o.getId();
+	}
 	
 	
 	@Override
