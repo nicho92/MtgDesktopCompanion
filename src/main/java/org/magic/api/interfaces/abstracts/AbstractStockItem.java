@@ -6,8 +6,9 @@ import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGShoppable;
 
-public abstract class AbstractStockItem<T extends Serializable> implements Serializable, Comparable<AbstractStockItem<T>> {
+public abstract class AbstractStockItem<T extends MTGShoppable> implements Serializable, Comparable<AbstractStockItem<T>> {
 	
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;
@@ -38,7 +39,6 @@ public abstract class AbstractStockItem<T extends Serializable> implements Seria
 	{
 		return edition;
 	}
-	
 	
 	public void setTypeStock(EnumItems typeStock) {
 		this.typeStock = typeStock;

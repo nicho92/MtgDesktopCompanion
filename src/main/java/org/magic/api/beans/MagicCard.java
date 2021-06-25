@@ -1,6 +1,5 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +11,10 @@ import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.interfaces.MTGShoppable;
 import org.magic.tools.IDGenerator;
 
-public class MagicCard implements Serializable {
+public class MagicCard implements MTGShoppable {
 	private static final long serialVersionUID = 1L;
 
 	private String side="a";

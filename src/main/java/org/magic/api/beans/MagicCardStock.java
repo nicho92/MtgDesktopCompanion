@@ -37,7 +37,7 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	public void setProduct(MagicCard c) {
 		product=c;
 		setProductName(c.getName());
-		edition=c.getCurrentSet();
+		edition= c.getCurrentSet();
 		url = "https://api.scryfall.com/cards/"+(StringUtils.isBlank(product.getScryfallId())?"/multiverse/"+c.getCurrentSet().getMultiverseid():product.getScryfallId())+"?format=image";
 		setTypeStock(EnumItems.CARD);
 	}
