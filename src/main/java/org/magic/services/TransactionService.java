@@ -83,13 +83,13 @@ public class TransactionService
 	
 	
 
-	public static OrderEntry toOrder(Transaction t,MagicCardStock transactionItem)
+	public static OrderEntry toOrder(Transaction t,MTGStockItem transactionItem)
 	{
 		 
 		   var oe = new OrderEntry();
 			   oe.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-			   oe.setDescription(transactionItem.getProduct().getName());
-			   oe.setEdition(transactionItem.getProduct().getCurrentSet());
+			   oe.setDescription(transactionItem.getProductName());
+			   oe.setEdition(transactionItem.getEdition());
 			   oe.setIdTransation(String.valueOf(t.getId()));
 			   oe.setItemPrice(UITools.roundDouble(transactionItem.getPrice()));
 			   oe.setTransactionDate(t.getDateCreation());

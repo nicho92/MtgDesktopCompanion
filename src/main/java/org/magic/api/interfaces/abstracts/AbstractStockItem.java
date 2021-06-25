@@ -164,10 +164,10 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof AbstractStockItem))
+		if(!(obj instanceof MTGStockItem))
 			return false;
 		
-		return getId() == ((AbstractStockItem<?>)obj).getId();
+		return getId() == ((MTGStockItem)obj).getId();
 	}
 
 

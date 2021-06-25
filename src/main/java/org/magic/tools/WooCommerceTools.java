@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
@@ -180,7 +181,7 @@ public class WooCommerceTools {
 		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
 		
 		
-		for(MagicCardStock st : t.getItems())
+		for(MTGStockItem st : t.getItems())
 		{
 			var line = new JSONObject();
 				line.put("product_id", st.getTiersAppIds("WooCommerce"));
