@@ -43,7 +43,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.STAT;
+import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -709,7 +709,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			if(t.getContact().getId()==c.getId())
 			{
-				t.setStatut(STAT.CANCELATION_ASK);
+				t.setStatut(TransactionStatus.CANCELATION_ASK);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 				return "OK";
 			}

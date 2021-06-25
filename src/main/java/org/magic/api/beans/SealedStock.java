@@ -1,13 +1,13 @@
 package org.magic.api.beans;
 
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
 public class SealedStock extends AbstractStockItem<Packaging>  {
 
 	private static final long serialVersionUID = 1L;
-	private EnumStock condition = EnumStock.SELEAD;
+	private EnumCondition condition = EnumCondition.SELEAD;
 	
 	public SealedStock(){
 		setTypeStock(EnumItems.SEALED);
@@ -28,10 +28,10 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 		setProductName(product.getType() +" "+  product.getEdition().getSet());
 	}
 	
-	public EnumStock getCondition() {
+	public EnumCondition getCondition() {
 		return condition;
 	}
-	public void setCondition(EnumStock condition) {
+	public void setCondition(EnumCondition condition) {
 		this.condition = condition;
 	}
 	

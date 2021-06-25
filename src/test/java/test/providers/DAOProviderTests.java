@@ -16,7 +16,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGDao;
@@ -110,7 +110,7 @@ public class DAOProviderTests {
 						oe.setEdition(new MagicEdition("UMA"));
 						oe.setType(EnumItems.LOTS);
 						oe.setTransactionDate(new Date());
-						oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
+						oe.setTypeTransaction(TransactionDirection.BUY);
 			p.saveOrUpdateOrderEntry(oe);
 			oe.setItemPrice(15.0);
 			p.saveOrUpdateOrderEntry(oe);

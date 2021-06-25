@@ -9,9 +9,9 @@ import java.util.List;
 import org.magic.api.exports.impl.WooCommerceExport;
 
 public class Transaction implements Serializable {
-	public enum STAT {NEW,IN_PROGRESS,PAYMENT_WAITING,PAYMENT_SENT, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
-	public enum PAYMENT_PROVIDER {PAYPAL,VIREMENT,PAYPALME,CASH,VISA, AMEX} 
-	public enum TYPE_TRANSACTION {BUY,SELL}
+	public enum TransactionStatus {NEW,IN_PROGRESS,PAYMENT_WAITING,PAYMENT_SENT, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
+	public enum TransactionPayementProvider {PAYPAL,VIREMENT,PAYPALME,CASH,VISA, AMEX} 
+	public enum TransactionDirection {BUY,SELL}
 
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
@@ -19,12 +19,12 @@ public class Transaction implements Serializable {
 	
 	private Date datePayment;
 	private Date dateSend;
-	private PAYMENT_PROVIDER paymentProvider;
+	private TransactionPayementProvider paymentProvider;
 
 	private List<MagicCardStock> items;
 	private Contact contact;
 	private String message;
-	private STAT statut;
+	private TransactionStatus statut;
 	private String transporter;
 	private double shippingPrice;
 	private WebShopConfig config;
@@ -35,7 +35,7 @@ public class Transaction implements Serializable {
 		dateCreation = new Date();
 		items = new ArrayList<>();
 		contact=new Contact();
-		statut = STAT.NEW;
+		statut = TransactionStatus.NEW;
 	}
 	
 	public Date getDateCreation() {
@@ -74,13 +74,13 @@ public class Transaction implements Serializable {
 
 
 
-	public PAYMENT_PROVIDER getPaymentProvider() {
+	public TransactionPayementProvider getPaymentProvider() {
 		return paymentProvider;
 	}
 
 
 
-	public void setPaymentProvider(PAYMENT_PROVIDER paymentProvider) {
+	public void setPaymentProvider(TransactionPayementProvider paymentProvider) {
 		this.paymentProvider = paymentProvider;
 	}
 
@@ -136,10 +136,10 @@ public class Transaction implements Serializable {
 		this.shippingPrice = shippingPrice;
 	}
 
-	public void setStatut(STAT statut) {
+	public void setStatut(TransactionStatus statut) {
 		this.statut = statut;
 	}
-	public STAT getStatut() {
+	public TransactionStatus getStatut() {
 		return statut;
 	}
 	

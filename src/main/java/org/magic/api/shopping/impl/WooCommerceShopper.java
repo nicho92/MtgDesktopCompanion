@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
@@ -75,7 +75,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 				   oe.setSeller(obj.get("billing").getAsJsonObject().get("last_name").getAsString());
 				   oe.setSource(getString(WEBSITE));
 				   oe.setItemPrice(itemObj.get("price").getAsDouble());
-				   oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
+				   oe.setTypeTransaction(TransactionDirection.BUY);
 				   oe.setShippingPrice(obj.get("shipping_total").getAsDouble());
 				   list.add(oe);
 			}

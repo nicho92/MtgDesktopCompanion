@@ -8,7 +8,7 @@ import java.util.Currency;
 import java.util.List;
 
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -52,7 +52,7 @@ public class CardTraderShopper extends AbstractMagicShopper {
 				   ord.setSource(getName());
 				   ord.setDescription(entry.get("name").getAsString());
 				   ord.setItemPrice((double)entry.get("price_cents").getAsInt()/100);
-				   ord.setTypeTransaction(TYPE_TRANSACTION.BUY);
+				   ord.setTypeTransaction(TransactionDirection.BUY);
 				   ord.setType(parseType(entry.get("category_id").getAsInt()));
 				   try {
 					ord.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(entry.get("expansion").getAsString()));

@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.JXDatePicker;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
@@ -30,7 +30,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 	private JTextField txtidTransaction;
 	private JXDatePicker txtDateTransaction;
 	private JComboBox<MagicEdition> cboEditions;
-	private JComboBox<TYPE_TRANSACTION> cboTransactionType;
+	private JComboBox<TransactionDirection> cboTransactionType;
 	private JComboBox<EnumItems> cboTypeItem;
 	private JComboBox<Currency> cboCurrency;
 	private OrderEntry o;
@@ -75,7 +75,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		o.setItemPrice(Double.parseDouble(txtPrice.getText()));
 		o.setShippingPrice(Double.parseDouble(txtShipPrice.getText()));
 		o.setSource(txtSource.getText());
-		o.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
+		o.setTypeTransaction((TransactionDirection)cboTransactionType.getSelectedItem());
 		o.setType((EnumItems)cboTypeItem.getSelectedItem());
 		o.setTransactionDate(txtDateTransaction.getDate());
 		o.setUpdated(true);
@@ -108,7 +108,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		cboEditions = UITools.createComboboxEditions();
 		add(cboEditions, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 	
-		cboTransactionType = UITools.createCombobox(TYPE_TRANSACTION.values());
+		cboTransactionType = UITools.createCombobox(TransactionDirection.values());
 		add(cboTransactionType, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 				
 		cboTypeItem = UITools.createCombobox(EnumItems.values());
@@ -151,7 +151,7 @@ public class OrderEntryPanel extends MTGUIComponent {
 		ord.setItemPrice(UITools.parseDouble(txtPrice.getText()));
 		ord.setShippingPrice(UITools.parseDouble(txtShipPrice.getText()));
 		ord.setSource(txtSource.getText());
-		ord.setTypeTransaction((TYPE_TRANSACTION)cboTransactionType.getSelectedItem());
+		ord.setTypeTransaction((TransactionDirection)cboTransactionType.getSelectedItem());
 		ord.setType((EnumItems)cboTypeItem.getSelectedItem());
 		ord.setTransactionDate(txtDateTransaction.getDate());
 		ord.setUpdated(true);

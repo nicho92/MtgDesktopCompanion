@@ -20,9 +20,9 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.PAYMENT_PROVIDER;
-import org.magic.api.beans.Transaction.STAT;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
+import org.magic.api.beans.Transaction.TransactionPayementProvider;
+import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
@@ -96,9 +96,9 @@ public class TransactionService
 			   oe.setType(EnumItems.CARD);
 			   oe.setUpdated(false);
 			   if(t.total()>0)								   
-				   oe.setTypeTransaction(TYPE_TRANSACTION.SELL);
+				   oe.setTypeTransaction(TransactionDirection.SELL);
 			   else
-				   oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
+				   oe.setTypeTransaction(TransactionDirection.BUY);
 			   
 			   return oe;
 	}
@@ -123,7 +123,7 @@ public class TransactionService
 	
 	public static Integer newTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(STAT.NEW);
+		t.setStatut(TransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
 		int ret = saveTransaction(t,false);
 		sendMail(t,"TransactionNew","Transaction received");
@@ -164,7 +164,7 @@ public class TransactionService
 				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
-					   t.setStatut(STAT.IN_PROGRESS);
+					   t.setStatut(TransactionStatus.IN_PROGRESS);
 					   rejectsT.add(transactionItem);
 					   transactionItem.setComment("Not enought Stock ( "+stock.getQte()+"/"+transactionItem.getQte()+")");
 				}
@@ -179,7 +179,7 @@ public class TransactionService
 		
 		if(rejectsT.isEmpty() && !accepteds.isEmpty())
 		{
-			t.setStatut(STAT.PAYMENT_WAITING);
+			t.setStatut(TransactionStatus.PAYMENT_WAITING);
 			for(MagicCardStock stock : accepteds) {
 				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
@@ -190,7 +190,7 @@ public class TransactionService
 		}
 		else
 		{
-			t.setStatut(STAT.IN_PROGRESS);
+			t.setStatut(TransactionStatus.IN_PROGRESS);
 		}
 		
 		saveTransaction(t,false);
@@ -207,7 +207,7 @@ public class TransactionService
 				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdated(true);
-					   t.setStatut(STAT.CANCELED);
+					   t.setStatut(TransactionStatus.CANCELED);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 		}
 		
@@ -221,13 +221,13 @@ public class TransactionService
 	public static void payingTransaction(Transaction t, String providerName) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		
-		if(PAYMENT_PROVIDER.VIREMENT.equals(t.getPaymentProvider()) || PAYMENT_PROVIDER.PAYPALME.equals(t.getPaymentProvider()))
-			t.setStatut(STAT.PAYMENT_SENT);
+		if(TransactionPayementProvider.VIREMENT.equals(t.getPaymentProvider()) || TransactionPayementProvider.PAYPALME.equals(t.getPaymentProvider()))
+			t.setStatut(TransactionStatus.PAYMENT_SENT);
 		else
-			t.setStatut(STAT.PAID);
+			t.setStatut(TransactionStatus.PAID);
 		
 		
-		t.setPaymentProvider(PAYMENT_PROVIDER.valueOf(providerName.toUpperCase()));
+		t.setPaymentProvider(TransactionPayementProvider.valueOf(providerName.toUpperCase()));
 		t.setDatePayment(new Date());
 		saveTransaction(t,false);
 		sendMail(t,"TransactionPaid","Payment Accepted !");	
@@ -237,7 +237,7 @@ public class TransactionService
 
 	public static void sendTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(STAT.SENT);
+		t.setStatut(TransactionStatus.SENT);
 		t.setDateSend(new Date());
 		saveTransaction(t,false);
 		sendMail(t,"TransactionSent", "Shipped !");	

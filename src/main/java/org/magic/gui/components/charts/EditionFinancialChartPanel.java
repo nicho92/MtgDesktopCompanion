@@ -12,7 +12,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.charts.Abstract2DBarChart;
@@ -66,7 +66,7 @@ public class EditionFinancialChartPanel extends Abstract2DBarChart<OrderEntry> {
 	
 	private double getTotal(List<OrderEntry> order)
 	{
-		return order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.BUY).mapToDouble(OrderEntry::getItemPrice).sum()-order.stream().filter(o->o.getTypeTransaction()==TYPE_TRANSACTION.SELL).mapToDouble(OrderEntry::getItemPrice).sum();
+		return order.stream().filter(o->o.getTypeTransaction()==TransactionDirection.BUY).mapToDouble(OrderEntry::getItemPrice).sum()-order.stream().filter(o->o.getTypeTransaction()==TransactionDirection.SELL).mapToDouble(OrderEntry::getItemPrice).sum();
 	}
 
 	

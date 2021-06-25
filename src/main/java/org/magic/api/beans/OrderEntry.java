@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
 
 public class OrderEntry implements Serializable {
@@ -23,7 +23,7 @@ public class OrderEntry implements Serializable {
 	private Date transactionDate;
 	private String seller;
 	private String idTransation;
-	private TYPE_TRANSACTION typeTransaction;
+	private TransactionDirection typeTransaction;
 	private MagicEdition edition;
 	private String source;
 	private boolean updated;
@@ -81,10 +81,10 @@ public class OrderEntry implements Serializable {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public TYPE_TRANSACTION getTypeTransaction() {
+	public TransactionDirection getTypeTransaction() {
 		return typeTransaction;
 	}
-	public void setTypeTransaction(TYPE_TRANSACTION typeTransaction) {
+	public void setTypeTransaction(TransactionDirection typeTransaction) {
 		this.typeTransaction = typeTransaction;
 	}
 	public EnumItems getType() {

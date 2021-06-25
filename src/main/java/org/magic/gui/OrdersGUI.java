@@ -34,7 +34,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -375,9 +375,9 @@ public class OrdersGUI extends MTGUIComponent {
 						
 						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() +" " + o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue) + " VALUE="+UITools.formatDouble(actualValue) + " : " + spc +"%");
 						if(actualValue<paidValue)
-							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
+							lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
 						else if(actualValue>paidValue)
-							lblComparator.setIcon((o.getTypeTransaction()==TYPE_TRANSACTION.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
+							lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
 						else
 							lblComparator.setIcon(null);
 						} catch (IOException e1) {
@@ -455,7 +455,7 @@ public class OrdersGUI extends MTGUIComponent {
 
 		for(OrderEntry e : entries)
 		{
-			if(e.getTypeTransaction().equals(TYPE_TRANSACTION.BUY))
+			if(e.getTypeTransaction().equals(TransactionDirection.BUY))
 				totalB=totalB+e.getItemPrice();
 			else
 				totalS=totalS+e.getItemPrice();

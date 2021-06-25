@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
@@ -64,7 +64,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 								oe.setDescription(tr.select("td").get(2-index).text());
 								oe.setItemPrice(UITools.parseDouble(tr.select("td").get(5-index).text().replaceAll("\\€", "")));
 								oe.setTransactionDate(UITools.parseDate(date, "MM/dd/yyyy"));
-								oe.setTypeTransaction(TYPE_TRANSACTION.BUY);
+								oe.setTypeTransaction(TransactionDirection.BUY);
 					if(oe.getItemPrice()>0)
 						ret.add(oe);
 					

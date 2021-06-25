@@ -10,7 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
@@ -43,7 +43,7 @@ public class OrderEntryRenderer implements TableCellRenderer {
 		try {
 			if(value instanceof Double)
 			{	
-				if (o.getTypeTransaction()==TYPE_TRANSACTION.BUY)
+				if (o.getTypeTransaction()==TransactionDirection.BUY)
 				{
 					comp.setIcon(MTGConstants.ICON_OUT);
 				}

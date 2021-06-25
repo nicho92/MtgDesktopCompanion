@@ -15,7 +15,7 @@ import org.api.mkm.services.OrderService.ACTOR;
 import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -36,7 +36,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 	}
 	
 	
-	private OrderEntry toOrder(LightArticle a, Order o,TYPE_TRANSACTION t)
+	private OrderEntry toOrder(LightArticle a, Order o,TransactionDirection t)
 	{
 		var entrie = new OrderEntry();
 		entrie.setIdTransation(""+o.getIdOrder());
@@ -76,11 +76,11 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		List<OrderEntry> entries = new ArrayList<>();
 		var serv = new OrderService();
 		
-		serv.listOrders(ACTOR.buyer, STATE.bought, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY))));
-		serv.listOrders(ACTOR.buyer, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY))));
-		serv.listOrders(ACTOR.buyer, STATE.paid, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.BUY))));
-		serv.listOrders(ACTOR.seller, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.SELL))));
-		serv.listOrders(ACTOR.seller, STATE.sent, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TYPE_TRANSACTION.SELL))));
+		serv.listOrders(ACTOR.buyer, STATE.bought, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.BUY))));
+		serv.listOrders(ACTOR.buyer, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.BUY))));
+		serv.listOrders(ACTOR.buyer, STATE.paid, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.BUY))));
+		serv.listOrders(ACTOR.seller, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.SELL))));
+		serv.listOrders(ACTOR.seller, STATE.sent, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.SELL))));
 	
 		return entries;
 	}

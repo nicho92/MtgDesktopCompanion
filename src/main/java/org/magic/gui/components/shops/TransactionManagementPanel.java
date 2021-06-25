@@ -18,7 +18,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.STAT;
+import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
@@ -50,13 +50,13 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	public void setTransaction(Transaction t)
 	{
 		this.t=t;
-		btnAcceptTransaction.setEnabled(t!=null && (t.getStatut()==STAT.NEW||t.getStatut()==STAT.IN_PROGRESS||t.getStatut()==STAT.CANCELED));
+		btnAcceptTransaction.setEnabled(t!=null && (t.getStatut()==TransactionStatus.NEW||t.getStatut()==TransactionStatus.IN_PROGRESS||t.getStatut()==TransactionStatus.CANCELED));
 		btnSave.setEnabled(t!=null);
 		btnPaid.setEnabled(t!=null);
 		btnSend.setEnabled(t!=null);
 		btnWooCommerce.setEnabled(t!=null && t.isWoocommerceAvailable());
-		btnTrack.setEnabled(t!=null && t.getStatut()==STAT.SENT);
-		btnCancel.setEnabled(t!=null  && (t.getStatut()==STAT.PAID || t.getStatut()==STAT.CANCELATION_ASK || t.getStatut()==STAT.IN_PROGRESS || t.getStatut()==STAT.PAYMENT_WAITING || t.getStatut()==STAT.NEW) );
+		btnTrack.setEnabled(t!=null && t.getStatut()==TransactionStatus.SENT);
+		btnCancel.setEnabled(t!=null  && (t.getStatut()==TransactionStatus.PAID || t.getStatut()==TransactionStatus.CANCELATION_ASK || t.getStatut()==TransactionStatus.IN_PROGRESS || t.getStatut()==TransactionStatus.PAYMENT_WAITING || t.getStatut()==TransactionStatus.NEW) );
 	}
 	
 	
@@ -127,7 +127,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				
 				if(ret.isFinished())
 				{
-					t.setStatut(STAT.CLOSED);
+					t.setStatut(TransactionStatus.CLOSED);
 					TransactionService.saveTransaction(t,false);
 					MTGControler.getInstance().notify(new MTGNotification(TRACKING, "Delivery OK", MESSAGE_TYPE.INFO));
 				}
@@ -192,7 +192,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				@Override
 				protected void notifyEnd() {
 					
-					if(t.getStatut()!=STAT.CANCELED)
+					if(t.getStatut()!=TransactionStatus.CANCELED)
 					{
 						MTGControler.getInstance().notify(new MTGNotification("Error Update", getResult().toString(),MESSAGE_TYPE.WARNING));
 					}
@@ -215,7 +215,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				@Override
 				protected void notifyEnd() {
 					
-					if(t.getStatut()==STAT.IN_PROGRESS)
+					if(t.getStatut()==TransactionStatus.IN_PROGRESS)
 					{
 						MTGControler.getInstance().notify(new MTGNotification("Error Update", getResult().toString(),MESSAGE_TYPE.WARNING));
 					}

@@ -9,7 +9,7 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
@@ -74,7 +74,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				e.setSource(getName());
 				e.setCurrency(Currency.getInstance("EUR"));
 				e.setIdTransation(id);
-				e.setTypeTransaction(TYPE_TRANSACTION.BUY);
+				e.setTypeTransaction(TransactionDirection.BUY);
 				e.setTransactionDate(UITools.parseDate(date,"dd/MM/yy"));
 				e.setDescription(detail.get(i).select("td").get(0).text());
 				e.setItemPrice(UITools.parseDouble(detail.get(i).select("td").get(3).text().replace("€", "")));

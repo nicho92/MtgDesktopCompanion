@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -75,7 +75,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 					entrie.setSource(getName());
 					entrie.setCurrency(Currency.getInstance("EUR"));
 					entrie.setSeller(getName());
-					entrie.setTypeTransaction(TYPE_TRANSACTION.BUY);
+					entrie.setTypeTransaction(TransactionDirection.BUY);
 					entrie.setTransactionDate(date);
 					entrie.setDescription(name);
 					if(iscard)

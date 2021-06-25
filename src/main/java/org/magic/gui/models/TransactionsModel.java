@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.STAT;
+import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.MTG;
@@ -27,7 +27,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		getItemAt(row).setStatut(STAT.valueOf(aValue.toString()));
+		getItemAt(row).setStatut(TransactionStatus.valueOf(aValue.toString()));
 		
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(getItemAt(row));
@@ -80,7 +80,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 			return Double.class;
 		
 		if(columnIndex==7)
-			return STAT.class;
+			return TransactionStatus.class;
 		
 		return super.getColumnClass(columnIndex);
 	}

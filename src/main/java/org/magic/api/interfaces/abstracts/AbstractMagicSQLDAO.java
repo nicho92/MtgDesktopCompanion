@@ -30,12 +30,11 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.Packaging.EXTRA;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.PAYMENT_PROVIDER;
-import org.magic.api.beans.Transaction.STAT;
-import org.magic.api.beans.Transaction.TYPE_TRANSACTION;
+import org.magic.api.beans.Transaction.TransactionDirection;
+import org.magic.api.beans.Transaction.TransactionPayementProvider;
+import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.EnumStock;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
@@ -408,7 +407,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setMessage(rs.getString("message"));
 		
 		state.setItems(readTransactionItems(rs));
-		state.setStatut(STAT.valueOf(rs.getString("statut")));
+		state.setStatut(TransactionStatus.valueOf(rs.getString("statut")));
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		state.setCurrency(rs.getString("currency"));
@@ -419,7 +418,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		var pp = rs.getString("paymentProvider");
 		if(pp!=null)
-			state.setPaymentProvider(PAYMENT_PROVIDER.valueOf(pp));
+			state.setPaymentProvider(TransactionPayementProvider.valueOf(pp));
 		
 		
 		
@@ -1290,7 +1289,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				state.setItemPrice(rs.getDouble("itemPrice"));
 				state.setShippingPrice(rs.getDouble("shippingPrice"));
 				state.setType(EnumItems.valueOf(rs.getString("typeItem")));
-				state.setTypeTransaction(TYPE_TRANSACTION.valueOf(rs.getString("typeTransaction")));
+				state.setTypeTransaction(TransactionDirection.valueOf(rs.getString("typeTransaction")));
 				state.setSource(rs.getString("sources"));
 				state.setSeller(rs.getString("seller"));
 				state.setUpdated(false);
@@ -1451,7 +1450,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setComment(rs.getString("comment"));
 		state.setId(rs.getInt("id"));
 		state.setQte(rs.getInt("qte"));
-		state.setCondition(EnumStock.valueOf(rs.getString("conditionProduct")));
+		state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
 		state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 		state.setPrice(rs.getDouble("price"));
 

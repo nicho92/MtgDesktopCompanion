@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.STAT;
+import org.magic.api.beans.Transaction.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -177,7 +177,7 @@ public class WooCommerceTools {
 		obj.put("billing", contact);
 		obj.put("shipping", contact);
 		obj.put("line_items", items);
-		obj.put("set_paid", t.getStatut().equals(STAT.PAID));
+		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
 		
 		
 		for(MagicCardStock st : t.getItems())
