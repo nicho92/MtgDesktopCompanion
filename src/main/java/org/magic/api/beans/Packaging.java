@@ -3,9 +3,8 @@ package org.magic.api.beans;
 import java.io.Serializable;
 
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGShoppable;
 
-public class Packaging implements MTGShoppable{
+public class Packaging implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
