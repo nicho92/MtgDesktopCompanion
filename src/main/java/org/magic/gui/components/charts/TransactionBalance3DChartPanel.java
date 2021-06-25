@@ -5,8 +5,8 @@ import org.jfree.chart3d.data.DefaultKeyedValues;
 import org.jfree.chart3d.data.category.CategoryDataset3D;
 import org.jfree.chart3d.data.category.StandardCategoryDataset3D;
 import org.jfree.chart3d.plot.CategoryPlot3D;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.charts.Abstract3DBarChart;
 
 public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transaction,String,Double, String> {
@@ -24,7 +24,7 @@ public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transacti
 		
 		
 		for (Transaction t : items)
-			for(MagicCardStock mcs : t.getItems())
+			for(MTGStockItem mcs : t.getItems())
 				{
 					if(mcs.getPrice()>0)
 						serieB.put(BALANCE,serieB.getValue(BALANCE)+(mcs.getPrice()*mcs.getQte()));
