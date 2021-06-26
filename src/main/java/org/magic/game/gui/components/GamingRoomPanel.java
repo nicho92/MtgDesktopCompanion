@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.NetworkClient;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.MinaClient;
@@ -61,7 +61,7 @@ public class GamingRoomPanel extends JPanel {
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JXTable table;
-	private transient NetworkClient client;
+	private transient MTGNetworkClient client;
 	private PlayerTableModel mod;
 	private JTextField txtName;
 	private JList<AbstractNetworkAction> list = new JList<>(new DefaultListModel<>());

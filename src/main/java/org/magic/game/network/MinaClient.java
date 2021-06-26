@@ -11,7 +11,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.NetworkClient;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.actions.ChangeDeckAction;
@@ -24,7 +24,7 @@ import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.utils.patterns.observer.Observable;
 
-public class MinaClient  extends Observable implements NetworkClient {
+public class MinaClient  extends Observable implements MTGNetworkClient {
 
 	private IoConnector connector;
 	private IoSession session;

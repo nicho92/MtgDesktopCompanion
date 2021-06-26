@@ -9,7 +9,7 @@ import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.utils.patterns.observer.Observer;
 
-public interface NetworkClient {
+public interface MTGNetworkClient {
 
 	
 	Player getPlayer();
