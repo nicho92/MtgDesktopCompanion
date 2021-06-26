@@ -85,10 +85,9 @@ import spark.route.HttpMethod;
 public class JSONHttpServer extends AbstractMTGServer {
 
 	private static final String COLLECTION = ":collection";
-	private static final String ID_SET2 = ":idSet";
+	private static final String ID_SET = ":idSet";
 	private static final String ENABLE_SSL = "ENABLE_SSL";
 	private static final String NAME = ":name";
-	private static final String ID_SET = ID_SET2;
 	private static final String ID_ED = ":idEd";
 	private static final String ID_CARDS = ":idCards";
 	private static final String PASSTOKEN = "PASSWORD-TOKEN";
@@ -517,7 +516,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<Object> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(mcs->mcs.getProduct().getCurrentSet()).distinct().sorted().collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(MagicCardStock::getEdition).distinct().sorted().collect(Collectors.toList());
 				}
 			})
 		, transformer);
@@ -527,7 +526,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<Object> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getProduct().getCurrentSet().getId().equalsIgnoreCase(request.params(ID_SET2))).collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).collect(Collectors.toList());
 				}
 			})
 		, transformer);

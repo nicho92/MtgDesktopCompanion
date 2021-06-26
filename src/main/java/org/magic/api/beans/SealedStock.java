@@ -7,10 +7,11 @@ import org.magic.api.interfaces.abstracts.AbstractStockItem;
 public class SealedStock extends AbstractStockItem<Packaging>  {
 
 	private static final long serialVersionUID = 1L;
-	private EnumCondition condition = EnumCondition.SELEAD;
+	private EnumCondition condition;
 	
 	public SealedStock(){
 		setTypeStock(EnumItems.SEALED);
+		setCondition(EnumCondition.SELEAD);
 	}
 	
 	public SealedStock(Packaging p)
@@ -32,11 +33,6 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	}
 	public void setCondition(EnumCondition condition) {
 		this.condition = condition;
-	}
-	
-	@Override
-	public MagicEdition getEdition() {
-		return (getProduct()!=null)?getProduct().getEdition():edition;
 	}
 	
 	@Override
