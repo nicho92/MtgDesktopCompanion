@@ -175,11 +175,12 @@ public class Transaction implements Serializable {
 	public void setDateProposition(Date dateProposition) {
 		this.dateCreation = dateProposition;
 	}
+	
 	public List<MagicCardStock> getItems() {
 		return items;
 	}
-	public void setItems(List<MagicCardStock> proposition) {
-		this.items = proposition;
+	public void setItems(List<MagicCardStock> items) {
+		this.items = items;
 	}
 	public Contact getContact() {
 		return contact;

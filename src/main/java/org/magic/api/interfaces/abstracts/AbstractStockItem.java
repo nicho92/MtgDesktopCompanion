@@ -32,6 +32,15 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 		tiersAppIds = new HashMap<>();
 	}
 
+	
+	public abstract void setProduct(T product);
+
+	public T getProduct() {
+		return product;
+	}
+	
+		
+	
 	@Override
 	public String getTiersAppIds(String name) {
 		return tiersAppIds.get(name);
@@ -47,35 +56,29 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 		this.tiersAppIds = tiersAppIds;
 	}
 	
-	public abstract void setProduct(T product);
-	
+	@Override
 	public String getProductName() {
 		return productName;
 	}
-
+	
+	@Override
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-
+	
+	@Override
 	public MagicEdition getEdition()
 	{
 		return edition;
 	}
-	
+	@Override
 	public void setTypeStock(EnumItems typeStock) {
 		this.typeStock = typeStock;
 	}
-	
+	@Override
 	public EnumItems getTypeStock() {
 		return typeStock;
 	}
-	
-	
-	public T getProduct() {
-		return product;
-	}
-	
-	
 	
 	@Override
 	public void setGrade(Grading grade) {
@@ -93,51 +96,51 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 		return String.valueOf(getId());
 	}
 	
-	
+	@Override
 	public Double getPrice() {
 		return price;
 	}
-
+	@Override
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
+	@Override
 	public Integer getId() {
 		return id;
 	}
-
+	@Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Override
 	public MagicCollection getMagicCollection() {
 		return magicCollection;
 	}
-
+	@Override
 	public void setMagicCollection(MagicCollection magicCollection) {
 		this.magicCollection = magicCollection;
 	}
-
+	@Override
 	public Integer getQte() {
 		return qte;
 	}
-
+	@Override
 	public void setQte(Integer qte) {
 		this.qte = qte;
 	}
-
+	@Override
 	public String getComment() {
 		return comment;
 	}
-
+	@Override
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
+	@Override
 	public String getLanguage() {
 		return language;
 	}
-
+	@Override
 	public void setLanguage(String language) {
 		this.language = language;
 	}
@@ -151,7 +154,7 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 	public boolean isUpdated() {
 		return updated;
 	}
-	
+	@Override
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
 	}
