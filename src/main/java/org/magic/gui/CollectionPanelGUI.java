@@ -78,6 +78,7 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 @SuppressWarnings("rawtypes")
@@ -1015,14 +1016,24 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			var edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			
 			try {
-				for(MagicCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
-				{
-					MagicCardStock st = MTGControler.getInstance().getDefaultStock();
-					st.setProduct(mc);
-					st.setMagicCollection(col);
-					
-					getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
-				}
+				var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition);
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(progressBar,getEnabledPlugin(MTGDao.class),cards.size()) {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+							for(MagicCard mc : cards)
+							{
+								MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+								st.setProduct(mc);
+								st.setMagicCollection(col);
+								plug.saveOrUpdateStock(st);
+							}
+							return null;
+					}
+				};
+				
+				ThreadManager.getInstance().runInEdt(sw, "Stock updating");
+				
 			} catch (SQLException e1) {
 				logger.error(e1);
 			}
