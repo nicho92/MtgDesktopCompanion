@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -270,7 +271,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			
 			
 			return true;
-		} catch (SQLException e) {
+		} catch (SQLIntegrityConstraintViolationException e) {
+			logger.debug("database already created");
+			return false;
+		}
+		catch (SQLException e) {
 			logger.error(e);
 			return false;
 		}
