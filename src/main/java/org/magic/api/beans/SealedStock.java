@@ -25,6 +25,7 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 		edition = product.getEdition();
 		url = product.getUrl();
 		setTypeStock(EnumItems.SEALED);
+		setCondition(EnumCondition.SELEAD);
 		setProductName(product.getType() +" "+  product.getEdition().getSet());
 	}
 	

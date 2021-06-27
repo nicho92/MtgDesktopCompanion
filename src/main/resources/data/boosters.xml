@@ -1431,13 +1431,13 @@
 	<edition id="KHM">
 		<banner lang="en" num="1" url="http://www.magiccorporation.com/images/magic/editions/maxi/kaldheim.png"/>
 		<banner lang="en" num="2" url="https://i1.wp.com/www.paperorplastic.net/wp-content/uploads/2020/12/MTGKHM_EN_Metal-Black-square.png"/>
-		<booster lang="en" num="1" url="https://media.mtgsalvation.com/attachments/173/863/637435662991826107.png"/>
-		<booster lang="en" num="2" url="https://www.oeufcube.com/image/upload/BooMag_16429.jpg"/>
-		<booster lang="en" num="4" url="https://media.wizards.com/2020/images/daily/fr_n71l8BC0uy.png"/>
+		<booster lang="en" extra="draft" num="1" url="https://media.mtgsalvation.com/attachments/173/863/637435662991826107.png"/>
+		<booster lang="en" extra="draft" num="2" url="https://www.oeufcube.com/image/upload/BooMag_16429.jpg"/>
+		<booster lang="en" extra="collector" num="4" url="https://media.wizards.com/2020/images/daily/fr_n71l8BC0uy.png"/>
 		
-		<box lang="en" num="1" url="https://media.wizards.com/2020/images/daily/en_za6ZgVv9lt.png"/>
-		<box lang="en" num="2" url="https://media.wizards.com/2020/images/daily/en_X8xhGNF2iD.png"/>
-		<box lang="en" num="3" url="https://cdn.shoplightspeed.com/shops/609025/files/28823694/kaldheim-collector-booster-box.jpg"/>
+		<box lang="en" extra="draft" num="1" url="https://media.wizards.com/2020/images/daily/en_za6ZgVv9lt.png"/>
+		<box lang="en" extra="set" num="2" url="https://media.wizards.com/2020/images/daily/en_X8xhGNF2iD.png"/>
+		<box lang="en" extra="collector" num="3" url="https://cdn.shoplightspeed.com/shops/609025/files/28823694/kaldheim-collector-booster-box.jpg"/>
 		<bundle lang="en" num="1" url="https://media.wizards.com/2020/images/daily/en_zZXllqZci4.png"/>
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2020/images/daily/en_aQnbwBQtDG.png"/>
 	</edition>
