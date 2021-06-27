@@ -1006,19 +1006,18 @@
 		<banner lang='en' url="http://mtgen.net/soi/images/logo-word.png"/>
 	</edition>
 	<edition id='EMA'>
-		
 			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/EMA/en/sealed/EMABoosterPack.jpg"/>
 			<booster lang='en' num='2' url="http://magicsur.cl/1536-large_default/mtg-magic-sobres-boosters-de-eternal-masters-edition-2016-santiago.jpg"/>
 			<booster lang='en' num='3' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/114833_200w.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/ema/images/logo-word.png"/>
-		<box lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_EMA_BstrDisp_carousel.png"/>
+			<banner lang='en' url="http://mtgen.net/ema/images/logo-word.png"/>
+			<box lang='en' url="https://media.magic.wizards.com/images/featured/EN_EMA_BstrDisp_carousel.png"/>
 	</edition>
 	<edition id='EMN'>
-		
-			<booster lang='en' num='1' url="https://www.svenskamagic.com/bilder/boosters/eldritchmoon.booster.jpg"/>
-		
+		<booster lang='en' num='1' url="https://www.svenskamagic.com/bilder/boosters/eldritchmoon.booster.jpg"/>
 		<banner lang='en' url="http://mtgen.net/emn/images/logo-word.png"/>
+		<box lang="en" num="1" url="https://cdn.shopify.com/s/files/1/2029/9579/products/Eldritch_Moon_Booster_Box_1200x1200.png?v=1610316780"/>
+		<bundle lang="en" num="1" url="https://media.magic.wizards.com/images/featured/jqhwjh_EN_EMN_FtPkSlv.png"/>
+		<prereleasepack lang="en" url="https://media.mtgsalvation.com/attachments/155/32/636028919814789616.png"/>
 	</edition>
 	<edition id='V16'>
 		
