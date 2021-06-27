@@ -128,14 +128,12 @@ public class MagicGUI extends JFrame {
 		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
 		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
-		var mntmFilePackageExplorer = new JMenuItem(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE);
 		var mntmFileScript = new JMenuItem(capitalize("SCRIPT"),MTGConstants.ICON_SCRIPT);
 		
 		
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
-		mnFile.add(mntmFilePackageExplorer);
 		mnFile.add(mntmFileScript);
 		mnFile.add(mntmExit);
 		mtgMnuBar.add(mnuAbout);
@@ -152,25 +150,13 @@ public class MagicGUI extends JFrame {
 			dow.setVisible(true);
 		});
 		
-		mntmFilePackageExplorer.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> {
-			
-			var pane = new PackagesBrowserPanel(true);
-			pane.initTree();
-			var j = MTGUIComponent.createJDialog(pane, true, false);
-			pane.setPreferredSize(new Dimension(1024, 768));
-			j.setVisible(true);
-			
-		}));
-		
 		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true)));
 		
 		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true)));
 
 		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true)));
 
-		mntmThreadItem.addActionListener(e ->
-
-		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true)));
+		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true)));
 
 		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
 
