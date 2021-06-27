@@ -70,7 +70,7 @@ import org.magic.tools.URLTools;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.gson.Gson;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -702,7 +702,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
 			
-			Contact c=new Gson().fromJson(request.queryParams("user"), Contact.class);
+			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
 			
 			var t = getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
 			
@@ -722,14 +722,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			
-			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+			Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
 			
 			return TransactionService.newTransaction(t);
 		});
 	
 		post("/transaction/paid/:provider", URLTools.HEADER_JSON, (request, response) -> {
 			
-			Transaction t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+			Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
 			TransactionService.payingTransaction(t,request.params(":provider"));
 			
 			return "ok";
@@ -737,13 +737,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {
 			
-			Contact c=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
+			Contact c=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
 			return getEnabledPlugin(MTGDao.class).listTransactions(c);
 		}, transformer);
 
 		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
 			
-			Contact t=new Gson().fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
+			Contact t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
 			
 			
 			if(t.getId()<=0)

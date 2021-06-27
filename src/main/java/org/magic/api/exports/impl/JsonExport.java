@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,6 +76,13 @@ public class JsonExport extends AbstractCardExport {
 	{
 		return gson.fromJson(s, classe);
 	}
+	
+
+	public <T> T fromJson(Reader reader, Class<T> classItem) {
+		return gson.fromJson(reader, classItem);
+	}
+
+	
 	
 	
 	public <T> List<T> fromJsonList(String s,Class<T> classe)
