@@ -9,7 +9,7 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TransactionDirection;
+import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;

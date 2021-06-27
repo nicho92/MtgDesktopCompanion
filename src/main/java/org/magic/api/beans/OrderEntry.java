@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-import org.magic.api.beans.Transaction.TransactionDirection;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.TransactionDirection;
 
 public class OrderEntry implements Serializable {
 

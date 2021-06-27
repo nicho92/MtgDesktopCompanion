@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Transaction.TransactionDirection;
+import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;

@@ -43,7 +43,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.TransactionStatus;
+import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -70,7 +70,6 @@ import org.magic.tools.URLTools;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

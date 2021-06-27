@@ -1470,7 +1470,7 @@
 	
 	
 	<edition id="STX">
-		<banner lang="en" url="https://youre.outof.cards/media/uploads/6f/98/6f98ac3b-0a27-4d12-b935-fd715a81cc86/en_loq0zmgx9v.png"/>
+		<banner lang="en" url="http://www.parkage.com/files/img/products/magic/stx/strixhaven.png"/>
 		<box lang="en" num="1" extra="collector" url="https://www.candlekeep.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Clctr_01_01-324x324.png"/>
 		<box lang="en" num="2" extra="draft" url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Drft_01_03.png"/>
 		<box lang="en" num="3" extra="set" url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Set_01_01.png"/>
@@ -1496,7 +1496,7 @@
 		<banner lang="en" url="http://www.magiccorporation.com/images/magic/editions/maxi/strixhaven_mystical_archive.png"/>
 	</edition>
 	<edition id="MH2">
-		<banner lang="en" url="https://images.ctfassets.net/s5n2t79q9icq/3MCTCAGgwHWD2grLaTejLq/add1d4a1394be3d6fee14209583dbfaa/en_eFl6Q1xO8X.png"/>
+		<banner lang="en" url="https://www.cardkingdom.com/media/upload/about/MH2.png"/>
 		<prereleasepack lang="en" url="https://cdn11.bigcommerce.com/s-9im8f1/images/stencil/1280x1280/products/9180/11985/MTGMH2_EN_Prrls_Slv_01_01__64864.1620341393.png"/>
 		<box lang="en" extra="set" num="1" url="https://cdn.shopify.com/s/files/1/0266/9513/9533/products/MTGMH2_EN_BstrDsp_Set_01_01_1024x.png"/>
 		<box lang="en" extra="collector" num="2" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/9/94/MH2_Collector_Booster.png"/>

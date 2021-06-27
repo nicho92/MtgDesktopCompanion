@@ -18,7 +18,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.Transaction.TransactionStatus;
+import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;

@@ -6,31 +6,26 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.exports.impl.WooCommerceExport;
-import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.beans.enums.TransactionPayementProvider;
+import org.magic.api.beans.enums.TransactionStatus;
 
 public class Transaction implements Serializable {
-	public enum TransactionStatus {NEW,IN_PROGRESS,PAYMENT_WAITING,PAYMENT_SENT, REFUSED,PAID,SENT, CLOSED, CANCELED,CANCELATION_ASK } 
-	public enum TransactionPayementProvider {PAYPAL,VIREMENT,PAYPALME,CASH,VISA, AMEX} 
-	public enum TransactionDirection {BUY,SELL}
-
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Date dateCreation;
-	
 	private Date datePayment;
 	private Date dateSend;
-	private TransactionPayementProvider paymentProvider;
-
-	private List<MagicCardStock> items;
 	private Contact contact;
 	private String message;
-	private TransactionStatus statut;
+	private List<MagicCardStock> items;
 	private String transporter;
 	private double shippingPrice;
 	private WebShopConfig config;
 	private String transporterShippingCode;
 	private Currency currency;
+
+	private TransactionPayementProvider paymentProvider;
+	private TransactionStatus statut;
 	
 	public Transaction() {
 		dateCreation = new Date();
@@ -42,8 +37,6 @@ public class Transaction implements Serializable {
 	public Date getDateCreation() {
 		return dateCreation;
 	}
-
-
 
 	public void setDateCreation(Date dateCreation) {
 		this.dateCreation = dateCreation;
