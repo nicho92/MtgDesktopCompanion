@@ -45,7 +45,6 @@ public class SealedStockGUI extends MTGUIComponent {
 	private SealedStockTableModel model;
 	private Packaging selectedItem;
 	private SealedStock selectedStock;
-	private AbstractBuzyIndicatorComponent buzy;
 	private RSyntaxTextArea textEditor;
 	
 	public SealedStockGUI() {
@@ -59,7 +58,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		JXTable table = UITools.createNewTable(model);
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
-		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
+		var buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		textEditor = new RSyntaxTextArea();
 		textEditor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
 		textEditor.setWrapStyleWord(true);

@@ -1191,15 +1191,15 @@
 	</edition>
 	
 	<edition id='M19'>
-			<booster lang='fr' num='1' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_01_02-1024x1024.png"/>
-			<booster lang='fr' num='2' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_02_02-1024x1024.png"/>
-			<booster lang='fr' num='3' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_03_02-1024x1024.png"/>
-			<booster lang='fr' num='4' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_04_02-1024x1024.png"/>
-			<booster lang='fr' num='5' url="https://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_05_02-1024x1024.png"/>
+			<booster lang='fr' num='1' url="https://www.lataniere.fr/wp-content/uploads/2018/06/Ajani-booster-M19-Magic-jeux-Toulon-L-Ataniere.png"/>
+			<booster lang='fr' num='2' url="https://www.lataniere.fr/wp-content/uploads/2018/06/Tezzeret-booster-M19-Magic-jeux-Toulon-L-Ataniere.png"/>
+			<booster lang='fr' num='3' url="https://www.lataniere.fr/wp-content/uploads/2018/06/Liliana-booster-M19-Magic-jeux-Toulon-L-Ataniere.png"/>
+			<booster lang='fr' num='4' url="https://www.lataniere.fr/wp-content/uploads/2018/06/Sarkhan-booster-M19-Magic-jeux-Toulon-L-Ataniere.png"/>
+			<booster lang='fr' num='5' url="https://www.lataniere.fr/wp-content/uploads/2018/06/Vivien-booster-M19-Magic-jeux-Toulon-L-Ataniere.png"/>
 			<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png"/>
 			<box lang='en' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg"/>
-			<bundle lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28628-jeux-de-cartes-magic-the-gathering-coffrets-core-set-2019-bundle.jpg"/>
-			<constructpack lang='fr' url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png"/>
+			<bundle lang='en' url="https://www.lataniere.fr/wp-content/uploads/2018/06/bundle-M19-Magic-jeux-Toulon-L-Ataniere.png"/>
+			<prereleasepack lang='fr' url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png"/>
 	</edition>
 	
 	<edition id='GRN'>
@@ -1217,9 +1217,9 @@
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/191.png"/>
 	</edition>
 	<edition id="UMA">
-		<booster lang='en' num='1' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_01_02.png"/>
-		<booster lang='en' num='2' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_02_02.png"/>
-		<booster lang='en' num='3' url="https://duelkingdom.ca/wp-content/uploads/2018/11/MTGUMA_EN_Bstr_03_02.png"/>
+		<booster lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/4606.png"/>
+		<booster lang='en' num='2' url="https://www.magiclibrarities.net/images/edition_comment/4608.png"/>
+		<booster lang='en' num='3' url="https://www.magiclibrarities.net/images/edition_comment/4607.png"/>
 		<box lang='en' url="https://media.wizards.com/2018/images/daily/NMCPJnPzTy.png"/>
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/271/468/320/160/636770515704626455.png"/>
 	</edition>

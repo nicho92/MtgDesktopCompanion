@@ -708,6 +708,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getProduct().getLang());
 				pst.setString(5, state.getProduct().getType().name());
 				pst.setString(6, state.getCondition().name());
+				
 				if(state.getProduct().getExtra()!=null)
 					pst.setString(7, state.getProduct().getExtra().name());
 				else

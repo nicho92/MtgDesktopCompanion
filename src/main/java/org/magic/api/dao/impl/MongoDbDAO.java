@@ -253,10 +253,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 										Aggregates.match(Filters.eq(dbColIDField, c.getName())),
 										Aggregates.group("$set", Accumulators.sum("count", 1))
 									   );
-		db.getCollection(colCards, BasicDBObject.class).aggregate(aggr).forEach(
-				(Consumer<BasicDBObject>) document -> { 
-				map.put(document.getString("_id"), document.getInt("count"));	
-				});
+		db.getCollection(colCards, BasicDBObject.class).aggregate(aggr).forEach((Consumer<BasicDBObject>) document -> map.put(document.getString("_id"), document.getInt("count")));
 		return map;
 	}
 
