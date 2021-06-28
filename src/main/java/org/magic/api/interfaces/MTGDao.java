@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGDao extends MTGPlugin {
 
@@ -53,17 +54,21 @@ public interface MTGDao extends MTGPlugin {
 	public List<MagicCardStock> listStocks() throws SQLException;
 
 	
+
+	public MTGStockItem getStockById(EnumItems typeStock, Integer id)throws SQLException;
+	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws SQLException;
+
 	
 	public MagicCardStock getStockWithTiersID(String key,String id) throws SQLException;
 	public MagicCardStock getStockById(Integer id) throws SQLException;
-	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
+	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException;
 	public void deleteStock(List<MagicCardStock> state) throws SQLException;
 	public void deleteStock(MagicCardStock state) throws SQLException;
 	
 	
 	
 	public List<SealedStock> listSealedStocks() throws SQLException;
-	public void saveOrUpdateStock(SealedStock state) throws SQLException;
+	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException;
 	public void deleteStock(SealedStock state) throws SQLException;
 	public SealedStock getSealedStockById(int id) throws SQLException;
 	
@@ -78,7 +83,6 @@ public interface MTGDao extends MTGPlugin {
 	public List<Date> listDatesOrders();
 	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict);
 
-	
 	
 	public List<Transaction> listTransactions() throws SQLException;
 	public List<Transaction> listTransactions(Contact c) throws SQLException;
@@ -117,6 +121,6 @@ public interface MTGDao extends MTGPlugin {
 	public void executeQuery(String query)throws SQLException;
 	
 	public boolean isSQL();
-
+	
 
 }

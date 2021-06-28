@@ -98,7 +98,7 @@ public class CardStockPanel extends MTGUIComponent {
 				for (MagicCardStock ms : model.getItems())
 					if (ms.isUpdated())
 						try {
-							getEnabledPlugin(MTGDao.class).saveOrUpdateStock(ms);
+							getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(ms);
 							ms.setUpdated(false);
 							
 						} catch (SQLException e1) {

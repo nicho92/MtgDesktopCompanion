@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -19,7 +20,6 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -151,20 +151,21 @@ public class TransactionService
 	
 		Map<MagicCardStock, Integer> items = new HashMap<>() ;
 		for(var t : getEnabledPlugin(MTGDao.class).listTransactions())
-			for(var m : t.getItems())
-				items.put(m, items.getOrDefault(m, 0)+m.getQte());
+			for(var m : t.getItems().stream().filter(msi->msi.getTypeStock()==EnumItems.CARD).collect(Collectors.toList()))
+				items.put((MagicCardStock)m, items.getOrDefault(m, 0)+m.getQte());
 
 		int max = Collections.max(items.values());
 		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);
 	}
 	
-	public static List<MagicCardStock> validateTransaction(Transaction t) throws SQLException {
+	public static List<MTGStockItem> validateTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		List<MagicCardStock> rejectsT = new ArrayList<>();
-		List<MagicCardStock> accepteds = new ArrayList<>();
-		for(MagicCardStock transactionItem : t.getItems())
+		List<MTGStockItem> rejectsT = new ArrayList<>();
+		List<MTGStockItem> accepteds = new ArrayList<>();
+		for(MTGStockItem transactionItem : t.getItems())
 		{
-				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
+			
+				MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getTypeStock(),transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(TransactionStatus.IN_PROGRESS);
@@ -183,8 +184,11 @@ public class TransactionService
 		if(rejectsT.isEmpty() && !accepteds.isEmpty())
 		{
 			t.setStatut(TransactionStatus.PAYMENT_WAITING);
-			for(MagicCardStock stock : accepteds) {
-				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
+			for(MTGStockItem stock : accepteds) 
+			{
+				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getTypeStock(),stock);
+				
+				
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," your order is validate !");	
@@ -207,13 +211,13 @@ public class TransactionService
 	public static void cancelTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		
-		for(MagicCardStock transactionItem : t.getItems())
+		for(MTGStockItem transactionItem : t.getItems())
 		{
-				MagicCardStock stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
+			MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdated(true);
 					   t.setStatut(TransactionStatus.CANCELED);
-					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
+					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getTypeStock(),stock);
 		}
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();

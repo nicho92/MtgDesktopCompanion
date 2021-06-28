@@ -211,7 +211,7 @@ public class SealedStockGUI extends MTGUIComponent {
 					protected SealedStock doInBackground() throws Exception {
 						var s = new SealedStock(selectedItem);
 						s.setQte(1);
-						plug.saveOrUpdateStock(s);
+						plug.saveOrUpdateSealedStock(s);
 						return s;
 					}
 					
@@ -238,7 +238,7 @@ public class SealedStockGUI extends MTGUIComponent {
 					@Override
 					protected Void doInBackground() throws Exception {
 						for(SealedStock ss : list)
-							plug.saveOrUpdateStock(ss);
+							plug.saveOrUpdateSealedStock(ss);
 						
 						return null;
 					}

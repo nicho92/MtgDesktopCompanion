@@ -22,6 +22,7 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -206,10 +207,10 @@ public class TransactionManagementPanel extends MTGUIComponent {
 
 		btnAcceptTransaction.addActionListener(e->{
 			loader.start();
-			var sw = new AbstractObservableWorker<List<MagicCardStock>, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
+			var sw = new AbstractObservableWorker<List<MTGStockItem>, MTGStockItem, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
 			{
 				@Override
-				protected List<MagicCardStock> doInBackground() throws Exception {
+				protected List<MTGStockItem> doInBackground() throws Exception {
 					return TransactionService.validateTransaction(t);
 				}
 				@Override

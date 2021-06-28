@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 import org.postgresql.util.PGobject;
 
@@ -56,7 +56,7 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	
 	
 	@Override
-	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
+	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
 		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(grd).toString());

@@ -39,6 +39,7 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -62,11 +63,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected static final int CARD_ID_SIZE=50;
 
 	
-	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
-		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MagicCardStock.class);
+	protected List<MTGStockItem> readTransactionItems(ResultSet rs) throws SQLException {
+		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MTGStockItem.class);
 	}
 	
-	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
+	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 		
 	}
@@ -440,8 +441,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setId(rs.getInt("id"));
 		state.setMessage(rs.getString("message"));
 		
-		state.setItems(readTransactionItems(rs));
 		state.setStatut(TransactionStatus.valueOf(rs.getString("statut")));
+		state.setItems(readTransactionItems(rs));
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		state.setCurrency(rs.getString("currency"));
@@ -724,7 +725,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public void saveOrUpdateStock(SealedStock state) throws SQLException {
+	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
 
 		if (state.getId() < 0) {
 
@@ -820,7 +821,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			
 			try {
 				cs.setMagicCollection(to);
-				saveOrUpdateStock(cs);
+				saveOrUpdateCardStock(cs);
 			} catch (SQLException e) {
 				logger.error("Error saving stock for" + mc + " from " + from + " to " + to);
 			}
@@ -1127,7 +1128,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
+	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException {
 
 		if (state.getId() < 0) {
 			logger.debug("save stock " + state);

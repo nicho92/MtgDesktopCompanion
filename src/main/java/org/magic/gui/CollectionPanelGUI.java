@@ -1026,7 +1026,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 								MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 								st.setProduct(mc);
 								st.setMagicCollection(col);
-								plug.saveOrUpdateStock(st);
+								plug.saveOrUpdateCardStock(st);
 							}
 							return null;
 					}

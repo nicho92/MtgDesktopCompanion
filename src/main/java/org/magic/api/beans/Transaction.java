@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.interfaces.MTGStockItem;
 
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +18,7 @@ public class Transaction implements Serializable {
 	private Date dateSend;
 	private Contact contact;
 	private String message;
-	private List<MagicCardStock> items;
+	private List<MTGStockItem> items;
 	private String transporter;
 	private double shippingPrice;
 	private WebShopConfig config;
@@ -169,10 +170,10 @@ public class Transaction implements Serializable {
 		this.dateCreation = dateProposition;
 	}
 	
-	public List<MagicCardStock> getItems() {
+	public List<MTGStockItem> getItems() {
 		return items;
 	}
-	public void setItems(List<MagicCardStock> items) {
+	public void setItems(List<MTGStockItem> items) {
 		this.items = items;
 	}
 	public Contact getContact() {

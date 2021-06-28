@@ -444,7 +444,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			stock.setQte(1);
 			stock.setProduct(mc);
 
-			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
+			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(stock);
 			return RETURN_OK;
 		});
 

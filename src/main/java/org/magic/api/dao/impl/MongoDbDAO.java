@@ -197,7 +197,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public void saveOrUpdateStock(SealedStock state) throws SQLException {
+	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
 		logger.debug("saving stock " + state);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
@@ -386,7 +386,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
+	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException {
 		logger.debug("saving stock " + state);
 		state.setUpdated(false);
 		if (state.getId() == -1) {

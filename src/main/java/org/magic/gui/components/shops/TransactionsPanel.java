@@ -19,6 +19,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
+import org.magic.gui.components.StockItemPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -39,7 +40,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		var panneauHaut = new JPanel();
-		var stockDetailPanel = new CardStockPanel();
+		var stockDetailPanel = new StockItemPanel();
 		var tabbedPane = new JTabbedPane();
 		contactPanel = new ContactPanel(true);
 		managementPanel= new TransactionManagementPanel();
@@ -68,7 +69,6 @@ public class TransactionsPanel extends MTGUIComponent {
 			UITools.addTab(tabbedPane, viewerPanel);
 		
 		table.packAll();
-		stockDetailPanel.showAllColumns();
 		
 		add(new JScrollPane(table));
 		add(panneauHaut, BorderLayout.NORTH);
@@ -90,11 +90,10 @@ public class TransactionsPanel extends MTGUIComponent {
 			btnMerge.setEnabled(t.size()>1);
 			btnDelete.setEnabled(!t.isEmpty());
 			
-			stockDetailPanel.initMagicCardStock(t.get(0).getItems());
+			stockDetailPanel.initItems(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
 			managementPanel.setTransaction(t.get(0));
 			viewerPanel.show(t.get(0));
-			stockDetailPanel.disableCommands();
 		});
 		
 		btnRefresh.addActionListener(al->reload());

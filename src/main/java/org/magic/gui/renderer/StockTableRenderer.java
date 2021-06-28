@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGGraders;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
@@ -73,7 +74,7 @@ public class StockTableRenderer implements TableCellRenderer{
 		
 		
 		
-		if (((MagicCardStock) table.getModel().getValueAt(row, 0)).isUpdated()) {
+		if (((MTGStockItem) table.getModel().getValueAt(row, 0)).isUpdated()) {
 			pane.setBackground(Color.GREEN);
 			pane.setForeground(table.getForeground());
 		} else if (isSelected) {

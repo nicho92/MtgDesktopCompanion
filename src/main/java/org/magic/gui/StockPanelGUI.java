@@ -146,7 +146,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					for (MagicCardStock ms : updates) 
 					{
 						try {
-							plug.saveOrUpdateStock(ms);
+							plug.saveOrUpdateCardStock(ms);
 							ms.setUpdated(false);
 						} catch (Exception e1) {
 							logger.error(e1);

@@ -223,7 +223,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(magicCard);
 			try {
-				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
+				getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);
 				MTGControler.getInstance().notify(new MTGNotification("Stock", "Added", MESSAGE_TYPE.INFO));
 			} catch (Exception e) {
 				logger.error(e);

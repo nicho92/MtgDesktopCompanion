@@ -18,9 +18,11 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.tools.TCache;
 
 
@@ -81,7 +83,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 			try {
 				cs.setMagicCollection(to);
-				saveOrUpdateStock(cs);
+				saveOrUpdateCardStock(cs);
 			} catch (SQLException e) {
 				logger.error("Error saving stock for" + mc + " from " + from + " to " + to);
 			}
@@ -102,6 +104,22 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	@Override
 	public MagicCardStock getStockById(Integer id) throws SQLException {
 		return listStocks().stream().filter(mc->mc.getId()==id).findAny().orElse(null);
+	}
+	
+	@Override
+	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws SQLException {
+		if(typeStock==EnumItems.CARD)
+			return getStockById(id);
+			
+		return getSealedStockById(id);
+	}
+	
+	@Override
+	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws SQLException {
+		if(typeStock==EnumItems.CARD)
+			saveOrUpdateCardStock((MagicCardStock)stock);
+		else
+			saveOrUpdateSealedStock((SealedStock)stock);
 	}
 	
 	
@@ -224,7 +242,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		for(MagicCardStock stock : listStocks())
 		{
 			stock.setId(-1);
-			dao.saveOrUpdateStock(stock);
+			dao.saveOrUpdateCardStock(stock);
 		}
 			
 		logger.debug("duplicate alerts");
@@ -249,7 +267,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		for(SealedStock oe : listSealedStocks())
 		{
 			oe.setId(-1);
-			dao.saveOrUpdateStock(oe);
+			dao.saveOrUpdateSealedStock(oe);
 		}
 
 		logger.debug("duplicate contact");

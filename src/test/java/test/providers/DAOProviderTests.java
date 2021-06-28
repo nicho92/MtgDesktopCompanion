@@ -129,9 +129,9 @@ public class DAOProviderTests {
 							stock.setLanguage("French");
 							stock.setMagicCollection(col);
 			
-			p.saveOrUpdateStock(stock);
+			p.saveOrUpdateCardStock(stock);
 			stock.setFoil(true);
-			p.saveOrUpdateStock(stock);
+			p.saveOrUpdateCardStock(stock);
 			
 			
 			

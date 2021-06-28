@@ -155,7 +155,7 @@ public class MTGControler {
 			MagicCardStock st = getDefaultStock();
 			st.setProduct(mc);
 			st.setMagicCollection(collection);
-			getEnabledPlugin(MTGDao.class).saveOrUpdateStock(st);
+			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);
 		}
 		
 		if(o!=null)
