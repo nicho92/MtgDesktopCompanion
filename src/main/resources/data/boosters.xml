@@ -496,24 +496,20 @@
 			url="http://www.manaleak.com/magic-the-gathering/images/worldwake_intro_pack___rapid_fire.jpg" />
 	</edition>
 	<edition id='ROE'>
-		<booster lang='en' num='1'
-			url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack1.jpg" />
-		<booster lang='en' num='2'
-			url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack2.jpg" />
-		<booster lang='en' num='3'
-			url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack3.jpg" />
-		<booster lang='en' num='4'
-			url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack4.jpg" />
-		<booster lang='en' num='5'
-			url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack5.jpg" />
-		<box lang='en' num='1'
-			url="https://cdn10.bigcommerce.com/s-yiw8w10u/products/1618/images/473/Magic_the_Gathering_Rise_of_the_Eldrazi_Booster_Box_english__29271.1421532111.1280.1280.JPG?c=2" />
-		<box lang='en' num='2'
-			url="https://www.coolstuffinc.com/s3_image.php?img=http://s3.gatheringmagic.com/uploads/2010/03/BoosterBox.png" />
-		<banner lang='en'
-			url="http://mtgen.net/roe/images/logo-word.png" />
-		<bundle lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ROEFatPack_Product.png" />
+		<booster lang='en' num='1' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack1.jpg" />
+		<booster lang='en' num='2' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack2.jpg" />
+		<booster lang='en' num='3' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack3.jpg" />
+		<booster lang='en' num='4' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack4.jpg" />
+		<booster lang='en' num='5' url="https://media.magic.wizards.com/image_legacy_migration/mtg/images/daily/arcana/403_bpack5.jpg" />
+		<box lang='en' num='1' 	url="https://cdn10.bigcommerce.com/s-yiw8w10u/products/1618/images/473/Magic_the_Gathering_Rise_of_the_Eldrazi_Booster_Box_english__29271.1421532111.1280.1280.JPG?c=2" />
+		<box lang='en' num='2'	url="https://www.coolstuffinc.com/s3_image.php?img=http://s3.gatheringmagic.com/uploads/2010/03/BoosterBox.png" />
+		<banner lang='en' url="http://mtgen.net/roe/images/logo-word.png" />
+		<bundle lang='en' url="https://media.magic.wizards.com/images/featured/EN_ROEFatPack_Product.png" />
+		<constructpack lang="en" num="1" url="https://images-na.ssl-images-amazon.com/images/I/513G5uXPBqL._AC_.jpg"/>
+		<constructpack lang="en" num="2" url="https://images-na.ssl-images-amazon.com/images/I/71g39lmw4yL._AC_SY450_.jpg"/>		
+		<constructpack lang="en" num="3" url="https://images-na.ssl-images-amazon.com/images/I/51fI%2BeTb1dL._AC_SY450_.jpg"/>
+		<constructpack lang="en" num="4" url="https://i5.walmartimages.com/asr/8abafdeb-47ca-4579-a4da-42f814907615_1.3b0639701ead3527053b6bc97a4cb80e.jpeg?odnWidth=612"/>
+		<constructpack lang="en" num="5" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/44/ROE_Invading_Spawn.jpg/revision/latest/scale-to-width-down/200"/>						
 	</edition>
 	<edition id='RQS'>
 		<bundle lang='en'
