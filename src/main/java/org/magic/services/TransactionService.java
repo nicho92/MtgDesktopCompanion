@@ -175,7 +175,7 @@ public class TransactionService
 					   transactionItem.setComment("");
 					   stock.setQte(stock.getQte()-transactionItem.getQte());
 					   stock.setUpdated(true);
-					   accepteds.add(stock);
+					   accepteds.add(transactionItem);
 				}
 		}
 		
