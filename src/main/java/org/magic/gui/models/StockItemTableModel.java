@@ -1,11 +1,8 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
@@ -22,7 +19,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 				"COLLECTION",
 				"TYPE",
 				"QTY",
-				"PRICE"
+				"PRICE",
+				"COMMENT"
 			};
 	}
 	
@@ -62,7 +60,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			return Integer.class;
 		case 6:
 			return Double.class;
-
+		case 7:
+			return String.class;
 			
 		default:
 			return super.getColumnClass(columnIndex);
@@ -96,7 +95,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			return items.get(row).getQte();
 		case 6:
 			return UITools.roundDouble(items.get(row).getPrice());
-		
+		case 7:
+			return items.get(row).getComment();
 		default:
 			return "";
 		}

@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
@@ -74,6 +75,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.itextpdf.kernel.log.SystemOutCounter;
 
 import spark.Request;
 import spark.Response;
@@ -737,7 +739,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {
 			
 			Contact c=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			return getEnabledPlugin(MTGDao.class).listTransactions(c);
+			List<Transaction> ret= getEnabledPlugin(MTGDao.class).listTransactions(c);
+			return ret;
 		}, transformer);
 
 		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
