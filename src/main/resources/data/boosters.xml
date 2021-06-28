@@ -516,7 +516,7 @@
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ROEFatPack_Product.png" />
 	</edition>
 	<edition id='RQS'>
-		<starter lang='en'
+		<bundle lang='en'
 			url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/1/16/Rivals2.jpg/300px-Rivals2.jpg?version=badd5a4d211f01165dace614aa0ea4f6" />
 	</edition>
 	<edition id='MGB'>
@@ -597,12 +597,10 @@
 			url="http://mtgen.net/pls/images/logo-word.png" />
 	</edition>
 	<edition id='7ED'>
-
-		<booster lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_7thEdition.jpg" />
-
-		<banner lang='en'
-			url="http://mtgen.net/7ed/images/logo-word.png" />
+		<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_7thEdition.jpg" />
+		<banner lang='en' url="http://mtgen.net/7ed/images/logo-word.png" />
+		
+		
 	</edition>
 	<edition id='APC'>
 
