@@ -820,11 +820,21 @@
 		<banner lang='en' url="http://mtgen.net/dgm/images/logo-word.png"/>
 	</edition>
 	<edition id='MMA'>
-		
-			<booster lang='en' num='1' url="http://i.tcgplayer.com/68105_200w.jpg"/>
-		
+		<booster lang='en' num='1' url="http://i.tcgplayer.com/68105_200w.jpg"/>
 		<banner lang='en' url="http://mtgen.net/mma/images/logo-word.png"/>
+		<box lang="en" url="https://images-na.ssl-images-amazon.com/images/I/61NRgt78IAL._AC_SX425_.jpg"/>
 	</edition>
+	<edition id='MM2'>
+		<booster lang='en' num='1' url="https://www.wizardscupboard.com/images/modernmasters2boosterpack.jpg"/>
+		<banner lang='en' url="http://mtgen.net/mm2/images/logo-word.png"/>
+		<box lang="en" url="https://media.wizards.com/2015/images/daily/New_BOX_SHOT.png"/>
+	</edition>
+		<edition id='MM3'>
+		<booster lang='en' num='1' url="http://i.tcgplayer.com/127068_200w.jpg"/>
+		<box lang="en" url="https://cdn.shoplightspeed.com/shops/609025/files/20819740/modern-masters-2017-booster-box.jpg"/>
+		<banner lang='en' url="http://mtgen.net/mm3/images/logo-word.png"/>
+	</edition>
+	
 	<edition id='M14'>
 		
 			<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_M14.jpg"/>
@@ -945,12 +955,8 @@
 		
 		<banner lang='en' url="http://media.wizards.com/2015/mtgo/TPR_logo.png"/>
 	</edition>
-	<edition id='MM2'>
-		
-			<booster lang='en' num='1' url="https://www.wizardscupboard.com/images/modernmasters2boosterpack.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/mm2/images/logo-word.png"/>
-	</edition>
+	
+	
 	<edition id='ORI'>
 		
 			<booster lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_rcg0o6xwzv_Bs7rS_02.png"/>
@@ -1054,12 +1060,6 @@
 		
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PCA_Name.png"/>
 	</edition>
-	<edition id='MM3'>
-		
-			<booster lang='en' num='1' url="http://i.tcgplayer.com/127068_200w.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/mm3/images/logo-word.png"/>
-	</edition>
 	<edition id='AKH'>
 			<box lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/621388/files/21537025/1600x2048x2/wizards-of-the-coast-mtg-amonkhet-booster-box.jpg"/>
 			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg"/>
@@ -1127,6 +1127,7 @@
 	<edition id='A25'>
 		<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1158680.jpg"/>
 		<banner lang='en' url="http://mtgen.net/m25/images/logo-word.png"/>
+		<box lang="en" url="https://themanashop.ch/25467/masters-25-booster-box.jpg"/>
 	</edition>
 	
 	
