@@ -897,14 +897,7 @@
 		<banner lang='en'
 			url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Jace_vs._Chandra_70ae2965-a029-4197-8660-079c95746105_large.png?v=1427048446" />
 	</edition>
-	<edition id='CON'>
-
-		<booster lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MTG/CON/en/sealed/MTG_CON_BP.jpg" />
-
-		<banner lang='en'
-			url="http://mtgen.net/con_/images/logo-word.png" />
-	</edition>
+	
 	<edition id='DDC'>
 
 		<booster lang='en' num='1'
@@ -1014,14 +1007,15 @@
 		<banner lang='en'
 			url="https://www.rebellion.es/img/magic/logo/dueldeck_elspethvstezzeret.png" />
 	</edition>
-	<edition id='SOM'>
-
-		<booster lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MAG_SOM/MTG_SOM_BoosterPack.jpg" />
-
-		<banner lang='en'
-			url="http://mtgen.net/som/images/logo-word.png" />
+	
+	<edition id='CON'>
+		<booster lang='en' num='1'	url="http://static.starcitygames.com/sales/cardscans/MTG/CON/en/sealed/MTG_CON_BP.jpg" />
+		<banner lang='en' url="http://mtgen.net/con_/images/logo-word.png" />
+		<bundle lang="en" url="https://media.magic.wizards.com/images/featured/EN_CONFatPack_Product.png"/>
+		<box lang="en" url="https://media.magic.wizards.com/images/featured/EN_CONBooster_Product.png"/>
 	</edition>
+	
+	
 	<edition id='PD2'>
 
 		<booster lang='en' num='1'
@@ -1461,6 +1455,17 @@
 
 		<banner lang='en'
 			url="http://www.purplepawn.com/wp-content/uploads/2015/11/WOCB65160000-logo-500x235.png" />
+	</edition>
+	<edition id='SOM'>
+		<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SOM/MTG_SOM_BoosterPack.jpg" />
+		<banner lang='en' url="http://mtgen.net/som/images/logo-word.png" />
+		<box lang="en" url="https://media.magic.wizards.com/images/featured/EN_SOMBooster_Product.png"/>
+		<bundle lang="en" url="https://media.magic.wizards.com/images/featured/EN_SOMFatPack_Product.png"/>
+		<constructpack lang="en" num="1" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_1.jpg"/>
+		<constructpack lang="en" num="2" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_2.jpg"/>
+		<constructpack lang="en" num="3" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_3.jpg"/>
+		<constructpack lang="en" num="4" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_4.jpg"/>
+		<constructpack lang="en" num="5" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_5.jpg"/>
 	</edition>
 	<edition id='SOI'>
 

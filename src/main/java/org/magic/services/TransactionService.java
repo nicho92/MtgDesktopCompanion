@@ -19,6 +19,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -201,6 +202,8 @@ public class TransactionService
 		
 	}
 	
+	
+	
 	public static void cancelTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		
@@ -212,7 +215,6 @@ public class TransactionService
 					   t.setStatut(TransactionStatus.CANCELED);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 		}
-		
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 	}
