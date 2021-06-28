@@ -3,15 +3,8 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
-import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 
 public class MariaDBDAO extends AbstractMagicSQLDAO {

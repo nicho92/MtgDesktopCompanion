@@ -3,18 +3,10 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
