@@ -70,51 +70,6 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		return "TEXT";
 	}
 	
-	
-	@Override
-	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
-		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MagicCardStock.class);
-	}
-	
-	@Override
-	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
-		pst.setString(position, serialiser.toJsonElement(grd).toString());
-		
-	}
-
-	@Override
-	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
-		pst.setString(position, serialiser.toJsonElement(mc).toString());
-	}
-
-	@Override
-	protected MagicCard readCard(ResultSet rs) throws SQLException {
-		return serialiser.fromJson( rs.getObject("mcard").toString(), MagicCard.class);
-	}
-
-	@Override
-	protected Grading readGrading(ResultSet rs) throws SQLException {
-		return serialiser.fromJson(rs.getString("grading"), Grading.class);
-	}
-	
-	@Override
-	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
-		pst.setString(position, serialiser.toJsonElement(grd).toString());
-	}
-	
-
-	@Override
-	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
-		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
-	}
-	
-	@Override
-	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException {
-		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
-	}
-	
-
-	
 	@Override
 	protected String createListStockSQL() {
 		return "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";

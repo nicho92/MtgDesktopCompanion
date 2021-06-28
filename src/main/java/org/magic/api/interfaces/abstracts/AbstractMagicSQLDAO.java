@@ -55,21 +55,50 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected abstract String getjdbcnamedb();
 	protected abstract String beanStorage();
 	protected abstract String longTextStorage();
-	protected abstract void storeCard(PreparedStatement pst, int position,MagicCard mc) throws SQLException;
-	protected abstract void storeGrade(PreparedStatement pst, int position,Grading grd) throws SQLException;
-	protected abstract void storeTransactionItems(PreparedStatement pst, int position,List<MagicCardStock> grd) throws SQLException;
-	
-	protected abstract List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException;
-	protected abstract Grading readGrading(ResultSet rs) throws SQLException;
-	protected abstract MagicCard readCard(ResultSet rs) throws SQLException;
 	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
-	protected abstract Map<String, String> readTiersApps(ResultSet rs) throws SQLException;
-	protected abstract void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException;
 
 	protected static final int COLLECTION_COLUMN_SIZE=30;
 	protected static final int CARD_ID_SIZE=50;
 
+	
+	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
+		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MagicCardStock.class);
+	}
+	
+	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(grd).toString());
+		
+	}
+
+	protected Grading readGrading(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("grading"), Grading.class);
+	}
+	
+	
+	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(grd).toString());
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
+		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
+	}
+	
+	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException {
+		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
+	}
+
+	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
+		pst.setString(position, serialiser.toJsonElement(mc).toString());
+	}
+
+	protected MagicCard readCard(ResultSet rs) throws SQLException {
+		return serialiser.fromJson( rs.getObject("mcard").toString(), MagicCard.class);
+	}
+	
+	
 	protected boolean enablePooling()
 	{
 		return true;

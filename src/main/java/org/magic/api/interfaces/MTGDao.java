@@ -99,9 +99,9 @@ public interface MTGDao extends MTGPlugin {
 	
 	public List<MagicCardAlert> listAlerts();
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
+	public void updateAlert(MagicCardAlert alert) throws SQLException;
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);
-	public void updateAlert(MagicCardAlert alert) throws SQLException;
 
 	public List<MagicNews> listNews();
 	public void deleteNews(MagicNews n) throws SQLException;

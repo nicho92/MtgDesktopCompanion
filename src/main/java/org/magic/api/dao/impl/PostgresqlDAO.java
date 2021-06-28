@@ -48,17 +48,12 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
-		
 		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(mc).toString());
 		pst.setObject(position, jsonObject);
 	}
 	
-	@Override
-	protected List<MagicCardStock> readTransactionItems(ResultSet rs) throws SQLException {
-		return serialiser.fromJsonList(rs.getString("stocksItem"), MagicCardStock.class);
-	}
 	
 	@Override
 	protected void storeTransactionItems(PreparedStatement pst, int position, List<MagicCardStock> grd) throws SQLException {
@@ -70,11 +65,6 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	}
 	
 	@Override
-	protected Grading readGrading(ResultSet rs) throws SQLException {
-		return serialiser.fromJson(rs.getString("grading"), Grading.class);
-	}
-	
-	@Override
 	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
 		var jsonObject = new PGobject();
 		jsonObject.setType("json");
@@ -82,11 +72,6 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		pst.setObject(position, jsonObject);
 	}
 	
-
-	@Override
-	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
-		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
-	}
 	
 	@Override
 	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException {
@@ -97,14 +82,6 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		pst.setObject(i, jsonObject);
 	}
 	
-	
-	
-
-	@Override
-	protected MagicCard readCard(ResultSet rs) throws SQLException {
-		return serialiser.fromJson(((PGobject)rs.getObject("mcard")).getValue(), MagicCard.class);
-	}
-
 	@Override
 	protected String getdbSizeQuery() {
 		return "SELECT pg_database_size('"+getString(DB_NAME)+"');";
