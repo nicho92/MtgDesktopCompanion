@@ -1095,17 +1095,14 @@
 		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/169.png"/>
 	</edition>
 	<edition id='IMA'>
-		
 			<booster lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/facetofacegames/file/1068653/large/babkwk.jpg?1505405864"/>
 			<booster lang='en' num='2' url="https://www.trader-online.de/out/pictures/generated/product/1/800_800_75/iconic_masters_2017_booster_packung_pack_box_magic_mtg_guenstig_kaufen.png"/>
 			<booster lang='en' num='3' url="https://images-na.ssl-images-amazon.com/images/I/71bR3cIj8nL._SY741_.jpg"/>
-		
-		<banner lang='en' url="http://mtgen.net/ima/images/logo-word.png"/>
+			<banner lang='en' url="http://mtgen.net/ima/images/logo-word.png"/>
+			<box lang="en" url="https://themanashop.ch/23334/iconic-masters-booster-box.jpg"/>
 	</edition>
 	<edition id='DDT'>
-		
-			<constructpack lang='en' num='1' url="https://www.parkage.com/files/img/publications/2017/datarule/1500x1500_4d9a03bf96c9b9949b2a2c3370f54b0be271ecb7fb7e3174a5dd64ef.jpg?1510261551821"/>
-		
+		<constructpack lang='en' num='1' url="https://www.parkage.com/files/img/publications/2017/datarule/1500x1500_4d9a03bf96c9b9949b2a2c3370f54b0be271ecb7fb7e3174a5dd64ef.jpg?1510261551821"/>
 		<banner lang='en' url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/0/05/DDT_logo.png/1200px-DDT_logo.png"/>
 	</edition>
 	<edition id='E02'>
