@@ -40,14 +40,24 @@ public class PackagesProvider {
 	
 	private PackagesProvider() {
 		try {
-			logger.debug("Loading booster pics");
-			document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
-			logger.debug("Loading booster pics done");
+			reload();
 			list = new ArrayList<>();
 		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
+	
+
+	public void reload() throws IOException
+	{
+		logger.debug("Loading sealed data");
+		document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
+		logger.debug("Loading sealed data done");
+		list.clear();
+	}
+
+	
+	
 	
 	public static PackagesProvider inst()
 	{
@@ -141,8 +151,6 @@ public class PackagesProvider {
 		}
 		
 	}
-	
-
 	
 	public void caching(boolean force)
 	{

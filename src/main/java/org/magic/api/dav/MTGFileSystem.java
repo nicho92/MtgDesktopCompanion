@@ -62,7 +62,7 @@ public class MTGFileSystem extends FileSystem {
 
 	@Override
 	public Iterable<Path> getRootDirectories() {
-		return List.of("Collections", "Alerts", "Stock", "News", "Shopping","Decks").stream().map(s->new MTGPath(this, s)).collect(Collectors.toList());
+		return List.of("Collections", "Alerts", "Stock", "News", "Shopping","Decks","Orders","Transactions","Contacts").stream().map(s->new MTGPath(this, s)).collect(Collectors.toList());
 	}
 
 	@Override

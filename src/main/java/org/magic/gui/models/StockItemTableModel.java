@@ -16,6 +16,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		columns = new String[] { "ID",
 				"PRODUCT",
 				"EDITION",
+				"LANGUAGE",
 				"COLLECTION",
 				"TYPE",
 				"QTY",
@@ -53,14 +54,16 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 2:
 			return MagicEdition.class;
 		case 3:
-			return MagicCollection.class;
+			return String.class;
 		case 4:
-			return EnumItems.class;
+			return MagicCollection.class;
 		case 5:
-			return Integer.class;
+			return EnumItems.class;
 		case 6:
-			return Double.class;
+			return Integer.class;
 		case 7:
+			return Double.class;
+		case 8:
 			return String.class;
 			
 		default:
@@ -72,7 +75,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	public boolean isCellEditable(int row, int column) {
 		
 		if(writable)
-			return (column ==5 || column==6);
+			return (column ==6 || column==7);
 		else
 			return false;
 	}
@@ -87,16 +90,19 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			return items.get(row).getProductName();
 		case 2:
 			return items.get(row).getEdition();
-		case 3:
-			return items.get(row).getMagicCollection();
+		case 3 :
+			return items.get(row).getLanguage();
 		case 4:
-			return items.get(row).getTypeStock();
+			return items.get(row).getMagicCollection();
 		case 5:
-			return items.get(row).getQte();
+			return items.get(row).getTypeStock();
 		case 6:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).getQte();
 		case 7:
+			return UITools.roundDouble(items.get(row).getPrice());
+		case 8:
 			return items.get(row).getComment();
+
 		default:
 			return "";
 		}
@@ -106,10 +112,10 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	public void setValueAt(Object aValue, int row, int column) {
 		
 		switch (column) {
-		case 5:
+		case 6:
 			items.get(row).setQte((Integer) aValue);
 			break;
-		case 6:
+		case 7:
 			items.get(row).setPrice(Double.parseDouble(aValue.toString()));
 			break;
 			
