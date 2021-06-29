@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.NotImplementedException;
+import org.bson.BsonObjectId;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -614,10 +615,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<Contact> listContacts() throws SQLException {
-		MongoCollection<Contact> collection = db.getCollection(colContacts, Contact.class);
-		List<Contact> cols = new ArrayList<>();
-		collection.find().into(cols);
-		return cols;
+		List<Contact> trans = new ArrayList<>();
+		db.getCollection(colContacts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+			Contact o = deserialize(result.toString(), Contact.class);
+			trans.add(o);
+		});
+		
+		
+		return trans;
 	}
 	
 	@Override

@@ -72,14 +72,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                     	
                		
                		}
-               		
-                     	
-                    	
                 	append+="</div></div></div></div></div>";
-              
-                	
-                 
-                	
          return append;
 
 }

@@ -187,8 +187,6 @@ public class TransactionService
 			for(MTGStockItem stock : accepteds) 
 			{
 				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getTypeStock(),stock);
-				
-				
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," your order is validate !");	
@@ -213,7 +211,10 @@ public class TransactionService
 		
 		for(MTGStockItem transactionItem : t.getItems())
 		{
-			MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getId());
+			MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getTypeStock(),transactionItem.getId());
+			if(stock==null)
+				throw new SQLException("No item found for " + transactionItem.getTypeStock() + "="+transactionItem.getId());
+				
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdated(true);
 					   t.setStatut(TransactionStatus.CANCELED);
@@ -222,7 +223,7 @@ public class TransactionService
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 	}
-	
+	 
 	
 	
 	
