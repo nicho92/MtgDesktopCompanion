@@ -8,7 +8,7 @@ public class Packaging implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT}
+	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT,VIP}
 	
 	private EnumItems type;
 	private String lang;
