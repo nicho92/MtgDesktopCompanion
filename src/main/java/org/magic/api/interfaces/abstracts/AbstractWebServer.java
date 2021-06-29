@@ -40,8 +40,8 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private static final String SERVER_SSL_PORT = "SERVER-SSL-PORT";
-	private static final String REST_JS_FILENAME="rest-server.js";
-	private static final String JSON_SERVER_START = "JSONSERVER_START";
+	protected static final String REST_JS_FILENAME="rest-server.js";
+	protected static final String JSON_SERVER_START = "JSONSERVER_START";
 	private static final String SSL_ENABLED = "SSL_ENABLED";
 	private static final String KEYSTORE_URI = "KEYSTORE_URI";
 	private static final String KEYSTORE_PASS = "KEYSTORE_PASS";

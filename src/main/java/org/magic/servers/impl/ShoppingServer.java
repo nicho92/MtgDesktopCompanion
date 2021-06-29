@@ -1,12 +1,15 @@
 package org.magic.servers.impl;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.magic.api.interfaces.abstracts.AbstractWebServer;
@@ -29,6 +32,15 @@ public class ShoppingServer extends AbstractWebServer {
 	}
 
 	@Override
+	public void exportWeb(File dest) throws IOException
+	{
+		super.exportWeb(dest);
+		FileUtils.copyFile(getFile(EXTRA_CSS_FILE), Paths.get(dest.getAbsolutePath(),"css","extra.css").toFile());
+		
+	}
+	
+	
+	@Override
 	public void extraConfig() {
 		if(getFile(EXTRA_CSS_FILE)!=null) 
 		{
@@ -36,7 +48,7 @@ public class ShoppingServer extends AbstractWebServer {
 			try {
 				String content  =FileTools.readFile(getFile(EXTRA_CSS_FILE));
 			
-				var holderCss = new ServletHolder("ExtraCssServlet", new DefaultServlet() {
+				var holderCss = new ServletHolder("extraCssServlet", new DefaultServlet() {
 					private static final long serialVersionUID = 1L;
 					@Override
 					protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
