@@ -52,7 +52,7 @@
 				    	var html="<b>Transaction</b> #"+data.id +"<br/>";
 				    	html+="<b>Items</b> :<br/><ul>";
 				    	$.each( data.items, function( key, value ) {
-				    		html+= "<li>"+value.magicCard.name +"</li>";
+				    		html+= "<li>"+value.productName +"</li>";
 				    		itemsTotal+=(value.qte*value.price);
 				    	});
 				    	
