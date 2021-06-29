@@ -53,7 +53,9 @@ public class PackagesProvider {
 		logger.debug("Loading sealed data");
 		document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
 		logger.debug("Loading sealed data done");
-		list.clear();
+		
+		if(list!=null)
+			list.clear();
 	}
 
 	

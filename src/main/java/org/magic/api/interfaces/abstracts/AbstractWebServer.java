@@ -81,9 +81,11 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		ctx.addServlet(holderJs,"/dist/js/"+REST_JS_FILENAME);
 		ctx.addServlet(holderPwd, "/*");
 		
+		extraConfig();
 		
 		logger.trace(ctx.dump());
 		server.setHandler(ctx);
+		
 		
 	}
 
@@ -105,6 +107,13 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	public String getVersion() {
 		return Jetty.VERSION;
 	}
+	
+	
+	public void extraConfig()
+	{
+		//do nothing by default
+	}
+	
 	
 	
 	public ServerConnector createHttpsConnector(HttpConfiguration httpConfig)
