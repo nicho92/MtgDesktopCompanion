@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.Packaging;
+import org.magic.api.beans.Packaging.EXTRA;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -148,10 +149,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				case DRAFT: selead="+Draft";break;
 				case SET: selead="+Set";break;
 				case THEME: selead="+Collector";break;
+				case VIP: selead="+VIP+Edition+Pack";break;
 				default: selead="";break;
-				
 			}
 		}		
+		
+		if(packaging.getExtra()!=EXTRA.VIP)
+		{
 		
 		switch(packaging.getType())
 		{
@@ -165,7 +169,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			default:break;
 		
 		}
-		
+		}
 							  
 							  
 		String url = WEBSITE +"/price/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+"/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+selead+ "-sealed#"+ getString(FORMAT);
