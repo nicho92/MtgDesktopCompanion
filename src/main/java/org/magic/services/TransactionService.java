@@ -164,7 +164,6 @@ public class TransactionService
 		List<MTGStockItem> accepteds = new ArrayList<>();
 		for(MTGStockItem transactionItem : t.getItems())
 		{
-			
 				MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getTypeStock(),transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
@@ -189,9 +188,8 @@ public class TransactionService
 				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getTypeStock(),stock);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
-			sendMail(t,"TransactionValid"," your order is validate !");	
+			sendMail(t,"TransactionValid"," Your order is validate !");	
 			((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
-			
 		}
 		else
 		{
@@ -201,10 +199,7 @@ public class TransactionService
 		saveTransaction(t,false);
 		
 		return rejectsT;
-		
 	}
-	
-	
 	
 	public static void cancelTransaction(Transaction t) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
@@ -223,9 +218,6 @@ public class TransactionService
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 	}
-	 
-	
-	
 	
 	public static void payingTransaction(Transaction t, String providerName) throws SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
@@ -270,15 +262,9 @@ public class TransactionService
 			} catch (SQLException e) {
 				logger.error(e);
 			}
-			
 		}
-		
-		
 		saveTransaction(t,false);
-			
-	
 	}
-
 	
 	public static boolean isWoocommerceAvailable(Transaction t) {
 		for(MTGStockItem mcs : t.getItems())
@@ -286,7 +272,6 @@ public class TransactionService
 			if(mcs.getTiersAppIds(new WooCommerceExport().getName())==null)
 				return false;
 		}
-		
 		return true;
 	}
 	

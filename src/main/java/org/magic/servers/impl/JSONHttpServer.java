@@ -475,14 +475,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return cache.getItem(request.pathInfo());
 			
 		}, transformer);
-		
-		
-		
+
 		get("/stock/get/:idStock", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Integer.parseInt(request.params(":idStock"))), transformer);
-		
-		
-	
 		
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
 			 getCached(request.pathInfo(), new Callable<Object>() {
@@ -494,23 +489,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 
 		, transformer);
-		
-		get("/stock/virtual/:collection", URLTools.HEADER_JSON,(request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public Object call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(COLLECTION))).stream().map(e->{
-						var mcs =  MTGControler.getInstance().getDefaultStock();
-						mcs.setProduct(e);
-						return mcs;
-						
-					}).collect(Collectors.toList());
-				}
-			})
-
-		, transformer);
-		
+	
 		
 		get("/stock/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
 			
