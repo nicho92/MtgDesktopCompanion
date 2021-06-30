@@ -50,8 +50,6 @@ public class MTGJsonPricer {
 			downloadDataFile();
 	}
 	
-	
-	
 	public HistoryPrice<MagicCard> toHistoryPrice(Data d, SUPPORT p, STOCK s, VENDOR v,boolean foil) throws IOException
 	{
 		var ret = new HistoryPrice<>(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardById(d.getMtgjsonId()));
