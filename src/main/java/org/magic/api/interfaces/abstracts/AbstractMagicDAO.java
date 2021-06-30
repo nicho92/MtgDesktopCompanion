@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -122,7 +124,15 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			saveOrUpdateSealedStock((SealedStock)stock);
 	}
 	
+	@Override
+	public List<SealedStock> listSealedStocks(MagicCollection c) throws SQLException {
+		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())).collect(Collectors.toList());
+	}
 	
+	@Override
+	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException {
+		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getEdition().getId().equalsIgnoreCase(ed.getId())).collect(Collectors.toList());
+	}
 	
 	@Override
 	public void saveCollection(String name) throws SQLException {

@@ -68,6 +68,8 @@ public interface MTGDao extends MTGPlugin {
 	
 	
 	public List<SealedStock> listSealedStocks() throws SQLException;
+	public List<SealedStock> listSealedStocks(MagicCollection c) throws SQLException;
+	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException;
 	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException;
 	public void deleteStock(SealedStock state) throws SQLException;
 	public SealedStock getSealedStockById(int id) throws SQLException;

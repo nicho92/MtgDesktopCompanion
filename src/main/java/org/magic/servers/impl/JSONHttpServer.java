@@ -43,6 +43,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
@@ -455,18 +456,45 @@ public class JSONHttpServer extends AbstractMTGServer {
 				getCached(request.pathInfo(), new Callable<Object>() {
 		
 					@Override
-					public Object call() throws Exception {
+					public List<SealedStock> call() throws Exception {
 						return getEnabledPlugin(MTGDao.class).listSealedStocks();
 					}
 				})
 		, transformer);
 		
+		
+		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+	
+				@Override
+				public List<SealedStock> call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).collect(Collectors.toList());
+				}
+			})
+			, transformer);
+		
+		get("/sealed/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
+		
+		 getCached(request.pathInfo(), new Callable<Object>() {
+			@Override
+			public List<MagicEdition> call() throws Exception {
+				return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).map(SealedStock::getEdition).distinct().sorted().collect(Collectors.toList());
+			}
+		})
+		 , transformer);
+		
+		get("/sealed/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
+		getCached(request.pathInfo(), new Callable<Object>() {
+			@Override
+			public List<SealedStock> call() throws Exception {
+				return getEnabledPlugin(MTGDao.class).listSealedStocks(new MagicCollection(request.params(COLLECTION)),new MagicEdition(request.params(ID_SET)));
+			}
+		})
+	, transformer);
+		
 		get("/sealed/get/:id", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Integer.parseInt(request.params(":id"))), transformer);
 		
-		
-		
-
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
 			
 			if(cache.getItem(request.pathInfo())==null)
@@ -495,7 +523,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
-				public List<Object> call() throws Exception {
+				public List<MagicEdition> call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(MagicCardStock::getEdition).distinct().sorted().collect(Collectors.toList());
 				}
 			})
@@ -505,7 +533,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
-				public List<Object> call() throws Exception {
+				public List<MagicCardStock> call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).collect(Collectors.toList());
 				}
 			})
