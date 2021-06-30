@@ -9,18 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.magic.api.interfaces.abstracts.AbstractWebServer;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
 
 public class ShoppingServer extends AbstractWebServer {
-
-	private static final String EXTRA_CSS_FILE = "EXTRA_CSS_FILE";
-
 	@Override
 	public String description() {
 		return "Transaction web page";
@@ -35,19 +32,11 @@ public class ShoppingServer extends AbstractWebServer {
 	public void exportWeb(File dest) throws IOException
 	{
 		super.exportWeb(dest);
-		FileUtils.copyFile(getFile(EXTRA_CSS_FILE), Paths.get(dest.getAbsolutePath(),"css","extra.css").toFile());
-		
+		FileTools.saveFile(Paths.get(dest.getAbsolutePath(),"css","extra.css").toFile(), MTGControler.getInstance().getWebConfig().getExtraCss());
 	}
-	
 	
 	@Override
 	public void extraConfig() {
-		if(getFile(EXTRA_CSS_FILE)!=null) 
-		{
-			
-			try {
-				String content  =FileTools.readFile(getFile(EXTRA_CSS_FILE));
-			
 				var holderCss = new ServletHolder("extraCssServlet", new DefaultServlet() {
 					private static final long serialVersionUID = 1L;
 					@Override
@@ -55,7 +44,7 @@ public class ShoppingServer extends AbstractWebServer {
 						  response.setContentType(URLTools.HEADER_CSS+";charset="+MTGConstants.DEFAULT_ENCODING);
 						  response.setStatus(HttpServletResponse.SC_OK);
 						  try { 
-							  response.getWriter().println(content);  
+							  response.getWriter().println(MTGControler.getInstance().getWebConfig().getExtraCss());  
 						  }
 						  catch(Exception e)
 						  {
@@ -66,20 +55,11 @@ public class ShoppingServer extends AbstractWebServer {
 				});
 			
 				ctx.addServlet(holderCss,"/css/extra.css");
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
-		}
+		
 		
 		
 	}
 	
-	
-	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty(EXTRA_CSS_FILE, "");
-	}
 	
 	@Override
 	protected String getWebLocation() {

@@ -209,7 +209,7 @@ public class MTGControler {
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
 			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed","false")));
-			
+			conf.setExtraCss(get("/shopSite/config/extracss",""));
 			
 			conf.setPaypalClientId(get("/shopSite/payments/paypalclientId",""));
 			try {
@@ -281,7 +281,8 @@ public class MTGControler {
 		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
 		setProperty("/shopSite/config/websiteUrl",wsc.getWebsiteUrl());
 		setProperty("/shopSite/config/enableGed",wsc.isEnableGed());
-		
+		setProperty("/shopSite/config/extracss",wsc.getExtraCss());
+
 		
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJsonElement(wsc.getTopProduct()));
