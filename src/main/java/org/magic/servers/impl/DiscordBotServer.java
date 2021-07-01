@@ -88,6 +88,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	
 	private void analyseCard(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
+		
 		final List<MagicCard> liste = new ArrayList<>();
 		var p = Pattern.compile(getString(REGEX));
 		var m = p.matcher(event.getMessage().getContentRaw());
