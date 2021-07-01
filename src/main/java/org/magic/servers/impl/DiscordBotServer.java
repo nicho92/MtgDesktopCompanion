@@ -206,7 +206,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		
 		if(getBoolean(SHOWCOLLECTIONS)) {
 			try {
-				temp.append("**Collections:** "+getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
+				temp.append("**Present in:** "+getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
 			} catch (SQLException e) {
 				logger.error(e);
 			}
