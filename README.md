@@ -57,75 +57,60 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 
 # Portfolio
 
-Main interface :
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/1.png)
 
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/2.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/magicThumbnail.png](https://www.mtgcompanion.org/img/portfolio/fullsize/magicThumbnail.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/3.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/4.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/5.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/6.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/7.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/8.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/9.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/10.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/11.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/12.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/13.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/14.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/15.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/16.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/17.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/18.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/19.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/20.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/21.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/22.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/23.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/24.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/25.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/26.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/27.png)
+
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/28.png)
 
 
-Get realtime prices on seller websites :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/cardsprices.png](https://www.mtgcompanion.org/img/portfolio/fullsize/cardsprices.png)
-
-
-Deck Manager :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/deckManager2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/4.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/import_deck.png](https://www.mtgcompanion.org/img/portfolio/fullsize/import_deck.png)
-
-
-Collection Manager :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/collectionManager.png](https://www.mtgcompanion.org/img/portfolio/fullsize/6.png)
-
-Manage your dashboard with your interested "dashlet"
-![https://www.mtgcompanion.org/img/portfolio/fullsize/dashboard.png](https://www.mtgcompanion.org/img/portfolio/fullsize/dashboard.png)
-
-Check for price variation :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/priceVariation.png](https://www.mtgcompanion.org/img/portfolio/fullsize/priceVariation.png)
-
-Use "MoreLikeThis" Functionnality :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/morelikethis.png](https://www.mtgcompanion.org/img/portfolio/fullsize/morelikethis.png)
-
-import or export your card list / deck :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/import_export.png](https://www.mtgcompanion.org/img/portfolio/fullsize/import_export.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/webcam.png](https://www.mtgcompanion.org/img/portfolio/fullsize/webcam.png)
-
-Be alerted for your wanted cards :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/alerts.png](https://www.mtgcompanion.org/img/portfolio/fullsize/5.png)
-
-Manage your stock :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/stockManagement.png](https://www.mtgcompanion.org/img/portfolio/fullsize/stockManagement.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/stock.png](https://www.mtgcompanion.org/img/portfolio/fullsize/stock.png)
-
-Store your financial movement and check your benefits :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/financial.png](https://www.mtgcompanion.org/img/portfolio/fullsize/financial.png)
-
-Try your deck in game simulator :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/tryDeck.png](https://www.mtgcompanion.org/img/portfolio/fullsize/tryDeck.png)
-
-Create deck in sealed format :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/sealed.png](https://www.mtgcompanion.org/img/portfolio/fullsize/3.png)
-
-get your companion in discord's channels :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/discord.png](https://www.mtgcompanion.org/img/portfolio/fullsize/discord.png)
-
-get your companion in chrome :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/mtgchromecompanion.png](https://www.mtgcompanion.org/img/portfolio/fullsize/mtgchromecompanion.png)
-
-Publish your collection throught your embedded shopping website :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/webshop.png](https://www.mtgcompanion.org/img/portfolio/fullsize/webshop.png)
-
-
-Generate Website of your collections :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/website.png](https://www.mtgcompanion.org/img/portfolio/fullsize/website.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/website2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/website2.png)
-
-Create your own cards :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/cardmaker.png](https://www.mtgcompanion.org/img/portfolio/fullsize/cardmaker.png)
-
-Get news from your favorites sites :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/news.png](https://www.mtgcompanion.org/img/portfolio/fullsize/news.png)
-
-Manage your card with the reponsive web UI :
-![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui.png](https://www.mtgcompanion.org/img/portfolio/fullsize/2.png)
-![https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui-2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/web-ui-2.png)
