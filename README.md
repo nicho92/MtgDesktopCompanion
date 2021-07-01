@@ -18,13 +18,13 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 [![GitHub stars](https://img.shields.io/badge/download-2.25-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 
 # Launch
+```
+ Need to have Java >=15 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
->Need to have Java >=15 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
->
->download and unzip latest release at https://github.com/nicho92/MtgDesktopCompanion/releases
->
->go to /bin directory and launch mtg-desktop-companion.bat (for windows) or mtg-desktop-companion.sh (for unix)
+ Download and unzip latest release at https://github.com/nicho92/MtgDesktopCompanion/releases
 
+ go to /bin directory and launch mtg-desktop-companion.bat (for windows) or mtg-desktop-companion.sh (for unix)
+```
 
 # Setup from source
 ```
