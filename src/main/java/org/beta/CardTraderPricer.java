@@ -116,8 +116,7 @@ public class CardTraderPricer extends AbstractCardExport {
 
 	@Override
 	public String getFileExtension() {
-		// TODO Auto-generated method stub
-		return null;
+		return ".csv";
 	}
 
 	@Override

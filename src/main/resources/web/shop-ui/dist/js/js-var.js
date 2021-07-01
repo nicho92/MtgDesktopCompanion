@@ -40,7 +40,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
            			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"&product="+data.typeStock+"' title='View Product'>"+data.productName +"</a></h5>";
            				
            			append+="<p class='card-text'>";
-							append+="<i class='ss ss-1x ss-"+data.edition.id.toLowerCase()+"'></i>"+data.edition.set +"<br/>";
+							append+="<i class='ss ss-2x ss-"+data.edition.id.toLowerCase()+"'></i>";
 							append+= data.condition + " " + (data.foil?"<i class='fas fa-star fa-1x'/>":"") ;
 							
 					append+="</p>";

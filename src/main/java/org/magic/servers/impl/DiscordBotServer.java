@@ -196,7 +196,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
 		
 		if(mc.getExtra()!=null)
-			temp.append("**Layout:** ").append(mc.getExtra().toPrettyString()).append("\n");
+			temp.append("**").append(mc.getExtra().toPrettyString()).append("** ").append("\n");
 		
 		temp.append("**Reserved:** ");
 		if(mc.isReserved())
@@ -236,7 +236,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 							prices = prices.stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
 							Collections.sort(prices, new MagicPricesComparator());
 							if(prices!=null && !prices.isEmpty())
-								eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+prices.get(0).getCurrency().getCurrencyCode(),true);
+								eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+" "+prices.get(0).getCurrency().getCurrencyCode(),true);
 						}
 					} catch (Exception e) {
 						logger.error(e);
