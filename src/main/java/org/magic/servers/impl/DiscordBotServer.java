@@ -24,6 +24,7 @@ import javax.security.auth.login.LoginException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -59,6 +60,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String TOKEN = "TOKEN";
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
+	private static final String PRICE_KEYWORDS = "PRICE_KEYWORDS";
 	
 	
 	private JDA jda;
@@ -94,6 +96,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
+			boolean priceask = StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && StringUtils.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
+			
 			logger.debug(m.group());
 			String name=m.group(1).trim();
 			MagicEdition ed = null;
@@ -110,7 +114,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				try {
 					liste.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false));
 				}
-				catch(Exception e)
+				catch(Exception e)	
 				{
 					logger.error(e);
 				}
@@ -125,7 +129,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				for (var x = 0; x < liste.size(); x++) {
 					MagicCard result = liste.get(x);
 					BiFunction<MagicCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
-						var embed=parseCard(result);
+						var embed=parseCard(result,getBoolean(SHOWPRICE)||priceask);
 						var eb = new EmbedBuilder(embed);
 						if (liste.size() > 1)
 							eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
@@ -184,7 +188,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 	
 	
-	private MessageEmbed parseCard(MagicCard mc) {
+	private MessageEmbed parseCard(MagicCard mc,boolean price) {
 		
 		var eb = new EmbedBuilder();
 		eb.setDescription("");
@@ -219,7 +223,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		else
 			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		
-		if(getBoolean(SHOWPRICE)) {
+		if(price) {
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
 				List<MagicPrice> prices = null;
 				
@@ -314,6 +318,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
 		setProperty(REGEX,"\\{(.*?)\\}");
 		setProperty(SHOWCOLLECTIONS,"true");
+		setProperty(PRICE_KEYWORDS,"price,prix,how much,cost");
 		
 	}
 
