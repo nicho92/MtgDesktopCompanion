@@ -44,6 +44,12 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
 		}
 		
+		if(!URLTools.isCorrectConnection(url))
+		{
+			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)-1);
+			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
+		}
+		
 		return url;
 	}
 	

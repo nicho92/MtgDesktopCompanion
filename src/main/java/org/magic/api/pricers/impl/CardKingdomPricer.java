@@ -96,8 +96,19 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	private String format(String s) {
 		return s.replace("'s", "s").replace(",", "").replace(" ", "-").replace("'","").toLowerCase();
 	}
-
+	
+	
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+		
+		var ret = getPrices(card,false);
+		ret.addAll(getPrices(card, true));
+		return ret;
+		
+	}
+	
+	
+
+	public List<MagicPrice> getPrices(MagicCard card,boolean foil) throws IOException {
 
 		if(eds.isEmpty())
 			initEds();
@@ -107,7 +118,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		var html = getString("URL");
 
 
-		String url = html + format(findGoodEds(card.getCurrentSet().getSet())) + "/" + format(card.getName());
+		String url = html + format(findGoodEds(card.getCurrentSet().getSet())) + "/" + format(card.getName()+(foil?"-foil":""));
 		Elements prices = null;
 		Elements qualities = null;
 
@@ -135,7 +146,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			mp.setUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
 			mp.setQuality(qualities.get(i).html());
 			mp.setLanguage("English");
-
+			mp.setFoil(foil);
 			if (!qualities.get(i).hasClass("disabled"))
 				lstPrices.add(mp);
 		}
