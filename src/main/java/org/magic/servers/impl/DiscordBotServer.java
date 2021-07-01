@@ -44,6 +44,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -61,7 +62,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String TOKEN = "TOKEN";
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	private static final String PRICE_KEYWORDS = "PRICE_KEYWORDS";
-	
+	private static final String HELP_MESSAGE = "HELP_MESSAGE";
 	
 	private JDA jda;
 	private ListenerAdapter listener;
@@ -83,92 +84,112 @@ public class DiscordBotServer extends AbstractMTGServer {
 			{
 				if (event.getAuthor().isBot()) 
 					return;
-				analyseCard(event);
+				
+				analyseMessage(event);
 			}
 		};
 	}
 	
-	private void analyseCard(MessageReceivedEvent event) {
+	private void analyseMessage(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 		
-		final List<MagicCard> liste = new ArrayList<>();
+		if(event.getMessage().getContentRaw().toLowerCase().contains("help"))
+		{
+			responseHelp(event);
+			return;
+		}
+		
+		
 		var p = Pattern.compile(getString(REGEX));
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
-			boolean priceask = StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && StringUtils.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
-			
-			logger.debug(m.group());
 			String name=m.group(1).trim();
-			MagicEdition ed = null;
-			if(name.contains("|"))
-			{
-				ed = new MagicEdition();
-				ed.setId(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
-				name=name.substring(0, name.indexOf('|')).trim();
-			}
-			
-			MessageChannel channel = event.getChannel();
-				channel.sendTyping().queue();
-
-				try {
-					liste.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false));
-				}
-				catch(Exception e)	
-				{
-					logger.error(e);
-				}
-				
-				if(liste.isEmpty())
-				{
-					channel.sendMessage("Sorry i can't found "+name ).queue();
-					return;
-				}
-				
-				var builder = new NavigableEmbed.Builder(event.getChannel());
-				for (var x = 0; x < liste.size(); x++) {
-					MagicCard result = liste.get(x);
-					BiFunction<MagicCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
-						var embed=parseCard(result,getBoolean(SHOWPRICE)||priceask);
-						var eb = new EmbedBuilder(embed);
-						if (liste.size() > 1)
-							eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
-						
-						return eb.build();
-					};
-					int finalIndex = x;
-					builder.addEmbed(() -> getEmbed.apply(result, finalIndex));
-				}
-				
-				NavigableEmbed navEb = builder.build();
-				
-				
-				if(liste.size()>1)
-				{
-					applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
-					applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
-			
-					var rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
-					rl.addController(event.getAuthor());
-					rl.addResponse(EmbedButton.PREVIOUS.getIcon(), ev -> {
-						navEb.setY(0);
-						if (navEb.getX() > 0) navEb.left();
-						applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
-					});
-					rl.addResponse(EmbedButton.NEXT.getIcon(), ev -> {
-						navEb.setY(0);
-						if (navEb.getX() < navEb.getWidth() - 1) navEb.right();
-						applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
-					});
-
-				}
-			}	
-			
-		
-		
+			responseSearch(event,name);
+		}	
 	}
 
 	
+	private void responseHelp(MessageReceivedEvent event) {
+		MessageChannel channel = event.getChannel();
+		channel.sendTyping().queue();
+		channel.sendMessage(getString(HELP_MESSAGE)).queue();
+		
+		if(!getString(PRICE_KEYWORDS).isEmpty())
+			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
+	}
+
+
+	private void responseSearch(MessageReceivedEvent event,String name) 
+	{
+		boolean priceask = !StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && StringUtils.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
+		final List<MagicCard> liste = new ArrayList<>();
+		MagicEdition ed = null;
+		if(name.contains("|"))
+		{
+			ed = new MagicEdition();
+			ed.setId(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
+			name=name.substring(0, name.indexOf('|')).trim();
+		}
+		
+		MessageChannel channel = event.getChannel();
+			channel.sendTyping().queue();
+
+			try {
+				liste.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false));
+			}
+			catch(Exception e)	
+			{
+				logger.error(e);
+			}
+			
+			if(liste.isEmpty())
+			{
+				channel.sendMessage("Sorry i can't find "+name ).queue();
+				return;
+			}
+			
+			var builder = new NavigableEmbed.Builder(event.getChannel());
+			for (var x = 0; x < liste.size(); x++) {
+				MagicCard result = liste.get(x);
+				BiFunction<MagicCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
+					var embed=parseCard(result,getBoolean(SHOWPRICE)||priceask);
+					var eb = new EmbedBuilder(embed);
+					if (liste.size() > 1)
+						eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
+					
+					return eb.build();
+				};
+				int finalIndex = x;
+				builder.addEmbed(() -> getEmbed.apply(result, finalIndex));
+			}
+			
+			NavigableEmbed navEb = builder.build();
+			
+			
+			if(liste.size()>1)
+			{
+				applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
+				applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
+		
+				var rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
+				rl.addController(event.getAuthor());
+				rl.addResponse(EmbedButton.PREVIOUS.getIcon(), ev -> {
+					navEb.setY(0);
+					if (navEb.getX() > 0) navEb.left();
+					applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
+				});
+				rl.addResponse(EmbedButton.NEXT.getIcon(), ev -> {
+					navEb.setY(0);
+					if (navEb.getX() < navEb.getWidth() - 1) navEb.right();
+					applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
+				});
+
+			}
+		
+	}
+
+
 	private void applyControl(String emote, Message message, boolean enabled) {
 			message.addReaction(emote).queue();
 			if (!enabled) {
@@ -319,6 +340,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(REGEX,"\\{(.*?)\\}");
 		setProperty(SHOWCOLLECTIONS,"true");
 		setProperty(PRICE_KEYWORDS,"price,prix,how much,cost");
+		setProperty(HELP_MESSAGE,":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set");
 		
 	}
 

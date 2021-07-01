@@ -17,7 +17,6 @@ public class EbayPricer extends AbstractPricesProvider {
 
 	
 	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";
-
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 		String keyword = card.getName();
@@ -31,7 +30,7 @@ public class EbayPricer extends AbstractPricesProvider {
 				.addContent("RESPONSE-DATA-FORMAT", "JSON")
 				.addContent("GLOBAL-ID", getString("COUNTRY"))
 				.addContent("paginationInput.entriesPerPage", getString("MAX"))
-				.addContent("keywords", URLTools.encode(keyword));
+				.addContent("keywords", keyword);
 		
 		if(getBoolean("FIXEDPRICE_ONLY"))
 		{	
