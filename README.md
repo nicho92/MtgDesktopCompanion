@@ -54,6 +54,7 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 - Cross-plateform : Discord Bot, Plugin for Chrome,...
 - Embedded webUI and JsonServer
 - Embedded webshop server
+- Try discord bot : https://discord.com/api/oauth2/authorize?client_id=448196866774007808&permissions=0&scope=bot
 
 
 # Portfolio
