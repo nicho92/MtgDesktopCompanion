@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
+import org.magic.api.beans.enums.TransactionStatus;
+
 public class WebShopConfig implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,6 +38,10 @@ public class WebShopConfig implements Serializable {
 	private String bic;
 	private String websiteUrl;
 	private boolean sealedEnabled;
+	private String extraCss;
+	
+	
+	
 	
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
@@ -45,6 +51,15 @@ public class WebShopConfig implements Serializable {
 		needcollections = new ArrayList<>();
 		contact=new Contact();
 	}
+	
+	public String getExtraCss() {
+		return extraCss;
+	}
+	
+	 public void setExtraCss(String extraCss) {
+		this.extraCss = extraCss;
+	}
+	
 	
 	public boolean isEnableGed() {
 		return enableGed;

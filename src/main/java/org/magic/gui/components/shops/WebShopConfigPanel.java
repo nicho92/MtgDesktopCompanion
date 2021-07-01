@@ -80,8 +80,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JCheckBox chkEnableGed;
 	private JTextField txtIban;
 	private JTextField txtBic;
-	
-	
+	private RSyntaxTextArea txtExtraCss ;
+
 	
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout,boolean collapsed)
 	{
@@ -168,10 +168,18 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		
+		JPanel panelCss = createBoxPanel("CSS", MTGConstants.ICON_TAB_JSON, new BorderLayout(0, 0), true);
+		txtExtraCss = new RSyntaxTextArea(conf.getExtraCss());
+		
+		txtExtraCss.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
+		panelCss.setLayout(new BorderLayout());
+		panelCss.add(new JScrollPane(txtExtraCss));
+		
+		
 		JPanel panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
 		panelContact.setLayout(new BorderLayout());
 		panelContact.add(contactPanel,BorderLayout.CENTER);
-		contactPanel.setContact(MTGControler.getInstance().getWebConfig().getContact());
+		contactPanel.setContact(conf.getContact());
 		
 		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
 		var serverStatPanel = new ServerStatePanel(false,getPlugin(new ShoppingServer().getName(), MTGServer.class));
@@ -317,6 +325,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		container.add(btnSave);
 		container.add(panelGeneral);
 		container.add(panelSlides);
+		container.add(panelCss);
 		container.add(panelContact);
 		container.add(panelStock);
 		container.add(panelProduct);
@@ -348,6 +357,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setAutomaticProduct(chkAutoProduct.isSelected());
 				newBean.setIban(txtIban.getText());
 				newBean.setBic(txtBic.getText());
+				newBean.setExtraCss(txtExtraCss.getText());
 				newBean.setWebsiteUrl(txtWebsiteUrl.getText());
 				newBean.setEnableGed(chkEnableGed.isSelected());
 				try {

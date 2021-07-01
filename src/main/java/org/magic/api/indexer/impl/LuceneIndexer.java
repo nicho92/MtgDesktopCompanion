@@ -62,7 +62,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public void initDefault() {
 		setProperty(BOOST, "false");
 		setProperty(MIN_TERM_FREQ, "1");
-		setProperty(FIELDS,"cost,text,color,type,cmc");
+		setProperty(FIELDS,"cost,text,color,type,cmc,rarity,extraLayout");
 		setProperty(MAX_RESULTS,"20");
 		setProperty(DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
 	}
@@ -301,9 +301,14 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            		  doc.add(new Field("type", mc.getFullType(), fieldType));
            		  doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
      		      doc.add(new TextField("data",serializer.toJson(mc),Field.Store.YES));
-           		   
-        		   
-        		   
+     		      doc.add(new Field("rarity",mc.getRarity().toPrettyString(),fieldType)); 
+	     		     
+					if(mc.getExtra() != null)
+						doc.add(new Field("extraLayout", mc.getExtra().toPrettyString(), fieldType));
+					else
+						doc.add(new Field("extraLayout", "", fieldType));
+     		     
+     		     
             	   for(MTGColor color:mc.getColors())
             	   {
             		   doc.add(new Field("color", color.getCode(), fieldType));

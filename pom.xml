@@ -70,7 +70,7 @@
 	  	<dependency>
 		  <groupId>com.formdev</groupId>
 		  <artifactId>jide-oss</artifactId>
-		  <version>3.7.11.1</version>
+		  <version>3.7.12</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
@@ -240,7 +240,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.36.0</version>
+			<version>3.36.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

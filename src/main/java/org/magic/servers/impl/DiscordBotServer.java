@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.Icon;
@@ -35,6 +36,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.MTG;
+import org.magic.tools.UITools;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -209,18 +211,30 @@ public class DiscordBotServer extends AbstractMTGServer {
 		else
 			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		
-		if(getBoolean(SHOWPRICE))
+		if(getBoolean(SHOWPRICE)) {
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
 					try {
 						List<MagicPrice> prices = prov.getPrice(mc);
 						Collections.sort(prices, new MagicPricesComparator());
-						eb.addField(prov.getName(),prices.get(0).getValue()+prices.get(0).getCurrency().getCurrencyCode(),true);
+						if(!prices.isEmpty())
+							eb.addField(prov.getName(),UITools.formatDouble(prices.get(0).getValue())+prices.get(0).getCurrency().getCurrencyCode(),true);
 					} catch (Exception e) {
 						logger.error(e);
 					}
+					
+					try {
+						List<MagicPrice> prices = prov.getPrice(mc).stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
+						Collections.sort(prices, new MagicPricesComparator());
+						if(!prices.isEmpty())
+							eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+prices.get(0).getCurrency().getCurrencyCode(),true);
+					} catch (Exception e) {
+						logger.error(e);
+					}
+					
+					
 				}
 			);
-		
+		}
 		return eb.build();
 	}
 	
