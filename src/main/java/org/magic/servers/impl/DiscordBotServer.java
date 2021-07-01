@@ -58,6 +58,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String SHOWPRICE = "SHOWPRICE";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String TOKEN = "TOKEN";
+	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	
 	
 	private JDA jda;
@@ -186,23 +187,29 @@ public class DiscordBotServer extends AbstractMTGServer {
 		
 		var eb = new EmbedBuilder();
 		eb.setDescription("");
-		eb.setTitle(mc.getName()+ " " + mc.getCost());
+		eb.setTitle(mc.getName()+ " " + (mc.getCost()!=null?mc.getCost():""));
 		eb.setColor(MTGColor.determine(mc.getColors()).toColor());
 			
 		var temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");
 		temp.append(mc.getText()).append("\n");
 		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
+		
+		if(mc.getExtra()!=null)
+			temp.append("**Layout:** ").append(mc.getExtra().toPrettyString()).append("\n");
+		
 		temp.append("**Reserved:** ");
 		if(mc.isReserved())
 			temp.append(":white_check_mark: \n");
 		else
 			temp.append(":no_entry_sign:  \n");
 		
-		try {
-			temp.append("**Collections:** "+getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
-		} catch (SQLException e) {
-			logger.error(e);
+		if(getBoolean(SHOWCOLLECTIONS)) {
+			try {
+				temp.append("**Collections:** "+getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		}
 		eb.setDescription(temp.toString());
 	
@@ -213,8 +220,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 		
 		if(getBoolean(SHOWPRICE)) {
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
+				List<MagicPrice> prices = null;
+				
 					try {
-						List<MagicPrice> prices = prov.getPrice(mc);
+						prices = prov.getPrice(mc);
 						Collections.sort(prices, new MagicPricesComparator());
 						if(!prices.isEmpty())
 							eb.addField(prov.getName(),UITools.formatDouble(prices.get(0).getValue())+prices.get(0).getCurrency().getCurrencyCode(),true);
@@ -223,10 +232,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 					}
 					
 					try {
-						List<MagicPrice> prices = prov.getPrice(mc).stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
-						Collections.sort(prices, new MagicPricesComparator());
-						if(!prices.isEmpty())
-							eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+prices.get(0).getCurrency().getCurrencyCode(),true);
+						if(prices!=null && !prices.isEmpty()) {
+							prices = prices.stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
+							Collections.sort(prices, new MagicPricesComparator());
+							if(prices!=null && !prices.isEmpty())
+								eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+prices.get(0).getCurrency().getCurrencyCode(),true);
+						}
 					} catch (Exception e) {
 						logger.error(e);
 					}
@@ -301,6 +312,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(SHOWPRICE, "true");
 		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
 		setProperty(REGEX,"\\{(.*?)\\}");
+		setProperty(SHOWCOLLECTIONS,"true");
+		
 	}
 
 }

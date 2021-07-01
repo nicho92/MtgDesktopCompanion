@@ -15,6 +15,7 @@ import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -175,7 +176,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 
 	public boolean getBoolean(String k) {
-		if(getString(k)==null)
+		if(StringUtils.isEmpty(getString(k)))
 			return false;
 			
 		

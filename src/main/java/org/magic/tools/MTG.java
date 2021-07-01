@@ -1,13 +1,18 @@
 package org.magic.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
 public class MTG {
-	
+	protected static Logger logger = MTGLogger.getLogger(MTG.class);
+
 	private MTG() {
 		// this class tool is for simple controler classes access
 	}
@@ -36,6 +41,25 @@ public class MTG {
 	{
 		return PluginRegistry.inst().listEnabledPlugins(t);
 	}
+	
+	public static <T extends MTGPlugin> List<T> listPlugins(String[] names, Class<T> t) 
+	{
+		List<T> list = new ArrayList<>();
+		for(String name : names)
+		{
+			if(!StringUtils.isEmpty(name))
+				try {
+					list.add(PluginRegistry.inst().getPlugin(name,t));
+				}
+				catch(Exception e)
+				{
+					logger.error("Can't add " + name + " " + t +" :" + e);
+				}
+		}
+		return list;
+	}
+	
+	
 	
 	public static <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		return PluginRegistry.inst().getPlugin(name,type);
