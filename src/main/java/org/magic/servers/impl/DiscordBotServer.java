@@ -510,8 +510,10 @@ class ReactionListener extends ListenerAdapter {
 	@Override
 	public void onGenericMessageReaction(GenericMessageReactionEvent event) {
 		
-		if (message == null || event.getMessageIdLong() != message.getIdLong() || !controllers.contains(event.getUser().getId()))
+		if (message == null || event.getMessageIdLong() != message.getIdLong() || event.getUser()==null|| !controllers.contains(event.getUser().getId()))
 			return;
+		
+		
 		ReactionCallback cb = actionMap.getOrDefault(event.getReactionEmote().getName(), null);
 	
 		if (cb != null) {
