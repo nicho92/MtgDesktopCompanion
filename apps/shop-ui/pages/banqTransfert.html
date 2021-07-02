@@ -1,0 +1,122 @@
+<head>
+	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+    <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
+  	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+ 	<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
+		<link href="../css/extra.css" rel="stylesheet" type="text/css">
+ 
+	
+    <script src="../dist/js/rest-server.js"></script>
+   	<script src="../dist/js/js-var.js"></script>
+   	<script src="../dist/js/storage.js" data-namespace="paypal_sdk"></script>
+  	<script>
+  	var data = getConfig();
+  	
+  	var total=0;
+  	var transaction;
+			$(document).ready(function() {
+				  	$("#header").load("nav.html");
+				  	$("#footer").load("footer.html");
+			  		$("#banner").load("banner.html",function() {
+			  		var itemsTotal=0;
+				 	$('#siteTitle').html(data.siteTitle);
+			 		$('#bannerTitle').html(data.bannerTitle);
+			    	$('#bannerText').html(data.bannerText);
+			    	$('#aboutText').html(data.aboutText);
+			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+			    	$('#contactTelephone').html(data.contact.telephone);
+			    	$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
+				    $('#contactAddress').html(data.contact.address);
+			    	$('#contactCountry').html(data.contact.country);
+
+			    	$('#iban').html(data.iban);
+			    	$('#bic').html(data.bic);
+
+
+
+			    	document.title = data.siteTitle;
+			    	var currency = data.currencySymbol;
+			    	var currencyCode = data.currencyCode;
+			    	
+			    	$.ajax({
+				        url: restserver+"/webshop/transaction/"+$_GET('id')
+				    }).then(function(data) {
+				    	transaction=data;
+				    	var html="<b>Transaction</b> #"+data.id +"<br/>";
+				    	html+="<b>Items</b> :<br/><ul>";
+				    	$.each( data.items, function( key, value ) {
+				    		html+= "<li>"+value.productName +"</li>";
+				    		itemsTotal+=(value.qte*value.price);
+				    	});
+				    	
+				    	total = (itemsTotal + data.shippingPrice);
+				    	html+="</ul><b>Price</b> : " + itemsTotal.toFixed(2)+" " +currency +"<br/>";
+				    	html+="<b>Shippement</b> : " + data.shippingPrice+" " +currency +"<br/>";
+				    	html+="<b>Price</b> : " + total.toFixed(2) +" " +currency +"<br/>";
+				    	
+				    	$('#transaction-content').html(html);
+				    });
+
+						$("#btnSendTransfert").click(function() 
+						{
+							$("#btnSendTransfert").prop('disabled', true);
+						  		$.post(restserver+"/transaction/paid/VIREMENT",JSON.stringify(transaction))
+									.done(function( data ) {
+										$("#result").addClass("alert-success");
+										$("#result").html("Payment was successfully sent</b>");
+									});
+						});
+						
+
+			 
+			});
+});
+	  </script>
+</head>
+
+<body>
+
+<nav id="header" class="navbar navbar-expand-md navbar-dark bg-dark"></nav>
+<section id="banner" class="jumbotron text-center"></section>
+
+<div class="container-fluid ">
+			<div class="row">
+    	
+			<div class="card" style="width: 40%;">
+				<div class="card-header bg-info"><em class="fas fa-file-alt"></em> Transaction </div>
+				<div class="card-body ">
+						<div id="transaction-content"></div>
+				</div>
+			</div>
+			
+			
+			<div class="card ml-2" style="width: 50%;">
+				<div class="card-header bg-info"><em class="fas fa-university"></em> Pay with Banq Transfert</div>
+					<div class="card-body" >
+						<strong>IBAN : </strong><div id='iban'/></div>
+						<br/>
+						<strong>BIC : </strong><div id='bic'></div>
+						<br/>
+						
+						<button type="button" id='btnSendTransfert' class="btn btn-primary">Click here when transfert is done</button>
+					
+					</div>
+					<div id="result" class="card-footer" role="alert"></div>
+			</div>
+			
+			
+			
+			</div>
+</div>
+
+
+<footer id="footer" class="text-light"></footer>
+</body>

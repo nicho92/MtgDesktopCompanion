@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Site meta -->
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Site Title</title>
+    <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+    <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
+  	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
+	
+	
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+
+    <script src="../dist/js/rest-server.js"></script>
+   	<script src="../dist/js/js-var.js"></script>
+   	<script src="../dist/js/storage.js"></script>
+ 
+ 	<link href="../css/extra.css" rel="stylesheet" type="text/css">
+    
+  
+    <script>
+		
+		
+    $(document).ready(function() {	
+		 $("#banner").load("banner.html");
+	   	 $("#header").load("nav.html");
+	 	 $("#footer").load("footer.html", function() {
+		  	
+    		var collection;
+    		var maxLastProduct=4;
+    		var currency = "";
+    		var percentReduction= 0;
+			
+			data = getConfig();
+	
+			    	$('#siteTitle').html(data.siteTitle);
+			    	$('#bannerTitle').html(data.bannerTitle);
+			       	$('#bannerText').html(data.bannerText);
+			       	$('#aboutText').html(data.aboutText);
+			       	document.title = data.siteTitle;
+			       	currency = data.currencySymbol;
+			       	maxLastProduct=data.maxLastProduct;
+			       	percentReduction = data.percentReduction;
+			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+			    	$('#contactTelephone').html(data.contact.telephone);
+			    	$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
+			    	$('#contactAddress').html(data.contact.address);
+			    	$('#contactCountry').html(data.contact.country);
+			       	
+
+					if(data.topProduct){
+						if(data.topProduct.product.scryfallId)
+				    		$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.product.scryfallId+"?format=image");
+						else
+							$("#topProductImage").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.topProduct.product.editions[0].multiverseId+"?format=image");
+						
+						topProductImage
+				    	$("#topProductTitle").append(data.topProduct.product.name);
+				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.id);
+						$("#topProductImage").attr('alt',data.topProduct.product.name);
+					}
+					
+					
+			       	jQuery.each(data.slidesLinksImage, function(index, value) {
+			       		$('#carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to='"+index+"'></li>");
+			       		$('#carousel-inner').append("<div class='carousel-item " + (index==0 ? "active":"")+"'><img class='d-block w-100' src='"+value+"' alt='Slide"+index+"'/></div>");
+			       	});
+			       	
+			        
+			       	if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}
+			       	
+			       	$.each( data.collections, function( key, value ) {
+			    		  
+			    		  $.ajax({
+						        url: restserver+"/stock/list/"+value.name
+						    }).then(function(data) {
+						 		
+						    	data=data.reverse();
+						    	for(let i=0;i<maxLastProduct;i++)
+					    		{
+					    			$('#latest-product').append(generateStockCardHTML(data[i],currency,false,percentReduction));
+					    			
+					    		}
+
+						    	$('button[name="addCartButton"]').each(function() {
+						       		$(this).click(function() {
+						       			addCartStockId($(this),percentReduction);
+						    		});
+						    	});
+						    });
+			    	});
+
+					if(data.sealedEnabled == false)
+					{
+						$("#navSealed").hide();
+					}
+			       	
+			       	if(data.needcollections.length>0)
+			       	{
+			       		$("#navSearch").show();
+			              	$.each( data.needcollections, function( key, value ) {
+					    		  
+					    		  $.ajax({
+								        url: restserver+"/stock/list/"+value.name
+								    }).then(function(data) {
+								    	data=data.reverse();
+								    	for(let i=0;i<maxLastProduct;i++)
+							    		{
+											if(data[i].qte>0)
+							    				$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
+							    		}
+								    });
+					    	});
+			       	
+			       	}
+			       	else
+		       		{
+			       		$("#navSearch").hide();
+		       			$("#searchcardContainer").hide();
+		       		}
+			  });
+		
+   	 
+	});
+    
+    </script>
+    
+    
+</head>
+<body>
+
+<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top"></nav>
+<section id="banner" class="jumbotron text-center"></section>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol id= "carousel-indicators" class="carousel-indicators"></ol>
+                
+                
+                <div class="carousel-inner" id="carousel-inner">
+                    
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-header bg-success text-white text-uppercase">
+                    <i class="fa fa-heart"></i> Top product
+                </div>
+                <img id="topProductImage" class="img-fluid border-0" src="" alt="">
+                <div class="card-body">
+                    <h4 class="card-title text-center"><a id="topProductLink" href="product.html" title="View Product"><span id="topProductTitle"/></a></h4>
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-uppercase"><em class="fa fa-star"></em> Last products</div>
+                <div class="card-body">
+                    <div id="latest-product" class="row"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-3" id="searchcardContainer">
+	<div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-uppercase"><em class="fa fa-search"></em> Searched Product</div>
+                <div class="card-body">
+                    <div id="need-product" class="row"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Footer -->
+<footer id="footer" class="text-light"></footer>
+
+
+</body>
+</html>

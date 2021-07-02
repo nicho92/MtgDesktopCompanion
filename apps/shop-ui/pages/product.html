@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Site meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Site Title</title>
+    <!-- CSS -->
+    <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+    
+    <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
+    <!-- JS -->
+	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" type="text/javascript"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.css" rel="stylesheet" type="text/css"/>
+
+
+	
+	
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+ 		<link href="../css/extra.css" rel="stylesheet" type="text/css">
+ 
+    <script src="../dist/js/rest-server.js"></script>
+   	<script src="../dist/js/js-var.js"></script>
+   	<script src="../dist/js/storage.js"></script>
+ 
+    <script>
+    
+    
+    
+	
+    $(document).ready(function() {	
+    
+
+		   	 $("#footer").load("footer.html");
+		   	 $("#header").load("nav.html");
+		   	 $("#banner").load("banner.html", function() {
+				 
+			data = getConfig();
+    
+    
+    		 var collection;
+    		 var currency="";
+    		 var percentReduction=0;
+		       	
+			    	$('#siteTitle').html(data.siteTitle);
+			    	$('#bannerTitle').html(data.bannerTitle);
+			       	$('#bannerText').html(data.bannerText);
+			       	$('#aboutText').html(data.aboutText);
+			       	document.title = data.siteTitle;
+			       	currency= data.currencySymbol;
+			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
+			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
+			    	$('#contactTelephone').html(data.contact.telephone);
+			    	$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
+			    	$('#contactAddress').html(data.contact.address);
+			    	$('#contactCountry').html(data.contact.country);
+			    	percentReduction = data.percentReduction;
+			    	
+			    	if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}
+			
+			
+				var url=restserver+"/stock/get/"+$_GET("id");
+				
+				if($_GET("product")=="SEALED")
+				{
+					url=restserver+"/sealed/get/"+$_GET("id");
+				}
+			
+		   	 
+		   	 	$.ajax({
+			        url: url
+			    }).then(function(stockItem){
+			   	
+					$(".imageCard").attr('src',stockItem.url);
+				
+			    	if(percentReduction>0)
+			    	{
+			    		$("#price").html(((stockItem.price-(stockItem.price*percentReduction)).toFixed(2) +" "+currency));
+			    		$("#priceDiscount").html(stockItem.price.toFixed(2) +" "+currency);
+			    	}
+			    	else
+			    	{
+			    		$("#price").html(stockItem.price.toFixed(2) +" "+currency);	
+			    	}
+			    	
+			    	$("#productModalLabel").html(stockItem.productName);
+			    	$("#quantity").attr('max',stockItem.qte);
+			    	$("#cardDescription").html(stockItem.product.text);
+			    	$("#productComments").html(stockItem.comment);
+			    	$("#productName").html(stockItem.productName);
+
+						var append="";
+			    		try{
+			    		append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.edition.keyRuneCode.toLowerCase()+" ss-2x'></i><br/>"+stockItem.edition.set+"</li><br/>";
+			    		}
+			    		catch(error)
+			    		{
+			    			append+="<li class='list-inline-item'><i class='ss ss-"+stockItem.edition.id.toLowerCase()+" ss-2x'></i><br/>"+stockItem.edition.set+"</li><br/>";
+			    		}
+			    		append+="<li class='list-inline-item'><i class='fas fa-language fa-2x'></i><br/>"+stockItem.language+"</li>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-medal fa-2x'></i><br/>"+stockItem.condition+"</li>";
+			    		append+="<li class='list-inline-item'><i class='fas fa-star fa-2x'></i><br/>"+(stockItem.foil?'foil':(stockItem.etched?'foil-etched':'Normal'))+"</li>";
+			    		
+			    		
+			    		if(stockItem.altered)
+			    			append+="<li class='list-inline-item'><i class='fas fa-edit fa-2x'></i><br/>Altered</li>";
+			    		
+			    		if(stockItem.signed)
+			    			append+="<li class='list-inline-item'><i class='fas fa-file-signature fa-2x'></i><br/>Signed</li>";
+			    		
+				    	$("#itemDetails").html(append);
+				    	
+						if(stockItem.qte>0)
+						{
+							$( "#addCartButton" ).click(function() {
+								stockItem.qte= parseInt($('#quantity').val());
+					    		addCartProduct(stockItem,percentReduction);
+					    	});
+				    	}
+						else
+						{
+							$("#addCartButton").removeClass();
+							$("#addCartButton").addClass("btn btn-secondary btn-lg btn-block text-uppercase");
+							$("#addCartButton").text("Out of stock");
+							
+						}
+						
+					
+						if(data.enableGed==true)
+						{
+							$.ajax({
+					        	url: restserver+"/ged/MagicCardStock/"+$_GET("id")
+					    	}).then(function(geds) {
+								
+					    		$.each( geds, function( key, value ) {
+					    			var base64img = value.data;
+					    			var img = $('<img />', { 
+					    				  id: 'Myid',
+					    				  src: 'data:image/'+value.ext+';base64,' + base64img,
+					    				  height: 350,
+					    				  class: 'zoom img-fluid imageCard',
+					    				  alt: value.name
+					    				});
+					    			
+					    			$("#portfolio").append(img).append("&nbsp;");	
+					    			$('.zoom').magnify( {
+					    			    speed: 200,
+					    			    src: 'data:image/'+value.ext+';base64,' + base64img
+					    			  });
+					    			
+					    		});
+							});
+						}
+						else
+						{
+							$("#rowGed").hide();
+						}
+						
+						
+				  });
+		   	 
+			    });
+    }); 
+
+			  
+		   	</script>  
+</head>		   	 
+		   	 	
+    
+    
+<body>
+
+<nav id="header" class="navbar navbar-expand-md navbar-dark bg-dark"></nav>
+<section id="banner" class="jumbotron text-center"></section>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="category.html">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Product</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <a href="" data-toggle="modal" data-target="#productModal">
+                        <img class="img-fluid imageCard" src="" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add to cart -->
+        <div class="col-12 col-lg-6 add_to_cart_block">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                	
+                 	<p class="productName" id="productName"></p>
+                    <p class="price" id="price"><span class="currency"></span></p>
+                    <p class="price_discounted" id="priceDiscount"><span class="currency"></span>	</p>
+                    
+                     <div class="product_rassurance">
+                       <ul class="list-inline" id="itemDetails">
+                           
+                        </ul>
+                    </div>
+                    
+                    
+                        <div class="form-group">
+                            <label>Quantity :</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number"  data-type="minus" data-field="">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control" id="quantity" name="quantity" min="1" max="10" value="1">
+                                <div class="input-group-append">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <button id="addCartButton" class="btn btn-success btn-lg btn-block text-uppercase">
+                            <i class="fa fa-shopping-cart"></i> Add To Cart
+                        </button>
+                   
+                   
+                    
+                    
+                </div>
+            </div>
+             <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> Description</div>
+                <div class="card-body">
+                    <p class="card-text" id="cardDescription">
+                       
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-comment"></i> Comments</div>
+                <div class="card-body">
+                    <p class="card-text" id="productComments">
+                      
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" id="rowGed">
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fas fa-images"></i> Portfolio</div>
+                <div class="card-body">
+                    <p class="card-text" id="portfolio"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+
+<!-- Footer -->
+<footer id="footer" class="text-light"></footer>
+
+
+<!-- Modal image -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Product title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img class="img-fluid imageCard" src="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script type="text/javascript">
+    //Plus & Minus for Quantity product
+    $('.btn-number').click(function(e){
+    	
+    	e.preventDefault();
+    	
+        type      = $(this).attr('data-type');
+        var input = $("input[name='quantity']");
+        var currentVal = parseInt(input.val());
+         
+        if (!isNaN(currentVal)) {
+            if(type == 'minus') {
+                
+                if(currentVal > input.attr('min')) {
+                    input.val(currentVal - 1).change();
+                } 
+                if(parseInt(input.val()) == input.attr('min')) {
+                    $(this).attr('disabled', true);
+                }
+
+            } else if(type == 'plus') {
+
+                if(currentVal < input.attr('max')) {
+                    input.val(currentVal + 1).change();
+                }
+                if(parseInt(input.val()) == input.attr('max')) {
+                    $(this).attr('disabled', true);
+                }
+
+            }
+        } else {
+            input.val(0);
+        }
+
+    });
+</script>
+</body>
+</html>

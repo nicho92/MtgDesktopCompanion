@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+
+
+    <title>MTGDesktopCompanion</title>
+	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
+  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
+ 	
+ 	<link href="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+ 	<script src="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+ 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css"  rel="stylesheet">
+   	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.css" rel="stylesheet">
+ 	<script src="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.js"></script>
+	
+ 	
+ 	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+ 	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
+
+	
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../dist/js/rest-server.js"></script>
+  	<script src="../dist/js/js-var.js"></script>
+  	<script src="../dist/js/js-btnActions.js"></script>
+    <script src="../dist/js/mtgcompanion-ui.js"></script>
+  
+  	<link href="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.css" rel="stylesheet" type="text/css" >
+   	<script src="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.min.js"></script>
+   	<script src="//cdn.jsdelivr.net/npm/raphael@latest/raphael.min.js"></script>
+  
+  
+  	<script>
+  	
+   	$(document).ready(function() {
+   		 $("nav").load("menu.html");
+   		 $( "#alertBtn" ).addClass("btn-warning");
+	   	 $( "#stockBtn" ).addClass("btn-primary");
+	   	 $( "#addCardBtn" ).addClass("btn-danger");
+		
+	   	$.fn.dataTable.ext.errMode = 'none';
+	   	
+	   	$("#alertBtn").click( function() {
+	  			addAlert($_GET("id"), function() {
+	  				$( "#alertBtn i" ).removeClass("fa-bell-o");
+	  				$( "#alertBtn i" ).addClass("fa-check-circle ");
+	  				  
+	  			});	
+	 		});
+	  		
+   	  	$("#stockBtn").click( function() {
+	  			addStock($_GET("id"),function() {
+	  				$( "#stockBtn i" ).removeClass("fa-file-text");
+	  				$( "#stockBtn i" ).addClass("fa-check-circle");
+	  				
+	  			});	
+	 		});
+   	  	
+   		$("#addCardBtn").click( function() {
+   			addCardtoDefaultLibrary($_GET("id"),function() {
+   				$( "#addCardBtn i" ).removeClass("fa-plus-circle");
+  				$( "#addCardBtn i" ).addClass("fa-check-circle");
+   			});
+	 	});
+   		 	
+		 $('#panelBtn').tooltip({
+	        selector: "[data-toggle=tooltip]",
+	        container: "body"
+	    })
+  		
+  		
+  	    $.ajax({
+  	        url: restserver+"/cards/"+$_GET("id")
+  	    }).then(function(data) {
+  	    	
+  	    	$('#title').html(data.name);
+  	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
+  	    	
+  	    	if(data.flavor!=null)
+  	    		$('#text').append("<br/><i>"+data.flavor+"</i>");
+  	    	
+  	    	$('#types').append(data.types);
+  	    	
+  	    	if(data.power!=null)
+  	    		$('#power').append(data.power+"/"+data.toughness);
+  	    	
+  	    	if(data.loyalty!=null)
+  	    		$('#loyalty').append(data.loyalty);
+  	    	
+  	    	if(data.layout!=null)
+  	    		$('#layout').append(data.layout);
+  	    	
+  	   	
+  	    	if(data.promoCard==true)
+  	    		$('#promoCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#promoCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.reserved==true)
+  	    		$('#reserved').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#reserved').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.reprintedCard==true)
+  	    		$('#reprintedCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#reprintedCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.arenaCard==true)
+  	    		$('#arenaCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#arenaCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.mtgoCard==true)
+  	    		$('#mtgoCard').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#mtgoCard').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	if(data.onlineOnly==true)
+  	    		$('#onlineOnly').append(" <i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#onlineOnly').append(" <i class='fa fa-times-circle'></i>");
+  	    	
+  	    	
+  	    	
+  	    	$('#artist').html("<i>"+data.artist+"</i>");
+  	    	
+  	    	$('#pic').attr("src", restserver+"/pics/cards/"+data.editions[0].id+"/"+data.name);
+  	    	
+  	    	$('#number').append(data.editions[0].number)
+  	    	
+  	    	
+  	    	for (var i = 0; i < data.editions.length; i++) 
+  	    	{
+  	    		if(i==0)
+  	    			{
+  	    				$("#set").html('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-1x"></i>');
+  	    			}
+  	    		
+  	    		$('#reprints').append('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-2x"></i><a href="list-cards.html?set='+data.editions[i].id+'">'+ data.editions[i].set + "</a><br/>");
+  	   		}
+  	    	
+  	    	
+  	 	 json = data.legalities;
+	     keys = Object.keys(json);
+    	 keys.map(function(item) 
+					{
+    		 			var color="";
+    		 			
+    		 			if(json[item].formatLegality!=null)
+  		 				{
+    		 				
+    		 				if(json[item].formatLegality =='RESTRICTED')
+    		 					color="list-group-item-warning";
+    		 				
+    		 				if(json[item].formatLegality =="LEGAL")
+       		 					color="list-group-item-success";
+       		 				
+    		 				if(json[item].formatLegality =="BANNED" || json[item].formatLegality =="NOT_LEGAL")
+        		 				color="list-group-item-danger";
+  		 				}
+    		 			else
+   		 				{
+    		 				if(json[item].oldLegality)
+        		 				color="list-group-item-success";
+        		 			else
+        		 				color="list-group-item-danger";
+   		 				}
+    		 			
+    		 			
+    		 			
+    		 
+	 					$("#legalities").append("<li class='list-group-item " + color+ "'><i class='fa fa-tag fa-fw'></i>"+json[item].format+" " + json[item].formatLegality+"</li>");	
+					});
+  	    	
+  	    		
+  	    	
+  	    	if(data.cost!=null)
+  	    	{
+  	    	   var d=data.cost.match(/[^{}]+(?=\})/g);
+  	      	   if(d!=null){
+  	      		   var ret="";
+  	      		   for (var i = 0; i < d.length; i++) {
+        			   d[i]=formatMana(d[i]);
+  	      			   $('#cost').append('<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>');
+  	      			}
+  	      	   }
+  	    	}
+  	    	if(data.colors.length>1)
+  	    	{
+  	    		$("div.panel").addClass("panel-yellow");
+  	    	}
+  	    	else if(data.colors.length==0)
+  	    	{
+  	    		$("div.panel").addClass("panel-default");
+  	    	}
+  	    	else
+  	    	{
+  	    		if(data.colors[0]=='WHITE')
+  	    			$("div.panel").addClass("panel-default");
+  	  			if(data.colors[0]=='BLUE')
+					$("div.panel").addClass("panel-primary");
+  				if(data.colors[0]=='BLACK')
+					$("div.panel").addClass("panel-black");
+				if(data.colors[0]=='RED')
+					$("div.panel").addClass("panel-red");
+				if(data.colors[0]=='GREEN')
+					$("div.panel").addClass("panel-green");
+  	    	}
+  	    	
+  	    	
+  	    	$.ajax({
+  	  			dataType: 'json',
+  	   	        url: restserver+"/dash/card/"+$_GET("id")+"/false"
+  	   	   		 }).then(function(json_data) {
+			  	   	    	
+  	   	   			 		new Morris.Line({
+			  	  	  		  element: 'priceVariation',
+			  	  	  		  data: json_data,
+			  	  	  		  xkey: 'date',
+			  	  	  		  ykeys: ['value'],
+			  	  	  		  labels: ['Value'],
+			  	  	  		  xLabels: 'month',
+			  	  	  		  hideHover: 'auto',
+			  	  	  		  resize: true,
+			  	  	  		  pointSize:0
+			  	  	  		});
+  	   	   			 		
+  	   	   			 		var vallast = json_data[json_data.length - 1].value;
+  	   	   					var valpreLast = json_data[json_data.length - 2].value;
+  	   	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
+  	   	   					
+  	   	   					
+  	   	   					$("#lastPrice").html(vallast.toFixed(2)+"$");
+  	   	   				
+  	   	   					if(vallast>valpreLast)
+   	   						{
+  	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-up");
+  	   	   						$("#pcVariation").html("+"+pc.toFixed(2)+"%");
+  	   						}
+  	   	   					else if(vallast<valpreLast)
+   	   						{
+	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-down");
+	   	   						$("#pcVariation").html(pc.toFixed(2)+"%");
+	   						}
+  	   	   					else
+   	   						{
+   	   				  			$("#priceArrow").addClass("fa-pause");
+   	   						}
+  	   	    	});
+  	    	
+  			  $.ajax({
+  	  	        url: restserver+"/collections/cards/"+$_GET("id")
+		  	  	    }).then(function(data) {
+		  	  	    	for (var i = 0; i < data.length; i++) {
+		  	  	    		$('#collections').append("<i class='fa fa-folder'></i><a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
+		  	  	    	}
+		  	  	    });
+  			  
+  			 $('#tablePrices').DataTable( {
+			    	language: {
+			    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+			    	 },
+			    	"responsive": true,
+			        "processing": true,
+			        "pageLength": 5,
+			        "bLengthChange": false,
+			        "paginationType":"simple",
+			      	"searching": false,
+			      	"order": [[ 1, "asc" ]],
+			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
+			        "columns": [
+			        	{ "data": "site" },
+			            { "data" : "value"},
+			            { "data": "currency",
+			            	"defaultContent": ""
+			           	},
+			          	{ "data": "quality",
+			           	  "defaultContent": ""
+			           	},
+			            { 
+	  			                "data": "url",
+	  			                "render": function(data, type, row, meta){
+	  			                   if(type === 'display'){
+	  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
+	  			                   }
+	  			                   return data;
+	  			                }
+	  			        }
+			        ]
+			    } );
+  	    	
+  	    });
+  	});
+  	</script>
+  	
+  	
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
+
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">
+							<span id="title">title</span>&nbsp;<em id="set"></em>
+						</h1>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">Pictures</div>
+						<div class="panel-body">
+							<p>
+								<img class='img-fluid' id='pic' data-holder-rendered="true"/>
+								<img class='img-fluid' id='pic2' data-holder-rendered="true"/>
+							</p>
+						</div>
+						<div class="panel-footer">
+							<p id='artist'></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="panel">
+						<div class="panel-heading">Informations</div>
+						<div class="panel-body">
+							<table class="table table-borderless  table-hover specialCollapse">
+      							<tbody>
+      								<tr>
+									    <td><p id="cost"><strong>Cost : </strong></p></td>
+									    <td><p id="types"><strong>Types :</strong></p></td>
+										<td><p id="power"><strong>Power :</strong></p></td>
+									<tr>
+									<tr>
+										<td><p id="number"><strong>Number :</strong></p></td>
+										<td><p id="loyalty"><strong>Loyalty :</strong></p></td>
+										<td><p id="layout"><strong>Layout :</strong></p></td>
+										
+									</tr>
+									<tr>
+										<td><p id="reserved"><strong>Reserved :</strong></p></td>
+										<td><p id="promoCard"><strong>Promo :</strong></p></td>
+										<td><p id="reprintedCard"><strong>Reprinted :</strong></p></td>
+									</tr>
+									<tr>
+										<td><p id="arenaCard"><strong>MTGArena :</strong></p></td>
+										<td><p id="mtgoCard"><strong>MTGO :</strong></p></td>
+										<td><p id="onlineOnly"><strong>Online Only :</strong></p></td>
+									</tr>
+									
+      							</tbody>
+      						</table>
+						
+						
+							
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">Oracle Text</div>
+						<div class="panel-body">
+							<p id="text"></p>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">Actions</div>
+						<div class="panel-body" id='panelBtn'>
+							<button id="alertBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add alert">
+								<em class="fa fa-bell-o"></em>
+							</button>
+							<button id="stockBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to stock">
+								<em class="fa fa-file-text"></em>
+							</button>
+							<button id="addCardBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library">
+								<em class="fa fa-plus-circle"></em>
+							</button>
+							<div id="dialog-message"></div>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+				
+					<div class="panel">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i id="priceArrow" class="fa fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge" id="lastPrice"></div>
+                                    <div class="medium" id="pcVariation"></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				
+				
+					<div class="panel">
+						<div class="panel-heading">Reprints</div>
+						<div class="panel-body">
+							<p id="reprints"></p>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">Formats</div>
+						<div class="panel-body">
+							<p id="legalities"></p>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">Collections</div>
+						<div class="panel-body">
+							<p id="collections"></p>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-7">
+						<div class="panel">
+							<div class="panel-heading">Variation</div>
+							<div class="panel-body">
+								<div id="priceVariation" style="width: 100%;"></div>
+							</div>
+							<div class="panel-footer"></div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel">
+							<div class="panel-heading">Prices</div>
+							<div class="panel-body">
+
+								<table id="tablePrices" class="display" style="width: 100%">
+									<thead>
+										<tr>
+											<th>website</th>
+											<th>prices</th>
+											<th>currency</th>
+											<th>quality</th>
+											<th>link</th>
+										</tr>
+									</thead>
+								</table>
+
+							</div>
+							<div class="panel-footer"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+</html>
