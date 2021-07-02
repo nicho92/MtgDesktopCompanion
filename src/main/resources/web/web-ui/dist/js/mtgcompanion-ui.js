@@ -38,3 +38,17 @@ function mtgtooltip(element)
     });
 	
 }
+
+
+function mtgtooltipStock(element)
+{
+	element.popover({
+        placement : 'top',
+		trigger : 'hover',
+        html : true,
+        content: function () {
+            return '<img width="250px" src="'+$(this).attr("productUrl")+'"/>';
+        }
+    });
+	
+}
