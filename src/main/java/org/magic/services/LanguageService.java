@@ -4,11 +4,14 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.magic.tools.MTG;
 
 public class LanguageService {
 
 	private ResourceBundle rbundle;
 	private StringBuilder temp;
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public String get(String k, Object... values) {
@@ -63,6 +66,7 @@ public class LanguageService {
 		return rbundle.getString(key);
 		}catch(Exception e)
 		{
+			logger.trace("no bundle key found for " + key);
 			return key.toLowerCase();
 		}
 	}

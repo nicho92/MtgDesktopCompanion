@@ -49,18 +49,18 @@ public class ContactPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		add(new JLabel("LastName:"), UITools.createGridBagConstraints(null, null, 0, 0));
-		add(new JLabel("Name:"), UITools.createGridBagConstraints(null, null, 0, 1));
-		add(new JLabel("Address:"), UITools.createGridBagConstraints(null, null, 0, 2));
-		add(new JLabel("ZipCode :"), UITools.createGridBagConstraints(null, null, 0, 3));
-		add(new JLabel("City :"), UITools.createGridBagConstraints(null, null, 0, 4));
-		add(new JLabel("Country:"), UITools.createGridBagConstraints(null, null, 0, 5));
-		add(new JLabel("Email:"), UITools.createGridBagConstraints(null, null, 0, 6));
-		add(new JLabel("Password:"), UITools.createGridBagConstraints(null, null, 0, 7));
-		add(new JLabel("Telephone:"), UITools.createGridBagConstraints(null, null, 0, 8));
-		add(new JLabel("Website:"), UITools.createGridBagConstraints(null, null, 0, 9));
-		add(new JLabel("Accept Email :"), UITools.createGridBagConstraints(null, null, 0, 10));
-		add(new JLabel("Active :"), UITools.createGridBagConstraints(null, null, 0, 11));
+		add(new JLangLabel("LASTNAME"), UITools.createGridBagConstraints(null, null, 0, 0));
+		add(new JLangLabel("NAME"), UITools.createGridBagConstraints(null, null, 0, 1));
+		add(new JLangLabel("ADDRESS"), UITools.createGridBagConstraints(null, null, 0, 2));
+		add(new JLangLabel("ZIPCODE"), UITools.createGridBagConstraints(null, null, 0, 3));
+		add(new JLangLabel("CITY"), UITools.createGridBagConstraints(null, null, 0, 4));
+		add(new JLangLabel("COUNTRY"), UITools.createGridBagConstraints(null, null, 0, 5));
+		add(new JLangLabel("EMAIL"), UITools.createGridBagConstraints(null, null, 0, 6));
+		add(new JLangLabel("PASSWORD"), UITools.createGridBagConstraints(null, null, 0, 7));
+		add(new JLangLabel("TELEPHONE"), UITools.createGridBagConstraints(null, null, 0, 8));
+		add(new JLangLabel("WEBSITE"), UITools.createGridBagConstraints(null, null, 0, 9));
+		add(new JLangLabel("EMAIL_ACCEPT"), UITools.createGridBagConstraints(null, null, 0, 10));
+		add(new JLangLabel("ACTIVE"), UITools.createGridBagConstraints(null, null, 0, 11));
 	
 		lastNameJTextField = new JTextField();
 		add(lastNameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));

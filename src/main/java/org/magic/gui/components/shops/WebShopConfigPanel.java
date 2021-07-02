@@ -41,6 +41,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
+import org.magic.gui.components.JLangLabel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
@@ -110,7 +111,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		JPanel panelGeneral = createBoxPanel("GENERAL", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
 		
-			var lblTitleSite = new JLabel("SITETITLE");
+			var lblTitleSite = new JLangLabel("SITETITLE");
 			panelGeneral.add(lblTitleSite);
 			
 			txtSiteTitle = new JTextField(conf.getSiteTitle());
@@ -123,17 +124,17 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			txtWebsiteUrl = new JTextField(conf.getWebsiteUrl());
 			chkEnableGed = new JCheckBox();
 			chkEnableGed.setSelected(conf.isEnableGed());
-			panelGeneral.add(new JLabel("BANNERTITLE"));
+			panelGeneral.add(new JLangLabel("BANNERTITLE"));
 			panelGeneral.add(txtBannerTitle);
-			panelGeneral.add(new JLabel("BANNERTEXT"));
+			panelGeneral.add(new JLangLabel("BANNERTEXT"));
 			panelGeneral.add(new JScrollPane(txtBannerText));
-			panelGeneral.add(new JLabel("ABOUT"));
+			panelGeneral.add(new JLangLabel("ABOUT"));
 			panelGeneral.add(new JScrollPane(txtAbout));
-			panelGeneral.add(new JLabel("WEBSITE_URL"));
+			panelGeneral.add(new JLangLabel("WEBSITE_URL"));
 			panelGeneral.add(txtWebsiteUrl);
-			panelGeneral.add(new JLabel("GOOGLE_ID_ANALYTICS"));
+			panelGeneral.add(new JLangLabel("GOOGLE_ID_ANALYTICS"));
 			panelGeneral.add(txtAnalyticsGoogle);
-			panelGeneral.add(new JLabel("GED_ENABLE"));
+			panelGeneral.add(new JLangLabel("GED_ENABLE"));
 			panelGeneral.add(chkEnableGed);
 			
 			
@@ -207,16 +208,16 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			logger.error(e1);
 		}
 		
-		panelStock.add(new JLabel("SELL_STOCK_IN_COLLECTION"));
+		panelStock.add(new JLangLabel("SELL_STOCK_IN_COLLECTION"));
 		panelStock.add(cboCollections);
 
-		panelStock.add(new JLabel("SEARCH_CARDS_IN_COLLECTION"));
+		panelStock.add(new JLangLabel("SEARCH_CARDS_IN_COLLECTION"));
 		panelStock.add(needCollection);
 		
-		panelStock.add(new JLabel("AUTOMATIC_VALIDATION"));
+		panelStock.add(new JLangLabel("AUTOMATIC_VALIDATION"));
 		panelStock.add(chkAutomaticValidation);
 		
-		panelStock.add(new JLabel("ENABLE_SEALED_STOCK"));
+		panelStock.add(new JLangLabel("ENABLE_SEALED_STOCK"));
 		panelStock.add(chkEnableStock);
 		
 		
@@ -277,9 +278,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		panelProduct.add(panelButton);
 		panelProduct.add(cardPanel);
-		panelProduct.add(new JLabel("X_LASTEST_PRODUCT"));
+		panelProduct.add(new JLangLabel("X_LASTEST_PRODUCT"));
 		panelProduct.add(paneSlide);
-		panelProduct.add(new JLabel("PERCENT_REDUCTION_FOR_SELL"));
+		panelProduct.add(new JLangLabel("PERCENT_REDUCTION_FOR_SELL"));
 		panelProduct.add(spinnerReduction);
 		
 		JPanel panelDelivery = createBoxPanel("DELIVERY",MTGConstants.ICON_TAB_DELIVERY, new BorderLayout(),true);
@@ -289,21 +290,21 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		txtdeliveryRules.setText(conf.getShippingRules());	
 		var panelHaut = new JPanel();	
 			((FlowLayout)panelHaut.getLayout()).setAlignment(FlowLayout.LEFT);
-			panelHaut.add(new JLabel("DELIVERY_DAY"));
+			panelHaut.add(new JLangLabel("DELIVERY_DAY"));
 			panelHaut.add(averageDeliverayDay);
 		
 		panelDelivery.add(panelHaut,BorderLayout.NORTH);
-		panelDelivery.add(new JLabel("DELIVERY_RULES"),BorderLayout.WEST);
+		panelDelivery.add(new JLangLabel("DELIVERY_RULES"),BorderLayout.WEST);
 		panelDelivery.add(new JScrollPane(txtdeliveryRules), BorderLayout.CENTER);
 		
 		JPanel panelPayment = createBoxPanel("PAYMENT",MTGConstants.ICON_TAB_PRICES, new GridLayout(0, 2, 0, 0),true);
 		
 		txtPaypalClientId = new JTextField(conf.getPaypalClientId());
-		panelPayment.add(new JLabel("PAYPAL_CLIENT_ID"));
+		panelPayment.add(new JLangLabel("PAYPAL_CLIENT_ID"));
 		panelPayment.add(txtPaypalClientId);
 		
 		txtPaypalSendMoneyLink = new JTextField(conf.getSetPaypalSendMoneyUri().toString());
-		panelPayment.add(new JLabel("PAYPAL_SEND_MONEY_LINK"));
+		panelPayment.add(new JLangLabel("PAYPAL_SEND_MONEY_LINK"));
 		panelPayment.add(txtPaypalSendMoneyLink);
 		
 		txtIban = new JTextField(conf.getIban(),20);
@@ -313,11 +314,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		((FlowLayout)panelIbanBic.getLayout()).setAlignment(FlowLayout.LEFT);
 		
 		panelIbanBic.add(txtIban);
-		panelIbanBic.add(new JLabel("BIC"));
+		panelIbanBic.add(new JLangLabel("BIC"));
 		panelIbanBic.add(txtBic);
 		
 		
-		panelPayment.add(new JLabel("IBAN"));
+		panelPayment.add(new JLangLabel("IBAN"));
 		panelPayment.add(panelIbanBic);
 		
 		
