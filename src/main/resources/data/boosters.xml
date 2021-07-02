@@ -1415,12 +1415,25 @@
 			url="http://www.magiccorporation.com/images/magic/editions/maxi/duel_decks_zendikar_vs_eldrazi.png" />
 	</edition>
 	<edition id='BFZ'>
-
-		<booster lang='en' num='1'
-			url="http://i.tcgplayer.com/102716_200w.jpg" />
-
-		<banner lang='en'
-			url="http://mtgen.net/bfz/images/logo-word.png" />
+		<booster lang='en' num='1' url="https://i5.walmartimages.com/asr/c499ad84-7487-408d-8a82-b2e91609230f_1.caf0c1bc312437da9f93399539ae3121.jpeg" />
+		<booster lang='en' num='2' url="https://imaginaire.com/fr/images/BATTLE-FOR-ZENDIKAR-PAQUET-BOOSTER-P15-B36-ANGLAIS-MTG-BOOSTER__0630509304356-Z.JPG" />
+		<booster lang='en' num='3' url="https://product-images.tcgplayer.com/fit-in/400x558/102716.jpg" />
+		<booster lang='en' num='4' url="https://m.media-amazon.com/images/I/51yXfARXwPL.jpg" />
+		
+		
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2015/images/daily/g0SbtVDaBQ.png"/>
+		
+		<constructpack lang="en" num="2" url="https://media.wizards.com/2015/images/daily/ARC20150924_W.png"/>
+		<constructpack lang="en" num="3" url="https://media.wizards.com/2015/images/daily/ARC20150924_G.png"/>
+		<constructpack lang="en" num="4" url="https://nerdreactor.com/wp-content/uploads/2015/10/ARC20150924_U.png"/>
+		<constructpack lang="en" num="6" url="https://nerdreactor.com/wp-content/uploads/2015/10/ARC20150924_R.png"/>
+		<constructpack lang="en" num="7" url="https://nerdreactor.com/wp-content/uploads/2015/10/ARC20150924_B.png"/>
+		
+		
+		<banner lang='en' url="http://mtgen.net/bfz/images/logo-word.png" />
+		<box num="1" lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/2/2f/BFZ_Booster_box.png/revision/latest/scale-to-width-down/750?cb=20150908064338"/>	
+		<bundle num="1" lang="en" url="https://media.magic.wizards.com/images/featured/EN_BFZ_Magic_FatPack_5.png"/>	
+		<bundle num="2" lang="en" extra="gift" url="https://www.lataniere.fr/wp-content/uploads/2015/11/2015-Holiday-Gift-Box.png"/>	
 	</edition>
 	<edition id='C15'>
 
