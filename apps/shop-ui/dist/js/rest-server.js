@@ -1,1 +1,0 @@
-var restserver='https://93.26.161.227:1234';
