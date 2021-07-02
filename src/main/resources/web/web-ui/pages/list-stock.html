@@ -148,7 +148,10 @@
 		                }
 		            },
 		            { 
-		                "data": "price"
+		                "data": "price",
+		                "render": function(data, type, row, meta){
+		                   return data.toFixed(2);
+		                }
 		            }
 		           
 		        ],
