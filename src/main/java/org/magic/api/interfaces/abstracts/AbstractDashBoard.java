@@ -172,7 +172,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 					{
 						cs.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPrice()));
 						cs.setPriceDayChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceDayChange()));
-						cs.setPriceWeekChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceWeekChange()));	
+						cs.setPriceWeekChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceWeekChange()));
+						cs.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 					}
 			
 		});

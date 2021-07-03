@@ -25,12 +25,14 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -44,7 +46,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -93,30 +94,96 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void analyseMessage(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 		
-		if(event.getMessage().getContentRaw().toLowerCase().contains("help"))
-		{
-			responseHelp(event);
-			return;
-		}
-		
-		
 		var p = Pattern.compile(getString(REGEX));
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
-			String name=m.group(1).trim();
+			var name=m.group(1).trim();
+			
+			logger.debug("parsing " + name + " values");
+			
+			if(name.toLowerCase().contains("help"))
+			{
+				responseHelp(event);
+				return;
+			}
+			
+			if(name.toLowerCase().contains("variation"))
+			{
+				responseChardShake(event);
+				return;
+			}
+			
+			
+			
+			
 			responseSearch(event,name);
 		}	
 	}
 
 	
+	private void responseChardShake(MessageReceivedEvent event) {
+		var p = Pattern.compile(getString(REGEX));
+		var m = p.matcher(event.getMessage().getContentRaw());
+		if(m.find())
+		{
+			event.getChannel().sendTyping().queue();
+			
+			String name= m.group(1).trim();
+			String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
+			try {
+				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
+				
+				StringBuilder msg = new StringBuilder();
+				
+				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).collect(Collectors.toList());
+				Collections.sort(chks);				
+				
+				for(int i=0;i<10;i++)
+				{
+					var chk=chks.get(i);
+					
+					msg.append(chk.getName())
+					   .append(": ");
+					   
+					   if(chk.isFoil())
+						   msg.append(" (Foil) ");
+					   else if(chk.isEtched())
+						   msg.append(" (Etched) ");
+					   
+					   
+					   	if(chk.getPriceDayChange()>0)
+					   		msg.append("+");
+					   
+					   msg.append(UITools.roundDouble(chk.getPriceDayChange()))
+						  .append(" ")
+						  .append(chk.getCurrency())
+						  .append("\n");
+				}
+				
+				event.getChannel().sendMessage(msg).queue();
+				
+			} catch (Exception e) {
+				logger.error("error",e);
+				event.getChannel().sendMessage("Hoopsy...error for "+ed).queue();
+			}
+			
+			
+		}
+	}
+
+
 	private void responseHelp(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		channel.sendTyping().queue();
 		channel.sendMessage(getString(HELP_MESSAGE)).queue();
 		
+		
+		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
+		
+		
 	}
 
 

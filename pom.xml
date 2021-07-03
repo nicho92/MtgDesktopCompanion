@@ -63,6 +63,11 @@
 	</repositories>
 	<dependencies>
 	<dependency>
+    <groupId>it.marplex.cloudflarebypass</groupId>
+    <artifactId>cloudflare-bypass</artifactId>
+    <version>1.0</version>
+</dependency>
+	<dependency>
     	<groupId>net.jakubec</groupId>
     	<artifactId>JSnapableDesktopPane</artifactId>
     	<version>0.1</version>
