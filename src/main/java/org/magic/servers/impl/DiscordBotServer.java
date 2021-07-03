@@ -134,7 +134,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			try {
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
 				
-				StringBuilder msg = new StringBuilder();
+				StringBuilder msg = new StringBuilder(MTG.getEnabledPlugin(MTGDashBoard.class).getName()+ " has this results : \n");
 				
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).collect(Collectors.toList());
 				Collections.sort(chks);				
@@ -179,6 +179,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		channel.sendMessage(getString(HELP_MESSAGE)).queue();
 		
 		
+		channel.sendMessage("If you want to have prices variation for a set type {variation|<setName>} ").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
