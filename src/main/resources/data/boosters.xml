@@ -2274,8 +2274,7 @@
 	</edition>
 
 	<edition id="AFR">
-		<banner lang="en"
-			url="http://www.parkage.com/files/img/products/magic/afr/mtgafr-sta-black-fr-lg.png" />
+		<banner lang="en" url="https://www.cardkingdom.com/media/upload/about/AFR.png" />
 		<box lang="en" num="1" extra="draft"
 			url="https://tcgladen.ch/wp-content/uploads/2021/05/MTGAFR_EN_BstrDspBx_01_01.png" />
 		<box lang="en" num="2" extra="collector"
