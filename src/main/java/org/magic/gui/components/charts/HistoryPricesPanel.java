@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
@@ -45,7 +46,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	private transient HistoryPrice<?> cpVariationsF;
 	private MagicCard mc;
 	private MagicEdition me;
-	
+	private AbstractBuzyIndicatorComponent buzy;
 	private TimeSeries series1;
 	
 	@Override
@@ -61,10 +62,16 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	
 	public HistoryPricesPanel(boolean showOption) {
 		
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		
+		
+		
 		if(showOption) {
 		
 		var panelActions = new JPanel();
 		add(panelActions, BorderLayout.EAST);
+		add(buzy,BorderLayout.SOUTH);
+		
 		
 		var gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[] { 91, 0 };
@@ -100,6 +107,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		
 		if(isVisible()) 
 		{
+			buzy.start();
 			SwingWorker<Void, Void> sw=  new SwingWorker<>(){
 
 				@Override
@@ -133,6 +141,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				
 				@Override
 				protected void done() {
+					buzy.end();
 					refresh();
 				}
 				
