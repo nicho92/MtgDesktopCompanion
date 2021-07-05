@@ -157,18 +157,19 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(packaging.getExtra()!=EXTRA.VIP)
 		{
 		
-		switch(packaging.getType())
-		{
-			case BANNER:break;
-			case BOOSTER:selead+="+Booster+Pack";break;
-			case BOX:selead+="+Booster+Box";break;
-			case BUNDLE:selead+="+Bundle";break;
-			case CONSTRUCTPACK:break;
-			case PRERELEASEPACK:selead+="+Prerelease+Pack";break;
-			case STARTER: break;
-			default:break;
-		
-		}
+			switch(packaging.getType())
+			{
+				case BANNER:break;
+				case BOOSTER:selead+="+Booster+Pack";break;
+				case BOX:selead+="+Booster+Box";break;
+				case FATPACK:selead+="+Fat+Pack";break;
+				case BUNDLE:selead+="+Bundle";break;
+				case CONSTRUCTPACK:break;
+				case PRERELEASEPACK:selead+="+Prerelease+Pack";break;
+				case STARTER: break;
+				default:break;
+			
+			}
 		}
 							  
 							  
