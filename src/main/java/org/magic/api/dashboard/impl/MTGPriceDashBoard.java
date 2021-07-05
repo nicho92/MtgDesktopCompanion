@@ -157,6 +157,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	private String convert(String name) {
+		
+		if(name==null)
+			return "";
+		
 		if (name.equalsIgnoreCase("Limited Edition Alpha"))
 			return "Alpha";
 
