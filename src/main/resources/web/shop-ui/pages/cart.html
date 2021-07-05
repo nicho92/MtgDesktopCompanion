@@ -33,9 +33,9 @@
 	 $(document).ready(function() {	
 		 var array = [];	
 	   	
-	   	 $("#header").load("nav.html");
 	   	 $("#banner").load("banner.html");
- 		 $("#footer").load("footer.html", function() {
+ 		 $("#footer").load("footer.html");
+	   	 $("#header").load("nav.html", function() {
 		 
 			var data = getConfig();
 			var collection;

@@ -29,8 +29,9 @@
 
     <script>
 	    $(document).ready(function() {	
-		  	$("#header").load("nav.html");	
-			$("#footer").load("footer.html", function() {
+		    		$("#banner").load("banner.html");
+					$("#footer").load("footer.html");
+	   	 			$("#header").load("nav.html", function() {
 		 
 			var data = getConfig();
 			

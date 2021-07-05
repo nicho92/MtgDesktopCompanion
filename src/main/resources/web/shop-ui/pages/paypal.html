@@ -24,9 +24,10 @@
 				 	$.getScript("https://www.paypal.com/sdk/js?client-id="+data.paypalClientId+"&currency="+ data.currencyCode,function(a,b,c){
 							initButton();
 					});
-				  	$("#header").load("nav.html");
-				  	$("#footer").load("footer.html");
-			  		$("#banner").load("banner.html",function() {
+				
+				  	$("#banner").load("banner.html");
+					$("#footer").load("footer.html");
+	   	 			$("#header").load("nav.html", function() {
 			  		var itemsTotal=0;
 			  		
 				 	

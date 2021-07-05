@@ -18,9 +18,9 @@
   	var total=0;
   	var transaction;
 			$(document).ready(function() {
-				  	$("#header").load("nav.html");
-				  	$("#footer").load("footer.html");
-			  		$("#banner").load("banner.html",function() {
+				  	  	$("#banner").load("banner.html");
+					$("#footer").load("footer.html");
+	   	 			$("#header").load("nav.html", function() {
 			  		var itemsTotal=0;
 				 	$('#siteTitle').html(data.siteTitle);
 			 		$('#bannerTitle').html(data.bannerTitle);
