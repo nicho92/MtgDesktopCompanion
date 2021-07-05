@@ -35,11 +35,11 @@
     
     $(document).ready(function() {	
     	
-	     	$("#banner").load("banner.html");
-					$("#footer").load("footer.html");
-	   	 			$("#header").load("nav.html", function() {
+	     $("#banner").load("banner.html");
+	   	 $("#footer").load("footer.html");
+	   	 $("#header").load("nav.html", function() {
 		 
-		data = getConfig();
+				data = getConfig();
 			    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
