@@ -13,6 +13,13 @@
 	    	}
 	    	return vars;
 }
+
+function tilt(ref)
+{
+	ref.tilt({
+			scale: 1.2
+	});
+}
  
 
 function generateEditionHTML(data)

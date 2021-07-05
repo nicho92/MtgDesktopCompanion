@@ -8,27 +8,12 @@
     <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
     <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
   	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
- 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
   	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
  
-	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" type="text/javascript"></script>
-	
-	
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" type="text/css">
-	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
- 
-
-    
-    <script src="../dist/js/rest-server.js"></script>
-   	<script src="../dist/js/js-var.js"></script>
-   	<script src="../dist/js/storage.js"></script>
- 
-    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+   <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
     <link href="https://pagination.js.org/dist/2.1.5/pagination.css" rel="stylesheet" type="text/css">
     
     	<link href="../css/extra.css" rel="stylesheet" type="text/css">
@@ -46,20 +31,15 @@
 	
     	  });
     	  return append;
-    	
     }
-    
-    
-    
-    
     
     $(document).ready(function() {	
     	
-	   	 $("#banner").load("banner.html");
-	   	 $("#header").load("nav.html");
-	   	 $("#footer").load("footer.html", function() {
+	   	$("#banner").load("banner.html");
+	   	$("#header").load("nav.html");
+	   	$("#footer").load("footer.html", function() {
 		 
-			data = getConfig();
+		data = getConfig();
 			    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
@@ -82,9 +62,6 @@
 				        gtag('config', data.googleAnalyticsId);
 					}
 			    	
-			    	
-			    	
-			    	
 			    	$.each( data.needcollections, function( key, value ) {
 			    		var url=restserver+"/stock/list/"+value.name;
 			    		if($_GET("idSet"))
@@ -98,7 +75,6 @@
 							$("#breadcrumb").append("<li class='breadcrumb-item active'>Search</li>");
 							
 						}
-			    		
 			    		  
 			    	$.ajax({
 						        url: url
@@ -118,15 +94,14 @@
 											return;
 										}	
 							
-							
 						    	    	var html = generateProduct(data);
 						    	        $('#products').html(html);
 						    	        $('button[name="addCartButton"]').each(function() {
-								       		
-						    	        	$(this).click(function() {
+								        	$(this).click(function() {
 						    	        		addCartStockId($(this),percentReduction);
 								    		});
 								    	});
+										tilt($('.card-img-top'));
 						    	    }
 						    	})
 
