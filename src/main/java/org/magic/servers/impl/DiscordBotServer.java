@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,9 +27,11 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.StringUtils;
 import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -61,7 +62,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
-	private static final String REGEX = "REGEX";
+	
 	private static final String THUMBNAIL_IMAGE = "THUMBNAIL_IMAGE";
 	private static final String SHOWPRICE = "SHOWPRICE";
 	private static final String AUTOSTART = "AUTOSTART";
@@ -69,9 +70,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	private static final String PRICE_KEYWORDS = "PRICE_KEYWORDS";
 	private static final String HELP_MESSAGE = "HELP_MESSAGE";
+	private static final String RESULTS_SHAKES="RESULTS_SHAKES";
+	
+	private static final String REGEX ="\\{(.*?)\\}";
 	
 	private JDA jda;
 	private ListenerAdapter listener;
+	
 	
 
 	@Override
@@ -83,8 +88,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void initListener()
 	{
 		listener = new ListenerAdapter() {
-			
-			
 			@Override
 			public void onMessageReceived(MessageReceivedEvent event)
 			{
@@ -99,7 +102,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void analyseMessage(MessageReceivedEvent event) {
 		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 		
-		var p = Pattern.compile(getString(REGEX));
+		var p = Pattern.compile(REGEX);
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
@@ -107,7 +110,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			logger.debug("parsing " + name + " values");
 			
-			if(name.equalsIgnoreCase("{help}"))
+			if(name.equalsIgnoreCase("help"))
 			{
 				responseHelp(event);
 				return;
@@ -115,9 +118,16 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			if(name.toLowerCase().startsWith("variation|"))
 			{
-				responseChardShake(event);
+				responseChardShake(event,name);
 				return;
 			}
+			
+			if(name.toLowerCase().startsWith("format|"))
+			{
+				responseFormats(event,name);
+				return;
+			}
+			
 			
 			if(name.toLowerCase().startsWith("stockmkm") || name.toLowerCase().startsWith("mkmstock"))
 			{
@@ -131,6 +141,72 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 	
+	private void responseFormats(MessageReceivedEvent event,String content) {
+		String format="";
+		try {
+			event.getChannel().sendTyping().queue();
+			format=content.substring(content.indexOf('|')+1,content.length()).toUpperCase().trim();
+			List<CardShake> ret= MTG.getEnabledPlugin(MTGDashBoard.class).getShakerFor(FORMATS.valueOf(format));
+			Collections.sort(ret, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));	
+			event.getChannel().sendMessage(build(ret)).queue();
+		
+		}
+		catch(IllegalArgumentException e)
+		{
+			logger.error(e);
+			event.getChannel().sendMessage("format " + format + " is not found... try with : " + StringUtils.join(FORMATS.values(),",")).queue(); 
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			event.getChannel().sendMessage("Hoopsy Error ").queue(); 
+		}
+		
+	}
+
+
+	private String build(List<CardShake> ret) {
+		StringBuilder msg = new StringBuilder();
+		
+		Integer page = getInt(RESULTS_SHAKES);
+		
+		if(page==null)
+			page=10;
+		
+		for(int i=0;i<page;i++)
+		{
+			var chk=ret.get(i);
+			
+			msg.append(chk.getName())
+			   .append(": ");
+			   
+			
+			   if(chk.isFoil())
+				   msg.append(" (Foil) ");
+			   else if(chk.isEtched())
+				   msg.append(" (Etched) ");
+			   
+			   
+			  if(chk.getPercentDayChange()>0)
+			  		msg.append("+");
+			   
+			   msg.append(UITools.roundDouble(chk.getPercentDayChange()*100))
+				  .append("%")
+				  
+				  .append(" (").append(UITools.roundDouble(chk.getPrice())).append(" ").append(chk.getCurrency().getSymbol()).append(")")
+				  
+				  .append("\n");
+			   
+			   
+			   
+			   
+		}
+		
+		return msg.toString();
+		
+	}
+
+
 	private void responseMkmStock(MessageReceivedEvent event) {
 		event.getChannel().sendTyping().queue();
 		InsightService serv = new InsightService();
@@ -146,8 +222,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			for( InsightElement a : serv.getHighestPercentStockReduction())
 			{
-				
-				
 				temp.append(a.getCardName()).append(" (").append(a.getEd()).append(") : ").append(a.getStock()-a.getYesterdayStock()).append("\n");
 			}
 			
@@ -162,61 +236,23 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 
-	private void responseChardShake(MessageReceivedEvent event) {
-		var p = Pattern.compile(getString(REGEX));
-		var m = p.matcher(event.getMessage().getContentRaw());
-		if(m.find())
-		{
+	private void responseChardShake(MessageReceivedEvent event,String name) {
+	
 			event.getChannel().sendTyping().queue();
 			
-			String name= m.group(1).trim();
 			String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
 			try {
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
-				
-				StringBuilder msg = new StringBuilder(MTG.getEnabledPlugin(MTGDashBoard.class).getName()+ " has this results : \n");
-			
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).collect(Collectors.toList());
-				
 				Collections.sort(chks, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));				
-				
-				for(int i=0;i<10;i++)
-				{
-					var chk=chks.get(i);
-					
-					msg.append(chk.getName())
-					   .append(": ");
-					   
-					   if(chk.isFoil())
-						   msg.append(" (Foil) ");
-					   else if(chk.isEtched())
-						   msg.append(" (Etched) ");
-					   
-					   
-					  if(chk.getPercentDayChange()>0)
-					  		msg.append("+");
-					   
-					   msg.append(UITools.roundDouble(chk.getPercentDayChange()*100))
-						  .append("%")
-						  
-						  .append(" (").append(UITools.roundDouble(chk.getPrice())).append(" ").append(chk.getCurrency().getSymbol()).append(")")
-						  
-						  .append("\n");
-					   
-					   
-					   
-					   
-				}
-				
-				event.getChannel().sendMessage(msg).queue();
-				
+				event.getChannel().sendMessage(build(chks)).queue();
 			} catch (Exception e) {
 				logger.error("error",e);
 				event.getChannel().sendMessage("Hoopsy...error for "+ed).queue();
 			}
 			
 			
-		}
+		
 	}
 
 
@@ -224,9 +260,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		MessageChannel channel = event.getChannel();
 		channel.sendTyping().queue();
 		channel.sendMessage(getString(HELP_MESSAGE)).queue();
-		
-		
-		channel.sendMessage("If you want to have prices variation for a set type {variation|<setName>} ").queue();
+		channel.sendMessage(":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n").queue();
+		channel.sendMessage("If you want to have prices variation for a set type {variation|<setName>} and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
 		
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
@@ -455,10 +490,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(AUTOSTART, "false");
 		setProperty(SHOWPRICE, "true");
 		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
-		setProperty(REGEX,"\\{(.*?)\\}");
 		setProperty(SHOWCOLLECTIONS,"true");
 		setProperty(PRICE_KEYWORDS,"price,prix,how much,cost");
-		setProperty(HELP_MESSAGE,":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set");
+		setProperty(HELP_MESSAGE,"");
+		setProperty(RESULTS_SHAKES,"10");
 		
 	}
 
