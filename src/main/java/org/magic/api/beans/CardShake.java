@@ -6,7 +6,7 @@ import java.util.Date;
 
 import org.magic.api.beans.enums.MTGCardVariation;
 
-public class CardShake implements Serializable, Comparable<CardShake> {
+public class CardShake implements Serializable {
 
 	/**
 	 * 
@@ -206,19 +206,6 @@ public class CardShake implements Serializable, Comparable<CardShake> {
 
 	public void setProviderName(String name2) {
 		this.providerName=name2;
-		
-	}
-
-	@Override
-	public int compareTo(CardShake o) {
-		
-		if(Math.abs(o.getPriceDayChange())>Math.abs(getPriceDayChange()))
-			return 1;
-		
-		if(Math.abs(o.getPriceDayChange())<Math.abs(getPriceDayChange()))
-			return -1;
-		
-		return 0;
 		
 	}
 

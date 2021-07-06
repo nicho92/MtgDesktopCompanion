@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +26,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
+import org.api.mkm.modele.InsightElement;
+import org.api.mkm.services.InsightService;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -38,6 +41,8 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.sorters.MagicPricesComparator;
+import org.magic.sorters.PricesCardsShakeSorter;
+import org.magic.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -102,19 +107,23 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			logger.debug("parsing " + name + " values");
 			
-			if(name.toLowerCase().contains("help"))
+			if(name.equalsIgnoreCase("{help}"))
 			{
 				responseHelp(event);
 				return;
 			}
 			
-			if(name.toLowerCase().contains("variation"))
+			if(name.toLowerCase().startsWith("variation|"))
 			{
 				responseChardShake(event);
 				return;
 			}
 			
-			
+			if(name.toLowerCase().startsWith("stockmkm") || name.toLowerCase().startsWith("mkmstock"))
+			{
+				responseMkmStock(event);
+				return;
+			}
 			
 			
 			responseSearch(event,name);
@@ -122,6 +131,37 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 	
+	private void responseMkmStock(MessageReceivedEvent event) {
+		event.getChannel().sendTyping().queue();
+		InsightService serv = new InsightService();
+		StringBuilder temp = new StringBuilder();
+		try {
+			
+			Collections.sort(serv.getHighestPercentStockReduction(), (InsightElement o1, InsightElement o2) -> {
+					if(o1.getChangeValue()>o2.getChangeValue())
+						return -1;
+					else
+						return 1;
+			});
+			
+			for( InsightElement a : serv.getHighestPercentStockReduction())
+			{
+				
+				
+				temp.append(a.getCardName()).append(" (").append(a.getEd()).append(") : ").append(a.getStock()-a.getYesterdayStock()).append("\n");
+			}
+			
+			event.getChannel().sendMessage(temp.toString()).queue();
+		} catch (IOException e) {
+			event.getChannel().sendMessage("Hoopsy " +e ).queue();
+		}
+		
+		
+		
+		
+	}
+
+
 	private void responseChardShake(MessageReceivedEvent event) {
 		var p = Pattern.compile(getString(REGEX));
 		var m = p.matcher(event.getMessage().getContentRaw());
@@ -135,9 +175,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
 				
 				StringBuilder msg = new StringBuilder(MTG.getEnabledPlugin(MTGDashBoard.class).getName()+ " has this results : \n");
-				
+			
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).collect(Collectors.toList());
-				Collections.sort(chks);				
+				
+				Collections.sort(chks, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));				
 				
 				for(int i=0;i<10;i++)
 				{
@@ -152,13 +193,19 @@ public class DiscordBotServer extends AbstractMTGServer {
 						   msg.append(" (Etched) ");
 					   
 					   
-					   	if(chk.getPriceDayChange()>0)
-					   		msg.append("+");
+					  if(chk.getPercentDayChange()>0)
+					  		msg.append("+");
 					   
-					   msg.append(UITools.roundDouble(chk.getPriceDayChange()))
-						  .append(" ")
-						  .append(chk.getCurrency())
+					   msg.append(UITools.roundDouble(chk.getPercentDayChange()*100))
+						  .append("%")
+						  
+						  .append(" (").append(UITools.roundDouble(chk.getPrice())).append(" ").append(chk.getCurrency().getSymbol()).append(")")
+						  
 						  .append("\n");
+					   
+					   
+					   
+					   
 				}
 				
 				event.getChannel().sendMessage(msg).queue();
@@ -181,8 +228,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 		
 		channel.sendMessage("If you want to have prices variation for a set type {variation|<setName>} ").queue();
 		
+		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
+		
+		
 		
 		
 	}

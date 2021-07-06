@@ -106,7 +106,7 @@ public class CollectionEvaluator extends Observable
 		var ret = new EditionsShakers();
 			try {
 				ret= getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				logger.error(edition.getId() + " is not found " + e);
 			}
 			return ret;
