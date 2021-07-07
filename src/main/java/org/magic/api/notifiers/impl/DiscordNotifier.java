@@ -12,11 +12,11 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import org.magic.services.MTGConstants;
+
 
 public class DiscordNotifier extends AbstractMTGNotifier {
 
-	public static final int MAXSIZE=2000;
-	
 	
 	@Override
 	public boolean isExternal() {
@@ -60,10 +60,10 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			
 			var message=msg.toString();
 			
-			if(message.length()>MAXSIZE)
+			if(message.length()>MTGConstants.DISCORD_MAX_CHARACTER)
 			{
-				logger.warn("Message is too long : " + msg.length() + ">"+MAXSIZE+". Will truncate it");
-				message=message.substring(0, MAXSIZE);
+				logger.warn("Message is too long : " + msg.length() + ">"+MTGConstants.DISCORD_MAX_CHARACTER+". Will truncate it");
+				message=message.substring(0, MTGConstants.DISCORD_MAX_CHARACTER);
 			}
 			
 			logger.debug("send " + message +": File="+notification.getFile());

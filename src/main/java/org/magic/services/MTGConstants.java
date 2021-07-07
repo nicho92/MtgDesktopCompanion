@@ -322,6 +322,7 @@ public class MTGConstants {
 	public static final int CONNECTION_TIMEOUT =0;
 	public static final int ROTATED_TIMEOUT = 15;
 	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
+	public static final int DISCORD_MAX_CHARACTER = 2000;
 	
 	
 	

@@ -29,6 +29,7 @@ import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
@@ -41,6 +42,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
+import org.magic.services.MTGConstants;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.sorters.PricesCardsShakeSorter;
 import org.magic.sorters.PricesCardsShakeSorter.SORT;
@@ -69,15 +71,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String TOKEN = "TOKEN";
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	private static final String PRICE_KEYWORDS = "PRICE_KEYWORDS";
-	private static final String HELP_MESSAGE = "HELP_MESSAGE";
 	private static final String RESULTS_SHAKES="RESULTS_SHAKES";
 	
 	private static final String REGEX ="\\{(.*?)\\}";
 	
 	private JDA jda;
 	private ListenerAdapter listener;
-	
-	
+
 
 	@Override
 	public String getVersion() {
@@ -148,7 +148,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 			format=content.substring(content.indexOf('|')+1,content.length()).toUpperCase().trim();
 			List<CardShake> ret= MTG.getEnabledPlugin(MTGDashBoard.class).getShakerFor(FORMATS.valueOf(format));
 			Collections.sort(ret, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));	
-			event.getChannel().sendMessage(build(ret)).queue();
+			
+			var res = StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, ret.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
+			
+			event.getChannel().sendMessage(res).queue();
 		
 		}
 		catch(IllegalArgumentException e)
@@ -161,48 +164,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 			logger.error(e);
 			event.getChannel().sendMessage("Hoopsy Error ").queue(); 
 		}
-		
-	}
-
-
-	private String build(List<CardShake> ret) {
-		StringBuilder msg = new StringBuilder();
-		
-		Integer page = getInt(RESULTS_SHAKES);
-		
-		if(page==null)
-			page=10;
-		
-		for(int i=0;i<page;i++)
-		{
-			var chk=ret.get(i);
-			
-			msg.append(chk.getName())
-			   .append(": ");
-			   
-			
-			   if(chk.isFoil())
-				   msg.append(" (Foil) ");
-			   else if(chk.isEtched())
-				   msg.append(" (Etched) ");
-			   
-			   
-			  if(chk.getPercentDayChange()>0)
-			  		msg.append("+");
-			   
-			   msg.append(UITools.roundDouble(chk.getPercentDayChange()*100))
-				  .append("%")
-				  
-				  .append(" (").append(UITools.roundDouble(chk.getPrice())).append(" ").append(chk.getCurrency().getSymbol()).append(")")
-				  
-				  .append("\n");
-			   
-			   
-			   
-			   
-		}
-		
-		return msg.toString();
 		
 	}
 
@@ -225,7 +186,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				temp.append(a.getCardName()).append(" (").append(a.getEd()).append(") : ").append(a.getStock()-a.getYesterdayStock()).append("\n");
 			}
 			
-			event.getChannel().sendMessage(temp.toString()).queue();
+			event.getChannel().sendMessage(StringUtils.substring(temp.toString(),0,MTGConstants.DISCORD_MAX_CHARACTER)).queue();
 		} catch (IOException e) {
 			event.getChannel().sendMessage("Hoopsy " +e ).queue();
 		}
@@ -244,25 +205,21 @@ public class DiscordBotServer extends AbstractMTGServer {
 			try {
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).collect(Collectors.toList());
-				Collections.sort(chks, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));				
-				event.getChannel().sendMessage(build(chks)).queue();
+				Collections.sort(chks, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));		
+				
+				var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, chks.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
+				event.getChannel().sendMessage(res).queue();
 			} catch (Exception e) {
 				logger.error("error",e);
 				event.getChannel().sendMessage("Hoopsy...error for "+ed).queue();
 			}
-			
-			
-		
 	}
 
 
 	private void responseHelp(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		channel.sendTyping().queue();
-		channel.sendMessage(getString(HELP_MESSAGE)).queue();
-		channel.sendMessage(":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n").queue();
-		channel.sendMessage("If you want to have prices variation for a set type {variation|<setName>} and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
-		
+		channel.sendMessage(":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n If you want to have prices variation for a set type {variation|<setName>} and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
@@ -492,7 +449,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
 		setProperty(SHOWCOLLECTIONS,"true");
 		setProperty(PRICE_KEYWORDS,"price,prix,how much,cost");
-		setProperty(HELP_MESSAGE,"");
 		setProperty(RESULTS_SHAKES,"10");
 		
 	}
