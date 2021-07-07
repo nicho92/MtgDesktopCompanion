@@ -4,10 +4,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
@@ -115,6 +118,21 @@ public class HandPanel extends DraggablePanel {
 			
 			@Override
 			protected void done() {
+				
+				try {
+					get();
+				
+				}catch(CancellationException e)
+				{
+					
+					logger.info(this +" is canceled");
+				}
+				catch(InterruptedException | ExecutionException ex)
+				{
+					Thread.currentThread().interrupt();
+				}
+				
+				
 				revalidate();
 				repaint();
 			}

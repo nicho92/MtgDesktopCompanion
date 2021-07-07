@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -53,6 +55,8 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 	
 	@Override
 	protected Void doInBackground() throws Exception {
+		
+		
 		Collections.sort(eds);
 		for(MagicEdition ed : eds)
 		{
@@ -73,6 +77,20 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 	
 	@Override
 	protected void done() {
+		
+		
+		try {
+			get();
+		} catch (InterruptedException e) {
+			logger.error("Interruption " + e);
+			Thread.currentThread().interrupt();
+		} catch (ExecutionException e) {
+			logger.error(e);
+		}
+		catch (CancellationException e) {
+			logger.warn("SwingWorker canceled");
+		}
+		
 		treeTable.setTreeTableModel(collectionModel);
 		evaluator.removeObserver(o);
 		Double total = evaluator.total();
