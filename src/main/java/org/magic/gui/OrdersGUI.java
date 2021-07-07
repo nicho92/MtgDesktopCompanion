@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
@@ -336,7 +337,6 @@ public class OrdersGUI extends MTGUIComponent {
 			
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
-				try {
 					
 					if(table.getSelectedRow()<0)
 						return;
@@ -353,51 +353,57 @@ public class OrdersGUI extends MTGUIComponent {
 					editionFinancialChartPanel.init(o.getEdition());
 		
 				
-				ThreadManager.getInstance().executeThread(()->{
-						MagicCard mc=null;
-						try {
-							mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
-						}
-						catch(Exception e)
-						{
-							//do nothing
-						}	
-						HistoryPrice<MagicCard> e;
-						try {
-							e = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getDescription().toLowerCase().contains("foil"));
-						
-						Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
-						Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
-						
-						Double pc = UITools.roundDouble(((actualValue-paidValue)/paidValue)*100);
-						String spc = ((pc>0) ? "+":"")+pc;
-						
-						
-						lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() +" " + o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue) + " VALUE="+UITools.formatDouble(actualValue) + " : " + spc +"%");
-						if(actualValue<paidValue)
-							lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
-						else if(actualValue>paidValue)
-							lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
-						else
-							lblComparator.setIcon(null);
-						} catch (IOException e1) {
-							//do nothing
-						}
-						pricesPanel.init(mc, o.getEdition(), o.getDescription());
-						pricesPanel.revalidate();
-						
-				}, "loading prices for "+o.getDescription());
-				
-				btnDeleteOrder.setEnabled(true);
-				btnSaveOrder.setEnabled(true);
-				btnAddToCollection.setEnabled(true);
-				}
-				catch(Exception e)
-				{
-					btnDeleteOrder.setEnabled(false);
-					
 
-				}
+				SwingWorker<HistoryPrice<MagicCard>,Void> sw2 = new SwingWorker<>()
+				{
+
+					@Override
+					protected HistoryPrice<MagicCard> doInBackground() throws Exception {
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
+						HistoryPrice<MagicCard> e = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getDescription().toLowerCase().contains("foil"));
+						return e;
+					}
+
+					@Override
+					protected void done() {
+						try {
+							HistoryPrice<MagicCard> e = get();
+						
+									Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
+									Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
+									
+									Double pc = UITools.roundDouble(((actualValue-paidValue)/paidValue)*100);
+									String spc = ((pc>0) ? "+":"")+pc;
+									
+									
+									lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() +" " + o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue) + " VALUE="+UITools.formatDouble(actualValue) + " : " + spc +"%");
+									if(actualValue<paidValue)
+										lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
+									else if(actualValue>paidValue)
+										lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
+									else
+										lblComparator.setIcon(null);
+									
+									pricesPanel.init(e.getItem(), o.getEdition(), o.getDescription());
+									pricesPanel.revalidate();
+									
+									
+						} catch (InterruptedException e1) {
+							Thread.currentThread().interrupt();
+						} catch (ExecutionException e1) {
+							logger.error("exectuion error",e1);
+						}
+						finally {
+
+							btnDeleteOrder.setEnabled(true);
+							btnSaveOrder.setEnabled(true);
+							btnAddToCollection.setEnabled(true);
+						}
+					}//fin du done()
+				};//fin du worker
+				ThreadManager.getInstance().runInEdt(sw2, "loading prices for "+o.getDescription());
+			
+				
 			}
 		});
 		
