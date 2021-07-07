@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.14.12</version>
+			<version>3.15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -454,7 +454,7 @@
 		<dependency>
 		    <groupId>com.itextpdf</groupId>
 		    <artifactId>itext7-core</artifactId>
-		    <version>7.1.15</version>
+		    <version>7.1.16</version>
 		    <type>pom</type>
 		</dependency>
 		<dependency>
@@ -500,7 +500,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.22.jre7</version>
+			<version>42.2.23.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -515,12 +515,12 @@
 		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome</artifactId>
-			<version>1.15.0</version>
+			<version>1.16.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome-utils</artifactId>
-			<version>1.15.0</version>
+			<version>1.16.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
