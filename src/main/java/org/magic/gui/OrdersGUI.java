@@ -11,7 +11,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -360,8 +359,8 @@ public class OrdersGUI extends MTGUIComponent {
 					@Override
 					protected HistoryPrice<MagicCard> doInBackground() throws Exception {
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
-						HistoryPrice<MagicCard> e = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getDescription().toLowerCase().contains("foil"));
-						return e;
+						return getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getDescription().toLowerCase().contains("foil"));
+						
 					}
 
 					@Override
