@@ -21,7 +21,7 @@ function tilt(ref)
 	});
 }
 
-function cleanMana(content)
+function replaceMana(content)
 {
   //change linebreak
 	content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -30,7 +30,7 @@ function cleanMana(content)
 	
 	
 	//change keyword by mana symbol
-	content=content.replace(/\{(.*?)\}/g,'<i class="ms ms-$1 ms-cost ms-shadow"></i>').toLowerCase();
+	content=content.replace(/\{(.*?)\}/g,'<i class="ms ms-$1 ms-cost ms-shadow"></i>');
 	
 	
 	
