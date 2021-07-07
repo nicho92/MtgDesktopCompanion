@@ -20,7 +20,22 @@ function tilt(ref)
 			scale: 1.2
 	});
 }
- 
+
+function cleanMana(content)
+{
+  //change linebreak
+	content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+	
+	content=content.replace(/\{T\}/g,'<i class="ms ms-tap ms-cost ms-shadow"></i>');
+	
+	
+	//change keyword by mana symbol
+	content=content.replace(/\{(.*?)\}/g,'<i class="ms ms-$1 ms-cost ms-shadow"></i>').toLowerCase();
+	
+	
+	
+	return content;
+}
 
 function generateEditionHTML(data)
 {

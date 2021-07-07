@@ -92,7 +92,7 @@
 			    	
 			    	$("#productModalLabel").html(stockItem.productName);
 			    	$("#quantity").attr('max',stockItem.qte);
-			    	$("#cardDescription").html(stockItem.product.text);
+			    	$("#cardDescription").html(cleanMana(stockItem.product.text));
 			    	$("#productComments").html(stockItem.comment);
 			    	$("#productName").html(stockItem.productName);
 
