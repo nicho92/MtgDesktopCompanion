@@ -171,7 +171,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void responseMkmStock(MessageReceivedEvent event) {
 		event.getChannel().sendTyping().queue();
 		InsightService serv = new InsightService();
-		StringBuilder temp = new StringBuilder();
 		try {
 			
 			Collections.sort(serv.getHighestPercentStockReduction(), (InsightElement o1, InsightElement o2) -> {
@@ -181,19 +180,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 						return 1;
 			});
 			
-			for( InsightElement a : serv.getHighestPercentStockReduction())
-			{
-				temp.append(a.getCardName()).append(" (").append(a.getEd()).append(") : ").append(a.getStock()-a.getYesterdayStock()).append("\n");
-			}
-			
-			event.getChannel().sendMessage(StringUtils.substring(temp.toString(),0,MTGConstants.DISCORD_MAX_CHARACTER)).queue();
+			var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, serv.getHighestPercentStockReduction(),InsightElement.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
+			event.getChannel().sendMessage(StringUtils.substring(res,0,MTGConstants.DISCORD_MAX_CHARACTER)).queue();
 		} catch (IOException e) {
 			event.getChannel().sendMessage("Hoopsy " +e ).queue();
 		}
-		
-		
-		
-		
 	}
 
 
@@ -219,7 +210,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void responseHelp(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		channel.sendTyping().queue();
-		channel.sendMessage(":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n If you want to have prices variation for a set type {variation|<setName>} and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
+		channel.sendMessage(":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
+				+ "If you want to have prices variation for a set type {variation|<setName>} "
+				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();

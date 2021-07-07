@@ -155,61 +155,9 @@ public class SpeedConfigurator extends JFrame {
 		var btnSave = new JButton("Save");
 		btnSave.addActionListener(e -> save());
 		panel.add(btnSave);
-		
-		var panneau2 = new JPanel();
-		tabbedPane.addTab("Update", null, panneau2, null);
-		var gblpanneau2 = new GridBagLayout();
-		gblpanneau2.columnWidths = new int[]{272, 272, 0, 0};
-		gblpanneau2.rowHeights = new int[]{47, 47, 0};
-		gblpanneau2.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gblpanneau2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panneau2.setLayout(gblpanneau2);
-		
-		var lblNewLabel = new JLabel("Update Zip File :");
-		var gbclblNewLabel = new GridBagConstraints();
-		gbclblNewLabel.fill = GridBagConstraints.BOTH;
-		gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbclblNewLabel.gridx = 0;
-		gbclblNewLabel.gridy = 0;
-		panneau2.add(lblNewLabel, gbclblNewLabel);
-		
-		var textFieldFileChooser = new JTextFieldFileChooser();
-		textFieldFileChooser.getTextField().setColumns(25);
-		var gbctextFieldFileChooser = new GridBagConstraints();
-		gbctextFieldFileChooser.fill = GridBagConstraints.BOTH;
-		gbctextFieldFileChooser.insets = new Insets(0, 0, 5, 5);
-		gbctextFieldFileChooser.gridx = 1;
-		gbctextFieldFileChooser.gridy = 0;
-		panneau2.add(textFieldFileChooser, gbctextFieldFileChooser);
-		
-		var btnUpdate = new JButton("Update");
-		var gbcbtnUpdate = new GridBagConstraints();
-		gbcbtnUpdate.insets = new Insets(0, 0, 5, 0);
-		gbcbtnUpdate.fill = GridBagConstraints.BOTH;
-		gbcbtnUpdate.gridx = 2;
-		gbcbtnUpdate.gridy = 0;
-		panneau2.add(btnUpdate, gbcbtnUpdate);
-		
-		var lblNewLabel1 = new JTextFieldFileChooser(Paths.get("..").toAbsolutePath().normalize().toString(),JFileChooser.SAVE_DIALOG);
-		var gbclblNewLabel1 = new GridBagConstraints();
-		gbclblNewLabel1.gridwidth = 3;
-		gbclblNewLabel1.insets = new Insets(0, 0, 0, 5);
-		gbclblNewLabel1.fill = GridBagConstraints.BOTH;
-		gbclblNewLabel1.gridx = 0;
-		gbclblNewLabel1.gridy = 1;
-		panneau2.add(lblNewLabel1, gbclblNewLabel1);
 
 		pack();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		
-		btnUpdate.addActionListener(e->{
-			try {
-				FileTools.unzip(textFieldFileChooser.getFile(), lblNewLabel1.getFile());
-			} catch (IOException e1) {
-				MTGControler.getInstance().notify(e1);
-			}
-		});
 		
 	}
 
