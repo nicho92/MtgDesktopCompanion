@@ -55,9 +55,8 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
 			
 			var append="<div class='col-sm'>";
   					append+="<div class='card'>";
-        			append+="<img class='card-img-top' src='"+data.url+"' alt='Card image cap'>";
-    				
-       				append+="<div class='card-body'>";
+					append+="<img class='card-img-top' src='"+data.url+"'>";
+    				append+="<div class='card-body'>";
            			
            			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"&product="+data.typeStock+"' title='View Product'>"+data.productName +"</a></h5>";
            				
