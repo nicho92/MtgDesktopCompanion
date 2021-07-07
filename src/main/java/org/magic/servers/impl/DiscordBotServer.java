@@ -100,12 +100,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 	
 	private void analyseMessage(MessageReceivedEvent event) {
-		logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 		
 		var p = Pattern.compile(REGEX);
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
+			logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
+			
 			var name=m.group(1).trim();
 			
 			logger.debug("parsing " + name + " values");
@@ -129,7 +130,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			}
 			
 			
-			if(name.toLowerCase().startsWith("stockmkm") || name.toLowerCase().startsWith("mkmstock"))
+			if(name.toLowerCase().startsWith("mkm"))
 			{
 				responseMkmStock(event);
 				return;
@@ -301,10 +302,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 									   	try {
 											r.retrieveUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
 										} 
-									   	catch(InterruptedException ex)
-									   	{
+									   	catch(InterruptedException ex){
 									   		Thread.currentThread().interrupt();
-									   	}catch (Exception e) {
+									   	}
+									   	catch (Exception e) {
 											logger.error(e);
 										}
 								   	});
@@ -419,7 +420,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "Query your MTGDesktopCompanion via discord Channel";
+		return "Query your  "+MTGConstants.MTG_APP_NAME+"  via discord Channel";
 	}
 
 	@Override
