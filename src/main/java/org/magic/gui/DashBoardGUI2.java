@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -26,6 +27,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -34,6 +37,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.FileTools;
 
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.TabEditingEvent;
@@ -94,7 +98,6 @@ public class DashBoardGUI2 extends MTGUIComponent {
 						var p = new Properties();
 						p.load(fis);
 						AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
-						
 						dash.setProperties(p);
 						addDash(desktop,dash);
 
@@ -267,12 +270,32 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	}
 
 	private void addDash(JDesktopPane desktop, AbstractJDashlet dash) {
-			try {
+			try { 
 				logger.debug("loading " + dash.getName());
 				dash.initGUI();
 				desktop.add(dash);
 				dash.init();
 				dash.setVisible(true);
+				dash.addInternalFrameListener(new InternalFrameAdapter() {
+					@Override
+					public void internalFrameClosed(InternalFrameEvent e) {
+						AbstractJDashlet dash = (AbstractJDashlet) e.getInternalFrame();
+						
+						dash.onDestroy();
+						if (dash.getProperties().get("id") != null)
+						{	
+							
+							var tab= tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
+							
+							var conf = Paths.get(AbstractJDashlet.confdir.getAbsolutePath(),tab, dash.getProperties().get("id") + ".conf").toFile();
+							try {
+								FileTools.deleteFile(conf);
+							} catch (IOException e1) {
+								logger.error("error removing " + conf);
+							}
+						}
+					}
+				});
 				
 			} catch (Exception e) {
 				logger.error("error adding " + dash,e);

@@ -214,7 +214,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	}
 	
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		if(sw!=null && !sw.isDone())
 		{
 			boolean ret = sw.cancel(true);

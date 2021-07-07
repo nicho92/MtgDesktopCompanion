@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +14,22 @@ import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observer;
+
+import com.jidesoft.swing.JideTabbedPane;
+import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet{
 
@@ -103,15 +109,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			
 		}
 	
-		addInternalFrameListener(new InternalFrameAdapter() {
-			@Override
-			public void internalFrameClosed(InternalFrameEvent e) {
-				AbstractJDashlet dash = (AbstractJDashlet) e.getInternalFrame();
-				dash.onDestroy();
-				if (dash.getProperties().get("id") != null)
-					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id") + ".conf"));
-			}
-		});
+		
 		
 		loaded=true;
 		setFrameIcon(getIcon());
@@ -124,7 +122,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	}
 
 
-	protected void onDestroy() {
+	public void onDestroy() {
 		//do nothing
 	}
 
