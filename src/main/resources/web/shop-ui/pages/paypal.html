@@ -14,13 +14,18 @@
   
    	<script id='paypalscript'></script>
   	<script>
-  	var data = getConfig();
-  	
+ 	
   	var total=0;
   	var transaction;
 			
 			$(document).ready(function() {
-				 
+				
+					$("#banner").load("banner.html");
+					$("#footer").load("footer.html");
+	   	 			$("#header").load("nav.html", function() {
+					
+					var data = getConfig();
+ 
 				 	$.getScript("https://www.paypal.com/sdk/js?client-id="+data.paypalClientId+"&currency="+ data.currencyCode,function(a,b,c){
 							initButton();
 					});
@@ -59,7 +64,7 @@
 				    	total = (itemsTotal + data.shippingPrice);
 				    	html+="</ul><b>Price</b> : " + itemsTotal.toFixed(2)+" " +currency +"<br/>";
 				    	html+="<b>Shippement</b> : " + data.shippingPrice+" " +currency +"<br/>";
-				    	html+="<b>Price</b> : " + total.toFixed(2) +" " +currency +"<br/>";
+				    	html+="<b>Total</b> : " + total.toFixed(2) +" " +currency +"<br/>";
 				    	
 				    	$('#transaction-content').html(html);
 				    	
@@ -75,7 +80,7 @@
 			    	
 			    
 			  	});
-				 
+				 });
 			});
 	  </script>
 </head>
