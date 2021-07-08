@@ -14,6 +14,8 @@ public class LaposteTrackingService extends AbstractTrackingService{
 
 	private static final String SHIPMENT = "shipment";
 	private final String baseUri="https://api.laposte.fr/suivi/"+getVersion()+"/idships";
+	private static final String  OKAPI_KEY = "OKAPI-KEY";
+	
 	
 	@Override
 	public String getVersion() {
@@ -23,8 +25,15 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	@Override
 	public Tracking track(String number) throws IOException {
 		
+		
+		if(getString(OKAPI_KEY).isEmpty())
+		{
+			throw new IOException("please fill "+OKAPI_KEY+" for " + getName() + " plugin in config panel");
+		}
+		
+		
 		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?"+getString("LANG")).method(METHOD.GET)
-				.addHeader("X-Okapi-Key", getString("OKAPI-KEY"))
+				.addHeader("X-Okapi-Key", getString(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 		
 		var t = new Tracking(number);
@@ -57,7 +66,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 
 	@Override
 	public void initDefault() {
-		setProperty("OKAPI-KEY", "");
+		setProperty(OKAPI_KEY, "");
 		setProperty("LANG", "en_EN");
 	}
 	

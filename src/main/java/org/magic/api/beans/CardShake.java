@@ -64,10 +64,10 @@ public class CardShake implements Serializable {
 			lastWeekPrice=1;
 		
 		
-		percentDayChange = ((price-lastDayPrice)/lastDayPrice);
+		percentDayChange = ((price-lastDayPrice)/lastDayPrice)/100;
 		
 		priceWeekChange = price-lastWeekPrice;
-		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice);
+		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice)/100;
 		
 		currency=Currency.getInstance("USD");
 		

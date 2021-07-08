@@ -33,7 +33,7 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private static final String GET_FOIL = "GET_FOIL";
-	private static final String AVERAGE_MARKET = "AVERAGE_MARKET";
+	private static final String PRICE_VALUE = "AVERAGE_MARKET";
 	private static final String INTEREST_TYPE = "INTEREST_TYPE";
 	private CardsService cardService;
 	private InterestsService interestService;
@@ -126,19 +126,25 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		
 		
-		var c=CATEGORY.valueOf(getString(AVERAGE_MARKET).toUpperCase());
+		var p=PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 		
 		
-		logger.debug("Parsing shakers for " + f +" "+ c);
+		logger.debug("Parsing shakers for " + f +" "+ p);
 		
 		List<Interest> st;
+		
+		CATEGORY c =null;
+		
+		if(p.equals(PRICES.MARKET)||p.equals(PRICES.MARKET_FOIL))
+			c= CATEGORY.MARKET;
+		else
+			c = CATEGORY.AVERAGE;
+		
 		
 		if(getBoolean(GET_FOIL))
 			st = interestService.getInterestFor(c,mtgstockformat);
 		else
 			st = interestService.getInterestFor(c,false,mtgstockformat);
-		
-		
 		
 		st.stream().filter(inte->inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i->{
 			CardShake cs = initFromPrint(i.getPrint());
@@ -166,19 +172,46 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 						es.setDate(new Date());
 						es.setEdition(ed);
 		
-		var c = PRICES.valueOf(getString(AVERAGE_MARKET).toUpperCase());
-						
-						
+		var c = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
+
+		fillEditionShaker(c,ed,es,false);
+		
+		if(getBoolean(GET_FOIL))
+		{
+			if(c.equals(PRICES.AVG))
+				fillEditionShaker(PRICES.FOIL,ed,es,true);
+			
+			else if(c.equals(PRICES.MARKET))
+				fillEditionShaker(PRICES.MARKET_FOIL,ed,es,true);
+				
+		}
+		
+		
+		
+		
+		return es;
+	}
+	
+	private void fillEditionShaker(PRICES c,MagicEdition ed, EditionsShakers es, boolean b) {
+		
 		logger.debug("Parsing shakers for " + ed + " " + c);
 		cardService.getPrintsBySetCode(ed.getId()).forEach(p->{
 					CardShake cs = initFromPrint(p);
 					cs.setEd(ed.getId());
-					cs.init(p.getLatestPrices().get(c), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
+					try {
+						cs.init(p.getLatestPrices().get(c), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
+					}
+					catch(NullPointerException e)
+					{
+						logger.error(p +"  " + e);
+					}
+					cs.setFoil(b);
 					es.getShakes().add(cs);
 			});
-		return es;
+		
+		
 	}
-	
+
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
 		return null;
@@ -249,8 +282,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					cs.setCardVariation(MTGCardVariation.SHOWCASE);
 				else if(p.isBorderless())
 					cs.setCardVariation(MTGCardVariation.BORDERLESS);
-//				else if (p.getRarity()==RARITY.S)
-//					cs.setCardVariation(MTGCardVariation.TIMESHIFTED);
 				
 				cs.setEd(cardService.getSetById(p.getSetId()).getAbbrevation());
 		return cs;
@@ -272,7 +303,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public void initDefault() {
 		setProperty("LOGIN", "login@mail.com");
 		setProperty("PASS", "changeme");
-		setProperty(AVERAGE_MARKET, "average"); // average // market
+		setProperty(PRICE_VALUE, "market"); // average // market
 		setProperty(GET_FOIL,"false");
 		setProperty(INTEREST_TYPE,"day");
 	}
