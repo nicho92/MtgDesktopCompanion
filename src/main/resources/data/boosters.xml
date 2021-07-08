@@ -1467,7 +1467,7 @@
 		<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SOM/MTG_SOM_BoosterPack.jpg" />
 		<banner lang='en' url="http://mtgen.net/som/images/logo-word.png" />
 		<box lang="en" url="https://media.magic.wizards.com/images/featured/EN_SOMBooster_Product.png"/>
-		<bundle lang="en" url="https://media.magic.wizards.com/images/featured/EN_SOMFatPack_Product.png"/>
+		<fatpack lang="en" url="https://media.magic.wizards.com/images/featured/EN_SOMFatPack_Product.png"/>
 		<constructpack lang="en" num="1" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_1.jpg"/>
 		<constructpack lang="en" num="2" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_2.jpg"/>
 		<constructpack lang="en" num="3" url="https://media.magic.wizards.com/image_legacy_migration/images/magic/daily/arcana/546_3.jpg"/>
@@ -1573,8 +1573,7 @@
 			url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg" />
 		<banner lang='en'
 			url="http://mtgen.net/akh/images/logo-word.png" />
-		<bundle lang="en"
-			url="https://media.magic.wizards.com/en_FaDjrcSEoP.png" />
+		<bundle lang="en" url="https://media.magic.wizards.com/en_FaDjrcSEoP.png" />
 	</edition>
 	<edition id='DDS'>
 
