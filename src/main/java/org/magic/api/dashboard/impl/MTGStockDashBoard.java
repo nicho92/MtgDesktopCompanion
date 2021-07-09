@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.FullPrint;
 import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Played;
 import org.api.mtgstock.modele.Print;
+import org.api.mtgstock.modele.SealedProduct;
 import org.api.mtgstock.modele.SearchResult;
 import org.api.mtgstock.services.AnalyticsService;
 import org.api.mtgstock.services.CardsService;
@@ -72,42 +74,54 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
+	private SealedProduct guess(List<SealedProduct> products,Packaging packaging)
+	{
+		List<SealedProduct> ret = new ArrayList<>();
+		
+		switch(packaging.getType())
+		{
+		
+		case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).collect(Collectors.toList())); break;
+		case BOX: ret.addAll(products.stream().filter(SealedProduct::isBox).collect(Collectors.toList())); break;
+		default:break;
+		 
+		}
+		
+		logger.debug("found " + ret);
+		
+		if(packaging.getExtra()!=null)
+		{
+			switch(packaging.getExtra())
+			{
+				case COLLECTOR: return ret.stream().filter(SealedProduct::isCollector).findFirst().orElse(null);
+				case DRAFT: return ret.stream().filter(SealedProduct::isDraft).findFirst().orElse(null);
+				case GIFT:	return ret.stream().filter(SealedProduct::isGift).findFirst().orElse(null);
+				case SET:		return ret.stream().filter(SealedProduct::isSet).findFirst().orElse(null);
+				case THEME:	return ret.stream().filter(SealedProduct::isTheme).findFirst().orElse(null);
+				case VIP:	return ret.stream().filter(SealedProduct::isVIP).findFirst().orElse(null);
+			default:	return ret.get(0);
+			}
+		}
+		
+		return ret.get(0);
+		
+		
+	}
+	
+	
 	@Override
 	protected HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
 		
-		
-		
 		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
 		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
-		var sp = pricesService.getSetPricesAnalysis(cs);
+		var product = guess(cardService.getSealedProduct(cs),packaging);
+		PRICES p = PRICES.MARKET;
 		
-		PRICES p = PRICES.AVG;
-		
-		if(getBoolean(GET_FOIL))
-			p = PRICES.FOIL;
-		
-		
-		if(sp!=null)
+		if(product!=null)
 		{
 			ret.setFoil(false);
 			ret.setCurrency(getCurrency());
-			switch(packaging.getType())
-			{
-				case BOOSTER : sp.getPrices().get(p).entrySet().forEach(e->ret.getVariations().put(e.getKey(),e.getValue()));break;
-				case BOX : if(sp.getBooster()!=null)
-							{ 
-								ret.getVariations().put(new Date(), sp.getBooster().getNum() * sp.getBooster().getAvg().get(0).getValue());
-							}
-							break;
-				
-				case BANNER:break;
-				case BUNDLE:break;
-				case CONSTRUCTPACK:break;
-				case PRERELEASEPACK:break;
-				case STARTER:break;
-				default:break;
-			}
-			
+			new PriceService().getSealedPrices(product).getPrices().get(p).forEach(c->ret.put(c.getKey(), c.getValue()));
 		}
 		
 		
@@ -185,15 +199,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				
 		}
 		
-		
-		
-		
 		return es;
 	}
 	
 	private void fillEditionShaker(PRICES c,MagicEdition ed, EditionsShakers es, boolean b) {
 		
 		logger.debug("Parsing shakers for " + ed + " " + c);
+		
 		cardService.getPrintsBySetCode(ed.getId()).forEach(p->{
 					CardShake cs = initFromPrint(p);
 					cs.setEd(ed.getId());
