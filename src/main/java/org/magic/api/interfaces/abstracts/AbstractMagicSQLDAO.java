@@ -148,7 +148,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut);");
 		stat.executeUpdate("CREATE INDEX idx_trx_msg ON transactions (message);");
-		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter²);");
+		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter);");
 		
 		stat.executeUpdate("CREATE INDEX idx_ctc_name ON contacts (contact_name);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname);");
