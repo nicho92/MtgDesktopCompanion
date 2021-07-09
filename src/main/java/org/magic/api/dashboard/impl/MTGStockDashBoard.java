@@ -16,7 +16,6 @@ import org.api.mtgstock.services.CardsService;
 import org.api.mtgstock.services.InterestsService;
 import org.api.mtgstock.services.PriceService;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.magic.api.beans.CardDominance;
@@ -133,12 +132,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		List<Interest> st;
 		
-		CATEGORY c =null;
+		PRICES c =null;
 		
 		if(p.equals(PRICES.MARKET)||p.equals(PRICES.MARKET_FOIL))
-			c= CATEGORY.MARKET;
+			c= PRICES.MARKET;
 		else
-			c = CATEGORY.AVERAGE;
+			c = PRICES.AVERAGE;
 		
 		
 		if(getBoolean(GET_FOIL))
