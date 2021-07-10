@@ -83,6 +83,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).collect(Collectors.toList())); break;
 		case BOX: ret.addAll(products.stream().filter(SealedProduct::isBox).collect(Collectors.toList())); break;
+		case BUNDLE:ret.addAll(products.stream().filter(SealedProduct::isBundle).collect(Collectors.toList())); break;
+		case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).collect(Collectors.toList())); break;
+		case FATPACK:ret.addAll(products.stream().filter(SealedProduct::isFatPack).collect(Collectors.toList())); break;
+		case CONSTRUCTPACK:ret.addAll(products.stream().filter(sp-> sp.isIntroPack()|| sp.isPlaneswalkerDeck()).collect(Collectors.toList())); break;
+		case STARTER: ret.addAll(products.stream().filter(SealedProduct::isStarter).collect(Collectors.toList())); break;
+		case CHALLENGERDECK : ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).collect(Collectors.toList())); break;
 		default:break;
 		 
 		}
@@ -93,13 +99,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		{
 			switch(packaging.getExtra())
 			{
-				case COLLECTOR: return ret.stream().filter(SealedProduct::isCollector).findFirst().orElse(null);
-				case DRAFT: return ret.stream().filter(SealedProduct::isDraft).findFirst().orElse(null);
-				case GIFT:	return ret.stream().filter(SealedProduct::isGift).findFirst().orElse(null);
-				case SET:		return ret.stream().filter(SealedProduct::isSet).findFirst().orElse(null);
-				case THEME:	return ret.stream().filter(SealedProduct::isTheme).findFirst().orElse(null);
-				case VIP:	return ret.stream().filter(SealedProduct::isVIP).findFirst().orElse(null);
-			default:	return ret.get(0);
+				case COLLECTOR: return ret.stream().filter(SealedProduct::isCollector).findFirst().orElse(ret.get(0));
+				case DRAFT: 	return ret.stream().filter(SealedProduct::isDraft).findFirst().orElse(ret.get(0));
+				case GIFT:		return ret.stream().filter(SealedProduct::isGift).findFirst().orElse(ret.get(0));
+				case SET:		return ret.stream().filter(SealedProduct::isSet).findFirst().orElse(ret.get(0));
+				case THEME:		return ret.stream().filter(SealedProduct::isTheme).findFirst().orElse(ret.get(0));
+				case VIP:		return ret.stream().filter(SealedProduct::isVIP).findFirst().orElse(ret.get(0));
+				default:	return ret.get(0);
 			}
 		}
 		
@@ -115,7 +121,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
 		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
 		var product = guess(cardService.getSealedProduct(cs),packaging);
-		PRICES p = PRICES.MARKET;
+		PRICES p =  PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 		
 		if(product!=null)
 		{
@@ -211,12 +217,16 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					cs.setEd(ed.getId());
 					try {
 						cs.init(p.getLatestPrices().get(c), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
+						
+						
 					}
 					catch(NullPointerException e)
 					{
 						logger.error(p +"  " + e);
 					}
 					cs.setFoil(b);
+					
+					
 					es.getShakes().add(cs);
 			});
 		
@@ -293,6 +303,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					cs.setCardVariation(MTGCardVariation.SHOWCASE);
 				else if(p.isBorderless())
 					cs.setCardVariation(MTGCardVariation.BORDERLESS);
+				else if(p.isJapanese())
+					cs.setCardVariation(MTGCardVariation.JAPANESEALT);
+				
 				
 				cs.setEd(cardService.getSetById(p.getSetId()).getAbbrevation());
 		return cs;

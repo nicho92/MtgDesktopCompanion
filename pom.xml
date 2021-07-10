@@ -120,7 +120,7 @@
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mtgstock-api-java</artifactId>
-		  <version>0.1.15</version>
+		  <version>0.1.17</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
@@ -485,7 +485,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.13.1</version>
+			<version>1.14.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
