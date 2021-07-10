@@ -82,7 +82,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		{
 		
 		case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).collect(Collectors.toList())); break;
-		case BOX: ret.addAll(products.stream().filter(SealedProduct::isBox).collect(Collectors.toList())); break;
+		case BOX: ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).collect(Collectors.toList())); break;
 		case BUNDLE:ret.addAll(products.stream().filter(SealedProduct::isBundle).collect(Collectors.toList())); break;
 		case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).collect(Collectors.toList())); break;
 		case FATPACK:ret.addAll(products.stream().filter(SealedProduct::isFatPack).collect(Collectors.toList())); break;
