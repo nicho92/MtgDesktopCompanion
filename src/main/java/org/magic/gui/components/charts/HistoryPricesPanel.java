@@ -164,7 +164,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				series1 = new TimeSeries(cpVariations.toString());
 				
 				for (Entry<Date, Double> d : cpVariations.entrySet())
-					series1.add(new Day(d.getKey()), d.getValue().doubleValue());
+					series1.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
 
 				dataset.addSeries(series1);
 			}
@@ -174,7 +174,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				var series2 = new TimeSeries(cpVariationsF.toString());
 
 				for (Entry<Date, Double> d : cpVariationsF.entrySet())
-					series2.add(new Day(d.getKey()), d.getValue().doubleValue());
+					series2.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
 				
 				dataset.addSeries(series2);
 			}
