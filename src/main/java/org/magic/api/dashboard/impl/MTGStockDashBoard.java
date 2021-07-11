@@ -82,15 +82,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		switch(packaging.getType())
 		{
 			case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).collect(Collectors.toList())); break;
-			case BOX: ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).collect(Collectors.toList())); break;
-			case BUNDLE:ret.addAll(products.stream().filter(SealedProduct::isBundle).collect(Collectors.toList())); break;
-			case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).collect(Collectors.toList())); break;
-			case FATPACK:ret.addAll(products.stream().filter(SealedProduct::isFatPack).collect(Collectors.toList())); break;
-			case CONSTRUCTPACK:ret.addAll(products.stream().filter(sp-> sp.isIntroPack()|| sp.isPlaneswalkerDeck()).collect(Collectors.toList())); break;
+			case BOX: 	  ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).collect(Collectors.toList())); break;
+			case BUNDLE:  ret.addAll(products.stream().filter(SealedProduct::isBundle).collect(Collectors.toList())); break;
+			case FATPACK: ret.addAll(products.stream().filter(SealedProduct::isFatPack).collect(Collectors.toList())); break;
 			case STARTER: ret.addAll(products.stream().filter(SealedProduct::isStarter).collect(Collectors.toList())); break;
+			case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).collect(Collectors.toList())); break;
+			case CONSTRUCTPACK:ret.addAll(products.stream().filter(sp-> sp.isIntroPack()|| sp.isPlaneswalkerDeck()).collect(Collectors.toList())); break;
 			case CHALLENGERDECK : ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).collect(Collectors.toList())); break;
 			default:break;
-
 		}
 		
 		logger.debug("found " + ret);
@@ -105,11 +104,11 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				case SET:		return ret.stream().filter(SealedProduct::isSet).findFirst().orElse(ret.get(0));
 				case THEME:		return ret.stream().filter(SealedProduct::isTheme).findFirst().orElse(ret.get(0));
 				case VIP:		return ret.stream().filter(SealedProduct::isVIP).findFirst().orElse(ret.get(0));
-				default:	return ret.get(0);
+				default:		return ret.stream().filter(t->!t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
 			}
 		}
 		
-		return ret.get(0);
+		return ret.stream().filter(t->!t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
 		
 		
 	}
