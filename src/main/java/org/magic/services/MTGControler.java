@@ -206,6 +206,9 @@ public class MTGControler {
 			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
 			conf.setCurrency(getCurrencyService().getCurrentCurrency());
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
+			conf.setProductPagination(Integer.parseInt(get("/shopSite/config/productPaginationSlide","12")));
+			
+			
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
 			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed","false")));
@@ -288,6 +291,9 @@ public class MTGControler {
 		setProperty("/shopSite/config/products/top",new JsonExport().toJsonElement(wsc.getTopProduct()));
 		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
+		setProperty("/shopSite/config/productPaginationSlide",wsc.getProductPagination());
+		
+		
 		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
 		setProperty("/shopSite/config/sealedEnabled",wsc.isSealedEnabled());

@@ -39,6 +39,7 @@ public class WebShopConfig implements Serializable {
 	private String websiteUrl;
 	private boolean sealedEnabled;
 	private String extraCss;
+	private int productPagination;
 	
 	
 	
@@ -287,4 +288,13 @@ public class WebShopConfig implements Serializable {
 	public void setSealedEnabled(boolean sealedEnabled) {
 		this.sealedEnabled = sealedEnabled;
 	}
+
+	public int getProductPagination() {
+		return productPagination;
+	}
+	
+	public void setProductPagination(int productPagination) {
+		this.productPagination = productPagination;
+	}
+	
 }

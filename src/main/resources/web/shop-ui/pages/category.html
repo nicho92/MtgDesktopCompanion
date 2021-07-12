@@ -44,7 +44,7 @@
 	   	 $("#footer").load("footer.html");
 	   	 $("#header").load("nav.html", function() {
 		 
-				data = getConfig();
+					data = getConfig();
 			    	
 			    	$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
@@ -87,24 +87,24 @@
 			    		  
 			    		  $.ajax({
 						        url: url
-						    }).then(function(data) {
+						    }).then(function(d) {
 						    
 						    	$('#pagination').pagination({
-						    	    dataSource: data,
-						    	    pageSize: 16,
+						    	    dataSource: d,
+						    	    pageSize: data.productPagination,
 						    	    autoHidePrevious: true,
 						    	    autoHideNext: true,
 						    	    pageRange: 8,
-						    	    callback: function(data, pagination) {
+						    	    callback: function(dproducts, pagination) {
 							
-										if(data.length==0)
+										if(dproducts.length==0)
 										{
 											 $('#products').html("No result found");
 											return;
 										}	
 							
 							
-						    	    	var html = generateProduct(data);
+						    	    	var html = generateProduct(dproducts);
 						    	        $('#products').html(html);
 						    	        $('button[name="addCartButton"]').each(function() {
 								       		

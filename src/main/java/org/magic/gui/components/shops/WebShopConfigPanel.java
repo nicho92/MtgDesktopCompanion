@@ -46,6 +46,7 @@ import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.renderer.CardListPanel;
+import org.magic.gui.components.renderer.ProductRenderer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.ShoppingServer;
 import org.magic.services.MTGConstants;
@@ -67,6 +68,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JCheckableListBox<MagicCollection> cboCollections;
 	private MagicCardStock topProduct;
 	private JSlider maxLastProductSlide;
+	private JSlider productPagination;
 	private JCheckableListBox<MagicCollection> needCollection;
 	private JSpinner spinnerReduction ;
 	private JSpinner averageDeliverayDay ;	
@@ -224,7 +226,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 	
-		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2, 0, 0),true);
+		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
 		chkAutoProduct = new JCheckBox("Automatic Top Product");
@@ -232,26 +234,40 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		spinnerReduction = new JSpinner(new SpinnerNumberModel(conf.getPercentReduction()*100,0,100,0.5));
 		
-		var paneSlide = new JPanel();
-		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
-		var valueLbl = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
+	
 		
-		maxLastProductSlide.addChangeListener(cl->valueLbl.setText(String.valueOf(maxLastProductSlide.getValue())));
-		var cardPanel = new CardListPanel();
+		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
+		var lblMaxProductValue = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
+		maxLastProductSlide.addChangeListener(cl->lblMaxProductValue.setText(String.valueOf(maxLastProductSlide.getValue())));
+		
+		productPagination = new JSlider(0, 50, conf.getProductPagination());
+		var lblProductPaginationValue = new JLabel(String.valueOf(productPagination.getValue()));
+		productPagination.addChangeListener(cl->lblProductPaginationValue.setText(String.valueOf(productPagination.getValue())));
+		
+		
+		
+		var cardPanel = new ProductRenderer();
 		
 		if(topProduct!=null)
-			cardPanel.setMagicCard(topProduct.getProduct());
+			cardPanel.setProduct(topProduct);
 		
-		
+		var paneSlide = new JPanel();
 		paneSlide.add(maxLastProductSlide);
-		paneSlide.add(valueLbl);
+		paneSlide.add(lblMaxProductValue);
+		
+		
+		var paneSlide2 = new JPanel();
+		paneSlide2.add(productPagination);
+		paneSlide2.add(lblProductPaginationValue);
+		
+		
 		
 		b.addActionListener(il->{
 							   var diag = new CardSearchImportDialog();
 								   diag.setVisible(true); 
 								   topProduct= MTGControler.getInstance().getDefaultStock();
 								   topProduct.setProduct(diag.getSelected());
-								   cardPanel.setMagicCard(topProduct.getProduct());
+								   cardPanel.setProduct(topProduct);
 		});
 		
 		chkAutoProduct.addItemListener(il->{
@@ -260,7 +276,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 					try {
 			  			
 			  			topProduct = TransactionService.getBestProduct();
-						cardPanel.setMagicCard(topProduct.getProduct());
+						cardPanel.setProduct(topProduct);
 					} catch (Exception e1) {
 						logger.error(e1);
 					}
@@ -280,6 +296,13 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelProduct.add(cardPanel);
 		panelProduct.add(new JLangLabel("X_LASTEST_PRODUCT"));
 		panelProduct.add(paneSlide);
+		panelProduct.add(new JLangLabel("PRODUCT_PAGINATION"));
+		panelProduct.add(paneSlide2);
+		
+		
+		
+		
+		
 		panelProduct.add(new JLangLabel("PERCENT_REDUCTION_FOR_SELL"));
 		panelProduct.add(spinnerReduction);
 		
@@ -349,6 +372,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				newBean.setTopProduct(topProduct);
 				newBean.setSealedEnabled(chkEnableStock.isSelected());
 				newBean.setMaxLastProduct(maxLastProductSlide.getValue());
+				newBean.setProductPagination(productPagination.getValue());
+			
 				newBean.setGoogleAnalyticsId(txtAnalyticsGoogle.getText());
 				newBean.setAverageDeliveryTime(Integer.parseInt(averageDeliverayDay.getValue().toString()));
 				newBean.setShippingRules(txtdeliveryRules.getText());
