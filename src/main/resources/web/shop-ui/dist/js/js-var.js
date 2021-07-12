@@ -23,6 +23,10 @@ function tilt(ref)
 
 function replaceMana(content)
 {
+  if(content==null)
+  return content;
+
+
   //change linebreak
 	content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	
