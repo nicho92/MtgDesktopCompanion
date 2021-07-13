@@ -38,7 +38,7 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 	
 	@Override
 	public String toString() {
-		return getId()+"-"+getProduct();
+		return ""+getId();
 	}
 	
 

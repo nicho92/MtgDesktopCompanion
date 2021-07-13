@@ -45,6 +45,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCache;
@@ -691,7 +692,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 				@Override
 				public Object call() throws Exception {
-					return MTGControler.getInstance().getWebConfig();
+					WebShopConfig conf =  MTGControler.getInstance().getWebConfig();
+					conf.getContact().setPassword(null);
+					return conf;
+					
 				}
 			})
 			

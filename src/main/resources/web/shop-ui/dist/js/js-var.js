@@ -16,9 +16,16 @@
 
 function tilt(ref)
 {
-	ref.tilt({
-			scale: 1.2
-	});
+		try{
+			
+			ref.tilt({
+					scale: 1.2
+			});
+		
+		}catch(error)
+		{
+			console.log(error + " " + JSON.stringify(ref));
+		}
 }
 
 function replaceMana(content)

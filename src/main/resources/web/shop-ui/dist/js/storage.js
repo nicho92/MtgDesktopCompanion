@@ -38,8 +38,8 @@ function getConfig()
         });
 	}
 	return JSON.parse(storage.getItem(configKey));
-}*/
-
+}
+*/
 
 /////////////USER
 

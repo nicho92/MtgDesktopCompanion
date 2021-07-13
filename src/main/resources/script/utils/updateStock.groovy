@@ -8,7 +8,7 @@ import org.magic.api.beans.*;
 			{
 				System.out.println(newC);
 				c.setMagicCard(newC);
-				dao.saveOrUpdateStock(c);
+				dao.saveOrUpdateCardStock(c);
 			}
 		} catch (Exception e) {
 			printf(c + ";ERROR;" + e+"\n");

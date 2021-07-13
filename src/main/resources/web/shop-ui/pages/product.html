@@ -135,8 +135,13 @@
 					
 						if(data.enableGed==true)
 						{
+							
+							var url = "/ged/MagicCardStock/"+$_GET("id");
+							if(stockItem.condition=="SELEAD")
+								url = "/ged/SealedStock/"+$_GET("id");
+							
 							$.ajax({
-					        	url: restserver+"/ged/MagicCardStock/"+$_GET("id")
+					        	url: restserver+url
 					    	}).then(function(geds) {
 								
 					    		$.each( geds, function( key, value ) {

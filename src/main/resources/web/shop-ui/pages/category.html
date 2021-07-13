@@ -106,14 +106,18 @@
 							
 						    	    	var html = generateProduct(dproducts);
 						    	        $('#products').html(html);
-						    	        $('button[name="addCartButton"]').each(function() {
+						    	     
+										$('button[name="addCartButton"]').each(function() {
 								       		
 						    	        	$(this).click(function() {
 						    	        		addCartStockId($(this),percentReduction);
 								    		});
-											tilt($('.card-img-top'));
-								    	});
+										});
+										
+										tilt($('.card-img-top'));
 						    	    }
+								
+
 						    	})
 						    	
 						    	
