@@ -91,16 +91,18 @@ public class MypCardPricer extends AbstractPricesProvider {
 				logger.debug(getName() + " found no offer");
 				return;
 			}
-			
+
 			var mp = new MagicPrice();
 				mp.setMagicCard(card);
 				mp.setCountry("Brazil");
 				mp.setCurrency(Currency.getInstance("BRL"));
 				mp.setSite(getName());
-				mp.setSeller(tds.get(1).text());
-				mp.setFoil(tds.get(2).html().equalsIgnoreCase("foil"));
-				mp.setQuality(tds.get(3).html());
-				mp.setValue(Double.parseDouble(tds.get(5).text().replaceAll("R\\$ ", "").replace(",", ".")));
+				mp.setSeller(tds.get(0).text());
+				mp.setFoil(tds.get(1).text().toLowerCase().contains("foil"));
+				mp.setSellerUrl(BASE_URL+"/"+mp.getSeller());
+				mp.setQuality(tds.get(2).text());
+				mp.setLanguage(tds.get(2).select("span.flag-icon").attr("title"));
+				mp.setValue(Double.parseDouble(tds.get(4).text().replaceAll("R\\$ ", "").replace(",", ".")));
 				mp.setUrl(urlC);
 				list.add(mp);
 		}
