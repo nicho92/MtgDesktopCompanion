@@ -7,10 +7,10 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Packaging;
 import org.magic.api.beans.enums.EnumItems;
@@ -25,7 +25,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private transient PackagesProvider provider;
 	private DefaultTreeModel model;
 	private ImagePanel panelDraw;
-	private JTree tree;
+	private JXTree tree;
 	private boolean view;
 
 	
@@ -37,7 +37,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	}
 	
 
-	public JTree getTree() {
+	public JXTree getTree() {
 		return tree;
 	}
 	
@@ -93,7 +93,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			add(panel, BorderLayout.WEST);	
 		}
 		
-		tree = new JTree(model);
+		tree = new JXTree(model);
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 
 		panel.add(new JScrollPane(tree),BorderLayout.CENTER);

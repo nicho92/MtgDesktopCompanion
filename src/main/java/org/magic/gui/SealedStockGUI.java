@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -37,6 +38,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
+
 public class SealedStockGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -46,6 +48,9 @@ public class SealedStockGUI extends MTGUIComponent {
 	private Packaging selectedItem;
 	private SealedStock selectedStock;
 	private RSyntaxTextArea textEditor;
+	private JXTable table;
+	private AbstractBuzyIndicatorComponent buzy;
+	
 	
 	public SealedStockGUI() {
 		initGUI();
@@ -55,11 +60,11 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		model = new SealedStockTableModel();
 		var objectpanel = new ObjectViewerPanel();
-		JXTable table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
-		var buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		textEditor = new RSyntaxTextArea();
 		textEditor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
 		textEditor.setWrapStyleWord(true);
@@ -119,6 +124,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		model.setWritable(true);
 	
+		
 		
 		packagePanel.getTree().addTreeSelectionListener(e-> {
 			
@@ -188,7 +194,7 @@ public class SealedStockGUI extends MTGUIComponent {
 
 				};
 				
-				ThreadManager.getInstance().runInEdt(sw, "deletes" + list.size()+ "stocks Sealed");
+				ThreadManager.getInstance().runInEdt(sw, "delete" + list.size()+ "stocks Sealed");
 			}
 			
 			
@@ -262,12 +268,45 @@ public class SealedStockGUI extends MTGUIComponent {
 	
 	@Override
 	public void onFirstShowing() {
-		packagePanel.initTree();
+			AbstractObservableWorker<List<SealedStock>, SealedStock, MTGDao> sw2 = new AbstractObservableWorker<List<SealedStock>, SealedStock, MTGDao>(buzy,getEnabledPlugin(MTGDao.class)) {
+			
+			@Override
+			protected List<SealedStock> doInBackground() throws Exception {
+				return plug.listSealedStocks();
+			}
+			
+			@Override
+			protected void done() {
+				super.done();
+				try {
+					model.init(get());
+				} catch (InterruptedException| ExecutionException e) {
+					Thread.currentThread().interrupt();
+				}
+				table.packAll();
+				
+			}
+		};
 		
-		try {
-			model.init(getEnabledPlugin(MTGDao.class).listSealedStocks());
-		} catch (SQLException e) {
-			MTGControler.getInstance().notify(e);
-		}
+		
+		
+		SwingWorker<Void, Void> sw  = new SwingWorker<>(){
+			@Override
+			protected Void doInBackground() throws Exception {
+				packagePanel.initTree();
+				return null;
+			}
+			@Override
+			protected void done() {
+				ThreadManager.getInstance().runInEdt(sw2, "Loading sealedstock");	
+			}
+		};
+		
+		
+		
+		
+		ThreadManager.getInstance().runInEdt(sw, "Loading trees");
+		
+		
 	}
 }
