@@ -98,7 +98,10 @@
   	        url: restserver+"/cards/"+$_GET("id")
   	    }).then(function(data) {
   	    	
-  	    	$('#title').html(data.name);
+  	    	if(data.name!=null)
+  	    		$('#title').html(data.name);
+  	    	
+  	    	
   	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
   	    	
   	    	if(data.flavor!=null)
@@ -150,7 +153,15 @@
   	    	
   	    	$('#artist').html("<i>"+data.artist+"</i>");
   	    	
-  	    	$('#pic').attr("src", restserver+"/pics/cards/"+data.editions[0].id+"/"+data.name);
+  	    	var uri = restserver+"/pics/cards/"+data.editions[0].id+"/"+data.name;
+  	    	
+  	    	if(data.scryfallId)
+				uri = "https://api.scryfall.com/cards/"+data.scryfallId+"?format=image";
+			else if(data.editions[0].multiverseId)            
+				uri = "https://api.scryfall.com/cards/multiverse/"+data.editions[0].multiverseId+"?format=image";
+			
+  	    	
+  	    	$('#pic').attr("src", uri);
   	    	
   	    	$('#number').append(data.editions[0].number)
   	    	
@@ -345,8 +356,7 @@
 						<div class="panel-heading">Pictures</div>
 						<div class="panel-body">
 							<p>
-								<img class='img-fluid' id='pic' data-holder-rendered="true"/>
-								<img class='img-fluid' id='pic2' data-holder-rendered="true"/>
+								<img class='img-fluid' width="500" id='pic' data-holder-rendered="true"/>
 							</p>
 						</div>
 						<div class="panel-footer">

@@ -23,17 +23,19 @@ function mtgtooltip(element)
 		trigger : 'hover',
         html : true,
         content: function () {
-            var set = $(this).attr("data-set");
+	
+	        var set = $(this).attr("data-set");
             var name=$(this).attr("data-name");
-            var uri = '<img src="'+restserver+"/pics/cards/"+set+"/"+name+'">';
-            
-            if(set===undefined)
-            	{
-            	uri = '<img src="'+restserver+"/pics/cardname/"+name+'">';
-            	}
-            
-            console.log(uri);
-            return uri;
+			var scryfallid=$(this).attr("scryfallid");
+			var multiverseId=$(this).attr("multiverseid");
+			var uri=restserver+"/pics/cards/"+set+"/"+name;
+			
+			if(scryfallid != "undefined" && scryfallid!==undefined)
+				uri = "https://api.scryfall.com/cards/"+scryfallid+"?format=image";
+			else if(multiverseId!="undefined" && multiverseId!=undefined)            
+				uri = "https://api.scryfall.com/cards/multiverse/"+multiverseId+"?format=image";
+  
+           return "<img src='"+uri+"' width='250'/>";
         }
     });
 	

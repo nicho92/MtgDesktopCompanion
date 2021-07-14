@@ -115,7 +115,7 @@
 		        	  "width": "20%",
 	               	  "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	   data='<span  class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" data-name="'+data+'">'+data+'</span>';	
+		                	   data='<span  class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</span>';	
 		                   }
 		                 return data;
 		              }
