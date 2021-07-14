@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.NotImplementedException;
-import org.bson.BsonObjectId;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;

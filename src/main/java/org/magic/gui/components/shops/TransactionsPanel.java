@@ -16,7 +16,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.StockItemPanel;

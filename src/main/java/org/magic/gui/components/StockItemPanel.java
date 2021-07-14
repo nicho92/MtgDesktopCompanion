@@ -3,22 +3,16 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;

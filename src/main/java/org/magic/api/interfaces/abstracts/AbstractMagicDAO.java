@@ -1,7 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;

@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGGraders;

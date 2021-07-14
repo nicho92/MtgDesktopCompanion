@@ -45,7 +45,6 @@ import org.magic.gui.components.JLangLabel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
-import org.magic.gui.components.renderer.CardListPanel;
 import org.magic.gui.components.renderer.ProductRenderer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.ShoppingServer;

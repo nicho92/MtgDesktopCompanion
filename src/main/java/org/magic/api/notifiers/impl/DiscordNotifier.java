@@ -7,12 +7,12 @@ import javax.security.auth.login.LoginException;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
+import org.magic.services.MTGConstants;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import org.magic.services.MTGConstants;
 
 
 public class DiscordNotifier extends AbstractMTGNotifier {

@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.checkerframework.common.returnsreceiver.qual.This;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
