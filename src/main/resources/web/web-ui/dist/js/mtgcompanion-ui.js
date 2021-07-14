@@ -35,7 +35,7 @@ function mtgtooltip(element)
 			else if(multiverseId!="undefined" && multiverseId!=undefined)            
 				uri = "https://api.scryfall.com/cards/multiverse/"+multiverseId+"?format=image";
   
-           return "<img src='"+uri+"' width='250'/>";
+           return "<img class='img-responsive' src='"+uri+"'/>";
         }
     });
 	
