@@ -59,17 +59,16 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 								   
 								   
 								   var set = art.get("name").getAsString().substring(art.get("name").getAsString().indexOf("["));
-								   mp.setSeller(set.substring(1,set.indexOf("]")));
-//						   
-//								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)")
-//								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)")
-//								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)")
+								   		mp.setSeller(set.substring(1,set.indexOf("]")));
+
+//								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)");
+//								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)");
+//								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)");
 //								   
-//								   
 								   
 								   
-								   list.add(mp);
-								   
+								   if(mp.getSeller().startsWith(card.getCurrentSet().getSet()))
+									   list.add(mp);
 					}
 				}
 				
