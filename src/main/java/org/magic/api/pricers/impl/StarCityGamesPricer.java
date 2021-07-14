@@ -39,7 +39,8 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 			}
 				
 		}
-		logger.debug(getName() + " found " + ret.size() + " items");
+		logger.info(getName() + " found " + ret.size() + " items");
+
 		return ret;
 		
 	}

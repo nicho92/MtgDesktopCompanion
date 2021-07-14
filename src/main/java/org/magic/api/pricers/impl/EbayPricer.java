@@ -85,7 +85,7 @@ public class EbayPricer extends AbstractPricesProvider {
 			prices.add(mp);
 		}
 
-		logger.info(getName() + " find " + prices.size() + " item(s)");
+		logger.info(getName() + " found " + prices.size() +" offers");
 		
 		return prices;
 	}

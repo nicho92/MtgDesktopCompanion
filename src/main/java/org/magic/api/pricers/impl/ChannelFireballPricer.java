@@ -60,12 +60,13 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 								   
 								   var set = art.get("name").getAsString().substring(art.get("name").getAsString().indexOf("["));
 								   mp.setSeller(set.substring(1,set.indexOf("]")));
-//								   
+//						   
 //								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)")
 //								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)")
 //								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)")
 //								   
-								  
+//								   
+								   
 								   
 								   list.add(mp);
 								   
@@ -75,7 +76,7 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 				
 			}
 		}
-		logger.info(getName() + " found " + list.size() + " item(s)");
+		logger.info(getName() + " found " + list.size() +" offers");
 		return list;
 	}
 

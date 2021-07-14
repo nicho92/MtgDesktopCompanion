@@ -66,7 +66,8 @@ public class MTGStandPricer extends AbstractPricesProvider {
 			}
 			ret.add(p);
 		}
-		
+		logger.info(getName() + " found " + ret.size() + " items");
+
 		return ret;
 	}
 

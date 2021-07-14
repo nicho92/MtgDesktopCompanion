@@ -150,7 +150,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			if (!qualities.get(i).hasClass("disabled"))
 				lstPrices.add(mp);
 		}
-		logger.info(getName() + " found " + lstPrices.size() + " item(s)");
+		logger.info(getName() + " found " + lstPrices.size() +" offers");
 		return lstPrices;
 	}
 

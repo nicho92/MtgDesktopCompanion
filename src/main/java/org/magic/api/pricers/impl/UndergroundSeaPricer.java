@@ -113,6 +113,9 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 			
 			return true;
 		});
+		
+		logger.info(getName() + " found " + ret.size() + " items");
+
 		return ret;
 	}
 

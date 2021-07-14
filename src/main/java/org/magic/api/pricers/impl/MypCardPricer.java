@@ -78,6 +78,8 @@ public class MypCardPricer extends AbstractPricesProvider {
 				}
 			}
 		}
+		logger.info(getName() + " found " + list.size() + " items");
+
 		return list;
 	}
 	

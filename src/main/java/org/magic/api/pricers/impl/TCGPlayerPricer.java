@@ -72,7 +72,8 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 			mp.setValue(Double.parseDouble(nodes.item(0).getChildNodes().item(7).getTextContent()));
 
 			list.add(mp);
-			logger.info(getName() + " found " + list.size() + " item(s)");
+			logger.info(getName() + " found " + list.size() + " items");
+
 			if (list.size() > getInt("MAX") && getInt("MAX") > -1)
 				return list.subList(0, getInt("MAX"));
 

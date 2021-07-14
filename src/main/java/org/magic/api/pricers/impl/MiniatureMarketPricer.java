@@ -42,9 +42,6 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 		if(arr.size()>0)
 			je = arr.get(0).getAsJsonObject();
 		
-		logger.debug(getName() + " found " + arr.size() + " item(s)");
-		
-		
 		if(je==null)
 			return prices;
 		
@@ -74,6 +71,7 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 				prices.add(mp);
 			}
 		}
+		logger.info(getName() + " found " + prices.size() +" offers");
 		return prices;
 	}
 }

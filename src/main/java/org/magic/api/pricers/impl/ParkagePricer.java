@@ -53,8 +53,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 			}
 		});
 		
-		
-		
+		logger.info(getName() + " found " + ret.size() +" offers");		
 		
 		return ret;
 	}

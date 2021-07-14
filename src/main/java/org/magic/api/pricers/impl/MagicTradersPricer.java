@@ -55,6 +55,7 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 				
 
 			}
+			logger.info(getName() + " found " + list.size() +" offers");
 			return list;
 		}
 

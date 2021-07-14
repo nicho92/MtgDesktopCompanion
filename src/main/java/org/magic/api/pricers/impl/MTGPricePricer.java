@@ -79,6 +79,8 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 			return ret;
 		}
+		
+		
 		return ret;
 
 	}

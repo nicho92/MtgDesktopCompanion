@@ -51,8 +51,6 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 											.toHtml();
 			trs = content.select("table[width=100%]:has(form) tr");
 			
-			logger.debug(getName() +" getting prices at " + link);
-			
 			if(trs!=null)
 			{	
 				for(Element tr : trs)
@@ -85,7 +83,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 			{
 				logger.debug(getName() +" found nothing");
 			}
-		
+			logger.info(getName() + " found " + ret.size() +" offers");
 
 		return ret;
 	}

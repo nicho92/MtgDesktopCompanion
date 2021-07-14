@@ -175,8 +175,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 
 				List<Article> articles = aServ.find(resultat, aatts);
 			
-				logger.debug(getName() + " found " + articles.size() + " items");
-
+				
 				for (Article a : articles) 
 				{
 					var mp = new MagicPrice();
@@ -204,7 +203,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 			logger.error(e);
 
 		}
-
+		logger.info(getName() + " found " + lists.size() +" offers");
 		return lists;
 	}
 

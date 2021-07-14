@@ -71,7 +71,7 @@ public class HikariPool extends AbstractPool {
 	public void initDefault() {
 		setProperty("autoCommit", TRUE);
 		setProperty("connectionTimeout", "30000");
-		setProperty("poolName", "hikari-pool");
+		setProperty("poolName", "mtg-hikari-pool");
 		setProperty("initializationFailTimeout", "1");
 		setProperty("readOnly", FALSE);
 		setProperty("registerMbeans", TRUE);
@@ -91,6 +91,9 @@ public class HikariPool extends AbstractPool {
 		setProperty("dataSource.useServerPrepStmts",TRUE);
 		setProperty("dataSource.useLocalSessionState",TRUE);
 		setProperty("connectionInitSql", "");
+		setProperty("datasource.keepaliveTime","0");
+		setProperty("dataSource.cacheCallableStmts",TRUE);
+		setProperty("dataSource.cacheServerConfiguration",TRUE);
 
 		
 	}

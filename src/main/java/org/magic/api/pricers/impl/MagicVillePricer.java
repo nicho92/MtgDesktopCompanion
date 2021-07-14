@@ -84,10 +84,11 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 		}
 
-		logger.info(getName() + " found " + list.size() + " item(s) return " + getString(MAX) + " items");
-
+	
 		if (list.size() > getInt(MAX) && getInt(MAX) > -1)
 			return list.subList(0, getInt(MAX));
+
+		logger.info(getName() + " found " + list.size() + " offers. return " + getString(MAX) + " items");
 
 		return list;
 	}

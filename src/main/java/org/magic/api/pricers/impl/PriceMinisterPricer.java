@@ -61,7 +61,8 @@ public class PriceMinisterPricer extends AbstractPricesProvider {
 				}
 
 			}
-			logger.debug(getName() + " found " + list.size() + " items");
+			logger.info(getName() + " found " + list.size() + " items");
+
 
 			return list;
 
