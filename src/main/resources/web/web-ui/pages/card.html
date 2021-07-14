@@ -307,7 +307,12 @@
 			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
 			        "columns": [
 			        	{ "data": "site" },
-			            { "data" : "value"},
+			            { 
+			        		"data" : "value",
+			        		 "render": function(data, type, row, meta){
+	  			                  return data.toFixed(2);
+	  			                }
+			        	},
 			            { "data": "currency",
 			            	"defaultContent": ""
 			           	},
@@ -356,7 +361,7 @@
 						<div class="panel-heading">Pictures</div>
 						<div class="panel-body">
 							<p>
-								<img class='img-fluid' width="500" id='pic' data-holder-rendered="true"/>
+								<img class='img-fluid img-responsive' id='pic' data-holder-rendered="true"/>
 							</p>
 						</div>
 						<div class="panel-footer">
@@ -391,7 +396,6 @@
 										<td><p id="mtgoCard"><strong>MTGO :</strong></p></td>
 										<td><p id="onlineOnly"><strong>Online Only :</strong></p></td>
 									</tr>
-									
       							</tbody>
       						</table>
 						
