@@ -20,7 +20,8 @@ public class MagicDeck implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Map<MagicCard, Integer> mapDeck;
 	private Map<MagicCard, Integer> mapSideBoard;
-
+	private int id;
+	
 	private String description;
 	private String name;
 	private Date dateCreation;
@@ -33,6 +34,7 @@ public class MagicDeck implements Serializable {
 	
 	public MagicDeck() 
 	{
+		id=-1;
 		mapDeck = new HashMap<>();
 		mapSideBoard = new HashMap<>();
 		tags = new ArrayList<>();
@@ -40,6 +42,15 @@ public class MagicDeck implements Serializable {
 		dateCreation=new Date();
 		dateUpdate=new Date();
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	
 	public MagicCard getValueAt(int pos) {
 		return new ArrayList<>(getMain().keySet()).get(pos);

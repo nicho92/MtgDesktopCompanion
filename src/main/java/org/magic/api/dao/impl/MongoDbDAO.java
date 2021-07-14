@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
@@ -37,6 +38,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
+import com.google.common.util.concurrent.Service.State;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -61,7 +63,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colSealed = "sealed";
 	private String colContacts = "contacts";
 	private String colTransactions = "transactions";
-	
+	private String colDecks = "decks";
 	
 	private String dbIDField = "db_id";
 	private String dbAlertField = "alertItem";
@@ -87,9 +89,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		
 		if(o==null)
 			return null;
-		
+	
 		return serialiser.fromJson(String.valueOf(o.toString()), classe);
 
+	}
+	
+
+	private MagicDeck deserializeDeck(BasicDBObject o) {
+		if(o==null)
+			return null;
+		
+		System.out.println(o);
+		
+		return serialiser.importDeck(o.toString(),o.getString("name"));
 	}
 
 	private String serialize(Object o) {
@@ -186,7 +198,48 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		
 	}
 	
+		
+	@Override
+	public List<MagicDeck> listDecks() throws SQLException {
+		List<MagicDeck> stocks = new ArrayList<>();
+		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserializeDeck(result)));
+		return stocks;
+	}
+	
+	@Override
+	public MagicDeck getDeckById(Integer id) throws SQLException {
+		return deserializeDeck(db.getCollection(colDecks,BasicDBObject.class)
+								 .find(Filters.eq("id", id))
+								 .first());
+		
+	}
+	
+	
 
+	@Override
+	public Integer saveOrUpdateDeck(MagicDeck state) throws SQLException {
+		logger.debug("saving deck " + state);
+		if (state.getId() == -1) {
+			state.setId(Integer.parseInt(getNextSequence().toString()));
+			db.getCollection(colDecks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJsonDeck(state).toString()));
+
+		} else {
+			state.setDateUpdate(new Date());
+			UpdateResult res = db.getCollection(colDecks, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialiser.toJsonDeck(state).toString()));
+			logger.trace(res);
+		}
+		
+		notify(state);
+		return state.getId();
+	}
+	
+	@Override
+	public void deleteDeck(MagicDeck d) throws SQLException {
+		logger.debug("Deleting " + d + " " + d.getId());
+		DeleteResult dr = db.getCollection(colDecks, BasicDBObject.class).deleteOne(Filters.eq("id",d.getId()));
+		logger.debug(dr.toString());
+	}
+	
 	
 	
 	@Override

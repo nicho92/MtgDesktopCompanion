@@ -64,7 +64,7 @@
   		$('#url').val(window.location);
   		
   		$.ajax({
-  	        url: restserver+"/deck/"+$_GET("name")
+  	        url: restserver+"/deck/"+$_GET("id")
   	    }).then(function(data) {
   	    	$('#title').html(data.name);
   	    	$('#description').html(data.description);
@@ -265,7 +265,7 @@
 	    } );
   	  	
 		  	$.ajax({
-			        url: restserver+"/deck/stats/"+$_GET("name")
+			        url: restserver+"/deck/stats/"+$_GET("id")
 			    }).then(function(data) {
 			    	var chartData=[];
 			    	var json = data.types;

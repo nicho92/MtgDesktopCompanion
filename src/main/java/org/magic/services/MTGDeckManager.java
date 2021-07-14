@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +25,9 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.tools.FileTools;
+import org.magic.tools.MTG;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
@@ -88,38 +89,39 @@ public class MTGDeckManager extends Observable {
 	}
 	
 
-	public MagicDeck getDeck(String name) throws IOException {
-		var f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
-		return serialis.importDeckFromFile(f);
+	public MagicDeck getDeck(Integer id)  {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).getDeckById(id);
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 	
-	public boolean exist(String name)
-	{
-		return new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension()).exists();
-	}
 	
-	public boolean exist(MagicDeck d)
-	{
-		return exist(d.getName());
-	}
 
 	public List<MagicDeck> listDecks() {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listDecks();
+		} catch (SQLException e) {
+			logger.error(e);
+			return new ArrayList<>();
+		}
+	}
+	
+	public List<MagicDeck> listLocalDecks()
+	{
 		List<MagicDeck> decks = new ArrayList<>();
-		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase()))) 
+		for (File f : new File(MTGConstants.DATA_DIR, "decks").listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase()))) 
 		{
 			try {
 				var deck = serialis.importDeckFromFile(f);
 				decks.add(deck);
-				setChanged();
-				//notifyObservers(deck)
 			} catch (Exception e) {
 				logger.error("error import deck " + f, e);
 			}
 		}
 		return decks;
 	}
-	
-
 	
 	
 	public List<MagicDeck> listDecksWithTag(String tag)
@@ -153,27 +155,22 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public void saveDeck(MagicDeck deck) throws IOException {
-		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())
-			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
-
-		deck.setDateUpdate(new Date());
-		serialis.exportDeck(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + serialis.getFileExtension()));
-
-	}
-
-	public void saveDeck(MagicDeck deck, MTGCardsExport exp) throws IOException {
-		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())
-			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
-
-		exp.exportDeck(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + exp.getFileExtension()));
-
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateDeck(deck);
+		} catch (SQLException e) {
+			logger.error(e);
+			throw new IOException(e);
+		}
+		
 	}
 
 	public void remove(MagicDeck selectedDeck) throws IOException {
-		
-		var name = selectedDeck.getName();
-		var f = new File(MTGConstants.MTG_DECK_DIRECTORY, name + serialis.getFileExtension());
-		FileTools.deleteFile(f);
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).deleteDeck(selectedDeck);
+		} catch (SQLException e) {
+			logger.error(e);
+			throw new IOException(e);
+		}
 	}
 
 	public Map<String, Boolean> analyseLegalities(MagicDeck d) {

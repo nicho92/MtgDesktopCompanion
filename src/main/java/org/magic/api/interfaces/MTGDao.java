@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
@@ -21,14 +22,13 @@ import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGDao extends MTGPlugin {
 
-	public void init() throws SQLException;
-	public void init(MTGPool pool) throws SQLException;
-	
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException;
 	public List<MagicCard> listCards() throws SQLException;
 
+
+	
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(String collectionName) throws SQLException;
@@ -36,6 +36,12 @@ public interface MTGDao extends MTGPlugin {
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(String collectionName,MagicEdition me) throws SQLException;
 	
+	
+	
+	public List<MagicDeck> listDecks() throws SQLException;
+	public void deleteDeck(MagicDeck d) throws SQLException;
+	public Integer saveOrUpdateDeck(MagicDeck d) throws SQLException;
+	public MagicDeck getDeckById(Integer id) throws SQLException;
 	
 	
 	public MagicCollection getCollection(String name) throws SQLException;
@@ -46,19 +52,22 @@ public interface MTGDao extends MTGPlugin {
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException;
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException;
 	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException;
+	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException;
+	
 
-	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException;
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException;
-	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException;
-	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException;
-	public List<MagicCardStock> listStocks() throws SQLException;
-
+	
 	
 
 	public MTGStockItem getStockById(EnumItems typeStock, Integer id)throws SQLException;
 	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws SQLException;
 
 	
+	
+	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException;
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException;
+	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException;
+	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException;
+	public List<MagicCardStock> listStocks() throws SQLException;
 	public MagicCardStock getStockWithTiersID(String key,String id) throws SQLException;
 	public MagicCardStock getStockById(Integer id) throws SQLException;
 	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException;
@@ -74,8 +83,8 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteStock(SealedStock state) throws SQLException;
 	public SealedStock getSealedStockById(int id) throws SQLException;
 	
-	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException;
-		
+
+	
 	public List<OrderEntry> listOrders();
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException;
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException;
@@ -92,7 +101,6 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteTransaction(Transaction t)throws SQLException;
 	public Transaction getTransaction(int id) throws SQLException;
 	public void deleteTransaction(List<Transaction> t) throws SQLException;
-	
 	public void changePassword(Contact c, String newPassword)  throws SQLException;
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
 	public Contact getContactById(int id)  throws SQLException;
@@ -109,19 +117,22 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);
 
+	
+	
 	public List<MagicNews> listNews();
 	public void deleteNews(MagicNews n) throws SQLException;
 	public void saveOrUpdateNews(MagicNews n) throws SQLException;
 
+
+	
+	public void init() throws SQLException;
+	public void init(MTGPool pool) throws SQLException;
 	public String getDBLocation();
 	public long getDBSize();
 	public void backup(File dir) throws SQLException, IOException;
 	public void duplicateTo(MTGDao dao) throws SQLException;
-
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
-
 	public void executeQuery(String query)throws SQLException;
-	
 	public boolean isSQL();
 	
 

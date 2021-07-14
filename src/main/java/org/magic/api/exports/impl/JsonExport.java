@@ -29,6 +29,7 @@ import com.google.gson.JsonPrimitive;
 
 public class JsonExport extends AbstractCardExport {
 
+	private static final String ID = "id";
 	private static final String AVERAGE_PRICE = "averagePrice";
 	private static final String COMMANDER = "commander";
 	private static final String UPDATE_DATE = "updateDate";
@@ -98,11 +99,15 @@ public class JsonExport extends AbstractCardExport {
 	
 
 	@Override
-	public MagicDeck importDeck(String f,String name) throws IOException {
+	public MagicDeck importDeck(String f,String name)  {
 		var root = URLTools.toJson(f).getAsJsonObject();
 
 		var deck = new MagicDeck();
 			deck.setName(name);
+			
+		if (root.get(ID)!=null)
+			deck.setId(root.get(ID).getAsInt());
+	
 			
 		if (!root.get(NAME).isJsonNull())
 			deck.setName(root.get(NAME).getAsString());
@@ -111,10 +116,25 @@ public class JsonExport extends AbstractCardExport {
 			deck.setDescription(root.get(DESCRIPTION).getAsString());
 
 		if (!root.get(CREATION_DATE).isJsonNull())
-			deck.setCreationDate(new Date(root.get(CREATION_DATE).getAsLong()));
+		{
+			try {
+				deck.setCreationDate(new Date(root.get(CREATION_DATE).getAsLong()));
+			}catch(Exception e)
+			{
+				logger.error(e);
+			}
+		}
 
 		if (!root.get(UPDATE_DATE).isJsonNull())
-			deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
+		{
+			try {
+				deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
+			}catch(Exception e)
+			{
+				logger.error(e);
+			}
+
+		}
 
 		if (root.get(COMMANDER)!=null)
 			deck.setCommander(gson.fromJson(root.get(COMMANDER), MagicCard.class));
@@ -166,13 +186,14 @@ public class JsonExport extends AbstractCardExport {
 
 	public JsonObject toJsonDeck(MagicDeck deck) {
 		var json = new JsonObject();
+		json.addProperty(ID, deck.getId());
 		json.addProperty(NAME, deck.getName());
 		json.addProperty(DESCRIPTION, deck.getDescription());
 		json.addProperty(COLORS, deck.getColors());
 		json.addProperty(AVERAGE_PRICE, deck.getAveragePrice());
 		json.add(COMMANDER,toJsonElement(deck.getCommander()));
-		json.add(CREATION_DATE, new JsonPrimitive(deck.getDateCreation().getTime()));
-		json.add(UPDATE_DATE, new JsonPrimitive(deck.getDateUpdate().getTime()));
+		json.addProperty(CREATION_DATE, deck.getDateCreation().getTime());
+		json.addProperty(UPDATE_DATE, deck.getDateUpdate().getTime());
 		var tags = new JsonArray();
 		for (String s : deck.getTags())
 			tags.add(s);
@@ -183,7 +204,7 @@ public class JsonExport extends AbstractCardExport {
 
 		for (MagicCard mc : deck.getMain().keySet()) {
 			var card = new JsonObject();
-			card.addProperty("qty", (Number) deck.getMain().get(mc));
+			card.addProperty("qty", deck.getMain().get(mc));
 			card.add("card", toJsonElement(mc));
 			main.add(card);
 			notify(mc);

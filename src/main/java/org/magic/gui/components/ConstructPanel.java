@@ -446,14 +446,18 @@ public class ConstructPanel extends MTGUIComponent {
 				logger.debug("saving " + deck);
 				
 				String dname = deck.getName();
-				String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", dname);
 				
-				if(name!=null && !name.isEmpty())
+				if(deck.getId()<0)
 				{
-					deck.setName(name);
-					deckManager.saveDeck(deck);
-					p.setDeck(deck);
+					String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", dname);
+					if(name!=null && !name.isEmpty())
+						deck.setName(name);
+				
 				}
+				
+				deckManager.saveDeck(deck);
+				p.setDeck(deck);
+				
 			} catch (Exception ex) {
 				logger.error("error saving", ex);
 				MTGControler.getInstance().notify(ex);
@@ -653,7 +657,7 @@ public class ConstructPanel extends MTGUIComponent {
 			comp.setText(((MagicCard)value).getName());
 
 			try {
-				if(value!=null && deck.getCommander()!=null && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
+				if(deck!=null && value!=null && deck.getCommander()!=null && ((MagicCard)value).getName().equals(deck.getCommander().getName()))
 					comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
 				}
 				catch(Exception e){

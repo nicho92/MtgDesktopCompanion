@@ -41,7 +41,6 @@ public class MTGConstants {
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
 	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
-	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.DATA_DIR, "decks");
 	public static final File MTG_EVENTS_FILE= new File(MTGConstants.DATA_DIR,"events.json");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
 	public static final File NATIVE_DIR = new File("./natives");

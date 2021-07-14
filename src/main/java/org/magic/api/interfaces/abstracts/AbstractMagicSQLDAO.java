@@ -12,6 +12,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
@@ -47,6 +49,9 @@ import org.magic.services.TransactionService;
 import org.magic.services.providers.PackagesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
@@ -80,7 +85,40 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
+
+	@SuppressWarnings("unchecked")
+	protected Map<MagicCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
+		
+		Map<MagicCard, Integer> ret = new HashMap<>();
+		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je->{
+			
+			MagicCard mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MagicCard.class);
+			Integer qte = je.getAsJsonObject().get("qty").getAsInt();
+			
+			ret.put(mc, qte);
+			
+			
+		});
+		
+		return ret;
+	}
 	
+	protected void storeDeckBoard(PreparedStatement pst, int i, Map<MagicCard, Integer> board) throws SQLException {
+		
+		var arr = new JsonArray();
+		
+		board.entrySet().forEach(e->{
+			
+			var obj = new JsonObject();
+			obj.addProperty("qty", e.getValue());
+			obj.add("card", serialiser.toJsonElement(e.getKey()));
+			arr.add(obj);
+			
+		});
+		
+		pst.setString(i, arr.toString());
+	}
+
 
 	@SuppressWarnings("unchecked")
 	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
@@ -95,8 +133,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
-	protected MagicCard readCard(ResultSet rs) throws SQLException {
-		return serialiser.fromJson( rs.getObject("mcard").toString(), MagicCard.class);
+	protected MagicCard readCard(ResultSet rs,String field) throws SQLException {
+		try{
+			return serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
+		}
+		catch(NullPointerException e)
+		{
+			return null;
+		}
 	}
 	
 	
@@ -109,6 +153,59 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected boolean isJsonCompatible()
 	{
 		return true;
+	}
+	
+	public boolean createDB() {
+		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
+			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
+			logger.debug("Create table transactions");
+			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean, contact_active boolean, temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
+			logger.debug("Create table contacts");
+	
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
+			logger.debug("Create table orders");
+			
+			stat.executeUpdate("create TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
+			logger.debug("Create table cards");
+			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
+			logger.debug("Create table collections");
+			
+			stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil boolean, signedcard boolean, langage VARCHAR(20), qte integer,altered boolean,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched boolean)");
+			logger.debug("Create table stocks");
+			
+			stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil boolean,qte integer)");
+			logger.debug("Create table alerts");
+			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
+			logger.debug("Create table news");
+			
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL)");
+			logger.debug("Create table selead");
+
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
+			logger.debug("Create table decks");
+
+	
+			logger.debug("populate collections");
+			
+			for(String s : MTGConstants.getDefaultCollectionsNames())
+				stat.executeUpdate("insert into collections values ('"+s+"')");
+			
+			createIndex(stat);
+			
+			
+			return true;
+		} catch (SQLIntegrityConstraintViolationException e) {
+			logger.debug("database already created");
+			return false;
+		}
+		catch (SQLException e) {
+			logger.error(e);
+			return false;
+		}
 	}
 	
 	
@@ -159,7 +256,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ctc_site ON contacts (contact_website);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_mail ON contacts (contact_email);");
 		
-		
+		stat.executeUpdate("CREATE INDEX idx_dck_name ON decks (name);");
+		stat.executeUpdate("CREATE INDEX idx_dck_tags ON decks (tags);");
 		
 		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
 		
@@ -260,56 +358,88 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		init(getEnabledPlugin(MTGPool.class));
 	}
 
-	public boolean createDB() {
-		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
-			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
-			logger.debug("Create table transactions");
-			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept boolean, contact_active boolean, temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
-			logger.debug("Create table contacts");
-	
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
-			logger.debug("Create table orders");
-			
-			stat.executeUpdate("create TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
-			logger.debug("Create table cards");
-			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
-			logger.debug("Create table collections");
-			
-			stat.executeUpdate("create table IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil boolean, signedcard boolean, langage VARCHAR(20), qte integer,altered boolean,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched boolean)");
-			logger.debug("Create table stocks");
-			
-			stat.executeUpdate("create table IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil boolean,qte integer)");
-			logger.debug("Create table alerts");
-			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
-			logger.debug("Create table news");
-			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL)");
-			logger.debug("Create table selead");
-
 	
 	
-			logger.debug("populate collections");
+	@Override
+	public List<MagicDeck> listDecks() throws SQLException {
+		List<MagicDeck> colls = new ArrayList<>();
+		
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks")) 
+		{
+				ResultSet rs = pst.executeQuery();
 			
-			for(String s : MTGConstants.getDefaultCollectionsNames())
-				stat.executeUpdate("insert into collections values ('"+s+"')");
-			
-			createIndex(stat);
-			
-			
-			return true;
-		} catch (SQLIntegrityConstraintViolationException e) {
-			logger.debug("database already created");
-			return false;
+				while (rs.next()) {
+					colls.add(readDeck(rs));
+				}
 		}
-		catch (SQLException e) {
-			logger.error(e);
-			return false;
+		return colls;
+	}
+	
+	@Override
+	public MagicDeck getDeckById(Integer id) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks where id=?")) 
+		{
+				pst.setInt(1, id);
+				ResultSet rs = pst.executeQuery();
+			
+				rs.next();
+				return readDeck(rs);
+				
 		}
 	}
+	
+	
+	@Override
+	public Integer saveOrUpdateDeck(MagicDeck d) throws SQLException {
+		if (d.getId() < 0) 
+		{
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO decks (description, name, dateCreation, dateUpdate, tags, commander, main, sideboard, averagePrice) VALUES (?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS))
+				{
+					pst.setString(1, d.getDescription());
+					pst.setString(2, d.getName());
+					pst.setDate(3,  new Date(System.currentTimeMillis()));
+					pst.setDate(4, new Date(System.currentTimeMillis()));
+					pst.setString(5, d.getTags().stream().collect(Collectors.joining("|")));
+					storeCard(pst,6,d.getCommander());
+					storeDeckBoard(pst,7,d.getMain());
+					storeDeckBoard(pst,8,d.getSideBoard());
+					pst.setDouble(9, d.getAveragePrice());
+					pst.executeUpdate();
+					d.setId(getGeneratedKey(pst));
+				}	
+				logger.debug(d.getName() +" saved with id="+d.getId());
+				
+		}
+		else
+		{
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE decks SET description = ?, name = ?, dateUpdate=?, tags= ?, commander= ?, main= ?, sideboard= ?, averagePrice= ? WHERE id= ?")) 
+			{
+				pst.setString(1, d.getDescription());
+				pst.setString(2, d.getName());
+				pst.setDate(3,  new Date(System.currentTimeMillis()));
+				pst.setString(4, d.getTags().stream().collect(Collectors.joining("|")));
+				storeCard(pst,5,d.getCommander());
+				storeDeckBoard(pst,6,d.getMain());
+				storeDeckBoard(pst,7,d.getSideBoard());
+				pst.setDouble(8, d.getAveragePrice());
+				pst.setInt(9,d.getId());
+				pst.executeUpdate();
+			}	
+			logger.debug(d.getName() +" updated");
+		}
+		
+		return d.getId();
+	}
+	
+	@Override
+	public void deleteDeck(MagicDeck d) throws SQLException {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM decks where id=?")) {
+			pst.setInt(1, d.getId());
+			pst.executeUpdate();
+		}
+		logger.debug("Deck " + d.getName() +" deleted");
+	}
+	
 	
 	
 	
@@ -433,6 +563,26 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 	}
 	
+	private MagicDeck readDeck(ResultSet rs) throws SQLException{
+		
+		var deck = new MagicDeck();
+		
+		deck.setId(rs.getInt("id"));
+		deck.setName(rs.getString("name"));
+		deck.setAveragePrice(rs.getDouble("averagePrice"));
+		deck.setCommander(readCard(rs,"commander"));
+		deck.setCreationDate(rs.getDate("dateCreation"));
+		deck.setDateUpdate(rs.getDate("dateUpdate"));
+		deck.setDescription(rs.getString("description"));
+		deck.setMain(readDeckBoard(rs, "main"));
+		deck.setSideBoard(readDeckBoard(rs, "sideboard"));
+		
+		if(rs.getString("tags")!=null)
+			deck.setTags(Arrays.asList(rs.getString("tags").split("\\|")));
+
+		return deck;
+		
+	}
 	
 	private Transaction readTransaction(ResultSet rs) throws SQLException {
 		var state = new Transaction();
@@ -519,8 +669,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public int saveOrUpdateContact(Contact ct) throws SQLException {
-		
-		
 		if (ct.getId() < 0) 
 		{
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) 
@@ -835,7 +983,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		List<MagicCard> listCards = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT mcard FROM cards"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				listCards.add(readCard(rs));
+				listCards.add(readCard(rs,"mcard"));
 			}
 		}
 		return listCards;
@@ -899,7 +1047,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(2, me.getId());
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					MagicCard mc = readCard(rs);
+					MagicCard mc = readCard(rs,"mcard");
 					ret.add(mc);
 					notify(mc);
 				}
@@ -1187,7 +1335,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					var alert = new MagicCardAlert();
-					alert.setCard(readCard(rs));
+					alert.setCard(readCard(rs,"mcard"));
 					alert.setId(rs.getString("id"));
 					alert.setQty(rs.getInt("qte"));
 					alert.setPrice(rs.getDouble("amount"));
@@ -1509,7 +1657,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	private MagicCardStock readStock(ResultSet rs) throws SQLException
 	{
-		var state = new MagicCardStock(readCard(rs));
+		var state = new MagicCardStock(readCard(rs,"mcard"));
 			state.setComment(rs.getString("comments"));
 			state.setId(rs.getInt("idstock"));
 			state.setMagicCollection(new MagicCollection(rs.getString("collection")));

@@ -640,18 +640,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 		}, transformer);
 
-		get("/deck/:name", URLTools.HEADER_JSON,(request, response) -> {
+		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 			
-				MagicDeck d = manager.getDeck(request.params(NAME));
+				MagicDeck d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
 				JsonElement el= new JsonExport().toJsonDeck(d);
 				el.getAsJsonObject().addProperty("colors", d.getColors());
 				
 				return el;
 		},transformer);
 
-		get("/deck/stats/:name", URLTools.HEADER_JSON, (request, response) -> {
+		get("/deck/stats/:idDeck", URLTools.HEADER_JSON, (request, response) -> {
 
-			MagicDeck d = manager.getDeck(request.params(NAME));
+			MagicDeck d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
 
 			var obj = new JsonObject();
 

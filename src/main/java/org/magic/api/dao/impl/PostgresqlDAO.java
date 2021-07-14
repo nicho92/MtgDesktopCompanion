@@ -15,6 +15,9 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 import org.postgresql.util.PGobject;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class PostgresqlDAO extends AbstractMagicSQLDAO {
 
 	private static final String URL_PGDUMP = "URL_PGDUMP";
@@ -81,6 +84,24 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		jsonObject.setValue(serialiser.toJsonElement(tiersAppIds).toString());
 		pst.setObject(i, jsonObject);
 	}
+	
+	@Override
+	protected void storeDeckBoard(PreparedStatement pst, int i, Map<MagicCard, Integer> board) throws SQLException {
+		var jsonObject = new PGobject();
+		jsonObject.setType("json");
+		var arr = new JsonArray();
+		board.entrySet().forEach(e->{
+			var obj = new JsonObject();
+			obj.addProperty("qty", e.getValue());
+			obj.add("card", serialiser.toJsonElement(e.getKey()));
+			arr.add(obj);
+		});
+		jsonObject.setValue(arr.toString());
+		
+		pst.setObject(i, jsonObject);
+	}
+	
+	
 	
 	@Override
 	protected String getdbSizeQuery() {
