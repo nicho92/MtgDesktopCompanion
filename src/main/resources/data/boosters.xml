@@ -1094,11 +1094,10 @@
 	</edition>
 	<edition id='ISD'>
 
-		<booster lang='en' num='1'
-			url="http://i.tcgplayer.com/47787_200w.jpg" />
-
-		<banner lang='en'
-			url="http://mtgen.net/isd/images/logo-word.png" />
+		<booster lang='en' num='1' url="https://www.play-in.com/img/product/l/boostinn.png" />
+		<banner lang='en' url="http://mtgen.net/isd/images/logo-word.png" />
+		<fatpack lang="en" url="https://media.magic.wizards.com/images/featured/EN_ISDFatPack_Product.png"/>
+		<box lang="en" url="https://media.magic.wizards.com/images/featured/EN_ISDBooster_Product.png"/>
 	</edition>
 	<edition id='PD3'>
 
