@@ -96,7 +96,7 @@ public class TransactionService
 			   oe.setTransactionDate(t.getDateCreation());
 			   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
 			   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
-			   oe.setType(EnumItems.CARD);
+			   oe.setType(transactionItem.getTypeStock());
 			   oe.setUpdated(false);
 			   if(t.total()>0)								   
 				   oe.setTypeTransaction(TransactionDirection.SELL);
