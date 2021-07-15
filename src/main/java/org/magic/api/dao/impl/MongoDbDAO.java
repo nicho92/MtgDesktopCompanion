@@ -21,6 +21,8 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
+import org.bson.json.JsonMode;
+import org.bson.json.JsonWriterSettings;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -38,7 +40,6 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
-import com.google.common.util.concurrent.Service.State;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -72,6 +73,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbColIDField = "collection.name";
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
+	private JsonWriterSettings setts;
 
 	@Override
 	public void initDefault() {
@@ -94,14 +96,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 	
+	
+	public static void main(String[] args) throws SQLException {
+		MongoDbDAO dao = new MongoDbDAO();	
+		dao.init();
+		dao.listDecks();	
+	}
+	
 
 	private MagicDeck deserializeDeck(BasicDBObject o) {
 		if(o==null)
 			return null;
 		
-		System.out.println(o);
-		
-		return serialiser.importDeck(o.toString(),o.getString("name"));
+		return serialiser.importDeck(o.toJson(setts),o.getString("name"));
 	}
 
 	private String serialize(Object o) {
@@ -130,6 +137,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 			
+		setts = JsonWriterSettings.builder().outputMode(JsonMode.RELAXED).build();
+		
 
 		
 		var temp = new StringBuilder();
@@ -203,7 +212,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MagicDeck> listDecks() throws SQLException {
 		List<MagicDeck> stocks = new ArrayList<>();
 		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> { 
-					
 				MagicDeck d = deserializeDeck(result);
 				stocks.add(d);
 				notify(d);

@@ -145,20 +145,17 @@ public class JDeckChooserDialog extends JDialog {
 					protected List<MagicDeck> doInBackground() throws Exception {
 						return plug.listDecks();
 					}
-					
 					@Override
 					protected void process(List<MagicDeck> chunks) {
 						super.process(chunks);
 						decksModel.addItems(chunks);
 					}
-					
 					@Override
 					protected void done() {
 						super.done();
+						
 						table.packAll();
 					}
-					
-					
 				};
 		
 		ThreadManager.getInstance().runInEdt(sw2,"loading decks");
