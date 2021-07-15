@@ -30,6 +30,7 @@ import javax.swing.tree.TreePath;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
@@ -39,6 +40,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 public class JDeckChooserDialog extends JDialog {
 
@@ -135,35 +138,30 @@ public class JDeckChooserDialog extends JDialog {
 		});
 		
 		
-		SwingWorker<List<MagicDeck>, Void> sw = new SwingWorker<>()
+		AbstractObservableWorker<List<MagicDeck>, MagicDeck, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,MTG.getEnabledPlugin(MTGDao.class))
 				{
 
 					@Override
 					protected List<MagicDeck> doInBackground() throws Exception {
-						return manager.listDecks();
+						return plug.listDecks();
 					}
+					
+					@Override
+					protected void process(List<MagicDeck> chunks) {
+						super.process(chunks);
+						decksModel.addItems(chunks);
+					}
+					
 					@Override
 					protected void done() {
-						
-						
-						try {
-							decksModel.init(get());
-							table.packAll();
-						}catch(InterruptedException ex)
-						{
-							Thread.currentThread().interrupt();
-						}
-						
-						catch (Exception e) {
-							MTGControler.getInstance().notify(e);
-						}
-						
-						buzy.end();
+						super.done();
+						table.packAll();
 					}
+					
+					
 				};
 		
-		buzy.start();
-		ThreadManager.getInstance().runInEdt(sw,"loading decks");
+		ThreadManager.getInstance().runInEdt(sw2,"loading decks");
 		
 		
 		table = UITools.createNewTable(decksModel);

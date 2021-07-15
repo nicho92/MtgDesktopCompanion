@@ -369,7 +369,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				ResultSet rs = pst.executeQuery();
 			
 				while (rs.next()) {
-					colls.add(readDeck(rs));
+					
+						MagicDeck d = readDeck(rs);
+						colls.add(d);
+						notify(d);
+					
 				}
 		}
 		return colls;

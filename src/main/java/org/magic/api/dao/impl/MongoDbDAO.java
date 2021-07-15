@@ -202,7 +202,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicDeck> listDecks() throws SQLException {
 		List<MagicDeck> stocks = new ArrayList<>();
-		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserializeDeck(result)));
+		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> { 
+					
+				MagicDeck d = deserializeDeck(result);
+				stocks.add(d);
+				notify(d);
+			}
+		);
 		return stocks;
 	}
 	
