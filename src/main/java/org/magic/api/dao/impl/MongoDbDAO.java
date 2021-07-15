@@ -96,14 +96,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 	
-	
-	public static void main(String[] args) throws SQLException {
-		MongoDbDAO dao = new MongoDbDAO();	
-		dao.init();
-		dao.listDecks();	
-	}
-	
-
 	private MagicDeck deserializeDeck(BasicDBObject o) {
 		if(o==null)
 			return null;
