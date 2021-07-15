@@ -46,6 +46,19 @@ public class CardTraderPricer extends AbstractCardExport {
 		setProperty(TOKEN_FULL, "");
 	}
 	
+
+	
+	public void test2() throws IOException {
+		
+		var ids = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(baseUrl+getVersion()+"/categories")
+				.addContent("game_id", "1")
+				.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
+				.toJson();
+		
+		System.out.println(ids);
+		
+	}
+	
 	
 	protected void test() throws IOException {
 		
@@ -83,15 +96,11 @@ public class CardTraderPricer extends AbstractCardExport {
 		.addContent("game_id", "1")
 		.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
 		.toJson().getAsJsonArray();
-		
-		
-		System.out.println(products);
-	
 	}
 	
 
 	public static void main(String[] args) throws IOException {
-		new CardTraderPricer().test();
+		new CardTraderPricer().test2();
 	}
 	
 	

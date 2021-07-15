@@ -12,7 +12,10 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.tools.RequestBuilder;
 import org.magic.tools.URLTools;
+import org.magic.tools.URLToolsClient;
+import org.magic.tools.RequestBuilder.METHOD;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,20 +23,34 @@ import com.google.gson.JsonObject;
 public class CardTraderShopper extends AbstractMagicShopper {
 
 	private static final String TOKEN = "TOKEN";
-	private static final String BASE="https://www.cardtrader.com/api/simple/v1/";
+	private static final String BASE="https://api.cardtrader.com/api/full/v1";
+	
+	private URLToolsClient client;
+	
+	
+	public CardTraderShopper() {
+		client = URLTools.newClient();
+	}
+	
 	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
-		
+		var bearer = "Bearer "+getString(TOKEN);
 		List<OrderEntry> orders = new ArrayList<>();
-		var arr = URLTools.extractJson(BASE+"/orders?token="+getString(TOKEN)).getAsJsonArray();
+		var arr = RequestBuilder.build().url(BASE+"/orders")
+					.method(METHOD.GET)
+					.setClient(client)
+					.addHeader("Authorization", bearer)
+					.addContent("sort","date.desc").toJson();
 		
-		for(JsonElement o : arr)
+	
+		for(JsonElement o : arr.getAsJsonArray())
 		{
-			orders.addAll(parseOrder(URLTools.extractJson(BASE+"/orders/"+o.getAsString()+"?token="+getString(TOKEN)).getAsJsonObject()));
+			orders.addAll(parseOrder(RequestBuilder.build().url(BASE+"/orders/"+o.getAsString())
+					.method(METHOD.GET)
+					.setClient(client)
+					.addHeader("Authorization", bearer).toJson().getAsJsonObject()));
 		}
-		
-		
 		return orders;
 	}
 	
@@ -72,7 +89,12 @@ public class CardTraderShopper extends AbstractMagicShopper {
 	private EnumItems parseType(int idC) {
 		switch (idC) {
 		case 1 : return EnumItems.CARD;
-		case 2 : return EnumItems.BOOSTER;
+		case 4: return EnumItems.BOX;
+		case 5 : return EnumItems.BOOSTER;
+		case 6 : return EnumItems.FULLSET;
+		case 7 : return EnumItems.STARTER;
+		case 17 : return EnumItems.CONSTRUCTPACK;
+		case 23 : return EnumItems.BUNDLE;
 		default: return null;
 		}
 	}
