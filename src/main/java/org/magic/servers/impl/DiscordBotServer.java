@@ -54,17 +54,23 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.RichPresence;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.internal.entities.ActivityImpl;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
 	
+	private static final String ACTIVITY = "ACTIVITY";
+	private static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
 	private static final String THUMBNAIL_IMAGE = "THUMBNAIL_IMAGE";
 	private static final String SHOWPRICE = "SHOWPRICE";
 	private static final String AUTOSTART = "AUTOSTART";
@@ -389,7 +395,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 			jda = JDABuilder.createDefault(getString(TOKEN))
 							.addEventListeners(listener)
 							.build();
-		
+			
+			
+			if(!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
+				jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
+			
+			
 		} catch (LoginException e) {
 			throw new IOException(e);
 		}
@@ -444,7 +455,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(SHOWCOLLECTIONS,"true");
 		setProperty(PRICE_KEYWORDS,"price,prix,how much,cost");
 		setProperty(RESULTS_SHAKES,"10");
-		
+		setProperty(ACTIVITY_TYPE,ActivityType.WATCHING.name());
+		setProperty(ACTIVITY,"bees flying");
 	}
 
 }
