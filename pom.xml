@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.15.0</version>
+			<version>3.15.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -166,11 +166,6 @@
 			<groupId>io.github.forohforerror</groupId>
 			<artifactId>ScryfallAPIBinding</artifactId>
 			<version>1.11.1</version>
-		</dependency>
-		<dependency>
-		    <groupId>io.magicthegathering</groupId>
-		    <artifactId>javasdk</artifactId>
-		    <version>0.0.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.boofcv</groupId>
@@ -230,7 +225,7 @@
 		<dependency>
 		    <groupId>org.rednoise</groupId>
 		    <artifactId>rita</artifactId>
-		    <version>2.4.100</version>
+		    <version>2.4.103</version>
 		</dependency>
 		<dependency>
 			<groupId>org.pushing-pixels</groupId>
@@ -551,7 +546,7 @@
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
-			<version>3.12.8</version>
+			<version>3.12.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
