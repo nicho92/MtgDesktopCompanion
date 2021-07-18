@@ -28,16 +28,13 @@ public class Mkm2WooCommerce {
 				System.out.println("\t"+it.getProductName() + " " + it.getPrice());
 			});
 			
-			if(t.getStatut()==TransactionStatus.NEW)
-			{
-				
-				Map<Object, Object> ret =  new WooCommerceExport().sendOrder(t);
-				System.out.println(ret);
-				
-			}
-			
-			//only first
-			System.exit(0);
+//			if(t.getStatut()==TransactionStatus.NEW)
+//			{
+//				
+//				Map<Object, Object> ret =  new WooCommerceExport().sendOrder(t);
+//				System.out.println(ret);
+//			}
+//			System.exit(0);
 			
 		});
 	}
@@ -93,12 +90,12 @@ public class Mkm2WooCommerce {
 				}
 				
 			};
-		
+		//2403
 			item.setPrice(article.getPrice());
 			item.setProduct(article);
 			item.setQte(article.getCount());
 			item.getTiersAppIds().put("MagicCardMarket", String.valueOf(article.getIdArticle()));
-			item.getTiersAppIds().put("WooCommerce", "-1");
+			item.getTiersAppIds().put("WooCommerce", "");
 			t.getItems().add(item);
 		});
 		return t;
