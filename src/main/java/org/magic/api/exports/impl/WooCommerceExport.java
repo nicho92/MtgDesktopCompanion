@@ -84,8 +84,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		init();
 		
 		Map<String,Object> content = new HashMap<>();
-		content.put("post", WooCommerceTools.createOrder(t));
-		
+						   content.put("post", WooCommerceTools.createOrder(t));
 		return wooCommerce.create(EndpointBaseType.ORDERS.getValue(),content);
 		
 	}
