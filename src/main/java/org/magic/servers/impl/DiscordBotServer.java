@@ -63,6 +63,7 @@ import net.dv8tion.jda.api.entities.RichPresence;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.internal.entities.ActivityImpl;
 
@@ -301,7 +302,16 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 
 	private void applyControl(String emote, Message message, boolean enabled) {
-			message.addReaction(emote).queue();
+			try{
+				message.addReaction(emote).queue();
+			}
+			catch(InsufficientPermissionException ex)
+			{
+				message.getChannel().sendMessage(ex.getLocalizedMessage() ).queue();
+				return;
+			}
+			
+			
 			if (!enabled) {
 				message.getReactions().parallelStream().filter(r -> r.getReactionEmote().getEmote().getName().equals(emote))
 								   .forEach(r -> {

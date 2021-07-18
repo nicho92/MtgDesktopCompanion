@@ -1,0 +1,5 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title> </title></head><body>
+<p>&lt;#list modele as cs&gt;</p>
+<p>    ${cs.name} &lt;#if cs.ed??&gt;(${cs.ed})&lt;/#if&gt; ${cs.price} &lt;#if (cs.percentDayChange&gt;0)&gt;+&lt;/#if&gt;${cs.percentDayChange*100}%</p>
+<p>&lt;/#list&gt;</p>
+</body></html>

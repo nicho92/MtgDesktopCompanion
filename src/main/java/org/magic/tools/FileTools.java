@@ -55,7 +55,6 @@ public class FileTools {
 	{
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
-		logger.debug("saving file " + f);
 		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
 	}
 	
