@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.api.mkm.tools.MkmConstants;
-import org.beta.MTGJsonPricer.STOCK;
-import org.beta.MTGJsonPricer.SUPPORT;
-import org.beta.MTGJsonPricer.VENDOR;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.providers.MTGJsonPricer.STOCK;
+import org.magic.services.providers.MTGJsonPricer.SUPPORT;
+import org.magic.services.providers.MTGJsonPricer.VENDOR;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.URLTools;
