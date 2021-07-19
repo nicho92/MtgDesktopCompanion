@@ -2281,10 +2281,8 @@
 
 	<edition id="AFR">
 		<banner lang="en" url="https://www.cardkingdom.com/media/upload/about/AFR.png" />
-		<box lang="en" num="1" extra="draft"
-			url="https://tcgladen.ch/wp-content/uploads/2021/05/MTGAFR_EN_BstrDspBx_01_01.png" />
-		<box lang="en" num="2" extra="collector"
-			url="https://cdn.shopify.com/s/files/1/1704/1809/products/1199dc6e890e1caf21e4fa9434e09493f7696e78_1024x1024.png" />
+		<box lang="en" num="1" extra="draft" url="https://tcgladen.ch/wp-content/uploads/2021/05/MTGAFR_EN_BstrDspBx_01_01.png" />
+		<box lang="en" num="2" extra="collector" url="https://cdn.shopify.com/s/files/1/1704/1809/products/1199dc6e890e1caf21e4fa9434e09493f7696e78_1024x1024.png" />
 		<box lang="en" num="3" extra="set" url="https://cdn.shopify.com/s/files/1/1633/7907/products/AdventuresintheForgottenRealmsBoosterBoxSet1_953x953.png?v=1620679771" />
 		<booster lang="en" num="1" extra="collector" url="https://media.miniaturemarket.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/a/i/aitfgcollectorpack.png" />
 		
@@ -2297,6 +2295,7 @@
 		
 		<bundle lang="en" num="1" url="https://thegamesden.co.uk/wp-content/uploads/2021/06/MTGAFR_EN_BndlSetupBx_01_03-1.png" />
 		<bundle lang="en" num="2" extra="gift" url="https://media.wizards.com/2021/images/daily/en_wufy32ffye.png"/>
+		<bundle lang="en" num="3" url="https://media.wizards.com/2021/images/daily/en_weyDw38dsn.png"/>
 	</edition>
 
 
