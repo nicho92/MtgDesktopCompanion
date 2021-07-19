@@ -178,7 +178,7 @@ public class WooCommerceTools {
 		obj.put("shipping", contact);
 		obj.put("line_items", items);
 		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
-		
+		obj.put("created_via", "MtgCompanion");
 		
 		for(MTGStockItem st : t.getItems())
 		{

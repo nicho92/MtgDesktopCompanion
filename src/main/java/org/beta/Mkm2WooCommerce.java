@@ -2,9 +2,12 @@ package org.beta;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Order;
 import org.api.mkm.services.OrderService;
@@ -13,46 +16,57 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.MTGDao;
+import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
-import org.magic.services.MTGControler;
-import org.magic.services.TransactionService;
-import org.magic.tools.MTG;
-
-import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
+import org.magic.services.MTGLogger;
+import org.magic.tools.UITools;
 
 public class Mkm2WooCommerce {
-
+	
+	private static Logger logger = MTGLogger.getLogger(Mkm2WooCommerce.class);
+    private static  Map<Integer,Integer>  conversions = new HashMap<>();
+	
+	
+	
 	public static void main(String[] args) throws IOException {
-		OrderService serv = new OrderService();
-		List<Order> ordrs = serv.listOrders(new File("C:\\Users\\Pihen\\Downloads\\Orders.Mkm.Bought.xml"));
+		List<Order> ordrs = new OrderService().listOrders(new File("C:\\Users\\Pihen\\Downloads\\Orders.Mkm.Bought.xml"));
+		
+		loadConversions();
 		
 		ordrs.forEach(o->{
 			Transaction t = toTransaction(o);
-			
-			System.out.println(t.getContact() + " " + t.getStatut() + " : " + t.total() + " (Shipp :" + t.getShippingPrice() + ") "+t.getCurrency() + " : " + (t.total() + t.getShippingPrice()) + " "+t.getCurrency());
-			t.getItems().forEach(it->{
-				System.out.println("\t"+it.getProductName() + " " + it.getPrice());
-			});
+//			System.out.println(t.getContact() + " " + t.getStatut() + " : " + UITools.roundDouble(t.total() + t.getShippingPrice())  + " "+t.getCurrency());
+//			t.getItems().forEach(it->{
+//				System.out.println("\t"+it.getProductName() + " " + it.getPrice() + " " + it.getTiersAppIds() + " " + it.getLanguage());
+//			});
 
-			
-			System.out.println(new JsonExport().toJsonElement(t.getItems()));
-			
-			
-			
-//			if(t.getStatut()==TransactionStatus.NEW)
-//			{
-//				
-//				Map<Object, Object> ret =  new WooCommerceExport().sendOrder(t);
-//				System.out.println(ret);
-//			}
-//			System.exit(0);
+			if(t.getStatut()==TransactionStatus.NEW)
+			{
+				
+				Map<Object, Object> ret =  new WooCommerceExport().sendOrder(t);
+				System.out.println(ret);
+			}
+			System.exit(0);
 			
 		});
 	}
 	
-	
+	private static void loadConversions() throws IOException
+	{
+			conversions.clear();
+			var list = Files.readAllLines(new File("C:\\Users\\Pihen\\Downloads\\conversions.csv").toPath());
+			
+			
+			list.remove(0); // remove title
+			
+			list.forEach(s->{
+				try {
+					conversions.put(Integer.parseInt(s.split(",")[2]), Integer.parseInt(s.split(",")[3]));
+				} catch (Exception e) {
+					logger.error(s+"|"+e.getMessage());
+				}
+			});
+	}
 	
 
 	private static Transaction toTransaction(Order o) {
@@ -65,7 +79,7 @@ public class Mkm2WooCommerce {
 		t.setMessage(String.valueOf(o.getIdOrder()));
 		
 		Contact c = new Contact();
-				c.setName(o.getBuyer().getAddress().getName().split(" ")[0]+"------TEST");
+				c.setName(o.getBuyer().getAddress().getName().split(" ")[0]);
 				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[1]);
 				c.setAddress(o.getBuyer().getAddress().getStreet());
 				c.setZipCode(o.getBuyer().getAddress().getZip());
@@ -101,7 +115,6 @@ public class Mkm2WooCommerce {
 					url = "https:"+ c.getProduct().getImage();
 					setTypeStock(EnumItems.SEALED);
 				}
-				
 			};
 			
 			item.setLanguage(article.getLanguage().getLanguageName());
@@ -109,7 +122,11 @@ public class Mkm2WooCommerce {
 			item.setProduct(article);
 			item.setQte(article.getCount());
 			item.getTiersAppIds().put("MagicCardMarket", String.valueOf(article.getIdArticle()));
-			item.getTiersAppIds().put("WooCommerce", "2403");
+			try {
+				item.getTiersAppIds().put("WooCommerce", String.valueOf(conversions.get(article.getIdArticle())));
+			} catch (Exception e) {
+				logger.error("Error getting Woocomerce id for Mkm ArticleID="+article.getIdArticle() + " : " + e);
+			}
 			t.getItems().add(item);
 		});
 		return t;
