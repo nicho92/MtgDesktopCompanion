@@ -46,20 +46,6 @@ public class CardTraderPricer extends AbstractCardExport {
 		setProperty(TOKEN_FULL, "");
 	}
 	
-
-	
-	public void test2() throws IOException {
-		
-		var ids = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(baseUrl+getVersion()+"/categories")
-				.addContent("game_id", "1")
-				.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
-				.toJson();
-		
-		System.out.println(ids);
-		
-	}
-	
-	
 	protected void test() throws IOException {
 		
 		var cardName = "Esper Sentinel";
@@ -77,7 +63,7 @@ public class CardTraderPricer extends AbstractCardExport {
 		
 		var idSet = getExpensions().get(setId);
 		
-		int idBluePrints=-1;
+		var idBluePrints=-1;
 		
 		for(JsonElement el : ids)
 		{
@@ -86,21 +72,20 @@ public class CardTraderPricer extends AbstractCardExport {
 				idBluePrints = el.getAsJsonObject().get("id").getAsInt();
 				break;
 			}
-		
 		}
 		
-		url = baseUrl+getVersion()+"/products";
-		JsonArray products = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(url)
-		.addContent("blueprint_id",String.valueOf(idBluePrints))
-		.addContent("category_id", "1")
-		.addContent("game_id", "1")
-		.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
-		.toJson().getAsJsonArray();
+		logger.debug(ids);
+		logger.debug(idBluePrints);
+		
+	
+		
+		
+		
 	}
 	
 
 	public static void main(String[] args) throws IOException {
-		new CardTraderPricer().test2();
+		new CardTraderPricer().test();
 	}
 	
 	

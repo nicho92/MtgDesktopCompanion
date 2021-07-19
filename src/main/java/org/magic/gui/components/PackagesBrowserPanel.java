@@ -136,16 +136,22 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 				}
 			});
 		});
-		model.reload();
+	
 
-		tree.expandRow(0);
 		
 		if(view)
 			panelDraw.setImg(null);
 		
 	}
 
+	public void reload()
+	{
+		model.reload();
+		tree.expandRow(0);
 
+	}
+	
+	
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_PACKAGE;

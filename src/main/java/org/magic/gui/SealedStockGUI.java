@@ -298,6 +298,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			}
 			@Override
 			protected void done() {
+				packagePanel.reload();
 				ThreadManager.getInstance().runInEdt(sw2, "Loading sealedstock");	
 			}
 		};

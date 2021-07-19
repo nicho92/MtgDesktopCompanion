@@ -469,6 +469,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public Contact getContactById(int id) throws SQLException {
+		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?")) 
 		{
 				pst.setInt(1, id);

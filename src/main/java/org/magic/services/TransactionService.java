@@ -79,6 +79,14 @@ public class TransactionService
 				logger.error("Error updating shipping price",e1);
 			}
 		}
+		
+		if(t.getContact().getId()<=0)
+		{
+			logger.debug(t.getContact() + " doesn't exist. Creating it");
+			int id= createContact(t.getContact());
+			t.getContact().setId(id);
+		}
+		
 		return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 	}
 	
