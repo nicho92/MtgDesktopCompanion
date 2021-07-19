@@ -2,6 +2,7 @@ package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -45,6 +46,13 @@ public class EmailNotifier extends AbstractMTGNotifier{
 
 	
 	public void send(String sendMail, MTGNotification notification) throws IOException {
+		
+		if(StringUtils.isEmpty(sendMail))
+		{
+			logger.warn("No email filled");
+			return;
+		}
+		
 		HtmlEmail email;
 		try {
 			

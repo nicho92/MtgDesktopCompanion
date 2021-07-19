@@ -138,12 +138,15 @@ public class Transaction implements Serializable {
 		return statut;
 	}
 	
-	
-	public double total()
+	public double totalItems()
 	{
 		return getItems().stream().mapToDouble(e->e.getQte()*e.getPrice()).sum();
 	}
 	
+	public double total()
+	{
+		return totalItems() + getShippingPrice();
+	}
 	
 	@Override
 	public String toString() {
