@@ -81,6 +81,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
+
+
 @SuppressWarnings("rawtypes")
 public class CollectionPanelGUI extends MTGUIComponent {
 	
@@ -329,11 +331,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		gedPanel.init(MagicCard.class,mc);
 		
 		try {
-			if(col==null)
-				stockPanel.initMagicCardStock(mc,new MagicCollection(MTGControler.getInstance().get("default-library")));
-			else
-				stockPanel.initMagicCardStock(mc,col);
-		
+			stockPanel.initMagicCardStock(mc,col);
 			stockPanel.enabledAdd(true);
 		}
 		catch(NullPointerException e)
