@@ -12,10 +12,9 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
-	private String artist;
+	
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseId;
-	private String flavor;
-	private String number;
+
 	private String layout;
 	private String url;
 	private String id;
@@ -29,13 +28,16 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private boolean onlineOnly;
 	private Integer mkmid;
 	private String mkmname;
-	private String gathererCode;
+
 	private boolean foilOnly;
 	private String keyRuneCode;
 	private int tcgplayerGroupId;
-	private String scryfallId;
 	private boolean preview;
 	private boolean foreignOnly;
+	
+	
+	private String number;
+	
 	
 	
 	
@@ -207,23 +209,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		this.set = set;
 	}
 
-	public String getArtist() {
-		return artist;
-	}
-
-	public void setArtist(String artist) {
-		this.artist = artist;
-	}
-
-
-	public String getFlavor() {
-		return flavor;
-	}
-
-	public void setFlavor(String flavor) {
-		this.flavor = flavor;
-	}
-
 	public String getNumber() {
 		return number;
 	}
@@ -272,14 +257,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		return compare(this, o);
 	}
 
-	public String getGathererCode() {
-		return gathererCode;
-	}
-
-	public void setGathererCode(String gathererCode) {
-		this.gathererCode = gathererCode;
-	}
-
 	public void setKeyRuneCode(String r) {
 		keyRuneCode=r;
 		
@@ -295,15 +272,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 
 	public void setTcgplayerGroupId(int tcgplayerGroupId) {
 		this.tcgplayerGroupId = tcgplayerGroupId;
-	}
-
-	public void setScryfallId(String scryfallId) {
-		this.scryfallId=scryfallId;
-		
-	}
-
-	public String getScryfallId() {
-		return scryfallId;
 	}
 
 	

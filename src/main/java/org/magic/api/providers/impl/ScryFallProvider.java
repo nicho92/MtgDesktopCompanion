@@ -529,7 +529,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 				ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
-				ed.setArtist(mc.getArtist());
 				mc.getEditions().add(ed);
 			} catch (Exception e2) {
 				throw new IOException(e2);
@@ -625,9 +624,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				for (var i = 0; i < jsonList.size(); i++) {
 					var obj = jsonList.get(i).getAsJsonObject();
 					MagicEdition ed = getSetById(obj.get("set").getAsString());
-
-					if (obj.get(ARTIST) != null)
-						ed.setArtist(obj.get(ARTIST).getAsString());
 
 					if (obj.get(MULTIVERSE_ID) != null)
 						ed.setMultiverseid(obj.get(MULTIVERSE_ID).getAsString());

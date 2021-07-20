@@ -342,10 +342,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 				MagicEdition set = getSetById(rs.getString(SETCODE));
 							 set.setNumber(rs.getString(NUMBER));
-							 set.setFlavor(rs.getString(FLAVOR_TEXT));
-							 set.setScryfallId(rs.getString(SCRYFALL_ID));
 							 set.setMultiverseid(rs.getString(MULTIVERSE_ID));
-							 set.setArtist(rs.getString(ARTIST));
 							 mc.getEditions().add(set);
 				
 				for(String ids : rs.getString("printings").split(",")) 

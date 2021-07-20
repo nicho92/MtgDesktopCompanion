@@ -428,9 +428,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					codeEd = currentSet.get(indexSet++);
 			
 				MagicEdition me = getSetById(codeEd);
-							 me.setFlavor(mc.getFlavor());
-							 me.setScryfallId(mc.getScryfallId());
-							 
 							 if (map.get(NUMBER) != null)
 							 {
 								 me.setNumber(String.valueOf(map.get(NUMBER)));
@@ -484,26 +481,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			for (Map<String, Object> map : cardsElement) {
 				
 				try {
-					me.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
-				} catch (Exception e) {
-					me.setFlavor(mc.getFlavor());
-				}
-
-				try {
 
 					me.setNumber(String.valueOf(map.get(NUMBER)));
 				} catch (Exception e) {
 					logger.trace("initOtherEditionCardsVar number not found");
 				}
 				
-				try {
-
-					me.setArtist(String.valueOf(map.get(ARTIST)));
-				} catch (Exception e) {
-					me.setArtist(mc.getArtist());
-				}
-
-				
+								
 				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 				
 				try {
@@ -512,11 +496,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					//do nothing
 				}
 				
-				try {
-					me.setScryfallId(identifiers.get(SCRYFALL_ID));
-				} catch (Exception e) {
-					//do nothing
-				}
+				
 			}
 	}
 
@@ -607,13 +587,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			//do nothing
 		}
 		
-		try{
-			ed.setGathererCode(ctx.read(base + ".mtgoCode", String.class));
-		}catch(PathNotFoundException pnfe)
-		{ 
-			//do nothing
-		}
-		
+	
 		try {
 			ed.setMkmName(ctx.read(base + ".mcmName", String.class));
 		} catch (PathNotFoundException pnfe) {

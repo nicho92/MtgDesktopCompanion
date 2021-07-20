@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
@@ -31,6 +32,10 @@ public class Mkm2WooCommerce {
 		loadConversions(new File("C:\\Users\\Pihen\\Downloads\\conversions.csv"),2,3);
 		listTransaction().forEach(t->{
 			logger.info(t.getId() + " " + t.getContact() + " "+  UITools.roundDouble(t.total()) +" " + t.getCurrency().getSymbol());
+			for(MTGStockItem it : t.getItems())
+			{
+				logger.info(it.getProductName() + " " + it.getLanguage() + " " + it.getTiersAppIds());
+			}
 		});
 	}
 	

@@ -762,7 +762,7 @@ public class MagicCard implements Serializable {
 			mc2.getEditions().set(0, ed);
 			ed.setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
-			mc2.getCurrentSet().setFlavor(fn.getFlavor());
+			mc2.setFlavor(fn.getFlavor());
 			
 			mc2.setText(fn.getText());
 			return mc2;
