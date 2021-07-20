@@ -31,8 +31,10 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
+import org.magic.gui.components.StockItemsSynchronizationPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
 import org.magic.gui.models.SealedStockTableModel;
+import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -50,7 +52,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	private RSyntaxTextArea textEditor;
 	private JXTable table;
 	private AbstractBuzyIndicatorComponent buzy;
-	
+	private StockItemsSynchronizationPanel synchroPanel;
 	
 	public SealedStockGUI() {
 		initGUI();
@@ -61,6 +63,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		model = new SealedStockTableModel();
 		var objectpanel = new ObjectViewerPanel();
 		table = UITools.createNewTable(model);
+		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.initTableFilter(table);
 		packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
@@ -79,7 +82,7 @@ public class SealedStockGUI extends MTGUIComponent {
 				}
 			}
 		});
-		
+		synchroPanel = new StockItemsSynchronizationPanel();
 		var toolsPanel = new JPanel();
 		var centerPanel = new JSplitPane();
 		centerPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -108,7 +111,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		UITools.addTab(panneauDetail, historyPricePanel);
 		UITools.addTab(panneauDetail, gedPanel);
 		UITools.addTab(panneauDetail, MTGUIComponent.build(new JScrollPane(textEditor), "description", MTGConstants.ICON_MANUAL));
-		
+		UITools.addTab(panneauDetail,synchroPanel);
 		
 		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
@@ -158,6 +161,7 @@ public class SealedStockGUI extends MTGUIComponent {
 					
 					historyPricePanel.init(selectedStock.getProduct(), selectedStock.getProduct().getEdition()+"-"+ selectedStock.getProduct().getType());
 					packagePanel.load(selectedStock.getProduct());
+					synchroPanel.init(selectedStock);
 					objectpanel.show(selectedStock);
 					gedPanel.init(SealedStock.class, selectedStock);
 					textEditor.setText(selectedStock.getComment());

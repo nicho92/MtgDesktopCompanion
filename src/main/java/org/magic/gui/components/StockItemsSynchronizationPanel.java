@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
@@ -20,7 +20,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MapTableModel<String, String> model;
-	private MagicCardStock st;
+	private MTGStockItem st;
 	private JComboBox<MTGCardsExport> cboPlugins;
 	
 	
@@ -77,7 +77,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 		return "Synchronization";
 	}
 
-	public void init(MagicCardStock st)
+	public void init(MTGStockItem st)
 	{
 		this.st=st;
 		init();

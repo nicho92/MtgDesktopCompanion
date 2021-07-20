@@ -178,7 +178,14 @@ public class WooCommerceTools {
 		obj.put("shipping", contact);
 		obj.put("line_items", items);
 		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
-		obj.put("created_via", "MtgCompanion");
+		obj.put("created_via", MTGConstants.MTG_APP_NAME);
+		
+		if(t.getPaymentProvider()!=null)
+		{
+			obj.put("payment_method_title", t.getPaymentProvider().name());
+			obj.put("date_paid", t.getDatePayment().getTime());
+		}
+		
 		
 		for(MTGStockItem st : t.getItems())
 		{

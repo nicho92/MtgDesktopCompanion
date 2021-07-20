@@ -182,7 +182,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+")");
 			logger.debug("Create table selead");
 
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
@@ -882,9 +882,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if (state.getId() < 0) {
 
-			logger.debug("save stock " + state);
+			logger.debug("save sealed  " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
@@ -899,6 +899,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				
 				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
 				pst.setDouble(9, state.getPrice());
+				storeTiersApps(pst,10,state.getTiersAppIds());
 				
 				
 				pst.executeUpdate();
@@ -907,9 +908,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				logger.error("error insert", e);
 			}
 		} else {
-			logger.debug("update Stock " + state);
+			logger.debug("update Sealed " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=?, price=? where id=?")) {
+					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=?, price=?, tiersAppIds=?where id=?")) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
@@ -918,7 +919,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(6, state.getCondition().name());
 				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
 				pst.setDouble(8, state.getPrice());
-				pst.setInt(9, state.getId());
+				storeTiersApps(pst,9,state.getTiersAppIds());
+				pst.setInt(10, state.getId());
 				pst.executeUpdate();
 				
 				state.setUpdated(false);
@@ -1642,7 +1644,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
 		state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 		state.setPrice(rs.getDouble("price"));
-
+		state.setTiersAppIds(readTiersApps(rs));
+		
+		
 		  try 
 		  {
 			var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),

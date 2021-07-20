@@ -5,6 +5,15 @@ if(dao.isSQL()) {
 	dao.executeQuery("ALTER TABLE sealed ADD collection VARCHAR(255)");
 	dao.executeQuery("ALTER TABLE sealed ADD price DECIMAL");
 	dao.executeQuery("ALTER TABLE cards ADD dateUpdate TIMESTAMP");
+	
+	
+	//for mysql / MariaDB
+	//dao.executeQuery("ALTER TABLE sealed ADD tiersAppIds TEXT");
+	//for SQLite (default)
+	//dao.executeQuery("ALTER TABLE sealed ADD tiersAppIds json");
+	
+	
+	
 	printf("--done");
 }
 else

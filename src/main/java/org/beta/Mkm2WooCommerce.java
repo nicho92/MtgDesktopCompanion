@@ -28,7 +28,7 @@ public class Mkm2WooCommerce {
     private static  Map<Integer,Integer>  conversions = new HashMap<>();
 	
 	public static void main(String[] args) throws IOException, SQLException {
-		loadConversions(new File("D:\\Téléchargements\\conversions.csv"));
+		loadConversions(new File("C:\\Users\\Pihen\\Downloads\\conversions.csv"),2,3);
 		listTransaction().forEach(t->{
 			logger.info(t.getId() + " " + t.getContact() + " "+  UITools.roundDouble(t.total()) +" " + t.getCurrency().getSymbol());
 		});
@@ -37,18 +37,18 @@ public class Mkm2WooCommerce {
 	public static List<Transaction> listTransaction() throws IOException
 	{
 		//PROD return new OrderService().listOrders(ACTOR.buyer,STATE.paid,null).stream().map(Mkm2WooCommerce::toTransaction).collect(Collectors.toList())
-		return new OrderService().listOrders(new File("C:\\Users\\Nicolas\\Google Drive\\Orders.Mkm.Paid.xml")).stream().map(Mkm2WooCommerce::toTransaction).collect(Collectors.toList());
+		return new OrderService().listOrders(new File("C:\\Users\\Pihen\\Downloads\\Orders.Mkm.Paid.xml")).stream().map(Mkm2WooCommerce::toTransaction).collect(Collectors.toList());
 	}
 	
 	
-	public static void loadConversions(File f) throws IOException
+	public static void loadConversions(File f,int columnIdArticle, int columnIdWoocommerce) throws IOException
 	{
 			conversions.clear();
 			var list = Files.readAllLines(f.toPath());
 			list.remove(0); // remove title
 			list.forEach(s->{
 				try {
-					conversions.put(Integer.parseInt(s.split(",")[2]), Integer.parseInt(s.split(",")[3]));
+					conversions.put(Integer.parseInt(s.split(",")[columnIdArticle]), Integer.parseInt(s.split(",")[columnIdWoocommerce]));
 				} catch (Exception e) {
 					logger.error(s+"|"+e.getMessage());
 				}
