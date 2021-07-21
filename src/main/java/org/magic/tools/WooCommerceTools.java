@@ -13,11 +13,14 @@ import org.json.JSONObject;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.ApiVersionType;
 import com.icoderman.woocommerce.HttpMethod;
 import com.icoderman.woocommerce.WooCommerce;
@@ -190,13 +193,23 @@ public class WooCommerceTools {
 		for(MTGStockItem st : t.getItems())
 		{
 			var line = new JSONObject();
-				line.put("product_id", st.getTiersAppIds("WooCommerce"));
+				line.put("product_id", st.getTiersAppIds(WooCommerceExport.WOO_COMMERCE));
 				line.put("quantity", st.getQte());
 			items.put(line);
 		}
 		return obj;
 	}
 	
-	
+	public static JsonArray entryToJsonArray(String string, String value) {
+
+		var obj = new JsonObject();
+		    obj.addProperty(string, value);
+				   
+		var arr = new JsonArray();
+		    arr.add(obj);
+		
+		return arr;
+	}
+
 	
 }

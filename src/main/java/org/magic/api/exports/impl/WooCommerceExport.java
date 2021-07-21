@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.collections4.ListUtils;
+import org.api.mkm.modele.Product;
+import org.beta.Mkm2WooCommerce;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -35,6 +37,7 @@ import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExport extends AbstractCardExport {
 
+	public static final String WOO_COMMERCE = "WooCommerce";
 	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
@@ -79,6 +82,13 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 	
 	
+	public WooCommerce getWooCommerce() {
+		if(wooCommerce==null)
+			init();
+		
+		return wooCommerce;
+	}
+	
 	public Map sendOrder(Transaction t)
 	{
 		init();
@@ -88,7 +98,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		return wooCommerce.create(EndpointBaseType.ORDERS.getValue(),content);
 		
 	}
-	
+
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -221,7 +231,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
-        productInfo.put("categories", toJson("id",getString(CATEGORY_ID)));
+        productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",getString(CATEGORY_ID)));
         productInfo.put("description",desc(st.getProduct()));
         productInfo.put("short_description", toForeign(st.getProduct()).getName()+"-"+st.getCondition());
         productInfo.put("enable_html_description", "true");
@@ -236,7 +246,7 @@ public class WooCommerceExport extends AbstractCardExport {
         if(!getString(PIC_PROVIDER_NAME).isEmpty())
         {
         	try {
-        	productInfo.put("images", toJson("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
+        	productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
         	//productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)))
         	}catch(Exception e)
         	{
@@ -380,17 +390,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		return mc2;
 	}
 
-	private JsonArray toJson(String string, String value) {
-
-		var obj = new JsonObject();
-		    obj.addProperty(string, value);
-				   
-		var arr = new JsonArray();
-		    arr.add(obj);
-		
-		return arr;
-	}
-
+	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
@@ -406,7 +406,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "WooCommerce";
+		return WOO_COMMERCE;
 	}
 
 	@Override

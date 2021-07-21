@@ -3,15 +3,19 @@ package org.beta;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Order;
+import org.api.mkm.modele.Product;
 import org.api.mkm.services.OrderService;
+import org.api.mkm.services.OrderService.STATE;
+import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
@@ -19,63 +23,60 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.exports.impl.WooCommerceExport;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.tools.WooCommerceTools;
+
+import com.icoderman.woocommerce.EndpointBaseType;
 
 public class Mkm2WooCommerce {
 	
 	private static Logger logger = MTGLogger.getLogger(Mkm2WooCommerce.class);
     private List<ConverterItem>  conversions;
 	
-	public static void main(String[] args) throws IOException, SQLException {
+	public static void main(String[] args) throws IOException {
 		MTGControler.getInstance();
-		MTG.getEnabledPlugin(MTGDao.class).init();
+		MkmAPIConfig.getInstance().init(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf"));
 		
-		new Mkm2WooCommerce().debugTransactions();
-	}
-	
-	public Mkm2WooCommerce() throws IOException {
-		conversions = new ArrayList<>();
-		loadConversionsFromFile(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
-	}
-	
-	
-	private void debugTransactions() throws IOException {
-		listTransaction().forEach(t->{
-			logger.info(t.getContact() + " "+  UITools.roundDouble(t.total()) +" " + t.getCurrency().getSymbol());
-			for(MTGStockItem it : t.getItems())
-			{
-				logger.info(it.getProductName() + " " + it.getLanguage() + " " + it.getTiersAppIds());
-			}
+		Mkm2WooCommerce mkWoo= new Mkm2WooCommerce();
+		mkWoo.loadConversionsFromFile(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
+		mkWoo.listTransaction(STATE.paid).forEach(t->{
+			
+			System.out.println(t.getId() + " " + t.getContact() + " " + t.total() + " " + t.getCurrency());
+			t.getItems().forEach(item->{
+				System.out.println("\t"+item.getProductName() + " " + item.getTiersAppIds());
+			});
 		});
 		
+		
+		
+		
+		
 	}
+	
 
-	public void saveTransactions()
-	{
-		
-			try {
-				
-				for(Transaction t : listTransaction())
-					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-			} catch (Exception e) {
-				logger.error(e);
-			} 
-		
-		
+
+	public Mkm2WooCommerce() throws IOException {
+		conversions = new ArrayList<>();
 	}
 	
-	public List<Transaction> listTransaction() throws IOException
+	public List<Transaction> listTransaction(STATE statut) throws IOException
 	{
-		//PROD return new OrderService().listOrders(ACTOR.buyer,STATE.paid,null).stream().map(Mkm2WooCommerce::toTransaction).collect(Collectors.toList())
-		return new OrderService().listOrders(new File("C:\\Users\\Nicolas\\Google Drive\\Orders.Mkm.Bought.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
+		//return new OrderService().listOrders(ACTOR.buyer,statut,null).stream().map(this::toTransaction).collect(Collectors.toList());
+		return new OrderService().listOrders(new File("C:\\Users\\Nicolas\\Google Drive\\Orders.Mkm.Paid.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
 	}
 	
+	
+	
+	
+	private void saveProduct(Product p) throws IOException {
+		
+		Map<Object,Object> ret =((WooCommerceExport)MTG.getPlugin(WooCommerceExport.WOO_COMMERCE, MTGCardsExport.class)).getWooCommerce().create(EndpointBaseType.PRODUCTS.getValue(), toWooCommerceAttributs(p,null,78));
+		logger.debug(ret);
+	}
 	
 	public void loadConversionsFromFile(File f) throws IOException
 	{
@@ -95,12 +96,26 @@ public class Mkm2WooCommerce {
 	}
 	
 	
-	public int getWoocommerceId(String lang, int idMkm)
+	private int getWoocommerceId(String lang, int idMkm)
 	{
 		return conversions.stream().filter(p->(p.getLang().equalsIgnoreCase(lang) && p.getIdMkmProduct()==idMkm)).findFirst().orElse(new ConverterItem()).getIdWoocommerceProduct();
 	}
 	
+	
+	private Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)
+	{
+		Map<String, Object> productInfo = new HashMap<>();
 
+		productInfo.put("name", product.getEnName());
+		productInfo.put("type", "simple");
+        productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
+        productInfo.put("status", status==null?"private":status);
+        productInfo.put("images", WooCommerceTools.entryToJsonArray("src","https:"+product.getImage()));
+		 
+		return productInfo;
+	}
+	
+	
 	private Transaction toTransaction(Order o) {
 		Transaction t = new Transaction();
 		t.setTransporterShippingCode(null);
@@ -111,8 +126,8 @@ public class Mkm2WooCommerce {
 		t.setMessage(o.getNote());
 		
 		Contact c = new Contact();
-				c.setName(o.getBuyer().getAddress().getName().split(" ")[0]);
-				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[1]);
+				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[0]);
+				c.setName(o.getBuyer().getAddress().getName().split(" ")[1]);
 				c.setAddress(o.getBuyer().getAddress().getStreet());
 				c.setZipCode(o.getBuyer().getAddress().getZip());
 				c.setCity(o.getBuyer().getAddress().getCity());
@@ -144,9 +159,9 @@ public class Mkm2WooCommerce {
 			item.setQte(article.getCount());
 			item.getTiersAppIds().put(new MkmOnlineExport().getName(), String.valueOf(article.getIdProduct()));
 			try {
-				item.getTiersAppIds().put(new WooCommerceExport().getName(), String.valueOf(getWoocommerceId(article.getLanguage().getLanguageName(),article.getIdProduct())));
+				item.getTiersAppIds().put(WooCommerceExport.WOO_COMMERCE, String.valueOf(getWoocommerceId(article.getLanguage().getLanguageName(),article.getIdProduct())));
 			} catch (Exception e) {
-				logger.error("Error getting Woocomerce id for Mkm ArticleID="+article.getIdArticle() + " : " + e);
+				logger.error("Error getting Woocomerce id for Mkm ProductId="+article.getIdProduct() + " : " + e);
 			}
 			t.getItems().add(item);
 		});
@@ -197,10 +212,6 @@ class ConverterItem
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
-	
-	
-	
-	
 }
 
 
