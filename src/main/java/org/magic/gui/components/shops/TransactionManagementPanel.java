@@ -43,7 +43,6 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private JButton btnSend;
 	private JButton btnSave;
 	private AbstractBuzyIndicatorComponent loader;
-	private JButton btnWooCommerce;
 	private JButton btnPaid;
 	private JButton btnTrack;
 	private JButton btnCancel;
@@ -55,7 +54,6 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSave.setEnabled(t!=null);
 		btnPaid.setEnabled(t!=null && t.getStatut()!=TransactionStatus.PAID);
 		btnSend.setEnabled(t!=null && t.getStatut()!=TransactionStatus.SENT);
-		btnWooCommerce.setEnabled(t!=null && TransactionService.isWoocommerceAvailable(t));
 		btnTrack.setEnabled(t!=null && t.getStatut()==TransactionStatus.SENT);
 		btnCancel.setEnabled(t!=null  && (t.getStatut()==TransactionStatus.PAID || t.getStatut()==TransactionStatus.CANCELATION_ASK || t.getStatut()==TransactionStatus.IN_PROGRESS || t.getStatut()==TransactionStatus.PAYMENT_WAITING || t.getStatut()==TransactionStatus.NEW) );
 	}
@@ -67,7 +65,6 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnAcceptTransaction = new JButton("Accept Transaction",MTGConstants.ICON_SMALL_CHECK);
 		btnSend = new JButton("Mark as Sent",MTGConstants.ICON_TAB_DELIVERY);
 		btnSave = new JButton("Save",MTGConstants.ICON_SMALL_SAVE);
-		btnWooCommerce = new JButton("Send WooCommerce", new WooCommerceExport().getIcon());
 		btnPaid = new JButton("Mark as Paid", MTGConstants.ICON_TAB_PRICES);
 		btnTrack = new JButton("Track", MTGConstants.ICON_TAB_DELIVERY);
 		btnCancel = new JButton("Cancel", MTGConstants.ICON_SMALL_CANCEL);
@@ -77,7 +74,6 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSave.setEnabled(false);
 		btnAcceptTransaction.setEnabled(false);
 		btnPaid.setEnabled(false);
-		btnWooCommerce.setEnabled(false);
 		btnTrack.setEnabled(false);
 		btnCancel.setEnabled(false);
 		
@@ -91,18 +87,11 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		
 		panelCenter.add(btnSend);
 		panelCenter.add(btnTrack);
-		panelCenter.add(btnWooCommerce);
-		
+	
 		
 		add(panelCenter, BorderLayout.NORTH);
 		add(loader,BorderLayout.SOUTH);
-			
-		btnWooCommerce.addActionListener(e->{
-			Map ret = ((WooCommerceExport)MTG.getPlugin("WooCommerce", MTGCardsExport.class)).sendOrder(t);
-			logger.debug("Order created " + ret);			
-		});
-		
-		
+	
 		btnSave.addActionListener(e->{
 			try {
 				TransactionService.saveTransaction(t,true);

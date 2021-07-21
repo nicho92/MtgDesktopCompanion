@@ -37,6 +37,7 @@ import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExport extends AbstractCardExport {
 
+	public static final String WEBSITE = "WEBSITE";
 	public static final String WOO_COMMERCE = "WooCommerce";
 	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";
@@ -46,9 +47,9 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
 	private static final String CATEGORY_ID = "CATEGORY_ID";
-	private static final String CONSUMER_KEY = "CONSUMER_KEY";
-	private static final String CONSUMER_SECRET = "CONSUMER_SECRET";
-	private static final String DEFAULT_STATUT = "DEFAULT_STATUT";
+	public static final String CONSUMER_KEY = "CONSUMER_KEY";
+	public static final String CONSUMER_SECRET = "CONSUMER_SECRET";
+	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private WooCommerce wooCommerce;
 	
 	@Override
@@ -78,7 +79,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	private void init()
 	{
-		 wooCommerce = WooCommerceTools.newClient(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString("WEBSITE"),getVersion());
+		 wooCommerce = WooCommerceTools.newClient(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString(WEBSITE),getVersion());
 	}
 	
 	
@@ -89,16 +90,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		return wooCommerce;
 	}
 	
-	public Map sendOrder(Transaction t)
-	{
-		init();
-		
-		Map<String,Object> content = new HashMap<>();
-						   content.put("post", WooCommerceTools.createOrder(t));
-		return wooCommerce.create(EndpointBaseType.ORDERS.getValue(),content);
-		
-	}
-
+	
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -417,7 +409,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	
 	@Override
 	public void initDefault() {
-		setProperty("WEBSITE", "https://mywebsite.com");
+		setProperty(WEBSITE, "https://mywebsite.com");
 		setProperty(CONSUMER_KEY, "");
 		setProperty(CONSUMER_SECRET, "");
 		setProperty(CATEGORY_ID, "");

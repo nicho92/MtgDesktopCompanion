@@ -14,6 +14,7 @@ import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
 import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -87,7 +88,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 
 	@Override
 	public String getName() {
-		return "MagicCardMarket";
+		return MkmConstants.MKM_NAME;
 	}
 	
 }

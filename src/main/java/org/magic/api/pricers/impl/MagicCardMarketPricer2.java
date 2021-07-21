@@ -208,7 +208,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 	}
 
 	public String getName() {
-		return "MagicCardMarket";
+		return MkmConstants.MKM_NAME;
 	}
 
 	@Override

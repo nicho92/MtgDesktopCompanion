@@ -5,16 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.magic.api.beans.Transaction;
-import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.exports.impl.WooCommerceExport;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
@@ -33,6 +29,11 @@ public class WooCommerceTools {
 
 	private WooCommerceTools() {}
 	
+	
+	public static WooCommerce newClient(Properties p)
+	{
+		return newClient(p.getProperty(WooCommerceExport.CONSUMER_KEY), p.getProperty(WooCommerceExport.CONSUMER_SECRET), p.getProperty(WooCommerceExport.WEBSITE), new WooCommerceExport().getVersion());
+	}
 	
 	public static WooCommerce newClient(String key, String secret, String website,String version)
 	{
@@ -161,45 +162,6 @@ public class WooCommerceTools {
 		};
 	}
 
-	
-	public static JSONObject createOrder(Transaction t)
-	{
-		var obj = new JSONObject();
-		var items = new JSONArray();
-		
-		var contact = new JSONObject();
-				   contact.put("first_name", t.getContact().getName());
-				   contact.put("last_name", t.getContact().getLastName());
-				   contact.put("country", t.getContact().getCountry());
-				   contact.put("email", t.getContact().getEmail());
-				   contact.put("phone", t.getContact().getTelephone());
-				   contact.put("address_1", t.getContact().getAddress());
-				   contact.put("city", t.getContact().getCity());
-				   contact.put("postcode", t.getContact().getZipCode());
-				   
-		obj.put("billing", contact);
-		obj.put("shipping", contact);
-		obj.put("line_items", items);
-		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
-		obj.put("created_via", MTGConstants.MTG_APP_NAME);
-		
-		if(t.getPaymentProvider()!=null)
-		{
-			obj.put("payment_method_title", t.getPaymentProvider().name());
-			obj.put("date_paid", t.getDatePayment().getTime());
-		}
-		
-		
-		for(MTGStockItem st : t.getItems())
-		{
-			var line = new JSONObject();
-				line.put("product_id", st.getTiersAppIds(WooCommerceExport.WOO_COMMERCE));
-				line.put("quantity", st.getQte());
-			items.put(line);
-		}
-		return obj;
-	}
-	
 	public static JsonArray entryToJsonArray(String string, String value) {
 
 		var obj = new JsonObject();
