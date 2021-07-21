@@ -22,6 +22,7 @@ import org.magic.tools.FileTools;
 
 public class Mkm2WooCommerce {
 	
+	private static final String SEPARATOR = ";";
 	private static Logger logger = MTGLogger.getLogger(Mkm2WooCommerce.class);
     private List<ConverterItem>  conversions;
 	private MTGExternalShop mkm;
@@ -35,35 +36,44 @@ public class Mkm2WooCommerce {
 	
 		mkWoo.loadConversions(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
 		
-		//mkWoo.exportTransaction();
-		mkWoo.testCreation();
-	}
-	
-	
-	private void exportTransaction() throws IOException {
-		listTransaction().forEach(t->{
-			try {
-				woo.createTransaction(t);
-			} catch (IOException e) {
-				logger.error(e);
-			}
-		});
+		mkWoo.testTransaction();
+		mkWoo.testProduct();
 	}
 
-
-	private void testCreation() throws IOException
-	{
-		Product p = mkm.listProducts("Adventures in the Forgotten Realms Gift Fat Pack Bundle").get(0);
-		int ret = woo.createProduct(p);
-		updateConversions(new ConverterItem(p.getEnName(), p.getIdProduct(), ret, "English"));
-	}
-	
 
 	public Mkm2WooCommerce() throws IOException {
 		conversions = new ArrayList<>();
 		mkm = new MkmExternalShop();
 		woo = new WooCommerceExternalShop();
 	}
+	
+	private void testProduct()
+	{
+		try {
+			Product p =mkm.listProducts("Adventures in the Forgotten Realms Gift Fat Pack Bundle").get(0);
+			exportProduct(p);
+			
+		} catch (IOException e) {
+			logger.error(e);
+		}
+	}
+	
+	private void testTransaction()
+	{
+		
+		
+		try {
+			Transaction t = mkm.listTransaction().get(0);
+			woo.createTransaction(t);
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
+		
+		
+	}
+	
 	
 	public List<Transaction> listTransaction() throws IOException
 	{
@@ -78,8 +88,10 @@ public class Mkm2WooCommerce {
 	}
 	
 	
-	private int saveProduct(Product p) throws IOException {
-		return woo.createProduct(p);
+	private int exportProduct(Product p) throws IOException {
+		int ret = woo.createProduct(p);
+		updateConversions(new ConverterItem(p.getEnName(), p.getIdProduct(), ret, "English"));
+		return ret;
 	}
 	
 	
@@ -87,7 +99,7 @@ public class Mkm2WooCommerce {
 	private void updateConversions(ConverterItem c) {
 		
 		
-		String s = c.getName()+";"+c.getLang()+";"+c.getIdWoocommerceProduct()+";"+c.getIdMkmProduct();
+		String s = c.getName()+SEPARATOR+c.getLang()+SEPARATOR+c.getIdWoocommerceProduct()+SEPARATOR+c.getIdMkmProduct();
 		try {
 			FileTools.appendLine(conversionFile, s);
 		} catch (IOException e) {
@@ -105,7 +117,7 @@ public class Mkm2WooCommerce {
 			list.remove(0); // remove title
 			list.forEach(s->{
 				
-				var arr = s.split(";");
+				var arr = s.split(SEPARATOR);
 				
 				try {
 					conversions.add(new ConverterItem(arr[0],Integer.parseInt(arr[3]) ,Integer.parseInt(arr[2]), arr[1]));

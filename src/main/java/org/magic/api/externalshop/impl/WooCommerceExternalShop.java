@@ -1,6 +1,7 @@
 package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,9 @@ import org.json.JSONObject;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
-import org.magic.tools.MTG;
 import org.magic.tools.WooCommerceTools;
 
 import com.icoderman.woocommerce.EndpointBaseType;
@@ -35,8 +34,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Transaction> listTransaction() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		init();
+		
+		return new ArrayList<>();
+		
 	}
 
 
@@ -49,7 +50,15 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 							   content.put("post", createOrder(t));
 			
 			Map<Object,Object> ret=  client.create(EndpointBaseType.ORDERS.getValue(),content);
-			logger.info(ret);
+			
+			if(!ret.isEmpty() && ret.get("id") !=null)
+			{
+				logger.info(t + " created in " + getName() + " with id = " + ret.get("id"));
+			}
+			else
+			{
+				logger.error(ret);
+			}
 	}
 
 	@Override
