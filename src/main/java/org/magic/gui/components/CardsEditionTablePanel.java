@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.commons.io.DirectoryWalker.CancelException;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
@@ -256,12 +258,15 @@ public class CardsEditionTablePanel extends JPanel {
 			
 			@Override
 			protected void done() {
-				super.done();
 				try {
+					super.done();
 					model.init(get());
 				} catch(InterruptedException ex)
 				{
 					Thread.currentThread().interrupt();
+				}
+				catch (CancellationException e) {
+					logger.error(e);
 				}
 				catch (Exception e) {
 					logger.error(e);

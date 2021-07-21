@@ -81,9 +81,9 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                 	append+="<div class='col'>";
                 	
 					if(percentReduction>0)
-                		append+="<p class='btn btn-danger btn-block'>"+(data.price-(data.price*percentReduction)).toFixed(2)+" " + currency +  "</p>";
+                		append+="<p align='center' class='rounded p-2 mb-2 bg-danger text-white'><strong>"+(data.price-(data.price*percentReduction)).toFixed(2)+" " + currency +  "</strong></p>";
                 	else
-                		append+="<p class='btn btn-danger btn-block'>"+data.price.toFixed(2)+" " + currency +  "</p>";
+                		append+="<p align='center' class='rounded p-2 mb-2 bg-danger text-white'><strong>"+data.price.toFixed(2)+" " + currency +  "</strong></p>";
                 		
                 		
                 	append+="</div>";

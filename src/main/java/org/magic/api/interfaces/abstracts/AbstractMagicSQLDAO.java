@@ -739,7 +739,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(5, t.getTransporter());
 					pst.setDouble(6, t.getShippingPrice());
 					pst.setString(7, t.getTransporterShippingCode());
-					pst.setString(8, t.getConfig().getCurrencyCode());
+					pst.setString(8, t.getCurrency().getCurrencyCode());
 					
 					if(t.getDatePayment()!=null)
 						pst.setTimestamp(9, new Timestamp(t.getDatePayment().getTime()));

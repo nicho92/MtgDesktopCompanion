@@ -358,6 +358,13 @@ public class OrdersGUI extends MTGUIComponent {
 
 					@Override
 					protected HistoryPrice<MagicCard> doInBackground() throws Exception {
+						
+						List<MagicCard> result = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false);
+						
+						if(result.isEmpty())
+							return new HistoryPrice<>(null);
+						
+						
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
 						return getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getDescription().toLowerCase().contains("foil"));
 						
