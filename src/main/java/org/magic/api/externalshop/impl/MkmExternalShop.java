@@ -1,5 +1,6 @@
 package org.magic.api.externalshop.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.EnumMap;
 import java.util.List;
@@ -22,9 +23,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
+import org.magic.tools.MTG;
 
 public class MkmExternalShop extends AbstractExternalShop {
 
@@ -36,7 +39,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	{
 		if(!initied) {
 			try {
-				MkmAPIConfig.getInstance().init(new MagicCardMarketPricer2().getProperties());
+				MkmAPIConfig.getInstance().init(MTG.getPlugin(MkmConstants.MKM_NAME, MTGPricesProvider.class).getProperties());
 				initied=true;
 			} catch (MkmException e) {
 				logger.error(e);
@@ -47,7 +50,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Transaction> listTransaction() throws IOException {
 		init();
-		return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
+		//return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
+		return new OrderService().listOrders(new File("C:\\Users\\Pihen\\Downloads\\Orders.Mkm.Paid.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
+		
 	}
 
 	@Override
