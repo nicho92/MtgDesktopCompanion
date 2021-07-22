@@ -25,6 +25,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGNewsProvider;
@@ -131,6 +132,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("GRADING"), MTGConstants.ICON_TAB_GRADING, PluginRegistry.inst().getEntry(MTGGraders.class));
 		createTab(capitalize("RECOGNITION"), MTGConstants.ICON_TAB_RECOGNITION, PluginRegistry.inst().getEntry(MTGCardRecognition.class));
 		createTab(capitalize("TRACKING"), MTGConstants.ICON_TAB_DELIVERY, PluginRegistry.inst().getEntry(MTGTrackingService.class));
+		createTab(capitalize("EXTERNAL_SHOP"), MTGConstants.ICON_TAB_EXT_SHOP, PluginRegistry.inst().getEntry(MTGExternalShop.class));
 		
 		
 		

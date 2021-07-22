@@ -25,6 +25,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGNewsProvider;
@@ -153,6 +154,7 @@ public class PluginRegistry {
 		registry.put(MTGGedStorage.class, new PluginEntry<>(MTGGedStorage.class,false, "/storages", "/storage", "org.magic.api.fs.impl",PLUGINS.GED));
 		registry.put(MTGCardRecognition.class, new PluginEntry<>(MTGCardRecognition.class,false, "/strategies", "/strategy", "org.magic.api.recognition.impl",PLUGINS.STRATEGY));
 		registry.put(MTGTrackingService.class, new PluginEntry<>(MTGTrackingService.class,true, "/trackings", "/tracker", "org.magic.api.tracking.impl",PLUGINS.TRACKING));
+		registry.put(MTGExternalShop.class, new PluginEntry<>(MTGExternalShop.class,true, "/externalsShops", "/extshop", "org.magic.api.externalshop.impl",PLUGINS.EXTERNAL_SHOP));
 		
 		
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));

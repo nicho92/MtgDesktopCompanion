@@ -34,7 +34,7 @@ public class Mkm2WooCommerce {
 		
 		Mkm2WooCommerce mkWoo= new Mkm2WooCommerce();
 	
-		mkWoo.loadConversions(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
+		mkWoo.loadConversions(new File("C:\\Users\\Pihen\\Downloads\\conversions.csv"));
 		
 		mkWoo.testTransaction();
 		mkWoo.testProduct();

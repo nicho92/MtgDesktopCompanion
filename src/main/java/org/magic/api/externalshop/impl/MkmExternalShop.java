@@ -1,6 +1,5 @@
 package org.magic.api.externalshop.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.EnumMap;
 import java.util.List;
@@ -48,8 +47,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Transaction> listTransaction() throws IOException {
 		init();
-		//PROD return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
-		return new OrderService().listOrders(new File("C:\\Users\\Nicolas\\Google Drive\\Orders.Mkm.Bought.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
+		return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
 	}
 
 	@Override

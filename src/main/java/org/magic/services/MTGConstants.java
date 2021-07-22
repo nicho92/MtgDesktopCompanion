@@ -224,12 +224,13 @@ public class MTGConstants {
 	public static final ImageIcon ICON_COPY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/copy.png"));
 	public static final ImageIcon ICON_PASTE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/paste.png"));
 	public static final ImageIcon ICON_MERGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/merge.png"));
+	public static final ImageIcon ICON_EXT_SHOP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/extshop.png"));
 
 	
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
-
+	
 	public static final ImageIcon ICON_TAB_CARD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/bottom.png"));
-	public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/similarity.png"));
+public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/similarity.png"));
 	public static final ImageIcon ICON_TAB_NOTIFICATION=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/notify.png"));
 	public static final ImageIcon ICON_TAB_THUMBNAIL=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/thumbnail.png"));
 	public static final ImageIcon ICON_TAB_ANALYSE=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/analyse.png"));
@@ -256,7 +257,7 @@ public class MTGConstants {
 	
 
 
-	
+	public static final ImageIcon ICON_TAB_EXT_SHOP =  new ImageIcon(ICON_EXT_SHOP.getImage().getScaledInstance(16,16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_EVENTS = new ImageIcon(ICON_EVENTS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_RESULTS=new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_DECK = new ImageIcon(ICON_DECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
