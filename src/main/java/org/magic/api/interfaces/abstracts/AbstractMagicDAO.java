@@ -100,6 +100,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return listStocks(cols).stream().filter(st->st.getProduct().getName().equalsIgnoreCase(cardName)).collect(Collectors.toList());
 	}
 	
+	@Override
+	public List<MTGStockItem> listStockItems() throws SQLException {
+		List<MTGStockItem> ret = new ArrayList<>();
+		
+		ret.addAll(listStocks());
+		ret.addAll(listSealedStocks());
+		
+		return ret;
+	}
+	
+	
 	
 	@Override
 	public MagicCardStock getStockById(Integer id) throws SQLException {

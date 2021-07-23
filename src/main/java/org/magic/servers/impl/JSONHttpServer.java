@@ -52,6 +52,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGTrackingService;
@@ -704,6 +705,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
 			getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params(":number"))
+		, transformer);
+		
+		
+		get("/extShop/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
+			getPlugin(request.params(":provider"),MTGExternalShop.class).listProducts(request.params(":search"))
 		, transformer);
 		
 		

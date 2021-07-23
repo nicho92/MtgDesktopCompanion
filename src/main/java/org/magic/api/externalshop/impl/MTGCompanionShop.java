@@ -28,7 +28,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
-		//TODO Load sealed and stockcards
+		
 		return new ArrayList<>();
 	}
 
