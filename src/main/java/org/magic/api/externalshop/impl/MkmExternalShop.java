@@ -64,7 +64,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, "1");
-		return new ProductServices().findProduct(name, atts);
+
+		//return new ProductServices().findProduct(name, atts);
+		return new ProductServices().loadProducts(new File("C:\\Users\\Nicolas\\Google Drive\\Products.xml"));
 	}
 
 	@Override

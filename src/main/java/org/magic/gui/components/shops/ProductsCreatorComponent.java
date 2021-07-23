@@ -14,12 +14,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.api.mkm.modele.Product;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.tools.JListFilterDecorator;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.mkm.gui.renderer.ProductListRenderer;
 
@@ -41,6 +43,7 @@ public class ProductsCreatorComponent extends JPanel {
 	private AbstractBuzyIndicatorComponent buzy;
 	private JPanel panel;
 	private JButton btnSend;
+	private JComboBox<String> cboLanguages;
 	
 	public ProductsCreatorComponent() {
 		setLayout(new BorderLayout(0, 0));
@@ -51,6 +54,8 @@ public class ProductsCreatorComponent extends JPanel {
 		JPanel panelNorth = new JPanel();
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
+		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
+		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		txtSearchProduct = new JTextField(25);
 		modelInput = new DefaultListModel<>();
@@ -61,7 +66,7 @@ public class ProductsCreatorComponent extends JPanel {
 		listOutput.setCellRenderer(new ProductListRenderer());
 		
 		
-		var deco = JListFilterDecorator.decorate(listInput,(p, s)->p.getCategoryName().contains(s));
+		var deco = JListFilterDecorator.decorate(listInput,(p, s)->p.getEnName().toLowerCase().contains(s.toLowerCase()));
 		
 		
 		panelNorth.add(txtSearchProduct);
@@ -76,6 +81,10 @@ public class ProductsCreatorComponent extends JPanel {
 		add(new JScrollPane(listOutput), BorderLayout.EAST);
 		add(panel, BorderLayout.CENTER);
 		panel.add(btnSend);
+		panel.add(cboLanguages);
+		
+		
+		
 		btnSearch.addActionListener(e->loadProducts());
 		txtSearchProduct.addActionListener(e->loadProducts());
 		btnSend.addActionListener(e->sendProducts());
@@ -100,7 +109,7 @@ public class ProductsCreatorComponent extends JPanel {
 			protected Void doInBackground() throws Exception {
 					for(Product p : list)
 						{
-							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p);
+							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString());
 							p.setIdProduct(id);
 							publish(p);
 						}
