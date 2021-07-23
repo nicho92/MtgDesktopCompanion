@@ -16,7 +16,7 @@ public class ConverterItem implements Serializable
 		
 	}
 	
-	public ConverterItem(String source, String dest, String name, int inputId, int outputId, String lang) {
+	public ConverterItem(String source, String dest, String name, String lang, int inputId, int outputId ) {
 		this.source=source;
 		this.destination=dest;
 		this.name = name;
@@ -47,9 +47,7 @@ public class ConverterItem implements Serializable
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getIdMkmProduct() {
-		return inputId;
-	}
+	
 	public int getInputId() {
 		return inputId;
 	}

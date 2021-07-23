@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.ProductsCreatorComponent;
 import org.magic.gui.components.shops.ContactsManagementPanel;
+import org.magic.gui.components.shops.ProductsCreatorComponent;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.components.shops.WebShopConfigPanel;
 import org.magic.services.MTGConstants;

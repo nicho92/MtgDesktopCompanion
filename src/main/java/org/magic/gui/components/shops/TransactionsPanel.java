@@ -18,7 +18,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
-import org.magic.gui.components.StockItemPanel;
 import org.magic.gui.models.TransactionsModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;

@@ -33,7 +33,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	public List<Transaction> listTransaction() throws IOException {
+	public List<Transaction> loadTransaction() {
 		init();
 		
 		return new ArrayList<>();
@@ -60,6 +60,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				logger.error(ret);
 			}
 	}
+
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -148,5 +149,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		}
 		return obj;
 	}
+
+
 
 }

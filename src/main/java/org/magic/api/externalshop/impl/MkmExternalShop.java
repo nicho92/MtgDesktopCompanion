@@ -2,6 +2,7 @@ package org.magic.api.externalshop.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,9 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.tools.MTG;
 
 public class MkmExternalShop extends AbstractExternalShop {
-
-	
 	
 	private boolean initied=false;
 
@@ -48,10 +46,16 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public List<Transaction> listTransaction() throws IOException {
+	public List<Transaction> loadTransaction()  {
 		init();
-		//return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
-		return new OrderService().listOrders(new File("C:\\Users\\Pihen\\Downloads\\Orders.Mkm.Paid.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
+		try {
+			//return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
+			return new OrderService().listOrders(new File("C:\\Users\\Nicolas\\Google Drive\\Orders.Mkm.Paid.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
+
+		} catch (IOException e) {
+			logger.error(e);
+			return new ArrayList<>();
+		}
 		
 	}
 
@@ -141,7 +145,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 class MkmStockItem extends AbstractStockItem<LightProduct>
 {
 	private static final long serialVersionUID = 1L;
-
 	@Override
 	public void setProduct(LightProduct product) {
 		this.product=product;
@@ -150,5 +153,5 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 		url = "https:"+ product.getImage();
 		setTypeStock(EnumItems.SEALED);
 	}
-
 }
+

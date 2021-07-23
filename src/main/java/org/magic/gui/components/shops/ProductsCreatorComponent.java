@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -16,13 +16,17 @@ import javax.swing.JTextField;
 import org.api.mkm.modele.Product;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 import org.mkm.gui.renderer.ProductListRenderer;
 
+import com.jogamp.newt.event.KeyEvent;
+
 public class ProductsCreatorComponent extends JPanel {
-	
+
+	private static final long serialVersionUID = 1L;
 	private JTextField txtSearchProduct;
 	private JComboBox<MTGExternalShop> cboInput;
 	private JComboBox<MTGExternalShop> cboOutput;
@@ -41,7 +45,8 @@ public class ProductsCreatorComponent extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
-		btnSend = new JButton("Send");
+		btnSend = UITools.createBindableJButton("Export", MTGConstants.ICON_EXPORT, KeyEvent.VK_S,"searchProduct");
+		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F,"searchProduct");
 		JPanel panelNorth = new JPanel();
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
@@ -55,17 +60,27 @@ public class ProductsCreatorComponent extends JPanel {
 		listOutput.setCellRenderer(new ProductListRenderer());
 		
 		panelNorth.add(txtSearchProduct);
+		panelNorth.add(btnSearch);
 		panelNorth.add(cboInput);
 		panelNorth.add(new JLabel("-->"));
 		panelNorth.add(cboOutput);
+		panelNorth.add(buzy);
+		
 		add(panelNorth, BorderLayout.NORTH);
 		add(new JScrollPane(listInput), BorderLayout.WEST);
 		add(new JScrollPane(listOutput), BorderLayout.EAST);
 		add(panel, BorderLayout.CENTER);
 		panel.add(btnSend);
-		
+		btnSearch.addActionListener(e->loadProducts());
 		txtSearchProduct.addActionListener(e->loadProducts());
 		btnSend.addActionListener(e->sendProducts());
+		btnSend.setEnabled(false);
+		
+		
+		listInput.addListSelectionListener(lll->{
+			btnSend.setEnabled(listInput.getSelectedIndex()>=0);
+			btnSend.setText("send "+ listInput.getSelectedValuesList().size() + " items");
+		});
 	}
 
 
@@ -80,7 +95,7 @@ public class ProductsCreatorComponent extends JPanel {
 			protected Void doInBackground() throws Exception {
 					for(Product p : list)
 						{
-							int id = plug.createProduct(p);
+							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p);
 							p.setIdProduct(id);
 							publish(p);
 						}
@@ -117,6 +132,7 @@ public class ProductsCreatorComponent extends JPanel {
 			
 			@Override
 			protected void done() {
+				super.done();
 				try {
 					modelInput.addAll(get());
 					listInput.updateUI();
