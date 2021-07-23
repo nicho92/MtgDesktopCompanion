@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import org.api.mkm.modele.Product;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.tools.JListFilterDecorator;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -59,6 +60,10 @@ public class ProductsCreatorComponent extends JPanel {
 		listInput.setCellRenderer(new ProductListRenderer());
 		listOutput.setCellRenderer(new ProductListRenderer());
 		
+		
+		var deco = JListFilterDecorator.decorate(listInput,(p, s)->p.getCategoryName().contains(s));
+		
+		
 		panelNorth.add(txtSearchProduct);
 		panelNorth.add(btnSearch);
 		panelNorth.add(cboInput);
@@ -67,7 +72,7 @@ public class ProductsCreatorComponent extends JPanel {
 		panelNorth.add(buzy);
 		
 		add(panelNorth, BorderLayout.NORTH);
-		add(new JScrollPane(listInput), BorderLayout.WEST);
+		add(new JScrollPane(deco.getContentPanel()), BorderLayout.WEST);
 		add(new JScrollPane(listOutput), BorderLayout.EAST);
 		add(panel, BorderLayout.CENTER);
 		panel.add(btnSend);

@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
@@ -30,6 +31,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.Packaging;
 import org.magic.api.beans.Packaging.EXTRA;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
@@ -182,7 +184,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE "+notExistSyntaxt()+" news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
 			
-			stat.executeUpdate("CREATE TABLE "+notExistSyntaxt()+" sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+")");
+			stat.executeUpdate("CREATE TABLE "+notExistSyntaxt()+" sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+", numversion integer)");
 			logger.debug("Create table selead");
 
 			stat.executeUpdate("CREATE TABLE "+notExistSyntaxt()+" decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
@@ -899,7 +901,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			logger.debug("save sealed  " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)",Statement.RETURN_GENERATED_KEYS)) {
+					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds,numversion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
@@ -915,7 +917,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
 				pst.setDouble(9, state.getPrice());
 				storeTiersApps(pst,10,state.getTiersAppIds());
-				
+				pst.setInt(11, state.getProduct().getNum());
 				
 				pst.executeUpdate();
 				state.setId(getGeneratedKey(pst));
@@ -1661,16 +1663,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setPrice(rs.getDouble("price"));
 		state.setTiersAppIds(readTiersApps(rs));
 		
+		int ref = rs.getInt("numversion");
 		
 		  try 
 		  {
-			var p = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
-					EnumItems.valueOf(rs.getString("typeProduct")),
-							(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra"))
-							).get(0);
+			var list = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra")));
 			
-			p.setLang(rs.getString("lang"));
-			state.setProduct(p);
+			Packaging product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
+			product.setLang(rs.getString("lang"));
+			state.setProduct(product);
 		  } 
 		  catch (Exception e) 
 		  {

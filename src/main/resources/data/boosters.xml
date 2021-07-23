@@ -2147,27 +2147,19 @@
 
 
 	<edition id="KHM">
-		<banner lang="en" num="1"
-			url="http://www.magiccorporation.com/images/magic/editions/maxi/kaldheim.png" />
-		<banner lang="en" num="2"
-			url="https://i1.wp.com/www.paperorplastic.net/wp-content/uploads/2020/12/MTGKHM_EN_Metal-Black-square.png" />
-		<booster lang="en" extra="draft" num="1"
-			url="https://media.mtgsalvation.com/attachments/173/863/637435662991826107.png" />
-		<booster lang="en" extra="draft" num="2"
-			url="https://www.oeufcube.com/image/upload/BooMag_16429.jpg" />
-		<booster lang="en" extra="collector" num="4"
-			url="https://media.wizards.com/2020/images/daily/fr_n71l8BC0uy.png" />
+		<banner lang="en" num="1" url="http://www.magiccorporation.com/images/magic/editions/maxi/kaldheim.png" />
+		<banner lang="en" num="2" url="https://i1.wp.com/www.paperorplastic.net/wp-content/uploads/2020/12/MTGKHM_EN_Metal-Black-square.png" />
+		<booster lang="en" extra="draft" num="1" url="https://media.mtgsalvation.com/attachments/173/863/637435662991826107.png" />
+		<booster lang="en" extra="draft" num="2" url="https://www.oeufcube.com/image/upload/BooMag_16429.jpg" />
+		<booster lang="en" extra="collector" num="4" url="https://media.wizards.com/2020/images/daily/fr_n71l8BC0uy.png" />
+		<booster lang="en" extra="set" num="5" url="https://cdn.shoplightspeed.com/shops/625017/files/30027151/image.jpg" />
 
-		<box lang="en" extra="draft" num="1"
-			url="https://media.wizards.com/2020/images/daily/en_za6ZgVv9lt.png" />
-		<box lang="en" extra="set" num="2"
-			url="https://media.wizards.com/2020/images/daily/en_X8xhGNF2iD.png" />
-		<box lang="en" extra="collector" num="3"
-			url="https://cdn.shoplightspeed.com/shops/609025/files/28823694/kaldheim-collector-booster-box.jpg" />
-		<bundle lang="en" num="1"
-			url="https://media.wizards.com/2020/images/daily/en_zZXllqZci4.png" />
-		<prereleasepack lang="en" num="1"
-			url="https://media.wizards.com/2020/images/daily/en_aQnbwBQtDG.png" />
+		<box lang="en" extra="draft" num="1" 	 url="https://media.wizards.com/2020/images/daily/en_za6ZgVv9lt.png" />
+		<box lang="en" extra="set" num="2" 		 url="https://media.wizards.com/2020/images/daily/en_X8xhGNF2iD.png" />
+		<box lang="en" extra="collector" num="3" url="https://cdn.shoplightspeed.com/shops/609025/files/28823694/kaldheim-collector-booster-box.jpg" />
+		
+		<bundle lang="en" num="1" url="https://media.wizards.com/2020/images/daily/en_zZXllqZci4.png" />
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2020/images/daily/en_aQnbwBQtDG.png" />
 	</edition>
 
 	<edition id="KHC">
@@ -2233,28 +2225,18 @@
 			url="https://cdn.shoplightspeed.com/shops/623437/files/31193938/preorder-mtg-prerelease-kit-strixhaven-quandrix-in.jpg" />
 		<prereleasepack lang="en" num="5"
 			url="https://cdn.shoplightspeed.com/shops/623437/files/31193757/preorder-mtg-prerelease-kit-strixhaven-prismari-in.jpg" />
-		<booster lang="en" num="1"
-			url="https://themanashop.ch/51898-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
-		<booster lang="en" num="2"
-			url="https://themanashop.ch/51899-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
-		<booster lang="en" num="3"
-			url="https://themanashop.ch/51900-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
-		<booster lang="en" num="4"
-			url="https://themanashop.ch/51901-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
-		<booster lang="en" num="5"
-			url="https://themanashop.ch/51902-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
-		<booster lang="en" num="6" extra="collector"
-			url="https://cdn11.bigcommerce.com/s-6k3asdl2tq/images/stencil/1280x1280/products/11650/6605/2__49272.1614622781.png" />
-		<booster lang="en" num="7" extra="theme"
-			url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_1.png" />
-		<booster lang="en" num="8" extra="theme"
-			url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_2.png" />
-		<booster lang="en" num="9" extra="theme"
-			url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_3.png" />
-		<booster lang="en" num="10" extra="theme"
-			url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_4.png" />
-		<booster lang="en" num="11" extra="theme"
-			url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_5.png" />
+		<booster lang="en" num="1" url="https://themanashop.ch/51898-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
+		<booster lang="en" num="2" url="https://themanashop.ch/51899-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
+		<booster lang="en" num="3" url="https://themanashop.ch/51900-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
+		<booster lang="en" num="4" url="https://themanashop.ch/51901-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
+		<booster lang="en" num="5" url="https://themanashop.ch/51902-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
+		<booster lang="en" num="6" extra="collector" url="https://cdn11.bigcommerce.com/s-6k3asdl2tq/images/stencil/1280x1280/products/11650/6605/2__49272.1614622781.png" />
+		<booster lang="en" num="7" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_1.png" />
+		<booster lang="en" num="8" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_2.png" />
+		<booster lang="en" num="9" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_3.png" />
+		<booster lang="en" num="10" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_4.png" />
+		<booster lang="en" num="11" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_5.png" />
+		<booster lang="en" num="12" extra="set" url="https://cdn.shopify.com/s/files/1/0524/6523/8165/products/MTGSTX_EN_Bstr_Set_01_03_1024x1024.png" />
 	</edition>
 	<edition id="STA">
 		<banner lang="en"
