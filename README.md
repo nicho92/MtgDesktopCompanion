@@ -115,4 +115,6 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/28.png)
 
+![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/29.png)
+
 
