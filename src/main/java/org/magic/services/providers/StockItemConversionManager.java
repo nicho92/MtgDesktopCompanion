@@ -20,14 +20,31 @@ public class StockItemConversionManager {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private String separator;
 	private File file;
+	private static StockItemConversionManager inst;
+	
 	
 	public void initFile(File f) throws IOException
 	{
 		initFile(f, ";");
 	}
 	
-	public StockItemConversionManager() {
+	public static StockItemConversionManager inst()
+	{
+		if(inst==null)
+			inst = new StockItemConversionManager();
+		
+		
+		return inst;
+	}
+	
+	
+	private StockItemConversionManager() {
 		conversionsItems = new ArrayList<>();
+		try {
+			initFile(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
+			} catch (IOException e) {
+			logger.error(e);
+		}
 	}
 
 	public List<ConverterItem> getOutputRefs(String lang, String sourceName, int idSource)

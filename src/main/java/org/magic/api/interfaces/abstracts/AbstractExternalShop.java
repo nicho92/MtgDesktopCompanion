@@ -18,12 +18,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	protected abstract List<Transaction> loadTransaction() throws IOException;
 
 	protected AbstractExternalShop() {
-		converter = new StockItemConversionManager();
-		try {
-			converter.initFile(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
-			} catch (IOException e) {
-			logger.error(e);
-		}
+		converter = StockItemConversionManager.inst();
+		
 	}
 	
 	@Override

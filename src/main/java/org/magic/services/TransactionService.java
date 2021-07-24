@@ -89,8 +89,7 @@ public class TransactionService
 		
 		return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 	}
-	
-	
+
 
 	public static OrderEntry toOrder(Transaction t,MTGStockItem transactionItem)
 	{

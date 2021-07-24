@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,6 +18,8 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
 import org.magic.tools.WooCommerceTools;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
@@ -32,18 +35,28 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		new WooCommerceExternalShop().listTransaction();
+	}
+	
+	
 	@Override
-	public List<Transaction> loadTransaction() {
+	public List<Transaction> loadTransaction() throws IOException{
 		init();
 		
-		return new ArrayList<>();
+		Map<String, String> parameters = new HashMap<>();
+	    parameters.put("status", getString("any"));
+	    
+		List<JsonElement> obj = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 		
+		
+		return new ArrayList<>();
 	}
 
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void createTransaction(Transaction t)throws IOException {
+	public void createTransaction(Transaction t) throws IOException {
 			init();
 			
 			Map<String,Object> content = new HashMap<>();
@@ -86,12 +99,42 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public String getName() {
 		return WooCommerceExport.WOO_COMMERCE;
 	}
-
+	
 
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		init();
+		
+		Map<String, String> productInfo = new HashMap<>();
+
+		productInfo.put("search", name);
+		
+		@SuppressWarnings("unchecked")
+		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);
+		List<Product> ret =  new ArrayList<>();
+		
+		
+		res.forEach(element->{
+			
+			Product p = new Product();
+			JsonObject obj = element.getAsJsonObject();
+			p.setIdProduct(obj.get("id").getAsInt());
+			p.setEnName(obj.get("name").getAsString());
+			p.setIdGame(1);
+			p.setLocalization(new ArrayList<>());
+			
+			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
+			Category c = new Category();
+					 c.setIdCategory(objCateg.get("id").getAsInt());
+					 c.setCategoryName(objCateg.get("name").getAsString());
+			p.setCategory(c);
+			
+			
+			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
+			p.setImage(img.get("src").getAsString());
+			ret.add(p);
+		});
+		return ret;
 	}
 	
 	@Override

@@ -53,12 +53,45 @@
       	    }).then(function(data) {
       	    	
       	    	$(data.EXTERNAL_SHOP).each(function( index,value ) {
-      	    		$("#cboSource").append('<li><a href="#">'+value.name+'</a></li>');	
-      	    		$("#cboDest").append('<li><a href="#">'+value.name+'</a></li>');
+      	    		$("#cboSource").append('<option value="'+value.name+'">'+value.name+'</option>');	
+      	    		$("#cboDest").append('<option value="'+value.name+'">'+value.name+'</option>');
       	    	});
-      	    	
-      	    	
       	    });
+      		
+      		$("#searchBtn").click(function() {
+  	 		 	
+      			$.ajax({
+			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
+			    }).then(function(data) {
+			    	console.log(data);
+			    	 $('#tableResults').DataTable( {
+					    	"language": {
+					    	    "search": "Filter"
+					    	  },
+					    	"responsive": true,
+					        "processing": true,
+					        "data": data,
+					        "columns": [
+					        	{ "data": "idProduct",
+					        		"render": function(data, type, row, meta){
+						                   return "<input type='checkbox'/>";
+						            }
+					        	},
+					        	{ 
+					        		"data": "image",
+					        		"render": function(data, type, row, meta){
+						                   return "<img src="+data+"/>";
+						            }
+					        	},
+					            { "data": "enName" }
+					           
+					        ]
+					    } );
+			    	
+			    	
+			    });
+  	 		});
+      		
             
 		});
 	</script>
@@ -84,38 +117,32 @@
             </div>
             
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Send selected
+                           Search
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-            
-					            <div class="dropdown">
-										  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-										    Source
-										    <span class="caret"></span>
-										  </button>
-										  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="cboSource"></ul>
-										  
-										  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-										    Destination
-										    <span class="caret"></span>
-										  </button>
-										  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" id="cboDest"></ul>
-								</div>
+            				<select class="form-control" id="cboSource">
+							</select>
+							to
+							<select class="form-control" id="cboDest">
+							</select>
+							<br/>
+							<div class="input-group custom-search-form">
+				          	<div class="ui-widget"><input id="searchProduct" class="form-control" placeholder="Search..."/></div>
+				            	<span class="input-group-btn">
+					              <button class="btn btn-default" type="button" id="searchBtn">
+					                  <i class="fa fa-search"></i>
+					              </button>
+				      		 </span>
+				 			</div>
+				 			
 						</div>
 					</div>
 				</div>
 			</div>
-            
-            
-            <div class="row">
-                <div class="col-lg-12">
-                	<input id="searchText" type="search" class="form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." role="combobox">
-           		</div>
-           	</div>
             
             <div class="row">
                 <div class="col-lg-12">
@@ -128,9 +155,9 @@
                             <table id="tableResults" class="display" style="width:100%">
 						        <thead>
 						            <tr>
+						            	<th>Select</th>
 						            	<th>Product</th>
 						            	<th>Name</th>
-						            	<th>description</th>
 						            </tr>
 						        </thead>
 						       </table>
