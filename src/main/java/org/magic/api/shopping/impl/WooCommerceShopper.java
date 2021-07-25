@@ -59,6 +59,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 						    parameters.put("per_page", getString(PER_PAGE));
 						    parameters.put("status", getString(STATUS));
 						    
+		@SuppressWarnings("unchecked")
 		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 		for(JsonElement el : ret)
 		{

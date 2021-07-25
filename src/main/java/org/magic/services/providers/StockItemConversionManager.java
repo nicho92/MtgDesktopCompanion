@@ -88,7 +88,7 @@ public class StockItemConversionManager {
 		conversionsItems.add(c);
 		String s = c.getSource()+separator+c.getDestination()+separator+c.getName()+separator+c.getLang()+separator+c.getInputId()+separator+c.getOutputId();
 		try {
-			FileTools.appendLine(file, s);
+			FileTools.appendLine(file, s+System.lineSeparator());
 		} catch (IOException e) {
 			logger.error(e);
 		}

@@ -49,9 +49,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public List<Transaction> loadTransaction()  {
 		init();
 		try {
-			//return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
-			return new OrderService().listOrders(new File("C:\\Users\\Nicolas\\Google Drive\\Orders.Mkm.Paid.xml")).stream().map(this::toTransaction).collect(Collectors.toList());
-
+			return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
 		} catch (IOException e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -64,9 +62,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, "1");
-
-		//return new ProductServices().findProduct(name, atts);
-		return new ProductServices().loadProducts(new File("C:\\Users\\Nicolas\\Google Drive\\Products.xml"));
+		return new ProductServices().findProduct(name, atts);
 	}
 
 	@Override

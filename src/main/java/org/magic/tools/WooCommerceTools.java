@@ -103,17 +103,19 @@ public class WooCommerceTools {
 			
 			@Override
 			public List<JsonElement> getAll(String endpointBase, Map<String, String> params) {
+			
 				var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
 				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
 				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
-		        List<JsonElement> ret = new ArrayList<>();
-		        try {
-					for(JsonElement e : URLTools.extractJson(securedUrl).getAsJsonArray())
-						ret.add(e);
-		
-				} catch (IOException e) {
+			    List<JsonElement> ret = new ArrayList<>();
+		        try 
+		        {
+		        	
+		        	for(JsonElement e : URLTools.extractJson(securedUrl).getAsJsonArray())
+		        		ret.add(e);
+		        	
+				} catch (Exception e) {
 					logger.error(e);
-					return ret;
 				}
 		        return ret;
 			}

@@ -10,11 +10,13 @@ import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.tools.WooCommerceTools;
 
@@ -36,21 +38,53 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	
 	public static void main(String[] args) throws IOException {
-		new WooCommerceExternalShop().listTransaction();
+		new WooCommerceExternalShop().loadTransaction();
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Transaction> loadTransaction() throws IOException{
 		init();
 		
 		Map<String, String> parameters = new HashMap<>();
-	    parameters.put("status", getString("any"));
+	    					parameters.put("status", "any");
+	   
+	    List<JsonElement> res = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
+		
+	    var ret = new ArrayList<Transaction>();
 	    
-		List<JsonElement> obj = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
-		
-		
-		return new ArrayList<>();
+	    for(JsonElement el : res)
+	    {
+	    	var obj = el.getAsJsonObject();
+	    	
+	    	var t = new Transaction();
+	    				t.setCurrency(obj.get("currency").getAsString());
+	    				t.setDateCreation(null);
+	    	
+	    	var c = new Contact();
+	    	
+	    	var contactObj = obj.get("billing").getAsJsonObject();
+	    		c.setName(contactObj.get("first_name").getAsString());
+	    		c.setLastName(contactObj.get("last_name").getAsString());
+	    		c.setAddress(contactObj.get("address_1").getAsString());
+	    		c.setZipCode(contactObj.get("postcode").getAsString());
+	    		c.setCity(contactObj.get("city").getAsString());
+	    		c.setCountry(contactObj.get("country").getAsString());
+	    		
+	    	t.setContact(c);	
+	    	
+	    	
+	    	var itemsArr = obj.get("line_items").getAsJsonArray();
+	    	
+	    	for(JsonElement item : itemsArr)
+	    	{
+	    		var objItem = item.getAsJsonObject();
+	    		
+	    	}
+	    	ret.add(t);
+	    }
+		return ret;
 	}
 
 
@@ -192,7 +226,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		}
 		return obj;
 	}
-
-
-
 }
+
+

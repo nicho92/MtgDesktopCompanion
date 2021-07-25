@@ -44,7 +44,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
 	public int createProduct(Product t) throws IOException {
-		throw new IOException("not implemented" + t); 
+		throw new IOException("not implemented " + t); 
 	}
 
 	@Override
