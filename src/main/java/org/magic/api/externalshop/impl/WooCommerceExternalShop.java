@@ -16,8 +16,8 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
-import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
 import com.google.gson.JsonElement;
@@ -44,24 +44,71 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Category> listCategories() throws IOException {
+		init();
+		
+		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue());
+		 
+		var ret = new ArrayList<Category>();
+		 
+		 res.forEach(je->{
+			 
+			 var objCateg = je.getAsJsonObject();
+			 var c = new Category();
+			 	 c.setIdCategory(objCateg.get("id").getAsInt());
+			 	 c.setCategoryName(objCateg.get("name").getAsString());
+			 
+			 	ret.add(c);
+		 });
+		 
+		 return ret;
+		 
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Transaction> loadTransaction() throws IOException{
 		init();
 		
 		Map<String, String> parameters = new HashMap<>();
 	    					parameters.put("status", "any");
-	   
+	    					parameters.put("per_page", getString("PER_PAGE"));
 	    List<JsonElement> res = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 		
 	    var ret = new ArrayList<Transaction>();
-	    
+	   
 	    for(JsonElement el : res)
 	    {
 	    	var obj = el.getAsJsonObject();
 	    	
 	    	var t = new Transaction();
 	    				t.setCurrency(obj.get("currency").getAsString());
-	    				t.setDateCreation(null);
-	    	
+	    				t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
+	    				t.setId(obj.get("id").getAsInt());
+	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
+	    				
+	    				if(!obj.get("date_paid").isJsonNull())
+	    					t.setDatePayment(UITools.parseGMTDate(obj.get("date_paid").getAsString()));
+	    				
+	    				
+	    				switch(obj.get("status").getAsString())
+	    				{
+	    					case "pending" : t.setStatut(TransactionStatus.NEW);break;
+	    					case "processing" : t.setStatut(TransactionStatus.IN_PROGRESS);break;
+	    					case "on-hold" : t.setStatut(TransactionStatus.PAYMENT_WAITING);break;
+	    					case "completed": t.setStatut(TransactionStatus.CLOSED);break;
+	    					case "cancelled": t.setStatut(TransactionStatus.CANCELED);break;
+	    					case "failed": t.setStatut(TransactionStatus.CANCELED);break;
+	    					case "lpc_transit": t.setStatut(TransactionStatus.SENT);break;
+	    					case "lpc_ready_to_ship" : t.setStatut(TransactionStatus.PAID);break;
+	    					default : {
+	    						
+	    						logger.debug(obj.get("status") + " is unknow");
+	    						t.setStatut(TransactionStatus.IN_PROGRESS);break;
+	    					}
+	    				}
+	    				
 	    	var c = new Contact();
 	    	
 	    	var contactObj = obj.get("billing").getAsJsonObject();
@@ -71,7 +118,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		c.setZipCode(contactObj.get("postcode").getAsString());
 	    		c.setCity(contactObj.get("city").getAsString());
 	    		c.setCountry(contactObj.get("country").getAsString());
-	    		
+	    		c.setId(obj.get("customer_id").getAsInt());
+	    		c.setEmail(contactObj.get("email").getAsString());
+	    		c.setTelephone(contactObj.get("phone").getAsString());
+	    		c.setEmailAccept(false);
 	    	t.setContact(c);	
 	    	
 	    	
@@ -174,6 +224,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public void initDefault() {
 		setProperty("CATEGORY","0");
+		setProperty("PER_PAGE","50");
 	}
 	
 	private static Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)

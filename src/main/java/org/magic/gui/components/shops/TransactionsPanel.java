@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Transaction;
@@ -18,7 +19,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
-import org.magic.gui.models.TransactionsModel;
+import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -30,19 +31,21 @@ import com.jogamp.newt.event.KeyEvent;
 
 public class TransactionsPanel extends MTGUIComponent {
 	private JXTable table;
-	private TransactionsModel model;
+	private TransactionsTableModel model;
 	private ContactPanel contactPanel;
 	private TransactionManagementPanel managementPanel;
 	private ObjectViewerPanel viewerPanel;
+	private JPanel panneauHaut;
+	
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
-		var panneauHaut = new JPanel();
+		panneauHaut = new JPanel();
 		var stockDetailPanel = new StockItemPanel();
 		var tabbedPane = new JTabbedPane();
 		contactPanel = new ContactPanel(true);
 		managementPanel= new TransactionManagementPanel();
-		model = new TransactionsModel();
+		model = new TransactionsTableModel();
 		viewerPanel = new ObjectViewerPanel();
 		
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
@@ -128,6 +131,26 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 	}
 	
+	public JTable getTable() {
+		return table;
+	}
+	
+	public TransactionsTableModel getModel() {
+		return model;
+	}
+
+	
+	public void init(List<Transaction> list)
+	{
+		try {
+			model.clear();
+			model.addItems(list);
+			model.fireTableDataChanged();
+		} catch (Exception e) {
+			logger.error("error loading transactions",e);
+		}
+	}
+	
 	private void reload()
 	{
 		try {
@@ -155,5 +178,12 @@ public class TransactionsPanel extends MTGUIComponent {
 		return MTGConstants.ICON_EURO;
 	}
 
+	public void disableCommands() {
+		managementPanel.setVisible(false);
+		panneauHaut.setVisible(false);
+		model.setWritable(false);
+	}
+
+	
 	
 }

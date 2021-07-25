@@ -168,10 +168,6 @@ public class Transaction implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public void setDateProposition(Date dateProposition) {
-		this.dateCreation = dateProposition;
-	}
 	
 	public List<MTGStockItem> getItems() {
 		return items;

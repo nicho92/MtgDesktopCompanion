@@ -1,6 +1,5 @@
 package org.magic.api.externalshop.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -9,10 +8,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.modele.Category;
 import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.services.GameService;
 import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
 import org.api.mkm.services.OrderService.STATE;
@@ -46,10 +47,18 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
+	public List<Category> listCategories() throws IOException {
+		return new GameService().listCategories();
+		
+		
+	}
+	
+	
+	@Override
 	public List<Transaction> loadTransaction()  {
 		init();
 		try {
-			return new OrderService().listOrders(ACTOR.valueOf("ACTOR"),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
+			return new OrderService().listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());
 		} catch (IOException e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -84,6 +93,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	private Transaction toTransaction(Order o) {
 		Transaction t = new Transaction();
+		t.setId(o.getIdOrder());
 		t.setTransporterShippingCode(null);
 		t.setDateCreation(o.getState().getDateBought());
 		t.setDatePayment(o.getState().getDatePaid());
@@ -132,8 +142,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public void initDefault() {
-		setProperty("STATE", STATE.bought.name());
-		setProperty("ACTOR", ACTOR.buyer.name());
+		setProperty("STATE", STATE.paid.name());
+		setProperty("ACTOR", ACTOR.seller.name());
 	}
 
 }
@@ -152,4 +162,5 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 		setTypeStock(EnumItems.SEALED);
 	}
 }
+
 

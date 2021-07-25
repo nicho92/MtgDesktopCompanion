@@ -609,7 +609,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private Transaction readTransaction(ResultSet rs) throws SQLException {
 		var state = new Transaction();
 		
-		state.setDateProposition(rs.getTimestamp("dateTransaction"));
+		state.setDateCreation(rs.getTimestamp("dateTransaction"));
 		state.setId(rs.getInt("id"));
 		state.setMessage(rs.getString("message"));
 		

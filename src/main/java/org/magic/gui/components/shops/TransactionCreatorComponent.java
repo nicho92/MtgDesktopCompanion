@@ -9,48 +9,43 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
-import org.api.mkm.modele.Product;
-import org.magic.api.interfaces.MTGCardsProvider;
+import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.renderer.ProductListRenderer;
-import org.magic.gui.tools.JListFilterDecorator;
+import org.magic.gui.models.TransactionsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 
-public class ProductsCreatorComponent extends MTGUIComponent {
+public class TransactionCreatorComponent extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtSearchProduct;
 	private JComboBox<MTGExternalShop> cboInput;
 	private JComboBox<MTGExternalShop> cboOutput;
 	
-	private JList<Product> listInput;
-	private DefaultListModel<Product> modelInput;
-	
-	private JList<Product> listOutput;
-	private DefaultListModel<Product> modelOutput;
+	private JList<Transaction> listOutput;
+	private DefaultListModel<Transaction> modelOutput;
 	
 	private AbstractBuzyIndicatorComponent buzy;
-	private JPanel panel;
 	private JButton btnSend;
-	private JComboBox<String> cboLanguages;
 	
-	public ProductsCreatorComponent() {
+	private TransactionsPanel panelTransactions;
+	
+//	private TransactionsTableModel model;
+//	private JXTable table;
+	
+	public TransactionCreatorComponent() {
 		setLayout(new BorderLayout(0, 0));
 
-		panel = new JPanel();
+		
 		btnSend = UITools.createBindableJButton("Export", MTGConstants.ICON_EXPORT, KeyEvent.VK_S,"searchProduct");
 		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F,"searchProduct");
 		
@@ -62,24 +57,17 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
-		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		txtSearchProduct = new JTextField(25);
-		modelInput = new DefaultListModel<>();
-		listInput = new JList<>(modelInput);
 		modelOutput= new DefaultListModel<>();
 		listOutput = new JList<>(modelOutput);
-		listInput.setCellRenderer(new ProductListRenderer());
-		listOutput.setCellRenderer(new ProductListRenderer());
 		
-		
-		var deco = JListFilterDecorator.decorate(listInput,(p, s)->p.getEnName().toLowerCase().contains(s.toLowerCase()));
-		
-		
-		panelNorth.add(txtSearchProduct);
+		panelTransactions = new TransactionsPanel();
+		panelTransactions.disableCommands();
 		panelNorth.add(btnSearch);
+		panelNorth.add(btnSend);
 		panelNorth.add(buzy);
+		
 		
 		add(panelNorth, BorderLayout.NORTH);
 		add(panelWest,BorderLayout.WEST);
@@ -88,48 +76,42 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		panelWest.add(cboInput, BorderLayout.NORTH);
 		panelEast.add(cboOutput, BorderLayout.NORTH);
 		
-		panelWest.add(new JScrollPane(deco.getContentPanel()), BorderLayout.CENTER);
 		panelEast.add(new JScrollPane(listOutput), BorderLayout.CENTER);
 		
+		add(panelTransactions, BorderLayout.CENTER);
 		
-		add(panel, BorderLayout.CENTER);
-		panel.add(btnSend);
-		panel.add(cboLanguages);
-		
-		
-		
-		btnSearch.addActionListener(e->loadProducts());
-		txtSearchProduct.addActionListener(e->loadProducts());
+		btnSearch.addActionListener(e->loadTransactions());
 		btnSend.addActionListener(e->sendProducts());
 		btnSend.setEnabled(false);
 		
 		
-		listInput.addListSelectionListener(lll->{
-			btnSend.setEnabled(listInput.getSelectedIndex()>=0);
-			btnSend.setText("send "+ listInput.getSelectedValuesList().size() + " items");
+		panelTransactions.getTable().getSelectionModel().addListSelectionListener(event -> {
+			if (!event.getValueIsAdjusting()) {
+				btnSend.setEnabled(!UITools.getTableSelections(panelTransactions.getTable(), 0).isEmpty());
+				btnSend.setText("send "+ UITools.getTableSelections(panelTransactions.getTable(), 0).size() + " items");
+			}
 		});
 	}
 
 
 	private void sendProducts() {
 		
-		List<Product> list = listInput.getSelectedValuesList();
+		List<Transaction> list = UITools.getTableSelections(panelTransactions.getTable(), 0);
 		
 		
-		AbstractObservableWorker<Void,Product,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
+		AbstractObservableWorker<Void,Transaction,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
 		{
 			@Override
 			protected Void doInBackground() throws Exception {
-					for(Product p : list)
+					for(Transaction p : list)
 						{
-							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString());
-							p.setIdProduct(id);
+							plug.createTransaction(p);
 							publish(p);
 						}
 					return null;
 			}
 			@Override
-			protected void process(List<Product> chunks) {
+			protected void process(List<Transaction> chunks) {
 				super.process(chunks);
 				modelOutput.addAll(chunks);
 			}
@@ -144,42 +126,39 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	}
 
 
-	private void loadProducts() {
-	
-		String search = txtSearchProduct.getText();
+	private void loadTransactions() {
+		panelTransactions.getModel().clear();
 		
-		modelInput.removeAllElements();
-		
-		AbstractObservableWorker<List<Product>,Product,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
+		AbstractObservableWorker<List<Transaction>,Transaction,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
 		{
 			@Override
-			protected List<Product> doInBackground() throws Exception {
-					return plug.listProducts(search);
+			protected List<Transaction> doInBackground() throws Exception {
+					return plug.listTransaction();
 			}
 			
 			@Override
 			protected void done() {
 				super.done();
 				try {
-					modelInput.addAll(get());
-					listInput.updateUI();
+					panelTransactions.init(get());
 				} catch (InterruptedException | ExecutionException e) {
 					Thread.currentThread().interrupt();
 				} 
 			}
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw,"search Products");
+		ThreadManager.getInstance().runInEdt(sw,"search Transaction");
 	}
 
-	@Override
-	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_SEALED;
-	}
 
 	@Override
 	public String getTitle() {
-		return "Product Creation";
+		return "Transactions Importer";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_PRICES;
 	}
 
 }

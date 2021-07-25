@@ -9,7 +9,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.MTG;
 
-public class TransactionsModel extends GenericTableModel<Transaction> {
+public class TransactionsTableModel extends GenericTableModel<Transaction> {
 
 	
 	/**
@@ -18,7 +18,7 @@ public class TransactionsModel extends GenericTableModel<Transaction> {
 	private static final long serialVersionUID = 1L;
 
 
-	public TransactionsModel() {
+	public TransactionsTableModel() {
 		
 		setWritable(true);
 		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND" };
