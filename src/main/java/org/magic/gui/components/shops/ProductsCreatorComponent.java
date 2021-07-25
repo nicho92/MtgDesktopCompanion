@@ -51,7 +51,13 @@ public class ProductsCreatorComponent extends JPanel {
 		panel = new JPanel();
 		btnSend = UITools.createBindableJButton("Export", MTGConstants.ICON_EXPORT, KeyEvent.VK_S,"searchProduct");
 		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F,"searchProduct");
-		JPanel panelNorth = new JPanel();
+		
+		var panelNorth = new JPanel();
+		var panelWest = new JPanel();
+		panelWest.setLayout(new BorderLayout());
+		var panelEast = new JPanel();
+		panelEast.setLayout(new BorderLayout());
+		
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
 		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
@@ -71,14 +77,19 @@ public class ProductsCreatorComponent extends JPanel {
 		
 		panelNorth.add(txtSearchProduct);
 		panelNorth.add(btnSearch);
-		panelNorth.add(cboInput);
-		panelNorth.add(new JLabel("-->"));
-		panelNorth.add(cboOutput);
 		panelNorth.add(buzy);
 		
 		add(panelNorth, BorderLayout.NORTH);
-		add(new JScrollPane(deco.getContentPanel()), BorderLayout.WEST);
-		add(new JScrollPane(listOutput), BorderLayout.EAST);
+		add(panelWest,BorderLayout.WEST);
+		add(panelEast,BorderLayout.EAST);
+		
+		panelWest.add(cboInput, BorderLayout.NORTH);
+		panelEast.add(cboOutput, BorderLayout.NORTH);
+		
+		panelWest.add(new JScrollPane(deco.getContentPanel()), BorderLayout.CENTER);
+		panelEast.add(new JScrollPane(listOutput), BorderLayout.CENTER);
+		
+		
 		add(panel, BorderLayout.CENTER);
 		panel.add(btnSend);
 		panel.add(cboLanguages);
