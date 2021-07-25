@@ -91,7 +91,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				if(!obj.get("date_paid").isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get("date_paid").getAsString()));
 	    				
-	    				
+	    			
 	    				switch(obj.get("status").getAsString())
 	    				{
 	    					case "pending" : t.setStatut(TransactionStatus.NEW);break;
