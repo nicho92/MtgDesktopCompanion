@@ -13,5 +13,4 @@ public class JLangLabel extends JLabel {
 		setText(MTG.capitalize(key));
 	}
 	
-
 }

@@ -128,7 +128,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
-			
+			p.setCategoryName(c.getCategoryName());
 			
 			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
 			p.setImage(img.get("src").getAsString());

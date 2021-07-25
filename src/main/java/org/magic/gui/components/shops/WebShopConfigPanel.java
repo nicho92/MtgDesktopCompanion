@@ -45,7 +45,7 @@ import org.magic.gui.components.JLangLabel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
-import org.magic.gui.components.renderer.ProductRenderer;
+import org.magic.gui.components.renderer.StockItemPanelRenderer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.ShoppingServer;
 import org.magic.services.MTGConstants;
@@ -245,7 +245,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		
-		var cardPanel = new ProductRenderer();
+		var cardPanel = new StockItemPanelRenderer();
 		
 		if(topProduct!=null)
 			cardPanel.setProduct(topProduct);

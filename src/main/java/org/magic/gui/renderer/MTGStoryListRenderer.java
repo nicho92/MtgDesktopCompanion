@@ -12,8 +12,8 @@ import org.magic.gui.components.renderer.MTGStoryListPanel;
 public class MTGStoryListRenderer implements ListCellRenderer<MTGStory> {
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends MTGStory> list, MTGStory value, int index,
-			boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends MTGStory> list, MTGStory value, int index,boolean isSelected, boolean cellHasFocus) {
+		
 		var render = new MTGStoryListPanel(value);
 		if (isSelected) {
 			render.setBackground(SystemColor.inactiveCaption);

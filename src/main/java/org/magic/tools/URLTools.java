@@ -265,6 +265,10 @@ public class URLTools {
 
 	public static BufferedImage extractImage(String url) throws IOException
 	{
+		
+		if(url.startsWith("//"))
+			url="https:"+url;
+		
 		return extractImage(new URL(url));
 	}
 	

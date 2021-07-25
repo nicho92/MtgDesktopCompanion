@@ -14,18 +14,18 @@ import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.tools.UITools;
 
-public class ProductRenderer extends JPanel {
+public class StockItemPanelRenderer extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblName;
 	private JLabel lblType;
 	private JLabel lblEdition;
 
-	public ProductRenderer() {
+	public StockItemPanelRenderer() {
 		initGUI();
 	}
 
-	public ProductRenderer(MTGStockItem mc) {
+	public StockItemPanelRenderer(MTGStockItem mc) {
 		initGUI();
 		
 		if(mc!=null)

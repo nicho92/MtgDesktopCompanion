@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -17,15 +18,14 @@ import org.api.mkm.modele.Product;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.renderer.ProductListRenderer;
 import org.magic.gui.tools.JListFilterDecorator;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
-import org.mkm.gui.renderer.ProductListRenderer;
 
-import com.jogamp.newt.event.KeyEvent;
 
 public class ProductsCreatorComponent extends JPanel {
 
