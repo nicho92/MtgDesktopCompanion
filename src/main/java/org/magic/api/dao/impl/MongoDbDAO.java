@@ -804,5 +804,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 							 ,Contact.class);
 	}
 
+	@Override
+	public Contact getContactByEmail(String email) throws SQLException {
+		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
+							 .find(Filters.and(Filters.and(Filters.eq("email", email),Filters.eq("active",true))))
+							 .first()
+							 ,Contact.class);
+	}
+
 	
 }

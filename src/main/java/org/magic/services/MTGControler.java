@@ -61,7 +61,9 @@ public class MTGControler {
 	
 	
 	private MTGControler() {
+		logger.info("***********************"+MTGConstants.MTG_APP_NAME+"****************************");
 		logger.info("Running with Java " + Runtime.version());
+		
 		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 		
 		if (!conf.exists())

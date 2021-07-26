@@ -80,6 +80,13 @@ public class TransactionService
 			}
 		}
 		
+		Contact pContact = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail(t.getContact().getEmail());
+		
+		if(pContact!=null)
+			t.setContact(pContact);
+		
+		
+		
 		if(t.getContact().getId()<=0)
 		{
 			logger.debug(t.getContact() + " doesn't exist. Creating it");

@@ -104,6 +104,7 @@ public interface MTGDao extends MTGPlugin {
 	public Contact getContactById(int id)  throws SQLException;
 	public List<Contact> listContacts()  throws SQLException;
 	public Contact getContactByLogin(String email, String password)  throws SQLException;
+	public Contact getContactByEmail(String email)  throws SQLException;
 	public boolean enableContact(String token) throws SQLException;
 	public void deleteContact(Contact contact) throws SQLException;
 

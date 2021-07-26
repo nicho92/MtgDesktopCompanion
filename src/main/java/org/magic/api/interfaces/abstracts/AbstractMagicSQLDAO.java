@@ -481,6 +481,25 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		
 	}
+
+	@Override
+	public Contact getContactByEmail(String email) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?")) 
+		{
+				pst.setString(1, email);
+				pst.setBoolean(2, true);
+				ResultSet rs = pst.executeQuery();
+				rs.next();
+				
+				return readContact(rs);
+		}
+		catch(SQLException sqlde)
+		{
+			return null;
+		}
+		
+	}
+	
 	
 	
 	@Override
