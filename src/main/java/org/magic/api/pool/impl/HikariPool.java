@@ -91,7 +91,7 @@ public class HikariPool extends AbstractPool {
 		setProperty("dataSource.useServerPrepStmts",TRUE);
 		setProperty("dataSource.useLocalSessionState",TRUE);
 		setProperty("connectionInitSql", "");
-		setProperty("datasource.keepaliveTime","0");
+	//	setProperty("datasource.keepaliveTime","0");
 		setProperty("dataSource.cacheCallableStmts",TRUE);
 		setProperty("dataSource.cacheServerConfiguration",TRUE);
 
