@@ -882,7 +882,7 @@
       </products>
       <maxLastProductSlide>15</maxLastProductSlide>
       <needCollections></needCollections>
-      <percentReduction></percentReduction>
+      <percentReduction>0.0</percentReduction>
       <ganalyticsId/>
       <autoValidation>false</autoValidation>
       <websiteUrl></websiteUrl>
