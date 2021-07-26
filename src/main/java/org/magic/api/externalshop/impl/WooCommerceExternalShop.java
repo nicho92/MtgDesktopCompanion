@@ -1,6 +1,7 @@
 package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
@@ -35,12 +38,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		if(client==null)
 			client = WooCommerceTools.newClient(new WooCommerceExport().getProperties());
 	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		new WooCommerceExternalShop().loadTransaction();
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -129,9 +126,21 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    	
 	    	for(JsonElement item : itemsArr)
 	    	{
+	    		
+	    		var entry = new WooCommerceItem();
 	    		var objItem = item.getAsJsonObject();
 	    		
+	    		entry.setId(objItem.get("product_id").getAsInt());
+	    		entry.setQte(objItem.get("quantity").getAsInt());
+	    		entry.setPrice(objItem.get("total").getAsDouble());
+	    		entry.setProductName(objItem.get("name").getAsString());
+	    		
+	    		t.getItems().add(entry);
+	    		
 	    	}
+	    	
+	    	
+	    	
 	    	ret.add(t);
 	    }
 		return ret;
@@ -227,7 +236,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		setProperty("PER_PAGE","50");
 	}
 	
-	private static Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)
+	private Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)
 	{
 		Map<String, Object> productInfo = new HashMap<>();
 
@@ -240,7 +249,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return productInfo;
 	}
 	
-	private static JSONObject createOrder(Transaction t)
+	private JSONObject createOrder(Transaction t)
 	{
 		var obj = new JSONObject();
 		var items = new JSONArray();
@@ -279,4 +288,13 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 }
 
+
+class WooCommerceItem extends AbstractStockItem<Product>
+{
+	private static final long serialVersionUID = 1L;
+
+	public void setProduct(Product product) {
+		
+	}
+}
 

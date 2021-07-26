@@ -15,6 +15,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
+import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
 
 public class MTGCompanionShop extends AbstractExternalShop {
@@ -56,7 +57,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		try {
 			t.setId(-1);
 			t.getContact().setId(-1);
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+			TransactionService.saveTransaction(t, false);
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

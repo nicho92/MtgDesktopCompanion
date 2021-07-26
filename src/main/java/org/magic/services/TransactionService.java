@@ -276,7 +276,7 @@ public class TransactionService
 	public static boolean isWoocommerceAvailable(Transaction t) {
 		for(MTGStockItem mcs : t.getItems())
 		{	
-			if(mcs.getTiersAppIds(new WooCommerceExport().getName())==null)
+			if(mcs.getTiersAppIds(WooCommerceExport.WOO_COMMERCE)==null)
 				return false;
 		}
 		return true;
