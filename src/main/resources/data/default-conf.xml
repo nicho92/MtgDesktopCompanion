@@ -449,7 +449,7 @@
   <daos>
     <dao>
       <class>org.magic.api.dao.impl.MysqlDAO</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.PostgresqlDAO</class>
@@ -469,7 +469,7 @@
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.SQLLiteDAO</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.H2DAO</class>
