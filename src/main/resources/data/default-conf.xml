@@ -7,30 +7,29 @@
     <deckbuilder>true</deckbuilder>
     <collection>true</collection>
     <game>true</game>
-    <rss>true</rss>
+    <rss>false</rss>
     <alarm>true</alarm>
     <shopper>true</shopper>
     <cardbuilder>false</cardbuilder>
     <stock>true</stock>
-    <history>true</history>
-    <wallpaper>true</wallpaper>
+    <history>false</history>
+    <wallpaper>false</wallpaper>
     <sealed>true</sealed>
-    <event>true</event>
+    <event>false</event>
     <mkm>false</mkm>
+    <webshop>true</webshop>
   </modules>
-  
-  <currencylayer-access-api>e7871e261c34a67f43bbdde674436fde</currencylayer-access-api>
-  <debug>INFO</debug>
-  <tooltip>true</tooltip>
+  <currencylayer-access-api></currencylayer-access-api>
+  <tooltip>false</tooltip>
   <default-library>Library</default-library>
   <loglevel>DEBUG</loglevel>
-  <default-website-dir/>
+  <default-website-dir></default-website-dir>
   <keystore-name>jssecacerts</keystore-name>
   <keystore-pass>changeit</keystore-pass>
-  <default-land-deck>ZNR</default-land-deck>
+  <default-land-deck>M21</default-land-deck>
   <min-price-alert>1</min-price-alert>
   <debug-json-panel>true</debug-json-panel>
-  <lookAndFeel/>
+  <lookAndFeel>com.formdev.flatlaf.FlatLightLaf</lookAndFeel>
   <locale>en</locale>
   <card-pictures-dimension>
     <width>263</width>
@@ -48,10 +47,10 @@
       <card-height>237</card-height>
     </cards>
     <player-profil>
-      <name/>
-      <foreground/>
-      <background/>
-      <avatar/>
+      <name>Player 1</name>
+      <foreground></foreground>
+      <background></background>
+      <avatar></avatar>
     </player-profil>
   </game>
   <collections>
@@ -65,23 +64,22 @@
       <language>English</language>
       <condition>MINT</condition>
       <qty>1</qty>
+      <etched>false</etched>
     </defaultStock>
   </collections>
   <ui>
     <moduleTabPosition>LEFT</moduleTabPosition>
-    <chromedisabled>true</chromedisabled>
+    <chromedisabled>false</chromedisabled>
     <font>
       <family>Lucida Sans Unicode</family>
       <style>0</style>
       <size>11</size>
     </font>
   </ui>
-  <currency>USD</currency>
-  <currencylayer-converter-enable/>
+  <currency>EUR</currency>
+  <currencylayer-converter-enable>true</currencylayer-converter-enable>
   <langage>English</langage>
   <autocompletion>true</autocompletion>
-  <notifyPrerelease>true</notifyPrerelease>
-  
   <indexers>
     <index>
       <class>org.magic.api.indexer.impl.LuceneIndexer</class>
@@ -111,11 +109,11 @@
   <pools>
     <pool>
       <class>org.magic.api.pool.impl.DBCPPool</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </pool>
     <pool>
       <class>org.magic.api.pool.impl.HikariPool</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </pool>
     <pool>
       <class>org.magic.api.pool.impl.NoPool</class>
@@ -165,6 +163,10 @@
       <class>org.magic.api.shopping.impl.PhilibertShopper</class>
       <enable>true</enable>
     </shopper>
+    <shopper>
+      <class>org.magic.api.shopping.impl.WooCommerceShopper</class>
+      <enable>true</enable>
+    </shopper>
   </shoppers>
   <dashlets>
     <dashlet>
@@ -211,6 +213,18 @@
     <dashlet>
       <class>org.magic.gui.dashlet.ShoppingDashlet</class>
     </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.JIFrameDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.TransactionDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.BalanceTransactionDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.OrderHistoryDashlet</class>
+    </dashlet>
   </dashlets>
   <tokens>
     <token>
@@ -237,6 +251,10 @@
     </cache>
     <cache>
       <class>org.magic.api.cache.impl.GuavaCache</class>
+      <enable>false</enable>
+    </cache>
+    <cache>
+      <class>org.magic.api.cache.impl.Cache2kCache</class>
       <enable>false</enable>
     </cache>
   </caches>
@@ -293,6 +311,10 @@
       <class>org.magic.servers.impl.PartyManagerServer</class>
       <enable>true</enable>
     </server>
+    <server>
+      <class>org.magic.servers.impl.ShoppingServer</class>
+      <enable>true</enable>
+    </server>
   </servers>
   <notifiers>
     <notifier>
@@ -335,7 +357,7 @@
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.EbayPricer</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.MagicTradersPricer</class>
@@ -351,7 +373,7 @@
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.ChannelFireballPricer</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.MTGPricePricer</class>
@@ -363,7 +385,7 @@
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.MagicBazarPricer</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.StarCityGamesPricer</class>
@@ -375,15 +397,15 @@
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.ParkagePricer</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.MypCardPricer</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.MagicCorporationPricer</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.UndergroundSeaPricer</class>
@@ -392,6 +414,14 @@
     <pricer>
       <class>org.magic.api.pricers.impl.MiniatureMarketPricer</class>
       <enable>false</enable>
+    </pricer>
+    <pricer>
+      <class>org.magic.api.pricers.impl.MTGStandPricer</class>
+      <enable>false</enable>
+    </pricer>
+    <pricer>
+      <class>org.magic.api.pricers.impl.MkmPricer</class>
+      <enable>true</enable>
     </pricer>
   </pricers>
   <providers>
@@ -404,10 +434,6 @@
       <enable>false</enable>
     </provider>
     <provider>
-      <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
-      <enable>false</enable>
-    </provider>
-    <provider>
       <class>org.magic.api.providers.impl.MTGSQLiveProvider</class>
       <enable>true</enable>
     </provider>
@@ -415,18 +441,18 @@
       <class>org.magic.api.providers.impl.Mtgjson5Provider</class>
       <enable>false</enable>
     </provider>
+    <provider>
+      <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
+      <enable>false</enable>
+    </provider>
   </providers>
   <daos>
     <dao>
       <class>org.magic.api.dao.impl.MysqlDAO</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.PostgresqlDAO</class>
-      <enable>false</enable>
-    </dao>
-    <dao>
-      <class>org.magic.api.dao.impl.FileDAO</class>
       <enable>false</enable>
     </dao>
     <dao>
@@ -443,10 +469,14 @@
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.SQLLiteDAO</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.H2DAO</class>
+      <enable>false</enable>
+    </dao>
+    <dao>
+      <class>org.magic.api.dao.impl.OracleDbDAO</class>
       <enable>false</enable>
     </dao>
   </daos>
@@ -475,11 +505,15 @@
       <class>org.magic.api.pictures.impl.MythicSpoilerPicturesProvider</class>
       <enable>false</enable>
     </picture>
+    <picture>
+      <class>org.magic.api.pictures.impl.SlightlyMagicPictureProvider</class>
+      <enable>false</enable>
+    </picture>
   </pictures>
   <dashboards>
     <dashboard>
       <class>org.magic.api.dashboard.impl.MTGoldFishDashBoard</class>
-      <enable>true</enable>
+      <enable>false</enable>
     </dashboard>
     <dashboard>
       <class>org.magic.api.dashboard.impl.MTGPriceDashBoard</class>
@@ -487,7 +521,7 @@
     </dashboard>
     <dashboard>
       <class>org.magic.api.dashboard.impl.MTGStockDashBoard</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </dashboard>
   </dashboards>
   <decksniffer>
@@ -541,7 +575,7 @@
     </sniffer>
     <sniffer>
       <class>org.magic.api.decksniffer.impl.CardMarketDeckSniffer</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </sniffer>
     <sniffer>
       <class>org.magic.api.decksniffer.impl.MagicVilleDeckSniffer</class>
@@ -583,7 +617,7 @@
     </export>
     <export>
       <class>org.magic.api.exports.impl.MTGDesktopCompanionExport</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </export>
     <export>
       <class>org.magic.api.exports.impl.MTGODeckExport</class>
@@ -689,6 +723,18 @@
       <class>org.magic.api.exports.impl.MTGArenaImporter</class>
       <enable>true</enable>
     </export>
+    <export>
+      <class>org.magic.api.exports.impl.MTGStandExport</class>
+      <enable>true</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.PersonnalExport</class>
+      <enable>true</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.TCGPlayerExport</class>
+      <enable>true</enable>
+    </export>
   </deckexports>
   <newsProvider>
     <news>
@@ -773,6 +819,10 @@
       <class>org.magic.api.graders.impl.CGCGrader</class>
       <enable>true</enable>
     </grader>
+    <grader>
+      <class>org.magic.api.graders.impl.MNTGrader</class>
+      <enable>false</enable>
+    </grader>
   </graders>
   <storages>
     <storage>
@@ -798,4 +848,93 @@
       <enable>false</enable>
     </strategy>
   </strategies>
+  <notifyPrerelease>true</notifyPrerelease>
+  <shopSite>
+    <payments>
+      <paypalclientId>AR2pgRkfwcZLXPzbZgONSP5AOJjVlf-bMgnIvcbPCrSH7fTlg_LmtVBlg8xB6wZuyEfHFcOradjPS8Uc</paypalclientId>
+      <paypalSendMoneyUri>https://paypal.me/nicolaspihen?locale.x=fr_FR</paypalSendMoneyUri>
+      <banqAccount>
+        <bic/>
+        <iban/>
+      </banqAccount>
+    </payments>
+    <config>
+      <siteTitle>MTGCompanion</siteTitle>
+      <bannerTitle>My MTG WebPage</bannerTitle>
+      <bannerText>Banner Text</bannerText>
+      <aboutText>Best trading service for best prices !</aboutText>
+      <contact>
+        <name>John</name>
+        <lastName>Doe</lastName>
+        <email>mtgdesktopcompanion@gmail.com</email>
+        <telephone>33123456789</telephone>
+        <country></country>
+        <address></address>
+        <website>https://www.mtgcompanion.org</website>
+        <zipcode></zipcode>
+        <city></city>
+      </contact>
+      <slides>https://mtgrocks.com/wp-content/uploads/2021/02/strixhaven-witherbloom-school-of-mages.jpg;https://www.candlekeep.co.uk/wp-content/uploads/2021/03/MTGMH2_EN_4C_8.png;https://images.ctfassets.net/s5n2t79q9icq/7oGBuDbOW6Twt1DTs7lQF/5bf0a7426b55a85cae9ed4040cb08ee6/dkfh6t9ds_en.jpg</slides>
+      <collections>Library</collections>
+      <products>
+        <top></top>
+        <autoSelection>true</autoSelection>
+      </products>
+      <maxLastProductSlide>15</maxLastProductSlide>
+      <needCollections></needCollections>
+      <percentReduction></percentReduction>
+      <ganalyticsId/>
+      <autoValidation>false</autoValidation>
+      <websiteUrl></websiteUrl>
+      <sealedEnabled>true</sealedEnabled>
+      <enableGed>true</enableGed>
+      <extracss/>
+      <productPaginationSlide>12</productPaginationSlide>
+    </config>
+    <delivery>
+      <shippingRules>var shippingCost=0;&#13;
+&#13;
+if(total &gt;=200){&#13;
+  shippingCost=0;&#13;
+}&#13;
+else if(total &gt;=25)&#13;
+{ &#13;
+   shippingCost = 15;&#13;
+}else if(total&gt;=1)&#13;
+{ &#13;
+shippingCost = 6.50;&#13;
+}&#13;
+&#13;
+shippingCost;</shippingRules>
+      <deliveryDay>2</deliveryDay>
+    </delivery>
+  </shopSite>
+  <trackings>
+    <tracker>
+      <class>org.magic.api.tracking.impl.LaposteTrackingService</class>
+      <enable>true</enable>
+    </tracker>
+    <tracker>
+      <class>org.magic.api.tracking.impl.DHLTrackingService</class>
+      <enable>true</enable>
+    </tracker>
+    <tracker>
+      <class>org.magic.api.tracking.impl.UPSTrackingService</class>
+      <enable>true</enable>
+    </tracker>
+  </trackings>
+  <externalsShops>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.MkmExternalShop</class>
+      <enable>false</enable>
+    </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.MTGCompanionShop</class>
+      <enable>false</enable>
+    </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.WooCommerceExternalShop</class>
+      <enable>false</enable>
+    </extshop>
+  </externalsShops>
 </conf>
