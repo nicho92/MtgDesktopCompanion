@@ -18,17 +18,12 @@ public class FileCache extends AbstractCacheProvider {
 
 	private static final String DIRECTORY = "DIRECTORY";
 	private static final String FORMAT = "FORMAT";
-	private File dir;
-
-
-	public File getDirectory() {
-		return dir;
-	}
+	
 
 	public FileCache() {
 		super();
 
-		dir = getFile(DIRECTORY);
+		File dir = getFile(DIRECTORY);
 		if (!dir.exists())
 			dir.mkdir();
 	}
@@ -44,7 +39,7 @@ public class FileCache extends AbstractCacheProvider {
 
 			logger.trace("search in cache : " + mc + " " + mc.getCurrentSet());
 
-			var save = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
+			var save = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
 			if (!save.exists())
 				save.mkdir();
 
@@ -65,7 +60,7 @@ public class FileCache extends AbstractCacheProvider {
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
 		logger.debug("save in cache : " + mc + " " + mc.getCurrentSet());
 
-		var f = new File(dir, getEnabledPlugin(MTGPictureProvider.class).getName());
+		var f = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
 		if (!f.exists())
 			f.mkdir();
 
@@ -86,9 +81,9 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public void clear() {
 		try {
-			FileUtils.cleanDirectory(dir);
+			FileUtils.cleanDirectory(getFile(DIRECTORY));
 		} catch (IOException e) {
-			logger.error("Couldn't clean " + dir, e);
+			logger.error("Couldn't clean " + getFile(DIRECTORY), e);
 		}
 
 	}
@@ -108,8 +103,8 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public long size() {
 		
-		if(dir!=null)
-			return FileUtils.sizeOfDirectory(dir);
+		if(getFile(DIRECTORY)!=null)
+			return FileUtils.sizeOfDirectory(getFile(DIRECTORY));
 		
 		
 		return 0;
