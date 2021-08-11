@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,8 +18,6 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.exports.impl.WooCommerceExport;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTrackingService;

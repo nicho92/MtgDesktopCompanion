@@ -1,7 +1,6 @@
 package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
-import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGStockItem;

@@ -13,9 +13,9 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.RequestBuilder;
+import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
-import org.magic.tools.RequestBuilder.METHOD;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
