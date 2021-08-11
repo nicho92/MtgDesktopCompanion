@@ -245,7 +245,6 @@ public class IconSetProvider {
 		equiv.put("FJMP", "JMP");
 		equiv.put("PLIST", "MB1");
 		equiv.put("KLR", "KLD");
-		equiv.put("J21", "J20");
 		equiv.put("ASTX", "STX");
 		equiv.put("AKHM", "KHM");
 		equiv.put("OC21","C21");

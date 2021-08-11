@@ -200,8 +200,8 @@ public class MTGJsonPricer {
 			
 			if(!f.exists())
 			{
-				logger.error(f.getAbsolutePath() + " doesn't existe. Please run buildPrices(VENDOR v)");
-				return caches;
+				logger.error(f.getAbsolutePath() + " doesn't existe. running buildPrices("+v+")");
+				buildPrices(v);
 			}
 			
 			JsonArray el = JsonParser.parseReader(new FileReader(f)).getAsJsonArray();
