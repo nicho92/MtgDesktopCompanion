@@ -81,7 +81,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(Product t) throws IOException {
+	public int createProduct(Product t,Category c) throws IOException {
 		throw new IOException("Not enable to create product in Mkm");
 	}
 	

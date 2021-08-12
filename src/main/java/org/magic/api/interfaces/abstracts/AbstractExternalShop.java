@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.IOException;
 import java.util.List;
 
+import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.ConverterItem;
@@ -43,13 +44,13 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 	
 	@Override
-	public int createProduct(MTGExternalShop ext, Product t,String lang) throws IOException {
+	public int createProduct(MTGExternalShop ext, Product t,String lang,Category c) throws IOException {
 		Localization defaultLoc = new Localization(1, "English");
 		defaultLoc.setName(t.getEnName());
 		String locName = t.getLocalization().stream().filter(l->l.getLanguageName().equalsIgnoreCase(lang)).findFirst().orElse(defaultLoc).getName();
 		t.setEnName(locName);
 		
-		int ret = createProduct(t);
+		int ret = createProduct(t,c);
 		converter.appendConversion(new ConverterItem( ext.getName(),getName(), locName,lang, t.getIdProduct(), ret));
 		return ret;
 	}

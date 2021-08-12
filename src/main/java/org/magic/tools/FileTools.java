@@ -314,5 +314,12 @@ public class FileTools {
 		
 		
 	}
+
+
+
+	public static List<String> readAllLines(File f) throws IOException {
+		logger.debug("opening file " + f);
+		return Files.readLines(f, MTGConstants.DEFAULT_ENCODING);
+	}
 	
 }

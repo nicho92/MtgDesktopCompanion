@@ -2,15 +2,16 @@ package org.magic.services.providers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.interfaces.MTGExternalShop;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.FileTools;
 
@@ -41,7 +42,7 @@ public class StockItemConversionManager {
 	private StockItemConversionManager() {
 		conversionsItems = new ArrayList<>();
 		try {
-			initFile(new File("C:\\Users\\Nicolas\\Google Drive\\conversions.csv"));
+			initFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"conversions.csv"));
 			} catch (IOException e) {
 			logger.error(e);
 		}
@@ -56,9 +57,9 @@ public class StockItemConversionManager {
 		return conversionsItems;
 	}
 	
-	public void sendItem(Product p, MTGExternalShop input, MTGExternalShop output, String lang) throws IOException
+	public void sendItem(Product p, MTGExternalShop input, MTGExternalShop output, String lang,Category c) throws IOException
 	{
-			int ret = output.createProduct(p);
+			int ret = output.createProduct(p,c);
 			appendConversion(new ConverterItem(input.getName(),output.getName(),p.getEnName(), lang,p.getIdProduct(), ret));
 	}
 	
@@ -69,7 +70,7 @@ public class StockItemConversionManager {
 		this.separator=separator;
 		
 			conversionsItems.clear();
-			var list = Files.readAllLines(f.toPath());
+			var list = FileTools.readAllLines(f);
 			list.remove(0); // remove title
 			list.forEach(s->{
 				var arr = s.split(separator);

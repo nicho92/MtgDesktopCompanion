@@ -2,9 +2,14 @@ package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGExternalShop;
@@ -45,6 +51,8 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	private JPanel panel;
 	private JButton btnSend;
 	private JComboBox<String> cboLanguages;
+	private JComboBox<Category> cboCategory;
+	
 	
 	public ProductsCreatorComponent() {
 		setLayout(new BorderLayout(0, 0));
@@ -62,6 +70,10 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
 		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
+		cboCategory = UITools.createCombobox(new ArrayList<>());
+		
+		
+		initCategory();
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		txtSearchProduct = new JTextField(25);
@@ -92,10 +104,10 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		
 		add(panel, BorderLayout.CENTER);
-		panel.add(btnSend);
 		panel.add(cboLanguages);
-		
-		
+		panel.add(cboCategory);
+		panel.add(btnSend);
+
 		
 		btnSearch.addActionListener(e->loadProducts());
 		txtSearchProduct.addActionListener(e->loadProducts());
@@ -103,10 +115,24 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		btnSend.setEnabled(false);
 		
 		
+		cboOutput.addItemListener(il->initCategory());
+		
 		listInput.addListSelectionListener(lll->{
 			btnSend.setEnabled(listInput.getSelectedIndex()>=0);
 			btnSend.setText("send "+ listInput.getSelectedValuesList().size() + " items");
 		});
+	}
+
+
+	private void initCategory() {
+		try {
+
+			cboCategory.removeAllItems();
+			((DefaultComboBoxModel<Category>)cboCategory.getModel()).addAll(((MTGExternalShop)cboOutput.getSelectedItem()).listCategories().stream().sorted(Comparator.comparing(Category::getCategoryName)).collect(Collectors.toList()));
+			
+		} catch (IOException e1) {
+			logger.error(e1);
+		}
 	}
 
 
@@ -121,7 +147,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			protected Void doInBackground() throws Exception {
 					for(Product p : list)
 						{
-							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString());
+							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString(),(Category)cboCategory.getSelectedItem());
 							p.setIdProduct(id);
 							publish(p);
 						}

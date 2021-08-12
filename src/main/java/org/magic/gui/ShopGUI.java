@@ -7,6 +7,7 @@ import javax.swing.JTabbedPane;
 
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.shops.ContactsManagementPanel;
+import org.magic.gui.components.shops.ConverterPanel;
 import org.magic.gui.components.shops.ProductsCreatorComponent;
 import org.magic.gui.components.shops.TransactionCreatorComponent;
 import org.magic.gui.components.shops.TransactionsPanel;
@@ -34,6 +35,7 @@ public class ShopGUI extends MTGUIComponent {
 		JTabbedPane pan = new JTabbedPane();
 		UITools.addTab(pan, new ProductsCreatorComponent());
 		UITools.addTab(pan, new TransactionCreatorComponent());
+		UITools.addTab(pan, new ConverterPanel());
 		
 		
 		UITools.addTab(pane, MTGUIComponent.build(pan,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));

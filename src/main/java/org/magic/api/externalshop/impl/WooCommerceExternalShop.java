@@ -168,10 +168,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public int createProduct(Product p) throws IOException {
+	public int createProduct(Product p,Category c) throws IOException {
 		init();
 		
-		Map<Object,Object> ret = client.create(EndpointBaseType.PRODUCTS.getValue(), toWooCommerceAttributs(p,null,78));
+		Map<Object,Object> ret = client.create(EndpointBaseType.PRODUCTS.getValue(), toWooCommerceAttributs(p,null,c.getIdCategory()));
 		
 		if(!ret.isEmpty() && ret.get("id") !=null)
 		{

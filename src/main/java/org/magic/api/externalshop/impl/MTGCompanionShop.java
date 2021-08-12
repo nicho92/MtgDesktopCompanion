@@ -18,6 +18,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
 
+import com.thoughtworks.xstream.XStream;
+
 public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
@@ -65,8 +67,11 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(Product t) throws IOException {
-		throw new IOException("not implemented " + t); 
+	public int createProduct(Product t,Category c) throws IOException {
+		
+		logger.debug("adding " + t);
+		return -1;
+	//	throw new IOException("not implemented " + t); 
 	}
 
 	@Override
