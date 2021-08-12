@@ -63,8 +63,7 @@
       			$.ajax({
 			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
 			    }).then(function(data) {
-			    	console.log(data);
-			    	 $('#tableResults').DataTable( {
+			    	$('#tableResults').DataTable( {
 					    	"language": {
 					    	    "search": "Filter"
 					    	  },
@@ -80,7 +79,7 @@
 					        	{ 
 					        		"data": "image",
 					        		"render": function(data, type, row, meta){
-						                   return "<img src="+data+"/>";
+						                   return "<img src="+data+" width='150px'></img>";
 						            }
 					        	},
 					            { "data": "enName" }
