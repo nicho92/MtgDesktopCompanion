@@ -64,19 +64,19 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		
 		logger.debug("Found " + products + " for " + name);
 		var ret = new ArrayList<Product>();
-//		
-//		cards.forEach(card->{
-//			Product p = new Product();
-//					p.setEnName(card.getName());
-//					p.setExpansionName(card.getCurrentSet().getSet());
-//					p.setCategoryName(EnumItems.CARD.name());
-//					p.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
-//					p.setGameName("Magic: The Gathering");
-//					p.setNumber(card.getCurrentSet().getNumber());
-//					p.setIdProduct(card.getId().hashCode());
-//					notify(p);
-//					ret.add(p);
-//		});
+		
+		cards.forEach(card->{
+			Product p = new Product();
+					p.setEnName(card.getName());
+					p.setExpansionName(card.getCurrentSet().getSet());
+					p.setCategoryName(EnumItems.CARD.name());
+					p.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
+					p.setGameName("Magic: The Gathering");
+					p.setNumber(card.getCurrentSet().getNumber());
+					p.setIdProduct(card.getId().hashCode());
+					notify(p);
+					ret.add(p);
+		});
 		
 		products.forEach(ss->{
 			Product p = new Product();
