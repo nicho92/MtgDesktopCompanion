@@ -58,7 +58,14 @@ public class SealedProductProvider {
 			list.clear();
 	}
 
-	
+	public List<MTGSealedProduct> search(String name)
+	{
+		
+		var ret = new ArrayList<MTGSealedProduct>();
+		listEditions().stream().filter(me->me.getSet().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList()).forEach(me->ret.addAll(getItemsFor(me)));
+		
+		return ret;
+	}
 	
 	
 	public static SealedProductProvider inst()
