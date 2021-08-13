@@ -29,16 +29,16 @@ import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-public class PackagesProvider {
+public class SealedProductProvider {
 
 	private static final String PACKAGING_DIR_NAME = "packaging";
 	private Document document;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
 	private List<MagicEdition> list;
-	private static PackagesProvider inst;
+	private static SealedProductProvider inst;
 	
-	private PackagesProvider() {
+	private SealedProductProvider() {
 		try {
 			reload();
 			list = new ArrayList<>();
@@ -61,10 +61,10 @@ public class PackagesProvider {
 	
 	
 	
-	public static PackagesProvider inst()
+	public static SealedProductProvider inst()
 	{
 		if(inst==null)
-			inst=new PackagesProvider();
+			inst=new SealedProductProvider();
 		
 		return inst;
 	}

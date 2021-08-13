@@ -47,7 +47,7 @@ import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
-import org.magic.services.providers.PackagesProvider;
+import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
@@ -1685,7 +1685,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		  try 
 		  {
-			var list = PackagesProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra")));
+			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra")));
 			
 			Packaging product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			product.setLang(rs.getString("lang"));

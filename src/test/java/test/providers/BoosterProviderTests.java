@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.providers.PackagesProvider;
+import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.URLTools;
 
 public class BoosterProviderTests {
@@ -22,7 +22,7 @@ public class BoosterProviderTests {
 		MTGControler.getInstance();
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		MTGLogger.changeLevel(Level.OFF);
-		PackagesProvider prov = PackagesProvider.inst();
+		SealedProductProvider prov = SealedProductProvider.inst();
 		for(MagicEdition id : prov.listEditions())
 		{
 			prov.getItemsFor(id).forEach(e->{

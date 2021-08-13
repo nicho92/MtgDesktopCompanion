@@ -59,7 +59,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
-import org.magic.services.providers.PackagesProvider;
+import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
@@ -684,7 +684,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 					getEnabledPlugin(MTGPictureCache.class).clear();
 				
 				if(chckbxPackages.isSelected())
-					PackagesProvider.inst().clear();
+					SealedProductProvider.inst().clear();
 				
 				
 				loading(false, "");

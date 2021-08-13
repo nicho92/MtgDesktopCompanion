@@ -17,12 +17,12 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.providers.PackagesProvider;
+import org.magic.services.providers.SealedProductProvider;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 	
 	private static final long serialVersionUID = 1L;
-	private transient PackagesProvider provider;
+	private transient SealedProductProvider provider;
 	private DefaultTreeModel model;
 	private ImagePanel panelDraw;
 	private JXTree tree;
@@ -30,7 +30,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 	
 	public PackagesBrowserPanel(boolean viewThumbnail) {
-		provider = PackagesProvider.inst();
+		provider = SealedProductProvider.inst();
 		this.view = viewThumbnail;
 		initGUI();
 

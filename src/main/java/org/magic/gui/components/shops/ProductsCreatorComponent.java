@@ -182,16 +182,12 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 					return plug.listProducts(search);
 			}
 			
-			@Override
-			protected void done() {
-				super.done();
-				try {
-					modelInput.addAll(get());
-					listInput.updateUI();
-				} catch (InterruptedException | ExecutionException e) {
-					Thread.currentThread().interrupt();
-				} 
+			
+			protected void process(List<Product> chunks) {
+				modelInput.addAll(chunks);	
 			}
+			
+			
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw,"search Products");

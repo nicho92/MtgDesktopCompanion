@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.services.providers.PackagesProvider;
-import org.magic.services.providers.PackagesProvider.LOGO;
+import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.providers.SealedProductProvider.LOGO;
 import org.magic.tools.ImageTools;
 
 
 public class BinderTagsManager {
 
-	private PackagesProvider prov;
+	private SealedProductProvider prov;
 	private Color backColor=null;
 	private Dimension d;
 	private boolean border;
@@ -47,7 +47,7 @@ public class BinderTagsManager {
 	}
 
 	public BinderTagsManager(Dimension d){
-		prov = PackagesProvider.inst();
+		prov = SealedProductProvider.inst();
 		addlogo=null;
 		border=true;
 		space=0;

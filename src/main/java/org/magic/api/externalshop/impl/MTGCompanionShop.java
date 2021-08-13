@@ -10,13 +10,17 @@ import javax.swing.ImageIcon;
 
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
 import org.magic.tools.MTG;
+import org.utils.patterns.observer.Observer;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -48,10 +52,28 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		return cat;
 	}
 
+
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
 		
-		return new ArrayList<>();
+		List<MagicCard> cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, false);
+		
+		var ret = new ArrayList<Product>();
+		
+		cards.forEach(card->{
+			Product p = new Product();
+					p.setEnName(card.getName());
+					p.setExpansionName(card.getCurrentSet().getSet());
+					p.setCategoryName(EnumItems.CARD.name());
+					p.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
+					p.setGameName("Magic: The Gathering");
+					p.setNumber(card.getCurrentSet().getNumber());
+					p.setIdProduct(card.getId().hashCode());
+					notify(p);
+					ret.add(p);
+		});
+		
+		return ret;
 	}
 
 	@Override
