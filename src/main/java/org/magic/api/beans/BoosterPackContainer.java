@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class SealedPack implements Serializable {
+public class BoosterPackContainer implements Serializable {
 
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class SealedPack implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private transient Map<MagicEdition, Integer> pack;
 
-	public SealedPack() {
+	public BoosterPackContainer() {
 		pack = new HashMap<>();
 	}
 

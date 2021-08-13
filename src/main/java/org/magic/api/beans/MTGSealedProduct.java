@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.magic.api.beans.enums.EnumItems;
 
-public class Packaging implements Serializable{
+public class MTGSealedProduct implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

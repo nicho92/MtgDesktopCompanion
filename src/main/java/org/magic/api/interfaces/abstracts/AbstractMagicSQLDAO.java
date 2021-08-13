@@ -30,8 +30,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.Packaging;
-import org.magic.api.beans.Packaging.EXTRA;
+import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumCondition;
@@ -1687,7 +1687,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		  {
 			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra")));
 			
-			Packaging product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
+			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			product.setLang(rs.getString("lang"));
 			state.setProduct(product);
 		  } 

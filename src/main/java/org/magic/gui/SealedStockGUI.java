@@ -23,7 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -47,7 +47,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	private PackagesBrowserPanel packagePanel;
 	
 	private SealedStockTableModel model;
-	private Packaging selectedItem;
+	private MTGSealedProduct selectedItem;
 	private SealedStock selectedStock;
 	private RSyntaxTextArea textEditor;
 	private JXTable table;
@@ -136,13 +136,13 @@ public class SealedStockGUI extends MTGUIComponent {
 			if(selectedNode==null || selectedNode.getUserObject()==null)
 				return;
 			
-			boolean isPackage = selectedNode.getUserObject() instanceof Packaging;
+			boolean isPackage = selectedNode.getUserObject() instanceof MTGSealedProduct;
 			buttonNew.setEnabled(isPackage);
 		
 			if(selectedNode!=null && isPackage)
 			{
 				
-				selectedItem = (Packaging)selectedNode.getUserObject();
+				selectedItem = (MTGSealedProduct)selectedNode.getUserObject();
 				historyPricePanel.init(selectedItem, selectedItem.getEdition()+"-"+selectedItem.getType());
 				objectpanel.show(selectedItem);
 			}

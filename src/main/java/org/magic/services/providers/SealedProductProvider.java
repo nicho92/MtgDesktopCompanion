@@ -18,8 +18,8 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Packaging;
-import org.magic.api.beans.Packaging.EXTRA;
+import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
@@ -69,7 +69,7 @@ public class SealedProductProvider {
 		return inst;
 	}
 	
-	public List<Packaging> getItemsFor(String me)
+	public List<MTGSealedProduct> getItemsFor(String me)
 	{
 		return getItemsFor(new MagicEdition(me));
 	}
@@ -80,7 +80,7 @@ public class SealedProductProvider {
 		getItemsFor(s).forEach(p->caching(force, p));
 	}
 	
-	public BufferedImage caching(boolean force, Packaging p) {
+	public BufferedImage caching(boolean force, MTGSealedProduct p) {
 		
 		if(p.getUrl()==null)
 			return null;
@@ -128,7 +128,7 @@ public class SealedProductProvider {
 	}
 
 
-	public BufferedImage get(Packaging p)
+	public BufferedImage get(MTGSealedProduct p)
 	{
 		try {
 			var b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
@@ -159,9 +159,9 @@ public class SealedProductProvider {
 		listEditions().forEach(s->caching(force,s));
 	}
 	
-	public synchronized List<Packaging> getItemsFor(MagicEdition me)
+	public synchronized List<MTGSealedProduct> getItemsFor(MagicEdition me)
 	{
-		List<Packaging> ret = new ArrayList<>();
+		List<MTGSealedProduct> ret = new ArrayList<>();
 		
 		if(me==null)
 			return ret;
@@ -185,7 +185,7 @@ public class SealedProductProvider {
 		{
 			if(n.item(i).getNodeType()==1)
 			{
-				var p = new Packaging();
+				var p = new MTGSealedProduct();
 						  p.setType(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
 						 
 						  try {
@@ -245,17 +245,17 @@ public class SealedProductProvider {
 		return list;
 	}
 
-	public List<Packaging> get(MagicEdition me,EnumItems t, String lang, EXTRA extra)
+	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang, EXTRA extra)
 	{
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang) && e.getExtra()==extra).collect(Collectors.toList());
 	}
 	
-	public List<Packaging> get(MagicEdition me,EnumItems t, String lang)
+	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang)
 	{
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).collect(Collectors.toList());
 	}
 	
-	public List<Packaging> get(MagicEdition me,EnumItems t, EXTRA extra)
+	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, EXTRA extra)
 	{
 		if(extra==null)
 			return get(me,t);
@@ -263,7 +263,7 @@ public class SealedProductProvider {
 		return get(me,t).stream().filter(e->e.getExtra()==extra).collect(Collectors.toList());
 	}
 	
-	public List<Packaging> get(MagicEdition me,EnumItems t)
+	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t)
 	{
 		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());
 	}

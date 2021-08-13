@@ -12,7 +12,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.threads.ThreadManager;
@@ -25,7 +25,7 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	private static final long serialVersionUID = 1L;
 	private transient HistoryPrice<?> cpVariations;
 	private String title="";
-	private Packaging pack;
+	private MTGSealedProduct pack;
 	
 	
 	@Override
@@ -39,7 +39,7 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		init(pack,title);
 	}
 	
-	public void init(Packaging pack, String title) {
+	public void init(MTGSealedProduct pack, String title) {
 		this.pack=pack;
 		this.title = title;
 		

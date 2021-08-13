@@ -14,7 +14,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 
 public interface MTGDashBoard extends MTGPriceSuggester {
 
@@ -26,7 +26,7 @@ public interface MTGDashBoard extends MTGPriceSuggester {
 	
 	public HistoryPrice<MagicEdition> getPriceVariation(MagicEdition me) throws IOException;
 
-	public HistoryPrice<Packaging> getPriceVariation(Packaging packaging) throws IOException;
+	public HistoryPrice<MTGSealedProduct> getPriceVariation(MTGSealedProduct packaging) throws IOException;
 	
 	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException;
 

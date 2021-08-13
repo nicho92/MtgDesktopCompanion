@@ -4,7 +4,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
-public class SealedStock extends AbstractStockItem<Packaging>  {
+public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 
 	private static final long serialVersionUID = 1L;
 	private EnumCondition condition;
@@ -14,13 +14,13 @@ public class SealedStock extends AbstractStockItem<Packaging>  {
 		setCondition(EnumCondition.SELEAD);
 	}
 	
-	public SealedStock(Packaging p)
+	public SealedStock(MTGSealedProduct p)
 	{
 		setProduct(p);
 	}
 	
 	@Override
-	public void setProduct(Packaging product) {
+	public void setProduct(MTGSealedProduct product) {
 		this.product=product;
 		edition = product.getEdition();
 		url = product.getUrl();

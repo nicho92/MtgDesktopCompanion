@@ -5,19 +5,19 @@ import static org.magic.tools.MTG.capitalize;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.SealedPack;
+import org.magic.api.beans.BoosterPackContainer;
 public class SealedPackTableModel extends DefaultTableModel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private SealedPack pack;
+	private BoosterPackContainer pack;
 
 	private static final String[] COLUMNS = { "EDITION",
 			"QTY" };
 
-	public SealedPack getSealedPack() {
+	public BoosterPackContainer getSealedPack() {
 		return pack;
 	}
 
@@ -79,10 +79,10 @@ public class SealedPackTableModel extends DefaultTableModel {
 	}
 
 	public SealedPackTableModel() {
-		pack = new SealedPack();
+		pack = new BoosterPackContainer();
 	}
 
-	public void init(SealedPack lines) {
+	public void init(BoosterPackContainer lines) {
 		this.pack = lines;
 		fireTableDataChanged();
 	}

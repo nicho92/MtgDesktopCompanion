@@ -12,7 +12,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
@@ -53,7 +53,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		root.setUserObject(ed);
 		root.removeAllChildren();
 		Arrays.asList(EnumItems.values()).forEach(t->{
-			List<Packaging> pks = provider.get(ed, t);
+			List<MTGSealedProduct> pks = provider.get(ed, t);
 			logger.trace("loading " + ed + " " + pks);
 			if(!pks.isEmpty())
 			{
@@ -103,12 +103,12 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		tree.addTreeSelectionListener(e-> {
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 				
-				if(selectedNode!=null && (selectedNode.getUserObject() instanceof Packaging))
-					load((Packaging)selectedNode.getUserObject());
+				if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct))
+					load((MTGSealedProduct)selectedNode.getUserObject());
 			});
 	}
 	
-	public void load(Packaging p)
+	public void load(MTGSealedProduct p)
 	{
 			panelDraw.setImg(provider.get(p));
 			panelDraw.revalidate();
@@ -127,7 +127,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			root.add(edNode);
 			
 			Arrays.asList(EnumItems.values()).forEach(t->{
-				List<Packaging> pks = provider.get(ed, t);
+				List<MTGSealedProduct> pks = provider.get(ed, t);
 				if(!pks.isEmpty())
 				{
 					var dir = new DefaultMutableTreeNode(t);

@@ -13,7 +13,7 @@ import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -25,7 +25,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	
 	private static final long serialVersionUID = 1L;
 	static Logger logger = MTGLogger.getLogger(BoosterPicsPanel.class);
-	private transient SwingWorker<ImageIcon, SimpleEntry<Packaging, ImageIcon>> sw;
+	private transient SwingWorker<ImageIcon, SimpleEntry<MTGSealedProduct, ImageIcon>> sw;
 	private MagicEdition ed;
 	
 	public BoosterPicsPanel() {
@@ -55,14 +55,14 @@ public class BoosterPicsPanel extends JTabbedPane {
 		{
 			sw = new SwingWorker<>() {
 				@Override
-				protected void process(List<SimpleEntry<Packaging, ImageIcon>> chunks) {
+				protected void process(List<SimpleEntry<MTGSealedProduct, ImageIcon>> chunks) {
 					chunks.forEach(e->addTab(e.getKey().toString(), new JLabel(e.getValue())));
 				}
 				
 				@Override
 				protected ImageIcon doInBackground() {
 					
-					List<Packaging> l = SealedProductProvider.inst().get(ed,EnumItems.BOOSTER);
+					List<MTGSealedProduct> l = SealedProductProvider.inst().get(ed,EnumItems.BOOSTER);
 					logger.trace("loading booster :" + l);
 					l.forEach(i->
 					{

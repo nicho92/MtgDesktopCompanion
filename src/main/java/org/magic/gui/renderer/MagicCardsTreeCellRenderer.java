@@ -14,7 +14,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
@@ -67,7 +67,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 					c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 				}
 			} 
-			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof Packaging) {
+			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGSealedProduct) {
 				c.setIcon(MTGConstants.ICON_PACKAGE_SMALL);
 			}
 			else {

@@ -27,7 +27,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
-import org.magic.api.beans.Packaging;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 
@@ -74,7 +74,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
-	private SealedProduct guess(List<SealedProduct> products,Packaging packaging)
+	private SealedProduct guess(List<SealedProduct> products,MTGSealedProduct packaging)
 	{
 		List<SealedProduct> ret = new ArrayList<>();
 
@@ -114,9 +114,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	
 	@Override
-	protected HistoryPrice<Packaging> getOnlinePricesVariation(Packaging packaging) throws IOException {
+	protected HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 		
-		HistoryPrice<Packaging> ret = new HistoryPrice<>(packaging);
+		HistoryPrice<MTGSealedProduct> ret = new HistoryPrice<>(packaging);
 		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
 		var product = guess(cardService.getSealedProduct(cs),packaging);
 		PRICES p =  PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
