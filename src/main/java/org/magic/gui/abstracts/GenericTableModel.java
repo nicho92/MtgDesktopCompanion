@@ -173,6 +173,14 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	    fireTableRowsDeleted(row, row);
 	}
 	
+
+	public void removeRows(List<Integer> selectedRows) {
+		for(Integer i : selectedRows)
+				removeRow(i);
+	}
+	
+	
+	
 	@Override
 	public int getRowCount() {
 		if (items != null)

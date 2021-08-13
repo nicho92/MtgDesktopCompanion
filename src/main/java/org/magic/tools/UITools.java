@@ -177,7 +177,7 @@ public class UITools {
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
 				
 				
-				
+				table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 				
 				
 				try {
@@ -518,7 +518,7 @@ public class UITools {
 			}
 		});
 	}
-	
+		
 	public static <T> List<T> getTableSelections(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
@@ -592,5 +592,14 @@ public class UITools {
 		
 	}
 
+	public static List<Integer> getSelectedRows(JXTable table) {
+		int[] viewRow = table.getSelectedRows();
+		
+		var ret = new ArrayList<Integer>();
+		for(int i : viewRow)
+			ret.add(table.convertRowIndexToModel(i));
+
+		return ret;
+		}
 
 }
