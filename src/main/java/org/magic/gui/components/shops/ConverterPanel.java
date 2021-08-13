@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -32,10 +31,11 @@ public class ConverterPanel extends MTGUIComponent{
 		
 		model = new GenericTableModel<>();
 		table = UITools.createNewTable(model);
-		UITools.initTableFilter(table);
 		
 		model.setColumns("name","inputId","outputId","lang","source","destination");
 		model.init(StockItemConversionManager.inst().getConversionsItems());
+		UITools.initTableFilter(table);
+		
 		
 		panel.add(btnReload);
 		add(panel, BorderLayout.NORTH);
@@ -45,16 +45,6 @@ public class ConverterPanel extends MTGUIComponent{
 		btnReload.addActionListener(el->model.init(StockItemConversionManager.inst().getConversionsItems()));
 	}
 	
-	
-	public static void main(String[] args) {
-		
-		
-		JFrame f = new JFrame();
-		f.getContentPane().add(new ConverterPanel());
-		f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-
 
 	@Override
 	public String getTitle() {

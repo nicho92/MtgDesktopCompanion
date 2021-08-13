@@ -2309,6 +2309,12 @@
 	</edition>
 	<edition id="MID">
 		<banner lang="en" url="https://cdn.shopify.com/s/files/1/0266/9513/9533/products/MTGMID_EN_4C_8_548bbae4-514d-4e81-833d-88abea2a158d_1024x.png"/>
+		<box lang="en" extra="set" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/7KrMI47ltlGqsW0SAxhGPg/69d853f71f5c592f45bbfb84d844cfcb/en_L8T7j0mLqX.png"/>
+		<box lang="en" extra="draft" num="2" url="https://images.ctfassets.net/s5n2t79q9icq/1TapjGKU6OhXbUnMYe5xo1/61acf3a7bd02ea8e96c00f436071123e/en_rHwWRSZRvL.png"/>
+		<box lang="en" extra="collector" num="3" url="https://images.ctfassets.net/s5n2t79q9icq/4PXF4y7uDqn0qSgKrwg6oe/db6fd19e2d0f770997ec535b7541a7af/en_SftJXEP1YF.png"/>
+		<booster lang="en" extra="set" num="1" url="https://cdn.shopify.com/s/files/1/0266/9513/9533/products/MTGMID_EN_Bstr_Set_01_01_1cd245f7-dfea-49e8-bf6e-85ef1a955ff6_800x.png"/>
+		<booster lang="en" extra="collector" num="2" url="https://cdn.shoplightspeed.com/shops/636957/files/36124037/1600x2048x2/pre-order-mtg-innistrad-midnight-hunt-collector-bo.jpg"/>
+		
 		
 	</edition>
 

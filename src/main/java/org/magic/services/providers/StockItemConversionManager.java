@@ -63,6 +63,18 @@ public class StockItemConversionManager {
 			appendConversion(new ConverterItem(input.getName(),output.getName(),p.getEnName(), lang,p.getIdProduct(), ret));
 	}
 	
+	public void resetFile(List<ConverterItem> items) throws IOException
+	{
+		StringBuilder build = new StringBuilder("Source;Destination;Name;Language;ID SOURCE;ID DESTINATION"+System.lineSeparator());
+		
+		for(ConverterItem c : items)
+			build.append(c.getSource()+separator+c.getDestination()+separator+c.getName()+separator+c.getLang()+separator+c.getInputId()+separator+c.getOutputId()+System.lineSeparator());
+		
+		
+		FileTools.saveFile(file, build.toString());
+	}
+	
+	
 	
 	public void initFile(File f,String separator) throws IOException
 	{
