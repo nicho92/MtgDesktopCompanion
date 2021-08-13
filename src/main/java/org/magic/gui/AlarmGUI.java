@@ -43,6 +43,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
+import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
@@ -66,7 +67,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.UITools;
 public class AlarmGUI extends MTGUIComponent {

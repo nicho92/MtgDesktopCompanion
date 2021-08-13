@@ -1,4 +1,4 @@
-package org.magic.sorters;
+package org.magic.api.sorters;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGComparator;

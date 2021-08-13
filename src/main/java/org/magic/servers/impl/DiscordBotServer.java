@@ -41,11 +41,11 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.sorters.MagicPricesComparator;
+import org.magic.api.sorters.PricesCardsShakeSorter;
+import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
-import org.magic.sorters.MagicPricesComparator;
-import org.magic.sorters.PricesCardsShakeSorter;
-import org.magic.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 

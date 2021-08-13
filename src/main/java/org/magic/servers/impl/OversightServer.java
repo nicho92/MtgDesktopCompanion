@@ -17,9 +17,9 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.sorters.PricesCardsShakeSorter;
+import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.services.MTGConstants;
-import org.magic.sorters.PricesCardsShakeSorter;
-import org.magic.sorters.PricesCardsShakeSorter.SORT;
 
 public class OversightServer extends AbstractMTGServer {
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";

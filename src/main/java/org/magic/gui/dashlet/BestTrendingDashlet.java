@@ -28,12 +28,12 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.api.sorters.PricesCardsShakeSorter;
+import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
-import org.magic.sorters.PricesCardsShakeSorter;
-import org.magic.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.tools.UITools;
 
 public class BestTrendingDashlet extends AbstractJDashlet {

@@ -30,6 +30,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.sorters.CardsEditionSorter;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
@@ -39,8 +41,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.sorters.CardsEditionSorter;
-import org.magic.sorters.NumberSorter;
 import org.magic.tools.UITools;
 
 public class CardsEditionTablePanel extends JPanel {

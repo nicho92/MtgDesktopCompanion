@@ -16,8 +16,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.sorters.CardNameSorter;
 import org.magic.services.MTGControler;
-import org.magic.sorters.CardNameSorter;
 import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{

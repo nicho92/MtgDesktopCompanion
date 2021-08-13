@@ -11,8 +11,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.services.MTGControler;
-import org.magic.sorters.MagicPricesComparator;
 
 public abstract class AbstractPricesProvider extends AbstractMTGPlugin implements MTGPricesProvider {
 

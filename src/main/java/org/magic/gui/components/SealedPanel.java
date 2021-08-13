@@ -38,6 +38,9 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGComparator;
+import org.magic.api.sorters.CmcSorter;
+import org.magic.api.sorters.ColorSorter;
+import org.magic.api.sorters.TypesSorter;
 import org.magic.game.gui.components.BoosterPanel;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GraveyardPanel;
@@ -52,9 +55,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.sorters.CmcSorter;
-import org.magic.sorters.ColorSorter;
-import org.magic.sorters.TypesSorter;
 import org.magic.tools.UITools;
 
 public class SealedPanel extends JPanel {

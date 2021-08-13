@@ -46,6 +46,7 @@ import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
+import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
@@ -58,7 +59,6 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 public class CardBuilder2GUI extends MTGUIComponent {

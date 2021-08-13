@@ -1,4 +1,4 @@
-package org.magic.sorters;
+package org.magic.api.sorters;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;

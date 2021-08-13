@@ -52,6 +52,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
+import org.magic.api.sorters.CardsEditionSorter;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
@@ -73,8 +75,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.sorters.CardsEditionSorter;
-import org.magic.sorters.NumberSorter;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 
