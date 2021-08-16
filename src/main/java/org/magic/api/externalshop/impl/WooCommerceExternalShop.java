@@ -202,6 +202,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		@SuppressWarnings("unchecked")
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);
+		
 		List<Product> ret =  new ArrayList<>();
 		
 		
@@ -223,6 +224,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			
 			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
 			p.setImage(img.get("src").getAsString());
+			
+			notify(p);
 			ret.add(p);
 		});
 		return ret;
@@ -230,7 +233,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public void initDefault() {
-		setProperty("CATEGORY","0");
 		setProperty("PER_PAGE","50");
 	}
 	
