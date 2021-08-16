@@ -3,17 +3,19 @@ package org.magic.gui.components.shops;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ConverterItemsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.StockItemConversionManager;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class ConverterPanel extends MTGUIComponent{
@@ -36,7 +38,11 @@ public class ConverterPanel extends MTGUIComponent{
 		model = new ConverterItemsTableModel();
 		table = UITools.createNewTable(model);
 		
-		model.init(StockItemConversionManager.inst().getConversionsItems());
+		try {
+			model.init(MTG.getEnabledPlugin(MTGDao.class).listConversionItems());
+		} catch (SQLException e1) {
+			MTGControler.getInstance().notify(e1);
+		}
 		
 		UITools.initTableFilter(table);
 		table.packAll();
@@ -50,16 +56,27 @@ public class ConverterPanel extends MTGUIComponent{
 		add(panel, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
-		btnReload.addActionListener(el->model.init(StockItemConversionManager.inst().getConversionsItems()));
+		btnReload.addActionListener(el->{
+			try {
+				model.init(MTG.getEnabledPlugin(MTGDao.class).listConversionItems());
+			} catch (SQLException e1) {
+				MTGControler.getInstance().notify(e1);
+			}
+		});
 		btnDelete.addActionListener(el->model.removeRows(UITools.getSelectedRows(table)));
-		btnAdd.addActionListener(el->model.addItem(new ConverterItem()));
+		btnAdd.addActionListener(el->{
+			model.addItem(new ConverterItem());	
+		});
 	
 		btnSave.addActionListener(el->{
-			try {
-				StockItemConversionManager.inst().resetFile(model.getItems());
-			} catch (IOException e) {
-				MTGControler.getInstance().notify(e);
-			}
+				for(ConverterItem it : model.getItems())
+				{
+					try {
+						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(it);
+					} catch (SQLException e) {
+						MTGControler.getInstance().notify(e);
+					}
+				}
 		});
 		
 	}

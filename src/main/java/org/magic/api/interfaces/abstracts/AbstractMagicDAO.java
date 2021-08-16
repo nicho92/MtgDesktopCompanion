@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.Contact;
+import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -110,7 +111,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return ret;
 	}
 	
-	
+
 	
 	@Override
 	public MagicCardStock getStockById(Integer id) throws SQLException {

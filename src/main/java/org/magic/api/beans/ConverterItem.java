@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class ConverterItem implements Serializable
 { 
 	private static final long serialVersionUID = 1L;
+	private int id=-1;
+	private boolean updated=false;
 	private String name;
 	private int inputId;
 	private int outputId;
@@ -14,6 +16,22 @@ public class ConverterItem implements Serializable
 	
 	public ConverterItem() {
 		
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean isUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(boolean updated) {
+		this.updated = updated;
 	}
 	
 	public ConverterItem(String source, String dest, String name, String lang, int inputId, int outputId ) {

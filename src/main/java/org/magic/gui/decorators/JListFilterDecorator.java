@@ -1,4 +1,4 @@
-package org.magic.gui.tools;
+package org.magic.gui.decorators;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.Contact;
+import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -122,6 +123,10 @@ public interface MTGDao extends MTGPlugin {
 	public void deleteNews(MagicNews n) throws SQLException;
 	public void saveOrUpdateNews(MagicNews n) throws SQLException;
 
+	
+	public List<ConverterItem> listConversionItems() throws SQLException;
+	public void deleteConversionItem(ConverterItem n) throws SQLException;
+	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException;
 
 	
 	public void init() throws SQLException;

@@ -21,6 +21,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.Contact;
+import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -189,6 +190,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE "+notExistSyntaxt()+" decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
 			logger.debug("Create table decks");
 
+			stat.executeUpdate("CREATE TABLE "+notExistSyntaxt()+" conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId INTEGER,destination VARCHAR(25),outputId INTEGER)");
+			logger.debug("Create table conversionsItems");
+
+			
 			
 			postCreation(stat);
 	
@@ -374,6 +379,74 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		init(getEnabledPlugin(MTGPool.class));
 	}
 
+	
+	@Override
+	public List<ConverterItem> listConversionItems() throws SQLException {
+		List<ConverterItem> colls = new ArrayList<>();
+		
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsItems")) 
+		{
+				ResultSet rs = pst.executeQuery();
+			
+				while (rs.next()) {
+					
+					ConverterItem d = readConversionItem(rs);
+					colls.add(d);
+					notify(d);
+				}
+		}
+		return colls;
+	}
+
+	@Override
+	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException {
+		if (n.getId() < 0) 
+		{
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsItems (name, lang, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?, ?)"))
+				{
+					pst.setString(1,n.getName());
+					pst.setString(2,n.getLang());
+					pst.setString(3, n.getSource());
+					pst.setInt(4, n.getInputId());
+					pst.setString(5, n.getDestination());
+					pst.setInt(6, n.getOutputId());
+					pst.executeUpdate();
+					logger.debug(n.getName() +" created");
+					n.setUpdated(false);
+				}
+				
+		}
+		else if(n.isUpdated())
+		{
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, lang = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?")) 
+			{
+				pst.setString(1,n.getName());
+				pst.setString(2,n.getLang());
+				pst.setString(3, n.getSource());
+				pst.setInt(4, n.getInputId());
+				pst.setString(5, n.getDestination());
+				pst.setInt(6, n.getOutputId());
+				pst.setInt(7, n.getId());
+				pst.executeUpdate();
+				logger.debug(n.getName() +" updated");
+				n.setUpdated(false);	
+			}	
+			
+		}
+		
+		
+	}
+	
+	@Override
+	public void deleteConversionItem(ConverterItem n) throws SQLException {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM conversionsItems where id=?")) {
+			pst.setInt(1, n.getId());
+			pst.executeUpdate();
+		}
+		logger.debug(n +" deleted");
+		
+	}
+	
 	
 	
 	@Override
@@ -602,6 +675,22 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return contact;
 		
 	}
+	
+	
+	private ConverterItem readConversionItem(ResultSet rs) throws SQLException {
+		ConverterItem it = new ConverterItem();
+		
+			it.setId(rs.getInt("id"));
+			it.setName(rs.getString("name"));
+			it.setSource(rs.getString("source"));
+			it.setInputId(rs.getInt("inputId"));
+			it.setDestination(rs.getString("destination"));
+			it.setOutputId(rs.getInt("outputId"));
+			it.setLang(rs.getString("lang"));
+		return it;
+	}
+	
+	
 	
 	private MagicDeck readDeck(ResultSet rs) throws SQLException{
 		

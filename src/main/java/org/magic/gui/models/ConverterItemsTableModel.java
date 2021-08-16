@@ -25,5 +25,9 @@ public class ConverterItemsTableModel extends GenericTableModel<ConverterItem> {
 			case 5:it.setOutputId(Integer.parseInt(val.toString()));break;
 			default : return;
 		}
+		it.setUpdated(true);
+		
 	}
+	
+	
 }

@@ -24,7 +24,7 @@ import org.magic.api.beans.GedEntry;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
-import org.magic.gui.tools.FileDropDecorator;
+import org.magic.gui.decorators.FileDropDecorator;
 import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;

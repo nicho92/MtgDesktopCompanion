@@ -83,9 +83,10 @@ public class TransactionService
 		Contact pContact = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail(t.getContact().getEmail());
 		
 		if(pContact!=null)
+		{
+			logger.debug("Contact " + pContact + " found");
 			t.setContact(pContact);
-		
-		
+		}
 		
 		if(t.getContact().getId()<=0)
 		{
