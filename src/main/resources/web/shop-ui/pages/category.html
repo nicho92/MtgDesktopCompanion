@@ -67,8 +67,35 @@
 				        gtag('config', data.googleAnalyticsId);
 					}
 			    	
-			    	
-			    	
+			    	if(data.sealedEnabled == false)
+					{
+						$("#navSealed").hide();
+					}
+			       	
+			       	if(data.needcollections.length>0)
+			       	{
+			       		$("#navSearch").show();
+			              	$.each( data.needcollections, function( key, value ) {
+					    		  
+					    		  $.ajax({
+								        url: restserver+"/stock/list/"+value.name
+								    }).then(function(data) {
+								    	data=data.reverse();
+								    	for(let i=0;i<maxLastProduct;i++)
+							    		{
+											if(data[i].qte>0)
+							    				$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
+							    		}
+										tilt($('.card-img-top'));
+								    });
+					    	});
+			       	
+			       	}
+			       	else
+		       		{
+			       		$("#navSearch").hide();
+		       			$("#searchcardContainer").hide();
+		       		}
 			    	
 			    	$.each( data.collections, function( key, value ) {
 			    		var url=restserver+"/stock/list/"+value.name;

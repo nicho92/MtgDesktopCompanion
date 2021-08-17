@@ -170,7 +170,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 
 	private void loadProducts() {
-	
+		
 		String search = txtSearchProduct.getText();
 		
 		modelInput.removeAllElements();
@@ -182,11 +182,17 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 					return plug.listProducts(search);
 			}
 			
-			
-			protected void process(List<Product> chunks) {
-				modelInput.addAll(chunks);	
+			@Override
+			protected void done() {
+				try {
+					super.done();
+					modelInput.addAll(get());
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					logger.error(e);
+				}
 			}
-			
 			
 		};
 		
