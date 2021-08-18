@@ -261,7 +261,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			
 			if(fpSet==null)
 			{
-				logger.warn("fpSet is null. so return");
+				logger.warn("fpSet is null for " + set.getId() +" so return");
 				return hp;
 			}
 			logger.debug("mtgstock = "+ fpSet + " " + fpSet.getSetName() + " " + fpSet.getId());
