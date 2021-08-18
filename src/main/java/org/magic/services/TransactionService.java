@@ -25,7 +25,6 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGServer;

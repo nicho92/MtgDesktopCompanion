@@ -4,8 +4,8 @@ import static org.magic.tools.MTG.capitalize;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.BoosterPackContainer;
+import org.magic.api.beans.MagicEdition;
 public class SealedBoosterTableModel extends DefaultTableModel {
 	/**
 	 * 

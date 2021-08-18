@@ -447,7 +447,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		else
 			angle = -90;
 
-		this.image = new ImageIcon((Image) ImageTools.rotate(ImageTools.imageToBufferedImage(getImageIcon().getImage()), angle));
+		this.image = new ImageIcon(ImageTools.rotate(ImageTools.imageToBufferedImage(getImageIcon().getImage()), angle));
 		this.setSize(getHeight(), getWidth());
 		this.tapped = t;
 	}

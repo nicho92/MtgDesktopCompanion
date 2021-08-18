@@ -36,10 +36,10 @@ public class DBCPPool extends AbstractPool {
 		setProperty("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS));
 		setProperty("poolPreparedStatements",FALSE);
 		setProperty("maxOpenPreparedStatements",String.valueOf(GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL));
-		setProperty("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS));
+		setProperty("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS));
 		setProperty("numTestsPerEvictionRun",String.valueOf(BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN));
-		setProperty("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS));
-		setProperty("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME_MILLIS));
+		setProperty("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME));
+		setProperty("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME));
 		setProperty("evictionPolicyClassName",String.valueOf(BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME));
 		setProperty("testWhileIdle",FALSE);
 		setProperty("validationQuery","");

@@ -12,9 +12,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;

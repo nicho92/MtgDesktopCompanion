@@ -136,7 +136,7 @@ public class FileTools {
 		
 		
 		try (var out = new ZipOutputStream(new FileOutputStream(fzip))) {
-			for(File f : FileUtils.listFilesAndDirs(MTGConstants.CONF_DIR, FileFileFilter.FILE, exceptFilter))
+			for(File f : FileUtils.listFilesAndDirs(MTGConstants.CONF_DIR, FileFileFilter.INSTANCE, exceptFilter))
 				addFile(f,out);
 		}
 	

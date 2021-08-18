@@ -795,9 +795,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
-		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) -> {
-			return getEnabledPlugin(MTGDao.class).enableContact(request.params(":token"));
-		}, transformer);
+		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) -> 
+			getEnabledPlugin(MTGDao.class).enableContact(request.params(":token"))
+		, transformer);
 		
 		
 		

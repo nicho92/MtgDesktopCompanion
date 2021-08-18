@@ -11,8 +11,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.jdesktop.swingx.JXTree;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;

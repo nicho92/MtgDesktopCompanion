@@ -17,9 +17,9 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedProduct.EXTRA;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;

@@ -1,9 +1,9 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedProduct.EXTRA;
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;

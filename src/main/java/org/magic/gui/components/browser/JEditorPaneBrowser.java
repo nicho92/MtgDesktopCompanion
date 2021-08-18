@@ -6,7 +6,7 @@ import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.RequestBuilder;
@@ -48,7 +48,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		ThreadManager.getInstance().executeThread(()->{
 				try {
 					
-					var w = Whitelist.basic();
+					var w = Safelist.basic();
 					w.addTags("img");
 					w.addAttributes("img", "src");
 					
