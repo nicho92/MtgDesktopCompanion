@@ -2,11 +2,12 @@ package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ConverterItem;
@@ -15,6 +16,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ConverterItemsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -24,6 +26,20 @@ public class ConverterPanel extends MTGUIComponent{
 	private ConverterItemsTableModel model;
 	private JXTable table;
 	
+	
+	
+	@Override
+	public void onFirstShowing() {
+
+		try {
+			model.init(MTG.getEnabledPlugin(MTGDao.class).listConversionItems());
+		} catch (SQLException e1) {
+			MTGControler.getInstance().notify(e1);
+		}
+		
+		UITools.initTableFilter(table);
+		table.packAll();
+	}
 	
 	public ConverterPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -38,14 +54,6 @@ public class ConverterPanel extends MTGUIComponent{
 		model = new ConverterItemsTableModel();
 		table = UITools.createNewTable(model);
 		
-		try {
-			model.init(MTG.getEnabledPlugin(MTGDao.class).listConversionItems());
-		} catch (SQLException e1) {
-			MTGControler.getInstance().notify(e1);
-		}
-		
-		UITools.initTableFilter(table);
-		table.packAll();
 		
 		
 		panel.add(btnReload);
@@ -63,10 +71,44 @@ public class ConverterPanel extends MTGUIComponent{
 				MTGControler.getInstance().notify(e1);
 			}
 		});
-		btnDelete.addActionListener(el->model.removeRows(UITools.getSelectedRows(table)));
-		btnAdd.addActionListener(el->{
-			model.addItem(new ConverterItem());	
+		
+		
+		
+		btnDelete.addActionListener(el->{
+			List<ConverterItem> its = UITools.getTableSelections(table, 0);
+			
+			var sw = new SwingWorker<Void, ConverterItem>()
+					{
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							for(ConverterItem it : its)
+							{
+								MTG.getEnabledPlugin(MTGDao.class).deleteConversionItem(it);
+								publish(it);
+							}
+							return null;
+						}
+
+						@Override
+						protected void process(List<ConverterItem> chunks) {
+							for(ConverterItem it : chunks)
+								model.removeItem(it);
+						}
+						
+						
+						
+				
+					};
+					
+			
+			ThreadManager.getInstance().runInEdt(sw,"deleting converter");
+			
+		
 		});
+		
+		
+		btnAdd.addActionListener(el->model.addItem(new ConverterItem()));
 	
 		btnSave.addActionListener(el->{
 				for(ConverterItem it : model.getItems())

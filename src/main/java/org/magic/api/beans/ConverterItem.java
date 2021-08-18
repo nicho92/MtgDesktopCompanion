@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
-public class ConverterItem implements Serializable
+public class ConverterItem implements Serializable, Comparable<ConverterItem>
 { 
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
@@ -17,6 +17,12 @@ public class ConverterItem implements Serializable
 	public ConverterItem() {
 		
 	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(getId());
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -87,5 +93,10 @@ public class ConverterItem implements Serializable
 	}
 	public void setLang(String lang) {
 		this.lang = lang;
+	}
+
+	@Override
+	public int compareTo(ConverterItem o) {
+		return getId() - o.getId();
 	}
 }

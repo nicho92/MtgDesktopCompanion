@@ -403,6 +403,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					notify(d);
 				}
 		}
+		logger.debug("loading conversionsItems");
 		return colls;
 	}
 

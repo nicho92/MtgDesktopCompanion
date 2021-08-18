@@ -598,8 +598,11 @@
 							<name>${program.id}</name>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.WebUIServerLauncher</mainClass>
+							<mainClass>org.magic.api.main.ServerLauncher</mainClass>
 							<name>web-ui</name>
+							<commandLineArguments>
+								<commandLineArgument>"Web UI Server"</commandLineArgument>
+							</commandLineArguments>
 						</program>
 						<program>
 							<mainClass>org.magic.api.main.GameClient</mainClass>
