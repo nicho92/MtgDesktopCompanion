@@ -213,7 +213,7 @@ public class JsonExport extends AbstractCardExport {
 
 		for (MagicCard mc : deck.getSideBoard().keySet()) {
 			var card = new JsonObject();
-			card.addProperty("qty", (Number) deck.getSideBoard().get(mc));
+			card.addProperty("qty", deck.getSideBoard().get(mc));
 			card.add("card", toJsonElement(mc));
 			side.add(card);
 			notify(mc);

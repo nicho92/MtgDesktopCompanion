@@ -17,7 +17,6 @@ import org.magic.services.MTGConstants;
 public class BalanceTransactionDashlet extends AbstractJDashlet {
 	
 	private static final long serialVersionUID = 1L;
-	private static final String PROPERTY = "PROPERTY";
 	private TransactionBalance3DChartPanel chart;
 	
 	
