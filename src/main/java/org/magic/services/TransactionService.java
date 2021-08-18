@@ -30,6 +30,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
 import org.magic.servers.impl.JSONHttpServer;
@@ -281,10 +282,10 @@ public class TransactionService
 		saveTransaction(t,false);
 	}
 	
-	public static boolean isWoocommerceAvailable(Transaction t) {
+	public static boolean isAvailableFor(AbstractExternalShop shop, Transaction t) {
 		for(MTGStockItem mcs : t.getItems())
 		{	
-			if(mcs.getTiersAppIds(WooCommerceExport.WOO_COMMERCE)==null)
+			if(mcs.getTiersAppIds(shop.getName())==null)
 				return false;
 		}
 		return true;

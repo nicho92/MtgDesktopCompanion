@@ -55,7 +55,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	public List<Transaction> loadTransaction()  {
+	protected List<Transaction> loadTransaction()  {
 		init();
 		try {
 			return new OrderService().listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(getString("STATE")),null).stream().map(this::toTransaction).collect(Collectors.toList());

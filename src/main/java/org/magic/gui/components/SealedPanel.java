@@ -49,7 +49,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.models.SealedPackTableModel;
+import org.magic.gui.models.SealedBoosterTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -64,7 +64,7 @@ public class SealedPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent lblLoading;
-	private SealedPackTableModel model;
+	private SealedBoosterTableModel model;
 	private BoosterPanel panelOpenedBooster;
 	private JComboBox<MagicEdition> cboEditions;
 	private JButton btnOpen;
@@ -113,7 +113,7 @@ public class SealedPanel extends JPanel {
 
 		setLayout(new BorderLayout(0, 0));
 		panelOpenedBooster = new BoosterPanel();
-		model = new SealedPackTableModel();
+		model = new SealedBoosterTableModel();
 		panelDetail = new MagicCardDetailPanel();
 		panelDetail.enableThumbnail(true);
 		panelDetail.enableCollectionLookup(false);

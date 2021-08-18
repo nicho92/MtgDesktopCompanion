@@ -22,14 +22,11 @@ import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.MTG;
-import org.utils.patterns.observer.Observer;
-
-import com.thoughtworks.xstream.XStream;
 
 public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
-	public List<Transaction> loadTransaction() throws IOException {
+	protected List<Transaction> loadTransaction() throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listTransactions();
 		} catch (SQLException e) {

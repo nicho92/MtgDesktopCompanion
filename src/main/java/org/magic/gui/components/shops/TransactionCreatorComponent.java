@@ -36,10 +36,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 	private JButton btnSend;
 	
 	private TransactionsPanel panelTransactions;
-	
-//	private TransactionsTableModel model;
-//	private JXTable table;
-	
+
 	public TransactionCreatorComponent() {
 		setLayout(new BorderLayout(0, 0));
 

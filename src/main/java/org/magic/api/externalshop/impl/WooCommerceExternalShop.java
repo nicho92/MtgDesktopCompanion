@@ -63,7 +63,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Transaction> loadTransaction() throws IOException{
+	protected List<Transaction> loadTransaction() throws IOException{
 		init();
 		
 		Map<String, String> parameters = new HashMap<>();
@@ -198,7 +198,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		Map<String, String> productInfo = new HashMap<>();
 
-		productInfo.put("search", name);
+		productInfo.put("search", name.replaceAll(" ", "%20"));
 		
 		@SuppressWarnings("unchecked")
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);

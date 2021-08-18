@@ -25,7 +25,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
-		return service.listBluePrints(null, name, null).stream().map(bp->{
+		return service.listBluePrintsByIds(null, name, null).stream().map(bp->{
 			
 			var product = new Product();
 				product.setEnName(bp.getName());

@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import java.util.Map;
+
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
@@ -21,7 +23,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 				"TYPE",
 				"QTY",
 				"PRICE",
-				"COMMENT"
+				"COMMENT",
+				"IDS"
 			};
 	}
 	
@@ -65,6 +68,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			return Double.class;
 		case 8:
 			return String.class;
+		case 9:
+			return Map.class;
 			
 		default:
 			return super.getColumnClass(columnIndex);
@@ -102,6 +107,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			return UITools.roundDouble(items.get(row).getPrice());
 		case 8:
 			return items.get(row).getComment();
+		case 9:
+			return items.get(row).getTiersAppIds();
 
 		default:
 			return "";

@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.BoosterPackContainer;
-public class SealedPackTableModel extends DefaultTableModel {
+public class SealedBoosterTableModel extends DefaultTableModel {
 	/**
 	 * 
 	 */
@@ -78,7 +78,7 @@ public class SealedPackTableModel extends DefaultTableModel {
 		return capitalize(COLUMNS[column]);
 	}
 
-	public SealedPackTableModel() {
+	public SealedBoosterTableModel() {
 		pack = new BoosterPackContainer();
 	}
 
