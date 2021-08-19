@@ -101,16 +101,29 @@
 			});
 			
       		$("#searchBtn").click(function() {
+	
+				var urlajax = restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val();
+	
+	
       			$.ajax({
 			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
 			    }).then(function(data) {
-			    	table = $('#tableResults').DataTable( {
+					
+					var jsondata= data;
+				
+					if(table!=null)
+						{
+							table.ajax.reload();	
+						}
+						else
+						{
+							 	table = $('#tableResults').DataTable( {
 					    	"language": {
 					    	    "search": "Filter"
 					    	  },
 					    	"responsive": true,
 					        "processing": true,
-					        "data": data,
+					        "data": jsondata,
 							 "select":true,
 					        "columns": [
 					        	{ 
@@ -124,6 +137,12 @@
 								}
 					        ]
 					    } );
+							
+						}
+	
+	
+	
+	
 			    });
   	 		});
       		
