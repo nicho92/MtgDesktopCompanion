@@ -97,7 +97,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("CLIENTID", "");
+		setProperty(CLIENTID, "");
 		setProperty("SORT", "time");
 		setProperty("WINDOW", "all");
 	}

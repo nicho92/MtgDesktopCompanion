@@ -101,7 +101,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("CLIENT_ID", "");
+		setProperty(CLIENT_ID, "");
 		setProperty("CLIENT_SECRET", "");
 		setProperty("MATURE","false");
 		setProperty(LIMIT,"50");
