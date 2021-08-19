@@ -100,49 +100,41 @@
 								},'json');
 			});
 			
+			var loaded=false;
+			
       		$("#searchBtn").click(function() {
-	
-				var urlajax = restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val();
-	
 	
       			$.ajax({
 			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
 			    }).then(function(data) {
-					
-					var jsondata= data;
-				
-					if(table!=null)
+			    	if(loaded)
 						{
-							table.ajax.reload();	
+							$('#tableResults').DataTable().ajax.reload(null,false);	
 						}
 						else
 						{
-							 	table = $('#tableResults').DataTable( {
-					    	"language": {
-					    	    "search": "Filter"
-					    	  },
-					    	"responsive": true,
-					        "processing": true,
-					        "data": jsondata,
-							 "select":true,
-					        "columns": [
-					        	{ 
-					        		"data": "image",
-					        		"render": function(data, type, row, meta){
-						                   return "<img src="+data+" width='100px'></img>";
-						            }
-					        	},
-					            { 
-									"data": "enName" 
-								}
-					        ]
-					    } );
-							
+							$('#tableResults').DataTable( {
+						    	"language": {
+						    	    "search": "Filter"
+						    	  },
+						    	"responsive": true,
+						        "processing": true,
+						        "data": data,
+								"select":true,
+						        "columns": [
+						        	{ 
+						        		"data": "image",
+						        		"render": function(d, type, row, meta){
+							                   return "<img src="+d+" width='100px'></img>";
+							            }
+						        	},
+						            { 
+										"data": "enName" 
+									}
+						        ]
+					    		});
+							loaded=true;
 						}
-	
-	
-	
-	
 			    });
   	 		});
       		
