@@ -82,12 +82,29 @@
 
 
 
-	
+			var table;
+			
+			$("#sendBtn").click(function(){
+							
+								var datas = table.rows( { selected: true } ).data().toArray();
+								var src = $("#cboSource").val();
+								var dest = $("#cboDest").val();
+								var lang = $("#txtlangage").val();
+								var categ = $("#cboCategories").val();
+								var url=restserver+"/extShop/"+src+"/"+dest+"/"+categ+"/"+lang;								
+							
+								$.post(url,JSON.stringify(datas),function(d) {
+													alert(d);
+													
+													
+								},'json');
+			});
+			
       		$("#searchBtn").click(function() {
       			$.ajax({
 			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
 			    }).then(function(data) {
-			    	var table = $('#tableResults').DataTable( {
+			    	table = $('#tableResults').DataTable( {
 					    	"language": {
 					    	    "search": "Filter"
 					    	  },
@@ -107,22 +124,6 @@
 								}
 					        ]
 					    } );
-	
-						$("#sendBtn").click(function(){
-							
-								var datas = table.rows( { selected: true } ).data();
-								var src = $("#cboSource").val();
-								var dest = $("#cboDest").val();
-								var lang = $("#txtlangage").val();
-								var categ = $("#cboCategories").val();
-								
-								console.log(restserver+"/extShop/"+src+"/"+dest+"/"+categ+"/"+lang);
-								
-								
-							
-								
-									
-						});
 			    });
   	 		});
       		

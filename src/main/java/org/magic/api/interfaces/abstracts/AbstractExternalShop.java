@@ -52,7 +52,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 	
 	@Override
-	public int createProduct(MTGExternalShop ext, Product t,String lang,Category c) throws IOException {
+	public int createProduct(MTGExternalShop input, Product t,String lang,Category c) throws IOException {
 		Localization defaultLoc = new Localization(1, "English");
 		defaultLoc.setName(t.getEnName());
 		String locName = t.getLocalization().stream().filter(l->l.getLanguageName().equalsIgnoreCase(lang)).findFirst().orElse(defaultLoc).getName();
@@ -60,7 +60,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		
 		int ret = createProduct(t,c);
 		try {
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( ext.getName(),getName(), locName,lang, t.getIdProduct(), ret));
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( input.getName(),getName(), locName,lang, t.getIdProduct(), ret));
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

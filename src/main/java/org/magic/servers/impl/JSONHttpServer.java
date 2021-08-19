@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
@@ -722,14 +723,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
 			
 			List<Product> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), Product.class);
-			
-			
-			
-			
-			System.out.println(ret);
-			
-			
-			return "OK";
+			var arr = new JsonArray();
+			for(Product p : ret)
+				{
+					Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
+					int res = extShop.createProduct(srcShop,p,request.params(":language"),c);
+					arr.add(res);
+				}
+			return arr;
 				
 		}, transformer);
 		
