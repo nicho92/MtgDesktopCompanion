@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
@@ -68,6 +70,7 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.tools.ImageTools;
+import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
@@ -713,6 +716,27 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		
+		post("/extShop/:from/:to/:idCategory/:language", URLTools.HEADER_JSON, (request, response) ->{ 
+				
+			MTGExternalShop srcShop  = MTG.getPlugin(request.params(":from"), MTGExternalShop.class);
+			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
+			
+			List<Product> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), Product.class);
+			
+			
+			
+			
+			System.out.println(ret);
+			
+			
+			return "OK";
+				
+		}, transformer);
+		
+		
+		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
+		
+		
 		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) ->{ 
 			
 			var c = getEnabledPlugin(MTGDao.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
@@ -764,10 +788,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
-			
 			Contact t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			
-			
 			if(t.getId()<=0)
 			{
 				try{
@@ -794,12 +815,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}
 		}, transformer);
 		
-		
 		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) -> 
 			getEnabledPlugin(MTGDao.class).enableContact(request.params(":token"))
 		, transformer);
-		
-		
 		
 		get("/",URLTools.HEADER_HTML,(request,response) -> {
 			

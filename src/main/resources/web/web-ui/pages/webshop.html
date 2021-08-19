@@ -31,9 +31,11 @@
     
     <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
  	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
-
+	<script src="//cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+	
 	
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <script src="../dist/js/sb-admin-2.js"></script>
@@ -53,41 +55,74 @@
       	    }).then(function(data) {
       	    	
       	    	$(data.EXTERNAL_SHOP).each(function( index,value ) {
-      	    		$("#cboSource").append('<option value="'+value.name+'">'+value.name+'</option>');	
-      	    		$("#cboDest").append('<option value="'+value.name+'">'+value.name+'</option>');
+      	    		$("#cboSource").append('<option value="'+value.name+'">'+value.name+'</option>');
+			  		$("#cboDest").append('<option value="'+value.name+'">'+value.name+'</option>');
       	    	});
       	    });
       		
+
+		
+		 $('#cboDest').on('change',function(e) {
+			
+			var selectOutput= $(this).find("option:selected").val();
+  	   		
+				$.ajax({
+  	    		    	url: restserver+"/webshop/"+selectOutput+"/categories"
+  	    	   		}).done(function(d) {
+							$('#cboCategories').find("option").remove();
+							for(var i=0;i<d.length;i++)
+	  	    	   			{
+			  	    	   		$("#cboCategories").append("<option value='"+d[i].idCategory+"'>"+d[i].categoryName+"</option>")
+	  	    	   			}
+	  	    	   			$('#cboCategories').selectpicker('refresh');
+					});
+		
+		});
+  	   				
+
+
+
+	
       		$("#searchBtn").click(function() {
-  	 		 	
       			$.ajax({
 			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
 			    }).then(function(data) {
-			    	$('#tableResults').DataTable( {
+			    	var table = $('#tableResults').DataTable( {
 					    	"language": {
 					    	    "search": "Filter"
 					    	  },
 					    	"responsive": true,
 					        "processing": true,
 					        "data": data,
+							 "select":true,
 					        "columns": [
-					        	{ "data": "idProduct",
-					        		"render": function(data, type, row, meta){
-						                   return "<input type='checkbox'/>";
-						            }
-					        	},
 					        	{ 
 					        		"data": "image",
 					        		"render": function(data, type, row, meta){
-						                   return "<img src="+data+" width='150px'></img>";
+						                   return "<img src="+data+" width='100px'></img>";
 						            }
 					        	},
-					            { "data": "enName" }
-					           
+					            { 
+									"data": "enName" 
+								}
 					        ]
 					    } );
-			    	
-			    	
+	
+						$("#sendBtn").click(function(){
+							
+								var datas = table.rows( { selected: true } ).data();
+								var src = $("#cboSource").val();
+								var dest = $("#cboDest").val();
+								var lang = $("#txtlangage").val();
+								var categ = $("#cboCategories").val();
+								
+								console.log(restserver+"/extShop/"+src+"/"+dest+"/"+categ+"/"+lang);
+								
+								
+							
+								
+									
+						});
 			    });
   	 		});
       		
@@ -123,11 +158,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-            				<select class="form-control" id="cboSource">
-							</select>
-							to
-							<select class="form-control" id="cboDest">
-							</select>
+            				<select class="form-control" id="cboSource"></select>
 							<br/>
 							<div class="input-group custom-search-form">
 				          	<div class="ui-widget"><input id="searchProduct" class="form-control" placeholder="Search..."/></div>
@@ -136,9 +167,30 @@
 					                  <i class="fa fa-search"></i>
 					              </button>
 				      		 </span>
+							<br/>
 				 			</div>
-				 			
-						</div>
+				      		</div>
+					</div>
+				</div>
+				
+				  <div class="col-lg-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           Export
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+								<div class="ui-widget">
+								<select class="form-control" id="cboDest"></select>
+								<br/>
+								<input id="txtlangage" class="form-control" placeholder="Language"/></div>
+								<br/>
+								<select class="form-control" id="cboCategories"></select>
+								<br/>
+								 <button class="btn btn-default" type="button" id="sendBtn">
+					                  <i class="fa fa-paper-plane"></i>Send
+					              </button>
+				      		</div>
 					</div>
 				</div>
 			</div>
@@ -154,7 +206,6 @@
                             <table id="tableResults" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						            	<th>Select</th>
 						            	<th>Product</th>
 						            	<th>Name</th>
 						            </tr>
@@ -164,11 +215,6 @@
                     </div>
                 </div>
             </div>
-            
-             
-            
-            
-            
          </div>
      </div>
 </body>
