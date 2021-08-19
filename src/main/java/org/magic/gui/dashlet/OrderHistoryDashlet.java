@@ -19,13 +19,6 @@ public class OrderHistoryDashlet extends AbstractJDashlet {
 	private OrderEntryHistory3DChartPanel chart;
 	
 	
-	
-	public OrderHistoryDashlet() {
-		
-		initGUI();
-		
-	}
-	
 	@Override
 	public String getCategory() {
 		return "Financial";
