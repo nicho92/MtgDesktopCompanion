@@ -5,7 +5,9 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.management.MalformedObjectNameException;
@@ -112,6 +114,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		setBounds(new Rectangle(5,5, 536,346));
 	}
 
+	
+
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return new HashMap<>();
+	}
 
 	public void onDestroy() {
 		//do nothing
@@ -155,7 +163,6 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	}
 
 	
-
 	@Override
 	public String toString() {
 		return getName();
@@ -194,12 +201,6 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	@Override
 	public File getConfFile() {
 		return null;
-	}
-
-	@Override
-	public void initDefault() {
-		// doNothing
-		
 	}
 
 	@Override

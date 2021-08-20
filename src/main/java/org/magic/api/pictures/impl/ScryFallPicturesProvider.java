@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
@@ -95,15 +96,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			return getBackPicture();
 		}
 	}
-
+	
+	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		
-		setProperty("CERT_SERV", "scryfall.com");
-		setProperty("PIC_SIZE", "large");
-		setProperty("ICON_SET_SIZE", "medium");
-		setProperty(LOAD_CERTIFICATE, TRUE);
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("CERT_SERV", "scryfall.com",
+							   "PIC_SIZE", "large",
+							   "ICON_SET_SIZE", "medium",
+							   LOAD_CERTIFICATE, TRUE);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.magic.servers.impl;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.EnumSet;
+import java.util.Map;
 
 import javax.servlet.DispatcherType;
 
@@ -26,16 +27,10 @@ public class WebDAVServer extends AbstractMTGServer {
 	private Server server;
 	private static final String SERVER_PORT = "SERVER-PORT";
 	
-	private String log="login";
-	private String pas="pass";
 	
 	@Override
 	public void start() throws IOException {
 		server = new Server(getInt(SERVER_PORT));
-		
-		
-		log = getString(LOGIN);
-		pas = getString(PASS);
 		
 		
 		var ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -100,12 +95,14 @@ public class WebDAVServer extends AbstractMTGServer {
 		return "WebDAV";
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty(SERVER_PORT, "8088");
-		setProperty(AUTOSTART, "false");
-		setProperty(LOGIN, log);
-		setProperty(PASS, pas);
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(
+						SERVER_PORT, "8088",
+						AUTOSTART, "false",
+						LOGIN, "login",
+						PASS, "pass");
 	}
 
 	

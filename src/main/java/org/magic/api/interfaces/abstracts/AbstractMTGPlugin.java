@@ -7,7 +7,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.management.MalformedObjectNameException;
@@ -255,11 +257,16 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return STATUT.STABLE;
 	}
 
-	@Override
-	public void initDefault() {
-		// do nothing
-		
+	protected void initDefault() {
+		getDefaultAttributes().entrySet().forEach(e->setProperty(e.getKey(), e.getValue()));
 	}
+	
+
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return new HashMap<>();
+	}
+	
 	
 	
 	@Override

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -156,9 +157,9 @@ public class ImageExporter extends AbstractCardExport{
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, "png");
-		setProperty("SORTER","ColorSorter"); 
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, "png",
+								"SORTER","ColorSorter"); 
 	}
 	
 	@Override

@@ -3,8 +3,10 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -238,20 +240,25 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("APP_TOKEN", "");
-		setProperty("APP_SECRET", "");
-		setProperty("APP_ACCESS_TOKEN", "");
-		setProperty("APP_ACCESS_TOKEN_SECRET", "");
-		setProperty(LANGUAGE_ID, "1");
-		setProperty(IS_EXACT, "");
-		setProperty(MIN_CONDITION, "");
-		setProperty("COMMONCHECK", FALSE);
-		setProperty("MAX", "10");
-		setProperty("USER_ARTICLE", FALSE);
-		setProperty("AUTOMATIC_ADD_CARD_ALERT", FALSE);
-		setProperty(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
-		setProperty(LOAD_CERTIFICATE,"true");
+	public Map<String, String> getDefaultAttributes() {
+		
+		var map = new HashMap<String,String>();
+		
+		map.put("APP_TOKEN", "");
+		map.put("APP_SECRET", "");
+		map.put("APP_ACCESS_TOKEN", "");
+		map.put("APP_ACCESS_TOKEN_SECRET", "");
+		map.put(LANGUAGE_ID, "1");
+		map.put(IS_EXACT, "");
+		map.put(MIN_CONDITION, "");
+		map.put("COMMONCHECK", FALSE);
+		map.put("MAX", "10");
+		map.put("USER_ARTICLE", FALSE);
+		map.put("AUTOMATIC_ADD_CARD_ALERT", FALSE);
+		map.put(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
+		map.put(LOAD_CERTIFICATE,"true");
+		
+		return map;
 
 	}
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.EnumItems;
@@ -108,8 +109,8 @@ public class CardTraderShopper extends AbstractMagicShopper {
 	
 
 	@Override
-	public void initDefault() {
-		setProperty(TOKEN, "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(TOKEN, "");
 	}
 
 }

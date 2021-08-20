@@ -544,13 +544,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public String[] getDominanceFilters() {
 		return new String[] { "all", "spells", "creatures", "lands" };
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, "paper");
-		setProperty(TIMEOUT, "0");
-		setProperty(DAILY_WEEKLY, "wow");
-		setProperty(SET_EXTRA,"true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, "paper",
+							   TIMEOUT, "0",
+							   DAILY_WEEKLY, "wow",
+							   SET_EXTRA,"true"
+							   );
 	}
 
 	@Override

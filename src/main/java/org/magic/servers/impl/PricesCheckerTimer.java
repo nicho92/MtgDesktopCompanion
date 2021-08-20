@@ -7,6 +7,7 @@ import static org.magic.tools.MTG.listEnabledPlugins;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
@@ -117,11 +118,12 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		return getBoolean("AUTOSTART");
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty("AUTOSTART", "false");
-		setProperty(TIMEOUT_MINUTE, "120");
-		setProperty("NOTIFIER","Tray");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("AUTOSTART", "false",
+								TIMEOUT_MINUTE, "120",
+								"NOTIFIER","Tray");
 	}
 
 	@Override

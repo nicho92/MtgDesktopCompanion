@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -167,10 +168,10 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, STANDARD);
-		setProperty(URL, "https://decks.tcgplayer.com");
-		setProperty(MAX_PAGE, "1");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, STANDARD,
+								URL, "https://decks.tcgplayer.com",
+								MAX_PAGE, "1");
 
 	}
 

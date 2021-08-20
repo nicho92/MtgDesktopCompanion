@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
@@ -60,14 +61,13 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 		return Version.get();
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty("USER", "");
-		setProperty("PASSWORD", "");
-		setProperty("APPID", "");
-		setProperty("SECRET", "");
-		setProperty("LIMIT", "10");
+	public Map<String, String> getDefaultAttributes() {
+			return Map.of("USER", "",
+				"PASSWORD", "",
+				"APPID", "",
+				"SECRET", "",
+				"LIMIT", "10");
 	}
 
 

@@ -167,11 +167,11 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(URL, "https://deckstats.net/decks/f/");
-		setProperty(TIMEOUT, "0");
-		setProperty(FORMAT, "standard");
-		setProperty(MAX_PAGE, "2");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(URL, "https://deckstats.net/decks/f/",
+							  TIMEOUT, "0",
+							  FORMAT, "standard",
+							  MAX_PAGE, "2");
 
 	}
 

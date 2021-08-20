@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -91,8 +92,8 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"forge").toFile().getAbsolutePath());
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"forge").toFile().getAbsolutePath());
 	}
 
 	

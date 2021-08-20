@@ -21,11 +21,6 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-
-	public MagicBazarPricer() {
-		super();
-		
-	}
 	
 	private String getPage(String name) throws IOException
 	{

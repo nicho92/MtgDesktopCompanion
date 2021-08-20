@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -74,9 +75,10 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		return "Wizard Of The Coast";
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty("URL", "https://magic.wizards.com/en/see-more-wallpaper");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("URL", "https://magic.wizards.com/en/see-more-wallpaper");
 		
 	}
 

@@ -186,9 +186,8 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, "All");	
-		
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, "All");	
 	}
 
 	@Override

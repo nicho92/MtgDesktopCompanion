@@ -2,6 +2,8 @@ package org.magic.api.pool.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.magic.api.interfaces.abstracts.AbstractPool;
 
@@ -44,46 +46,51 @@ public class C3P0Pool extends AbstractPool {
 		return ComboPooledDataSource.class.getPackage().getImplementationVersion();
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty("maxConnectionAge","0");
-		setProperty("idleConnectionTestPeriod","0");
-		setProperty("initialPoolSize","3");
-		setProperty("statementCacheNumCheckedOutStatementsAllUsers","0");
-		setProperty("privilegeSpawnedThreads",FALSE);
-		setProperty("debugUnreturnedConnectionStackTraces",FALSE);
-		setProperty("maxStatements","0");
-		setProperty("breakAfterAcquireFailure",FALSE);
-		setProperty("maxIdleTime","60");
-		setProperty("minPoolSize","3");
-		setProperty("threadPoolSize","3");
-		setProperty("maxPoolSize","15");
-		setProperty("maxStatementsPerConnection","0");
-		setProperty("forceSynchronousCheckins",FALSE);
-		setProperty("forceIgnoreUnresolvedTransactions",FALSE);
-		setProperty("lastCheckinFailureDefaultUser","null");
-		setProperty("numIdleConnectionsAllUsers","2");
-		setProperty("threadPoolNumIdleThreads","3");
-		setProperty("maxIdleTimeExcessConnections","0");
-		setProperty("preferredTestQuery","");
-		setProperty("testConnectionOnCheckout",FALSE);
-		setProperty("connectionTesterClassName","com.mchange.v2.c3p0.impl.DefaultConnectionTester");
-		setProperty("testConnectionOnCheckin",FALSE);
-		setProperty("forceUseNamedDriverClass",FALSE);
-		setProperty("statementDestroyerNumConnectionsInUseAllUsers","-1");
-		setProperty("usesTraditionalReflectiveProxies",FALSE);
-		setProperty("acquireRetryDelay","1000");
-		setProperty("checkoutTimeout","0");
-		setProperty("statementCacheNumStatementsAllUsers","0");
-		setProperty("loginTimeout","0");
-		setProperty("threadPoolNumTasksPending","0");
-		setProperty("unreturnedConnectionTimeout","0");
-		setProperty("autoCommitOnClose",FALSE);
-		setProperty("effectivePropertyCycleDefaultUser","0.0");
-		setProperty("acquireRetryAttempts","30");
-		setProperty("maxAdministrativeTaskTime","0");
-		setProperty("overrideDefaultPassword","null");
-		setProperty("statementCacheNumDeferredCloseThreads","0");
+	public Map<String, String> getDefaultAttributes() {
+		var map = new HashMap<String,String>();
+		
+		map.put("maxConnectionAge","0");
+		map.put("idleConnectionTestPeriod","0");
+		map.put("initialPoolSize","3");
+		map.put("statementCacheNumCheckedOutStatementsAllUsers","0");
+		map.put("privilegeSpawnedThreads",FALSE);
+		map.put("debugUnreturnedConnectionStackTraces",FALSE);
+		map.put("maxStatements","0");
+		map.put("breakAfterAcquireFailure",FALSE);
+		map.put("maxIdleTime","60");
+		map.put("minPoolSize","3");
+		map.put("threadPoolSize","3");
+		map.put("maxPoolSize","15");
+		map.put("maxStatementsPerConnection","0");
+		map.put("forceSynchronousCheckins",FALSE);
+		map.put("forceIgnoreUnresolvedTransactions",FALSE);
+		map.put("lastCheckinFailureDefaultUser","null");
+		map.put("numIdleConnectionsAllUsers","2");
+		map.put("threadPoolNumIdleThreads","3");
+		map.put("maxIdleTimeExcessConnections","0");
+		map.put("preferredTestQuery","");
+		map.put("testConnectionOnCheckout",FALSE);
+		map.put("connectionTesterClassName","com.mchange.v2.c3p0.impl.DefaultConnectionTester");
+		map.put("testConnectionOnCheckin",FALSE);
+		map.put("forceUseNamedDriverClass",FALSE);
+		map.put("statementDestroyerNumConnectionsInUseAllUsers","-1");
+		map.put("usesTraditionalReflectiveProxies",FALSE);
+		map.put("acquireRetryDelay","1000");
+		map.put("checkoutTimeout","0");
+		map.put("statementCacheNumStatementsAllUsers","0");
+		map.put("loginTimeout","0");
+		map.put("threadPoolNumTasksPending","0");
+		map.put("unreturnedConnectionTimeout","0");
+		map.put("autoCommitOnClose",FALSE);
+		map.put("effectivePropertyCycleDefaultUser","0.0");
+		map.put("acquireRetryAttempts","30");
+		map.put("maxAdministrativeTaskTime","0");
+		map.put("overrideDefaultPassword","null");
+		map.put("statementCacheNumDeferredCloseThreads","0");
+		
+		return map;
 	}
 
 }

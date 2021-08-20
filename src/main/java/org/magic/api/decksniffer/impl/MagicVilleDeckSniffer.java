@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -118,11 +119,11 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		}
 		return ret;
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, "STANDARD");
-		setProperty("MAX_PAGE", "1");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, "STANDARD",
+								"MAX_PAGE", "1");
 	}
 	
 	@Override

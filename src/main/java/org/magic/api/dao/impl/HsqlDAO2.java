@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
@@ -83,12 +84,13 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"hsqldao").toFile().getAbsolutePath());
-		setProperty(LOGIN, "SA");
-		setProperty(PASS, "");
-		setProperty(MODE,"file");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"hsqldao").toFile().getAbsolutePath(),
+							  LOGIN, "SA",
+							  PASS, "",
+							  MODE,"file");
+		
+		
+		
 	}
-	
 }

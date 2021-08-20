@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.management.ObjectName;
@@ -46,8 +47,6 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 
 	public File getConfFile();
 
-	public void initDefault();
-
 	public String getVersion();
 
 	public void addObserver(Observer o);
@@ -67,6 +66,8 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	public MTGDocumentation getDocumentation();
 	
 	public boolean isPartner();
+	
+	public Map<String,String> getDefaultAttributes();
 	
 	
 	@Override

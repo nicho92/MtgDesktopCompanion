@@ -4,6 +4,7 @@ package org.beta;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -21,9 +22,10 @@ public class TCGPlayerAPITest extends AbstractPricesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("CLIENT_ID", "");
-		setProperty("CLIENT_SECRET", "");
+	public Map<String, String> getDefaultAttributes() {
+		
+		return Map.of("CLIENT_ID", "",
+					"CLIENT_SECRET", "");
 	}
 	
 	

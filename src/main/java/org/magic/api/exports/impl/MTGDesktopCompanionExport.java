@@ -21,6 +21,8 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
 	}
+	
+	
 
 	@Override
 	public String getName() {
@@ -67,12 +69,6 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/logo.png"));
-	}
-
-	@Override
-	public void initDefault() {
-		setProperty("VERSION", "1.0");
-
 	}
 
 }

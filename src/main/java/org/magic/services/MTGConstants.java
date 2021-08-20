@@ -18,8 +18,6 @@ import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.providers.IconSetProvider;
 
 import freemarker.template.Configuration;
@@ -39,7 +37,7 @@ public class MTGConstants {
 	
 	public static final String SSL_PROTO = "TLS";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
-	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion/");
+	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion2/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_EVENTS_FILE= new File(MTGConstants.DATA_DIR,"events.json");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
@@ -108,8 +106,6 @@ public class MTGConstants {
 	
 	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
 
-	public static final MTGCardsExport DEFAULT_SERIALIZER = new JsonExport();
-		
 	public static final Color COLLECTION_100PC = new Color(115, 230, 0);
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;

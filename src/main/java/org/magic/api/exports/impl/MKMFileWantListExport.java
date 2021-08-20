@@ -2,6 +2,7 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -115,9 +116,13 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		return " ";
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty("SEPARATOR", getSeparator());
+	public Map<String, String> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		m.put("SEPARATOR", getSeparator());
+		return m;
 	}
 	
 

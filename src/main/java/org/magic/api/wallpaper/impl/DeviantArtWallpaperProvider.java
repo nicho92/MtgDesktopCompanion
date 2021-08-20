@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
@@ -98,13 +99,13 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	public String getName() {
 		return "DeviantArt";
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty(CLIENT_ID, "");
-		setProperty("CLIENT_SECRET", "");
-		setProperty("MATURE","false");
-		setProperty(LIMIT,"50");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(CLIENT_ID, "",
+								"CLIENT_SECRET", "",
+								"MATURE","false",
+								LIMIT,"50");
 	}
 
 }

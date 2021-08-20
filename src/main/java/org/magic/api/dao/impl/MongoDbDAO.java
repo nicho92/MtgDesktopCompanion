@@ -77,18 +77,20 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private MongoClient client;
 	private JsonWriterSettings setts;
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(SERVERNAME, "localhost");
-		setProperty(SERVERPORT, "27017");
-		setProperty(DB_NAME, "mtgdesktopcompanion");
-		setProperty(LOGIN, "login");
-		setProperty(PASS, "");
-		setProperty(DRIVER, "mongodb://");
-		setProperty(PARAMETERS, "");
-
+	public Map<String, String> getDefaultAttributes() {
+	return Map.of(
+			SERVERNAME, "localhost",
+			SERVERPORT, "27017",
+			DB_NAME, "mtgdesktopcompanion",
+			LOGIN, "login",
+			PASS, "",
+			DRIVER, "mongodb://",
+			PARAMETERS, ""
+			);
 	}
-		
+			
 	private <T> T deserialize(Object o, Class<T> classe) {
 		
 		if(o==null)

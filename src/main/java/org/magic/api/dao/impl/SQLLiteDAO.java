@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
@@ -21,15 +22,16 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		FileTools.zip(getFile(SERVERNAME), new File(dir, "backup.zip"));
 	}
 	
-	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"sqlite-db").toFile().getAbsolutePath());
-		setProperty(LOGIN, "SA");
-		setProperty(PASS, "");
-		setProperty(DB_NAME,"");
-	}
 	
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"sqlite-db").toFile().getAbsolutePath(),
+				   LOGIN, "SA",
+				   PASS, "",
+				   DB_NAME, ""
+				);
+	}
 	
 	@Override
 	protected String getdbSizeQuery() {

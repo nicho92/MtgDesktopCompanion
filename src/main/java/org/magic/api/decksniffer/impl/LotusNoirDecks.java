@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -146,11 +147,12 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		return getName();
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(URL, "http://www.lotusnoir.info/magic/decks/");
-		setProperty(FORMAT, "decks-populaires");
-		setProperty(MAX_PAGE, "2");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(URL, "http://www.lotusnoir.info/magic/decks/",
+			FORMAT, "decks-populaires",
+			MAX_PAGE, "2");
 	
 
 	}

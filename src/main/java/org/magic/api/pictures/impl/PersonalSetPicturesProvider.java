@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -95,13 +96,11 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		return "Personal Set Pictures";
 	}
 
-	
 	@Override
-	public void initDefault() {
-		super.initDefault();
+	public Map<String, String> getDefaultAttributes() {
 		
-		setProperty(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics").toFile().getAbsolutePath());
-		setProperty(FORMAT,"PNG");
+		return Map.of(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics").toFile().getAbsolutePath(),
+							   FORMAT,"PNG");
 	}
 	
 

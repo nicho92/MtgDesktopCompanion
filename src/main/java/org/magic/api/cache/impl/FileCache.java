@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
@@ -88,13 +89,13 @@ public class FileCache extends AbstractCacheProvider {
 
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(DIRECTORY, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"cachePics").toFile().getAbsolutePath());
-		setProperty(FORMAT, "png");
-
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(DIRECTORY, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"cachePics").toFile().getAbsolutePath(),
+							   FORMAT,"png");
 	}
-
+	
 	@Override
 	public String getVersion() {
 		return "1";

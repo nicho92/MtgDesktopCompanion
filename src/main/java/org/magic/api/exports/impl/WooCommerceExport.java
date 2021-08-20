@@ -47,6 +47,9 @@ public class WooCommerceExport extends AbstractCardExport {
 	public static final String CONSUMER_KEY = "CONSUMER_KEY";
 	public static final String CONSUMER_SECRET = "CONSUMER_SECRET";
 	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
+	private  static final String BATCH_THRESHOLD = "BATCH_THRESHOLD";
+	
+	
 	private WooCommerce wooCommerce;
 	
 	@Override
@@ -405,18 +408,22 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	
 	@Override
-	public void initDefault() {
-		setProperty(WEBSITE, "https://mywebsite.com");
-		setProperty(CONSUMER_KEY, "");
-		setProperty(CONSUMER_SECRET, "");
-		setProperty(CATEGORY_ID, "");
-		setProperty(DEFAULT_STATUT, "private");
-		setProperty(STOCK_MANAGEMENT,"true");
-		setProperty(ATTRIBUTES_KEYS,"");
-		setProperty(PIC_PROVIDER_NAME,"");
-		setProperty("BATCH_THRESHOLD","50");
-		setProperty(CARD_LANG_DESCRIPTION,"English");
-		setProperty(ARTICLE_NAME,"");
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String, String>();
+				m.put(WEBSITE, "https://mywebsite.com");
+				m.put(CONSUMER_KEY, "");
+				m.put(	CONSUMER_SECRET, "");
+				m.put(CATEGORY_ID, "");
+				m.put(DEFAULT_STATUT, "private");
+				m.put(STOCK_MANAGEMENT,"true");
+				m.put(ATTRIBUTES_KEYS,"");
+				m.put(PIC_PROVIDER_NAME,"");
+				m.put(CARD_LANG_DESCRIPTION,"English");
+				m.put(ARTICLE_NAME,"");
+				m.put(BATCH_THRESHOLD,"50");
+		
+		
+		return m;
 	}
 	
 	

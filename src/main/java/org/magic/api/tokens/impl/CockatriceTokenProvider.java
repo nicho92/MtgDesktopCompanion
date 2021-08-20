@@ -261,8 +261,8 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("URL", "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("URL", "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml");
 
 	}
 

@@ -2,6 +2,7 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -73,10 +74,9 @@ public class ClipBoardExport extends AbstractCardExport {
 		return d;
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty("CLEAN_AFTER_IMPORT","true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("CLEAN_AFTER_IMPORT","true");
 	}
 	
 

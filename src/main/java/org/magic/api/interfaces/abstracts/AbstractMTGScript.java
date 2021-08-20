@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.script.ScriptException;
 
@@ -105,7 +107,9 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty(DIR, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "scripts").toFile().getAbsolutePath());
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String,String>();
+		m.put(DIR, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "scripts").toFile().getAbsolutePath());
+		return m;
 	}
 }

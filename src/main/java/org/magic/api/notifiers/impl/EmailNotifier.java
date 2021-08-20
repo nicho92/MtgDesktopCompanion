@@ -1,6 +1,7 @@
 package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -34,14 +35,15 @@ public class EmailNotifier extends AbstractMTGNotifier{
 	
 
 	@Override
-	public void initDefault() {
-		setProperty("SMTP", "smtp.server.com");
-		setProperty("PORT", "25");
-		setProperty("FROM", "me@server.com");
-		setProperty("SEND_TO", "you@server.com");
-		setProperty(SMTP_LOGIN, "login");
-		setProperty(SMTP_PASS, "password");
-		setProperty("SSL", "true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(
+								"SMTP", "smtp.server.com",
+								"PORT", "25",
+								"FROM", "me@server.com",
+								"SEND_TO", "you@server.com",
+								SMTP_LOGIN, "login",
+								SMTP_PASS, "password",
+								"SSL", "true");
 	}
 
 	

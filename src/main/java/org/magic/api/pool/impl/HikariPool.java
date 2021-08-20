@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -68,33 +70,36 @@ public class HikariPool extends AbstractPool {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("autoCommit", TRUE);
-		setProperty("connectionTimeout", "30000");
-		setProperty("poolName", "mtg-hikari-pool");
-		setProperty("initializationFailTimeout", "1");
-		setProperty("readOnly", FALSE);
-		setProperty("registerMbeans", TRUE);
-		setProperty("minimumIdle", "1");
-		setProperty("isolateInternalQueries", FALSE);
-		setProperty("leakDetectionThreshold", "0");
-		setProperty("validationTimeout", "5000");
-		setProperty("maxLifetime", "1800000");
-		setProperty("allowPoolSuspension", FALSE);
-		setProperty("connectionTestQuery", "");
-		setProperty("idleTimeout", "600000");
-		setProperty("maximumPoolSize", "10");
-		setProperty("dataSource.prepStmtCacheSqlLimit","2048");
-		setProperty("dataSource.cachePrepStmts",TRUE);
-		setProperty("dataSource.allowMultiQueries",TRUE);
-		setProperty("dataSource.prepStmtCacheSize","250");
-		setProperty("dataSource.useServerPrepStmts",TRUE);
-		setProperty("dataSource.useLocalSessionState",TRUE);
-		setProperty("connectionInitSql", "");
-	//	setProperty("datasource.keepaliveTime","0");
-		setProperty("dataSource.cacheCallableStmts",TRUE);
-		setProperty("dataSource.cacheServerConfiguration",TRUE);
-
+	public Map<String, String> getDefaultAttributes() {
+	
+		var map = new HashMap<String,String>();
+		
+		map.put("autoCommit", TRUE);
+		map.put("connectionTimeout", "30000");
+		map.put("poolName", "mtg-hikari-pool");
+		map.put("initializationFailTimeout", "1");
+		map.put("readOnly", FALSE);
+		map.put("registerMbeans", TRUE);
+		map.put("minimumIdle", "1");
+		map.put("isolateInternalQueries", FALSE);
+		map.put("leakDetectionThreshold", "0");
+		map.put("validationTimeout", "5000");
+		map.put("maxLifetime", "1800000");
+		map.put("allowPoolSuspension", FALSE);
+		map.put("connectionTestQuery", "");
+		map.put("idleTimeout", "600000");
+		map.put("maximumPoolSize", "10");
+		map.put("dataSource.prepStmtCacheSqlLimit","2048");
+		map.put("dataSource.cachePrepStmts",TRUE);
+		map.put("dataSource.allowMultiQueries",TRUE);
+		map.put("dataSource.prepStmtCacheSize","250");
+		map.put("dataSource.useServerPrepStmts",TRUE);
+		map.put("dataSource.useLocalSessionState",TRUE);
+		map.put("connectionInitSql", "");
+	//	map.put("datasource.keepaliveTime","0");
+		map.put("dataSource.cacheCallableStmts",TRUE);
+		map.put("dataSource.cacheServerConfiguration",TRUE);
+		return map;
 		
 	}
 	

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.ListUtils;
 import org.api.mkm.exceptions.MkmException;
@@ -430,13 +431,14 @@ public class MkmOnlineExport extends AbstractCardExport {
 		}
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(QUALITY, "GD");
-		setProperty(DEFAULT_QTE, "1");
-		setProperty(LANGUAGES, "1");
-		setProperty(MAX_WANTLIST_SIZE, "150");
-		setProperty(STOCK_USE, "true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(QUALITY, "GD",
+								DEFAULT_QTE, "1",
+								LANGUAGES, "1",
+								MAX_WANTLIST_SIZE, "150",
+								STOCK_USE, "true");
 
 	}
 

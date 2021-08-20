@@ -42,8 +42,8 @@ public class CardTraderPricer extends AbstractCardExport {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty(TOKEN_FULL, "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(TOKEN_FULL, "");
 	}
 	
 	protected void test() throws IOException {

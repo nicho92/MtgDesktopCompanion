@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
@@ -113,12 +114,12 @@ public class PDFExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new NotImplementedException("Can't import stock from PDF");
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("AUTHOR", System.getenv("user.name"));
-		setProperty("PRINT_CUT_LINE","true");
-		setProperty(SPACE,"0");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("AUTHOR", System.getProperty("user.name"),
+							   "PRINT_CUT_LINE","true",
+							   SPACE,"0");
 	
 	}
 

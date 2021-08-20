@@ -166,17 +166,17 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		return "MTGTop8";
 	}
 
+	
 	@Override
-	public void initDefault() {
-		
-		setProperty("URL", "http://mtgtop8.com/");
-		setProperty("EVENT_FILTER", "");
-		setProperty("FORMAT", "Standard");
-		setProperty("MAX_PAGE", "2");
-		setProperty("TIMEOUT", "0");
-		setProperty("CARD_FILTER", "");
-		setProperty(COMPETITION_FILTER, "P,M,C,R");
-		setProperty("DATE_START_FILTER", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("URL", "http://mtgtop8.com/",
+		"EVENT_FILTER", "",
+		"FORMAT", "Standard",
+		"MAX_PAGE", "2",
+		"TIMEOUT", "0",
+		"CARD_FILTER", "",
+		COMPETITION_FILTER, "P,M,C,R",
+		"DATE_START_FILTER", "");
 
 	}
 

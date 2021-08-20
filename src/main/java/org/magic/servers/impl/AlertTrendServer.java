@@ -6,6 +6,7 @@ import static org.magic.tools.MTG.getPlugin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -150,13 +151,14 @@ public class AlertTrendServer extends AbstractMTGServer {
 		return getBoolean(AUTOSTART);
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(AUTOSTART, "false");
-		setProperty(TIMEOUT_MINUTE, "120");
-		setProperty(ALERT_MIN_PERCENT,"40");
-		setProperty(THREAD_PAUSE,"2000");
-		setProperty(NOTIFIER,"Tray,Console");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(AUTOSTART, "false",
+							   TIMEOUT_MINUTE, "120",
+							   ALERT_MIN_PERCENT,"40",
+							   THREAD_PAUSE,"2000",
+							   NOTIFIER,"Tray,Console");
 	}
 
 	@Override

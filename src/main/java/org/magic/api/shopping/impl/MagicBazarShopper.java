@@ -129,9 +129,9 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	
 	
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN", "");
-		setProperty("PASS", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN", "",
+								"PASS", "");
 	}
 	
 

@@ -3,6 +3,7 @@ package org.magic.api.wallpaper.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.nodes.Document;
@@ -71,12 +72,9 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		return "Art of Mtg";
 	}
 
-
 	@Override
-	public void initDefault() {
-		setProperty("URL", "http://www.artofmtg.com");
-		
-
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("URL", "http://www.artofmtg.com");
 	}
 
 	@Override

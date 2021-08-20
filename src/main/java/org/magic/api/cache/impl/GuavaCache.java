@@ -2,6 +2,7 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.magic.api.beans.MagicCard;
@@ -42,15 +43,11 @@ public class GuavaCache extends AbstractCacheProvider {
 		cache.put(generateIdIndex(mc), im);
 
 	}
-	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty("MAX_ITEM", "1000");
-		setProperty("EXPIRATION_MINUTE", "10");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("MAX_ITEM","1000","EXPIRATION_MINUTE","10");
 	}
-
-
+	
 	@Override
 	public void clear() {
 		cache.invalidateAll();

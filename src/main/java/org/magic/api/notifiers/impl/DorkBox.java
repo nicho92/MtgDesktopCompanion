@@ -1,6 +1,7 @@
 package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -49,7 +50,7 @@ public class DorkBox extends AbstractMTGNotifier {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("DARK", "true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("DARK", "true");
 	}
 }

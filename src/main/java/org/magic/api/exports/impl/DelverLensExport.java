@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -171,9 +172,13 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("SEPARATOR", ",");
-		setProperty(REGEX,defaultRegex());
+	public Map<String, String> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+			 m.put("SEPARATOR", ",");
+			m.put(REGEX,defaultRegex());
+			
+			return m;
 	}
 	
 

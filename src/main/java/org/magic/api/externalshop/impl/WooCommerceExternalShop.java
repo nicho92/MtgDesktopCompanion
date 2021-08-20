@@ -232,8 +232,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("PER_PAGE","50");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("PER_PAGE","50");
 	}
 	
 	private Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)

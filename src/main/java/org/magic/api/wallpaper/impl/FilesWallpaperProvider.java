@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -55,12 +56,11 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 		return "File";
 	}
 
-
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("DIRECTORY", ".");
-		setProperty("PREF_SIZE", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("DIRECTORY", ".",
+								"PREF_SIZE", "");
 	}
 
 	@Override

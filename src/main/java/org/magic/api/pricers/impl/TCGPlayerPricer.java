@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -93,13 +94,13 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 
 	@Override
-	public void initDefault() {
-		setProperty("MAX", "-1");
-		setProperty("API_KEY", "MGCASSTNT");
-		setProperty("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
-		setProperty("WEBSITE", "http://www.tcgplayer.com/");
-		
-		setProperty("KEYWORD", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(
+								"MAX", "-1",
+								"API_KEY", "MGCASSTNT",
+								"URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%",
+								"WEBSITE", "http://www.tcgplayer.com/",
+								"KEYWORD", "");
 
 	}
 

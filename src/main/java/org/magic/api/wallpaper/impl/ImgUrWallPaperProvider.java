@@ -96,9 +96,9 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(CLIENTID, "");
-		setProperty("SORT", "time");
-		setProperty("WINDOW", "all");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(CLIENTID, "",
+							   "SORT", "time",
+							   "WINDOW", "all");
 	}
 }

@@ -1,6 +1,7 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.magic.api.beans.Tracking;
 import org.magic.api.beans.TrackingStep;
@@ -65,9 +66,9 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(OKAPI_KEY, "");
-		setProperty("LANG", "en_EN");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(OKAPI_KEY, "",
+							   "LANG", "en_EN");
 	}
 	
 	

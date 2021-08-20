@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -92,11 +93,12 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 
 	@Override
-	public void initDefault() {
-		setProperty("MAX", "5");
-		setProperty("WS_URL", "http://www.mtgprice.com/api");
-		setProperty(API_KEY, "");
-		setProperty("WEBSITE", "http://www.mtgprice.com/");
+	public Map<String, String> getDefaultAttributes() {
+		
+		return Map.of("MAX", "5",
+							   "WS_URL", "http://www.mtgprice.com/api",
+								API_KEY, "",
+								"WEBSITE", "http://www.mtgprice.com/");
 
 	}
 

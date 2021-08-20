@@ -6,6 +6,7 @@ import static org.magic.tools.MTG.getPlugin;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -105,13 +106,13 @@ public class OversightServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("AUTOSTART", "false");
-		setProperty(TIMEOUT_MINUTE, "120");
-		setProperty("ALERT_MIN_PERCENT","40");
-		setProperty("NOTIFIER","Tray,Console");
-		setProperty("SORT_FILTER","DAY_PRICE_CHANGE");
-		setProperty("FORMAT_FILTER","");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("AUTOSTART", "false",
+								TIMEOUT_MINUTE, "120",
+								"ALERT_MIN_PERCENT","40",
+								"NOTIFIER","Tray,Console",
+								"SORT_FILTER","DAY_PRICE_CHANGE",
+								"FORMAT_FILTER","");
 	}
 
 	@Override

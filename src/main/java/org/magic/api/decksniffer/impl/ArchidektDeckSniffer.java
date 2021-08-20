@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
@@ -134,9 +135,9 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("FORMAT", "");
-		setProperty("PAGE_SIZE","50");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("FORMAT", "",
+							   "PAGE_SIZE","50");
 	}
 
 }

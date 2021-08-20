@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGDocumentation;
@@ -90,13 +91,14 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		return "select * from stocks where collection=? and mcard like ?";
 	}
 
+	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath());
-		setProperty(LOGIN, "SA");
-		setProperty(PASS, "");
-		setProperty(MODE,"file");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath(),
+				LOGIN, "SA",
+				PASS, "",
+				MODE,"file"
+				);
 	}
 	
 	@Override

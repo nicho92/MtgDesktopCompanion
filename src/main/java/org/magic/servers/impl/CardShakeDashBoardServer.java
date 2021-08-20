@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -107,11 +108,11 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(AUTOSTART, "false");
-		setProperty(TIMEOUT_MINUTE, "1440");
-		setProperty(THREAD_PAUSE,"2000");
-		setProperty(COLLECTION,"Library");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(AUTOSTART, "false",
+							   TIMEOUT_MINUTE, "1440",
+							   THREAD_PAUSE,"2000",
+							   COLLECTION,"Library");
 	}
 
 	@Override

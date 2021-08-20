@@ -923,18 +923,22 @@ shippingCost;</shippingRules>
       <enable>true</enable>
     </tracker>
   </trackings>
-  <externalsShops>
+<externalsShops>
     <extshop>
       <class>org.magic.api.externalshop.impl.MkmExternalShop</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </extshop>
     <extshop>
       <class>org.magic.api.externalshop.impl.MTGCompanionShop</class>
-      <enable>false</enable>
+      <enable>true</enable>
     </extshop>
     <extshop>
       <class>org.magic.api.externalshop.impl.WooCommerceExternalShop</class>
-      <enable>false</enable>
+      <enable>true</enable>
+    </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.CardTraderWebShop</class>
+      <enable>true</enable>
     </extshop>
   </externalsShops>
 </conf>

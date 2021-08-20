@@ -306,13 +306,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty(SERVERNAME, "localhost");
-		setProperty(SERVERPORT, "");
-		setProperty(DB_NAME, "mtgdesktopclient");
-		setProperty(LOGIN, "login");
-		setProperty(PASS, "pass");
-		setProperty(PARAMS, "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERNAME, "localhost",
+								SERVERPORT, "",
+								DB_NAME, "mtgdesktopclient",
+								LOGIN, "login",
+								PASS, "pass",
+								PARAMS, "");
 	}
 	
 	public String getDBLocation() {

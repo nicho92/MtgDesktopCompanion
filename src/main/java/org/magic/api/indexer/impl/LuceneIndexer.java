@@ -58,13 +58,13 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private Analyzer analyzer ;
 	private JsonExport serializer;
 
-	@Override
-	public void initDefault() {
-		setProperty(BOOST, "false");
-		setProperty(MIN_TERM_FREQ, "1");
-		setProperty(FIELDS,"cost,text,color,type,cmc,rarity,extraLayout");
-		setProperty(MAX_RESULTS,"20");
-		setProperty(DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
+@Override
+public Map<String, String> getDefaultAttributes() {
+	return Map.of(BOOST, "false",
+							MIN_TERM_FREQ, "1",
+							FIELDS,"cost,text,color,type,cmc,rarity,extraLayout",
+							MAX_RESULTS,"20",
+							DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
 	}
 	
 	public LuceneIndexer() {

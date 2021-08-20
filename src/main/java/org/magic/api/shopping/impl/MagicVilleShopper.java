@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -107,12 +108,10 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		return "Magic-Ville";
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN", "");
-		setProperty("PASS", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN", "",
+								"PASS", "");
 	}
-
 
 }

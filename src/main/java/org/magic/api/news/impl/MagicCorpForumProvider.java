@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -77,9 +78,9 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(PAGINATION, "15");
-		setProperty(SITE, "http://www.magiccorporation.com/");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(PAGINATION, "15",
+								SITE, "http://www.magiccorporation.com/");
 	}
 
 	@Override

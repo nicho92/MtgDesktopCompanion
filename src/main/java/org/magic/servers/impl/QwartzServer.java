@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGDocumentation;
@@ -97,17 +99,22 @@ public class QwartzServer extends AbstractMTGServer {
 		return "Scheduling scripts";
 	}
 	
-	@Override
-	public void initDefault() {
-		setProperty("org.quartz.scheduler.instanceName", "MTGCompanion-schedule");
-		setProperty("org.quartz.threadPool.threadCount", "3");
-		setProperty("org.quartz.jobStore.class","org.quartz.simpl.RAMJobStore");
-		
-		setProperty("org.quartz.plugin.jobInitializer.class","org.quartz.plugins.xml.XMLSchedulingDataProcessorPlugin");
-		setProperty(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES,new File(MTGConstants.DATA_DIR,"quartz-config.xml").getAbsolutePath());
-		setProperty("org.quartz.plugin.jobInitializer.failOnFileNotFound","true");
 	
-		setProperty("AUTOSTART", "false");
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String,String>();
+		
+		m.put("org.quartz.scheduler.instanceName", "MTGCompanion-schedule");
+		m.put("org.quartz.threadPool.threadCount", "3");
+		m.put("org.quartz.jobStore.class","org.quartz.simpl.RAMJobStore");
+		
+		m.put("org.quartz.plugin.jobInitializer.class","org.quartz.plugins.xml.XMLSchedulingDataProcessorPlugin");
+		m.put(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES,new File(MTGConstants.DATA_DIR,"quartz-config.xml").getAbsolutePath());
+		m.put("org.quartz.plugin.jobInitializer.failOnFileNotFound","true");
+	
+		m.put("AUTOSTART", "false");
+		
+		return m;
 	}
 
 	

@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -97,12 +98,12 @@ public class EbayPricer extends AbstractPricesProvider {
 
 
 	@Override
-	public void initDefault() {
-		setProperty("MAX", "10");
-		setProperty("COUNTRY", "EBAY-FR");
-		setProperty("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
-		setProperty("WEBSITE", "https://www.ebay.com/");
-		setProperty("FIXEDPRICE_ONLY","false");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("MAX", "10",
+								"COUNTRY", "EBAY-FR",
+								"API_KEY", "",
+								"WEBSITE", "https://www.ebay.com/",
+								"FIXEDPRICE_ONLY","false");
 
 	}
 

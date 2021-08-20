@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
@@ -164,8 +165,8 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, "");
 	}
 
 	

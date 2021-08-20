@@ -25,14 +25,16 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 	private static final String CONSUMER_SECRET = "CONSUMER_SECRET";
 	private WooCommerce wooCommerce;
 
+
 	@Override
-	public void initDefault() {
-		setProperty(WEBSITE, "https://mysite.fr/");
-		setProperty(CONSUMER_KEY, "");
-		setProperty(CONSUMER_SECRET, "");
-		setProperty(STATUS,"any");
-		setProperty(PER_PAGE,"100");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(WEBSITE, "https://mysite.fr/",
+							   CONSUMER_KEY, "",
+							   CONSUMER_SECRET, "",
+							   STATUS,"any",
+							   PER_PAGE,"100");
 	}
+
 	
 
 	@Override

@@ -150,15 +150,16 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 
 	}
 
+	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty(SERVERPORT, "5432");
-		setProperty(LOGIN, "postgres");
-		setProperty(PASS, "postgres");
-		setProperty(URL_PGDUMP, "C:/Program Files (x86)/PostgreSQL/9.5/bin");
-
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERPORT, "5432",
+				   LOGIN, "postgres",
+				   PASS, "postgres",
+				   PARAMS, "",
+				   URL_PGDUMP, "C:/Program Files (x86)/PostgreSQL/9.5/bin"
+				);
 	}
-
+	
 
 }

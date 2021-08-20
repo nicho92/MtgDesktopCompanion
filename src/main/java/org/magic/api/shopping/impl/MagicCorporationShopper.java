@@ -95,12 +95,12 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		return "MagicCorporation";
 	}
 
-	
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN","");
-		setProperty("PASS", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN", "",
+								"PASS", "");
 	}
+
 	
 
 }

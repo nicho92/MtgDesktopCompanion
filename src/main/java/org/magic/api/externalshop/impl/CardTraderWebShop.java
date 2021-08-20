@@ -3,6 +3,7 @@ package org.magic.api.externalshop.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.api.cardtrader.modele.Categorie;
@@ -103,9 +104,12 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		}).collect(Collectors.toList());
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty("TOKEN", "");
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put("TOKEN", "");
+		return m;
 	}
 	
 

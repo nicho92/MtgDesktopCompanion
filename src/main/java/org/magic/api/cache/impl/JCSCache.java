@@ -2,6 +2,8 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -34,32 +36,33 @@ public class JCSCache extends AbstractCacheProvider {
 	
 	
 	@Override
-	public void initDefault() {
-
-		setProperty("jcs.default","DC");
-		setProperty("jcs.default.cacheattributes", "org.apache.commons.jcs.engine.CompositeCacheAttributes");
-		setProperty("jcs.default.cacheattributes.MaxObjects","200");
-		setProperty("jcs.default.cacheattributes.MemoryCacheName","org.apache.commons.jcs.engine.memory.lru.LRUMemoryCache");
-		setProperty("jcs.default.cacheattributes.UseMemoryShrinker","true");
-		setProperty("jcs.default.cacheattributes.MaxMemoryIdleTimeSeconds","3600");
-		setProperty("jcs.default.cacheattributes.ShrinkerIntervalSeconds","60");
-		setProperty("jcs.default.elementattributes","org.apache.commons.jcs.engine.ElementAttributes");
-		setProperty("jcs.default.elementattributes.IsEternal","false");
-		setProperty("jcs.default.elementattributes.MaxLife","21600");
-		setProperty("jcs.default.elementattributes.IdleTime","1800");
-		setProperty("jcs.default.elementattributes.IsSpool","true");
-		setProperty("jcs.default.elementattributes.IsRemote","true");
-		setProperty("jcs.default.elementattributes.IsLateral","true");
-		setProperty("jcs.default.outputCache.cacheattributes.DiskUsagePatternName","UPDATE");
-		setProperty("jcs.auxiliary.DC","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory");
-		setProperty("jcs.auxiliary.DC.attributes","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes");
-		setProperty("jcs.auxiliary.DC.attributes.DiskPath",MTGConstants.DATA_DIR + "/jcsCache");
-		setProperty("jcs.auxiliary.DC.attributes.MaxPurgatorySize","10000");
-		setProperty("jcs.auxiliary.DC.attributes.MaxKeySize","10000");
-		setProperty("jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount","300000");
-		setProperty("jcs.auxiliary.DC.attributes.ShutdownSpoolTimeLimit","60");
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String, String>();
+				m.put("jcs.default","DC");
+				m.put("jcs.default.cacheattributes", "org.apache.commons.jcs.engine.CompositeCacheAttributes");
+				m.put("jcs.default.cacheattributes.MaxObjects","200");
+				m.put("jcs.default.cacheattributes.MemoryCacheName","org.apache.commons.jcs.engine.memory.lru.LRUMemoryCache");
+				m.put("jcs.default.cacheattributes.UseMemoryShrinker","true");
+				m.put("jcs.default.cacheattributes.MaxMemoryIdleTimeSeconds","3600");
+				m.put("jcs.default.cacheattributes.ShrinkerIntervalSeconds","60");
+				m.put("jcs.default.elementattributes","org.apache.commons.jcs.engine.ElementAttributes");
+				m.put("jcs.default.elementattributes.IsEternal","false");
+				m.put("jcs.default.elementattributes.MaxLife","21600");
+				m.put("jcs.default.elementattributes.IdleTime","1800");
+				m.put("jcs.default.elementattributes.IsSpool","true");
+				m.put("jcs.default.elementattributes.IsRemote","true");
+				m.put("jcs.default.elementattributes.IsLateral","true");
+				m.put("jcs.default.outputCache.cacheattributes.DiskUsagePatternName","UPDATE");
+				m.put("jcs.auxiliary.DC","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory");
+				m.put("jcs.auxiliary.DC.attributes","org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes");
+				m.put("jcs.auxiliary.DC.attributes.DiskPath",MTGConstants.DATA_DIR + "/jcsCache");
+				m.put("jcs.auxiliary.DC.attributes.MaxPurgatorySize","10000");
+				m.put("jcs.auxiliary.DC.attributes.MaxKeySize","10000");
+				m.put("jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount","300000");
+				m.put("jcs.auxiliary.DC.attributes.ShutdownSpoolTimeLimit","60");
+		return m;
 	}
-
+	
 	@Override
 	public BufferedImage getItem(MagicCard mc) {
 		return ImageTools.fromByteArray(picturesCache.get(generateIdIndex(mc)));

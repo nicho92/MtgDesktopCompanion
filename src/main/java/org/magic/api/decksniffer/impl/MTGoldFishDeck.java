@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
@@ -178,17 +179,19 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	public String getName() {
 		return "MTGoldFish";
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty(SUPPORT, "paper");
-		setProperty(FORMAT, STANDARD);
-		
-		setProperty("URL", "https://www.mtggoldfish.com/");
-		setProperty("MAX_PAGE", "2");
-		setProperty("METAGAME", "false");
-
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SUPPORT, "paper",
+								FORMAT, STANDARD,
+								"URL", "https://www.mtggoldfish.com/",
+								"MAX_PAGE", "2",
+								"METAGAME", "false");
 	}
+	
+	
+	
+	
 
 	@Override
 	public String getVersion() {

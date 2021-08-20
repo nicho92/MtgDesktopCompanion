@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -266,15 +267,16 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		return "MtgDesign";
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN", "");
-		setProperty("PASS", "");
-		setProperty("FOIL", FALSE);
-		setProperty(CENTER, "yes");
-		setProperty("SIZE", "36");
-		setProperty(INDICATOR,"yes");
-		setProperty(DESIGNER,System.getProperty("user.name"));
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN", "",
+								"PASS", "",
+								"FOIL", FALSE,
+								CENTER, "yes",
+								"SIZE", "36",
+								INDICATOR,"yes",
+								DESIGNER,System.getProperty("user.name"));
 	}
 
 

@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -101,12 +102,16 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		return "OCTGN";
 	}
 
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
-		setProperty("SLEEVE_ID", "0");
-		setProperty(SHARED, "False");
+	public Map<String, String> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		m.put("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
+		m.put("SLEEVE_ID", "0");
+		m.put(SHARED, "False");
+		
+		return m;
 
 	}
 

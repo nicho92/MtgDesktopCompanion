@@ -141,9 +141,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	public void initDefault() {
-		setProperty("STATE", STATE.paid.name());
-		setProperty("ACTOR", ACTOR.seller.name());
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("STATE", STATE.paid.name(),"ACTOR", ACTOR.seller.name());
 	}
 
 }

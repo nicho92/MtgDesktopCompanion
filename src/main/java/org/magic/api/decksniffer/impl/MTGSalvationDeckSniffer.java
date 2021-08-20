@@ -181,13 +181,13 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "MTGSalvation";
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("URL", "https://www.mtgsalvation.com/");
-		setProperty("MAX_PAGE", "2");
-		setProperty("FORMAT", "Modern");
-		setProperty("FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("URL", "https://www.mtgsalvation.com/",
+								"MAX_PAGE", "2",
+								"FORMAT", "Modern",
+								"FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
 	}
 
 	@Override

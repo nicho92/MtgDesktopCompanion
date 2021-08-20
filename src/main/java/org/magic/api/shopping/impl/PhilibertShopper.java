@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.OrderEntry;
@@ -82,10 +83,11 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 	
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN", "");
-		setProperty("PASSWORD", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN", "",
+								"PASSWORD", "");
 	}
+
 	
 	
 	

@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -106,8 +107,8 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("GURU_APPROVED_CODE", "1");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("GURU_APPROVED_CODE", "1");
 	}
-
+	
 }

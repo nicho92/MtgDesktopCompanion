@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -213,8 +215,11 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty(FORCE_RELOAD, "false");
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String,String>();	
+		m.put(FORCE_RELOAD, "false");
+		
+		return m;
 	}
 	
 	

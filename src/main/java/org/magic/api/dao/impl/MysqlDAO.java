@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 
@@ -77,14 +78,15 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 
 
 	@Override
-	public void initDefault() {
-		setProperty(SERVERPORT, "3306");
-		setProperty(LOGIN, "mysql");
-		setProperty(PASS, "mysql");
-		setProperty(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
-		setProperty(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERPORT, "3306",
+				   LOGIN, "mariadb",
+				   PASS, "mariadb",
+				   PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true",
+				   MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin"
+	);
 	}
-
+	
 
 
 	@Override

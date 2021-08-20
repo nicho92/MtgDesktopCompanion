@@ -2,6 +2,7 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.cache2k.Cache;
@@ -44,12 +45,13 @@ public class Cache2kCache extends AbstractCacheProvider {
 	public long size() {
 		return cache.asMap().entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("EXPIRATION_MINUTE", "10");
-		setProperty("CAPACITY","100");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("EXPIRATION_MINUTE","10", 
+							    "CAPACITY","100");
 	}
+	
 	
 	@Override
 	public String getName() {

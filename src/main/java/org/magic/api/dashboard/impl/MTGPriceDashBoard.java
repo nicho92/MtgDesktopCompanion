@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.jsoup.nodes.Document;
@@ -231,12 +232,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		return new ArrayList<>();
 	}
 
-	
-
 	@Override
-	public void initDefault() {
-		setProperty("PERIOD", "WEEKLY");
-		setProperty(WEBSITE, "https://www.mtgprice.com");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("PERIOD", "WEEKLY",
+								WEBSITE, "https://www.mtgprice.com");
 	}
 
 	@Override

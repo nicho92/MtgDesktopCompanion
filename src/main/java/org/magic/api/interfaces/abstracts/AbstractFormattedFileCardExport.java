@@ -5,7 +5,9 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,10 +118,11 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return Pattern.compile(getStringPattern());
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty("SEPARATOR", ",");
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String,String>();
+		m.put("SEPARATOR", ",");
+		return m;
 	}
 	
 	@Override

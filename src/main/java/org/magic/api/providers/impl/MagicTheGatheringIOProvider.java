@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -67,10 +68,9 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		throw new IOException("Not implemented");
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty(JSON_URL, "https://api.magicthegathering.io/v1");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(JSON_URL, "https://api.magicthegathering.io/v1");
 	}
 	
 	@Override

@@ -2,6 +2,8 @@ package org.magic.api.pool.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,41 +25,45 @@ public class DBCPPool extends AbstractPool {
 	private BasicDataSource dataSource;
 	
 	
-
 	@Override
-	public void initDefault() {
-		setProperty("defaultAutoCommit",TRUE);
-		setProperty("cacheState",TRUE);
-		setProperty("lifo",String.valueOf(BaseObjectPoolConfig.DEFAULT_LIFO));
-		setProperty("maxTotal",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_TOTAL));
-		setProperty("maxIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_IDLE));
-		setProperty("minIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MIN_IDLE));
-		setProperty("initialSize","3");
-		setProperty("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS));
-		setProperty("poolPreparedStatements",FALSE);
-		setProperty("maxOpenPreparedStatements",String.valueOf(GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL));
-		setProperty("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS));
-		setProperty("numTestsPerEvictionRun",String.valueOf(BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN));
-		setProperty("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME));
-		setProperty("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME));
-		setProperty("evictionPolicyClassName",String.valueOf(BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME));
-		setProperty("testWhileIdle",FALSE);
-		setProperty("validationQuery","");
-		setProperty("validationQueryTimeoutSeconds","-1");
-		setProperty("accessToUnderlyingConnectionAllowed",FALSE);
-		setProperty("maxConnLifetimeMILLIS","-1");
-		setProperty("logExpiredConnections",TRUE);
-		setProperty("jmxName","org.magic.api:type=Pool,name="+getName());
-		setProperty("autoCommitOnReturn",TRUE);
-		setProperty("rollbackOnReturn",TRUE);
-		setProperty("defaultAutoCommit",TRUE);
-		setProperty("defaultReadOnly",FALSE);
-		setProperty("defaultQueryTimeoutSeconds","");
-		setProperty("cacheState",TRUE);
-		setProperty("testOnCreate",FALSE);
-		setProperty("testOnBorrow",TRUE);
-		setProperty("testOnReturn",FALSE);
-		setProperty("fastFailValidation",FALSE);
+	public Map<String, String> getDefaultAttributes() {
+			
+		var map = new HashMap<String,String>();
+		
+		map.put("defaultAutoCommit",TRUE);
+		map.put("cacheState",TRUE);
+		map.put("lifo",String.valueOf(BaseObjectPoolConfig.DEFAULT_LIFO));
+		map.put("maxTotal",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_TOTAL));
+		map.put("maxIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_IDLE));
+		map.put("minIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MIN_IDLE));
+		map.put("initialSize","3");
+		map.put("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS));
+		map.put("poolPreparedStatements",FALSE);
+		map.put("maxOpenPreparedStatements",String.valueOf(GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL));
+		map.put("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS));
+		map.put("numTestsPerEvictionRun",String.valueOf(BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN));
+		map.put("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME));
+		map.put("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME));
+		map.put("evictionPolicyClassName",String.valueOf(BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME));
+		map.put("testWhileIdle",FALSE);
+		map.put("validationQuery","");
+		map.put("validationQueryTimeoutSeconds","-1");
+		map.put("accessToUnderlyingConnectionAllowed",FALSE);
+		map.put("maxConnLifetimeMILLIS","-1");
+		map.put("logExpiredConnections",TRUE);
+		map.put("jmxName","org.magic.api:type=Pool,name="+getName());
+		map.put("autoCommitOnReturn",TRUE);
+		map.put("rollbackOnReturn",TRUE);
+		map.put("defaultAutoCommit",TRUE);
+		map.put("defaultReadOnly",FALSE);
+		map.put("defaultQueryTimeoutSeconds","");
+		map.put("cacheState",TRUE);
+		map.put("testOnCreate",FALSE);
+		map.put("testOnBorrow",TRUE);
+		map.put("testOnReturn",FALSE);
+		map.put("fastFailValidation",FALSE);
+		
+		return map;
 	}
 	
 	@Override

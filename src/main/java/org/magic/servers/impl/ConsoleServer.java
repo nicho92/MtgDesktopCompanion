@@ -2,6 +2,7 @@ package org.magic.servers.impl;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
@@ -69,13 +70,14 @@ public class ConsoleServer extends AbstractMTGServer {
 		return getBoolean("AUTOSTART");
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(SERVER_PORT, "5152");
-		setProperty("IDLE-TIME", "10");
-		setProperty("BUFFER-SIZE", "2048");
-		setProperty("AUTOSTART", "false");
-		setProperty("STARTUP_MESSAGE", "Welcome to MTG Desktop Companion Server");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVER_PORT, "5152",
+					"IDLE-TIME", "10",
+					"BUFFER-SIZE", "2048",
+					"AUTOSTART", "false",
+					"STARTUP_MESSAGE", "Welcome to MTG Desktop Companion Server");
 	}
 
 

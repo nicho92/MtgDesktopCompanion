@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -57,8 +58,8 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("NB_PAGE", "1");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("NB_PAGE", "1");
 
 	}
 

@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -35,9 +37,13 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 	
 
+	
 	@Override
-	public void initDefault() {
-		setProperty("DATA",Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"recog").toFile().getAbsolutePath());
+	public Map<String, String> getDefaultAttributes() {
+		var m = new HashMap<String,String>();
+		m.put("DATA",Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"recog").toFile().getAbsolutePath());
+		
+		return m;
 	}
 	
 	protected AbstractRecognitionStrategy() {

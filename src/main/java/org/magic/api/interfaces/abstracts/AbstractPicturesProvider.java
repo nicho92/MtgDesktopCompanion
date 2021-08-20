@@ -118,10 +118,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 
-	@Override
-	public void initDefault() {
-	}
-
 	public BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
 		if(img==null)
 			return null;

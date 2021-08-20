@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -113,12 +114,11 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		return "Cockatrice";
 	}
 
-
-
+	
 	@Override
-	public void initDefault() {
-		setProperty(VERSION, "1.0");
-		setProperty(DEFAULT_PRICE, "0");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(VERSION, "1.0",
+								DEFAULT_PRICE, "0");
 
 	}
 

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 
@@ -190,16 +191,13 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				}
 				else
 				{
-
 					String[] part = line.split(getSeparator());
 					String name = cleanName(part[0]);
 					String qte = part[2];
 					String set = part[1];
 					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 					MagicCard mc = null;
-					
 					try {
-					
 						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 					}
 					catch(Exception e)
@@ -208,7 +206,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					}
 					
 					if(mc!=null) {
-						
 						if(isSide)
 							deck.getSideBoard().put(mc, Integer.parseInt(qte));
 						else
@@ -236,10 +233,14 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		return "\"(.*?)\";(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;";
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty(EXTRA_PROPERTIES, "id,currentSet.number,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
-		setProperty("SEPARATOR", ";");
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(EXTRA_PROPERTIES, "id,currentSet.number,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
+		m.put("SEPARATOR", ";");
+		
+		return m;
 	}
 
 	@Override

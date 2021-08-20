@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 
@@ -197,13 +198,13 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(SERVER_PORT, "18567");
-		setProperty("IDLE-TIME", "10");
-		setProperty("BUFFER-SIZE", "2048");
-		setProperty("AUTOSTART", "false");
-		setProperty("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
-		setProperty(MAX_CLIENT, "0");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVER_PORT, "18567",
+				 "IDLE-TIME", "10",
+				 "BUFFER-SIZE", "2048",
+				 "AUTOSTART", "false",
+				 "WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room",
+				 MAX_CLIENT, "0");
 
 	}
 	

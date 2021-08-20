@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -71,10 +72,9 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		return ret;
 	}
 
-	
 	@Override
-	public void initDefault() {
-		setProperty("TOKEN", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("TOKEN", "");
 	}
 	
 

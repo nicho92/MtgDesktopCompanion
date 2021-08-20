@@ -54,7 +54,6 @@ public class MemoryCache extends AbstractCacheProvider {
 		return cache.entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
 	
-
 	@Override
 	public boolean equals(Object obj) {
 		

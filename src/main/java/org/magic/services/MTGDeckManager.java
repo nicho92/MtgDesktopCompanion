@@ -35,19 +35,13 @@ public class MTGDeckManager extends Observable {
 	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public MTGDeckManager(MTGCardsExport sniff) {
-		serialis = sniff;
-	}
-
+	
+	
 	public MTGDeckManager() {
-		serialis = MTGConstants.DEFAULT_SERIALIZER;
-	}
-
-	public void setSerialiser(MTGCardsExport serialis) {
-		this.serialis = serialis;
+		serialis = MTG.getPlugin("Json", MTGCardsExport.class);
 	}
 	
-	
+		
 	public static boolean isArenaDeck(MagicDeck d)
 	{
 		for(MagicCard mc : d.getUniqueCards())

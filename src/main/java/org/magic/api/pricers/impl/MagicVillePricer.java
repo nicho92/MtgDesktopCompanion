@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -98,11 +99,11 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		return "Magic-Ville";
 	}
 
-
+	
 	@Override
-	public void initDefault() {
-		setProperty(MAX, "5");
-		setProperty(WEBSITE, "https://www.magic-ville.com/");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(MAX, "5",
+							   WEBSITE, "https://www.magic-ville.com/");
 		
 
 	}

@@ -145,7 +145,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty(ARENA_LOG_FILE,"C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(ARENA_LOG_FILE,"C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log");
 	}
 }

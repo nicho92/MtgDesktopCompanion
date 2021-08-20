@@ -217,11 +217,12 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				 
 	}
 
+	
 	@Override
-	public void initDefault() {
-		setProperty("COPYRIGHT", "(c)2019-Wizards of the coast");
-		setProperty("LAYOUT_OLD_MODERN","modern");
-		setProperty(HYBRIDE,"");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("COPYRIGHT", "(c)2019-Wizards of the coast",
+							   "LAYOUT_OLD_MODERN","modern",
+							   HYBRIDE,"");
 	}
 	
 	@Override

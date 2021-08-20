@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -91,14 +92,15 @@ public class PriceMinisterPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN", "login");
-		setProperty("PASS", "PASS");
-		setProperty("CATEGORIE", "");
-		setProperty("URL", "https://ws.fr.shopping.rakuten.com/listing_ssl_ws?action=listing");
-		setProperty("SCOPE", "PRICING");
-		setProperty("NB_PRODUCT_PAGE", "20");
-		setProperty("WEBSITE", "http://www.priceminister.com/");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(
+								"LOGIN", "login",
+								"PASS", "PASS",
+								"CATEGORIE", "",
+								"URL", "https://ws.fr.shopping.rakuten.com/listing_ssl_ws?action=listing",
+								"SCOPE", "PRICING",
+								"NB_PRODUCT_PAGE", "20",
+								"WEBSITE", "http://www.priceminister.com/");
 	}
 
 }

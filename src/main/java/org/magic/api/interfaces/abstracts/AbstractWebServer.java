@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -229,22 +231,28 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		return getBoolean(AUTOSTART);
 	}
 	
-
+	
+	
 	@Override
-	public void initDefault() {
-		setProperty(SERVER_PORT, "80");
-		setProperty(SERVER_SSL_PORT, "443");
-		setProperty(AUTOSTART, FALSE);
-		setProperty(ALLOW_LIST_DIR, FALSE);
-		setProperty(SSL_ENABLED, FALSE);
-		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
-		setProperty(KEYSTORE_PASS, "changeit");
+	public Map<String, String> getDefaultAttributes() {
+		
+		var m = new HashMap<String,String>();
+		
+		m.put(SERVER_PORT, "80");
+		m.put(SERVER_SSL_PORT, "443");
+		m.put(AUTOSTART, FALSE);
+		m.put(ALLOW_LIST_DIR, FALSE);
+		m.put(SSL_ENABLED, FALSE);
+		m.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
+		m.put(KEYSTORE_PASS, "changeit");
 		try {
-			setProperty(REST_BACKEND_URI, "http://"+InetAddress.getLocalHost().getHostAddress()+":8080");
+			m.put(REST_BACKEND_URI, "http://"+InetAddress.getLocalHost().getHostAddress()+":8080");
 		} catch (UnknownHostException e) {
-			setProperty(REST_BACKEND_URI, "http://localhost:8080");
+			m.put(REST_BACKEND_URI, "http://localhost:8080");
 		}
-		setProperty(JSON_SERVER_START,"true");
+		m.put(JSON_SERVER_START,"true");
+		
+		return m;
 	}
 	
 

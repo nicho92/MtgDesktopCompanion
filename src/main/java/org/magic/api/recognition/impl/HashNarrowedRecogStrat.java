@@ -2,6 +2,7 @@ package org.magic.api.recognition.impl;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.Map;
 
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -29,9 +30,10 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	}
 	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty("LIMIT_TO_TOP_N_HASH_MATCH", "1000");
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put("LIMIT_TO_TOP_N_HASH_MATCH", "1000");
+		return m;
 	}
 	
 	@Override

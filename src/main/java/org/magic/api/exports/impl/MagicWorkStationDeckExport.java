@@ -88,11 +88,6 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 		return STATUT.DEPRECATED;
 	}
 
-	@Override
-	public void initDefault() {
-		// nothing to do
-
-	}
 
 	@Override
 	protected boolean skipFirstLine() {

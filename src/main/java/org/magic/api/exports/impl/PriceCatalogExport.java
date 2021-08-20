@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import javax.swing.Icon;
 
@@ -108,10 +109,13 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(PRICER, "");
-		setProperty("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");
-		setProperty("PROPERTIES_PRICE", "site,seller,value,currency,language,quality,foil");
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(PRICER, "");
+		m.put("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");
+		m.put("PROPERTIES_PRICE", "site,seller,value,currency,language,quality,foil");
+		
+		return m;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -102,10 +103,10 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("CACHE_FILE", new File(MTGConstants.DATA_DIR,"markov.gen").getAbsolutePath());
-		setProperty("NGEN", "5");
-		setProperty("TAG_NAME","CARD_NAME");
+	public Map<String, String> getDefaultAttributes() {
+	return Map.of("CACHE_FILE", new File(MTGConstants.DATA_DIR,"markov.gen").getAbsolutePath(),
+							"NGEN", "5",
+							"TAG_NAME","CARD_NAME");
 	}
 	
 	@Override

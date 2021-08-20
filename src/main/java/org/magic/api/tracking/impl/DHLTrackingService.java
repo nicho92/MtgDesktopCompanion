@@ -1,6 +1,7 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.magic.api.beans.Tracking;
 import org.magic.api.beans.TrackingStep;
@@ -40,9 +41,8 @@ public class DHLTrackingService extends AbstractTrackingService {
 		return "DHL";
 	}
 
-	
 	@Override
-	public void initDefault() {
-		setProperty("API_KEY", "demo-key");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("API_KEY", "demo-key");
 	}
 }

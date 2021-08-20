@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -80,10 +81,9 @@ public class PersonnalExport extends AbstractCardExport {
 		FileTools.saveFile(dest, temp.toString());
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty(REGEX,"");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(REGEX,"");
 	}
 	
 

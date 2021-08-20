@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.api.mtgstock.modele.CardSet;
@@ -320,14 +321,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return "MTGStocks";
 	}
 
-
+	
 	@Override
-	public void initDefault() {
-		setProperty("LOGIN", "login@mail.com");
-		setProperty("PASS", "changeme");
-		setProperty(PRICE_VALUE, "market"); // average // market
-		setProperty(GET_FOIL,"false");
-		setProperty(INTEREST_TYPE,"day");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN", "login@mail.com",
+					"PASS", "changeme",
+					PRICE_VALUE, "market",
+					GET_FOIL,"false",
+					INTEREST_TYPE,"day");
 	}
 	
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -193,15 +194,15 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(EVENT_NAME, "my Event");
-		setProperty(DECK_DESIGNER, "MTGDesktopCompanion");
-		setProperty(LAST_NAME, "My name");
-		setProperty(FIRST_NAME, "My first name");
-		setProperty(DCI_NUMBER, "0000000000");
-		setProperty(LOCATION, "fill it");
-		setProperty(DATE_FORMAT, "dd/MM/YYYY");
-		setProperty(FORCED_DATE, "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(EVENT_NAME, "my Event",
+								DECK_DESIGNER, "MTGDesktopCompanion",
+								LAST_NAME, "My name",
+								FIRST_NAME, "My first name",
+								DCI_NUMBER, "0000000000",
+								LOCATION, "fill it",
+								DATE_FORMAT, "dd/MM/YYYY",
+								FORCED_DATE, "");
 
 	}
 	

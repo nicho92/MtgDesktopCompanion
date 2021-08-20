@@ -659,12 +659,12 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	public String getName() {
 		return "MTGJson5";
 	}
-
-
+	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty("LRU_CACHE", "400");
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+			  m.put("LRU_CACHE", "400");
+		return m;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
@@ -30,7 +31,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private static final String URL_JSON = "URL_JSON";
 	private static final String FORMAT = "FORMAT";
 	private static final String PASS = "PASS";
-	private static final String LOGIN2 = "LOGIN";
+	private static final String LOGIN = "LOGIN";
 	private static final String URI_BASE="https://tappedout.net";
 	private URLToolsClient httpclient;
 
@@ -70,7 +71,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		RequestBuilder b = httpclient.build().method(METHOD.POST)
 						  .url(URI_BASE+"/accounts/login/")
-						  .addContent("username", getString(LOGIN2))
+						  .addContent("username", getString(LOGIN))
 						  .addContent("password", getString(PASS))
 						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
 						  .addHeader(URLTools.REFERER, URI_BASE+"/accounts/login/?next=/")
@@ -88,7 +89,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		httpclient.execute(b);
 
-		logger.debug("Connection : " + getString(LOGIN2) + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
+		logger.debug("Connection : " + getString(LOGIN) + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
 	}
 
@@ -189,13 +190,12 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return list;
 	}
 
-
 	@Override
-	public void initDefault() {
-		setProperty(LOGIN2, "login@mail.com");
-		setProperty(PASS, "changeme");
-		setProperty(FORMAT, "standard");
-		setProperty(URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(LOGIN, "login@mail.com",
+								PASS, "changeme",
+								FORMAT, "standard",
+								URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");
 	}
 
 

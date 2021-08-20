@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
@@ -106,13 +107,12 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+	public Map<String, String> getDefaultAttributes() {
 		
-		setProperty("URL", "https://deckmaster.info/");
-		setProperty("ICON_SET_SIZE", "medium");
-		setProperty(LOAD_CERTIFICATE, TRUE);
+		return Map.of("CALL_MCI_FOR", "p,CEI,CED,CPK,CST",
+							   "URL", "https://deckmaster.info/",
+							   "ICON_SET_SIZE", "medium",
+							   LOAD_CERTIFICATE, TRUE);
 	}
 
 	@Override

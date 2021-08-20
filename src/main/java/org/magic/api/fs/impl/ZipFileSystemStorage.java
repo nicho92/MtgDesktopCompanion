@@ -26,10 +26,9 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 		return "Zip";
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty("ROOT", Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip").toAbsolutePath().toString());
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("ROOT", Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip").toAbsolutePath().toString());
 	}
 
 	@Override

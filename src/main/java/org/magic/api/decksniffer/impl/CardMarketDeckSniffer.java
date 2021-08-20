@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -151,10 +152,10 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty(FORMAT, STANDARD);
-		setProperty(URL, "https://www.cardmarket.com");
-		setProperty("DETAILED", "false");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(FORMAT, STANDARD,
+							   URL, "https://www.cardmarket.com",
+							   "DETAILED", "false");
 	}
 
 	@Override

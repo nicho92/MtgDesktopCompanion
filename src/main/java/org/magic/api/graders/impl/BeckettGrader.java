@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -104,10 +105,8 @@ public class BeckettGrader extends AbstractGradersProvider{
 		return "BGS";
 	}
 	
-	
 	@Override
-	public void initDefault() {
-		setProperty("EMAIL", "");
-		setProperty("PASS", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("EMAIL", "","PASS", "");
 	}
 }

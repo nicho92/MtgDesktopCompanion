@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -63,11 +64,10 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		return "Telegram";
 	}
 
-
 	@Override
-	public void initDefault() {
-		setProperty("TOKEN", "");
-		setProperty("CHANNEL","");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("TOKEN", "",
+								"CHANNEL","");
 	}
 
 }

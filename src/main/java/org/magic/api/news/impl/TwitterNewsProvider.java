@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
@@ -82,13 +83,13 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		setProperty("CONSUMER_KEY", "");
-		setProperty("CONSUMER_SECRET", "");
-		setProperty("ACCESS_TOKEN", "");
-		setProperty("ACCESS_TOKEN_SECRET", "");
-		setProperty("MAX_RESULT", "25");
-		setProperty("LOG", "false");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("CONSUMER_KEY", "",
+								"CONSUMER_SECRET", "",
+								"ACCESS_TOKEN", "",
+								"ACCESS_TOKEN_SECRET", "",
+								"MAX_RESULT", "25",
+								"LOG", "false");
 
 	}
 	

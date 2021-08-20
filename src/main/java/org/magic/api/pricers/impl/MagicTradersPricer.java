@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -84,10 +85,11 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 	
 	
 	@Override
-	public void initDefault() {
-		setProperty("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
-		setProperty("WEBSITE", "http://classic.magictraders.com");
-		setProperty("KEYWORD", "");
+	public Map<String, String> getDefaultAttributes() {
+	
+		return Map.of("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt",
+							   "WEBSITE", "http://classic.magictraders.com",
+							   "KEYWORD", "");
 
 	}
 

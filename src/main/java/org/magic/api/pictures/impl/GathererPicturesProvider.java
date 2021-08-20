@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -41,11 +42,10 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty("SECOND_PROVIDER", "ScryFall");
-		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-		setProperty("SET_SIZE", "medium");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("SECOND_PROVIDER", "ScryFall",
+							   "CALL_MCI_FOR", "p,CEI,CED,CPK,CST",
+							   "SET_SIZE", "medium");
 	}
 
 	@Override

@@ -20,12 +20,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
@@ -868,22 +869,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/json.png"));
 	}
 	
-	
-
 	@Override
-	public void initDefault() {
-		setProperty(SERVER_PORT, "8080");
-		setProperty(AUTOSTART, FALSE);
-		setProperty(ENABLE_GZIP, FALSE);
-		setProperty(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		setProperty(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
-		setProperty(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
-		setProperty(PASSTOKEN, "");
-		setProperty("THREADS","8");
-		setProperty(ENABLE_SSL,FALSE);
-		setProperty(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
-		setProperty(KEYSTORE_PASS, "changeit");
-		setProperty(CACHE_TIMEOUT, "-1");
+	public Map<String, String> getDefaultAttributes() {
+		var map = new HashMap<String,String>();
+		
+		map.put(SERVER_PORT, "8080");
+		map.put(AUTOSTART, FALSE);
+		map.put(ENABLE_GZIP, FALSE);
+		map.put(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+		map.put(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
+		map.put(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+		map.put(PASSTOKEN, "");
+		map.put("THREADS","8");
+		map.put(ENABLE_SSL,FALSE);
+		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
+		map.put(KEYSTORE_PASS, "changeit");
+		map.put(CACHE_TIMEOUT, "-1");
+		
+		return map;
 	}
 
 	@Override

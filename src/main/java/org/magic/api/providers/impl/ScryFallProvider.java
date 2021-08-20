@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -91,12 +92,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty(LOAD_CERTIFICATE, "true");
-		setProperty("URL", "https://api.scryfall.com");
-		setProperty("MULTILANG",FALSE);
-		setProperty("LOAD_RULING",FALSE);
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(LOAD_CERTIFICATE, "true",
+								"URL", "https://api.scryfall.com",
+								"MULTILANG",FALSE,
+								"LOAD_RULING",FALSE);
 	}
 	
 	@Override

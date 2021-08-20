@@ -453,20 +453,23 @@ public class DiscordBotServer extends AbstractMTGServer {
 		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/discord.png"));
 	}
 	
-	@Override
-	public void initDefault() 
-	{
-		setProperty(TOKEN,"");
-		setProperty(AUTOSTART, "false");
-		setProperty(SHOWPRICE, "true");
-		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
-		setProperty(SHOWCOLLECTIONS,"true");
-		setProperty(PRICE_KEYWORDS,"price,prix,how much,cost");
-		setProperty(RESULTS_SHAKES,"10");
-		setProperty(ACTIVITY_TYPE,ActivityType.WATCHING.name());
-		setProperty(ACTIVITY,"bees flying");
-	}
 
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		var map = new HashMap<String,String>();
+				map.put(TOKEN,"");
+				map.put(AUTOSTART, "false");
+				map.put(SHOWPRICE, "true");
+				map.put(THUMBNAIL_IMAGE, "THUMBNAIL");
+				map.put(SHOWCOLLECTIONS,"true");
+				map.put(PRICE_KEYWORDS,"price,prix,how much,cost");
+				map.put(RESULTS_SHAKES,"10");
+				map.put(ACTIVITY_TYPE,ActivityType.WATCHING.name());
+				map.put(ACTIVITY,"bees flying");
+		
+		return map;
+	}
+	
 }
 
 //=================================================================EMBEDED MESSAGE

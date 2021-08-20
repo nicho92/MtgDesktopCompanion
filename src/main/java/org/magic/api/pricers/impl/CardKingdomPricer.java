@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.text.similarity.EditDistance;
 import org.apache.commons.text.similarity.JaccardDistance;
@@ -158,13 +159,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "Card Kingdom";
 	}
-
+	
+	
 	@Override
-	public void initDefault() {
-		setProperty("URL", "https://www.cardkingdom.com/mtg/");
-		setProperty("WEBSITE", "https://www.cardkingdom.com/");
-		
-		setProperty(LOAD_CERTIFICATE, "true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("URL", "https://www.cardkingdom.com/mtg/",
+								"WEBSITE", "https://www.cardkingdom.com/",
+								LOAD_CERTIFICATE, "true");
 	}
 
 

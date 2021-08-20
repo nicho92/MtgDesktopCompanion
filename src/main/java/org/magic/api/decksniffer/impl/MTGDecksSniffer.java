@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -157,12 +158,11 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void initDefault() {
-		
-		setProperty(URL, "https://mtgdecks.net");
-		setProperty(FORMAT, "Standard");
-		setProperty(MAX_PAGE, "2");
-		setProperty(LOAD_CERTIFICATE, "true");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(URL, "https://mtgdecks.net",
+							   FORMAT, "Standard",
+							   MAX_PAGE, "2",
+							   LOAD_CERTIFICATE, "true");
 	}
 
 	@Override

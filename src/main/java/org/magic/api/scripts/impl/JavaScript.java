@@ -1,5 +1,7 @@
 package org.magic.api.scripts.impl;
 
+import java.util.Map;
+
 import org.magic.api.interfaces.abstracts.AbstractJSR223MTGScript;
 
 
@@ -25,10 +27,12 @@ public class JavaScript extends AbstractJSR223MTGScript {
 		return STATUT.DEV;
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		setProperty("ENGINE", "rhino");
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put("ENGINE", "rhino");
+		return m;
 	}
 	
 }

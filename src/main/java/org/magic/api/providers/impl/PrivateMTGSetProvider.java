@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -283,9 +284,10 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return new ImageIcon(MTGConstants.IMAGE_LOGO);
 	}
 	
+	
 	@Override
-	public void initDefault() {
-		setProperty("DIRECTORY",new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("DIRECTORY",new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
 	}
 	
 

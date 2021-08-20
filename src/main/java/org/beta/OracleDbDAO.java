@@ -1,23 +1,25 @@
-package org.magic.api.dao.impl;
+package org.beta;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
 import org.magic.services.MTGControler;
 
 public class OracleDbDAO extends AbstractMagicSQLDAO{
 
-	
 	@Override
-	public void initDefault() {
-		setProperty(SERVERPORT, "1521");
-		setProperty(LOGIN, "user");
-		setProperty(PASS, "mypass");
-		setProperty(PARAMS, "");
-		setProperty("DUMP_PATH", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(SERVERPORT, "1521",
+				   LOGIN, "user",
+				   PASS, "mypass",
+				   PARAMS, "",
+				   "DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin"
+				);
 	}
+	
 
 	public static void main(String[] args) throws SQLException {
 		MTGControler.getInstance();

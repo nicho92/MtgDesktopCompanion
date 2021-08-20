@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.swing.Icon;
@@ -119,10 +120,11 @@ public class MTGArenaImporter extends AbstractCardExport {
 	public Icon getIcon() {
 		return new ImageIcon(MTGArenaExport.class.getResource("/icons/plugins/mtgarena.png"));
 	}
-
+	
+	
 	@Override
-	public void initDefault() {
-		setProperty(ARENA_LOG_FILE,"C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of(ARENA_LOG_FILE,"C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log");
 	}
 
 }

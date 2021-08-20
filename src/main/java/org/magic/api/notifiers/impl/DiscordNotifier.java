@@ -1,6 +1,7 @@
 package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.security.auth.login.LoginException;
 
@@ -106,9 +107,9 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	}
 	
 	@Override
-	public void initDefault() {
-		setProperty("TOKEN","");
-		setProperty("CHANNELID", "");
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("TOKEN","",
+								"CHANNELID", "");
 	}
 	
 	@Override
