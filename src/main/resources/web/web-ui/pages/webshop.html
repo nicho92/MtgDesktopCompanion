@@ -101,7 +101,7 @@
 			});
 			
 			var loaded=false;
-			
+			var table = null;
       		$("#searchBtn").click(function() {
 	
       			$.ajax({
@@ -109,11 +109,11 @@
 			    }).then(function(data) {
 			    	if(loaded)
 						{
-							$('#tableResults').DataTable().ajax.reload(null,false);	
+							table.clear().rows.add(data).draw();
 						}
 						else
 						{
-							$('#tableResults').DataTable( {
+							table=$('#tableResults').DataTable( {
 						    	"language": {
 						    	    "search": "Filter"
 						    	  },
@@ -130,6 +130,13 @@
 						        	},
 						            { 
 										"data": "enName" 
+									},
+									{ 
+										"data": "expansionName", 
+										"defaultContent": ""
+									},
+									{ 
+										"data": "category.categoryName" 
 									}
 						        ]
 					    		});
@@ -220,6 +227,8 @@
 						            <tr>
 						            	<th>Product</th>
 						            	<th>Name</th>
+										<th>Expansion</th>
+										<th>Category</th>
 						            </tr>
 						        </thead>
 						       </table>
