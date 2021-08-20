@@ -104,10 +104,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
 	public int createProduct(Product t,Category c) throws IOException {
-		
-		logger.debug("adding " + t);
-		return -1;
-	//	throw new IOException("not implemented " + t); 
+		throw new IOException("not implemented " + t); 
 	}
 
 	@Override

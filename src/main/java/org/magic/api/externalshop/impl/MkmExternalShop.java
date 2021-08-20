@@ -93,13 +93,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	private Transaction toTransaction(Order o) {
 		Transaction t = new Transaction();
-		t.setId(o.getIdOrder());
-		t.setTransporterShippingCode(null);
-		t.setDateCreation(o.getState().getDateBought());
-		t.setDatePayment(o.getState().getDatePaid());
-		t.setDateSend(o.getState().getDateSent());
-		t.setCurrency(o.getCurrencyCode());
-		t.setMessage(o.getNote());
+							t.setId(o.getIdOrder());
+							t.setTransporterShippingCode(null);
+							t.setDateCreation(o.getState().getDateBought());
+							t.setDatePayment(o.getState().getDatePaid());
+							t.setDateSend(o.getState().getDateSent());
+							t.setCurrency(o.getCurrencyCode());
+							t.setMessage(o.getNote());
 		
 		Contact c = new Contact();
 				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[0]);

@@ -57,7 +57,6 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		defaultLoc.setName(t.getEnName());
 		String locName = t.getLocalization().stream().filter(l->l.getLanguageName().equalsIgnoreCase(lang)).findFirst().orElse(defaultLoc).getName();
 		t.setEnName(locName);
-		
 		int ret = createProduct(t,c);
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( input.getName(),getName(), locName,lang, t.getIdProduct(), ret));
