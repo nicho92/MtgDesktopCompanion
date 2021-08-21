@@ -20,14 +20,17 @@ import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.providers.AccountsManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 
-public class MagicCardMarketPricer2 extends AbstractPricesProvider {
+public class MagicCardMarketPricer2 extends AbstractPricesProvider implements MTGAuthenticated {
 
 	private static final String IS_EXACT = "IS_EXACT";
 	private static final String FALSE = "false";
@@ -266,6 +269,23 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 	public String getVersion() {
 		return MkmConstants.MKM_API_VERSION;
 	}
+
+	@Override
+	public void addAccount(AccountAuthenticator token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getTiersName() {
+		return getName();
+	}
+
+	@Override
+	public List<String> listAttributes() {
+		return AccountsManager.generateKeysForMkm();
+	}
+
 
 
 }

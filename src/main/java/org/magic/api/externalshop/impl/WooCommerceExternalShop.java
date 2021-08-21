@@ -10,10 +10,12 @@ import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.exports.impl.WooCommerceExport;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
@@ -26,7 +28,7 @@ import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
-public class WooCommerceExternalShop extends AbstractExternalShop {
+public class WooCommerceExternalShop extends AbstractExternalShop implements MTGAuthenticated  {
 
 	
 	private WooCommerce client;
@@ -36,6 +38,24 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		if(client==null)
 			client = WooCommerceTools.newClient(new WooCommerceExport().getProperties());
 	}
+	
+	
+	@Override
+	public void addAccount(AccountAuthenticator token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getTiersName() {
+		return getName();
+	}
+
+	@Override
+	public List<String> listAttributes() {
+		return List.of("WEBSITE","CONSUMER_KEY","CONSUMER_SECRET");
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override

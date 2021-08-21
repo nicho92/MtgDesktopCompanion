@@ -1,6 +1,5 @@
 package org.beta;
 
-import java.util.Set;
 
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
@@ -22,7 +21,7 @@ public class Cleaner {
 			
 			for(Object s : actualProperties)
 			{
-				//mtg.getProperties().remove(s);
+				mtg.getProperties().remove(s);
 			
 			}
 		});

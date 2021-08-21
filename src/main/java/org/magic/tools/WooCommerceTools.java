@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.services.MTGConstants;
@@ -29,6 +30,11 @@ public class WooCommerceTools {
 
 	private WooCommerceTools() {}
 	
+	
+	public static WooCommerce newClient(AccountAuthenticator p, String website)
+	{
+		return newClient(p.get("CONSUMER_KEY"), p.get("SECRET_KEY") , website, new WooCommerceExport().getVersion());
+	}
 	
 	public static WooCommerce newClient(Properties p)
 	{

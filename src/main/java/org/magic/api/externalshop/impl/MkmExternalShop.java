@@ -20,17 +20,20 @@ import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
+import org.magic.services.providers.AccountsManager;
 import org.magic.tools.MTG;
 
-public class MkmExternalShop extends AbstractExternalShop {
+public class MkmExternalShop extends AbstractExternalShop implements MTGAuthenticated {
 	
 	private boolean initied=false;
 
@@ -144,6 +147,23 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("STATE", STATE.paid.name(),"ACTOR", ACTOR.seller.name());
 	}
+
+	@Override
+	public void addAccount(AccountAuthenticator token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getTiersName() {
+		return getName();
+	}
+	
+	@Override
+	public List<String> listAttributes() {
+		return AccountsManager.generateKeysForMkm();
+	}
+
 
 }
 

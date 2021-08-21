@@ -24,17 +24,20 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.components.dialog.MkmWantListChooserDialog;
 import org.magic.services.MTGControler;
+import org.magic.services.providers.AccountsManager;
 
-public class MkmOnlineExport extends AbstractCardExport {
+public class MkmOnlineExport extends AbstractCardExport implements MTGAuthenticated {
 
 	private static final String STOCK_USE = "STOCK_USE";
 	private static final String MAX_WANTLIST_SIZE = "MAX_WANTLIST_SIZE";
@@ -221,7 +224,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "MagicCardMarket";
+		return MkmConstants.MKM_NAME;
 	}
 	
 	@Override
@@ -447,6 +450,25 @@ public class MkmOnlineExport extends AbstractCardExport {
 		return MkmConstants.MKM_API_VERSION;
 	}
 
+	@Override
+	public void addAccount(AccountAuthenticator token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getTiersName() {
+		return getName();
+	}
+
+	@Override
+	public List<String> listAttributes() {
+		return AccountsManager.generateKeysForMkm();
+	}
+
+	
+	
+	
 
 	
 }

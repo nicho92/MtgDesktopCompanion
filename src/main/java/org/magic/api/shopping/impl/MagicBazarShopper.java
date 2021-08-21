@@ -12,16 +12,19 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.providers.AccountsManager;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-public class MagicBazarShopper extends AbstractMagicShopper {
+public class MagicBazarShopper extends AbstractMagicShopper implements MTGAuthenticated {
 
 	
 	String urlBase= "https://en.play-in.com/";
@@ -132,6 +135,23 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("LOGIN", "",
 								"PASS", "");
+	}
+	
+	
+	@Override
+	public String getTiersName() {
+		return getName();
+	}
+	
+	@Override
+	public void addAccount(AccountAuthenticator token) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<String> listAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
 	}
 	
 

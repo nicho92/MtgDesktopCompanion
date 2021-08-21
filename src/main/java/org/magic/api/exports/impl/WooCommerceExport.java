@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.collections4.ListUtils;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -32,7 +34,7 @@ import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
-public class WooCommerceExport extends AbstractCardExport {
+public class WooCommerceExport extends AbstractCardExport implements MTGAuthenticated{
 
 	public static final String WEBSITE = "WEBSITE";
 	public static final String WOO_COMMERCE = "WooCommerce";
@@ -430,6 +432,22 @@ public class WooCommerceExport extends AbstractCardExport {
 	@Override
 	public String getVersion() {
 		return "V3";
+	}
+
+	@Override
+	public void addAccount(AccountAuthenticator token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getTiersName() {
+		return getName();
+	}
+
+	@Override
+	public List<String> listAttributes() {
+		return List.of(WEBSITE,CONSUMER_KEY,CONSUMER_SECRET);
 	}
 	
 
