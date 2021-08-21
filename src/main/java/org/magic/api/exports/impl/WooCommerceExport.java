@@ -412,7 +412,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		var m = new HashMap<String, String>();
 				m.put(WEBSITE, "https://mywebsite.com");
 				m.put(CONSUMER_KEY, "");
-				m.put(	CONSUMER_SECRET, "");
+				m.put(CONSUMER_SECRET, "");
 				m.put(CATEGORY_ID, "");
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");

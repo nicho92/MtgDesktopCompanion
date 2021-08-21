@@ -1,5 +1,7 @@
 package org.beta;
 
+import java.util.Set;
+
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 
@@ -10,14 +12,19 @@ public class Cleaner {
 		
 		
 		PluginRegistry.inst().listPlugins().forEach(mtg->{
-			System.out.println("*******************************"+mtg.getName());
+			System.out.println("*******************************"+mtg.getName() +" " + mtg.getType());
 			
 			var actualProperties = mtg.getProperties().keySet();
-			var defaultProperties = mtg.getDefaultAttributes().keySet();
+			actualProperties.removeAll(mtg.getDefaultAttributes().keySet());
 			
-			System.out.println( actualProperties);
-			System.out.println( defaultProperties);
 			
+			System.out.println(actualProperties);
+			
+			for(Object s : actualProperties)
+			{
+				//mtg.getProperties().remove(s);
+			
+			}
 		});
 
 	}

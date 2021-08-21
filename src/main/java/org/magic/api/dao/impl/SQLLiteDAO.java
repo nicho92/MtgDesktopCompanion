@@ -26,11 +26,14 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"sqlite-db").toFile().getAbsolutePath(),
-				   LOGIN, "SA",
-				   PASS, "",
-				   DB_NAME, ""
-				);
+		
+		var m = super.getDefaultAttributes();
+		
+		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"sqlite-db").toFile().getAbsolutePath());
+		m.put(LOGIN, "SA");
+		m.put(DB_NAME, "");
+		
+		return m;
 	}
 	
 	@Override

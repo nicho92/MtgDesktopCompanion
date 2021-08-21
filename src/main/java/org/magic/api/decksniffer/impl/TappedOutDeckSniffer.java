@@ -192,7 +192,10 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
+		
+		
 		return Map.of(LOGIN, "login@mail.com",
+								"LOAD_CERTIFICATE","true",
 								PASS, "changeme",
 								FORMAT, "standard",
 								URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");

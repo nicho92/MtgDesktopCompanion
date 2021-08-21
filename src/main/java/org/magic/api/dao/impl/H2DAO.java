@@ -94,11 +94,13 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath(),
-				LOGIN, "SA",
-				PASS, "",
-				MODE,"file"
-				);
+		var m = super.getDefaultAttributes();
+		
+		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath());
+		m.put(LOGIN, "SA");
+		m.put(MODE,"file");
+		
+		return m;
 	}
 	
 	@Override

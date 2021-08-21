@@ -153,12 +153,12 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(SERVERPORT, "5432",
-				   LOGIN, "postgres",
-				   PASS, "postgres",
-				   PARAMS, "",
-				   URL_PGDUMP, "C:/Program Files (x86)/PostgreSQL/9.5/bin"
-				);
+		
+		var m = super.getDefaultAttributes();
+		m.put(SERVERPORT, "5432");
+		m.put(URL_PGDUMP, "C:/Program Files (x86)/PostgreSQL/9.5/bin");
+		
+		return m;
 	}
 	
 
