@@ -38,6 +38,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
+import org.magic.services.providers.AccountsManager;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
@@ -151,14 +152,9 @@ public class MTGControler {
 		return f;
 	}
 	
-	public void saveAccount(AccountAuthenticator account)
+	public void saveAccounts()
 	{
-		setProperty("accounts/account/name",account.getName());
-		
-		account.getTokens().entrySet().forEach(e->{
-			setProperty("accounts/account/attrs/key",e.getKey());	
-			setProperty("accounts/account/attrs/value",e.getValue());	
-		});
+		setProperty("accounts",new JsonExport().toJson(AccountsManager.inst().getKeys()));
 	}
 	
 	
