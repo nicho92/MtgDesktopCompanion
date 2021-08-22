@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -191,7 +192,7 @@ public class MassCollectionImporterDialog extends JDialog {
 										.get(0);
 
 							deck.add(mc);
-							MTGControler.getInstance().saveCard(mc,col,null);
+							CardsManagerService.saveCard(mc,col,null);
 							
 						} catch (Exception e1) {
 							logger.error(e1);

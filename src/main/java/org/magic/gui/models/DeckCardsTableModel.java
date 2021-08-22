@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGControler;
 
 public class DeckCardsTableModel extends DefaultTableModel {
@@ -153,7 +154,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			if(!ed.equals(mc.getCurrentSet()))
 			{
 				int qty = (this.t == TYPE.DECK) ? deck.getMain().get(mc) : deck.getSideBoard().get(mc);
-				MagicCard newC = MTGControler.getInstance().switchEditions(mc, ed);
+				MagicCard newC = CardsManagerService.switchEditions(mc, ed);
 				if (t == TYPE.DECK) {
 					deck.getMain().remove(mc);
 					deck.getMain().put(newC, qty);

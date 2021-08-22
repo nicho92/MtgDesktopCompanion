@@ -71,6 +71,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -168,7 +169,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 					MagicCard mcCard = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
 					try {
-						MTGControler.getInstance().saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),null);
+						CardsManagerService.saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),null);
 					} catch (SQLException e1) {
 						logger.error(e1);
 						MTGControler.getInstance().notify(e1);
@@ -580,7 +581,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							protected MagicCard doInBackground() throws Exception {
 								try {
 									
-									MagicCard mc = MTGControler.getInstance().switchEditions(selectedCard, selectedEdition);
+									MagicCard mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
 									publish(mc);
 									return mc;
 								} catch (Exception e) {

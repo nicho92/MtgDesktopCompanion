@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 
@@ -52,10 +51,8 @@ public class AccountsManager {
 	
 	
 	public static void main(String[] args) {
-		
 		MTGControler.getInstance();
 		System.out.println(AccountsManager.inst().listAvailablePlugins());
-		AccountsManager.inst().addAuthentication(new MagicCardMarketPricer2(), new AccountAuthenticator());
 	}
 	
 	

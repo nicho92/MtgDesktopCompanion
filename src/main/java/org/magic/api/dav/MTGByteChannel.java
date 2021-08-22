@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -112,7 +113,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 	    MagicCard mc = ((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(new String(buf) , MagicCard.class);
 		
 		try {
-			MTGControler.getInstance().saveCard(mc, path.getCollection(), null);
+			CardsManagerService.saveCard(mc, path.getCollection(), null);
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

@@ -36,6 +36,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -167,7 +168,7 @@ public class CardsEditionTablePanel extends JPanel {
 					protected Void doInBackground() throws Exception {
 						for(MagicCard mc : list)
 							try {
-								MTGControler.getInstance().saveCard(mc, (MagicCollection)cboCollection.getSelectedItem(),null);
+								CardsManagerService.saveCard(mc, (MagicCollection)cboCollection.getSelectedItem(),null);
 								publish(mc);
 							} catch (SQLException e) {
 								logger.error("couln't save " + mc,e);

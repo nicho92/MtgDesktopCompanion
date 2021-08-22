@@ -14,20 +14,39 @@ public class AccountAuthenticator implements Serializable {
 	public static final String PASSWORD = "PASSWORD";
 	public static final String LOGIN = "LOGIN";
 	protected Map<String,String> tokens;
+	private String name;
 	
-	public AccountAuthenticator() {
+	public AccountAuthenticator(String name) {
 		tokens = new HashMap<>();
+		this.name=name;
 	}
 	
+	
+	
 
-	public AccountAuthenticator(String login,String password) {
+	public AccountAuthenticator(String name, String login,String password) {
 		tokens = new HashMap<>();
 		tokens.put(LOGIN, login);
 		tokens.put(PASSWORD, password);
+		this.name=name;
 	}
 
 	
 	
+	public String getName() {
+		return name;
+	}
+
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
 	public Map<String, String> getTokens() {
 		return tokens;
 	}

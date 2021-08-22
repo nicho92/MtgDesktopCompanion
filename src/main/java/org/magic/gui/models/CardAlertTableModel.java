@@ -9,6 +9,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGControler;
 
 public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
@@ -106,7 +107,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				if(!ed.equals(alert.getCard().getCurrentSet())) 
 				{
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
-					MagicCard mc = MTGControler.getInstance().switchEditions(alert.getCard(), ed);
+					MagicCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);
 					var alert2 = new MagicCardAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());

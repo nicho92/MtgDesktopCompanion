@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
@@ -127,43 +128,6 @@ public class MTGControler {
 		System.exit(0);
 	}
 	
-	public void removeCard(MagicCard mc , MagicCollection collection) throws SQLException
-	{
-		getEnabledPlugin(MTGDao.class).removeCard(mc, collection);
-		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
-		{ 
-			getEnabledPlugin(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
-				try{
-					getEnabledPlugin(MTGDao.class).deleteStock(st);	
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
-			});
-		}
-		
-	}
-	
-	public void saveCard(MagicCard mc , MagicCollection collection,Observer o) throws SQLException
-	{
-		if(o!=null)
-			getEnabledPlugin(MTGDao.class).addObserver(o);
-		
-		getEnabledPlugin(MTGDao.class).saveCard(mc, collection);
-		
-		if(get("collections/stockAutoAdd").equals("true"))
-		{ 
-			MagicCardStock st = getDefaultStock();
-			st.setProduct(mc);
-			st.setMagicCollection(collection);
-			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);
-		}
-		
-		if(o!=null)
-			getEnabledPlugin(MTGDao.class).removeObserver(o);
-	}
-	
 	
 	
 	private Font f;
@@ -187,8 +151,19 @@ public class MTGControler {
 		return f;
 	}
 	
-	public void setDefaultStock(MagicCardStock st) {
+	public void saveAccount(AccountAuthenticator account)
+	{
+		setProperty("accounts/account/name",account.getName());
 		
+		account.getTokens().entrySet().forEach(e->{
+			setProperty("accounts/account/attrs/key",e.getKey());	
+			setProperty("accounts/account/attrs/value",e.getValue());	
+		});
+	}
+	
+	
+	
+	public void setDefaultStock(MagicCardStock st) {
 		setProperty("collections/defaultStock/signed",st.isSigned());
 		setProperty("collections/defaultStock/altered",st.isAltered());
 		setProperty("collections/defaultStock/foil",st.isFoil());
@@ -453,16 +428,6 @@ public class MTGControler {
 	}
 	
 	
-	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
-	{
-		try {
-			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, false).get(0);
-		} catch (IOException e) {
-			logger.error(mc +" is not found in " + ed);
-			return mc;
-		}
-	}
-
 	
 	public Locale getLocale() {
 		try {

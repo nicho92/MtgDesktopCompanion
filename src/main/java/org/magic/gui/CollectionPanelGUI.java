@@ -75,6 +75,7 @@ import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
+import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -705,7 +706,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				try {
 					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
-						MTGControler.getInstance().removeCard(card, col);
+						CardsManagerService.removeCard(card, col);
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -778,7 +779,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 								for (MagicCard mc : list) {
 									var col = new MagicCollection(it.getText());
 									try {
-										MTGControler.getInstance().saveCard(mc, col,null);
+										CardsManagerService.saveCard(mc, col,null);
 										publish(mc);
 										
 									} catch (SQLException e) {
@@ -896,7 +897,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MagicCard m : sets)
 							{
-								MTGControler.getInstance().saveCard(m, col,null);
+								CardsManagerService.saveCard(m, col,null);
 								publish(m);
 							}
 							return null;
@@ -941,7 +942,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MagicCard m : listtoDelete)
 							{
-								MTGControler.getInstance().removeCard(m, coldest);
+								CardsManagerService.removeCard(m, coldest);
 								publish(m);
 							}
 							return null;

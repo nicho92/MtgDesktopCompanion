@@ -64,6 +64,7 @@ import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.gui.models.MagicEditionsTableModel;
+import org.magic.services.CardsManagerService;
 import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -345,13 +346,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/cards/add/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(MTGControler.getInstance().get("default-library"));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
-			MTGControler.getInstance().saveCard(mc, from,null);
+			CardsManagerService.saveCard(mc, from,null);
 			return RETURN_OK;
 		}, transformer);
 
 		put("/cards/add/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
-			MTGControler.getInstance().saveCard(mc, new MagicCollection(request.params(":to")),null);
+			CardsManagerService.saveCard(mc, new MagicCollection(request.params(":to")),null);
 			return RETURN_OK;
 		}, transformer);
 
