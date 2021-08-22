@@ -55,7 +55,10 @@ public class AccountsManager {
 	
 	
 	public static void main(String[] args) {
+		MTGControler.getInstance();
 		AccountsManager.inst().addAuthentication(new MagicCardMarketPricer2(), new AccountAuthenticator("Mkm","nicà022", "test"));
+		MTGControler.getInstance().saveAccounts();
+		
 	}
 	
 	
