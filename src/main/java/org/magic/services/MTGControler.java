@@ -11,7 +11,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -46,6 +50,8 @@ import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
+
+import com.google.gson.JsonObject;
 
 
 public class MTGControler {
@@ -155,6 +161,22 @@ public class MTGControler {
 	public void saveAccounts()
 	{
 		setProperty("accounts",new JsonExport().toJson(AccountsManager.inst().getKeys()));
+	}
+	
+	public Map<String,AccountAuthenticator> listAccounts()
+	{
+		JsonObject o = new JsonExport().fromJson(get("accounts"), JsonObject.class);
+		var map = new HashMap<String,AccountAuthenticator>();
+		o.keySet().forEach(name->{
+			
+			var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();
+			
+			var tok = new AccountAuthenticator();
+			tokens.entrySet().forEach(e->tok.addToken(e.getKey(), e.getValue().getAsString()));
+			
+			map.put(name, tok);
+		});
+		return map;
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.AccountAuthenticator;
+import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -16,7 +17,7 @@ public class AccountsManager {
 
 	private static AccountsManager inst;
 	
-	private Map<MTGAuthenticated, AccountAuthenticator > keys;
+	private Map<String, AccountAuthenticator > keys;
 	
 	
 	public static AccountsManager inst()
@@ -34,16 +35,22 @@ public class AccountsManager {
 	
 	public void addAuthentication(MTGAuthenticated plug, AccountAuthenticator token)
 	{
-		keys.put(plug, token);
+		keys.put(plug.getTiersName(), token);
 	}
 	
 	
 	public AccountAuthenticator getToken(MTGAuthenticated plug)
 	{
-		return keys.get(plug);
+		return getToken(plug.getTiersName());
 	}
 	
-	public Map<MTGAuthenticated, AccountAuthenticator> getKeys() {
+	public AccountAuthenticator getToken(String plugname)
+	{
+		return keys.get(plugname);
+	}
+	
+	
+	public Map<String, AccountAuthenticator> getKeys() {
 		return keys;
 	}
 	
@@ -52,12 +59,25 @@ public class AccountsManager {
 		return PluginRegistry.inst().listPlugins().stream().filter(MTGAuthenticated.class::isInstance).distinct().collect(Collectors.toList());
 	}
 	
+	public void saveConfig()
+	{
+		if(!keys.isEmpty())
+			MTGControler.getInstance().saveAccounts();
+	}
+	
+	public void loadConfig()
+	{
+		keys =  MTGControler.getInstance().listAccounts();
+	}
+	
 	
 	
 	public static void main(String[] args) {
 		MTGControler.getInstance();
-		AccountsManager.inst().addAuthentication(new MagicCardMarketPricer2(), new AccountAuthenticator("Mkm","nicà022", "test"));
-		MTGControler.getInstance().saveAccounts();
+		AccountsManager.inst().loadConfig();
+		
+		
+		AccountsManager.inst().getKeys().entrySet().forEach(System.out::println);
 		
 	}
 	

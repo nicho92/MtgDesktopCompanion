@@ -7,7 +7,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.AccountAuthenticator;
 
 
-public interface MTGAuthenticated extends MTGPlugin{
+public interface MTGAuthenticated {
 
 	public void addAccount(AccountAuthenticator token);
 	public String getTiersName();
