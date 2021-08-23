@@ -1,6 +1,7 @@
 package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.security.auth.login.LoginException;
@@ -42,7 +43,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		JDA jda=null;
 		try {
 			
-			jda = JDABuilder.createDefault(getString("TOKEN")).build().awaitReady();
+			jda = JDABuilder.createDefault(getAuthenticator().get("TOKEN")).build().awaitReady();
 			var chan = jda.getTextChannelById(chanID);
 			notification.setSender(String.valueOf(jda.getSelfUser()));
 			var msg = new StringBuilder();
@@ -108,8 +109,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("TOKEN","",
-								"CHANNELID", "");
+		return Map.of("CHANNELID", "");
 	}
 	
 	@Override
@@ -117,4 +117,10 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		return JDAInfo.VERSION;
 	}
 
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of("TOKEN");
+	}
+	
+	
 }
