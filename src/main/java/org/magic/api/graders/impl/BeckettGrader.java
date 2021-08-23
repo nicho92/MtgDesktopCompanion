@@ -3,6 +3,7 @@ package org.magic.api.graders.impl;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -10,13 +11,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
+import org.magic.services.AccountsManager;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-public class BeckettGrader extends AbstractGradersProvider{
+public class BeckettGrader extends AbstractGradersProvider implements MTGAuthenticated{
 
 	
 	@Override
@@ -108,5 +111,10 @@ public class BeckettGrader extends AbstractGradersProvider{
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("EMAIL", "","PASS", "");
+	}
+
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
 	}
 }

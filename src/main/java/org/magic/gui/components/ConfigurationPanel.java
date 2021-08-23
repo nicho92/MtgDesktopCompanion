@@ -3,11 +3,13 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.LayoutManager2;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -55,6 +57,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
+import org.magic.gui.components.editor.MTGAuthenticatorEditor;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -113,6 +116,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JComboBox<MTGServer> cboServers;
 	private JCheckBox chckbxShopping;
 	
+	
 	public void loading(boolean show, String text) {
 		if (show) {
 			lblLoading.start();
@@ -122,7 +126,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 	}
 	
-	private JPanel createBoxPanel(String keyName, Icon ic, GridBagLayout layout,boolean collapsed)
+	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager2 layout,boolean collapsed)
 	{
 		var pane = new JXTaskPane();
 		pane.setTitle(capitalize(keyName));
@@ -191,6 +195,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
 		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
 		JPanel panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout,true);
+		JPanel panelAccounts = createBoxPanel("ACCOUNTS",MTGConstants.ICON_TAB_LOCK,new BorderLayout(),true);
+		
 		
 		add(panelConfig);
 		add(panelGUI);
@@ -199,11 +205,20 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelWebSite);
 		add(panelGameProfil);
 		add(panelCurrency);
+		add(panelAccounts);
 		
 		
 		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
 		gbclblLoading.gridwidth = 2;
 		add(lblLoading,gbclblLoading);
+		
+		
+		
+////////////ACCOUNT BOX
+		
+		panelAccounts.add(new MTGAuthenticatorEditor(),BorderLayout.CENTER);
+		
+		
 		
 		
 /////////////DAO BOX		

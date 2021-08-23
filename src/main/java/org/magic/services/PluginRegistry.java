@@ -161,6 +161,7 @@ public class PluginRegistry {
 
 	}
 	
+	
 	public Class loadClass(String name) throws ClassNotFoundException
 	{
 		return classLoader.loadClass(name);

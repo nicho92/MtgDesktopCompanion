@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
@@ -16,22 +17,16 @@ import com.google.gson.JsonElement;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
-public class WooCommerceShopper extends AbstractMagicShopper{
+public class WooCommerceShopper extends AbstractMagicShopper implements MTGAuthenticated{
 
 	private static final String PER_PAGE = "PER_PAGE";
 	private static final String STATUS = "STATUS";
-	private static final String WEBSITE = "WEBSITE";
-	private static final String CONSUMER_KEY = "CONSUMER_KEY";
-	private static final String CONSUMER_SECRET = "CONSUMER_SECRET";
 	private WooCommerce wooCommerce;
 
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(WEBSITE, "https://mysite.fr/",
-							   CONSUMER_KEY, "",
-							   CONSUMER_SECRET, "",
-							   STATUS,"any",
+		return Map.of(STATUS,"any",
 							   PER_PAGE,"100");
 	}
 
@@ -44,7 +39,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 	
 	private void init()
 	{
-		wooCommerce = WooCommerceTools.newClient(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString(WEBSITE),getVersion());
+		wooCommerce = WooCommerceTools.newClient(getAuthenticator(),getVersion());
 	}
 	
 	
@@ -76,7 +71,7 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 				   oe.setTransactionDate(UITools.parseGMTDate(obj.get("date_created").getAsString()));
 				   oe.setDescription(itemObj.get("name").getAsString());
 				   oe.setSeller(obj.get("billing").getAsJsonObject().get("last_name").getAsString());
-				   oe.setSource(getString(WEBSITE));
+				   oe.setSource(getString(getAuthenticator().get("WEBSITE")));
 				   oe.setItemPrice(itemObj.get("price").getAsDouble());
 				   oe.setTypeTransaction(TransactionDirection.BUY);
 				   oe.setShippingPrice(obj.get("shipping_total").getAsDouble());
@@ -89,6 +84,12 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 	@Override
 	public String getVersion() {
 		return "V3";
+	}
+
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -10,11 +10,9 @@ import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
@@ -36,24 +34,12 @@ public class WooCommerceExternalShop extends AbstractExternalShop implements MTG
 	private void init()
 	{
 		if(client==null)
-			client = WooCommerceTools.newClient(new WooCommerceExport().getProperties());
+			client = WooCommerceTools.newClient(getAuthenticator());
 	}
 	
-	
 	@Override
-	public void addAccount(AccountAuthenticator token) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getTiersName() {
-		return getName();
-	}
-
-	@Override
-	public List<String> listAttributes() {
-		return List.of("WEBSITE","CONSUMER_KEY","CONSUMER_SECRET");
+	public List<String> listAuthenticationAttributes() {
+		return WooCommerceTools.generateKeysForWooCommerce();
 	}
 	
 	
@@ -208,7 +194,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop implements MTG
 
 	@Override
 	public String getName() {
-		return WooCommerceExport.WOO_COMMERCE;
+		return WooCommerceTools.WOO_COMMERCE_NAME;
 	}
 	
 
@@ -300,7 +286,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop implements MTG
 		for(MTGStockItem st : t.getItems())
 		{
 			var line = new JSONObject();
-				line.put("product_id", st.getTiersAppIds(WooCommerceExport.WOO_COMMERCE));
+				line.put("product_id", st.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
 				line.put("quantity", st.getQte());
 			items.put(line);
 		}

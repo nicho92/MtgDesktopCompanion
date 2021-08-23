@@ -1,6 +1,5 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.Dimension;
@@ -10,12 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -26,32 +20,23 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
-import org.magic.services.providers.AccountsManager;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.tools.ImageTools;
-import org.utils.patterns.observer.Observer;
-
-import com.google.gson.JsonObject;
 
 
 public class MTGControler {
@@ -160,26 +145,13 @@ public class MTGControler {
 	
 	public void saveAccounts()
 	{
-		setProperty("accounts",new JsonExport().toJson(AccountsManager.inst().getKeys()));
+		setProperty("accounts",AccountsManager.inst().exportConfig());
 	}
 	
-	public Map<String,AccountAuthenticator> listAccounts()
+	public void loadAccountsConfiguration()
 	{
-		JsonObject o = new JsonExport().fromJson(get("accounts"), JsonObject.class);
-		var map = new HashMap<String,AccountAuthenticator>();
-		o.keySet().forEach(name->{
-			
-			var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();
-			
-			var tok = new AccountAuthenticator();
-			tokens.entrySet().forEach(e->tok.addToken(e.getKey(), e.getValue().getAsString()));
-			
-			map.put(name, tok);
-		});
-		return map;
+		AccountsManager.inst().loadConfig(get("accounts"));
 	}
-	
-	
 	
 	public void setDefaultStock(MagicCardStock st) {
 		setProperty("collections/defaultStock/signed",st.isSigned());

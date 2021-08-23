@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.CardsManagerService;
-import org.magic.services.MTGControler;
 
 public class DeckCardsTableModel extends DefaultTableModel {
 

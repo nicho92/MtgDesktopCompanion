@@ -2,15 +2,17 @@ package org.magic.api.interfaces;
 
 import java.util.List;
 
-import javax.swing.Icon;
-
 import org.magic.api.beans.AccountAuthenticator;
+import org.magic.services.AccountsManager;
 
 
-public interface MTGAuthenticated {
-
-	public void addAccount(AccountAuthenticator token);
-	public String getTiersName();
-	public List<String> listAttributes();
-	public Icon getIcon() ;
+public interface MTGAuthenticated extends MTGPlugin{
+	public List<String> listAuthenticationAttributes();
+	
+	default AccountAuthenticator getAuthenticator()
+	{
+		return AccountsManager.inst().getAuthenticator(this);
+	}
+	
+	
 }

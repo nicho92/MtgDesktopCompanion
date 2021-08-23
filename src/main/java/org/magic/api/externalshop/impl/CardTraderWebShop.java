@@ -13,9 +13,10 @@ import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
+import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 
-public class CardTraderWebShop extends AbstractExternalShop {
+public class CardTraderWebShop extends AbstractExternalShop implements MTGAuthenticated{
 
 	
 	private CardTraderService service;
@@ -110,6 +111,11 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		var m = super.getDefaultAttributes();
 		m.put("TOKEN", "");
 		return m;
+	}
+
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of("TOKEN");
 	}
 	
 

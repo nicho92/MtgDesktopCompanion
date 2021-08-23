@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.collections4.ListUtils;
-import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -36,8 +35,6 @@ import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExport extends AbstractCardExport implements MTGAuthenticated{
 
-	public static final String WEBSITE = "WEBSITE";
-	public static final String WOO_COMMERCE = "WooCommerce";
 	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
@@ -46,8 +43,6 @@ public class WooCommerceExport extends AbstractCardExport implements MTGAuthenti
 	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
 	private static final String CATEGORY_ID = "CATEGORY_ID";
-	public static final String CONSUMER_KEY = "CONSUMER_KEY";
-	public static final String CONSUMER_SECRET = "CONSUMER_SECRET";
 	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private  static final String BATCH_THRESHOLD = "BATCH_THRESHOLD";
 	
@@ -81,7 +76,7 @@ public class WooCommerceExport extends AbstractCardExport implements MTGAuthenti
 	
 	private void init()
 	{
-		 wooCommerce = WooCommerceTools.newClient(getString(CONSUMER_KEY), getString(CONSUMER_SECRET),getString(WEBSITE),getVersion());
+		 wooCommerce = WooCommerceTools.newClient(getAuthenticator());
 	}
 	
 	
@@ -400,7 +395,7 @@ public class WooCommerceExport extends AbstractCardExport implements MTGAuthenti
 
 	@Override
 	public String getName() {
-		return WOO_COMMERCE;
+		return WooCommerceTools.WOO_COMMERCE_NAME;
 	}
 
 	@Override
@@ -412,9 +407,6 @@ public class WooCommerceExport extends AbstractCardExport implements MTGAuthenti
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String, String>();
-				m.put(WEBSITE, "https://mywebsite.com");
-				m.put(CONSUMER_KEY, "");
-				m.put(CONSUMER_SECRET, "");
 				m.put(CATEGORY_ID, "");
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
@@ -427,27 +419,10 @@ public class WooCommerceExport extends AbstractCardExport implements MTGAuthenti
 		
 		return m;
 	}
-	
-	
-	@Override
-	public String getVersion() {
-		return "V3";
-	}
 
 	@Override
-	public void addAccount(AccountAuthenticator token) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getTiersName() {
-		return getName();
-	}
-
-	@Override
-	public List<String> listAttributes() {
-		return List.of(WEBSITE,CONSUMER_KEY,CONSUMER_SECRET);
+	public List<String> listAuthenticationAttributes() {
+		return WooCommerceTools.generateKeysForWooCommerce();
 	}
 	
 

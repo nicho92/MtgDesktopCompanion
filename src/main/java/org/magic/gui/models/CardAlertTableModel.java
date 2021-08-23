@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.CardsManagerService;
-import org.magic.services.MTGControler;
 
 public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	

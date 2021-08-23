@@ -24,7 +24,6 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
-import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -34,8 +33,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.components.dialog.MkmWantListChooserDialog;
+import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.AccountsManager;
 
 public class MkmOnlineExport extends AbstractCardExport implements MTGAuthenticated {
 
@@ -451,18 +450,7 @@ public class MkmOnlineExport extends AbstractCardExport implements MTGAuthentica
 	}
 
 	@Override
-	public void addAccount(AccountAuthenticator token) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getTiersName() {
-		return getName();
-	}
-
-	@Override
-	public List<String> listAttributes() {
+	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateKeysForMkm();
 	}
 

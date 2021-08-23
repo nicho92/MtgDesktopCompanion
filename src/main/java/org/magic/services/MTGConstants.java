@@ -250,6 +250,7 @@ public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.cla
 	public static final ImageIcon ICON_TAB_ACTIVESERVER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/active-server.png"));
 	public static final ImageIcon ICON_TAB_SYNC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/sync.png"));
 	public static final ImageIcon ICON_TAB_DELIVERY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/delivery.png"));
+	public static final ImageIcon ICON_TAB_LOCK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/lock.png"));
 	
 
 
