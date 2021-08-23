@@ -42,11 +42,14 @@ public class AccountsManager {
 	}
 	
 	
-	public Map<MTGPlugin, AccountAuthenticator> getKeys() {
+	public Map<MTGPlugin, AccountAuthenticator> listAuthEntries() {
 		return keys;
 	}
 	
 
+	public void removeEntry(MTGPlugin selectedValue) {
+		keys.remove(selectedValue);
+	}
 	
 	public MTGPlugin loadAuthenticator(String name)
 	{
@@ -65,7 +68,7 @@ public class AccountsManager {
 	}
 	
 	public String exportConfig() {
-		return new JsonExport().toJson(AccountsManager.inst().getKeys());
+		return new JsonExport().toJson(AccountsManager.inst().listAuthEntries());
 	}
 	
 	public void loadConfig(String o) {
@@ -93,6 +96,7 @@ public class AccountsManager {
 	public static List<String> generateLoginPasswordsKeys() {
 		return List.of(AccountAuthenticator.LOGIN,AccountAuthenticator.PASSWORD);
 	}
+
 
 	
 }

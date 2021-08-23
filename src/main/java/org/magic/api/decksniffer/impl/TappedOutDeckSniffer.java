@@ -11,12 +11,14 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 import org.magic.tools.RequestBuilder;
@@ -71,8 +73,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		RequestBuilder b = httpclient.build().method(METHOD.POST)
 						  .url(URI_BASE+"/accounts/login/")
-						  .addContent("username", getString(LOGIN))
-						  .addContent("password", getString(PASS))
+						  .addContent("username", getAuthenticator().getLogin())
+						  .addContent("password", getAuthenticator().getPassword())
 						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
 						  .addHeader(URLTools.REFERER, URI_BASE+"/accounts/login/?next=/")
 						  .addHeader(URLTools.UPGR_INSECURE_REQ, "1")
@@ -190,13 +192,16 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return list;
 	}
 
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
+	}
+	
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
-		
-		return Map.of(LOGIN, "login@mail.com",
-								"LOAD_CERTIFICATE","true",
-								PASS, "changeme",
+		return Map.of("LOAD_CERTIFICATE","true",
 								FORMAT, "standard",
 								URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");
 	}
