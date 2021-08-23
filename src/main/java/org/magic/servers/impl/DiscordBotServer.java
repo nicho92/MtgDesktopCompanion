@@ -397,10 +397,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		try {
 			initListener();
-			
-			
-			
-			jda = JDABuilder.createDefault(getString(TOKEN))
+		
+			jda = JDABuilder.createDefault(getAuthenticator().get(TOKEN))
 							.addEventListeners(listener)
 							.build();
 			
@@ -408,11 +406,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
 				jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
 			
+			logger.info("Server " + getName() +" started");
+			
 			
 		} catch (LoginException e) {
 			throw new IOException(e);
 		}
-		logger.info("Server " + getName() +" started");
+		
 
 	}
 
@@ -422,6 +422,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		{
 			jda.shutdown();
 			jda.getPresence().setPresence(OnlineStatus.OFFLINE,false);
+			
+			logger.info("Server " + getName() +" stopped");
 		}
 	}
 
@@ -439,12 +441,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "Query your  "+MTGConstants.MTG_APP_NAME+"  via discord Channel";
+		return "Query your  "+MTGConstants.MTG_APP_NAME+"  via discord Bot ";
 	}
 
 	@Override
 	public String getName() {
-		return "Discord Bot";
+		return "Discord";
 	}
 
 	
@@ -457,7 +459,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var map = new HashMap<String,String>();
-				map.put(TOKEN,"");
 				map.put(AUTOSTART, "false");
 				map.put(SHOWPRICE, "true");
 				map.put(THUMBNAIL_IMAGE, "THUMBNAIL");

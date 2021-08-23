@@ -15,7 +15,7 @@ public class AccountsManager {
 
 	private static AccountsManager inst;
 	
-	private Map<MTGPlugin, AccountAuthenticator > keys;
+	private Map<MTGPlugin, AccountAuthenticator> keys;
 	
 	
 	public static AccountsManager inst()
@@ -73,7 +73,7 @@ public class AccountsManager {
 	
 	public void loadConfig(String o) {
 		
-		if(!(o==null) && !o.isEmpty())
+		if((o!=null) && !o.isEmpty())
 			loadConfig(new JsonExport().fromJson(o, JsonObject.class));
 	}
 	

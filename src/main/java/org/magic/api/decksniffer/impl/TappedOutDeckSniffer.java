@@ -32,8 +32,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String URL_JSON = "URL_JSON";
 	private static final String FORMAT = "FORMAT";
-	private static final String PASS = "PASS";
-	private static final String LOGIN = "LOGIN";
 	private static final String URI_BASE="https://tappedout.net";
 	private URLToolsClient httpclient;
 
@@ -91,7 +89,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		httpclient.execute(b);
 
-		logger.debug("Connection : " + getString(LOGIN) + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
+		logger.debug("Connection : " +  getAuthenticator().getLogin() + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
 	}
 
