@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class AccountAuthenticator implements Serializable {
 	
@@ -31,6 +32,15 @@ public class AccountAuthenticator implements Serializable {
 	public Map<String, String> getTokens() {
 		return tokens;
 	}
+	
+	public Properties getTokensAsProperties()
+	{
+		var prop = new Properties();
+		getTokens().forEach(prop::put);
+		return prop;
+		
+	}
+	
 	
 	public void addToken(String k, String val)
 	{

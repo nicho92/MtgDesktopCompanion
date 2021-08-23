@@ -8,7 +8,9 @@ import java.util.Properties;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 
+import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MTGDocumentation;
+import org.magic.services.AccountsManager;
 import org.utils.patterns.observer.Observer;
 
 public interface MTGPlugin extends Comparable<MTGPlugin> {
@@ -68,6 +70,19 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	public boolean isPartner();
 	
 	public Map<String,String> getDefaultAttributes();
+	
+	public List<String> listAuthenticationAttributes();
+	
+	default AccountAuthenticator getAuthenticator()
+	{
+		try {
+			return AccountsManager.inst().getAuthenticator(this);
+		}
+		catch(Exception e)
+		{
+			return new AccountAuthenticator();
+		}
+	}
 	
 	
 	@Override

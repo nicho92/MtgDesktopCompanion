@@ -45,6 +45,7 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.reflections.Reflections;
 
 public class PluginRegistry {
@@ -117,6 +118,16 @@ public class PluginRegistry {
 			return null;
 		}
 	}
+	
+	
+	public static void main(String[] args) {
+		MTGControler.getInstance();
+		
+		System.out.println(PluginRegistry.inst().getEntryFor(new MagicCardMarketPricer2()));
+		
+		
+	}
+	
 
 	public PluginEntry getEntryFor(Object k)
 	{

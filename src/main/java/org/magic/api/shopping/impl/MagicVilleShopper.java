@@ -14,6 +14,7 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.AccountsManager;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
@@ -36,8 +37,8 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	
 		RequestBuilder build = RequestBuilder.build().method(METHOD.POST)
 													.url(urlLogin)
-													.addContent("pseudo", getString("LOGIN"))
-													.addContent("pass", getString("PASS"))
+													.addContent("pseudo", getAuthenticator().getLogin())
+													.addContent("pass", getAuthenticator().getPassword())
 													.addContent("return_url", urlLogin)
 													.addContent("data", "1")
 													.addContent("x", "14")
@@ -108,10 +109,11 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		return "Magic-Ville";
 	}
 	
+
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN", "",
-								"PASS", "");
+	public List<String> listAuthenticationAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
 	}
+	
 
 }

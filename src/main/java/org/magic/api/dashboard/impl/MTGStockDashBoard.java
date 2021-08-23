@@ -324,8 +324,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN", "login@mail.com",
-					"PASS", "changeme",
+		return Map.of(
 					PRICE_VALUE, "market",
 					GET_FOIL,"false",
 					INTEREST_TYPE,"day");

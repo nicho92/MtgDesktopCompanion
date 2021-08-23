@@ -20,7 +20,6 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 
 public class MagicCardmarketShopper extends AbstractMagicShopper {
 
@@ -29,7 +28,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 	private void init()
 	{
 		try {
-			MkmAPIConfig.getInstance().init(new MagicCardMarketPricer2().getProperties());
+			MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
 			initied=true;
 		} catch (MkmException e) {
 			logger.error(e);

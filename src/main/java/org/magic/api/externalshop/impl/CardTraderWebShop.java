@@ -13,10 +13,9 @@ import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 
-public class CardTraderWebShop extends AbstractExternalShop implements MTGAuthenticated{
+public class CardTraderWebShop extends AbstractExternalShop {
 
 	
 	private CardTraderService service;

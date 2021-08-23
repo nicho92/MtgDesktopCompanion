@@ -13,17 +13,11 @@ public class Cleaner {
 		PluginRegistry.inst().listPlugins().forEach(mtg->{
 			System.out.println("*******************************"+mtg.getName() +" " + mtg.getType());
 			
-			var actualProperties = mtg.getProperties().keySet();
-			actualProperties.removeAll(mtg.getDefaultAttributes().keySet());
+			mtg.getProperties().keySet().removeIf(o->!mtg.getDefaultAttributes().containsKey(o));
+			
+			mtg.save();
 			
 			
-			System.out.println(actualProperties);
-			
-			for(Object s : actualProperties)
-			{
-				mtg.getProperties().remove(s);
-			
-			}
 		});
 
 	}

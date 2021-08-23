@@ -17,7 +17,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -33,7 +32,7 @@ import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
-public class WooCommerceExport extends AbstractCardExport implements MTGAuthenticated{
+public class WooCommerceExport extends AbstractCardExport {
 
 	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";

@@ -41,6 +41,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			return null;
 		}
 	}
+	
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return new ArrayList<>();
+	}
 
 	@Override
 	public String getCategory() {

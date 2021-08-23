@@ -23,13 +23,12 @@ import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.AccountsManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 
-public class MagicCardMarketPricer2 extends AbstractPricesProvider implements MTGAuthenticated {
+public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 	private static final String IS_EXACT = "IS_EXACT";
 	private static final String FALSE = "false";
@@ -65,7 +64,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider implements MT
 		
 		
 		try {
-			MkmAPIConfig.getInstance().init(getString("APP_ACCESS_TOKEN_SECRET"), getString("APP_ACCESS_TOKEN"),getString("APP_SECRET"), getString("APP_TOKEN"));
+			MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
 			initied=true;
 		} catch (MkmException e) {
 			logger.error(e);
@@ -245,11 +244,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider implements MT
 	public Map<String, String> getDefaultAttributes() {
 		
 		var map = new HashMap<String,String>();
-		
-		map.put("APP_TOKEN", "");
-		map.put("APP_SECRET", "");
-		map.put("APP_ACCESS_TOKEN", "");
-		map.put("APP_ACCESS_TOKEN_SECRET", "");
 		map.put(LANGUAGE_ID, "1");
 		map.put(IS_EXACT, "");
 		map.put(MIN_CONDITION, "");

@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.AccountsManager;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
@@ -30,8 +31,8 @@ public class PhilibertShopper extends AbstractMagicShopper {
 					  .method(METHOD.POST)
 					  .url(BASE_URL+"/en/authentication")
 					  .setClient(c)
-					  .addContent("email", getString("LOGIN"))
-					  .addContent("passwd",getString("PASSWORD"))
+					  .addContent("email", getAuthenticator().getLogin())
+					  .addContent("passwd",getAuthenticator().getPassword())
 					  .addContent("back","history")
 					  .addContent("SubmitLogin","")
 					  .addHeader(":path", "/en/authentication")
@@ -81,14 +82,10 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		return ret;
 	}
 
-	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN", "",
-								"PASSWORD", "");
+	public List<String> listAuthenticationAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
 	}
-
-	
 	
 	
 	@Override

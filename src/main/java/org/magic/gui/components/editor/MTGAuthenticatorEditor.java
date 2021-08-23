@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import org.magic.api.beans.AccountAuthenticator;
-import org.magic.api.interfaces.MTGAuthenticated;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.AccountsManager;
@@ -36,8 +36,8 @@ public class MTGAuthenticatorEditor extends JPanel {
 		var panelButtons = new JPanel();
 		var comboBox = UITools.createCombobox(AccountsManager.inst().listAvailablePlugins());
 		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
-		var listModel = new DefaultListModel<MTGAuthenticated>();
-		var list = new JList<MTGAuthenticated>(listModel);
+		var listModel = new DefaultListModel<MTGPlugin>();
+		var list = new JList<MTGPlugin>(listModel);
 		var btnSave = UITools.createBindableJButton("",MTGConstants.ICON_SAVE, KeyEvent.VK_S,"Save");
 		
 		setLayout(new BorderLayout(0, 0));
@@ -64,13 +64,13 @@ public class MTGAuthenticatorEditor extends JPanel {
 		btnNewButton.addActionListener(al->{
 			
 			var auth = new AccountAuthenticator();
-			for (String k : ((MTGAuthenticated)comboBox.getSelectedItem()).listAuthenticationAttributes())
+			for (String k : ((MTGPlugin)comboBox.getSelectedItem()).listAuthenticationAttributes())
 			{
 					auth.addToken(k, "");
 			}
 			
-			AccountsManager.inst().addAuthentication((MTGAuthenticated)comboBox.getSelectedItem(), auth);
-			listModel.addElement((MTGAuthenticated)comboBox.getSelectedItem());
+			AccountsManager.inst().addAuthentication((MTGPlugin)comboBox.getSelectedItem(), auth);
+			listModel.addElement((MTGPlugin)comboBox.getSelectedItem());
 			list.updateUI();
 			
 		});
@@ -82,7 +82,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 				int idx = list.getSelectedIndex();
 				if (idx > -1)
 				{
-						MTGAuthenticated plug = listModel.getElementAt(idx);
+						MTGPlugin plug = listModel.getElementAt(idx);
 						tableModel.init(plug.getAuthenticator().getTokens());
 				}
 	      }

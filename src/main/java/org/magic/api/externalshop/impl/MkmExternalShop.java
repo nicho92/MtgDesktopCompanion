@@ -25,14 +25,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.interfaces.MTGAuthenticated;
-import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.AccountsManager;
-import org.magic.tools.MTG;
 
-public class MkmExternalShop extends AbstractExternalShop implements MTGAuthenticated {
+public class MkmExternalShop extends AbstractExternalShop {
 	
 	private boolean initied=false;
 
@@ -40,7 +37,7 @@ public class MkmExternalShop extends AbstractExternalShop implements MTGAuthenti
 	{
 		if(!initied) {
 			try {
-				MkmAPIConfig.getInstance().init(MTG.getPlugin(MkmConstants.MKM_NAME, MTGPricesProvider.class).getProperties());
+				MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
 				initied=true;
 			} catch (MkmException e) {
 				logger.error(e);

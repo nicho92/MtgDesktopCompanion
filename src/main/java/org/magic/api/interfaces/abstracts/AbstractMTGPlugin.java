@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,6 +43,13 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	{
 		return false;
 	}
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return new ArrayList<>();
+	}
+	
+	
 	
 	@Override
 	public ObjectName getObjectName() {

@@ -220,7 +220,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("COPYRIGHT", "(c)2019-Wizards of the coast",
+		return Map.of("COPYRIGHT", "(c)2021-Wizards of the coast",
 							   "LAYOUT_OLD_MODERN","modern",
 							   HYBRIDE,"");
 	}

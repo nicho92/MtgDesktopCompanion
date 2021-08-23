@@ -28,7 +28,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -36,7 +35,7 @@ import org.magic.gui.components.dialog.MkmWantListChooserDialog;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
 
-public class MkmOnlineExport extends AbstractCardExport implements MTGAuthenticated {
+public class MkmOnlineExport extends AbstractCardExport {
 
 	private static final String STOCK_USE = "STOCK_USE";
 	private static final String MAX_WANTLIST_SIZE = "MAX_WANTLIST_SIZE";
@@ -80,10 +79,7 @@ public class MkmOnlineExport extends AbstractCardExport implements MTGAuthentica
 	private void init()
 	{
 		try {
-			var mkmPricer = new MagicCardMarketPricer2();
-			MkmAPIConfig.getInstance().init(mkmPricer.getString("APP_ACCESS_TOKEN_SECRET"),
-					mkmPricer.getString("APP_ACCESS_TOKEN"), mkmPricer.getString("APP_SECRET"),
-					mkmPricer.getString("APP_TOKEN"));
+			MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
 
 			pService = new ProductServices();
 			atts = new EnumMap<>(PRODUCT_ATTS.class);

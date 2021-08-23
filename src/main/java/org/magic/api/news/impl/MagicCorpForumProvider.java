@@ -63,15 +63,9 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public String getName() {
-		return "MagicCorporation Topic";
+		return "MagicCorporation";
 	}
 	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/magiccorporation.png"));
-	}
-	
-
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;

@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.AccountsManager;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
@@ -29,8 +30,8 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		List<OrderEntry> entries = new ArrayList<>();
 		
 		Map<String, String> nvps = client.buildMap()
-									 .put("email",  getString("LOGIN"))
-									 .put("pass", getString("PASS")).build();
+									 .put("email", getAuthenticator().getLogin())
+									 .put("pass", getAuthenticator().getPassword()).build();
 							
 							
 		client.doPost(urlLogin, nvps, null);
@@ -52,11 +53,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			{
 				logger.error("can't get order "+ id,e);
 			}
-			
-			
-			
 		}
-		
 		
 		return entries;
 		
@@ -94,13 +91,10 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	public String getName() {
 		return "MagicCorporation";
 	}
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN", "",
-								"PASS", "");
-	}
-
 	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
+	}
 
 }

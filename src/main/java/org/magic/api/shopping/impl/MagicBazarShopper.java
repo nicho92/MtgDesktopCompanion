@@ -15,7 +15,6 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
@@ -23,7 +22,7 @@ import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-public class MagicBazarShopper extends AbstractMagicShopper implements MTGAuthenticated {
+public class MagicBazarShopper extends AbstractMagicShopper {
 
 	
 	String urlBase= "https://en.play-in.com/";
@@ -127,13 +126,6 @@ public class MagicBazarShopper extends AbstractMagicShopper implements MTGAuthen
 	@Override
 	public String getName() {
 		return "MagicBazar";
-	}
-	
-	
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN", "",
-								"PASS", "");
 	}
 	
 	@Override

@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
@@ -17,7 +16,7 @@ import com.google.gson.JsonElement;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
-public class WooCommerceShopper extends AbstractMagicShopper implements MTGAuthenticated{
+public class WooCommerceShopper extends AbstractMagicShopper{
 
 	private static final String PER_PAGE = "PER_PAGE";
 	private static final String STATUS = "STATUS";
@@ -88,8 +87,7 @@ public class WooCommerceShopper extends AbstractMagicShopper implements MTGAuthe
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		// TODO Auto-generated method stub
-		return null;
+		return WooCommerceTools.generateKeysForWooCommerce();
 	}
 	
 

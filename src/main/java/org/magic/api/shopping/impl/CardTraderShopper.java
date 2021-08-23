@@ -107,10 +107,9 @@ public class CardTraderShopper extends AbstractMagicShopper {
 	}
 
 	
-
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(TOKEN, "");
+	public List<String> listAuthenticationAttributes() {
+			return List.of(TOKEN);
 	}
 
 }

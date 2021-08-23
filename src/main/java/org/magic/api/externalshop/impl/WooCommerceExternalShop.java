@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
@@ -26,7 +25,7 @@ import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
-public class WooCommerceExternalShop extends AbstractExternalShop implements MTGAuthenticated  {
+public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	
 	private WooCommerce client;

@@ -11,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
-import org.magic.api.interfaces.MTGAuthenticated;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.AccountsManager;
 import org.magic.tools.RequestBuilder;
@@ -19,7 +18,7 @@ import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 import org.magic.tools.URLToolsClient;
 
-public class BeckettGrader extends AbstractGradersProvider implements MTGAuthenticated{
+public class BeckettGrader extends AbstractGradersProvider {
 
 	
 	@Override
@@ -42,8 +41,8 @@ public class BeckettGrader extends AbstractGradersProvider implements MTGAuthent
 			d=RequestBuilder.build().url(urlLogin).setClient(c).method(METHOD.POST)
 						  .addContent("redirect_url", getWebSite()+"/account")
 						  .addContent("login_token", token)
-						  .addContent("email",getString("EMAIL"))
-						  .addContent("password", getString("PASS"))
+						  .addContent("email",getAuthenticator().getLogin())
+						  .addContent("password", getAuthenticator().getPassword())
 						  .toHtml();
 			
 		boolean	connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
@@ -108,11 +107,6 @@ public class BeckettGrader extends AbstractGradersProvider implements MTGAuthent
 		return "BGS";
 	}
 	
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("EMAIL", "","PASS", "");
-	}
-
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
