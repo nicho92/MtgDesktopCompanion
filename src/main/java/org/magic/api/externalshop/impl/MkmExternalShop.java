@@ -84,6 +84,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 		throw new IOException("Not enable to create product in Mkm");
 	}
 	
+	
+	@Override
+	public String getVersion() {
+		return MkmConstants.MKM_API_VERSION;
+	}
 
 	@Override
 	public String getName() {

@@ -90,4 +90,9 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		return MkmConstants.MKM_NAME;
 	}
 	
+	@Override
+	public String getVersion() {
+		return MkmConstants.MKM_API_VERSION;
+	}
+	
 }

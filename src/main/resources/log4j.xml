@@ -43,7 +43,7 @@
     <logger name="org.eclipse.jetty"><level value="ERROR"/></logger>
     <logger name="io.milton"><level value="ERROR"/></logger>
     <logger name="com.zaxxer.hikari"><level value="ERROR"/></logger>
-    <logger name="org.quartz"><level value="DEBUG"/></logger>
+    <logger name="org.quartz"><level value="ERROR"/></logger>
     <logger name="org.reflections"><level value="OFF"/></logger>
     <logger name="spark.route"><level value="ERROR"/></logger>
     
