@@ -146,6 +146,8 @@ public class MTGControler {
 	public void saveAccounts()
 	{
 		setProperty("accounts",AccountsManager.inst().exportConfig());
+			
+		logger.debug("accounts saved");
 	}
 	
 	public void loadAccountsConfiguration()

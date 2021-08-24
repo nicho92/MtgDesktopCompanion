@@ -14,8 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-import org.beta.CryptoUtils;
 import org.magic.api.beans.AccountAuthenticator;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.gui.renderer.PluginIconListRenderer;
@@ -49,12 +50,13 @@ public class MTGAuthenticatorEditor extends JPanel {
 		var btnExportConfig = UITools.createBindableJButton("",MTGConstants.ICON_EXPORT, KeyEvent.VK_E,"Export");
 		var btnImportConfig = UITools.createBindableJButton("",MTGConstants.ICON_IMPORT, KeyEvent.VK_I,"Import");
 		var btnDeleteConfig = UITools.createBindableJButton("",MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE,"Delete");
-		
+		var btnKeyGenerator = UITools.createBindableJButton("",MTGConstants.ICON_MANUAL, KeyEvent.VK_K,"Create KeyFile");
 		setLayout(new BorderLayout(0, 0));
 		panelWest.setLayout(new BorderLayout(0, 0));
 			
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panelWest, BorderLayout.WEST);
+		panelButtons.add(btnKeyGenerator);
 		panelButtons.add(comboBox);
 		panelButtons.add(btnNewButton);
 		panelWest.add(panelButtons, BorderLayout.NORTH);
@@ -72,22 +74,59 @@ public class MTGAuthenticatorEditor extends JPanel {
 		comboBox.setRenderer(new PluginIconListRenderer());
 		list.setCellRenderer(new PluginIconListRenderer());
 		table.packAll();
+	
 		
-		btnSave.addActionListener(al->AccountsManager.inst().saveConfig());
+		btnSave.addActionListener(al->{
+			
+			try {
+				AccountsManager.inst().getKey();
+				AccountsManager.inst().saveConfig();
+			} catch (IOException e) {
+				MTGControler.getInstance().notify(e);
+			}
+			
+				
+			
+		});
 		
+		
+		btnKeyGenerator.addActionListener(al->{
+			
+			String key = JOptionPane.showInputDialog("Define a Key Pass :");
+			String key2 = JOptionPane.showInputDialog("Confirm Key Pass :");
+			
+			if(!key.equals(key2))
+			{
+				MTGControler.getInstance().notify(new MTGNotification("KeyPass", "KeyPass are different",MESSAGE_TYPE.ERROR));
+			}
+			else
+			{
+				try {
+					AccountsManager.inst().setKey(key);
+				} catch (Exception e) {
+					MTGControler.getInstance().notify(e);
+				}
+			}
+			
+		});
 		
 		btnExportConfig.addActionListener(al->{
 			
+			try {
+				AccountsManager.inst().getKey();
+			} catch (IOException e1) {
+				MTGControler.getInstance().notify(e1);
+				return;
+			}
+			
 			JFileChooser f = new JFileChooser();
-								 f.showSaveDialog(this);
-								 
-								 
-			String key = JOptionPane.showInputDialog("key ?");					 
-								 
+			 			 f.showSaveDialog(this);
+					 
 			if(f.getSelectedFile()!=null)
 			{
 				try {
-					FileTools.saveFile(f.getSelectedFile(), CryptoUtils.encrypt(AccountsManager.inst().exportConfig(),key));
+					FileTools.saveFile(f.getSelectedFile(), AccountsManager.inst().exportConfig());
+					MTGControler.getInstance().notify(new MTGNotification("Export", "File saved at " + f.getSelectedFile().getAbsolutePath(),MESSAGE_TYPE.INFO));
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
@@ -95,17 +134,23 @@ public class MTGAuthenticatorEditor extends JPanel {
 		});
 		
 		btnImportConfig.addActionListener(al->{
+			try {
+				AccountsManager.inst().getKey();
+			} catch (IOException e1) {
+				MTGControler.getInstance().notify(e1);
+				return;
+			}
 			
 			JFileChooser f = new JFileChooser();
-								 f.showOpenDialog(this);
+						 f.showOpenDialog(this);
 			
-			String key = JOptionPane.showInputDialog("key ?");	
-								 
+						 
+						 
 			if(f.getSelectedFile()!=null)
 			{
 				try {
 					
-					AccountsManager.inst().loadConfig(CryptoUtils.decrypt(FileTools.readFile(f.getSelectedFile()),key));
+					AccountsManager.inst().loadConfig(FileTools.readFile(f.getSelectedFile()));
 					AccountsManager.inst().saveConfig();
 					
 					listModel.removeAllElements();
@@ -131,6 +176,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		
 		
 		btnNewButton.addActionListener(al->{
+		
 			
 			var auth = new AccountAuthenticator();
 			for (String k : ((MTGPlugin)comboBox.getSelectedItem()).listAuthenticationAttributes())
@@ -161,6 +207,8 @@ public class MTGAuthenticatorEditor extends JPanel {
 	      }
 		});
 	}
+
+	
 
 	public void init(AccountAuthenticator account)
 	{

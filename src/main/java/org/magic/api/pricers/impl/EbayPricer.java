@@ -26,10 +26,10 @@ public class EbayPricer extends AbstractPricesProvider {
 		
 			   var b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
 				.url(URL_BASE)
-				.addContent("SECURITY-APPNAME", getString("API_KEY"))
+				.addContent("SECURITY-APPNAME", getAuthenticator().get("API_KEY"))
 				.addContent("OPERATION-NAME", "findItemsByKeywords")
 				.addContent("RESPONSE-DATA-FORMAT", "JSON")
-				.addContent("GLOBAL-ID", getString("COUNTRY"))
+				.addContent("GLOBAL-ID", getAuthenticator().get("COUNTRY","EBAY-FR"))
 				.addContent("paginationInput.entriesPerPage", getString("MAX"))
 				.addContent("keywords", keyword);
 		
@@ -100,13 +100,18 @@ public class EbayPricer extends AbstractPricesProvider {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("MAX", "10",
-								"COUNTRY", "EBAY-FR",
-								"API_KEY", "",
 								"WEBSITE", "https://www.ebay.com/",
 								"FIXEDPRICE_ONLY","false");
 
 	}
 
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of("COUNTRY","API_KEY");
+
+	}
+	
+	
 	@Override
 	public String getVersion() {
 		return "1.13.0";

@@ -18,7 +18,7 @@ import org.magic.tools.URLToolsClient;
 public class MagicVillePricer extends AbstractPricesProvider {
 	
 	private static final String MAX = "MAX";
-	private static final String WEBSITE = "WEBSITE";
+	private static final String WEBSITE = "https://www.magic-ville.com/";
 	private URLToolsClient httpclient;
 	
 	@Override
@@ -36,7 +36,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 			
-		String res = httpclient.doPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null);
+		String res = httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null);
 		if(res.length()>100)
 		{
 			logger.error("too much result");
@@ -45,7 +45,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		
 		var key = "ref=";
 		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
-		String url = getString(WEBSITE)+"/fr/register/show_card_sale?"+code;
+		String url = WEBSITE+"/fr/register/show_card_sale?"+code;
 		
 		logger.info(getName() + " looking for prices " + url);
 
@@ -73,7 +73,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 			mp.setMagicCard(card);
 			mp.setCurrency("EUR");
 			mp.setSeller(cols.get(0).text());
-			mp.setSellerUrl(getString(WEBSITE)+"/fr/register/cards_to_sell?user="+mp.getSeller());
+			mp.setSellerUrl(WEBSITE+"/fr/register/cards_to_sell?user="+mp.getSeller());
 			mp.setSite(getName());
 			mp.setUrl(url);
 			mp.setQuality(cols.get(2).text());
@@ -102,8 +102,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(MAX, "5",
-							   WEBSITE, "https://www.magic-ville.com/");
+		return Map.of(MAX, "5");
 		
 
 	}

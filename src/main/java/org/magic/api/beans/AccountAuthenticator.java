@@ -59,6 +59,12 @@ public class AccountAuthenticator implements Serializable {
 		return tokens.get(key);
 	}
 	
+	public String get(String key,String defaultValue)
+	{
+		return tokens.getOrDefault(key,defaultValue);
+	}
+	
+	
 	public String getLogin()
 	{
 		return get(LOGIN);

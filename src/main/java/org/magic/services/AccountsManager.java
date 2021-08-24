@@ -1,22 +1,43 @@
 package org.magic.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
+import org.beta.CryptoUtils;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.tools.FileTools;
 
 import com.google.gson.JsonObject;
 
 public class AccountsManager {
 
 	private static AccountsManager inst;
-	
 	private Map<MTGPlugin, AccountAuthenticator> keys;
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+
+	public String getKey() throws IOException {
+		
+		String key=FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"key"));
+		if(key.isEmpty())
+		{
+			throw new IOException("Please create a keypass");
+		}
+		
+		return key;
+		
+	}
 	
+	public void setKey(String pass) throws IOException
+	{
+		FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"key"), pass);
+	}
 	
 	public static AccountsManager inst()
 	{
@@ -63,22 +84,31 @@ public class AccountsManager {
 	
 	public void saveConfig()
 	{
-		if(!keys.isEmpty())
-			MTGControler.getInstance().saveAccounts();
+		MTGControler.getInstance().saveAccounts();
+	
 	}
 	
 	public String exportConfig() {
 		var p = new JsonExport();
 		p.removePrettyString();
 		
-		return p.toJson(AccountsManager.inst().listAuthEntries());
+		try {
+			return CryptoUtils.encrypt(p.toJson(AccountsManager.inst().listAuthEntries()),getKey());
+		} catch (IOException e) {
+			logger.error("Error getting keypass " + e);
+			return "";
+		}
 		
 	}
 	
 	public void loadConfig(String o) {
 		
 		if((o!=null) && !o.isEmpty())
-			loadConfig(new JsonExport().fromJson(o, JsonObject.class));
+			try {
+				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(o,getKey()), JsonObject.class));
+			} catch (Exception e) {
+				logger.error("Error getting keypass " + e);
+			}
 	}
 	
 	public void loadConfig(JsonObject o) {
