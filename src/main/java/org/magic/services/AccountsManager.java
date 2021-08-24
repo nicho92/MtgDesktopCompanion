@@ -67,7 +67,6 @@ public class AccountsManager {
 		return keys;
 	}
 	
-
 	public void removeEntry(MTGPlugin selectedValue) {
 		keys.remove(selectedValue);
 	}
@@ -111,7 +110,7 @@ public class AccountsManager {
 			}
 	}
 	
-	public void loadConfig(JsonObject o) {
+	private void loadConfig(JsonObject o) {
 		if(o!=null && !o.isJsonNull())
 			o.keySet().forEach(name->{
 				var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();

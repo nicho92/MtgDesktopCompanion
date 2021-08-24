@@ -103,6 +103,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 			{
 				try {
 					AccountsManager.inst().setKey(key);
+					AccountsManager.inst().saveConfig();
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(e);
 				}

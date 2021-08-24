@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -28,11 +27,9 @@ public class EchoMTGExport extends AbstractCardExport {
 	
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("EMAIL", "you@mail.com",
-								"PASS", "");
+	public List<String> listAuthenticationAttributes() {
+		return List.of("EMAIL","PASSWORD");
 	}
-	
 	
 	private void connect() throws IOException
 	{
@@ -40,8 +37,8 @@ public class EchoMTGExport extends AbstractCardExport {
 		
 		JsonElement con = RequestBuilder.build().method(METHOD.POST)
 				 .url(BASE_URL+"/api/user/auth/")
-				 .addContent("email", getString("EMAIL"))
-				 .addContent("password", getString("PASS"))
+				 .addContent("email", getAuthenticator().get("EMAIL"))
+				 .addContent("password", getAuthenticator().get("PASS"))
 				 .setClient(client)
 				 .toJson();
 		

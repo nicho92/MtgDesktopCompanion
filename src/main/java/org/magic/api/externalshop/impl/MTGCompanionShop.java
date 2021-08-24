@@ -10,8 +10,6 @@ import javax.swing.ImageIcon;
 
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
-import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -37,7 +35,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	@Override
 	public List<Category> listCategories() throws IOException {
 		
-		List<Category> cat = new ArrayList<>();
+		var cat = new ArrayList<Category>();
 		
 		int i=1;
 		for(EnumItems item : EnumItems.values())
@@ -55,15 +53,15 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
 		
-		List<MagicCard> cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, false);
-		List<MTGSealedProduct> products = SealedProductProvider.inst().search(name);
+		var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, false);
+		var products = SealedProductProvider.inst().search(name);
 		
 		
 		logger.debug("Found " + products + " for " + name);
 		var ret = new ArrayList<Product>();
 		
 		cards.forEach(card->{
-			Product p = new Product();
+			var p = new Product();
 					p.setEnName(card.getName());
 					p.setExpansionName(card.getCurrentSet().getSet());
 					p.setCategoryName(EnumItems.CARD.name());
@@ -76,7 +74,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		});
 		
 		products.forEach(ss->{
-			Product p = new Product();
+			var p = new Product();
 					p.setEnName(ss.getType() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
 					p.setGameName("Magic: The Gathering");
 					p.setImage(ss.getUrl());
