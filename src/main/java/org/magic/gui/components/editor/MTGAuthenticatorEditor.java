@@ -35,7 +35,15 @@ public class MTGAuthenticatorEditor extends JPanel {
 		
 		MTGControler.getInstance().loadAccountsConfiguration();
 		
-		tableModel = new MapTableModel<>();
+		tableModel = new MapTableModel<>() {
+			
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column>0;
+			};
+		};
 		
 		var table = UITools.createNewTable(tableModel);
 		var panelWest = new JPanel();
@@ -84,9 +92,6 @@ public class MTGAuthenticatorEditor extends JPanel {
 			} catch (IOException e) {
 				MTGControler.getInstance().notify(e);
 			}
-			
-				
-			
 		});
 		
 		
