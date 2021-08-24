@@ -119,16 +119,6 @@ public class PluginRegistry {
 		}
 	}
 	
-	
-	public static void main(String[] args) {
-		MTGControler.getInstance();
-		
-		System.out.println(PluginRegistry.inst().getEntryFor(new MagicCardMarketPricer2()));
-		
-		
-	}
-	
-
 	public PluginEntry getEntryFor(Object k)
 	{
 		return getEntry(ClassUtils.getAllInterfaces(k.getClass()).get(0));
