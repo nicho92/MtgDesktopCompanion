@@ -3,13 +3,8 @@ package org.magic.gui.components.editor;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -92,7 +87,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 			if(f.getSelectedFile()!=null)
 			{
 				try {
-					FileTools.saveFile(f.getSelectedFile(), AccountsManager.inst().exportConfig());
+					FileTools.saveFile(f.getSelectedFile(), CryptoUtils.encrypt(AccountsManager.inst().exportConfig(),key));
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
@@ -110,7 +105,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 			{
 				try {
 					
-					AccountsManager.inst().loadConfig(FileTools.readFile(f.getSelectedFile()));
+					AccountsManager.inst().loadConfig(CryptoUtils.decrypt(FileTools.readFile(f.getSelectedFile()),key));
 					AccountsManager.inst().saveConfig();
 					
 					listModel.removeAllElements();

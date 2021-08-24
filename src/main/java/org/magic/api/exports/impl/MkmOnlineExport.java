@@ -447,7 +447,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return AccountsManager.generateKeysForMkm();
+		return MkmConstants.mkmTokens();
 	}
 
 	

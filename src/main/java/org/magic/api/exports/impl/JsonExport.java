@@ -43,6 +43,12 @@ public class JsonExport extends AbstractCardExport {
 		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).setPrettyPrinting().create();
 	}
 	
+	public void removePrettyString() {
+		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).create();
+	}
+	
+	
+	
 	public String toJson(Object o)
 	{
 		

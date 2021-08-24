@@ -146,7 +146,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return AccountsManager.generateKeysForMkm();
+		return MkmConstants.mkmTokens();
 	}
 
 

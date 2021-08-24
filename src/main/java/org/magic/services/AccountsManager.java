@@ -68,7 +68,11 @@ public class AccountsManager {
 	}
 	
 	public String exportConfig() {
-		return new JsonExport().toJson(AccountsManager.inst().listAuthEntries());
+		var p = new JsonExport();
+		p.removePrettyString();
+		
+		return p.toJson(AccountsManager.inst().listAuthEntries());
+		
 	}
 	
 	public void loadConfig(String o) {
@@ -87,11 +91,6 @@ public class AccountsManager {
 			});
 	}
 	
-
-	public static List<String> generateKeysForMkm()
-	{
-		return List.of("APP_TOKEN","APP_SECRET","APP_ACCESS_TOKEN", "APP_ACCESS_TOKEN_SECRET");
-	}
 
 	public static List<String> generateLoginPasswordsKeys() {
 		return List.of(AccountAuthenticator.LOGIN,AccountAuthenticator.PASSWORD);

@@ -44,8 +44,8 @@
     <logger name="io.milton"><level value="ERROR"/></logger>
     <logger name="com.zaxxer.hikari"><level value="ERROR"/></logger>
     <logger name="org.quartz"><level value="DEBUG"/></logger>
-    <logger name="org.reflections" level="OFF"/>
-    <logger name="spark.route" level="ERROR"/>
+    <logger name="org.reflections"><level value="OFF"/></logger>
+    <logger name="spark.route"><level value="ERROR"/></logger>
     
     
     <root>

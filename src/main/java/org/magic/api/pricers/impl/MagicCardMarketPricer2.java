@@ -24,7 +24,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.services.AccountsManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 
@@ -265,7 +264,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return AccountsManager.generateKeysForMkm();
+		return MkmConstants.mkmTokens();
 	}
 
 

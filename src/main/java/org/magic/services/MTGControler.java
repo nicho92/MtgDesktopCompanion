@@ -400,7 +400,7 @@ public class MTGControler {
 	public void setProperty(Object k, Object c) {
 		try {
 			var path = "";
-			logger.debug("set " + k + " to " + c);
+			logger.trace("set " + k + " to " + c);
 
 			if(k instanceof MTGPlugin){
 				path = PluginRegistry.inst().getEntryFor(k).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
