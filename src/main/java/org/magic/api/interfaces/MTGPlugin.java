@@ -8,12 +8,18 @@ import java.util.Properties;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
 public interface MTGPlugin extends Comparable<MTGPlugin> {
+	
+	
+	Logger loggerMain = MTGLogger.getLogger(MTGPlugin.class);
+
 	
 	public enum PLUGINS {
 		PROVIDER, DASHBOARD, PRICER, SERVER, HOPPER, EXPORT, DECKS, DAO, TOKEN, CACHE, NEWS, WALLPAPER, NOTIFIER,DASHLET,COMMAND,EDITOR, INDEXER,GENERATOR, SCRIPT, POOL,COMBO, GRADING, GED, STRATEGY, PICTURE, SHOPPER, TRACKING, EXTERNAL_SHOP;
@@ -80,6 +86,7 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 		}
 		catch(Exception e)
 		{
+			loggerMain.warn("No Authentication found for " + getName() +" Please fill it in config Panel");
 			return new AccountAuthenticator();
 		}
 	}

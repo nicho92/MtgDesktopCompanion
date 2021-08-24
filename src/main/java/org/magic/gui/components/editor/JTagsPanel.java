@@ -154,6 +154,8 @@ public class JTagsPanel extends JComponent {
 
 
 	public void addTag(String t) {
+		
+		System.out.println("adding " + t + " to " + tags);
 		tags.add(t);
 		addLabel(t);
 	}

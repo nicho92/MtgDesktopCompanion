@@ -3,16 +3,23 @@ package org.magic.gui.components.editor;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import org.beta.CryptoUtils;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.models.conf.MapTableModel;
@@ -79,6 +86,9 @@ public class MTGAuthenticatorEditor extends JPanel {
 			JFileChooser f = new JFileChooser();
 								 f.showSaveDialog(this);
 								 
+								 
+			String key = JOptionPane.showInputDialog("key ?");					 
+								 
 			if(f.getSelectedFile()!=null)
 			{
 				try {
@@ -93,22 +103,24 @@ public class MTGAuthenticatorEditor extends JPanel {
 			
 			JFileChooser f = new JFileChooser();
 								 f.showOpenDialog(this);
+			
+			String key = JOptionPane.showInputDialog("key ?");	
 								 
 			if(f.getSelectedFile()!=null)
 			{
 				try {
+					
 					AccountsManager.inst().loadConfig(FileTools.readFile(f.getSelectedFile()));
-					
 					AccountsManager.inst().saveConfig();
-					
 					
 					listModel.removeAllElements();
 					listModel.addAll(AccountsManager.inst().listAuthEntries().keySet());
 					
 					
-				} catch (IOException e) {
+				} catch (Exception e) {
 					MTGControler.getInstance().notify(e);
-				}
+				
+				} 
 			}
 			
 			

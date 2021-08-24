@@ -715,10 +715,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		deck.setCreationDate(rs.getDate("dateCreation"));
 		deck.setDateUpdate(rs.getDate("dateUpdate"));
 		deck.setDescription(rs.getString("description"));
+		
 		deck.setMain(readDeckBoard(rs, "main"));
 		deck.setSideBoard(readDeckBoard(rs, "sideboard"));
 		
-		if(rs.getString("tags")!=null)
+		if(rs.getString("tags")!=null && !rs.getString("tags").isEmpty())
 			deck.setTags(Arrays.asList(rs.getString("tags").split("\\|")));
 
 		return deck;
