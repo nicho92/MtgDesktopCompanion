@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.beta.CryptoUtils;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.tools.CryptoUtils;
 import org.magic.tools.FileTools;
 
 import com.google.gson.JsonObject;
