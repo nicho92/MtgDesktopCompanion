@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CancellationException;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
@@ -264,9 +263,6 @@ public class CardsEditionTablePanel extends JPanel {
 				} catch(InterruptedException ex)
 				{
 					Thread.currentThread().interrupt();
-				}
-				catch (CancellationException e) {
-					logger.error(e);
 				}
 				catch (Exception e) {
 					logger.error(e);

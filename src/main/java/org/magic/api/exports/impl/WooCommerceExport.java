@@ -154,7 +154,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		init();
 		
-		if(stocks.size()>getInt("BATCH_THRESHOLD"))
+		if(stocks.size()>getInt(BATCH_THRESHOLD))
 		{
 			batchExport(ListUtils.partition(stocks, 100));
 			return;

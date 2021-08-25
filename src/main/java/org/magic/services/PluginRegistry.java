@@ -45,7 +45,6 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.reflections.Reflections;
 
 public class PluginRegistry {

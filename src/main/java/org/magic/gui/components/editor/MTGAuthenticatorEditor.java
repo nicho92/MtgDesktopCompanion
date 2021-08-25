@@ -2,7 +2,6 @@ package org.magic.gui.components.editor;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
 

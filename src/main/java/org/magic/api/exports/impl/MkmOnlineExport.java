@@ -32,7 +32,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.components.dialog.MkmWantListChooserDialog;
-import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
 
 public class MkmOnlineExport extends AbstractCardExport {

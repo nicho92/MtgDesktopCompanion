@@ -54,10 +54,8 @@ public class DBCPPool extends AbstractPool {
 		map.put("jmxName","org.magic.api:type=Pool,name="+getName());
 		map.put("autoCommitOnReturn",TRUE);
 		map.put("rollbackOnReturn",TRUE);
-		map.put("defaultAutoCommit",TRUE);
 		map.put("defaultReadOnly",FALSE);
 		map.put("defaultQueryTimeoutSeconds","");
-		map.put("cacheState",TRUE);
 		map.put("testOnCreate",FALSE);
 		map.put("testOnBorrow",TRUE);
 		map.put("testOnReturn",FALSE);

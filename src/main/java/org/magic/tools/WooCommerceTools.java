@@ -11,7 +11,6 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
@@ -45,7 +44,7 @@ public class WooCommerceTools {
 	
 	public static WooCommerce newClient(AccountAuthenticator p, String website)
 	{
-		return newClient(p.get("CONSUMER_KEY"), p.get("SECRET_KEY") , website, WOO_COMMERCE_VERSION);
+		return newClient(p.get(CONSUMER_KEY), p.get("SECRET_KEY") , website, WOO_COMMERCE_VERSION);
 	}
 	
 	public static WooCommerce newClient(Properties p)
