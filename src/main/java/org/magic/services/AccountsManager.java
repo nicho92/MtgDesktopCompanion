@@ -100,13 +100,13 @@ public class AccountsManager {
 		
 	}
 	
-	public void loadConfig(String o) {
+	public void loadConfig(String content) {
 		
-		if((o!=null) && !o.isEmpty())
+		if((content!=null) && !content.isEmpty())
 			try {
-				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(o,getKey()), JsonObject.class));
+				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content,getKey()), JsonObject.class));
 			} catch (Exception e) {
-				logger.error("Error getting keypass " + e);
+				logger.error("Error while decryptions " + e);
 			}
 	}
 	

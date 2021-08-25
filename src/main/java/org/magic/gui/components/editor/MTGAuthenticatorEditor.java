@@ -2,6 +2,7 @@ package org.magic.gui.components.editor;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -108,7 +109,6 @@ public class MTGAuthenticatorEditor extends JPanel {
 			{
 				try {
 					AccountsManager.inst().setKey(key);
-					AccountsManager.inst().saveConfig();
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(e);
 				}
@@ -206,7 +206,6 @@ public class MTGAuthenticatorEditor extends JPanel {
 				
 				if (idx > -1)
 				{
-					
 						MTGPlugin plug = listModel.getElementAt(idx);
 						tableModel.init(plug.getAuthenticator().getTokens());
 				}
@@ -220,8 +219,5 @@ public class MTGAuthenticatorEditor extends JPanel {
 	{
 		tableModel.init(account.getTokens());
 	}
-	
-	
-	
 	
 }
