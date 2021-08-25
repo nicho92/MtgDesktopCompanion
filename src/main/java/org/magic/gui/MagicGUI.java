@@ -38,6 +38,7 @@ import org.magic.gui.components.ThreadMonitor;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.ChromeDownloader;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
+import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -252,7 +253,8 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
 		{
 			try {
-			MkmAPIConfig.getInstance().init(new MagicCardMarketPricer2().getConfFile());
+			MTGControler.getInstance().loadAccountsConfiguration();
+			MkmAPIConfig.getInstance().init(AccountsManager.inst().getAuthenticator(new MagicCardMarketPricer2()).getTokensAsProperties());
 			}
 			catch(Exception e)
 			{
