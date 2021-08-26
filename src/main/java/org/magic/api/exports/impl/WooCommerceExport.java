@@ -38,7 +38,6 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
 	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
-	private static final String PIC_PROVIDER_NAME = "PIC_PROVIDER_NAME";
 	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
 	private static final String CATEGORY_ID = "CATEGORY_ID";
@@ -231,8 +230,6 @@ public class WooCommerceExport extends AbstractCardExport {
         }
         
         
-        if(!getString(PIC_PROVIDER_NAME).isEmpty())
-        {
         	try {
         	productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
         	//productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)))
@@ -241,7 +238,6 @@ public class WooCommerceExport extends AbstractCardExport {
         		logger.error("error getting image for " + st.getProduct(),e);	
         	}
         	
-        }
       	
       	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
       		var arr = new JsonArray();
@@ -410,7 +406,6 @@ public class WooCommerceExport extends AbstractCardExport {
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
 				m.put(ATTRIBUTES_KEYS,"");
-				m.put(PIC_PROVIDER_NAME,"");
 				m.put(CARD_LANG_DESCRIPTION,"English");
 				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
