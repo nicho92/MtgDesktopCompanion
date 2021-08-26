@@ -1,4 +1,4 @@
-package org.magic.gui.components.editor;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -58,7 +58,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		var btnExportConfig = UITools.createBindableJButton("",MTGConstants.ICON_EXPORT, KeyEvent.VK_E,"Export");
 		var btnImportConfig = UITools.createBindableJButton("",MTGConstants.ICON_IMPORT, KeyEvent.VK_I,"Import");
 		var btnDeleteConfig = UITools.createBindableJButton("",MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE,"Delete");
-		var btnKeyGenerator = UITools.createBindableJButton("",MTGConstants.ICON_MANUAL, KeyEvent.VK_K,"Create KeyFile");
+		var btnKeyGenerator = UITools.createBindableJButton("",MTGConstants.ICON_TAB_LOCK, KeyEvent.VK_K,"Create KeyFile");
 		setLayout(new BorderLayout(0, 0));
 		panelWest.setLayout(new BorderLayout(0, 0));
 			

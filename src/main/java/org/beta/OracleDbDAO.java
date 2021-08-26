@@ -3,6 +3,7 @@ package org.beta;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
@@ -20,10 +21,9 @@ public class OracleDbDAO extends AbstractMagicSQLDAO{
 				);
 	}
 	
-
-	public static void main(String[] args) throws SQLException {
-		MTGControler.getInstance();
-		new OracleDbDAO().init();
+	protected String getBoolean()
+	{
+		return "CHAR(1)";
 	}
 	
 	@Override
@@ -34,7 +34,12 @@ public class OracleDbDAO extends AbstractMagicSQLDAO{
 	@Override
 	public void backup(File dir) throws SQLException, IOException {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	
+	@Override
+	public void createIndex(Statement stat) throws SQLException {
+		//TODO fix correct index query
 	}
 	
 	
