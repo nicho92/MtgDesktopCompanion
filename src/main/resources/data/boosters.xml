@@ -2283,11 +2283,17 @@
 
 
 	<edition id="CC1">
-		<banner lang="en"
-			url="https://media.magic.wizards.com/dfq1vaatsd.png" />
+		<banner lang="en" url="https://media.magic.wizards.com/dfq1vaatsd.png" />
 		<bundle lang="en"
 			url="https://www.illusive-isle.com/uploads/1/7/2/6/17261402/s236435389559391257_p836_i3_w900.png" />
 	</edition>
+	
+	<edition id="CC2">
+		<banner lang="en" url="https://www.magic-ville.com/fr/graph/bigsetlogos/cc2.png"/>
+		<bundle lang="en" url="https://media.wizards.com/2021/images/daily/88SJbUIk3y.png"/>
+	
+	</edition>
+	
 
 
 	<edition id="CMR">

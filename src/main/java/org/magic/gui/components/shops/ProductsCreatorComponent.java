@@ -85,9 +85,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		listOutput.setCellRenderer(new ProductListRenderer());
 		
 		
-		var deco = JListFilterDecorator.decorate(listInput,(p, s)->p.getEnName().toLowerCase().contains(s.toLowerCase()));
-		
-		
 		panelNorth.add(txtSearchProduct);
 		panelNorth.add(btnSearch);
 		panelNorth.add(buzy);
@@ -99,7 +96,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		panelWest.add(cboInput, BorderLayout.NORTH);
 		panelEast.add(cboOutput, BorderLayout.NORTH);
 		
-		panelWest.add(new JScrollPane(deco.getContentPanel()), BorderLayout.CENTER);
+		panelWest.add(new JScrollPane(listInput), BorderLayout.CENTER);
 		panelEast.add(new JScrollPane(listOutput), BorderLayout.CENTER);
 		
 		
