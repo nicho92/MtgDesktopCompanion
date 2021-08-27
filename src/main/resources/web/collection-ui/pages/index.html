@@ -88,7 +88,7 @@
 								        url: restserver+"/cards/list/"+$_GET("collection")+"/"+$_GET("set")
 								    	}).then(function(data) {
 												
-											var sortAtt="name";	
+											var sortAtt="name ";	
 											var sorted = data.sort(function (a, b) 
 											{
 								    				if (a[sortAtt] > b[sortAtt]) 

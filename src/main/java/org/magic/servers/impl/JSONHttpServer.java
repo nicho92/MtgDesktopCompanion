@@ -264,6 +264,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
 		
+		get("/cards/:collection", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(":collection"))),
+				transformer);
+
+		
 		get("/cards/search/:att/:val/:exact", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
