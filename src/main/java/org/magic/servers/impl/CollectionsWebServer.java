@@ -14,7 +14,7 @@ public class CollectionsWebServer extends AbstractWebServer {
 
 	@Override
 	public String getName() {
-		return "Searched Cards Server";
+		return "Collections web server";
 	}
 
 	@Override
