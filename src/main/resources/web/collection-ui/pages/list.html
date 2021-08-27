@@ -29,88 +29,15 @@
 		
 			<script>
 				   $(document).ready(function() {
-					
-						$(document).ajaxStart(function () 
-						{
-						    $('.loading').html("<img src='../img/loading.gif' width='25' height='25'>"); 
-						});
-					
-						$(document).ajaxStop(function() 
-						{
-							 $('.loading').html("");  
-						});
 								
 											
 							$.ajax({
 						        url: restserver+"/collections/list"
 						    	}).then(function(data) {
-									$.each( data, function( key, value ) 
-									{
-										$("#items-menu").append("<li><a class='dropdown-item' href='?collection="+value.name+"'><em class='fa	fa-book'></em> " + value.name+"</a></li>")
-											
-											if(!$_GET("collection") && !$_GET("set"))
-											{
-													$("#listSet").append(buildCollection(value));
-											}
-									});
-									$("#items-menu").append("<li><div class='dropdown-divider'></div></li>");
-									$("#items-menu").append("<li><a class='dropdown-item' href='list.html''><em class='fa fa-th-list'></em> View as list</a></li>");
 									
-								
+									
 									
 								}); // end	
-					
-								if($_GET("collection"))
-								{
-										 $.ajax({
-									        url: restserver+"/editions/list/"+$_GET("collection")
-									    	}).then(function(data) {
-												
-										
-												if(data.length==0)
-												{
-													$("#listSet").append("Empty !");
-												}
-												else
-												{
-														$.each( data, function( key, value ) {
-															if(!$_GET("set"))
-																$("#listSet").append(buildSet($_GET("collection"),value));
-														});
-												}
-											}); // end
-								}
-							
-							
-							if($_GET("set"))
-							{
-								 $.ajax({
-								        url: restserver+"/cards/list/"+$_GET("collection")+"/"+$_GET("set")
-								    	}).then(function(data) {
-												
-											var sortAtt="name";	
-											var sorted = data.sort(function (a, b) 
-											{
-								    				if (a[sortAtt] > b[sortAtt]) 
-								      					return 1;
-								      				
-								    				if (a[sortAtt] < b[sortAtt]) 
-								     					 return -1;
-										     });
-																
-									
-											$.each( sorted, function( key, value ) {
-												$("#listSet").append(buildCard(value));
-												tilt($('.card-img-top'));
-											});
-							}); // end
-									
-									
-								}
-					
-					
-					
-					
 					
 				});
 			
@@ -136,7 +63,6 @@
                             </ul>
                         </li>
                     </ul>
-					<span class="loading"></span>
                 </div>
             </div>
         </nav>
