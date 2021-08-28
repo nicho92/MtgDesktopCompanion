@@ -481,7 +481,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				me.setNumber(mc.getCurrentSet().getNumber());
 	
 				if (mc.getId() == null)
-					mc.setId(DigestUtils.sha1Hex(me.getSet() + mc.getId() + mc.getName()));
+					mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
 
 				if ((mc.getCurrentSet()!=me))
 					mc.getEditions().add(0, me);
