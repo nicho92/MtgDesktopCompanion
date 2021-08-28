@@ -265,7 +265,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				transformer);
 		
 		get("/cards/:collection", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(":collection"))),
+				(request, response) -> getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(COLLECTION))),
 				transformer);
 
 		

@@ -42,7 +42,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return column>0;
-			};
+			}
 		};
 		
 		var table = UITools.createNewTable(tableModel);

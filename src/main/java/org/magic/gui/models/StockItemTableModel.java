@@ -38,7 +38,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		{
 			for(var i=0;i<=items.size();i++)
 			{
-				if(items.get(i).getId()==t.getId())
+				if(items.get(i).getId().equals(t.getId()))
 				{
 					items.set(i, t);
 					break;

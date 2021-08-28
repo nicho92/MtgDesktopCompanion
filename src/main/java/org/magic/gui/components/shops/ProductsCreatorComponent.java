@@ -25,7 +25,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.decorators.JListFilterDecorator;
 import org.magic.gui.renderer.ProductListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;

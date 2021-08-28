@@ -5,7 +5,9 @@ import org.jasypt.util.text.AES256TextEncryptor;
 
 public class CryptoUtils {
 
-	
+	private CryptoUtils() {
+		
+	}
 	
 	public static String encrypt(String strToEncrypt, String secret) {
 		AES256TextEncryptor textEncryptor = new AES256TextEncryptor();

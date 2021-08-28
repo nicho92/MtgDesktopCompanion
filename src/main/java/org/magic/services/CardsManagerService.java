@@ -18,6 +18,13 @@ public class CardsManagerService {
 	
 	private static Logger logger = MTGLogger.getLogger(CardsManagerService.class);
 
+	
+	private CardsManagerService()
+	{
+		
+	}
+	
+	
 	public static MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {

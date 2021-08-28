@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.Map;
 
 import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
-import org.magic.services.MTGControler;
 
 public class OracleDbDAO extends AbstractMagicSQLDAO{
 
@@ -20,7 +19,7 @@ public class OracleDbDAO extends AbstractMagicSQLDAO{
 				   "DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin"
 				);
 	}
-	
+	@Override
 	protected String getBoolean()
 	{
 		return "CHAR(1)";
