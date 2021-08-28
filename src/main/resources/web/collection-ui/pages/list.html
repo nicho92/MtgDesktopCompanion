@@ -11,57 +11,101 @@
 		<script src="//cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
  		<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
   		<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="../dist/js/rest-server.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../dist/js/rest-server.js"></script>
         <script src="../js/scripts.js"></script>
 
-
- 	
+ 		 <script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
+		 <script href="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		 <script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
+		 <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
+		 <script src="//cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+       
+ 		 
  		 <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
     	 <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   		 <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
-         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+         <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+         <link href="//cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"/>
+         <link href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+         
 		 <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
-		 <link href="../css/styles.css" rel="stylesheet" />
 		 <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
-		 <script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
-		<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
-		 <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
-				
+		
+		 <link href="../css/styles.css" rel="stylesheet" />
+		 
+		 
+		  
+         
+         
 			<script>
 				   $(document).ready(function() {
 								
-											
+					   $.ajax({
+					        url: restserver+"/collections/list"
+					    	}).then(function(data) {
+								$.each( data, function( key, value ) 
+								{
+									$("#items-menu").append("<li><a class='dropdown-item' href='?collection="+value.name+"'><em class='fa	fa-book'></em> " + value.name+"</a></li>")
+								});
+								$("#items-menu").append("<li><div class='dropdown-divider'></div></li>");
+								$("#items-menu").append("<li><a class='dropdown-item' href='list.html''><em class='fa fa-th-list'></em> View as list</a></li>");
+								
+							
+								
+							}); // end	
 							
 									  $('#table').DataTable( {
 										    	"language": {
-										    	    "search": "Filter",
+										    	    "search": "Search",
 										    	    "processing": "<img src='../img/loading.gif' width='50' height='50'>"
 										    	  },
 										    	"responsive": true,
 										        "processing": true,
-										        "pageLength": 25,
-		  										"ajax": {"url":restserver+"/cards/Needed","dataSrc":""},
+										        "pageLength": 50,
+										         buttons: [
+										            'copy', 'csv', 'excel', 'pdf', 'print'
+										        ],
+		  										"ajax": {"url":restserver+"/cards/"+$_GET("collection"),"dataSrc":""},
 										        "columns": [
 										        	{ 
 										                "data": "name",
-										                "width": "10%",
+										                "width": "15%",
+										                "render": function(data, type, row, meta){
+											                   if(type === 'display'){
+											                	  	data = "<span scryfallid='"+row.scryfallId+"' multiverseid='"+row.editions[0].multiverseId+"' class='mtg-tooltip'>"+data+"</span>";
+											                	  	
+											                   }
+											                   return data;
+											                }
 										            },
 													{ 
 										                "data": "editions",
-										                "width": "15%",
+										                "width": "10%",
 										                "defaultContent": "common",
 										                "render": function(data, type, row, meta){
 										                   if(type === 'display'){
 										                	   try {
-										                	   		data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>'+data[0].set;
+										                	   		data = '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>'+data[0].set;
 										                	   }catch(error)
 										                	   {
-										                		   console.log(error);
+										                		   data = '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i>'+data[0].set;
 										                	   }
 										                   }
 										                   return data;
 										                }
+										            },
+										            { 
+										                "data": "id",
+										                "width": "5%",
+										                "defaultContent": "",
+										                "render": function(data, type, row, meta){
+											                   if(type === 'display'){
+											                	  	data = row.editions[0].number + "/" + row.editions[0].cardCount ;
+											                	  	
+											                   }
+											                   return data;
+											                }
 										            },
 													{ 
 										                "data": "types",
@@ -73,10 +117,16 @@
 											                   return data;
 											                }
 										            },
-													
+										            { 
+										                "data": "layout",
+										                "width": "10%",
+										            }
 										        
 										           
-										        ]
+										        ],
+										        "fnDrawCallback" :function(oSettings, json) {
+										        	mtgtooltip($(".mtg-tooltip"));
+										        }
 										    } );
 										} );
 									
@@ -119,9 +169,12 @@
 					<table id="table" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						                <th>card</th>
-						                <th>edition</th>
-						                <th>type</th>
+						                <th>Card</th>
+						                <th>Edition</th>
+						            	<th>Number</th>
+						                <th>Type</th>
+						                <th>Layout</th>
+						                 
 						            </tr>
 						        </thead>
 						       </table>

@@ -1,4 +1,28 @@
 
+function mtgtooltip(element)
+{
+	element.popover({
+        placement : 'top',
+		trigger : 'hover',
+        html : true,
+        content: function () {
+			
+	        var scryfallid=$(this).attr("scryfallid");
+			var multiverseId=$(this).attr("multiverseid");
+			
+			if(scryfallid != "undefined" && scryfallid!==undefined)
+				uri = "https://api.scryfall.com/cards/"+scryfallid+"?format=image";
+			else if(multiverseId!="undefined" && multiverseId!=undefined)            
+				uri = "https://api.scryfall.com/cards/multiverse/"+multiverseId+"?format=image";
+  
+           return "<img class='img-responsive' src='"+uri+"'/>";
+        }
+    });
+	
+}
+
+
+
 function tilt(ref)
 {
 		try{

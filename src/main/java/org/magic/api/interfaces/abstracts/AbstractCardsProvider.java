@@ -75,6 +75,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.addConvertor(MTGRarity.class,(MTGRarity source)->source.name().toLowerCase());
 		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
 		b.addConvertor(MTGCardVariation.class,(MTGCardVariation source)->source.name().toLowerCase());
+		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
 	}
 	
 	

@@ -10,6 +10,12 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ 
+ .img-responsive{
+  vertical-align: middle;
+  width: 250px;
+}
+ 
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
