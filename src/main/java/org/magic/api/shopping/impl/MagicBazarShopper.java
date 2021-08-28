@@ -35,8 +35,8 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		URLToolsClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
 		
-		Map<String, String> nvps = client.buildMap().put("_email", getString("LOGIN"))
-															 .put("_pwd", getString("PASS"))
+		Map<String, String> nvps = client.buildMap().put("_email", getAuthenticator().getLogin())
+															 .put("_pwd", getAuthenticator().getPassword())
 															 .put("_submit_login", "Me connecter").build();
 		client.doPost(urlLogin, nvps, null);
 		
