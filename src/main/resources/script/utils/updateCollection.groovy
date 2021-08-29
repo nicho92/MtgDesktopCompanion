@@ -1,12 +1,12 @@
 import org.magic.api.beans.*;
 
-MagicCollection col = new MagicCollection("Library");
-String ed ="E01";
+MagicCollection col = new MagicCollection("Collection");
+String ed ="CMR";
 //dao.listEditionsIDFromCollection(col).each{ ed->
  	 System.out.println("========================================="+ed);
 	 dao.listCardsFromCollection(col, new MagicEdition(ed)).each{ c->
 		try {
-			MagicCard newC = provider.getCardById(c.getId(), c.getCurrentSet());
+			MagicCard newC = provider.getCardByNumber(c.getCurrentSet().getNumber(), c.getCurrentSet());
 			if(newC!=null)
 			{
 				dao.updateCard(c,newC, col);
@@ -14,7 +14,7 @@ String ed ="E01";
 			}
 			else
 			{
-				printf(""+col + ";" + c.getCurrentSet() + ";" + c + ";NOTFOUND;" + c+"\n");
+				printf(""+col + ";" + c.getCurrentSet() + ";" + c + ";NOTFOUND;" + newC+"\n");
 			}
 		} catch (Exception e) {
 			printf(""+col + ";" + c.getCurrentSet() + ";" + c + ";ERROR;" + e+"\n");
