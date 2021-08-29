@@ -33,12 +33,7 @@
 		 <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
 		
 		 <link href="../css/styles.css" rel="stylesheet" />
-		 
-		 
-		  
-         
-         
-			<script>
+		<script>
 				   $(document).ready(function() {
 								
 					   $.ajax({
@@ -69,6 +64,22 @@
 		  										"ajax": {"url":restserver+"/cards/"+$_GET("collection"),"dataSrc":""},
 										        "columns": [
 										        	{ 
+										                "data": "editions",
+										                "width": "2%",
+										                "defaultContent": "common",
+										                "render": function(data, type, row, meta){
+										                   if(type === 'display'){
+										                	   try {
+										                	   		data = '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+										                	   }catch(error)
+										                	   {
+										                		   data = '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i>';
+										                	   }
+										                   }
+										                   return data;
+										                }
+										            },
+										        	{ 
 										                "data": "name",
 										                "width": "15%",
 										                "render": function(data, type, row, meta){
@@ -81,18 +92,10 @@
 										            },
 													{ 
 										                "data": "editions",
-										                "width": "10%",
+										                "width": "15%",
 										                "defaultContent": "common",
 										                "render": function(data, type, row, meta){
-										                   if(type === 'display'){
-										                	   try {
-										                	   		data = '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>'+data[0].set;
-										                	   }catch(error)
-										                	   {
-										                		   data = '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i>'+data[0].set;
-										                	   }
-										                   }
-										                   return data;
+										                	return data[0].set;
 										                }
 										            },
 										            { 
@@ -109,7 +112,7 @@
 										            },
 													{ 
 										                "data": "types",
-										                "width": "18%",
+										                "width": "10%",
 														 "render": function(data, type, row, meta){
 											                   if(type === 'display'){
 											                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
@@ -118,9 +121,31 @@
 											                }
 										            },
 										            { 
+										                "data": "cost",
+										                "width": "7%",
+										                "defaultContent": "",
+										                "render": function(data, type, row, meta){
+										                   if(type === 'display')
+										                   {
+										                	   if(data!=null)
+										                	   {
+											                	   var d=data.match(/[^{}]+(?=\})/g);
+											                	   if(d!=null){
+											                		   var ret="";
+											                		   for (var i = 0; i < d.length; i++) {
+											                			    d[i]=formatMana(d[i]);
+											                				ret +='<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>';
+											                			}
+											                	   }
+										                   		}
+										                	   return ret;
+										                   }
+										            	}
+										             },
+										             { 
 										                "data": "layout",
-										                "width": "10%",
-										            }
+										                "width": "10%"
+										             }
 										        
 										           
 										        ],
@@ -169,10 +194,12 @@
 					<table id="table" class="display" style="width:100%">
 						        <thead>
 						            <tr>
+						             	<th></th>
 						                <th>Card</th>
 						                <th>Edition</th>
 						            	<th>Number</th>
 						                <th>Type</th>
+						                <th>Cost</th>
 						                <th>Layout</th>
 						                 
 						            </tr>
