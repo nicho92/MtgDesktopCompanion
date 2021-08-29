@@ -20,6 +20,8 @@ public class MkmPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+		
+		logger.debug(getName() +" looking for prices " + card);
 		return MTGJsonPricer.getInstance().getPriceFor(card);
 	}
 

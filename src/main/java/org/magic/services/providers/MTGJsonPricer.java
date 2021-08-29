@@ -155,9 +155,7 @@ public class MTGJsonPricer {
 										data.getPrices().add(p);
 										arr.add(gson.toJsonTree(data));
 									}
-									
 									reader.endObject();
-									
 								}
 							}//buylist/retail/Currency
 							reader.endObject();	
@@ -228,7 +226,10 @@ public class MTGJsonPricer {
 			return ret;
 		}
 		if(d==null)
+		{
+			logger.debug("MTGJson found nothing");
 			return ret;
+		}
 			
 		
 		for(Boolean b : new Boolean[] {true,false}) {
@@ -250,6 +251,7 @@ public class MTGJsonPricer {
 			}
 		}
 		
+		logger.debug("MTGJson found " + ret.size() + " prices");
 		return ret;
 	}
 }
