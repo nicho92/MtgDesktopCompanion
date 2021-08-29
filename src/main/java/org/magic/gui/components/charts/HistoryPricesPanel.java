@@ -63,30 +63,26 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	public HistoryPricesPanel(boolean showOption) {
 		
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
-		
-		
 		if(showOption) {
-		
-		var panelActions = new JPanel();
-		add(panelActions, BorderLayout.EAST);
-		add(buzy,BorderLayout.SOUTH);
-		
-		
-		var gblpanel = new GridBagLayout();
-		gblpanel.columnWidths = new int[] { 91, 0 };
-		gblpanel.rowHeights = new int[] { 23, 0, 0 };
-		gblpanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		panelActions.setLayout(gblpanel);
-		chckbxShowEditions = new JCheckBox("Show Editions");
-		chckbxShowEditions.setSelected(showEdition);
-		chckbxShowEditions.addActionListener(ae -> {
-			showEdition = chckbxShowEditions.isSelected();
-			refresh();
-		});
-		
-		panelActions.add(chckbxShowEditions, UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
+			var panelActions = new JPanel();
+			var gblpanel = new GridBagLayout();
+			
+			add(panelActions, BorderLayout.EAST);
+			add(buzy,BorderLayout.SOUTH);
+
+			gblpanel.columnWidths = new int[] { 91, 0 };
+			gblpanel.rowHeights = new int[] { 23, 0, 0 };
+			gblpanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+			gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+			panelActions.setLayout(gblpanel);
+			chckbxShowEditions = new JCheckBox("Show Editions");
+			chckbxShowEditions.setSelected(showEdition);
+			chckbxShowEditions.addActionListener(ae -> {
+				showEdition = chckbxShowEditions.isSelected();
+				refresh();
+			});
+			
+			panelActions.add(chckbxShowEditions, UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
 		}
 	}
 	
