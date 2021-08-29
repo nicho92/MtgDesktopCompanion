@@ -185,7 +185,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition me) throws IOException {
-		String url = WEBSITE+"/index/" + replace(me.getId(), false) + "#" + getString(FORMAT);
+		String url = WEBSITE+"/sets/" + replace(me.getId(), false) + "#" + getString(FORMAT);
 		HistoryPrice<MagicEdition> historyPrice = new HistoryPrice<>(me);
 		historyPrice.setCurrency(getCurrency());
 		
