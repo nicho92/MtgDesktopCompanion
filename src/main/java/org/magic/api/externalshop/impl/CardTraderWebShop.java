@@ -18,10 +18,11 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 public class CardTraderWebShop extends AbstractExternalShop {
 
 	
+	private static final String TOKEN = "TOKEN";
 	private CardTraderService service;
 	
 	public CardTraderWebShop() {
-		service = new CardTraderService(getString("TOKEN"));
+		service = new CardTraderService(getString(TOKEN));
 	}
 	
 	@Override
@@ -108,13 +109,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put("TOKEN", "");
+		m.put(TOKEN, "");
 		return m;
 	}
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("TOKEN");
+		return List.of(TOKEN);
 	}
 	
 

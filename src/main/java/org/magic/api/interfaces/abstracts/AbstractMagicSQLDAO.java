@@ -405,16 +405,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsItems")) 
 		{
-				ResultSet rs = pst.executeQuery();
+				var rs = pst.executeQuery();
 			
 				while (rs.next()) {
-					
 					ConverterItem d = readConversionItem(rs);
 					colls.add(d);
 					notify(d);
 				}
 		}
-		logger.debug("loading conversionsItems");
 		return colls;
 	}
 
