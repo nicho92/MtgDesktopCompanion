@@ -1,8 +1,8 @@
 import org.magic.api.beans.*;
 
-MagicCollection col = new MagicCollection("Collection");
-String ed ="CMR";
-//dao.listEditionsIDFromCollection(col).each{ ed->
+MagicCollection col = new MagicCollection("Needed");
+//String ed ="PLS";
+dao.listEditionsIDFromCollection(col).each{ ed->
  	 System.out.println("========================================="+ed);
 	 dao.listCardsFromCollection(col, new MagicEdition(ed)).each{ c->
 		try {
@@ -21,4 +21,4 @@ String ed ="CMR";
 		} 
 	 };
 	 
-//};
+};
