@@ -10,3 +10,7 @@
 .ms{
 	margin-left:0rem!important;
 }
+
+thead input {
+        width: 100%;
+}

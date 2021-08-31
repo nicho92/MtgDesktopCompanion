@@ -20,8 +20,14 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
-	<script src="//cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
-
+	<script src="//cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> 
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+	
+	
 	<link href="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -31,6 +37,7 @@
 	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
 	<link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+	<link href="//cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylsheet"  type="text/css">
 
 	<link href="../css/styles.css" rel="stylesheet" />
 
@@ -41,32 +48,38 @@
 				url: restserver + "/collections/list"
 			}).then(function (data) {
 				$.each(data, function (key, value) {
-					$("#items-menu").append("<li><a class='dropdown-item' href='?collection=" + value.name + "'><em class='fa	fa-book'></em> " + value.name + "</a></li>")
+					$("#items-menu").append("<li><a class='dropdown-item' href='?collection=" + value.name + "'><em class='fa fa-book'></em> " + value.name + "</a></li>")
 				});
+				
 				$("#items-menu").append("<li><div class='dropdown-divider'></div></li>");
 				$("#items-menu").append("<li><a class='dropdown-item' href='list.html''><em class='fa fa-th-list'></em> View as list</a></li>");
 
 
 
 			}); // end	
-
-			$('#table').DataTable({
+	
+		  
+			$('#table thead tr').clone(true).addClass('filters').appendTo( '#table thead' );
+		 
+			
+			var table= $('#table').DataTable({
 				"language": {
-					"search": "Search",
 					"processing": "<img src='../img/loading.gif' width='50' height='50'>"
 				},
 				"responsive": true,
 				"processing": true,
 				"pageLength": 50,
+				dom: 'lBfrtip',
+				orderCellsTop: true,
 				buttons: [
-					'copy', 'csv', 'excel', 'pdf', 'print'
-				],
+			        'copy', 'excel', 'pdf', 'csv'
+			    ],
 				"ajax": {"url": restserver + "/cards/" + $_GET("collection"), "dataSrc": ""},
 				"columns": [
 					{
 						"data": "editions",
 						"width": "2%",
-						"defaultContent": "common",
+						"defaultContent": "",
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
 								try {
@@ -102,10 +115,7 @@
 						"width": "5%",
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
-							if (type === 'display') {
-								data = row.editions[0].number + "/" + row.editions[0].cardCount;
-
-							}
+								data = row.editions[0].number;
 							return data;
 						}
 					},
@@ -208,6 +218,33 @@
 					mtgtooltip($(".mtg-tooltip"));
 				}
 			});
+			
+			
+			
+			table.columns().eq(0).each(function(colIdx) {
+	            var cell = $('.filters th').eq($(table.column(colIdx).header()).index());
+	            var title = $(cell).text();
+	            $(cell).html( '<input type="text" class="form-control" placeholder="'+title+'" />' );
+	     
+	            $('input', $('.filters th').eq($(table.column(colIdx).header()).index()) ).off('keyup change').on('keyup change', function (e) {
+	                e.stopPropagation();
+	                $(this).attr('title', $(this).val());
+	                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+	                    table
+	                        .column(colIdx)
+	                        .search((this.value != "") ? regexr.replace('{search}', '((('+this.value+')))') : "", this.value != "", this.value == "")
+	                        .draw();
+	                 
+	            });
+	 
+	            $('select', $('.filters th').eq($(table.column(colIdx).header()).index()) ).off('change').on('change', function () {
+	                $(this).parents('th').find('input').trigger('change');
+	            });
+			
+			});
+			
+			
+			
 		});
 
 
@@ -249,7 +286,7 @@
 	<section class="py-5">
 		<div class="container px-4 px-lg-0 mt-5">
 
-			<table id="table" class="display" style="width:100%">
+			<table id="table" class="display nowrap" style="width:100%">
 				<thead>
 					<tr>
 						<th></th>
