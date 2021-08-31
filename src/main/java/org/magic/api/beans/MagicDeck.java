@@ -23,7 +23,7 @@ public class MagicDeck implements Serializable {
 	private int id;
 	
 	private String description;
-	private String name;
+	private String name="No Name";
 	private Date dateCreation;
 	private Date dateUpdate;
 	private double averagePrice;
