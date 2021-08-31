@@ -139,7 +139,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	protected MagicCard readCard(ResultSet rs,String field) throws SQLException {
 		try{
-			return serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
+			MagicCard mc = serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
+			try {
+				mc.setDateUpdated(rs.getDate("dateUpdate"));
+			} catch (SQLException e) {
+				//do nothing
+			}
+			return mc;
 		}
 		catch(NullPointerException e)
 		{
@@ -1131,7 +1137,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
 		List<MagicCard> listCards = new ArrayList<>();
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT mcard FROM cards"); ResultSet rs = pst.executeQuery();) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT mcard,dateUpdate FROM cards"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
 				listCards.add(readCard(rs,"mcard"));
 			}
@@ -1184,10 +1190,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
 		
 		List<MagicCard> ret = new ArrayList<>();
-		var sql = "SELECT mcard FROM cards where collection= ?";
+		var sql = "SELECT mcard,dateUpdate FROM cards where collection= ?";
 		
 		if (me != null)
-			sql = "SELECT mcard FROM cards where collection= ? and edition = ?";
+			sql = "SELECT mcard,dateUpdate FROM cards where collection= ? and edition = ?";
 
 		logger.trace(sql +" " + collection +" " + me);
 

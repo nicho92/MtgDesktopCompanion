@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -74,7 +75,7 @@ public class MagicCard implements Serializable {
 	private boolean timeshifted;
 	private List<MTGPromoType> promotypes;
 	private boolean japanese;
-	
+	private Date dateUpdated;
 	
 	public MTGCardVariation getExtra()
 	{
@@ -770,6 +771,14 @@ public class MagicCard implements Serializable {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public Date getDateUpdated() {
+		return dateUpdated;
+	}
+
+	public void setDateUpdated(Date dateUpdated) {
+		this.dateUpdated = dateUpdated;
 	}
 
 
