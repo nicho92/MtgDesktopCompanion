@@ -25,13 +25,13 @@ function formatMana(manaString)
 {
 	if(manaString.includes("/P"))
 	{
-		return manaString.replace(/\//g, '');
+		return manaString.replace(/\//g, '').trim();
 	}
 	else if (manaString.includes("/"))
 	{
 		var s = manaString.replace(/\//g, '');
 		s += " ms-split ";
-		return s;
+		return s.trim();
 	}
 	return manaString.trim();
 }

@@ -22,19 +22,19 @@
 	<script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
 	<script src="//cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
 
-
-	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+	<link href="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+	<link href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 	<link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 	<link href="//cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-	<link href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-
+	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
 	<link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet"
 		type="text/css">
 
 	<link href="../css/styles.css" rel="stylesheet" />
+
 	<script>
 		$(document).ready(function () {
 
@@ -122,7 +122,7 @@
 					},
 					{
 						"data": "cost",
-						"width": "7%",
+						"width": "10	%",
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
@@ -132,7 +132,7 @@
 										var ret = "";
 										for (var i = 0; i < d.length; i++) {
 											d[i] = formatMana(d[i]);
-											ret += '<i class="ms ms-' + d[i].toLowerCase() + ' ms-cost ms-shadow"></i>';
+											ret += '<em class="ms ms-' + d[i].toLowerCase() + ' ms-cost ms-shadow"></em>';
 										}
 									}
 								}
@@ -220,7 +220,7 @@
 
 <body>
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-		<div class="container px-4 px-lg-5">
+		<div class="container px-4 px-lg-0">
 			<a class="navbar-brand" href="index.html"><img src="../img/logo.png" />MTG Companion</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -248,7 +248,7 @@
 
 	<!-- Section-->
 	<section class="py-5">
-		<div class="container px-4 px-lg-5 mt-5">
+		<div class="container px-4 px-lg-0 mt-5">
 
 			<table id="table" class="display" style="width:100%">
 				<thead>
@@ -273,7 +273,7 @@
 	<!-- Footer-->
 	<footer class="py-5 bg-dark">
 		<div class="container">
-			<p class="m-0 text-center text-white"></p>
+			<p class="m-0 text-center text-white"><a href='https://www.mtgcompanion.org'>https://www.mtgcompanion.org</a></p>
 		</div>
 	</footer>
 

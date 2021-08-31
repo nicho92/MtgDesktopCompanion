@@ -31,7 +31,7 @@ public class TCGPlayerAPITest extends AbstractPricesProvider {
 	
 	@Override
 	public String getName() {
-		return "TCGPlaplayer 2";
+		return "TCGPlayer";
 	}
 
 	@Override
